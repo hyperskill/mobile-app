@@ -25,7 +25,7 @@ kotlin {
         homepage = "Link to the Shared Module homepage"
         ios.deploymentTarget = "14.1"
         frameworkName = "shared"
-        podfile = project.file("../iosKMMAppTest/Podfile")
+        podfile = project.file("../iosHyperskillApp/Podfile")
     }
     
     sourceSets {
