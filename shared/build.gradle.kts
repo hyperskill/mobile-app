@@ -34,11 +34,11 @@ kotlin {
                 implementation("ru.nobird.app.core:model:1.0.7")
 
                 //network
-                implementation("io.ktor:ktor-client-core:1.6.1")
+                implementation("io.ktor:ktor-client-core:1.6.4")
                 implementation("io.ktor:ktor-client-serialization:1.6.1")
 
-                api("ru.nobird.app.presentation:presentation-redux:1.2.0")
-                implementation("ru.nobird.app.presentation:presentation-redux-coroutines:1.2.1")
+                api("ru.nobird.app.presentation:presentation-redux:1.3.0")
+                implementation("ru.nobird.app.presentation:presentation-redux-coroutines:1.3.0")
             }
         }
         val commonTest by getting {
@@ -49,7 +49,7 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-okhttp:1.6.1")
+                implementation("io.ktor:ktor-client-okhttp:1.6.4")
             }
         }
         val androidTest by getting {
@@ -60,7 +60,7 @@ kotlin {
         }
         val iosMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-ios:1.6.1")
+                implementation("io.ktor:ktor-client-ios:1.6.4")
             }
         }
         val iosTest by getting
@@ -68,10 +68,10 @@ kotlin {
 }
 
 android {
-    compileSdkVersion(30)
+    compileSdkVersion(31)
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdkVersion(21)
-        targetSdkVersion(30)
+        targetSdkVersion(31)
     }
 }
