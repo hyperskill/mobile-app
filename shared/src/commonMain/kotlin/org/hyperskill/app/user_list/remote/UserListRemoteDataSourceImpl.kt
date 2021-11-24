@@ -12,7 +12,7 @@ class UserListRemoteDataSourceImpl(
     override suspend fun getUsers(query: String): Result<List<User>> =
         kotlin.runCatching {
             httpClient
-                .get< UsersResponse>("https://api.github.com/search/users?q=$query&page=1&per_page=20")
+                .get<UsersResponse>("https://api.github.com/search/users?q=$query&page=1&per_page=20")
                 .items
         }
 }
