@@ -10,16 +10,23 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.1")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+
+    implementation("io.ktor:ktor-client-core:1.6.4")
+    implementation("io.ktor:ktor-client-serialization:1.6.1")
+
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("androidx.test:runner:1.4.0")
+    testImplementation("org.robolectric:robolectric:4.7.1")
 }
 
 android {
-    compileSdkVersion(30)
+    compileSdkVersion(31)
 
     defaultConfig {
         applicationId = "ru.nobird.app.kmm_test.android"
         minSdkVersion(21)
-        targetSdkVersion(30)
+        targetSdkVersion(31)
         versionCode = 1
         versionName = "1.0"
     }

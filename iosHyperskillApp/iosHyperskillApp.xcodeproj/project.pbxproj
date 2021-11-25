@@ -8,18 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
-		461A488C99F7E1E02436E4E4 /* Pods_iosKMMAppTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76874F28F6215FEDEB371950 /* Pods_iosKMMAppTest.framework */; };
+		461A488C99F7E1E02436E4E4 /* Pods_iosHyperskillApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76874F28F6215FEDEB371950 /* Pods_iosHyperskillApp.framework */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0B40617D5F19EB968896D912 /* Pods-iosKMMAppTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosKMMAppTest.debug.xcconfig"; path = "Target Support Files/Pods-iosKMMAppTest/Pods-iosKMMAppTest.debug.xcconfig"; sourceTree = "<group>"; };
+		0B40617D5F19EB968896D912 /* Pods-iosHyperskillApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosHyperskillApp.debug.xcconfig"; path = "Target Support Files/Pods-iosHyperskillApp/Pods-iosHyperskillApp.debug.xcconfig"; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
-		7555FF7B242A565900829871 /* iosKMMAppTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosKMMAppTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7555FF7B242A565900829871 /* iosHyperskillApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosHyperskillApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		76874F28F6215FEDEB371950 /* Pods_iosKMMAppTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iosKMMAppTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9F3B5C28B16373B8AD44507F /* Pods-iosKMMAppTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosKMMAppTest.release.xcconfig"; path = "Target Support Files/Pods-iosKMMAppTest/Pods-iosKMMAppTest.release.xcconfig"; sourceTree = "<group>"; };
+		76874F28F6215FEDEB371950 /* Pods_iosHyperskillApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iosHyperskillApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F3B5C28B16373B8AD44507F /* Pods-iosHyperskillApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosHyperskillApp.release.xcconfig"; path = "Target Support Files/Pods-iosHyperskillApp/Pods-iosHyperskillApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,7 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				461A488C99F7E1E02436E4E4 /* Pods_iosKMMAppTest.framework in Frameworks */,
+				461A488C99F7E1E02436E4E4 /* Pods_iosHyperskillApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -37,7 +37,7 @@
 		7555FF72242A565900829871 = {
 			isa = PBXGroup;
 			children = (
-				7555FF7D242A565900829871 /* iosKMMAppTest */,
+				7555FF7D242A565900829871 /* iosHyperskillApp */,
 				7555FF7C242A565900829871 /* Products */,
 				FAF28AF45BAFF95787FA6A5E /* Pods */,
 				9A74D8093B06A2DC25276904 /* Frameworks */,
@@ -47,25 +47,25 @@
 		7555FF7C242A565900829871 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7555FF7B242A565900829871 /* iosKMMAppTest.app */,
+				7555FF7B242A565900829871 /* iosHyperskillApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		7555FF7D242A565900829871 /* iosKMMAppTest */ = {
+		7555FF7D242A565900829871 /* iosHyperskillApp */ = {
 			isa = PBXGroup;
 			children = (
 				7555FF82242A565900829871 /* ContentView.swift */,
 				7555FF8C242A565B00829871 /* Info.plist */,
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
 			);
-			path = iosKMMAppTest;
+			path = iosHyperskillApp;
 			sourceTree = "<group>";
 		};
 		9A74D8093B06A2DC25276904 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				76874F28F6215FEDEB371950 /* Pods_iosKMMAppTest.framework */,
+				76874F28F6215FEDEB371950 /* Pods_iosHyperskillApp.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -73,8 +73,8 @@
 		FAF28AF45BAFF95787FA6A5E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				0B40617D5F19EB968896D912 /* Pods-iosKMMAppTest.debug.xcconfig */,
-				9F3B5C28B16373B8AD44507F /* Pods-iosKMMAppTest.release.xcconfig */,
+				0B40617D5F19EB968896D912 /* Pods-iosHyperskillApp.debug.xcconfig */,
+				9F3B5C28B16373B8AD44507F /* Pods-iosHyperskillApp.release.xcconfig */,
 			);
 			name = Pods;
 			path = Pods;
@@ -83,9 +83,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		7555FF7A242A565900829871 /* iosKMMAppTest */ = {
+		7555FF7A242A565900829871 /* iosHyperskillApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7555FFA5242A565B00829871 /* Build configuration list for PBXNativeTarget "iosKMMAppTest" */;
+			buildConfigurationList = 7555FFA5242A565B00829871 /* Build configuration list for PBXNativeTarget "iosHyperskillApp" */;
 			buildPhases = (
 				C4A7A93854C54F4D53036E27 /* [CP] Check Pods Manifest.lock */,
 				7555FF77242A565900829871 /* Sources */,
@@ -96,9 +96,9 @@
 			);
 			dependencies = (
 			);
-			name = iosKMMAppTest;
-			productName = iosKMMAppTest;
-			productReference = 7555FF7B242A565900829871 /* iosKMMAppTest.app */;
+			name = iosHyperskillApp;
+			productName = iosHyperskillApp;
+			productReference = 7555FF7B242A565900829871 /* iosHyperskillApp.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -116,7 +116,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 7555FF76242A565900829871 /* Build configuration list for PBXProject "iosKMMAppTest" */;
+			buildConfigurationList = 7555FF76242A565900829871 /* Build configuration list for PBXProject "iosHyperskillApp" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -129,7 +129,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				7555FF7A242A565900829871 /* iosKMMAppTest */,
+				7555FF7A242A565900829871 /* iosHyperskillApp */,
 			);
 		};
 /* End PBXProject section */
@@ -160,7 +160,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-iosKMMAppTest-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-iosHyperskillApp-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -300,17 +300,17 @@
 		};
 		7555FFA6242A565B00829871 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0B40617D5F19EB968896D912 /* Pods-iosKMMAppTest.debug.xcconfig */;
+			baseConfigurationReference = 0B40617D5F19EB968896D912 /* Pods-iosHyperskillApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = iosKMMAppTest/Info.plist;
+				INFOPLIST_FILE = iosHyperskillApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = orgIdentifier.iosKMMAppTest;
+				PRODUCT_BUNDLE_IDENTIFIER = orgIdentifier.iosHyperskillApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -319,17 +319,17 @@
 		};
 		7555FFA7242A565B00829871 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9F3B5C28B16373B8AD44507F /* Pods-iosKMMAppTest.release.xcconfig */;
+			baseConfigurationReference = 9F3B5C28B16373B8AD44507F /* Pods-iosHyperskillApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = iosKMMAppTest/Info.plist;
+				INFOPLIST_FILE = iosHyperskillApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = orgIdentifier.iosKMMAppTest;
+				PRODUCT_BUNDLE_IDENTIFIER = orgIdentifier.iosHyperskillApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -339,7 +339,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7555FF76242A565900829871 /* Build configuration list for PBXProject "iosKMMAppTest" */ = {
+		7555FF76242A565900829871 /* Build configuration list for PBXProject "iosHyperskillApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7555FFA3242A565B00829871 /* Debug */,
@@ -348,7 +348,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7555FFA5242A565B00829871 /* Build configuration list for PBXNativeTarget "iosKMMAppTest" */ = {
+		7555FFA5242A565B00829871 /* Build configuration list for PBXNativeTarget "iosHyperskillApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7555FFA6242A565B00829871 /* Debug */,

@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_iosKMMAppTestVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_iosKMMAppTestVersionString[];
+FOUNDATION_EXPORT double Pods_iosHyperskillAppVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_iosHyperskillAppVersionString[];
 

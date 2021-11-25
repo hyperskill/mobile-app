@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1100"
+   LastUpgradeVersion = "1240"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E91CC2357B1F26A4ADCFC67388505DD9"
-               BuildableName = "Pods_iosKMMAppTest.framework"
-               BlueprintName = "Pods-iosKMMAppTest"
+               BlueprintIdentifier = "8434F8EFAE803184686A95B32CB62F9A"
+               BuildableName = "Pods_iosHyperskillApp.framework"
+               BlueprintName = "Pods-iosHyperskillApp"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

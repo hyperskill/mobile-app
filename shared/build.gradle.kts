@@ -32,6 +32,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("ru.nobird.app.core:model:1.0.7")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2-native-mt")
 
                 //network
                 implementation("io.ktor:ktor-client-core:1.6.4")
@@ -45,6 +46,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2-native-mt")
             }
         }
         val androidMain by getting {
@@ -56,7 +58,9 @@ kotlin {
             dependencies {
                 implementation(kotlin("test-junit"))
                 implementation("junit:junit:4.13.2")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2")
+                implementation("androidx.test:runner:1.4.0")
+                implementation("org.robolectric:robolectric:4.7.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2-native-mt")
             }
         }
         val iosMain by getting {
@@ -74,5 +78,14 @@ android {
     defaultConfig {
         minSdkVersion(21)
         targetSdkVersion(31)
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    packagingOptions {
+        resources {
+            excludes += "META-INF/LGPL2.1"
+            excludes += "META-INF/AL2.0"
+        }
     }
 }
