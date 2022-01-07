@@ -39,6 +39,7 @@ kotlin {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
                 implementation(libs.kotlin.coroutines.core)
+                implementation(libs.kotlin.coroutines.test)
             }
         }
         val androidMain by getting {
