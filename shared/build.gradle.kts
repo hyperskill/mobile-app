@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
-    kotlin("plugin.serialization") version "1.5.0"
+    kotlin("plugin.serialization")
     id("com.android.library")
 }
 
@@ -19,53 +19,43 @@ kotlin {
             ::iosX64
 
     iosTarget("ios") {}
-
-    cocoapods {
-        summary = "Some description for the Shared Module"
-        homepage = "Link to the Shared Module homepage"
-        ios.deploymentTarget = "14.1"
-        frameworkName = "shared"
-        podfile = project.file("../iosHyperskillApp/Podfile")
-    }
     
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("ru.nobird.app.core:model:1.0.7")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2-native-mt")
+                implementation(libs.kotlin.coroutines.core)
 
                 //network
-                implementation("io.ktor:ktor-client-core:1.6.4")
-                implementation("io.ktor:ktor-client-serialization:1.6.1")
+                implementation(libs.bundles.ktor.common)
 
-                api("ru.nobird.app.presentation:presentation-redux:1.3.0")
-                implementation("ru.nobird.app.presentation:presentation-redux-coroutines:1.3.0")
+                implementation(libs.kit.model)
+
+                api(libs.kit.presentation.redux)
+                implementation(libs.kit.presentation.reduxCoroutines)
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2-native-mt")
+                implementation(libs.kotlin.coroutines.core)
             }
         }
         val androidMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-okhttp:1.6.4")
+                implementation(libs.ktor.android)
             }
         }
         val androidTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
-                implementation("junit:junit:4.13.2")
-                implementation("androidx.test:runner:1.4.0")
-                implementation("org.robolectric:robolectric:4.7.1")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2-native-mt")
+                implementation(libs.bundles.android.test)
+                implementation(libs.kotlin.coroutines.test)
             }
         }
         val iosMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-ios:1.6.4")
+                implementation(libs.ktor.ios)
             }
         }
         val iosTest by getting
@@ -73,11 +63,11 @@ kotlin {
 }
 
 android {
-    compileSdkVersion(31)
+    compileSdkVersion(appVersions.versions.compileSdk.get().toInt())
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
-        minSdkVersion(21)
-        targetSdkVersion(31)
+        minSdkVersion(appVersions.versions.minSdk.get().toInt())
+        targetSdkVersion(appVersions.versions.targetSdk.get().toInt())
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

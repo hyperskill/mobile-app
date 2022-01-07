@@ -15,6 +15,10 @@ class UserLoginRemoteDataSourceImpl(
             val response = httpClient
                 .get<UsersResponse>("https://api.github.com/search/users?q=kek&page=1&per_page=20")
                 .items
+
+            httpClient.post<UsersResponse>("https://api.github.com/search/users?q=kek&page=1&per_page=20") {
+                this.body
+            }
         }
         return
     }

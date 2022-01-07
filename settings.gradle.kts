@@ -1,3 +1,5 @@
+enableFeaturePreview("VERSION_CATALOGS")
+
 pluginManagement {
     repositories {
         google()
@@ -10,3 +12,11 @@ pluginManagement {
 rootProject.name = "Hyperskill-Mobile"
 include(":androidHyperskillApp")
 include(":shared")
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        create("appVersions") {
+            from(files("gradle/app.versions.toml"))
+        }
+    }
+}
