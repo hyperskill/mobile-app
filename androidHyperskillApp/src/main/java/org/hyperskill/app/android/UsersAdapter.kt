@@ -3,8 +3,8 @@ package org.hyperskill.app.android
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import org.hyperskill.app.android.databinding.ItemUserBinding
 import org.hyperskill.app.user_list.domain.model.User
-import ru.nobird.app.kmm_test.android.databinding.ItemUserBinding
 
 class UsersAdapter : RecyclerView.Adapter<UsersAdapter.UserVH>() {
 

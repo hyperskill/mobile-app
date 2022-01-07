@@ -24,7 +24,7 @@ android {
     compileSdkVersion(31)
 
     defaultConfig {
-        applicationId = "ru.nobird.app.kmm_test.android"
+        applicationId = "org.hyperskill.app.android"
         minSdkVersion(21)
         targetSdkVersion(31)
         versionCode = 1

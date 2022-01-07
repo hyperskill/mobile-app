@@ -7,7 +7,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.0")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.32")
         classpath("com.android.tools.build:gradle:7.0.3")
     }
 }
