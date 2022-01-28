@@ -4,12 +4,22 @@ buildscript {
         jcenter()
         google()
         mavenCentral()
+        maven("https://plugins.gradle.org/m2/")
+        gradlePluginPortal()
         mavenLocal()
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.0")
-        classpath("com.android.tools.build:gradle:7.0.3")
+        classpath(libs.plugin.kotlin)
+        classpath(libs.plugin.kotlinSerialization)
+        classpath(libs.plugin.android)
+        classpath(libs.plugin.ktlint)
+        classpath(libs.plugin.gradleVersionUpdates)
     }
+}
+
+subprojects {
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
+    apply(plugin = "com.github.ben-manes.versions")
 }
 
 allprojects {
@@ -17,19 +27,8 @@ allprojects {
         google()
         jcenter()
         mavenCentral()
-        repositories {
-            maven {
-                name = "GitHub"
-                url = uri("https://maven.pkg.github.com/eadm/AndroidKit")
-                credentials {
-                    username = System.getenv("GITHUB_USER")
-                        ?: project.properties["GITHUB_USER"] as String?
-
-                    password = System.getenv("GITHUB_PERSONAL_ACCESS_TOKEN")
-                        ?: project.properties["GITHUB_PERSONAL_ACCESS_TOKEN"] as String?
-                }
-            }
-        }
+        github(project, "https://maven.pkg.github.com/eadm/AndroidKit")
+        github(project, "https://maven.pkg.github.com/eadm/ktlint-rules")
         mavenLocal()
     }
 }

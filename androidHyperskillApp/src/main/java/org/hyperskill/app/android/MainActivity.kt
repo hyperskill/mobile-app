@@ -2,7 +2,7 @@ package org.hyperskill.app.android
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import ru.nobird.app.kmm_test.android.databinding.ActivityMainBinding
+import org.hyperskill.app.android.databinding.ActivityMainBinding
 import org.hyperskill.app.user_list.remote.model.UsersQuery
 import org.hyperskill.app.user_list.presentation.UsersListFeature
 import org.hyperskill.app.user_list.injection.UsersListFeatureBuilder

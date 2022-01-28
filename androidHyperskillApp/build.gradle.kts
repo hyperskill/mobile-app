@@ -5,23 +5,27 @@ plugins {
 
 dependencies {
     implementation(project(":shared"))
-    implementation("com.google.android.material:material:1.4.0")
-    implementation("androidx.appcompat:appcompat:1.3.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.1")
+    implementation(libs.android.ui.material)
+    implementation(libs.android.ui.appcompat)
+    implementation(libs.android.ui.constraintlayout)
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1")
+    implementation(libs.kotlin.coroutines.core)
+    implementation(libs.kotlin.coroutines.android)
+
+    implementation(libs.bundles.ktor.common)
+
+    testImplementation(libs.bundles.android.test)
 }
 
 android {
-    compileSdkVersion(30)
+    compileSdkVersion(appVersions.versions.compileSdk.get().toInt())
 
     defaultConfig {
-        applicationId = "ru.nobird.app.kmm_test.android"
-        minSdkVersion(21)
-        targetSdkVersion(30)
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = "org.hyperskill.app.android"
+        minSdkVersion(appVersions.versions.minSdk.get().toInt())
+        targetSdkVersion(appVersions.versions.targetSdk.get().toInt())
+        versionCode = appVersions.versions.versionCode.get().toInt()
+        versionName = appVersions.versions.versionName.get()
     }
 
     buildTypes {

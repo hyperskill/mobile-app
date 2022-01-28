@@ -22,17 +22,17 @@ class UserListReducer : StateReducer<State, Message, Action> {
 
             Message.LoadNextPage ->
                 when (state) {
-                    is State.Data -> null
-//                        if (state.users.hasNext && !state.isLoading) {
+                    is State.Data ->
+                        if (/* state.users.hasNext && */ !state.isLoading) {
 //                            val nextPage = state.users.page + 1
-//                            state.copy(isLoading = true) to setOf(
+                            state.copy(isLoading = true) to setOf(
 //                                Action.FetchUsers(
 //                                    UsersQuery(
 //                                        page = nextPage
 //                                    )
 //                                )
-//                            )
-//                        } else null
+                            )
+                        } else null
                     else -> null
                 }
 
