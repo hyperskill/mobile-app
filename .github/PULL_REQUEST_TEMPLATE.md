@@ -1,6 +1,11 @@
-**YouTrack task**: [#](https://vyahhi.myjetbrains.com/youtrack/issue/)
+Task: [#ALTAPPS-](https://vyahhi.myjetbrains.com/youtrack/issue/ALTAPPS-)
 
-**Description List**:
-* ..
-* ..
+**Dependencies**
+- !
 
+**Reviewers**
+- [ ] @
+
+**Description**
+- 
+- 
