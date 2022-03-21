@@ -15,6 +15,9 @@ dependencies {
     implementation(libs.bundles.ktor.common)
 
     testImplementation(libs.bundles.android.test)
+
+    implementation("androidx.navigation:navigation-fragment:2.4.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
 }
 
 android {
