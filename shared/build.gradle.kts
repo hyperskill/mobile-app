@@ -1,8 +1,13 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+import org.jetbrains.kotlin.konan.properties.loadProperties
+import org.jetbrains.kotlin.konan.properties.propertyString
+
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     kotlin("plugin.serialization")
     id("com.android.library")
+    id("com.codingfeline.buildkonfig")
 }
 
 version = "1.0"
@@ -98,4 +103,29 @@ android {
             excludes += "META-INF/AL2.0"
         }
     }
+}
+
+buildkonfig {
+    packageName = "org.hyperskill.app.config"
+
+    defaultConfigs {
+        // required
+    }
+
+    fun applyFlavorConfigsFromFile(flavor: String) {
+        defaultConfigs(flavor) {
+            val properties = loadProperties("${project.rootDir}/shared/keys/$flavor.properties")
+            properties.keys.forEach { name ->
+                name as String
+                buildConfigField(
+                    type = STRING,
+                    name = name,
+                    value = requireNotNull(System.getenv(name) ?: properties.propertyString(name))
+                )
+            }
+        }
+    }
+
+    applyFlavorConfigsFromFile("production")
+    // add flavors for release.hyperskill.org / dev.hyperskill.org on demand
 }
