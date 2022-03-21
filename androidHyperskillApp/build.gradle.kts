@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     kotlin("android")
+    kotlin("kapt")
 }
 
 dependencies {
@@ -11,6 +12,14 @@ dependencies {
 
     implementation(libs.kotlin.coroutines.core)
     implementation(libs.kotlin.coroutines.android)
+
+    implementation(libs.kit.view.ui)
+    implementation(libs.kit.view.injection)
+    implementation(libs.kit.view.redux)
+
+    implementation(libs.dagger)
+    kapt(libs.dagger.compiler)
+
 
     implementation(libs.bundles.ktor.common)
 
