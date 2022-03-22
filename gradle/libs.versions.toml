@@ -43,6 +43,7 @@ android-test-runner = { module = "androidx.test:runner", version = "1.4.0" }
 android-test-robolectric = { module = "org.robolectric:robolectric", version = "4.7.1" }
 
 gms-services = { module = "com.google.android.gms:play-services-base", version = "17.6.0" }
+gms-login = { module = "com.google.android.gms:play-services-auth", version = "19.0.0"}
 
 [bundles]
 ktor-common = ['ktor-core', 'ktor-serialization', 'ktor-logging']

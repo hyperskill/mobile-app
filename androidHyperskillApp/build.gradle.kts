@@ -24,6 +24,7 @@ dependencies {
     implementation(libs.bundles.ktor.common)
 
     implementation(libs.gms.services)
+    implementation(libs.gms.login)
 
     testImplementation(libs.bundles.android.test)
 }
