@@ -22,8 +22,9 @@ class AuthSocialFragment : Fragment(R.layout.fragment_auth_social), AuthSocialVi
         viewStateDelegate.addState<AuthSocialView.State.NetworkError>()
     }
 
-    override fun setState(viewState: AuthSocialView.State) {
-        when (viewState) {
+    override fun setState(state: AuthSocialView.State) {
+        viewStateDelegate.switchState(state)
+        when (state) {
             is AuthSocialView.State.Loading -> {
                 viewBinding.signInSocialProgressIndicator.visibility = View.VISIBLE
             }
