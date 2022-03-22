@@ -3,11 +3,12 @@
     package="org.hyperskill.app.android">
 
     <application
+        android:name=".HyperskillApp"
         android:allowBackup="false"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="org.hyperskill.app.android.MainActivity"
+            android:name="org.hyperskill.app.android.user_list.view.ui.activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

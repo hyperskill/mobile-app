@@ -1,4 +1,4 @@
-package org.hyperskill.app.android
+package org.hyperskill.app.android.user_list.view.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

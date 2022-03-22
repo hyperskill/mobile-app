@@ -12,6 +12,7 @@ plugin-kotlinSerialization = { module = "org.jetbrains.kotlin:kotlin-serializati
 plugin-android = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
 plugin-ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version = "10.2.0" }
 plugin-gradleVersionUpdates = { module = "com.github.ben-manes:gradle-versions-plugin", version = "0.39.0" }
+plugin-buildKonfig = { module = "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin", version = "0.11.0" }
 
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinCoroutines" }
 kotlin-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinCoroutines" }
@@ -26,6 +27,12 @@ ktor-ios = { module = "io.ktor:ktor-client-ios", version.ref = "ktor" }
 kit-model = { module = "ru.nobird.app.core:model", version = "1.0.8" }
 kit-presentation-redux = { module = "ru.nobird.app.presentation:presentation-redux", version.ref = "kitPresentationRedux" }
 kit-presentation-reduxCoroutines = { module = "ru.nobird.app.presentation:presentation-redux-coroutines", version.ref = "kitPresentationRedux" }
+kit-view-ui = { module = "ru.nobird.android.view:ui", version = '1.1.0' }
+kit-view-redux = { module = "ru.nobird.android.view:redux", version = "1.3.0" }
+kit-view-injection = { module = "ru.nobird.android.view:injection", version = "1.1.0" }
+
+dagger = { module = "com.google.dagger:dagger", version = "2.40.1" }
+dagger-compiler = { module = "com.google.dagger:dagger-compiler", version = "2.40.1" }
 
 android-ui-material = { module = "com.google.android.material:material", version = "1.4.0" }
 android-ui-appcompat = { module = "androidx.appcompat:appcompat", version = "1.4.0" }
