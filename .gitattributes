@@ -7,4 +7,7 @@
 buildSrc/src/main/kotlin/DebugKeystoreProperties.kt filter=git-crypt diff=git-crypt
 buildsystem/certs/** filter=git-crypt diff=git-crypt
 shared/keys/** filter=git-crypt diff=git-crypt
+
+iosHyperskillApp/iosHyperskillApp/GoogleService-Info.plist filter=git-crypt diff=git-crypt
+
 .gitattributes !filter !diff
