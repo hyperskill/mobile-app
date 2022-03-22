@@ -6,44 +6,33 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentAuthSocialBinding
-import org.hyperskill.app.android.presentation.view.AuthSocialView
+import org.hyperskill.app.auth.presentation.AuthFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
+import ru.nobird.app.presentation.redux.container.ReduxView
 
-class AuthSocialFragment : Fragment(R.layout.fragment_auth_social), AuthSocialView {
+class AuthSocialFragment
+    : Fragment(R.layout.fragment_auth_social),
+    ReduxView<AuthFeature.State, AuthFeature.Action.ViewAction>
+{
 
     private lateinit var viewBinding: FragmentAuthSocialBinding
-    private lateinit var viewStateDelegate: ViewStateDelegate<AuthSocialView.State>
+    private lateinit var viewStateDelegate: ViewStateDelegate<AuthFeature.State>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewStateDelegate = ViewStateDelegate()
-        viewStateDelegate.addState<AuthSocialView.State.Idle>()
-        viewStateDelegate.addState<AuthSocialView.State.Loading>()
-        viewStateDelegate.addState<AuthSocialView.State.NetworkError>()
+        viewStateDelegate.addState<AuthFeature.State.Idle>()
+        viewStateDelegate.addState<AuthFeature.State.Loading>(viewBinding.signInSocialProgressIndicator)
     }
 
-    override fun setState(state: AuthSocialView.State) {
-        viewStateDelegate.switchState(state)
-        when (state) {
-            is AuthSocialView.State.Loading -> {
-                viewBinding.signInSocialProgressIndicator.visibility = View.VISIBLE
-            }
-            is AuthSocialView.State.Idle -> {
-                viewBinding.signInSocialProgressIndicator.visibility = View.INVISIBLE
-            }
-            is AuthSocialView.State.NetworkError -> {
-                viewBinding.signInSocialProgressIndicator.visibility = View.INVISIBLE
-                // TODO: make error text
-                view?.let {
-                    Snackbar.make(it, "Login error", Snackbar.LENGTH_LONG)
-                        .setAction("Retry") {
-                        }
-                        .show()
+    override fun onAction(action: AuthFeature.Action.ViewAction) {}
+    override fun render(state: AuthFeature.State) {
+        if (state is AuthFeature.State.NetworkError) {
+            // TODO: add text and action depending on error
+            Snackbar.make(requireView(), "Login error", Snackbar.LENGTH_LONG)
+                .setAction("Retry") {
                 }
-            }
-//            is AuthSocialViewModel.ViewState.Data -> {
-//                viewBinding.signInSocialProgressIndicator.isVisible = false
-//            }
+                .show()
         }
     }
 }

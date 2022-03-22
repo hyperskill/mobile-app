@@ -43,20 +43,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/signInToTextView" />
 
-<!--    <Button-->
-<!--        android:id="@+id/signInSocialAnotherMethodButton"-->
-<!--        style="@style/Widget.MaterialComponents.Button.TextButton"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginBottom="24dp"-->
-<!--        android:text="@string/sign_in_social_another_method_text"-->
-<!--        android:textColor="@color/button_login_another_method_color"-->
-<!--        android:textSize="15sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.5"-->
-<!--        app:layout_constraintStart_toStartOf="parent" />-->
-
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/signInSocialProgressIndicator"
         android:layout_width="wrap_content"
