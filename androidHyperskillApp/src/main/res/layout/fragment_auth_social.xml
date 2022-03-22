@@ -6,22 +6,18 @@
     android:layout_gravity="center_horizontal"
     android:orientation="vertical">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/signInHyperskillLogoCardView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        app:cardCornerRadius="2dp"
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/signInHyperskillLogoShapeableImageView"
+        android:layout_width="@dimen/sign_in_hyperskill_logo_width"
+        android:layout_height="@dimen/sign_in_hyperskill_logo_height"
+        android:layout_margin="52dp"
+        android:src="@drawable/ic_hyperskill_logo"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundedCorners8"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@drawable/ic_hyperskill_logo" />
-    </androidx.cardview.widget.CardView>
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@null" />
 
     <TextView
         android:id="@+id/signInToTextView"
@@ -35,47 +31,41 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/signInHyperskillLogoCardView" />
+        app:layout_constraintTop_toBottomOf="@id/signInHyperskillLogoShapeableImageView" />
 
-    <Button
+    <com.google.android.gms.common.SignInButton
         android:id="@+id/signInSocialLoginButton"
-        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="170dp"
-        android:layout_height="44dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
-        android:background="@drawable/button_signin_social"
-        android:text="@string/sign_in_social_text"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textColor="@color/button_login_social_color"
-        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/signInToTextView" />
 
-    <Button
-        android:id="@+id/signInSocialAnotherMethodButton"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
+<!--    <Button-->
+<!--        android:id="@+id/signInSocialAnotherMethodButton"-->
+<!--        style="@style/Widget.MaterialComponents.Button.TextButton"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginBottom="24dp"-->
+<!--        android:text="@string/sign_in_social_another_method_text"-->
+<!--        android:textColor="@color/button_login_another_method_color"-->
+<!--        android:textSize="15sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/signInSocialProgressIndicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:text="@string/sign_in_social_another_method_text"
-        android:textColor="@color/button_login_another_method_color"
-        android:textSize="15sp"
+        android:indeterminate="true"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
-
-        <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:id="@+id/signInSocialProgressIndicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
