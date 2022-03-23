@@ -1,7 +1,6 @@
 package org.hyperskill.app.android.auth.view.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -31,7 +30,6 @@ class AuthSocialFragment
         try {
             val account = task.getResult(ApiException::class.java)
             val authCode = account.serverAuthCode
-            Log.d("GOOGLE_AUTH", authCode)
         } catch (e: ApiException) {}
     }
 
