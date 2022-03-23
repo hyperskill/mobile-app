@@ -12,6 +12,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Scope
 import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
+import org.hyperskill.app.android.BuildConfig
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentAuthSocialBinding
 import org.hyperskill.app.auth.presentation.AuthFeature
@@ -51,14 +52,13 @@ class AuthSocialFragment
     }
 
     private fun signInWithGoogle(activity: Activity) {
-        //TODO: change to server client ID
-        val serverClientId = "CHANGE TO SERVER CLIENT ID"
+        val serverClientId = BuildConfig.SERVER_CLIENT_ID
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestScopes(Scope(Scopes.DRIVE_APPFOLDER))
             .requestServerAuthCode(serverClientId)
             .requestEmail()
             .build()
-        val mGoogleSignInClient = GoogleSignIn.getClient(activity, gso);
+        val mGoogleSignInClient = GoogleSignIn.getClient(activity, gso)
         val signInIntent = mGoogleSignInClient.signInIntent
         val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(signInIntent)
 
