@@ -29,6 +29,7 @@ dependencies {
 
     implementation(libs.gms.services)
     implementation(libs.gms.login)
+    implementation(libs.viewbinding)
 
     testImplementation(libs.bundles.android.test)
 }

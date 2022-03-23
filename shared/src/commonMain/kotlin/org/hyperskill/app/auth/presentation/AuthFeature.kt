@@ -2,7 +2,6 @@ package org.hyperskill.app.auth.presentation
 
 interface AuthFeature {
     sealed interface State {
-        // TODO: add data class with auth answer
         data class Authenticated(val authCode: String) : State
         object Idle : State
         object Loading : State
