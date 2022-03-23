@@ -4,7 +4,8 @@
 # *.key filter=git-crypt diff=git-crypt
 # secretdir/** filter=git-crypt diff=git-crypt
 
-buildSrc/src/main/kotlin/DebugKeystoreProperties.kt filter=git-crypt diff=git-crypt
+androidHyperskillApp/keys/debug_keystore.properties filter=git-crypt diff=git-crypt
+androidHyperskillApp/keys/debug.properties filter=git-crypt diff=git-crypt
 buildsystem/certs/** filter=git-crypt diff=git-crypt
 shared/keys/** filter=git-crypt diff=git-crypt
 
