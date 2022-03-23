@@ -1,45 +1,57 @@
-//
-//  AuthView.swift
-//  iosHyperskillApp
-//
-//  Created by Владислав Кащей on 19.03.2022.
-//  Copyright © 2022 orgName. All rights reserved.
-//
-
 import SwiftUI
-import GoogleSignIn
 
-struct AuthView: View {    
+extension AuthView {
+    struct Appearance {
+        var logoBorderColor = Color.black
+        var logoBorderWidth = 1
+        var logoSize = CGSize(width: 40, height: 40)
+
+        var googleButtonForegroundColor = Color.purple
+        var googleButtonMinHeight = 44
+        var googleButtonOverlayCornerRadius = 8
+        var googleButtonOverlayStrokeColor = Color.purple
+        var googleButtonOverlayStrokeWidth = 2
+
+    }
+}
+
+struct AuthView: View {
+    let appearance: Appearance
+
     var body: some View {
         VStack {
-            Divider()
             Image("logo")
-                .resizable()
-                .border(.black, width: 1)
-                .frame(width: 40, height: 40, alignment: .center)
-            
-            VStack(spacing: 40) {
-                Divider()
-                Divider()
-                Divider()
-                Text("Log in to Hyperskill")
-                    .font(.title).bold()
-                Divider()
-                Button(action: {
-                    
-                }, label: {
-                    Text("Google").padding()
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 5)
-                                            .stroke(.purple, lineWidth: 2)
-                                            .frame(width: 120, height: 40, alignment: .center)
-                        ).foregroundColor(.purple)
-                })
-            }
-            
-            
+                    .resizable()
+                    .border(appearance.logoBorderColor, width: appearance.logoBorderWidth)
+                    .frame(appearance.logoSize)
+                    .padding(.top)
+
             Spacer()
-            Text("Log in with Email").bold()
+
+            VStack {
+                Text("Log in to Hyperskill")
+                        .font(.title)
+                        .bold()
+
+                Button(
+                        action: {},
+                        label: {
+                            Text("Google")
+                                    .font(.body)
+                                    .foregroundColor(appearance.googleButtonForegroundColor)
+                                    .frame(minHeight: appearance.googleButtonMinHeight)
+                                    .padding(.horizontal)
+                                    .overlay(
+                                            RoundedRectangle(cornerRadius: appearance.googleButtonOverlayCornerRadius)
+                                                    .stroke(appearance.googleButtonOverlayStrokeColor, lineWidth: appearance.googleButtonOverlayStrokeWidth)
+                                    )
+                        }
+                )
+                        .padding(.top)
+            }
+
+            Spacer()
+            Spacer()
         }
     }
 }

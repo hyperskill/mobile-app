@@ -14,7 +14,6 @@
 		2CE2817927E8EF1E00641E22 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2CE2817827E8EF1E00641E22 /* GoogleService-Info.plist */; };
 		2CE2817B27E8EF9900641E22 /* GoogleServiceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE2817A27E8EF9900641E22 /* GoogleServiceInfo.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
-		E90EB24927EA09D9006021DA /* ExamplesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90EB24827EA09D9006021DA /* ExamplesView.swift */; };
 		E951757927E61ACD00995008 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951757827E61ACD00995008 /* AuthView.swift */; };
 		F7E031DB3407C1D8C85C045A /* Pods_iosHyperskillApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03BFA8AC75385179E8F1394B /* Pods_iosHyperskillApp.framework */; };
 /* End PBXBuildFile section */
@@ -45,7 +44,6 @@
 		7555FF7B242A565900829871 /* iosHyperskillApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosHyperskillApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E90EB24827EA09D9006021DA /* ExamplesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamplesView.swift; sourceTree = "<group>"; };
 		E951757827E61ACD00995008 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -69,15 +67,6 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		69078482427C2E9AB934883B /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				2965F77237750F20A5EAAEC8 /* Pods-iosHyperskillApp.debug.xcconfig */,
-				1FE4C0749BF5643DD66DF29F /* Pods-iosHyperskillApp.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		2CE2817727E8EEDC00641E22 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -86,6 +75,15 @@
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		69078482427C2E9AB934883B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				2965F77237750F20A5EAAEC8 /* Pods-iosHyperskillApp.debug.xcconfig */,
+				1FE4C0749BF5643DD66DF29F /* Pods-iosHyperskillApp.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		7555FF72242A565900829871 = {
@@ -116,7 +114,6 @@
 				058557D7273AAEEB004C7B11 /* Preview Content */,
 				2CE2817727E8EEDC00641E22 /* Resources */,
 				E951757827E61ACD00995008 /* AuthView.swift */,
-				E90EB24827EA09D9006021DA /* ExamplesView.swift */,
 			);
 			path = iosHyperskillApp;
 			sourceTree = "<group>";
@@ -265,7 +262,6 @@
 			files = (
 				2CE2817B27E8EF9900641E22 /* GoogleServiceInfo.swift in Sources */,
 				2C9277FE27888886005BF2C4 /* UserRow.swift in Sources */,
-				E90EB24927EA09D9006021DA /* ExamplesView.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				E951757927E61ACD00995008 /* AuthView.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
