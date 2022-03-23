@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     kotlin("android")
+    kotlin("kapt")
 }
 
 dependencies {
@@ -11,6 +12,14 @@ dependencies {
 
     implementation(libs.kotlin.coroutines.core)
     implementation(libs.kotlin.coroutines.android)
+
+    implementation(libs.kit.view.ui)
+    implementation(libs.kit.view.injection)
+    implementation(libs.kit.view.redux)
+
+    implementation(libs.dagger)
+    kapt(libs.dagger.compiler)
+
 
     implementation(libs.bundles.ktor.common)
 
@@ -28,8 +37,37 @@ android {
         versionName = appVersions.versions.versionName.get()
     }
 
+    signingConfigs {
+        getByName("debug") {
+            storeFile = file("../buildsystem/certs/debug.keystore")
+            storePassword = HYPERSKILL_DEBUG_STORE_PASSWORD
+            keyAlias = HYPERSKILL_DEBUG_KEY_ALIAS
+            keyPassword = HYPERSKILL_DEBUG_KEY_PASSWORD
+
+            enableV3Signing = true
+            enableV4Signing = true
+        }
+
+        create("release") {
+            val keystorePath = SystemProperties.get(project, "HYPERSKILL_KEYSTORE_PATH")
+            if (keystorePath.isNullOrBlank()) return@create
+
+            storeFile = file(keystorePath)
+            storePassword = SystemProperties.get(project, "HYPERSKILL_RELEASE_STORE_PASSWORD")
+            keyAlias = SystemProperties.get(project, "HYPERSKILL_RELEASE_KEY_ALIAS")
+            keyPassword = SystemProperties.get(project, "HYPERSKILL_RELEASE_KEY_PASSWORD")
+
+            enableV3Signing = true
+            enableV4Signing = true
+        }
+    }
+
     buildTypes {
+        getByName("debug") {
+            signingConfig = signingConfigs.getByName("debug")
+        }
         getByName("release") {
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = false
         }
     }

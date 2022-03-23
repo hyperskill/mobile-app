@@ -1,0 +1,30 @@
+package org.hyperskill.app.android.core.injection
+
+import android.content.Context
+import dagger.BindsInstance
+import dagger.Component
+import org.hyperskill.app.android.HyperskillApp
+import org.hyperskill.app.android.network.injection.AndroidNetworkModule
+import org.hyperskill.app.android.user_list.injection.UserListComponent
+import javax.inject.Singleton
+
+@Singleton
+@Component(
+    modules = [
+        AppCoreModule::class,
+        AndroidNetworkModule::class
+    ]
+)
+interface AppCoreComponent {
+    @Component.Builder
+    interface Builder {
+        fun build(): AppCoreComponent
+
+        @BindsInstance
+        fun context(context: Context): Builder
+    }
+
+    fun inject(hyperskillApp: HyperskillApp)
+
+    fun usersListComponentBuilder(): UserListComponent.Builder
+}

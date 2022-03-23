@@ -1,0 +1,13 @@
+# Specify files to encrypt:
+#
+# secretfile filter=git-crypt diff=git-crypt
+# *.key filter=git-crypt diff=git-crypt
+# secretdir/** filter=git-crypt diff=git-crypt
+
+buildSrc/src/main/kotlin/DebugKeystoreProperties.kt filter=git-crypt diff=git-crypt
+buildsystem/certs/** filter=git-crypt diff=git-crypt
+shared/keys/** filter=git-crypt diff=git-crypt
+
+iosHyperskillApp/iosHyperskillApp/GoogleService-Info.plist filter=git-crypt diff=git-crypt
+
+.gitattributes !filter !diff

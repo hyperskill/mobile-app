@@ -1,10 +1,13 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+import org.jetbrains.kotlin.konan.properties.loadProperties
+import org.jetbrains.kotlin.konan.properties.propertyString
 
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     kotlin("plugin.serialization")
     id("com.android.library")
+    id("com.codingfeline.buildkonfig")
 }
 
 version = "1.0"
@@ -12,14 +15,16 @@ version = "1.0"
 kotlin {
     android()
 
-    val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget =
-        if (System.getenv("SDK_NAME")?.startsWith("iphoneos") == true)
-            ::iosArm64
-        else
-            ::iosX64
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach {
+        it.binaries.framework {
+            baseName = "shared"
+        }
+    }
 
-    iosTarget("ios") {}
-    
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -54,12 +59,31 @@ kotlin {
                 implementation(libs.kotlin.coroutines.test)
             }
         }
-        val iosMain by getting {
+
+        val iosX64Main by getting
+        val iosArm64Main by getting
+        val iosSimulatorArm64Main by getting
+        val iosMain by creating {
+            dependsOn(commonMain)
+
+            iosX64Main.dependsOn(this)
+            iosArm64Main.dependsOn(this)
+            iosSimulatorArm64Main.dependsOn(this)
+
             dependencies {
                 implementation(libs.ktor.ios)
             }
         }
-        val iosTest by getting
+        val iosX64Test by getting
+        val iosArm64Test by getting
+        val iosSimulatorArm64Test by getting
+        val iosTest by creating {
+            dependsOn(commonTest)
+
+            iosX64Test.dependsOn(this)
+            iosArm64Test.dependsOn(this)
+            iosSimulatorArm64Test.dependsOn(this)
+        }
     }
 }
 
@@ -79,4 +103,29 @@ android {
             excludes += "META-INF/AL2.0"
         }
     }
+}
+
+buildkonfig {
+    packageName = "org.hyperskill.app.config"
+
+    defaultConfigs {
+        // required
+    }
+
+    fun applyFlavorConfigsFromFile(flavor: String) {
+        defaultConfigs(flavor) {
+            val properties = loadProperties("${project.rootDir}/shared/keys/$flavor.properties")
+            properties.keys.forEach { name ->
+                name as String
+                buildConfigField(
+                    type = STRING,
+                    name = name,
+                    value = requireNotNull(System.getenv(name) ?: properties.propertyString(name))
+                )
+            }
+        }
+    }
+
+    applyFlavorConfigsFromFile("production")
+    // add flavors for release.hyperskill.org / dev.hyperskill.org on demand
 }
