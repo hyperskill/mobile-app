@@ -1,3 +1,7 @@
+import org.jetbrains.kotlin.konan.properties.loadProperties
+import org.jetbrains.kotlin.konan.properties.propertyString
+import com.android.build.api.dsl.ApplicationBuildType
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -42,10 +46,12 @@ android {
 
     signingConfigs {
         getByName("debug") {
+            val properties = loadProperties("${project.rootDir}/androidHyperskillApp/keys/debug_keystore.properties")
+
             storeFile = file("../buildsystem/certs/debug.keystore")
-            storePassword = HYPERSKILL_DEBUG_STORE_PASSWORD
-            keyAlias = HYPERSKILL_DEBUG_KEY_ALIAS
-            keyPassword = HYPERSKILL_DEBUG_KEY_PASSWORD
+            storePassword = properties.getProperty("HYPERSKILL_DEBUG_STORE_PASSWORD")
+            keyAlias = properties.getProperty("HYPERSKILL_DEBUG_KEY_ALIAS")
+            keyPassword = properties.getProperty("HYPERSKILL_DEBUG_KEY_PASSWORD")
 
             enableV3Signing = true
             enableV4Signing = true
@@ -66,8 +72,21 @@ android {
     }
 
     buildTypes {
+        fun applyFlavorConfigsFromFile(applicationBuildType: ApplicationBuildType) {
+            val properties = loadProperties("${project.rootDir}/androidHyperskillApp/keys/${applicationBuildType.name}.properties")
+            properties.keys.forEach { name ->
+                name as String
+                applicationBuildType.buildConfigField(
+                    type = "String",
+                    name = name,
+                    value = requireNotNull(System.getenv(name) ?: properties.propertyString(name))
+                )
+            }
+        }
+
         getByName("debug") {
             signingConfig = signingConfigs.getByName("debug")
+            applyFlavorConfigsFromFile(this)
         }
         getByName("release") {
             signingConfig = signingConfigs.getByName("release")
