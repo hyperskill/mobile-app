@@ -1,29 +1,31 @@
+import GoogleSignIn
 import SwiftUI
+
 
 extension AuthView {
     struct Appearance {
         var logoBorderColor = Color.black
-        var logoBorderWidth = 1
-        var logoSize = CGSize(width: 40, height: 40)
+        var logoBorderWidth: CGFloat = 1
+        var logoSize: CGFloat = 40
 
         var googleButtonForegroundColor = Color.purple
-        var googleButtonMinHeight = 44
-        var googleButtonOverlayCornerRadius = 8
+        var googleButtonMinHeight: CGFloat = 44
+        var googleButtonOverlayCornerRadius: CGFloat = 8
         var googleButtonOverlayStrokeColor = Color.purple
-        var googleButtonOverlayStrokeWidth = 2
+        var googleButtonOverlayStrokeWidth: CGFloat = 2
 
     }
 }
 
 struct AuthView: View {
-    let appearance: Appearance
+    let appearance: Appearance = Appearance()
 
     var body: some View {
         VStack {
             Image("logo")
                     .resizable()
                     .border(appearance.logoBorderColor, width: appearance.logoBorderWidth)
-                    .frame(appearance.logoSize)
+                    .frame(width: appearance.logoSize, height: appearance.logoSize)
                     .padding(.top)
 
             Spacer()
