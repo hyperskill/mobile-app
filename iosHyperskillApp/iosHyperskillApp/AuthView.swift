@@ -4,21 +4,21 @@ import SwiftUI
 
 extension AuthView {
     struct Appearance {
-        var logoBorderColor = Color.black
-        var logoBorderWidth: CGFloat = 1
-        var logoSize: CGFloat = 40
+        let logoBorderColor = Color.black
+        let logoBorderWidth: CGFloat = 1
+        let logoSize: CGFloat = 40
 
-        var googleButtonForegroundColor = Color.purple
-        var googleButtonMinHeight: CGFloat = 44
-        var googleButtonOverlayCornerRadius: CGFloat = 8
-        var googleButtonOverlayStrokeColor = Color.purple
-        var googleButtonOverlayStrokeWidth: CGFloat = 2
+        let googleButtonForegroundColor = Color.purple
+        let googleButtonMinHeight: CGFloat = 44
+        let googleButtonOverlayCornerRadius: CGFloat = 8
+        let googleButtonOverlayStrokeColor = Color.purple
+        let googleButtonOverlayStrokeWidth: CGFloat = 2
 
     }
 }
 
 struct AuthView: View {
-    let appearance: Appearance = Appearance()
+    let appearance = Appearance()
 
     var body: some View {
         VStack {
