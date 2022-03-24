@@ -7,22 +7,10 @@
     android:orientation="vertical"
     android:gravity="center">
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/userName"
-        android:hint="@string/home_user_name_hint"
+    <fragment
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button"
-        android:text="@string/home_search_button_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/usersList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:name="org.hyperskill.app.android.auth.view.ui.fragment.AuthSocialFragment" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
