@@ -35,12 +35,12 @@ dependencies {
 }
 
 android {
-    compileSdkVersion(appVersions.versions.compileSdk.get().toInt())
+    compileSdk = appVersions.versions.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "org.hyperskill.app.android"
-        minSdkVersion(appVersions.versions.minSdk.get().toInt())
-        targetSdkVersion(appVersions.versions.targetSdk.get().toInt())
+        minSdk = appVersions.versions.minSdk.get().toInt()
+        targetSdk = appVersions.versions.targetSdk.get().toInt()
         versionCode = appVersions.versions.versionCode.get().toInt()
         versionName = appVersions.versions.versionName.get()
     }

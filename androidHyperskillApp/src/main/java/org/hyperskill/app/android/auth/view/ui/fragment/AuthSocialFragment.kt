@@ -25,7 +25,7 @@ class AuthSocialFragment
     private val viewBinding by viewBinding(FragmentAuthSocialBinding::bind)
     private lateinit var viewStateDelegate: ViewStateDelegate<AuthFeature.State>
 
-    private val signInWithGoogleCallback = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {res ->
+    private val signInWithGoogleCallback = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { res ->
         val task = GoogleSignIn.getSignedInAccountFromIntent(res.data)
         try {
             val account = task.getResult(ApiException::class.java)
