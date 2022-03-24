@@ -2,8 +2,16 @@ import SwiftUI
 import shared
 
 struct ContentView: View {
-    let usersFeature = UsersListFeatureBuilder.init()
-        .build()
+    let usersFeature = UsersListFeatureBuilder()
+            .build(
+                userListInteractor: UserListInteractor(
+                    userListRepository: UserListRepositoryImpl(
+                        userListRemoteDataSource: UserListRemoteDataSourceImpl(
+                            httpClient: NetworkModule().provideClient(json: NetworkModule().provideJson())
+                        )
+                    )
+                )
+            )
     
     @ObservedObject var stateStore: StateStore
     @State private var query: String = "eadm"
