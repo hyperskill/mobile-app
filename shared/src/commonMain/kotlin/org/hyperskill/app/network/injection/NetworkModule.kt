@@ -8,6 +8,7 @@ import io.ktor.client.features.logging.*
 import io.ktor.http.*
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
+import org.hyperskill.app.config.BuildKonfig
 
 object NetworkModule {
     fun provideJson(): Json =
@@ -31,11 +32,10 @@ object NetworkModule {
                 level = LogLevel.ALL
             }
 
-            // TODO Build host from BuildKonfig
             defaultRequest {
                 url {
                     protocol = URLProtocol.HTTPS
-                    host = "hyperskill.org/api"
+                    host = BuildKonfig.HOST
                 }
             }
         }

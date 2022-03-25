@@ -13,7 +13,8 @@ class StepRemoteDataSourceImpl(
     override suspend fun getSteps(stepIds: List<Long>): Result<List<Step>> =
         kotlin.runCatching {
             httpClient
-                .get<StepResponse>(path = "/steps") {
+
+                .get<StepResponse>("/api/steps") {
                     header("Content-Type", "application/json")
                     parameter("ids", stepIds.joinToString(separator = ","))
                 }
