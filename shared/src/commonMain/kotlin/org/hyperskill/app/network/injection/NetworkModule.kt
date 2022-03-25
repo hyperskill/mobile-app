@@ -1,11 +1,14 @@
 package org.hyperskill.app.network.injection
 
-import io.ktor.client.*
-import io.ktor.client.features.*
-import io.ktor.client.features.json.*
-import io.ktor.client.features.json.serializer.*
-import io.ktor.client.features.logging.*
-import io.ktor.http.*
+import io.ktor.client.HttpClient
+import io.ktor.client.features.defaultRequest
+import io.ktor.client.features.json.JsonFeature
+import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.client.features.logging.LogLevel
+import io.ktor.client.features.logging.Logger
+import io.ktor.client.features.logging.Logging
+import io.ktor.client.features.logging.SIMPLE
+import io.ktor.http.URLProtocol
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import org.hyperskill.app.config.BuildKonfig
@@ -31,7 +34,6 @@ object NetworkModule {
                 logger = Logger.SIMPLE
                 level = LogLevel.ALL
             }
-
             defaultRequest {
                 url {
                     protocol = URLProtocol.HTTPS
