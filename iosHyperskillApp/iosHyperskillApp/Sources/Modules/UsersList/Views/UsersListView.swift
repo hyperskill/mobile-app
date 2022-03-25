@@ -6,6 +6,11 @@ struct UsersListView: View {
 
     @State private var query = "eadm"
 
+    init(viewModel: UsersListViewModel) {
+        self.viewModel = viewModel
+        self.viewModel.onViewAction = self.handleViewAction(_:)
+    }
+
     var body: some View {
         let state = self.viewModel.state
 
@@ -52,6 +57,10 @@ struct UsersListView: View {
     }
 
     // MARK: Private API
+
+    private func handleViewAction(_ viewAction: UsersListFeatureActionViewAction) {
+        print("UsersListView :: \(#function) viewAction = \(viewAction)")
+    }
 
     private func searchButtonPressed() {
         self.viewModel.search(query: self.query)
