@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,6 +12,8 @@
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		2C1DEE3027EC408D0001A567 /* UsersListAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1DEE2F27EC408D0001A567 /* UsersListAssembly.swift */; };
 		2C9277FE27888886005BF2C4 /* UsersListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9277FD27888886005BF2C4 /* UsersListRowView.swift */; };
+		2CE1C4DA27EDCED900220041 /* DequeModule.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CE1C4D927EDCED900220041 /* DequeModule.xcframework */; };
+		2CE1C4DB27EDCED900220041 /* DequeModule.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2CE1C4D927EDCED900220041 /* DequeModule.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2CE2817927E8EF1E00641E22 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2CE2817827E8EF1E00641E22 /* GoogleService-Info.plist */; };
 		2CE2817B27E8EF9900641E22 /* GoogleServiceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE2817A27E8EF9900641E22 /* GoogleServiceInfo.swift */; };
 		2CF2DA3A27EC5B2D0055426D /* Assembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF2DA3927EC5B2D0055426D /* Assembly.swift */; };
@@ -28,6 +30,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				2CE1C4DB27EDCED900220041 /* DequeModule.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -40,6 +43,7 @@
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
 		2C1DEE2F27EC408D0001A567 /* UsersListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersListAssembly.swift; sourceTree = "<group>"; };
 		2C9277FD27888886005BF2C4 /* UsersListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersListRowView.swift; sourceTree = "<group>"; };
+		2CE1C4D927EDCED900220041 /* DequeModule.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = DequeModule.xcframework; path = Frameworks/DequeModule.xcframework; sourceTree = "<group>"; };
 		2CE2817827E8EF1E00641E22 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2CE2817A27E8EF9900641E22 /* GoogleServiceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleServiceInfo.swift; sourceTree = "<group>"; };
 		2CF2DA3927EC5B2D0055426D /* Assembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembly.swift; sourceTree = "<group>"; };
@@ -56,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CE1C4DA27EDCED900220041 /* DequeModule.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,6 +187,7 @@
 		7555FFB0242A642200829871 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2CE1C4D927EDCED900220041 /* DequeModule.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
