@@ -18,8 +18,7 @@ local.properties
 /.idea/
 
 # Xcode
-iosHyperskillApp/xcuserdata/
-iosHyperskillApp/iosHyperskillApp.xcodeproj/xcuserdata/*
+**/xcuserdata/*
 
 ## Obj-C/Swift specific
 *.hmap
