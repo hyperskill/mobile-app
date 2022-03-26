@@ -5,18 +5,17 @@ import shared
 class FeatureViewModel<State, Message, ViewAction>: ObservableObject {
     private let feature: Presentation_reduxFeature
 
-    private var isListeningForChanges = false
-
     private var viewActionQueue = Queue<ViewAction>()
+
+    private var isListeningForChanges = false
 
     var state: State {
         get {
-            if let state = self.feature.state as? State {
-                return state
+            guard let state = self.feature.state as? State else {
+                fatalError("FeatureViewModel :: unexpected state type = \(String(describing: self.feature.state))")
             }
-            #if DEBUG
-            fatalError("FeatureViewModel :: unexpected state type = \(String(describing: self.feature.state))")
-            #endif
+
+            return state
         }
     }
     
