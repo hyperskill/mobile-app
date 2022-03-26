@@ -11,11 +11,10 @@ class FeatureViewModel<State, Message, ViewAction>: ObservableObject {
 
     var state: State {
         get {
-            guard let state = self.feature.state as? State else {
-                fatalError("FeatureViewModel :: unexpected state type = \(String(describing: self.feature.state))")
+            if let state = self.feature.state as? State {
+                return state
             }
-
-            return state
+            fatalError("FeatureViewModel :: unexpected state type = \(String(describing: self.feature.state))")
         }
     }
     
