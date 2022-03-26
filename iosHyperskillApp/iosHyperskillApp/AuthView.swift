@@ -19,7 +19,8 @@ extension AuthView {
 
 struct AuthView: View {
     let appearance = Appearance()
-
+    let viewModel = AuthViewModel()
+    
     var body: some View {
         VStack {
             Image("logo")
@@ -36,7 +37,7 @@ struct AuthView: View {
                         .bold()
 
                 Button(
-                        action: {},
+                        action: viewModel.googleSignIn,
                         label: {
                             Text("Google")
                                     .font(.body)
