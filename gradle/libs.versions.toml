@@ -14,6 +14,7 @@ plugin-ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version = "10
 plugin-gradleVersionUpdates = { module = "com.github.ben-manes:gradle-versions-plugin", version = "0.39.0" }
 plugin-buildKonfig = { module = "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin", version = "0.11.0" }
 
+kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version = "0.3.2" }
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinCoroutines" }
 kotlin-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinCoroutines" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinCoroutines" }
@@ -41,6 +42,10 @@ android-ui-constraintlayout = { module = "androidx.constraintlayout:constraintla
 android-test-junit = { module = "junit:junit", version = "4.13.2" }
 android-test-runner = { module = "androidx.test:runner", version = "1.4.0" }
 android-test-robolectric = { module = "org.robolectric:robolectric", version = "4.7.1" }
+
+gms-services = { module = "com.google.android.gms:play-services-base", version = "17.6.0" }
+gms-login = { module = "com.google.android.gms:play-services-auth", version = "19.0.0"}
+viewbinding = { module = "com.github.kirich1409:viewbindingpropertydelegate", version = "1.5.3"}
 
 [bundles]
 ktor-common = ['ktor-core', 'ktor-serialization', 'ktor-logging']
