@@ -1,5 +1,4 @@
 import Combine
-import DequeModule
 import Foundation
 import shared
 
@@ -8,7 +7,7 @@ class FeatureViewModel<State, Message, ViewAction>: ObservableObject {
 
     private var isListeningForChanges = false
 
-    private var viewActionQueue = Deque<ViewAction>()
+    private var viewActionQueue = Queue<ViewAction>()
 
     var state: State {
         get {
@@ -53,7 +52,7 @@ class FeatureViewModel<State, Message, ViewAction>: ObservableObject {
             return
         }
 
-        while let queuedViewAction = self.viewActionQueue.popFirst() {
+        while let queuedViewAction = self.viewActionQueue.dequeue() {
             onViewAction(queuedViewAction)
         }
     }
@@ -89,7 +88,7 @@ class FeatureViewModel<State, Message, ViewAction>: ObservableObject {
            let onViewAction = self.onViewAction {
             onViewAction(viewAction)
         } else {
-            self.viewActionQueue.append(viewAction)
+            self.viewActionQueue.enqueue(value: viewAction)
         }
     }
 }
