@@ -32,8 +32,8 @@ kotlin {
 
                 //network
                 implementation(libs.bundles.ktor.common)
-
                 implementation(libs.kit.model)
+                implementation(libs.kotlin.datetime)
 
                 api(libs.kit.presentation.redux)
                 implementation(libs.kit.presentation.reduxCoroutines)

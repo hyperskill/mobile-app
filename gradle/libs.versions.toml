@@ -14,6 +14,7 @@ plugin-ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version = "10
 plugin-gradleVersionUpdates = { module = "com.github.ben-manes:gradle-versions-plugin", version = "0.39.0" }
 plugin-buildKonfig = { module = "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin", version = "0.11.0" }
 
+kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version = "0.3.2" }
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinCoroutines" }
 kotlin-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinCoroutines" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinCoroutines" }
