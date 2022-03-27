@@ -17,8 +17,8 @@ object UserListModule {
     @ViewModelKey(UserListViewModel::class)
     internal fun provideUserListPresenter(usersListInteractor: UserListInteractor): ViewModel =
         UserListViewModel(
-                UsersListFeatureBuilder
-                    .build(usersListInteractor)
-                    .wrapWithViewContainer()
+            UsersListFeatureBuilder
+                .build(usersListInteractor)
+                .wrapWithViewContainer()
         )
 }

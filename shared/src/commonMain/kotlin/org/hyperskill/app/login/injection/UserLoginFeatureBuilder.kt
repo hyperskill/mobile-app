@@ -8,11 +8,6 @@ import org.hyperskill.app.login.presentation.UserLoginFeature
 import org.hyperskill.app.login.presentation.UserLoginReducer
 import org.hyperskill.app.login.remote.UserLoginRemoteDataSourceImpl
 import org.hyperskill.app.network.injection.NetworkModule
-import org.hyperskill.app.user_list.data.repository.UserListRepositoryImpl
-import org.hyperskill.app.user_list.domain.interactor.UserListInteractor
-import org.hyperskill.app.user_list.presentation.UserListReducer
-import org.hyperskill.app.user_list.presentation.UsersListDispatcher
-import org.hyperskill.app.user_list.presentation.UsersListFeature
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
