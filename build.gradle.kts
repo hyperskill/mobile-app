@@ -1,7 +1,6 @@
 buildscript {
     repositories {
         gradlePluginPortal()
-        jcenter()
         google()
         mavenCentral()
         maven("https://plugins.gradle.org/m2/")
@@ -26,7 +25,6 @@ subprojects {
 allprojects {
     repositories {
         google()
-        jcenter()
         mavenCentral()
         github(project, "https://maven.pkg.github.com/eadm/AndroidKit")
         github(project, "https://maven.pkg.github.com/eadm/ktlint-rules")

@@ -3,6 +3,7 @@ androidGradlePlugin = '7.1.0'
 kotlin = '1.6.0'
 kotlinCoroutines = '1.6.0-native-mt'
 ktor = '1.6.7'
+ktlintRules = '1.0.0'
 
 kitPresentationRedux = '1.3.1'
 
@@ -46,6 +47,8 @@ android-test-robolectric = { module = "org.robolectric:robolectric", version = "
 gms-services = { module = "com.google.android.gms:play-services-base", version = "17.6.0" }
 gms-login = { module = "com.google.android.gms:play-services-auth", version = "19.0.0"}
 viewbinding = { module = "com.github.kirich1409:viewbindingpropertydelegate", version = "1.5.3"}
+
+ktlintRules = { module = "ru.nobird.android.ktlint:rules", version.ref = "ktlintRules"}
 
 [bundles]
 ktor-common = ['ktor-core', 'ktor-serialization', 'ktor-logging']

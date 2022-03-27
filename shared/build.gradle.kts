@@ -2,12 +2,19 @@ import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import org.jetbrains.kotlin.konan.properties.loadProperties
 import org.jetbrains.kotlin.konan.properties.propertyString
 
+apply(from = "../code_quality_tools/checkstyle.gradle")
+apply(from = "../code_quality_tools/pmd.gradle")
+
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     kotlin("plugin.serialization")
     id("com.android.library")
     id("com.codingfeline.buildkonfig")
+}
+
+dependencies {
+    ktlintRuleset(libs.ktlintRules)
 }
 
 version = "1.0"
@@ -30,7 +37,7 @@ kotlin {
             dependencies {
                 implementation(libs.kotlin.coroutines.core)
 
-                //network
+                // network
                 implementation(libs.bundles.ktor.common)
                 implementation(libs.kit.model)
                 implementation(libs.kotlin.datetime)

@@ -2,6 +2,9 @@ import org.jetbrains.kotlin.konan.properties.loadProperties
 import org.jetbrains.kotlin.konan.properties.propertyString
 import com.android.build.api.dsl.ApplicationBuildType
 
+apply(from = "../code_quality_tools/checkstyle.gradle")
+apply(from = "../code_quality_tools/pmd.gradle")
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -24,7 +27,6 @@ dependencies {
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
 
-
     implementation(libs.bundles.ktor.common)
 
     implementation(libs.gms.services)
@@ -32,6 +34,8 @@ dependencies {
     implementation(libs.viewbinding)
 
     testImplementation(libs.bundles.android.test)
+
+    ktlintRuleset(libs.ktlintRules)
 }
 
 android {
