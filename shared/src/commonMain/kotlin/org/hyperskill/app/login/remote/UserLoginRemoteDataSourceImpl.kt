@@ -1,9 +1,11 @@
 package org.hyperskill.app.login.remote
 
-import io.ktor.client.*
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
+import io.ktor.client.HttpClient
+import io.ktor.client.request.get
+import io.ktor.client.request.post
+import io.ktor.client.statement.HttpResponse
+import io.ktor.http.Cookie
+import io.ktor.http.setCookie
 import org.hyperskill.app.login.data.source.UserLoginRemoteDataSource
 import org.hyperskill.app.user_list.remote.model.UsersResponse
 
