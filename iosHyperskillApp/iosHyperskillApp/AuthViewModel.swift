@@ -2,7 +2,7 @@ import Foundation
 import GoogleSignIn
 
 final class AuthViewModel {
-    func googleSignIn() {
+    func signInWithGoogle() {
         GIDSignIn.sharedInstance.signIn(
             with: GIDConfiguration(clientID: GoogleServiceInfo.clientID),
             presenting: UIApplication.shared.currentRootViewController!
