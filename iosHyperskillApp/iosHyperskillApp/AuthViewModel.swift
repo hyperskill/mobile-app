@@ -2,7 +2,7 @@ import Foundation
 import GoogleSignIn
 
 final class AuthViewModel {
-    func googleSignIn() {
+    func signInWithGoogle() {
         guard let currentRootViewController = UIApplication.shared.currentRootViewController else {
             return
         }
