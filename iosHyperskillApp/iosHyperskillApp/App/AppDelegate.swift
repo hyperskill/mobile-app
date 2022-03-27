@@ -24,13 +24,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     }
 
     func application(
-            _ app: UIApplication,
-            open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]
+        _ app: UIApplication,
+        open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]
     ) -> Bool {
         if GIDSignIn.sharedInstance.handle(url) {
             return true
         }
-
+        
         return false
     }
 }

@@ -3,14 +3,23 @@ import GoogleSignIn
 
 final class AuthViewModel {
     func googleSignIn() {
+        guard let currentRootViewController = UIApplication.shared.currentRootViewController else {
+            return
+        }
+        
         GIDSignIn.sharedInstance.signIn(
             with: GIDConfiguration(clientID: GoogleServiceInfo.clientID),
-            presenting: UIApplication.shared.currentRootViewController!
+            presenting: currentRootViewController
         ) { user, error in
-            guard error == nil else { return }
-            guard user != nil else { return }
+            guard error == nil else {
+                return
+            }
+            guard let accessToken = user?.authentication.accessToken else {
+                return
+            }
+            
             // todo pass accessToken to shared module
-            print(user!.authentication.accessToken)
+            print(accessToken)
         }
     }
 }
