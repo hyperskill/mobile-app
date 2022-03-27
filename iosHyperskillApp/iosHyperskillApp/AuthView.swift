@@ -37,7 +37,7 @@ struct AuthView: View {
                         .bold()
 
                 Button(
-                        action: viewModel.googleSignIn,
+                        action: viewModel.signInWithGoogle,
                         label: {
                             Text("Google")
                                     .font(.body)
