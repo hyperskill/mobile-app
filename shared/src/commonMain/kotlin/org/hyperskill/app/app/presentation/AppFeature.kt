@@ -1,6 +1,10 @@
 package org.hyperskill.app.app.presentation
 
 interface AppFeature {
+    sealed interface State {
+        object Idle : State
+    }
+
     sealed interface Message {
         object AppStarted : Message
         object UserAuthorized : Message
