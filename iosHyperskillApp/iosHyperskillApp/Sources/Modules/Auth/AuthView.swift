@@ -17,38 +17,44 @@ extension AuthView {
 
 struct AuthView: View {
     let appearance = Appearance()
+
     let viewModel = AuthViewModel()
     
     var body: some View {
         VStack {
             Image("logo")
-                    .resizable()
-                    .border(appearance.logoBorderColor, width: appearance.logoBorderWidth)
-                    .frame(width: appearance.logoSize, height: appearance.logoSize)
-                    .padding(.top)
+                .resizable()
+                .border(appearance.logoBorderColor, width: appearance.logoBorderWidth)
+                .frame(width: appearance.logoSize, height: appearance.logoSize)
+                .padding(.top)
 
             Spacer()
 
             VStack {
                 Text("Log in to Hyperskill")
-                        .font(.title)
-                        .bold()
+                    .font(.title)
+                    .bold()
 
                 Button(
-                        action: viewModel.signInWithGoogle,
-                        label: {
-                            Text("Google")
-                                    .font(.body)
-                                    .foregroundColor(appearance.googleButtonForegroundColor)
-                                    .frame(minHeight: appearance.googleButtonMinHeight)
-                                    .padding(.horizontal)
-                                    .overlay(
-                                            RoundedRectangle(cornerRadius: appearance.googleButtonOverlayCornerRadius)
-                                                    .stroke(appearance.googleButtonOverlayStrokeColor, lineWidth: appearance.googleButtonOverlayStrokeWidth)
-                                    )
-                        }
+                    action: viewModel.signInWithGoogle,
+                    label: {
+                        Text("Google")
+                            .font(.body)
+                            .foregroundColor(appearance.googleButtonForegroundColor)
+                            .frame(minHeight: appearance.googleButtonMinHeight)
+                            .padding(.horizontal)
+                            .overlay(
+                                RoundedRectangle(
+                                    cornerRadius: appearance.googleButtonOverlayCornerRadius
+                                )
+                                .stroke(
+                                    appearance.googleButtonOverlayStrokeColor,
+                                    lineWidth: appearance.googleButtonOverlayStrokeWidth
+                                )
+                            )
+                    }
                 )
-                        .padding(.top)
+                .padding(.top)
             }
 
             Spacer()

@@ -110,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				E951757827E61ACD00995008 /* AuthView.swift */,
+				E96E80F527EF57BA00AA6683 /* AuthViewModel.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -277,7 +278,6 @@
 			children = (
 				058557D7273AAEEB004C7B11 /* Preview Content */,
 				2CE2817727E8EEDC00641E22 /* Resources */,
-				E96E80F527EF57BA00AA6683 /* AuthViewModel.swift */,
 				2C1DEE2C27EC3FE00001A567 /* Sources */,
 			);
 			path = iosHyperskillApp;
