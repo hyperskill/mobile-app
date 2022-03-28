@@ -1,5 +1,5 @@
-import SwiftUI
 import shared
+import SwiftUI
 
 final class UsersListAssembly: Assembly {
     func makeModule() -> UsersListView {

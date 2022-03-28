@@ -9,8 +9,7 @@ extension UIApplication {
             .compactMap { $0 as? UIWindowScene }
             .first?
             .windows
-            .filter { $0.isKeyWindow }
-            .first
+            .first(where: { $0.isKeyWindow })
     }
 
     var currentRootViewController: UIViewController? {

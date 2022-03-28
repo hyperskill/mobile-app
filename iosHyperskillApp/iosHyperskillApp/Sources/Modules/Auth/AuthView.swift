@@ -18,7 +18,7 @@ extension AuthView {
 struct AuthView: View {
     let appearance = Appearance()
     let viewModel = AuthViewModel()
-    
+
     var body: some View {
         VStack {
             Image("logo")
@@ -44,7 +44,10 @@ struct AuthView: View {
                                     .padding(.horizontal)
                                     .overlay(
                                             RoundedRectangle(cornerRadius: appearance.googleButtonOverlayCornerRadius)
-                                                    .stroke(appearance.googleButtonOverlayStrokeColor, lineWidth: appearance.googleButtonOverlayStrokeWidth)
+                                                    .stroke(
+                                                        appearance.googleButtonOverlayStrokeColor,
+                                                        lineWidth: appearance.googleButtonOverlayStrokeWidth
+                                                    )
                                     )
                         }
                 )

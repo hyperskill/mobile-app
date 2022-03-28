@@ -7,5 +7,6 @@ target 'iosHyperskillApp' do
 
   # Pods for iosHyperskillApp
   pod 'GoogleSignIn', '6.1.0'
+  pod 'SwiftLint'
 
 end

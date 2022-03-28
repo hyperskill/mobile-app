@@ -1,5 +1,5 @@
-import SwiftUI
 import shared
+import SwiftUI
 
 struct UsersListView: View {
     @ObservedObject var viewModel: UsersListViewModel
