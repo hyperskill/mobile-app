@@ -23,6 +23,7 @@
 		2C9B66EB27ECAF5000569645 /* UIApplicationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9B66EA27ECAF5000569645 /* UIApplicationExtensions.swift */; };
 		2CE1C4DF27EDFB3800220041 /* FeatureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE1C4DE27EDFB3800220041 /* FeatureViewModel.swift */; };
 		2CE2817927E8EF1E00641E22 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2CE2817827E8EF1E00641E22 /* GoogleService-Info.plist */; };
+		2CE31F4827F1BB79008EEE66 /* AuthAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4727F1BB79008EEE66 /* AuthAssembly.swift */; };
 		2CF2DA3A27EC5B2D0055426D /* Assembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF2DA3927EC5B2D0055426D /* Assembly.swift */; };
 		2CF2DA3E27EC5C180055426D /* UsersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF2DA3D27EC5C180055426D /* UsersListView.swift */; };
 		2CF2DA4127EC75000055426D /* UsersListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF2DA4027EC75000055426D /* UsersListViewModel.swift */; };
@@ -59,6 +60,7 @@
 		2C9B66EA27ECAF5000569645 /* UIApplicationExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplicationExtensions.swift; sourceTree = "<group>"; };
 		2CE1C4DE27EDFB3800220041 /* FeatureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureViewModel.swift; sourceTree = "<group>"; };
 		2CE2817827E8EF1E00641E22 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2CE31F4727F1BB79008EEE66 /* AuthAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAssembly.swift; sourceTree = "<group>"; };
 		2CF2DA3927EC5B2D0055426D /* Assembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembly.swift; sourceTree = "<group>"; };
 		2CF2DA3D27EC5C180055426D /* UsersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersListView.swift; sourceTree = "<group>"; };
 		2CF2DA4027EC75000055426D /* UsersListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersListViewModel.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 		2C005DD027EF5C4800DC6503 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				2CE31F4727F1BB79008EEE66 /* AuthAssembly.swift */,
 				E951757827E61ACD00995008 /* AuthView.swift */,
 				E96E80F527EF57BA00AA6683 /* AuthViewModel.swift */,
 			);
@@ -468,6 +471,7 @@
 				2C9B66EB27ECAF5000569645 /* UIApplicationExtensions.swift in Sources */,
 				2C1DEE3027EC408D0001A567 /* UsersListAssembly.swift in Sources */,
 				2C005DCC27EF5B0300DC6503 /* GoogleServiceInfo.swift in Sources */,
+				2CE31F4827F1BB79008EEE66 /* AuthAssembly.swift in Sources */,
 				2CF2DA3A27EC5B2D0055426D /* Assembly.swift in Sources */,
 				2C919DE827EEEDD60022A2F2 /* LinkedList.swift in Sources */,
 				2C919E3527EEFF110022A2F2 /* Queue.swift in Sources */,

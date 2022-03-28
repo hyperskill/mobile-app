@@ -12,8 +12,8 @@ final class UsersListAssembly: Assembly {
         )
         let usersListFeature = UsersListFeatureBuilder.shared.build(userListInteractor: userListInteractor)
 
-        let viewModel = UsersListViewModel(feature: usersListFeature)
+        let usersListViewModel = UsersListViewModel(feature: usersListFeature)
 
-        return UsersListView(viewModel: viewModel)
+        return UsersListView(viewModel: usersListViewModel)
     }
 }

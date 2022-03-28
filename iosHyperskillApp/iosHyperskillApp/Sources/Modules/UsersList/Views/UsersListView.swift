@@ -2,7 +2,7 @@ import SwiftUI
 import shared
 
 struct UsersListView: View {
-    @ObservedObject var viewModel: UsersListViewModel
+    @ObservedObject private var viewModel: UsersListViewModel
 
     @State private var query = "eadm"
 
