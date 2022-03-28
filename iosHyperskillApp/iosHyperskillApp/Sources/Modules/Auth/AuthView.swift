@@ -1,7 +1,6 @@
 import GoogleSignIn
 import SwiftUI
 
-
 extension AuthView {
     struct Appearance {
         let logoBorderColor = Color.black
@@ -13,7 +12,6 @@ extension AuthView {
         let googleButtonOverlayCornerRadius: CGFloat = 8
         let googleButtonOverlayStrokeColor = Color.purple
         let googleButtonOverlayStrokeWidth: CGFloat = 2
-
     }
 }
 
