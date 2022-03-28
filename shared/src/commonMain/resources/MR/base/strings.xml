@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="shared_text_example">This text is shared!</string>
+    <string name="shared_formatted_text_example">Formatted text - %s!</string>
+</resources>

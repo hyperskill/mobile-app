@@ -10,6 +10,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.Scopes
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Scope
+import dev.icerock.moko.resources.desc.desc
+import org.hyperskill.app.SharedResources
+import org.hyperskill.app.SharedResourcesFormattedStrings
 import org.hyperskill.app.android.BuildConfig
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentAuthSocialBinding
@@ -41,6 +44,11 @@ class AuthSocialFragment
             viewStateDelegate.switchState(AuthFeature.State.Loading)
             signInWithGoogle()
         }
+
+        // Example of accessing SharedResources
+        val text = SharedResources.strings.shared_text_example.desc().toString(context = requireContext())
+        val font = SharedResources.fonts.Roboto.bold
+        val formattedText = SharedResourcesFormattedStrings.getFormattedTextExample("Sandwich").toString(context = requireContext())
     }
 
     override fun onAction(action: AuthFeature.Action.ViewAction) {}
