@@ -10,57 +10,80 @@
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* HyperskillApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* HyperskillApp.swift */; };
-		2C9277FE27888886005BF2C4 /* UserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9277FD27888886005BF2C4 /* UserRow.swift */; };
+		2C005DCA27EF5AE500DC6503 /* UsersListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C005DC927EF5AE500DC6503 /* UsersListRowView.swift */; };
+		2C005DCC27EF5B0300DC6503 /* GoogleServiceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C005DCB27EF5B0300DC6503 /* GoogleServiceInfo.swift */; };
+		2C005DCE27EF5B4400DC6503 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C005DCD27EF5B4400DC6503 /* ContentView.swift */; };
+		2C1DEE3027EC408D0001A567 /* UsersListAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1DEE2F27EC408D0001A567 /* UsersListAssembly.swift */; };
+		2C919DE827EEEDD60022A2F2 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C919DE727EEEDD60022A2F2 /* LinkedList.swift */; };
+		2C919E3327EEF92F0022A2F2 /* LinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C919E3227EEF92F0022A2F2 /* LinkedListTests.swift */; };
+		2C919E3527EEFF110022A2F2 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C919E3427EEFF110022A2F2 /* Queue.swift */; };
+		2C919E3727EF00950022A2F2 /* QueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C919E3627EF00950022A2F2 /* QueueTests.swift */; };
 		2C9B66C427ECA73700569645 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9B66C327ECA73700569645 /* AppDelegate.swift */; };
 		2C9B66E627ECA86B00569645 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9B66E527ECA86B00569645 /* SceneDelegate.swift */; };
 		2C9B66EB27ECAF5000569645 /* UIApplicationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9B66EA27ECAF5000569645 /* UIApplicationExtensions.swift */; };
+		2CE1C4DF27EDFB3800220041 /* FeatureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE1C4DE27EDFB3800220041 /* FeatureViewModel.swift */; };
 		2CE2817927E8EF1E00641E22 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2CE2817827E8EF1E00641E22 /* GoogleService-Info.plist */; };
-		2CE2817B27E8EF9900641E22 /* GoogleServiceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE2817A27E8EF9900641E22 /* GoogleServiceInfo.swift */; };
-		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
+		2CF2DA3A27EC5B2D0055426D /* Assembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF2DA3927EC5B2D0055426D /* Assembly.swift */; };
+		2CF2DA3E27EC5C180055426D /* UsersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF2DA3D27EC5C180055426D /* UsersListView.swift */; };
+		2CF2DA4127EC75000055426D /* UsersListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF2DA4027EC75000055426D /* UsersListViewModel.swift */; };
+		40D8E6EFE44EB7A6092C171B /* Pods_iosHyperskillApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C0F8A86D62CB915A1E49CAA /* Pods_iosHyperskillApp.framework */; };
 		E951757927E61ACD00995008 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951757827E61ACD00995008 /* AuthView.swift */; };
 		E96E80F627EF57BA00AA6683 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E80F527EF57BA00AA6683 /* AuthViewModel.swift */; };
-		F7E031DB3407C1D8C85C045A /* Pods_iosHyperskillApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03BFA8AC75385179E8F1394B /* Pods_iosHyperskillApp.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		7555FFB4242A642300829871 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
+/* Begin PBXContainerItemProxy section */
+		2C919DF127EEF5BC0022A2F2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7555FF73242A565900829871 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7555FF7A242A565900829871;
+			remoteInfo = iosHyperskillApp;
 		};
-/* End PBXCopyFilesBuildPhase section */
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		03BFA8AC75385179E8F1394B /* Pods_iosHyperskillApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iosHyperskillApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		058557BA273AAA24004C7B11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		1FE4C0749BF5643DD66DF29F /* Pods-iosHyperskillApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosHyperskillApp.release.xcconfig"; path = "Target Support Files/Pods-iosHyperskillApp/Pods-iosHyperskillApp.release.xcconfig"; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* HyperskillApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyperskillApp.swift; sourceTree = "<group>"; };
-		2965F77237750F20A5EAAEC8 /* Pods-iosHyperskillApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosHyperskillApp.debug.xcconfig"; path = "Target Support Files/Pods-iosHyperskillApp/Pods-iosHyperskillApp.debug.xcconfig"; sourceTree = "<group>"; };
-		2C9277FD27888886005BF2C4 /* UserRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRow.swift; sourceTree = "<group>"; };
+		2C005DC927EF5AE500DC6503 /* UsersListRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersListRowView.swift; sourceTree = "<group>"; };
+		2C005DCB27EF5B0300DC6503 /* GoogleServiceInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleServiceInfo.swift; sourceTree = "<group>"; };
+		2C005DCD27EF5B4400DC6503 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		2C1DEE2F27EC408D0001A567 /* UsersListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersListAssembly.swift; sourceTree = "<group>"; };
+		2C919DE727EEEDD60022A2F2 /* LinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
+		2C919DED27EEF5BC0022A2F2 /* iosHyperskillAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iosHyperskillAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C919E3227EEF92F0022A2F2 /* LinkedListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedListTests.swift; sourceTree = "<group>"; };
+		2C919E3427EEFF110022A2F2 /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
+		2C919E3627EF00950022A2F2 /* QueueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueTests.swift; sourceTree = "<group>"; };
 		2C9B66C327ECA73700569645 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C9B66E527ECA86B00569645 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		2C9B66EA27ECAF5000569645 /* UIApplicationExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplicationExtensions.swift; sourceTree = "<group>"; };
+		2CE1C4DE27EDFB3800220041 /* FeatureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureViewModel.swift; sourceTree = "<group>"; };
 		2CE2817827E8EF1E00641E22 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		2CE2817A27E8EF9900641E22 /* GoogleServiceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleServiceInfo.swift; sourceTree = "<group>"; };
+		2CF2DA3927EC5B2D0055426D /* Assembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembly.swift; sourceTree = "<group>"; };
+		2CF2DA3D27EC5C180055426D /* UsersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersListView.swift; sourceTree = "<group>"; };
+		2CF2DA4027EC75000055426D /* UsersListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersListViewModel.swift; sourceTree = "<group>"; };
+		2D7F5C51275BBB18DCE9ACE9 /* Pods-iosHyperskillApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosHyperskillApp.debug.xcconfig"; path = "Target Support Files/Pods-iosHyperskillApp/Pods-iosHyperskillApp.debug.xcconfig"; sourceTree = "<group>"; };
+		515FEBC2A5D8EFBA7FB80795 /* Pods-iosHyperskillApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosHyperskillApp.release.xcconfig"; path = "Target Support Files/Pods-iosHyperskillApp/Pods-iosHyperskillApp.release.xcconfig"; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* iosHyperskillApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosHyperskillApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9C0F8A86D62CB915A1E49CAA /* Pods_iosHyperskillApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iosHyperskillApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E951757827E61ACD00995008 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		E96E80F527EF57BA00AA6683 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		2C919DEA27EEF5BC0022A2F2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7555FF78242A565900829871 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F7E031DB3407C1D8C85C045A /* Pods_iosHyperskillApp.framework in Frameworks */,
+				40D8E6EFE44EB7A6092C171B /* Pods_iosHyperskillApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,6 +96,72 @@
 				058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		2C005DCF27EF5BD200DC6503 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2C005DCD27EF5B4400DC6503 /* ContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		2C005DD027EF5C4800DC6503 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				E951757827E61ACD00995008 /* AuthView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		2C1DEE2C27EC3FE00001A567 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				2C9B66E727ECAC5D00569645 /* App */,
+				2C9B66E827ECAF0200569645 /* Extensions */,
+				2CF2DA4227EC7DB50055426D /* Frameworks */,
+				2CF2DA3B27EC5B980055426D /* Model */,
+				2C1DEE2D27EC40200001A567 /* Modules */,
+				2C005DCF27EF5BD200DC6503 /* Views */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		2C1DEE2D27EC40200001A567 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				2C005DD027EF5C4800DC6503 /* Auth */,
+				2C1DEE2E27EC40430001A567 /* UsersList */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		2C1DEE2E27EC40430001A567 /* UsersList */ = {
+			isa = PBXGroup;
+			children = (
+				2C1DEE2F27EC408D0001A567 /* UsersListAssembly.swift */,
+				2CF2DA4027EC75000055426D /* UsersListViewModel.swift */,
+				2CF2DA3F27EC61620055426D /* Views */,
+			);
+			path = UsersList;
+			sourceTree = "<group>";
+		};
+		2C919DE627EEEDC40022A2F2 /* Collections */ = {
+			isa = PBXGroup;
+			children = (
+				2C919DE727EEEDD60022A2F2 /* LinkedList.swift */,
+				2C919E3427EEFF110022A2F2 /* Queue.swift */,
+			);
+			path = Collections;
+			sourceTree = "<group>";
+		};
+		2C919DEE27EEF5BC0022A2F2 /* iosHyperskillAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				2C919E3227EEF92F0022A2F2 /* LinkedListTests.swift */,
+				2C919E3627EF00950022A2F2 /* QueueTests.swift */,
+			);
+			path = iosHyperskillAppTests;
 			sourceTree = "<group>";
 		};
 		2C9B66E727ECAC5D00569645 /* App */ = {
@@ -111,11 +200,54 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		2CF2DA3B27EC5B980055426D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2CF2DA3C27EC5BA00055426D /* Constants */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2CF2DA3C27EC5BA00055426D /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				2C005DCB27EF5B0300DC6503 /* GoogleServiceInfo.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		2CF2DA3F27EC61620055426D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2C005DC927EF5AE500DC6503 /* UsersListRowView.swift */,
+				2CF2DA3D27EC5C180055426D /* UsersListView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		2CF2DA4227EC7DB50055426D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2C919DE627EEEDC40022A2F2 /* Collections */,
+				2CF2DA4327EC7DBC0055426D /* Core */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		2CF2DA4327EC7DBC0055426D /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				2CF2DA3927EC5B2D0055426D /* Assembly.swift */,
+				2CE1C4DE27EDFB3800220041 /* FeatureViewModel.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
 		69078482427C2E9AB934883B /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				2965F77237750F20A5EAAEC8 /* Pods-iosHyperskillApp.debug.xcconfig */,
-				1FE4C0749BF5643DD66DF29F /* Pods-iosHyperskillApp.release.xcconfig */,
+				2D7F5C51275BBB18DCE9ACE9 /* Pods-iosHyperskillApp.debug.xcconfig */,
+				515FEBC2A5D8EFBA7FB80795 /* Pods-iosHyperskillApp.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -124,9 +256,10 @@
 			isa = PBXGroup;
 			children = (
 				7555FF7D242A565900829871 /* iosHyperskillApp */,
+				2C919DEE27EEF5BC0022A2F2 /* iosHyperskillAppTests */,
 				7555FF7C242A565900829871 /* Products */,
-				7555FFB0242A642200829871 /* Frameworks */,
 				69078482427C2E9AB934883B /* Pods */,
+				B8010B219C413E7A3E9D6D35 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -134,6 +267,7 @@
 			isa = PBXGroup;
 			children = (
 				7555FF7B242A565900829871 /* iosHyperskillApp.app */,
+				2C919DED27EEF5BC0022A2F2 /* iosHyperskillAppTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -141,23 +275,18 @@
 		7555FF7D242A565900829871 /* iosHyperskillApp */ = {
 			isa = PBXGroup;
 			children = (
-				E951757827E61ACD00995008 /* AuthView.swift */,
-				7555FF82242A565900829871 /* ContentView.swift */,
-				2CE2817A27E8EF9900641E22 /* GoogleServiceInfo.swift */,
-				2C9277FD27888886005BF2C4 /* UserRow.swift */,
-				2C9B66E727ECAC5D00569645 /* App */,
-				2C9B66E827ECAF0200569645 /* Extensions */,
 				058557D7273AAEEB004C7B11 /* Preview Content */,
 				2CE2817727E8EEDC00641E22 /* Resources */,
+				2C1DEE2C27EC3FE00001A567 /* Sources */,
 				E96E80F527EF57BA00AA6683 /* AuthViewModel.swift */,
 			);
 			path = iosHyperskillApp;
 			sourceTree = "<group>";
 		};
-		7555FFB0242A642200829871 /* Frameworks */ = {
+		B8010B219C413E7A3E9D6D35 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				03BFA8AC75385179E8F1394B /* Pods_iosHyperskillApp.framework */,
+				9C0F8A86D62CB915A1E49CAA /* Pods_iosHyperskillApp.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -165,17 +294,34 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		2C919DEC27EEF5BC0022A2F2 /* iosHyperskillAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C919DF327EEF5BC0022A2F2 /* Build configuration list for PBXNativeTarget "iosHyperskillAppTests" */;
+			buildPhases = (
+				2C919DE927EEF5BC0022A2F2 /* Sources */,
+				2C919DEA27EEF5BC0022A2F2 /* Frameworks */,
+				2C919DEB27EEF5BC0022A2F2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2C919DF227EEF5BC0022A2F2 /* PBXTargetDependency */,
+			);
+			name = iosHyperskillAppTests;
+			productName = iosHyperskillAppTests;
+			productReference = 2C919DED27EEF5BC0022A2F2 /* iosHyperskillAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		7555FF7A242A565900829871 /* iosHyperskillApp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7555FFA5242A565B00829871 /* Build configuration list for PBXNativeTarget "iosHyperskillApp" */;
 			buildPhases = (
-				28AD9AA6515D59E8CFF713AE /* [CP] Check Pods Manifest.lock */,
+				0F8041F01E8F6E1DA50394B8 /* [CP] Check Pods Manifest.lock */,
 				7555FFB5242A651A00829871 /* ShellScript */,
 				7555FF77242A565900829871 /* Sources */,
 				7555FF78242A565900829871 /* Frameworks */,
 				7555FF79242A565900829871 /* Resources */,
-				7555FFB4242A642300829871 /* Embed Frameworks */,
-				9C502017B8E5FBD777538779 /* [CP] Embed Pods Frameworks */,
+				0D4BC362535EFE1EB9C06A42 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -192,10 +338,14 @@
 		7555FF73242A565900829871 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1130;
+				LastSwiftUpdateCheck = 1330;
 				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = orgName;
 				TargetAttributes = {
+					2C919DEC27EEF5BC0022A2F2 = {
+						CreatedOnToolsVersion = 13.3;
+						TestTargetID = 7555FF7A242A565900829871;
+					};
 					7555FF7A242A565900829871 = {
 						CreatedOnToolsVersion = 11.3.1;
 					};
@@ -215,11 +365,19 @@
 			projectRoot = "";
 			targets = (
 				7555FF7A242A565900829871 /* iosHyperskillApp */,
+				2C919DEC27EEF5BC0022A2F2 /* iosHyperskillAppTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		2C919DEB27EEF5BC0022A2F2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7555FF79242A565900829871 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -233,7 +391,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		28AD9AA6515D59E8CFF713AE /* [CP] Check Pods Manifest.lock */ = {
+		0D4BC362535EFE1EB9C06A42 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-iosHyperskillApp/Pods-iosHyperskillApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-iosHyperskillApp/Pods-iosHyperskillApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-iosHyperskillApp/Pods-iosHyperskillApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		0F8041F01E8F6E1DA50394B8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -272,26 +447,18 @@
 			shellPath = /bin/sh;
 			shellScript = "cd \"$SRCROOT/..\"\n./gradlew :shared:embedAndSignPodAppleFrameworkForXcode\n";
 		};
-		9C502017B8E5FBD777538779 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-iosHyperskillApp/Pods-iosHyperskillApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-iosHyperskillApp/Pods-iosHyperskillApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-iosHyperskillApp/Pods-iosHyperskillApp-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		2C919DE927EEF5BC0022A2F2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C919E3327EEF92F0022A2F2 /* LinkedListTests.swift in Sources */,
+				2C919E3727EF00950022A2F2 /* QueueTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7555FF77242A565900829871 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -299,18 +466,73 @@
 				2C9B66C427ECA73700569645 /* AppDelegate.swift in Sources */,
 				2C9B66E627ECA86B00569645 /* SceneDelegate.swift in Sources */,
 				2C9B66EB27ECAF5000569645 /* UIApplicationExtensions.swift in Sources */,
-				2CE2817B27E8EF9900641E22 /* GoogleServiceInfo.swift in Sources */,
-				2C9277FE27888886005BF2C4 /* UserRow.swift in Sources */,
+				2C1DEE3027EC408D0001A567 /* UsersListAssembly.swift in Sources */,
+				2C005DCC27EF5B0300DC6503 /* GoogleServiceInfo.swift in Sources */,
+				2CF2DA3A27EC5B2D0055426D /* Assembly.swift in Sources */,
+				2C919DE827EEEDD60022A2F2 /* LinkedList.swift in Sources */,
+				2C919E3527EEFF110022A2F2 /* Queue.swift in Sources */,
+				2C005DCA27EF5AE500DC6503 /* UsersListRowView.swift in Sources */,
 				2152FB042600AC8F00CF470E /* HyperskillApp.swift in Sources */,
 				E951757927E61ACD00995008 /* AuthView.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				E96E80F627EF57BA00AA6683 /* AuthViewModel.swift in Sources */,
+				2C005DCE27EF5B4400DC6503 /* ContentView.swift in Sources */,
+				2CF2DA4127EC75000055426D /* UsersListViewModel.swift in Sources */,
+				2CF2DA3E27EC5C180055426D /* UsersListView.swift in Sources */,
+				2CE1C4DF27EDFB3800220041 /* FeatureViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		2C919DF227EEF5BC0022A2F2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7555FF7A242A565900829871 /* iosHyperskillApp */;
+			targetProxy = 2C919DF127EEF5BC0022A2F2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		2C919DF427EEF5BC0022A2F2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = orgIdentifier.iosHyperskillAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iosHyperskillApp.app/iosHyperskillApp";
+			};
+			name = Debug;
+		};
+		2C919DF527EEF5BC0022A2F2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = orgIdentifier.iosHyperskillAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iosHyperskillApp.app/iosHyperskillApp";
+			};
+			name = Release;
+		};
 		7555FFA3242A565B00829871 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -429,12 +651,12 @@
 		};
 		7555FFA6242A565B00829871 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2965F77237750F20A5EAAEC8 /* Pods-iosHyperskillApp.debug.xcconfig */;
+			baseConfigurationReference = 2D7F5C51275BBB18DCE9ACE9 /* Pods-iosHyperskillApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"iosHyperskillApp/Preview Content\"";
-				DEVELOPMENT_TEAM = 677J5A86PF;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)",
@@ -467,12 +689,12 @@
 		};
 		7555FFA7242A565B00829871 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1FE4C0749BF5643DD66DF29F /* Pods-iosHyperskillApp.release.xcconfig */;
+			baseConfigurationReference = 515FEBC2A5D8EFBA7FB80795 /* Pods-iosHyperskillApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"iosHyperskillApp/Preview Content\"";
-				DEVELOPMENT_TEAM = 677J5A86PF;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)",
@@ -505,6 +727,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		2C919DF327EEF5BC0022A2F2 /* Build configuration list for PBXNativeTarget "iosHyperskillAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C919DF427EEF5BC0022A2F2 /* Debug */,
+				2C919DF527EEF5BC0022A2F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		7555FF76242A565900829871 /* Build configuration list for PBXProject "iosHyperskillApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
