@@ -82,6 +82,7 @@ android {
 
     buildTypes {
         fun applyFlavorConfigsFromFile(applicationBuildType: ApplicationBuildType) {
+            if (SystemProperties.isCI()) return
             val properties = loadProperties("${project.rootDir}/androidHyperskillApp/keys/${applicationBuildType.name}.properties")
             properties.keys.forEach { name ->
                 name as String
