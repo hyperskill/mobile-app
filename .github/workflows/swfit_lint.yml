@@ -1,0 +1,20 @@
+name: SwiftLint
+
+on:
+    push:
+        branches:
+            - 'feature/*'
+        paths:
+            - 'iosHyperskillApp/.swiftlint.yml'
+            - 'iosHyperskillApp/iosHyperskillApp/Sources/**/*.swift'
+
+
+jobs:
+    SwiftLint:
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Clone Repo
+                uses: actions/checkout@v2
+
+            -   name: GitHub Action for SwiftLint
+                uses: norio-nomura/action-swiftlint@3.2.1
