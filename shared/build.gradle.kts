@@ -15,13 +15,16 @@ version = "1.0"
 
 kotlin {
     android()
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
 
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
+    cocoapods {
+        summary = "Some description for the Shared Module"
+        homepage = "https://github.com/hyperskill/mobile-app"
+        ios.deploymentTarget = "14.1"
+        podfile = project.file("../iosHyperskillApp/Podfile")
+        framework {
             baseName = "shared"
         }
     }
