@@ -2,9 +2,6 @@ import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import org.jetbrains.kotlin.konan.properties.loadProperties
 import org.jetbrains.kotlin.konan.properties.propertyString
 
-apply(from = "../code_quality_tools/checkstyle.gradle")
-apply(from = "../code_quality_tools/pmd.gradle")
-
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
