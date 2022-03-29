@@ -9,6 +9,9 @@ jobs:
     ci:
         name: Run ktlint
         runs-on: ubuntu-latest
+        env:
+          IS_CI: ${{ secrets.IS_CI }}
+          GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.KIT_PACKAGES_TOKEN }}
 
         steps:
             - name: Clone Repo
@@ -21,6 +24,3 @@ jobs:
 
             - name: Run ktlint
               run: bash ./gradlew ktlintCheck --stacktrace
-              env:
-                  IS_CI: ${{ secrets.IS_CI }}
-                  GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.KIT_PACKAGES_TOKEN }}
