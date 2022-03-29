@@ -20,7 +20,7 @@ kotlin {
     iosSimulatorArm64()
 
     cocoapods {
-        summary = "Some description for the Shared Module"
+        summary = "Shared code between iOS and Android"
         homepage = "https://github.com/hyperskill/mobile-app"
         ios.deploymentTarget = "14.1"
         podfile = project.file("../iosHyperskillApp/Podfile")
