@@ -1,8 +1,8 @@
-package org.hyperskill.app.app.presentation
+package org.hyperskill.app.main.presentation
 
-import org.hyperskill.app.app.presentation.AppFeature.Action
-import org.hyperskill.app.app.presentation.AppFeature.Message
-import org.hyperskill.app.app.presentation.AppFeature.State
+import org.hyperskill.app.main.presentation.AppFeature.Action
+import org.hyperskill.app.main.presentation.AppFeature.Message
+import org.hyperskill.app.main.presentation.AppFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 class AppReducer : StateReducer<State, Message, Action> {

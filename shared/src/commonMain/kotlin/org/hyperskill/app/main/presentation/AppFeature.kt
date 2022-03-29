@@ -1,4 +1,4 @@
-package org.hyperskill.app.app.presentation
+package org.hyperskill.app.main.presentation
 
 interface AppFeature {
     sealed interface State {
