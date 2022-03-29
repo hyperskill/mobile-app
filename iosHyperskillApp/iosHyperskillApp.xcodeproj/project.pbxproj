@@ -60,7 +60,6 @@
 		2C1DEE2F27EC408D0001A567 /* UsersListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersListAssembly.swift; sourceTree = "<group>"; };
 		2C42EFA427F2BB5E00B4648B /* MokoResourcesSampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MokoResourcesSampleView.swift; sourceTree = "<group>"; };
 		2C42EFA927F2C03D00B4648B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		2C42EFAB27F2C04100B4648B /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2C42EFAC27F2C29500B4648B /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		2C42EFB227F2EA7B00B4648B /* ResourcesStringResource+Localized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResourcesStringResource+Localized.swift"; sourceTree = "<group>"; };
 		2C42EFB427F2EAB300B4648B /* GraphicsColor+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GraphicsColor+UIColor.swift"; sourceTree = "<group>"; };
@@ -410,7 +409,6 @@
 			knownRegions = (
 				en,
 				Base,
-				ru,
 			);
 			mainGroup = 7555FF72242A565900829871;
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
@@ -560,7 +558,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				2C42EFA927F2C03D00B4648B /* en */,
-				2C42EFAB27F2C04100B4648B /* ru */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
