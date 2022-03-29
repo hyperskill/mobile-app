@@ -1,5 +1,5 @@
-import UIKit
 import shared
+import UIKit
 
 extension ResourcesColorResource.Themed {
     var dynamicUIColor: UIColor {

@@ -1,5 +1,5 @@
-import UIKit
 import shared
+import UIKit
 
 extension GraphicsColor {
     var uiColor: UIColor {

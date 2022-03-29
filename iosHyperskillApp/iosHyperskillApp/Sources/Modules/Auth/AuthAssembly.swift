@@ -1,5 +1,5 @@
-import SwiftUI
 import shared
+import SwiftUI
 
 final class AuthAssembly: Assembly {
     func makeModule() -> AuthView {

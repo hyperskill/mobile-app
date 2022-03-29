@@ -10,14 +10,12 @@ class FeatureViewModel<State, Message, ViewAction>: ObservableObject {
     private var isListeningForChanges = false
 
     var state: State {
-        get {
-            if let state = self.feature.state as? State {
-                return state
-            }
-            fatalError("FeatureViewModel :: unexpected state type = \(String(describing: self.feature.state))")
+        if let state = self.feature.state as? State {
+            return state
         }
+        fatalError("FeatureViewModel :: unexpected state type = \(String(describing: self.feature.state))")
     }
-    
+
     var onViewAction: ((ViewAction) -> Void)?
 
     init(feature: Presentation_reduxFeature) {

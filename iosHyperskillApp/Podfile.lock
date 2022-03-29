@@ -14,17 +14,20 @@ PODS:
     - GTMSessionFetcher/Core (~> 1.5)
   - GTMSessionFetcher/Core (1.7.1)
   - shared (1.0)
+  - SwiftLint (0.47.0)
 
 DEPENDENCIES:
   - GoogleSignIn (= 6.1.0)
   - shared (from `../shared`)
+  - SwiftLint (= 0.47.0)
 
 SPEC REPOS:
-  trunk:
+  https://github.com/CocoaPods/Specs.git:
     - AppAuth
     - GoogleSignIn
     - GTMAppAuth
     - GTMSessionFetcher
+    - SwiftLint
 
 EXTERNAL SOURCES:
   shared:
@@ -35,8 +38,9 @@ SPEC CHECKSUMS:
   GoogleSignIn: c90b5bec45e780f54c6a8e1e3c182a86e3dda69d
   GTMAppAuth: 987526d41b07efb1bedda5e936fe0cb718a03113
   GTMSessionFetcher: 4577a4cc914a5a07c40a8a0ad0acc22080418c2d
-  shared: c853eec72401bca29da6f02899c8de76f065e309
+  shared: 57c23201ce62604481c21dfbabc812accac99edd
+  SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
 
-PODFILE CHECKSUM: 602404c5b3a862218e79f61eb269a09dfe12e665
+PODFILE CHECKSUM: 181416c17194b1fe9e84b962b5ce707d105df247
 
 COCOAPODS: 1.11.3

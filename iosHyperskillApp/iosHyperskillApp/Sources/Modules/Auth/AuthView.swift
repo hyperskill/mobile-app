@@ -1,5 +1,5 @@
-import SwiftUI
 import shared
+import SwiftUI
 
 extension AuthView {
     struct Appearance {
@@ -25,7 +25,7 @@ struct AuthView: View {
         self.appearance = appearance
         self.viewModel.onViewAction = self.handleViewAction(_:)
     }
-    
+
     var body: some View {
         VStack {
             Image("logo")

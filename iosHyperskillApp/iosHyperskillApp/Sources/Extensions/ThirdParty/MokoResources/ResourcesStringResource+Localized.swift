@@ -3,6 +3,7 @@ import shared
 
 extension ResourcesStringResource {
     func localized() -> String {
-        return NSLocalizedString(self.resourceId, bundle: self.bundle, comment: "")
+        // // swiftlint:disable:next nslocalizedstring_key
+        NSLocalizedString(self.resourceId, bundle: self.bundle, comment: "")
     }
 }

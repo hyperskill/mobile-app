@@ -2,10 +2,12 @@ import Foundation
 
 enum GoogleServiceInfo {
     static var clientID: String {
+        // swiftlint:disable:next force_cast
         self.readAndDeserializePlistIntoDictionary()?[Key.clientID.rawValue] as! String
     }
 
     static var reversedClientID: String {
+        // swiftlint:disable:next force_cast
         self.readAndDeserializePlistIntoDictionary()?[Key.reversedClientID.rawValue] as! String
     }
 
@@ -13,7 +15,7 @@ enum GoogleServiceInfo {
         guard let plistPath = Bundle.main.url(forResource: "GoogleService-Info", withExtension: "plist") else {
             return nil
         }
-        
+
         do {
             let plistData = try Data(contentsOf: plistPath)
 

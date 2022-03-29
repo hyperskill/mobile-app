@@ -1,5 +1,5 @@
-import SwiftUI
 import shared
+import SwiftUI
 
 struct AppView: View {
     @ObservedObject private var viewModel: AppViewModel
