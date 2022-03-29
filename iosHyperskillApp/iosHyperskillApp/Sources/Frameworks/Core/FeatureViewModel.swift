@@ -4,8 +4,11 @@ import shared
 
 class FeatureViewModel<State, Message, ViewAction>: ObservableObject {
     private let feature: Presentation_reduxFeature
+
     private var viewActionQueue = Queue<ViewAction>()
+
     private var isListeningForChanges = false
+
     var state: State {
         if let state = self.feature.state as? State {
             return state
