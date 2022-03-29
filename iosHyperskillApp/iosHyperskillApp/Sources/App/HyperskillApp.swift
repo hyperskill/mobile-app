@@ -7,6 +7,6 @@ struct HyperskillApp: App {
 	var body: some Scene {
         WindowGroup<AppView> {
             AppAssembly().makeModule()
-		}
+        }
 	}
 }

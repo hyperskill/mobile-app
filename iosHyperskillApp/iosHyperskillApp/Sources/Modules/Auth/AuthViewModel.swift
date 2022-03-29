@@ -1,6 +1,6 @@
 import GoogleSignIn
-import SwiftUI
 import shared
+import SwiftUI
 
 final class AuthViewModel: FeatureViewModel<AuthFeatureState, AuthFeatureMessage, AuthFeatureActionViewAction> {
     func signInWithGoogle() {
