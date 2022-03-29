@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<resources>
-    <string name="shared_text_example">Этот текст общий!</string>
-    <string name="shared_formatted_text_example">Форматированный текст - %s!</string>
-</resources>
