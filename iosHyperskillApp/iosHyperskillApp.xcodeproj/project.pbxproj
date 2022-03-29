@@ -14,8 +14,12 @@
 		2C005DCC27EF5B0300DC6503 /* GoogleServiceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C005DCB27EF5B0300DC6503 /* GoogleServiceInfo.swift */; };
 		2C005DCE27EF5B4400DC6503 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C005DCD27EF5B4400DC6503 /* ContentView.swift */; };
 		2C1DEE3027EC408D0001A567 /* UsersListAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1DEE2F27EC408D0001A567 /* UsersListAssembly.swift */; };
+		2C42EFA527F2BB5E00B4648B /* MokoResourcesSampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C42EFA427F2BB5E00B4648B /* MokoResourcesSampleView.swift */; };
 		2C42EFA827F2C03D00B4648B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2C42EFAA27F2C03D00B4648B /* Localizable.strings */; };
 		2C42EFAD27F2C29500B4648B /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C42EFAC27F2C29500B4648B /* Strings.swift */; };
+		2C42EFB327F2EA7B00B4648B /* ResourcesStringResource+Localized.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C42EFB227F2EA7B00B4648B /* ResourcesStringResource+Localized.swift */; };
+		2C42EFB527F2EAB300B4648B /* GraphicsColor+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C42EFB427F2EAB300B4648B /* GraphicsColor+UIColor.swift */; };
+		2C42EFB727F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C42EFB627F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift */; };
 		2C919DE827EEEDD60022A2F2 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C919DE727EEEDD60022A2F2 /* LinkedList.swift */; };
 		2C919E3327EEF92F0022A2F2 /* LinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C919E3227EEF92F0022A2F2 /* LinkedListTests.swift */; };
 		2C919E3527EEFF110022A2F2 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C919E3427EEFF110022A2F2 /* Queue.swift */; };
@@ -51,9 +55,13 @@
 		2C005DCB27EF5B0300DC6503 /* GoogleServiceInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleServiceInfo.swift; sourceTree = "<group>"; };
 		2C005DCD27EF5B4400DC6503 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		2C1DEE2F27EC408D0001A567 /* UsersListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersListAssembly.swift; sourceTree = "<group>"; };
+		2C42EFA427F2BB5E00B4648B /* MokoResourcesSampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MokoResourcesSampleView.swift; sourceTree = "<group>"; };
 		2C42EFA927F2C03D00B4648B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2C42EFAB27F2C04100B4648B /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2C42EFAC27F2C29500B4648B /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		2C42EFB227F2EA7B00B4648B /* ResourcesStringResource+Localized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResourcesStringResource+Localized.swift"; sourceTree = "<group>"; };
+		2C42EFB427F2EAB300B4648B /* GraphicsColor+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GraphicsColor+UIColor.swift"; sourceTree = "<group>"; };
+		2C42EFB627F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResourcesColorResourceThemed+UIColor.swift"; sourceTree = "<group>"; };
 		2C919DE727EEEDD60022A2F2 /* LinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
 		2C919DED27EEF5BC0022A2F2 /* iosHyperskillAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iosHyperskillAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C919E3227EEF92F0022A2F2 /* LinkedListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedListTests.swift; sourceTree = "<group>"; };
@@ -107,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				2C005DCD27EF5B4400DC6503 /* ContentView.swift */,
+				2C42EFA427F2BB5E00B4648B /* MokoResourcesSampleView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -152,6 +161,24 @@
 			path = UsersList;
 			sourceTree = "<group>";
 		};
+		2C42EFB027F2EA3500B4648B /* ThirdParty */ = {
+			isa = PBXGroup;
+			children = (
+				2C42EFB127F2EA5000B4648B /* MokoResources */,
+			);
+			path = ThirdParty;
+			sourceTree = "<group>";
+		};
+		2C42EFB127F2EA5000B4648B /* MokoResources */ = {
+			isa = PBXGroup;
+			children = (
+				2C42EFB427F2EAB300B4648B /* GraphicsColor+UIColor.swift */,
+				2C42EFB627F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift */,
+				2C42EFB227F2EA7B00B4648B /* ResourcesStringResource+Localized.swift */,
+			);
+			path = MokoResources;
+			sourceTree = "<group>";
+		};
 		2C919DE627EEEDC40022A2F2 /* Collections */ = {
 			isa = PBXGroup;
 			children = (
@@ -183,6 +210,7 @@
 		2C9B66E827ECAF0200569645 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				2C42EFB027F2EA3500B4648B /* ThirdParty */,
 				2C9B66E927ECAF2400569645 /* UIKit */,
 			);
 			path = Extensions;
@@ -456,6 +484,7 @@
 			files = (
 				2C9B66C427ECA73700569645 /* AppDelegate.swift in Sources */,
 				2C9B66E627ECA86B00569645 /* SceneDelegate.swift in Sources */,
+				2C42EFB327F2EA7B00B4648B /* ResourcesStringResource+Localized.swift in Sources */,
 				2C9B66EB27ECAF5000569645 /* UIApplicationExtensions.swift in Sources */,
 				2C1DEE3027EC408D0001A567 /* UsersListAssembly.swift in Sources */,
 				2C005DCC27EF5B0300DC6503 /* GoogleServiceInfo.swift in Sources */,
@@ -463,6 +492,7 @@
 				2C919DE827EEEDD60022A2F2 /* LinkedList.swift in Sources */,
 				2C919E3527EEFF110022A2F2 /* Queue.swift in Sources */,
 				2C005DCA27EF5AE500DC6503 /* UsersListRowView.swift in Sources */,
+				2C42EFA527F2BB5E00B4648B /* MokoResourcesSampleView.swift in Sources */,
 				2C42EFAD27F2C29500B4648B /* Strings.swift in Sources */,
 				2152FB042600AC8F00CF470E /* HyperskillApp.swift in Sources */,
 				E951757927E61ACD00995008 /* AuthView.swift in Sources */,
@@ -470,7 +500,9 @@
 				2C005DCE27EF5B4400DC6503 /* ContentView.swift in Sources */,
 				2CF2DA4127EC75000055426D /* UsersListViewModel.swift in Sources */,
 				2CF2DA3E27EC5C180055426D /* UsersListView.swift in Sources */,
+				2C42EFB527F2EAB300B4648B /* GraphicsColor+UIColor.swift in Sources */,
 				2CE1C4DF27EDFB3800220041 /* FeatureViewModel.swift in Sources */,
+				2C42EFB727F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
