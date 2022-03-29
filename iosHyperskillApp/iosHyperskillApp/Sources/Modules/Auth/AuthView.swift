@@ -31,7 +31,7 @@ struct AuthView: View {
             Spacer()
 
             VStack {
-                Text("Log in to Hyperskill")
+                Text(Strings.authLogInTitle)
                     .font(.title)
                     .bold()
 
