@@ -48,7 +48,7 @@ android {
 
     signingConfigs {
         getByName("debug") {
-            println("Debug - SystemProperties.getenv(\"IS_CI\") = ${System.getenv("IS_CI")}")
+            println("Debug - System.getenv(\"CI\") = ${System.getenv("CI")}")
             println("Debug - SystemProperties.isCI() = ${SystemProperties.isCI()}")
             if (SystemProperties.isCI()) return@getByName
             val properties = loadProperties("${project.rootDir}/androidHyperskillApp/keys/debug_keystore.properties")
@@ -63,7 +63,7 @@ android {
         }
 
         create("release") {
-            println("Release - SystemProperties.getenv(\"IS_CI\") = ${System.getenv("IS_CI")}")
+            println("Release - System.getenv(\"CI\") = ${System.getenv("CI")}")
             println("Release - SystemProperties.isCI() = ${SystemProperties.isCI()}")
             if (SystemProperties.isCI()) return@create
 
