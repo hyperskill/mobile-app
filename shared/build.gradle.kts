@@ -117,6 +117,7 @@ buildkonfig {
     }
 
     fun applyFlavorConfigsFromFile(flavor: String) {
+        if (SystemProperties.isCI()) return
         defaultConfigs(flavor) {
             val properties = loadProperties("${project.rootDir}/shared/keys/$flavor.properties")
             properties.keys.forEach { name ->
