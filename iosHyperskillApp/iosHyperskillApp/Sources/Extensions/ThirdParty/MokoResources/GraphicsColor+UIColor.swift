@@ -7,7 +7,7 @@ extension GraphicsColor {
             red: CGFloat(self.red) / 255,
             green: CGFloat(self.green) / 255,
             blue: CGFloat(self.blue) / 255,
-            alpha: CGFloat(self.alpha)
+            alpha: CGFloat(self.alpha) / 255
         )
     }
 }

@@ -17,6 +17,10 @@ struct MokoResourcesSampleView: View {
             .foregroundColor(
                 Color(SharedResources.colors().color_overlay_red.dynamicUIColor)
             )
+
+            Circle()
+                .fill(Color(SharedResources.colors().colorAccentSharedAlpha50.color.uiColor))
+                .frame(width: 100, height: 100)
         }
     }
 }

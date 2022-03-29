@@ -4,6 +4,7 @@
     <color name="colorPrimaryShared">#6200EE</color>
     <color name="colorPrimaryDarkShared">#3700B3</color>
     <color name="colorAccentShared">#03DAC5</color>
+    <color name="colorAccentSharedAlpha50">#03DAC57F</color>
 
     <!-- Light/Dark theme support example -->
     <color name="color_red_500">#FF3329</color>
