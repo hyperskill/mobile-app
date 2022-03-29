@@ -1,7 +1,8 @@
-import Foundation
 import GoogleSignIn
+import SwiftUI
+import shared
 
-final class AuthViewModel {
+final class AuthViewModel: FeatureViewModel<AuthFeatureState, AuthFeatureMessage, AuthFeatureActionViewAction> {
     func signInWithGoogle() {
         guard let currentRootViewController = UIApplication.shared.currentRootViewController else {
             return

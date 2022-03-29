@@ -1,5 +1,5 @@
-import GoogleSignIn
 import SwiftUI
+import shared
 
 extension AuthView {
     struct Appearance {
@@ -16,10 +16,16 @@ extension AuthView {
 }
 
 struct AuthView: View {
-    let appearance = Appearance()
+    @ObservedObject private var viewModel: AuthViewModel
 
-    let viewModel = AuthViewModel()
+    let appearance: Appearance
 
+    init(viewModel: AuthViewModel, appearance: Appearance = Appearance()) {
+        self.viewModel = viewModel
+        self.appearance = appearance
+        self.viewModel.onViewAction = self.handleViewAction(_:)
+    }
+    
     var body: some View {
         VStack {
             Image("logo")
@@ -31,7 +37,7 @@ struct AuthView: View {
             Spacer()
 
             VStack {
-                Text("Log in to Hyperskill")
+                Text(Strings.authLogInTitle)
                     .font(.title)
                     .bold()
 
@@ -61,10 +67,16 @@ struct AuthView: View {
             Spacer()
         }
     }
+
+    // MARK: Private API
+
+    private func handleViewAction(_ viewAction: AuthFeatureActionViewAction) {
+        print("AuthView :: \(#function) viewAction = \(viewAction)")
+    }
 }
 
 struct AuthView_Previews: PreviewProvider {
     static var previews: some View {
-        AuthView()
+        AuthAssembly().makeModule()
     }
 }

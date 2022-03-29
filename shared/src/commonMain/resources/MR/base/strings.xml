@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <!-- Users list -->
+    <string name="user_list_search_button_title">Search</string>
+    <string name="user_list_home_user_name_hint">User name</string>
+
+    <!-- Auth -->
+    <string name="auth_log_in_title">Log in to Hyperskill</string>
+</resources>

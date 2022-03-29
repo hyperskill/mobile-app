@@ -8,19 +8,23 @@ plugins {
     kotlin("plugin.serialization")
     id("com.android.library")
     id("com.codingfeline.buildkonfig")
+    id("dev.icerock.mobile.multiplatform-resources")
 }
 
 version = "1.0"
 
 kotlin {
     android()
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
 
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
+    cocoapods {
+        summary = "Shared code between iOS and Android"
+        homepage = "https://github.com/hyperskill/mobile-app"
+        ios.deploymentTarget = "14.1"
+        podfile = project.file("../iosHyperskillApp/Podfile")
+        framework {
             baseName = "shared"
         }
     }
@@ -36,6 +40,7 @@ kotlin {
                 implementation(libs.kotlin.datetime)
 
                 api(libs.kit.presentation.redux)
+                api(libs.mokoResources.main)
                 implementation(libs.kit.presentation.reduxCoroutines)
             }
         }
@@ -45,6 +50,7 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
                 implementation(libs.kotlin.coroutines.core)
                 implementation(libs.kotlin.coroutines.test)
+                implementation(libs.mokoResources.test)
             }
         }
         val androidMain by getting {
@@ -128,4 +134,10 @@ buildkonfig {
 
     applyFlavorConfigsFromFile("production")
     // add flavors for release.hyperskill.org / dev.hyperskill.org on demand
+}
+
+// Resources directory - src/commonMain/resources/MR
+multiplatformResources {
+    multiplatformResourcesPackage = "org.hyperskill.app"
+    multiplatformResourcesClassName = "SharedResources"
 }
