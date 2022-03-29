@@ -22,4 +22,4 @@ jobs:
             - name: Run ktlint
               run: bash ./gradlew ktlintCheck --stacktrace
               env:
-                GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.KIT_PACKAGES_TOKEN }}
+                GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
