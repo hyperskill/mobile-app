@@ -1,18 +1,16 @@
-name: SwiftLint
+name: Feature Branch SwiftLint
 
 on:
   push:
     branches:
       - 'feature/*'
-    paths:
-      - '.github/workflows/swiftlint.yml'
-      - 'iosHyperskillApp/.swiftlint.yml'
-      - 'iosHyperskillApp/iosHyperskillApp/Sources/**/*.swift'
 
 jobs:
   SwiftLint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: GitHub Action for SwiftLint
+      - name: Run SwiftLint
         uses: norio-nomura/action-swiftlint@3.2.1
+        env:
+          WORKING_DIRECTORY: iosHyperskillApp/iosHyperskillApp/Sources
