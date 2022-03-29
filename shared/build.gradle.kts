@@ -11,6 +11,10 @@ plugins {
     id("dev.icerock.mobile.multiplatform-resources")
 }
 
+dependencies {
+    ktlintRuleset(libs.ktlintRules)
+}
+
 version = "1.0"
 
 kotlin {
@@ -34,7 +38,7 @@ kotlin {
             dependencies {
                 implementation(libs.kotlin.coroutines.core)
 
-                //network
+                // network
                 implementation(libs.bundles.ktor.common)
                 implementation(libs.kit.model)
                 implementation(libs.kotlin.datetime)
@@ -119,6 +123,7 @@ buildkonfig {
     }
 
     fun applyFlavorConfigsFromFile(flavor: String) {
+        if (SystemProperties.isCI()) return
         defaultConfigs(flavor) {
             val properties = loadProperties("${project.rootDir}/shared/keys/$flavor.properties")
             properties.keys.forEach { name ->
@@ -140,4 +145,10 @@ buildkonfig {
 multiplatformResources {
     multiplatformResourcesPackage = "org.hyperskill.app"
     multiplatformResourcesClassName = "SharedResources"
+}
+
+ktlint {
+    filter {
+        exclude { element -> element.file.path.contains("build/") }
+    }
 }

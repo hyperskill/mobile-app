@@ -3,7 +3,6 @@ enableFeaturePreview("VERSION_CATALOGS")
 pluginManagement {
     repositories {
         google()
-        jcenter()
         gradlePluginPortal()
         mavenCentral()
     }

@@ -9,6 +9,4 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 class UserLoginDispatcher(
     config: ActionDispatcherOptions,
     private val userListInteractor: UserLoginInteractor
-) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
-
-}
+) : CoroutineActionDispatcher<Action, Message>(config.createConfig())

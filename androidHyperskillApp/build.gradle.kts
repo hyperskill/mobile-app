@@ -24,7 +24,6 @@ dependencies {
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
 
-
     implementation(libs.bundles.ktor.common)
 
     implementation(libs.gms.services)
@@ -32,6 +31,8 @@ dependencies {
     implementation(libs.viewbinding)
 
     testImplementation(libs.bundles.android.test)
+
+    ktlintRuleset(libs.ktlintRules)
 }
 
 android {
@@ -47,6 +48,7 @@ android {
 
     signingConfigs {
         getByName("debug") {
+            if (SystemProperties.isCI()) return@getByName
             val properties = loadProperties("${project.rootDir}/androidHyperskillApp/keys/debug_keystore.properties")
 
             storeFile = file("../buildsystem/certs/debug.keystore")
@@ -59,6 +61,8 @@ android {
         }
 
         create("release") {
+            if (SystemProperties.isCI()) return@create
+
             val keystorePath = SystemProperties.get(project, "HYPERSKILL_KEYSTORE_PATH")
             if (keystorePath.isNullOrBlank()) return@create
 
@@ -74,6 +78,7 @@ android {
 
     buildTypes {
         fun applyFlavorConfigsFromFile(applicationBuildType: ApplicationBuildType) {
+            if (SystemProperties.isCI()) return
             val properties = loadProperties("${project.rootDir}/androidHyperskillApp/keys/${applicationBuildType.name}.properties")
             properties.keys.forEach { name ->
                 name as String
@@ -97,5 +102,11 @@ android {
 
     buildFeatures {
         viewBinding = true
+    }
+}
+
+ktlint {
+    filter {
+        exclude { element -> element.file.path.contains("build/") }
     }
 }

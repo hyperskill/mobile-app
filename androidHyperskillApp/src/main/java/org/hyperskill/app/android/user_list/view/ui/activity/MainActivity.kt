@@ -5,11 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.databinding.ActivityMainBinding
-import org.hyperskill.app.android.user_list.view.ui.adapter.UsersAdapter
 import org.hyperskill.app.auth.presentation.AuthFeature
 import ru.nobird.app.presentation.redux.container.ReduxView
 import javax.inject.Inject
-
 
 class MainActivity : AppCompatActivity(), ReduxView<AuthFeature.State, AuthFeature.Action.ViewAction> {
     private lateinit var viewBinding: ActivityMainBinding

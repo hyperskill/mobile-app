@@ -1,7 +1,6 @@
 package org.hyperskill.app.step.domain.model
 
 import kotlinx.datetime.Instant
-import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

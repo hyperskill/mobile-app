@@ -17,10 +17,9 @@ import org.hyperskill.app.auth.presentation.AuthFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.app.presentation.redux.container.ReduxView
 
-class AuthSocialFragment
-    : Fragment(R.layout.fragment_auth_social),
-    ReduxView<AuthFeature.State, AuthFeature.Action.ViewAction>
-{
+class AuthSocialFragment :
+    Fragment(R.layout.fragment_auth_social),
+    ReduxView<AuthFeature.State, AuthFeature.Action.ViewAction> {
 
     private val viewBinding by viewBinding(FragmentAuthSocialBinding::bind)
     private lateinit var viewStateDelegate: ViewStateDelegate<AuthFeature.State>

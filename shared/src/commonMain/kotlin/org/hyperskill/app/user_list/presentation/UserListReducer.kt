@@ -50,6 +50,5 @@ class UserListReducer : StateReducer<State, Message, Action> {
                     is State.Data -> state.copy(isLoading = false) to setOf(Action.ViewAction.ShowNetworkError)
                     else -> null
                 }
-
         } ?: state to emptySet()
 }
