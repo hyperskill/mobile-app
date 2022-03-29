@@ -51,6 +51,7 @@ android {
 
     signingConfigs {
         getByName("debug") {
+            if (SystemProperties.isCI()) return@getByName
             val properties = loadProperties("${project.rootDir}/androidHyperskillApp/keys/debug_keystore.properties")
 
             storeFile = file("../buildsystem/certs/debug.keystore")
@@ -63,6 +64,8 @@ android {
         }
 
         create("release") {
+            if (SystemProperties.isCI()) return@create
+
             val keystorePath = SystemProperties.get(project, "HYPERSKILL_KEYSTORE_PATH")
             if (keystorePath.isNullOrBlank()) return@create
 
