@@ -104,3 +104,9 @@ android {
         viewBinding = true
     }
 }
+
+ktlint {
+    filter {
+        exclude { element -> element.file.path.contains("build/") }
+    }
+}

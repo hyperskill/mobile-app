@@ -146,3 +146,9 @@ multiplatformResources {
     multiplatformResourcesPackage = "org.hyperskill.app"
     multiplatformResourcesClassName = "SharedResources"
 }
+
+ktlint {
+    filter {
+        exclude { element -> element.file.path.contains("build/") }
+    }
+}
