@@ -14,6 +14,7 @@ buildscript {
         classpath(libs.plugin.ktlint)
         classpath(libs.plugin.gradleVersionUpdates)
         classpath(libs.plugin.buildKonfig)
+        classpath(libs.plugin.mokoResources)
     }
 }
 

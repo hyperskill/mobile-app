@@ -1,3 +1,4 @@
+import GoogleSignIn
 import UIKit
 
 class AppDelegate: NSObject, UIApplicationDelegate {
@@ -5,7 +6,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
     func application(
         _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
         true
     }
@@ -20,5 +21,17 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         let sceneConfiguration = UISceneConfiguration(name: nil, sessionRole: connectingSceneSession.role)
         sceneConfiguration.delegateClass = SceneDelegate.self
         return sceneConfiguration
+    }
+
+    func application(
+        _ app: UIApplication,
+        open url: URL,
+        options: [UIApplication.OpenURLOptionsKey: Any] = [:]
+    ) -> Bool {
+        if GIDSignIn.sharedInstance.handle(url) {
+            return true
+        }
+
+        return false
     }
 }

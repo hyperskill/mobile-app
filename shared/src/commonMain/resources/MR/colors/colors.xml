@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <!-- format: #RRGGBB[AA] or 0xRRGGBB[AA] or RRGGBB[AA] where [AA] - optional -->
+    <color name="colorPrimaryShared">#6200EE</color>
+    <color name="colorPrimaryDarkShared">#3700B3</color>
+    <color name="colorAccentShared">#03DAC5</color>
+    <color name="colorAccentSharedAlpha50">#03DAC57F</color>
+
+    <!-- Light/Dark theme support example -->
+    <color name="color_red_500">#FF3329</color>
+    <color name="color_red_300">#FF7965</color>
+
+    <color name="color_overlay_red">
+        <light>@color/color_red_500</light> <!-- OR <light>FF3329</light> -->
+        <dark>@color/color_red_300</dark>
+    </color>
+</resources>
