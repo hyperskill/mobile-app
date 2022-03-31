@@ -138,6 +138,8 @@ buildkonfig {
     }
 
     applyFlavorConfigsFromFile("production")
+    applyFlavorConfigsFromFile("dev")
+    applyFlavorConfigsFromFile("release")
     // add flavors for release.hyperskill.org / dev.hyperskill.org on demand
 }
 
