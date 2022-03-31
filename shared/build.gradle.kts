@@ -30,6 +30,7 @@ kotlin {
         podfile = project.file("../iosHyperskillApp/Podfile")
         framework {
             baseName = "shared"
+            isStatic = false
         }
     }
 
