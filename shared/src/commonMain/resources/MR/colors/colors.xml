@@ -6,12 +6,275 @@
     <color name="colorAccentShared">#03DAC5</color>
     <color name="colorAccentSharedAlpha50">#03DAC57F</color>
 
-    <!-- Light/Dark theme support example -->
-    <color name="color_red_500">#FF3329</color>
-    <color name="color_red_300">#FF7965</color>
+    <!-- Color palette -->
 
-    <color name="color_overlay_red">
-        <light>@color/color_red_500</light> <!-- OR <light>FF3329</light> -->
+    <color name="color_blue_400">#5D72E9</color>
+    <color name="color_blue_200">#A4AEF2</color>
+    <color name="color_blue_400_alpha_50">#5D72E980</color>
+    <color name="color_blue_400_alpha_12">#5D72E91F</color>
+    <color name="color_blue_400_alpha_7">#5D72E912</color>
+    <color name="color_blue_400_alpha_25">#5D72E940</color>
+    <color name="color_blue_200_alpha_25">#A4AEF240</color>
+    <color name="color_blue_200_alpha_50">#A4AEF280</color>
+    <color name="color_blue_200_alpha_12">#A4AEF21F</color>
+    <color name="color_blue_200_alpha_7">#A4AEF212</color>
+
+    <color name="color_white_50">#FFFFFF</color>
+    <color name="color_white_300">#F0F0F0</color>
+
+    <color name="color_gray_50">#F7F9FA</color>
+    <color name="color_gray_300">D7D9DA</color>
+
+    <color name="color_red_500">#EF341E</color>
+    <color name="color_red_300">#E46A65</color>
+
+    <color name="color_orange_900">#F97A12</color>
+    <color name="color_orange_900_alpha_50">#F97A1280</color>
+    <color name="color_orange_900_alpha_25">#F97A1240</color>
+    <color name="color_orange_900_alpha_12">#F97A121F</color>
+    <color name="color_orange_900_alpha_7">#F97A1212</color>
+    <color name="color_orange_300">#FFEE70</color>
+    <color name="color_orange_300_alpha_50">#FFEE7080</color>
+    <color name="color_orange_300_alpha_25">#FFEE7040</color>
+    <color name="color_orange_300_alpha_12">#FFEE701F</color>
+    <color name="color_orange_300_alpha_7">#FFEE7012</color>
+
+    <color name="color_yellow_300">#FCBA43</color>
+    <color name="color_yellow_300_alpha_50">#FCBA4380</color>
+    <color name="color_yellow_300_alpha_25">#FCBA4340</color>
+    <color name="color_yellow_300_alpha_12">#FCBA431F</color>
+    <color name="color_yellow_300_alpha_7">#FCBA4312</color>
+    <color name="color_yellow_200">#FDCF7A</color>
+    <color name="color_yellow_200_alpha_50">#FDCF7A80</color>
+    <color name="color_yellow_200_alpha_25">#FDCF7A40</color>
+    <color name="color_yellow_200_alpha_12">#FDCF7A1F</color>
+    <color name="color_yellow_200_alpha_7">#FDCF7A12</color>
+
+    <color name="color_green_400">#1FBC86</color>
+    <color name="color_green_200">#8ED7B7</color>
+    <color name="color_green_400_alpha_50">#1FBC8680</color>
+    <color name="color_green_400_alpha_35">#1FBC8659</color>
+    <color name="color_green_400_alpha_12">#1FBC861F</color>
+    <color name="color_green_400_alpha_7">#1FBC8612</color>
+    <color name="color_green_200_alpha_50">#8ED7B780</color>
+    <color name="color_green_200_alpha_35">#8ED7B759</color>
+    <color name="color_green_200_alpha_12">#8ED7B71F</color>
+    <color name="color_green_200_alpha_7">#8ED7B712</color>
+
+    <color name="color_black_900">#000000</color>
+    <color name="color_black_300">C4C4C4</color>
+    <color name="color_black_900_alpha_87">#000000DE</color>
+    <color name="color_black_900_alpha_75">#000000BF</color>
+    <color name="color_black_900_alpha_50">#00000080</color>
+    <color name="color_black_900_alpha_25">#00000040</color>
+    <color name="color_black_300_alpha_87">#C4C4C4DE</color>
+    <color name="color_black_300_alpha_75">#C4C4C4BF</color>
+    <color name="color_black_300_alpha_50">#C4C4C480</color>
+    <color name="color_black_300_alpha_25">#C4C4C440</color>
+
+    <color name="color_violet_400">#8C5AFF</color>
+    <color name="color_violet_400_alpha_50">#8C5AFF80</color>
+    <color name="color_violet_400_alpha_25">#8C5AFF40</color>
+    <color name="color_violet_400_alpha_12">#8C5AFF1F</color>
+    <color name="color_violet_400_alpha_7">#8C5AFF12</color>
+    <color name="color_violet_200">#BFA3FF</color>
+    <color name="color_violet_200_alpha_50">#BFA3FF80</color>
+    <color name="color_violet_200_alpha_25">#BFA3FF40</color>
+    <color name="color_violet_200_alpha_12">#BFA3FF1F</color>
+    <color name="color_violet_200_alpha_7">#BFA3FF12</color>
+
+
+    <!-- AppTheme -->
+
+    <color name="color_background">
+        <light>@color/color_gray_50</light>
+        <dark>@color/color_gray_300</dark>
+    </color>
+    <color name="color_on_background">
+        <light>@color/color_black_900</light>
+        <dark>@color/color_black_300</dark>
+    </color>
+
+    <color name="color_secondary">
+        <light>@color/color_green_400</light>
+        <dark>@color/color_green_200</dark>
+    </color>
+    <color name="color_secondary_alpha_50">
+        <light>@color/color_green_400_alpha_50</light>
+        <dark>@color/color_green_200_alpha_50</dark>
+    </color>
+    <color name="color_secondary_alpha_35">
+        <light>@color/color_green_400_alpha_35</light>
+        <dark>@color/color_green_200_alpha_35</dark>
+    </color>
+
+    <color name="color_on_secondary">
+        <light>@color/color_white_50</light>
+        <dark>@color/color_white_300</dark>
+    </color>
+
+    <color name="color_primary">
+        <light>@color/color_blue_400</light>
+        <dark>@color/color_blue_200</dark>
+    </color>
+    <color name="color_primary_alpha_50">
+        <light>@color/color_blue_400_alpha_50</light>
+        <dark>@color/color_blue_200_alpha_50</dark>
+    </color>
+    <color name="color_primary_alpha_25">
+        <light>@color/color_blue_400_alpha_25</light>
+        <dark>@color/color_blue_200_alpha_25</dark>
+    </color>
+
+    <color name="color_on_primary">
+        <light>@color/color_white_50</light>
+        <dark>@color/color_white_300</dark>
+    </color>
+
+    <color name="color_surface">
+        <light>@color/color_white_50</light>
+        <dark>@color/color_white_300</dark>
+    </color>
+    <color name="color_on_surface">
+        <light>@color/color_black_900</light>
+        <dark>@color/color_black_300</dark>
+    </color>
+    <color name="color_on_surface_alpha_87">
+        <light>@color/color_black_900_alpha_87</light>
+        <dark>@color/color_black_300_alpha_87</dark>
+    </color>
+    <color name="color_on_surface_alpha_75">
+        <light>@color/color_black_900_alpha_75</light>
+        <dark>@color/color_black_300_alpha_75</dark>
+    </color>
+    <color name="color_on_surface_alpha_50">
+        <light>@color/color_black_900_alpha_50</light>
+        <dark>@color/color_black_300_alpha_50</dark>
+    </color>
+    <color name="color_on_surface_alpha_25">
+        <light>@color/color_black_900_alpha_25</light>
+        <dark>@color/color_black_300_alpha_25</dark>
+    </color>
+
+    <color name="color_error">
+        <light>@color/color_red_500</light>
         <dark>@color/color_red_300</dark>
     </color>
+    <color name="color_on_error">
+        <light>@color/color_gray_50</light>
+        <dark>@color/color_gray_300</dark>
+    </color>
+
+    <!-- ThemeOverlay -->
+
+    <color name="color_overlay_blue">
+        <light>@color/color_blue_400</light>
+        <dark>@color/color_blue_200</dark>
+    </color>
+    <color name="color_overlay_blue_alpha_12">
+        <light>@color/color_blue_400_alpha_12</light>
+        <dark>@color/color_blue_200_alpha_12</dark>
+    </color>
+    <color name="color_overlay_blue_alpha_7">
+        <light>@color/color_blue_400_alpha_7</light>
+        <dark>@color/color_blue_200_alpha_7</dark>
+    </color>
+
+    <color name="color_overlay_orange">
+        <light>@color/color_orange_900</light>
+        <dark>@color/color_orange_300</dark>
+    </color>
+    <color name="color_overlay_orange_alpha_50">
+        <light>@color/color_orange_900_alpha_50</light>
+        <dark>@color/color_orange_300_alpha_50</dark>
+    </color>
+    <color name="color_overlay_orange_alpha_25">
+        <light>@color/color_orange_900_alpha_25</light>
+        <dark>@color/color_orange_300_alpha_25</dark>
+    </color>
+    <color name="color_overlay_orange_alpha_12">
+        <light>@color/color_orange_900_alpha_12</light>
+        <dark>@color/color_orange_300_alpha_12</dark>
+    </color>
+    <color name="color_overlay_orange_alpha_7">
+        <light>@color/color_orange_900_alpha_7</light>
+        <dark>@color/color_orange_300_alpha_7</dark>
+    </color>
+
+    <color name="color_overlay_green">
+        <light>@color/color_green_400</light>
+        <dark>@color/color_green_200</dark>
+    </color>
+    <color name="color_overlay_green_alpha_12">
+        <light>@color/color_green_400_alpha_12</light>
+        <dark>@color/color_green_200_alpha_12</dark>
+    </color>
+    <color name="color_overlay_green_alpha_7">
+        <light>@color/color_green_400_alpha_7</light>
+        <dark>@color/color_green_200_alpha_7</dark>
+    </color>
+
+    <color name="color_overlay_yellow">
+        <light>@color/color_yellow_300</light>
+        <dark>@color/color_yellow_200</dark>
+    </color>
+    <color name="color_overlay_yellow_alpha_50">
+        <light>@color/color_yellow_300_alpha_50</light>
+        <dark>@color/color_yellow_200_alpha_50</dark>
+    </color>
+    <color name="color_overlay_yellow_alpha_25">
+        <light>@color/color_yellow_300_alpha_25</light>
+        <dark>@color/color_yellow_200_alpha_25</dark>
+    </color>
+    <color name="color_overlay_yellow_alpha_12">
+        <light>@color/color_yellow_300_alpha_12</light>
+        <dark>@color/color_yellow_200_alpha_12</dark>
+    </color>
+    <color name="color_overlay_yellow_alpha_7">
+        <light>@color/color_yellow_300_alpha_7</light>
+        <dark>@color/color_yellow_200_alpha_7</dark>
+    </color>
+
+    <color name="color_overlay_violet">
+        <light>@color/color_violet_400</light>
+        <dark>@color/color_violet_200</dark>
+    </color>
+    <color name="color_overlay_violet_alpha_50">
+        <light>@color/color_violet_400_alpha_50</light>
+        <dark>@color/color_violet_200_alpha_50</dark>
+    </color>
+    <color name="color_overlay_violet_alpha_25">
+        <light>@color/color_violet_400_alpha_25</light>
+        <dark>@color/color_violet_200_alpha_25</dark>
+    </color>
+    <color name="color_overlay_violet_alpha_12">
+        <light>@color/color_violet_400_alpha_12</light>
+        <dark>@color/color_violet_200_alpha_12</dark>
+    </color>
+    <color name="color_overlay_violet_alpha_7">
+        <light>@color/color_violet_400_alpha_7</light>
+        <dark>@color/color_violet_200_alpha_7</dark>
+    </color>
+
+    <!-- Gradient colors -->
+
+    <color name="start_gradient_blue">#A6BCF4</color>
+    <color name="end_gradient_blue">#5D72E9</color>
+
+    <color name="start_gradient_yellow_green">#FFF4BD</color>
+    <color name="end_gradient_yellow_green">#A0FFD7</color>
+
+    <color name="start_gradient_icon_gray">#5B5B5B</color>
+    <color name="end_gradient_icon_gray">#CCC9C2</color>
+
+    <!-- Design system -->
+
+    <color name="brown90">#1A1A1A</color>
+    <color name="brown87">#262626</color>
+    <color name="brown75">#404040</color>
+    <color name="brown50">#808080</color>
+    <color name="brown25">#BFBFBF</color>
+    <color name="brown12">#E0E0E0</color>
+    <color name="brown7">#EDEDED</color>
+
 </resources>
