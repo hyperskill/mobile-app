@@ -62,7 +62,7 @@
     <color name="color_green_200_alpha_7">#8ED7B712</color>
 
     <color name="color_black_900">#000000</color>
-    <color name="color_black_300">C4C4C4</color>
+    <color name="color_black_300">#C4C4C4</color>
     <color name="color_black_900_alpha_87">#000000DE</color>
     <color name="color_black_900_alpha_75">#000000BF</color>
     <color name="color_black_900_alpha_50">#00000080</color>
@@ -255,26 +255,5 @@
         <light>@color/color_violet_400_alpha_7</light>
         <dark>@color/color_violet_200_alpha_7</dark>
     </color>
-
-    <!-- Gradient colors -->
-
-    <color name="start_gradient_blue">#A6BCF4</color>
-    <color name="end_gradient_blue">#5D72E9</color>
-
-    <color name="start_gradient_yellow_green">#FFF4BD</color>
-    <color name="end_gradient_yellow_green">#A0FFD7</color>
-
-    <color name="start_gradient_icon_gray">#5B5B5B</color>
-    <color name="end_gradient_icon_gray">#CCC9C2</color>
-
-    <!-- Design system -->
-
-    <color name="brown90">#1A1A1A</color>
-    <color name="brown87">#262626</color>
-    <color name="brown75">#404040</color>
-    <color name="brown50">#808080</color>
-    <color name="brown25">#BFBFBF</color>
-    <color name="brown12">#E0E0E0</color>
-    <color name="brown7">#EDEDED</color>
 
 </resources>
