@@ -20,10 +20,12 @@
     <color name="color_blue_200_alpha_7">#A4AEF212</color>
 
     <color name="color_white_50">#FFFFFF</color>
-    <color name="color_white_300">#F0F0F0</color>
+    <color name="color_white_50_alpha_87">#FFFFFFDE</color>
+    <color name="color_white_50_alpha_75">#FFFFFFBF</color>
+    <color name="color_white_50_alpha_50">#FFFFFF80</color>
+    <color name="color_white_50_alpha_25">#FFFFFF40</color>
 
     <color name="color_gray_50">#F7F9FA</color>
-    <color name="color_gray_300">D7D9DA</color>
 
     <color name="color_red_500">#EF341E</color>
     <color name="color_red_300">#E46A65</color>
@@ -67,10 +69,6 @@
     <color name="color_black_900_alpha_75">#000000BF</color>
     <color name="color_black_900_alpha_50">#00000080</color>
     <color name="color_black_900_alpha_25">#00000040</color>
-    <color name="color_black_300_alpha_87">#C4C4C4DE</color>
-    <color name="color_black_300_alpha_75">#C4C4C4BF</color>
-    <color name="color_black_300_alpha_50">#C4C4C480</color>
-    <color name="color_black_300_alpha_25">#C4C4C440</color>
 
     <color name="color_violet_400">#8C5AFF</color>
     <color name="color_violet_400_alpha_50">#8C5AFF80</color>
@@ -88,11 +86,11 @@
 
     <color name="color_background">
         <light>@color/color_gray_50</light>
-        <dark>@color/color_gray_300</dark>
+        <dark>@color/color_black_900</dark>
     </color>
     <color name="color_on_background">
         <light>@color/color_black_900</light>
-        <dark>@color/color_black_300</dark>
+        <dark>@color/color_white_50</dark>
     </color>
 
     <color name="color_secondary">
@@ -110,7 +108,7 @@
 
     <color name="color_on_secondary">
         <light>@color/color_white_50</light>
-        <dark>@color/color_white_300</dark>
+        <dark>@color/color_black_900</dark>
     </color>
 
     <color name="color_primary">
@@ -128,32 +126,32 @@
 
     <color name="color_on_primary">
         <light>@color/color_white_50</light>
-        <dark>@color/color_white_300</dark>
+        <dark>@color/color_black_900</dark>
     </color>
 
     <color name="color_surface">
         <light>@color/color_white_50</light>
-        <dark>@color/color_white_300</dark>
+        <dark>@color/color_black_900</dark>
     </color>
     <color name="color_on_surface">
         <light>@color/color_black_900</light>
-        <dark>@color/color_black_300</dark>
+        <dark>@color/color_white_50</dark>
     </color>
     <color name="color_on_surface_alpha_87">
         <light>@color/color_black_900_alpha_87</light>
-        <dark>@color/color_black_300_alpha_87</dark>
+        <dark>@color/color_white_50_alpha_87</dark>
     </color>
     <color name="color_on_surface_alpha_75">
         <light>@color/color_black_900_alpha_75</light>
-        <dark>@color/color_black_300_alpha_75</dark>
+        <dark>@color/color_white_50_alpha_75</dark>
     </color>
     <color name="color_on_surface_alpha_50">
         <light>@color/color_black_900_alpha_50</light>
-        <dark>@color/color_black_300_alpha_50</dark>
+        <dark>@color/color_white_50_alpha_50</dark>
     </color>
     <color name="color_on_surface_alpha_25">
         <light>@color/color_black_900_alpha_25</light>
-        <dark>@color/color_black_300_alpha_25</dark>
+        <dark>@color/color_white_50_alpha_25</dark>
     </color>
 
     <color name="color_error">
@@ -162,7 +160,7 @@
     </color>
     <color name="color_on_error">
         <light>@color/color_gray_50</light>
-        <dark>@color/color_gray_300</dark>
+        <dark>@color/color_black_900</dark>
     </color>
 
     <!-- ThemeOverlay -->
