@@ -70,6 +70,9 @@
     <color name="color_black_900_alpha_50">#00000080</color>
     <color name="color_black_900_alpha_25">#00000040</color>
 
+    <!-- Candidate for removal -->
+    <color name="color_black_900_alpha_7">#00000017</color>
+
     <color name="color_violet_400">#8C5AFF</color>
     <color name="color_violet_400_alpha_50">#8C5AFF80</color>
     <color name="color_violet_400_alpha_25">#8C5AFF40</color>
@@ -122,6 +125,11 @@
     <color name="color_primary_alpha_25">
         <light>@color/color_blue_400_alpha_25</light>
         <dark>@color/color_blue_200_alpha_25</dark>
+    </color>
+
+    <color name="color_primary_variant">
+        <light>@color/color_blue_400</light>
+        <dark>@color/color_blue_200</dark>
     </color>
 
     <color name="color_on_primary">

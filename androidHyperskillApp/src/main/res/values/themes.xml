@@ -5,7 +5,7 @@
     <style name="Base.AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!--Material color attributes -->
         <item name="colorPrimary">@color/color_primary</item>
-        <item name="colorPrimaryVariant">@color/color_on_primary</item>
+        <item name="colorPrimaryVariant">@color/color_primary_variant</item>
         <item name="colorSecondary">@color/color_secondary</item>
         <item name="colorSecondaryVariant">@color/color_on_secondary</item>
 
@@ -20,7 +20,7 @@
         <item name="colorOnError">@color/color_on_error</item>
 
         <!--Remap legacy AppCompat attributes to MaterialComponent attributes-->
-        <item name="colorPrimaryDark">?colorPrimaryDark</item>
+        <item name="colorPrimaryDark">?colorPrimaryVariant</item>
         <item name="colorAccent">?colorSecondary</item>
 
         <!--Text colors -->
@@ -100,7 +100,7 @@
     </style>
 
     <style name="AppTheme.Splash">
-        <item name="colorPrimaryDark">@color/color_black_300_alpha_25</item>
+        <item name="colorPrimaryDark">@color/color_black_900_alpha_25</item>
         <item name="android:windowBackground">@drawable/branded_logo</item>
         <item name="android:statusBarColor" tools:targetApi="lollipop">@color/color_black_300</item>
     </style>
