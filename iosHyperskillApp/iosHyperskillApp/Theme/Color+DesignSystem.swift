@@ -9,23 +9,17 @@ extension Color {
     /// The material color for text labels that contain primary content.
     ///
     /// `OnSurface_0.87`
-    static var primaryText: Color {
-        Color(ColorPalette.onSurfaceAlpha87)
-    }
+    static var primaryText: Color { Color(ColorPalette.onSurfaceAlpha87) }
 
     /// The material color for text labels that contain secondary content.
     ///
     /// `OnSurface_0.6`
-    static var secondaryText: Color {
-        Color(ColorPalette.onSurface.withAlphaComponent(0.6))
-    }
+    static var secondaryText: Color { Color(ColorPalette.onSurface.withAlphaComponent(0.6)) }
 
     /// The material color for text labels that contain disabled content.
     ///
     /// `OnSurface_0.38`
-    static var disabledText: Color {
-        Color(ColorPalette.onSurface.withAlphaComponent(0.38))
-    }
+    static var disabledText: Color { Color(ColorPalette.onSurface.withAlphaComponent(0.38)) }
 
     /// The system color for text labels that contain primary content.
     static var systemPrimaryText: Color { Color(UIColor.label) }
@@ -40,7 +34,7 @@ extension Color {
     static var systemQuaternaryText: Color { Color(UIColor.quaternaryLabel) }
 
     /// The system color for placeholder text in controls or text views.
-    static var stepikSystemPlaceholderText: Color { Color(UIColor.placeholderText) }
+    static var systemPlaceholderText: Color { Color(UIColor.placeholderText) }
 
     // MARK: Separator
 
