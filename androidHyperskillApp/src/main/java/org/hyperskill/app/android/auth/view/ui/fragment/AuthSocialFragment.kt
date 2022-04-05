@@ -36,7 +36,7 @@ class AuthSocialFragment :
         super.onViewCreated(view, savedInstanceState)
         viewStateDelegate = ViewStateDelegate()
 
-        viewBinding.signInSocialLoginButton.setOnClickListener {
+        viewBinding.loginWithGoogleCardView.setOnClickListener {
             viewStateDelegate.switchState(AuthFeature.State.Loading)
             signInWithGoogle()
         }
