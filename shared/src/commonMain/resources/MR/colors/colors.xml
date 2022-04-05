@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
     <!-- format: #RRGGBB[AA] or 0xRRGGBB[AA] or RRGGBB[AA] where [AA] - optional -->
-    <color name="colorPrimaryShared">#6200EE</color>
-    <color name="colorPrimaryDarkShared">#3700B3</color>
-    <color name="colorAccentShared">#03DAC5</color>
-    <color name="colorAccentSharedAlpha50">#03DAC57F</color>
-
-    <!-- Color palette -->
-
+    <color name="color_blue_600">#364ED8</color>
     <color name="color_blue_400">#5D72E9</color>
     <color name="color_blue_200">#A4AEF2</color>
     <color name="color_blue_400_alpha_50">#5D72E980</color>
@@ -127,10 +121,7 @@
         <dark>@color/color_blue_200_alpha_25</dark>
     </color>
 
-    <color name="color_primary_variant">
-        <light>@color/color_blue_400</light>
-        <dark>@color/color_blue_200</dark>
-    </color>
+    <color name="color_primary_variant">@color/color_blue_600</color>
 
     <color name="color_on_primary">
         <light>@color/color_white_50</light>
