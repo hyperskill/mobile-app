@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -12,14 +13,27 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Scope
 import org.hyperskill.app.android.BuildConfig
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.auth.presentation.AuthSocialViewModel
 import org.hyperskill.app.android.databinding.FragmentAuthSocialBinding
 import org.hyperskill.app.auth.presentation.AuthFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
+import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
+import javax.inject.Inject
 
 class AuthSocialFragment :
     Fragment(R.layout.fragment_auth_social),
     ReduxView<AuthFeature.State, AuthFeature.Action.ViewAction> {
+
+    companion object {
+        fun newInstance(): AuthSocialFragment =
+            AuthSocialFragment()
+    }
+
+    @Inject
+    internal lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val authSocialViewModel: AuthSocialViewModel by reduxViewModel(this) { viewModelFactory }
 
     private val viewBinding by viewBinding(FragmentAuthSocialBinding::bind)
     private lateinit var viewStateDelegate: ViewStateDelegate<AuthFeature.State>
@@ -29,6 +43,7 @@ class AuthSocialFragment :
         try {
             val account = task.getResult(ApiException::class.java)
             val authCode = account.serverAuthCode
+            authSocialViewModel.onNewMessage(AuthFeature.Message.AuthWithGoogle(authCode))
         } catch (e: ApiException) {}
     }
 

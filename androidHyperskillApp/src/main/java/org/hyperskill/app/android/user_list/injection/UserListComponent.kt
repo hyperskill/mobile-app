@@ -1,7 +1,7 @@
 package org.hyperskill.app.android.user_list.injection
 
 import dagger.Subcomponent
-import org.hyperskill.app.android.user_list.view.ui.activity.MainActivity
+import org.hyperskill.app.android.main.view.ui.activity.MainActivity
 
 @Subcomponent(
     modules = [
