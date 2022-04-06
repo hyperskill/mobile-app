@@ -5,5 +5,5 @@
     <string name="user_list_home_user_name_hint">User name</string>
 
     <!-- Auth -->
-    <string name="auth_log_in_title">Log in to Hyperskill</string>
+    <string name="auth_log_in_title">Log in to \nJetBrains Academy</string>
 </resources>

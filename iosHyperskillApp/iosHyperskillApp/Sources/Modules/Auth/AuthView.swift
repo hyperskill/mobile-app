@@ -3,9 +3,7 @@ import SwiftUI
 
 extension AuthView {
     struct Appearance {
-        let logoBorderColor = Color.black
-        let logoBorderWidth: CGFloat = 1
-        let logoSize: CGFloat = 40
+        let logoSize: CGFloat = 48
 
         let googleButtonForegroundColor = Color.purple
         let googleButtonMinHeight: CGFloat = 44
@@ -27,44 +25,57 @@ struct AuthView: View {
     }
 
     var body: some View {
-        VStack {
-            Image("logo")
-                .resizable()
-                .border(appearance.logoBorderColor, width: appearance.logoBorderWidth)
-                .frame(width: appearance.logoSize, height: appearance.logoSize)
-                .padding(.top)
-
-            Spacer()
-
+        ZStack {
+            Color(SharedResources.colors.shared.color_background.dynamicUIColor).ignoresSafeArea()
+            
+            
             VStack {
-                Text(Strings.authLogInTitle)
-                    .font(.title)
-                    .bold()
-
-                Button(
-                    action: viewModel.signInWithGoogle,
-                    label: {
-                        Text("Google")
-                            .font(.body)
-                            .foregroundColor(appearance.googleButtonForegroundColor)
-                            .frame(minHeight: appearance.googleButtonMinHeight)
-                            .padding(.horizontal)
-                            .overlay(
-                                RoundedRectangle(
-                                    cornerRadius: appearance.googleButtonOverlayCornerRadius
-                                )
-                                .stroke(
-                                    appearance.googleButtonOverlayStrokeColor,
-                                    lineWidth: appearance.googleButtonOverlayStrokeWidth
-                                )
-                            )
+                HStack {
+                    Image("close_icon").frame(width: 16, height: 16).padding(.horizontal, 16)
+                    Spacer()
+                }
+                Spacer()
+                VStack {
+                    Image("logo")
+                        .resizable()
+                        .frame(width: appearance.logoSize, height: appearance.logoSize)
+                        .padding(.top)
+                    HStack {
+                        Text(SharedResources.strings.shared.auth_log_in_title.localized())
+                            .font(.body).multilineTextAlignment(.center)
                     }
-                )
-                .padding(.top)
+                }
+                Spacer()
+                VStack(alignment: .center, spacing: 8) {
+                    AuthSocialButton(viewModel: viewModel, provider: .jetbrains)
+                    AuthSocialButton(viewModel: viewModel, provider: .google)
+                    AuthSocialButton(viewModel: viewModel, provider: .github)
+                    AuthSocialButton(viewModel: viewModel, provider: .apple)
+                    Button(
+                        action: {},
+                        label: {
+                            HStack{
+                                Spacer()
+                                Text("Continue with email")
+                                    .font(.subheadline)
+                                    .foregroundColor(Color(SharedResources.colors.shared.color_primary.dynamicUIColor))
+                                    .padding()
+                                Spacer()
+                            }.overlay(
+                                        RoundedRectangle(
+                                            cornerRadius: 8
+                                        )
+                                        .stroke(
+                                            Color(SharedResources.colors.shared.color_primary_alpha_50.dynamicUIColor),
+                                            lineWidth: 1
+                                        )
+                                    )
+                                
+                        }
+                    ).padding(.horizontal, 20)
+                }
+                Spacer()
             }
-
-            Spacer()
-            Spacer()
         }
     }
 
