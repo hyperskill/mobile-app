@@ -12,14 +12,13 @@ import ru.nobird.android.ui.adapterdelegates.DelegateViewHolder
 class AuthSocialAdapterDelegate() : AdapterDelegate<AuthSocialCardInfo, DelegateViewHolder<AuthSocialCardInfo>>() {
     var onClickListener: (AuthSocialCardInfo) -> Unit = {}
 
-    constructor(onClickListener : (social: AuthSocialCardInfo) -> Unit) : this() {
+    constructor(onClickListener: (social: AuthSocialCardInfo) -> Unit) : this() {
         this.onClickListener = onClickListener
     }
     override fun isForViewType(position: Int, data: AuthSocialCardInfo): Boolean = true
 
     override fun onCreateViewHolder(parent: ViewGroup): DelegateViewHolder<AuthSocialCardInfo> =
         ViewHolder(createView(parent, R.layout.item_auth_material_card_view))
-
 
     inner class ViewHolder(root: View) : DelegateViewHolder<AuthSocialCardInfo>(root) {
         private val viewBinding: ItemAuthMaterialCardViewBinding by viewBinding { ItemAuthMaterialCardViewBinding.bind(root) }
