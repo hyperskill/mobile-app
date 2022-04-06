@@ -21,6 +21,11 @@ class AuthSocialFragment :
     Fragment(R.layout.fragment_auth_social),
     ReduxView<AuthFeature.State, AuthFeature.Action.ViewAction> {
 
+    companion object {
+        fun newInstance(): AuthSocialFragment =
+            AuthSocialFragment()
+    }
+
     private val viewBinding by viewBinding(FragmentAuthSocialBinding::bind)
     private lateinit var viewStateDelegate: ViewStateDelegate<AuthFeature.State>
 
