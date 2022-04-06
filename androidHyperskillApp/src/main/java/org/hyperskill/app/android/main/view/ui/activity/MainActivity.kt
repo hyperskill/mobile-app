@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.user_list.view.ui.activity
+package org.hyperskill.app.android.main.view.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
