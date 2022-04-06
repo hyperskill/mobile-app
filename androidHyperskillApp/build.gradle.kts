@@ -34,6 +34,11 @@ dependencies {
     testImplementation(libs.bundles.android.test)
 
     ktlintRuleset(libs.ktlintRules)
+
+    implementation(libs.multiplatform.settings)
+    implementation(libs.android.security)
+    implementation(libs.kotpref)
+    implementation(libs.kotprefAutoInit)
 }
 
 android {
