@@ -18,7 +18,7 @@ struct AuthSocialButton: View {
                         .font(.subheadline)
                         .foregroundColor(.black)
                     Spacer()
-                }.background(Color.white)               
+                }.background(Color.white)
             }
         ).padding(.horizontal, 20)
     }

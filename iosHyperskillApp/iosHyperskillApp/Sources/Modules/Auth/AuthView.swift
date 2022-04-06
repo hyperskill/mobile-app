@@ -27,8 +27,8 @@ struct AuthView: View {
     var body: some View {
         ZStack {
             Color(SharedResources.colors.shared.color_background.dynamicUIColor).ignoresSafeArea()
-            
-            
+
+
             VStack {
                 HStack {
                     Image("close_icon").frame(width: 16, height: 16).padding(.horizontal, 16)
@@ -54,7 +54,7 @@ struct AuthView: View {
                     Button(
                         action: {},
                         label: {
-                            HStack{
+                            HStack {
                                 Spacer()
                                 Text("Continue with email")
                                     .font(.subheadline)
@@ -70,7 +70,6 @@ struct AuthView: View {
                                             lineWidth: 1
                                         )
                                     )
-                                
                         }
                     ).padding(.horizontal, 20)
                 }
