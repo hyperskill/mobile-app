@@ -12,6 +12,7 @@ import com.google.android.gms.common.Scopes
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Scope
 import org.hyperskill.app.android.BuildConfig
+import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.presentation.AuthSocialViewModel
 import org.hyperskill.app.android.databinding.FragmentAuthSocialBinding
@@ -45,6 +46,19 @@ class AuthSocialFragment :
             val authCode = account.serverAuthCode
             authSocialViewModel.onNewMessage(AuthFeature.Message.AuthWithGoogle(authCode))
         } catch (e: ApiException) {}
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        injectComponent()
+    }
+
+    private fun injectComponent() {
+        HyperskillApp
+            .component()
+            .authComponentBuilder()
+            .build()
+            .inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

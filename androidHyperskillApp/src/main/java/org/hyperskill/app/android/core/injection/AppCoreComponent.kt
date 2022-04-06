@@ -4,6 +4,7 @@ import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
 import org.hyperskill.app.android.HyperskillApp
+import org.hyperskill.app.android.auth.injection.AuthSocialComponent
 import org.hyperskill.app.android.network.injection.AndroidNetworkModule
 import org.hyperskill.app.android.user_list.injection.UserListComponent
 import javax.inject.Singleton
@@ -27,4 +28,5 @@ interface AppCoreComponent {
     fun inject(hyperskillApp: HyperskillApp)
 
     fun usersListComponentBuilder(): UserListComponent.Builder
+    fun authComponentBuilder(): AuthSocialComponent.Builder
 }
