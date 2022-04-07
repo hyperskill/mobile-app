@@ -13,6 +13,7 @@ import com.google.android.gms.common.Scopes
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Scope
 import org.hyperskill.app.android.BuildConfig
+import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.view.ui.adapter.delegates.AuthSocialAdapterDelegate
 import org.hyperskill.app.android.auth.view.ui.model.AuthSocialCardInfo
@@ -54,8 +55,16 @@ class AuthSocialFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        injectComponent()
         authMaterialCardViewsAdapter += AuthSocialAdapterDelegate(::onSocialClickListener)
+    }
+
+    private fun injectComponent() {
+        HyperskillApp
+            .component()
+            .authSocialComponentBuilder()
+            .build()
+            .inject(this)
     }
 
     private fun onSocialClickListener(social: AuthSocialCardInfo) {
