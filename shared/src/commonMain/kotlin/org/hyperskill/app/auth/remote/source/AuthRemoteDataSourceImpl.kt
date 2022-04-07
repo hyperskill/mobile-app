@@ -9,6 +9,7 @@ import kotlinx.serialization.json.Json
 import org.hyperskill.app.auth.cache.AuthCacheKeyValues
 import org.hyperskill.app.auth.data.source.AuthRemoteDataSource
 import org.hyperskill.app.auth.remote.model.AuthResponse
+import org.hyperskill.app.config.BuildKonfig
 
 class AuthRemoteDataSourceImpl(
     private val authHttpClient: HttpClient,
@@ -21,10 +22,10 @@ class AuthRemoteDataSourceImpl(
                 .submitForm<AuthResponse>(
                     url = "/oauth2/social-token/",
                     formParameters = Parameters.build {
-                        append("grant_type", "authorization_code")
-                        append("code", authCode)
-                        append("redirect_uri", "https://hyperskill.org/")
                         append("provider", "google")
+                        append("code", authCode)
+                        append("grant_type", "authorization_code")
+                        append("redirect_uri", BuildKonfig.REDIRECT_URI)
                     }
                 ).also { authResponse -> settings.putString(AuthCacheKeyValues.AUTH_RESPONSE, json.encodeToString(authResponse)) }
         }
