@@ -23,6 +23,8 @@ class HyperskillApp : Application() {
         super.onCreate()
         if (!isMainProcess) return
 
+        setTheme(R.style.AppTheme)
+
         application = this
 
         component = DaggerAppCoreComponent.builder()

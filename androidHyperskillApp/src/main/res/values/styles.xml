@@ -1,13 +1,22 @@
-<resources>
-
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
+<resources xmlns:tools="http://schemas.android.com/tools">
     <style name="ShapeAppearanceOverlay.App.RoundedCorners8" parent="">
         <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="RoundedBottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_bottom_sheet_dialog</item>
+    </style>
+
+    <style name="Widget.AppTheme.Button" parent="@style/Widget.MaterialComponents.Button">
+        <item name="android:stateListAnimator" tools:targetApi="lollipop">@null</item>
+        <item name="elevation">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+    </style>
+
+    <style name="Widget.AppTheme.Button.OutlinedButton" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
     </style>
 
 </resources>

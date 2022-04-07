@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
     <!-- format: #RRGGBB[AA] or 0xRRGGBB[AA] or RRGGBB[AA] where [AA] - optional -->
-    <color name="colorPrimaryShared">#6200EE</color>
-    <color name="colorPrimaryDarkShared">#3700B3</color>
-    <color name="colorAccentShared">#03DAC5</color>
-    <color name="colorAccentSharedAlpha50">#03DAC57F</color>
-
-    <!-- Color palette -->
-
+    <color name="color_blue_600">#364ED8</color>
     <color name="color_blue_400">#5D72E9</color>
     <color name="color_blue_200">#A4AEF2</color>
     <color name="color_blue_400_alpha_50">#5D72E980</color>
@@ -70,6 +64,9 @@
     <color name="color_black_900_alpha_50">#00000080</color>
     <color name="color_black_900_alpha_25">#00000040</color>
 
+    <!-- Candidate for removal -->
+    <color name="color_black_900_alpha_7">#00000017</color>
+
     <color name="color_violet_400">#8C5AFF</color>
     <color name="color_violet_400_alpha_50">#8C5AFF80</color>
     <color name="color_violet_400_alpha_25">#8C5AFF40</color>
@@ -123,6 +120,8 @@
         <light>@color/color_blue_400_alpha_25</light>
         <dark>@color/color_blue_200_alpha_25</dark>
     </color>
+
+    <color name="color_primary_variant">@color/color_blue_600</color>
 
     <color name="color_on_primary">
         <light>@color/color_white_50</light>

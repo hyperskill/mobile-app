@@ -8,7 +8,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="org.hyperskill.app.android.user_list.view.ui.activity.MainActivity"
+            android:name="org.hyperskill.app.android.main.view.ui.activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

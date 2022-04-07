@@ -20,6 +20,7 @@ dependencies {
     implementation(libs.kit.view.ui)
     implementation(libs.kit.view.injection)
     implementation(libs.kit.view.redux)
+    implementation(libs.kit.view.navigation)
 
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
