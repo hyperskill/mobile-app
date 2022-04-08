@@ -10,7 +10,8 @@ import ru.nobird.android.ui.adapterdelegates.AdapterDelegate
 import ru.nobird.android.ui.adapterdelegates.DelegateViewHolder
 
 class AuthSocialAdapterDelegate(private val onItemClick: (AuthSocialCardInfo) -> Unit) : AdapterDelegate<AuthSocialCardInfo, DelegateViewHolder<AuthSocialCardInfo>>() {
-    override fun isForViewType(position: Int, data: AuthSocialCardInfo): Boolean = true
+    override fun isForViewType(position: Int, data: AuthSocialCardInfo): Boolean =
+        true
 
     override fun onCreateViewHolder(parent: ViewGroup): DelegateViewHolder<AuthSocialCardInfo> =
         ViewHolder(createView(parent, R.layout.item_auth_material_card_view))
@@ -24,6 +25,7 @@ class AuthSocialAdapterDelegate(private val onItemClick: (AuthSocialCardInfo) ->
             itemView.setOnClickListener {
                 onItemClick.invoke(data)
             }
+            itemView.isEnabled = data == AuthSocialCardInfo.GOOGLE
         }
     }
 }

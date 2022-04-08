@@ -7,7 +7,9 @@
     <dimen name="corner_radius">8dp</dimen>
 
     <dimen name="divider_vertical_size">1dp</dimen>
-    <dimen name="auth_button_width">320dp</dimen>
+
+    <!-- Auth screen -->
+    <dimen name="auth_button_max_width">380dp</dimen>
     <dimen name="auth_button_height">48dp</dimen>
     <dimen name="auth_button_logo_margin_left">12dp</dimen>
     <dimen name="auth_button_text_size">14sp</dimen>
