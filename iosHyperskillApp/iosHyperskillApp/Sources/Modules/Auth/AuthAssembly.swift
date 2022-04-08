@@ -3,7 +3,21 @@ import SwiftUI
 
 final class AuthAssembly: Assembly {
     func makeModule() -> AuthView {
-        let authFeature = AuthFeatureBuilder.shared.build()
+        let authRepository = AuthRepositoryImpl(
+            authCacheDataSource: AuthCacheDataSourceImpl(
+                settings: Settings.shared.makeAppleSettings(userDefaults: UserDefaults.standard)
+            ),
+            authRemoteDataSource: AuthRemoteDataSourceImpl(
+                authHttpClient: NetworkModule.shared.provideAuthClient(
+                    userAgentValue: UserAgentBuilder.userAgent,
+                    json: NetworkModule.shared.provideJson()
+                ),
+                json: NetworkModule.shared.provideJson(),
+                settings: Settings.shared.makeAppleSettings(userDefaults: UserDefaults.standard)
+            )
+        )
+        let authInteractor = AuthInteractor(authRepository: authRepository)
+        let authFeature = AuthFeatureBuilder.shared.build(authInteractor: authInteractor)
 
         let authViewModel = AuthViewModel(feature: authFeature)
 

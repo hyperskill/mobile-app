@@ -27,6 +27,8 @@
 		2C9B66C427ECA73700569645 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9B66C327ECA73700569645 /* AppDelegate.swift */; };
 		2C9B66E627ECA86B00569645 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9B66E527ECA86B00569645 /* SceneDelegate.swift */; };
 		2C9B66EB27ECAF5000569645 /* UIApplicationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9B66EA27ECAF5000569645 /* UIApplicationExtensions.swift */; };
+		2CCF3B5828004FC40075D12C /* UserAgentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCF3B5728004FC40075D12C /* UserAgentBuilder.swift */; };
+		2CCF3B5A280050890075D12C /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCF3B59280050890075D12C /* DeviceInfo.swift */; };
 		2CE1C4DF27EDFB3800220041 /* FeatureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE1C4DE27EDFB3800220041 /* FeatureViewModel.swift */; };
 		2CE2817927E8EF1E00641E22 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2CE2817827E8EF1E00641E22 /* GoogleService-Info.plist */; };
 		2CE31F4827F1BB79008EEE66 /* AuthAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4727F1BB79008EEE66 /* AuthAssembly.swift */; };
@@ -72,6 +74,8 @@
 		2C9B66C327ECA73700569645 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C9B66E527ECA86B00569645 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		2C9B66EA27ECAF5000569645 /* UIApplicationExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplicationExtensions.swift; sourceTree = "<group>"; };
+		2CCF3B5728004FC40075D12C /* UserAgentBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAgentBuilder.swift; sourceTree = "<group>"; };
+		2CCF3B59280050890075D12C /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
 		2CE1C4DE27EDFB3800220041 /* FeatureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureViewModel.swift; sourceTree = "<group>"; };
 		2CE2817827E8EF1E00641E22 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2CE31F4727F1BB79008EEE66 /* AuthAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAssembly.swift; sourceTree = "<group>"; };
@@ -140,6 +144,7 @@
 				2C9B66E727ECAC5D00569645 /* App */,
 				2C9B66E827ECAF0200569645 /* Extensions */,
 				2CF2DA4227EC7DB50055426D /* Frameworks */,
+				2CCF3B5628004F860075D12C /* Helpers */,
 				2CF2DA3B27EC5B980055426D /* Model */,
 				2C1DEE2D27EC40200001A567 /* Modules */,
 				2C005DCF27EF5BD200DC6503 /* Views */,
@@ -228,6 +233,15 @@
 				2C9B66EA27ECAF5000569645 /* UIApplicationExtensions.swift */,
 			);
 			path = UIKit;
+			sourceTree = "<group>";
+		};
+		2CCF3B5628004F860075D12C /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				2CCF3B59280050890075D12C /* DeviceInfo.swift */,
+				2CCF3B5728004FC40075D12C /* UserAgentBuilder.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		2CE2817727E8EEDC00641E22 /* Resources */ = {
@@ -525,11 +539,13 @@
 				2C005DCC27EF5B0300DC6503 /* GoogleServiceInfo.swift in Sources */,
 				2CE31F4827F1BB79008EEE66 /* AuthAssembly.swift in Sources */,
 				2CF2DA3A27EC5B2D0055426D /* Assembly.swift in Sources */,
+				2CCF3B5828004FC40075D12C /* UserAgentBuilder.swift in Sources */,
 				2C919DE827EEEDD60022A2F2 /* LinkedList.swift in Sources */,
 				2C919E3527EEFF110022A2F2 /* Queue.swift in Sources */,
 				2C005DCA27EF5AE500DC6503 /* UsersListRowView.swift in Sources */,
 				2CE31F4D27F1E0C8008EEE66 /* AppAssembly.swift in Sources */,
 				2C42EFA527F2BB5E00B4648B /* MokoResourcesSampleView.swift in Sources */,
+				2CCF3B5A280050890075D12C /* DeviceInfo.swift in Sources */,
 				2C42EFAD27F2C29500B4648B /* Strings.swift in Sources */,
 				2152FB042600AC8F00CF470E /* HyperskillApp.swift in Sources */,
 				E951757927E61ACD00995008 /* AuthView.swift in Sources */,

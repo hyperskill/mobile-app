@@ -6,7 +6,7 @@ struct MokoResourcesSampleView: View {
         VStack {
             Text(SharedResources.strings.shared.auth_log_in_title.localized())
             Circle()
-                .fill(Color(SharedResources.colors.shared.colorAccentSharedAlpha50.color.uiColor))
+                .fill(Color(SharedResources.colors.shared.color_background.dynamicUIColor))
                 .frame(width: 100, height: 100)
         }
     }
