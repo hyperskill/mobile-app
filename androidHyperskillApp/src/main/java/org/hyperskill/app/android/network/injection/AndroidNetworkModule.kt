@@ -1,12 +1,11 @@
 package org.hyperskill.app.android.network.injection
 
-import android.content.Context
-import androidx.core.content.pm.PackageInfoCompat
 import com.russhwolf.settings.Settings
 import dagger.Module
 import dagger.Provides
 import io.ktor.client.HttpClient
 import kotlinx.serialization.json.Json
+import org.hyperskill.app.android.BuildConfig
 import org.hyperskill.app.network.injection.NetworkModule
 import javax.inject.Named
 
@@ -45,12 +44,6 @@ object AndroidNetworkModule {
     @Provides
     @JvmStatic
     @Named("UserAgentValue")
-    fun provideUserAgentValue(context: Context): String {
-        val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-        val apiLevel = android.os.Build.VERSION.SDK_INT
-
-        return with(packageInfo) {
-            "Hyperskill-Mobile/$versionName (Android $apiLevel) build/${PackageInfoCompat.getLongVersionCode(this)} package/$packageName"
-        }
-    }
+    fun provideUserAgentValue(): String =
+        "Hyperskill-Mobile/${BuildConfig.VERSION_NAME} (Android ${android.os.Build.VERSION.SDK_INT}) build/${BuildConfig.VERSION_CODE} package/${BuildConfig.APPLICATION_ID}"
 }
