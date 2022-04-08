@@ -2,7 +2,7 @@ import GoogleSignIn
 import shared
 import SwiftUI
 
-enum SocialProvider {
+enum SocialProvider: String, CaseIterable {
     case jetbrains
     case google
     case github
@@ -10,27 +10,33 @@ enum SocialProvider {
 }
 
 final class AuthViewModel: FeatureViewModel<AuthFeatureState, AuthFeatureMessage, AuthFeatureActionViewAction> {
-    func signInWithSocialProvider(provider: SocialProvider) {
-        switch provider {
-        case .google:
-            guard let currentRootViewController = UIApplication.shared.currentRootViewController else {
+    let availableSocialAuthProviders: [SocialProvider] = [.jetbrains, .google, .github, .apple]
+
+    func signInWithSocialProvider(provider: SocialProvider) -> () -> Void {
+        func inner() {
+            switch provider {
+            case .google:
+                guard let currentRootViewController = UIApplication.shared.currentRootViewController else {
+                    return
+                }
+                GIDSignIn.sharedInstance.signIn(
+                    with: GIDConfiguration(clientID: GoogleServiceInfo.clientID),
+                    presenting: currentRootViewController
+                ) { user, error in
+                    guard error == nil else {
+                        return
+                    }
+                    guard let accessToken = user?.authentication.accessToken else {
+                        return
+                    }
+                    // todo pass accessToken to shared module
+                    print(accessToken)
+                }
+            default:
                 return
             }
-            GIDSignIn.sharedInstance.signIn(
-                with: GIDConfiguration(clientID: GoogleServiceInfo.clientID),
-                presenting: currentRootViewController
-            ) { user, error in
-                guard error == nil else {
-                    return
-                }
-                guard let accessToken = user?.authentication.accessToken else {
-                    return
-                }
-                // todo pass accessToken to shared module
-                print(accessToken)
-            }
-        default:
-            return
         }
+
+        return inner
     }
 }

@@ -13,6 +13,33 @@ extension AuthView {
     }
 }
 
+fileprivate extension SocialProvider {
+    var text: String {
+        switch self {
+        case .jetbrains:
+            return "JetBrains Account"
+        case .google:
+            return "Google"
+        case .github:
+            return "GitHub"
+        case .apple:
+            return "Apple"
+        }
+    }
+    var imageName: String {
+        switch self {
+        case .jetbrains:
+            return "jetbrains_logo"
+        case .google:
+            return "google_logo"
+        case .github:
+            return "github_logo"
+        case .apple:
+            return "apple_logo"
+        }
+    }
+}
+
 struct AuthView: View {
     @ObservedObject private var viewModel: AuthViewModel
 
@@ -26,31 +53,29 @@ struct AuthView: View {
 
     var body: some View {
         ZStack {
-            Color(SharedResources.colors.shared.color_background.dynamicUIColor).ignoresSafeArea()
-
+            Color(ColorPalette.background).ignoresSafeArea()
 
             VStack {
-                HStack {
-                    Image("close_icon").frame(width: 16, height: 16).padding(.horizontal, 16)
-                    Spacer()
-                }
-                Spacer()
                 VStack {
                     Image("logo")
                         .resizable()
                         .frame(width: appearance.logoSize, height: appearance.logoSize)
-                        .padding(.top)
+
                     HStack {
                         Text(SharedResources.strings.shared.auth_log_in_title.localized())
                             .font(.body).multilineTextAlignment(.center)
                     }
-                }
-                Spacer()
+                }.padding(.top, 44)
+
                 VStack(alignment: .center, spacing: 8) {
-                    AuthSocialButton(viewModel: viewModel, provider: .jetbrains)
-                    AuthSocialButton(viewModel: viewModel, provider: .google)
-                    AuthSocialButton(viewModel: viewModel, provider: .github)
-                    AuthSocialButton(viewModel: viewModel, provider: .apple)
+                    ForEach(viewModel.availableSocialAuthProviders, id: \.rawValue) { provider in
+                        AuthSocialButton(
+                            text: provider.text,
+                            imageName: provider.imageName,
+                            action: viewModel.signInWithSocialProvider(provider: provider)
+                        )
+                    }
+
                     Button(
                         action: {},
                         label: {
@@ -62,17 +87,18 @@ struct AuthView: View {
                                     .padding()
                                 Spacer()
                             }.overlay(
-                                        RoundedRectangle(
-                                            cornerRadius: 8
-                                        )
-                                        .stroke(
-                                            Color(SharedResources.colors.shared.color_primary_alpha_50.dynamicUIColor),
-                                            lineWidth: 1
-                                        )
-                                    )
+                                RoundedRectangle(
+                                    cornerRadius: 8
+                                )
+                                .stroke(
+                                    Color(SharedResources.colors.shared.color_primary_alpha_50.dynamicUIColor),
+                                    lineWidth: 1
+                                )
+                            )
                         }
                     ).padding(.horizontal, 20)
-                }
+                        .padding(.top, 16)
+                }.padding(.top, 48)
                 Spacer()
             }
         }
