@@ -29,5 +29,5 @@ interface AppCoreComponent {
     fun inject(hyperskillApp: HyperskillApp)
 
     fun usersListComponentBuilder(): UserListComponent.Builder
-    fun authComponentBuilder(): AuthSocialComponent.Builder
+    fun authSocialComponentBuilder(): AuthSocialComponent.Builder
 }

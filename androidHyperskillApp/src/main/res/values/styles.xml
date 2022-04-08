@@ -19,4 +19,13 @@
         <item name="android:insetBottom">0dp</item>
     </style>
 
+    <style name="Widget.AppTheme.ImageButton.Close" parent="Widget.AppCompat.ImageButton">
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:layout_width">10dp</item>
+        <item name="android:layout_height">10dp</item>
+        <item name="android:layout_marginStart">23dp</item>
+        <item name="android:layout_marginTop">23dp</item>
+        <item name="android:src">@drawable/ic_close</item>
+    </style>
+
 </resources>
