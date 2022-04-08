@@ -61,9 +61,6 @@ ktlintRules = { module = "ru.nobird.android.ktlint:rules", version.ref = "ktlint
 
 android-security = { module = "androidx.security:security-crypto", version = "1.1.0-alpha03" }
 
-kotpref = { module = "com.chibatching.kotpref:kotpref", version = "2.13.0" }
-kotprefAutoInit = { module = "com.chibatching.kotpref:initializer", version = "2.13.0" }
-
 [bundles]
 ktor-common = ['ktor-core', 'ktor-auth', 'ktor-serialization', 'ktor-logging']
 android-test = ['android-test-junit', 'android-test-runner', 'android-test-robolectric']

@@ -37,8 +37,6 @@ dependencies {
 
     implementation(libs.multiplatform.settings)
     implementation(libs.android.security)
-    implementation(libs.kotpref)
-    implementation(libs.kotprefAutoInit)
 }
 
 android {
