@@ -20,7 +20,9 @@ final class AuthViewModel: FeatureViewModel<AuthFeatureState, AuthFeatureMessage
             }
 
             // todo pass accessToken to shared module
-            print(accessToken)
+            self.onNewMessage(AuthFeatureMessageAuthWithGoogle(accessToken: accessToken))
+            
+//            print(accessToken)
         }
     }
 }
