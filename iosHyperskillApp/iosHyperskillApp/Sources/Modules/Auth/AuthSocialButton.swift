@@ -3,7 +3,7 @@ import SwiftUI
 struct AuthSocialButton: View {
     let text: String
     let imageName: String
-    let action: () -> Void
+    private let action: () -> Void
 
     init(text: String, imageName: String, action: @escaping () -> Void) {
         self.text = text
@@ -11,12 +11,9 @@ struct AuthSocialButton: View {
         self.action = action
     }
 
-
     var body: some View {
         Button(
-            action: {
-                action()
-            },
+            action: self.action,
             label: {
                 Text(text)
                     .font(.subheadline)
@@ -33,10 +30,13 @@ struct AuthSocialButton: View {
             }
         )
         .cornerRadius(6)
-        .padding(.horizontal, 20)
         .shadow(color: Color.black.opacity(0.03), radius: 2, x: 0, y: 0)
         .shadow(color: Color.black.opacity(0.06), radius: 2, x: 0, y: 2)
     }
 }
 
-
+struct AuthSocialButton_Previews: PreviewProvider {
+    static var previews: some View {
+        AuthSocialButton(text: "Google", imageName: "google_logo", action: {})
+    }
+}
