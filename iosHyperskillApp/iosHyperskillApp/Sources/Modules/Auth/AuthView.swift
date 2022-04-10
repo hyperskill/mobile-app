@@ -101,6 +101,7 @@ fileprivate extension SocialProvider {
             return "Apple"
         }
     }
+
     var imageName: String {
         switch self {
         case .jetbrains:
