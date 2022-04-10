@@ -10,7 +10,7 @@ enum SocialProvider: String, CaseIterable {
 }
 
 final class AuthViewModel: FeatureViewModel<AuthFeatureState, AuthFeatureMessage, AuthFeatureActionViewAction> {
-    let availableSocialAuthProviders: [SocialProvider] = [.jetbrains, .google, .github, .apple]
+    let availableSocialAuthProviders = SocialProvider.allCases
 
     func signInWithSocialProvider(provider: SocialProvider) -> () -> Void {
         func inner() {
