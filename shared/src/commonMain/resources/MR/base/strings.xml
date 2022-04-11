@@ -5,5 +5,9 @@
     <string name="user_list_home_user_name_hint">User name</string>
 
     <!-- Auth -->
-    <string name="auth_log_in_title">Log in to \nJetBrains Academy</string>
+    <string name="auth_log_in_title">Log in to\nJetBrains Academy</string>
+    <string name="auth_jetbrains_account_text">JetBrains Account</string>
+    <string name="auth_google_account_text">Google</string>
+    <string name="auth_github_account_text">GitHub</string>
+    <string name="auth_email_text">Continue with email</string>
 </resources>
