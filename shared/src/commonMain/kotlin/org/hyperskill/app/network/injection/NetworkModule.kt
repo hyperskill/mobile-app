@@ -5,6 +5,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.features.defaultRequest
 import io.ktor.client.features.UserAgent
 import io.ktor.client.features.auth.Auth
+import io.ktor.client.features.auth.providers.BasicAuthCredentials
 import io.ktor.client.features.auth.providers.basic
 import io.ktor.client.features.auth.providers.bearer
 import io.ktor.client.features.auth.providers.BearerTokens
@@ -64,11 +65,6 @@ object NetworkModule {
                 agent = userAgentInfo.toString()
             }
             install(Auth) {
-                basic {
-                    sendWithoutRequest = true
-                    username = BuildKonfig.OAUTH_CLIENT_ID
-                    password = BuildKonfig.OAUTH_CLIENT_SECRET
-                }
                 bearer {
                     loadTokens {
                         val authResponse = json.decodeFromString<AuthResponse>(settings.getString(AuthCacheKeyValues.AUTH_RESPONSE, ""))
@@ -98,9 +94,13 @@ object NetworkModule {
             }
             install(Auth) {
                 basic {
-                    sendWithoutRequest = true
-                    username = BuildKonfig.OAUTH_CLIENT_ID
-                    password = BuildKonfig.OAUTH_CLIENT_SECRET
+                    sendWithoutRequest { true }
+                    credentials {
+                        BasicAuthCredentials(
+                            username = BuildKonfig.OAUTH_CLIENT_ID,
+                            password = BuildKonfig.OAUTH_CLIENT_SECRET
+                        )
+                    }
                 }
             }
             install(UserAgent) {
