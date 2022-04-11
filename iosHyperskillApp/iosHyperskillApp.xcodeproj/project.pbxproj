@@ -20,6 +20,10 @@
 		2C42EFB327F2EA7B00B4648B /* ResourcesStringResource+Localized.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C42EFB227F2EA7B00B4648B /* ResourcesStringResource+Localized.swift */; };
 		2C42EFB527F2EAB300B4648B /* GraphicsColor+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C42EFB427F2EAB300B4648B /* GraphicsColor+UIColor.swift */; };
 		2C42EFB727F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C42EFB627F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift */; };
+		2C58DE232803BF97002A2774 /* AuthLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C58DE222803BF97002A2774 /* AuthLogoView.swift */; };
+		2C58DE252803C185002A2774 /* AuthSocialControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C58DE242803C185002A2774 /* AuthSocialControlsView.swift */; };
+		2C58DE272803C47C002A2774 /* AuthOutlineButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C58DE262803C47C002A2774 /* AuthOutlineButton.swift */; };
+		2C58DE292803D197002A2774 /* UIColor+DynamicColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C58DE282803D197002A2774 /* UIColor+DynamicColor.swift */; };
 		2C919DE827EEEDD60022A2F2 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C919DE727EEEDD60022A2F2 /* LinkedList.swift */; };
 		2C919E3327EEF92F0022A2F2 /* LinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C919E3227EEF92F0022A2F2 /* LinkedListTests.swift */; };
 		2C919E3527EEFF110022A2F2 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C919E3427EEFF110022A2F2 /* Queue.swift */; };
@@ -67,6 +71,10 @@
 		2C42EFB227F2EA7B00B4648B /* ResourcesStringResource+Localized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResourcesStringResource+Localized.swift"; sourceTree = "<group>"; };
 		2C42EFB427F2EAB300B4648B /* GraphicsColor+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GraphicsColor+UIColor.swift"; sourceTree = "<group>"; };
 		2C42EFB627F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResourcesColorResourceThemed+UIColor.swift"; sourceTree = "<group>"; };
+		2C58DE222803BF97002A2774 /* AuthLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthLogoView.swift; sourceTree = "<group>"; };
+		2C58DE242803C185002A2774 /* AuthSocialControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialControlsView.swift; sourceTree = "<group>"; };
+		2C58DE262803C47C002A2774 /* AuthOutlineButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthOutlineButton.swift; sourceTree = "<group>"; };
+		2C58DE282803D197002A2774 /* UIColor+DynamicColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+DynamicColor.swift"; sourceTree = "<group>"; };
 		2C919DE727EEEDD60022A2F2 /* LinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
 		2C919DED27EEF5BC0022A2F2 /* iosHyperskillAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iosHyperskillAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C919E3227EEF92F0022A2F2 /* LinkedListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedListTests.swift; sourceTree = "<group>"; };
@@ -134,9 +142,8 @@
 			isa = PBXGroup;
 			children = (
 				2CE31F4727F1BB79008EEE66 /* AuthAssembly.swift */,
-				E951757827E61ACD00995008 /* AuthView.swift */,
 				E96E80F527EF57BA00AA6683 /* AuthViewModel.swift */,
-				E92D659627FC2F4100953029 /* AuthSocialButton.swift */,
+				2C58DE212803BE84002A2774 /* Views */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -192,6 +199,18 @@
 			path = MokoResources;
 			sourceTree = "<group>";
 		};
+		2C58DE212803BE84002A2774 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2C58DE222803BF97002A2774 /* AuthLogoView.swift */,
+				2C58DE262803C47C002A2774 /* AuthOutlineButton.swift */,
+				E92D659627FC2F4100953029 /* AuthSocialButton.swift */,
+				2C58DE242803C185002A2774 /* AuthSocialControlsView.swift */,
+				E951757827E61ACD00995008 /* AuthView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		2C919DE627EEEDC40022A2F2 /* Collections */ = {
 			isa = PBXGroup;
 			children = (
@@ -233,6 +252,7 @@
 			isa = PBXGroup;
 			children = (
 				2C9B66EA27ECAF5000569645 /* UIApplicationExtensions.swift */,
+				2C58DE282803D197002A2774 /* UIColor+DynamicColor.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -546,18 +566,22 @@
 				2C919DE827EEEDD60022A2F2 /* LinkedList.swift in Sources */,
 				2CAFD38F27FC517D00F88B0B /* ColorPalette.swift in Sources */,
 				2C919E3527EEFF110022A2F2 /* Queue.swift in Sources */,
+				2C58DE292803D197002A2774 /* UIColor+DynamicColor.swift in Sources */,
 				2C005DCA27EF5AE500DC6503 /* UsersListRowView.swift in Sources */,
 				2CE31F4D27F1E0C8008EEE66 /* AppAssembly.swift in Sources */,
 				2C42EFA527F2BB5E00B4648B /* MokoResourcesSampleView.swift in Sources */,
+				2C58DE272803C47C002A2774 /* AuthOutlineButton.swift in Sources */,
 				2C42EFAD27F2C29500B4648B /* Strings.swift in Sources */,
 				2152FB042600AC8F00CF470E /* HyperskillApp.swift in Sources */,
 				E951757927E61ACD00995008 /* AuthView.swift in Sources */,
+				2C58DE232803BF97002A2774 /* AuthLogoView.swift in Sources */,
 				E96E80F627EF57BA00AA6683 /* AuthViewModel.swift in Sources */,
 				2C005DCE27EF5B4400DC6503 /* AppView.swift in Sources */,
 				2CF2DA4127EC75000055426D /* UsersListViewModel.swift in Sources */,
 				E92D659727FC2F4100953029 /* AuthSocialButton.swift in Sources */,
 				2CF2DA3E27EC5C180055426D /* UsersListView.swift in Sources */,
 				2C42EFB527F2EAB300B4648B /* GraphicsColor+UIColor.swift in Sources */,
+				2C58DE252803C185002A2774 /* AuthSocialControlsView.swift in Sources */,
 				2CE1C4DF27EDFB3800220041 /* FeatureViewModel.swift in Sources */,
 				2C42EFB727F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift in Sources */,
 			);

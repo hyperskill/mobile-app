@@ -2,7 +2,7 @@ import GoogleSignIn
 import shared
 import SwiftUI
 
-enum SocialProvider: String, CaseIterable {
+enum SocialAuthProvider: String, CaseIterable {
     case jetbrains
     case google
     case github
@@ -10,33 +10,31 @@ enum SocialProvider: String, CaseIterable {
 }
 
 final class AuthViewModel: FeatureViewModel<AuthFeatureState, AuthFeatureMessage, AuthFeatureActionViewAction> {
-    let availableSocialAuthProviders = SocialProvider.allCases
+    let availableSocialAuthProviders = SocialAuthProvider.allCases
 
-    func signInWithSocialProvider(provider: SocialProvider) -> () -> Void {
-        func inner() {
-            switch provider {
-            case .google:
-                guard let currentRootViewController = UIApplication.shared.currentRootViewController else {
-                    return
-                }
-                GIDSignIn.sharedInstance.signIn(
-                    with: GIDConfiguration(clientID: GoogleServiceInfo.clientID),
-                    presenting: currentRootViewController
-                ) { user, error in
-                    guard error == nil else {
-                        return
-                    }
-                    guard let accessToken = user?.authentication.accessToken else {
-                        return
-                    }
-                    // todo pass accessToken to shared module
-                    print(accessToken)
-                }
-            default:
+    func signInWithSocialAuthProvider(_ provider: SocialAuthProvider) {
+        switch provider {
+        case .google:
+            guard let currentRootViewController = UIApplication.shared.currentRootViewController else {
                 return
             }
-        }
 
-        return inner
+            GIDSignIn.sharedInstance.signIn(
+                with: GIDConfiguration(clientID: GoogleServiceInfo.clientID),
+                presenting: currentRootViewController
+            ) { user, error in
+                guard error == nil else {
+                    return
+                }
+
+                guard let accessToken = user?.authentication.accessToken else {
+                    return
+                }
+
+                self.onNewMessage(AuthFeatureMessageAuthWithGoogle(accessToken: accessToken))
+            }
+        default:
+            break
+        }
     }
 }

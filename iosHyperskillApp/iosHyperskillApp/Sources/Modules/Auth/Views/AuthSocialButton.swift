@@ -17,7 +17,7 @@ struct AuthSocialButton: View {
             label: {
                 Text(text)
                     .font(.subheadline)
-                    .foregroundColor(.black)
+                    .foregroundColor(.black.opacity(0.75))
                     .frame(maxWidth: .infinity, minHeight: 48, alignment: .center)
                     .background(Color.white)
                     .overlay(
@@ -37,6 +37,14 @@ struct AuthSocialButton: View {
 
 struct AuthSocialButton_Previews: PreviewProvider {
     static var previews: some View {
-        AuthSocialButton(text: "Google", imageName: "google_logo", action: {})
+        Group {
+            AuthSocialButton(text: "Google", imageName: "google_logo", action: {})
+                .padding(.horizontal)
+                .preferredColorScheme(.light)
+
+            AuthSocialButton(text: "Google", imageName: "google_logo", action: {})
+                .padding(.horizontal)
+                .preferredColorScheme(.dark)
+        }
     }
 }
