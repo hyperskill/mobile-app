@@ -1,19 +1,22 @@
 import Foundation
+import shared
 
 enum UserAgentBuilder {
-    static var userAgent: String {
-        guard let bundleID = Bundle.main.bundleIdentifier,
-              let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
-              let build = Bundle.main.infoDictionary?[kCFBundleVersionKey as String] as? String else {
-            return "Hyperskill-Mobile (iOS)"
-        }
+    static var userAgentInfo: UserAgentInfo {
+        let osVersion: String = {
+            let formattedOperatingSystemVersion = [
+                "\(DeviceInfo.current.operatingSystemVersion.major)",
+                "\(DeviceInfo.current.operatingSystemVersion.minor)",
+                "\(DeviceInfo.current.operatingSystemVersion.patch)"
+            ].joined(separator: ".")
+            return "iOS \(formattedOperatingSystemVersion)"
+        }()
 
-        let osVersion = [
-            "\(DeviceInfo.current.operatingSystemVersion.major)",
-            "\(DeviceInfo.current.operatingSystemVersion.minor)",
-            "\(DeviceInfo.current.operatingSystemVersion.patch)"
-        ].joined(separator: ".")
-
-        return "Hyperskill-Mobile/\(version) (\(bundleID); build \(build); iOS \(osVersion))"
+        return UserAgentInfo(
+            versionName: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "N/A",
+            osVersion: osVersion,
+            versionCode: Bundle.main.infoDictionary?[kCFBundleVersionKey as String] as? String ?? "N/A",
+            applicationId: Bundle.main.bundleIdentifier ?? "N/A"
+        )
     }
 }

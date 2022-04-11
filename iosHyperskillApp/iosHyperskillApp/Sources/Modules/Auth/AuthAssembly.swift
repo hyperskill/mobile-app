@@ -9,7 +9,7 @@ final class AuthAssembly: Assembly {
             ),
             authRemoteDataSource: AuthRemoteDataSourceImpl(
                 authHttpClient: NetworkModule.shared.provideAuthClient(
-                    userAgentValue: UserAgentBuilder.userAgent,
+                    userAgentInfo: UserAgentBuilder.userAgentInfo,
                     json: NetworkModule.shared.provideJson()
                 ),
                 json: NetworkModule.shared.provideJson(),
