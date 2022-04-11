@@ -27,13 +27,14 @@ class TokenFeature(
         var sameTokenChecker: ((HttpRequest) -> Boolean)? = null
         var tokenExpirationChecker: (() -> Boolean)? = null
 
-        fun build() = TokenFeature(
-            tokenHeaderName ?: throw IllegalArgumentException("headerName should be passed"),
-            tokenProvider ?: throw IllegalArgumentException("tokenProvider should be passed"),
-            tokenUpdater ?: throw IllegalArgumentException("tokenUpdater should be passed"),
-            sameTokenChecker ?: throw IllegalArgumentException("sameTokenChecker should be passed"),
-            tokenExpirationChecker ?: throw IllegalArgumentException("tokenExpirationChecker should be passed")
-        )
+        fun build(): TokenFeature =
+            TokenFeature(
+                tokenHeaderName ?: throw IllegalArgumentException("headerName should be passed"),
+                tokenProvider ?: throw IllegalArgumentException("tokenProvider should be passed"),
+                tokenUpdater ?: throw IllegalArgumentException("tokenUpdater should be passed"),
+                sameTokenChecker ?: throw IllegalArgumentException("sameTokenChecker should be passed"),
+                tokenExpirationChecker ?: throw IllegalArgumentException("tokenExpirationChecker should be passed")
+            )
     }
 
     companion object Feature : HttpClientFeature<Config, TokenFeature> {
@@ -42,7 +43,8 @@ class TokenFeature(
 
         override val key = AttributeKey<TokenFeature>("TokenFeature")
 
-        override fun prepare(block: Config.() -> Unit) = Config().apply(block).build()
+        override fun prepare(block: Config.() -> Unit): TokenFeature =
+            Config().apply(block).build()
 
         override fun install(feature: TokenFeature, scope: HttpClient) {
             scope.requestPipeline.intercept(HttpRequestPipeline.State) {
@@ -57,8 +59,6 @@ class TokenFeature(
                 if (!feature.tokenExpirationChecker.invoke()) return@intercept origin
                 // If this interceptor has already been called, don't do anything
                 if (origin.request.attributes.contains(circuitBreaker)) return@intercept origin
-
-
 
                 // Lock here, so other requests will wait until the token is updated
                 refreshTokenMutex.lock()
