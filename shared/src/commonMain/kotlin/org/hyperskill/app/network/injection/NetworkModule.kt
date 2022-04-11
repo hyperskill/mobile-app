@@ -14,11 +14,8 @@ import io.ktor.client.features.logging.LogLevel
 import io.ktor.client.features.logging.Logger
 import io.ktor.client.features.logging.Logging
 import io.ktor.client.features.logging.SIMPLE
-import io.ktor.client.request.forms.submitForm
 import io.ktor.http.URLProtocol
-import io.ktor.http.Parameters
 import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import org.hyperskill.app.auth.cache.AuthCacheKeyValues
@@ -49,8 +46,6 @@ object NetworkModule {
         settings: Settings
     ): HttpClient =
         HttpClient {
-            val tokenClient = provideAuthClient(userAgentValue, json)
-
             defaultRequest {
                 url {
                     protocol = URLProtocol.HTTPS
@@ -73,31 +68,12 @@ object NetworkModule {
                     username = BuildKonfig.OAUTH_CLIENT_ID
                     password = BuildKonfig.OAUTH_CLIENT_SECRET
                 }
-
                 bearer {
                     loadTokens {
                         val authResponse = json.decodeFromString<AuthResponse>(settings.getString(AuthCacheKeyValues.AUTH_RESPONSE, ""))
                         BearerTokens(
                             accessToken = authResponse.accessToken,
                             refreshToken = authResponse.refreshToken
-                        )
-                    }
-
-                    sendWithoutRequest { true }
-
-                    refreshTokens {
-                        val authResponse = json.decodeFromString<AuthResponse>(settings.getString(AuthCacheKeyValues.AUTH_RESPONSE, ""))
-                        val refreshTokenInfo = tokenClient.submitForm<AuthResponse>(
-                            url = "/oauth2/token/",
-                            formParameters = Parameters.build {
-                                append("grant_type", "refresh_token")
-                                append("refresh_token", authResponse.refreshToken)
-                            }
-                        )
-                        settings.putString(AuthCacheKeyValues.AUTH_RESPONSE, json.encodeToString(refreshTokenInfo))
-                        BearerTokens(
-                            accessToken = refreshTokenInfo.accessToken,
-                            refreshToken = refreshTokenInfo.refreshToken
                         )
                     }
                 }
