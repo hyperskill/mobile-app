@@ -29,26 +29,28 @@ struct AuthView: View {
             ZStack {
                 Color(ColorPalette.background).ignoresSafeArea()
 
-                VStack(spacing: 0) {
-                    if horizontalSizeClass == .regular {
+                VerticalCenteredScrollView(showsIndicators: false) {
+                    VStack(spacing: 0) {
+                        if horizontalSizeClass == .regular {
+                            Spacer()
+                        }
+
+                        AuthLogoView(logoWidthHeight: appearance.logoSize)
+                            .padding(horizontalSizeClass == .regular ? .bottom : .vertical, appearance.logoSize)
+
+                        AuthSocialControlsView(
+                            socialAuthProviders: viewModel.availableSocialAuthProviders,
+                            onSocialAuthProviderClick: viewModel.signInWithSocialAuthProvider(_:),
+                            onContinueWithEmailClick: { presentingContinueWithEmail = true }
+                        )
+                        .fullScreenCover(isPresented: $presentingContinueWithEmail) {
+                            Text(Strings.authEmailText)
+                        }
+
                         Spacer()
                     }
-
-                    AuthLogoView(logoWidthHeight: appearance.logoSize)
-                        .padding(horizontalSizeClass == .regular ? .bottom : .vertical, appearance.logoSize)
-
-                    AuthSocialControlsView(
-                        socialAuthProviders: viewModel.availableSocialAuthProviders,
-                        onSocialAuthProviderClick: viewModel.signInWithSocialAuthProvider(_:),
-                        onContinueWithEmailClick: { presentingContinueWithEmail = true }
-                    )
-                    .fullScreenCover(isPresented: $presentingContinueWithEmail) {
-                        Text(Strings.authEmailText)
-                    }
-
-                    Spacer()
+                    .frame(maxWidth: appearance.contentMaxWidth)
                 }
-                .frame(maxWidth: appearance.contentMaxWidth)
             }
             .navigationBarHidden(true)
         }
@@ -64,9 +66,18 @@ struct AuthView: View {
 
 struct AuthView_Previews: PreviewProvider {
     static var previews: some View {
-        AuthAssembly().makeModule()
+        AuthAssembly()
+            .makeModule()
             .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro"))
             .preferredColorScheme(.light)
+
+        if #available(iOS 15.0, *) {
+            AuthAssembly()
+                .makeModule()
+                .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro"))
+                .preferredColorScheme(.light)
+                .previewInterfaceOrientation(.landscapeRight)
+        }
 
         AuthAssembly().makeModule()
             .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro"))
