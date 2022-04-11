@@ -21,6 +21,7 @@ import kotlinx.serialization.modules.SerializersModule
 import org.hyperskill.app.auth.cache.AuthCacheKeyValues
 import org.hyperskill.app.auth.remote.model.AuthResponse
 import org.hyperskill.app.config.BuildKonfig
+import org.hyperskill.app.core.remote.UserAgentInfo
 
 object NetworkModule {
     fun provideJson(): Json =
@@ -41,7 +42,7 @@ object NetworkModule {
         }
 
     fun provideAuthorizedClient(
-        userAgentValue: String,
+        userAgentInfo: UserAgentInfo,
         json: Json,
         settings: Settings
     ): HttpClient =
@@ -60,7 +61,7 @@ object NetworkModule {
                 level = LogLevel.ALL
             }
             install(UserAgent) {
-                agent = userAgentValue
+                agent = userAgentInfo.toString()
             }
             install(Auth) {
                 basic {
@@ -80,7 +81,7 @@ object NetworkModule {
             }
         }
 
-    fun provideAuthClient(userAgentValue: String, json: Json): HttpClient =
+    fun provideAuthClient(userAgentInfo: UserAgentInfo, json: Json): HttpClient =
         HttpClient {
             defaultRequest {
                 url {
@@ -103,7 +104,7 @@ object NetworkModule {
                 }
             }
             install(UserAgent) {
-                agent = userAgentValue
+                agent = userAgentInfo.toString()
             }
         }
 }

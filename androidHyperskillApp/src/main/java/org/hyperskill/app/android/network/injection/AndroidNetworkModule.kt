@@ -6,8 +6,8 @@ import dagger.Provides
 import io.ktor.client.HttpClient
 import kotlinx.serialization.json.Json
 import org.hyperskill.app.android.BuildConfig
+import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.network.injection.NetworkModule
-import javax.inject.Named
 
 @Module
 object AndroidNetworkModule {
@@ -25,25 +25,27 @@ object AndroidNetworkModule {
     @Provides
     @AuthHttpClient
     fun provideAuthHttpClient(
-        @Named("UserAgentValue")
-        userAgentValue: String,
+        userAgentInfo: UserAgentInfo,
         json: Json
     ): HttpClient =
-        NetworkModule.provideAuthClient(userAgentValue, json)
+        NetworkModule.provideAuthClient(userAgentInfo, json)
 
     @Provides
     @AuthorizedHttpClient
     fun provideHttpClient(
-        @Named("UserAgentValue")
-        userAgentValue: String,
+        userAgentInfo: UserAgentInfo,
         json: Json,
         settings: Settings
     ): HttpClient =
-        NetworkModule.provideAuthorizedClient(userAgentValue, json, settings)
+        NetworkModule.provideAuthorizedClient(userAgentInfo, json, settings)
 
     @Provides
     @JvmStatic
-    @Named("UserAgentValue")
-    fun provideUserAgentValue(): String =
-        "Hyperskill-Mobile/${BuildConfig.VERSION_NAME} (Android ${android.os.Build.VERSION.SDK_INT}) build/${BuildConfig.VERSION_CODE} package/${BuildConfig.APPLICATION_ID}"
+    fun provideUserAgentValue(): UserAgentInfo =
+        UserAgentInfo(
+            BuildConfig.VERSION_NAME,
+            "Android ${android.os.Build.VERSION.SDK_INT}",
+            BuildConfig.VERSION_CODE.toString(),
+            BuildConfig.APPLICATION_ID
+        )
 }
