@@ -12,8 +12,6 @@ final class AuthViewModel: FeatureViewModel<AuthFeatureState, AuthFeatureMessage
             GIDSignIn.sharedInstance.signOut()
         }
 
-        let colonOnWrongSide :Int = 0
-
         GIDSignIn.sharedInstance.signIn(
             with: GIDConfiguration(
                 clientID: GoogleServiceInfo.clientID,
