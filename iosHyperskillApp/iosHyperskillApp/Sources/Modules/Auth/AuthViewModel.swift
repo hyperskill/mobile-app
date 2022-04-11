@@ -8,19 +8,24 @@ final class AuthViewModel: FeatureViewModel<AuthFeatureState, AuthFeatureMessage
             return
         }
 
+        if GIDSignIn.sharedInstance.hasPreviousSignIn() {
+            GIDSignIn.sharedInstance.signOut()
+        }
+
         GIDSignIn.sharedInstance.signIn(
-            with: GIDConfiguration(clientID: GoogleServiceInfo.clientID),
+            with: GIDConfiguration(
+                clientID: GoogleServiceInfo.clientID,
+                serverClientID: GoogleServiceInfo.serverClientID
+            ),
             presenting: currentRootViewController
         ) { user, error in
-            guard error == nil else {
-                return
+            if let error = error {
+                print("GIDSignIn :: error = \(error.localizedDescription)")
+            } else if let serverAuthCode = user?.serverAuthCode {
+                self.onNewMessage(AuthFeatureMessageAuthWithGoogle(accessToken: serverAuthCode))
+            } else {
+                print("GIDSignIn :: error missing serverAuthCode")
             }
-            guard let accessToken = user?.authentication.accessToken else {
-                return
-            }
-
-            // todo pass accessToken to shared module
-            print(accessToken)
         }
     }
 }
