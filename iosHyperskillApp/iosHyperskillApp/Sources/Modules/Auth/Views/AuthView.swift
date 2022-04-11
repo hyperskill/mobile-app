@@ -43,7 +43,7 @@ struct AuthView: View {
                         onContinueWithEmailClick: { presentingContinueWithEmail = true }
                     )
                     .fullScreenCover(isPresented: $presentingContinueWithEmail) {
-                        Text("Continue with email")
+                        Text(Strings.authEmailText)
                     }
 
                     Spacer()

@@ -9,5 +9,6 @@
     <string name="auth_jetbrains_account_text">JetBrains Account</string>
     <string name="auth_google_account_text">Google</string>
     <string name="auth_github_account_text">GitHub</string>
+    <string name="auth_apple_account_text">Apple</string>
     <string name="auth_email_text">Continue with email</string>
 </resources>

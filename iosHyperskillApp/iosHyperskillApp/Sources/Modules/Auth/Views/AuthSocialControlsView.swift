@@ -29,7 +29,7 @@ struct AuthSocialControlsView: View {
                 )
             }
 
-            AuthOutlineButton(text: "Continue with email", action: self.onContinueWithEmailClick)
+            AuthOutlineButton(text: Strings.authEmailText, action: self.onContinueWithEmailClick)
                 .padding(.top)
         }
         .padding(.horizontal)
@@ -40,13 +40,13 @@ private extension SocialAuthProvider {
     var humanReadableName: String {
         switch self {
         case .jetbrains:
-            return "JetBrains Account"
+            return Strings.authJetBrainsAccountText
         case .google:
-            return "Google"
+            return Strings.authGoogleAccountText
         case .github:
-            return "GitHub"
+            return Strings.authGitHubAccountText
         case .apple:
-            return "Apple"
+            return Strings.authAppleAccountText
         }
     }
 
