@@ -12,6 +12,7 @@ final class AuthViewModel: FeatureViewModel<AuthFeatureState, AuthFeatureMessage
             GIDSignIn.sharedInstance.signOut()
         }
 
+
         GIDSignIn.sharedInstance.signIn(
             with: GIDConfiguration(
                 clientID: GoogleServiceInfo.clientID,
