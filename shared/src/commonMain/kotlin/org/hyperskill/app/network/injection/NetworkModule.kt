@@ -5,6 +5,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.features.defaultRequest
 import io.ktor.client.features.UserAgent
 import io.ktor.client.features.auth.Auth
+import io.ktor.client.features.auth.providers.BasicAuthCredentials
 import io.ktor.client.features.auth.providers.basic
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
@@ -134,9 +135,13 @@ object NetworkModule {
             }
             install(Auth) {
                 basic {
-                    sendWithoutRequest = true
-                    username = BuildKonfig.OAUTH_CLIENT_ID
-                    password = BuildKonfig.OAUTH_CLIENT_SECRET
+                    sendWithoutRequest { true }
+                    credentials {
+                        BasicAuthCredentials(
+                            username = BuildKonfig.OAUTH_CLIENT_ID,
+                            password = BuildKonfig.OAUTH_CLIENT_SECRET
+                        )
+                    }
                 }
             }
             install(UserAgent) {
