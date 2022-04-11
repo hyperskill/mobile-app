@@ -2,13 +2,19 @@ import Foundation
 
 enum GoogleServiceInfo {
     static var clientID: String {
-        // swiftlint:disable:next force_cast
-        self.readAndDeserializePlistIntoDictionary()?[Key.clientID.rawValue] as! String
+        self.getStringValue(for: .clientID).require()
     }
 
     static var reversedClientID: String {
-        // swiftlint:disable:next force_cast
-        self.readAndDeserializePlistIntoDictionary()?[Key.reversedClientID.rawValue] as! String
+        self.getStringValue(for: .reversedClientID).require()
+    }
+
+    static var serverClientID: String {
+        self.getStringValue(for: .serverClientID).require()
+    }
+
+    private static func getStringValue(for key: Key) -> String? {
+        self.readAndDeserializePlistIntoDictionary()?[key.rawValue] as? String
     }
 
     private static func readAndDeserializePlistIntoDictionary() -> [String: Any]? {
@@ -36,5 +42,6 @@ enum GoogleServiceInfo {
     enum Key: String {
         case clientID = "CLIENT_ID"
         case reversedClientID = "REVERSED_CLIENT_ID"
+        case serverClientID = "SERVER_CLIENT_ID"
     }
 }
