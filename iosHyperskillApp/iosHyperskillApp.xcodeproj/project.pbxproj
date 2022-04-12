@@ -38,6 +38,7 @@
 		2CAE8CFB28054A7000E6C83D /* RoundedRectangleButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAE8CFA28054A7000E6C83D /* RoundedRectangleButtonStyle.swift */; };
 		2CAE8D012805517900E6C83D /* OutlineButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAE8D002805517900E6C83D /* OutlineButtonStyle.swift */; };
 		2CAE8D032805550900E6C83D /* BounceButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAE8D022805550900E6C83D /* BounceButtonStyle.swift */; };
+		2CAE8D0528055D8300E6C83D /* StepActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAE8D0428055D8300E6C83D /* StepActionButton.swift */; };
 		2CAFD38F27FC517D00F88B0B /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAFD38E27FC517D00F88B0B /* ColorPalette.swift */; };
 		2CAFD39127FC5D5D00F88B0B /* Color+DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAFD39027FC5D5D00F88B0B /* Color+DesignSystem.swift */; };
 		2CCF3B5828004FC40075D12C /* UserAgentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCF3B5728004FC40075D12C /* UserAgentBuilder.swift */; };
@@ -99,6 +100,7 @@
 		2CAE8CFA28054A7000E6C83D /* RoundedRectangleButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedRectangleButtonStyle.swift; sourceTree = "<group>"; };
 		2CAE8D002805517900E6C83D /* OutlineButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlineButtonStyle.swift; sourceTree = "<group>"; };
 		2CAE8D022805550900E6C83D /* BounceButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BounceButtonStyle.swift; sourceTree = "<group>"; };
+		2CAE8D0428055D8300E6C83D /* StepActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepActionButton.swift; sourceTree = "<group>"; };
 		2CAFD38E27FC517D00F88B0B /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		2CAFD39027FC5D5D00F88B0B /* Color+DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+DesignSystem.swift"; sourceTree = "<group>"; };
 		2CCF3B5728004FC40075D12C /* UserAgentBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAgentBuilder.swift; sourceTree = "<group>"; };
@@ -290,6 +292,7 @@
 		2CAE8CF5280525DB00E6C83D /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2CAE8D0428055D8300E6C83D /* StepActionButton.swift */,
 				2CAE8CF628052F9600E6C83D /* StepHeaderView.swift */,
 				2CAE8CF1280525C900E6C83D /* StepView.swift */,
 			);
@@ -643,6 +646,7 @@
 				2CE31F4D27F1E0C8008EEE66 /* AppAssembly.swift in Sources */,
 				2CCF3B5A280050890075D12C /* DeviceInfo.swift in Sources */,
 				2C58DE2B2803DEE2002A2774 /* VerticalCenteredScrollView.swift in Sources */,
+				2CAE8D0528055D8300E6C83D /* StepActionButton.swift in Sources */,
 				2CAE8D012805517900E6C83D /* OutlineButtonStyle.swift in Sources */,
 				2C42EFAD27F2C29500B4648B /* Strings.swift in Sources */,
 				2152FB042600AC8F00CF470E /* HyperskillApp.swift in Sources */,
