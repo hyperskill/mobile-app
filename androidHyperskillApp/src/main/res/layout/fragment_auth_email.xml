@@ -9,11 +9,6 @@
     android:background="@color/color_background"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.AppCompatImageButton
-        style="@style/Widget.AppTheme.ImageButton.Close"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/signInHyperskillLogoShapeableImageView"
         android:layout_width="@dimen/sign_in_hyperskill_logo_width"
