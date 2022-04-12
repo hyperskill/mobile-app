@@ -11,8 +11,19 @@ struct StepView: View {
 
     var body: some View {
         NavigationView {
-            makeContentView()
-                .navigationTitle(makeNavigationTitleString())
+            switch self.viewModel.state {
+            case is StepFeatureStateIdle:
+                ProgressView().onAppear(perform: viewModel.loadStep)
+            case is StepFeatureStateLoading:
+                ProgressView()
+            case is StepFeatureStateError:
+                Text("Error")
+            case let data as StepFeatureStateData:
+                StepContentView(viewData: data.step.viewData)
+                    .navigationTitle(data.step.title)
+            default:
+                Text("Unkwown state")
+            }
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear(perform: viewModel.startListening)
@@ -20,48 +31,6 @@ struct StepView: View {
     }
 
     // MARK: Private API
-
-    @ViewBuilder
-    private func makeContentView() -> some View {
-        switch self.viewModel.state {
-        case is StepFeatureStateIdle:
-            ProgressView().onAppear(perform: viewModel.loadStep)
-        case is StepFeatureStateLoading:
-            ProgressView()
-        case is StepFeatureStateError:
-            Text("Error")
-        case let data as StepFeatureStateData:
-            ScrollView {
-                VStack {
-                    StepHeaderView(
-                        title: data.step.type.capitalized,
-                        timeToComplete: "3 minutes remaining"
-                    )
-
-                    StepActionButton(
-                        title: Strings.stepStartPracticingText,
-                        style: .greenOutline
-                    ) {
-                        print("Start practicing tapped")
-                    }
-
-                    Text(data.step.block.text)
-
-                    StepBottomControlsView(
-                        commentStatisticsViewData: data.step.commentsStatistics.map(\.viewData),
-                        onStartPracticingClick: {
-                            print("Start practicing tapped")
-                        },
-                        onCommentStatisticClick: { commentStatistic in
-                            print("Comment statistic clicked = \(commentStatistic)")
-                        }
-                    )
-                }
-            }
-        default:
-            Text("HERE")
-        }
-    }
 
     private func makeNavigationTitleString() -> String {
         if let data = self.viewModel.state as? StepFeatureStateData {
