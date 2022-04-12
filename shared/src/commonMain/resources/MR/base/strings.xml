@@ -10,4 +10,11 @@
     <string name="auth_google_account_text">Google</string>
     <string name="auth_github_account_text">GitHub</string>
     <string name="auth_email_text">Continue with email</string>
+
+    <!-- Step -->
+    <string name="step_theory_subtitle">Theory</string>
+    <string name="step_theory_start_practicing_action">Start practicing</string>
+    <string name="step_theory_reaction_subtitle">How did you like the theory?</string>
+    <string name="step_theory_reaction_subtitle_part_1">How did you like the</string>
+    <string name="step_theory_reaction_subtitle_part_2">theory?</string>
 </resources>

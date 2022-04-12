@@ -13,4 +13,9 @@
     <dimen name="auth_button_height">48dp</dimen>
     <dimen name="auth_button_logo_margin_left">12dp</dimen>
     <dimen name="auth_button_text_size">14sp</dimen>
+
+    <!-- Step screen -->
+    <dimen name="step_theory_rating_horizontal_edge_margin">10dp</dimen>
+    <dimen name="step_theory_rating_horizontal_margin">22dp</dimen>
+    <dimen name="step_theory_rating_vertical_margin">10dp</dimen>
 </resources>

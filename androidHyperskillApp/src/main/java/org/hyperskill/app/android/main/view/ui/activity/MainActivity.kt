@@ -7,8 +7,8 @@ import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.auth.view.ui.screen.AuthSocialScreen
 import org.hyperskill.app.android.databinding.ActivityMainBinding
+import org.hyperskill.app.android.step.view.ui.screen.StepScreen
 import org.hyperskill.app.auth.presentation.AuthFeature
 import ru.nobird.android.view.navigation.navigator.NestedAppNavigator
 import ru.nobird.android.view.navigation.ui.fragment.NavigationContainer
@@ -60,7 +60,8 @@ class MainActivity :
     }
 
     private fun initNavigation() {
-        router.newRootScreen(AuthSocialScreen)
+        router.newRootScreen(StepScreen)
+//        router.newRootScreen(AuthSocialScreen)
     }
 
     override fun onResumeFragments() {
