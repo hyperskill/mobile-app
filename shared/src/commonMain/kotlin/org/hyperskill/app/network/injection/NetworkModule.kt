@@ -21,7 +21,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
-import org.hyperskill.app.auth.TokenFeature
+import org.hyperskill.app.auth.remote.source.BearerToken
 import org.hyperskill.app.auth.cache.AuthCacheKeyValues
 import org.hyperskill.app.auth.remote.model.AuthResponse
 import org.hyperskill.app.config.BuildKonfig
@@ -69,7 +69,7 @@ object NetworkModule {
             install(UserAgent) {
                 agent = userAgentInfo.toString()
             }
-            install(TokenFeature) {
+            install(BearerToken) {
                 tokenHeaderName = "Authorization"
                 tokenProvider = {
                     getAuthResponse(json, settings)?.accessToken
@@ -96,20 +96,12 @@ object NetworkModule {
                         }
                     )
                 }
-                sameTokenChecker = {
-                    val authResponse = getAuthResponse(json, settings)
-                    if (authResponse == null) {
-                        false
-                    } else {
-                        it.headers["Authorization"] == "Bearer ${authResponse.accessToken}"
-                    }
-                }
                 tokenExpirationChecker = {
                     val authResponse = getAuthResponse(json, settings)
                     val accessTokenTimestamp = settings.getLong(AuthCacheKeyValues.AUTH_ACCESS_TOKEN_TIMESTAMP, 0L)
 
                     if (authResponse == null || accessTokenTimestamp == 0L) {
-                        false
+                        true
                     } else {
                         val delta = Clock.System.now().epochSeconds - accessTokenTimestamp
                         val expireMillis = (authResponse.expiresIn - 50) * 1000
