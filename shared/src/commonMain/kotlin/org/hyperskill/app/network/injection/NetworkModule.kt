@@ -21,7 +21,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
-import org.hyperskill.app.auth.remote.source.BearerToken
+import org.hyperskill.app.auth.remote.source.BearerTokenHttpClientPlugin
 import org.hyperskill.app.auth.cache.AuthCacheKeyValues
 import org.hyperskill.app.auth.remote.model.AuthResponse
 import org.hyperskill.app.config.BuildKonfig
@@ -69,32 +69,36 @@ object NetworkModule {
             install(UserAgent) {
                 agent = userAgentInfo.toString()
             }
-            install(BearerToken) {
+            install(BearerTokenHttpClientPlugin) {
                 tokenHeaderName = "Authorization"
                 tokenProvider = {
                     getAuthResponse(json, settings)?.accessToken
                 }
                 tokenUpdater = {
-                    val refreshToken = getAuthResponse(json, settings)?.refreshToken ?: ""
-                    val refreshTokenResult = kotlin.runCatching {
-                        tokenClient.submitForm<AuthResponse>(
-                            url = "/oauth2/token/",
-                            formParameters = Parameters.build {
-                                append("grant_type", "refresh_token")
-                                append("refresh_token", refreshToken)
+                    val refreshToken = getAuthResponse(json, settings)?.refreshToken
+                    if (refreshToken != null) {
+                        val refreshTokenResult = kotlin.runCatching {
+                            tokenClient.submitForm<AuthResponse>(
+                                url = "/oauth2/token/",
+                                formParameters = Parameters.build {
+                                    append("grant_type", "refresh_token")
+                                    append("refresh_token", refreshToken)
+                                }
+                            )
+                        }
+                        refreshTokenResult.fold(
+                            onSuccess = {
+                                settings.putString(AuthCacheKeyValues.AUTH_RESPONSE, json.encodeToString(it))
+                                settings.putLong(AuthCacheKeyValues.AUTH_ACCESS_TOKEN_TIMESTAMP, Clock.System.now().epochSeconds)
+                                true
+                            },
+                            onFailure = {
+                                false
                             }
                         )
+                    } else {
+                        false
                     }
-                    refreshTokenResult.fold(
-                        onSuccess = {
-                            settings.putString(AuthCacheKeyValues.AUTH_RESPONSE, json.encodeToString(it))
-                            settings.putLong(AuthCacheKeyValues.AUTH_ACCESS_TOKEN_TIMESTAMP, Clock.System.now().epochSeconds)
-                            true
-                        },
-                        onFailure = {
-                            false
-                        }
-                    )
                 }
                 tokenExpirationChecker = {
                     val authResponse = getAuthResponse(json, settings)

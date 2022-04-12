@@ -8,7 +8,7 @@ import io.ktor.util.AttributeKey
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
-class BearerToken(
+class BearerTokenHttpClientPlugin(
     private val tokenHeaderName: String,
     private val tokenProvider: () -> String?,
     private val tokenUpdater: suspend () -> Boolean,
@@ -22,8 +22,8 @@ class BearerToken(
         var tokenUpdater: (suspend () -> Boolean)? = null
         var tokenExpirationChecker: (() -> Boolean)? = null
 
-        fun build(): BearerToken =
-            BearerToken(
+        fun build(): BearerTokenHttpClientPlugin =
+            BearerTokenHttpClientPlugin(
                 tokenHeaderName ?: throw IllegalArgumentException("headerName should be passed"),
                 tokenProvider ?: throw IllegalArgumentException("tokenProvider should be passed"),
                 tokenUpdater ?: throw IllegalArgumentException("tokenUpdater should be passed"),
@@ -31,35 +31,28 @@ class BearerToken(
             )
     }
 
-    companion object Feature : HttpClientFeature<Config, BearerToken> {
+    companion object Feature : HttpClientFeature<Config, BearerTokenHttpClientPlugin> {
         private val refreshTokenMutex = Mutex()
 
-        override val key = AttributeKey<BearerToken>("TokenFeature")
+        override val key = AttributeKey<BearerTokenHttpClientPlugin>("TokenFeature")
 
-        override fun prepare(block: Config.() -> Unit): BearerToken =
+        override fun prepare(block: Config.() -> Unit): BearerTokenHttpClientPlugin =
             Config().apply(block).build()
 
-        override fun install(feature: BearerToken, scope: HttpClient) {
+        override fun install(feature: BearerTokenHttpClientPlugin, scope: HttpClient) {
             scope.requestPipeline.intercept(HttpRequestPipeline.State) {
                 refreshTokenMutex.withLock {
-                    // Check if token is expired - if it is valid, use it
-                    if (!feature.tokenExpirationChecker.invoke()) {
-                        feature.tokenProvider.invoke()?.let { token ->
-                            context.headers.remove(feature.tokenHeaderName)
-                            context.header(feature.tokenHeaderName, buildBearerHeader(token))
-                        }
-                    } else {
+                    // Check token expiration - if it is expired, update it
+                    if (feature.tokenExpirationChecker.invoke()) {
                         // Check if refresh is successful
                         if (!feature.tokenUpdater.invoke()) {
                             return@withLock
                         }
-
-                        // Obtain new token
-                        val token = feature.tokenProvider.invoke() ?: return@withLock
-
-                        context.headers.remove(feature.tokenHeaderName)
-                        context.header(feature.tokenHeaderName, buildBearerHeader(token))
                     }
+
+                    val token = feature.tokenProvider.invoke() ?: return@withLock
+                    context.headers.remove(feature.tokenHeaderName)
+                    context.header(feature.tokenHeaderName, buildBearerHeader(token))
                 }
             }
         }
