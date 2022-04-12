@@ -37,6 +37,25 @@ struct StepView: View {
                         title: data.step.type.capitalized,
                         timeToComplete: "3 minutes remaining"
                     )
+
+                    StepActionButton(
+                        title: Strings.stepStartPracticingText,
+                        style: .greenOutline
+                    ) {
+                        print("Start practicing tapped")
+                    }
+
+                    Text(data.step.block.text)
+
+                    StepBottomControlsView(
+                        commentStatisticsViewData: data.step.commentsStatistics.map(\.viewData),
+                        onStartPracticingClick: {
+                            print("Start practicing tapped")
+                        },
+                        onCommentStatisticClick: { commentStatistic in
+                            print("Comment statistic clicked = \(commentStatistic)")
+                        }
+                    )
                 }
             }
         default:

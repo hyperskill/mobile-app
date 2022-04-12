@@ -5,16 +5,10 @@ struct StepActionButton: View {
 
     let style: Style
 
-    private let action: () -> Void
-
-    init(title: String, style: Style, action: @escaping () -> Void) {
-        self.title = title
-        self.style = style
-        self.action = action
-    }
+    var onClick: (() -> Void)?
 
     var body: some View {
-        let button = Button(title, action: action)
+        let button = Button(title, action: { self.onClick?() })
 
         switch style {
         case .greenOutline:
@@ -48,9 +42,18 @@ struct StepActionButton: View {
 struct StepActionButton_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            StepActionButton(title: "Start practicing", style: .greenOutline, action: {})
-            StepActionButton(title: "Start practicing", style: .greenFilled, action: {})
-            StepActionButton(title: "Comments (0)", style: .violetOutline, action: {})
+            VStack {
+                StepActionButton(title: "Start practicing", style: .greenOutline)
+                StepActionButton(title: "Start practicing", style: .greenFilled)
+                StepActionButton(title: "Comments (0)", style: .violetOutline)
+            }
+
+            VStack {
+                StepActionButton(title: "Start practicing", style: .greenOutline)
+                StepActionButton(title: "Start practicing", style: .greenFilled)
+                StepActionButton(title: "Comments (0)", style: .violetOutline)
+            }
+            .preferredColorScheme(.dark)
         }
         .padding()
     }

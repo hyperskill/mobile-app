@@ -11,4 +11,7 @@
     <string name="auth_github_account_text">GitHub</string>
     <string name="auth_apple_account_text">Apple</string>
     <string name="auth_email_text">Continue with email</string>
+
+    <!-- Step -->
+    <string name="step_start_practicing_text">Start practicing</string>
 </resources>
