@@ -1,5 +1,6 @@
 package org.hyperskill.app.android.auth.view.ui.fragment
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
@@ -7,6 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.github.terrakok.cicerone.Cicerone
+import com.github.terrakok.cicerone.Forward
+import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.Scopes
@@ -18,10 +22,13 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.view.ui.adapter.delegates.AuthSocialAdapterDelegate
 import org.hyperskill.app.android.auth.view.ui.model.AuthSocialCardInfo
 import org.hyperskill.app.android.auth.presentation.AuthSocialViewModel
+import org.hyperskill.app.android.auth.view.ui.screen.AuthEmailScreen
 import org.hyperskill.app.android.databinding.FragmentAuthSocialBinding
+import org.hyperskill.app.android.main.view.ui.activity.MainActivity
 import org.hyperskill.app.auth.presentation.AuthFeature
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
+import ru.nobird.android.view.injection.base.RxScheduler
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 import javax.inject.Inject
@@ -86,6 +93,10 @@ class AuthSocialFragment :
         )
         viewBinding.authButtonsRecyclerView.layoutManager = LinearLayoutManager(context)
         viewBinding.authButtonsRecyclerView.adapter = authMaterialCardViewsAdapter
+
+        viewBinding.signInWithEmailMaterialButton.setOnClickListener {
+            (requireActivity() as MainActivity).router.navigateTo(AuthEmailScreen)
+        }
     }
 
     override fun onAction(action: AuthFeature.Action.ViewAction) {}

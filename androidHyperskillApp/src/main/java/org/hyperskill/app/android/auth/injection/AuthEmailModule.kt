@@ -5,7 +5,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
 import org.hyperskill.app.android.auth.presentation.AuthEmailViewModel
-import org.hyperskill.app.android.auth.presentation.AuthSocialViewModel
 import org.hyperskill.app.auth.injection.AuthFeatureBuilder
 import ru.nobird.android.view.injection.base.presentation.ViewModelKey
 import ru.nobird.app.presentation.redux.container.wrapWithViewContainer
@@ -14,7 +13,7 @@ import ru.nobird.app.presentation.redux.container.wrapWithViewContainer
 object AuthEmailModule {
     @Provides
     @IntoMap
-    @ViewModelKey(AuthSocialViewModel::class)
+    @ViewModelKey(AuthEmailViewModel::class)
     internal fun provideAuthPresenter(): ViewModel =
         AuthEmailViewModel(
             AuthFeatureBuilder
