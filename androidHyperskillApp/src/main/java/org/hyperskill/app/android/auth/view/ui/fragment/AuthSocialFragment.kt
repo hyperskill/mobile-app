@@ -24,7 +24,6 @@ import org.hyperskill.app.android.main.view.ui.activity.MainActivity
 import org.hyperskill.app.auth.presentation.AuthFeature
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
-import ru.nobird.android.view.injection.base.RxScheduler
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 import javax.inject.Inject
