@@ -28,4 +28,13 @@
         <item name="android:src">@drawable/ic_close</item>
     </style>
 
+    <style name="Widget.AppTheme.TextInputLayouts.InputText" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/text_edit_stroke_color_selector</item>
+        <item name="hintTextColor">@color/text_edit_hint_color_selector</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/corner_radius</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/corner_radius</item>
+        <item name="boxCornerRadiusTopStart">@dimen/corner_radius</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/corner_radius</item>
+    </style>
+
 </resources>
