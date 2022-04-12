@@ -10,10 +10,46 @@ struct StepView: View {
     }
 
     var body: some View {
-        Text("Step")
+        NavigationView {
+            makeContentView()
+                .navigationTitle(makeNavigationTitleString())
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
+        .onAppear(perform: viewModel.startListening)
+        .onDisappear(perform: viewModel.stopListening)
     }
 
     // MARK: Private API
+
+    @ViewBuilder
+    private func makeContentView() -> some View {
+        switch self.viewModel.state {
+        case is StepFeatureStateIdle:
+            ProgressView().onAppear(perform: viewModel.loadStep)
+        case is StepFeatureStateLoading:
+            ProgressView()
+        case is StepFeatureStateError:
+            Text("Error")
+        case let data as StepFeatureStateData:
+            ScrollView {
+                VStack {
+                    StepHeaderView(
+                        title: data.step.type.capitalized,
+                        timeToComplete: "3 minutes remaining"
+                    )
+                }
+            }
+        default:
+            Text("HERE")
+        }
+    }
+
+    private func makeNavigationTitleString() -> String {
+        if let data = self.viewModel.state as? StepFeatureStateData {
+            return data.step.title
+        }
+        return "Step"
+    }
 
     private func handleViewAction(_ viewAction: StepFeatureActionViewAction) {
         print("StepView :: \(#function) viewAction = \(viewAction)")
@@ -22,6 +58,6 @@ struct StepView: View {
 
 struct StepView_Previews: PreviewProvider {
     static var previews: some View {
-        StepAssembly().makeModule()
+        StepAssembly(stepID: 4350).makeModule()
     }
 }

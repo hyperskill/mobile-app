@@ -29,8 +29,9 @@ struct AuthSocialControlsView: View {
                 )
             }
 
-            AuthOutlineButton(text: Strings.authEmailText, action: self.onContinueWithEmailClick)
+            Button(Strings.authEmailText, action: self.onContinueWithEmailClick)
                 .padding(.top)
+                .buttonStyle(OutlineButtonStyle())
         }
         .padding(.horizontal)
     }

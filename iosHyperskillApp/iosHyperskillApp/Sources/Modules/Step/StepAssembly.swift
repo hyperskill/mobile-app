@@ -2,6 +2,12 @@ import shared
 import SwiftUI
 
 final class StepAssembly: Assembly {
+    private let stepID: Int
+
+    init(stepID: Int) {
+        self.stepID = stepID
+    }
+
     func makeModule() -> StepView {
         let stepRepository = StepRepositoryImpl(
             stepRemoteDataSource: StepRemoteDataSourceImpl(
@@ -11,7 +17,7 @@ final class StepAssembly: Assembly {
         let stepInteractor = StepInteractor(stepRepository: stepRepository)
         let stepFeature = StepFeatureBuilder.shared.build(stepInteractor: stepInteractor)
 
-        let stepViewModel = StepViewModel(feature: stepFeature)
+        let stepViewModel = StepViewModel(stepID: self.stepID, feature: stepFeature)
 
         return StepView(viewModel: stepViewModel)
     }

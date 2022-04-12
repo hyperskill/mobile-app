@@ -27,11 +27,12 @@ struct AuthSocialButton: View {
                         ,
                         alignment: .leading
                     )
+                    .cornerRadius(6)
             }
         )
-        .cornerRadius(6)
         .shadow(color: Color.black.opacity(0.03), radius: 2, x: 0, y: 0)
         .shadow(color: Color.black.opacity(0.06), radius: 2, x: 0, y: 2)
+        .buttonStyle(BounceButtonStyle())
     }
 }
 
