@@ -1,6 +1,5 @@
 package org.hyperskill.app.android.auth.view.ui.fragment
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
@@ -8,9 +7,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.github.terrakok.cicerone.Cicerone
-import com.github.terrakok.cicerone.Forward
-import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.Scopes

@@ -8,7 +8,6 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.presentation.AuthEmailViewModel
-import org.hyperskill.app.android.auth.view.ui.screen.AuthEmailScreen
 import org.hyperskill.app.android.auth.view.ui.screen.AuthSocialScreen
 import org.hyperskill.app.android.databinding.FragmentAuthEmailBinding
 import org.hyperskill.app.android.main.view.ui.activity.MainActivity
@@ -53,6 +52,7 @@ class AuthEmailFragment :
             .build()
             .inject(this)
     }
+
     override fun onAction(action: AuthFeature.Action.ViewAction) {}
 
     override fun render(state: AuthFeature.State) {}
