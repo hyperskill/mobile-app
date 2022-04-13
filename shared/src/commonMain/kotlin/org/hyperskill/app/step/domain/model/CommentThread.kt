@@ -2,7 +2,6 @@ package org.hyperskill.app.step.domain.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JsonNames
 
 @Serializable
 enum class CommentThread {
