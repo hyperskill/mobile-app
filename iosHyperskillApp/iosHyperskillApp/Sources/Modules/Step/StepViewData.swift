@@ -55,10 +55,12 @@ struct StepCommentStatisticViewData: Identifiable {
 extension StepCommentStatisticViewData {
     init(commentStatisticsEntry: CommentStatisticsEntry) {
         self.id = commentStatisticsEntry.thread.name
-        self.title = SharedResourcesFormattedStrings.shared.getFormattedStepCommentThreadStatistics(
+        self.title = CommentThreadTitleMapper(
+            resourceProvider: ResourceProviderImpl()
+        ).getFormattedStepCommentThreadStatistics(
             thread: commentStatisticsEntry.thread,
             count: commentStatisticsEntry.totalCount
-        ).localized()
+        )
     }
 }
 
