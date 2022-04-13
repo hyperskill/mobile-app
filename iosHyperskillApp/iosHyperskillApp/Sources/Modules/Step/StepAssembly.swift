@@ -11,7 +11,11 @@ final class StepAssembly: Assembly {
     func makeModule() -> StepView {
         let stepRepository = StepRepositoryImpl(
             stepRemoteDataSource: StepRemoteDataSourceImpl(
-                httpClient: NetworkModule.shared.provideClient(json: NetworkModule.shared.provideJson())
+                httpClient: NetworkModule.shared.provideAuthorizedClient(
+                    userAgentInfo: UserAgentBuilder.userAgentInfo,
+                    json: NetworkModule.shared.provideJson(),
+                    settings: Settings.shared.makeAppleSettings(userDefaults: UserDefaults.standard)
+                )
             )
         )
         let stepInteractor = StepInteractor(stepRepository: stepRepository)
