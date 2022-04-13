@@ -26,7 +26,7 @@ enum class CommentThread {
     TELL_ABOUT_YOURSELF,
     @SerialName("survey about experience")
     SURVEY_ABOUT_EXPERIENCE,
-    @JsonNames("solutions", "solution")
+    @SerialName("solutions")
     SOLUTIONS,
     @SerialName("hint")
     HINT,
