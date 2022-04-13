@@ -9,7 +9,7 @@ struct StepCommentsStatisticsView: View {
         VStack {
             ForEach(viewData) { data in
                 StepActionButton(
-                    title: "\(data.title) (\(data.count))",
+                    title: data.title,
                     style: .violetOutline
                 ) {
                     self.onClick?(data)
@@ -21,14 +21,7 @@ struct StepCommentsStatisticsView: View {
 
 struct StepCommentsStatisticsView_Previews: PreviewProvider {
     static var previews: some View {
-        StepCommentsStatisticsView(
-            viewData: [
-                .init(title: "Comments", count: 0),
-                .init(title: "Hints", count: 0),
-                .init(title: "Useful links", count: 0),
-                .init(title: "Solutions", count: 0)
-            ]
-        )
-        .padding()
+        StepCommentsStatisticsView(viewData: StepCommentStatisticViewData.placeholders)
+            .padding()
     }
 }

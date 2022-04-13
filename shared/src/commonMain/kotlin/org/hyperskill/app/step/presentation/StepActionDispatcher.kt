@@ -15,8 +15,6 @@ class StepActionDispatcher(
             is Action.FetchStep -> {
                 val result = stepInteractor.getStep(action.stepId)
 
-                println(result)
-
                 val message =
                     result
                         .map { Message.StepLoaded.Success(it) }

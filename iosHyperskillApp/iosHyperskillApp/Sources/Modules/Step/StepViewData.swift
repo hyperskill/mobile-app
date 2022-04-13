@@ -1,6 +1,8 @@
 import Foundation
 import shared
 
+// MARK: Step
+
 struct StepViewData {
     let title: String
 
@@ -12,13 +14,6 @@ struct StepViewData {
     let commentsStatistics: [StepCommentStatisticViewData]
 }
 
-struct StepCommentStatisticViewData: Identifiable {
-    let title: String
-    let count: Int
-
-    var id: String { self.title }
-}
-
 extension Step {
     var viewData: StepViewData {
         StepViewData(
@@ -28,12 +23,6 @@ extension Step {
             text: self.block.text,
             commentsStatistics: self.commentsStatistics.map(\.viewData)
         )
-    }
-}
-
-extension CommentStatisticsEntry {
-    var viewData: StepCommentStatisticViewData {
-        StepCommentStatisticViewData(title: self.thread, count: Int(self.totalCount))
     }
 }
 
@@ -50,13 +39,44 @@ programming language developed by <a target=\"_blank\" href=\"https://www.jetbra
 rel=\"noopener noreferrer nofollow\">JetBrains</a>. It has a very clear and concise syntax, which makes your code easy \
 to read.
 """,
-            commentsStatistics: [
-                .init(title: "Comments", count: 36),
-                .init(title: "Hints", count: 0),
-                .init(title: "Useful links", count: 1),
-                .init(title: "Solutions", count: 0)
-            ]
+            commentsStatistics: StepCommentStatisticViewData.placeholders
         )
+    }
+}
+#endif
+
+// MARK: - CommentsStatistics -
+
+struct StepCommentStatisticViewData: Identifiable {
+    let id: String
+    let title: String
+}
+
+extension StepCommentStatisticViewData {
+    init(commentStatisticsEntry: CommentStatisticsEntry) {
+        self.id = commentStatisticsEntry.thread.name
+        self.title = SharedResourcesFormattedStrings.shared.getFormattedStepCommentThreadStatistics(
+            thread: commentStatisticsEntry.thread,
+            count: commentStatisticsEntry.totalCount
+        ).localized()
+    }
+}
+
+extension CommentStatisticsEntry {
+    var viewData: StepCommentStatisticViewData {
+        StepCommentStatisticViewData(commentStatisticsEntry: self)
+    }
+}
+
+#if DEBUG
+extension StepCommentStatisticViewData {
+    static var placeholders: [StepCommentStatisticViewData] {
+        [
+            .init(id: "comment", title: "Comments (36)"),
+            .init(id: "hint", title: "Comments (0)"),
+            .init(id: "useful link", title: "Useful links (1)"),
+            .init(id: "solutions", title: "Solutions (0)")
+        ]
     }
 }
 #endif

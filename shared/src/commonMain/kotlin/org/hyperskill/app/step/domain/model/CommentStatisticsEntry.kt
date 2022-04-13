@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class CommentStatisticsEntry(
     @SerialName("thread")
-    val thread: String,
+    val thread: CommentThread,
     @SerialName("total_count")
     val totalCount: Int
 )

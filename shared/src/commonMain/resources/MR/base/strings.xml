@@ -14,4 +14,9 @@
 
     <!-- Step -->
     <string name="step_start_practicing_text">Start practicing</string>
+    <string name="step_comment_thread_statistics_text">%s (%s)</string>
+    <string name="step_comment_thread_type_comment_text">Comments</string>
+    <string name="step_comment_thread_type_hint_text">Hint</string>
+    <string name="step_comment_thread_type_useful_link_text">Useful links</string>
+    <string name="step_comment_thread_type_solutions_text">Solutions</string>
 </resources>

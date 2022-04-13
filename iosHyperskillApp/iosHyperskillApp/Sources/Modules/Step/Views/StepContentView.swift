@@ -37,6 +37,6 @@ struct StepContentView: View {
 
 struct StepContentView_Previews: PreviewProvider {
     static var previews: some View {
-        StepContentView(viewData: StepViewData.placeholder)
+        StepContentView(viewData: .placeholder)
     }
 }
