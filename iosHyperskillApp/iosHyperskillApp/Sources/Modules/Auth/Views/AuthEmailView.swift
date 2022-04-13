@@ -51,5 +51,12 @@ struct AuthEmailView_Previews: PreviewProvider {
     @State static var presentingContinueWithEmail = true
     static var previews: some View {
         AuthEmailView(presentingContinueWithEmail: $presentingContinueWithEmail)
+            .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro"))
+
+//        AuthEmailView(presentingContinueWithEmail: $presentingContinueWithEmail)
+//            .previewDevice(PreviewDevice(rawValue: "iPhone SE (3rd generation)"))
+
+//        AuthEmailView(presentingContinueWithEmail: $presentingContinueWithEmail)
+//            .previewDevice(PreviewDevice(rawValue: "iPad (9th generation)"))
     }
 }

@@ -3,14 +3,28 @@ import SwiftUI
 struct AuthEmailFormView: View {
     @State private var email: String = ""
     @State private var password: String = ""
+    @State private var error = false
 
     var body: some View {
         VStack(alignment: .center, spacing: 16) {
-            TextField(Strings.emailPlaceHolderText, text: $email).font(.body)
+            TextField(Strings.emailPlaceHolderText, text: $email)
+                .font(.body)
+                .keyboardType(.emailAddress)
+
             Divider()
 
             SecureField(Strings.passwordPlaceHolderText, text: $password).font(.body)
+
             Divider()
+
+            if error {
+                Text(Strings.emailLoginErrorText)
+                    .foregroundColor(Color(ColorPalette.error))
+                    .font(.caption)
+                    .padding()
+                    .background(Color(ColorPalette.error).opacity(0.12))
+                    .cornerRadius(8)
+            }
 
             // todo видел уже такая кнопка реализована в ui степа, надо бы ее переиспользовать тут
             Button(

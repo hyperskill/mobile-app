@@ -15,4 +15,5 @@ enum Strings {
     static let logInText = SharedResources.strings.shared.log_in_text.localized()
     static let emailPlaceHolderText = SharedResources.strings.shared.email_placeholder_text.localized()
     static let passwordPlaceHolderText = SharedResources.strings.shared.password_placeholder_text.localized()
+    static let emailLoginErrorText = SharedResources.strings.shared.email_login_error_text.localized()
 }
