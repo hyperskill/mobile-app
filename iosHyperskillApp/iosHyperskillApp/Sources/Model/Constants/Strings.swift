@@ -10,4 +10,9 @@ enum Strings {
     static let authGitHubAccountText = SharedResources.strings.shared.auth_github_account_text.localized()
     static let authAppleAccountText = SharedResources.strings.shared.auth_apple_account_text.localized()
     static let authEmailText = SharedResources.strings.shared.auth_email_text.localized()
+    static let authSocialText = SharedResources.strings.shared.auth_social_text.localized()
+    static let resetPasswordText = SharedResources.strings.shared.reset_password_text.localized()
+    static let logInText = SharedResources.strings.shared.log_in_text.localized()
+    static let emailPlaceHolderText = SharedResources.strings.shared.email_placeholder_text.localized()
+    static let passwordPlaceHolderText = SharedResources.strings.shared.password_placeholder_text.localized()
 }

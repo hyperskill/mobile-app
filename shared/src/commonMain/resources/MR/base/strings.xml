@@ -11,4 +11,9 @@
     <string name="auth_github_account_text">GitHub</string>
     <string name="auth_apple_account_text">Apple</string>
     <string name="auth_email_text">Continue with email</string>
+    <string name="auth_social_text">Continue with social networks</string>
+    <string name="reset_password_text">Reset password</string>
+    <string name="log_in_text">Log in</string>
+    <string name="email_placeholder_text">Email</string>
+    <string name="password_placeholder_text">Password</string>
 </resources>
