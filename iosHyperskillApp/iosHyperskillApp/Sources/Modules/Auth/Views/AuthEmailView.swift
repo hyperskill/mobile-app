@@ -52,11 +52,16 @@ struct AuthEmailView_Previews: PreviewProvider {
     static var previews: some View {
         AuthEmailView(presentingContinueWithEmail: $presentingContinueWithEmail)
             .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro"))
+        
+        if #available(iOS 15.0, *) {
+            AuthEmailView(presentingContinueWithEmail: $presentingContinueWithEmail)
+                .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro"))
+                .previewInterfaceOrientation(.landscapeRight)
+        }
+        AuthEmailView(presentingContinueWithEmail: $presentingContinueWithEmail)
+            .previewDevice(PreviewDevice(rawValue: "iPhone SE (3rd generation)"))
 
-//        AuthEmailView(presentingContinueWithEmail: $presentingContinueWithEmail)
-//            .previewDevice(PreviewDevice(rawValue: "iPhone SE (3rd generation)"))
-
-//        AuthEmailView(presentingContinueWithEmail: $presentingContinueWithEmail)
-//            .previewDevice(PreviewDevice(rawValue: "iPad (9th generation)"))
+        AuthEmailView(presentingContinueWithEmail: $presentingContinueWithEmail)
+            .previewDevice(PreviewDevice(rawValue: "iPad (9th generation)"))
     }
 }
