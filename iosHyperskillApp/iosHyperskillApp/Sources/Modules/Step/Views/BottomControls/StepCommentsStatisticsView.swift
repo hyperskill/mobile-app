@@ -12,7 +12,7 @@ struct StepCommentsStatisticsView: View {
                     title: data.title,
                     style: .violetOutline
                 ) {
-                    self.onClick?(data)
+                    onClick?(data)
                 }
             }
         }

@@ -7,7 +7,7 @@ struct StepRatingControl: View {
         VStack(alignment: .leading) {
             Text("How did you like the ") + Text("theory?").bold()
 
-            StepRatingPickerView(onClick: self.onClick)
+            StepRatingPickerView(onClick: onClick)
         }
     }
 
@@ -44,7 +44,7 @@ private struct StepRatingPickerView: View {
                 Spacer()
                 Button(
                     action: {
-                        self.onClick?(rating)
+                        onClick?(rating)
                     },
                     label: {
                         Image(rating.imageName)

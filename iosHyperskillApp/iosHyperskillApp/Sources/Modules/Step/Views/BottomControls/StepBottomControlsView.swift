@@ -11,17 +11,17 @@ struct StepBottomControlsView: View {
 
     var body: some View {
         VStack(spacing: 48) {
-            StepRatingControl(onClick: self.onRatingClick)
+            StepRatingControl(onClick: onRatingClick)
 
             StepActionButton(
                 title: Strings.stepStartPracticingText,
                 style: .greenFilled,
-                onClick: self.onStartPracticingClick
+                onClick: onStartPracticingClick
             )
 
             StepCommentsStatisticsView(
-                viewData: self.commentStatisticsViewData,
-                onClick: self.onCommentStatisticClick
+                viewData: commentStatisticsViewData,
+                onClick: onCommentStatisticClick
             )
         }
     }

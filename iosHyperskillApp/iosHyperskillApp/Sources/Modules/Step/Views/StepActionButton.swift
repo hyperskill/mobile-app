@@ -8,7 +8,7 @@ struct StepActionButton: View {
     var onClick: (() -> Void)?
 
     var body: some View {
-        let button = Button(title, action: { self.onClick?() })
+        let button = Button(title, action: { onClick?() })
 
         switch style {
         case .greenOutline:

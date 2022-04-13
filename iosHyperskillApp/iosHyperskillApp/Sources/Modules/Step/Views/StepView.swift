@@ -32,13 +32,6 @@ struct StepView: View {
 
     // MARK: Private API
 
-    private func makeNavigationTitleString() -> String {
-        if let data = self.viewModel.state as? StepFeatureStateData {
-            return data.step.title
-        }
-        return "Step"
-    }
-
     private func handleViewAction(_ viewAction: StepFeatureActionViewAction) {
         print("StepView :: \(#function) viewAction = \(viewAction)")
     }
