@@ -4,6 +4,7 @@ import com.russhwolf.settings.Settings
 import io.ktor.client.HttpClient
 import io.ktor.client.request.forms.submitForm
 import io.ktor.http.Parameters
+import kotlinx.datetime.Clock
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.hyperskill.app.auth.cache.AuthCacheKeyValues
@@ -27,6 +28,9 @@ class AuthRemoteDataSourceImpl(
                         append("grant_type", "authorization_code")
                         append("redirect_uri", BuildKonfig.REDIRECT_URI)
                     }
-                ).also { authResponse -> settings.putString(AuthCacheKeyValues.AUTH_RESPONSE, json.encodeToString(authResponse)) }
+                ).also { authResponse ->
+                    settings.putString(AuthCacheKeyValues.AUTH_RESPONSE, json.encodeToString(authResponse))
+                    settings.putLong(AuthCacheKeyValues.AUTH_ACCESS_TOKEN_TIMESTAMP, Clock.System.now().epochSeconds)
+                }
         }
 }
