@@ -14,6 +14,7 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AppCoreModule::class,
+        SharedPreferencesModule::class,
         AndroidNetworkModule::class
     ]
 )

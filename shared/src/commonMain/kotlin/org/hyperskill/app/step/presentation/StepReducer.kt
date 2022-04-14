@@ -12,9 +12,13 @@ class StepReducer : StateReducer<State, Message, Action> {
                 if (state is State.Idle ||
                     (message.forceUpdate && (state is State.Data || state is State.Error))
                 ) {
-                    State.Loading to emptySet()
+                    State.Loading to setOf(Action.FetchStep(message.stepId))
                 } else {
                     null
                 }
+            is Message.StepLoaded.Success ->
+                State.Data(message.step) to emptySet()
+            is Message.StepLoaded.Error ->
+                State.Error to emptySet()
         } ?: state to emptySet()
 }

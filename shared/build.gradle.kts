@@ -47,6 +47,7 @@ kotlin {
                 api(libs.kit.presentation.redux)
                 api(libs.mokoResources.main)
                 implementation(libs.kit.presentation.reduxCoroutines)
+                implementation(libs.multiplatform.settings)
             }
         }
         val commonTest by getting {

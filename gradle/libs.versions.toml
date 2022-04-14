@@ -24,6 +24,7 @@ kotlin-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinCoroutines" }
 
 ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
 ktor-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor" }
 ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-android = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
@@ -39,6 +40,8 @@ kit-view-navigation = { module = "ru.nobird.android.view:navigation", version = 
 
 dagger = { module = "com.google.dagger:dagger", version = "2.40.1" }
 dagger-compiler = { module = "com.google.dagger:dagger-compiler", version = "2.40.1" }
+
+multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version = "0.8.1" }
 
 android-ui-material = { module = "com.google.android.material:material", version = "1.4.0" }
 android-ui-appcompat = { module = "androidx.appcompat:appcompat", version = "1.4.0" }
@@ -59,6 +62,8 @@ mokoResources-test = { module = "dev.icerock.moko:resources-test", version.ref =
 ktlintRules = { module = "ru.nobird.android.ktlint:rules", version.ref = "ktlintRules"}
 nobird-ui-adapters = { module = "ru.nobird.android.ui:adapters", version.ref = "adapters" }
 
+android-security = { module = "androidx.security:security-crypto", version = "1.1.0-alpha03" }
+
 [bundles]
-ktor-common = ['ktor-core', 'ktor-serialization', 'ktor-logging']
+ktor-common = ['ktor-core', 'ktor-auth', 'ktor-serialization', 'ktor-logging']
 android-test = ['android-test-junit', 'android-test-runner', 'android-test-robolectric']
