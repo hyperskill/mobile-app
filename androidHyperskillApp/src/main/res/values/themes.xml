@@ -137,4 +137,10 @@
         <item name="colorOnSurface">@color/color_overlay_yellow</item>
     </style>
 
+    <!-- Step -->
+
+    <style name="StepFloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="colorSecondary">@color/color_surface</item>
+    </style>
+
 </resources>
