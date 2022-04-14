@@ -8,7 +8,7 @@ struct TextFieldWrapper: UIViewRepresentable {
 
     var configuration = Configuration.empty
 
-    var shouldBecomeFirstResponder: Binding<Bool?>?
+    var firstResponderAction: Binding<FirstResponderAction?>?
 
     var onReturn: (() -> Void)?
 
@@ -38,7 +38,7 @@ struct TextFieldWrapper: UIViewRepresentable {
             self.text = newText
         }
         context.coordinator.onReturn = {
-            self.shouldBecomeFirstResponder?.wrappedValue = nil
+            self.firstResponderAction?.wrappedValue = nil
             self.onReturn?()
         }
     }
@@ -46,23 +46,9 @@ struct TextFieldWrapper: UIViewRepresentable {
     func makeCoordinator() -> Coordinator {
         Coordinator()
     }
-
-    private func handleShouldBecomeFirstResponder(textField: UITextField) {
-        guard let shouldBecomeFirstResponder = shouldBecomeFirstResponder?.wrappedValue else {
-            return
-        }
-
-        DispatchQueue.main.async {
-            if shouldBecomeFirstResponder {
-                textField.becomeFirstResponder()
-            } else {
-                textField.resignFirstResponder()
-            }
-        }
-    }
 }
 
-// MARK: TextFieldWrapper - Coordinator -
+// MARK: - TextFieldWrapper Coordinator -
 
 extension TextFieldWrapper {
     class Coordinator: NSObject, UITextFieldDelegate {
@@ -78,6 +64,30 @@ extension TextFieldWrapper {
         @objc
         fileprivate func textFieldTextDidChange(_ textField: UITextField) {
             onTextDidChange?(textField.text ?? "")
+        }
+    }
+}
+
+// MARK: - TextFieldWrapper (FirstResponderAction) -
+
+extension TextFieldWrapper {
+    enum FirstResponderAction {
+        case becomeFirstResponder
+        case resignFirstResponder
+    }
+
+    private func handleShouldBecomeFirstResponder(textField: UITextField) {
+        guard let firstResponderAction = firstResponderAction?.wrappedValue else {
+            return
+        }
+
+        DispatchQueue.main.async {
+            switch firstResponderAction {
+            case .becomeFirstResponder:
+                textField.becomeFirstResponder()
+            case .resignFirstResponder:
+                textField.resignFirstResponder()
+            }
         }
     }
 }

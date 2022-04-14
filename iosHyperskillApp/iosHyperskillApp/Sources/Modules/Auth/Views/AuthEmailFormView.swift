@@ -1,21 +1,51 @@
 import SwiftUI
 
+extension AuthEmailFormView {
+    struct Appearance {
+        let textFieldHeight: CGFloat = 44
+
+        let spacing: CGFloat = 16
+
+        let cornerRadius: CGFloat = 8
+    }
+}
+
 struct AuthEmailFormView: View {
-    @State private var email: String = ""
-    @State private var password: String = ""
+    private(set) var appearance = Appearance()
+
+    @State private var emailText = ""
+
+    @State private var passwordText = ""
+    @State private var passwordFirstResponderAction: TextFieldWrapper.FirstResponderAction?
+
     @State private var error = false
 
     var body: some View {
-        VStack(alignment: .center, spacing: 16) {
-            TextField(Strings.emailPlaceHolderText, text: $email)
-                .font(.body)
-                .keyboardType(.emailAddress)
+        VStack(spacing: appearance.spacing) {
+            VStack(spacing: 0) {
+                TextFieldWrapper(
+                    placeholder: Strings.emailPlaceHolderText,
+                    text: $emailText,
+                    configuration: .combined([.email, .partOfChain]),
+                    onReturn: { passwordFirstResponderAction = .becomeFirstResponder }
+                )
+                .frame(height: appearance.textFieldHeight)
 
-            Divider()
+                Divider()
+            }
 
-            SecureField(Strings.passwordPlaceHolderText, text: $password).font(.body)
+            VStack(spacing: 0) {
+                TextFieldWrapper(
+                    placeholder: Strings.passwordPlaceHolderText,
+                    text: $passwordText,
+                    configuration: .combined([.password, .lastOfChainGo]),
+                    firstResponderAction: $passwordFirstResponderAction,
+                    onReturn: { passwordFirstResponderAction = .resignFirstResponder }
+                )
+                .frame(height: appearance.textFieldHeight)
 
-            Divider()
+                Divider()
+            }
 
             if error {
                 Text(Strings.emailLoginErrorText)
@@ -23,7 +53,7 @@ struct AuthEmailFormView: View {
                     .font(.caption)
                     .padding()
                     .background(Color(ColorPalette.error).opacity(0.12))
-                    .cornerRadius(8)
+                    .cornerRadius(appearance.cornerRadius)
             }
 
             // todo видел уже такая кнопка реализована в ui степа, надо бы ее переиспользовать тут
@@ -36,7 +66,9 @@ struct AuthEmailFormView: View {
                         .foregroundColor(.white)
                         .background(Color(ColorPalette.primary))
                 }
-            ).cornerRadius(8)
+            )
+            .cornerRadius(appearance.cornerRadius)
+            .disabled(emailText.isEmpty || passwordText.isEmpty)
 
             Button(
                 action: {},
@@ -45,11 +77,11 @@ struct AuthEmailFormView: View {
                         .font(.body)
                         .foregroundColor(Color(ColorPalette.primary))
                 }
-            ).padding(.vertical, 8)
+            )
         }
         .padding()
         .background(Color.white)
-        .cornerRadius(8)
+        .cornerRadius(appearance.cornerRadius)
     }
 }
 
