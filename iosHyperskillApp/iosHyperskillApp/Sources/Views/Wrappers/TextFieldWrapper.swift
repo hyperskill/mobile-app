@@ -32,7 +32,7 @@ struct TextFieldWrapper: UIViewRepresentable {
     func updateUIView(_ textField: UITextField, context: Context) {
         textField.text = text
 
-        handleShouldBecomeFirstResponder(textField: textField)
+        handleTextFieldFirstResponderAction(textField)
 
         context.coordinator.onTextDidChange = { newText in
             self.text = newText
@@ -43,9 +43,7 @@ struct TextFieldWrapper: UIViewRepresentable {
         }
     }
 
-    func makeCoordinator() -> Coordinator {
-        Coordinator()
-    }
+    func makeCoordinator() -> Coordinator { Coordinator() }
 }
 
 // MARK: - TextFieldWrapper Coordinator -
@@ -76,7 +74,7 @@ extension TextFieldWrapper {
         case resignFirstResponder
     }
 
-    private func handleShouldBecomeFirstResponder(textField: UITextField) {
+    private func handleTextFieldFirstResponderAction(_ textField: UITextField) {
         guard let firstResponderAction = firstResponderAction?.wrappedValue else {
             return
         }
