@@ -91,7 +91,7 @@
         <light>@color/color_green_400_alpha_60</light>
         <dark>@color/color_green_200_alpha_60</dark>
     </color>
-    <color name="color_secondary_alpha_35">
+    <color name="color_secondary_alpha_38">
         <light>@color/color_green_400_alpha_38</light>
         <dark>@color/color_green_200_alpha_38</dark>
     </color>
