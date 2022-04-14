@@ -2,10 +2,10 @@
 <resources>
     <dimen name="sign_in_hyperskill_logo_width">48dp</dimen>
     <dimen name="sign_in_hyperskill_logo_height">48dp</dimen>
+
+    <!-- General -->
     <dimen name="appbar_elevation">4dp</dimen>
-
     <dimen name="corner_radius">8dp</dimen>
-
     <dimen name="divider_vertical_size">1dp</dimen>
 
     <!-- Auth screen -->
@@ -15,6 +15,12 @@
     <dimen name="auth_button_text_size">14sp</dimen>
 
     <!-- Step screen -->
+
+    <dimen name="step_toolbar_height">72dp</dimen>
+    <dimen name="step_toolbar_padding_vertical">12dp</dimen>
+    <dimen name="step_toolbar_margin_end">36dp</dimen>
+    <dimen name="step_content_padding">20dp</dimen>
+
     <dimen name="step_theory_rating_horizontal_edge_margin">10dp</dimen>
     <dimen name="step_theory_rating_horizontal_margin">22dp</dimen>
     <dimen name="step_theory_rating_vertical_margin">10dp</dimen>

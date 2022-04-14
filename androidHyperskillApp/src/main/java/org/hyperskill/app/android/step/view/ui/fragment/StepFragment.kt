@@ -70,12 +70,15 @@ class StepFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewBinding.stepAppBar.addOnOffsetChangedListener(
+        viewBinding.stepAppBar.stepToolbar.root.setNavigationOnClickListener {
+            activity?.onBackPressed()
+        }
+        viewBinding.stepAppBar.root.addOnOffsetChangedListener(
             AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
                 if (abs(verticalOffset) == appBarLayout.totalScrollRange) {
-                    viewBinding.fab.show()
+                    viewBinding.stepTheoryFab.show()
                 } else {
-                    viewBinding.fab.hide()
+                    viewBinding.stepTheoryFab.hide()
                 }
             }
         )

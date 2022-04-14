@@ -5,45 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <include
         android:id="@+id/stepAppBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/color_background"
-        android:outlineProvider="background">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_gravity="center"
-            app:layout_scrollFlags="scroll">
-
-            <TextView
-                android:id="@+id/centeredToolbarTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:ellipsize="end"
-                android:fontFamily="@font/roboto_regular"
-                android:maxLines="1"
-                android:text="Matrix representation of systems of linear equations"
-                android:textColor="@color/material_on_surface_emphasis_high_type"
-                android:textSize="18sp" />
-        </com.google.android.material.appbar.MaterialToolbar>
-
-    </com.google.android.material.appbar.AppBarLayout>
+        layout="@layout/view_step_appbar" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
         android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="20dp">
+            android:padding="@dimen/step_content_padding">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/stepTheorySubtitle"
@@ -70,12 +45,10 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/stepTheoryPracticeActionBeginning"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/Widget.AppTheme.Button.OutlinedButton"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
                 android:text="@string/step_start_practicing_text"
                 android:theme="@style/ThemeOverlay.Green"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -123,7 +96,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/stepTheoryPracticeActionEnd"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="@string/step_start_practicing_text"
                 android:theme="@style/ThemeOverlay.Green"
@@ -133,12 +106,13 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/stepTheoryCommentsAction"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/Widget.AppTheme.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="40dp"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
+                android:theme="@style/ThemeOverlay.Blue"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/stepTheoryPracticeActionEnd"
@@ -146,12 +120,11 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/stepTheoryHintsAction"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/Widget.AppTheme.Button.OutlinedButton"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
+                android:theme="@style/ThemeOverlay.Blue"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/stepTheoryCommentsAction"
@@ -159,12 +132,11 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/stepTheoryUsefulLinksAction"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/Widget.AppTheme.Button.OutlinedButton"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
+                android:theme="@style/ThemeOverlay.Blue"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/stepTheoryHintsAction"
@@ -172,12 +144,11 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/stepTheorySolutionsAction"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/Widget.AppTheme.Button.OutlinedButton"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
+                android:theme="@style/ThemeOverlay.Blue"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/stepTheoryUsefulLinksAction"
@@ -186,15 +157,15 @@
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:theme="@style/StepFloatingActionButton"
+        android:id="@+id/stepTheoryFab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:src="@drawable/ic_toolbar_back"
-        android:visibility="visible"
+        android:theme="@style/StepFloatingActionButton"
+        android:visibility="invisible"
         app:layout_anchorGravity="top|start"
-        app:tint="@color/color_on_surface" />
+        app:tint="?colorControlNormal" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -116,6 +116,11 @@
         <item name="android:windowEnterAnimation">@anim/slide_in_from_bottom</item>
         <item name="android:windowExitAnimation">@anim/slide_out_to_bottom</item>
     </style>
+    
+    <style name="ThemeOverlay.Blue" parent="ThemeOverlay.MaterialComponents">
+        <item name="colorPrimary">@color/color_overlay_blue</item>
+        <item name="colorOnSurface">@color/color_overlay_blue</item>
+    </style>
 
     <style name="ThemeOverlay.Green" parent="ThemeOverlay.MaterialComponents">
         <item name="colorPrimary">@color/color_overlay_green</item>
@@ -140,7 +145,7 @@
     <!-- Step -->
 
     <style name="StepFloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
-        <item name="colorSecondary">@color/color_surface</item>
+        <item name="colorSecondary">@color/color_background</item>
     </style>
 
 </resources>
