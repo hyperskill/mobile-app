@@ -22,7 +22,9 @@
     <color name="color_gray_50">#F7F9FA</color>
 
     <color name="color_red_500">#EF341E</color>
+    <color name="color_red_500_alpha_12">#EF341E1F</color>
     <color name="color_red_300">#E46A65</color>
+    <color name="color_red_300_alpha_12">#E46A651F</color>
 
     <color name="color_orange_900">#F97A12</color>
     <color name="color_orange_900_alpha_50">#F97A1280</color>
@@ -163,6 +165,11 @@
     </color>
 
     <!-- ThemeOverlay -->
+
+    <color name="color_overlay_red_alpha_12">
+        <light>@color/color_red_500_alpha_12</light>
+        <dark>@color/color_red_300_alpha_12</dark>
+    </color>
 
     <color name="color_overlay_blue">
         <light>@color/color_blue_400</light>

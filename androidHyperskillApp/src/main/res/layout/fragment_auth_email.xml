@@ -55,6 +55,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/auth_with_email_email_text_input_hint"
+                app:errorEnabled="true"
+                app:errorIconDrawable="@null"
+                app:errorTextAppearance="@style/ZeroSizeTextAppearance"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -77,6 +80,9 @@
                 android:hint="@string/auth_with_email_password_text_input_hint"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
+                app:errorEnabled="true"
+                app:errorIconDrawable="@null"
+                app:errorTextAppearance="@style/ZeroSizeTextAppearance"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/emailTextInputLayout"
@@ -90,6 +96,23 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <TextView
+                android:id="@+id/authEmailErrorMsgTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="14dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_shape_error"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="14dp"
+                android:textColor="@color/color_error"
+                android:textSize="@dimen/auth_button_text_size"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/passwordTextInputLayout"
+                app:layout_constraintWidth_max="@dimen/auth_button_max_width" />
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/signInWithEmailMaterialButton"
                 android:layout_width="0dp"
@@ -101,12 +124,13 @@
                 android:textSize="@dimen/auth_button_text_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/passwordTextInputLayout"
+                app:layout_constraintTop_toBottomOf="@+id/authEmailErrorMsgTextView"
                 app:layout_constraintWidth_max="@dimen/auth_button_max_width"
                 app:strokeColor="?colorPrimary" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/signInWithSocialMaterialButton"

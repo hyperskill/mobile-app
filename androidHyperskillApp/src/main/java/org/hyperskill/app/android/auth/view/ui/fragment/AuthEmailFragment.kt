@@ -53,7 +53,31 @@ class AuthEmailFragment :
             .inject(this)
     }
 
-    override fun onAction(action: AuthFeature.Action.ViewAction) {}
+    override fun onAction(action: AuthFeature.Action.ViewAction) {
+        when (action) {
+            is AuthFeature.Action.ViewAction.ShowAuthError -> {
+                showError(action.errorMsg)
+            }
+        }
+    }
 
     override fun render(state: AuthFeature.State) {}
+
+    private fun showError(msg: String) {
+        viewBinding.emailTextInputLayout.error = " "
+        viewBinding.passwordTextInputLayout.error = " "
+        viewBinding.authEmailErrorMsgTextView.apply {
+            visibility = View.VISIBLE
+            text = msg
+        }
+    }
+
+    private fun hideError() {
+        viewBinding.emailTextInputLayout.error = null
+        viewBinding.passwordTextInputLayout.error = null
+        viewBinding.authEmailErrorMsgTextView.apply {
+            visibility = View.GONE
+            text = null
+        }
+    }
 }
