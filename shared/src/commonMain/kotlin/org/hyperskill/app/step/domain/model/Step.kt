@@ -28,6 +28,8 @@ data class Step(
     val canAbandon: Boolean,
     @SerialName("can_skip")
     val canSkip: Boolean,
+    @SerialName("comments_statistics")
+    val commentsStatistics: List<CommentStatisticsEntry>,
     @SerialName("content_created_at")
     val contentCreatedAt: Instant,
     @SerialName("content_updated_at")

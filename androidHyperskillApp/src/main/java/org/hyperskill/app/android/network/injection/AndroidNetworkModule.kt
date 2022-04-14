@@ -1,9 +1,12 @@
 package org.hyperskill.app.android.network.injection
 
+import com.russhwolf.settings.Settings
 import dagger.Module
 import dagger.Provides
 import io.ktor.client.HttpClient
 import kotlinx.serialization.json.Json
+import org.hyperskill.app.android.BuildConfig
+import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.network.injection.NetworkModule
 
 @Module
@@ -13,6 +16,36 @@ object AndroidNetworkModule {
         NetworkModule.provideJson()
 
     @Provides
-    fun provideHttpClient(json: Json): HttpClient =
+    @StubHttpClient
+    fun provideStubHttpClient(
+        json: Json
+    ): HttpClient =
         NetworkModule.provideClient(json)
+
+    @Provides
+    @AuthHttpClient
+    fun provideAuthHttpClient(
+        userAgentInfo: UserAgentInfo,
+        json: Json
+    ): HttpClient =
+        NetworkModule.provideAuthClient(userAgentInfo, json)
+
+    @Provides
+    @AuthorizedHttpClient
+    fun provideHttpClient(
+        userAgentInfo: UserAgentInfo,
+        json: Json,
+        settings: Settings
+    ): HttpClient =
+        NetworkModule.provideAuthorizedClient(userAgentInfo, json, settings)
+
+    @Provides
+    @JvmStatic
+    fun provideUserAgentValue(): UserAgentInfo =
+        UserAgentInfo(
+            BuildConfig.VERSION_NAME,
+            "Android ${android.os.Build.VERSION.SDK_INT}",
+            BuildConfig.VERSION_CODE.toString(),
+            BuildConfig.APPLICATION_ID
+        )
 }

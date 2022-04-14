@@ -15,9 +15,15 @@ interface StepFeature {
             val stepId: Long,
             val forceUpdate: Boolean = false
         ) : Message
+
+        sealed interface StepLoaded : Message {
+            data class Success(val step: Step) : StepLoaded
+            data class Error(val errorMsg: String) : StepLoaded
+        }
     }
 
     sealed interface Action {
+        data class FetchStep(val stepId: Long) : Action
         sealed class ViewAction : Action
     }
 }
