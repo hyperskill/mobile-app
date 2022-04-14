@@ -63,6 +63,7 @@
 		E94D238F280585110003273F /* AuthEmailFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D238E280585110003273F /* AuthEmailFormView.swift */; };
 		E951757927E61ACD00995008 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951757827E61ACD00995008 /* AuthView.swift */; };
 		E96E80F627EF57BA00AA6683 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E80F527EF57BA00AA6683 /* AuthViewModel.swift */; };
+		E9D69A4028084FF7000E114E /* AuthEmailErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D69A3F28084FF7000E114E /* AuthEmailErrorView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,6 +138,7 @@
 		E94D238E280585110003273F /* AuthEmailFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthEmailFormView.swift; sourceTree = "<group>"; };
 		E951757827E61ACD00995008 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		E96E80F527EF57BA00AA6683 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		E9D69A3F28084FF7000E114E /* AuthEmailErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthEmailErrorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -256,6 +258,7 @@
 				E951757827E61ACD00995008 /* AuthView.swift */,
 				E94D238C28057F440003273F /* AuthEmailView.swift */,
 				E94D238E280585110003273F /* AuthEmailFormView.swift */,
+				E9D69A3F28084FF7000E114E /* AuthEmailErrorView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -693,6 +696,7 @@
 				2C58DE2B2803DEE2002A2774 /* VerticalCenteredScrollView.swift in Sources */,
 				2CAE8D0528055D8300E6C83D /* StepActionButton.swift in Sources */,
 				2CAE8D012805517900E6C83D /* OutlineButtonStyle.swift in Sources */,
+				E9D69A4028084FF7000E114E /* AuthEmailErrorView.swift in Sources */,
 				2C42EFAD27F2C29500B4648B /* Strings.swift in Sources */,
 				2152FB042600AC8F00CF470E /* HyperskillApp.swift in Sources */,
 				E951757927E61ACD00995008 /* AuthView.swift in Sources */,

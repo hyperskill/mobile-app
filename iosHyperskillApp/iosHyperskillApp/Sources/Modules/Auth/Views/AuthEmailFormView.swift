@@ -18,7 +18,7 @@ struct AuthEmailFormView: View {
     @State private var passwordText = ""
     @State private var passwordFirstResponderAction: TextFieldWrapper.FirstResponderAction?
 
-    @State private var error = false
+    @State private(set) var error = false
 
     var body: some View {
         VStack(spacing: appearance.spacing) {
@@ -48,27 +48,12 @@ struct AuthEmailFormView: View {
             }
 
             if error {
-                Text(Strings.emailLoginErrorText)
-                    .foregroundColor(Color(ColorPalette.error))
-                    .font(.caption)
-                    .padding()
-                    .background(Color(ColorPalette.error).opacity(0.12))
-                    .cornerRadius(appearance.cornerRadius)
+                AuthEmailErrorView()
             }
 
-            // todo видел уже такая кнопка реализована в ui степа, надо бы ее переиспользовать тут
-            Button(
-                action: {},
-                label: {
-                    Text(Strings.logInText)
-                        .font(.body)
-                        .frame(maxWidth: .infinity, minHeight: 44, alignment: .center)
-                        .foregroundColor(.white)
-                        .background(Color(ColorPalette.primary))
-                }
-            )
-            .cornerRadius(appearance.cornerRadius)
-            .disabled(emailText.isEmpty || passwordText.isEmpty)
+            Button(Strings.logInText, action: {})
+                .buttonStyle(RoundedRectangleButtonStyle(minHeight: 44, backgroundColor: Color(ColorPalette.primary)))
+                .disabled(emailText.isEmpty || passwordText.isEmpty)
 
             Button(
                 action: {},
@@ -80,13 +65,18 @@ struct AuthEmailFormView: View {
             )
         }
         .padding()
+        .cornerRadius(8)
+        .border(Color(ColorPalette.brown), width: 1)
         .background(Color.white)
-        .cornerRadius(appearance.cornerRadius)
     }
 }
 
 struct AuthEmailFormView_Previews: PreviewProvider {
     static var previews: some View {
-        AuthEmailFormView()
+        Group {
+            AuthEmailFormView(error: false)
+
+            AuthEmailFormView(error: true)
+        }
     }
 }

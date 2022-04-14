@@ -16,7 +16,7 @@ struct RoundedRectangleButtonStyle: ButtonStyle {
         configuration.label
             .foregroundColor(foregroundColor)
             .font(font)
-            .frame(maxWidth: .infinity, minHeight: 48, alignment: .center)
+            .frame(maxWidth: .infinity, minHeight: minHeight, alignment: .center)
             .background(backgroundColor.cornerRadius(cornerRadius))
             .scaleEffect(configuration.isPressed ? bounceScale : 1)
             .animation(.easeOut(duration: bounceDuration), value: configuration.isPressed)
