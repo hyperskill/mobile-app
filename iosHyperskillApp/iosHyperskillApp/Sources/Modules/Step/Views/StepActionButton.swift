@@ -16,7 +16,7 @@ struct StepActionButton: View {
                 .buttonStyle(
                     OutlineButtonStyle(
                         foregroundColor: Color(ColorPalette.secondary),
-                        borderColor: Color(ColorPalette.secondaryAlpha35)
+                        borderColor: Color(ColorPalette.secondaryAlpha38)
                     )
                 )
         case .greenFilled:
