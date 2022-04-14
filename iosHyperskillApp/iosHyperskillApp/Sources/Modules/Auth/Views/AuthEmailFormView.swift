@@ -62,7 +62,7 @@ struct AuthEmailFormView: View {
                         .font(.body)
                         .foregroundColor(Color(ColorPalette.primary))
                 }
-            )
+            ).padding()
         }
         .padding()
         .cornerRadius(8)
