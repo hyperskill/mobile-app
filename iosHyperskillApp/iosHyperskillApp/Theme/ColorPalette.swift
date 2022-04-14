@@ -6,14 +6,15 @@ enum ColorPalette {
 
     // MARK: Blue
 
+    static let blue600 = Self.sharedColors.color_blue_600.color.uiColor
     static let blue400 = Self.sharedColors.color_blue_400.color.uiColor
     static let blue200 = Self.sharedColors.color_blue_200.color.uiColor
-    static let blue400Alpha50 = Self.sharedColors.color_blue_400_alpha_50.color.uiColor
+    static let blue400Alpha60 = Self.sharedColors.color_blue_400_alpha_60.color.uiColor
+    static let blue400Alpha38 = Self.sharedColors.color_blue_400_alpha_38.color.uiColor
     static let blue400Alpha12 = Self.sharedColors.color_blue_400_alpha_12.color.uiColor
     static let blue400Alpha7 = Self.sharedColors.color_blue_400_alpha_7.color.uiColor
-    static let blue400Alpha25 = Self.sharedColors.color_blue_400_alpha_25.color.uiColor
-    static let blue200Alpha25 = Self.sharedColors.color_blue_200_alpha_25.color.uiColor
-    static let blue200Alpha50 = Self.sharedColors.color_blue_200_alpha_50.color.uiColor
+    static let blue200Alpha60 = Self.sharedColors.color_blue_200_alpha_60.color.uiColor
+    static let blue200Alpha38 = Self.sharedColors.color_blue_200_alpha_38.color.uiColor
     static let blue200Alpha12 = Self.sharedColors.color_blue_200_alpha_12.color.uiColor
     static let blue200Alpha7 = Self.sharedColors.color_blue_200_alpha_7.color.uiColor
 
@@ -32,31 +33,27 @@ enum ColorPalette {
     // MARK: Red
 
     static let colorRed500 = Self.sharedColors.color_red_500.color.uiColor
+    static let colorRed500Alpha12 = Self.sharedColors.color_red_500_alpha_12.color.uiColor
+    static let colorRed500Alpha7 = Self.sharedColors.color_red_500_alpha_7.color.uiColor
     static let colorRed300 = Self.sharedColors.color_red_300.color.uiColor
+    static let colorRed300Alpha12 = Self.sharedColors.color_red_300_alpha_12.color.uiColor
+    static let colorRed300Alpha7 = Self.sharedColors.color_red_300.color_alpha_7.uiColor
 
     // MARK: Orange
 
     static let orange900 = Self.sharedColors.color_orange_900.color.uiColor
-    static let orange900Alpha50 = Self.sharedColors.color_orange_900_alpha_50.color.uiColor
-    static let orange900Alpha25 = Self.sharedColors.color_orange_900_alpha_25.color.uiColor
     static let orange900Alpha12 = Self.sharedColors.color_orange_900_alpha_12.color.uiColor
     static let orange900Alpha7 = Self.sharedColors.color_orange_900_alpha_7.color.uiColor
     static let orange300 = Self.sharedColors.color_orange_300.color.uiColor
-    static let orange300Alpha50 = Self.sharedColors.color_orange_300_alpha_50.color.uiColor
-    static let orange300Alpha25 = Self.sharedColors.color_orange_300_alpha_25.color.uiColor
     static let orange300Alpha12 = Self.sharedColors.color_orange_300_alpha_12.color.uiColor
     static let orange300Alpha7 = Self.sharedColors.color_orange_300_alpha_7.color.uiColor
 
     // MARK: Yellow
 
     static let yellow300 = Self.sharedColors.color_yellow_300.color.uiColor
-    static let yellow300Alpha50 = Self.sharedColors.color_yellow_300_alpha_50.color.uiColor
-    static let yellow300Alpha25 = Self.sharedColors.color_yellow_300_alpha_25.color.uiColor
     static let yellow300Alpha12 = Self.sharedColors.color_yellow_300_alpha_12.color.uiColor
     static let yellow300Alpha7 = Self.sharedColors.color_yellow_300_alpha_7.color.uiColor
     static let yellow200 = Self.sharedColors.color_yellow_200.color.uiColor
-    static let yellow200Alpha50 = Self.sharedColors.color_yellow_200_alpha_50.color.uiColor
-    static let yellow200Alpha25 = Self.sharedColors.color_yellow_200_alpha_25.color.uiColor
     static let yellow200Alpha12 = Self.sharedColors.color_yellow_200_alpha_12.color.uiColor
     static let yellow200Alpha7 = Self.sharedColors.color_yellow_200_alpha_7.color.uiColor
 
@@ -64,18 +61,15 @@ enum ColorPalette {
 
     static let green400 = Self.sharedColors.color_green_400.color.uiColor
     static let green200 = Self.sharedColors.color_green_200.color.uiColor
-    static let green400Alpha50 = Self.sharedColors.color_green_400_alpha_50.color.uiColor
-    static let green400Alpha35 = Self.sharedColors.color_green_400_alpha_35.color.uiColor
     static let green400Alpha12 = Self.sharedColors.color_green_400_alpha_12.color.uiColor
     static let green400Alpha7 = Self.sharedColors.color_green_400_alpha_7.color.uiColor
-    static let green200Alpha50 = Self.sharedColors.color_green_200_alpha_50.color.uiColor
-    static let green200Alpha35 = Self.sharedColors.color_green_200_alpha_35.color.uiColor
     static let green200Alpha12 = Self.sharedColors.color_green_200_alpha_12.color.uiColor
     static let green200Alpha7 = Self.sharedColors.color_green_200_alpha_7.color.uiColor
 
     // MARK: Black
 
     static let black900 = Self.sharedColors.color_black_900.color.uiColor
+    static let black850 = Self.sharedColors.color_black_850.color.uiColor
     static let black300 = Self.sharedColors.color_black_300.color.uiColor
     static let black900Alpha87 = Self.sharedColors.color_black_900_alpha_87.color.uiColor
     static let black900Alpha75 = Self.sharedColors.color_black_900_alpha_75.color.uiColor
@@ -85,13 +79,9 @@ enum ColorPalette {
     // MARK: Violet
 
     static let violet400 = Self.sharedColors.color_violet_400.color.uiColor
-    static let violet400Alpha50 = Self.sharedColors.color_violet_400_alpha_50.color.uiColor
-    static let violet400Alpha25 = Self.sharedColors.color_violet_400_alpha_25.color.uiColor
     static let violet400Alpha12 = Self.sharedColors.color_violet_400_alpha_12.color.uiColor
     static let violet400Alpha7 = Self.sharedColors.color_violet_400_alpha_7.color.uiColor
     static let violet200 = Self.sharedColors.color_violet_200.color.uiColor
-    static let violet200Alpha50 = Self.sharedColors.color_violet_200_alpha_50.color.uiColor
-    static let violet200Alpha25 = Self.sharedColors.color_violet_200_alpha_25.color.uiColor
     static let violet200Alpha12 = Self.sharedColors.color_violet_200_alpha_12.color.uiColor
     static let violet200Alpha7 = Self.sharedColors.color_violet_200_alpha_7.color.uiColor
 
@@ -106,16 +96,16 @@ enum ColorPalette {
     // MARK: Primary
 
     static let primary = Self.sharedColors.color_primary.dynamicUIColor
-    static let primaryAlpha50 = Self.sharedColors.color_primary_alpha_50.dynamicUIColor
-    static let primaryAlpha25 = Self.sharedColors.color_primary_alpha_25.dynamicUIColor
+    static let primaryAlpha60 = Self.sharedColors.color_primary_alpha_60.dynamicUIColor
+    static let primaryAlpha38 = Self.sharedColors.color_primary_alpha_38.dynamicUIColor
 
     static let onPrimary = Self.sharedColors.color_on_primary.dynamicUIColor
 
     // MARK: Secondary
 
     static let secondary = Self.sharedColors.color_secondary.dynamicUIColor
-    static let secondaryAlpha50 = Self.sharedColors.color_secondary_alpha_50.dynamicUIColor
-    static let secondaryAlpha35 = Self.sharedColors.color_secondary_alpha_35.dynamicUIColor
+    static let secondaryAlpha60 = Self.sharedColors.color_secondary_alpha_60.dynamicUIColor
+    static let secondaryAlpha38 = Self.sharedColors.color_secondary_alpha_38.dynamicUIColor
 
     static let onSecondary = Self.sharedColors.color_on_secondary.dynamicUIColor
 
@@ -146,8 +136,6 @@ enum ColorPalette {
     // MARK: Orange
 
     static let overlayOrange = Self.sharedColors.color_overlay_orange.dynamicUIColor
-    static let overlayOrangeAlpha50 = Self.sharedColors.color_overlay_orange_alpha_50.dynamicUIColor
-    static let overlayOrangeAlpha25 = Self.sharedColors.color_overlay_orange_alpha_25.dynamicUIColor
     static let overlayOrangeAlpha12 = Self.sharedColors.color_overlay_orange_alpha_12.dynamicUIColor
     static let overlayOrangeAlpha7 = Self.sharedColors.color_overlay_orange_alpha_7.dynamicUIColor
 
@@ -160,16 +148,18 @@ enum ColorPalette {
     // MARK: Yellow
 
     static let overlayYellow = Self.sharedColors.color_overlay_yellow.dynamicUIColor
-    static let overlayYellowAlpha50 = Self.sharedColors.color_overlay_yellow_alpha_50.dynamicUIColor
-    static let overlayYellowAlpha25 = Self.sharedColors.color_overlay_yellow_alpha_25.dynamicUIColor
     static let overlayYellowAlpha12 = Self.sharedColors.color_overlay_yellow_alpha_12.dynamicUIColor
     static let overlayYellowAlpha7 = Self.sharedColors.color_overlay_yellow_alpha_7.dynamicUIColor
 
     // MARK: Violet
 
     static let overlayViolet = Self.sharedColors.color_overlay_violet.dynamicUIColor
-    static let overlayVioletAlpha50 = Self.sharedColors.color_overlay_violet_alpha_50.dynamicUIColor
-    static let overlayVioletAlpha25 = Self.sharedColors.color_overlay_violet_alpha_25.dynamicUIColor
     static let overlayVioletAlpha12 = Self.sharedColors.color_overlay_violet_alpha_12.dynamicUIColor
     static let overlayVioletAlpha7 = Self.sharedColors.color_overlay_violet_alpha_7.dynamicUIColor
+
+    // MARK: Red
+
+    static let overlayRed = Self.sharedColors.color_overlay_red.dynamicUIColor
+    static let overlayRedAlpha12 = Self.sharedColors.color_overlay_red_alpha_12.dynamicUIColor
+    static let overlayRedAlpha7 = Self.sharedColors.color_overlay_red_alpha_7.dynamicUIColor
 }
