@@ -37,7 +37,7 @@ enum ColorPalette {
     static let colorRed500Alpha7 = Self.sharedColors.color_red_500_alpha_7.color.uiColor
     static let colorRed300 = Self.sharedColors.color_red_300.color.uiColor
     static let colorRed300Alpha12 = Self.sharedColors.color_red_300_alpha_12.color.uiColor
-    static let colorRed300Alpha7 = Self.sharedColors.color_red_300.color_alpha_7.uiColor
+    static let colorRed300Alpha7 = Self.sharedColors.color_red_300_alpha_7.color.uiColor
 
     // MARK: Orange
 
@@ -61,8 +61,12 @@ enum ColorPalette {
 
     static let green400 = Self.sharedColors.color_green_400.color.uiColor
     static let green200 = Self.sharedColors.color_green_200.color.uiColor
+    static let green400Alpha60 = Self.sharedColors.color_green_400_alpha_60.color.uiColor
+    static let green400Alpha38 = Self.sharedColors.color_green_400_alpha_38.color.uiColor
     static let green400Alpha12 = Self.sharedColors.color_green_400_alpha_12.color.uiColor
     static let green400Alpha7 = Self.sharedColors.color_green_400_alpha_7.color.uiColor
+    static let green200Alpha60 = Self.sharedColors.color_green_200_alpha_60.color.uiColor
+    static let green200Alpha38 = Self.sharedColors.color_green_200_alpha_38.color.uiColor
     static let green200Alpha12 = Self.sharedColors.color_green_200_alpha_12.color.uiColor
     static let green200Alpha7 = Self.sharedColors.color_green_200_alpha_7.color.uiColor
 
@@ -98,6 +102,8 @@ enum ColorPalette {
     static let primary = Self.sharedColors.color_primary.dynamicUIColor
     static let primaryAlpha60 = Self.sharedColors.color_primary_alpha_60.dynamicUIColor
     static let primaryAlpha38 = Self.sharedColors.color_primary_alpha_38.dynamicUIColor
+
+    static let primaryVariant = Self.sharedColors.color_primary_variant.color.uiColor
 
     static let onPrimary = Self.sharedColors.color_on_primary.dynamicUIColor
 
