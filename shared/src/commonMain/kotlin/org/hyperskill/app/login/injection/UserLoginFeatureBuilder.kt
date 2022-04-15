@@ -15,7 +15,7 @@ import ru.nobird.app.presentation.redux.feature.ReduxFeature
 class UserLoginFeatureBuilder {
     fun build(): Feature<UserLoginFeature.State, UserLoginFeature.Message, UserLoginFeature.Action> {
         val json = NetworkModule.provideJson()
-        val httpClient = NetworkModule.provideClient(json)
+        val httpClient = NetworkModule.provideStubClient(json)
 
         val remoteDataSource = UserLoginRemoteDataSourceImpl(httpClient)
         val repository = UserLoginRepositoryImpl(remoteDataSource)

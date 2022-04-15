@@ -7,6 +7,7 @@ import io.ktor.client.HttpClient
 import kotlinx.serialization.json.Json
 import org.hyperskill.app.android.BuildConfig
 import org.hyperskill.app.core.remote.UserAgentInfo
+import org.hyperskill.app.network.domain.model.NetworkClientType
 import org.hyperskill.app.network.injection.NetworkModule
 
 @Module
@@ -20,7 +21,7 @@ object AndroidNetworkModule {
     fun provideStubHttpClient(
         json: Json
     ): HttpClient =
-        NetworkModule.provideClient(json)
+        NetworkModule.provideStubClient(json)
 
     @Provides
     @AuthHttpClient
@@ -28,7 +29,7 @@ object AndroidNetworkModule {
         userAgentInfo: UserAgentInfo,
         json: Json
     ): HttpClient =
-        NetworkModule.provideAuthClient(userAgentInfo, json)
+        NetworkModule.provideClient(NetworkClientType.SOCIAL, userAgentInfo, json)
 
     @Provides
     @AuthorizedHttpClient

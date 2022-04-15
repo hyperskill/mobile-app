@@ -26,6 +26,7 @@ import org.hyperskill.app.auth.cache.AuthCacheKeyValues
 import org.hyperskill.app.auth.remote.model.AuthResponse
 import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.core.remote.UserAgentInfo
+import org.hyperskill.app.network.domain.model.NetworkClientType
 
 object NetworkModule {
     fun provideJson(): Json =
@@ -37,8 +38,14 @@ object NetworkModule {
             }
         }
 
+    fun provideClient(networkClientType: NetworkClientType, userAgentInfo: UserAgentInfo, json: Json): HttpClient =
+        when (networkClientType) {
+            NetworkClientType.SOCIAL -> provideAuthClient(userAgentInfo, json)
+            NetworkClientType.CREDENTIALS -> provideCredentialsClient(userAgentInfo, json)
+        }
+
     // TODO Stub, will be removed with user list feature
-    fun provideClient(json: Json): HttpClient =
+    fun provideStubClient(json: Json): HttpClient =
         HttpClient {
             install(JsonFeature) {
                 serializer = KotlinxSerializer(json)
@@ -115,7 +122,7 @@ object NetworkModule {
             }
         }
 
-    fun provideAuthClient(userAgentInfo: UserAgentInfo, json: Json): HttpClient =
+    private fun provideAuthClient(userAgentInfo: UserAgentInfo, json: Json): HttpClient =
         HttpClient {
             defaultRequest {
                 url {
@@ -137,6 +144,37 @@ object NetworkModule {
                         BasicAuthCredentials(
                             username = BuildKonfig.OAUTH_CLIENT_ID,
                             password = BuildKonfig.OAUTH_CLIENT_SECRET
+                        )
+                    }
+                }
+            }
+            install(UserAgent) {
+                agent = userAgentInfo.toString()
+            }
+        }
+
+    private fun provideCredentialsClient(userAgentInfo: UserAgentInfo, json: Json): HttpClient =
+        HttpClient {
+            defaultRequest {
+                url {
+                    protocol = URLProtocol.HTTPS
+                    host = BuildKonfig.HOST
+                }
+            }
+            install(JsonFeature) {
+                serializer = KotlinxSerializer(json)
+            }
+            install(Logging) {
+                logger = Logger.SIMPLE
+                level = LogLevel.ALL
+            }
+            install(Auth) {
+                basic {
+                    sendWithoutRequest { true }
+                    credentials {
+                        BasicAuthCredentials(
+                            username = BuildKonfig.CREDENTIALS_CLIEND_ID,
+                            password = BuildKonfig.CREDENTIALS_CLIENT_SECRET
                         )
                     }
                 }
