@@ -11,6 +11,7 @@ import org.hyperskill.app.auth.cache.AuthCacheKeyValues
 import org.hyperskill.app.auth.data.source.AuthRemoteDataSource
 import org.hyperskill.app.auth.remote.model.AuthResponse
 import org.hyperskill.app.config.BuildKonfig
+import org.hyperskill.app.network.domain.model.NetworkClientType
 
 class AuthRemoteDataSourceImpl(
     private val authHttpClient: HttpClient,
@@ -31,6 +32,7 @@ class AuthRemoteDataSourceImpl(
                 ).also { authResponse ->
                     settings.putString(AuthCacheKeyValues.AUTH_RESPONSE, json.encodeToString(authResponse))
                     settings.putLong(AuthCacheKeyValues.AUTH_ACCESS_TOKEN_TIMESTAMP, Clock.System.now().epochSeconds)
+                    settings.putInt(AuthCacheKeyValues.AUTH_SOCIAL_ORDINAL, NetworkClientType.SOCIAL.ordinal)
                 }
         }
 
@@ -48,6 +50,7 @@ class AuthRemoteDataSourceImpl(
                 ).also { authResponse ->
                     settings.putString(AuthCacheKeyValues.AUTH_RESPONSE, json.encodeToString(authResponse))
                     settings.putLong(AuthCacheKeyValues.AUTH_ACCESS_TOKEN_TIMESTAMP, Clock.System.now().epochSeconds)
+                    settings.putInt(AuthCacheKeyValues.AUTH_SOCIAL_ORDINAL, NetworkClientType.CREDENTIALS.ordinal)
                 }
         }
 }

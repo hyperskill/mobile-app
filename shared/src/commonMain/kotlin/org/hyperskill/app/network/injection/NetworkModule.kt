@@ -58,7 +58,11 @@ object NetworkModule {
         settings: Settings
     ): HttpClient =
         HttpClient {
-            val tokenClient = provideAuthClient(userAgentInfo, json)
+            val tokenClient = provideClient(
+                NetworkClientType.values()[AuthCacheKeyValues.AUTH_SOCIAL_ORDINAL as Int],
+                userAgentInfo,
+                json
+            )
 
             defaultRequest {
                 url {

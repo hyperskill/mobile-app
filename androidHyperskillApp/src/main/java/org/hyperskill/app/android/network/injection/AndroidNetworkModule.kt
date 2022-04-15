@@ -32,6 +32,14 @@ object AndroidNetworkModule {
         NetworkModule.provideClient(NetworkClientType.SOCIAL, userAgentInfo, json)
 
     @Provides
+    @CredentialsHttpClient
+    fun provideCredentialsHttpClient(
+        userAgentInfo: UserAgentInfo,
+        json: Json
+    ): HttpClient =
+        NetworkModule.provideClient(NetworkClientType.CREDENTIALS, userAgentInfo, json)
+
+    @Provides
     @AuthorizedHttpClient
     fun provideHttpClient(
         userAgentInfo: UserAgentInfo,
