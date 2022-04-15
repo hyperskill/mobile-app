@@ -1,6 +1,7 @@
 package org.hyperskill.app.android.auth.view.ui.fragment
 
 import android.os.Bundle
+import android.text.InputType
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -40,6 +41,7 @@ class AuthEmailFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewBinding.passwordEditText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
         viewBinding.signInWithSocialMaterialButton.setOnClickListener {
             (requireActivity() as MainActivity).router.backTo(AuthSocialScreen)
         }
