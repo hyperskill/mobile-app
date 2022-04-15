@@ -33,4 +33,21 @@ class AuthRemoteDataSourceImpl(
                     settings.putLong(AuthCacheKeyValues.AUTH_ACCESS_TOKEN_TIMESTAMP, Clock.System.now().epochSeconds)
                 }
         }
+
+    override suspend fun authWithEmail(email: String, password: String): Result<Unit> =
+        kotlin.runCatching {
+            authHttpClient
+                .submitForm<AuthResponse>(
+                    url = "/oauth2/token/",
+                    formParameters = Parameters.build {
+                        append("username", email)
+                        append("password", password)
+                        append("grant_type", "password")
+                        append("redirect_uri", BuildKonfig.REDIRECT_URI)
+                    }
+                ).also { authResponse ->
+                    settings.putString(AuthCacheKeyValues.AUTH_RESPONSE, json.encodeToString(authResponse))
+                    settings.putLong(AuthCacheKeyValues.AUTH_ACCESS_TOKEN_TIMESTAMP, Clock.System.now().epochSeconds)
+                }
+        }
 }
