@@ -5,6 +5,8 @@ extension AuthEmailView {
         let logoSize: CGFloat = 48
 
         let contentMaxWidth: CGFloat = 400
+
+        let keyboardDistanceFromTextField: CGFloat = 60
     }
 }
 
@@ -37,9 +39,16 @@ struct AuthEmailView: View {
                     Spacer()
                 }
                 .frame(maxWidth: appearance.contentMaxWidth)
-            }.padding(.horizontal)
+            }
+            .padding(.horizontal)
         }
         .navigationBarHidden(true)
+        .onAppear {
+            IQKeyboardManagerConfigurator.setKeyboardDistanceFromTextField(appearance.keyboardDistanceFromTextField)
+        }
+        .onDisappear {
+            IQKeyboardManagerConfigurator.setDefaultKeyboardDistanceFromTextField()
+        }
     }
 }
 

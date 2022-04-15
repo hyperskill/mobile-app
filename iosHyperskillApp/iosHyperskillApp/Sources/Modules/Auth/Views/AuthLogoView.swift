@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct AuthLogoView: View {
-    let logoWidthHeight: CGFloat
+    var logoWidthHeight: CGFloat = 48
 
     var body: some View {
         VStack(spacing: 0) {
@@ -20,10 +20,10 @@ struct AuthLogoView: View {
 struct AuthLogoView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            AuthLogoView(logoWidthHeight: 48)
+            AuthLogoView()
                 .preferredColorScheme(.light)
 
-            AuthLogoView(logoWidthHeight: 48)
+            AuthLogoView()
                 .preferredColorScheme(.dark)
         }
     }
