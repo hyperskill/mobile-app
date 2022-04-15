@@ -28,7 +28,7 @@ struct AuthEmailView: View {
 
             AuthEmailFormView()
 
-            Button(Strings.authEmailSocialText, action: { presentingContinueWithEmail.toggle() })
+            Button(Strings.authEmailSocialText, action: { presentingContinueWithEmail = false })
                 .buttonStyle(OutlineButtonStyle(style: .violet))
                 .padding(appearance.continueWithSocialButtonInsets.edgeInsets)
         }
