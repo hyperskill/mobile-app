@@ -55,7 +55,7 @@
 		2CCF3B5A280050890075D12C /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCF3B59280050890075D12C /* DeviceInfo.swift */; };
 		2CE1C4DF27EDFB3800220041 /* FeatureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE1C4DE27EDFB3800220041 /* FeatureViewModel.swift */; };
 		2CE2817927E8EF1E00641E22 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2CE2817827E8EF1E00641E22 /* GoogleService-Info.plist */; };
-		2CE31F4827F1BB79008EEE66 /* AuthAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4727F1BB79008EEE66 /* AuthAssembly.swift */; };
+		2CE31F4827F1BB79008EEE66 /* AuthSocialAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4727F1BB79008EEE66 /* AuthSocialAssembly.swift */; };
 		2CE31F4B27F1E070008EEE66 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4A27F1E070008EEE66 /* AppViewModel.swift */; };
 		2CE31F4D27F1E0C8008EEE66 /* AppAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4C27F1E0C8008EEE66 /* AppAssembly.swift */; };
 		2CF2DA3A27EC5B2D0055426D /* Assembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF2DA3927EC5B2D0055426D /* Assembly.swift */; };
@@ -65,8 +65,8 @@
 		E92D659727FC2F4100953029 /* AuthSocialButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92D659627FC2F4100953029 /* AuthSocialButton.swift */; };
 		E94D238D28057F440003273F /* AuthEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D238C28057F440003273F /* AuthEmailView.swift */; };
 		E94D238F280585110003273F /* AuthEmailFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D238E280585110003273F /* AuthEmailFormView.swift */; };
-		E951757927E61ACD00995008 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951757827E61ACD00995008 /* AuthView.swift */; };
-		E96E80F627EF57BA00AA6683 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E80F527EF57BA00AA6683 /* AuthViewModel.swift */; };
+		E951757927E61ACD00995008 /* AuthSocialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951757827E61ACD00995008 /* AuthSocialView.swift */; };
+		E96E80F627EF57BA00AA6683 /* AuthSocialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */; };
 		E9D69A4028084FF7000E114E /* AuthEmailErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D69A3F28084FF7000E114E /* AuthEmailErrorView.swift */; };
 /* End PBXBuildFile section */
 
@@ -130,7 +130,7 @@
 		2CCF3B59280050890075D12C /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
 		2CE1C4DE27EDFB3800220041 /* FeatureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureViewModel.swift; sourceTree = "<group>"; };
 		2CE2817827E8EF1E00641E22 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		2CE31F4727F1BB79008EEE66 /* AuthAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAssembly.swift; sourceTree = "<group>"; };
+		2CE31F4727F1BB79008EEE66 /* AuthSocialAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialAssembly.swift; sourceTree = "<group>"; };
 		2CE31F4A27F1E070008EEE66 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		2CE31F4C27F1E0C8008EEE66 /* AppAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAssembly.swift; sourceTree = "<group>"; };
 		2CF2DA3927EC5B2D0055426D /* Assembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembly.swift; sourceTree = "<group>"; };
@@ -144,8 +144,8 @@
 		E92D659627FC2F4100953029 /* AuthSocialButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialButton.swift; sourceTree = "<group>"; };
 		E94D238C28057F440003273F /* AuthEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthEmailView.swift; sourceTree = "<group>"; };
 		E94D238E280585110003273F /* AuthEmailFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthEmailFormView.swift; sourceTree = "<group>"; };
-		E951757827E61ACD00995008 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
-		E96E80F527EF57BA00AA6683 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		E951757827E61ACD00995008 /* AuthSocialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialView.swift; sourceTree = "<group>"; };
+		E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialViewModel.swift; sourceTree = "<group>"; };
 		E9D69A3F28084FF7000E114E /* AuthEmailErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthEmailErrorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -186,14 +186,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		2C005DD027EF5C4800DC6503 /* Auth */ = {
+		2C005DD027EF5C4800DC6503 /* AuthSocial */ = {
 			isa = PBXGroup;
 			children = (
-				2CE31F4727F1BB79008EEE66 /* AuthAssembly.swift */,
-				E96E80F527EF57BA00AA6683 /* AuthViewModel.swift */,
+				2CE31F4727F1BB79008EEE66 /* AuthSocialAssembly.swift */,
+				E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */,
 				2C58DE212803BE84002A2774 /* Views */,
 			);
-			path = Auth;
+			path = AuthSocial;
 			sourceTree = "<group>";
 		};
 		2C1DEE2C27EC3FE00001A567 /* Sources */ = {
@@ -216,7 +216,7 @@
 			isa = PBXGroup;
 			children = (
 				2CE31F4927F1E058008EEE66 /* App */,
-				2C005DD027EF5C4800DC6503 /* Auth */,
+				2C005DD027EF5C4800DC6503 /* AuthSocial */,
 				2C725B6428091ACF00A49043 /* AuthEmail */,
 				2CAE8CEE280525A100E6C83D /* Step */,
 				2C1DEE2E27EC40430001A567 /* UsersList */,
@@ -266,7 +266,7 @@
 				2C58DE222803BF97002A2774 /* AuthLogoView.swift */,
 				E92D659627FC2F4100953029 /* AuthSocialButton.swift */,
 				2C58DE242803C185002A2774 /* AuthSocialControlsView.swift */,
-				E951757827E61ACD00995008 /* AuthView.swift */,
+				E951757827E61ACD00995008 /* AuthSocialView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -731,7 +731,7 @@
 				2C84094F2805B28B009C6BE9 /* StepRatingControl.swift in Sources */,
 				2C005DCC27EF5B0300DC6503 /* GoogleServiceInfo.swift in Sources */,
 				E94D238D28057F440003273F /* AuthEmailView.swift in Sources */,
-				2CE31F4827F1BB79008EEE66 /* AuthAssembly.swift in Sources */,
+				2CE31F4827F1BB79008EEE66 /* AuthSocialAssembly.swift in Sources */,
 				2CF2DA3A27EC5B2D0055426D /* Assembly.swift in Sources */,
 				2C863D932804279E0021EFED /* Require.swift in Sources */,
 				2CAE8CFB28054A7000E6C83D /* RoundedRectangleButtonStyle.swift in Sources */,
@@ -753,10 +753,10 @@
 				E9D69A4028084FF7000E114E /* AuthEmailErrorView.swift in Sources */,
 				2C42EFAD27F2C29500B4648B /* Strings.swift in Sources */,
 				2152FB042600AC8F00CF470E /* HyperskillApp.swift in Sources */,
-				E951757927E61ACD00995008 /* AuthView.swift in Sources */,
+				E951757927E61ACD00995008 /* AuthSocialView.swift in Sources */,
 				2CAE8D032805550900E6C83D /* BounceButtonStyle.swift in Sources */,
 				2C58DE232803BF97002A2774 /* AuthLogoView.swift in Sources */,
-				E96E80F627EF57BA00AA6683 /* AuthViewModel.swift in Sources */,
+				E96E80F627EF57BA00AA6683 /* AuthSocialViewModel.swift in Sources */,
 				2CAE8D07280576C600E6C83D /* StepBottomControlsView.swift in Sources */,
 				2C005DCE27EF5B4400DC6503 /* AppView.swift in Sources */,
 				2CAE8D0C2805829A00E6C83D /* StepViewData.swift in Sources */,

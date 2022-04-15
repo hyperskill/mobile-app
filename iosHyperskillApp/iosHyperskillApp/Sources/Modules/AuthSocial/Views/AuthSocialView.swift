@@ -1,7 +1,7 @@
 import shared
 import SwiftUI
 
-extension AuthView {
+extension AuthSocialView {
     struct Appearance {
         let logoSize: CGFloat = 48
 
@@ -9,16 +9,16 @@ extension AuthView {
     }
 }
 
-struct AuthView: View {
+struct AuthSocialView: View {
     let appearance: Appearance
 
-    @ObservedObject private var viewModel: AuthViewModel
+    @ObservedObject private var viewModel: AuthSocialViewModel
 
     @State private var presentingContinueWithEmail = false
 
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
-    init(viewModel: AuthViewModel, appearance: Appearance = Appearance()) {
+    init(viewModel: AuthSocialViewModel, appearance: Appearance = Appearance()) {
         self.viewModel = viewModel
         self.appearance = appearance
         self.viewModel.onViewAction = self.handleViewAction(_:)
@@ -60,33 +60,33 @@ struct AuthView: View {
     // MARK: Private API
 
     private func handleViewAction(_ viewAction: AuthFeatureActionViewAction) {
-        print("AuthView :: \(#function) viewAction = \(viewAction)")
+        print("AuthSocialView :: \(#function) viewAction = \(viewAction)")
     }
 }
 
 struct AuthView_Previews: PreviewProvider {
     static var previews: some View {
-        AuthAssembly()
+        AuthSocialAssembly()
             .makeModule()
             .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro"))
             .preferredColorScheme(.light)
 
         if #available(iOS 15.0, *) {
-            AuthAssembly()
+            AuthSocialAssembly()
                 .makeModule()
                 .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro"))
                 .preferredColorScheme(.light)
                 .previewInterfaceOrientation(.landscapeRight)
         }
 
-        AuthAssembly().makeModule()
+        AuthSocialAssembly().makeModule()
             .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro"))
             .preferredColorScheme(.dark)
 
-        AuthAssembly().makeModule()
+        AuthSocialAssembly().makeModule()
             .previewDevice(PreviewDevice(rawValue: "iPhone SE (3rd generation)"))
 
-        AuthAssembly().makeModule()
+        AuthSocialAssembly().makeModule()
             .previewDevice(PreviewDevice(rawValue: "iPad (9th generation)"))
     }
 }
