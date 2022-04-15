@@ -37,4 +37,8 @@
         <item name="boxCornerRadiusTopEnd">@dimen/corner_radius</item>
     </style>
 
+    <style name="ZeroSizeTextAppearance">
+        <item name="android:textSize">0sp</item>
+    </style>
+
 </resources>
