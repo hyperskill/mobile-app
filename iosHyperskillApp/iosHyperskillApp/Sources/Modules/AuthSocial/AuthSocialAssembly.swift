@@ -1,8 +1,8 @@
 import shared
 import SwiftUI
 
-final class AuthAssembly: Assembly {
-    func makeModule() -> AuthView {
+final class AuthSocialAssembly: Assembly {
+    func makeModule() -> AuthSocialView {
         let authRepository = AuthRepositoryImpl(
             authCacheDataSource: AuthCacheDataSourceImpl(
                 settings: Settings.shared.makeAppleSettings(userDefaults: UserDefaults.standard)
@@ -19,8 +19,8 @@ final class AuthAssembly: Assembly {
         let authInteractor = AuthInteractor(authRepository: authRepository)
         let authFeature = AuthFeatureBuilder.shared.build(authInteractor: authInteractor)
 
-        let authViewModel = AuthViewModel(feature: authFeature)
+        let authSocialViewModel = AuthSocialViewModel(feature: authFeature)
 
-        return AuthView(viewModel: authViewModel)
+        return AuthSocialView(viewModel: authSocialViewModel)
     }
 }

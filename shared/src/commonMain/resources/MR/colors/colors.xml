@@ -19,6 +19,8 @@
     <color name="color_white_50_alpha_50">#FFFFFF80</color>
     <color name="color_white_50_alpha_25">#FFFFFF40</color>
 
+    <color name="color_brown">#EDEDED</color>
+    
     <color name="color_gray_50">#F7F9FA</color>
 
     <color name="color_red_500">#EF341E</color>
