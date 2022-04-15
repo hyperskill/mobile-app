@@ -50,18 +50,26 @@ struct AuthEmailView: View {
 
 struct AuthEmailView_Previews: PreviewProvider {
     static var previews: some View {
-        AuthEmailView(presentingContinueWithEmail: .constant(true))
-            .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro"))
+        Group {
+            AuthEmailView(presentingContinueWithEmail: .constant(true))
+                .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro"))
 
-//        if #available(iOS 15.0, *) {
-//            AuthEmailView(presentingContinueWithEmail: .constant(true))
-//                .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro"))
-//                .previewInterfaceOrientation(.landscapeRight)
-//        }
-//        AuthEmailView(presentingContinueWithEmail: .constant(true))
-//            .previewDevice(PreviewDevice(rawValue: "iPhone SE (3rd generation)"))
-//
-//        AuthEmailView(presentingContinueWithEmail: .constant(true))
-//            .previewDevice(PreviewDevice(rawValue: "iPad (9th generation)"))
+            if #available(iOS 15.0, *) {
+                AuthEmailView(presentingContinueWithEmail: .constant(true))
+                    .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro"))
+                    .previewInterfaceOrientation(.landscapeRight)
+            }
+            AuthEmailView(presentingContinueWithEmail: .constant(true))
+                .previewDevice(PreviewDevice(rawValue: "iPhone SE (3rd generation)"))
+
+            AuthEmailView(presentingContinueWithEmail: .constant(true))
+                .previewDevice(PreviewDevice(rawValue: "iPad (9th generation)"))
+        }
+
+        Group {
+            AuthEmailView(presentingContinueWithEmail: .constant(true))
+                .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro"))
+        }
+        .preferredColorScheme(.dark)
     }
 }

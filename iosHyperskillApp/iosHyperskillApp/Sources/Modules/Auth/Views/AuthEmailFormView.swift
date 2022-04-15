@@ -7,6 +7,8 @@ extension AuthEmailFormView {
         let spacing: CGFloat = 16
 
         let cornerRadius: CGFloat = 8
+
+        let backgroundColor = UIColor.dynamic(light: ColorPalette.surface, dark: .secondarySystemBackground)
     }
 }
 
@@ -62,21 +64,31 @@ struct AuthEmailFormView: View {
                         .font(.body)
                         .foregroundColor(Color(ColorPalette.primary))
                 }
-            ).padding()
+            )
+            .padding(8)
         }
         .padding()
-        .cornerRadius(8)
-        .border(Color(ColorPalette.brown), width: 1)
-        .background(Color.white)
+        .background(Color(appearance.backgroundColor))
+        .addBorder()
     }
 }
 
 struct AuthEmailFormView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            AuthEmailFormView(error: false)
+            Group {
+                AuthEmailFormView(error: false)
 
-            AuthEmailFormView(error: true)
+                AuthEmailFormView(error: true)
+            }
+
+            Group {
+                AuthEmailFormView(error: false)
+
+                AuthEmailFormView(error: true)
+            }
+            .preferredColorScheme(.dark)
         }
+        .padding(.horizontal)
     }
 }
