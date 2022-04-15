@@ -6,7 +6,8 @@ import org.hyperskill.app.android.auth.view.ui.fragment.AuthEmailFragment
 @Subcomponent(
     modules = [
         AuthEmailModule::class,
-        AuthEmailDataModule::class
+        AuthSocialDataModule::class
+//        AuthEmailDataModule::class
     ]
 )
 interface AuthEmailComponent {
