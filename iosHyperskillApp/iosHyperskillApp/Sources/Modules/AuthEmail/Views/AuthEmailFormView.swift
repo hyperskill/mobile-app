@@ -30,7 +30,7 @@ struct AuthEmailFormView: View {
         VStack(spacing: appearance.stackSpacing) {
             VStack(spacing: 0) {
                 TextFieldWrapper(
-                    placeholder: Strings.emailPlaceHolderText,
+                    placeholder: Strings.authEmailPlaceholder,
                     text: $emailText,
                     configuration: .combined([.email, .partOfChain]),
                     onReturn: { passwordFirstResponderAction = .becomeFirstResponder }
@@ -42,7 +42,7 @@ struct AuthEmailFormView: View {
 
             VStack(spacing: 0) {
                 TextFieldWrapper(
-                    placeholder: Strings.passwordPlaceHolderText,
+                    placeholder: Strings.authEmailPasswordPlaceholder,
                     text: $passwordText,
                     configuration: .combined([.password, .lastOfChainGo]),
                     firstResponderAction: $passwordFirstResponderAction,
@@ -57,14 +57,14 @@ struct AuthEmailFormView: View {
                 AuthEmailErrorView()
             }
 
-            Button(Strings.logInText, action: { onLogIn?() })
+            Button(Strings.authEmailLogIn, action: { onLogIn?() })
                 .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
                 .disabled(emailText.isEmpty || passwordText.isEmpty)
 
             Button(
                 action: { onResetPassword?() },
                 label: {
-                    Text(Strings.resetPasswordText)
+                    Text(Strings.authEmailResetPassword)
                         .font(.body)
                         .foregroundColor(Color(ColorPalette.primary))
                 }

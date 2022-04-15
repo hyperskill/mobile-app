@@ -32,7 +32,7 @@ struct AuthEmailView: View {
 
                     AuthEmailFormView()
 
-                    Button(Strings.authSocialText, action: { presentingContinueWithEmail.toggle() })
+                    Button(Strings.authEmailSocialText, action: { presentingContinueWithEmail.toggle() })
                         .buttonStyle(OutlineButtonStyle(style: .violet))
                         .padding(.top)
 

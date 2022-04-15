@@ -2,7 +2,7 @@ import SwiftUI
 
 struct AuthEmailErrorView: View {
     var body: some View {
-        Text(Strings.emailLoginErrorText)
+        Text(Strings.authEmailLoginError)
             .foregroundColor(Color(ColorPalette.error))
             .font(.caption)
             .padding()
