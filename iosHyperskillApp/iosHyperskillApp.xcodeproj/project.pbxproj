@@ -38,6 +38,7 @@
 		2C9B66E627ECA86B00569645 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9B66E527ECA86B00569645 /* SceneDelegate.swift */; };
 		2C9B66EB27ECAF5000569645 /* UIApplicationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9B66EA27ECAF5000569645 /* UIApplicationExtensions.swift */; };
 		2C9CC1BD280920B5006604D7 /* IQKeyboardManagerConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9CC1BC280920B5006604D7 /* IQKeyboardManagerConfigurator.swift */; };
+		2C9CC1BF28092E06006604D7 /* AuthAdaptiveContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9CC1BE28092E06006604D7 /* AuthAdaptiveContentView.swift */; };
 		2CAE8CF0280525BE00E6C83D /* StepViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAE8CEF280525BE00E6C83D /* StepViewModel.swift */; };
 		2CAE8CF2280525C900E6C83D /* StepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAE8CF1280525C900E6C83D /* StepView.swift */; };
 		2CAE8CF4280525D400E6C83D /* StepAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAE8CF3280525D400E6C83D /* StepAssembly.swift */; };
@@ -113,6 +114,7 @@
 		2C9B66E527ECA86B00569645 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		2C9B66EA27ECAF5000569645 /* UIApplicationExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplicationExtensions.swift; sourceTree = "<group>"; };
 		2C9CC1BC280920B5006604D7 /* IQKeyboardManagerConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IQKeyboardManagerConfigurator.swift; sourceTree = "<group>"; };
+		2C9CC1BE28092E06006604D7 /* AuthAdaptiveContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAdaptiveContentView.swift; sourceTree = "<group>"; };
 		2CAE8CEF280525BE00E6C83D /* StepViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepViewModel.swift; sourceTree = "<group>"; };
 		2CAE8CF1280525C900E6C83D /* StepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepView.swift; sourceTree = "<group>"; };
 		2CAE8CF3280525D400E6C83D /* StepAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepAssembly.swift; sourceTree = "<group>"; };
@@ -263,6 +265,7 @@
 		2C58DE212803BE84002A2774 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2C9CC1BE28092E06006604D7 /* AuthAdaptiveContentView.swift */,
 				2C58DE222803BF97002A2774 /* AuthLogoView.swift */,
 				E92D659627FC2F4100953029 /* AuthSocialButton.swift */,
 				2C58DE242803C185002A2774 /* AuthSocialControlsView.swift */,
@@ -759,6 +762,7 @@
 				E96E80F627EF57BA00AA6683 /* AuthSocialViewModel.swift in Sources */,
 				2CAE8D07280576C600E6C83D /* StepBottomControlsView.swift in Sources */,
 				2C005DCE27EF5B4400DC6503 /* AppView.swift in Sources */,
+				2C9CC1BF28092E06006604D7 /* AuthAdaptiveContentView.swift in Sources */,
 				2CAE8D0C2805829A00E6C83D /* StepViewData.swift in Sources */,
 				2CF2DA4127EC75000055426D /* UsersListViewModel.swift in Sources */,
 				E92D659727FC2F4100953029 /* AuthSocialButton.swift in Sources */,

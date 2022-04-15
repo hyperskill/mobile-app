@@ -4,9 +4,9 @@ extension AuthEmailView {
     struct Appearance {
         let logoSize: CGFloat = 48
 
-        let continueWithSocialButtonLayoutInsets = LayoutInsets(top: 24)
+        let contentViewInsets = LayoutInsets(horizontal: LayoutInsets.defaultInset).edgeInsets
 
-        let contentMaxWidth: CGFloat = 400
+        let continueWithSocialButtonInsets = LayoutInsets(top: 24)
 
         let keyboardDistanceFromTextField: CGFloat = 60
     }
@@ -20,31 +20,18 @@ struct AuthEmailView: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     var body: some View {
-        ZStack {
-            BackgroundView()
+        AuthAdaptiveContentView(
+            appearance: .init(insets: appearance.contentViewInsets)
+        ) { horizontalSizeClass in
+            AuthLogoView(logoWidthHeight: appearance.logoSize)
+                .padding(horizontalSizeClass == .regular ? .bottom : .vertical, appearance.logoSize)
 
-            VerticalCenteredScrollView(showsIndicators: false) {
-                VStack(spacing: 0) {
-                    if horizontalSizeClass == .regular {
-                        Spacer()
-                    }
+            AuthEmailFormView()
 
-                    AuthLogoView(logoWidthHeight: appearance.logoSize)
-                        .padding(horizontalSizeClass == .regular ? .bottom : .vertical, appearance.logoSize)
-
-                    AuthEmailFormView()
-
-                    Button(Strings.authEmailSocialText, action: { presentingContinueWithEmail.toggle() })
-                        .buttonStyle(OutlineButtonStyle(style: .violet))
-                        .padding(appearance.continueWithSocialButtonLayoutInsets.edgeInsets)
-
-                    Spacer()
-                }
-                .frame(maxWidth: appearance.contentMaxWidth)
-            }
-            .padding(.horizontal)
+            Button(Strings.authEmailSocialText, action: { presentingContinueWithEmail.toggle() })
+                .buttonStyle(OutlineButtonStyle(style: .violet))
+                .padding(appearance.continueWithSocialButtonInsets.edgeInsets)
         }
-        .navigationBarHidden(true)
         .onAppear {
             IQKeyboardManagerConfigurator.setKeyboardDistanceFromTextField(appearance.keyboardDistanceFromTextField)
         }

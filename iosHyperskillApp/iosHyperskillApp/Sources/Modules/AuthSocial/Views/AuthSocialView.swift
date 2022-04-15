@@ -4,8 +4,6 @@ import SwiftUI
 extension AuthSocialView {
     struct Appearance {
         let logoSize: CGFloat = 48
-
-        let contentMaxWidth: CGFloat = 400
     }
 }
 
@@ -16,8 +14,6 @@ struct AuthSocialView: View {
 
     @State private var presentingContinueWithEmail = false
 
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-
     init(viewModel: AuthSocialViewModel, appearance: Appearance = Appearance()) {
         self.viewModel = viewModel
         self.appearance = appearance
@@ -25,36 +21,19 @@ struct AuthSocialView: View {
     }
 
     var body: some View {
-        NavigationView {
-            ZStack {
-                BackgroundView()
+        AuthAdaptiveContentView { horizontalSizeClass in
+            AuthLogoView(logoWidthHeight: appearance.logoSize)
+                .padding(horizontalSizeClass == .regular ? .bottom : .vertical, appearance.logoSize)
 
-                VerticalCenteredScrollView(showsIndicators: false) {
-                    VStack(spacing: 0) {
-                        if horizontalSizeClass == .regular {
-                            Spacer()
-                        }
-
-                        AuthLogoView(logoWidthHeight: appearance.logoSize)
-                            .padding(horizontalSizeClass == .regular ? .bottom : .vertical, appearance.logoSize)
-
-                        AuthSocialControlsView(
-                            socialAuthProviders: viewModel.availableSocialAuthProviders,
-                            onSocialAuthProviderClick: viewModel.signInWithSocialAuthProvider(_:),
-                            onContinueWithEmailClick: { presentingContinueWithEmail = true }
-                        )
-                        .fullScreenCover(isPresented: $presentingContinueWithEmail) {
-                            AuthEmailView(presentingContinueWithEmail: $presentingContinueWithEmail)
-                        }
-
-                        Spacer()
-                    }
-                    .frame(maxWidth: appearance.contentMaxWidth)
-                }
+            AuthSocialControlsView(
+                socialAuthProviders: viewModel.availableSocialAuthProviders,
+                onSocialAuthProviderClick: viewModel.signInWithSocialAuthProvider(_:),
+                onContinueWithEmailClick: { presentingContinueWithEmail = true }
+            )
+            .fullScreenCover(isPresented: $presentingContinueWithEmail) {
+                AuthEmailView(presentingContinueWithEmail: $presentingContinueWithEmail)
             }
-            .navigationBarHidden(true)
         }
-        .navigationViewStyle(StackNavigationViewStyle())
     }
 
     // MARK: Private API
