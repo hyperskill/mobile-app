@@ -4,6 +4,8 @@ extension AuthEmailView {
     struct Appearance {
         let logoSize: CGFloat = 48
 
+        let continueWithSocialButtonLayoutInsets = LayoutInsets(top: 24)
+
         let contentMaxWidth: CGFloat = 400
 
         let keyboardDistanceFromTextField: CGFloat = 60
@@ -34,7 +36,7 @@ struct AuthEmailView: View {
 
                     Button(Strings.authEmailSocialText, action: { presentingContinueWithEmail.toggle() })
                         .buttonStyle(OutlineButtonStyle(style: .violet))
-                        .padding(.top)
+                        .padding(appearance.continueWithSocialButtonLayoutInsets.edgeInsets)
 
                     Spacer()
                 }

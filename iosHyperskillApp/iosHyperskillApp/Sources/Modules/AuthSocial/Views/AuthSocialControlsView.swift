@@ -1,6 +1,14 @@
 import SwiftUI
 
+extension AuthSocialControlsView {
+    struct Appearance {
+        let continueWithEmailButtonLayoutInsets = LayoutInsets(top: 24)
+    }
+}
+
 struct AuthSocialControlsView: View {
+    private(set) var appearance = Appearance()
+
     let socialAuthProviders: [SocialAuthProvider]
 
     private let onSocialAuthProviderClick: ((SocialAuthProvider) -> Void)
@@ -30,7 +38,7 @@ struct AuthSocialControlsView: View {
             }
 
             Button(Strings.authSocialEmailText, action: self.onContinueWithEmailClick)
-                .padding(.top)
+                .padding(appearance.continueWithEmailButtonLayoutInsets.edgeInsets)
                 .buttonStyle(OutlineButtonStyle(style: .violet))
         }
         .padding(.horizontal)
