@@ -158,11 +158,6 @@
 
     <!-- ThemeOverlay -->
 
-    <color name="color_overlay_red_alpha_12">
-        <light>@color/color_red_500_alpha_12</light>
-        <dark>@color/color_red_300_alpha_12</dark>
-    </color>
-
     <color name="color_overlay_blue">
         <light>@color/color_blue_400</light>
         <dark>@color/color_blue_200</dark>
