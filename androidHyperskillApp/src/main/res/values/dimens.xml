@@ -21,7 +21,14 @@
     <dimen name="step_toolbar_margin_end">36dp</dimen>
     <dimen name="step_content_padding">20dp</dimen>
 
-    <dimen name="step_theory_rating_horizontal_edge_margin">10dp</dimen>
-    <dimen name="step_theory_rating_horizontal_margin">22dp</dimen>
-    <dimen name="step_theory_rating_vertical_margin">10dp</dimen>
+    <dimen name="step_theory_elements_margin">20dp</dimen>
+
+    <dimen name="step_theory_rating_horizontal_edge_item_margin">10dp</dimen>
+    <dimen name="step_theory_rating_horizontal_item_margin">22dp</dimen>
+    <dimen name="step_theory_rating_vertical_item_margin">10dp</dimen>
+
+    <dimen name="step_theory_comments_statistics_vertical_item_margin">10dp</dimen>
+    <dimen name="step_theory_comments_statistics_recycler_top_margin">40dp</dimen>
+
+    <dimen name="step_theory_fab_margin">20dp</dimen>
 </resources>

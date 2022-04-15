@@ -143,7 +143,6 @@
     </style>
 
     <!-- Step -->
-
     <style name="StepFloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="colorSecondary">@color/color_background</item>
     </style>

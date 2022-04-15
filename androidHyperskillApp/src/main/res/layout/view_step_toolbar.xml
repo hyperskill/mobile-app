@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/step_toolbar_height"
     android:layout_gravity="center"
-    app:navigationIconTint="?colorControlNormal"
     app:contentInsetStartWithNavigation="0dp"
     app:layout_scrollFlags="scroll"
-    app:navigationIcon="@drawable/ic_toolbar_back">
+    app:navigationIcon="@drawable/ic_toolbar_back"
+    app:navigationIconTint="?colorControlNormal">
 
     <TextView
         android:id="@+id/stepToolbarTitle"
@@ -17,9 +17,9 @@
         android:layout_gravity="center"
         android:layout_marginEnd="@dimen/step_toolbar_margin_end"
         android:ellipsize="end"
-        android:fontFamily="@font/roboto_regular"
         android:maxLines="2"
         android:paddingVertical="@dimen/step_toolbar_padding_vertical"
+        android:textAppearance="?textAppearanceSubtitle1"
         android:textColor="@color/material_on_surface_emphasis_high_type"
         android:textSize="18sp"
         tools:text="Matrix representation of systems of linear equations" />

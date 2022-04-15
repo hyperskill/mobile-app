@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <include
-        android:id="@+id/stepAppBar"
+        android:id="@+id/stepTheoryAppBar"
         layout="@layout/view_step_appbar" />
 
     <androidx.core.widget.NestedScrollView
@@ -48,7 +48,7 @@
                 style="@style/Widget.AppTheme.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/step_theory_elements_margin"
                 android:text="@string/step_start_practicing_text"
                 android:theme="@style/ThemeOverlay.Green"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -59,7 +59,7 @@
                 android:id="@+id/stepTheoryContent"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/step_theory_elements_margin"
                 android:textAppearance="?textAppearanceBody2"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -71,7 +71,7 @@
                 android:id="@+id/stepTheoryReactionTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/step_theory_elements_margin"
                 android:textAppearance="?textAppearanceBody1"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -83,7 +83,7 @@
                 android:id="@+id/stepTheoryRatingRecycler"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/step_theory_elements_margin"
                 android:background="@drawable/bg_shape_rounded"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -97,62 +97,24 @@
                 android:id="@+id/stepTheoryPracticeActionEnd"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/step_theory_elements_margin"
                 android:text="@string/step_start_practicing_text"
                 android:theme="@style/ThemeOverlay.Green"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/stepTheoryRatingRecycler" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/stepTheoryCommentsAction"
-                style="@style/Widget.AppTheme.Button.OutlinedButton"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/stepTheoryCommentStatisticsRecycler"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="40dp"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                android:theme="@style/ThemeOverlay.Blue"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/step_theory_comments_statistics_recycler_top_margin"
+                android:nestedScrollingEnabled="false"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/stepTheoryPracticeActionEnd"
-                tools:text="Comments (0)" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/stepTheoryHintsAction"
-                style="@style/Widget.AppTheme.Button.OutlinedButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:theme="@style/ThemeOverlay.Blue"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/stepTheoryCommentsAction"
-                tools:text="Hints (0)" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/stepTheoryUsefulLinksAction"
-                style="@style/Widget.AppTheme.Button.OutlinedButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:theme="@style/ThemeOverlay.Blue"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/stepTheoryHintsAction"
-                tools:text="Useful links (0)" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/stepTheorySolutionsAction"
-                style="@style/Widget.AppTheme.Button.OutlinedButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:theme="@style/ThemeOverlay.Blue"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/stepTheoryUsefulLinksAction"
-                tools:text="Solutions (0)" />
+                tools:itemCount="4"
+                tools:listitem="@layout/item_step_comment_action" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
@@ -160,8 +122,8 @@
         android:id="@+id/stepTheoryFab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="@dimen/step_theory_fab_margin"
+        android:layout_marginTop="@dimen/step_theory_fab_margin"
         android:src="@drawable/ic_toolbar_back"
         android:theme="@style/StepFloatingActionButton"
         android:visibility="invisible"
