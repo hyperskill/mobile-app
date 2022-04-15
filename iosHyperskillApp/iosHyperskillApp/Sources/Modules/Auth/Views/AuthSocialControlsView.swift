@@ -31,7 +31,7 @@ struct AuthSocialControlsView: View {
 
             Button(Strings.authEmailText, action: self.onContinueWithEmailClick)
                 .padding(.top)
-                .buttonStyle(OutlineButtonStyle())
+                .buttonStyle(OutlineButtonStyle(style: .violet))
         }
         .padding(.horizontal)
     }

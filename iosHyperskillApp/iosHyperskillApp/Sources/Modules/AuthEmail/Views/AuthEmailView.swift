@@ -9,20 +9,15 @@ extension AuthEmailView {
 }
 
 struct AuthEmailView: View {
-    let appearance: Appearance
+    private(set) var appearance = Appearance()
 
     @Binding var presentingContinueWithEmail: Bool
 
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
-    init(presentingContinueWithEmail: Binding<Bool>, appearance: Appearance = Appearance()) {
-        self._presentingContinueWithEmail = presentingContinueWithEmail
-        self.appearance = appearance
-    }
-
     var body: some View {
         ZStack {
-            Color(ColorPalette.background).ignoresSafeArea()
+            BackgroundView()
 
             VerticalCenteredScrollView(showsIndicators: false) {
                 VStack(spacing: 0) {
@@ -36,7 +31,7 @@ struct AuthEmailView: View {
                     AuthEmailFormView()
 
                     Button(Strings.authSocialText, action: { presentingContinueWithEmail.toggle() })
-                        .buttonStyle(OutlineButtonStyle())
+                        .buttonStyle(OutlineButtonStyle(style: .violet))
                         .padding(.top)
 
                     Spacer()

@@ -12,23 +12,11 @@ struct StepActionButton: View {
 
         switch style {
         case .greenOutline:
-            button
-                .buttonStyle(
-                    OutlineButtonStyle(
-                        foregroundColor: Color(ColorPalette.secondary),
-                        borderColor: Color(ColorPalette.secondaryAlpha38)
-                    )
-                )
+            button.buttonStyle(OutlineButtonStyle(style: .green))
         case .greenFilled:
-            button
-                .buttonStyle(
-                    RoundedRectangleButtonStyle(
-                        foregroundColor: Color(ColorPalette.onSecondary),
-                        backgroundColor: Color(ColorPalette.secondary)
-                    )
-                )
+            button.buttonStyle(RoundedRectangleButtonStyle(style: .green))
         case .violetOutline:
-            button.buttonStyle(OutlineButtonStyle())
+            button.buttonStyle(OutlineButtonStyle(style: .violet))
         }
     }
 

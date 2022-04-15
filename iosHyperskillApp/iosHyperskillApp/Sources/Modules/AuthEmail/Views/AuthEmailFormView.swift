@@ -2,11 +2,11 @@ import SwiftUI
 
 extension AuthEmailFormView {
     struct Appearance {
+        let stackSpacing = LayoutInsets.defaultInset
+
         let textFieldHeight: CGFloat = 44
 
-        let spacing: CGFloat = 16
-
-        let cornerRadius: CGFloat = 8
+        let resetPasswordButtonInset = LayoutInsets.smallInset
 
         let backgroundColor = UIColor.dynamic(light: ColorPalette.surface, dark: .secondarySystemBackground)
     }
@@ -22,8 +22,12 @@ struct AuthEmailFormView: View {
 
     @State private(set) var error = false
 
+    var onLogIn: (() -> Void)?
+
+    var onResetPassword: (() -> Void)?
+
     var body: some View {
-        VStack(spacing: appearance.spacing) {
+        VStack(spacing: appearance.stackSpacing) {
             VStack(spacing: 0) {
                 TextFieldWrapper(
                     placeholder: Strings.emailPlaceHolderText,
@@ -53,19 +57,19 @@ struct AuthEmailFormView: View {
                 AuthEmailErrorView()
             }
 
-            Button(Strings.logInText, action: {})
-                .buttonStyle(RoundedRectangleButtonStyle(minHeight: 44, backgroundColor: Color(ColorPalette.primary)))
+            Button(Strings.logInText, action: { onLogIn?() })
+                .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
                 .disabled(emailText.isEmpty || passwordText.isEmpty)
 
             Button(
-                action: {},
+                action: { onResetPassword?() },
                 label: {
                     Text(Strings.resetPasswordText)
                         .font(.body)
                         .foregroundColor(Color(ColorPalette.primary))
                 }
             )
-            .padding(8)
+            .padding(appearance.resetPasswordButtonInset)
         }
         .padding()
         .background(Color(appearance.backgroundColor))

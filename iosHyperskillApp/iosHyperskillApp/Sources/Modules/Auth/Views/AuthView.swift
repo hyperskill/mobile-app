@@ -27,7 +27,7 @@ struct AuthView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color(ColorPalette.background).ignoresSafeArea()
+                BackgroundView()
 
                 VerticalCenteredScrollView(showsIndicators: false) {
                     VStack(spacing: 0) {
