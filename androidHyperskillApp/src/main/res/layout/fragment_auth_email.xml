@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/authEmailFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -98,15 +97,14 @@
 
             <TextView
                 android:id="@+id/authEmailErrorMsgTextView"
+                style="@style/ThemeOverlay.Red"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="14dp"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/bg_shape_error"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="14dp"
-                android:textColor="@color/color_error"
-                android:textSize="@dimen/auth_button_text_size"
+                android:textAppearance="?textAppearanceBody2"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -121,12 +119,23 @@
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
                 android:text="@string/auth_email_email_login"
-                android:textSize="@dimen/auth_button_text_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/authEmailErrorMsgTextView"
                 app:layout_constraintWidth_max="@dimen/auth_button_max_width"
                 app:strokeColor="?colorPrimary" />
+
+            <Button
+                android:id="@+id/signInWithEmailResetPasswordTextButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/auth_button_height"
+                android:layout_marginTop="20dp"
+                android:text="@string/reset_password_text_button_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/signInWithEmailMaterialButton"
+                app:layout_constraintWidth_max="@dimen/auth_button_max_width" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
@@ -142,7 +151,6 @@
         android:insetTop="0dp"
         android:insetBottom="0dp"
         android:text="@string/auth_continue_with_social_text"
-        android:textSize="@dimen/auth_button_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signInWithEmailCardView"

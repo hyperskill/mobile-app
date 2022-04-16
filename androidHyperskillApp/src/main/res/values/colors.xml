@@ -2,6 +2,4 @@
 <resources>
     <color name="color_elevation_overlay_2dp">@color/color_black_900_alpha_7</color>
     <color name="color_divider">@color/color_elevation_overlay_2dp</color>
-    <color name="color_stroke_text_edit">#E0E0E0</color>
-    <color name="color_hint_text_edit">#808080</color>
 </resources>
