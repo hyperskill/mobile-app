@@ -1,14 +1,23 @@
 import GoogleSignIn
+import SVProgressHUD
 import UIKit
 
-class AppDelegate: NSObject, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: UIApplication Lifecycle
+
+    var window: UIWindow?
 
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
         IQKeyboardManagerConfigurator.configure()
+
+        window = UIWindow(frame: UIScreen.main.bounds)
+        SVProgressHUD.setMinimumDismissTimeInterval(0.5)
+        SVProgressHUD.setDefaultMaskType(SVProgressHUDMaskType.clear)
+        SVProgressHUD.setDefaultStyle(SVProgressHUDStyle.light)
+        SVProgressHUD.setHapticsEnabled(true)
 
         return true
     }
