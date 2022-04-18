@@ -21,14 +21,10 @@ class HorizontalMarginItemDecoration(
                 horizontalMargin
             }
 
-            right = if (lastItemEndMargin == NOT_SET) {
+            right = if (lastItemEndMargin == NOT_SET || !isLastItem(parent, view, state)) {
                 horizontalMargin
             } else {
-                if (isLastItem(parent, view, state)) {
-                    lastItemEndMargin
-                } else {
-                    horizontalMargin
-                }
+                lastItemEndMargin
             }
         }
     }

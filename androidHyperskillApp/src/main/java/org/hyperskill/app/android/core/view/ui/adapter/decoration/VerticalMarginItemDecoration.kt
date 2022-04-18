@@ -21,14 +21,10 @@ class VerticalMarginItemDecoration(
                 0
             }
 
-            bottom = if (lastItemMargin == NOT_SET) {
+            bottom = if (lastItemMargin == NOT_SET || !isLastItem(parent, view, state)) {
                 verticalMargin
             } else {
-                if (isLastItem(parent, view, state)) {
-                    lastItemMargin
-                } else {
-                    verticalMargin
-                }
+                lastItemMargin
             }
         }
     }
