@@ -18,7 +18,9 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.view.ui.adapter.delegates.AuthSocialAdapterDelegate
 import org.hyperskill.app.android.auth.view.ui.model.AuthSocialCardInfo
 import org.hyperskill.app.android.auth.presentation.AuthSocialViewModel
+import org.hyperskill.app.android.auth.view.ui.screen.AuthEmailScreen
 import org.hyperskill.app.android.databinding.FragmentAuthSocialBinding
+import org.hyperskill.app.android.main.view.ui.activity.MainActivity
 import org.hyperskill.app.auth.domain.model.SocialAuthProvider
 import org.hyperskill.app.auth.presentation.AuthFeature
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
@@ -87,6 +89,10 @@ class AuthSocialFragment :
         )
         viewBinding.authButtonsRecyclerView.layoutManager = LinearLayoutManager(context)
         viewBinding.authButtonsRecyclerView.adapter = authMaterialCardViewsAdapter
+
+        viewBinding.signInWithEmailMaterialButton.setOnClickListener {
+            (requireActivity() as MainActivity).router.navigateTo(AuthEmailScreen)
+        }
     }
 
     override fun onAction(action: AuthFeature.Action.ViewAction) {}
