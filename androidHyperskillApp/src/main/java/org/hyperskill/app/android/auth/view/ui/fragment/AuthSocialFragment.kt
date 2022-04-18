@@ -4,27 +4,30 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.Scopes
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Scope
+import com.google.android.material.snackbar.Snackbar
 import org.hyperskill.app.android.BuildConfig
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.auth.presentation.AuthSocialViewModel
 import org.hyperskill.app.android.auth.view.ui.adapter.delegates.AuthSocialAdapterDelegate
 import org.hyperskill.app.android.auth.view.ui.model.AuthSocialCardInfo
-import org.hyperskill.app.android.auth.presentation.AuthSocialViewModel
 import org.hyperskill.app.android.databinding.FragmentAuthSocialBinding
+import org.hyperskill.app.android.ui.LoadingProgressDialogFragment
 import org.hyperskill.app.auth.presentation.AuthFeature
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 import javax.inject.Inject
+
 
 class AuthSocialFragment :
     Fragment(R.layout.fragment_auth_social),
@@ -43,6 +46,8 @@ class AuthSocialFragment :
     private val viewBinding by viewBinding(FragmentAuthSocialBinding::bind)
     private lateinit var viewStateDelegate: ViewStateDelegate<AuthFeature.State>
     private val authMaterialCardViewsAdapter: DefaultDelegateAdapter<AuthSocialCardInfo> = DefaultDelegateAdapter()
+
+    private val loadingProgressDialogFragment = LoadingProgressDialogFragment()
 
     private val signInWithGoogleCallback = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { res ->
         val task = GoogleSignIn.getSignedInAccountFromIntent(res.data)
@@ -68,6 +73,7 @@ class AuthSocialFragment :
     }
 
     private fun onSocialClickListener(social: AuthSocialCardInfo) {
+        loadingProgressDialogFragment.show(parentFragmentManager, LoadingProgressDialogFragment.TAG)
         when (social) {
             AuthSocialCardInfo.GOOGLE -> {
                 viewStateDelegate.switchState(AuthFeature.State.Loading)
@@ -88,7 +94,14 @@ class AuthSocialFragment :
         viewBinding.authButtonsRecyclerView.adapter = authMaterialCardViewsAdapter
     }
 
-    override fun onAction(action: AuthFeature.Action.ViewAction) {}
+    override fun onAction(action: AuthFeature.Action.ViewAction) {
+        when (action) {
+            is AuthFeature.Action.ViewAction.ShowAuthError -> {
+                loadingProgressDialogFragment.dismiss()
+                Snackbar.make(requireView(), action.errorMsg, Snackbar.LENGTH_LONG).show()
+            }
+        }
+    }
 
     override fun render(state: AuthFeature.State) {}
 

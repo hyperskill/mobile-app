@@ -38,6 +38,8 @@ dependencies {
 
     implementation(libs.multiplatform.settings)
     implementation(libs.android.security)
+
+    implementation(libs.material.progress.bar)
 }
 
 android {
