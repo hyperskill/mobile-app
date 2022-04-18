@@ -13,6 +13,7 @@ dependencies {
     implementation(libs.android.ui.material)
     implementation(libs.android.ui.appcompat)
     implementation(libs.android.ui.constraintlayout)
+    implementation(libs.android.ui.ktx)
 
     implementation(libs.kotlin.coroutines.core)
     implementation(libs.kotlin.coroutines.android)
