@@ -19,7 +19,10 @@ final class AuthSocialAssembly: Assembly {
         let authInteractor = AuthInteractor(authRepository: authRepository)
         let authFeature = AuthFeatureBuilder.shared.build(authInteractor: authInteractor)
 
-        let authSocialViewModel = AuthSocialViewModel(feature: authFeature)
+        let authSocialViewModel = AuthSocialViewModel(
+            socialAuthService: SocialAuthService.shared,
+            feature: authFeature
+        )
 
         return AuthSocialView(viewModel: authSocialViewModel)
     }

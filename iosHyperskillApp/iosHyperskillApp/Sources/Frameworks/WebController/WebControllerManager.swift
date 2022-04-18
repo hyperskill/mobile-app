@@ -19,6 +19,8 @@ final class WebControllerManager: NSObject {
         }
     }
 
+    var onDismissCustomWebController: (() -> Void)?
+
     // MARK: Public API
 
     func dismissWebControllerWithKey(
@@ -144,6 +146,8 @@ final class WebControllerManager: NSObject {
                 return
             }
 
+            strongSelf.onDismissCustomWebController?()
+
             strongSelf.currentWebController?.dismiss(animated: true, completion: nil)
             strongSelf.currentWebController = nil
             strongSelf.currentWebControllerKey = nil
@@ -196,7 +200,14 @@ extension WebControllerManager: WKNavigationDelegate {
             return
         }
 
-        print("WebControllerManager :: requestURL = \(requestURL.absoluteString)")
+        if WebOAuthURLParser.isRedirectURI(requestURL),
+           let code = WebOAuthURLParser.getCodeQueryValue(requestURL) {
+            NotificationCenter.default.post(
+                name: .socialAuthDidReceiveOAuthCode,
+                object: self,
+                userInfo: [WebOAuthURLParser.Key.code.rawValue: code]
+            )
+        }
     }
 }
 

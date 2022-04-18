@@ -27,7 +27,7 @@ struct AuthSocialView: View {
 
             AuthSocialControlsView(
                 socialAuthProviders: viewModel.availableSocialAuthProviders,
-                onSocialAuthProviderClick: viewModel.signInWithSocialAuthProvider(_:),
+                onSocialAuthProviderClick: viewModel.signIn(with:),
                 onContinueWithEmailClick: { presentingContinueWithEmail = true }
             )
             .fullScreenCover(isPresented: $presentingContinueWithEmail) {

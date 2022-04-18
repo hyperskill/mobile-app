@@ -14,6 +14,17 @@
 		2C005DCC27EF5B0300DC6503 /* GoogleServiceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C005DCB27EF5B0300DC6503 /* GoogleServiceInfo.swift */; };
 		2C005DCE27EF5B4400DC6503 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C005DCD27EF5B4400DC6503 /* AppView.swift */; };
 		2C1DEE3027EC408D0001A567 /* UsersListAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1DEE2F27EC408D0001A567 /* UsersListAssembly.swift */; };
+		2C1F5869280D063800372A37 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F5868280D063800372A37 /* WebViewController.swift */; };
+		2C1F586B280D094A00372A37 /* WebControllerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F586A280D094A00372A37 /* WebControllerManager.swift */; };
+		2C1F5870280D0CB700372A37 /* WebCacheCleaner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F586F280D0CB700372A37 /* WebCacheCleaner.swift */; };
+		2C1F5875280D0E0000372A37 /* WKWebViewPanelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F5874280D0E0000372A37 /* WKWebViewPanelManager.m */; };
+		2C1F5877280D2B4800372A37 /* ApplicationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F5876280D2B4800372A37 /* ApplicationInfo.swift */; };
+		2C1F5879280D2D1300372A37 /* WebOAuthURLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F5878280D2D1300372A37 /* WebOAuthURLParser.swift */; };
+		2C1F587B280D2E5100372A37 /* URLExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F587A280D2E5100372A37 /* URLExtensions.swift */; };
+		2C1F587E280D2F9200372A37 /* URLExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F587D280D2F9200372A37 /* URLExtensionsTests.swift */; };
+		2C1F5882280D5BAA00372A37 /* SocialAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F5881280D5BAA00372A37 /* SocialAuthService.swift */; };
+		2C1F5888280D5D6200372A37 /* SocialAuthSDKProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F5887280D5D6200372A37 /* SocialAuthSDKProvider.swift */; };
+		2C1F588B280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F588A280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift */; };
 		2C42EFA827F2C03D00B4648B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2C42EFAA27F2C03D00B4648B /* Localizable.strings */; };
 		2C42EFAD27F2C29500B4648B /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C42EFAC27F2C29500B4648B /* Strings.swift */; };
 		2C42EFB327F2EA7B00B4648B /* ResourcesStringResource+Localized.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C42EFB227F2EA7B00B4648B /* ResourcesStringResource+Localized.swift */; };
@@ -52,6 +63,7 @@
 		2CAE8D0C2805829A00E6C83D /* StepViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAE8D0B2805829A00E6C83D /* StepViewData.swift */; };
 		2CAFD38F27FC517D00F88B0B /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAFD38E27FC517D00F88B0B /* ColorPalette.swift */; };
 		2CAFD39127FC5D5D00F88B0B /* Color+DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAFD39027FC5D5D00F88B0B /* Color+DesignSystem.swift */; };
+		2CC4AAF1280DB513002276A0 /* WebOAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC4AAF0280DB513002276A0 /* WebOAuthService.swift */; };
 		2CCF3B5828004FC40075D12C /* UserAgentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCF3B5728004FC40075D12C /* UserAgentBuilder.swift */; };
 		2CCF3B5A280050890075D12C /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCF3B59280050890075D12C /* DeviceInfo.swift */; };
 		2CE1C4DF27EDFB3800220041 /* FeatureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE1C4DE27EDFB3800220041 /* FeatureViewModel.swift */; };
@@ -89,6 +101,19 @@
 		2C005DCB27EF5B0300DC6503 /* GoogleServiceInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleServiceInfo.swift; sourceTree = "<group>"; };
 		2C005DCD27EF5B4400DC6503 /* AppView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		2C1DEE2F27EC408D0001A567 /* UsersListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersListAssembly.swift; sourceTree = "<group>"; };
+		2C1F5868280D063800372A37 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		2C1F586A280D094A00372A37 /* WebControllerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebControllerManager.swift; sourceTree = "<group>"; };
+		2C1F586F280D0CB700372A37 /* WebCacheCleaner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebCacheCleaner.swift; sourceTree = "<group>"; };
+		2C1F5872280D0E0000372A37 /* iosHyperskillApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iosHyperskillApp-Bridging-Header.h"; sourceTree = "<group>"; };
+		2C1F5873280D0E0000372A37 /* WKWebViewPanelManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WKWebViewPanelManager.h; sourceTree = "<group>"; };
+		2C1F5874280D0E0000372A37 /* WKWebViewPanelManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WKWebViewPanelManager.m; sourceTree = "<group>"; };
+		2C1F5876280D2B4800372A37 /* ApplicationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationInfo.swift; sourceTree = "<group>"; };
+		2C1F5878280D2D1300372A37 /* WebOAuthURLParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebOAuthURLParser.swift; sourceTree = "<group>"; };
+		2C1F587A280D2E5100372A37 /* URLExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLExtensions.swift; sourceTree = "<group>"; };
+		2C1F587D280D2F9200372A37 /* URLExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLExtensionsTests.swift; sourceTree = "<group>"; };
+		2C1F5881280D5BAA00372A37 /* SocialAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialAuthService.swift; sourceTree = "<group>"; };
+		2C1F5887280D5D6200372A37 /* SocialAuthSDKProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialAuthSDKProvider.swift; sourceTree = "<group>"; };
+		2C1F588A280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSocialAuthSDKProvider.swift; sourceTree = "<group>"; };
 		2C42EFA927F2C03D00B4648B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2C42EFAC27F2C29500B4648B /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		2C42EFB227F2EA7B00B4648B /* ResourcesStringResource+Localized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResourcesStringResource+Localized.swift"; sourceTree = "<group>"; };
@@ -128,6 +153,7 @@
 		2CAE8D0B2805829A00E6C83D /* StepViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepViewData.swift; sourceTree = "<group>"; };
 		2CAFD38E27FC517D00F88B0B /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		2CAFD39027FC5D5D00F88B0B /* Color+DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+DesignSystem.swift"; sourceTree = "<group>"; };
+		2CC4AAF0280DB513002276A0 /* WebOAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebOAuthService.swift; sourceTree = "<group>"; };
 		2CCF3B5728004FC40075D12C /* UserAgentBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAgentBuilder.swift; sourceTree = "<group>"; };
 		2CCF3B59280050890075D12C /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
 		2CE1C4DE27EDFB3800220041 /* FeatureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureViewModel.swift; sourceTree = "<group>"; };
@@ -208,6 +234,7 @@
 				2CCF3B5628004F860075D12C /* Helpers */,
 				2CF2DA3B27EC5B980055426D /* Model */,
 				2C1DEE2D27EC40200001A567 /* Modules */,
+				2C1F5880280D5B8200372A37 /* Services */,
 				2CAE8CFE28054CF000E6C83D /* Styles */,
 				2C005DCF27EF5BD200DC6503 /* Views */,
 			);
@@ -234,6 +261,86 @@
 				2CF2DA3F27EC61620055426D /* Views */,
 			);
 			path = UsersList;
+			sourceTree = "<group>";
+		};
+		2C1F5867280D061800372A37 /* WebController */ = {
+			isa = PBXGroup;
+			children = (
+				2C1F586F280D0CB700372A37 /* WebCacheCleaner.swift */,
+				2C1F586A280D094A00372A37 /* WebControllerManager.swift */,
+				2C1F5868280D063800372A37 /* WebViewController.swift */,
+				2C1F5871280D0DD800372A37 /* WKWebViewPanelManager */,
+			);
+			path = WebController;
+			sourceTree = "<group>";
+		};
+		2C1F586C280D09A100372A37 /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				2C1F587A280D2E5100372A37 /* URLExtensions.swift */,
+			);
+			path = Foundation;
+			sourceTree = "<group>";
+		};
+		2C1F5871280D0DD800372A37 /* WKWebViewPanelManager */ = {
+			isa = PBXGroup;
+			children = (
+				2C1F5873280D0E0000372A37 /* WKWebViewPanelManager.h */,
+				2C1F5874280D0E0000372A37 /* WKWebViewPanelManager.m */,
+			);
+			path = WKWebViewPanelManager;
+			sourceTree = "<group>";
+		};
+		2C1F587C280D2F6600372A37 /* ExtensionsTests */ = {
+			isa = PBXGroup;
+			children = (
+				2C1F587D280D2F9200372A37 /* URLExtensionsTests.swift */,
+			);
+			path = ExtensionsTests;
+			sourceTree = "<group>";
+		};
+		2C1F587F280D305C00372A37 /* CollectionsTests */ = {
+			isa = PBXGroup;
+			children = (
+				2C919E3227EEF92F0022A2F2 /* LinkedListTests.swift */,
+				2C919E3627EF00950022A2F2 /* QueueTests.swift */,
+			);
+			path = CollectionsTests;
+			sourceTree = "<group>";
+		};
+		2C1F5880280D5B8200372A37 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				2C1F5883280D5BE600372A37 /* Auth */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		2C1F5883280D5BE600372A37 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				2C1F5884280D5C8900372A37 /* Social */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		2C1F5884280D5C8900372A37 /* Social */ = {
+			isa = PBXGroup;
+			children = (
+				2C1F5881280D5BAA00372A37 /* SocialAuthService.swift */,
+				2C1F5889280D8C5700372A37 /* SDKs */,
+				2CC4AAF2280DB8B6002276A0 /* Web */,
+			);
+			path = Social;
+			sourceTree = "<group>";
+		};
+		2C1F5889280D8C5700372A37 /* SDKs */ = {
+			isa = PBXGroup;
+			children = (
+				2C1F588A280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift */,
+				2C1F5887280D5D6200372A37 /* SocialAuthSDKProvider.swift */,
+			);
+			path = SDKs;
 			sourceTree = "<group>";
 		};
 		2C42EFB027F2EA3500B4648B /* ThirdParty */ = {
@@ -320,8 +427,8 @@
 		2C919DEE27EEF5BC0022A2F2 /* iosHyperskillAppTests */ = {
 			isa = PBXGroup;
 			children = (
-				2C919E3227EEF92F0022A2F2 /* LinkedListTests.swift */,
-				2C919E3627EF00950022A2F2 /* QueueTests.swift */,
+				2C1F587F280D305C00372A37 /* CollectionsTests */,
+				2C1F587C280D2F6600372A37 /* ExtensionsTests */,
 			);
 			path = iosHyperskillAppTests;
 			sourceTree = "<group>";
@@ -340,6 +447,7 @@
 		2C9B66E827ECAF0200569645 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				2C1F586C280D09A100372A37 /* Foundation */,
 				2C725B5C28090CE500A49043 /* SwiftUI */,
 				2C42EFB027F2EA3500B4648B /* ThirdParty */,
 				2C9B66E927ECAF2400569645 /* UIKit */,
@@ -424,6 +532,15 @@
 			path = Theme;
 			sourceTree = "<group>";
 		};
+		2CC4AAF2280DB8B6002276A0 /* Web */ = {
+			isa = PBXGroup;
+			children = (
+				2CC4AAF0280DB513002276A0 /* WebOAuthService.swift */,
+				2C1F5878280D2D1300372A37 /* WebOAuthURLParser.swift */,
+			);
+			path = Web;
+			sourceTree = "<group>";
+		};
 		2CCF3B5628004F860075D12C /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -437,6 +554,7 @@
 		2CE2817727E8EEDC00641E22 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2C1F5872280D0E0000372A37 /* iosHyperskillApp-Bridging-Header.h */,
 				2CE2817827E8EF1E00641E22 /* GoogleService-Info.plist */,
 				7555FF8C242A565B00829871 /* Info.plist */,
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
@@ -467,6 +585,7 @@
 		2CF2DA3C27EC5BA00055426D /* Constants */ = {
 			isa = PBXGroup;
 			children = (
+				2C1F5876280D2B4800372A37 /* ApplicationInfo.swift */,
 				2C005DCB27EF5B0300DC6503 /* GoogleServiceInfo.swift */,
 				2C42EFAC27F2C29500B4648B /* Strings.swift */,
 			);
@@ -487,6 +606,7 @@
 			children = (
 				2C919DE627EEEDC40022A2F2 /* Collections */,
 				2CF2DA4327EC7DBC0055426D /* Core */,
+				2C1F5867280D061800372A37 /* WebController */,
 			);
 			path = Frameworks;
 			sourceTree = "<group>";
@@ -604,6 +724,7 @@
 					};
 					7555FF7A242A565900829871 = {
 						CreatedOnToolsVersion = 11.3.1;
+						LastSwiftMigration = 1330;
 					};
 				};
 			};
@@ -714,6 +835,7 @@
 			files = (
 				2C919E3327EEF92F0022A2F2 /* LinkedListTests.swift in Sources */,
 				2C919E3727EF00950022A2F2 /* QueueTests.swift in Sources */,
+				2C1F587E280D2F9200372A37 /* URLExtensionsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -735,13 +857,16 @@
 				2C005DCC27EF5B0300DC6503 /* GoogleServiceInfo.swift in Sources */,
 				E94D238D28057F440003273F /* AuthEmailView.swift in Sources */,
 				2CE31F4827F1BB79008EEE66 /* AuthSocialAssembly.swift in Sources */,
+				2CC4AAF1280DB513002276A0 /* WebOAuthService.swift in Sources */,
 				2CF2DA3A27EC5B2D0055426D /* Assembly.swift in Sources */,
 				2C863D932804279E0021EFED /* Require.swift in Sources */,
+				2C1F5879280D2D1300372A37 /* WebOAuthURLParser.swift in Sources */,
 				2CAE8CFB28054A7000E6C83D /* RoundedRectangleButtonStyle.swift in Sources */,
 				2CCF3B5828004FC40075D12C /* UserAgentBuilder.swift in Sources */,
 				2C919DE827EEEDD60022A2F2 /* LinkedList.swift in Sources */,
 				2C46D0632807E4C100B3636E /* TextFieldWrapper.swift in Sources */,
 				2CAFD38F27FC517D00F88B0B /* ColorPalette.swift in Sources */,
+				2C1F5888280D5D6200372A37 /* SocialAuthSDKProvider.swift in Sources */,
 				2CAE8CF728052F9600E6C83D /* StepHeaderView.swift in Sources */,
 				2C919E3527EEFF110022A2F2 /* Queue.swift in Sources */,
 				2C58DE292803D197002A2774 /* UIColor+DynamicColor.swift in Sources */,
@@ -751,23 +876,31 @@
 				2CE31F4D27F1E0C8008EEE66 /* AppAssembly.swift in Sources */,
 				2CCF3B5A280050890075D12C /* DeviceInfo.swift in Sources */,
 				2C58DE2B2803DEE2002A2774 /* VerticalCenteredScrollView.swift in Sources */,
+				2C1F5877280D2B4800372A37 /* ApplicationInfo.swift in Sources */,
 				2CAE8D0528055D8300E6C83D /* StepActionButton.swift in Sources */,
 				2CAE8D012805517900E6C83D /* OutlineButtonStyle.swift in Sources */,
 				E9D69A4028084FF7000E114E /* AuthEmailErrorView.swift in Sources */,
 				2C42EFAD27F2C29500B4648B /* Strings.swift in Sources */,
 				2152FB042600AC8F00CF470E /* HyperskillApp.swift in Sources */,
 				E951757927E61ACD00995008 /* AuthSocialView.swift in Sources */,
+				2C1F5875280D0E0000372A37 /* WKWebViewPanelManager.m in Sources */,
+				2C1F5870280D0CB700372A37 /* WebCacheCleaner.swift in Sources */,
 				2CAE8D032805550900E6C83D /* BounceButtonStyle.swift in Sources */,
 				2C58DE232803BF97002A2774 /* AuthLogoView.swift in Sources */,
+				2C1F5882280D5BAA00372A37 /* SocialAuthService.swift in Sources */,
 				E96E80F627EF57BA00AA6683 /* AuthSocialViewModel.swift in Sources */,
+				2C1F5869280D063800372A37 /* WebViewController.swift in Sources */,
 				2CAE8D07280576C600E6C83D /* StepBottomControlsView.swift in Sources */,
 				2C005DCE27EF5B4400DC6503 /* AppView.swift in Sources */,
 				2C9CC1BF28092E06006604D7 /* AuthAdaptiveContentView.swift in Sources */,
 				2CAE8D0C2805829A00E6C83D /* StepViewData.swift in Sources */,
+				2C1F587B280D2E5100372A37 /* URLExtensions.swift in Sources */,
+				2C1F586B280D094A00372A37 /* WebControllerManager.swift in Sources */,
 				2CF2DA4127EC75000055426D /* UsersListViewModel.swift in Sources */,
 				E92D659727FC2F4100953029 /* AuthSocialButton.swift in Sources */,
 				2CAE8CF4280525D400E6C83D /* StepAssembly.swift in Sources */,
 				2CF2DA3E27EC5C180055426D /* UsersListView.swift in Sources */,
+				2C1F588B280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift in Sources */,
 				2C42EFB527F2EAB300B4648B /* GraphicsColor+UIColor.swift in Sources */,
 				2C725B632809198000A49043 /* BackgroundView.swift in Sources */,
 				2CAE8CF2280525C900E6C83D /* StepView.swift in Sources */,
@@ -961,6 +1094,7 @@
 			baseConfigurationReference = 2D7F5C51275BBB18DCE9ACE9 /* Pods-iosHyperskillApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"iosHyperskillApp/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
@@ -978,6 +1112,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = orgIdentifier.iosHyperskillApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "iosHyperskillApp/iosHyperskillApp-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -988,6 +1124,7 @@
 			baseConfigurationReference = 515FEBC2A5D8EFBA7FB80795 /* Pods-iosHyperskillApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"iosHyperskillApp/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
@@ -1005,6 +1142,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = orgIdentifier.iosHyperskillApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "iosHyperskillApp/iosHyperskillApp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
