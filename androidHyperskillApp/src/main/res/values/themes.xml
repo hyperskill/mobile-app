@@ -74,7 +74,7 @@
         <item name="isNightMode">@bool/is_night_mode</item>
 
         <item name="selectableItemBackgroundRounded">@drawable/selectable_item_rounded_background</item>
-
+        
         <item name="android:forceDarkAllowed">false</item>
     </style>
 
@@ -117,6 +117,11 @@
         <item name="android:windowExitAnimation">@anim/slide_out_to_bottom</item>
     </style>
 
+    <style name="ThemeOverlay.Blue" parent="ThemeOverlay.MaterialComponents">
+        <item name="colorPrimary">@color/color_overlay_blue</item>
+        <item name="colorOnSurface">@color/color_overlay_blue</item>
+    </style>
+
     <style name="ThemeOverlay.Green" parent="ThemeOverlay.MaterialComponents">
         <item name="colorPrimary">@color/color_overlay_green</item>
         <item name="colorOnPrimary">@color/color_on_primary</item>
@@ -141,6 +146,11 @@
         <item name="android:background">@color/color_overlay_red_alpha_12</item>
         <item name="cornerRadius">@dimen/corner_radius</item>
         <item name="android:textColor">@color/color_error</item>
+    </style>
+
+    <!-- Step -->
+    <style name="StepFloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="colorSecondary">@color/color_background</item>
     </style>
 
 </resources>
