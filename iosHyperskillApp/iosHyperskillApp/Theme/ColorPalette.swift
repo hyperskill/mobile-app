@@ -22,9 +22,9 @@ enum ColorPalette {
 
     static let white50 = Self.sharedColors.color_white_50.color.uiColor
     static let white50Alpha87 = Self.sharedColors.color_white_50_alpha_87.color.uiColor
-    static let white50Alpha75 = Self.sharedColors.color_white_50_alpha_75.color.uiColor
-    static let white50Alpha50 = Self.sharedColors.color_white_50_alpha_50.color.uiColor
-    static let white50Alpha25 = Self.sharedColors.color_white_50_alpha_25.color.uiColor
+    static let white50Alpha60 = Self.sharedColors.color_white_50_alpha_60.color.uiColor
+    static let white50Alpha38 = Self.sharedColors.color_white_50_alpha_38.color.uiColor
+    static let white50Alpha12 = Self.sharedColors.color_white_50_alpha_12.color.uiColor
 
     // MARK: Brown
     
@@ -80,9 +80,10 @@ enum ColorPalette {
     static let black850 = Self.sharedColors.color_black_850.color.uiColor
     static let black300 = Self.sharedColors.color_black_300.color.uiColor
     static let black900Alpha87 = Self.sharedColors.color_black_900_alpha_87.color.uiColor
-    static let black900Alpha75 = Self.sharedColors.color_black_900_alpha_75.color.uiColor
-    static let black900Alpha50 = Self.sharedColors.color_black_900_alpha_50.color.uiColor
-    static let black900Alpha25 = Self.sharedColors.color_black_900_alpha_25.color.uiColor
+    static let black900Alpha60 = Self.sharedColors.color_black_900_alpha_60.color.uiColor
+    static let black900Alpha38 = Self.sharedColors.color_black_900_alpha_38.color.uiColor
+    static let black900Alpha12 = Self.sharedColors.color_black_900_alpha_12.color.uiColor
+    static let black900Alpha7 = Self.sharedColors.color_black_900_alpha_7.color.uiColor
 
     // MARK: Violet
 
