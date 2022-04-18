@@ -30,7 +30,6 @@ import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 import javax.inject.Inject
 
-
 class AuthSocialFragment :
     Fragment(R.layout.fragment_auth_social),
     ReduxView<AuthFeature.State, AuthFeature.Action.ViewAction> {
