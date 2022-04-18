@@ -40,8 +40,22 @@ object NetworkModule {
 
     fun provideClient(networkClientType: NetworkClientType, userAgentInfo: UserAgentInfo, json: Json): HttpClient =
         when (networkClientType) {
-            NetworkClientType.SOCIAL -> provideAuthClient(userAgentInfo, json)
-            NetworkClientType.CREDENTIALS -> provideCredentialsClient(userAgentInfo, json)
+            NetworkClientType.SOCIAL -> provideClientFromBasicAuthCredentials(
+                userAgentInfo,
+                json,
+                BasicAuthCredentials(
+                    username = BuildKonfig.OAUTH_CLIENT_ID,
+                    password = BuildKonfig.OAUTH_CLIENT_SECRET
+                )
+            )
+            NetworkClientType.CREDENTIALS -> provideClientFromBasicAuthCredentials(
+                userAgentInfo,
+                json,
+                BasicAuthCredentials(
+                    username = BuildKonfig.CREDENTIALS_CLIEND_ID,
+                    password = BuildKonfig.CREDENTIALS_CLIENT_SECRET
+                )
+            )
         }
 
     // TODO Stub, will be removed with user list feature
@@ -59,7 +73,7 @@ object NetworkModule {
     ): HttpClient =
         HttpClient {
             val tokenClient = provideClient(
-                NetworkClientType.values()[AuthCacheKeyValues.AUTH_SOCIAL_ORDINAL as Int],
+                NetworkClientType.values()[settings.getInt(AuthCacheKeyValues.AUTH_SOCIAL_ORDINAL)],
                 userAgentInfo,
                 json
             )
@@ -126,7 +140,7 @@ object NetworkModule {
             }
         }
 
-    private fun provideAuthClient(userAgentInfo: UserAgentInfo, json: Json): HttpClient =
+    private fun provideClientFromBasicAuthCredentials(userAgentInfo: UserAgentInfo, json: Json, basicCredentials: BasicAuthCredentials) =
         HttpClient {
             defaultRequest {
                 url {
@@ -145,41 +159,7 @@ object NetworkModule {
                 basic {
                     sendWithoutRequest { true }
                     credentials {
-                        BasicAuthCredentials(
-                            username = BuildKonfig.OAUTH_CLIENT_ID,
-                            password = BuildKonfig.OAUTH_CLIENT_SECRET
-                        )
-                    }
-                }
-            }
-            install(UserAgent) {
-                agent = userAgentInfo.toString()
-            }
-        }
-
-    private fun provideCredentialsClient(userAgentInfo: UserAgentInfo, json: Json): HttpClient =
-        HttpClient {
-            defaultRequest {
-                url {
-                    protocol = URLProtocol.HTTPS
-                    host = BuildKonfig.HOST
-                }
-            }
-            install(JsonFeature) {
-                serializer = KotlinxSerializer(json)
-            }
-            install(Logging) {
-                logger = Logger.SIMPLE
-                level = LogLevel.ALL
-            }
-            install(Auth) {
-                basic {
-                    sendWithoutRequest { true }
-                    credentials {
-                        BasicAuthCredentials(
-                            username = BuildKonfig.CREDENTIALS_CLIEND_ID,
-                            password = BuildKonfig.CREDENTIALS_CLIENT_SECRET
-                        )
+                        basicCredentials
                     }
                 }
             }

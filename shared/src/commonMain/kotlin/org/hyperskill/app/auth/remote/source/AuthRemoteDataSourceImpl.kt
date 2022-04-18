@@ -15,6 +15,7 @@ import org.hyperskill.app.network.domain.model.NetworkClientType
 
 class AuthRemoteDataSourceImpl(
     private val authHttpClient: HttpClient,
+    private val credentialsHttpClient: HttpClient,
     private val json: Json,
     private val settings: Settings
 ) : AuthRemoteDataSource {
@@ -38,7 +39,7 @@ class AuthRemoteDataSourceImpl(
 
     override suspend fun authWithEmail(email: String, password: String): Result<Unit> =
         kotlin.runCatching {
-            authHttpClient
+            credentialsHttpClient
                 .submitForm<AuthResponse>(
                     url = "/oauth2/token/",
                     formParameters = Parameters.build {
