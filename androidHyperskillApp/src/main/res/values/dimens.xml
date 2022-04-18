@@ -13,4 +13,6 @@
     <dimen name="auth_button_height">48dp</dimen>
     <dimen name="auth_button_logo_margin_left">12dp</dimen>
     <dimen name="auth_button_text_size">14sp</dimen>
+    <dimen name="continue_with_social_auth_height">40dp</dimen>
+    <dimen name="text_input_stroke_width">1dp</dimen>
 </resources>
