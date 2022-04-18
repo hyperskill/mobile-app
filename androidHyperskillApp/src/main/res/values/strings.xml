@@ -2,4 +2,9 @@
 <resources>
     <string name="loading">Loading</string>
     <string name="loading_message">Please wait…</string>
+    <string name="auth_email_email_login">Log in</string>
+    <string name="auth_continue_with_social_text">Continue with social networks</string>
+    <string name="auth_with_email_email_text_input_hint">Email</string>
+    <string name="auth_with_email_password_text_input_hint">Password</string>
+    <string name="reset_password_text_button_text">Reset password</string>
 </resources>

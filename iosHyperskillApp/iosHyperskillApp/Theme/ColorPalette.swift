@@ -125,9 +125,9 @@ enum ColorPalette {
 
     static let onSurface = Self.sharedColors.color_on_surface.dynamicUIColor
     static let onSurfaceAlpha87 = Self.sharedColors.color_on_surface_alpha_87.dynamicUIColor
-    static let onSurfaceAlpha75 = Self.sharedColors.color_on_surface_alpha_75.dynamicUIColor
-    static let onSurfaceAlpha50 = Self.sharedColors.color_on_surface_alpha_50.dynamicUIColor
-    static let onSurfaceAlpha25 = Self.sharedColors.color_on_surface_alpha_25.dynamicUIColor
+    static let onSurfaceAlpha60 = Self.sharedColors.color_on_surface_alpha_60.dynamicUIColor
+    static let onSurfaceAlpha38 = Self.sharedColors.color_on_surface_alpha_38.dynamicUIColor
+    static let onSurfaceAlpha12 = Self.sharedColors.color_on_surface_alpha_12.dynamicUIColor
 
     // MARK: Error
 

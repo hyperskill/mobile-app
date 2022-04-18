@@ -28,4 +28,15 @@
         <item name="android:src">@drawable/ic_close</item>
     </style>
 
+    <style name="Widget.AppTheme.TextInputLayouts.InputText" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusBottomStart">@dimen/corner_radius</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/corner_radius</item>
+        <item name="boxCornerRadiusTopStart">@dimen/corner_radius</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/corner_radius</item>
+    </style>
+
+    <style name="ZeroSizeTextAppearance">
+        <item name="android:textSize">0sp</item>
+    </style>
+
 </resources>
