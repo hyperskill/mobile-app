@@ -11,6 +11,9 @@ class AuthRepositoryImpl(
     override suspend fun isAuthorized(): Result<Boolean> =
         authCacheDataSource.isAuthorized()
 
+    override suspend fun authWithSocialToken(authCode: String, providerName: String): Result<Unit> =
+        authRemoteDataSource.authWithSocialToken(authCode, providerName)
+
     override suspend fun authWithCode(authCode: String): Result<Unit> =
         authRemoteDataSource.authWithCode(authCode)
 }

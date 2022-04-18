@@ -17,13 +17,29 @@ class AuthRemoteDataSourceImpl(
     private val json: Json,
     private val settings: Settings
 ) : AuthRemoteDataSource {
-    override suspend fun authWithCode(authCode: String): Result<Unit> =
+    override suspend fun authWithSocialToken(authCode: String, providerName: String): Result<Unit> =
         kotlin.runCatching {
             authHttpClient
                 .submitForm<AuthResponse>(
                     url = "/oauth2/social-token/",
                     formParameters = Parameters.build {
-                        append("provider", "google")
+                        append("provider", providerName)
+                        append("code", authCode)
+                        append("grant_type", "authorization_code")
+                        append("redirect_uri", BuildKonfig.REDIRECT_URI)
+                    }
+                ).also { authResponse ->
+                    settings.putString(AuthCacheKeyValues.AUTH_RESPONSE, json.encodeToString(authResponse))
+                    settings.putLong(AuthCacheKeyValues.AUTH_ACCESS_TOKEN_TIMESTAMP, Clock.System.now().epochSeconds)
+                }
+        }
+
+    override suspend fun authWithCode(authCode: String): Result<Unit> =
+        kotlin.runCatching {
+            authHttpClient
+                .submitForm<AuthResponse>(
+                    url = "/oauth2/token/",
+                    formParameters = Parameters.build {
                         append("code", authCode)
                         append("grant_type", "authorization_code")
                         append("redirect_uri", BuildKonfig.REDIRECT_URI)

@@ -12,12 +12,24 @@ class AuthActionDispatcher(
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            is Action.AuthWithGoogle -> {
-                val result = authInteractor.authWithCode(action.accessToken)
+            is Action.AuthWithSocialToken -> {
+                val result = authInteractor.authWithSocialToken(action.authCode, action.providerName)
 
                 val message =
                     result
-                        .map { Message.AuthSuccess(action.accessToken) }
+                        .map { Message.AuthSuccess(action.authCode) }
+                        .getOrElse {
+                            Message.AuthError(errorMsg = it.message ?: "")
+                        }
+
+                onNewMessage(message)
+            }
+            is Action.AuthWithCode -> {
+                val result = authInteractor.authWithCode(action.authCode)
+
+                val message =
+                    result
+                        .map { Message.AuthSuccess(action.authCode) }
                         .getOrElse {
                             Message.AuthError(errorMsg = it.message ?: "")
                         }

@@ -3,6 +3,7 @@ package org.hyperskill.app.auth.presentation
 import org.hyperskill.app.auth.presentation.AuthFeature.Action
 import org.hyperskill.app.auth.presentation.AuthFeature.Message
 import org.hyperskill.app.auth.presentation.AuthFeature.State
+import org.hyperskill.app.auth.view.mapper.SocialAuthProviderNameMapper
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 class AuthReducer : StateReducer<State, Message, Action> {
@@ -11,9 +12,20 @@ class AuthReducer : StateReducer<State, Message, Action> {
         message: Message
     ): Pair<State, Set<Action>> =
         when (message) {
-            is Message.AuthWithGoogle ->
+            is Message.AuthWithSocialToken ->
                 if (state is State.Idle || state is State.Error) {
-                    State.Loading to setOf(Action.AuthWithGoogle(message.accessToken))
+                    State.Loading to setOf(
+                        Action.AuthWithSocialToken(
+                            message.authCode,
+                            SocialAuthProviderNameMapper.getName(message.provider)
+                        )
+                    )
+                } else {
+                    null
+                }
+            is Message.AuthWithCode ->
+                if (state is State.Idle || state is State.Error) {
+                    State.Loading to setOf(Action.AuthWithCode(message.authCode))
                 } else {
                     null
                 }

@@ -19,6 +19,7 @@ import org.hyperskill.app.android.auth.view.ui.adapter.delegates.AuthSocialAdapt
 import org.hyperskill.app.android.auth.view.ui.model.AuthSocialCardInfo
 import org.hyperskill.app.android.auth.presentation.AuthSocialViewModel
 import org.hyperskill.app.android.databinding.FragmentAuthSocialBinding
+import org.hyperskill.app.auth.domain.model.SocialAuthProvider
 import org.hyperskill.app.auth.presentation.AuthFeature
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
@@ -49,7 +50,7 @@ class AuthSocialFragment :
         try {
             val account = task.getResult(ApiException::class.java)
             val authCode = account.serverAuthCode
-            authSocialViewModel.onNewMessage(AuthFeature.Message.AuthWithGoogle(authCode))
+            authSocialViewModel.onNewMessage(AuthFeature.Message.AuthWithSocialToken(authCode, SocialAuthProvider.GOOGLE))
         } catch (e: ApiException) {}
     }
 
