@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/authEmailFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/color_background"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/signInHyperskillLogoShapeableImageView"
+        android:layout_width="@dimen/sign_in_hyperskill_logo_width"
+        android:layout_height="@dimen/sign_in_hyperskill_logo_height"
+        android:layout_marginTop="84dp"
+        android:background="@drawable/bg_shape_logo_rectangle"
+        android:src="@drawable/branded_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/signInToTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/auth_log_in_title"
+        android:textAlignment="center"
+        android:textAppearance="?textAppearanceBody1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/signInHyperskillLogoShapeableImageView" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/signInWithEmailCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="48dp"
+        app:cardCornerRadius="@dimen/corner_radius"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signInToTextView">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="20dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/emailTextInputLayout"
+                style="@style/Widget.AppTheme.TextInputLayouts.InputText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/auth_with_email_email_text_input_hint"
+                app:errorEnabled="true"
+                app:errorIconDrawable="@null"
+                app:errorTextAppearance="@style/ZeroSizeTextAppearance"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_max="@dimen/auth_button_max_width">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/emailEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/passwordTextInputLayout"
+                style="@style/Widget.AppTheme.TextInputLayouts.InputText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:hint="@string/auth_with_email_password_text_input_hint"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                app:errorEnabled="true"
+                app:errorIconDrawable="@null"
+                app:errorTextAppearance="@style/ZeroSizeTextAppearance"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/emailTextInputLayout"
+                app:layout_constraintWidth_max="@dimen/auth_button_max_width">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/passwordEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/authEmailErrorMsgTextView"
+                style="@style/ThemeOverlay.Red"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="14dp"
+                android:layout_marginTop="16dp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="14dp"
+                android:textAppearance="?textAppearanceBody2"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/passwordTextInputLayout"
+                app:layout_constraintWidth_max="@dimen/auth_button_max_width" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/signInWithEmailMaterialButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/auth_button_height"
+                android:layout_marginTop="24dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/auth_email_email_login"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/authEmailErrorMsgTextView"
+                app:layout_constraintWidth_max="@dimen/auth_button_max_width"
+                app:strokeColor="?colorPrimary" />
+
+            <Button
+                android:id="@+id/signInWithEmailResetPasswordTextButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/auth_button_height"
+                android:layout_marginTop="20dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/reset_password_text_button_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/signInWithEmailMaterialButton"
+                app:layout_constraintWidth_max="@dimen/auth_button_max_width" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/signInWithSocialMaterialButton"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/auth_button_height"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="24dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="@string/auth_continue_with_social_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signInWithEmailCardView"
+        app:layout_constraintWidth_max="@dimen/auth_button_max_width"
+        app:strokeColor="?colorPrimary" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/signInSocialProgressIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,7 +8,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
-        true
+        IQKeyboardManagerConfigurator.configure()
+
+        return true
     }
 
     // MARK: UISceneSession Lifecycle

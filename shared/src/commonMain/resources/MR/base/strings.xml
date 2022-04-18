@@ -12,6 +12,17 @@
     <string name="auth_apple_account_text">Apple</string>
     <string name="auth_email_text">Continue with email</string>
 
+    <!-- Auth credentials -->
+    <string name="auth_credentials_social_text">Continue with social networks</string>
+    <string name="auth_credentials_reset_password_text">Reset password</string>
+    <string name="auth_credentials_log_in_text">Log in</string>
+    <string name="auth_credentials_email_placeholder">Email</string>
+    <string name="auth_credentials_password_placeholder">Password</string>
+    <string name="auth_credentials_error_text">Unable to log in. If you registered with a third-party account (e.g.
+        Google), using your email as a login may not work. Try to log in with a third-party account, or reset your
+        password.
+    </string>
+
     <!-- Step -->
     <string name="step_theory_text">Theory</string>
     <string name="step_start_practicing_text">Start practicing</string>

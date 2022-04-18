@@ -9,7 +9,7 @@ enum SocialAuthProvider: String, CaseIterable {
     case apple
 }
 
-final class AuthViewModel: FeatureViewModel<AuthFeatureState, AuthFeatureMessage, AuthFeatureActionViewAction> {
+final class AuthSocialViewModel: FeatureViewModel<AuthFeatureState, AuthFeatureMessage, AuthFeatureActionViewAction> {
     let availableSocialAuthProviders = SocialAuthProvider.allCases
 
     func signInWithSocialAuthProvider(_ provider: SocialAuthProvider) {

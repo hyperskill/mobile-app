@@ -44,6 +44,9 @@ extension Color {
     /// The color for borders or divider lines that hides any underlying content.
     static var opaqueSeparator: Color { Color(UIColor.opaqueSeparator) }
 
+    /// The color for borders.
+    static var border: Color { Color(UIColor.dynamic(light: ColorPalette.brown, dark: .separator)) }
+
     // MARK: Standard Content Background Colors
 
     /// The color for the main background of the interface.
