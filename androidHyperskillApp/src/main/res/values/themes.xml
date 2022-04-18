@@ -74,7 +74,7 @@
         <item name="isNightMode">@bool/is_night_mode</item>
 
         <item name="selectableItemBackgroundRounded">@drawable/selectable_item_rounded_background</item>
-        
+
         <item name="android:forceDarkAllowed">false</item>
     </style>
 
@@ -95,7 +95,7 @@
     </style>
 
     <style name="AppTheme.Splash">
-        <item name="colorPrimaryDark">@color/color_black_900_alpha_25</item>
+        <item name="colorPrimaryDark">@color/color_black_900_alpha_38</item>
         <item name="android:windowBackground">@drawable/branded_logo</item>
         <item name="android:statusBarColor" tools:targetApi="lollipop">@color/color_black_300</item>
     </style>
@@ -135,6 +135,12 @@
     <style name="ThemeOverlay.Yellow" parent="ThemeOverlay.MaterialComponents">
         <item name="colorPrimary">@color/color_overlay_yellow</item>
         <item name="colorOnSurface">@color/color_overlay_yellow</item>
+    </style>
+
+    <style name="ThemeOverlay.Red" parent="ThemeOverlay.MaterialComponents">
+        <item name="android:background">@color/color_overlay_red_alpha_12</item>
+        <item name="cornerRadius">@dimen/corner_radius</item>
+        <item name="android:textColor">@color/color_error</item>
     </style>
 
 </resources>

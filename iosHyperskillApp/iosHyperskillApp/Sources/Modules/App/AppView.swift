@@ -10,7 +10,7 @@ struct AppView: View {
     }
 
     var body: some View {
-        AuthAssembly().makeModule()
+        AuthSocialAssembly().makeModule()
     }
 
     // MARK: Private API
