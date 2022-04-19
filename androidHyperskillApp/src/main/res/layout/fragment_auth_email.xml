@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/signInHyperskillLogoShapeableImageView"
-        android:layout_width="@dimen/sign_in_hyperskill_logo_width"
-        android:layout_height="@dimen/sign_in_hyperskill_logo_height"
+        android:layout_width="@dimen/auth_hyperskill_logo_width"
+        android:layout_height="@dimen/auth_hyperskill_logo_height"
         android:layout_marginTop="84dp"
         android:background="@drawable/bg_shape_logo_rectangle"
         android:src="@drawable/branded_logo"
