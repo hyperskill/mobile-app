@@ -183,6 +183,7 @@
 			children = (
 				2C725B622809198000A49043 /* BackgroundView.swift */,
 				2C58DE2A2803DEE2002A2774 /* VerticalCenteredScrollView.swift */,
+				2CAE8CFE28054CF000E6C83D /* Styles */,
 				2C46D0612807E4A600B3636E /* Wrappers */,
 			);
 			path = Views;
@@ -202,13 +203,12 @@
 			isa = PBXGroup;
 			children = (
 				2C9B66E727ECAC5D00569645 /* App */,
-				2C725B5F2809123600A49043 /* Common */,
 				2C9B66E827ECAF0200569645 /* Extensions */,
 				2CF2DA4227EC7DB50055426D /* Frameworks */,
 				2CCF3B5628004F860075D12C /* Helpers */,
-				2CF2DA3B27EC5B980055426D /* Model */,
+				2CF2DA3B27EC5B980055426D /* Models */,
 				2C1DEE2D27EC40200001A567 /* Modules */,
-				2CAE8CFE28054CF000E6C83D /* Styles */,
+				2C906CBC280E5C7D0079C594 /* Systems */,
 				2C005DCF27EF5BD200DC6503 /* Views */,
 			);
 			path = Sources;
@@ -282,14 +282,6 @@
 			path = SwiftUI;
 			sourceTree = "<group>";
 		};
-		2C725B5F2809123600A49043 /* Common */ = {
-			isa = PBXGroup;
-			children = (
-				2C725B602809125700A49043 /* LayoutInsets.swift */,
-			);
-			path = Common;
-			sourceTree = "<group>";
-		};
 		2C725B6428091ACF00A49043 /* AuthEmail */ = {
 			isa = PBXGroup;
 			children = (
@@ -306,6 +298,14 @@
 				E94D238C28057F440003273F /* AuthEmailView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		2C906CBC280E5C7D0079C594 /* Systems */ = {
+			isa = PBXGroup;
+			children = (
+				2C9CC1BC280920B5006604D7 /* IQKeyboardManagerConfigurator.swift */,
+			);
+			path = Systems;
 			sourceTree = "<group>";
 		};
 		2C919DE627EEEDC40022A2F2 /* Collections */ = {
@@ -332,7 +332,6 @@
 				2C9B66C327ECA73700569645 /* AppDelegate.swift */,
 				2152FB032600AC8F00CF470E /* HyperskillApp.swift */,
 				2C9B66E527ECA86B00569645 /* SceneDelegate.swift */,
-				2C9CC1BB28092094006604D7 /* Configuration */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -354,14 +353,6 @@
 				2C58DE282803D197002A2774 /* UIColor+DynamicColor.swift */,
 			);
 			path = UIKit;
-			sourceTree = "<group>";
-		};
-		2C9CC1BB28092094006604D7 /* Configuration */ = {
-			isa = PBXGroup;
-			children = (
-				2C9CC1BC280920B5006604D7 /* IQKeyboardManagerConfigurator.swift */,
-			);
-			path = Configuration;
 			sourceTree = "<group>";
 		};
 		2CAE8CEE280525A100E6C83D /* Step */ = {
@@ -428,6 +419,7 @@
 			isa = PBXGroup;
 			children = (
 				2CCF3B59280050890075D12C /* DeviceInfo.swift */,
+				2C725B602809125700A49043 /* LayoutInsets.swift */,
 				2C863D922804279E0021EFED /* Require.swift */,
 				2CCF3B5728004FC40075D12C /* UserAgentBuilder.swift */,
 			);
@@ -456,12 +448,12 @@
 			path = App;
 			sourceTree = "<group>";
 		};
-		2CF2DA3B27EC5B980055426D /* Model */ = {
+		2CF2DA3B27EC5B980055426D /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				2CF2DA3C27EC5BA00055426D /* Constants */,
 			);
-			path = Model;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		2CF2DA3C27EC5BA00055426D /* Constants */ = {
