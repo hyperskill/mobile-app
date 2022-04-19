@@ -17,7 +17,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     ) -> Bool {
         Self.shared = self
 
-        IQKeyboardManagerConfigurator.configure()
+        KeyboardManager.configure()
 
         // TODO: Configure when window is assigned.
         // SVProgressHUD.setMinimumDismissTimeInterval(0.5)

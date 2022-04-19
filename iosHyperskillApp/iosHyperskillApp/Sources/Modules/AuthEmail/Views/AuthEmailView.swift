@@ -33,10 +33,10 @@ struct AuthEmailView: View {
                 .padding(appearance.continueWithSocialButtonInsets.edgeInsets)
         }
         .onAppear {
-            IQKeyboardManagerConfigurator.setKeyboardDistanceFromTextField(appearance.keyboardDistanceFromTextField)
+            KeyboardManager.setKeyboardDistanceFromTextField(appearance.keyboardDistanceFromTextField)
         }
         .onDisappear {
-            IQKeyboardManagerConfigurator.setDefaultKeyboardDistanceFromTextField()
+            KeyboardManager.setDefaultKeyboardDistanceFromTextField()
         }
     }
 }
