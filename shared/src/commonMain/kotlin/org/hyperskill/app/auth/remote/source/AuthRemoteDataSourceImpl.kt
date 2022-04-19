@@ -14,14 +14,14 @@ import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.network.domain.model.NetworkClientType
 
 class AuthRemoteDataSourceImpl(
-    private val authHttpClient: HttpClient,
-    private val credentialsHttpClient: HttpClient,
+    private val authSocialHttpClient: HttpClient,
+    private val authCredentialsHttpClient: HttpClient,
     private val json: Json,
     private val settings: Settings
 ) : AuthRemoteDataSource {
     override suspend fun authWithCode(authCode: String): Result<Unit> =
         kotlin.runCatching {
-            authHttpClient
+            authSocialHttpClient
                 .submitForm<AuthResponse>(
                     url = "/oauth2/social-token/",
                     formParameters = Parameters.build {
@@ -39,7 +39,7 @@ class AuthRemoteDataSourceImpl(
 
     override suspend fun authWithEmail(email: String, password: String): Result<Unit> =
         kotlin.runCatching {
-            credentialsHttpClient
+            authCredentialsHttpClient
                 .submitForm<AuthResponse>(
                     url = "/oauth2/token/",
                     formParameters = Parameters.build {

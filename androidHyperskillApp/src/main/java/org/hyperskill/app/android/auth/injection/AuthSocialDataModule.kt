@@ -5,8 +5,8 @@ import dagger.Module
 import dagger.Provides
 import io.ktor.client.HttpClient
 import kotlinx.serialization.json.Json
-import org.hyperskill.app.android.network.injection.AuthHttpClient
-import org.hyperskill.app.android.network.injection.CredentialsHttpClient
+import org.hyperskill.app.android.network.injection.AuthSocialHttpClient
+import org.hyperskill.app.android.network.injection.AuthCredentialsHttpClient
 import org.hyperskill.app.auth.cache.AuthCacheDataSourceImpl
 import org.hyperskill.app.auth.data.repository.AuthRepositoryImpl
 import org.hyperskill.app.auth.data.source.AuthCacheDataSource
@@ -23,9 +23,9 @@ object AuthSocialDataModule {
 
     @Provides
     fun provideAuthRemoteDataSource(
-        @AuthHttpClient
+        @AuthSocialHttpClient
         authHttpClient: HttpClient,
-        @CredentialsHttpClient
+        @AuthCredentialsHttpClient
         credentialsHttpClient: HttpClient,
         json: Json,
         settings: Settings

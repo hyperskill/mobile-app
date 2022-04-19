@@ -40,22 +40,24 @@ object NetworkModule {
 
     fun provideClient(networkClientType: NetworkClientType, userAgentInfo: UserAgentInfo, json: Json): HttpClient =
         when (networkClientType) {
-            NetworkClientType.SOCIAL -> provideClientFromBasicAuthCredentials(
-                userAgentInfo,
-                json,
-                BasicAuthCredentials(
-                    username = BuildKonfig.OAUTH_CLIENT_ID,
-                    password = BuildKonfig.OAUTH_CLIENT_SECRET
+            NetworkClientType.SOCIAL ->
+                provideClientFromBasicAuthCredentials(
+                    userAgentInfo,
+                    json,
+                    BasicAuthCredentials(
+                        username = BuildKonfig.OAUTH_CLIENT_ID,
+                        password = BuildKonfig.OAUTH_CLIENT_SECRET
+                    )
                 )
-            )
-            NetworkClientType.CREDENTIALS -> provideClientFromBasicAuthCredentials(
-                userAgentInfo,
-                json,
-                BasicAuthCredentials(
-                    username = BuildKonfig.CREDENTIALS_CLIEND_ID,
-                    password = BuildKonfig.CREDENTIALS_CLIENT_SECRET
+            NetworkClientType.CREDENTIALS ->
+                provideClientFromBasicAuthCredentials(
+                    userAgentInfo,
+                    json,
+                    BasicAuthCredentials(
+                        username = BuildKonfig.CREDENTIALS_CLIEND_ID,
+                        password = BuildKonfig.CREDENTIALS_CLIENT_SECRET
+                    )
                 )
-            )
         }
 
     // TODO Stub, will be removed with user list feature
