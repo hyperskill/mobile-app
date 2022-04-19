@@ -5,9 +5,13 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import kotlinx.coroutines.flow.MutableSharedFlow
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.ResourceProviderImpl
+import org.hyperskill.app.main.injection.AppFeatureDataBuilder
+import org.hyperskill.app.main.presentation.AppFeature
 import ru.nobird.android.view.injection.base.presentation.DaggerViewModelFactory
+import javax.inject.Singleton
 
 @Module
 abstract class AppCoreModule {
@@ -20,5 +24,11 @@ abstract class AppCoreModule {
         @JvmStatic
         fun provideResourceProvider(context: Context): ResourceProvider =
             ResourceProviderImpl(context)
+
+        @Provides
+        @JvmStatic
+        @Singleton
+        fun provideAuthorizationFlow(): MutableSharedFlow<AppFeature.Message> =
+            AppFeatureDataBuilder.provideAuthorizationFlow()
     }
 }

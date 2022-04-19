@@ -10,7 +10,6 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.view.ui.screen.AuthSocialScreen
 import org.hyperskill.app.android.databinding.ActivityMainBinding
 import org.hyperskill.app.android.main.presentation.MainViewModel
-import org.hyperskill.app.auth.presentation.AuthFeature
 import org.hyperskill.app.main.presentation.AppFeature
 import ru.nobird.android.view.navigation.navigator.NestedAppNavigator
 import ru.nobird.android.view.navigation.ui.fragment.NavigationContainer
