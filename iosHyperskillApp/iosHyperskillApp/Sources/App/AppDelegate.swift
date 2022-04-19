@@ -1,5 +1,4 @@
 import GoogleSignIn
-import SVProgressHUD
 import UIKit
 
 class AppDelegate: NSObject, UIApplicationDelegate {
@@ -7,7 +6,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     /// to internal private `SwiftUI.AppDelegate`, which is real `UIApplicationDelegate` and which propagates delegate callbacks.
     private(set) static var shared: AppDelegate?
 
-    var window: UIWindow?
+    var window: UIWindow? {
+        didSet {
+            ProgressHUD.configure()
+        }
+    }
 
     // MARK: Initializing the App
 
@@ -18,12 +21,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         Self.shared = self
 
         KeyboardManager.configure()
-
-        // TODO: Configure when window is assigned.
-        // SVProgressHUD.setMinimumDismissTimeInterval(0.5)
-        // SVProgressHUD.setDefaultMaskType(SVProgressHUDMaskType.clear)
-        // SVProgressHUD.setDefaultStyle(SVProgressHUDStyle.light)
-        // SVProgressHUD.setHapticsEnabled(true)
 
         return true
     }

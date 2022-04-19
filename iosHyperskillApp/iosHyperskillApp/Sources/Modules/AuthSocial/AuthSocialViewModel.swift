@@ -1,6 +1,5 @@
 import GoogleSignIn
 import shared
-import SVProgressHUD
 import SwiftUI
 
 enum SocialAuthProvider: String, CaseIterable {
@@ -26,7 +25,7 @@ final class AuthSocialViewModel: FeatureViewModel<AuthFeatureState, AuthFeatureM
                 GIDSignIn.sharedInstance.signOut()
             }
 
-            SVProgressHUD.show()
+            ProgressHUD.show()
 
             GIDSignIn.sharedInstance.signIn(
                 with: GIDConfiguration(
@@ -36,13 +35,13 @@ final class AuthSocialViewModel: FeatureViewModel<AuthFeatureState, AuthFeatureM
                 presenting: currentRootViewController
             ) { user, error in
                 if let error = error {
-                    SVProgressHUD.showError(withStatus: error.localizedDescription)
+                    ProgressHUD.showError(status: error.localizedDescription)
                 } else if let serverAuthCode = user?.serverAuthCode {
                     self.onNewMessage(AuthFeatureMessageAuthWithGoogle(accessToken: serverAuthCode))
-                    SVProgressHUD.dismiss()
+                    ProgressHUD.dismiss()
                 } else {
                     // todo я не знаю, какое именно тут сообщение писать, нужно что-то более осмысленное
-                    SVProgressHUD.showError(withStatus: "GIDSignIn :: error missing serverAuthCode")
+                    ProgressHUD.showError(status: "GIDSignIn :: error missing serverAuthCode")
                 }
             }
         case .github:

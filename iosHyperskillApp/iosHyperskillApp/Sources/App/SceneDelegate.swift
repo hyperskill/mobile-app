@@ -1,7 +1,11 @@
 import UIKit
 
 class SceneDelegate: NSObject, UIWindowSceneDelegate {
-    var window: UIWindow?
+    var window: UIWindow? {
+        didSet {
+            AppDelegate.shared?.window = self.window
+        }
+    }
 
     // MARK: Connecting and Disconnecting the Scene
 
@@ -14,15 +18,10 @@ class SceneDelegate: NSObject, UIWindowSceneDelegate {
             return
         }
 
-        let keyWindow: UIWindow? = {
-            if #available(iOS 15.0, *) {
-                return windowScene.keyWindow
-            } else {
-                return windowScene.windows.first(where: \.isKeyWindow)
-            }
-        }()
-
-        self.window = keyWindow
-        AppDelegate.shared?.window = keyWindow
+        if #available(iOS 15.0, *) {
+            self.window = windowScene.keyWindow
+        } else {
+            self.window = windowScene.windows.first(where: \.isKeyWindow)
+        }
     }
 }
