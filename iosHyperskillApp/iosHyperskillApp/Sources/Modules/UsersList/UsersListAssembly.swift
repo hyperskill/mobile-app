@@ -6,7 +6,7 @@ final class UsersListAssembly: Assembly {
         let userListInteractor = UserListInteractor(
             userListRepository: UserListRepositoryImpl(
                 userListRemoteDataSource: UserListRemoteDataSourceImpl(
-                    httpClient: NetworkModule.shared.provideClient(json: NetworkModule.shared.provideJson())
+                    httpClient: NetworkModule.shared.provideStubClient(json: NetworkModule.shared.provideJson())
                 )
             )
         )
