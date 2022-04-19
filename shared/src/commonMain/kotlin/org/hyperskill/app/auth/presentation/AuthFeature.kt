@@ -9,12 +9,14 @@ interface AuthFeature {
     }
 
     sealed interface Message {
+        data class AuthWithEmail(val email: String, val password: String) : Message
         data class AuthWithGoogle(val accessToken: String) : Message
         data class AuthSuccess(val accessToken: String) : Message
         data class AuthError(val errorMsg: String) : Message
     }
 
     sealed interface Action {
+        data class AuthWithEmail(val email: String, val password: String) : Action
         data class AuthWithGoogle(val accessToken: String) : Action
         sealed interface ViewAction : Action {
             object NavigateToHomeScreen : ViewAction

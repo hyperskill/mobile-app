@@ -10,7 +10,7 @@ class GreetingTest {
     fun greetingTest() {
         print("Kek")
         val json = NetworkModule.provideJson()
-        val httpClient = NetworkModule.provideClient(json)
+        val httpClient = NetworkModule.provideStubClient(json)
 
         runBlocking {
             val data = UserLoginRemoteDataSourceImpl(httpClient).getCsrfToken()
