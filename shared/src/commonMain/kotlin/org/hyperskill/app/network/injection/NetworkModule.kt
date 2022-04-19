@@ -26,6 +26,7 @@ import org.hyperskill.app.auth.cache.AuthCacheKeyValues
 import org.hyperskill.app.auth.remote.model.AuthResponse
 import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.core.remote.UserAgentInfo
+import org.hyperskill.app.network.domain.model.NetworkClientType
 
 object NetworkModule {
     fun provideJson(): Json =
@@ -37,8 +38,30 @@ object NetworkModule {
             }
         }
 
+    fun provideClient(networkClientType: NetworkClientType, userAgentInfo: UserAgentInfo, json: Json): HttpClient =
+        when (networkClientType) {
+            NetworkClientType.SOCIAL ->
+                provideClientFromBasicAuthCredentials(
+                    userAgentInfo,
+                    json,
+                    BasicAuthCredentials(
+                        username = BuildKonfig.OAUTH_CLIENT_ID,
+                        password = BuildKonfig.OAUTH_CLIENT_SECRET
+                    )
+                )
+            NetworkClientType.CREDENTIALS ->
+                provideClientFromBasicAuthCredentials(
+                    userAgentInfo,
+                    json,
+                    BasicAuthCredentials(
+                        username = BuildKonfig.CREDENTIALS_CLIEND_ID,
+                        password = BuildKonfig.CREDENTIALS_CLIENT_SECRET
+                    )
+                )
+        }
+
     // TODO Stub, will be removed with user list feature
-    fun provideClient(json: Json): HttpClient =
+    fun provideStubClient(json: Json): HttpClient =
         HttpClient {
             install(JsonFeature) {
                 serializer = KotlinxSerializer(json)
@@ -51,7 +74,11 @@ object NetworkModule {
         settings: Settings
     ): HttpClient =
         HttpClient {
-            val tokenClient = provideAuthClient(userAgentInfo, json)
+            val tokenClient = provideClient(
+                NetworkClientType.values()[settings.getInt(AuthCacheKeyValues.AUTH_SOCIAL_ORDINAL)],
+                userAgentInfo,
+                json
+            )
 
             defaultRequest {
                 url {
@@ -115,7 +142,7 @@ object NetworkModule {
             }
         }
 
-    fun provideAuthClient(userAgentInfo: UserAgentInfo, json: Json): HttpClient =
+    private fun provideClientFromBasicAuthCredentials(userAgentInfo: UserAgentInfo, json: Json, basicCredentials: BasicAuthCredentials) =
         HttpClient {
             defaultRequest {
                 url {
@@ -134,10 +161,7 @@ object NetworkModule {
                 basic {
                     sendWithoutRequest { true }
                     credentials {
-                        BasicAuthCredentials(
-                            username = BuildKonfig.OAUTH_CLIENT_ID,
-                            password = BuildKonfig.OAUTH_CLIENT_SECRET
-                        )
+                        basicCredentials
                     }
                 }
             }
