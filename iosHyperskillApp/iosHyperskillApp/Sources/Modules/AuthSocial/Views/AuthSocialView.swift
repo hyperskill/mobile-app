@@ -34,6 +34,8 @@ struct AuthSocialView: View {
                 AuthEmailView(presentingContinueWithEmail: $presentingContinueWithEmail)
             }
         }
+        .onAppear(perform: viewModel.startListening)
+        .onDisappear(perform: viewModel.stopListening)
     }
 
     // MARK: Private API
