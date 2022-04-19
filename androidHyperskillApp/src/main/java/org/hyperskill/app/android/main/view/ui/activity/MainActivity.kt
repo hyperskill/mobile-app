@@ -9,21 +9,25 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.view.ui.screen.AuthSocialScreen
 import org.hyperskill.app.android.databinding.ActivityMainBinding
+import org.hyperskill.app.android.main.presentation.MainViewModel
 import org.hyperskill.app.auth.presentation.AuthFeature
+import org.hyperskill.app.main.presentation.AppFeature
 import ru.nobird.android.view.navigation.navigator.NestedAppNavigator
 import ru.nobird.android.view.navigation.ui.fragment.NavigationContainer
+import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 import javax.inject.Inject
 
 class MainActivity :
     AppCompatActivity(),
     NavigationContainer,
-    ReduxView<AuthFeature.State, AuthFeature.Action.ViewAction> {
+    ReduxView<AppFeature.State, AppFeature.Action.ViewAction> {
     private lateinit var viewBinding: ActivityMainBinding
 
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    private val mainViewModelProvider: MainViewModel by reduxViewModel(this) { viewModelFactory }
     private val localCicerone: Cicerone<Router> = Cicerone.create()
     override val router: Router = localCicerone.router
 
@@ -54,7 +58,7 @@ class MainActivity :
     private fun injectComponent() {
         HyperskillApp
             .component()
-            .usersListComponentBuilder()
+            .mainComponentBuilder()
             .build()
             .inject(this)
     }
@@ -73,7 +77,7 @@ class MainActivity :
         super.onPause()
     }
 
-    override fun onAction(action: AuthFeature.Action.ViewAction) {}
+    override fun onAction(action: AppFeature.Action.ViewAction) {}
 
-    override fun render(state: AuthFeature.State) {}
+    override fun render(state: AppFeature.State) {}
 }
