@@ -11,7 +11,7 @@ object SocialAuthProviderRequestURLBuilder {
             .append("https://")
             .append(BuildKonfig.HOST)
             .append("/accounts/")
-            .append(SocialAuthProviderNameMapper.getName(provider))
+            .append(provider.title)
             .append("/login?next=%2Foauth2%2Fauthorize%2F%3Fclient_id%3D")
             .append(BuildKonfig.OAUTH_CLIENT_ID)
             .append("%26response_type%3Dcode")

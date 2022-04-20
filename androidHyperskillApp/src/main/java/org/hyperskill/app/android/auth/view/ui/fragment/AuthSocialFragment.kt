@@ -52,7 +52,7 @@ class AuthSocialFragment :
         try {
             val account = task.getResult(ApiException::class.java)
             val authCode = account.serverAuthCode
-            authSocialViewModel.onNewMessage(AuthFeature.Message.AuthWithSocialToken(authCode, SocialAuthProvider.GOOGLE))
+            authSocialViewModel.onNewMessage(AuthFeature.Message.AuthWithSocial(authCode, SocialAuthProvider.GOOGLE))
         } catch (e: ApiException) {}
     }
 

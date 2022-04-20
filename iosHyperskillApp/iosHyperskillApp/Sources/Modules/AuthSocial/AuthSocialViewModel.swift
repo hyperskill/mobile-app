@@ -17,13 +17,16 @@ final class AuthSocialViewModel: FeatureViewModel<AuthFeatureState, AuthFeatureM
             do {
                 let response = try await self.socialAuthService.signIn(with: provider)
 
-                if let authCode = response.authCode {
-                    self.onNewMessage(AuthFeatureMessageAuthWithCode(authCode: authCode))
-                } else if let socialToken = response.socialToken {
-                    self.onNewMessage(
-                        AuthFeatureMessageAuthWithSocialToken(authCode: socialToken, provider: provider.sharedType)
-                    )
+                guard let authCode = response.authCode ?? response.socialToken else {
+                    throw SocialAuthError.accessDenied
                 }
+
+                let message = AuthFeatureMessageAuthWithSocial(
+                    authCode: authCode,
+                    socialProvider: provider.sharedType
+                )
+
+                self.onNewMessage(message)
             } catch {
                 print("AuthSocialViewModel :: signIn error = \(error)")
             }

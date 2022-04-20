@@ -9,6 +9,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.hyperskill.app.auth.cache.AuthCacheKeyValues
 import org.hyperskill.app.auth.data.source.AuthRemoteDataSource
+import org.hyperskill.app.auth.domain.model.SocialAuthProvider
 import org.hyperskill.app.auth.remote.model.AuthResponse
 import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.network.domain.model.NetworkClientType
@@ -19,7 +20,14 @@ class AuthRemoteDataSourceImpl(
     private val json: Json,
     private val settings: Settings
 ) : AuthRemoteDataSource {
-    override suspend fun authWithSocialToken(authCode: String, providerName: String): Result<Unit> =
+    override suspend fun authWithSocial(authCode: String, socialProvider: SocialAuthProvider): Result<Unit> =
+        if (socialProvider.isSdk) {
+            authWithSocialToken(authCode, socialProvider.title)
+        } else {
+            authWithCode(authCode)
+        }
+
+    private suspend fun authWithSocialToken(authCode: String, providerName: String): Result<Unit> =
         kotlin.runCatching {
             authSocialHttpClient
                 .submitForm<AuthResponse>(
@@ -37,7 +45,7 @@ class AuthRemoteDataSourceImpl(
                 }
         }
 
-    override suspend fun authWithCode(authCode: String): Result<Unit> =
+    private suspend fun authWithCode(authCode: String): Result<Unit> =
         kotlin.runCatching {
             authSocialHttpClient
                 .submitForm<AuthResponse>(

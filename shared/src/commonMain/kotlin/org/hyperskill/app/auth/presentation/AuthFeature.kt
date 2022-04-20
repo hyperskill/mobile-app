@@ -12,16 +12,14 @@ interface AuthFeature {
 
     sealed interface Message {
         data class AuthWithEmail(val email: String, val password: String) : Message
-        data class AuthWithSocialToken(val authCode: String, val provider: SocialAuthProvider) : Message
-        data class AuthWithCode(val authCode: String) : Message
+        data class AuthWithSocial(val authCode: String, val socialProvider: SocialAuthProvider) : Message
         data class AuthSuccess(val accessToken: String) : Message
         data class AuthError(val errorMsg: String) : Message
     }
 
     sealed interface Action {
         data class AuthWithEmail(val email: String, val password: String) : Action
-        data class AuthWithSocialToken(val authCode: String, val providerName: String) : Action
-        data class AuthWithCode(val authCode: String) : Action
+        data class AuthWithSocial(val authCode: String, val socialProvider: SocialAuthProvider) : Action
         sealed interface ViewAction : Action {
             object NavigateToHomeScreen : ViewAction
             data class ShowAuthError(val errorMsg: String) : ViewAction

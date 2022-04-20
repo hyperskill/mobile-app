@@ -24,20 +24,8 @@ class AuthActionDispatcher(
 
                 onNewMessage(message)
             }
-            is Action.AuthWithSocialToken -> {
-                val result = authInteractor.authWithSocialToken(action.authCode, action.providerName)
-
-                val message =
-                    result
-                        .map { Message.AuthSuccess(action.authCode) }
-                        .getOrElse {
-                            Message.AuthError(errorMsg = it.message ?: "")
-                        }
-
-                onNewMessage(message)
-            }
-            is Action.AuthWithCode -> {
-                val result = authInteractor.authWithCode(action.authCode)
+            is Action.AuthWithSocial -> {
+                val result = authInteractor.authWithSocial(action.authCode, action.socialProvider)
 
                 val message =
                     result
