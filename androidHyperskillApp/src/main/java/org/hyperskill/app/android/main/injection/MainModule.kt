@@ -4,10 +4,9 @@ import androidx.lifecycle.ViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
-import kotlinx.coroutines.flow.MutableSharedFlow
 import org.hyperskill.app.android.main.presentation.MainViewModel
+import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.main.injection.AppFeatureBuilder
-import org.hyperskill.app.main.presentation.AppFeature
 import ru.nobird.android.view.injection.base.presentation.ViewModelKey
 import ru.nobird.app.presentation.redux.container.wrapWithViewContainer
 
@@ -16,10 +15,10 @@ object MainModule {
     @Provides
     @IntoMap
     @ViewModelKey(MainViewModel::class)
-    internal fun provideMainPresenter(authorizationFlow: MutableSharedFlow<AppFeature.Message>): ViewModel =
+    internal fun provideMainPresenter(authInteractor: AuthInteractor): ViewModel =
         MainViewModel(
             AppFeatureBuilder
-                .build(authorizationFlow)
+                .build(authInteractor)
                 .wrapWithViewContainer()
         )
 }
