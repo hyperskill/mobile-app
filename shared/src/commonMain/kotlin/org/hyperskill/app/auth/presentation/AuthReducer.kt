@@ -12,6 +12,12 @@ class AuthReducer : StateReducer<State, Message, Action> {
         message: Message
     ): Pair<State, Set<Action>> =
         when (message) {
+            is Message.AuthWithEmail ->
+                if (state is State.Idle || state is State.Error) {
+                    State.Loading to setOf(Action.AuthWithEmail(message.email, message.password))
+                } else {
+                    null
+                }
             is Message.AuthWithSocialToken ->
                 if (state is State.Idle || state is State.Error) {
                     State.Loading to setOf(

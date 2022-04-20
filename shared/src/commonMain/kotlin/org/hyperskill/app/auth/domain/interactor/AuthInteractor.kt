@@ -10,4 +10,7 @@ class AuthInteractor(
 
     suspend fun authWithCode(authCode: String): Result<Unit> =
         authRepository.authWithCode(authCode)
+
+    suspend fun authWithEmail(email: String, password: String): Result<Unit> =
+        authRepository.authWithEmail(email, password)
 }

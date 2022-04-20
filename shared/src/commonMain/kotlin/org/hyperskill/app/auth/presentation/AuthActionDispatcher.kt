@@ -12,6 +12,18 @@ class AuthActionDispatcher(
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
+            is Action.AuthWithEmail -> {
+                val result = authInteractor.authWithEmail(action.email, action.password)
+
+                val message =
+                    result
+                        .map { Message.AuthSuccess("") }
+                        .getOrElse {
+                            Message.AuthError(errorMsg = it.message ?: "")
+                        }
+
+                onNewMessage(message)
+            }
             is Action.AuthWithSocialToken -> {
                 val result = authInteractor.authWithSocialToken(action.authCode, action.providerName)
 

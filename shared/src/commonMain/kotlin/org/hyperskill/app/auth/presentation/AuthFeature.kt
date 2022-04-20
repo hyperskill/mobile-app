@@ -11,6 +11,7 @@ interface AuthFeature {
     }
 
     sealed interface Message {
+        data class AuthWithEmail(val email: String, val password: String) : Message
         data class AuthWithSocialToken(val authCode: String, val provider: SocialAuthProvider) : Message
         data class AuthWithCode(val authCode: String) : Message
         data class AuthSuccess(val accessToken: String) : Message
@@ -18,6 +19,7 @@ interface AuthFeature {
     }
 
     sealed interface Action {
+        data class AuthWithEmail(val email: String, val password: String) : Action
         data class AuthWithSocialToken(val authCode: String, val providerName: String) : Action
         data class AuthWithCode(val authCode: String) : Action
         sealed interface ViewAction : Action {

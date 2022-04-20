@@ -1,6 +1,7 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import org.jetbrains.kotlin.konan.properties.loadProperties
 import org.jetbrains.kotlin.konan.properties.propertyString
+import org.gradle.internal.os.OperatingSystem
 
 plugins {
     kotlin("multiplatform")
@@ -23,14 +24,16 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
 
-    cocoapods {
-        summary = "Shared code between iOS and Android"
-        homepage = "https://github.com/hyperskill/mobile-app"
-        ios.deploymentTarget = "14.1"
-        podfile = project.file("../iosHyperskillApp/Podfile")
-        framework {
-            baseName = "shared"
-            isStatic = false
+    if (OperatingSystem.current().isMacOsX) {
+        cocoapods {
+            summary = "Shared code between iOS and Android"
+            homepage = "https://github.com/hyperskill/mobile-app"
+            ios.deploymentTarget = "14.1"
+            podfile = project.file("../iosHyperskillApp/Podfile")
+            framework {
+                baseName = "shared"
+                isStatic = false
+            }
         }
     }
 

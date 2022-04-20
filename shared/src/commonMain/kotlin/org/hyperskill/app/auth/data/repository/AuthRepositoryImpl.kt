@@ -16,4 +16,7 @@ class AuthRepositoryImpl(
 
     override suspend fun authWithCode(authCode: String): Result<Unit> =
         authRemoteDataSource.authWithCode(authCode)
+
+    override suspend fun authWithEmail(email: String, password: String): Result<Unit> =
+        authRemoteDataSource.authWithEmail(email, password)
 }

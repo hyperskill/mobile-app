@@ -27,9 +27,9 @@ enum ColorPalette {
     static let white50Alpha12 = Self.sharedColors.color_white_50_alpha_12.color.uiColor
 
     // MARK: Brown
-    
+
     static let brown = Self.sharedColors.color_brown.color.uiColor
-    
+
     // MARK: Gray
 
     static let gray50 = Self.sharedColors.color_gray_50.color.uiColor

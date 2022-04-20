@@ -8,7 +8,13 @@ final class AuthSocialAssembly: Assembly {
                 settings: Settings.shared.makeAppleSettings(userDefaults: UserDefaults.standard)
             ),
             authRemoteDataSource: AuthRemoteDataSourceImpl(
-                authHttpClient: NetworkModule.shared.provideAuthClient(
+                authSocialHttpClient: NetworkModule.shared.provideClient(
+                    networkClientType: .social,
+                    userAgentInfo: UserAgentBuilder.userAgentInfo,
+                    json: NetworkModule.shared.provideJson()
+                ),
+                authCredentialsHttpClient: NetworkModule.shared.provideClient(
+                    networkClientType: .credentials,
                     userAgentInfo: UserAgentBuilder.userAgentInfo,
                     json: NetworkModule.shared.provideJson()
                 ),
