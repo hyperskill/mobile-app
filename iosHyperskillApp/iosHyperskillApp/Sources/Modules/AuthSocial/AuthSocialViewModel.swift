@@ -25,8 +25,6 @@ final class AuthSocialViewModel: FeatureViewModel<AuthFeatureState, AuthFeatureM
                 GIDSignIn.sharedInstance.signOut()
             }
 
-            ProgressHUD.show()
-
             GIDSignIn.sharedInstance.signIn(
                 with: GIDConfiguration(
                     clientID: GoogleServiceInfo.clientID,
@@ -35,13 +33,13 @@ final class AuthSocialViewModel: FeatureViewModel<AuthFeatureState, AuthFeatureM
                 presenting: currentRootViewController
             ) { user, error in
                 if let error = error {
-                    ProgressHUD.showError(status: error.localizedDescription)
+                    self.onNewMessage(AuthFeatureMessageAuthError(errorMsg: error.localizedDescription))
                 } else if let serverAuthCode = user?.serverAuthCode {
                     self.onNewMessage(AuthFeatureMessageAuthWithGoogle(accessToken: serverAuthCode))
-                    ProgressHUD.dismiss()
                 } else {
-                    // todo я не знаю, какое именно тут сообщение писать, нужно что-то более осмысленное
-                    ProgressHUD.showError(status: "GIDSignIn :: error missing serverAuthCode")
+                    self.onNewMessage(
+                        AuthFeatureMessageAuthError.init(errorMsg: "GIDSignIn :: error missing serverAuthCode")
+                    )
                 }
             }
         case .github:

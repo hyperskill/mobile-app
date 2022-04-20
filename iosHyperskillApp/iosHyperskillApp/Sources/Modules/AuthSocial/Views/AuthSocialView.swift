@@ -42,6 +42,14 @@ struct AuthSocialView: View {
 
     private func handleViewAction(_ viewAction: AuthFeatureActionViewAction) {
         print("AuthSocialView :: \(#function) viewAction = \(viewAction)")
+
+        if let authError = viewAction as? AuthFeatureActionViewActionShowAuthError {
+            ProgressHUD.showError(status: authError.errorMsg)
+        }
+
+        if viewAction is AuthFeatureActionViewActionNavigateToHomeScreen {
+            ProgressHUD.showSuccess()
+        }
     }
 }
 

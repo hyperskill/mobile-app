@@ -32,6 +32,7 @@ struct AuthSocialControlsView: View {
                     text: provider.humanReadableName,
                     imageName: provider.imageName,
                     action: {
+                        ProgressHUD.show()
                         self.onSocialAuthProviderClick(provider)
                     }
                 )
