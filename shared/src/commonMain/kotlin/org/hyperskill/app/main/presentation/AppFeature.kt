@@ -3,6 +3,8 @@ package org.hyperskill.app.main.presentation
 interface AppFeature {
     sealed interface State {
         object Idle : State
+        object Loading : State
+        object Ready : State
     }
 
     sealed interface Message {
