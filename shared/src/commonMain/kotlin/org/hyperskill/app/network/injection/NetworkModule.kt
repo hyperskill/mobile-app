@@ -24,10 +24,10 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import org.hyperskill.app.auth.remote.source.BearerTokenHttpClientPlugin
 import org.hyperskill.app.auth.cache.AuthCacheKeyValues
+import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.auth.remote.model.AuthResponse
 import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.core.remote.UserAgentInfo
-import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.network.domain.model.NetworkClientType
 
 object NetworkModule {
@@ -74,7 +74,7 @@ object NetworkModule {
         userAgentInfo: UserAgentInfo,
         json: Json,
         settings: Settings,
-        authorizationFlow: MutableSharedFlow<AppFeature.Message>
+        authorizationFlow: MutableSharedFlow<UserDeauthorized>
     ): HttpClient =
         HttpClient {
             val tokenClient = provideClient(
@@ -143,7 +143,7 @@ object NetworkModule {
                     }
                 }
                 tokenFailureReporter = {
-                    authorizationFlow.emit(AppFeature.Message.UserDeauthorized)
+                    authorizationFlow.tryEmit(UserDeauthorized)
                 }
             }
         }

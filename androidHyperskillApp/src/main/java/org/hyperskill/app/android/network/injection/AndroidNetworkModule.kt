@@ -7,8 +7,8 @@ import io.ktor.client.HttpClient
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.serialization.json.Json
 import org.hyperskill.app.android.BuildConfig
+import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.core.remote.UserAgentInfo
-import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.network.domain.model.NetworkClientType
 import org.hyperskill.app.network.injection.NetworkModule
 
@@ -47,7 +47,7 @@ object AndroidNetworkModule {
         userAgentInfo: UserAgentInfo,
         json: Json,
         settings: Settings,
-        authorizationFlow: MutableSharedFlow<AppFeature.Message>
+        authorizationFlow: MutableSharedFlow<UserDeauthorized>
     ): HttpClient =
         NetworkModule.provideAuthorizedClient(userAgentInfo, json, settings, authorizationFlow)
 

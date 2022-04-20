@@ -16,7 +16,7 @@ class BearerTokenHttpClientPlugin(
     private val tokenProvider: () -> String?,
     private val tokenUpdater: suspend () -> Boolean,
     private val tokenExpirationChecker: () -> Boolean,
-    private val tokenFailureReporter: suspend () -> Unit
+    private val tokenFailureReporter: () -> Unit
 ) {
 
     class Config {
@@ -24,7 +24,7 @@ class BearerTokenHttpClientPlugin(
         var tokenProvider: (() -> String?)? = null
         var tokenUpdater: (suspend () -> Boolean)? = null
         var tokenExpirationChecker: (() -> Boolean)? = null
-        var tokenFailureReporter: (suspend () -> Unit)? = null
+        var tokenFailureReporter: (() -> Unit)? = null
 
         fun build(): BearerTokenHttpClientPlugin =
             BearerTokenHttpClientPlugin(
