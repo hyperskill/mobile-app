@@ -63,6 +63,7 @@ ktlintRules = { module = "ru.nobird.android.ktlint:rules", version.ref = "ktlint
 nobird-ui-adapters = { module = "ru.nobird.android.ui:adapters", version.ref = "adapters" }
 
 android-security = { module = "androidx.security:security-crypto", version = "1.1.0-alpha03" }
+material-progress-bar = { module = "me.zhanghai.android.materialprogressbar:library", version = "1.6.1" }
 
 [bundles]
 ktor-common = ['ktor-core', 'ktor-auth', 'ktor-serialization', 'ktor-logging']
