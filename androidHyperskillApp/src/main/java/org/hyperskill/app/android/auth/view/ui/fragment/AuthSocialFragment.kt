@@ -24,7 +24,7 @@ import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragm
 import org.hyperskill.app.android.auth.view.ui.screen.AuthEmailScreen
 import org.hyperskill.app.android.main.view.ui.activity.MainActivity
 import org.hyperskill.app.auth.domain.model.SocialAuthProvider
-import org.hyperskill.app.auth.presentation.AuthFeature
+import org.hyperskill.app.auth.presentation.AuthSocialFeature
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -33,7 +33,7 @@ import javax.inject.Inject
 
 class AuthSocialFragment :
     Fragment(R.layout.fragment_auth_social),
-    ReduxView<AuthFeature.State, AuthFeature.Action.ViewAction> {
+    ReduxView<AuthSocialFeature.State, AuthSocialFeature.Action.ViewAction> {
 
     companion object {
         fun newInstance(): AuthSocialFragment =
@@ -46,7 +46,7 @@ class AuthSocialFragment :
     private val authSocialViewModel: AuthSocialViewModel by reduxViewModel(this) { viewModelFactory }
 
     private val viewBinding by viewBinding(FragmentAuthSocialBinding::bind)
-    private lateinit var viewStateDelegate: ViewStateDelegate<AuthFeature.State>
+    private lateinit var viewStateDelegate: ViewStateDelegate<AuthSocialFeature.State>
     private val authMaterialCardViewsAdapter: DefaultDelegateAdapter<AuthSocialCardInfo> = DefaultDelegateAdapter()
 
     private val loadingProgressDialogFragment = LoadingProgressDialogFragment.newInstance()
@@ -56,7 +56,7 @@ class AuthSocialFragment :
         try {
             val account = task.getResult(ApiException::class.java)
             val authCode = account.serverAuthCode
-            authSocialViewModel.onNewMessage(AuthFeature.Message.AuthWithSocial(authCode, SocialAuthProvider.GOOGLE))
+            authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthWithSocial(authCode, SocialAuthProvider.GOOGLE))
         } catch (e: ApiException) {}
     }
 
@@ -78,7 +78,7 @@ class AuthSocialFragment :
         loadingProgressDialogFragment.show(parentFragmentManager, LoadingProgressDialogFragment.TAG)
         when (social) {
             AuthSocialCardInfo.GOOGLE -> {
-                viewStateDelegate.switchState(AuthFeature.State.Loading)
+                viewStateDelegate.switchState(AuthSocialFeature.State.Loading)
                 signInWithGoogle()
             }
         }
@@ -100,16 +100,16 @@ class AuthSocialFragment :
         }
     }
 
-    override fun onAction(action: AuthFeature.Action.ViewAction) {
+    override fun onAction(action: AuthSocialFeature.Action.ViewAction) {
         when (action) {
-            is AuthFeature.Action.ViewAction.ShowAuthError -> {
+            is AuthSocialFeature.Action.ViewAction.ShowAuthError -> {
                 loadingProgressDialogFragment.dismiss()
-                Snackbar.make(requireView(), action.errorMsg, Snackbar.LENGTH_LONG).show()
+                Snackbar.make(requireView(), "", Snackbar.LENGTH_LONG).show()
             }
         }
     }
 
-    override fun render(state: AuthFeature.State) {}
+    override fun render(state: AuthSocialFeature.State) {}
 
     private fun signInWithGoogle() {
         val serverClientId = BuildConfig.SERVER_CLIENT_ID

@@ -7,7 +7,7 @@ import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.auth.view.ui.screen.AuthSocialScreen
+import org.hyperskill.app.android.auth.view.ui.screen.AuthScreen
 import org.hyperskill.app.android.databinding.ActivityMainBinding
 import org.hyperskill.app.android.main.presentation.MainViewModel
 import org.hyperskill.app.main.presentation.AppFeature
@@ -63,7 +63,7 @@ class MainActivity :
     }
 
     private fun initNavigation() {
-        router.newRootScreen(AuthSocialScreen)
+        router.newRootScreen(AuthScreen)
     }
 
     override fun onResumeFragments() {

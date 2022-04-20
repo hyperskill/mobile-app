@@ -12,19 +12,19 @@ import org.hyperskill.app.android.auth.presentation.AuthEmailViewModel
 import org.hyperskill.app.android.auth.view.ui.screen.AuthSocialScreen
 import org.hyperskill.app.android.databinding.FragmentAuthEmailBinding
 import org.hyperskill.app.android.main.view.ui.activity.MainActivity
-import org.hyperskill.app.auth.presentation.AuthFeature
+import org.hyperskill.app.auth.presentation.AuthCredentialsFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 import javax.inject.Inject
 
-class AuthEmailFragment :
+class AuthCredentialsFragment :
     Fragment(R.layout.fragment_auth_email),
-    ReduxView<AuthFeature.State, AuthFeature.Action.ViewAction> {
+    ReduxView<AuthCredentialsFeature.State, AuthCredentialsFeature.Action.ViewAction> {
 
     companion object {
-        fun newInstance(): AuthEmailFragment =
-            AuthEmailFragment()
+        fun newInstance(): AuthCredentialsFragment =
+            AuthCredentialsFragment()
     }
 
     @Inject
@@ -32,7 +32,7 @@ class AuthEmailFragment :
 
     private val authEmailViewModel: AuthEmailViewModel by reduxViewModel(this) { viewModelFactory }
     private val viewBinding by viewBinding(FragmentAuthEmailBinding::bind)
-    private lateinit var viewStateDelegate: ViewStateDelegate<AuthFeature.State>
+    private lateinit var viewStateDelegate: ViewStateDelegate<AuthCredentialsFeature.State>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,15 +55,11 @@ class AuthEmailFragment :
             .inject(this)
     }
 
-    override fun onAction(action: AuthFeature.Action.ViewAction) {
-        when (action) {
-            is AuthFeature.Action.ViewAction.ShowAuthError -> {
-                showError(action.errorMsg)
-            }
-        }
+    override fun onAction(action: AuthCredentialsFeature.Action.ViewAction) {
+        // no op
     }
 
-    override fun render(state: AuthFeature.State) {}
+    override fun render(state: AuthCredentialsFeature.State) {}
 
     private fun showError(msg: String) {
         viewBinding.emailTextInputLayout.error = " "

@@ -6,18 +6,18 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import org.hyperskill.app.android.auth.presentation.AuthEmailViewModel
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
-import org.hyperskill.app.auth.injection.AuthFeatureBuilder
+import org.hyperskill.app.auth.injection.AuthCredentialsFeatureBuilder
 import ru.nobird.android.view.injection.base.presentation.ViewModelKey
 import ru.nobird.app.presentation.redux.container.wrapWithViewContainer
 
 @Module
-object AuthEmailModule {
+object AuthCredentialsModule {
     @Provides
     @IntoMap
     @ViewModelKey(AuthEmailViewModel::class)
     internal fun provideAuthPresenter(authInteractor: AuthInteractor): ViewModel =
         AuthEmailViewModel(
-            AuthFeatureBuilder
+            AuthCredentialsFeatureBuilder
                 .build(authInteractor)
                 .wrapWithViewContainer()
         )

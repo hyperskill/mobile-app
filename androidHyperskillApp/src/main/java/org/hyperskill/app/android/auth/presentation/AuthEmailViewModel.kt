@@ -1,9 +1,9 @@
 package org.hyperskill.app.android.auth.presentation
 
-import org.hyperskill.app.auth.presentation.AuthFeature
+import org.hyperskill.app.auth.presentation.AuthCredentialsFeature
 import ru.nobird.android.view.redux.viewmodel.ReduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxViewContainer
 
 class AuthEmailViewModel(
-    reduxViewContainer: ReduxViewContainer<AuthFeature.State, AuthFeature.Message, AuthFeature.Action.ViewAction>
-) : ReduxViewModel<AuthFeature.State, AuthFeature.Message, AuthFeature.Action.ViewAction>(reduxViewContainer)
+    reduxViewContainer: ReduxViewContainer<AuthCredentialsFeature.State, AuthCredentialsFeature.Message, AuthCredentialsFeature.Action.ViewAction>
+) : ReduxViewModel<AuthCredentialsFeature.State, AuthCredentialsFeature.Message, AuthCredentialsFeature.Action.ViewAction>(reduxViewContainer)

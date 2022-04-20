@@ -18,7 +18,7 @@ import org.hyperskill.app.auth.domain.repository.AuthRepository
 import org.hyperskill.app.auth.remote.source.AuthRemoteDataSourceImpl
 
 @Module
-object AuthSocialDataModule {
+object AuthDataModule {
     @Provides
     fun provideAuthCacheDataSource(settings: Settings): AuthCacheDataSource =
         AuthCacheDataSourceImpl(settings)
