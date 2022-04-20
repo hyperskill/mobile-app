@@ -4,6 +4,7 @@ import com.russhwolf.settings.Settings
 import dagger.Module
 import dagger.Provides
 import io.ktor.client.HttpClient
+import kotlinx.coroutines.flow.Flow
 import kotlinx.serialization.json.Json
 import org.hyperskill.app.android.network.injection.AuthSocialHttpClient
 import org.hyperskill.app.android.network.injection.AuthCredentialsHttpClient
@@ -12,6 +13,7 @@ import org.hyperskill.app.auth.data.repository.AuthRepositoryImpl
 import org.hyperskill.app.auth.data.source.AuthCacheDataSource
 import org.hyperskill.app.auth.data.source.AuthRemoteDataSource
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
+import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.auth.domain.repository.AuthRepository
 import org.hyperskill.app.auth.remote.source.AuthRemoteDataSourceImpl
 
@@ -23,6 +25,7 @@ object AuthSocialDataModule {
 
     @Provides
     fun provideAuthRemoteDataSource(
+        deauthorizationFlow: Flow<UserDeauthorized>,
         @AuthSocialHttpClient
         authHttpClient: HttpClient,
         @AuthCredentialsHttpClient
@@ -30,7 +33,7 @@ object AuthSocialDataModule {
         json: Json,
         settings: Settings
     ): AuthRemoteDataSource =
-        AuthRemoteDataSourceImpl(authHttpClient, credentialsHttpClient, json, settings)
+        AuthRemoteDataSourceImpl(deauthorizationFlow, authHttpClient, credentialsHttpClient, json, settings)
 
     @Provides
     fun provideAuthRepository(authCacheDataSource: AuthCacheDataSource, authRemoteDataSource: AuthRemoteDataSource): AuthRepository =
