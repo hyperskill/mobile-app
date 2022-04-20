@@ -2,18 +2,30 @@ import GoogleSignIn
 import UIKit
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-    // MARK: UIApplication Lifecycle
+    /// `iosHyperskillApp.AppDelegate` is not direct `UIApplicationDelegate`, it's transferred via `UIApplicationDelegateAdaptor`
+    /// to internal private `SwiftUI.AppDelegate`, which is real `UIApplicationDelegate` and which propagates delegate callbacks.
+    private(set) static var shared: AppDelegate?
+
+    var window: UIWindow? {
+        didSet {
+            ProgressHUD.configure()
+        }
+    }
+
+    // MARK: Initializing the App
 
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
-        IQKeyboardManagerConfigurator.configure()
+        Self.shared = self
+
+        KeyboardManager.configure()
 
         return true
     }
 
-    // MARK: UISceneSession Lifecycle
+    // MARK: Configuring and Discarding Scenes
 
     func application(
         _ application: UIApplication,
@@ -24,6 +36,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         sceneConfiguration.delegateClass = SceneDelegate.self
         return sceneConfiguration
     }
+
+    // MARK: Opening a URL-Specified Resource
 
     func application(
         _ app: UIApplication,

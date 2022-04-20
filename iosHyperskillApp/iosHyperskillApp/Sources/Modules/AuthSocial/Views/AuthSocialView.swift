@@ -21,7 +21,15 @@ struct AuthSocialView: View {
     }
 
     var body: some View {
-        AuthAdaptiveContentView { horizontalSizeClass in
+        let state = viewModel.state
+
+        if state is AuthFeatureStateLoading {
+            ProgressHUD.show()
+        } else if state is AuthFeatureStateAuthenticated {
+            ProgressHUD.showSuccess()
+        }
+
+        return AuthAdaptiveContentView { horizontalSizeClass in
             AuthLogoView(logoWidthHeight: appearance.logoSize)
                 .padding(horizontalSizeClass == .regular ? .bottom : .vertical, appearance.logoSize)
 
@@ -34,12 +42,16 @@ struct AuthSocialView: View {
                 AuthEmailView(presentingContinueWithEmail: $presentingContinueWithEmail)
             }
         }
+        .onAppear(perform: viewModel.startListening)
+        .onDisappear(perform: viewModel.stopListening)
     }
 
     // MARK: Private API
 
     private func handleViewAction(_ viewAction: AuthFeatureActionViewAction) {
-        print("AuthSocialView :: \(#function) viewAction = \(viewAction)")
+        if let showAuthErrorViewAction = viewAction as? AuthFeatureActionViewActionShowAuthError {
+            ProgressHUD.showError(status: showAuthErrorViewAction.errorMsg)
+        }
     }
 }
 

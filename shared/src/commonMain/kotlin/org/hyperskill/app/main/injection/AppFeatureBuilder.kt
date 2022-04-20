@@ -1,5 +1,6 @@
 package org.hyperskill.app.main.injection
 
+import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.main.presentation.AppActionDispatcher
 import org.hyperskill.app.main.presentation.AppFeature.Action
@@ -11,9 +12,9 @@ import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 object AppFeatureBuilder {
-    fun build(): Feature<State, Message, Action> {
+    fun build(authInteractor: AuthInteractor): Feature<State, Message, Action> {
         val appReducer = AppReducer()
-        val appActionDispatcher = AppActionDispatcher(ActionDispatcherOptions())
+        val appActionDispatcher = AppActionDispatcher(ActionDispatcherOptions(), authInteractor)
 
         return ReduxFeature(State.Idle, appReducer)
             .wrapWithActionDispatcher(appActionDispatcher)

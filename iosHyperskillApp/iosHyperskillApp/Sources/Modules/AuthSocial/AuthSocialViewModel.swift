@@ -29,7 +29,14 @@ final class AuthSocialViewModel: FeatureViewModel<AuthFeatureState, AuthFeatureM
                 self.onNewMessage(message)
             } catch {
                 print("AuthSocialViewModel :: signIn error = \(error)")
+                await self.showAuthError(message: error.localizedDescription)
             }
         }
+    }
+
+    @MainActor
+    private func showAuthError(message: String) {
+        let viewAction = AuthFeatureActionViewActionShowAuthError(errorMsg: message)
+        self.onViewAction?(viewAction)
     }
 }

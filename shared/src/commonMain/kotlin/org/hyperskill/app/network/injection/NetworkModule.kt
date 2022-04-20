@@ -16,6 +16,7 @@ import io.ktor.client.features.logging.SIMPLE
 import io.ktor.client.request.forms.submitForm
 import io.ktor.http.URLProtocol
 import io.ktor.http.Parameters
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.datetime.Clock
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -23,6 +24,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import org.hyperskill.app.auth.remote.source.BearerTokenHttpClientPlugin
 import org.hyperskill.app.auth.cache.AuthCacheKeyValues
+import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.auth.remote.model.AuthResponse
 import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.core.remote.UserAgentInfo
@@ -71,7 +73,8 @@ object NetworkModule {
     fun provideAuthorizedClient(
         userAgentInfo: UserAgentInfo,
         json: Json,
-        settings: Settings
+        settings: Settings,
+        authorizationFlow: MutableSharedFlow<UserDeauthorized>
     ): HttpClient =
         HttpClient {
             val tokenClient = provideClient(
@@ -138,6 +141,9 @@ object NetworkModule {
                         val expireMillis = (authResponse.expiresIn - 50) * 1000
                         delta > expireMillis
                     }
+                }
+                tokenFailureReporter = {
+                    authorizationFlow.tryEmit(UserDeauthorized)
                 }
             }
         }
