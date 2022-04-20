@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.ui
+package org.hyperskill.app.android.core.view.ui.dialog
 
 import android.app.Dialog
 import android.os.Bundle

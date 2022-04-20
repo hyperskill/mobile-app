@@ -20,7 +20,7 @@ import org.hyperskill.app.android.auth.presentation.AuthSocialViewModel
 import org.hyperskill.app.android.auth.view.ui.adapter.delegates.AuthSocialAdapterDelegate
 import org.hyperskill.app.android.auth.view.ui.model.AuthSocialCardInfo
 import org.hyperskill.app.android.databinding.FragmentAuthSocialBinding
-import org.hyperskill.app.android.ui.LoadingProgressDialogFragment
+import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.auth.view.ui.screen.AuthEmailScreen
 import org.hyperskill.app.android.main.view.ui.activity.MainActivity
 import org.hyperskill.app.auth.presentation.AuthFeature
@@ -48,7 +48,7 @@ class AuthSocialFragment :
     private lateinit var viewStateDelegate: ViewStateDelegate<AuthFeature.State>
     private val authMaterialCardViewsAdapter: DefaultDelegateAdapter<AuthSocialCardInfo> = DefaultDelegateAdapter()
 
-    private val loadingProgressDialogFragment = LoadingProgressDialogFragment()
+    private val loadingProgressDialogFragment = LoadingProgressDialogFragment.newInstance()
 
     private val signInWithGoogleCallback = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { res ->
         val task = GoogleSignIn.getSignedInAccountFromIntent(res.data)
