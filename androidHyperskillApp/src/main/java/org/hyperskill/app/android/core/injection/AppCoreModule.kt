@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.ResourceProviderImpl
-import org.hyperskill.app.network.injection.NetworkDataBuilder
+import org.hyperskill.app.auth.injection.AuthDataBuilder
 import ru.nobird.android.view.injection.base.presentation.DaggerViewModelFactory
 import javax.inject.Singleton
 
@@ -29,6 +29,6 @@ abstract class AppCoreModule {
         @JvmStatic
         @Singleton
         fun provideAuthorizationFlow(): Flow<UserDeauthorized> =
-            NetworkDataBuilder.provideAuthorizationFlow()
+            AuthDataBuilder.provideAuthorizationFlow()
     }
 }
