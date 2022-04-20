@@ -17,9 +17,9 @@ class AuthReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
-            is Message.AuthWithGoogle ->
+            is Message.AuthWithSocial ->
                 if (state is State.Idle || state is State.Error) {
-                    State.Loading to setOf(Action.AuthWithGoogle(message.accessToken))
+                    State.Loading to setOf(Action.AuthWithSocial(message.authCode, message.socialProvider))
                 } else {
                     null
                 }

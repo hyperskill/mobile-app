@@ -9,5 +9,5 @@ data class AuthResponse(
     @SerialName("expires_in") val expiresIn: Int,
     @SerialName("refresh_token") val refreshToken: String,
     @SerialName("token_type") val tokenType: String,
-    @SerialName("scope")  val scope: String
+    @SerialName("scope") val scope: String
 )

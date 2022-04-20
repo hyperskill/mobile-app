@@ -2,11 +2,11 @@ package org.hyperskill.app.auth.remote.source
 
 import io.ktor.client.HttpClient
 import io.ktor.client.features.HttpClientFeature
-import io.ktor.client.features.feature
 import io.ktor.client.features.HttpSend
-import io.ktor.http.HttpStatusCode
+import io.ktor.client.features.feature
 import io.ktor.client.request.HttpRequestPipeline
 import io.ktor.client.request.header
+import io.ktor.http.HttpStatusCode
 import io.ktor.util.AttributeKey
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock

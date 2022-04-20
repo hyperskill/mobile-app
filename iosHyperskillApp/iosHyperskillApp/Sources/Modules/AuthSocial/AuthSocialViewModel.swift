@@ -2,51 +2,39 @@ import GoogleSignIn
 import shared
 import SwiftUI
 
-enum SocialAuthProvider: String, CaseIterable {
-    case jetbrains
-    case google
-    case github
-    case apple
-}
-
 final class AuthSocialViewModel: FeatureViewModel<AuthFeatureState, AuthFeatureMessage, AuthFeatureActionViewAction> {
-    let availableSocialAuthProviders = SocialAuthProvider.allCases
+    private let socialAuthService: SocialAuthServiceProtocol
 
-    func signInWithSocialAuthProvider(_ provider: SocialAuthProvider) {
-        switch provider {
-        case .jetbrains:
-            break
-        case .google:
-            guard let currentRootViewController = UIApplication.shared.currentRootViewController else {
-                return
-            }
+    let availableSocialAuthProviders = SocialAuthProvider.allCases.filter(\.isSupported)
 
-            if GIDSignIn.sharedInstance.hasPreviousSignIn() {
-                GIDSignIn.sharedInstance.signOut()
-            }
+    init(socialAuthService: SocialAuthServiceProtocol, feature: Presentation_reduxFeature) {
+        self.socialAuthService = socialAuthService
+        super.init(feature: feature)
+    }
 
-            GIDSignIn.sharedInstance.signIn(
-                with: GIDConfiguration(
-                    clientID: GoogleServiceInfo.clientID,
-                    serverClientID: GoogleServiceInfo.serverClientID
-                ),
-                presenting: currentRootViewController
-            ) { user, error in
-                if let error = error {
-                    self.showAuthError(message: error.localizedDescription)
-                } else if let serverAuthCode = user?.serverAuthCode {
-                    self.onNewMessage(AuthFeatureMessageAuthWithGoogle(accessToken: serverAuthCode))
-                } else {
-                    self.showAuthError(message: "error missing serverAuthCode")
+    func signIn(with provider: SocialAuthProvider) {
+        Task {
+            do {
+                let response = try await self.socialAuthService.signIn(with: provider)
+
+                guard let authCode = response.authCode ?? response.socialToken else {
+                    throw SocialAuthError.accessDenied
                 }
+
+                let message = AuthFeatureMessageAuthWithSocial(
+                    authCode: authCode,
+                    socialProvider: provider.sharedType
+                )
+
+                self.onNewMessage(message)
+            } catch {
+                print("AuthSocialViewModel :: signIn error = \(error)")
+                await self.showAuthError(message: error.localizedDescription)
             }
-        case .github:
-            break
-        case .apple:
-            break
         }
     }
 
+    @MainActor
     private func showAuthError(message: String) {
         let viewAction = AuthFeatureActionViewActionShowAuthError(errorMsg: message)
         self.onViewAction?(viewAction)

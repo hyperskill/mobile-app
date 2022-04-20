@@ -24,12 +24,12 @@ class AuthActionDispatcher(
 
                 onNewMessage(message)
             }
-            is Action.AuthWithGoogle -> {
-                val result = authInteractor.authWithCode(action.accessToken)
+            is Action.AuthWithSocial -> {
+                val result = authInteractor.authWithSocial(action.authCode, action.socialProvider)
 
                 val message =
                     result
-                        .map { Message.AuthSuccess(action.accessToken) }
+                        .map { Message.AuthSuccess(action.authCode) }
                         .getOrElse {
                             Message.AuthError(errorMsg = it.message ?: "")
                         }

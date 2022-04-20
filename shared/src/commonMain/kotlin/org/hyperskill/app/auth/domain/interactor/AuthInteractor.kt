@@ -1,6 +1,7 @@
 package org.hyperskill.app.auth.domain.interactor
 
 import kotlinx.coroutines.flow.Flow
+import org.hyperskill.app.auth.domain.model.SocialAuthProvider
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.auth.domain.repository.AuthRepository
 
@@ -10,8 +11,8 @@ class AuthInteractor(
     fun observeUserDeauthorization(): Flow<UserDeauthorized> =
         authRepository.observeUserDeauthorization()
 
-    suspend fun authWithCode(code: String): Result<Unit> =
-        authRepository.authWithCode(code)
+    suspend fun authWithSocial(authCode: String, socialProvider: SocialAuthProvider): Result<Unit> =
+        authRepository.authWithSocial(authCode, socialProvider)
 
     suspend fun authWithEmail(email: String, password: String): Result<Unit> =
         authRepository.authWithEmail(email, password)

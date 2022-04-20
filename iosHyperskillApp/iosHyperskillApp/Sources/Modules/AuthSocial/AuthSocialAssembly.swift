@@ -4,7 +4,7 @@ import SwiftUI
 final class AuthSocialAssembly: Assembly {
     func makeModule() -> AuthSocialView {
         let authFeature = AuthFeatureBuilder.shared.build(authInteractor: .default)
-        let authSocialViewModel = AuthSocialViewModel(feature: authFeature)
+        let authSocialViewModel = AuthSocialViewModel(socialAuthService: SocialAuthService.shared, feature: authFeature)
         return AuthSocialView(viewModel: authSocialViewModel)
     }
 }

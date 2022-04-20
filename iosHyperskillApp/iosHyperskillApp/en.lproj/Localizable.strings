@@ -1,1 +1,4 @@
-
+/* WebControllerManager */
+Alert = "Alert";
+Confirm = "Confirm action";
+Prompt = "Enter data";

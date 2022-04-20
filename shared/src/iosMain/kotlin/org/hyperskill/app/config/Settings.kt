@@ -1,4 +1,4 @@
-package org.hyperskill.app
+package org.hyperskill.app.config
 
 import com.russhwolf.settings.AppleSettings
 import com.russhwolf.settings.Settings
