@@ -33,11 +33,11 @@ final class AuthSocialViewModel: FeatureViewModel<AuthFeatureState, AuthFeatureM
                 presenting: currentRootViewController
             ) { user, error in
                 if let error = error {
-                    print("GIDSignIn :: error = \(error.localizedDescription)")
+                    self.showAuthError(message: error.localizedDescription)
                 } else if let serverAuthCode = user?.serverAuthCode {
                     self.onNewMessage(AuthFeatureMessageAuthWithGoogle(accessToken: serverAuthCode))
                 } else {
-                    print("GIDSignIn :: error missing serverAuthCode")
+                    self.showAuthError(message: "error missing serverAuthCode")
                 }
             }
         case .github:
@@ -45,5 +45,10 @@ final class AuthSocialViewModel: FeatureViewModel<AuthFeatureState, AuthFeatureM
         case .apple:
             break
         }
+    }
+
+    private func showAuthError(message: String) {
+        let viewAction = AuthFeatureActionViewActionShowAuthError(errorMsg: message)
+        self.onViewAction?(viewAction)
     }
 }

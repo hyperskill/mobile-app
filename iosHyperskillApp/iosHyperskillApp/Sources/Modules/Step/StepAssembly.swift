@@ -14,7 +14,8 @@ final class StepAssembly: Assembly {
                 httpClient: NetworkModule.shared.provideAuthorizedClient(
                     userAgentInfo: UserAgentBuilder.userAgentInfo,
                     json: NetworkModule.shared.provideJson(),
-                    settings: Settings.shared.makeAppleSettings(userDefaults: UserDefaults.standard)
+                    settings: Settings.shared.makeAppleSettings(userDefaults: UserDefaults.standard),
+                    authorizationFlow: AuthDataBuilder.sharedAuthorizationFlow
                 )
             )
         )

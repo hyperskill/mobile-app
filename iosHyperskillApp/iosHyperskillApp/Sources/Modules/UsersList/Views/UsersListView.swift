@@ -60,6 +60,10 @@ struct UsersListView: View {
 
     private func handleViewAction(_ viewAction: UsersListFeatureActionViewAction) {
         print("UsersListView :: \(#function) viewAction = \(viewAction)")
+
+        if viewAction is UsersListFeatureActionViewActionShowNetworkError {
+            ProgressHUD.showError()
+        }
     }
 
     private func searchButtonPressed() {

@@ -13,6 +13,7 @@ target 'iosHyperskillApp' do
   pod 'GoogleSignIn', '6.1.0'
 
   pod 'IQKeyboardManagerSwift', '6.5.9'
+  pod 'SVProgressHUD', '2.2.5'
 end
 
 post_install do |installer|

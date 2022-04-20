@@ -3,12 +3,27 @@ import SwiftUI
 
 final class AuthSocialAssembly: Assembly {
     func makeModule() -> AuthSocialView {
+        let authFeature = AuthFeatureBuilder.shared.build(authInteractor: .default)
+        let authSocialViewModel = AuthSocialViewModel(feature: authFeature)
+        return AuthSocialView(viewModel: authSocialViewModel)
+    }
+}
+
+extension AuthInteractor {
+    static var `default`: AuthInteractor {
         let authRepository = AuthRepositoryImpl(
             authCacheDataSource: AuthCacheDataSourceImpl(
                 settings: Settings.shared.makeAppleSettings(userDefaults: UserDefaults.standard)
             ),
             authRemoteDataSource: AuthRemoteDataSourceImpl(
-                authHttpClient: NetworkModule.shared.provideAuthClient(
+                deauthorizationFlow: AuthDataBuilder.sharedAuthorizationFlow,
+                authSocialHttpClient: NetworkModule.shared.provideClient(
+                    networkClientType: .social,
+                    userAgentInfo: UserAgentBuilder.userAgentInfo,
+                    json: NetworkModule.shared.provideJson()
+                ),
+                authCredentialsHttpClient: NetworkModule.shared.provideClient(
+                    networkClientType: .credentials,
                     userAgentInfo: UserAgentBuilder.userAgentInfo,
                     json: NetworkModule.shared.provideJson()
                 ),
@@ -16,11 +31,10 @@ final class AuthSocialAssembly: Assembly {
                 settings: Settings.shared.makeAppleSettings(userDefaults: UserDefaults.standard)
             )
         )
-        let authInteractor = AuthInteractor(authRepository: authRepository)
-        let authFeature = AuthFeatureBuilder.shared.build(authInteractor: authInteractor)
-
-        let authSocialViewModel = AuthSocialViewModel(feature: authFeature)
-
-        return AuthSocialView(viewModel: authSocialViewModel)
+        return AuthInteractor(authRepository: authRepository)
     }
+}
+
+extension AuthDataBuilder {
+    static let sharedAuthorizationFlow = AuthDataBuilder.shared.provideAuthorizationFlow()
 }
