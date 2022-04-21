@@ -1,7 +1,7 @@
 [versions]
 androidGradlePlugin = '7.1.0'
 kotlin = '1.6.0'
-kotlinCoroutines = '1.6.0-native-mt'
+kotlinCoroutines = { strictly = '1.6.0-native-mt' }
 ktor = '2.0.0'
 mokoResources = "0.19.0"
 ktlintRules = '1.0.0'
