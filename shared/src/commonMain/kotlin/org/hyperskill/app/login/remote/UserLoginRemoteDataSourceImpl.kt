@@ -1,6 +1,7 @@
 package org.hyperskill.app.login.remote
 
 import io.ktor.client.HttpClient
+import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.statement.HttpResponse
@@ -15,10 +16,11 @@ class UserLoginRemoteDataSourceImpl(
     override suspend fun loginUser(login: String, password: String) {
         kotlin.runCatching {
             val response = httpClient
-                .get<UsersResponse>("https://api.github.com/search/users?q=kek&page=1&per_page=20")
+                .get("https://api.github.com/search/users?q=kek&page=1&per_page=20")
+                .body<UsersResponse>()
                 .items
 
-            httpClient.post<UsersResponse>("https://api.github.com/search/users?q=kek&page=1&per_page=20") {
+            httpClient.post("https://api.github.com/search/users?q=kek&page=1&per_page=20") {
                 this.body
             }
         }

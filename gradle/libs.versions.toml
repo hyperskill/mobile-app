@@ -1,8 +1,8 @@
 [versions]
 androidGradlePlugin = '7.1.0'
 kotlin = '1.6.0'
-kotlinCoroutines = '1.6.0-native-mt'
-ktor = '1.6.7'
+kotlinCoroutines = { strictly = '1.6.0-native-mt' }
+ktor = '2.0.0'
 mokoResources = "0.19.0"
 ktlintRules = '1.0.0'
 adapters = '1.1.1'
@@ -29,6 +29,8 @@ ktor-serialization = { module = "io.ktor:ktor-client-serialization", version.ref
 ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-android = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-ios = { module = "io.ktor:ktor-client-ios", version.ref = "ktor" }
+ktor-contentNegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 
 kit-model = { module = "ru.nobird.app.core:model", version = "1.0.8" }
 kit-presentation-redux = { module = "ru.nobird.app.presentation:presentation-redux", version.ref = "kitPresentationRedux" }
@@ -66,5 +68,5 @@ android-security = { module = "androidx.security:security-crypto", version = "1.
 material-progress-bar = { module = "me.zhanghai.android.materialprogressbar:library", version = "1.6.1" }
 
 [bundles]
-ktor-common = ['ktor-core', 'ktor-auth', 'ktor-serialization', 'ktor-logging']
+ktor-common = ['ktor-core', 'ktor-auth', 'ktor-serialization', 'ktor-logging', 'ktor-contentNegotiation', 'ktor-serialization-json']
 android-test = ['android-test-junit', 'android-test-runner', 'android-test-robolectric']
