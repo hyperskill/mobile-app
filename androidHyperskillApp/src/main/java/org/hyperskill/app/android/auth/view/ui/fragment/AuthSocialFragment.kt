@@ -13,23 +13,22 @@ import com.google.android.gms.common.Scopes
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Scope
 import com.google.android.material.snackbar.Snackbar
+import javax.inject.Inject
 import org.hyperskill.app.android.BuildConfig
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.presentation.AuthSocialViewModel
 import org.hyperskill.app.android.auth.view.ui.adapter.delegates.AuthSocialAdapterDelegate
 import org.hyperskill.app.android.auth.view.ui.model.AuthSocialCardInfo
-import org.hyperskill.app.android.databinding.FragmentAuthSocialBinding
-import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.auth.view.ui.screen.AuthEmailScreen
+import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
+import org.hyperskill.app.android.databinding.FragmentAuthSocialBinding
 import org.hyperskill.app.android.main.view.ui.activity.MainActivity
 import org.hyperskill.app.auth.domain.model.SocialAuthProvider
 import org.hyperskill.app.auth.presentation.AuthSocialFeature
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
-import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
-import javax.inject.Inject
 
 class AuthSocialFragment :
     Fragment(R.layout.fragment_auth_social),
