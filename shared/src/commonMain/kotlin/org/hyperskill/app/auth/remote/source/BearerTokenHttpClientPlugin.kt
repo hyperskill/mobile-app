@@ -1,9 +1,9 @@
 package org.hyperskill.app.auth.remote.source
 
 import io.ktor.client.HttpClient
-import io.ktor.client.features.HttpClientFeature
-import io.ktor.client.features.HttpSend
-import io.ktor.client.features.feature
+import io.ktor.client.plugins.plugin
+import io.ktor.client.plugins.HttpSend
+import io.ktor.client.plugins.HttpClientPlugin
 import io.ktor.client.request.HttpRequestPipeline
 import io.ktor.client.request.header
 import io.ktor.http.HttpStatusCode
@@ -36,45 +36,46 @@ class BearerTokenHttpClientPlugin(
             )
     }
 
-    companion object Feature : HttpClientFeature<Config, BearerTokenHttpClientPlugin> {
+    companion object Plugin : HttpClientPlugin<Config, BearerTokenHttpClientPlugin> {
         private val refreshTokenMutex = Mutex()
 
-        override val key = AttributeKey<BearerTokenHttpClientPlugin>("TokenFeature")
+        override val key = AttributeKey<BearerTokenHttpClientPlugin>("Tokenplugin")
 
         override fun prepare(block: Config.() -> Unit): BearerTokenHttpClientPlugin =
             Config().apply(block).build()
 
-        override fun install(feature: BearerTokenHttpClientPlugin, scope: HttpClient) {
+        override fun install(plugin: BearerTokenHttpClientPlugin, scope: HttpClient) {
             scope.requestPipeline.intercept(HttpRequestPipeline.State) {
                 refreshTokenMutex.withLock {
                     // Check token expiration - if it is expired, update it
-                    if (feature.tokenExpirationChecker.invoke()) {
+                    if (plugin.tokenExpirationChecker.invoke()) {
                         // Check if refresh is successful
-                        if (!feature.tokenUpdater.invoke()) {
-                            feature.tokenFailureReporter.invoke()
+                        if (!plugin.tokenUpdater.invoke()) {
+                            plugin.tokenFailureReporter.invoke()
                             return@withLock
                         }
                     }
 
-                    val token = feature.tokenProvider.invoke()
+                    val token = plugin.tokenProvider.invoke()
 
                     if (token == null) {
-                        feature.tokenFailureReporter.invoke()
+                        plugin.tokenFailureReporter.invoke()
                         return@withLock
                     }
 
-                    context.headers.remove(feature.tokenHeaderName)
-                    context.header(feature.tokenHeaderName, buildBearerHeader(token))
+                    context.headers.remove(plugin.tokenHeaderName)
+                    context.header(plugin.tokenHeaderName, buildBearerHeader(token))
                 }
             }
 
-            val circuitBreaker = AttributeKey<Unit>("TokenFeature_circuitBreaker")
-            scope.feature(HttpSend)!!.intercept { httpClientCall, _ ->
-                if (httpClientCall.response.status != HttpStatusCode.Unauthorized) return@intercept httpClientCall
-                if (httpClientCall.request.attributes.contains(circuitBreaker)) return@intercept httpClientCall
+            val circuitBreaker = AttributeKey<Unit>("Tokenplugin_circuitBreaker")
+            scope.plugin(HttpSend).intercept { context ->
+                val origin = execute(context)
+                if (origin.response.status != HttpStatusCode.Unauthorized) return@intercept origin
+                if (origin.request.attributes.contains(circuitBreaker)) return@intercept origin
 
-                feature.tokenFailureReporter.invoke()
-                return@intercept httpClientCall
+                plugin.tokenFailureReporter.invoke()
+                return@intercept origin
             }
         }
 

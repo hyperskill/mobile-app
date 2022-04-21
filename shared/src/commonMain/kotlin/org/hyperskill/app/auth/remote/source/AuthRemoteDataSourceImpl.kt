@@ -2,6 +2,7 @@ package org.hyperskill.app.auth.remote.source
 
 import com.russhwolf.settings.Settings
 import io.ktor.client.HttpClient
+import io.ktor.client.call.body
 import io.ktor.client.request.forms.submitForm
 import io.ktor.http.Parameters
 import kotlinx.coroutines.flow.Flow
@@ -36,7 +37,7 @@ class AuthRemoteDataSourceImpl(
     private suspend fun authWithSocialToken(authCode: String, providerName: String): Result<Unit> =
         kotlin.runCatching {
             authSocialHttpClient
-                .submitForm<AuthResponse>(
+                .submitForm(
                     url = "/oauth2/social-token/",
                     formParameters = Parameters.build {
                         append("provider", providerName)
@@ -44,34 +45,34 @@ class AuthRemoteDataSourceImpl(
                         append("grant_type", "authorization_code")
                         append("redirect_uri", BuildKonfig.REDIRECT_URI)
                     }
-                ).also { authResponse ->
-                    settings.putString(AuthCacheKeyValues.AUTH_RESPONSE, json.encodeToString(authResponse))
-                    settings.putLong(AuthCacheKeyValues.AUTH_ACCESS_TOKEN_TIMESTAMP, Clock.System.now().epochSeconds)
-                    settings.putInt(AuthCacheKeyValues.AUTH_SOCIAL_ORDINAL, NetworkClientType.SOCIAL.ordinal)
+                )
+                .body<AuthResponse>()
+                .also { authResponse ->
+                    cacheAuthResponseInformation(authResponse, NetworkClientType.SOCIAL)
                 }
         }
 
     private suspend fun authWithCode(authCode: String): Result<Unit> =
         kotlin.runCatching {
             authSocialHttpClient
-                .submitForm<AuthResponse>(
+                .submitForm(
                     url = "/oauth2/token/",
                     formParameters = Parameters.build {
                         append("code", authCode)
                         append("grant_type", "authorization_code")
                         append("redirect_uri", BuildKonfig.REDIRECT_URI)
                     }
-                ).also { authResponse ->
-                    settings.putString(AuthCacheKeyValues.AUTH_RESPONSE, json.encodeToString(authResponse))
-                    settings.putLong(AuthCacheKeyValues.AUTH_ACCESS_TOKEN_TIMESTAMP, Clock.System.now().epochSeconds)
-                    settings.putInt(AuthCacheKeyValues.AUTH_SOCIAL_ORDINAL, NetworkClientType.SOCIAL.ordinal)
+                )
+                .body<AuthResponse>()
+                .also { authResponse ->
+                    cacheAuthResponseInformation(authResponse, NetworkClientType.SOCIAL)
                 }
         }
 
     override suspend fun authWithEmail(email: String, password: String): Result<Unit> =
         kotlin.runCatching {
             authCredentialsHttpClient
-                .submitForm<AuthResponse>(
+                .submitForm(
                     url = "/oauth2/token/",
                     formParameters = Parameters.build {
                         append("username", email)
@@ -79,10 +80,16 @@ class AuthRemoteDataSourceImpl(
                         append("grant_type", "password")
                         append("redirect_uri", BuildKonfig.REDIRECT_URI)
                     }
-                ).also { authResponse ->
-                    settings.putString(AuthCacheKeyValues.AUTH_RESPONSE, json.encodeToString(authResponse))
-                    settings.putLong(AuthCacheKeyValues.AUTH_ACCESS_TOKEN_TIMESTAMP, Clock.System.now().epochSeconds)
-                    settings.putInt(AuthCacheKeyValues.AUTH_SOCIAL_ORDINAL, NetworkClientType.CREDENTIALS.ordinal)
+                )
+                .body<AuthResponse>()
+                .also { authResponse ->
+                    cacheAuthResponseInformation(authResponse, NetworkClientType.CREDENTIALS)
                 }
         }
+
+    private fun cacheAuthResponseInformation(authResponse: AuthResponse, networkClientType: NetworkClientType) {
+        settings.putString(AuthCacheKeyValues.AUTH_RESPONSE, json.encodeToString(authResponse))
+        settings.putLong(AuthCacheKeyValues.AUTH_ACCESS_TOKEN_TIMESTAMP, Clock.System.now().epochSeconds)
+        settings.putInt(AuthCacheKeyValues.AUTH_SOCIAL_ORDINAL, networkClientType.ordinal)
+    }
 }

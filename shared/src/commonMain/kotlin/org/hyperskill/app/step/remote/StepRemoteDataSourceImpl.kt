@@ -1,6 +1,7 @@
 package org.hyperskill.app.step.remote
 
 import io.ktor.client.HttpClient
+import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.request.parameter
@@ -14,10 +15,9 @@ class StepRemoteDataSourceImpl(
     override suspend fun getSteps(stepIds: List<Long>): Result<List<Step>> =
         kotlin.runCatching {
             httpClient
-                .get<StepResponse>("/api/steps") {
+                .get("/api/steps") {
                     header("Content-Type", "application/json")
                     parameter("ids", stepIds.joinToString(separator = ","))
-                }
-                .steps
+                }.body<StepResponse>().steps
         }
 }
