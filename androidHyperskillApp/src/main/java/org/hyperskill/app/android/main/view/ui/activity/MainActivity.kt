@@ -4,10 +4,13 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
+import kotlinx.coroutines.flow.collectLatest
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.auth.view.ui.fragment.AuthFragment
 import org.hyperskill.app.android.auth.view.ui.screen.AuthScreen
 import org.hyperskill.app.android.core.view.ui.navigation.AppNavigationContainer
 import org.hyperskill.app.android.databinding.ActivityMainBinding
@@ -17,6 +20,7 @@ import org.hyperskill.app.main.presentation.AppFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.resolveColorAttribute
 import ru.nobird.android.view.navigation.navigator.NestedAppNavigator
+import ru.nobird.android.view.navigation.router.observeResult
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 import javax.inject.Inject
@@ -55,6 +59,12 @@ class MainActivity :
         setContentView(viewBinding.root)
         initViewStateDelegate()
         mainViewModelProvider.onNewMessage(AppFeature.Message.AppStarted)
+
+        lifecycleScope.launchWhenCreated {
+            router
+                .observeResult(AuthFragment.AUTH_SUCCESS)
+                .collectLatest { router.newRootScreen(HomeScreen) }
+        }
     }
 
     private fun injectComponent() {

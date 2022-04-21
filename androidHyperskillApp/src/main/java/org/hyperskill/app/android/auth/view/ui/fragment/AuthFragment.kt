@@ -23,8 +23,4 @@ class AuthFragment : FlowFragment() {
     private fun initNavigation() {
         router.newRootScreen(AuthSocialScreen)
     }
-
-    interface Callback {
-        fun onAuthSuccess()
-    }
 }
