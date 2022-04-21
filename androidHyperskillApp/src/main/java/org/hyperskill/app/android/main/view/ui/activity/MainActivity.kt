@@ -2,6 +2,7 @@ package org.hyperskill.app.android.main.view.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
@@ -9,8 +10,11 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.view.ui.screen.AuthScreen
 import org.hyperskill.app.android.databinding.ActivityMainBinding
+import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.presentation.MainViewModel
 import org.hyperskill.app.main.presentation.AppFeature
+import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
+import ru.nobird.android.view.base.ui.extension.resolveColorAttribute
 import ru.nobird.android.view.navigation.navigator.NestedAppNavigator
 import ru.nobird.android.view.navigation.ui.fragment.NavigationContainer
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -26,6 +30,7 @@ class MainActivity :
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    private val viewStateDelegate: ViewStateDelegate<AppFeature.State> = ViewStateDelegate()
     private val mainViewModelProvider: MainViewModel by reduxViewModel(this) { viewModelFactory }
     private val localCicerone: Cicerone<Router> = Cicerone.create()
     override val router: Router = localCicerone.router
@@ -48,10 +53,8 @@ class MainActivity :
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         injectComponent()
         setContentView(viewBinding.root)
-
-        if (savedInstanceState == null) {
-            initNavigation()
-        }
+        initViewStateDelegate()
+        mainViewModelProvider.onNewMessage(AppFeature.Message.AppStarted)
     }
 
     private fun injectComponent() {
@@ -62,8 +65,10 @@ class MainActivity :
             .inject(this)
     }
 
-    private fun initNavigation() {
-        router.newRootScreen(AuthScreen)
+    private fun initViewStateDelegate() {
+        viewStateDelegate.addState<AppFeature.State.Idle>(viewBinding.mainSplash.root)
+        viewStateDelegate.addState<AppFeature.State.Loading>(viewBinding.mainSplash.root)
+        viewStateDelegate.addState<AppFeature.State.Ready>(viewBinding.mainNavigationContainer)
     }
 
     override fun onResumeFragments() {
@@ -76,7 +81,23 @@ class MainActivity :
         super.onPause()
     }
 
-    override fun onAction(action: AppFeature.Action.ViewAction) {}
+    override fun onAction(action: AppFeature.Action.ViewAction) {
+        when (action) {
+            is AppFeature.Action.ViewAction.NavigateTo.AuthScreen ->
+                router.newRootScreen(AuthScreen)
+            is AppFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
+                router.newRootScreen(HomeScreen)
+            }
+        }
+    }
 
-    override fun render(state: AppFeature.State) {}
+    override fun render(state: AppFeature.State) {
+        viewStateDelegate.switchState(state)
+        when (state) {
+            is AppFeature.State.Idle, AppFeature.State.Loading ->
+                window.statusBarColor = ContextCompat.getColor(this, R.color.color_black_900)
+            is AppFeature.State.Ready ->
+                window.statusBarColor = resolveColorAttribute(R.attr.colorPrimaryVariant)
+        }
+    }
 }
