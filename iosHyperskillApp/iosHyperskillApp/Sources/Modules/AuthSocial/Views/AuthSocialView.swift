@@ -12,8 +12,6 @@ struct AuthSocialView: View {
 
     @ObservedObject private var viewModel: AuthSocialViewModel
 
-    @State private var presentingContinueWithEmail = false
-
     init(viewModel: AuthSocialViewModel, appearance: Appearance = Appearance()) {
         self.viewModel = viewModel
         self.appearance = appearance
@@ -23,9 +21,9 @@ struct AuthSocialView: View {
     var body: some View {
         let state = viewModel.state
 
-        if state is AuthFeatureStateLoading {
+        if state is AuthSocialFeatureStateLoading {
             ProgressHUD.show()
-        } else if state is AuthFeatureStateAuthenticated {
+        } else if state is AuthSocialFeatureStateAuthenticated {
             ProgressHUD.showSuccess()
         }
 
@@ -36,11 +34,8 @@ struct AuthSocialView: View {
             AuthSocialControlsView(
                 socialAuthProviders: viewModel.availableSocialAuthProviders,
                 onSocialAuthProviderClick: viewModel.signIn(with:),
-                onContinueWithEmailClick: { presentingContinueWithEmail = true }
+                onContinueWithEmailClick: { print("presentingContinueWithEmail") }
             )
-            .fullScreenCover(isPresented: $presentingContinueWithEmail) {
-                AuthEmailView(presentingContinueWithEmail: $presentingContinueWithEmail)
-            }
         }
         .onAppear(perform: viewModel.startListening)
         .onDisappear(perform: viewModel.stopListening)
@@ -48,9 +43,9 @@ struct AuthSocialView: View {
 
     // MARK: Private API
 
-    private func handleViewAction(_ viewAction: AuthFeatureActionViewAction) {
-        if let showAuthErrorViewAction = viewAction as? AuthFeatureActionViewActionShowAuthError {
-            ProgressHUD.showError(status: showAuthErrorViewAction.errorMsg)
+    private func handleViewAction(_ viewAction: AuthSocialFeatureActionViewAction) {
+        if viewAction is AuthSocialFeatureActionViewActionShowAuthError {
+            ProgressHUD.showError()
         }
     }
 }

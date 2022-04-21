@@ -3,18 +3,16 @@ import SwiftUI
 
 final class AuthSocialAssembly: Assembly {
     func makeModule() -> AuthSocialView {
-        let authFeature = AuthFeatureBuilder.shared.build(authInteractor: .default)
-        let authSocialViewModel = AuthSocialViewModel(socialAuthService: SocialAuthService.shared, feature: authFeature)
-        return AuthSocialView(viewModel: authSocialViewModel)
+        let feature = AuthSocialFeatureBuilder.shared.build(authInteractor: .default)
+        let viewModel = AuthSocialViewModel(socialAuthService: SocialAuthService.shared, feature: feature)
+        return AuthSocialView(viewModel: viewModel)
     }
 }
 
 extension AuthInteractor {
     static var `default`: AuthInteractor {
         let authRepository = AuthRepositoryImpl(
-            authCacheDataSource: AuthCacheDataSourceImpl(
-                settings: Settings.shared.makeAppleSettings(userDefaults: UserDefaults.standard)
-            ),
+            authCacheDataSource: AuthCacheDataSourceImpl(settings: Settings.default),
             authRemoteDataSource: AuthRemoteDataSourceImpl(
                 deauthorizationFlow: AuthDataBuilder.sharedAuthorizationFlow,
                 authSocialHttpClient: NetworkModule.shared.provideClient(
@@ -28,13 +26,9 @@ extension AuthInteractor {
                     json: NetworkModule.shared.provideJson()
                 ),
                 json: NetworkModule.shared.provideJson(),
-                settings: Settings.shared.makeAppleSettings(userDefaults: UserDefaults.standard)
+                settings: Settings.default
             )
         )
         return AuthInteractor(authRepository: authRepository)
     }
-}
-
-extension AuthDataBuilder {
-    static let sharedAuthorizationFlow = AuthDataBuilder.shared.provideAuthorizationFlow()
 }

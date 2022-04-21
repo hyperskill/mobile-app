@@ -1,8 +1,11 @@
-import GoogleSignIn
 import shared
 import SwiftUI
 
-final class AuthSocialViewModel: FeatureViewModel<AuthFeatureState, AuthFeatureMessage, AuthFeatureActionViewAction> {
+final class AuthSocialViewModel: FeatureViewModel<
+  AuthSocialFeatureState,
+  AuthSocialFeatureMessage,
+  AuthSocialFeatureActionViewAction
+> {
     private let socialAuthService: SocialAuthServiceProtocol
 
     let availableSocialAuthProviders = SocialAuthProvider.allCases.filter(\.isSupported)
@@ -21,9 +24,9 @@ final class AuthSocialViewModel: FeatureViewModel<AuthFeatureState, AuthFeatureM
                     throw SocialAuthError.accessDenied
                 }
 
-                let message = AuthFeatureMessageAuthWithSocial(
+                let message = AuthSocialFeatureMessageAuthWithSocial(
                     authCode: authCode,
-                    socialProvider: provider.sharedType
+                    socialAuthProvider: provider.sharedType
                 )
 
                 self.onNewMessage(message)
@@ -36,7 +39,7 @@ final class AuthSocialViewModel: FeatureViewModel<AuthFeatureState, AuthFeatureM
 
     @MainActor
     private func showAuthError(message: String) {
-        let viewAction = AuthFeatureActionViewActionShowAuthError(errorMsg: message)
+        let viewAction = AuthSocialFeatureActionViewActionShowAuthError()
         self.onViewAction?(viewAction)
     }
 }
