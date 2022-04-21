@@ -9,6 +9,7 @@ import com.github.terrakok.cicerone.Router
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.view.ui.screen.AuthScreen
+import org.hyperskill.app.android.core.view.ui.navigation.AppNavigationContainer
 import org.hyperskill.app.android.databinding.ActivityMainBinding
 import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.presentation.MainViewModel
@@ -16,14 +17,13 @@ import org.hyperskill.app.main.presentation.AppFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.resolveColorAttribute
 import ru.nobird.android.view.navigation.navigator.NestedAppNavigator
-import ru.nobird.android.view.navigation.ui.fragment.NavigationContainer
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 import javax.inject.Inject
 
 class MainActivity :
     AppCompatActivity(),
-    NavigationContainer,
+    AppNavigationContainer,
     ReduxView<AppFeature.State, AppFeature.Action.ViewAction> {
     private lateinit var viewBinding: ActivityMainBinding
 
