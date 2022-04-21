@@ -2,20 +2,21 @@ package org.hyperskill.app.network.injection
 
 import com.russhwolf.settings.Settings
 import io.ktor.client.HttpClient
-import io.ktor.client.features.defaultRequest
-import io.ktor.client.features.UserAgent
-import io.ktor.client.features.auth.Auth
-import io.ktor.client.features.auth.providers.BasicAuthCredentials
-import io.ktor.client.features.auth.providers.basic
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.features.json.serializer.KotlinxSerializer
-import io.ktor.client.features.logging.LogLevel
-import io.ktor.client.features.logging.Logger
-import io.ktor.client.features.logging.Logging
-import io.ktor.client.features.logging.SIMPLE
+import io.ktor.client.call.body
+import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.plugins.UserAgent
+import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.auth.providers.basic
+import io.ktor.client.plugins.auth.providers.BasicAuthCredentials
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.plugins.logging.SIMPLE
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.request.forms.submitForm
 import io.ktor.http.URLProtocol
 import io.ktor.http.Parameters
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.datetime.Clock
 import kotlinx.serialization.decodeFromString
@@ -65,8 +66,8 @@ object NetworkModule {
     // TODO Stub, will be removed with user list feature
     fun provideStubClient(json: Json): HttpClient =
         HttpClient {
-            install(JsonFeature) {
-                serializer = KotlinxSerializer(json)
+            install(ContentNegotiation) {
+                json(json)
             }
         }
 
@@ -89,8 +90,8 @@ object NetworkModule {
                     host = BuildKonfig.HOST
                 }
             }
-            install(JsonFeature) {
-                serializer = KotlinxSerializer(json)
+            install(ContentNegotiation) {
+                json(json)
             }
             install(Logging) {
                 logger = Logger.SIMPLE
@@ -108,13 +109,13 @@ object NetworkModule {
                     val refreshToken = getAuthResponse(json, settings)?.refreshToken
                     if (refreshToken != null) {
                         val refreshTokenResult = kotlin.runCatching {
-                            tokenClient.submitForm<AuthResponse>(
+                            tokenClient.submitForm(
                                 url = "/oauth2/token/",
                                 formParameters = Parameters.build {
                                     append("grant_type", "refresh_token")
                                     append("refresh_token", refreshToken)
                                 }
-                            )
+                            ).body<AuthResponse>()
                         }
                         refreshTokenResult.fold(
                             onSuccess = {
@@ -156,8 +157,8 @@ object NetworkModule {
                     host = BuildKonfig.HOST
                 }
             }
-            install(JsonFeature) {
-                serializer = KotlinxSerializer(json)
+            install(ContentNegotiation) {
+                json(json)
             }
             install(Logging) {
                 logger = Logger.SIMPLE

@@ -46,7 +46,6 @@ class AuthSocialFragment :
     private val authSocialViewModel: AuthSocialViewModel by reduxViewModel(this) { viewModelFactory }
 
     private val viewBinding by viewBinding(FragmentAuthSocialBinding::bind)
-    private lateinit var viewStateDelegate: ViewStateDelegate<AuthSocialFeature.State>
     private val authMaterialCardViewsAdapter: DefaultDelegateAdapter<AuthSocialCardInfo> = DefaultDelegateAdapter()
 
     private val loadingProgressDialogFragment = LoadingProgressDialogFragment.newInstance()
@@ -78,7 +77,6 @@ class AuthSocialFragment :
         loadingProgressDialogFragment.show(parentFragmentManager, LoadingProgressDialogFragment.TAG)
         when (social) {
             AuthSocialCardInfo.GOOGLE -> {
-                viewStateDelegate.switchState(AuthSocialFeature.State.Loading)
                 signInWithGoogle()
             }
         }
@@ -86,7 +84,6 @@ class AuthSocialFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewStateDelegate = ViewStateDelegate()
         authMaterialCardViewsAdapter.items = listOf(
             AuthSocialCardInfo.JETBRAINS,
             AuthSocialCardInfo.GOOGLE,
