@@ -5,8 +5,6 @@ extension AuthEmailView {
     struct Appearance {
         let logoSize: CGFloat = 48
 
-        let contentViewInsets = LayoutInsets(horizontal: LayoutInsets.defaultInset).edgeInsets
-
         let continueWithSocialButtonInsets = LayoutInsets(top: 24)
 
         let keyboardDistanceFromTextField: CGFloat = 60
@@ -18,7 +16,7 @@ struct AuthEmailView: View {
 
     @ObservedObject private var viewModel: AuthEmailViewModel
 
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @Environment(\.presentationMode) private var presentationMode
 
     init(viewModel: AuthEmailViewModel, appearance: Appearance = Appearance()) {
         self.viewModel = viewModel
@@ -27,15 +25,13 @@ struct AuthEmailView: View {
     }
 
     var body: some View {
-        AuthAdaptiveContentView(
-            appearance: .init(insets: appearance.contentViewInsets)
-        ) { horizontalSizeClass in
+        AuthAdaptiveContentView { horizontalSizeClass in
             AuthLogoView(logoWidthHeight: appearance.logoSize)
                 .padding(horizontalSizeClass == .regular ? .bottom : .vertical, appearance.logoSize)
 
             AuthEmailFormView()
 
-            Button(Strings.authEmailSocialText, action: { print("presentingContinueWithEmail = false") })
+            Button(Strings.authEmailSocialText, action: { presentationMode.wrappedValue.dismiss() })
                 .buttonStyle(OutlineButtonStyle(style: .violet))
                 .padding(appearance.continueWithSocialButtonInsets.edgeInsets)
         }
@@ -47,6 +43,7 @@ struct AuthEmailView: View {
             viewModel.stopListening()
             KeyboardManager.setDefaultKeyboardDistanceFromTextField()
         }
+        .navigationBarHidden(true)
     }
 
     // MARK: Private API
@@ -60,22 +57,12 @@ struct AuthEmailView_Previews: PreviewProvider {
             AuthEmailAssembly().makeModule()
                 .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro"))
 
-            if #available(iOS 15.0, *) {
-                AuthEmailAssembly().makeModule()
-                    .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro"))
-                    .previewInterfaceOrientation(.landscapeRight)
-            }
             AuthEmailAssembly().makeModule()
                 .previewDevice(PreviewDevice(rawValue: "iPhone SE (3rd generation)"))
+                .preferredColorScheme(.dark)
 
             AuthEmailAssembly().makeModule()
                 .previewDevice(PreviewDevice(rawValue: "iPad (9th generation)"))
         }
-
-        Group {
-            AuthEmailAssembly().makeModule()
-                .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro"))
-        }
-        .preferredColorScheme(.dark)
     }
 }
