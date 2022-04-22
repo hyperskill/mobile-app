@@ -1,6 +1,7 @@
 package org.hyperskill.app.auth.presentation
 
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
+import org.hyperskill.app.auth.domain.model.AuthException
 import org.hyperskill.app.auth.presentation.AuthSocialFeature.Action
 import org.hyperskill.app.auth.presentation.AuthSocialFeature.Message
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
@@ -19,9 +20,14 @@ class AuthSocialActionDispatcher(
                     result
                         .map { Message.AuthSuccess }
                         .getOrElse {
-                            Message.AuthFailure
+                            val errorMessage =
+                                if (it is AuthException) {
+                                    it.errorMessage
+                                } else {
+                                    ""
+                                }
+                            Message.AuthFailure(errorMessage)
                         }
-
                 onNewMessage(message)
             }
         }

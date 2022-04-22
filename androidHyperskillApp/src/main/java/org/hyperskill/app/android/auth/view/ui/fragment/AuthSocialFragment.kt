@@ -107,7 +107,7 @@ class AuthSocialFragment :
                 requireAppRouter()?.sendResult(AuthFragment.AUTH_SUCCESS, Unit)
             }
             is AuthSocialFeature.Action.ViewAction.ShowAuthError -> {
-                Snackbar.make(requireView(), "", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(requireView(), action.errorMessage, Snackbar.LENGTH_LONG).show()
             }
         }
     }
