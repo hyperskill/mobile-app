@@ -11,25 +11,51 @@ extension AuthEmailView {
     }
 }
 
+final class AuthEmailFormState: ObservableObject {
+    @Published var emailText = ""
+    @Published var passwordText = ""
+    @Published var isErrorViewVisible = false
+}
+
 struct AuthEmailView: View {
     let appearance: Appearance
 
     @ObservedObject private var viewModel: AuthEmailViewModel
+    @ObservedObject private var formState: AuthEmailFormState
 
     @Environment(\.presentationMode) private var presentationMode
 
-    init(viewModel: AuthEmailViewModel, appearance: Appearance = Appearance()) {
+    init(
+        viewModel: AuthEmailViewModel,
+        formState: AuthEmailFormState = AuthEmailFormState(),
+        appearance: Appearance = Appearance()
+    ) {
         self.viewModel = viewModel
+        self.formState = formState
         self.appearance = appearance
         self.viewModel.onViewAction = self.handleViewAction(_:)
     }
 
     var body: some View {
-        AuthAdaptiveContentView { horizontalSizeClass in
+        let state = viewModel.state
+
+        if state is AuthCredentialsFeatureStateLoading {
+            ProgressHUD.show()
+        }
+
+        return AuthAdaptiveContentView { horizontalSizeClass in
             AuthLogoView(logoWidthHeight: appearance.logoSize)
                 .padding(horizontalSizeClass == .regular ? .bottom : .vertical, appearance.logoSize)
 
-            AuthEmailFormView()
+            AuthEmailFormView(
+                emailText: $formState.emailText,
+                passwordText: $formState.passwordText,
+                isErrorViewVisible: $formState.isErrorViewVisible,
+                onLogIn: {
+                    viewModel.logIn(email: formState.emailText, password: formState.passwordText)
+                },
+                onResetPassword: viewModel.resetPassword
+            )
 
             Button(Strings.authEmailSocialText, action: { presentationMode.wrappedValue.dismiss() })
                 .buttonStyle(OutlineButtonStyle(style: .violet))
@@ -48,7 +74,14 @@ struct AuthEmailView: View {
 
     // MARK: Private API
 
-    private func handleViewAction(_ viewAction: AuthCredentialsFeatureActionViewAction) {}
+    private func handleViewAction(_ viewAction: AuthCredentialsFeatureActionViewAction) {
+        if viewAction is AuthCredentialsFeatureActionViewActionShowAuthError {
+            ProgressHUD.showError()
+            formState.isErrorViewVisible = true
+        } else if viewAction is AuthCredentialsFeatureActionViewActionNavigateToHomeScreen {
+            ProgressHUD.showSuccess()
+        }
+    }
 }
 
 struct AuthEmailView_Previews: PreviewProvider {

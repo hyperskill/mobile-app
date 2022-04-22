@@ -18,6 +18,7 @@ interface AuthCredentialsFeature {
         data class AuthWithEmail(val email: String, val password: String) : Action
         sealed interface ViewAction : Action {
             object NavigateToHomeScreen : ViewAction
+            object ShowAuthError : ViewAction
         }
     }
 }

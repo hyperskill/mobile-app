@@ -7,17 +7,20 @@ struct RoundedRectangleButtonStyle: ButtonStyle {
     var minHeight: CGFloat = 44
 
     var backgroundColor = Color(ColorPalette.secondary)
+    var backgroundDisabledOpacity = 0.38
     var cornerRadius: CGFloat = 8
 
     var bounceScale: CGFloat = 0.95
     var bounceDuration: TimeInterval = 0.15
+
+    @Environment(\.isEnabled) private var isEnabled
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .foregroundColor(foregroundColor)
             .font(font)
             .frame(maxWidth: .infinity, minHeight: minHeight, alignment: .center)
-            .background(backgroundColor.cornerRadius(cornerRadius))
+            .background(backgroundColor.cornerRadius(cornerRadius).opacity(isEnabled ? 1 : backgroundDisabledOpacity))
             .scaleEffect(configuration.isPressed ? bounceScale : 1)
             .animation(.easeOut(duration: bounceDuration), value: configuration.isPressed)
     }

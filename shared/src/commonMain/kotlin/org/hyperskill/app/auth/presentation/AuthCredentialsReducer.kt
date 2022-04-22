@@ -24,7 +24,7 @@ class AuthCredentialsReducer : StateReducer<State, Message, Action> {
             }
             is Message.AuthFailure -> {
                 if (state is State.Loading) {
-                    State.Error to emptySet()
+                    State.Error to setOf(Action.ViewAction.ShowAuthError)
                 } else {
                     null
                 }
