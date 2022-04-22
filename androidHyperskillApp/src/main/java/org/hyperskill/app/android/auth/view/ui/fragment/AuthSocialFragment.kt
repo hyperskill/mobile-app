@@ -24,7 +24,7 @@ import org.hyperskill.app.android.databinding.FragmentAuthSocialBinding
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.auth.view.ui.screen.AuthEmailScreen
 import org.hyperskill.app.android.core.view.ui.dialog.dismissIfExists
-import org.hyperskill.app.android.core.view.ui.navigation.getAppRouter
+import org.hyperskill.app.android.core.view.ui.navigation.requireAppRouter
 import org.hyperskill.app.android.main.view.ui.activity.MainActivity
 import org.hyperskill.app.auth.domain.model.SocialAuthProvider
 import org.hyperskill.app.auth.presentation.AuthSocialFeature
@@ -104,7 +104,7 @@ class AuthSocialFragment :
     override fun onAction(action: AuthSocialFeature.Action.ViewAction) {
         when (action) {
             is AuthSocialFeature.Action.ViewAction.NavigateToHomeScreen -> {
-                getAppRouter()?.sendResult(AuthFragment.AUTH_SUCCESS, Unit)
+                requireAppRouter()?.sendResult(AuthFragment.AUTH_SUCCESS, Unit)
             }
             is AuthSocialFeature.Action.ViewAction.ShowAuthError -> {
                 Snackbar.make(requireView(), "", Snackbar.LENGTH_LONG).show()

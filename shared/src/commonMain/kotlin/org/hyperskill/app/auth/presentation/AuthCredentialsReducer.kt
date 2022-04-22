@@ -8,9 +8,18 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 class AuthCredentialsReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
+            is Message.AuthEditing -> {
+                if (state is State.Idle || state is State.Editing || state is State.Error) {
+                    State.Editing(message.email, message.password) to emptySet()
+                } else {
+                    null
+                }
+            }
             is Message.AuthWithEmail -> {
-                if (state is State.Idle || state is State.Error) {
-                    State.Loading to setOf(Action.AuthWithEmail(message.email, message.password))
+                if (state is State.Editing || state is State.Error) {
+                    (state as? AuthCredentialsFeature.HasInputFields)?.let {
+                        State.Loading(it.email, it.password) to setOf(Action.AuthWithEmail(it.email, it.password))
+                    }
                 } else {
                     null
                 }
@@ -24,7 +33,7 @@ class AuthCredentialsReducer : StateReducer<State, Message, Action> {
             }
             is Message.AuthFailure -> {
                 if (state is State.Loading) {
-                    State.Error to emptySet()
+                    State.Error(state.email, state.password) to emptySet()
                 } else {
                     null
                 }

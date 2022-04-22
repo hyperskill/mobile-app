@@ -3,6 +3,8 @@ package org.hyperskill.app.android.auth.view.ui.fragment
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
+import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -10,10 +12,14 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.presentation.AuthEmailViewModel
 import org.hyperskill.app.android.auth.view.ui.screen.AuthSocialScreen
+import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
+import org.hyperskill.app.android.core.view.ui.dialog.dismissIfExists
+import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentAuthEmailBinding
-import org.hyperskill.app.android.main.view.ui.activity.MainActivity
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
+import ru.nobird.android.view.base.ui.extension.setTextIfChanged
+import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 import javax.inject.Inject
@@ -30,9 +36,12 @@ class AuthCredentialsFragment :
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    private val viewStateDelegate: ViewStateDelegate<AuthCredentialsFeature.State> = ViewStateDelegate()
     private val authEmailViewModel: AuthEmailViewModel by reduxViewModel(this) { viewModelFactory }
     private val viewBinding by viewBinding(FragmentAuthEmailBinding::bind)
-    private lateinit var viewStateDelegate: ViewStateDelegate<AuthCredentialsFeature.State>
+
+    private val loadingProgressDialogFragment: DialogFragment =
+        LoadingProgressDialogFragment.newInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,9 +50,29 @@ class AuthCredentialsFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewBinding.passwordEditText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+        initViewStateDelegate()
+        viewBinding.emailEditText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+        viewBinding.emailEditText.doAfterTextChanged {
+            authEmailViewModel.onNewMessage(
+                AuthCredentialsFeature.Message.AuthEditing(
+                    viewBinding.emailEditText.text.toString(),
+                    viewBinding.passwordEditText.text.toString()
+                )
+            )
+        }
+        viewBinding.passwordEditText.doAfterTextChanged {
+            authEmailViewModel.onNewMessage(
+                AuthCredentialsFeature.Message.AuthEditing(
+                    viewBinding.emailEditText.text.toString(),
+                    viewBinding.passwordEditText.text.toString()
+                )
+            )
+        }
+        viewBinding.signInWithEmailMaterialButton.setOnClickListener {
+            authEmailViewModel.onNewMessage(AuthCredentialsFeature.Message.AuthWithEmail)
+        }
         viewBinding.signInWithSocialMaterialButton.setOnClickListener {
-            (requireActivity() as MainActivity).router.backTo(AuthSocialScreen)
+            requireRouter()?.backTo(AuthSocialScreen)
         }
     }
 
@@ -59,23 +88,44 @@ class AuthCredentialsFragment :
         // no op
     }
 
-    override fun render(state: AuthCredentialsFeature.State) {}
+    override fun render(state: AuthCredentialsFeature.State) {
+        viewStateDelegate.switchState(state)
+        if (state is AuthCredentialsFeature.State.Loading) {
+            loadingProgressDialogFragment.showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
+        } else {
+            loadingProgressDialogFragment.dismissIfExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
+        }
 
-    private fun showError(msg: String) {
+        if (state is AuthCredentialsFeature.HasInputFields) {
+            viewBinding.emailEditText.setTextIfChanged(state.email)
+            viewBinding.passwordEditText.setTextIfChanged(state.password)
+        }
+
+        if (state is AuthCredentialsFeature.State.Error) {
+            // TODO Error text
+            showError("Error!")
+        } else {
+            hideError()
+        }
+    }
+
+    private fun initViewStateDelegate() {
+        viewStateDelegate.addState<AuthCredentialsFeature.State.Idle>(viewBinding.authInputContainer)
+        viewStateDelegate.addState<AuthCredentialsFeature.State.Editing>(viewBinding.authInputContainer)
+        viewStateDelegate.addState<AuthCredentialsFeature.State.Loading>(viewBinding.authInputContainer)
+        viewStateDelegate.addState<AuthCredentialsFeature.State.Error>(viewBinding.authInputContainer, viewBinding.authEmailErrorMsgTextView)
+        viewStateDelegate.addState<AuthCredentialsFeature.State.Authenticated>(viewBinding.authInputContainer)
+    }
+
+    private fun showError(message: String) {
         viewBinding.emailTextInputLayout.error = " "
         viewBinding.passwordTextInputLayout.error = " "
-        viewBinding.authEmailErrorMsgTextView.apply {
-            visibility = View.VISIBLE
-            text = msg
-        }
+        viewBinding.authEmailErrorMsgTextView.text = message
     }
 
     private fun hideError() {
         viewBinding.emailTextInputLayout.error = null
         viewBinding.passwordTextInputLayout.error = null
-        viewBinding.authEmailErrorMsgTextView.apply {
-            visibility = View.GONE
-            text = null
-        }
+        viewBinding.authEmailErrorMsgTextView.text = null
     }
 }

@@ -5,8 +5,8 @@ import com.github.terrakok.cicerone.Router
 import org.hyperskill.app.android.core.view.ui.fragment.parentOfType
 import ru.nobird.android.view.navigation.ui.fragment.NavigationContainer
 
-fun Fragment.getAppRouter(): Router? =
+fun Fragment.requireAppRouter(): Router? =
     parentOfType(AppNavigationContainer::class.java)?.router
 
-fun Fragment.getRouter(): Router? =
+fun Fragment.requireRouter(): Router? =
     parentOfType(NavigationContainer::class.java)?.router
