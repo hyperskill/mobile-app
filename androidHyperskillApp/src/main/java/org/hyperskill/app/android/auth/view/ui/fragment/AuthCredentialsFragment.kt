@@ -14,6 +14,7 @@ import org.hyperskill.app.android.auth.presentation.AuthEmailViewModel
 import org.hyperskill.app.android.auth.view.ui.screen.AuthSocialScreen
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissIfExists
+import org.hyperskill.app.android.core.view.ui.navigation.requireAppRouter
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentAuthEmailBinding
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature
@@ -85,7 +86,11 @@ class AuthCredentialsFragment :
     }
 
     override fun onAction(action: AuthCredentialsFeature.Action.ViewAction) {
-        // no op
+        when (action) {
+            is AuthCredentialsFeature.Action.ViewAction.NavigateToHomeScreen -> {
+                requireAppRouter()?.sendResult(AuthFragment.AUTH_SUCCESS, Unit)
+            }
+        }
     }
 
     override fun render(state: AuthCredentialsFeature.State) {

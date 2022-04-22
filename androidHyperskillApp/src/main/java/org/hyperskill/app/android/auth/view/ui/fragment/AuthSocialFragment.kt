@@ -60,7 +60,9 @@ class AuthSocialFragment :
             val account = task.getResult(ApiException::class.java)
             val authCode = account.serverAuthCode
             authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthWithSocial(authCode, SocialAuthProvider.GOOGLE))
-        } catch (e: ApiException) {}
+        } catch (e: ApiException) {
+            authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthWithSocial("", SocialAuthProvider.GOOGLE))
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
