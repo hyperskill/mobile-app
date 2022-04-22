@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.Lifecycle
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.view.ui.fragment.AuthFragment
@@ -60,10 +63,13 @@ class MainActivity :
         initViewStateDelegate()
         mainViewModelProvider.onNewMessage(AppFeature.Message.AppStarted)
 
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launch {
             router
                 .observeResult(AuthFragment.AUTH_SUCCESS)
-                .collectLatest { router.newRootScreen(HomeScreen) }
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collectLatest {
+                    mainViewModelProvider.onNewMessage(AppFeature.Message.UserAuthorized)
+                }
         }
     }
 

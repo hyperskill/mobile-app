@@ -80,7 +80,6 @@ class AuthSocialFragment :
     }
 
     private fun onSocialClickListener(social: AuthSocialCardInfo) {
-        loadingProgressDialogFragment.show(parentFragmentManager, LoadingProgressDialogFragment.TAG)
         when (social) {
             AuthSocialCardInfo.GOOGLE -> {
                 signInWithGoogle()
