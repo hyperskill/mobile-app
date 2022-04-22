@@ -36,7 +36,7 @@ class AuthCredentialsFragment :
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewStateDelegate: ViewStateDelegate<AuthCredentialsFeature.State> = ViewStateDelegate()
+    private val viewStateDelegate: ViewStateDelegate<AuthCredentialsFeature.FormState> = ViewStateDelegate()
     private val authEmailViewModel: AuthEmailViewModel by reduxViewModel(this) { viewModelFactory }
     private val viewBinding by viewBinding(FragmentAuthEmailBinding::bind)
 
@@ -89,32 +89,32 @@ class AuthCredentialsFragment :
     }
 
     override fun render(state: AuthCredentialsFeature.State) {
-        viewStateDelegate.switchState(state)
-        if (state is AuthCredentialsFeature.State.Loading) {
+        viewStateDelegate.switchState(state.formState)
+        renderFormState(state.formState)
+        viewBinding.emailEditText.setTextIfChanged(state.email)
+        viewBinding.passwordEditText.setTextIfChanged(state.password)
+    }
+
+    private fun renderFormState(formState: AuthCredentialsFeature.FormState) {
+        viewStateDelegate.switchState(formState)
+        if (formState is AuthCredentialsFeature.FormState.Loading) {
             loadingProgressDialogFragment.showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
         } else {
             loadingProgressDialogFragment.dismissIfExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
         }
 
-        if (state is AuthCredentialsFeature.HasInputFields) {
-            viewBinding.emailEditText.setTextIfChanged(state.email)
-            viewBinding.passwordEditText.setTextIfChanged(state.password)
-        }
-
-        if (state is AuthCredentialsFeature.State.Error) {
-            // TODO Error text
-            showError("Error!")
+        if (formState is AuthCredentialsFeature.FormState.Error) {
+            showError(formState.error)
         } else {
             hideError()
         }
     }
 
     private fun initViewStateDelegate() {
-        viewStateDelegate.addState<AuthCredentialsFeature.State.Idle>(viewBinding.authInputContainer)
-        viewStateDelegate.addState<AuthCredentialsFeature.State.Editing>(viewBinding.authInputContainer)
-        viewStateDelegate.addState<AuthCredentialsFeature.State.Loading>(viewBinding.authInputContainer)
-        viewStateDelegate.addState<AuthCredentialsFeature.State.Error>(viewBinding.authInputContainer, viewBinding.authEmailErrorMsgTextView)
-        viewStateDelegate.addState<AuthCredentialsFeature.State.Authenticated>(viewBinding.authInputContainer)
+        viewStateDelegate.addState<AuthCredentialsFeature.FormState.Editing>(viewBinding.authInputContainer)
+        viewStateDelegate.addState<AuthCredentialsFeature.FormState.Loading>(viewBinding.authInputContainer)
+        viewStateDelegate.addState<AuthCredentialsFeature.FormState.Error>(viewBinding.authInputContainer, viewBinding.authEmailErrorMsgTextView)
+        viewStateDelegate.addState<AuthCredentialsFeature.FormState.Authenticated>(viewBinding.authInputContainer)
     }
 
     private fun showError(message: String) {

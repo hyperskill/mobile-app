@@ -1,17 +1,17 @@
 package org.hyperskill.app.auth.presentation
 
 interface AuthCredentialsFeature {
-    sealed interface State {
-        object Idle : State
-        data class Editing(override val email: String, override val password: String) : State, HasInputFields
-        data class Loading(override val email: String, override val password: String) : State, HasInputFields
-        data class Error(override val email: String, override val password: String) : State, HasInputFields
-        object Authenticated : State
-    }
+    data class State(
+        val email: String,
+        val password: String,
+        val formState: FormState
+    )
 
-    sealed interface HasInputFields {
-        val email: String
-        val password: String
+    sealed interface FormState {
+        object Editing : FormState
+        object Loading : FormState
+        data class Error(val error: String) : FormState
+        object Authenticated : FormState
     }
 
     sealed interface Message {

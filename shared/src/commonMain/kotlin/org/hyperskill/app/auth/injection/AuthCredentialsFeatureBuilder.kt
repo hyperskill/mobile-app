@@ -2,6 +2,7 @@ package org.hyperskill.app.auth.injection
 
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.auth.presentation.AuthCredentialsActionDispatcher
+import org.hyperskill.app.auth.presentation.AuthCredentialsFeature
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.Action
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.Message
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.State
@@ -16,7 +17,7 @@ object AuthCredentialsFeatureBuilder {
         val authReducer = AuthCredentialsReducer()
         val authActionDispatcher = AuthCredentialsActionDispatcher(ActionDispatcherOptions(), authInteractor)
 
-        return ReduxFeature(State.Idle, authReducer)
+        return ReduxFeature(State("", "", AuthCredentialsFeature.FormState.Editing), authReducer)
             .wrapWithActionDispatcher(authActionDispatcher)
     }
 }
