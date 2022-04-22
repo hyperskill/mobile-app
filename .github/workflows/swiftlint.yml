@@ -3,7 +3,7 @@ name: Feature Branch SwiftLint
 on:
   push:
     branches:
-      - 'feature/*'
+      - 'feature/**'
 
 jobs:
   SwiftLint:
