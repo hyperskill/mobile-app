@@ -22,10 +22,10 @@ import org.hyperskill.app.android.auth.view.ui.adapter.delegates.AuthSocialAdapt
 import org.hyperskill.app.android.auth.view.ui.model.AuthSocialCardInfo
 import org.hyperskill.app.android.databinding.FragmentAuthSocialBinding
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
-import org.hyperskill.app.android.auth.view.ui.screen.AuthEmailScreen
+import org.hyperskill.app.android.auth.view.ui.navigation.AuthEmailScreen
+import org.hyperskill.app.android.auth.view.ui.navigation.AuthFlow
 import org.hyperskill.app.android.core.view.ui.dialog.dismissIfExists
-import org.hyperskill.app.android.core.view.ui.navigation.requireAppRouter
-import org.hyperskill.app.android.main.view.ui.activity.MainActivity
+import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.auth.domain.model.SocialAuthProvider
 import org.hyperskill.app.auth.presentation.AuthSocialFeature
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
@@ -98,14 +98,14 @@ class AuthSocialFragment :
         viewBinding.authButtonsRecyclerView.adapter = authMaterialCardViewsAdapter
 
         viewBinding.signInWithEmailMaterialButton.setOnClickListener {
-            (requireActivity() as MainActivity).router.navigateTo(AuthEmailScreen)
+            requireRouter()?.navigateTo(AuthEmailScreen)
         }
     }
 
     override fun onAction(action: AuthSocialFeature.Action.ViewAction) {
         when (action) {
             is AuthSocialFeature.Action.ViewAction.NavigateToHomeScreen -> {
-                requireAppRouter()?.sendResult(AuthFragment.AUTH_SUCCESS, Unit)
+                (parentFragment as? AuthFlow)?.onAuthSuccess()
             }
             is AuthSocialFeature.Action.ViewAction.ShowAuthError -> {
                 Snackbar.make(requireView(), action.errorMessage, Snackbar.LENGTH_LONG).show()
