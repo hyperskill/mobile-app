@@ -32,6 +32,8 @@ import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.network.domain.model.NetworkClientType
 
 object NetworkBuilder {
+    private const val AUTHORIZATION_HEADER = "Authorization"
+
     internal fun buildAuthClient(networkClientType: NetworkClientType, userAgentInfo: UserAgentInfo, json: Json): HttpClient =
         when (networkClientType) {
             NetworkClientType.SOCIAL ->
@@ -84,7 +86,7 @@ object NetworkBuilder {
                 agent = userAgentInfo.toString()
             }
             install(BearerTokenHttpClientPlugin) {
-                tokenHeaderName = "Authorization"
+                tokenHeaderName = AUTHORIZATION_HEADER
                 tokenProvider = {
                     getAuthResponse(json, settings)?.accessToken
                 }
@@ -136,7 +138,7 @@ object NetworkBuilder {
         HttpClient {
             defaultRequest {
                 headers {
-                    append("Authorization", credentials)
+                    append(AUTHORIZATION_HEADER, credentials)
                 }
                 url {
                     protocol = URLProtocol.HTTPS
