@@ -12,10 +12,13 @@ struct AuthSocialView: View {
 
     @ObservedObject private var viewModel: AuthSocialViewModel
 
+    @ObservedObject private var navigationState: AppNavigationState
+
     @State private var presentingAuthWithEmail = false
 
-    init(viewModel: AuthSocialViewModel, appearance: Appearance = Appearance()) {
+    init(viewModel: AuthSocialViewModel, navigationState: AppNavigationState, appearance: Appearance = Appearance()) {
         self.viewModel = viewModel
+        self.navigationState = navigationState
         self.appearance = appearance
         self.viewModel.onViewAction = self.handleViewAction(_:)
     }
@@ -41,7 +44,7 @@ struct AuthSocialView: View {
                 )
                 NavigationLink(
                     isActive: $presentingAuthWithEmail,
-                    destination: AuthEmailAssembly().makeModule,
+                    destination: AuthEmailAssembly(navigationState: navigationState).makeModule,
                     label: { EmptyView() }
                 )
             }
@@ -55,8 +58,15 @@ struct AuthSocialView: View {
     // MARK: Private API
 
     private func handleViewAction(_ viewAction: AuthSocialFeatureActionViewAction) {
-        if viewAction is AuthSocialFeatureActionViewActionShowAuthError {
+        switch viewAction {
+        case is AuthSocialFeatureActionViewActionNavigateToHomeScreen:
+            withAnimation {
+                navigationState.presentingAuthScreen = false
+            }
+        case is AuthSocialFeatureActionViewActionShowAuthError:
             ProgressHUD.showError()
+        default:
+            print("AuthSocialView :: unhandled viewAction = \(viewAction)")
         }
     }
 }

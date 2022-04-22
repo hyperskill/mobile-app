@@ -23,15 +23,19 @@ struct AuthEmailView: View {
     @ObservedObject private var viewModel: AuthEmailViewModel
     @ObservedObject private var formState: AuthEmailFormState
 
+    @ObservedObject private var navigationState: AppNavigationState
+
     @Environment(\.presentationMode) private var presentationMode
 
     init(
         viewModel: AuthEmailViewModel,
         formState: AuthEmailFormState = AuthEmailFormState(),
+        navigationState: AppNavigationState,
         appearance: Appearance = Appearance()
     ) {
         self.viewModel = viewModel
         self.formState = formState
+        self.navigationState = navigationState
         self.appearance = appearance
         self.viewModel.onViewAction = self.handleViewAction(_:)
     }
@@ -75,11 +79,17 @@ struct AuthEmailView: View {
     // MARK: Private API
 
     private func handleViewAction(_ viewAction: AuthCredentialsFeatureActionViewAction) {
-        if viewAction is AuthCredentialsFeatureActionViewActionShowAuthError {
+        switch viewAction {
+        case is AuthCredentialsFeatureActionViewActionNavigateToHomeScreen:
+            ProgressHUD.showSuccess()
+            withAnimation {
+                navigationState.presentingAuthScreen = false
+            }
+        case is AuthCredentialsFeatureActionViewActionShowAuthError:
             ProgressHUD.showError()
             formState.isErrorViewVisible = true
-        } else if viewAction is AuthCredentialsFeatureActionViewActionNavigateToHomeScreen {
-            ProgressHUD.showSuccess()
+        default:
+            print("AuthEmailView :: unhandled viewAction = \(viewAction)")
         }
     }
 }

@@ -4,7 +4,7 @@ import SwiftUI
 struct AppView: View {
     @ObservedObject private var viewModel: AppViewModel
 
-    @StateObject private var navigationState = AppNavigationState()
+    @ObservedObject private var navigationState = AppNavigationState()
 
     @Environment(\.colorScheme) private var colorScheme
 
@@ -54,6 +54,10 @@ struct AppView: View {
                         Text(AppTabItem.settings.title)
                     }
             }
+            .fullScreenCover(isPresented: $navigationState.presentingAuthScreen) {
+                AuthSocialAssembly(navigationState: navigationState)
+                    .makeModule()
+            }
         default:
             ProgressView()
         }
@@ -64,7 +68,18 @@ struct AppView: View {
     }
 
     private func handleViewAction(_ viewAction: AppFeatureActionViewAction) {
-        print("AppView :: \(#function) viewAction = \(viewAction)")
+        switch viewAction {
+        case is AppFeatureActionViewActionNavigateToAuthScreen:
+            withAnimation {
+                navigationState.presentingAuthScreen = true
+            }
+        case is AppFeatureActionViewActionNavigateToHomeScreen:
+            withAnimation {
+                navigationState.presentingAuthScreen = false
+            }
+        default:
+            print("AppView :: unhandled viewAction = \(viewAction)")
+        }
     }
 }
 
