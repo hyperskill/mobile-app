@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.auth.view.ui.screen
+package org.hyperskill.app.android.auth.view.ui.navigation
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory

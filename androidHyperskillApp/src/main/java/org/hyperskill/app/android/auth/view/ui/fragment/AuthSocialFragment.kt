@@ -21,10 +21,12 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.presentation.AuthSocialViewModel
 import org.hyperskill.app.android.auth.view.ui.adapter.delegates.AuthSocialAdapterDelegate
 import org.hyperskill.app.android.auth.view.ui.model.AuthSocialCardInfo
-import org.hyperskill.app.android.auth.view.ui.screen.AuthEmailScreen
+import org.hyperskill.app.android.databinding.FragmentAuthSocialBinding
+import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
+import org.hyperskill.app.android.auth.view.ui.navigation.AuthEmailScreen
+import org.hyperskill.app.android.auth.view.ui.navigation.AuthFlow
 import org.hyperskill.app.android.core.view.ui.dialog.dismissIfExists
-import org.hyperskill.app.android.core.view.ui.navigation.getAppRouter
-import org.hyperskill.app.android.main.view.ui.activity.MainActivity
+import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.auth.domain.model.SocialAuthProvider
 import org.hyperskill.app.auth.presentation.AuthSocialFeature
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
@@ -58,7 +60,9 @@ class AuthSocialFragment :
             val account = task.getResult(ApiException::class.java)
             val authCode = account.serverAuthCode
             authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthWithSocial(authCode, SocialAuthProvider.GOOGLE))
-        } catch (e: ApiException) {}
+        } catch (e: ApiException) {
+            authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthWithSocial("", SocialAuthProvider.GOOGLE))
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,7 +80,6 @@ class AuthSocialFragment :
     }
 
     private fun onSocialClickListener(social: AuthSocialCardInfo) {
-        loadingProgressDialogFragment.show(parentFragmentManager, LoadingProgressDialogFragment.TAG)
         when (social) {
             AuthSocialCardInfo.GOOGLE -> {
                 signInWithGoogle()
@@ -95,17 +98,17 @@ class AuthSocialFragment :
         viewBinding.authButtonsRecyclerView.adapter = authMaterialCardViewsAdapter
 
         viewBinding.signInWithEmailMaterialButton.setOnClickListener {
-            (requireActivity() as MainActivity).router.navigateTo(AuthEmailScreen)
+            requireRouter()?.navigateTo(AuthEmailScreen)
         }
     }
 
     override fun onAction(action: AuthSocialFeature.Action.ViewAction) {
         when (action) {
             is AuthSocialFeature.Action.ViewAction.NavigateToHomeScreen -> {
-                getAppRouter()?.sendResult(AuthFragment.AUTH_SUCCESS, Unit)
+                (parentFragment as? AuthFlow)?.onAuthSuccess()
             }
             is AuthSocialFeature.Action.ViewAction.ShowAuthError -> {
-                Snackbar.make(requireView(), "", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(requireView(), action.errorMessage, Snackbar.LENGTH_LONG).show()
             }
         }
     }

@@ -24,7 +24,6 @@ kotlin-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinCoroutines" }
 
 ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
-ktor-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
 ktor-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor" }
 ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-android = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
@@ -69,5 +68,5 @@ android-security = { module = "androidx.security:security-crypto", version = "1.
 material-progress-bar = { module = "me.zhanghai.android.materialprogressbar:library", version = "1.6.1" }
 
 [bundles]
-ktor-common = ['ktor-core', 'ktor-auth', 'ktor-serialization', 'ktor-logging', 'ktor-contentNegotiation', 'ktor-serialization-json']
+ktor-common = ['ktor-core', 'ktor-serialization', 'ktor-logging', 'ktor-contentNegotiation', 'ktor-serialization-json']
 android-test = ['android-test-junit', 'android-test-runner', 'android-test-robolectric']

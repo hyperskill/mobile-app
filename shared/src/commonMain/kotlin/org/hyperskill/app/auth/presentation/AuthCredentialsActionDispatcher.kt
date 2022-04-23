@@ -1,6 +1,7 @@
 package org.hyperskill.app.auth.presentation
 
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
+import org.hyperskill.app.auth.domain.model.AuthException
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.Action
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.Message
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
@@ -19,7 +20,13 @@ class AuthCredentialsActionDispatcher(
                     result
                         .map { Message.AuthSuccess }
                         .getOrElse {
-                            Message.AuthFailure
+                            val errorMessage =
+                                if (it is AuthException) {
+                                    it.errorMessage
+                                } else {
+                                    ""
+                                }
+                            Message.AuthFailure(errorMessage)
                         }
 
                 onNewMessage(message)

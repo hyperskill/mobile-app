@@ -8,23 +8,30 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 class AuthCredentialsReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
+            is Message.AuthEditing -> {
+                if (state.formState is AuthCredentialsFeature.FormState.Editing || state.formState is AuthCredentialsFeature.FormState.Error) {
+                    State(message.email, message.password, AuthCredentialsFeature.FormState.Editing) to emptySet()
+                } else {
+                    null
+                }
+            }
             is Message.AuthWithEmail -> {
-                if (state is State.Idle || state is State.Error) {
-                    State.Loading to setOf(Action.AuthWithEmail(message.email, message.password))
+                if (state.formState is AuthCredentialsFeature.FormState.Editing || state.formState is AuthCredentialsFeature.FormState.Error) {
+                    state.copy(formState = AuthCredentialsFeature.FormState.Loading) to setOf(Action.AuthWithEmail(state.email, state.password))
                 } else {
                     null
                 }
             }
             is Message.AuthSuccess -> {
-                if (state is State.Loading) {
-                    State.Authenticated to setOf(Action.ViewAction.NavigateToHomeScreen)
+                if (state.formState is AuthCredentialsFeature.FormState.Loading) {
+                    state.copy(formState = AuthCredentialsFeature.FormState.Authenticated) to setOf(Action.ViewAction.NavigateToHomeScreen)
                 } else {
                     null
                 }
             }
             is Message.AuthFailure -> {
-                if (state is State.Loading) {
-                    State.Error to setOf(Action.ViewAction.ShowAuthError)
+                if (state.formState is AuthCredentialsFeature.FormState.Loading) {
+                    state.copy(formState = AuthCredentialsFeature.FormState.Error(message.errorMessage)) to emptySet()
                 } else {
                     null
                 }
