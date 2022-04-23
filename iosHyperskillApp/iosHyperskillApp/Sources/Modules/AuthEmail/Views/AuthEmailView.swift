@@ -11,55 +11,52 @@ extension AuthEmailView {
     }
 }
 
-final class AuthEmailFormState: ObservableObject {
-    @Published var emailText = ""
-    @Published var passwordText = ""
-    @Published var isErrorViewVisible = false
-}
-
 struct AuthEmailView: View {
     let appearance: Appearance
 
     @ObservedObject private var viewModel: AuthEmailViewModel
-    @ObservedObject private var formState: AuthEmailFormState
 
     @ObservedObject private var navigationState: AppNavigationState
 
     @Environment(\.presentationMode) private var presentationMode
 
-    init(
-        viewModel: AuthEmailViewModel,
-        formState: AuthEmailFormState = AuthEmailFormState(),
-        navigationState: AppNavigationState,
-        appearance: Appearance = Appearance()
-    ) {
+    @State private var emailText = ""
+    @State private var passwordText = ""
+
+    init(viewModel: AuthEmailViewModel, navigationState: AppNavigationState, appearance: Appearance = Appearance()) {
         self.viewModel = viewModel
-        self.formState = formState
         self.navigationState = navigationState
         self.appearance = appearance
         self.viewModel.onViewAction = self.handleViewAction(_:)
     }
 
     var body: some View {
-        let state = viewModel.state
+        let formState = viewModel.state.formState
 
-        if state is AuthCredentialsFeatureStateLoading {
+        if formState is AuthCredentialsFeatureFormStateEditing {
+            ProgressHUD.dismiss()
+        } else if formState is AuthCredentialsFeatureFormStateLoading {
             ProgressHUD.show()
+        } else if formState is AuthCredentialsFeatureFormStateError {
+            ProgressHUD.dismiss()
         }
+
+        let formErrorMessage = (viewModel.state.formState as? AuthCredentialsFeatureFormStateError)?.error
 
         return AuthAdaptiveContentView { horizontalSizeClass in
             AuthLogoView(logoWidthHeight: appearance.logoSize)
                 .padding(horizontalSizeClass == .regular ? .bottom : .vertical, appearance.logoSize)
 
             AuthEmailFormView(
-                emailText: $formState.emailText,
-                passwordText: $formState.passwordText,
-                isErrorViewVisible: $formState.isErrorViewVisible,
-                onLogIn: {
-                    viewModel.logIn(email: formState.emailText, password: formState.passwordText)
-                },
-                onResetPassword: viewModel.resetPassword
+                emailText: $emailText,
+                passwordText: $passwordText,
+                errorMessage: formErrorMessage,
+                onLogIn: viewModel.doLogIn,
+                onResetPassword: viewModel.doResetPassword
             )
+            .onChange(of: emailText) { _ in viewModel.doFormInputChange(email: emailText, password: passwordText) }
+            .onChange(of: passwordText) { _ in viewModel.doFormInputChange(email: emailText, password: passwordText) }
+            .disabled(formState is AuthCredentialsFeatureFormStateLoading)
 
             Button(Strings.authEmailSocialText, action: { presentationMode.wrappedValue.dismiss() })
                 .buttonStyle(OutlineButtonStyle(style: .violet))
@@ -85,9 +82,6 @@ struct AuthEmailView: View {
             withAnimation {
                 navigationState.presentingAuthScreen = false
             }
-        case is AuthCredentialsFeatureActionViewActionShowAuthError:
-            ProgressHUD.showError()
-            formState.isErrorViewVisible = true
         default:
             print("AuthEmailView :: unhandled viewAction = \(viewAction)")
         }

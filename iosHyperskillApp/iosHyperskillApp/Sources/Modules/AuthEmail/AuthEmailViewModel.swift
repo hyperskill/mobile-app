@@ -6,12 +6,16 @@ final class AuthEmailViewModel: FeatureViewModel<
   AuthCredentialsFeatureMessage,
   AuthCredentialsFeatureActionViewAction
 > {
-    func logIn(email: String, password: String) {
-        let message = AuthCredentialsFeatureMessageAuthWithEmail(email: email, password: password)
+    func doFormInputChange(email: String, password: String) {
+        let message = AuthCredentialsFeatureMessageAuthEditing(email: email, password: password)
         self.onNewMessage(message)
     }
 
-    func resetPassword() {
+    func doLogIn() {
+        self.onNewMessage(AuthCredentialsFeatureMessageAuthWithEmail())
+    }
+
+    func doResetPassword() {
         print("AuthEmailViewModel :: \(#function)")
     }
 }

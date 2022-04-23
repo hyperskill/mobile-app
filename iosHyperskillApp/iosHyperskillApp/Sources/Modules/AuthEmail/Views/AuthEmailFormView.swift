@@ -20,7 +20,7 @@ struct AuthEmailFormView: View {
     @Binding var passwordText: String
     @State private var passwordFirstResponderAction: TextFieldWrapper.FirstResponderAction?
 
-    @Binding var isErrorViewVisible: Bool
+    var errorMessage: String?
 
     var onLogIn: (() -> Void)?
 
@@ -41,7 +41,6 @@ struct AuthEmailFormView: View {
                     onReturn: { passwordFirstResponderAction = .becomeFirstResponder }
                 )
                 .frame(height: appearance.textFieldHeight)
-                .onChange(of: emailText) { _ in isErrorViewVisible = false }
 
                 Divider()
             }
@@ -53,22 +52,20 @@ struct AuthEmailFormView: View {
                     makeTextField: { AuthTextField(type: .password) },
                     configuration: .combined([.password, .lastOfChainGo]),
                     firstResponderAction: $passwordFirstResponderAction,
-                    onTextDidChange: { _ in isErrorViewVisible = false },
                     onReturn: doLogIn
                 )
                 .frame(height: appearance.textFieldHeight)
-                .onChange(of: passwordText) { _ in isErrorViewVisible = false }
 
                 Divider()
             }
 
-            if isErrorViewVisible {
-                AuthEmailErrorView()
+            if let errorMessage = errorMessage {
+                AuthEmailErrorView(message: errorMessage)
             }
 
             Button(Strings.authEmailLogIn, action: doLogIn)
                 .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
-                .disabled(!isInputFulfilled || isErrorViewVisible)
+                .disabled(!isInputFulfilled || errorMessage != nil)
 
             Button(
                 action: doResetPassword,
@@ -104,28 +101,26 @@ struct AuthEmailFormView_Previews: PreviewProvider {
             Group {
                 AuthEmailFormView(
                     emailText: .constant(""),
-                    passwordText: .constant(""),
-                    isErrorViewVisible: .constant(false)
+                    passwordText: .constant("")
                 )
 
                 AuthEmailFormView(
                     emailText: .constant(""),
                     passwordText: .constant(""),
-                    isErrorViewVisible: .constant(true)
+                    errorMessage: "error"
                 )
             }
 
             Group {
                 AuthEmailFormView(
                     emailText: .constant(""),
-                    passwordText: .constant(""),
-                    isErrorViewVisible: .constant(false)
+                    passwordText: .constant("")
                 )
 
                 AuthEmailFormView(
                     emailText: .constant(""),
                     passwordText: .constant(""),
-                    isErrorViewVisible: .constant(true)
+                    errorMessage: "error"
                 )
             }
             .preferredColorScheme(.dark)

@@ -39,7 +39,7 @@ final class AuthSocialViewModel: FeatureViewModel<
 
     @MainActor
     private func showAuthError(message: String) {
-        let viewAction = AuthSocialFeatureActionViewActionShowAuthError()
+        let viewAction = AuthSocialFeatureActionViewActionShowAuthError(errorMessage: message)
         self.onViewAction?(viewAction)
     }
 }
