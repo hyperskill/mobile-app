@@ -17,5 +17,3 @@ jobs:
           lane: beta
           subdirectory: iosHyperskillApp
           verbose: true
-      env:
-        FASTLANE_TEAM_ID: 33ZJ787XV5
