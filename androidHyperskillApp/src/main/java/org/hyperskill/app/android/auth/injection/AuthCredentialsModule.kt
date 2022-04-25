@@ -7,6 +7,8 @@ import dagger.multibindings.IntoMap
 import org.hyperskill.app.android.auth.presentation.AuthCredentialsViewModel
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.auth.injection.AuthCredentialsFeatureBuilder
+import org.hyperskill.app.auth.view.mapper.AuthCredentialsErrorMapper
+import org.hyperskill.app.core.view.mapper.ResourceProvider
 import ru.nobird.android.view.injection.base.presentation.ViewModelKey
 import ru.nobird.app.presentation.redux.container.wrapWithViewContainer
 
@@ -21,4 +23,9 @@ object AuthCredentialsModule {
                 .build(authInteractor)
                 .wrapWithViewContainer()
         )
+
+    @Provides
+    @JvmStatic
+    internal fun provideAuthCredentialsErrorMapper(resourceProvider: ResourceProvider): AuthCredentialsErrorMapper =
+        AuthCredentialsErrorMapper(resourceProvider)
 }
