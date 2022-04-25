@@ -24,7 +24,7 @@ class AuthSocialReducer : StateReducer<State, Message, Action> {
             }
             is Message.AuthFailure -> {
                 if (state is State.Loading) {
-                    State.Error to setOf(Action.ViewAction.ShowAuthError(message.errorMessage))
+                    State.Error to setOf(Action.ViewAction.ShowAuthError(message.socialError))
                 } else {
                     null
                 }

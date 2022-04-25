@@ -4,9 +4,11 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class AuthErrorResponse(
+data class AuthSocialErrorResponse(
     @SerialName("error")
     val error: String,
-    @SerialName("error_description")
-    val errorDescription: String
+    @SerialName("provider")
+    val provider: String,
+    @SerialName("email")
+    val email: String
 )

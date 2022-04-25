@@ -28,6 +28,7 @@ import org.hyperskill.app.android.core.view.ui.dialog.dismissIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.auth.domain.model.SocialAuthProvider
 import org.hyperskill.app.auth.presentation.AuthSocialFeature
+import org.hyperskill.app.core.view.mapper.ResourceProvider
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.base.ui.extension.snackbar
@@ -46,6 +47,9 @@ class AuthSocialFragment :
 
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    @Inject
+    internal lateinit var resourceProvider: ResourceProvider
 
     private val authSocialViewModel: AuthSocialViewModel by reduxViewModel(this) { viewModelFactory }
 
@@ -110,7 +114,7 @@ class AuthSocialFragment :
                 (parentFragment as? AuthFlow)?.onAuthSuccess()
             }
             is AuthSocialFeature.Action.ViewAction.ShowAuthError -> {
-                view?.snackbar(message = action.errorMessage, Snackbar.LENGTH_LONG)
+                view?.snackbar(message = resourceProvider.getString(action.socialError.stringResource), Snackbar.LENGTH_LONG)
             }
         }
     }

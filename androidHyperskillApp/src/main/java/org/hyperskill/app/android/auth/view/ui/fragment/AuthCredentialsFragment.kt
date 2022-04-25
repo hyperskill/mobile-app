@@ -18,6 +18,7 @@ import org.hyperskill.app.android.core.view.ui.dialog.dismissIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentAuthEmailBinding
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature
+import org.hyperskill.app.core.view.mapper.ResourceProvider
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
@@ -36,6 +37,9 @@ class AuthCredentialsFragment :
 
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    @Inject
+    internal lateinit var resourceProvider: ResourceProvider
 
     private val viewStateDelegate: ViewStateDelegate<AuthCredentialsFeature.FormState> = ViewStateDelegate()
     private val authCredentialsViewModel: AuthCredentialsViewModel by reduxViewModel(this) { viewModelFactory }
@@ -109,7 +113,7 @@ class AuthCredentialsFragment :
         }
 
         if (formState is AuthCredentialsFeature.FormState.Error) {
-            showError(formState.error)
+            showError(resourceProvider.getString(formState.credentialsError.stringResource))
         } else {
             hideError()
         }
