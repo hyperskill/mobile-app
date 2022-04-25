@@ -12,8 +12,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.Scopes
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.common.api.Scope
 import com.google.android.material.snackbar.Snackbar
+import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.BuildConfig
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
@@ -66,8 +68,9 @@ class AuthSocialFragment :
             val authCode = account.serverAuthCode
             authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthWithSocial(authCode, SocialAuthProvider.GOOGLE))
         } catch (e: ApiException) {
-            e.statusCode
-            authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthWithSocial("", SocialAuthProvider.GOOGLE))
+            if (e.statusCode == CommonStatusCodes.NETWORK_ERROR) {
+                view?.snackbar(message = resourceProvider.getString(SharedResources.strings.connection_error), Snackbar.LENGTH_LONG)
+            }
         }
     }
 
