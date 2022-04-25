@@ -11,7 +11,7 @@ lane :beta do
     )
 
     clear_derived_data
-    cocoapods(repo_update: true)
+    cocoapods
 
     gym(
       configuration: "Release",
