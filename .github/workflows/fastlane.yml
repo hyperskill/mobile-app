@@ -8,6 +8,6 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
-      - run: fastlane beta
+      - run: bundle exec fastlane beta
         env:
           FASTLANE_TEAM_ID: 33ZJ787XV5
