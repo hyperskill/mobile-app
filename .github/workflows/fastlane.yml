@@ -1,14 +1,23 @@
 name: Feature Branch Fastlane
+
 on:
-  push:
-    branches:
-      - 'feature/*'
+    push:
+        branches:
+            - 'feature/*'
+
 jobs:
-  build:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v3
-      - run: bundle exec fastlane beta
-        env:
-          FASTLANE_TEAM_ID: 33ZJ787XV5
-          BUNDLE_GEMFILE: iosHyperskillApp/Gemfile
+    FastLane:
+        runs-on: macos-latest
+        steps:
+            - uses: actions/checkout@v3
+
+            - name: Run SwiftLint
+              uses: maierj/fastlane-action@v2.2.0
+              with:
+                  # The lane that should be executed.
+                  lane: beta
+                  # The relative path from the project root directory to the subdirectory where the fastlane folder is located.
+                  subdirectory: iosHyperskillApp
+                  # The env value that should be passed as an argument to the lane. The value should match to one of your fastlane env files.
+              env:
+                  FASTLANE_TEAM_ID: 33ZJ787XV5
