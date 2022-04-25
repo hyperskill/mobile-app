@@ -52,8 +52,14 @@ object NetworkBuilder {
         authorizationFlow: MutableSharedFlow<UserDeauthorized>
     ): HttpClient =
         HttpClient {
-            val tokenClient = buildAuthClient(
-                NetworkClientType.values()[settings.getInt(AuthCacheKeyValues.AUTH_SOCIAL_ORDINAL)],
+            val tokenSocialAuthClient = buildAuthClient(
+                NetworkClientType.SOCIAL,
+                userAgentInfo,
+                json
+            )
+
+            val tokenCredentialsAuthClient = buildAuthClient(
+                NetworkClientType.CREDENTIALS,
                 userAgentInfo,
                 json
             )
@@ -83,6 +89,16 @@ object NetworkBuilder {
                     val refreshToken = getAuthResponse(json, settings)?.refreshToken
                     if (refreshToken != null) {
                         val refreshTokenResult = kotlin.runCatching {
+                            val currentAuthClientType =
+                                settings.getInt(AuthCacheKeyValues.AUTH_SOCIAL_ORDINAL)
+                            val tokenClient =
+                                when (NetworkClientType.values()[currentAuthClientType]) {
+                                    NetworkClientType.CREDENTIALS ->
+                                        tokenCredentialsAuthClient
+                                    NetworkClientType.SOCIAL ->
+                                        tokenSocialAuthClient
+                                }
+
                             tokenClient.submitForm(
                                 url = "/oauth2/token/",
                                 formParameters = Parameters.build {
