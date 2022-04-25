@@ -20,5 +20,6 @@ lane :beta do
       include_bitcode: true,
       skip_profile_detection: true,
       export_method: "development",
+      xcargs: "-allowProvisioningUpdates"
     )
 end
