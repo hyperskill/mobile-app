@@ -15,7 +15,7 @@ class AuthCredentialsReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
-            is Message.AuthWithEmail -> {
+            is Message.SubmitFormClicked -> {
                 if (state.formState is AuthCredentialsFeature.FormState.Editing || state.formState is AuthCredentialsFeature.FormState.Error) {
                     state.copy(formState = AuthCredentialsFeature.FormState.Loading) to setOf(Action.AuthWithEmail(state.email, state.password))
                 } else {
@@ -24,7 +24,7 @@ class AuthCredentialsReducer : StateReducer<State, Message, Action> {
             }
             is Message.AuthSuccess -> {
                 if (state.formState is AuthCredentialsFeature.FormState.Loading) {
-                    state.copy(formState = AuthCredentialsFeature.FormState.Authenticated) to setOf(Action.ViewAction.NavigateToHomeScreen)
+                    state.copy(formState = AuthCredentialsFeature.FormState.Authenticated) to setOf(Action.ViewAction.CompleteAuthFlow)
                 } else {
                     null
                 }

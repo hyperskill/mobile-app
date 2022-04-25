@@ -17,7 +17,7 @@ class AuthSocialReducer : StateReducer<State, Message, Action> {
             }
             is Message.AuthSuccess -> {
                 if (state is State.Loading) {
-                    State.Authenticated to setOf(Action.ViewAction.NavigateToHomeScreen)
+                    State.Authenticated to setOf(Action.ViewAction.CompleteAuthFlow)
                 } else {
                     null
                 }

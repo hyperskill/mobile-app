@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.auth.presentation.AuthEmailViewModel
+import org.hyperskill.app.android.auth.presentation.AuthCredentialsViewModel
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthFlow
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthSocialScreen
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
@@ -38,7 +38,7 @@ class AuthCredentialsFragment :
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val viewStateDelegate: ViewStateDelegate<AuthCredentialsFeature.FormState> = ViewStateDelegate()
-    private val authEmailViewModel: AuthEmailViewModel by reduxViewModel(this) { viewModelFactory }
+    private val authCredentialsViewModel: AuthCredentialsViewModel by reduxViewModel(this) { viewModelFactory }
     private val viewBinding by viewBinding(FragmentAuthEmailBinding::bind)
 
     private val loadingProgressDialogFragment: DialogFragment =
@@ -54,7 +54,7 @@ class AuthCredentialsFragment :
         initViewStateDelegate()
         viewBinding.emailEditText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
         viewBinding.emailEditText.doAfterTextChanged {
-            authEmailViewModel.onNewMessage(
+            authCredentialsViewModel.onNewMessage(
                 AuthCredentialsFeature.Message.AuthEditing(
                     viewBinding.emailEditText.text.toString(),
                     viewBinding.passwordEditText.text.toString()
@@ -62,7 +62,7 @@ class AuthCredentialsFragment :
             )
         }
         viewBinding.passwordEditText.doAfterTextChanged {
-            authEmailViewModel.onNewMessage(
+            authCredentialsViewModel.onNewMessage(
                 AuthCredentialsFeature.Message.AuthEditing(
                     viewBinding.emailEditText.text.toString(),
                     viewBinding.passwordEditText.text.toString()
@@ -70,10 +70,10 @@ class AuthCredentialsFragment :
             )
         }
         viewBinding.signInWithEmailMaterialButton.setOnClickListener {
-            authEmailViewModel.onNewMessage(AuthCredentialsFeature.Message.AuthWithEmail)
+            authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.SubmitFormClicked)
         }
         viewBinding.signInWithSocialMaterialButton.setOnClickListener {
-            requireRouter()?.backTo(AuthSocialScreen)
+            requireRouter().backTo(AuthSocialScreen)
         }
     }
 
@@ -87,7 +87,7 @@ class AuthCredentialsFragment :
 
     override fun onAction(action: AuthCredentialsFeature.Action.ViewAction) {
         when (action) {
-            is AuthCredentialsFeature.Action.ViewAction.NavigateToHomeScreen -> {
+            is AuthCredentialsFeature.Action.ViewAction.CompleteAuthFlow -> {
                 (parentFragment as? AuthFlow)?.onAuthSuccess()
             }
         }

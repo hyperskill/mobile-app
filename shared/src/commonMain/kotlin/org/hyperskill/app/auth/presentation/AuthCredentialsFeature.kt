@@ -16,7 +16,7 @@ interface AuthCredentialsFeature {
 
     sealed interface Message {
         data class AuthEditing(val email: String, val password: String) : Message
-        object AuthWithEmail : Message
+        object SubmitFormClicked : Message
         object AuthSuccess : Message
         data class AuthFailure(val errorMessage: String) : Message
     }
@@ -24,7 +24,7 @@ interface AuthCredentialsFeature {
     sealed interface Action {
         data class AuthWithEmail(val email: String, val password: String) : Action
         sealed interface ViewAction : Action {
-            object NavigateToHomeScreen : ViewAction
+            object CompleteAuthFlow : ViewAction
         }
     }
 }

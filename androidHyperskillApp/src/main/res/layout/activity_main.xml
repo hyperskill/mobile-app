@@ -9,7 +9,7 @@
         layout="@layout/view_main_splash" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/main_navigation_container"
+        android:id="@+id/mainNavigationContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

@@ -30,6 +30,7 @@ import org.hyperskill.app.auth.domain.model.SocialAuthProvider
 import org.hyperskill.app.auth.presentation.AuthSocialFeature
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
+import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 import javax.inject.Inject
@@ -61,6 +62,7 @@ class AuthSocialFragment :
             val authCode = account.serverAuthCode
             authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthWithSocial(authCode, SocialAuthProvider.GOOGLE))
         } catch (e: ApiException) {
+            e.statusCode
             authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthWithSocial("", SocialAuthProvider.GOOGLE))
         }
     }
@@ -98,17 +100,17 @@ class AuthSocialFragment :
         viewBinding.authButtonsRecyclerView.adapter = authMaterialCardViewsAdapter
 
         viewBinding.signInWithEmailMaterialButton.setOnClickListener {
-            requireRouter()?.navigateTo(AuthEmailScreen)
+            requireRouter().navigateTo(AuthEmailScreen)
         }
     }
 
     override fun onAction(action: AuthSocialFeature.Action.ViewAction) {
         when (action) {
-            is AuthSocialFeature.Action.ViewAction.NavigateToHomeScreen -> {
+            is AuthSocialFeature.Action.ViewAction.CompleteAuthFlow -> {
                 (parentFragment as? AuthFlow)?.onAuthSuccess()
             }
             is AuthSocialFeature.Action.ViewAction.ShowAuthError -> {
-                Snackbar.make(requireView(), action.errorMessage, Snackbar.LENGTH_LONG).show()
+                view?.snackbar(message = action.errorMessage, Snackbar.LENGTH_LONG)
             }
         }
     }

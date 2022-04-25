@@ -23,7 +23,7 @@ class AuthFragment : FlowFragment(), AuthFlow {
     }
 
     override fun onAuthSuccess() {
-        requireAppRouter()?.sendResult(AUTH_SUCCESS, Unit)
+        requireAppRouter().sendResult(AUTH_SUCCESS, Unit)
     }
 
     private fun initNavigation() {

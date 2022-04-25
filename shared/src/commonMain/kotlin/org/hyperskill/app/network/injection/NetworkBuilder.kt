@@ -34,27 +34,16 @@ import org.hyperskill.app.network.domain.model.NetworkClientType
 object NetworkBuilder {
     private const val AUTHORIZATION_HEADER = "Authorization"
 
-    internal fun buildAuthClient(networkClientType: NetworkClientType, userAgentInfo: UserAgentInfo, json: Json): HttpClient =
-        when (networkClientType) {
+    internal fun buildAuthClient(networkClientType: NetworkClientType, userAgentInfo: UserAgentInfo, json: Json): HttpClient {
+        val (clientId, clientSecret) = when (networkClientType) {
             NetworkClientType.SOCIAL ->
-                provideClientFromBasicAuthCredentials(
-                    userAgentInfo,
-                    json,
-                    constructBasicAuthValue(
-                        BuildKonfig.OAUTH_CLIENT_ID,
-                        BuildKonfig.OAUTH_CLIENT_SECRET
-                    )
-                )
+                BuildKonfig.OAUTH_CLIENT_ID to BuildKonfig.OAUTH_CLIENT_SECRET
             NetworkClientType.CREDENTIALS ->
-                provideClientFromBasicAuthCredentials(
-                    userAgentInfo,
-                    json,
-                    constructBasicAuthValue(
-                        BuildKonfig.CREDENTIALS_CLIEND_ID,
-                        BuildKonfig.CREDENTIALS_CLIENT_SECRET
-                    )
-                )
+                BuildKonfig.CREDENTIALS_CLIEND_ID to BuildKonfig.CREDENTIALS_CLIENT_SECRET
         }
+
+        return provideClientFromBasicAuthCredentials(userAgentInfo, json, constructBasicAuthValue(clientId, clientSecret))
+    }
 
     internal fun buildAuthorizedClient(
         userAgentInfo: UserAgentInfo,
@@ -63,7 +52,7 @@ object NetworkBuilder {
         authorizationFlow: MutableSharedFlow<UserDeauthorized>
     ): HttpClient =
         HttpClient {
-            val tokenClient = NetworkModule.provideClient(
+            val tokenClient = buildAuthClient(
                 NetworkClientType.values()[settings.getInt(AuthCacheKeyValues.AUTH_SOCIAL_ORDINAL)],
                 userAgentInfo,
                 json

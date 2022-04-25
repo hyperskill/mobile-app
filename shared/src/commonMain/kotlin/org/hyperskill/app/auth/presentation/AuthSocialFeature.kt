@@ -19,7 +19,7 @@ interface AuthSocialFeature {
     sealed interface Action {
         data class AuthWithSocial(val authCode: String, val socialAuthProvider: SocialAuthProvider) : Action
         sealed interface ViewAction : Action {
-            object NavigateToHomeScreen : ViewAction
+            object CompleteAuthFlow : ViewAction
             data class ShowAuthError(val errorMessage: String) : ViewAction
         }
     }
