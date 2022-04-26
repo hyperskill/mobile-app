@@ -44,7 +44,7 @@ class AuthSocialWebViewFragment(private val siteName: String) : DialogFragment(R
                         activity as? Callback
                             ?: parentFragment as? Callback
                             ?: targetFragment as? Callback
-                    )?.onSuccess(authCode!!)
+                        )?.onSuccess(authCode!!)
                 }
                 return false
             }
@@ -64,7 +64,7 @@ class AuthSocialWebViewFragment(private val siteName: String) : DialogFragment(R
                 activity as? Callback
                     ?: parentFragment as? Callback
                     ?: targetFragment as? Callback
-            )?.onDismissed()
+                )?.onDismissed()
         }
     }
 
