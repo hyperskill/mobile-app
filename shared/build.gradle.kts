@@ -122,6 +122,7 @@ android {
 
 buildkonfig {
     packageName = "org.hyperskill.app.config"
+    exposeObjectWithName = "BuildKonfig"
 
     defaultConfigs {
         // required

@@ -3,6 +3,7 @@ package org.hyperskill.app.android.auth.view.ui.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,11 +30,14 @@ import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
+import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import javax.inject.Inject
 
 class AuthSocialFragment :
     Fragment(R.layout.fragment_auth_social),
-    ReduxView<AuthFeature.State, AuthFeature.Action.ViewAction> {
+    ReduxView<AuthFeature.State, AuthFeature.Action.ViewAction>,
+    AuthSocialWebViewFragment.Callback
+{
 
     companion object {
         fun newInstance(): AuthSocialFragment =
@@ -56,9 +60,13 @@ class AuthSocialFragment :
         try {
             val account = task.getResult(ApiException::class.java)
             val authCode = account.serverAuthCode
-            authSocialViewModel.onNewMessage(AuthFeature.Message.AuthWithSocial(authCode, SocialAuthProvider.GOOGLE))
+            authProvider = SocialAuthProvider.GOOGLE
+            authSocialViewModel.onNewMessage(AuthFeature.Message.AuthWithSocial(authCode, authProvider))
         } catch (e: ApiException) {}
     }
+
+    private lateinit var anotherSocialAuthDialogFragment: DialogFragment
+    private lateinit var authProvider: SocialAuthProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,11 +83,22 @@ class AuthSocialFragment :
     }
 
     private fun onSocialClickListener(social: AuthSocialCardInfo) {
-        loadingProgressDialogFragment.show(parentFragmentManager, LoadingProgressDialogFragment.TAG)
         when (social) {
             AuthSocialCardInfo.GOOGLE -> {
                 viewStateDelegate.switchState(AuthFeature.State.Loading)
                 signInWithGoogle()
+            }
+            AuthSocialCardInfo.GITHUB -> {
+                viewStateDelegate.switchState(AuthFeature.State.Loading)
+                authProvider = SocialAuthProvider.GITHUB
+                anotherSocialAuthDialogFragment = AuthSocialWebViewFragment.newInstance(social.provider)
+                anotherSocialAuthDialogFragment.showIfNotExists(childFragmentManager, AuthSocialWebViewFragment.TAG)
+            }
+            AuthSocialCardInfo.JETBRAINS -> {
+                viewStateDelegate.switchState(AuthFeature.State.Loading)
+                authProvider = SocialAuthProvider.JETBRAINS_ACCOUNT
+                anotherSocialAuthDialogFragment = AuthSocialWebViewFragment.newInstance(social.provider)
+                anotherSocialAuthDialogFragment.showIfNotExists(childFragmentManager, AuthSocialWebViewFragment.TAG)
             }
         }
     }
@@ -103,7 +122,6 @@ class AuthSocialFragment :
     override fun onAction(action: AuthFeature.Action.ViewAction) {
         when (action) {
             is AuthFeature.Action.ViewAction.ShowAuthError -> {
-                loadingProgressDialogFragment.dismiss()
                 Snackbar.make(requireView(), action.errorMsg, Snackbar.LENGTH_LONG).show()
             }
         }
@@ -122,4 +140,14 @@ class AuthSocialFragment :
         val signInIntent = mGoogleSignInClient.signInIntent
         signInWithGoogleCallback.launch(signInIntent)
     }
+
+    override fun onDismissed() {
+        authSocialViewModel.onNewMessage(AuthFeature.Message.AuthError("Could not login."))
+    }
+
+    override fun onSuccess(authCode: String) {
+        anotherSocialAuthDialogFragment.dismiss()
+        authSocialViewModel.onNewMessage(AuthFeature.Message.AuthWithSocial(authCode, authProvider))
+    }
+
 }
