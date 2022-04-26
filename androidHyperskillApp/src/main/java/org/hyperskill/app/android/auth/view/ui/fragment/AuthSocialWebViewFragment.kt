@@ -40,10 +40,11 @@ class AuthSocialWebViewFragment(private val siteName: String) : DialogFragment(R
                 ) {
                     val uri = Uri.parse(request.url.toString())
                     authCode = uri.getQueryParameter("code") ?: ""
-                    (activity as? Callback
+                    (
+                        activity as? Callback
                         ?: parentFragment as? Callback
-                        ?: targetFragment as? Callback)
-                        ?.onSuccess(authCode!!)
+                        ?: targetFragment as? Callback
+                    )?.onSuccess(authCode!!)
                 }
                 return false
             }
@@ -59,10 +60,11 @@ class AuthSocialWebViewFragment(private val siteName: String) : DialogFragment(R
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         if (authCode == null) {
-            (activity as? Callback
+            (
+                activity as? Callback
                 ?: parentFragment as? Callback
-                ?: targetFragment as? Callback)
-                ?.onDismissed()
+                ?: targetFragment as? Callback
+            )?.onDismissed()
         }
     }
 

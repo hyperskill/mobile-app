@@ -36,8 +36,7 @@ import javax.inject.Inject
 class AuthSocialFragment :
     Fragment(R.layout.fragment_auth_social),
     ReduxView<AuthFeature.State, AuthFeature.Action.ViewAction>,
-    AuthSocialWebViewFragment.Callback
-{
+    AuthSocialWebViewFragment.Callback {
 
     companion object {
         fun newInstance(): AuthSocialFragment =
@@ -149,5 +148,4 @@ class AuthSocialFragment :
         anotherSocialAuthDialogFragment.dismiss()
         authSocialViewModel.onNewMessage(AuthFeature.Message.AuthWithSocial(authCode, authProvider))
     }
-
 }
