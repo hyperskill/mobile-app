@@ -2,9 +2,11 @@ package org.hyperskill.app.android
 
 import android.app.Application
 import android.content.Context
+import org.hyperskill.app.android.core.view.base.SentryManager
 import org.hyperskill.app.android.core.injection.AppCoreComponent
 import org.hyperskill.app.android.core.injection.DaggerAppCoreComponent
 import ru.nobird.android.view.base.ui.extension.isMainProcess
+import javax.inject.Inject
 
 class HyperskillApp : Application() {
     companion object {
@@ -16,6 +18,9 @@ class HyperskillApp : Application() {
         fun getAppContext(): Context =
             application.applicationContext
     }
+
+    @Inject
+    internal lateinit var sentryManager: SentryManager
 
     private lateinit var component: AppCoreComponent
 
@@ -32,5 +37,6 @@ class HyperskillApp : Application() {
             .build()
 
         component.inject(this)
+        sentryManager.configure(this)
     }
 }

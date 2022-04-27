@@ -6,10 +6,12 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.flow.Flow
+import org.hyperskill.app.android.core.view.base.SentryManager
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.ResourceProviderImpl
 import org.hyperskill.app.auth.injection.AuthDataBuilder
+import org.hyperskill.app.core.remote.UserAgentInfo
 import ru.nobird.android.view.injection.base.presentation.DaggerViewModelFactory
 import javax.inject.Singleton
 
@@ -30,5 +32,11 @@ abstract class AppCoreModule {
         @Singleton
         fun provideAuthorizationFlow(): Flow<UserDeauthorized> =
             AuthDataBuilder.provideAuthorizationFlow()
+
+        @Provides
+        @JvmStatic
+        @Singleton
+        fun provideSentryManager(userAgentInfo: UserAgentInfo): SentryManager =
+            SentryManager(userAgentInfo)
     }
 }

@@ -6,6 +6,7 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
+    id("io.sentry.android.gradle") version "3.0.1"
 }
 
 dependencies {
@@ -13,7 +14,9 @@ dependencies {
     implementation(libs.android.ui.material)
     implementation(libs.android.ui.appcompat)
     implementation(libs.android.ui.constraintlayout)
-    implementation(libs.android.ui.ktx)
+    implementation(libs.android.ui.core.ktx)
+    implementation(libs.android.ui.fragment)
+    implementation(libs.android.ui.fragment.ktx)
 
     implementation(libs.kotlin.coroutines.core)
     implementation(libs.kotlin.coroutines.android)
@@ -41,6 +44,8 @@ dependencies {
     implementation(libs.android.security)
 
     implementation(libs.material.progress.bar)
+    implementation(libs.android.sentry)
+    implementation(libs.android.sentry.fragment)
 }
 
 android {
