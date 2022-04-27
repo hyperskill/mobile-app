@@ -3,6 +3,7 @@ package org.hyperskill.app.android.auth.view.ui.fragment
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -13,6 +14,7 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.presentation.AuthCredentialsViewModel
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthFlow
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthSocialScreen
+import org.hyperskill.app.android.core.view.setOnKeyboardOpenListener
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
@@ -79,6 +81,17 @@ class AuthCredentialsFragment :
         viewBinding.signInWithSocialMaterialButton.setOnClickListener {
             requireRouter().backTo(AuthSocialScreen)
         }
+
+        setOnKeyboardOpenListener(view,
+            onKeyboardShown = {
+                viewBinding.signInHyperskillLogoShapeableImageView.isVisible = false
+                viewBinding.signInToTextView.isVisible = false
+            },
+            onKeyboardHidden = {
+                viewBinding.signInHyperskillLogoShapeableImageView.isVisible = true
+                viewBinding.signInToTextView.isVisible = true
+            }
+        )
     }
 
     private fun injectComponent() {
