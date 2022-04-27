@@ -2,8 +2,6 @@ package org.hyperskill.app.network.injection
 
 import com.russhwolf.settings.Settings
 import io.ktor.client.HttpClient
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
@@ -27,14 +25,6 @@ object NetworkModule {
         json: Json
     ): HttpClient =
         NetworkBuilder.buildAuthClient(networkClientType, userAgentInfo, json)
-
-    // TODO Stub, will be removed with user list feature
-    fun provideStubClient(json: Json): HttpClient =
-        HttpClient {
-            install(ContentNegotiation) {
-                json(json)
-            }
-        }
 
     fun provideAuthorizedClient(
         userAgentInfo: UserAgentInfo,

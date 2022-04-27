@@ -9,7 +9,6 @@ import org.hyperskill.app.android.auth.injection.AuthSocialComponent
 import org.hyperskill.app.android.main.injection.MainComponent
 import org.hyperskill.app.android.network.injection.AndroidNetworkModule
 import org.hyperskill.app.android.step.injection.StepComponent
-import org.hyperskill.app.android.user_list.injection.UserListComponent
 import javax.inject.Singleton
 
 @Singleton
@@ -32,7 +31,6 @@ interface AppCoreComponent {
     fun inject(hyperskillApp: HyperskillApp)
 
     fun mainComponentBuilder(): MainComponent.Builder
-    fun usersListComponentBuilder(): UserListComponent.Builder
     fun authSocialComponentBuilder(): AuthSocialComponent.Builder
     fun authEmailComponentBuilder(): AuthCredentialsComponent.Builder
     fun stepComponentBuilder(): StepComponent.Builder

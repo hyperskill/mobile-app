@@ -19,13 +19,6 @@ object AndroidNetworkModule {
         NetworkModule.provideJson()
 
     @Provides
-    @StubHttpClient
-    fun provideStubHttpClient(
-        json: Json
-    ): HttpClient =
-        NetworkModule.provideStubClient(json)
-
-    @Provides
     @AuthSocialHttpClient
     fun provideAuthSocialHttpClient(
         userAgentInfo: UserAgentInfo,
