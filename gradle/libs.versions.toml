@@ -56,7 +56,7 @@ android-test-robolectric = { module = "org.robolectric:robolectric", version = "
 
 gms-services = { module = "com.google.android.gms:play-services-base", version = "17.6.0" }
 gms-login = { module = "com.google.android.gms:play-services-auth", version = "19.0.0"}
-viewbinding = { module = "com.github.kirich1409:viewbindingpropertydelegate", version = "1.5.3"}
+viewbinding = { module = "com.github.kirich1409:viewbindingpropertydelegate", version = "1.5.6"}
 
 mokoResources-main = { module = "dev.icerock.moko:resources", version.ref = "mokoResources" }
 mokoResources-test = { module = "dev.icerock.moko:resources-test", version.ref = "mokoResources"}

@@ -14,7 +14,6 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.presentation.AuthCredentialsViewModel
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthFlow
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthSocialScreen
-import org.hyperskill.app.android.core.view.setOnKeyboardOpenListener
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
@@ -22,6 +21,7 @@ import org.hyperskill.app.android.databinding.FragmentAuthEmailBinding
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature
 import org.hyperskill.app.auth.view.mapper.AuthCredentialsErrorMapper
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
+import ru.nobird.android.view.base.ui.extension.addKeyboardVisibilityListener
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -82,16 +82,11 @@ class AuthCredentialsFragment :
             requireRouter().backTo(AuthSocialScreen)
         }
 
-        setOnKeyboardOpenListener(view,
-            onKeyboardShown = {
-                viewBinding.signInHyperskillLogoShapeableImageView.isVisible = false
-                viewBinding.signInToTextView.isVisible = false
-            },
-            onKeyboardHidden = {
-                viewBinding.signInHyperskillLogoShapeableImageView.isVisible = true
-                viewBinding.signInToTextView.isVisible = true
-            }
-        )
+        viewBinding.root.addKeyboardVisibilityListener { isVisible ->
+            if (!isAdded) return@addKeyboardVisibilityListener
+            viewBinding.signInHyperskillLogoShapeableImageView.isVisible = !isVisible
+            viewBinding.signInToTextView.isVisible = !isVisible
+        }
     }
 
     private fun injectComponent() {
