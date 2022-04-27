@@ -9,6 +9,6 @@ object AuthDataBuilder {
     fun provideAuthorizationFlow(): MutableSharedFlow<UserDeauthorized> =
         MutableSharedFlow(replay = 0, extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
-    fun provideAuthorizationCacheMutex(): Mutex =
+    fun provideAuthorizationMutex(): Mutex =
         Mutex()
 }

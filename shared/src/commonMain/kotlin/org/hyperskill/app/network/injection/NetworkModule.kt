@@ -3,6 +3,7 @@ package org.hyperskill.app.network.injection
 import com.russhwolf.settings.Settings
 import io.ktor.client.HttpClient
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.sync.Mutex
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
@@ -30,7 +31,8 @@ object NetworkModule {
         userAgentInfo: UserAgentInfo,
         json: Json,
         settings: Settings,
-        authorizationFlow: MutableSharedFlow<UserDeauthorized>
+        authorizationFlow: MutableSharedFlow<UserDeauthorized>,
+        authorizationMutex: Mutex
     ): HttpClient =
-        NetworkBuilder.buildAuthorizedClient(userAgentInfo, json, settings, authorizationFlow)
+        NetworkBuilder.buildAuthorizedClient(userAgentInfo, json, settings, authorizationFlow, authorizationMutex)
 }

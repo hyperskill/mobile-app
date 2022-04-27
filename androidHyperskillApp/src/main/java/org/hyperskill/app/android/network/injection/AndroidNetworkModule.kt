@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import io.ktor.client.HttpClient
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.sync.Mutex
 import kotlinx.serialization.json.Json
 import org.hyperskill.app.android.BuildConfig
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
@@ -40,9 +41,10 @@ object AndroidNetworkModule {
         userAgentInfo: UserAgentInfo,
         json: Json,
         settings: Settings,
-        authorizationFlow: MutableSharedFlow<UserDeauthorized>
+        authorizationFlow: MutableSharedFlow<UserDeauthorized>,
+        authorizationMutex: Mutex
     ): HttpClient =
-        NetworkModule.provideAuthorizedClient(userAgentInfo, json, settings, authorizationFlow)
+        NetworkModule.provideAuthorizedClient(userAgentInfo, json, settings, authorizationFlow, authorizationMutex)
 
     @Provides
     @JvmStatic

@@ -19,6 +19,7 @@ import io.ktor.util.encodeBase64
 import io.ktor.utils.io.charsets.Charsets
 import io.ktor.utils.io.core.toByteArray
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.sync.Mutex
 import kotlinx.datetime.Clock
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -49,7 +50,8 @@ object NetworkBuilder {
         userAgentInfo: UserAgentInfo,
         json: Json,
         settings: Settings,
-        authorizationFlow: MutableSharedFlow<UserDeauthorized>
+        authorizationFlow: MutableSharedFlow<UserDeauthorized>,
+        authorizationMutex: Mutex
     ): HttpClient =
         HttpClient {
             val tokenSocialAuthClient = buildAuthClient(
@@ -81,6 +83,7 @@ object NetworkBuilder {
                 agent = userAgentInfo.toString()
             }
             install(BearerTokenHttpClientPlugin) {
+                authMutex = authorizationMutex
                 tokenHeaderName = AUTHORIZATION_HEADER
                 tokenProvider = {
                     getAuthResponse(json, settings)?.accessToken

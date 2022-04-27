@@ -12,6 +12,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
 class BearerTokenHttpClientPlugin(
+    private val authMutex: Mutex,
     private val tokenHeaderName: String,
     private val tokenProvider: () -> String?,
     private val tokenUpdater: suspend () -> Boolean,
@@ -20,6 +21,7 @@ class BearerTokenHttpClientPlugin(
 ) {
 
     class Config {
+        var authMutex: Mutex? = null
         var tokenHeaderName: String? = null
         var tokenProvider: (() -> String?)? = null
         var tokenUpdater: (suspend () -> Boolean)? = null
@@ -28,6 +30,7 @@ class BearerTokenHttpClientPlugin(
 
         fun build(): BearerTokenHttpClientPlugin =
             BearerTokenHttpClientPlugin(
+                authMutex ?: throw IllegalArgumentException("authorization mutex should be passed"),
                 tokenHeaderName ?: throw IllegalArgumentException("headerName should be passed"),
                 tokenProvider ?: throw IllegalArgumentException("tokenProvider should be passed"),
                 tokenUpdater ?: throw IllegalArgumentException("tokenUpdater should be passed"),
@@ -37,8 +40,6 @@ class BearerTokenHttpClientPlugin(
     }
 
     companion object Plugin : HttpClientPlugin<Config, BearerTokenHttpClientPlugin> {
-        private val refreshTokenMutex = Mutex()
-
         override val key = AttributeKey<BearerTokenHttpClientPlugin>("Tokenplugin")
 
         override fun prepare(block: Config.() -> Unit): BearerTokenHttpClientPlugin =
@@ -46,7 +47,7 @@ class BearerTokenHttpClientPlugin(
 
         override fun install(plugin: BearerTokenHttpClientPlugin, scope: HttpClient) {
             scope.requestPipeline.intercept(HttpRequestPipeline.State) {
-                refreshTokenMutex.withLock {
+                plugin.authMutex.withLock {
                     // Check token expiration - if it is expired, update it
                     if (plugin.tokenExpirationChecker.invoke()) {
                         // Check if refresh is successful

@@ -35,7 +35,7 @@ abstract class AppCoreModule {
         @Provides
         @JvmStatic
         @Singleton
-        fun provideAuthCacheMutex(): Mutex =
-            AuthDataBuilder.provideAuthorizationCacheMutex()
+        fun provideAuthorizationMutex(): Mutex =
+            AuthDataBuilder.provideAuthorizationMutex()
     }
 }
