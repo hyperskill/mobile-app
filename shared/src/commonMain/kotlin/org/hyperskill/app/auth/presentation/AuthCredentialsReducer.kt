@@ -19,9 +19,9 @@ class AuthCredentialsReducer : StateReducer<State, Message, Action> {
             is Message.SubmitFormClicked -> {
                 if (state.formState is AuthCredentialsFeature.FormState.Editing || state.formState is AuthCredentialsFeature.FormState.Error) {
                     when {
-                        state.email.isEmpty() ->
+                        state.email.isBlank() ->
                             state.copy(formState = AuthCredentialsFeature.FormState.Error(AuthCredentialsError.ERROR_EMAIL_EMPTY)) to emptySet()
-                        state.password.isEmpty() ->
+                        state.password.isBlank() ->
                             state.copy(formState = AuthCredentialsFeature.FormState.Error(AuthCredentialsError.ERROR_PASSWORD_EMPTY)) to emptySet()
                         else ->
                             state.copy(formState = AuthCredentialsFeature.FormState.Loading) to setOf(Action.AuthWithEmail(state.email, state.password))
