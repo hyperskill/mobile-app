@@ -1,42 +1,18 @@
 import Foundation
 
 enum GoogleServiceInfo {
-    static var clientID: String {
-        self.getStringValue(for: .clientID).require()
-    }
+    private static let plistDictionary = BundlePropertyListDeserializer.deserializeToDictionary(
+        resourceName: "GoogleService-Info"
+    )
 
-    static var reversedClientID: String {
-        self.getStringValue(for: .reversedClientID).require()
-    }
+    static let clientID = Self.getStringValue(for: .clientID).require()
 
-    static var serverClientID: String {
-        self.getStringValue(for: .serverClientID).require()
-    }
+    static let reversedClientID = Self.getStringValue(for: .reversedClientID).require()
+
+    static let serverClientID = Self.getStringValue(for: .serverClientID).require()
 
     private static func getStringValue(for key: Key) -> String? {
-        self.readAndDeserializePlistIntoDictionary()?[key.rawValue] as? String
-    }
-
-    private static func readAndDeserializePlistIntoDictionary() -> [String: Any]? {
-        guard let plistPath = Bundle.main.url(forResource: "GoogleService-Info", withExtension: "plist") else {
-            return nil
-        }
-
-        do {
-            let plistData = try Data(contentsOf: plistPath)
-
-            guard let dict = try PropertyListSerialization.propertyList(
-                from: plistData,
-                options: [],
-                format: nil
-            ) as? [String: Any] else {
-                return nil
-            }
-
-            return dict
-        } catch {
-            return nil
-        }
+        self.plistDictionary?[key.rawValue] as? String
     }
 
     enum Key: String {
