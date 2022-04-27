@@ -8,6 +8,8 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.Parameters
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.datetime.Clock
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -25,6 +27,7 @@ import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.network.domain.model.NetworkClientType
 
 class AuthRemoteDataSourceImpl(
+    private val authCacheMutex: Mutex,
     private val deauthorizationFlow: Flow<UserDeauthorized>,
     private val authSocialHttpClient: HttpClient,
     private val authCredentialsHttpClient: HttpClient,
@@ -114,9 +117,11 @@ class AuthRemoteDataSourceImpl(
         }
     }
 
-    private fun cacheAuthResponseInformation(authResponse: AuthResponse, networkClientType: NetworkClientType) {
-        settings.putString(AuthCacheKeyValues.AUTH_RESPONSE, json.encodeToString(authResponse))
-        settings.putLong(AuthCacheKeyValues.AUTH_ACCESS_TOKEN_TIMESTAMP, Clock.System.now().epochSeconds)
-        settings.putInt(AuthCacheKeyValues.AUTH_SOCIAL_ORDINAL, networkClientType.ordinal)
+    private suspend fun cacheAuthResponseInformation(authResponse: AuthResponse, networkClientType: NetworkClientType) {
+        authCacheMutex.withLock {
+            settings.putString(AuthCacheKeyValues.AUTH_RESPONSE, json.encodeToString(authResponse))
+            settings.putLong(AuthCacheKeyValues.AUTH_ACCESS_TOKEN_TIMESTAMP, Clock.System.now().epochSeconds)
+            settings.putInt(AuthCacheKeyValues.AUTH_SOCIAL_ORDINAL, networkClientType.ordinal)
+        }
     }
 }

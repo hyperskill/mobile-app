@@ -6,6 +6,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.sync.Mutex
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.ResourceProviderImpl
@@ -30,5 +31,11 @@ abstract class AppCoreModule {
         @Singleton
         fun provideAuthorizationFlow(): Flow<UserDeauthorized> =
             AuthDataBuilder.provideAuthorizationFlow()
+
+        @Provides
+        @JvmStatic
+        @Singleton
+        fun provideAuthCacheMutex(): Mutex =
+            AuthDataBuilder.provideAuthorizationCacheMutex()
     }
 }

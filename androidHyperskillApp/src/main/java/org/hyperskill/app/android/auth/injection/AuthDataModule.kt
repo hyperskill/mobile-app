@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import io.ktor.client.HttpClient
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.sync.Mutex
 import kotlinx.serialization.json.Json
 import org.hyperskill.app.android.network.injection.AuthSocialHttpClient
 import org.hyperskill.app.android.network.injection.AuthCredentialsHttpClient
@@ -25,6 +26,7 @@ object AuthDataModule {
 
     @Provides
     fun provideAuthRemoteDataSource(
+        authCacheMutex: Mutex,
         deauthorizationFlow: Flow<UserDeauthorized>,
         @AuthSocialHttpClient
         authHttpClient: HttpClient,
@@ -33,7 +35,7 @@ object AuthDataModule {
         json: Json,
         settings: Settings
     ): AuthRemoteDataSource =
-        AuthRemoteDataSourceImpl(deauthorizationFlow, authHttpClient, credentialsHttpClient, json, settings)
+        AuthRemoteDataSourceImpl(authCacheMutex, deauthorizationFlow, authHttpClient, credentialsHttpClient, json, settings)
 
     @Provides
     fun provideAuthRepository(authCacheDataSource: AuthCacheDataSource, authRemoteDataSource: AuthRemoteDataSource): AuthRepository =
