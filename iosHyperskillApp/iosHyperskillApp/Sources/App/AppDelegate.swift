@@ -20,6 +20,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     ) -> Bool {
         Self.shared = self
 
+        SentryManager.configure()
         KeyboardManager.configure()
 
         return true

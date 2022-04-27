@@ -122,6 +122,7 @@ android {
 
 buildkonfig {
     packageName = "org.hyperskill.app.config"
+    exposeObjectWithName = "BuildKonfig"
 
     defaultConfigs {
         // required
@@ -131,6 +132,7 @@ buildkonfig {
         if (SystemProperties.isCI()) return
         defaultConfigs(flavor) {
             val properties = loadProperties("${project.rootDir}/shared/keys/$flavor.properties")
+            buildConfigField(STRING, "FLAVOR", flavor)
             properties.keys.forEach { name ->
                 name as String
                 buildConfigField(
