@@ -76,3 +76,6 @@ android-sentry-fragment = { module = "io.sentry:sentry-android-fragment", versio
 [bundles]
 ktor-common = ['ktor-core', 'ktor-auth', 'ktor-serialization', 'ktor-logging', 'ktor-contentNegotiation', 'ktor-serialization-json']
 android-test = ['android-test-junit', 'android-test-runner', 'android-test-robolectric']
+
+[plugins]
+sentry-androidGradle = { id = "io.sentry.android.gradle", version = "3.0.1" }

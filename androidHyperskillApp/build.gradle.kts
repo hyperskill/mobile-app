@@ -6,7 +6,7 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
-    id("io.sentry.android.gradle") version "3.0.1"
+    alias(libs.plugins.sentry.androidGradle)
 }
 
 dependencies {
