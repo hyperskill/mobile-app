@@ -14,3 +14,16 @@ enum ApplicationInfo {
 
     static let flavor = BuildKonfig.shared.FLAVOR
 }
+
+enum BuildType: String {
+    case debug
+    case release
+
+    static var current: BuildType {
+        #if DEBUG
+        return .debug
+        #else
+        return .release
+        #endif
+    }
+}

@@ -6,14 +6,7 @@ enum SentryManager {
         SentrySDK.start { options in
             options.dsn = SentryInfo.dsn
 
-            let buildType: String = {
-                #if DEBUG
-                return "debug"
-                #else
-                return "release"
-                #endif
-            }()
-            options.environment = "\(ApplicationInfo.flavor)-\(buildType)"
+            options.environment = "\(ApplicationInfo.flavor)-\(BuildType.current.rawValue)"
 
             let userAgentInfo = UserAgentBuilder.userAgentInfo
             options.releaseName = "\(userAgentInfo.versionName) (\(userAgentInfo.versionCode))"
