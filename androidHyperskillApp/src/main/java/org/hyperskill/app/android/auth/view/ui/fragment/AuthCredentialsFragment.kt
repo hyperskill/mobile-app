@@ -3,6 +3,7 @@ package org.hyperskill.app.android.auth.view.ui.fragment
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
@@ -74,6 +75,14 @@ class AuthCredentialsFragment :
                     viewBinding.passwordEditText.text.toString()
                 )
             )
+        }
+        viewBinding.passwordEditText.setOnEditorActionListener { _, actionId, _ ->
+            var handled = false
+            if (actionId == EditorInfo.IME_ACTION_SEND) {
+                authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.SubmitFormClicked)
+                handled = true
+            }
+            handled
         }
         viewBinding.signInWithEmailMaterialButton.setOnClickListener {
             authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.SubmitFormClicked)
