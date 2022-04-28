@@ -10,5 +10,6 @@ buildsystem/certs/** filter=git-crypt diff=git-crypt
 shared/keys/** filter=git-crypt diff=git-crypt
 
 iosHyperskillApp/iosHyperskillApp/GoogleService-Info.plist filter=git-crypt diff=git-crypt
+iosHyperskillApp/iosHyperskillApp/Sentry-Info.plist filter=git-crypt diff=git-crypt
 
 .gitattributes !filter !diff
