@@ -14,9 +14,12 @@ enum WebOAuthError: Error {
 final class WebOAuthService: WebOAuthServiceProtocol {
     static let shared = WebOAuthService()
 
+    private let sourcelessRouter: SourcelessRouter
+
     private var continuation: CheckedContinuation<String, Error>?
 
     private init() {
+        self.sourcelessRouter = SourcelessRouter()
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(didReceiveAuthCode(_:)),
@@ -26,13 +29,13 @@ final class WebOAuthService: WebOAuthServiceProtocol {
     }
 
     func signIn(registerURL: URL) async throws -> String {
-        guard let currentRootViewController = UIApplication.shared.currentRootViewController else {
+        guard let currentPresentedViewController = self.sourcelessRouter.currentPresentedViewController() else {
             throw WebOAuthError.noPresentingViewController
         }
 
         WebControllerManager.shared.presentWebControllerWithURL(
             registerURL,
-            inController: currentRootViewController,
+            inController: currentPresentedViewController,
             withKey: .socialAuth,
             allowsSafari: false,
             backButtonStyle: .close,
