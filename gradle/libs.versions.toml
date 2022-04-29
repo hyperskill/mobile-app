@@ -6,6 +6,8 @@ ktor = '2.0.0'
 mokoResources = "0.19.0"
 ktlintRules = '1.0.0'
 adapters = '1.1.1'
+sentry = '5.7.3'
+fragment = '1.4.1'
 
 kitPresentationRedux = '1.3.1'
 
@@ -47,7 +49,9 @@ multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", vers
 android-ui-material = { module = "com.google.android.material:material", version = "1.4.0" }
 android-ui-appcompat = { module = "androidx.appcompat:appcompat", version = "1.4.0" }
 android-ui-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version = "2.1.2" }
-android-ui-ktx = { module = "androidx.core:core-ktx", version = "1.3.0" }
+android-ui-core-ktx = { module = "androidx.core:core-ktx", version = "1.3.0" }
+android-ui-fragment = { module = "androidx.fragment:fragment", version.ref = "fragment"}
+android-ui-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragment"}
 android-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version = "2.4.0" }
 
 android-test-junit = { module = "junit:junit", version = "4.13.2" }
@@ -66,7 +70,12 @@ nobird-ui-adapters = { module = "ru.nobird.android.ui:adapters", version.ref = "
 
 android-security = { module = "androidx.security:security-crypto", version = "1.1.0-alpha03" }
 material-progress-bar = { module = "me.zhanghai.android.materialprogressbar:library", version = "1.6.1" }
+android-sentry = { module = "io.sentry:sentry-android", version.ref = "sentry" }
+android-sentry-fragment = { module = "io.sentry:sentry-android-fragment", version.ref = "sentry" }
 
 [bundles]
 ktor-common = ['ktor-core', 'ktor-serialization', 'ktor-logging', 'ktor-contentNegotiation', 'ktor-serialization-json']
 android-test = ['android-test-junit', 'android-test-runner', 'android-test-robolectric']
+
+[plugins]
+sentry-androidGradle = { id = "io.sentry.android.gradle", version = "3.0.1" }

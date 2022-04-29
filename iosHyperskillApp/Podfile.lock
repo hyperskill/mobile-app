@@ -14,6 +14,9 @@ PODS:
     - GTMSessionFetcher/Core (~> 1.5)
   - GTMSessionFetcher/Core (1.7.1)
   - IQKeyboardManagerSwift (6.5.9)
+  - Sentry (7.13.0):
+    - Sentry/Core (= 7.13.0)
+  - Sentry/Core (7.13.0)
   - shared (1.0)
   - SVProgressHUD (2.2.5)
   - SwiftLint (0.47.0)
@@ -21,6 +24,7 @@ PODS:
 DEPENDENCIES:
   - GoogleSignIn (= 6.1.0)
   - IQKeyboardManagerSwift (= 6.5.9)
+  - Sentry (= 7.13.0)
   - shared (from `../shared`)
   - SVProgressHUD (= 2.2.5)
   - SwiftLint (= 0.47.0)
@@ -32,6 +36,7 @@ SPEC REPOS:
     - GTMAppAuth
     - GTMSessionFetcher
     - IQKeyboardManagerSwift
+    - Sentry
     - SVProgressHUD
     - SwiftLint
 
@@ -45,10 +50,11 @@ SPEC CHECKSUMS:
   GTMAppAuth: 987526d41b07efb1bedda5e936fe0cb718a03113
   GTMSessionFetcher: 4577a4cc914a5a07c40a8a0ad0acc22080418c2d
   IQKeyboardManagerSwift: 6e839c575c4aa1078d58a596e41244e77abe918f
+  Sentry: c55b9f69091e58cc48adc3c25bbca908a480e08d
   shared: 57c23201ce62604481c21dfbabc812accac99edd
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
 
-PODFILE CHECKSUM: 2726d7680f9093ff8c812ec6283fb1955ce96df9
+PODFILE CHECKSUM: e3502587a1b021db835d92d5c800faba4125372e
 
 COCOAPODS: 1.11.3
