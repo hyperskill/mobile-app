@@ -65,7 +65,7 @@ struct AuthEmailFormView: View {
 
             Button(Strings.authEmailLogIn, action: doLogIn)
                 .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
-                .disabled(!isInputFulfilled || errorMessage != nil)
+                .disabled(!isInputFulfilled)
 
             Button(
                 action: doResetPassword,

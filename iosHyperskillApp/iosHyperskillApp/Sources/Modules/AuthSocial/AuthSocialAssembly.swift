@@ -20,6 +20,7 @@ extension AuthInteractor {
         let authRepository = AuthRepositoryImpl(
             authCacheDataSource: AuthCacheDataSourceImpl(settings: Settings.default),
             authRemoteDataSource: AuthRemoteDataSourceImpl(
+                authCacheMutex: AuthDataBuilder.sharedAuthorizationMutex,
                 deauthorizationFlow: AuthDataBuilder.sharedAuthorizationFlow,
                 authSocialHttpClient: NetworkModule.shared.provideClient(
                     networkClientType: .social,

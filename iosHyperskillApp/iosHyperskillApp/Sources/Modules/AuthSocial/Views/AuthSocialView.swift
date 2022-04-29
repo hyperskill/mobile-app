@@ -59,7 +59,7 @@ struct AuthSocialView: View {
 
     private func handleViewAction(_ viewAction: AuthSocialFeatureActionViewAction) {
         switch viewAction {
-        case is AuthSocialFeatureActionViewActionNavigateToHomeScreen:
+        case is AuthSocialFeatureActionViewActionCompleteAuthFlow:
             withAnimation {
                 navigationState.presentingAuthScreen = false
             }

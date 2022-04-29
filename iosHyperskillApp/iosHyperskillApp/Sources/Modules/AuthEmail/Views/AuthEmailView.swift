@@ -41,8 +41,6 @@ struct AuthEmailView: View {
             ProgressHUD.dismiss()
         }
 
-        let formErrorMessage = (viewModel.state.formState as? AuthCredentialsFeatureFormStateError)?.error
-
         return AuthAdaptiveContentView { horizontalSizeClass in
             AuthLogoView(logoWidthHeight: appearance.logoSize)
                 .padding(horizontalSizeClass == .regular ? .bottom : .vertical, appearance.logoSize)
@@ -50,7 +48,7 @@ struct AuthEmailView: View {
             AuthEmailFormView(
                 emailText: $emailText,
                 passwordText: $passwordText,
-                errorMessage: formErrorMessage,
+                errorMessage: viewModel.formErrorMessage,
                 onLogIn: viewModel.doLogIn,
                 onResetPassword: viewModel.doResetPassword
             )
@@ -77,7 +75,7 @@ struct AuthEmailView: View {
 
     private func handleViewAction(_ viewAction: AuthCredentialsFeatureActionViewAction) {
         switch viewAction {
-        case is AuthCredentialsFeatureActionViewActionNavigateToHomeScreen:
+        case is AuthCredentialsFeatureActionViewActionCompleteAuthFlow:
             ProgressHUD.showSuccess()
             withAnimation {
                 navigationState.presentingAuthScreen = false

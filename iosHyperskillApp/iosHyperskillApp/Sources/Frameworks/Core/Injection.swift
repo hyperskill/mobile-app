@@ -13,4 +13,6 @@ extension Settings {
 
 extension AuthDataBuilder {
     static let sharedAuthorizationFlow = AuthDataBuilder.shared.provideAuthorizationFlow()
+
+    static let sharedAuthorizationMutex = AuthDataBuilder.shared.provideAuthorizationMutex()
 }

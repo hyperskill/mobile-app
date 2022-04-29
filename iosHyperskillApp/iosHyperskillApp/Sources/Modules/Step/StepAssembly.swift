@@ -15,7 +15,8 @@ final class StepAssembly: Assembly {
                     userAgentInfo: UserAgentBuilder.userAgentInfo,
                     json: NetworkModule.shared.provideJson(),
                     settings: Settings.default,
-                    authorizationFlow: AuthDataBuilder.sharedAuthorizationFlow
+                    authorizationFlow: AuthDataBuilder.sharedAuthorizationFlow,
+                    authorizationMutex: AuthDataBuilder.sharedAuthorizationMutex
                 )
             )
         )

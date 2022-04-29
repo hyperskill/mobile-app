@@ -32,14 +32,14 @@ final class AuthSocialViewModel: FeatureViewModel<
                 self.onNewMessage(message)
             } catch {
                 print("AuthSocialViewModel :: signIn error = \(error)")
-                await self.showAuthError(message: error.localizedDescription)
+                //await self.showAuthError(message: error.localizedDescription)
             }
         }
     }
 
-    @MainActor
-    private func showAuthError(message: String) {
-        let viewAction = AuthSocialFeatureActionViewActionShowAuthError(errorMessage: message)
-        self.onViewAction?(viewAction)
-    }
+//    @MainActor
+//    private func showAuthError(message: String) {
+//        let viewAction = AuthSocialFeatureActionViewActionShowAuthError(errorMessage: message)
+//        self.onViewAction?(viewAction)
+//    }
 }
