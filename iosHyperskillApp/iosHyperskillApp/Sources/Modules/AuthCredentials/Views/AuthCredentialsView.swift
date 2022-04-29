@@ -1,7 +1,7 @@
 import shared
 import SwiftUI
 
-extension AuthEmailView {
+extension AuthCredentialsView {
     struct Appearance {
         let logoSize: CGFloat = 48
 
@@ -11,10 +11,10 @@ extension AuthEmailView {
     }
 }
 
-struct AuthEmailView: View {
+struct AuthCredentialsView: View {
     let appearance: Appearance
 
-    @ObservedObject private var viewModel: AuthEmailViewModel
+    @ObservedObject private var viewModel: AuthCredentialsViewModel
 
     @ObservedObject private var navigationState: AppNavigationState
 
@@ -23,7 +23,11 @@ struct AuthEmailView: View {
     @State private var emailText = ""
     @State private var passwordText = ""
 
-    init(viewModel: AuthEmailViewModel, navigationState: AppNavigationState, appearance: Appearance = Appearance()) {
+    init(
+        viewModel: AuthCredentialsViewModel,
+        navigationState: AppNavigationState,
+        appearance: Appearance = Appearance()
+    ) {
         self.viewModel = viewModel
         self.navigationState = navigationState
         self.appearance = appearance
@@ -45,7 +49,7 @@ struct AuthEmailView: View {
             AuthLogoView(logoWidthHeight: appearance.logoSize)
                 .padding(horizontalSizeClass == .regular ? .bottom : .vertical, appearance.logoSize)
 
-            AuthEmailFormView(
+            AuthCredentialsFormView(
                 emailText: $emailText,
                 passwordText: $passwordText,
                 errorMessage: viewModel.formErrorMessage,
@@ -89,14 +93,14 @@ struct AuthEmailView: View {
 struct AuthEmailView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            AuthEmailAssembly().makeModule()
+            AuthCredentialsAssembly().makeModule()
                 .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro"))
 
-            AuthEmailAssembly().makeModule()
+            AuthCredentialsAssembly().makeModule()
                 .previewDevice(PreviewDevice(rawValue: "iPhone SE (3rd generation)"))
                 .preferredColorScheme(.dark)
 
-            AuthEmailAssembly().makeModule()
+            AuthCredentialsAssembly().makeModule()
                 .previewDevice(PreviewDevice(rawValue: "iPad (9th generation)"))
         }
     }

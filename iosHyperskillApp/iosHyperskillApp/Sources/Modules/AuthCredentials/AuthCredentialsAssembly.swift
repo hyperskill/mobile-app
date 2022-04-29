@@ -1,21 +1,21 @@
 import shared
 import SwiftUI
 
-final class AuthEmailAssembly: Assembly {
+final class AuthCredentialsAssembly: Assembly {
     private let navigationState: AppNavigationState
 
     init(navigationState: AppNavigationState = AppNavigationState()) {
         self.navigationState = navigationState
     }
 
-    func makeModule() -> AuthEmailView {
+    func makeModule() -> AuthCredentialsView {
         let feature = AuthCredentialsFeatureBuilder.shared.build(authInteractor: .default)
 
-        let viewModel = AuthEmailViewModel(
+        let viewModel = AuthCredentialsViewModel(
             authCredentialsErrorMapper: AuthCredentialsErrorMapper(resourceProvider: ResourceProviderImpl()),
             feature: feature
         )
 
-        return AuthEmailView(viewModel: viewModel, navigationState: self.navigationState)
+        return AuthCredentialsView(viewModel: viewModel, navigationState: self.navigationState)
     }
 }

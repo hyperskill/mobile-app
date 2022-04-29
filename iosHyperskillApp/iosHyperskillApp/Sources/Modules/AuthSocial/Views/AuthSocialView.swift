@@ -44,7 +44,7 @@ struct AuthSocialView: View {
                 )
                 NavigationLink(
                     isActive: $presentingAuthWithEmail,
-                    destination: AuthEmailAssembly(navigationState: navigationState).makeModule,
+                    destination: AuthCredentialsAssembly(navigationState: navigationState).makeModule,
                     label: { EmptyView() }
                 )
             }

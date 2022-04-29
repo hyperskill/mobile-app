@@ -1,7 +1,7 @@
 import Foundation
 import shared
 
-final class AuthEmailViewModel: FeatureViewModel<
+final class AuthCredentialsViewModel: FeatureViewModel<
   AuthCredentialsFeatureState,
   AuthCredentialsFeatureMessage,
   AuthCredentialsFeatureActionViewAction

@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct AuthEmailErrorView: View {
+struct AuthCredentialsErrorView: View {
     let message: String
 
     var body: some View {
@@ -16,6 +16,6 @@ struct AuthEmailErrorView: View {
 
 struct AuthEmailErrorView_Previews: PreviewProvider {
     static var previews: some View {
-        AuthEmailErrorView(message: "Errow message")
+        AuthCredentialsErrorView(message: "Error message")
     }
 }

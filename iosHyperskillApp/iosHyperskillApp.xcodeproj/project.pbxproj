@@ -23,8 +23,8 @@
 		2C1F5888280D5D6200372A37 /* SocialAuthSDKProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F5887280D5D6200372A37 /* SocialAuthSDKProvider.swift */; };
 		2C1F588B280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F588A280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift */; };
 		2C225E48281A5B6800E8ABD2 /* SourcelessRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C225E47281A5B6800E8ABD2 /* SourcelessRouter.swift */; };
-		2C2D492E281151E100753F16 /* AuthEmailAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2D492D281151E100753F16 /* AuthEmailAssembly.swift */; };
-		2C2D4930281151EB00753F16 /* AuthEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2D492F281151EB00753F16 /* AuthEmailViewModel.swift */; };
+		2C2D492E281151E100753F16 /* AuthCredentialsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2D492D281151E100753F16 /* AuthCredentialsAssembly.swift */; };
+		2C2D4930281151EB00753F16 /* AuthCredentialsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2D492F281151EB00753F16 /* AuthCredentialsViewModel.swift */; };
 		2C2D4932281154CB00753F16 /* Injection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2D4931281154CB00753F16 /* Injection.swift */; };
 		2C42EFA827F2C03D00B4648B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2C42EFAA27F2C03D00B4648B /* Localizable.strings */; };
 		2C42EFAD27F2C29500B4648B /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C42EFAC27F2C29500B4648B /* Strings.swift */; };
@@ -82,11 +82,11 @@
 		2CF43414281281DB002893CD /* AuthTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF43413281281DB002893CD /* AuthTextField.swift */; };
 		40D8E6EFE44EB7A6092C171B /* Pods_iosHyperskillApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C0F8A86D62CB915A1E49CAA /* Pods_iosHyperskillApp.framework */; };
 		E92D659727FC2F4100953029 /* AuthSocialButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92D659627FC2F4100953029 /* AuthSocialButton.swift */; };
-		E94D238D28057F440003273F /* AuthEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D238C28057F440003273F /* AuthEmailView.swift */; };
-		E94D238F280585110003273F /* AuthEmailFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D238E280585110003273F /* AuthEmailFormView.swift */; };
+		E94D238D28057F440003273F /* AuthCredentialsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D238C28057F440003273F /* AuthCredentialsView.swift */; };
+		E94D238F280585110003273F /* AuthCredentialsFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D238E280585110003273F /* AuthCredentialsFormView.swift */; };
 		E951757927E61ACD00995008 /* AuthSocialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951757827E61ACD00995008 /* AuthSocialView.swift */; };
 		E96E80F627EF57BA00AA6683 /* AuthSocialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */; };
-		E9D69A4028084FF7000E114E /* AuthEmailErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D69A3F28084FF7000E114E /* AuthEmailErrorView.swift */; };
+		E9D69A4028084FF7000E114E /* AuthCredentialsErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D69A3F28084FF7000E114E /* AuthCredentialsErrorView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,8 +118,8 @@
 		2C1F5887280D5D6200372A37 /* SocialAuthSDKProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialAuthSDKProvider.swift; sourceTree = "<group>"; };
 		2C1F588A280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSocialAuthSDKProvider.swift; sourceTree = "<group>"; };
 		2C225E47281A5B6800E8ABD2 /* SourcelessRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourcelessRouter.swift; sourceTree = "<group>"; };
-		2C2D492D281151E100753F16 /* AuthEmailAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthEmailAssembly.swift; sourceTree = "<group>"; };
-		2C2D492F281151EB00753F16 /* AuthEmailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthEmailViewModel.swift; sourceTree = "<group>"; };
+		2C2D492D281151E100753F16 /* AuthCredentialsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsAssembly.swift; sourceTree = "<group>"; };
+		2C2D492F281151EB00753F16 /* AuthCredentialsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsViewModel.swift; sourceTree = "<group>"; };
 		2C2D4931281154CB00753F16 /* Injection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Injection.swift; sourceTree = "<group>"; };
 		2C42EFA927F2C03D00B4648B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2C42EFAC27F2C29500B4648B /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
@@ -182,11 +182,11 @@
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C0F8A86D62CB915A1E49CAA /* Pods_iosHyperskillApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iosHyperskillApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E92D659627FC2F4100953029 /* AuthSocialButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialButton.swift; sourceTree = "<group>"; };
-		E94D238C28057F440003273F /* AuthEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthEmailView.swift; sourceTree = "<group>"; };
-		E94D238E280585110003273F /* AuthEmailFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthEmailFormView.swift; sourceTree = "<group>"; };
+		E94D238C28057F440003273F /* AuthCredentialsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsView.swift; sourceTree = "<group>"; };
+		E94D238E280585110003273F /* AuthCredentialsFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsFormView.swift; sourceTree = "<group>"; };
 		E951757827E61ACD00995008 /* AuthSocialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialView.swift; sourceTree = "<group>"; };
 		E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialViewModel.swift; sourceTree = "<group>"; };
-		E9D69A3F28084FF7000E114E /* AuthEmailErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthEmailErrorView.swift; sourceTree = "<group>"; };
+		E9D69A3F28084FF7000E114E /* AuthCredentialsErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsErrorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -257,7 +257,7 @@
 			isa = PBXGroup;
 			children = (
 				2CE31F4927F1E058008EEE66 /* App */,
-				2C725B6428091ACF00A49043 /* AuthEmail */,
+				2C725B6428091ACF00A49043 /* AuthCredentials */,
 				2C005DD027EF5C4800DC6503 /* AuthSocial */,
 				2C963BC32812D16C0036DD53 /* Home */,
 				2C963BC82812D3410036DD53 /* Settings */,
@@ -393,23 +393,23 @@
 			path = SwiftUI;
 			sourceTree = "<group>";
 		};
-		2C725B6428091ACF00A49043 /* AuthEmail */ = {
+		2C725B6428091ACF00A49043 /* AuthCredentials */ = {
 			isa = PBXGroup;
 			children = (
-				2C2D492D281151E100753F16 /* AuthEmailAssembly.swift */,
-				2C2D492F281151EB00753F16 /* AuthEmailViewModel.swift */,
+				2C2D492D281151E100753F16 /* AuthCredentialsAssembly.swift */,
+				2C2D492F281151EB00753F16 /* AuthCredentialsViewModel.swift */,
 				2C725B6528091B0100A49043 /* Views */,
 			);
-			path = AuthEmail;
+			path = AuthCredentials;
 			sourceTree = "<group>";
 		};
 		2C725B6528091B0100A49043 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E9D69A3F28084FF7000E114E /* AuthCredentialsErrorView.swift */,
+				E94D238E280585110003273F /* AuthCredentialsFormView.swift */,
+				E94D238C28057F440003273F /* AuthCredentialsView.swift */,
 				2CF43413281281DB002893CD /* AuthTextField.swift */,
-				E9D69A3F28084FF7000E114E /* AuthEmailErrorView.swift */,
-				E94D238E280585110003273F /* AuthEmailFormView.swift */,
-				E94D238C28057F440003273F /* AuthEmailView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -856,8 +856,8 @@
 				2CAFD39127FC5D5D00F88B0B /* Color+DesignSystem.swift in Sources */,
 				2CF4341228126C79002893CD /* View+EndEditing.swift in Sources */,
 				2C9B66C427ECA73700569645 /* AppDelegate.swift in Sources */,
-				E94D238F280585110003273F /* AuthEmailFormView.swift in Sources */,
-				2C2D492E281151E100753F16 /* AuthEmailAssembly.swift in Sources */,
+				E94D238F280585110003273F /* AuthCredentialsFormView.swift in Sources */,
+				2C2D492E281151E100753F16 /* AuthCredentialsAssembly.swift in Sources */,
 				2CE31F4B27F1E070008EEE66 /* AppViewModel.swift in Sources */,
 				2C725B612809125700A49043 /* LayoutInsets.swift in Sources */,
 				2CAE8CF0280525BE00E6C83D /* StepViewModel.swift in Sources */,
@@ -867,7 +867,7 @@
 				2C963BC72812D1BF0036DD53 /* HomeAssembly.swift in Sources */,
 				2C84094F2805B28B009C6BE9 /* StepRatingControl.swift in Sources */,
 				2C005DCC27EF5B0300DC6503 /* GoogleServiceInfo.swift in Sources */,
-				E94D238D28057F440003273F /* AuthEmailView.swift in Sources */,
+				E94D238D28057F440003273F /* AuthCredentialsView.swift in Sources */,
 				2CE31F4827F1BB79008EEE66 /* AuthSocialAssembly.swift in Sources */,
 				2CC4AAF1280DB513002276A0 /* WebOAuthService.swift in Sources */,
 				2CF43410281268A1002893CD /* String+Whitespaces.swift in Sources */,
@@ -894,8 +894,8 @@
 				2C1F5877280D2B4800372A37 /* ApplicationInfo.swift in Sources */,
 				2C2D4932281154CB00753F16 /* Injection.swift in Sources */,
 				2CAE8D0528055D8300E6C83D /* StepActionButton.swift in Sources */,
-				2C2D4930281151EB00753F16 /* AuthEmailViewModel.swift in Sources */,
-				E9D69A4028084FF7000E114E /* AuthEmailErrorView.swift in Sources */,
+				2C2D4930281151EB00753F16 /* AuthCredentialsViewModel.swift in Sources */,
+				E9D69A4028084FF7000E114E /* AuthCredentialsErrorView.swift in Sources */,
 				2C42EFAD27F2C29500B4648B /* Strings.swift in Sources */,
 				2C906CBE280E5D9C0079C594 /* ProgressHUD.swift in Sources */,
 				2CA8E094281039EB00154088 /* RoundedRectangleButtonStyle.swift in Sources */,

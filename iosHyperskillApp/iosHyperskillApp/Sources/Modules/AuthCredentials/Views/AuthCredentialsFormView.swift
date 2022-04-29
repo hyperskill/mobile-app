@@ -1,6 +1,6 @@
 import SwiftUI
 
-extension AuthEmailFormView {
+extension AuthCredentialsFormView {
     struct Appearance {
         let stackSpacing = LayoutInsets.defaultInset
 
@@ -12,7 +12,7 @@ extension AuthEmailFormView {
     }
 }
 
-struct AuthEmailFormView: View {
+struct AuthCredentialsFormView: View {
     private(set) var appearance = Appearance()
 
     @Binding var emailText: String
@@ -60,7 +60,7 @@ struct AuthEmailFormView: View {
             }
 
             if let errorMessage = errorMessage {
-                AuthEmailErrorView(message: errorMessage)
+                AuthCredentialsErrorView(message: errorMessage)
             }
 
             Button(Strings.authEmailLogIn, action: doLogIn)
@@ -99,12 +99,12 @@ struct AuthEmailFormView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             Group {
-                AuthEmailFormView(
+                AuthCredentialsFormView(
                     emailText: .constant(""),
                     passwordText: .constant("")
                 )
 
-                AuthEmailFormView(
+                AuthCredentialsFormView(
                     emailText: .constant(""),
                     passwordText: .constant(""),
                     errorMessage: "error"
@@ -112,12 +112,12 @@ struct AuthEmailFormView_Previews: PreviewProvider {
             }
 
             Group {
-                AuthEmailFormView(
+                AuthCredentialsFormView(
                     emailText: .constant(""),
                     passwordText: .constant("")
                 )
 
-                AuthEmailFormView(
+                AuthCredentialsFormView(
                     emailText: .constant(""),
                     passwordText: .constant(""),
                     errorMessage: "error"
