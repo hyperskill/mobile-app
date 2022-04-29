@@ -13,7 +13,7 @@
         android:id="@+id/signInHyperskillLogoShapeableImageView"
         android:layout_width="@dimen/auth_hyperskill_logo_width"
         android:layout_height="@dimen/auth_hyperskill_logo_height"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="48dp"
         android:background="@drawable/bg_shape_logo_rectangle"
         android:src="@drawable/branded_logo"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,16 +61,5 @@
         app:layout_constraintTop_toBottomOf="@+id/authButtonsRecyclerView"
         app:layout_constraintWidth_max="@dimen/auth_button_max_width"
         app:strokeColor="?colorPrimary" />
-
-    <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/signInSocialProgressIndicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,13 +1,13 @@
 package org.hyperskill.app.android.main.injection
 
 import dagger.Subcomponent
-import org.hyperskill.app.android.auth.injection.AuthSocialDataModule
+import org.hyperskill.app.android.auth.injection.AuthDataModule
 import org.hyperskill.app.android.main.view.ui.activity.MainActivity
 
 @Subcomponent(
     modules = [
         MainModule::class,
-        AuthSocialDataModule::class
+        AuthDataModule::class
     ]
 )
 interface MainComponent {
