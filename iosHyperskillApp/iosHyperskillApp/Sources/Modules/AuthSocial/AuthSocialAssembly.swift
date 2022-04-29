@@ -10,7 +10,13 @@ final class AuthSocialAssembly: Assembly {
 
     func makeModule() -> AuthSocialView {
         let feature = AuthSocialFeatureBuilder.shared.build(authInteractor: .default)
-        let viewModel = AuthSocialViewModel(socialAuthService: SocialAuthService.shared, feature: feature)
+
+        let viewModel = AuthSocialViewModel(
+            socialAuthService: SocialAuthService.shared,
+            authSocialErrorMapper: AuthSocialErrorMapper(resourceProvider: ResourceProviderImpl()),
+            feature: feature
+        )
+
         return AuthSocialView(viewModel: viewModel, navigationState: self.navigationState)
     }
 }

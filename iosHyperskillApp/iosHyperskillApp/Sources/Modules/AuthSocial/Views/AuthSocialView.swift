@@ -63,8 +63,9 @@ struct AuthSocialView: View {
             withAnimation {
                 navigationState.presentingAuthScreen = false
             }
-        case is AuthSocialFeatureActionViewActionShowAuthError:
-            ProgressHUD.showError()
+        case let authError as AuthSocialFeatureActionViewActionShowAuthError:
+            let errorText = viewModel.getAuthSocialErrorText(authSocialError: authError.socialError)
+            ProgressHUD.showError(status: errorText)
         default:
             print("AuthSocialView :: unhandled viewAction = \(viewAction)")
         }

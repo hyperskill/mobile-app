@@ -8,10 +8,17 @@ final class AuthSocialViewModel: FeatureViewModel<
 > {
     private let socialAuthService: SocialAuthServiceProtocol
 
+    private let authSocialErrorMapper: AuthSocialErrorMapper
+
     let availableSocialAuthProviders = SocialAuthProvider.allCases.filter(\.isSupported)
 
-    init(socialAuthService: SocialAuthServiceProtocol, feature: Presentation_reduxFeature) {
+    init(
+        socialAuthService: SocialAuthServiceProtocol,
+        authSocialErrorMapper: AuthSocialErrorMapper,
+        feature: Presentation_reduxFeature
+    ) {
         self.socialAuthService = socialAuthService
+        self.authSocialErrorMapper = authSocialErrorMapper
         super.init(feature: feature)
     }
 
@@ -32,14 +39,21 @@ final class AuthSocialViewModel: FeatureViewModel<
                 self.onNewMessage(message)
             } catch {
                 print("AuthSocialViewModel :: signIn error = \(error)")
-                //await self.showAuthError(message: error.localizedDescription)
+
+                if case SocialAuthError.canceled = error {
+                    return
+                }
+
+                let viewAction = AuthSocialFeatureActionViewActionShowAuthError(socialError: .connectionProblem)
+
+                await MainActor.run {
+                    self.onViewAction?(viewAction)
+                }
             }
         }
     }
 
-//    @MainActor
-//    private func showAuthError(message: String) {
-//        let viewAction = AuthSocialFeatureActionViewActionShowAuthError(errorMessage: message)
-//        self.onViewAction?(viewAction)
-//    }
+    func getAuthSocialErrorText(authSocialError: AuthSocialError) -> String {
+        self.authSocialErrorMapper.getAuthSocialErrorText(authSocialError: authSocialError)
+    }
 }
