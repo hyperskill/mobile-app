@@ -12,9 +12,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.Scopes
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.common.api.Scope
 import com.google.android.material.snackbar.Snackbar
-import javax.inject.Inject
+import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.BuildConfig
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
@@ -29,8 +30,11 @@ import org.hyperskill.app.android.core.view.ui.dialog.dismissIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.auth.domain.model.SocialAuthProvider
 import org.hyperskill.app.auth.presentation.AuthSocialFeature
+import org.hyperskill.app.auth.view.mapper.AuthSocialErrorMapper
+import org.hyperskill.app.core.view.mapper.ResourceProvider
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
+import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -46,6 +50,12 @@ class AuthSocialFragment :
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    @Inject
+    internal lateinit var resourceProvider: ResourceProvider
+
+    @Inject
+    internal lateinit var authSocialErrorMapper: AuthSocialErrorMapper
+
     private val authSocialViewModel: AuthSocialViewModel by reduxViewModel(this) { viewModelFactory }
 
     private val viewBinding by viewBinding(FragmentAuthSocialBinding::bind)
@@ -59,9 +69,11 @@ class AuthSocialFragment :
         try {
             val account = task.getResult(ApiException::class.java)
             val authCode = account.serverAuthCode
-            authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthWithSocial(authCode, SocialAuthProvider.GOOGLE))
+            authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthWithSocial(authCode ?: "", SocialAuthProvider.GOOGLE))
         } catch (e: ApiException) {
-            authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthWithSocial("", SocialAuthProvider.GOOGLE))
+            if (e.statusCode == CommonStatusCodes.NETWORK_ERROR) {
+                view?.snackbar(message = resourceProvider.getString(SharedResources.strings.connection_error), Snackbar.LENGTH_LONG)
+            }
         }
     }
 
@@ -98,17 +110,17 @@ class AuthSocialFragment :
         viewBinding.authButtonsRecyclerView.adapter = authMaterialCardViewsAdapter
 
         viewBinding.signInWithEmailMaterialButton.setOnClickListener {
-            requireRouter()?.navigateTo(AuthEmailScreen)
+            requireRouter().navigateTo(AuthEmailScreen)
         }
     }
 
     override fun onAction(action: AuthSocialFeature.Action.ViewAction) {
         when (action) {
-            is AuthSocialFeature.Action.ViewAction.NavigateToHomeScreen -> {
+            is AuthSocialFeature.Action.ViewAction.CompleteAuthFlow -> {
                 (parentFragment as? AuthFlow)?.onAuthSuccess()
             }
             is AuthSocialFeature.Action.ViewAction.ShowAuthError -> {
-                Snackbar.make(requireView(), action.errorMessage, Snackbar.LENGTH_LONG).show()
+                view?.snackbar(message = authSocialErrorMapper.getAuthSocialErrorText(action.socialError), Snackbar.LENGTH_LONG)
             }
         }
     }

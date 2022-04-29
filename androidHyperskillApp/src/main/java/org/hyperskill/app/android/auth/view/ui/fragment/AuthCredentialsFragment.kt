@@ -3,6 +3,8 @@ package org.hyperskill.app.android.auth.view.ui.fragment
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -10,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.auth.presentation.AuthEmailViewModel
+import org.hyperskill.app.android.auth.presentation.AuthCredentialsViewModel
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthFlow
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthSocialScreen
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
@@ -18,7 +20,9 @@ import org.hyperskill.app.android.core.view.ui.dialog.dismissIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentAuthEmailBinding
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature
+import org.hyperskill.app.auth.view.mapper.AuthCredentialsErrorMapper
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
+import ru.nobird.android.view.base.ui.extension.addKeyboardVisibilityListener
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -37,8 +41,11 @@ class AuthCredentialsFragment :
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    @Inject
+    internal lateinit var authCredentialsErrorMapper: AuthCredentialsErrorMapper
+
     private val viewStateDelegate: ViewStateDelegate<AuthCredentialsFeature.FormState> = ViewStateDelegate()
-    private val authEmailViewModel: AuthEmailViewModel by reduxViewModel(this) { viewModelFactory }
+    private val authCredentialsViewModel: AuthCredentialsViewModel by reduxViewModel(this) { viewModelFactory }
     private val viewBinding by viewBinding(FragmentAuthEmailBinding::bind)
 
     private val loadingProgressDialogFragment: DialogFragment =
@@ -54,7 +61,7 @@ class AuthCredentialsFragment :
         initViewStateDelegate()
         viewBinding.emailEditText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
         viewBinding.emailEditText.doAfterTextChanged {
-            authEmailViewModel.onNewMessage(
+            authCredentialsViewModel.onNewMessage(
                 AuthCredentialsFeature.Message.AuthEditing(
                     viewBinding.emailEditText.text.toString(),
                     viewBinding.passwordEditText.text.toString()
@@ -62,18 +69,32 @@ class AuthCredentialsFragment :
             )
         }
         viewBinding.passwordEditText.doAfterTextChanged {
-            authEmailViewModel.onNewMessage(
+            authCredentialsViewModel.onNewMessage(
                 AuthCredentialsFeature.Message.AuthEditing(
                     viewBinding.emailEditText.text.toString(),
                     viewBinding.passwordEditText.text.toString()
                 )
             )
         }
+        viewBinding.passwordEditText.setOnEditorActionListener { _, actionId, _ ->
+            var handled = false
+            if (actionId == EditorInfo.IME_ACTION_SEND) {
+                authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.SubmitFormClicked)
+                handled = true
+            }
+            handled
+        }
         viewBinding.signInWithEmailMaterialButton.setOnClickListener {
-            authEmailViewModel.onNewMessage(AuthCredentialsFeature.Message.AuthWithEmail)
+            authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.SubmitFormClicked)
         }
         viewBinding.signInWithSocialMaterialButton.setOnClickListener {
-            requireRouter()?.backTo(AuthSocialScreen)
+            requireRouter().backTo(AuthSocialScreen)
+        }
+
+        viewBinding.root.addKeyboardVisibilityListener { isVisible ->
+            if (!isAdded) return@addKeyboardVisibilityListener
+            viewBinding.signInHyperskillLogoShapeableImageView.isVisible = !isVisible
+            viewBinding.signInToTextView.isVisible = !isVisible
         }
     }
 
@@ -87,7 +108,7 @@ class AuthCredentialsFragment :
 
     override fun onAction(action: AuthCredentialsFeature.Action.ViewAction) {
         when (action) {
-            is AuthCredentialsFeature.Action.ViewAction.NavigateToHomeScreen -> {
+            is AuthCredentialsFeature.Action.ViewAction.CompleteAuthFlow -> {
                 (parentFragment as? AuthFlow)?.onAuthSuccess()
             }
         }
@@ -109,7 +130,7 @@ class AuthCredentialsFragment :
         }
 
         if (formState is AuthCredentialsFeature.FormState.Error) {
-            showError(formState.error)
+            showError(authCredentialsErrorMapper.getAuthCredentialsErrorText(formState.credentialsError))
         } else {
             hideError()
         }

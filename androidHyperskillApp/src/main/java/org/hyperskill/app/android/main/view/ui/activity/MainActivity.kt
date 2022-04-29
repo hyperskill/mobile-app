@@ -45,7 +45,7 @@ class MainActivity :
     override val navigator by lazy {
         NestedAppNavigator(
             this,
-            R.id.main_navigation_container,
+            R.id.mainNavigationContainer,
             supportFragmentManager
         )
     }

@@ -1,7 +1,8 @@
 package org.hyperskill.app.auth.presentation
 
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
-import org.hyperskill.app.auth.domain.model.AuthException
+import org.hyperskill.app.auth.domain.model.AuthCredentialsError
+import org.hyperskill.app.auth.domain.exception.AuthCredentialsException
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.Action
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.Message
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
@@ -20,13 +21,13 @@ class AuthCredentialsActionDispatcher(
                     result
                         .map { Message.AuthSuccess }
                         .getOrElse {
-                            val errorMessage =
-                                if (it is AuthException) {
-                                    it.errorMessage
+                            val error =
+                                if (it is AuthCredentialsException) {
+                                    it.authCredentialsError
                                 } else {
-                                    ""
+                                    AuthCredentialsError.CONNECTION_PROBLEM
                                 }
-                            Message.AuthFailure(errorMessage)
+                            Message.AuthFailure(error)
                         }
 
                 onNewMessage(message)

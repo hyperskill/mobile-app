@@ -19,6 +19,7 @@ import io.ktor.util.encodeBase64
 import io.ktor.utils.io.charsets.Charsets
 import io.ktor.utils.io.core.toByteArray
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.sync.Mutex
 import kotlinx.datetime.Clock
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -32,37 +33,35 @@ import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.network.domain.model.NetworkClientType
 
 object NetworkBuilder {
-    internal fun buildAuthClient(networkClientType: NetworkClientType, userAgentInfo: UserAgentInfo, json: Json): HttpClient =
-        when (networkClientType) {
+    private const val AUTHORIZATION_HEADER = "Authorization"
+
+    internal fun buildAuthClient(networkClientType: NetworkClientType, userAgentInfo: UserAgentInfo, json: Json): HttpClient {
+        val (clientId, clientSecret) = when (networkClientType) {
             NetworkClientType.SOCIAL ->
-                provideClientFromBasicAuthCredentials(
-                    userAgentInfo,
-                    json,
-                    constructBasicAuthValue(
-                        BuildKonfig.OAUTH_CLIENT_ID,
-                        BuildKonfig.OAUTH_CLIENT_SECRET
-                    )
-                )
+                BuildKonfig.OAUTH_CLIENT_ID to BuildKonfig.OAUTH_CLIENT_SECRET
             NetworkClientType.CREDENTIALS ->
-                provideClientFromBasicAuthCredentials(
-                    userAgentInfo,
-                    json,
-                    constructBasicAuthValue(
-                        BuildKonfig.CREDENTIALS_CLIEND_ID,
-                        BuildKonfig.CREDENTIALS_CLIENT_SECRET
-                    )
-                )
+                BuildKonfig.CREDENTIALS_CLIEND_ID to BuildKonfig.CREDENTIALS_CLIENT_SECRET
         }
+
+        return provideClientFromBasicAuthCredentials(userAgentInfo, json, constructBasicAuthValue(clientId, clientSecret))
+    }
 
     internal fun buildAuthorizedClient(
         userAgentInfo: UserAgentInfo,
         json: Json,
         settings: Settings,
-        authorizationFlow: MutableSharedFlow<UserDeauthorized>
+        authorizationFlow: MutableSharedFlow<UserDeauthorized>,
+        authorizationMutex: Mutex
     ): HttpClient =
         HttpClient {
-            val tokenClient = NetworkModule.provideClient(
-                NetworkClientType.values()[settings.getInt(AuthCacheKeyValues.AUTH_SOCIAL_ORDINAL)],
+            val tokenSocialAuthClient = buildAuthClient(
+                NetworkClientType.SOCIAL,
+                userAgentInfo,
+                json
+            )
+
+            val tokenCredentialsAuthClient = buildAuthClient(
+                NetworkClientType.CREDENTIALS,
                 userAgentInfo,
                 json
             )
@@ -84,7 +83,8 @@ object NetworkBuilder {
                 agent = userAgentInfo.toString()
             }
             install(BearerTokenHttpClientPlugin) {
-                tokenHeaderName = "Authorization"
+                authMutex = authorizationMutex
+                tokenHeaderName = AUTHORIZATION_HEADER
                 tokenProvider = {
                     getAuthResponse(json, settings)?.accessToken
                 }
@@ -92,6 +92,16 @@ object NetworkBuilder {
                     val refreshToken = getAuthResponse(json, settings)?.refreshToken
                     if (refreshToken != null) {
                         val refreshTokenResult = kotlin.runCatching {
+                            val currentAuthClientType =
+                                settings.getInt(AuthCacheKeyValues.AUTH_SOCIAL_ORDINAL)
+                            val tokenClient =
+                                when (NetworkClientType.values()[currentAuthClientType]) {
+                                    NetworkClientType.CREDENTIALS ->
+                                        tokenCredentialsAuthClient
+                                    NetworkClientType.SOCIAL ->
+                                        tokenSocialAuthClient
+                                }
+
                             tokenClient.submitForm(
                                 url = "/oauth2/token/",
                                 formParameters = Parameters.build {
@@ -136,7 +146,7 @@ object NetworkBuilder {
         HttpClient {
             defaultRequest {
                 headers {
-                    append("Authorization", credentials)
+                    append(AUTHORIZATION_HEADER, credentials)
                 }
                 url {
                     protocol = URLProtocol.HTTPS

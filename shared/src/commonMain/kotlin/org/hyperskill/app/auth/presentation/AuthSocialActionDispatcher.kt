@@ -1,7 +1,8 @@
 package org.hyperskill.app.auth.presentation
 
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
-import org.hyperskill.app.auth.domain.model.AuthException
+import org.hyperskill.app.auth.domain.exception.AuthSocialException
+import org.hyperskill.app.auth.domain.model.AuthSocialError
 import org.hyperskill.app.auth.presentation.AuthSocialFeature.Action
 import org.hyperskill.app.auth.presentation.AuthSocialFeature.Message
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
@@ -20,13 +21,13 @@ class AuthSocialActionDispatcher(
                     result
                         .map { Message.AuthSuccess }
                         .getOrElse {
-                            val errorMessage =
-                                if (it is AuthException) {
-                                    it.errorMessage
+                            val error =
+                                if (it is AuthSocialException) {
+                                    it.authSocialError
                                 } else {
-                                    ""
+                                    AuthSocialError.CONNECTION_PROBLEM
                                 }
-                            Message.AuthFailure(errorMessage)
+                            Message.AuthFailure(error)
                         }
                 onNewMessage(message)
             }

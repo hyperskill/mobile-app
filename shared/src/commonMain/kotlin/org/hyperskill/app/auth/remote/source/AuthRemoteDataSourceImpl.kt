@@ -8,20 +8,26 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.Parameters
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.datetime.Clock
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.hyperskill.app.auth.cache.AuthCacheKeyValues
 import org.hyperskill.app.auth.data.source.AuthRemoteDataSource
-import org.hyperskill.app.auth.domain.model.AuthException
+import org.hyperskill.app.auth.domain.model.AuthCredentialsError
+import org.hyperskill.app.auth.domain.exception.AuthCredentialsException
+import org.hyperskill.app.auth.domain.exception.AuthSocialException
+import org.hyperskill.app.auth.domain.model.AuthSocialError
 import org.hyperskill.app.auth.domain.model.SocialAuthProvider
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.auth.remote.model.AuthResponse
-import org.hyperskill.app.auth.remote.model.AuthErrorResponse
+import org.hyperskill.app.auth.remote.model.AuthSocialErrorResponse
 import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.network.domain.model.NetworkClientType
 
 class AuthRemoteDataSourceImpl(
+    private val authCacheMutex: Mutex,
     private val deauthorizationFlow: Flow<UserDeauthorized>,
     private val authSocialHttpClient: HttpClient,
     private val authCredentialsHttpClient: HttpClient,
@@ -51,7 +57,7 @@ class AuthRemoteDataSourceImpl(
                             append("redirect_uri", BuildKonfig.REDIRECT_URI)
                         }
                     )
-            resolveAuthHttpResponse(httpResponse, NetworkClientType.SOCIAL)
+            resolveSocialAuthHttpResponse(httpResponse)
         }
 
     private suspend fun authWithCode(authCode: String): Result<Unit> =
@@ -66,7 +72,7 @@ class AuthRemoteDataSourceImpl(
                             append("redirect_uri", BuildKonfig.REDIRECT_URI)
                         }
                     )
-            resolveAuthHttpResponse(httpResponse, NetworkClientType.SOCIAL)
+            resolveSocialAuthHttpResponse(httpResponse)
         }
 
     override suspend fun authWithEmail(email: String, password: String): Result<Unit> =
@@ -81,25 +87,41 @@ class AuthRemoteDataSourceImpl(
                         append("redirect_uri", BuildKonfig.REDIRECT_URI)
                     }
                 )
-            resolveAuthHttpResponse(httpResponse, NetworkClientType.CREDENTIALS)
+
+            if (httpResponse.status == HttpStatusCode.OK) {
+                httpResponse
+                    .body<AuthResponse>()
+                    .also { authResponse ->
+                        cacheAuthResponseInformation(authResponse, NetworkClientType.CREDENTIALS)
+                    }
+            } else {
+                throw AuthCredentialsException(authCredentialsError = AuthCredentialsError.ERROR_CREDENTIALS_AUTH)
+            }
         }
 
-    private suspend fun resolveAuthHttpResponse(httpResponse: HttpResponse, networkClientType: NetworkClientType) {
+    private suspend fun resolveSocialAuthHttpResponse(httpResponse: HttpResponse) {
         if (httpResponse.status == HttpStatusCode.OK) {
             httpResponse
                 .body<AuthResponse>()
                 .also { authResponse ->
-                    cacheAuthResponseInformation(authResponse, networkClientType)
+                    cacheAuthResponseInformation(authResponse, NetworkClientType.SOCIAL)
                 }
         } else {
-            val errorBody = httpResponse.body<AuthErrorResponse>()
-            throw AuthException(errorMessage = errorBody.errorDescription)
+            val authErrorBody = httpResponse.body<AuthSocialErrorResponse>()
+            val error = AuthSocialError
+                .values()
+                .find { it.name.lowercase() == authErrorBody.error }
+                ?: AuthSocialError.CONNECTION_PROBLEM
+
+            throw AuthSocialException(authSocialError = error)
         }
     }
 
-    private fun cacheAuthResponseInformation(authResponse: AuthResponse, networkClientType: NetworkClientType) {
-        settings.putString(AuthCacheKeyValues.AUTH_RESPONSE, json.encodeToString(authResponse))
-        settings.putLong(AuthCacheKeyValues.AUTH_ACCESS_TOKEN_TIMESTAMP, Clock.System.now().epochSeconds)
-        settings.putInt(AuthCacheKeyValues.AUTH_SOCIAL_ORDINAL, networkClientType.ordinal)
+    private suspend fun cacheAuthResponseInformation(authResponse: AuthResponse, networkClientType: NetworkClientType) {
+        authCacheMutex.withLock {
+            settings.putString(AuthCacheKeyValues.AUTH_RESPONSE, json.encodeToString(authResponse))
+            settings.putLong(AuthCacheKeyValues.AUTH_ACCESS_TOKEN_TIMESTAMP, Clock.System.now().epochSeconds)
+            settings.putInt(AuthCacheKeyValues.AUTH_SOCIAL_ORDINAL, networkClientType.ordinal)
+        }
     }
 }

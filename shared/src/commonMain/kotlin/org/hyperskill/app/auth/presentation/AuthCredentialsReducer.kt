@@ -1,5 +1,6 @@
 package org.hyperskill.app.auth.presentation
 
+import org.hyperskill.app.auth.domain.model.AuthCredentialsError
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.Action
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.Message
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.State
@@ -15,23 +16,30 @@ class AuthCredentialsReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
-            is Message.AuthWithEmail -> {
+            is Message.SubmitFormClicked -> {
                 if (state.formState is AuthCredentialsFeature.FormState.Editing || state.formState is AuthCredentialsFeature.FormState.Error) {
-                    state.copy(formState = AuthCredentialsFeature.FormState.Loading) to setOf(Action.AuthWithEmail(state.email, state.password))
+                    when {
+                        state.email.isBlank() ->
+                            state.copy(formState = AuthCredentialsFeature.FormState.Error(AuthCredentialsError.ERROR_EMAIL_EMPTY)) to emptySet()
+                        state.password.isBlank() ->
+                            state.copy(formState = AuthCredentialsFeature.FormState.Error(AuthCredentialsError.ERROR_PASSWORD_EMPTY)) to emptySet()
+                        else ->
+                            state.copy(formState = AuthCredentialsFeature.FormState.Loading) to setOf(Action.AuthWithEmail(state.email, state.password))
+                    }
                 } else {
                     null
                 }
             }
             is Message.AuthSuccess -> {
                 if (state.formState is AuthCredentialsFeature.FormState.Loading) {
-                    state.copy(formState = AuthCredentialsFeature.FormState.Authenticated) to setOf(Action.ViewAction.NavigateToHomeScreen)
+                    state.copy(formState = AuthCredentialsFeature.FormState.Authenticated) to setOf(Action.ViewAction.CompleteAuthFlow)
                 } else {
                     null
                 }
             }
             is Message.AuthFailure -> {
                 if (state.formState is AuthCredentialsFeature.FormState.Loading) {
-                    state.copy(formState = AuthCredentialsFeature.FormState.Error(message.errorMessage)) to emptySet()
+                    state.copy(formState = AuthCredentialsFeature.FormState.Error(message.credentialsError)) to emptySet()
                 } else {
                     null
                 }
