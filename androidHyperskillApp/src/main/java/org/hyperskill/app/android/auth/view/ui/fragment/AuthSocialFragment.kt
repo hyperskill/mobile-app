@@ -12,8 +12,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.Scopes
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.common.api.Scope
 import com.google.android.material.snackbar.Snackbar
+import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.BuildConfig
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
@@ -22,20 +24,26 @@ import org.hyperskill.app.android.auth.view.ui.adapter.delegates.AuthSocialAdapt
 import org.hyperskill.app.android.auth.view.ui.model.AuthSocialCardInfo
 import org.hyperskill.app.android.databinding.FragmentAuthSocialBinding
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
-import org.hyperskill.app.android.auth.view.ui.screen.AuthEmailScreen
-import org.hyperskill.app.android.main.view.ui.activity.MainActivity
+import org.hyperskill.app.android.auth.view.ui.navigation.AuthEmailScreen
+import org.hyperskill.app.android.auth.view.ui.navigation.AuthFlow
+import org.hyperskill.app.android.core.view.ui.dialog.dismissIfExists
+import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
+import org.hyperskill.app.auth.domain.model.AuthSocialError
 import org.hyperskill.app.auth.domain.model.SocialAuthProvider
-import org.hyperskill.app.auth.presentation.AuthFeature
+import org.hyperskill.app.auth.presentation.AuthSocialFeature
+import org.hyperskill.app.auth.view.mapper.AuthSocialErrorMapper
+import org.hyperskill.app.core.view.mapper.ResourceProvider
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
+import ru.nobird.android.view.base.ui.extension.showIfNotExists
+import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
-import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import javax.inject.Inject
 
 class AuthSocialFragment :
     Fragment(R.layout.fragment_auth_social),
-    ReduxView<AuthFeature.State, AuthFeature.Action.ViewAction>,
+    ReduxView<AuthSocialFeature.State, AuthSocialFeature.Action.ViewAction>,
     AuthSocialWebViewFragment.Callback {
 
     companion object {
@@ -46,13 +54,19 @@ class AuthSocialFragment :
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    @Inject
+    internal lateinit var resourceProvider: ResourceProvider
+
+    @Inject
+    internal lateinit var authSocialErrorMapper: AuthSocialErrorMapper
+
     private val authSocialViewModel: AuthSocialViewModel by reduxViewModel(this) { viewModelFactory }
 
     private val viewBinding by viewBinding(FragmentAuthSocialBinding::bind)
-    private lateinit var viewStateDelegate: ViewStateDelegate<AuthFeature.State>
     private val authMaterialCardViewsAdapter: DefaultDelegateAdapter<AuthSocialCardInfo> = DefaultDelegateAdapter()
 
-    private val loadingProgressDialogFragment = LoadingProgressDialogFragment.newInstance()
+    private val loadingProgressDialogFragment: DialogFragment =
+        LoadingProgressDialogFragment.newInstance()
 
     private val signInWithGoogleCallback = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { res ->
         val task = GoogleSignIn.getSignedInAccountFromIntent(res.data)
@@ -60,8 +74,12 @@ class AuthSocialFragment :
             val account = task.getResult(ApiException::class.java)
             val authCode = account.serverAuthCode
             authProvider = SocialAuthProvider.GOOGLE
-            authSocialViewModel.onNewMessage(AuthFeature.Message.AuthWithSocial(authCode, authProvider))
-        } catch (e: ApiException) {}
+            authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthWithSocial(authCode ?: "", SocialAuthProvider.GOOGLE))
+        } catch (e: ApiException) {
+            if (e.statusCode == CommonStatusCodes.NETWORK_ERROR) {
+                view?.snackbar(message = resourceProvider.getString(SharedResources.strings.connection_error), Snackbar.LENGTH_LONG)
+            }
+        }
     }
 
     private lateinit var anotherSocialAuthDialogFragment: DialogFragment
@@ -84,17 +102,14 @@ class AuthSocialFragment :
     private fun onSocialClickListener(social: AuthSocialCardInfo) {
         when (social) {
             AuthSocialCardInfo.GOOGLE -> {
-                viewStateDelegate.switchState(AuthFeature.State.Loading)
                 signInWithGoogle()
             }
             AuthSocialCardInfo.GITHUB -> {
-                viewStateDelegate.switchState(AuthFeature.State.Loading)
                 authProvider = SocialAuthProvider.GITHUB
                 anotherSocialAuthDialogFragment = AuthSocialWebViewFragment.newInstance(social.provider)
                 anotherSocialAuthDialogFragment.showIfNotExists(childFragmentManager, AuthSocialWebViewFragment.TAG)
             }
             AuthSocialCardInfo.JETBRAINS -> {
-                viewStateDelegate.switchState(AuthFeature.State.Loading)
                 authProvider = SocialAuthProvider.JETBRAINS_ACCOUNT
                 anotherSocialAuthDialogFragment = AuthSocialWebViewFragment.newInstance(social.provider)
                 anotherSocialAuthDialogFragment.showIfNotExists(childFragmentManager, AuthSocialWebViewFragment.TAG)
@@ -104,7 +119,6 @@ class AuthSocialFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewStateDelegate = ViewStateDelegate()
         authMaterialCardViewsAdapter.items = listOf(
             AuthSocialCardInfo.JETBRAINS,
             AuthSocialCardInfo.GOOGLE,
@@ -114,19 +128,28 @@ class AuthSocialFragment :
         viewBinding.authButtonsRecyclerView.adapter = authMaterialCardViewsAdapter
 
         viewBinding.signInWithEmailMaterialButton.setOnClickListener {
-            (requireActivity() as MainActivity).router.navigateTo(AuthEmailScreen)
+            requireRouter().navigateTo(AuthEmailScreen)
         }
     }
 
-    override fun onAction(action: AuthFeature.Action.ViewAction) {
+    override fun onAction(action: AuthSocialFeature.Action.ViewAction) {
         when (action) {
-            is AuthFeature.Action.ViewAction.ShowAuthError -> {
-                Snackbar.make(requireView(), action.errorMsg, Snackbar.LENGTH_LONG).show()
+            is AuthSocialFeature.Action.ViewAction.CompleteAuthFlow -> {
+                (parentFragment as? AuthFlow)?.onAuthSuccess()
+            }
+            is AuthSocialFeature.Action.ViewAction.ShowAuthError -> {
+                view?.snackbar(message = authSocialErrorMapper.getAuthSocialErrorText(action.socialError), Snackbar.LENGTH_LONG)
             }
         }
     }
 
-    override fun render(state: AuthFeature.State) {}
+    override fun render(state: AuthSocialFeature.State) {
+        if (state is AuthSocialFeature.State.Loading) {
+            loadingProgressDialogFragment.showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
+        } else {
+            loadingProgressDialogFragment.dismissIfExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
+        }
+    }
 
     private fun signInWithGoogle() {
         val serverClientId = BuildConfig.SERVER_CLIENT_ID
@@ -141,11 +164,11 @@ class AuthSocialFragment :
     }
 
     override fun onDismissed() {
-        authSocialViewModel.onNewMessage(AuthFeature.Message.AuthError("Could not login."))
+        authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthFailure(AuthSocialError.CONNECTION_PROBLEM))
     }
 
     override fun onSuccess(authCode: String) {
         anotherSocialAuthDialogFragment.dismiss()
-        authSocialViewModel.onNewMessage(AuthFeature.Message.AuthWithSocial(authCode, authProvider))
+        authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthWithSocial(authCode, authProvider))
     }
 }

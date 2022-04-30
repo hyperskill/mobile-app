@@ -1,0 +1,8 @@
+shared:
+  - shared/**
+
+ios:
+  - iosHyperskillApp/**
+
+android:
+  - androidHyperskillApp/**

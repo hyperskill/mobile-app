@@ -6,7 +6,7 @@ import org.hyperskill.app.android.auth.view.ui.fragment.AuthSocialFragment
 @Subcomponent(
     modules = [
         AuthSocialModule::class,
-        AuthSocialDataModule::class
+        AuthDataModule::class
     ]
 )
 interface AuthSocialComponent {

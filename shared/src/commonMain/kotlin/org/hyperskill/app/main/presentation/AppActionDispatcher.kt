@@ -10,7 +10,7 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class AppActionDispatcher(
     config: ActionDispatcherOptions,
-    authInteractor: AuthInteractor
+    private val authInteractor: AuthInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
         authInteractor
@@ -21,9 +21,13 @@ class AppActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             Action.DetermineUserAccountStatus -> {
-                val isAuthorized = false
-                val newMessage = if (isAuthorized) Message.UserAuthorized else Message.UserDeauthorized
-                onNewMessage(newMessage)
+                val result = authInteractor.isAuthorized()
+
+                val message =
+                    result
+                        .map { isAuthorized -> Message.UserAccountStatus(isAuthorized) }
+                        .getOrElse { Message.UserAccountStatus(isAuthorized = false) }
+                onNewMessage(message)
             }
         }
     }
