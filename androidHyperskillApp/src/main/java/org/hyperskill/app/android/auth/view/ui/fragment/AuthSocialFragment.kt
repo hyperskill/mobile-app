@@ -34,7 +34,6 @@ import org.hyperskill.app.auth.presentation.AuthSocialFeature
 import org.hyperskill.app.auth.view.mapper.AuthSocialErrorMapper
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
-import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
