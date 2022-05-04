@@ -83,8 +83,23 @@
 		E92D659727FC2F4100953029 /* AuthSocialButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92D659627FC2F4100953029 /* AuthSocialButton.swift */; };
 		E94D238D28057F440003273F /* AuthEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D238C28057F440003273F /* AuthEmailView.swift */; };
 		E94D238F280585110003273F /* AuthEmailFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D238E280585110003273F /* AuthEmailFormView.swift */; };
+		E94EC7D528201E4E00A81580 /* QuizDescView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94EC7D428201E4E00A81580 /* QuizDescView.swift */; };
+		E94EC7D728201E9D00A81580 /* SingleOptionChoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94EC7D628201E9D00A81580 /* SingleOptionChoiceView.swift */; };
 		E951757927E61ACD00995008 /* AuthSocialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951757827E61ACD00995008 /* AuthSocialView.swift */; };
 		E96E80F627EF57BA00AA6683 /* AuthSocialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */; };
+		E9802D07281BB5CC00CF3AC1 /* ChoiceQuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9802D06281BB5CC00CF3AC1 /* ChoiceQuizView.swift */; };
+		E9B2CF5B2822960D00B2DC6F /* QuizDiscussions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B2CF5A2822960D00B2DC6F /* QuizDiscussions.swift */; };
+		E9B2CF5D2822975400B2DC6F /* QuizStatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B2CF5C2822975400B2DC6F /* QuizStatView.swift */; };
+		E9B2CF5F2822979400B2DC6F /* HintButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B2CF5E2822979400B2DC6F /* HintButton.swift */; };
+		E9B2CF6528229F0D00B2DC6F /* QuizNavigationToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B2CF6428229F0D00B2DC6F /* QuizNavigationToolbar.swift */; };
+		E9B2CF672822A57400B2DC6F /* SingleOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B2CF662822A57400B2DC6F /* SingleOptionView.swift */; };
+		E9B2CF692822A5D400B2DC6F /* QuizOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B2CF682822A5D400B2DC6F /* QuizOption.swift */; };
+		E9B2CF6B2822AC8900B2DC6F /* CorrectAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B2CF6A2822AC8900B2DC6F /* CorrectAlertView.swift */; };
+		E9B2CF6D2822AE5F00B2DC6F /* FeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B2CF6C2822AE5F00B2DC6F /* FeedbackView.swift */; };
+		E9C8C5632822B1DC005A81EB /* IncorrectAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C8C5622822B1DC005A81EB /* IncorrectAlertView.swift */; };
+		E9C8C5672822B7FA005A81EB /* MultipleOptionChoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C8C5662822B7FA005A81EB /* MultipleOptionChoiceView.swift */; };
+		E9C8C5692822B897005A81EB /* ChoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C8C5682822B897005A81EB /* ChoiceView.swift */; };
+		E9C8C56B2822BB04005A81EB /* MultipleOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C8C56A2822BB04005A81EB /* MultipleOptionView.swift */; };
 		E9D69A4028084FF7000E114E /* AuthEmailErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D69A3F28084FF7000E114E /* AuthEmailErrorView.swift */; };
 /* End PBXBuildFile section */
 
@@ -182,8 +197,23 @@
 		E92D659627FC2F4100953029 /* AuthSocialButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialButton.swift; sourceTree = "<group>"; };
 		E94D238C28057F440003273F /* AuthEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthEmailView.swift; sourceTree = "<group>"; };
 		E94D238E280585110003273F /* AuthEmailFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthEmailFormView.swift; sourceTree = "<group>"; };
+		E94EC7D428201E4E00A81580 /* QuizDescView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizDescView.swift; sourceTree = "<group>"; };
+		E94EC7D628201E9D00A81580 /* SingleOptionChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleOptionChoiceView.swift; sourceTree = "<group>"; };
 		E951757827E61ACD00995008 /* AuthSocialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialView.swift; sourceTree = "<group>"; };
 		E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialViewModel.swift; sourceTree = "<group>"; };
+		E9802D06281BB5CC00CF3AC1 /* ChoiceQuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceQuizView.swift; sourceTree = "<group>"; };
+		E9B2CF5A2822960D00B2DC6F /* QuizDiscussions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizDiscussions.swift; sourceTree = "<group>"; };
+		E9B2CF5C2822975400B2DC6F /* QuizStatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizStatView.swift; sourceTree = "<group>"; };
+		E9B2CF5E2822979400B2DC6F /* HintButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintButton.swift; sourceTree = "<group>"; };
+		E9B2CF6428229F0D00B2DC6F /* QuizNavigationToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizNavigationToolbar.swift; sourceTree = "<group>"; };
+		E9B2CF662822A57400B2DC6F /* SingleOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleOptionView.swift; sourceTree = "<group>"; };
+		E9B2CF682822A5D400B2DC6F /* QuizOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizOption.swift; sourceTree = "<group>"; };
+		E9B2CF6A2822AC8900B2DC6F /* CorrectAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrectAlertView.swift; sourceTree = "<group>"; };
+		E9B2CF6C2822AE5F00B2DC6F /* FeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackView.swift; sourceTree = "<group>"; };
+		E9C8C5622822B1DC005A81EB /* IncorrectAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncorrectAlertView.swift; sourceTree = "<group>"; };
+		E9C8C5662822B7FA005A81EB /* MultipleOptionChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleOptionChoiceView.swift; sourceTree = "<group>"; };
+		E9C8C5682822B897005A81EB /* ChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceView.swift; sourceTree = "<group>"; };
+		E9C8C56A2822BB04005A81EB /* MultipleOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleOptionView.swift; sourceTree = "<group>"; };
 		E9D69A3F28084FF7000E114E /* AuthEmailErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthEmailErrorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -254,6 +284,7 @@
 		2C1DEE2D27EC40200001A567 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				E9802D03281BB5A500CF3AC1 /* ChoiceQuiz */,
 				2CE31F4927F1E058008EEE66 /* App */,
 				2C005DD027EF5C4800DC6503 /* AuthSocial */,
 				2C725B6428091ACF00A49043 /* AuthEmail */,
@@ -674,6 +705,36 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E9802D03281BB5A500CF3AC1 /* ChoiceQuiz */ = {
+			isa = PBXGroup;
+			children = (
+				E9802D04281BB5B200CF3AC1 /* Views */,
+				E9B2CF682822A5D400B2DC6F /* QuizOption.swift */,
+			);
+			path = ChoiceQuiz;
+			sourceTree = "<group>";
+		};
+		E9802D04281BB5B200CF3AC1 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E9802D06281BB5CC00CF3AC1 /* ChoiceQuizView.swift */,
+				E94EC7D428201E4E00A81580 /* QuizDescView.swift */,
+				E94EC7D628201E9D00A81580 /* SingleOptionChoiceView.swift */,
+				E9B2CF5A2822960D00B2DC6F /* QuizDiscussions.swift */,
+				E9B2CF5C2822975400B2DC6F /* QuizStatView.swift */,
+				E9B2CF5E2822979400B2DC6F /* HintButton.swift */,
+				E9B2CF6428229F0D00B2DC6F /* QuizNavigationToolbar.swift */,
+				E9B2CF662822A57400B2DC6F /* SingleOptionView.swift */,
+				E9B2CF6A2822AC8900B2DC6F /* CorrectAlertView.swift */,
+				E9B2CF6C2822AE5F00B2DC6F /* FeedbackView.swift */,
+				E9C8C5622822B1DC005A81EB /* IncorrectAlertView.swift */,
+				E9C8C5662822B7FA005A81EB /* MultipleOptionChoiceView.swift */,
+				E9C8C5682822B897005A81EB /* ChoiceView.swift */,
+				E9C8C56A2822BB04005A81EB /* MultipleOptionView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -852,6 +913,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CAFD39127FC5D5D00F88B0B /* Color+DesignSystem.swift in Sources */,
+				E9802D07281BB5CC00CF3AC1 /* ChoiceQuizView.swift in Sources */,
 				2C9B66C427ECA73700569645 /* AppDelegate.swift in Sources */,
 				2C9B66E627ECA86B00569645 /* SceneDelegate.swift in Sources */,
 				E94D238F280585110003273F /* AuthEmailFormView.swift in Sources */,
@@ -862,8 +924,10 @@
 				2C2FD622281920B1004E7AF6 /* SentryInfo.swift in Sources */,
 				2C9B66EB27ECAF5000569645 /* UIApplicationExtensions.swift in Sources */,
 				2CA8E093281039EB00154088 /* OutlineButtonStyle.swift in Sources */,
+				E9B2CF692822A5D400B2DC6F /* QuizOption.swift in Sources */,
 				2C1DEE3027EC408D0001A567 /* UsersListAssembly.swift in Sources */,
 				2C84094F2805B28B009C6BE9 /* StepRatingControl.swift in Sources */,
+				E9B2CF5D2822975400B2DC6F /* QuizStatView.swift in Sources */,
 				2C005DCC27EF5B0300DC6503 /* GoogleServiceInfo.swift in Sources */,
 				E94D238D28057F440003273F /* AuthEmailView.swift in Sources */,
 				2CE31F4827F1BB79008EEE66 /* AuthSocialAssembly.swift in Sources */,
@@ -874,6 +938,8 @@
 				2C1F5879280D2D1300372A37 /* WebOAuthURLParser.swift in Sources */,
 				2CCF3B5828004FC40075D12C /* UserAgentBuilder.swift in Sources */,
 				2C919DE827EEEDD60022A2F2 /* LinkedList.swift in Sources */,
+				E9B2CF6B2822AC8900B2DC6F /* CorrectAlertView.swift in Sources */,
+				E9B2CF6528229F0D00B2DC6F /* QuizNavigationToolbar.swift in Sources */,
 				2C46D0632807E4C100B3636E /* TextFieldWrapper.swift in Sources */,
 				2CAFD38F27FC517D00F88B0B /* ColorPalette.swift in Sources */,
 				2C1F5888280D5D6200372A37 /* SocialAuthSDKProvider.swift in Sources */,
@@ -889,17 +955,23 @@
 				2C1F5877280D2B4800372A37 /* ApplicationInfo.swift in Sources */,
 				2CAE8D0528055D8300E6C83D /* StepActionButton.swift in Sources */,
 				E9D69A4028084FF7000E114E /* AuthEmailErrorView.swift in Sources */,
+				E9C8C5632822B1DC005A81EB /* IncorrectAlertView.swift in Sources */,
 				2C42EFAD27F2C29500B4648B /* Strings.swift in Sources */,
 				2C906CBE280E5D9C0079C594 /* ProgressHUD.swift in Sources */,
 				2152FB042600AC8F00CF470E /* HyperskillApp.swift in Sources */,
 				2CA8E094281039EB00154088 /* RoundedRectangleButtonStyle.swift in Sources */,
+				E9C8C56B2822BB04005A81EB /* MultipleOptionView.swift in Sources */,
 				E951757927E61ACD00995008 /* AuthSocialView.swift in Sources */,
 				2C1F5875280D0E0000372A37 /* WKWebViewPanelManager.m in Sources */,
 				2C1F5870280D0CB700372A37 /* WebCacheCleaner.swift in Sources */,
 				2C58DE232803BF97002A2774 /* AuthLogoView.swift in Sources */,
 				2C1F5882280D5BAA00372A37 /* SocialAuthService.swift in Sources */,
+				E94EC7D728201E9D00A81580 /* SingleOptionChoiceView.swift in Sources */,
+				E9B2CF672822A57400B2DC6F /* SingleOptionView.swift in Sources */,
+				E94EC7D528201E4E00A81580 /* QuizDescView.swift in Sources */,
 				E96E80F627EF57BA00AA6683 /* AuthSocialViewModel.swift in Sources */,
 				2C1F5869280D063800372A37 /* WebViewController.swift in Sources */,
+				E9C8C5672822B7FA005A81EB /* MultipleOptionChoiceView.swift in Sources */,
 				2CAE8D07280576C600E6C83D /* StepBottomControlsView.swift in Sources */,
 				2C005DCE27EF5B4400DC6503 /* AppView.swift in Sources */,
 				2C9CC1BF28092E06006604D7 /* AuthAdaptiveContentView.swift in Sources */,
@@ -911,8 +983,11 @@
 				2CF2DA4127EC75000055426D /* UsersListViewModel.swift in Sources */,
 				E92D659727FC2F4100953029 /* AuthSocialButton.swift in Sources */,
 				2CAE8CF4280525D400E6C83D /* StepAssembly.swift in Sources */,
+				E9B2CF6D2822AE5F00B2DC6F /* FeedbackView.swift in Sources */,
 				2CF2DA3E27EC5C180055426D /* UsersListView.swift in Sources */,
 				2C1F588B280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift in Sources */,
+				E9C8C5692822B897005A81EB /* ChoiceView.swift in Sources */,
+				E9B2CF5F2822979400B2DC6F /* HintButton.swift in Sources */,
 				2C42EFB527F2EAB300B4648B /* GraphicsColor+UIColor.swift in Sources */,
 				2C725B632809198000A49043 /* BackgroundView.swift in Sources */,
 				2CAE8CF2280525C900E6C83D /* StepView.swift in Sources */,
@@ -920,6 +995,7 @@
 				2C8409532805BF3C009C6BE9 /* StepContentView.swift in Sources */,
 				2C58DE252803C185002A2774 /* AuthSocialControlsView.swift in Sources */,
 				2CE1C4DF27EDFB3800220041 /* FeatureViewModel.swift in Sources */,
+				E9B2CF5B2822960D00B2DC6F /* QuizDiscussions.swift in Sources */,
 				2C42EFB727F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
