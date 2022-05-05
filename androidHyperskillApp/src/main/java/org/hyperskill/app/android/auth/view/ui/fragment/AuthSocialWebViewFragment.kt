@@ -14,7 +14,6 @@ import androidx.fragment.app.DialogFragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.DialogInAppWebViewBinding
-import org.hyperskill.app.auth.domain.model.AuthSocialError
 import org.hyperskill.app.auth.domain.model.SocialAuthProvider
 import org.hyperskill.app.auth.view.mapper.SocialAuthProviderRequestURLBuilder
 import org.hyperskill.app.config.BuildKonfig
@@ -41,7 +40,6 @@ class AuthSocialWebViewFragment : DialogFragment(R.layout.dialog_in_app_web_view
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.dialog_in_app_web_view, container, false)
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -70,7 +68,6 @@ class AuthSocialWebViewFragment : DialogFragment(R.layout.dialog_in_app_web_view
                 it.settings.javaScriptEnabled = true
             }
 
-
             viewBinding.centeredAppbar.centeredToolbar.centeredToolbar.apply {
                 setNavigationOnClickListener {
                     if (showsDialog) {
@@ -80,7 +77,6 @@ class AuthSocialWebViewFragment : DialogFragment(R.layout.dialog_in_app_web_view
                     }
                 }
                 setNavigationIcon(R.drawable.ic_close)
-
             }
         }
         webView.let { viewBinding.containerView.addView(it) }
