@@ -7,6 +7,9 @@
         android:allowBackup="false"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data android:name="io.sentry.auto-init" android:value="false" />
+
         <activity
             android:windowSoftInputMode="adjustResize"
             android:name="org.hyperskill.app.android.main.view.ui.activity.MainActivity"

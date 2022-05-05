@@ -10,6 +10,8 @@ target 'iosHyperskillApp' do
   pod 'shared', :path => '../shared'
 
   pod 'SwiftLint', '0.47.0'
+  pod 'Sentry', '7.13.0'
+
   pod 'GoogleSignIn', '6.1.0'
 
   pod 'IQKeyboardManagerSwift', '6.5.9'

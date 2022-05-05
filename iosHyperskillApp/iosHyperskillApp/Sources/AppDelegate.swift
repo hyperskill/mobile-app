@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController = rootViewController
         self.window?.makeKeyAndVisible()
 
+        SentryManager.configure()
         ProgressHUD.configure()
         KeyboardManager.configure()
 
@@ -36,6 +37,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return true
         }
 
-        return false
+        return true
     }
 }
