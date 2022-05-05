@@ -4,6 +4,8 @@ import SwiftUI
 struct AppView: View {
     @ObservedObject private var viewModel: AppViewModel
 
+    @ObservedObject private var navigationState = AppNavigationState()
+
     @Environment(\.colorScheme) private var colorScheme
 
     init(viewModel: AppViewModel) {
@@ -12,10 +14,13 @@ struct AppView: View {
     }
 
     var body: some View {
-        AuthSocialAssembly()
-            .makeModule()
+        buildBody()
             .onAppear {
+                viewModel.startListening()
                 updateProgressHUDStyle(colorScheme: colorScheme)
+            }
+            .onDisappear {
+                viewModel.stopListening()
             }
             .onChange(of: colorScheme) { newColorScheme in
                 updateProgressHUDStyle(colorScheme: newColorScheme)
@@ -24,12 +29,57 @@ struct AppView: View {
 
     // MARK: Private API
 
+    @ViewBuilder
+    private func buildBody() -> some View {
+        let state = viewModel.state
+
+        switch state {
+        case is AppFeatureStateIdle, is AppFeatureStateLoading:
+            ProgressView()
+        case is AppFeatureStateReady:
+            TabView(selection: $navigationState.selectedTab) {
+                HomeAssembly()
+                    .makeModule()
+                    .tag(AppTabItem.home)
+                    .tabItem {
+                        Image(systemName: AppTabItem.home.imageSystemName)
+                        Text(AppTabItem.home.title)
+                    }
+
+                SettingsAssembly()
+                    .makeModule()
+                    .tag(AppTabItem.settings)
+                    .tabItem {
+                        Image(systemName: AppTabItem.settings.imageSystemName)
+                        Text(AppTabItem.settings.title)
+                    }
+            }
+            .fullScreenCover(isPresented: $navigationState.presentingAuthScreen) {
+                AuthSocialAssembly(navigationState: navigationState)
+                    .makeModule()
+            }
+        default:
+            ProgressView()
+        }
+    }
+
     private func updateProgressHUDStyle(colorScheme: ColorScheme) {
         ProgressHUD.updateStyle(isDark: colorScheme == .dark)
     }
 
     private func handleViewAction(_ viewAction: AppFeatureActionViewAction) {
-        print("AppView :: \(#function) viewAction = \(viewAction)")
+        switch viewAction {
+        case is AppFeatureActionViewActionNavigateToAuthScreen:
+            withAnimation {
+                navigationState.presentingAuthScreen = true
+            }
+        case is AppFeatureActionViewActionNavigateToHomeScreen:
+            withAnimation {
+                navigationState.presentingAuthScreen = false
+            }
+        default:
+            print("AppView :: unhandled viewAction = \(viewAction)")
+        }
     }
 }
 

@@ -9,21 +9,22 @@ final class StepAssembly: Assembly {
     }
 
     func makeModule() -> StepView {
-        let stepRepository = StepRepositoryImpl(
+        let repository = StepRepositoryImpl(
             stepRemoteDataSource: StepRemoteDataSourceImpl(
                 httpClient: NetworkModule.shared.provideAuthorizedClient(
                     userAgentInfo: UserAgentBuilder.userAgentInfo,
                     json: NetworkModule.shared.provideJson(),
-                    settings: Settings.shared.makeAppleSettings(userDefaults: UserDefaults.standard),
-                    authorizationFlow: AuthDataBuilder.sharedAuthorizationFlow
+                    settings: Settings.default,
+                    authorizationFlow: AuthDataBuilder.sharedAuthorizationFlow,
+                    authorizationMutex: AuthDataBuilder.sharedAuthorizationMutex
                 )
             )
         )
-        let stepInteractor = StepInteractor(stepRepository: stepRepository)
-        let stepFeature = StepFeatureBuilder.shared.build(stepInteractor: stepInteractor)
+        let interactor = StepInteractor(stepRepository: repository)
+        let feature = StepFeatureBuilder.shared.build(stepInteractor: interactor)
 
-        let stepViewModel = StepViewModel(stepID: self.stepID, feature: stepFeature)
+        let viewModel = StepViewModel(stepID: self.stepID, feature: feature)
 
-        return StepView(viewModel: stepViewModel)
+        return StepView(viewModel: viewModel)
     }
 }

@@ -2,3 +2,9 @@
 Alert = "Alert";
 Confirm = "Confirm action";
 Prompt = "Enter data";
+
+/* Home */
+HomeTitle = "Home";
+
+/* Settings */
+SettingsTitle = "Settings";

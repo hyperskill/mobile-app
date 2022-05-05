@@ -3,8 +3,8 @@ import SwiftUI
 
 final class AppAssembly: Assembly {
     func makeModule() -> AppView {
-        let appFeature = AppFeatureBuilder.shared.build(authInteractor: .default)
-        let appViewModel = AppViewModel(feature: appFeature)
-        return AppView(viewModel: appViewModel)
+        let feature = AppFeatureBuilder.shared.build(authInteractor: .default)
+        let viewModel = AppViewModel(feature: feature)
+        return AppView(viewModel: viewModel)
     }
 }

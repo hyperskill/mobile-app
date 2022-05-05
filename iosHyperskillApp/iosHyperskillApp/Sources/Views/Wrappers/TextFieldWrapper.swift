@@ -6,14 +6,18 @@ struct TextFieldWrapper: UIViewRepresentable {
 
     @Binding var text: String
 
+    var makeTextField: (() -> UITextField) = { UITextField() }
+
     var configuration = Configuration.empty
 
     var firstResponderAction: Binding<FirstResponderAction?>?
 
+    var onTextDidChange: ((String) -> Void)?
+
     var onReturn: (() -> Void)?
 
     func makeUIView(context: Context) -> UITextField {
-        let textField = UITextField()
+        let textField = self.makeTextField()
 
         configuration.configure(textField)
         textField.placeholder = placeholder
@@ -36,10 +40,14 @@ struct TextFieldWrapper: UIViewRepresentable {
 
         context.coordinator.onTextDidChange = { newText in
             self.text = newText
+            self.onTextDidChange?(newText)
         }
         context.coordinator.onReturn = {
             self.firstResponderAction?.wrappedValue = nil
             self.onReturn?()
+        }
+        context.coordinator.onDidEndEditing = {
+            self.firstResponderAction?.wrappedValue = nil
         }
     }
 
@@ -54,9 +62,15 @@ extension TextFieldWrapper {
 
         var onReturn: (() -> Void)?
 
+        var onDidEndEditing: (() -> Void)?
+
         func textFieldShouldReturn(_ textField: UITextField) -> Bool {
             onReturn?()
             return true
+        }
+
+        func textFieldDidEndEditing(_ textField: UITextField) {
+            onDidEndEditing?()
         }
 
         @objc

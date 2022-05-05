@@ -19,7 +19,6 @@ enum Strings {
     static let authEmailLogIn = SharedResources.strings.shared.auth_credentials_log_in_text.localized()
     static let authEmailPlaceholder = SharedResources.strings.shared.auth_credentials_email_placeholder.localized()
     static let authEmailPasswordPlaceholder = SharedResources.strings.shared.auth_credentials_password_placeholder.localized()
-    static let authEmailLoginError = SharedResources.strings.shared.auth_credentials_error_text.localized()
 
     // MARK: Step
 

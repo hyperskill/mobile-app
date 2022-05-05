@@ -1,6 +1,6 @@
 import SwiftUI
 
-extension AuthEmailFormView {
+extension AuthCredentialsFormView {
     struct Appearance {
         let stackSpacing = LayoutInsets.defaultInset
 
@@ -12,19 +12,23 @@ extension AuthEmailFormView {
     }
 }
 
-struct AuthEmailFormView: View {
+struct AuthCredentialsFormView: View {
     private(set) var appearance = Appearance()
 
-    @State private var emailText = ""
+    @Binding var emailText: String
 
-    @State private var passwordText = ""
+    @Binding var passwordText: String
     @State private var passwordFirstResponderAction: TextFieldWrapper.FirstResponderAction?
 
-    @State private(set) var error = false
+    var errorMessage: String?
 
     var onLogIn: (() -> Void)?
 
     var onResetPassword: (() -> Void)?
+
+    private var isInputFulfilled: Bool {
+        !emailText.trimmed().isEmpty && !passwordText.trimmed().isEmpty
+    }
 
     var body: some View {
         VStack(spacing: appearance.stackSpacing) {
@@ -32,6 +36,7 @@ struct AuthEmailFormView: View {
                 TextFieldWrapper(
                     placeholder: Strings.authEmailPlaceholder,
                     text: $emailText,
+                    makeTextField: { AuthTextField(type: .text) },
                     configuration: .combined([.email, .partOfChain]),
                     onReturn: { passwordFirstResponderAction = .becomeFirstResponder }
                 )
@@ -44,25 +49,26 @@ struct AuthEmailFormView: View {
                 TextFieldWrapper(
                     placeholder: Strings.authEmailPasswordPlaceholder,
                     text: $passwordText,
+                    makeTextField: { AuthTextField(type: .password) },
                     configuration: .combined([.password, .lastOfChainGo]),
                     firstResponderAction: $passwordFirstResponderAction,
-                    onReturn: { passwordFirstResponderAction = .resignFirstResponder }
+                    onReturn: doLogIn
                 )
                 .frame(height: appearance.textFieldHeight)
 
                 Divider()
             }
 
-            if error {
-                AuthEmailErrorView()
+            if let errorMessage = errorMessage {
+                AuthCredentialsErrorView(message: errorMessage)
             }
 
-            Button(Strings.authEmailLogIn, action: { onLogIn?() })
+            Button(Strings.authEmailLogIn, action: doLogIn)
                 .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
-                .disabled(emailText.isEmpty || passwordText.isEmpty)
+                .disabled(!isInputFulfilled)
 
             Button(
-                action: { onResetPassword?() },
+                action: doResetPassword,
                 label: {
                     Text(Strings.authEmailResetPassword)
                         .font(.body)
@@ -75,21 +81,47 @@ struct AuthEmailFormView: View {
         .background(Color(appearance.backgroundColor))
         .addBorder()
     }
+
+    // MARK: Private API
+
+    private func doLogIn() {
+        endEditing()
+        onLogIn?()
+    }
+
+    private func doResetPassword() {
+        endEditing()
+        onResetPassword?()
+    }
 }
 
 struct AuthEmailFormView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             Group {
-                AuthEmailFormView(error: false)
+                AuthCredentialsFormView(
+                    emailText: .constant(""),
+                    passwordText: .constant("")
+                )
 
-                AuthEmailFormView(error: true)
+                AuthCredentialsFormView(
+                    emailText: .constant(""),
+                    passwordText: .constant(""),
+                    errorMessage: "error"
+                )
             }
 
             Group {
-                AuthEmailFormView(error: false)
+                AuthCredentialsFormView(
+                    emailText: .constant(""),
+                    passwordText: .constant("")
+                )
 
-                AuthEmailFormView(error: true)
+                AuthCredentialsFormView(
+                    emailText: .constant(""),
+                    passwordText: .constant(""),
+                    errorMessage: "error"
+                )
             }
             .preferredColorScheme(.dark)
         }
