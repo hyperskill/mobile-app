@@ -25,7 +25,6 @@ class AuthSocialAdapterDelegate(private val onItemClick: (AuthSocialCardInfo) ->
             itemView.setOnClickListener {
                 onItemClick.invoke(data)
             }
-            itemView.isEnabled = true
         }
     }
 }

@@ -1,6 +1,7 @@
 package org.hyperskill.app.android.auth.view.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
@@ -72,17 +73,13 @@ class AuthSocialFragment :
         try {
             val account = task.getResult(ApiException::class.java)
             val authCode = account.serverAuthCode
-            authProvider = SocialAuthProvider.GOOGLE
-            authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthWithSocial(authCode ?: "", SocialAuthProvider.GOOGLE))
+            onSuccess(authCode!!, SocialAuthProvider.GOOGLE)
         } catch (e: ApiException) {
             if (e.statusCode == CommonStatusCodes.NETWORK_ERROR) {
                 view?.snackbar(message = resourceProvider.getString(SharedResources.strings.connection_error), Snackbar.LENGTH_LONG)
             }
         }
     }
-
-    private lateinit var anotherSocialAuthDialogFragment: DialogFragment
-    private lateinit var authProvider: SocialAuthProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,19 +96,16 @@ class AuthSocialFragment :
     }
 
     private fun onSocialClickListener(social: AuthSocialCardInfo) {
+        val authSocialWebViewFragment = AuthSocialWebViewFragment.newInstance(social.socialAuthProvider)
         when (social) {
             AuthSocialCardInfo.GOOGLE -> {
                 signInWithGoogle()
             }
             AuthSocialCardInfo.GITHUB -> {
-                authProvider = SocialAuthProvider.GITHUB
-                anotherSocialAuthDialogFragment = AuthSocialWebViewFragment.newInstance(social.provider)
-                anotherSocialAuthDialogFragment.showIfNotExists(childFragmentManager, AuthSocialWebViewFragment.TAG)
+                authSocialWebViewFragment.showIfNotExists(childFragmentManager, AuthSocialWebViewFragment.TAG)
             }
             AuthSocialCardInfo.JETBRAINS -> {
-                authProvider = SocialAuthProvider.JETBRAINS_ACCOUNT
-                anotherSocialAuthDialogFragment = AuthSocialWebViewFragment.newInstance(social.provider)
-                anotherSocialAuthDialogFragment.showIfNotExists(childFragmentManager, AuthSocialWebViewFragment.TAG)
+                authSocialWebViewFragment.showIfNotExists(childFragmentManager, AuthSocialWebViewFragment.TAG)
             }
         }
     }
@@ -137,6 +131,7 @@ class AuthSocialFragment :
                 (parentFragment as? AuthFlow)?.onAuthSuccess()
             }
             is AuthSocialFeature.Action.ViewAction.ShowAuthError -> {
+                Log.d("CALLBACK", "SHOW ERROR")
                 view?.snackbar(message = authSocialErrorMapper.getAuthSocialErrorText(action.socialError), Snackbar.LENGTH_LONG)
             }
         }
@@ -162,12 +157,15 @@ class AuthSocialFragment :
         signInWithGoogleCallback.launch(signInIntent)
     }
 
-    override fun onDismissed() {
-        authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthFailure(AuthSocialError.CONNECTION_PROBLEM))
+    override fun onDismissed(showError: Boolean) {
+        if (showError) {
+            val error = AuthSocialError.CONNECTION_PROBLEM
+            authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthFailure(error))
+            view?.snackbar(message = authSocialErrorMapper.getAuthSocialErrorText(error), Snackbar.LENGTH_LONG)
+        }
     }
 
-    override fun onSuccess(authCode: String) {
-        anotherSocialAuthDialogFragment.dismiss()
-        authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthWithSocial(authCode, authProvider))
+    override fun onSuccess(authCode: String, provider: SocialAuthProvider) {
+        authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthWithSocial(authCode, provider))
     }
 }

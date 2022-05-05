@@ -1,75 +1,110 @@
 package org.hyperskill.app.android.auth.view.ui.fragment
 
+import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.DialogFragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.databinding.FragmentAuthSocialWebViewBinding
+import org.hyperskill.app.android.databinding.DialogInAppWebViewBinding
+import org.hyperskill.app.auth.domain.model.AuthSocialError
+import org.hyperskill.app.auth.domain.model.SocialAuthProvider
+import org.hyperskill.app.auth.view.mapper.SocialAuthProviderRequestURLBuilder
 import org.hyperskill.app.config.BuildKonfig
+import ru.nobird.android.view.base.ui.extension.argument
 
-class AuthSocialWebViewFragment(private val siteName: String) : DialogFragment(R.layout.fragment_auth_social_web_view) {
+class AuthSocialWebViewFragment : DialogFragment(R.layout.dialog_in_app_web_view) {
 
     companion object {
         const val TAG = "AuthSocialWebViewFragment"
 
-        fun newInstance(siteName: String): AuthSocialWebViewFragment =
-            AuthSocialWebViewFragment(siteName)
+        fun newInstance(provider: SocialAuthProvider): AuthSocialWebViewFragment =
+            AuthSocialWebViewFragment().apply {
+                this.provider = provider
+            }
     }
 
-    private val viewBinding by viewBinding(FragmentAuthSocialWebViewBinding::bind)
     private var authCode: String? = null
+    private val viewBinding by viewBinding(DialogInAppWebViewBinding::bind)
+
+    private var provider: SocialAuthProvider by argument()
+    private var webView: WebView? = null
+
+    private var showError = true
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.dialog_in_app_web_view, container, false)
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val webView = viewBinding.authSocialWebView
-        webView.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(
-                view: WebView?,
-                request: WebResourceRequest?
-            ): Boolean {
-                if (
-                    request!!.url.toString().startsWith("https://hyperskill.org/") &&
-                    request.url.toString().contains("callback")
-                ) {
-                    val uri = Uri.parse(request.url.toString())
-                    authCode = uri.getQueryParameter("code") ?: ""
-                    (
-                        activity as? Callback
-                            ?: parentFragment as? Callback
-                            ?: targetFragment as? Callback
-                        )?.onSuccess(authCode!!)
+        if (webView == null) {
+            webView = WebView(requireContext().applicationContext).also {
+                it.webViewClient = object : WebViewClient() {
+                    override fun shouldOverrideUrlLoading(
+                        view: WebView?,
+                        request: WebResourceRequest?
+                    ): Boolean {
+                        if (request!!.url.toString().startsWith("https://" + BuildKonfig.HOST + "/oauth?")) {
+                            val uri = Uri.parse(request.url.toString())
+                            authCode = uri.getQueryParameter("code") ?: ""
+                            (
+                                activity as? Callback
+                                    ?: parentFragment as? Callback
+                                    ?: targetFragment as? Callback
+                                )?.onSuccess(authCode!!, provider)
+                            showError = false
+                            dialog?.dismiss()
+                        }
+                        return false
+                    }
                 }
-                return false
+                @SuppressLint("SetJavaScriptEnabled")
+                it.settings.javaScriptEnabled = true
+            }
+
+
+            viewBinding.centeredAppbar.centeredToolbar.centeredToolbar.apply {
+                setNavigationOnClickListener {
+                    if (showsDialog) {
+                        dismiss()
+                    } else {
+                        activity?.finish()
+                    }
+                }
+                setNavigationIcon(R.drawable.ic_close)
+
             }
         }
-        webView.settings.javaScriptEnabled = true
-        webView.loadUrl(
-            "https://hyperskill.org/accounts/" + siteName +
-                "/login?next=/oauth2/authorize/?client_id=" + BuildKonfig.OAUTH_CLIENT_ID +
-                "&response_type=code"
+        webView.let { viewBinding.containerView.addView(it) }
+        webView?.loadUrl(
+            SocialAuthProviderRequestURLBuilder.build(provider)
         )
     }
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        if (authCode == null) {
-            (
-                activity as? Callback
-                    ?: parentFragment as? Callback
-                    ?: targetFragment as? Callback
-                )?.onDismissed()
-        }
+        (
+            activity as? Callback
+                ?: parentFragment as? Callback
+                ?: targetFragment as? Callback
+            )?.onDismissed(showError)
+    }
+
+    override fun onDestroyView() {
+        viewBinding.containerView.removeView(webView)
+        super.onDestroyView()
     }
 
     interface Callback {
-        fun onDismissed()
-        fun onSuccess(authCode: String)
+        fun onDismissed(showError: Boolean)
+        fun onSuccess(authCode: String, provider: SocialAuthProvider)
     }
 }
