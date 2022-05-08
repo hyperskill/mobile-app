@@ -33,7 +33,7 @@ struct SingleOptionView: View {
 
                     Text(option.desc)
                         .font(.body)
-                        .foregroundColor(.black)
+                        .foregroundColor(.primaryText)
                 }
             )
         }

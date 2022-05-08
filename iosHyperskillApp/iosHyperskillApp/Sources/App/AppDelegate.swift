@@ -22,6 +22,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
         SentryManager.configure()
         KeyboardManager.configure()
+        NavigationToolbar.configure()
 
         return true
     }

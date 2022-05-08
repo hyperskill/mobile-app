@@ -1,18 +1,22 @@
 import SwiftUI
 
 struct QuizStatView: View {
+    var text: String
+    
     var body: some View {
         HStack(alignment: .top) {
             Image("clock_icon")
-            Text("2438 users solved this problem. Latest completion was about 13 hours ago.")
+                .frame(width: 12, height: 21)
+                .foregroundColor(.secondaryText)
+            Text(text)
                 .font(.subheadline)
-                .foregroundColor(Color(ColorPalette.onSurfaceAlpha60))
+                .foregroundColor(.secondaryText)
         }
     }
 }
 
 struct QuizStatView_Previews: PreviewProvider {
     static var previews: some View {
-        QuizStatView()
+        QuizStatView(text: "2438 users solved this problem. Latest completion was about 13 hours ago.")
     }
 }

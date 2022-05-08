@@ -4,15 +4,12 @@ struct FeedbackView: View {
     var text: String
     var body: some View {
         VStack(alignment: .leading) {
-            HStack {
-                Text("FEEDBACK:")
+            Text("FEEDBACK:")
                     .font(.caption)
                     .foregroundColor(Color(ColorPalette.onSurfaceAlpha38))
-                Spacer()
-            }
-            //todo здесь шрифт вроде должен быть другой, но не нашел его
             Text(text)
                 .padding(.top, 8)
+                .font(.system(size: 14, design: .monospaced))
         }
         .padding()
         .background(Color(ColorPalette.background))

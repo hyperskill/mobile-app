@@ -6,19 +6,21 @@ struct QuizDiscussions: View {
             Divider()
 
             Button(action: {}, label: {
-                HStack {
-                    Text("Show discussions")
-                }
-                .padding(.vertical, 0)
+                Text("Show discussions")
+                    .font(.body)
+                    .frame(maxWidth: .infinity, minHeight: 44, alignment: .center)
+                    .overlay(
+                        Image("chat_icon")
+                            .frame(width: 20, height: 20)
+                            .padding(.leading, 18)
+                            .foregroundColor(.primary),
+                        alignment: .leading
+                    )
             })
-            .buttonStyle(OutlineButtonStyle(font: .subheadline))
-            .overlay(
-                Image("chat_icon").padding(.leading),
-                alignment: .leading
-            )
             .padding()
+            .buttonStyle(OutlineButtonStyle())
+            .buttonStyle(BounceButtonStyle())
         }
-        .frame(height: .infinity)
         .background(Color(ColorPalette.background).ignoresSafeArea())
     }
 }

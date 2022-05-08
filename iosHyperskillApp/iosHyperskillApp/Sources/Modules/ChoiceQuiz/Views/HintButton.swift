@@ -5,6 +5,9 @@ struct HintButton: View {
         Button(action: {}, label: {
             HStack {
                 Image("lightning_icon")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 16, height: 16)
                     .padding(.vertical, 9)
                     .padding(.leading, 12)
                 Text("See hint")
@@ -13,7 +16,7 @@ struct HintButton: View {
             }
         })
         .buttonStyle(OutlineButtonStyle(font: .subheadline))
-        .frame(width: 109, height: 34)
+        .frame(minWidth: 109)
     }
 }
 
