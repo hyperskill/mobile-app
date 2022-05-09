@@ -9,7 +9,6 @@ struct FeedbackView: View {
                     .foregroundColor(Color(ColorPalette.onSurfaceAlpha38))
             Text(text)
                 .font(.system(size: 14, design: .monospaced))
-            
         }
         .padding()
         .background(Color(ColorPalette.background))
@@ -19,6 +18,6 @@ struct FeedbackView: View {
 
 struct FeedbackView_Previews: PreviewProvider {
     static var previews: some View {
-        FeedbackView(text: "That's right! Since any comparison results in a boolean value, there is no need to write everything twice.")
+        FeedbackView(text: Strings.choiceQuizCorrectFeedbackText)
     }
 }
