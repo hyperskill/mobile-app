@@ -2,10 +2,12 @@ import SwiftUI
 
 struct QuizStatView: View {
     var text: String
-    
+
     var body: some View {
-        HStack(alignment: .top) {
-            Image("clock_icon")
+        HStack(alignment: .top, spacing: 4) {
+            Image("choice-quiz-clock-icon")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
                 .frame(width: 12, height: 21)
                 .foregroundColor(.secondaryText)
             Text(text)
@@ -17,6 +19,6 @@ struct QuizStatView: View {
 
 struct QuizStatView_Previews: PreviewProvider {
     static var previews: some View {
-        QuizStatView(text: "2438 users solved this problem. Latest completion was about 13 hours ago.")
+        QuizStatView(text: Strings.choiceQuizStatText)
     }
 }

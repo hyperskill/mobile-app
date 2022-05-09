@@ -2,10 +2,8 @@ import SwiftUI
 
 struct QuizDescView: View {
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            Text("Select a statement that will throw an exception.")
+        Text("Select a statement that will throw an exception.")
                 .font(.subheadline)
-        }
     }
 }
 

@@ -6,14 +6,14 @@ struct QuizDiscussions: View {
             Divider()
 
             Button(action: {}, label: {
-                Text("Show discussions")
+                Text(Strings.choiceQuizDiscussionsButtonText)
                     .font(.body)
                     .frame(maxWidth: .infinity, minHeight: 44, alignment: .center)
                     .overlay(
-                        Image("chat_icon")
+                        Image("choice-quiz-chat-icon")
                             .frame(width: 20, height: 20)
                             .padding(.leading, 18)
-                            .foregroundColor(.primary),
+                            .foregroundColor(Color(ColorPalette.primary)),
                         alignment: .leading
                     )
             })

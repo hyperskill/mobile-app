@@ -15,8 +15,8 @@ struct ChoiceView: View {
             VStack(alignment: .leading, spacing: 16) {
                 Text(
                     multiple ?
-                    "Select one option from the list" :
-                            "Select one or more options from the list"
+                            Strings.choiceQuizMultipleOptionTaskText :
+                            Strings.choiceQuizSingleOptionTaskText
                 )
                 .font(.caption)
                 .foregroundColor(Color(ColorPalette.onSurfaceAlpha38))

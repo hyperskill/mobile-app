@@ -88,7 +88,7 @@
 		E951757927E61ACD00995008 /* AuthSocialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951757827E61ACD00995008 /* AuthSocialView.swift */; };
 		E96E80F627EF57BA00AA6683 /* AuthSocialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */; };
 		E9802D07281BB5CC00CF3AC1 /* ChoiceQuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9802D06281BB5CC00CF3AC1 /* ChoiceQuizView.swift */; };
-		E99D4CEB2826A30D00B49D52 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99D4CEA2826A30D00B49D52 /* NavigationBar.swift */; };
+		E99D4CEB2826A30D00B49D52 /* UINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99D4CEA2826A30D00B49D52 /* UINavigationController.swift */; };
 		E99D4CED2826A37400B49D52 /* NavigationToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99D4CEC2826A37400B49D52 /* NavigationToolbar.swift */; };
 		E99D4CEF2826B91100B49D52 /* QuizStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99D4CEE2826B91100B49D52 /* QuizStatusView.swift */; };
 		E9B2CF5B2822960D00B2DC6F /* QuizDiscussions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B2CF5A2822960D00B2DC6F /* QuizDiscussions.swift */; };
@@ -204,7 +204,7 @@
 		E951757827E61ACD00995008 /* AuthSocialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialView.swift; sourceTree = "<group>"; };
 		E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialViewModel.swift; sourceTree = "<group>"; };
 		E9802D06281BB5CC00CF3AC1 /* ChoiceQuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceQuizView.swift; sourceTree = "<group>"; };
-		E99D4CEA2826A30D00B49D52 /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
+		E99D4CEA2826A30D00B49D52 /* UINavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationController.swift; sourceTree = "<group>"; };
 		E99D4CEC2826A37400B49D52 /* NavigationToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationToolbar.swift; sourceTree = "<group>"; };
 		E99D4CEE2826B91100B49D52 /* QuizStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizStatusView.swift; sourceTree = "<group>"; };
 		E9B2CF5A2822960D00B2DC6F /* QuizDiscussions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizDiscussions.swift; sourceTree = "<group>"; };
@@ -430,7 +430,6 @@
 			isa = PBXGroup;
 			children = (
 				2C725B5D28090D1F00A49043 /* View+Border.swift */,
-				E99D4CEA2826A30D00B49D52 /* NavigationBar.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -506,6 +505,7 @@
 		2C9B66E927ECAF2400569645 /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
+				E99D4CEA2826A30D00B49D52 /* UINavigationController.swift */,
 				2C9B66EA27ECAF5000569645 /* UIApplicationExtensions.swift */,
 				2C58DE282803D197002A2774 /* UIColor+DynamicColor.swift */,
 			);
@@ -998,7 +998,7 @@
 				E9B3A18C2828093800FE248B /* QuizActionButton.swift in Sources */,
 				2C725B632809198000A49043 /* BackgroundView.swift in Sources */,
 				2CAE8CF2280525C900E6C83D /* StepView.swift in Sources */,
-				E99D4CEB2826A30D00B49D52 /* NavigationBar.swift in Sources */,
+				E99D4CEB2826A30D00B49D52 /* UINavigationController.swift in Sources */,
 				2C9CC1BD280920B5006604D7 /* KeyboardManager.swift in Sources */,
 				2C8409532805BF3C009C6BE9 /* StepContentView.swift in Sources */,
 				2C58DE252803C185002A2774 /* AuthSocialControlsView.swift in Sources */,

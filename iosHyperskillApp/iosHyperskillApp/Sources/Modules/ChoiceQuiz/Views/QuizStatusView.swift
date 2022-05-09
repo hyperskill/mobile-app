@@ -1,13 +1,12 @@
 import SwiftUI
 
 fileprivate extension QuizStatus {
-
     var image: String {
         switch self {
         case .correct:
-            return "check_icon"
+            return "choice-quiz-check-icon"
         case .wrong:
-            return "info_icon"
+            return "choice-quiz-info-icon"
         }
     }
 
@@ -26,10 +25,9 @@ fileprivate extension QuizStatus {
             return Color(ColorPalette.green200Alpha12)
         case .wrong:
             return .white
-
         }
     }
-    
+
     var paddingSet: Edge.Set {
         switch self {
         case .correct:
@@ -47,9 +45,11 @@ struct QuizStatusView: View {
     var body: some View {
         HStack {
             Image(status.image)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .foregroundColor(status.foregroundColor)
                 .frame(width: 20, height: 20)
                 .padding(.trailing, 16)
-                .foregroundColor(.primary)
             Text(text)
                 .foregroundColor(status.foregroundColor)
                 .font(.body)

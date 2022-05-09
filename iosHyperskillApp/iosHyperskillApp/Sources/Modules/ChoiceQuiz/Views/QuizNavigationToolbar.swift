@@ -12,7 +12,13 @@ enum QuizNavigationToolbar {
         }
 
         ToolbarItem(placement: .navigationBarTrailing) {
-            Button(action: {}, label: { Image("info_icon") })
+            Button(action: {}, label: {
+                Image("choice-quiz-info-icon")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 24, height: 24)
+                    .foregroundColor(.secondaryText)
+            })
         }
     }
 }

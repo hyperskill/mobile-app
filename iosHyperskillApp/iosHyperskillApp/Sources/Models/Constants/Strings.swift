@@ -24,4 +24,20 @@ enum Strings {
     // MARK: Step
 
     static let stepStartPracticing = SharedResources.strings.shared.step_start_practicing_text.localized()
+
+    // MARK: Choice Quiz
+
+    static let choiceQuizCorrectStatusText = SharedResources.strings.shared.choice_quiz_correct_status_text.localized()
+    static let choiceQuizWrongStatusText = SharedResources.strings.shared.choice_quiz_wrong_status_text.localized()
+    static let choiceQuizCorrectFeedbackText = SharedResources.strings.shared.choice_quiz_correct_feedback_text.localized()
+    static let choiceQuizWrongFeedbackText = SharedResources.strings.shared.choice_quiz_wrong_feedback_text.localized()
+    static let choiceQuizStatText = SharedResources.strings.shared.choice_quiz_stat_text.localized()
+    static let choiceQuizSingleOptionTaskText = SharedResources.strings.shared.choice_quiz_single_option_task_text.localized()
+    static let choiceQuizMultipleOptionTaskText = SharedResources.strings.shared.choice_quiz_multiple_option_task_text.localized()
+    static let choiceQuizFeedbackTitle = SharedResources.strings.shared.choice_quiz_feedback_title.localized()
+    static let choiceQuizHintButtonText = SharedResources.strings.shared.choice_quiz_hint_button_text.localized()
+    static let choiceQuizContinueButtonText = SharedResources.strings.shared.choice_quiz_continue_button_text.localized()
+    static let choiceQuizRetryButtonText = SharedResources.strings.shared.choice_quiz_retry_button_text.localized()
+    static let choiceQuizSendButtonText = SharedResources.strings.shared.choice_quiz_send_button_text.localized()
+    static let choiceQuizDiscussionsButtonText = SharedResources.strings.shared.choice_quiz_discussions_button_text.localized()
 }

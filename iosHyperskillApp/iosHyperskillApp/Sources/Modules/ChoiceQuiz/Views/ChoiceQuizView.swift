@@ -9,18 +9,18 @@ fileprivate extension QuizStatus {
     var statusText: String {
         switch self {
         case .correct:
-            return "You’re absolutely correct!"
+            return Strings.choiceQuizCorrectStatusText
         case .wrong:
-            return "Not correct, but keep on trying \nand never give up!"
+            return Strings.choiceQuizWrongStatusText
         }
     }
 
     var feedbackText: String {
         switch self {
         case .correct:
-            return "That's right! Since any comparison results in a boolean value, there is no need to write everything twice."
+            return Strings.choiceQuizCorrectFeedbackText
         case .wrong:
-            return "Practice makes perfect. Let's learn from mistakes and try again."
+            return Strings.choiceQuizWrongFeedbackText
         }
     }
 }
@@ -36,10 +36,10 @@ struct ChoiceQuizView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                QuizStatView(text: "2438 users solved this problem. Latest completion was about 13 hours ago.")
+                QuizStatView(text: Strings.choiceQuizStatText)
 
                 QuizDescView()
-                
+
                 HintButton()
 
                 ChoiceView(multiple: multiple)
@@ -52,7 +52,7 @@ struct ChoiceQuizView: View {
                 QuizActionButton(status: status)
             }
             .padding(.horizontal)
-            .padding(.top)            
+            .padding(.top)
 
             QuizDiscussions()
         }

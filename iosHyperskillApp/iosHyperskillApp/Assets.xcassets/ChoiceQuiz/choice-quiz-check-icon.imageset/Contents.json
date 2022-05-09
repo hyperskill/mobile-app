@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "clock_icon.pdf",
+      "filename" : "check_icon.pdf",
       "idiom" : "universal"
     }
   ],
@@ -10,6 +10,7 @@
     "version" : 1
   },
   "properties" : {
-    "preserves-vector-representation" : true
+    "preserves-vector-representation" : true,
+    "template-rendering-intent" : "template"
   }
 }

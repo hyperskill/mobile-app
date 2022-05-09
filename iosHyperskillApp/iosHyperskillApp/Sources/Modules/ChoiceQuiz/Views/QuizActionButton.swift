@@ -4,9 +4,9 @@ fileprivate extension QuizStatus {
     var buttonText: String {
         switch self {
         case .correct:
-            return "Continue"
+            return Strings.choiceQuizContinueButtonText
         case .wrong:
-            return "Retry"
+            return Strings.choiceQuizRetryButtonText
         }
     }
 
@@ -27,10 +27,9 @@ struct QuizActionButton: View {
             Button(status.buttonText, action: {})
                 .buttonStyle(RoundedRectangleButtonStyle(style: status.buttonStyle))
         } else {
-            Button("Send", action: {})
+            Button(Strings.choiceQuizSendButtonText, action: {})
                 .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
         }
-        
     }
 }
 
