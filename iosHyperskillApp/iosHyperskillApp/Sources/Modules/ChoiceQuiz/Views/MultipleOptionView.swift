@@ -6,7 +6,6 @@ struct MultipleOptionView: View {
     var chosen: Bool { chosenValues.contains(option.value) }
 
     var body: some View {
-        
         Button(
             action: {
                 if chosen {
