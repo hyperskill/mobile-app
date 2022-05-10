@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:viewBindingIgnore="true">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/stepQuizFeedbackWrong"
+        style="@style/StepQuizFeedback"
+        android:layout_height="@dimen/step_quiz_feedback_wrong_textview_height"
+        android:backgroundTint="@android:color/transparent"
+        android:maxWidth="@dimen/auth_button_max_width"
+
+        android:textColor="@color/step_quiz_feedback_wrong_color"
+        app:drawableStartCompat="@drawable/ic_info_outline_24px"
+        app:drawableTint="@color/step_quiz_feedback_wrong_color"
+        tools:text="@string/step_quiz_feedback_wrong_not_last_try" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/stepQuizFeedbackCorrect"
+        style="@style/StepQuizFeedback"
+        android:layout_height="@dimen/step_quiz_feedback_right_textview_height"
+        android:background="@drawable/bg_shape_rounded"
+        android:maxWidth="@dimen/auth_button_max_width"
+
+        android:textColor="@color/step_quiz_feedback_right_color"
+        app:backgroundTint="@color/color_green_200_alpha_12"
+
+        app:drawableStartCompat="@drawable/ic_checkmark"
+        tools:text="@string/step_quiz_feedback_correct_free_answer" />
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

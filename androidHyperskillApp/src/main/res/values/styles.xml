@@ -38,4 +38,29 @@
         <item name="drawableTint">?android:textColorPrimary</item>
     </style>
 
+    <style name="PlaceholderTextViewStyle">
+        <item name="android:textAppearance">?textAppearanceBody1</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+        <item name="android:padding">@dimen/padding_placeholders</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="StepQuizFeedback">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textAppearance">?textAppearanceBody1</item>
+        <item name="android:drawablePadding">16dp</item>
+    </style>
+
+    <style name="StepQuizDescription">
+        <item name="android:textAppearance">?textAppearanceCaption</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+    </style>
+
 </resources>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    app:layout_constraintWidth_max="@dimen/auth_button_max_width"
+    android:layout_height="@dimen/step_quiz_submit_button_height"
+    android:orientation="horizontal"
+    tools:viewBindingIgnore="true">
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/stepQuizAction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:theme="@style/ThemeOverlay.Blue"
+
+        android:text="@string/step_quiz_action_button_submit" />
+</androidx.appcompat.widget.LinearLayoutCompat>

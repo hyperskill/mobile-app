@@ -2,4 +2,10 @@
 <resources>
     <string name="loading">Loading</string>
     <string name="loading_message">Please wait…</string>
+    <string name="internet_problem">Oops! It seems like the network error.</string>
+    <string name="step_quiz_action_button_submit">Send</string>
+    <string name="step_quiz_appbar_tooltip_title">Info</string>
+    <string name="reload">Reload</string>
+    <string name="step_quiz_feedback_wrong_not_last_try">Not correct, but keep on trying  and never give up!</string>
+    <string name="step_quiz_feedback_correct_free_answer">You’re absolutely correct!</string>
 </resources>
