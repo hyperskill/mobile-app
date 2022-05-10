@@ -3,6 +3,7 @@ import SwiftUI
 struct SingleOptionView: View {
     var option: QuizOption
     @Binding var chosenValue: Int
+    var chosen: Bool { option.value == chosenValue }
 
     var body: some View {
         HStack(spacing: 8) {
@@ -16,7 +17,7 @@ struct SingleOptionView: View {
                         .foregroundColor(Color(.white))
                         .addBorder(
                             color: Color(
-                                option.value == chosenValue ?
+                                chosen ?
                                 ColorPalette.primary : ColorPalette.onSurfaceAlpha60
                             ),
                             width: 2,
@@ -25,7 +26,7 @@ struct SingleOptionView: View {
                         .overlay(
                             Circle()
                                 .foregroundColor(
-                                    option.value == chosenValue ?
+                                    chosen ?
                                     Color(ColorPalette.primary) : .white
                                 )
                                 .frame(width: 12, height: 12)
