@@ -5,6 +5,6 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 import org.hyperskill.app.auth.presentation.AuthSocialWebViewFeature.Action
 import org.hyperskill.app.auth.presentation.AuthSocialWebViewFeature.Message
 
-class AuthSocialWebViewActionDispatcher (
+class AuthSocialWebViewActionDispatcher(
     config: ActionDispatcherOptions,
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig())
