@@ -9,13 +9,13 @@ class AuthSocialWebViewReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
             is Message.AuthCodeSuccess -> {
-                if (state is State.Idle || state is State.Error) {
+                if (state is State.Loading || state is State.Error) {
                     State.Loading to setOf(Action.CallbackAuthCode(message.authCode, message.socialAuthProvider))
                 } else {
                     null
                 }
             }
-            is Message.AuthFailure -> {
+            is Message.AuthCodeFailure -> {
                 if (state is State.Loading) {
                     State.Error to setOf(Action.CallbackAuthError(message.socialError))
                 } else {

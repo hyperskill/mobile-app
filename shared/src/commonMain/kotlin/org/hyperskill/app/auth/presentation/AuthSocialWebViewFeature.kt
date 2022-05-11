@@ -5,7 +5,6 @@ import org.hyperskill.app.auth.domain.model.SocialAuthProvider
 
 interface AuthSocialWebViewFeature {
     sealed interface State {
-        object Idle : State
         object Loading : State
         object Error : State
         object CodeSuccess : State
@@ -13,7 +12,7 @@ interface AuthSocialWebViewFeature {
 
     sealed interface Message {
         data class AuthCodeSuccess(val authCode: String, val socialAuthProvider: SocialAuthProvider) : Message
-        data class AuthFailure(val socialError: AuthSocialError) : Message
+        data class AuthCodeFailure(val socialError: AuthSocialError) : Message
     }
 
     sealed interface Action {

@@ -15,7 +15,7 @@ object AuthSocialWebViewFeatureBuilder {
         val authReducer = AuthSocialWebViewReducer()
         val authActionDispatcher = AuthSocialWebViewActionDispatcher(ActionDispatcherOptions())
 
-        return ReduxFeature(State.Idle, authReducer)
+        return ReduxFeature(State.Loading, authReducer)
             .wrapWithActionDispatcher(authActionDispatcher)
     }
 }

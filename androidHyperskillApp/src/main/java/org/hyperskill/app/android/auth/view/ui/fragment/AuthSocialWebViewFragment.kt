@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -83,9 +84,16 @@ class AuthSocialWebViewFragment :
                             val uri = Uri.parse(request.url.toString())
                             authCode = uri.getQueryParameter("code") ?: ""
                             authSocialViewModel.onNewMessage(AuthSocialWebViewFeature.Message.AuthCodeSuccess(authCode!!, provider))
-                            dialog?.dismiss()
                         }
                         return false
+                    }
+
+                    override fun onReceivedError(
+                        view: WebView?,
+                        request: WebResourceRequest?,
+                        error: WebResourceError?
+                    ) {
+                        authSocialViewModel.onNewMessage(AuthSocialWebViewFeature.Message.AuthCodeFailure(AuthSocialError.CONNECTION_PROBLEM))
                     }
                 }
                 @SuppressLint("SetJavaScriptEnabled")
@@ -122,6 +130,7 @@ class AuthSocialWebViewFragment :
                         ?: parentFragment as? Callback
                         ?: targetFragment as? Callback
                     )?.onSuccess(action.authCode, action.socialAuthProvider)
+                dialog?.dismiss()
             }
             is AuthSocialWebViewFeature.Action.CallbackAuthError -> {
                 (
@@ -129,6 +138,7 @@ class AuthSocialWebViewFragment :
                         ?: parentFragment as? Callback
                         ?: targetFragment as? Callback
                     )?.onError(action.socialError)
+                dialog?.dismiss()
             }
         }
     }
