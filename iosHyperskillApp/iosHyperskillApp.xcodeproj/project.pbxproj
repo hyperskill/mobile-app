@@ -13,6 +13,7 @@
 		2C005DCA27EF5AE500DC6503 /* UsersListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C005DC927EF5AE500DC6503 /* UsersListRowView.swift */; };
 		2C005DCC27EF5B0300DC6503 /* GoogleServiceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C005DCB27EF5B0300DC6503 /* GoogleServiceInfo.swift */; };
 		2C005DCE27EF5B4400DC6503 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C005DCD27EF5B4400DC6503 /* AppView.swift */; };
+		2C0CD583282BEB6600D5659D /* View+RemoveBackButtonTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0CD582282BEB6600D5659D /* View+RemoveBackButtonTitle.swift */; };
 		2C1DEE3027EC408D0001A567 /* UsersListAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1DEE2F27EC408D0001A567 /* UsersListAssembly.swift */; };
 		2C1F5869280D063800372A37 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F5868280D063800372A37 /* WebViewController.swift */; };
 		2C1F586B280D094A00372A37 /* WebControllerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F586A280D094A00372A37 /* WebControllerManager.swift */; };
@@ -122,6 +123,7 @@
 		2C005DC927EF5AE500DC6503 /* UsersListRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersListRowView.swift; sourceTree = "<group>"; };
 		2C005DCB27EF5B0300DC6503 /* GoogleServiceInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleServiceInfo.swift; sourceTree = "<group>"; };
 		2C005DCD27EF5B4400DC6503 /* AppView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
+		2C0CD582282BEB6600D5659D /* View+RemoveBackButtonTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+RemoveBackButtonTitle.swift"; sourceTree = "<group>"; };
 		2C1DEE2F27EC408D0001A567 /* UsersListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersListAssembly.swift; sourceTree = "<group>"; };
 		2C1F5868280D063800372A37 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		2C1F586A280D094A00372A37 /* WebControllerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebControllerManager.swift; sourceTree = "<group>"; };
@@ -430,6 +432,7 @@
 			isa = PBXGroup;
 			children = (
 				2C725B5D28090D1F00A49043 /* View+Border.swift */,
+				2C0CD582282BEB6600D5659D /* View+RemoveBackButtonTitle.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -930,6 +933,7 @@
 				2C2FD622281920B1004E7AF6 /* SentryInfo.swift in Sources */,
 				2C9B66EB27ECAF5000569645 /* UIApplicationExtensions.swift in Sources */,
 				2CA8E093281039EB00154088 /* OutlineButtonStyle.swift in Sources */,
+				2C0CD583282BEB6600D5659D /* View+RemoveBackButtonTitle.swift in Sources */,
 				E9B2CF692822A5D400B2DC6F /* QuizOption.swift in Sources */,
 				2C1DEE3027EC408D0001A567 /* UsersListAssembly.swift in Sources */,
 				E99D4CED2826A37400B49D52 /* NavigationToolbar.swift in Sources */,
