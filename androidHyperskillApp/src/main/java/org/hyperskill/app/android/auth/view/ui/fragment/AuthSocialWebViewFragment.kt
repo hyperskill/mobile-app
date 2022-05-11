@@ -29,8 +29,7 @@ import javax.inject.Inject
 
 class AuthSocialWebViewFragment :
     DialogFragment(R.layout.dialog_in_app_web_view),
-    ReduxView<AuthSocialWebViewFeature.State, AuthSocialWebViewFeature.Action>
-{
+    ReduxView<AuthSocialWebViewFeature.State, AuthSocialWebViewFeature.Action> {
     companion object {
         const val TAG = "AuthSocialWebViewFragment"
 
@@ -92,7 +91,6 @@ class AuthSocialWebViewFragment :
                 @SuppressLint("SetJavaScriptEnabled")
                 it.settings.javaScriptEnabled = true
             }
-
         }
         webView.let { viewBinding.containerView.addView(it) }
         webView?.loadUrl(
@@ -141,5 +139,4 @@ class AuthSocialWebViewFragment :
         fun onError(error: AuthSocialError)
         fun onSuccess(authCode: String, provider: SocialAuthProvider)
     }
-
 }

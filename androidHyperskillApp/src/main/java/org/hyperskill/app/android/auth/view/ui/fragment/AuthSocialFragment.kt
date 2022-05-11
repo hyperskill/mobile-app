@@ -85,7 +85,6 @@ class AuthSocialFragment :
         super.onCreate(savedInstanceState)
         injectComponent()
         authMaterialCardViewsAdapter += AuthSocialAdapterDelegate(::onSocialClickListener)
-
     }
 
     private fun injectComponent() {
