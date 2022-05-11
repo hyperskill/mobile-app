@@ -85,6 +85,7 @@ class AuthSocialFragment :
         super.onCreate(savedInstanceState)
         injectComponent()
         authMaterialCardViewsAdapter += AuthSocialAdapterDelegate(::onSocialClickListener)
+
     }
 
     private fun injectComponent() {
@@ -157,12 +158,9 @@ class AuthSocialFragment :
         signInWithGoogleCallback.launch(signInIntent)
     }
 
-    override fun onDismissed(showError: Boolean) {
-        if (showError) {
-            val error = AuthSocialError.CONNECTION_PROBLEM
-            authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthFailure(error))
-            view?.snackbar(message = authSocialErrorMapper.getAuthSocialErrorText(error), Snackbar.LENGTH_LONG)
-        }
+    override fun onError(error: AuthSocialError) {
+        authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthFailure(error))
+        view?.snackbar(message = authSocialErrorMapper.getAuthSocialErrorText(error), Snackbar.LENGTH_LONG)
     }
 
     override fun onSuccess(authCode: String, provider: SocialAuthProvider) {
