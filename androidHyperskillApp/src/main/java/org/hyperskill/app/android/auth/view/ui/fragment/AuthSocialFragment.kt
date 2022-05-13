@@ -1,7 +1,6 @@
 package org.hyperskill.app.android.auth.view.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
@@ -131,7 +130,6 @@ class AuthSocialFragment :
                 (parentFragment as? AuthFlow)?.onAuthSuccess()
             }
             is AuthSocialFeature.Action.ViewAction.ShowAuthError -> {
-                Log.d("CALLBACK", "SHOW ERROR")
                 view?.snackbar(message = authSocialErrorMapper.getAuthSocialErrorText(action.socialError), Snackbar.LENGTH_LONG)
             }
         }
@@ -158,7 +156,6 @@ class AuthSocialFragment :
     }
 
     override fun onError(error: AuthSocialError) {
-        authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthFailure(error))
         view?.snackbar(message = authSocialErrorMapper.getAuthSocialErrorText(error), Snackbar.LENGTH_LONG)
     }
 

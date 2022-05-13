@@ -38,12 +38,4 @@
         <item name="drawableTint">?android:textColorPrimary</item>
     </style>
 
-    <style name="PlaceholderTextViewStyle">
-        <item name="android:textAppearance">?textAppearanceBody1</item>
-        <item name="android:textColor">?android:textColorSecondary</item>
-        <item name="android:padding">@dimen/padding_placeholders</item>
-        <item name="android:gravity">center</item>
-    </style>
-
-
 </resources>

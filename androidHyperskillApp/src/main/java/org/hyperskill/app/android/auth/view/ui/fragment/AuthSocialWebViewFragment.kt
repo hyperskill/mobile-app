@@ -16,6 +16,8 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.presentation.AuthSocialWebViewViewModel
+import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
+import org.hyperskill.app.android.core.view.ui.dialog.dismissIfExists
 import org.hyperskill.app.android.databinding.DialogInAppWebViewBinding
 import org.hyperskill.app.auth.domain.model.AuthSocialError
 import org.hyperskill.app.auth.domain.model.SocialAuthProvider
@@ -24,6 +26,7 @@ import org.hyperskill.app.auth.view.mapper.SocialAuthProviderRequestURLBuilder
 import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import ru.nobird.android.view.base.ui.extension.argument
+import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 import javax.inject.Inject
@@ -48,8 +51,10 @@ class AuthSocialWebViewFragment :
 
     private val authSocialViewModel: AuthSocialWebViewViewModel by reduxViewModel(this) { viewModelFactory }
 
-    private var authCode: String? = null
     private val viewBinding by viewBinding(DialogInAppWebViewBinding::bind)
+
+    private val loadingProgressDialogFragment: DialogFragment =
+        LoadingProgressDialogFragment.newInstance()
 
     private var provider: SocialAuthProvider by argument()
     private var webView: WebView? = null
@@ -82,8 +87,12 @@ class AuthSocialWebViewFragment :
                     ): Boolean {
                         if (request!!.url.toString().startsWith("https://" + BuildKonfig.HOST + "/oauth?")) {
                             val uri = Uri.parse(request.url.toString())
-                            authCode = uri.getQueryParameter("code") ?: ""
-                            authSocialViewModel.onNewMessage(AuthSocialWebViewFeature.Message.AuthCodeSuccess(authCode!!, provider))
+                            authSocialViewModel.onNewMessage(
+                                AuthSocialWebViewFeature.Message.AuthCodeSuccess(
+                                    uri.getQueryParameter("code")!!,
+                                    provider
+                                )
+                            )
                         }
                         return false
                     }
@@ -95,12 +104,16 @@ class AuthSocialWebViewFragment :
                     ) {
                         authSocialViewModel.onNewMessage(AuthSocialWebViewFeature.Message.AuthCodeFailure(AuthSocialError.CONNECTION_PROBLEM))
                     }
+
+                    override fun onPageFinished(view: WebView?, url: String?) {
+                        authSocialViewModel.onNewMessage(AuthSocialWebViewFeature.Message.PageLoaded)
+                    }
                 }
                 @SuppressLint("SetJavaScriptEnabled")
                 it.settings.javaScriptEnabled = true
             }
         }
-        webView.let { viewBinding.containerView.addView(it) }
+        webView?.let { viewBinding.containerView.addView(it) }
         webView?.loadUrl(
             SocialAuthProviderRequestURLBuilder.build(provider)
         )
@@ -125,25 +138,23 @@ class AuthSocialWebViewFragment :
     override fun onAction(action: AuthSocialWebViewFeature.Action) {
         when (action) {
             is AuthSocialWebViewFeature.Action.CallbackAuthCode -> {
-                (
-                    activity as? Callback
-                        ?: parentFragment as? Callback
-                        ?: targetFragment as? Callback
-                    )?.onSuccess(action.authCode, action.socialAuthProvider)
+                (parentFragment as? Callback)?.onSuccess(action.authCode, action.socialAuthProvider)
                 dialog?.dismiss()
             }
             is AuthSocialWebViewFeature.Action.CallbackAuthError -> {
-                (
-                    activity as? Callback
-                        ?: parentFragment as? Callback
-                        ?: targetFragment as? Callback
-                    )?.onError(action.socialError)
+                (parentFragment as? Callback)?.onError(action.socialError)
                 dialog?.dismiss()
             }
         }
     }
 
-    override fun render(state: AuthSocialWebViewFeature.State) {}
+    override fun render(state: AuthSocialWebViewFeature.State) {
+        if (state is AuthSocialWebViewFeature.State.Loading) {
+            loadingProgressDialogFragment.showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
+        } else {
+            loadingProgressDialogFragment.dismissIfExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
+        }
+    }
 
     interface Callback {
         fun onError(error: AuthSocialError)
