@@ -56,6 +56,26 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:textAppearance">?textAppearanceBody1</item>
         <item name="android:drawablePadding">16dp</item>
+        <item name="android:background">@drawable/bg_shape_rounded</item>
+    </style>
+
+    <style name="StepQuizFeedback.Correct">
+        <item name="android:theme">@style/ThemeOverlay.Red</item>
+        <item name="android:backgroundTint">@color/color_green_200_alpha_12</item>
+        <item name="android:textColor">@color/step_quiz_feedback_right_color</item>
+    </style>
+
+    <style name="StepQuizFeedback.Wrong">
+        <item name="android:theme">@style/ThemeOverlay.Red</item>
+        <item name="android:backgroundTint">@android:color/transparent</item>
+        <item name="android:textColor">@color/step_quiz_feedback_wrong_color</item>
+        <item name="drawableTint">@color/step_quiz_feedback_wrong_color</item>
+    </style>
+
+    <style name="StepQuizFeedback.Feedback">
+        <item name="strokeColor">@color/color_on_surface_alpha_12</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="background">@color/color_background</item>
     </style>
 
     <style name="StepQuizDescription">

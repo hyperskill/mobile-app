@@ -32,13 +32,16 @@
         android:layout_gravity="center"
         android:layout_margin="@dimen/padding_placeholders"
         android:text="@string/internet_problem"
+        android:textColor="@color/color_on_background"
         app:layout_constraintBottom_toTopOf="@+id/tryAgain"
         app:layout_constraintTop_toBottomOf="@+id/placeholderIcon" />
 
     <Button
         style="@style/ThemeOverlay.Blue"
         android:id="@+id/tryAgain"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="20dp"
+        android:maxWidth="@dimen/auth_button_max_width"
         android:layout_height="wrap_content"
         android:text="@string/reload"
         app:layout_constraintBottom_toBottomOf="parent"

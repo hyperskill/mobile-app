@@ -4,4 +4,9 @@
         <item quantity="one">%d minute</item>
         <item quantity="other">%d minutes</item>
     </plural>
+
+    <plural name="hours">
+        <item quantity="one">%d hour</item>
+        <item quantity="other">%d hours</item>
+    </plural>
 </resources>
