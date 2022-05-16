@@ -2,9 +2,9 @@ package org.hyperskill.app
 
 import kotlinx.serialization.SerialName
 
-interface Block {}
+interface Block
 
-interface InlineBlock {}
+interface InlineBlock
 
 interface WithJsonName {
     val name: String
@@ -294,11 +294,6 @@ data class SpanInlineBlock(
     override val name: String = "span"
 // content: span, code, strong, img, em, div, p, samp, br, b, a, iframe, pre, tt, ul, u, li, h5,
 ) : InlineBlock, WithJsonName
-
-data class DivBlock(
-    override val name: String = "div"
-// content: code, br, pre, div, p, strong, b, span, a, em, img, h5, li, ul, figure, figcaption, ol, u, samp, td, table, i, caption, sup, th, sub
-) : Block, WithJsonName
 
 /*
 <table>
