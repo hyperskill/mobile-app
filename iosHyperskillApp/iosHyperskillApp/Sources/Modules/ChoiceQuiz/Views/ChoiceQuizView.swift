@@ -1,82 +1,53 @@
 import SwiftUI
 
-enum QuizStatus {
-    case correct
-    case wrong
-}
-
-fileprivate extension QuizStatus {
-    var statusText: String {
-        switch self {
-        case .correct:
-            return Strings.choiceQuizCorrectStatusText
-        case .wrong:
-            return Strings.choiceQuizWrongStatusText
-        }
-    }
-
-    var feedbackText: String {
-        switch self {
-        case .correct:
-            return Strings.choiceQuizCorrectFeedbackText
-        case .wrong:
-            return Strings.choiceQuizWrongFeedbackText
-        }
-    }
-}
-
 struct ChoiceQuizView: View {
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-
-    var multiple: Bool
-
-    fileprivate var status: QuizStatus?
-
+    var task: String
+    @Binding var choices: [ChoiceQuizViewData.Choice]
+    var isMultipleChoice: Bool
 
     var body: some View {
-        ScrollView {
+        VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 16) {
+                Text(task)
+                .font(.caption)
+                .foregroundColor(Color(ColorPalette.onSurfaceAlpha38))
+                Divider()
+            }.padding(.bottom, 20)
+
             VStack(alignment: .leading, spacing: 20) {
-                QuizStatView(text: Strings.choiceQuizStatText)
-
-                QuizDescView()
-
-                HintButton()
-
-                ChoiceView(multiple: multiple)
-
-                if let status = status {
-                    QuizStatusView(text: status.statusText, status: status)
-                    FeedbackView(text: status.feedbackText)
+                ForEach($choices, id: \.text) { choice in
+                    ChoiceQuizElementView(
+                        isSelected: choice.isSelected,
+                        text: choice.text.wrappedValue,
+                        isMultipleChoice: isMultipleChoice
+                    )
                 }
-
-                QuizActionButton(status: status)
             }
-            .padding(.horizontal)
-            .padding(.top)
-
-            QuizDiscussions()
         }
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar(content: { QuizNavigationToolbar.build(presentationMode) })
     }
 }
 
-struct ChoiceQuizView_Previews: PreviewProvider {
+struct ChoiceView_Previews: PreviewProvider {
+    @State var choiceQuizSingle = ChoiceQuizViewData(type: .single, status: nil)
     static var previews: some View {
-        NavigationView {
-            List {
-                NavigationLink("Single Not solved", destination: ChoiceQuizView(multiple: false, status: nil))
+        Group {
+            ChoiceQuizView(
+                task: "Task text",
+                choices: .constant([
+                    .init(text: "choice1", isSelected: true),
+                    .init(text: "choice2", isSelected: false)
+                ]),
+                isMultipleChoice: true
+            )
 
-                NavigationLink("Single Correct", destination: ChoiceQuizView(multiple: false, status: .correct))
-
-                NavigationLink("Single Not correct", destination: ChoiceQuizView(multiple: false, status: .wrong))
-
-                NavigationLink("Multiple Not solved", destination: ChoiceQuizView(multiple: true, status: nil))
-
-                NavigationLink("Multiple Correct", destination: ChoiceQuizView(multiple: true, status: .correct))
-
-                NavigationLink("Multiple Not correct", destination: ChoiceQuizView(multiple: true, status: .wrong))
-            }
+            ChoiceQuizView(
+                task: "Task text",
+                choices: .constant([
+                    .init(text: "choice1", isSelected: true),
+                    .init(text: "choice2", isSelected: false)
+                ]),
+                isMultipleChoice: false
+            )
         }
     }
 }

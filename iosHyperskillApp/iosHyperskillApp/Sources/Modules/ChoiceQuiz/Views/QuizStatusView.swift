@@ -24,7 +24,7 @@ fileprivate extension QuizStatus {
         case .correct:
             return Color(ColorPalette.green200Alpha12)
         case .wrong:
-            return .white
+            return Color(ColorPalette.onPrimary)
         }
     }
 
@@ -36,21 +36,29 @@ fileprivate extension QuizStatus {
             return .vertical
         }
     }
+    var text: String {
+        switch self {
+        case .correct:
+            return Strings.choiceQuizCorrectStatusText
+        case .wrong:
+            return Strings.choiceQuizWrongStatusText
+        }
+    }
 }
 
 struct QuizStatusView: View {
-    var text: String
     var status: QuizStatus
 
     var body: some View {
         HStack {
             Image(status.image)
+                .renderingMode(.template)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .foregroundColor(status.foregroundColor)
                 .frame(width: 20, height: 20)
                 .padding(.trailing, 16)
-            Text(text)
+            Text(status.text)
                 .foregroundColor(status.foregroundColor)
                 .font(.body)
             Spacer()
@@ -64,9 +72,9 @@ struct QuizStatusView: View {
 struct QuizStatusView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            QuizStatusView(text: "Not correct, but keep on trying \nand never give up!", status: .wrong)
+            QuizStatusView(status: .wrong)
 
-            QuizStatusView(text: "You’re absolutely correct!", status: .correct)
+            QuizStatusView(status: .correct)
         }
     }
 }

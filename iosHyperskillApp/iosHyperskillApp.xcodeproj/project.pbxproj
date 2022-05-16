@@ -81,28 +81,28 @@
 		2CF2DA3E27EC5C180055426D /* UsersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF2DA3D27EC5C180055426D /* UsersListView.swift */; };
 		2CF2DA4127EC75000055426D /* UsersListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF2DA4027EC75000055426D /* UsersListViewModel.swift */; };
 		40D8E6EFE44EB7A6092C171B /* Pods_iosHyperskillApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C0F8A86D62CB915A1E49CAA /* Pods_iosHyperskillApp.framework */; };
+		E9101713283296F3002E70F5 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9101712283296F3002E70F5 /* RadioButton.swift */; };
+		E91017152832975C002E70F5 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91017142832975C002E70F5 /* Checkbox.swift */; };
+		E910171728329808002E70F5 /* ChoiceQuizElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910171628329808002E70F5 /* ChoiceQuizElementView.swift */; };
 		E92D659727FC2F4100953029 /* AuthSocialButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92D659627FC2F4100953029 /* AuthSocialButton.swift */; };
 		E94D238D28057F440003273F /* AuthEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D238C28057F440003273F /* AuthEmailView.swift */; };
 		E94D238F280585110003273F /* AuthEmailFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D238E280585110003273F /* AuthEmailFormView.swift */; };
 		E94EC7D528201E4E00A81580 /* QuizDescView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94EC7D428201E4E00A81580 /* QuizDescView.swift */; };
-		E94EC7D728201E9D00A81580 /* SingleOptionChoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94EC7D628201E9D00A81580 /* SingleOptionChoiceView.swift */; };
 		E951757927E61ACD00995008 /* AuthSocialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951757827E61ACD00995008 /* AuthSocialView.swift */; };
+		E96B5918282EA39F00812D76 /* NavigationToolbarInfoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96B5917282EA39F00812D76 /* NavigationToolbarInfoButton.swift */; };
 		E96E80F627EF57BA00AA6683 /* AuthSocialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */; };
-		E9802D07281BB5CC00CF3AC1 /* ChoiceQuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9802D06281BB5CC00CF3AC1 /* ChoiceQuizView.swift */; };
-		E99D4CEB2826A30D00B49D52 /* UINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99D4CEA2826A30D00B49D52 /* UINavigationController.swift */; };
-		E99D4CED2826A37400B49D52 /* NavigationToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99D4CEC2826A37400B49D52 /* NavigationToolbar.swift */; };
+		E9802D07281BB5CC00CF3AC1 /* QuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9802D06281BB5CC00CF3AC1 /* QuizView.swift */; };
+		E9978886282FFC6E00ADD74A /* ChoiceQuizViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9978885282FFC6E00ADD74A /* ChoiceQuizViewData.swift */; };
+		E99788882830061300ADD74A /* QuizStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99788872830061300ADD74A /* QuizStatus.swift */; };
+		E99D4CED2826A37400B49D52 /* AppAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99D4CEC2826A37400B49D52 /* AppAppearance.swift */; };
 		E99D4CEF2826B91100B49D52 /* QuizStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99D4CEE2826B91100B49D52 /* QuizStatusView.swift */; };
 		E9B2CF5B2822960D00B2DC6F /* QuizDiscussions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B2CF5A2822960D00B2DC6F /* QuizDiscussions.swift */; };
-		E9B2CF5D2822975400B2DC6F /* QuizStatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B2CF5C2822975400B2DC6F /* QuizStatView.swift */; };
-		E9B2CF5F2822979400B2DC6F /* HintButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B2CF5E2822979400B2DC6F /* HintButton.swift */; };
-		E9B2CF6528229F0D00B2DC6F /* QuizNavigationToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B2CF6428229F0D00B2DC6F /* QuizNavigationToolbar.swift */; };
-		E9B2CF672822A57400B2DC6F /* SingleOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B2CF662822A57400B2DC6F /* SingleOptionView.swift */; };
+		E9B2CF5D2822975400B2DC6F /* QuizStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B2CF5C2822975400B2DC6F /* QuizStatsView.swift */; };
+		E9B2CF5F2822979400B2DC6F /* QuizHintButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B2CF5E2822979400B2DC6F /* QuizHintButton.swift */; };
 		E9B2CF692822A5D400B2DC6F /* QuizOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B2CF682822A5D400B2DC6F /* QuizOption.swift */; };
-		E9B2CF6D2822AE5F00B2DC6F /* FeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B2CF6C2822AE5F00B2DC6F /* FeedbackView.swift */; };
+		E9B2CF6D2822AE5F00B2DC6F /* QuizFeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B2CF6C2822AE5F00B2DC6F /* QuizFeedbackView.swift */; };
 		E9B3A18C2828093800FE248B /* QuizActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B3A18B2828093800FE248B /* QuizActionButton.swift */; };
-		E9C8C5672822B7FA005A81EB /* MultipleOptionChoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C8C5662822B7FA005A81EB /* MultipleOptionChoiceView.swift */; };
-		E9C8C5692822B897005A81EB /* ChoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C8C5682822B897005A81EB /* ChoiceView.swift */; };
-		E9C8C56B2822BB04005A81EB /* MultipleOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C8C56A2822BB04005A81EB /* MultipleOptionView.swift */; };
+		E9C8C5692822B897005A81EB /* ChoiceQuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C8C5682822B897005A81EB /* ChoiceQuizView.swift */; };
 		E9D69A4028084FF7000E114E /* AuthEmailErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D69A3F28084FF7000E114E /* AuthEmailErrorView.swift */; };
 /* End PBXBuildFile section */
 
@@ -198,28 +198,28 @@
 		7555FF7B242A565900829871 /* iosHyperskillApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosHyperskillApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C0F8A86D62CB915A1E49CAA /* Pods_iosHyperskillApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iosHyperskillApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9101712283296F3002E70F5 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
+		E91017142832975C002E70F5 /* Checkbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
+		E910171628329808002E70F5 /* ChoiceQuizElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceQuizElementView.swift; sourceTree = "<group>"; };
 		E92D659627FC2F4100953029 /* AuthSocialButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialButton.swift; sourceTree = "<group>"; };
 		E94D238C28057F440003273F /* AuthEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthEmailView.swift; sourceTree = "<group>"; };
 		E94D238E280585110003273F /* AuthEmailFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthEmailFormView.swift; sourceTree = "<group>"; };
 		E94EC7D428201E4E00A81580 /* QuizDescView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizDescView.swift; sourceTree = "<group>"; };
-		E94EC7D628201E9D00A81580 /* SingleOptionChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleOptionChoiceView.swift; sourceTree = "<group>"; };
 		E951757827E61ACD00995008 /* AuthSocialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialView.swift; sourceTree = "<group>"; };
+		E96B5917282EA39F00812D76 /* NavigationToolbarInfoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationToolbarInfoButton.swift; sourceTree = "<group>"; };
 		E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialViewModel.swift; sourceTree = "<group>"; };
-		E9802D06281BB5CC00CF3AC1 /* ChoiceQuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceQuizView.swift; sourceTree = "<group>"; };
-		E99D4CEA2826A30D00B49D52 /* UINavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationController.swift; sourceTree = "<group>"; };
-		E99D4CEC2826A37400B49D52 /* NavigationToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationToolbar.swift; sourceTree = "<group>"; };
+		E9802D06281BB5CC00CF3AC1 /* QuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizView.swift; sourceTree = "<group>"; };
+		E9978885282FFC6E00ADD74A /* ChoiceQuizViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceQuizViewData.swift; sourceTree = "<group>"; };
+		E99788872830061300ADD74A /* QuizStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizStatus.swift; sourceTree = "<group>"; };
+		E99D4CEC2826A37400B49D52 /* AppAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAppearance.swift; sourceTree = "<group>"; };
 		E99D4CEE2826B91100B49D52 /* QuizStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizStatusView.swift; sourceTree = "<group>"; };
 		E9B2CF5A2822960D00B2DC6F /* QuizDiscussions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizDiscussions.swift; sourceTree = "<group>"; };
-		E9B2CF5C2822975400B2DC6F /* QuizStatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizStatView.swift; sourceTree = "<group>"; };
-		E9B2CF5E2822979400B2DC6F /* HintButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintButton.swift; sourceTree = "<group>"; };
-		E9B2CF6428229F0D00B2DC6F /* QuizNavigationToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizNavigationToolbar.swift; sourceTree = "<group>"; };
-		E9B2CF662822A57400B2DC6F /* SingleOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleOptionView.swift; sourceTree = "<group>"; };
+		E9B2CF5C2822975400B2DC6F /* QuizStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizStatsView.swift; sourceTree = "<group>"; };
+		E9B2CF5E2822979400B2DC6F /* QuizHintButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizHintButton.swift; sourceTree = "<group>"; };
 		E9B2CF682822A5D400B2DC6F /* QuizOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizOption.swift; sourceTree = "<group>"; };
-		E9B2CF6C2822AE5F00B2DC6F /* FeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackView.swift; sourceTree = "<group>"; };
+		E9B2CF6C2822AE5F00B2DC6F /* QuizFeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizFeedbackView.swift; sourceTree = "<group>"; };
 		E9B3A18B2828093800FE248B /* QuizActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizActionButton.swift; sourceTree = "<group>"; };
-		E9C8C5662822B7FA005A81EB /* MultipleOptionChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleOptionChoiceView.swift; sourceTree = "<group>"; };
-		E9C8C5682822B897005A81EB /* ChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceView.swift; sourceTree = "<group>"; };
-		E9C8C56A2822BB04005A81EB /* MultipleOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleOptionView.swift; sourceTree = "<group>"; };
+		E9C8C5682822B897005A81EB /* ChoiceQuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceQuizView.swift; sourceTree = "<group>"; };
 		E9D69A3F28084FF7000E114E /* AuthEmailErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthEmailErrorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -461,7 +461,7 @@
 				2C9CC1BC280920B5006604D7 /* KeyboardManager.swift */,
 				2C906CBD280E5D9C0079C594 /* ProgressHUD.swift */,
 				2C2FD61D28191EC0004E7AF6 /* SentryManager.swift */,
-				E99D4CEC2826A37400B49D52 /* NavigationToolbar.swift */,
+				E99D4CEC2826A37400B49D52 /* AppAppearance.swift */,
 			);
 			path = Systems;
 			sourceTree = "<group>";
@@ -508,7 +508,6 @@
 		2C9B66E927ECAF2400569645 /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
-				E99D4CEA2826A30D00B49D52 /* UINavigationController.swift */,
 				2C9B66EA27ECAF5000569645 /* UIApplicationExtensions.swift */,
 				2C58DE282803D197002A2774 /* UIColor+DynamicColor.swift */,
 			);
@@ -719,6 +718,8 @@
 			children = (
 				E9802D04281BB5B200CF3AC1 /* Views */,
 				E9B2CF682822A5D400B2DC6F /* QuizOption.swift */,
+				E9978885282FFC6E00ADD74A /* ChoiceQuizViewData.swift */,
+				E99788872830061300ADD74A /* QuizStatus.swift */,
 			);
 			path = ChoiceQuiz;
 			sourceTree = "<group>";
@@ -726,20 +727,19 @@
 		E9802D04281BB5B200CF3AC1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E9802D06281BB5CC00CF3AC1 /* ChoiceQuizView.swift */,
+				E9802D06281BB5CC00CF3AC1 /* QuizView.swift */,
 				E94EC7D428201E4E00A81580 /* QuizDescView.swift */,
-				E94EC7D628201E9D00A81580 /* SingleOptionChoiceView.swift */,
 				E9B2CF5A2822960D00B2DC6F /* QuizDiscussions.swift */,
-				E9B2CF5C2822975400B2DC6F /* QuizStatView.swift */,
-				E9B2CF5E2822979400B2DC6F /* HintButton.swift */,
-				E9B2CF6428229F0D00B2DC6F /* QuizNavigationToolbar.swift */,
-				E9B2CF662822A57400B2DC6F /* SingleOptionView.swift */,
-				E9B2CF6C2822AE5F00B2DC6F /* FeedbackView.swift */,
-				E9C8C5662822B7FA005A81EB /* MultipleOptionChoiceView.swift */,
-				E9C8C5682822B897005A81EB /* ChoiceView.swift */,
-				E9C8C56A2822BB04005A81EB /* MultipleOptionView.swift */,
+				E9B2CF5C2822975400B2DC6F /* QuizStatsView.swift */,
+				E9B2CF5E2822979400B2DC6F /* QuizHintButton.swift */,
+				E9B2CF6C2822AE5F00B2DC6F /* QuizFeedbackView.swift */,
+				E9C8C5682822B897005A81EB /* ChoiceQuizView.swift */,
 				E99D4CEE2826B91100B49D52 /* QuizStatusView.swift */,
 				E9B3A18B2828093800FE248B /* QuizActionButton.swift */,
+				E96B5917282EA39F00812D76 /* NavigationToolbarInfoButton.swift */,
+				E9101712283296F3002E70F5 /* RadioButton.swift */,
+				E91017142832975C002E70F5 /* Checkbox.swift */,
+				E910171628329808002E70F5 /* ChoiceQuizElementView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -922,7 +922,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CAFD39127FC5D5D00F88B0B /* Color+DesignSystem.swift in Sources */,
-				E9802D07281BB5CC00CF3AC1 /* ChoiceQuizView.swift in Sources */,
+				E910171728329808002E70F5 /* ChoiceQuizElementView.swift in Sources */,
+				E9802D07281BB5CC00CF3AC1 /* QuizView.swift in Sources */,
 				2C9B66C427ECA73700569645 /* AppDelegate.swift in Sources */,
 				2C9B66E627ECA86B00569645 /* SceneDelegate.swift in Sources */,
 				E94D238F280585110003273F /* AuthEmailFormView.swift in Sources */,
@@ -936,9 +937,9 @@
 				2C0CD583282BEB6600D5659D /* View+RemoveBackButtonTitle.swift in Sources */,
 				E9B2CF692822A5D400B2DC6F /* QuizOption.swift in Sources */,
 				2C1DEE3027EC408D0001A567 /* UsersListAssembly.swift in Sources */,
-				E99D4CED2826A37400B49D52 /* NavigationToolbar.swift in Sources */,
+				E99D4CED2826A37400B49D52 /* AppAppearance.swift in Sources */,
 				2C84094F2805B28B009C6BE9 /* StepRatingControl.swift in Sources */,
-				E9B2CF5D2822975400B2DC6F /* QuizStatView.swift in Sources */,
+				E9B2CF5D2822975400B2DC6F /* QuizStatsView.swift in Sources */,
 				2C005DCC27EF5B0300DC6503 /* GoogleServiceInfo.swift in Sources */,
 				E94D238D28057F440003273F /* AuthEmailView.swift in Sources */,
 				2CE31F4827F1BB79008EEE66 /* AuthSocialAssembly.swift in Sources */,
@@ -948,8 +949,8 @@
 				2C2FD62428192123004E7AF6 /* BundlePropertyListDeserializer.swift in Sources */,
 				2C1F5879280D2D1300372A37 /* WebOAuthURLParser.swift in Sources */,
 				2CCF3B5828004FC40075D12C /* UserAgentBuilder.swift in Sources */,
+				E9101713283296F3002E70F5 /* RadioButton.swift in Sources */,
 				2C919DE827EEEDD60022A2F2 /* LinkedList.swift in Sources */,
-				E9B2CF6528229F0D00B2DC6F /* QuizNavigationToolbar.swift in Sources */,
 				2C46D0632807E4C100B3636E /* TextFieldWrapper.swift in Sources */,
 				2CAFD38F27FC517D00F88B0B /* ColorPalette.swift in Sources */,
 				2C1F5888280D5D6200372A37 /* SocialAuthSDKProvider.swift in Sources */,
@@ -969,19 +970,16 @@
 				2C906CBE280E5D9C0079C594 /* ProgressHUD.swift in Sources */,
 				2152FB042600AC8F00CF470E /* HyperskillApp.swift in Sources */,
 				2CA8E094281039EB00154088 /* RoundedRectangleButtonStyle.swift in Sources */,
-				E9C8C56B2822BB04005A81EB /* MultipleOptionView.swift in Sources */,
 				E951757927E61ACD00995008 /* AuthSocialView.swift in Sources */,
 				2C1F5875280D0E0000372A37 /* WKWebViewPanelManager.m in Sources */,
 				2C1F5870280D0CB700372A37 /* WebCacheCleaner.swift in Sources */,
 				2C58DE232803BF97002A2774 /* AuthLogoView.swift in Sources */,
 				2C1F5882280D5BAA00372A37 /* SocialAuthService.swift in Sources */,
-				E94EC7D728201E9D00A81580 /* SingleOptionChoiceView.swift in Sources */,
-				E9B2CF672822A57400B2DC6F /* SingleOptionView.swift in Sources */,
 				E94EC7D528201E4E00A81580 /* QuizDescView.swift in Sources */,
 				E96E80F627EF57BA00AA6683 /* AuthSocialViewModel.swift in Sources */,
 				2C1F5869280D063800372A37 /* WebViewController.swift in Sources */,
-				E9C8C5672822B7FA005A81EB /* MultipleOptionChoiceView.swift in Sources */,
 				2CAE8D07280576C600E6C83D /* StepBottomControlsView.swift in Sources */,
+				E9978886282FFC6E00ADD74A /* ChoiceQuizViewData.swift in Sources */,
 				2C005DCE27EF5B4400DC6503 /* AppView.swift in Sources */,
 				2C9CC1BF28092E06006604D7 /* AuthAdaptiveContentView.swift in Sources */,
 				2C2FD61E28191EC0004E7AF6 /* SentryManager.swift in Sources */,
@@ -990,25 +988,27 @@
 				2C1F587B280D2E5100372A37 /* URLExtensions.swift in Sources */,
 				2C1F586B280D094A00372A37 /* WebControllerManager.swift in Sources */,
 				2CF2DA4127EC75000055426D /* UsersListViewModel.swift in Sources */,
+				E96B5918282EA39F00812D76 /* NavigationToolbarInfoButton.swift in Sources */,
 				E92D659727FC2F4100953029 /* AuthSocialButton.swift in Sources */,
 				E99D4CEF2826B91100B49D52 /* QuizStatusView.swift in Sources */,
 				2CAE8CF4280525D400E6C83D /* StepAssembly.swift in Sources */,
-				E9B2CF6D2822AE5F00B2DC6F /* FeedbackView.swift in Sources */,
+				E9B2CF6D2822AE5F00B2DC6F /* QuizFeedbackView.swift in Sources */,
 				2CF2DA3E27EC5C180055426D /* UsersListView.swift in Sources */,
 				2C1F588B280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift in Sources */,
-				E9C8C5692822B897005A81EB /* ChoiceView.swift in Sources */,
-				E9B2CF5F2822979400B2DC6F /* HintButton.swift in Sources */,
+				E9C8C5692822B897005A81EB /* ChoiceQuizView.swift in Sources */,
+				E9B2CF5F2822979400B2DC6F /* QuizHintButton.swift in Sources */,
 				2C42EFB527F2EAB300B4648B /* GraphicsColor+UIColor.swift in Sources */,
 				E9B3A18C2828093800FE248B /* QuizActionButton.swift in Sources */,
 				2C725B632809198000A49043 /* BackgroundView.swift in Sources */,
 				2CAE8CF2280525C900E6C83D /* StepView.swift in Sources */,
-				E99D4CEB2826A30D00B49D52 /* UINavigationController.swift in Sources */,
 				2C9CC1BD280920B5006604D7 /* KeyboardManager.swift in Sources */,
 				2C8409532805BF3C009C6BE9 /* StepContentView.swift in Sources */,
 				2C58DE252803C185002A2774 /* AuthSocialControlsView.swift in Sources */,
 				2CE1C4DF27EDFB3800220041 /* FeatureViewModel.swift in Sources */,
 				E9B2CF5B2822960D00B2DC6F /* QuizDiscussions.swift in Sources */,
+				E91017152832975C002E70F5 /* Checkbox.swift in Sources */,
 				2C42EFB727F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift in Sources */,
+				E99788882830061300ADD74A /* QuizStatus.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

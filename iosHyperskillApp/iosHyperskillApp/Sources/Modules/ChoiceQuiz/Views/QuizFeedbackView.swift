@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct FeedbackView: View {
+struct QuizFeedbackView: View {
     var text: String
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -18,6 +18,6 @@ struct FeedbackView: View {
 
 struct FeedbackView_Previews: PreviewProvider {
     static var previews: some View {
-        FeedbackView(text: Strings.choiceQuizCorrectFeedbackText)
+        QuizFeedbackView(text: Strings.choiceQuizCorrectFeedbackText)
     }
 }

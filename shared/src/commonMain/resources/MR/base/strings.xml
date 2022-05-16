@@ -41,7 +41,7 @@
         and never give up!</string>
     <string name="choice_quiz_correct_feedback_text">That's right! Since any comparison results in a boolean value, there is no need to write everything twice.</string>
     <string name="choice_quiz_wrong_feedback_text">Practice makes perfect. Let's learn from mistakes and try again.</string>
-    <string name="choice_quiz_stat_text">2438 users solved this problem. Latest completion was about 13 hours ago.</string>
+    <string name="choice_quiz_stat_text">%d users solved this problem. Latest completion was about %d hours ago.</string>
     <string name="choice_quiz_single_option_task_text">Select one option from the list</string>
     <string name="choice_quiz_multiple_option_task_text">Select one or more options from the list</string>
     <string name="choice_quiz_feedback_title">FEEDBACK:</string>
@@ -50,5 +50,4 @@
     <string name="choice_quiz_retry_button_text">Retry</string>
     <string name="choice_quiz_send_button_text">Send</string>
     <string name="choice_quiz_discussions_button_text">Show discussions</string>
-    <string name="choice_quiz_"></string>
 </resources>

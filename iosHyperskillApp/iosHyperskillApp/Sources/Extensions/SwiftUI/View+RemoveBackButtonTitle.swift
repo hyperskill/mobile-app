@@ -10,6 +10,7 @@ extension View {
                         Image(systemName: "chevron.backward")
                             .font(.body.weight(.semibold))
                             .imageScale(.large)
+                            .foregroundColor(.secondaryText)
                     }
                 )
             }

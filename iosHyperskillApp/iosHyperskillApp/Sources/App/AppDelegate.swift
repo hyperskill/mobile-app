@@ -22,7 +22,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
         SentryManager.configure()
         KeyboardManager.configure()
-        NavigationToolbar.configure()
+        AppAppearance.themeApplication()
 
         return true
     }

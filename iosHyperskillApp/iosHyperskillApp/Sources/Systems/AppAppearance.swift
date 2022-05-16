@@ -1,5 +1,5 @@
-enum NavigationToolbar {
-    static func configure() {
+enum AppAppearance {
+    static func themeApplication() {
         let coloredAppearance = UINavigationBarAppearance()
         coloredAppearance.configureWithOpaqueBackground()
         coloredAppearance.backgroundColor = ColorPalette.background

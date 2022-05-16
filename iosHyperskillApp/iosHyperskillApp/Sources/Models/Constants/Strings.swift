@@ -31,7 +31,9 @@ enum Strings {
     static let choiceQuizWrongStatusText = SharedResources.strings.shared.choice_quiz_wrong_status_text.localized()
     static let choiceQuizCorrectFeedbackText = SharedResources.strings.shared.choice_quiz_correct_feedback_text.localized()
     static let choiceQuizWrongFeedbackText = SharedResources.strings.shared.choice_quiz_wrong_feedback_text.localized()
-    static let choiceQuizStatText = SharedResources.strings.shared.choice_quiz_stat_text.localized()
+    static func choiceQuizStatText(users: Int, hours: Int) -> String {
+        String(format: SharedResources.strings.shared.choice_quiz_stat_text.localized(), users, hours)
+    }
     static let choiceQuizSingleOptionTaskText = SharedResources.strings.shared.choice_quiz_single_option_task_text.localized()
     static let choiceQuizMultipleOptionTaskText = SharedResources.strings.shared.choice_quiz_multiple_option_task_text.localized()
     static let choiceQuizFeedbackTitle = SharedResources.strings.shared.choice_quiz_feedback_title.localized()

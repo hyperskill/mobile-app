@@ -1,19 +1,11 @@
-import Foundation
 import SwiftUI
 
-private var associatedObjectHandle: UInt8 = 0
-
-enum QuizNavigationToolbar {
-    @ToolbarContentBuilder
-    static func build(_ presentationMode: Binding<PresentationMode>) -> some ToolbarContent {
-        ToolbarItem(placement: .principal) {
-            Text("Problem’s title")
-                .font(.headline)
-        }
-
+struct NavigationToolbarInfoButton: ToolbarContent {
+    var body: some ToolbarContent {
         ToolbarItem(placement: .navigationBarTrailing) {
             Button(action: {}, label: {
                 Image("choice-quiz-info-icon")
+                    .renderingMode(.template)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 24, height: 24)

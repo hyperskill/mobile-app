@@ -1,5 +1,18 @@
 import SwiftUI
 
+struct QuizActionButton: View {
+    var status: QuizStatus?
+    var body: some View {
+        if let status = status {
+            Button(status.buttonText, action: {})
+                .buttonStyle(RoundedRectangleButtonStyle(style: status.buttonStyle))
+        } else {
+            Button(Strings.choiceQuizSendButtonText, action: {})
+                .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
+        }
+    }
+}
+
 fileprivate extension QuizStatus {
     var buttonText: String {
         switch self {
@@ -16,19 +29,6 @@ fileprivate extension QuizStatus {
             return .green
         case .wrong:
             return .violet
-        }
-    }
-}
-
-struct QuizActionButton: View {
-    var status: QuizStatus?
-    var body: some View {
-        if let status = status {
-            Button(status.buttonText, action: {})
-                .buttonStyle(RoundedRectangleButtonStyle(style: status.buttonStyle))
-        } else {
-            Button(Strings.choiceQuizSendButtonText, action: {})
-                .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
         }
     }
 }

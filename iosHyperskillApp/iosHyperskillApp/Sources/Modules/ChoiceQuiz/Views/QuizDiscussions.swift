@@ -11,6 +11,7 @@ struct QuizDiscussions: View {
                     .frame(maxWidth: .infinity, minHeight: 44, alignment: .center)
                     .overlay(
                         Image("choice-quiz-chat-icon")
+                            .renderingMode(.template)
                             .frame(width: 20, height: 20)
                             .padding(.leading, 18)
                             .foregroundColor(Color(ColorPalette.primary)),
@@ -19,7 +20,6 @@ struct QuizDiscussions: View {
             })
             .padding()
             .buttonStyle(OutlineButtonStyle())
-            .buttonStyle(BounceButtonStyle())
         }
         .background(Color(ColorPalette.background).ignoresSafeArea())
     }
