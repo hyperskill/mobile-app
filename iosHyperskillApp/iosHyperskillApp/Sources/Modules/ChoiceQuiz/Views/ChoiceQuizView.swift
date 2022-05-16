@@ -19,18 +19,28 @@ struct ChoiceQuizView: View {
                     ChoiceQuizElementView(
                         isSelected: choice.isSelected,
                         text: choice.text.wrappedValue,
-                        isMultipleChoice: isMultipleChoice
+                        isMultipleChoice: isMultipleChoice,
+                        selectChoice: self.selectChoice
                     )
                 }
             }
         }
     }
+
+    func selectChoice(selectedChoice: Binding<Bool>) {
+        if !isMultipleChoice {
+            for i in choices.indices {
+                choices[i].isSelected = false
+            }
+            selectedChoice.wrappedValue = true
+        } else {
+            selectedChoice.wrappedValue.toggle()
+        }
+    }
 }
 
 struct ChoiceView_Previews: PreviewProvider {
-    @State var choiceQuizSingle = ChoiceQuizViewData(type: .single, status: nil)
     static var previews: some View {
-        Group {
             ChoiceQuizView(
                 task: "Task text",
                 choices: .constant([
@@ -43,11 +53,10 @@ struct ChoiceView_Previews: PreviewProvider {
             ChoiceQuizView(
                 task: "Task text",
                 choices: .constant([
-                    .init(text: "choice1", isSelected: true),
-                    .init(text: "choice2", isSelected: false)
+                    .init(text: "choice3", isSelected: true),
+                    .init(text: "choice4", isSelected: false)
                 ]),
                 isMultipleChoice: false
             )
-        }
     }
 }

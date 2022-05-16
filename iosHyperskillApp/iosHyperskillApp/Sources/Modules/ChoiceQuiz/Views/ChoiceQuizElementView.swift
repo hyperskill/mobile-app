@@ -4,9 +4,11 @@ struct ChoiceQuizElementView: View {
     var isSelected: Binding<Bool>
     let text: String
     var isMultipleChoice: Bool
+    var selectChoice: (Binding<Bool>) -> Void
     var body: some View {
         Button(
             action: {
+                selectChoice(isSelected)
             },
             label: {
                 HStack(spacing: 8) {
@@ -27,11 +29,32 @@ struct ChoiceQuizElementView: View {
 
 struct ChoiceQuizElementView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            ChoiceQuizElementView(isSelected: .constant(true), text: "Some option", isMultipleChoice: true)
-            ChoiceQuizElementView(isSelected: .constant(false), text: "Some option", isMultipleChoice: true)
-            ChoiceQuizElementView(isSelected: .constant(true), text: "Some option", isMultipleChoice: false)
-            ChoiceQuizElementView(isSelected: .constant(false), text: "Some option", isMultipleChoice: false)
+        let lambda = { (selectedChoice: Binding<Bool>) -> Void in selectedChoice.wrappedValue.toggle() }
+        return Group {
+            ChoiceQuizElementView(
+                isSelected: .constant(true),
+                text: "Some option",
+                isMultipleChoice: true,
+                selectChoice: lambda
+            )
+            ChoiceQuizElementView(
+                isSelected: .constant(false),
+                text: "Some option",
+                isMultipleChoice: true,
+                selectChoice: lambda
+            )
+            ChoiceQuizElementView(
+                isSelected: .constant(true),
+                text: "Some option",
+                isMultipleChoice: false,
+                selectChoice: lambda
+            )
+            ChoiceQuizElementView(
+                isSelected: .constant(false),
+                text: "Some option",
+                isMultipleChoice: false,
+                selectChoice: lambda
+            )
         }
     }
 }
