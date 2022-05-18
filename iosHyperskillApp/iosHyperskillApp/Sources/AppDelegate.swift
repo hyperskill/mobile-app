@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SentryManager.configure()
         ProgressHUD.configure()
         KeyboardManager.configure()
+        AppAppearance.themeApplication()
 
         return true
     }

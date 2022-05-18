@@ -56,5 +56,6 @@
     <string name="choice_quiz_continue_button_text">Continue</string>
     <string name="choice_quiz_retry_button_text">Retry</string>
     <string name="choice_quiz_send_button_text">Send</string>
+    <string name="choice_quiz_checking_button_text">Checking</string>
     <string name="choice_quiz_discussions_button_text">Show discussions</string>
 </resources>

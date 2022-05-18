@@ -1,47 +1,57 @@
 import SwiftUI
 
 fileprivate extension QuizStatus {
-    var image: String {
+    var image: String? {
         switch self {
         case .correct:
             return "choice-quiz-check-icon"
         case .wrong:
             return "choice-quiz-info-icon"
+        default:
+            return nil
         }
     }
 
-    var foregroundColor: Color {
+    var foregroundColor: Color? {
         switch self {
         case .correct:
             return Color(ColorPalette.secondary)
         case .wrong:
             return Color(ColorPalette.primary)
+        default:
+            return nil
         }
     }
 
-    var backgroundColor: Color {
+    var backgroundColor: Color? {
         switch self {
         case .correct:
             return Color(ColorPalette.green200Alpha12)
         case .wrong:
             return Color(ColorPalette.onPrimary)
+        default:
+            return nil
         }
     }
 
-    var paddingSet: Edge.Set {
+    var paddingSet: Edge.Set? {
         switch self {
         case .correct:
             return .all
         case .wrong:
             return .vertical
+        default:
+            return nil
         }
     }
-    var text: String {
+    var text: String? {
         switch self {
         case .correct:
             return Strings.choiceQuizCorrectStatusText
         case .wrong:
             return Strings.choiceQuizWrongStatusText
+        default:
+            return nil
         }
     }
 }
@@ -50,22 +60,28 @@ struct QuizStatusView: View {
     var status: QuizStatus
 
     var body: some View {
-        HStack {
-            Image(status.image)
-                .renderingMode(.template)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .foregroundColor(status.foregroundColor)
-                .frame(width: 20, height: 20)
-                .padding(.trailing, 16)
-            Text(status.text)
-                .foregroundColor(status.foregroundColor)
-                .font(.body)
-            Spacer()
+        if
+            let paddingSet = status.paddingSet,
+            let image = status.image,
+            let text = status.text,
+            let backgroundColor = status.backgroundColor {
+            HStack {
+                Image(image)
+                    .renderingMode(.template)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .foregroundColor(status.foregroundColor)
+                    .frame(width: 20, height: 20)
+                    .padding(.trailing, 16)
+                Text(text)
+                    .foregroundColor(status.foregroundColor)
+                    .font(.body)
+                Spacer()
+            }
+            .padding(paddingSet)
+            .background(backgroundColor)
+            .cornerRadius(8)
         }
-        .padding(status.paddingSet)
-        .background(status.backgroundColor)
-        .cornerRadius(8)
     }
 }
 

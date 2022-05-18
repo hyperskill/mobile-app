@@ -28,8 +28,13 @@ struct QuizView: View {
                 )
 
                 if let status = choiceQuiz.status {
-                    QuizStatusView(status: status)
-                    QuizFeedbackView(text: status.feedbackText)
+                    if let feedbackText = status.feedbackText {
+                        QuizStatusView(status: status)
+                        QuizFeedbackView(text: feedbackText)
+                    }
+                    if status == .evaluation {
+                        QuizProgressView()
+                    }
                 }
 
                 QuizActionButton(status: choiceQuiz.status)
@@ -49,12 +54,14 @@ struct QuizView: View {
 }
 
 fileprivate extension QuizStatus {
-    var feedbackText: String {
+    var feedbackText: String? {
         switch self {
         case .correct:
             return Strings.choiceQuizCorrectFeedbackText
         case .wrong:
             return Strings.choiceQuizWrongFeedbackText
+        default:
+            return nil
         }
     }
 }
@@ -79,6 +86,11 @@ struct ChoiceQuizView_Previews: PreviewProvider {
                 )
 
                 NavigationLink(
+                    "Single Evaluation",
+                    destination: QuizView(choiceQuiz: .init(type: .single, status: .evaluation))
+                )
+
+                NavigationLink(
                     "Multiple Not solved",
                     destination: QuizView(choiceQuiz: .init(type: .multiple, status: nil))
                 )
@@ -89,8 +101,13 @@ struct ChoiceQuizView_Previews: PreviewProvider {
                 )
 
                 NavigationLink(
-                    "Multiple Not Wrong",
+                    "Multiple Wrong",
                     destination: QuizView(choiceQuiz: .init(type: .multiple, status: .wrong))
+                )
+
+                NavigationLink(
+                    "Multiple Evaluation",
+                    destination: QuizView(choiceQuiz: .init(type: .multiple, status: .evaluation))
                 )
             }
         }

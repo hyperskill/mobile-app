@@ -40,5 +40,6 @@ enum Strings {
     static let choiceQuizContinueButtonText = SharedResources.strings.shared.choice_quiz_continue_button_text.localized()
     static let choiceQuizRetryButtonText = SharedResources.strings.shared.choice_quiz_retry_button_text.localized()
     static let choiceQuizSendButtonText = SharedResources.strings.shared.choice_quiz_send_button_text.localized()
+    static let choiceQuizCheckingButtonText = SharedResources.strings.shared.choice_quiz_checking_button_text.localized()
     static let choiceQuizDiscussionsButtonText = SharedResources.strings.shared.choice_quiz_discussions_button_text.localized()
 }

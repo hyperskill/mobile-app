@@ -1,5 +1,5 @@
 enum QuizStatus {
-//    case evaluation
+    case evaluation
     case wrong
     case correct
 //    case outdated
