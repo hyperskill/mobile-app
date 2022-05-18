@@ -20,11 +20,14 @@ import ru.nobird.android.view.base.ui.extension.resolveFloatAttribute
 
 class LoadingView
 @JvmOverloads
-constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
-    : View(context, attrs, defStyleAttr) {
+constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
+    View(context, attrs, defStyleAttr) {
 
     private val baseColorDefault = context.resolveColorAttribute(R.attr.colorControlHighlight)
-    private val deepColorDefault = ColorExtensions.colorWithAlphaMul(baseColorDefault, context.resolveFloatAttribute(R.attr.alphaEmphasisDisabled))
+    private val deepColorDefault = ColorExtensions.colorWithAlphaMul(
+        baseColorDefault,
+        context.resolveFloatAttribute(R.attr.alphaEmphasisDisabled)
+    )
     private val durationDefault = 1500L
     private val intervalDefault = 0L
 
@@ -61,12 +64,20 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
         val array = context.obtainStyledAttributes(attrs, R.styleable.LoadingView)
         try {
             with(array) {
-                radius = getDimensionPixelOffset(R.styleable.LoadingView_radius, resources.getDimensionPixelOffset(R.dimen.loading_view_radius_default)).toFloat()
-                durationOfPass = getInt(R.styleable.LoadingView_duration, durationDefault.toInt()).toLong()
-                interval = getInt(R.styleable.LoadingView_interval, intervalDefault.toInt()).toLong()
+                radius = getDimensionPixelOffset(
+                    R.styleable.LoadingView_radius,
+                    resources.getDimensionPixelOffset(R.dimen.loading_view_radius_default)
+                ).toFloat()
+                durationOfPass =
+                    getInt(R.styleable.LoadingView_duration, durationDefault.toInt()).toLong()
+                interval =
+                    getInt(R.styleable.LoadingView_interval, intervalDefault.toInt()).toLong()
                 baseColor = getColor(R.styleable.LoadingView_baseColor, baseColorDefault)
                 deepColor = getColor(R.styleable.LoadingView_deepColor, deepColorDefault)
-                progressLength = getDimensionPixelOffset(R.styleable.LoadingView_progressLength, resources.getDimensionPixelOffset(R.dimen.loading_view_progress_length_default)).toFloat()
+                progressLength = getDimensionPixelOffset(
+                    R.styleable.LoadingView_progressLength,
+                    resources.getDimensionPixelOffset(R.dimen.loading_view_progress_length_default)
+                ).toFloat()
             }
         } finally {
             array.recycle()
@@ -80,28 +91,125 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
         deepPaintLeft = Paint().apply {
             style = Paint.Style.FILL
             isAntiAlias = true
-            shader = LinearGradient(0f, 0f, progressLength / 2, 0f, baseColor, deepColor, Shader.TileMode.CLAMP)
+            shader = LinearGradient(
+                0f,
+                0f,
+                progressLength / 2,
+                0f,
+                baseColor,
+                deepColor,
+                Shader.TileMode.CLAMP
+            )
         }
         deepPaintRight = Paint().apply {
             style = Paint.Style.FILL
             isAntiAlias = true
-            shader = LinearGradient(0f, 0f, progressLength / 2, 0f, deepColor, baseColor, Shader.TileMode.CLAMP)
+            shader = LinearGradient(
+                0f,
+                0f,
+                progressLength / 2,
+                0f,
+                deepColor,
+                baseColor,
+                Shader.TileMode.CLAMP
+            )
         }
     }
 
     override fun onDraw(canvas: Canvas) {
         val width = width.toFloat()
         val height = height.toFloat()
-        canvas.clipPath(path.apply { reset(); addRoundRect(rect.apply { set(0f, 0f, width, height) }, radius, radius, Path.Direction.CW) })
+        canvas.clipPath(path.apply {
+            reset(); addRoundRect(rect.apply {
+            set(
+                0f,
+                0f,
+                width,
+                height
+            )
+        }, radius, radius, Path.Direction.CW)
+        })
         super.onDraw(canvas)
         canvas.drawRoundRect(rect.apply { set(0f, 0f, width, height) }, radius, radius, basePaint)
 
-        canvas.drawRoundRect(rect.apply { set(screenWidth * frame - x, 0f, screenWidth * frame - x + progressLength / 2, height) }, 0f, 0f, deepPaintLeft.apply { shader.setLocalMatrix(localMatrix.apply { setTranslate(screenWidth * frame - x, 0f) }) })
-        canvas.drawRoundRect(rect.apply { set(screenWidth * frame - x + progressLength / 2, 0f, screenWidth * frame - x + progressLength, height) }, 0f, 0f, deepPaintRight.apply { shader.setLocalMatrix(localMatrix.apply { setTranslate(screenWidth * frame - x + progressLength / 2, 0f) }) })
+        canvas.drawRoundRect(
+            rect.apply {
+                set(
+                    screenWidth * frame - x,
+                    0f,
+                    screenWidth * frame - x + progressLength / 2,
+                    height
+                )
+            },
+            0f,
+            0f,
+            deepPaintLeft.apply {
+                shader.setLocalMatrix(localMatrix.apply {
+                    setTranslate(
+                        screenWidth * frame - x,
+                        0f
+                    )
+                })
+            })
+        canvas.drawRoundRect(
+            rect.apply {
+                set(
+                    screenWidth * frame - x + progressLength / 2,
+                    0f,
+                    screenWidth * frame - x + progressLength,
+                    height
+                )
+            },
+            0f,
+            0f,
+            deepPaintRight.apply {
+                shader.setLocalMatrix(localMatrix.apply {
+                    setTranslate(
+                        screenWidth * frame - x + progressLength / 2,
+                        0f
+                    )
+                })
+            })
 
         if (screenWidth - (screenWidth * frame + progressLength) < 0) {
-            canvas.drawRoundRect(rect.apply { set(screenWidth * frame - x - screenWidth, 0f, screenWidth * frame - x + progressLength / 2 - screenWidth, height) }, 0f, 0f, deepPaintLeft.apply { shader.setLocalMatrix(localMatrix.apply { setTranslate(screenWidth * frame - x - screenWidth, 0f) }) })
-            canvas.drawRoundRect(rect.apply { set(screenWidth * frame - x + progressLength / 2 - screenWidth, 0f, screenWidth * frame - x + progressLength - screenWidth, height) }, 0f, 0f, deepPaintRight.apply { shader.setLocalMatrix(localMatrix.apply { setTranslate(screenWidth * frame - x + progressLength / 2 - screenWidth, 0f) }) })
+            canvas.drawRoundRect(
+                rect.apply {
+                    set(
+                        screenWidth * frame - x - screenWidth,
+                        0f,
+                        screenWidth * frame - x + progressLength / 2 - screenWidth,
+                        height
+                    )
+                },
+                0f,
+                0f,
+                deepPaintLeft.apply {
+                    shader.setLocalMatrix(localMatrix.apply {
+                        setTranslate(
+                            screenWidth * frame - x - screenWidth,
+                            0f
+                        )
+                    })
+                })
+            canvas.drawRoundRect(
+                rect.apply {
+                    set(
+                        screenWidth * frame - x + progressLength / 2 - screenWidth,
+                        0f,
+                        screenWidth * frame - x + progressLength - screenWidth,
+                        height
+                    )
+                },
+                0f,
+                0f,
+                deepPaintRight.apply {
+                    shader.setLocalMatrix(localMatrix.apply {
+                        setTranslate(
+                            screenWidth * frame - x + progressLength / 2 - screenWidth,
+                            0f
+                        )
+                    })
+                })
         }
     }
 
@@ -110,15 +218,14 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
         stop()
     }
 
-
     @SuppressLint("SwitchIntDef")
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
-        //tbh, it may produce the unexpected start (View1->View2->thisView)
-        //View2 - Gone
-        //View1 – Visible
-        //but it is better than remain this view unstoppable
-        //animator is stopped in onDetachedFromWindow also
+        // tbh, it may produce the unexpected start (View1->View2->thisView)
+        // View2 - Gone
+        // View1 – Visible
+        // but it is better than remain this view unstoppable
+        // animator is stopped in onDetachedFromWindow also
         when (visibility) {
             VISIBLE -> {
                 start()
@@ -133,12 +240,12 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
     }
 
     private fun start() =
-            with(animator) {
-                duration = durationOfPass
-                startDelay = interval
-                repeatCount = ObjectAnimator.INFINITE
-                start()
-            }
+        with(animator) {
+            duration = durationOfPass
+            startDelay = interval
+            repeatCount = ObjectAnimator.INFINITE
+            start()
+        }
 
     private fun stop() = with(animator) { if (isRunning) cancel() }
 }

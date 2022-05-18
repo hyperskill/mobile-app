@@ -25,13 +25,22 @@ object ColorExtensions {
      * Mixes [color1] with [color2] in additive way
      */
     @ColorInt
-    fun add(@ColorInt color1: Int, @ColorInt color2: Int, overrideLightTheme: Boolean = false): Int =
+    fun add(
+        @ColorInt color1: Int,
+        @ColorInt color2: Int,
+        overrideLightTheme: Boolean = false
+    ): Int =
         ((color1 shr 24) shl 24) or // alpha
-                addChannel(0, color1, color2, overrideLightTheme) or // b
-                addChannel(8, color1, color2, overrideLightTheme) or // g
-                addChannel(16, color1, color2, overrideLightTheme) // r
+            addChannel(0, color1, color2, overrideLightTheme) or // b
+            addChannel(8, color1, color2, overrideLightTheme) or // g
+            addChannel(16, color1, color2, overrideLightTheme) // r
 
-    private fun addChannel(shift: Int, @ColorInt color1: Int, @ColorInt color2: Int, overrideLightTheme: Boolean = false): Int {
+    private fun addChannel(
+        shift: Int,
+        @ColorInt color1: Int,
+        @ColorInt color2: Int,
+        overrideLightTheme: Boolean = false
+    ): Int {
         val ch1 = color1.shr(shift) and 0xFF
         val ch2 = color2.shr(shift) and 0xFF
         val alpha = (color2 shr 24).toFloat() / 0xFF
@@ -46,7 +55,12 @@ object ColorExtensions {
     }
 
     @ColorInt
-    fun colorWithElevationOverlay(@ColorInt color: Int, @ColorInt colorOnSurface: Int, @Dimension(unit = Dimension.DP) elevation: Int, overrideLightTheme: Boolean = false): Int {
+    fun colorWithElevationOverlay(
+        @ColorInt color: Int,
+        @ColorInt colorOnSurface: Int,
+        @Dimension(unit = Dimension.DP) elevation: Int,
+        overrideLightTheme: Boolean = false
+    ): Int {
         val overlayAlpha =
             when (elevation) {
                 0 -> 0f
@@ -69,10 +83,19 @@ object ColorExtensions {
      * If [overrideLightTheme] is true light color will be darken otherwise light color wouldn't be changed
      */
     @ColorInt
-    fun colorSurfaceWithElevationOverlay(context: Context, @Dimension(unit = Dimension.DP) elevation: Int, overrideLightTheme: Boolean = false): Int {
+    fun colorSurfaceWithElevationOverlay(
+        context: Context,
+        @Dimension(unit = Dimension.DP) elevation: Int,
+        overrideLightTheme: Boolean = false
+    ): Int {
         val colorSurface = context.resolveColorAttribute(R.attr.colorSurface)
         val colorOnSurface = context.resolveColorAttribute(R.attr.colorOnSurface)
 
-        return colorWithElevationOverlay(colorSurface, colorOnSurface, elevation, overrideLightTheme)
+        return colorWithElevationOverlay(
+            colorSurface,
+            colorOnSurface,
+            elevation,
+            overrideLightTheme
+        )
     }
 }
