@@ -12,10 +12,13 @@ struct AuthSocialView: View {
 
     @ObservedObject private var viewModel: AuthSocialViewModel
 
-    @State private var presentingContinueWithEmail = false
+    @ObservedObject private var navigationState: AppNavigationState
 
-    init(viewModel: AuthSocialViewModel, appearance: Appearance = Appearance()) {
+    @State private var presentingAuthWithEmail = false
+
+    init(viewModel: AuthSocialViewModel, navigationState: AppNavigationState, appearance: Appearance = Appearance()) {
         self.viewModel = viewModel
+        self.navigationState = navigationState
         self.appearance = appearance
         self.viewModel.onViewAction = self.handleViewAction(_:)
     }
@@ -23,34 +26,48 @@ struct AuthSocialView: View {
     var body: some View {
         let state = viewModel.state
 
-        if state is AuthFeatureStateLoading {
+        if state is AuthSocialFeatureStateLoading {
             ProgressHUD.show()
-        } else if state is AuthFeatureStateAuthenticated {
+        } else if state is AuthSocialFeatureStateAuthenticated {
             ProgressHUD.showSuccess()
         }
 
-        return AuthAdaptiveContentView { horizontalSizeClass in
-            AuthLogoView(logoWidthHeight: appearance.logoSize)
-                .padding(horizontalSizeClass == .regular ? .bottom : .vertical, appearance.logoSize)
+        return NavigationView {
+            AuthAdaptiveContentView { horizontalSizeClass in
+                AuthLogoView(logoWidthHeight: appearance.logoSize)
+                    .padding(horizontalSizeClass == .regular ? .bottom : .vertical, appearance.logoSize)
 
-            AuthSocialControlsView(
-                socialAuthProviders: viewModel.availableSocialAuthProviders,
-                onSocialAuthProviderClick: viewModel.signIn(with:),
-                onContinueWithEmailClick: { presentingContinueWithEmail = true }
-            )
-            .fullScreenCover(isPresented: $presentingContinueWithEmail) {
-                AuthEmailView(presentingContinueWithEmail: $presentingContinueWithEmail)
+                AuthSocialControlsView(
+                    socialAuthProviders: viewModel.availableSocialAuthProviders,
+                    onSocialAuthProviderClick: viewModel.signIn(with:),
+                    onContinueWithEmailClick: { presentingAuthWithEmail = true }
+                )
+                NavigationLink(
+                    isActive: $presentingAuthWithEmail,
+                    destination: AuthCredentialsAssembly(navigationState: navigationState).makeModule,
+                    label: { EmptyView() }
+                )
             }
+            .navigationBarHidden(true)
         }
         .onAppear(perform: viewModel.startListening)
         .onDisappear(perform: viewModel.stopListening)
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 
     // MARK: Private API
 
-    private func handleViewAction(_ viewAction: AuthFeatureActionViewAction) {
-        if let showAuthErrorViewAction = viewAction as? AuthFeatureActionViewActionShowAuthError {
-            ProgressHUD.showError(status: showAuthErrorViewAction.errorMsg)
+    private func handleViewAction(_ viewAction: AuthSocialFeatureActionViewAction) {
+        switch viewAction {
+        case is AuthSocialFeatureActionViewActionCompleteAuthFlow:
+            withAnimation {
+                navigationState.presentingAuthScreen = false
+            }
+        case let authError as AuthSocialFeatureActionViewActionShowAuthError:
+            let errorText = viewModel.getAuthSocialErrorText(authSocialError: authError.socialError)
+            ProgressHUD.showError(status: errorText)
+        default:
+            print("AuthSocialView :: unhandled viewAction = \(viewAction)")
         }
     }
 }
@@ -60,22 +77,10 @@ struct AuthView_Previews: PreviewProvider {
         AuthSocialAssembly()
             .makeModule()
             .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro"))
-            .preferredColorScheme(.light)
-
-        if #available(iOS 15.0, *) {
-            AuthSocialAssembly()
-                .makeModule()
-                .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro"))
-                .preferredColorScheme(.light)
-                .previewInterfaceOrientation(.landscapeRight)
-        }
-
-        AuthSocialAssembly().makeModule()
-            .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro"))
-            .preferredColorScheme(.dark)
 
         AuthSocialAssembly().makeModule()
             .previewDevice(PreviewDevice(rawValue: "iPhone SE (3rd generation)"))
+            .preferredColorScheme(.dark)
 
         AuthSocialAssembly().makeModule()
             .previewDevice(PreviewDevice(rawValue: "iPad (9th generation)"))

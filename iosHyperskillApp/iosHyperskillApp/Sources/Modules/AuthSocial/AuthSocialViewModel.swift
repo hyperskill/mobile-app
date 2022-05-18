@@ -1,14 +1,24 @@
-import GoogleSignIn
 import shared
 import SwiftUI
 
-final class AuthSocialViewModel: FeatureViewModel<AuthFeatureState, AuthFeatureMessage, AuthFeatureActionViewAction> {
+final class AuthSocialViewModel: FeatureViewModel<
+  AuthSocialFeatureState,
+  AuthSocialFeatureMessage,
+  AuthSocialFeatureActionViewAction
+> {
     private let socialAuthService: SocialAuthServiceProtocol
+
+    private let authSocialErrorMapper: AuthSocialErrorMapper
 
     let availableSocialAuthProviders = SocialAuthProvider.allCases.filter(\.isSupported)
 
-    init(socialAuthService: SocialAuthServiceProtocol, feature: Presentation_reduxFeature) {
+    init(
+        socialAuthService: SocialAuthServiceProtocol,
+        authSocialErrorMapper: AuthSocialErrorMapper,
+        feature: Presentation_reduxFeature
+    ) {
         self.socialAuthService = socialAuthService
+        self.authSocialErrorMapper = authSocialErrorMapper
         super.init(feature: feature)
     }
 
@@ -21,22 +31,29 @@ final class AuthSocialViewModel: FeatureViewModel<AuthFeatureState, AuthFeatureM
                     throw SocialAuthError.accessDenied
                 }
 
-                let message = AuthFeatureMessageAuthWithSocial(
+                let message = AuthSocialFeatureMessageAuthWithSocial(
                     authCode: authCode,
-                    socialProvider: provider.sharedType
+                    socialAuthProvider: provider.sharedType
                 )
 
                 self.onNewMessage(message)
             } catch {
                 print("AuthSocialViewModel :: signIn error = \(error)")
-                await self.showAuthError(message: error.localizedDescription)
+
+                if case SocialAuthError.canceled = error {
+                    return
+                }
+
+                let viewAction = AuthSocialFeatureActionViewActionShowAuthError(socialError: .connectionProblem)
+
+                await MainActor.run {
+                    self.onViewAction?(viewAction)
+                }
             }
         }
     }
 
-    @MainActor
-    private func showAuthError(message: String) {
-        let viewAction = AuthFeatureActionViewActionShowAuthError(errorMsg: message)
-        self.onViewAction?(viewAction)
+    func getAuthSocialErrorText(authSocialError: AuthSocialError) -> String {
+        self.authSocialErrorMapper.getAuthSocialErrorText(authSocialError: authSocialError)
     }
 }

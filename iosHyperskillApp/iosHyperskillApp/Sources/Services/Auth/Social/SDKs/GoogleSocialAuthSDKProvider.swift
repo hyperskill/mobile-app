@@ -5,7 +5,11 @@ import UIKit
 final class GoogleSocialAuthSDKProvider: SocialAuthSDKProvider {
     static let shared = GoogleSocialAuthSDKProvider()
 
-    private init() {}
+    private let sourcelessRouter: SourcelessRouter
+
+    private init() {
+        self.sourcelessRouter = SourcelessRouter()
+    }
 
     func signIn() async throws -> SocialAuthSDKResponse {
         try await withCheckedThrowingContinuation { continuation in
@@ -21,7 +25,7 @@ final class GoogleSocialAuthSDKProvider: SocialAuthSDKProvider {
     }
 
     private func signIn(completion: @escaping (Result<SocialAuthSDKResponse, SocialAuthSDKError>) -> Void) {
-        guard let currentRootViewController = UIApplication.shared.currentRootViewController else {
+        guard let currentPresentedViewController = self.sourcelessRouter.currentPresentedViewController() else {
             return completion(.failure(.noPresentingViewController))
         }
 
@@ -34,7 +38,7 @@ final class GoogleSocialAuthSDKProvider: SocialAuthSDKProvider {
                 clientID: GoogleServiceInfo.clientID,
                 serverClientID: GoogleServiceInfo.serverClientID
             ),
-            presenting: currentRootViewController
+            presenting: currentPresentedViewController
         ) { user, error in
             if let error = error {
                 print("GoogleSocialAuthSDKProvider :: error = \(error.localizedDescription)")

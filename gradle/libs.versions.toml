@@ -26,7 +26,6 @@ kotlin-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinCoroutines" }
 
 ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
-ktor-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
 ktor-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor" }
 ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-android = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
@@ -53,6 +52,7 @@ android-ui-constraintlayout = { module = "androidx.constraintlayout:constraintla
 android-ui-core-ktx = { module = "androidx.core:core-ktx", version = "1.3.0" }
 android-ui-fragment = { module = "androidx.fragment:fragment", version.ref = "fragment"}
 android-ui-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragment"}
+android-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version = "2.4.0" }
 
 android-test-junit = { module = "junit:junit", version = "4.13.2" }
 android-test-runner = { module = "androidx.test:runner", version = "1.4.0" }
@@ -60,7 +60,7 @@ android-test-robolectric = { module = "org.robolectric:robolectric", version = "
 
 gms-services = { module = "com.google.android.gms:play-services-base", version = "17.6.0" }
 gms-login = { module = "com.google.android.gms:play-services-auth", version = "19.0.0"}
-viewbinding = { module = "com.github.kirich1409:viewbindingpropertydelegate", version = "1.5.3"}
+viewbinding = { module = "com.github.kirich1409:viewbindingpropertydelegate", version = "1.5.6"}
 
 mokoResources-main = { module = "dev.icerock.moko:resources", version.ref = "mokoResources" }
 mokoResources-test = { module = "dev.icerock.moko:resources-test", version.ref = "mokoResources"}
@@ -74,7 +74,7 @@ android-sentry = { module = "io.sentry:sentry-android", version.ref = "sentry" }
 android-sentry-fragment = { module = "io.sentry:sentry-android-fragment", version.ref = "sentry" }
 
 [bundles]
-ktor-common = ['ktor-core', 'ktor-auth', 'ktor-serialization', 'ktor-logging', 'ktor-contentNegotiation', 'ktor-serialization-json']
+ktor-common = ['ktor-core', 'ktor-serialization', 'ktor-logging', 'ktor-contentNegotiation', 'ktor-serialization-json']
 android-test = ['android-test-junit', 'android-test-runner', 'android-test-robolectric']
 
 [plugins]

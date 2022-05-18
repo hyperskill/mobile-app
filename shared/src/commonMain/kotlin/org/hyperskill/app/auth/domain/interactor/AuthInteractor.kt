@@ -11,6 +11,9 @@ class AuthInteractor(
     fun observeUserDeauthorization(): Flow<UserDeauthorized> =
         authRepository.observeUserDeauthorization()
 
+    suspend fun isAuthorized(): Result<Boolean> =
+        authRepository.isAuthorized()
+
     suspend fun authWithSocial(authCode: String, socialProvider: SocialAuthProvider): Result<Unit> =
         authRepository.authWithSocial(authCode, socialProvider)
 

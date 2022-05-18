@@ -4,7 +4,7 @@ extension AuthAdaptiveContentView {
     struct Appearance {
         let contentMaxWidth: CGFloat = 400
 
-        var insets = LayoutInsets().edgeInsets
+        var insets = LayoutInsets(horizontal: LayoutInsets.defaultInset).edgeInsets
     }
 }
 

@@ -41,7 +41,6 @@ struct AuthSocialControlsView: View {
                 .padding(appearance.continueWithEmailButtonLayoutInsets.edgeInsets)
                 .buttonStyle(OutlineButtonStyle(style: .violet))
         }
-        .padding(.horizontal)
     }
 }
 
