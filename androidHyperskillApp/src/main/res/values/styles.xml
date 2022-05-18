@@ -83,4 +83,10 @@
         <item name="android:textColor">?android:textColorSecondary</item>
     </style>
 
+    <style name="StepQuizChoiceElement">
+        <item name="android:padding">8dp</item>
+        <item name="android:buttonTint">@color/color_on_surface_alpha_60</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
 </resources>

@@ -48,4 +48,5 @@
     <dimen name="step_quiz_feedback_wrong_textview_height">66dp</dimen>
     <dimen name="step_quiz_discussion_button_height">48dp</dimen>
     <dimen name="step_quiz_hint_button_height">32dp</dimen>
+    <dimen name="item_choice_skeleton_height">21dp</dimen>
 </resources>
