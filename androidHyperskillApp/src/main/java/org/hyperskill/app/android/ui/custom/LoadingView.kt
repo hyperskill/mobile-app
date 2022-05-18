@@ -200,11 +200,11 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
                 deepPaintLeft.apply {
                     shader.setLocalMatrix(
                         localMatrix.apply {
-                        setTranslate(
-                            screenWidth * frame - x - screenWidth,
-                            0f
-                        )
-                    }
+                            setTranslate(
+                                screenWidth * frame - x - screenWidth,
+                                0f
+                            )
+                        }
                     )
                 }
             )
@@ -259,13 +259,12 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
         }
     }
 
-    private fun start()
-        = with(animator) {
-            duration = durationOfPass
-            startDelay = interval
-            repeatCount = ObjectAnimator.INFINITE
-            start()
-        }
+    private fun start() = with(animator) {
+        duration = durationOfPass
+        startDelay = interval
+        repeatCount = ObjectAnimator.INFINITE
+        start()
+    }
 
     private fun stop() = with(animator) { if (isRunning) cancel() }
 }
