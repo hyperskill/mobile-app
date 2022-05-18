@@ -259,12 +259,17 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
         }
     }
 
-    private fun start() = with(animator) {
-        duration = durationOfPass
-        startDelay = interval
-        repeatCount = ObjectAnimator.INFINITE
-        start()
-    }
+    private fun start() =
+        with(animator) {
+            duration = durationOfPass
+            startDelay = interval
+            repeatCount = ObjectAnimator.INFINITE
+            start()
+        }
 
-    private fun stop() = with(animator) { if (isRunning) cancel() }
+    private fun stop() =
+        with(animator) {
+            if (isRunning)
+                cancel()
+        }
 }
