@@ -119,16 +119,24 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
     override fun onDraw(canvas: Canvas) {
         val width = width.toFloat()
         val height = height.toFloat()
-        canvas.clipPath(path.apply {
-            reset(); addRoundRect(rect.apply {
-            set(
-                0f,
-                0f,
-                width,
-                height
-            )
-        }, radius, radius, Path.Direction.CW)
-        })
+        canvas.clipPath(
+            path.apply {
+                reset()
+                addRoundRect(
+                    rect.apply {
+                        set(
+                            0f,
+                            0f,
+                            width,
+                            height
+                        )
+                    },
+                    radius,
+                    radius,
+                    Path.Direction.CW
+                )
+            }
+        )
         super.onDraw(canvas)
         canvas.drawRoundRect(rect.apply { set(0f, 0f, width, height) }, radius, radius, basePaint)
 
@@ -144,13 +152,16 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
             0f,
             0f,
             deepPaintLeft.apply {
-                shader.setLocalMatrix(localMatrix.apply {
-                    setTranslate(
-                        screenWidth * frame - x,
-                        0f
-                    )
-                })
-            })
+                shader.setLocalMatrix(
+                    localMatrix.apply {
+                        setTranslate(
+                            screenWidth * frame - x,
+                            0f
+                        )
+                    }
+                )
+            }
+        )
         canvas.drawRoundRect(
             rect.apply {
                 set(
@@ -163,13 +174,16 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
             0f,
             0f,
             deepPaintRight.apply {
-                shader.setLocalMatrix(localMatrix.apply {
-                    setTranslate(
-                        screenWidth * frame - x + progressLength / 2,
-                        0f
-                    )
-                })
-            })
+                shader.setLocalMatrix(
+                    localMatrix.apply {
+                        setTranslate(
+                            screenWidth * frame - x + progressLength / 2,
+                            0f
+                        )
+                    }
+                )
+            }
+        )
 
         if (screenWidth - (screenWidth * frame + progressLength) < 0) {
             canvas.drawRoundRect(
@@ -184,13 +198,16 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
                 0f,
                 0f,
                 deepPaintLeft.apply {
-                    shader.setLocalMatrix(localMatrix.apply {
+                    shader.setLocalMatrix(
+                        localMatrix.apply {
                         setTranslate(
                             screenWidth * frame - x - screenWidth,
                             0f
                         )
-                    })
-                })
+                    }
+                    )
+                }
+            )
             canvas.drawRoundRect(
                 rect.apply {
                     set(
@@ -203,13 +220,16 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
                 0f,
                 0f,
                 deepPaintRight.apply {
-                    shader.setLocalMatrix(localMatrix.apply {
-                        setTranslate(
-                            screenWidth * frame - x + progressLength / 2 - screenWidth,
-                            0f
-                        )
-                    })
-                })
+                    shader.setLocalMatrix(
+                        localMatrix.apply {
+                            setTranslate(
+                                screenWidth * frame - x + progressLength / 2 - screenWidth,
+                                0f
+                            )
+                        }
+                    )
+                }
+            )
         }
     }
 
@@ -239,8 +259,8 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
         }
     }
 
-    private fun start() =
-        with(animator) {
+    private fun start()
+        = with(animator) {
             duration = durationOfPass
             startDelay = interval
             repeatCount = ObjectAnimator.INFINITE
