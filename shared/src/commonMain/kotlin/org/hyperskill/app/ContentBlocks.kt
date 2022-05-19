@@ -36,13 +36,98 @@ data class InlineStyle(
     val textAlignment: String?
 ) : WithJsonName
 
+/* Example JSON:
+{
+  "p": {
+    "text": "This is some text in a paragraph.",
+    "style": {
+      "font-size": 17
+    }
+  }
+}
+
+{
+  "p": {
+    "tokens": [
+      {
+        "math-tex": {
+          "latex": "x^2 + y^2 = z^2"
+        }
+      },
+      {
+        "br": {}
+      },
+      {
+        "strong": {
+          "text": "This text is bold!",
+          "style": {
+            "color": "#892621"
+          }
+        }
+      }
+    ],
+    "style": {
+      "font-size": 17
+    }
+  }
+}
+*/
 data class TextBlock(
     override val name: String = "p",
+    val value: Value,
     @SerialName("style")
     val style: InlineStyle?
-    // plain text or blocks:
-    // code, strong, span, em, img, a, br, b, samp, u, div, p, sup, i, sub, tt, iframe (2), strike (1), pre (1), li (1), ul (1), h5 (1)
-) : Block, WithJsonName
+) : Block, WithJsonName {
+    sealed class Value {
+        data class PlainText(
+            @SerialName("text")
+            val text: String
+        ) : Value()
+
+        data class RichText(
+            @SerialName("tokens")
+            val inlineTokens: List<InlineToken>
+        ) : Value() {
+            sealed class InlineToken {
+                data class MathFormula(val mathFormula: MathFormulaInlineBlock) : InlineToken()
+
+                data class Span(val span: SpanInlineBlock) : InlineToken()
+
+                data class LineBreak(val lineBreak: LineBreakInlineBlock) : InlineToken()
+
+                data class Hyperlink(val hyperlink: HyperlinkInlineBlock) : InlineToken()
+
+                data class BoldText(val boldText: BoldTextInlineBlock) : InlineToken()
+
+                data class ItalicText(val italicText: ItalicTextInlineBlock) : InlineToken()
+
+                data class UnderlineText(
+                    val underlineText: UnderlineTextInlineBlock
+                ) : InlineToken()
+
+                data class SuperscriptText(
+                    val superscriptText: SuperscriptTextInlineBlock
+                ) : InlineToken()
+
+                data class SubscriptText(
+                    val subscriptText: SubscriptTextInlineBlock
+                ) : InlineToken()
+
+                data class MonospaceText(
+                    val monospaceText: MonospaceTextInlineBlock
+                ) : InlineToken()
+
+                data class SampleOutputText(
+                    val sampleOutputText: SampleOutputTextInlineBlock
+                ) : InlineToken()
+
+                data class StrikethroughText(
+                    val strikethroughText: StrikethroughTextInlineBlock
+                ) : InlineToken()
+            }
+        }
+    }
+}
 
 /* Example JSON:
 {
@@ -181,8 +266,60 @@ data class StrikethroughTextInlineBlock(
   "br": {}
 }
 */
-data class LineBreak(
+data class LineBreakInlineBlock(
     override val name: String = "br"
+) : InlineBlock, WithJsonName
+
+/* Example JSON:
+{
+  "math-tex": {
+    "latex": "x^2 + y^2 = z^2"
+  }
+}
+*/
+data class MathFormulaInlineBlock(
+    override val name: String = "math-tex",
+    @SerialName("latex")
+    val latex: String
+) : InlineBlock, WithJsonName
+
+/* Example JSON:
+{
+  "a": {
+    "href": "https://hyperskill.org",
+    "text": "Visit hyperskill.org!",
+    "style": {
+      "color": "#892621"
+    }
+  }
+}
+*/
+data class HyperlinkInlineBlock(
+    override val name: String = "a",
+    @SerialName("href")
+    val url: String,
+    @SerialName("text")
+    val text: String,
+    @SerialName("style")
+    val style: InlineStyle?
+) : InlineBlock, WithJsonName
+
+/* Example JSON:
+{
+  "span": {
+    "text": "blue",
+    "style": {
+      "color": "#0000FF"
+    }
+  }
+}
+*/
+data class SpanInlineBlock(
+    override val name: String = "span",
+    @SerialName("text")
+    val text: String,
+    @SerialName("style")
+    val style: InlineStyle?
 ) : InlineBlock, WithJsonName
 
 /* Example JSON:
@@ -203,19 +340,6 @@ data class CodeBlock(
 
 /* Example JSON:
 {
-  "math-tex": {
-    "latex": "x^2 + y^2 = z^2"
-  }
-}
-*/
-data class MathFormula(
-    override val name: String = "math-tex",
-    @SerialName("latex")
-    val latex: String
-) : InlineBlock, WithJsonName
-
-/* Example JSON:
-{
   "h5": {
     "text": "This is heading 5",
     "style": {
@@ -226,34 +350,13 @@ data class MathFormula(
   }
 }
 */
-data class Heading(
+data class HeadingBlock(
     override val names: Set<String> = setOf("h1", "h2", "h3", "h4", "h5", "h6"),
     @SerialName("text")
     val text: String,
     @SerialName("style")
     val style: InlineStyle?
 ) : Block, WithJsonNames
-
-/* Example JSON:
-{
-  "a": {
-    "href": "https://hyperskill.org",
-    "text": "Visit hyperskill.org!",
-    "style": {
-      "color": "#892621"
-    }
-  }
-}
-*/
-data class Hyperlink(
-    override val name: String = "a",
-    @SerialName("href")
-    val url: String,
-    @SerialName("text")
-    val text: String,
-    @SerialName("style")
-    val style: InlineStyle?
-) : InlineBlock, WithJsonName
 
 /* Example JSON:
 {
@@ -273,27 +376,98 @@ data class ImageBlock(
     val style: InlineStyle?
 ) : Block, WithJsonName
 
+/* Example JSON:
+<ol>
+  <li>Coffee</li>
+  <li>Tea
+    <ul>
+      <li>Black tea</li>
+      <li>Green tea</li>
+    </ul>
+  </li>
+  <li>Milk</li>
+</ol>
+
+{
+  "ol": {
+    "items": [
+      { "p": { "text": "Coffee" } },
+      {
+        "p": { "text": "Tea" },
+        "sublist": {
+          "ul": {
+            "items": [
+              { "p": { "text": "Black tea" } },
+              { "p": { "text": "Green tea" } }
+            ]
+          }
+        }
+      },
+      { "p": { "text": "Milk" } }
+    ]
+  }
+}
+*/
 data class ListBlock(
     override val names: Set<String> = setOf("ul", "ol"),
-    @SerialName("li")
-    val items: List<ListItem>
+    @SerialName("items")
+    val items: List<ListItemBlock>
 ) : Block, WithJsonNames
 
-data class ListItem(
-    override val name: String = "li"
-// plain text or
-// content: code, p, pre, strong, span, em, br, a, img, li, ul, ol, samp, u, sup, div, i, b, strike
-) : Block, WithJsonName
+/* Example JSON:
+{
+  "li": {
+    "p": {
+      "text": "This is some text in a paragraph."
+    }
+  }
+}
 
-data class PreBlock(
-    override val name: String = "pre"
-// content: code, pre, br, span, strong, samp
-) : Block, WithJsonName
+{
+  "li": {
+    "code": {
+      "language": "python3",
+      "code": "print(\"Hello World\")"
+    }
+  }
+}
+*/
+data class ListItemBlock(
+    override val name: String = "li",
+    val value: Value,
+    @SerialName("sublist")
+    val sublist: ListBlock?
+) : Block, WithJsonName {
+    sealed class Value {
+        data class Text(val text: TextBlock) : Value()
 
-data class SpanInlineBlock(
-    override val name: String = "span"
-// content: span, code, strong, img, em, div, p, samp, br, b, a, iframe, pre, tt, ul, u, li, h5,
-) : InlineBlock, WithJsonName
+        data class Code(val code: CodeBlock) : Value()
+
+        data class Image(val image: ImageBlock) : Value()
+
+        data class PreformattedText(val preformattedText: PreformattedTextBlock) : Value()
+    }
+}
+
+/* Example JSON:
+{
+  "pre": {
+    "p": {
+      "text": "This text preserves        spaces"
+    }
+  }
+}
+*/
+data class PreformattedTextBlock(
+    override val name: String = "pre",
+    val value: Value
+) : Block, WithJsonName {
+    sealed class Value {
+        data class Text(val text: TextBlock) : Value()
+
+        data class Code(val code: CodeBlock) : Value()
+    }
+}
 
 /*
 <table>
@@ -317,30 +491,24 @@ to JSON
 {
   "table": {
     "caption": {
-      "text": "Monthly savings"
+      "p": { "text": "Monthly savings" }
     },
     "rows": [
       {
         "type": "th",
         "cells": [
-          {
-            "text": "Month"
-          },
-          {
-            "text": "Savings"
-          }
+          { "p": { "text": "Month" } },
+          { "p": { "text": "Savings" } }
         ]
       },
       {
         "type": "td",
         "cells": [
+          { "p": { "text": "January" } },
           {
-            "text": "January"
-          },
-          {
-            "text": "$100",
-            "style": {
-              "text-align": "right"
+            "p": {
+              "text": "$100",
+              "style": { "text-align": "right" }
             }
           }
         ]
@@ -348,13 +516,11 @@ to JSON
       {
         "type": "td",
         "cells": [
+          { "p": { "text": "February" } },
           {
-            "text": "February"
-          },
-          {
-            "text": "$80",
-            "style": {
-              "text-align": "right"
+            "p": {
+              "text": "$80",
+              "style": { "text-align": "right" }
             }
           }
         ]
@@ -371,36 +537,97 @@ data class TableBlock(
     val rows: List<TableRow>
 ) : Block, WithJsonName
 
+/* Example JSON:
+{
+  "caption": {
+    "p": {
+      "text": "My savings",
+      "style": {
+        "text-align": "right"
+      }
+    }
+  }
+}
+*/
 data class TableCaption(
     override val name: String = "caption",
-    @SerialName("text")
-    val text: String
-    // plain text or p block
+    @SerialName("p")
+    val textBlock: TextBlock
 ) : Block, WithJsonName
 
+/* Example JSON:
+{
+  "tr": {
+    "type": "th",
+    "cells": [
+      { "p": { "text": "Month" } },
+      { "p": { "text": "Savings" } }
+    ]
+  }
+}
+
+{
+  "tr": {
+    "type": "td",
+    "cells": [
+      { "p": { "text": "January" } },
+      {
+        "p": {
+          "text": "$100",
+          "style": {
+            "text-align": "right"
+          }
+        }
+      }
+    ]
+  }
+}
+*/
 data class TableRow(
     override val name: String = "tr",
     @SerialName("type")
     val type: String, // th or td
-//    @SerialName("cells")
-//    val cells: List<TableDataCell || TableHeaderCell>
-) : Block, WithJsonName
+    @SerialName("cells")
+    val cells: List<Cell>
+) : Block, WithJsonName {
+    sealed class Cell {
+        data class Header(val cell: TableHeaderCell)
 
-data class TableDataCell(
-    override val name: String = "td",
-    @SerialName("style")
-    val style: InlineStyle?
-// content: plain text or
-// strong, span, p, code, em, samp, img, pre, sup, br, li, ul, a, strike, u
-) : Block, WithJsonName
+        data class Data(val cell: TableDataCell)
+    }
+}
 
 data class TableHeaderCell(
     override val name: String = "th",
+    val value: Value,
     @SerialName("style")
     val style: InlineStyle?
-// content: plain text or
-// span, strong, code, u, p, em
-) : Block, WithJsonName
+) : Block, WithJsonName {
+    sealed class Value {
+        data class Text(val text: TextBlock) : Value()
+
+        data class Code(val code: CodeBlock) : Value()
+    }
+}
+
+data class TableDataCell(
+    override val name: String = "td",
+    val value: Value,
+    @SerialName("style")
+    val style: InlineStyle?
+) : Block, WithJsonName {
+    sealed class Value {
+        data class Text(val text: TextBlock) : Value()
+
+        data class Code(val code: CodeBlock) : Value()
+
+        data class Image(val image: ImageBlock) : Value()
+
+        data class PreformattedText(val preformattedText: PreformattedTextBlock) : Value()
+
+        data class List(val list: ListBlock) : Value()
+    }
+}
 
 /* Example JSON:
 {
@@ -426,37 +653,71 @@ data class FigureBlock(
 /* Example JSON:
 {
   "figcaption": {
-    "text": "Defines a caption for the figure."
+    "p": {
+      "text": "Defines a caption for the figure."
+    }
   }
 }
 */
 data class FigureCaptionBlock(
     override val name: String = "figcaption",
-    @SerialName("text")
-    val text: String
-    // plain text or strong, a
+    @SerialName("p")
+    val textBlock: TextBlock
 ) : Block, WithJsonName
 
 /* Example JSON:
 {
   "blockquote": {
-    "text": "Defines a blockquote."
+    "p": {
+      "text": "Defines a blockquote."
+    }
   }
 }
 */
 data class BlockquoteBlock(
     override val name: String = "blockquote",
-    @SerialName("text")
-    val text: String
-    // plain text or p, em, br, samp, li, a, ul
-) : Block, WithJsonName
+    val value: Value
+) : Block, WithJsonName {
+    sealed class Value {
+        data class Text(val text: TextBlock) : Value()
 
+        data class List(val list: ListBlock) : Value()
+    }
+}
+
+/* Example JSON:
+{
+  "details": {
+    "summary": "Epcot Center",
+    "items": [
+      {
+        "p": {
+          "text": "Epcot is a theme park at Walt Disney"
+        }
+      }
+    ]
+  }
+}
+*/
 data class DetailsBlock(
     override val name: String = "details",
     @SerialName("summary")
     val summary: String,
-    val blocks: List<Block> // code, pre, br, span, p, img, ul, li,
-) : Block, WithJsonName
+    @SerialName("items")
+    val items: List<Item>
+) : Block, WithJsonName {
+    sealed class Item {
+        data class Text(val text: TextBlock) : Item()
+
+        data class Code(val code: CodeBlock) : Item()
+
+        data class Image(val image: ImageBlock) : Item()
+
+        data class PreformattedText(val preformattedText: PreformattedTextBlock) : Item()
+
+        data class List(val list: ListBlock) : Item()
+    }
+}
 
 // APPSUX-95
 /* Example JSON:
@@ -469,7 +730,7 @@ data class DetailsBlock(
 data class IframeBlock(
     override val name: String = "iframe",
     @SerialName("src")
-    val url: String?
+    val srcUrl: String?
 ) : Block, WithJsonName
 
 /* Example JSON:
