@@ -10,7 +10,8 @@ struct StepHeaderView: View {
                 .font(.title2)
                 .foregroundColor(.systemPrimaryText)
             HStack {
-                Image("step-time-to-complete")
+                Image(Images.Step.clock)
+                    .resizable()
                     .renderingMode(.template)
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 12, height: 12)
@@ -25,5 +26,7 @@ struct StepHeaderView: View {
 struct StepHeaderView_Previews: PreviewProvider {
     static var previews: some View {
         StepHeaderView(title: "Theory", timeToComplete: "3 minutes remaining")
+            .previewLayout(.sizeThatFits)
+            .padding()
     }
 }

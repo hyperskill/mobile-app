@@ -1,0 +1,15 @@
+{
+  "images" : [
+    {
+      "filename" : "step-quiz-choice-clock.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
+  }
+}

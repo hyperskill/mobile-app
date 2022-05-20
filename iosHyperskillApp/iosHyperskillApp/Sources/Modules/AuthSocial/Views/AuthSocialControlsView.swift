@@ -61,13 +61,13 @@ private extension SocialAuthProvider {
     var imageName: String {
         switch self {
         case .jetbrains:
-            return "jetbrains_logo"
+            return Images.AuthSocial.jetbrains
         case .google:
-            return "google_logo"
+            return Images.AuthSocial.google
         case .github:
-            return "github_logo"
+            return Images.AuthSocial.github
         case .apple:
-            return "apple_logo"
+            return Images.AuthSocial.apple
         }
     }
 }

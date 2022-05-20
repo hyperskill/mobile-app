@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct BackgroundView: View {
-    var color = Color(ColorPalette.background)
+    var color = Color.background
 
     var body: some View {
         color.ignoresSafeArea()

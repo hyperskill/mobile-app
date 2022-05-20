@@ -50,6 +50,9 @@ extension Color {
     // MARK: Standard Content Background Colors
 
     /// The color for the main background of the interface.
+    static var background: Color { Color(ColorPalette.background) }
+
+    /// The color for the main background of the interface.
     static var systemBackground: Color { Color(UIColor.systemBackground) }
 
     /// The color for content layered on top of the main background.

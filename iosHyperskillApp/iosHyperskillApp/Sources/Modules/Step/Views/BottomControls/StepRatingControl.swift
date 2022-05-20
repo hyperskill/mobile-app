@@ -21,15 +21,15 @@ struct StepRatingControl: View {
         fileprivate var imageName: String {
             switch self {
             case .angry:
-                return "step-rating-angry"
+                return Images.Step.Rating.angry
             case .sad:
-                return "step-rating-sad"
+                return Images.Step.Rating.sad
             case .neutral:
-                return "step-rating-neutral"
+                return Images.Step.Rating.neutral
             case .happy:
-                return "step-rating-happy"
+                return Images.Step.Rating.happy
             case .inLove:
-                return "step-rating-in-love"
+                return Images.Step.Rating.inLove
             }
         }
     }
@@ -57,7 +57,7 @@ private struct StepRatingPickerView: View {
             }
         }
         .frame(height: 44)
-        .background(Color(ColorPalette.background))
+        .background(Color.background)
         .cornerRadius(8)
     }
 }
@@ -70,6 +70,7 @@ struct StepRatingControl_Previews: PreviewProvider {
             StepRatingControl()
                 .preferredColorScheme(.dark)
         }
+        .previewLayout(.sizeThatFits)
         .padding()
     }
 }
