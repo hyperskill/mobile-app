@@ -28,6 +28,7 @@ import org.hyperskill.app.android.auth.view.ui.navigation.AuthEmailScreen
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthFlow
 import org.hyperskill.app.android.core.view.ui.dialog.dismissIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
+import org.hyperskill.app.auth.domain.model.AuthSocialError
 import org.hyperskill.app.auth.domain.model.SocialAuthProvider
 import org.hyperskill.app.auth.presentation.AuthSocialFeature
 import org.hyperskill.app.auth.view.mapper.AuthSocialErrorMapper
@@ -41,7 +42,8 @@ import javax.inject.Inject
 
 class AuthSocialFragment :
     Fragment(R.layout.fragment_auth_social),
-    ReduxView<AuthSocialFeature.State, AuthSocialFeature.Action.ViewAction> {
+    ReduxView<AuthSocialFeature.State, AuthSocialFeature.Action.ViewAction>,
+    AuthSocialWebViewFragment.Callback {
 
     companion object {
         fun newInstance(): AuthSocialFragment =
@@ -70,7 +72,7 @@ class AuthSocialFragment :
         try {
             val account = task.getResult(ApiException::class.java)
             val authCode = account.serverAuthCode
-            authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthWithSocial(authCode ?: "", SocialAuthProvider.GOOGLE))
+            onSuccess(authCode!!, SocialAuthProvider.GOOGLE)
         } catch (e: ApiException) {
             if (e.statusCode == CommonStatusCodes.NETWORK_ERROR) {
                 view?.snackbar(message = resourceProvider.getString(SharedResources.strings.connection_error), Snackbar.LENGTH_LONG)
@@ -93,9 +95,16 @@ class AuthSocialFragment :
     }
 
     private fun onSocialClickListener(social: AuthSocialCardInfo) {
+        val authSocialWebViewFragment = AuthSocialWebViewFragment.newInstance(social.socialAuthProvider)
         when (social) {
             AuthSocialCardInfo.GOOGLE -> {
                 signInWithGoogle()
+            }
+            AuthSocialCardInfo.GITHUB -> {
+                authSocialWebViewFragment.showIfNotExists(childFragmentManager, AuthSocialWebViewFragment.TAG)
+            }
+            AuthSocialCardInfo.JETBRAINS -> {
+                authSocialWebViewFragment.showIfNotExists(childFragmentManager, AuthSocialWebViewFragment.TAG)
             }
         }
     }
@@ -144,5 +153,13 @@ class AuthSocialFragment :
         val mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
         val signInIntent = mGoogleSignInClient.signInIntent
         signInWithGoogleCallback.launch(signInIntent)
+    }
+
+    override fun onError(error: AuthSocialError) {
+        view?.snackbar(message = authSocialErrorMapper.getAuthSocialErrorText(error), Snackbar.LENGTH_LONG)
+    }
+
+    override fun onSuccess(authCode: String, provider: SocialAuthProvider) {
+        authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthWithSocial(authCode, provider))
     }
 }
