@@ -8,26 +8,29 @@ import org.hyperskill.app.auth.presentation.AuthSocialWebViewFeature.State
 class AuthSocialWebViewReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
-            is Message.AuthCodeSuccess -> {
-                if (state is State.Idle || state is State.Loading || state is State.Error) {
-                    State.CodeSuccess to setOf(Action.CallbackAuthCode(message.authCode, message.socialAuthProvider))
-                } else {
-                    null
-                }
-            }
-            is Message.AuthCodeFailure -> {
-                if (state is State.Idle || state is State.Loading) {
-                    State.Error to setOf(Action.CallbackAuthError(message.socialError))
+            is Message.InitMessage -> {
+                if (state is State.Idle) {
+                    State.Loading(message.url) to emptySet()
                 } else {
                     null
                 }
             }
             is Message.PageLoaded -> {
                 if (state is State.Loading) {
-                    State.Idle to emptySet()
+                    State.Content to emptySet()
                 } else {
                     null
                 }
             }
-        } ?: state to emptySet()
+            is Message.AuthCodeSuccess -> {
+                if (state is State.Content) {
+                    state to setOf(Action.CallbackAuthCode(message.authCode, message.socialAuthProvider))
+                } else {
+                    null
+                }
+            }
+            is Message.AuthCodeFailure -> {
+                state to setOf(Action.CallbackAuthError(message.socialError))
+            }
+        } ?: (state to emptySet())
 }
