@@ -1,6 +1,7 @@
 package org.hyperskill.app
 
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 interface Block
 
@@ -20,11 +21,12 @@ interface WithJsonNames {
     "color": "#892621",
     "background-color": "#45776D",
     "font-size": 17,
+    "font-weight": 14,
     "text-align": "left"
   }
 }
 */
-data class InlineStyle(
+data class Style(
     override val name: String = "style",
     @SerialName("color")
     val color: String?,
@@ -32,9 +34,23 @@ data class InlineStyle(
     val backgroundColor: String?,
     @SerialName("font-size")
     val fontSize: Int?,
+    @SerialName("font-weight")
+    val fontWeight: Int?,
     @SerialName("text-align")
-    val textAlignment: String?
-) : WithJsonName
+    val textAlignment: TextAlignment?
+) : WithJsonName {
+    @Serializable
+    enum class TextAlignment {
+        @SerialName("left")
+        LEFT,
+        @SerialName("right")
+        RIGHT,
+        @SerialName("center")
+        CENTER,
+        @SerialName("justify")
+        JUSTIFY
+    }
+}
 
 /* Example JSON:
 {
@@ -76,7 +92,7 @@ data class TextBlock(
     override val name: String = "p",
     val value: Value,
     @SerialName("style")
-    val style: InlineStyle?
+    val style: Style?
 ) : Block, WithJsonName {
     sealed class Value {
         data class PlainText(
@@ -145,7 +161,7 @@ data class BoldTextInlineBlock(
     @SerialName("text")
     val text: String,
     @SerialName("style")
-    val style: InlineStyle?
+    val style: Style?
 ) : InlineBlock, WithJsonNames
 
 /* Example JSON:
@@ -164,7 +180,7 @@ data class ItalicTextInlineBlock(
     @SerialName("text")
     val text: String,
     @SerialName("style")
-    val style: InlineStyle?
+    val style: Style?
 ) : InlineBlock, WithJsonNames
 
 /* Example JSON:
@@ -179,7 +195,7 @@ data class SampleOutputTextInlineBlock(
     @SerialName("text")
     val text: String,
     @SerialName("style")
-    val style: InlineStyle?
+    val style: Style?
 ) : InlineBlock, WithJsonName
 
 /* Example JSON:
@@ -198,7 +214,7 @@ data class UnderlineTextInlineBlock(
     @SerialName("text")
     val text: String,
     @SerialName("style")
-    val style: InlineStyle?
+    val style: Style?
 ) : InlineBlock, WithJsonName
 
 /* Example JSON:
@@ -213,7 +229,7 @@ data class SuperscriptTextInlineBlock(
     @SerialName("text")
     val text: String,
     @SerialName("style")
-    val style: InlineStyle?
+    val style: Style?
 ) : InlineBlock, WithJsonName
 
 /* Example JSON:
@@ -228,7 +244,7 @@ data class SubscriptTextInlineBlock(
     @SerialName("text")
     val text: String,
     @SerialName("style")
-    val style: InlineStyle?
+    val style: Style?
 ) : InlineBlock, WithJsonName
 
 /* Example JSON:
@@ -243,7 +259,7 @@ data class MonospaceTextInlineBlock(
     @SerialName("text")
     val text: String,
     @SerialName("style")
-    val style: InlineStyle?
+    val style: Style?
 ) : InlineBlock, WithJsonName
 
 /* Example JSON:
@@ -258,7 +274,7 @@ data class StrikethroughTextInlineBlock(
     @SerialName("text")
     val text: String,
     @SerialName("style")
-    val style: InlineStyle?
+    val style: Style?
 ) : InlineBlock, WithJsonNames
 
 /* Example JSON:
@@ -301,7 +317,7 @@ data class HyperlinkInlineBlock(
     @SerialName("text")
     val text: String,
     @SerialName("style")
-    val style: InlineStyle?
+    val style: Style?
 ) : InlineBlock, WithJsonName
 
 /* Example JSON:
@@ -319,7 +335,7 @@ data class SpanInlineBlock(
     @SerialName("text")
     val text: String,
     @SerialName("style")
-    val style: InlineStyle?
+    val style: Style?
 ) : InlineBlock, WithJsonName
 
 /* Example JSON:
@@ -355,7 +371,7 @@ data class HeadingBlock(
     @SerialName("text")
     val text: String,
     @SerialName("style")
-    val style: InlineStyle?
+    val style: Style?
 ) : Block, WithJsonNames
 
 /* Example JSON:
@@ -373,7 +389,7 @@ data class ImageBlock(
     @SerialName("alt")
     val alternateText: String,
     @SerialName("style")
-    val style: InlineStyle?
+    val style: Style?
 ) : Block, WithJsonName
 
 /* Example JSON:
@@ -586,10 +602,18 @@ data class TableCaption(
 data class TableRow(
     override val name: String = "tr",
     @SerialName("type")
-    val type: String, // th or td
+    val type: Type,
     @SerialName("cells")
     val cells: List<Cell>
 ) : Block, WithJsonName {
+    @Serializable
+    enum class Type {
+        @SerialName("th")
+        HEADER,
+        @SerialName("td")
+        DATA
+    }
+
     sealed class Cell {
         data class Header(val cell: TableHeaderCell)
 
@@ -601,7 +625,7 @@ data class TableHeaderCell(
     override val name: String = "th",
     val value: Value,
     @SerialName("style")
-    val style: InlineStyle?
+    val style: Style?
 ) : Block, WithJsonName {
     sealed class Value {
         data class Text(val text: TextBlock) : Value()
@@ -614,7 +638,7 @@ data class TableDataCell(
     override val name: String = "td",
     val value: Value,
     @SerialName("style")
-    val style: InlineStyle?
+    val style: Style?
 ) : Block, WithJsonName {
     sealed class Value {
         data class Text(val text: TextBlock) : Value()
