@@ -6,6 +6,7 @@ import dagger.Component
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.auth.injection.AuthCredentialsComponent
 import org.hyperskill.app.android.auth.injection.AuthSocialComponent
+import org.hyperskill.app.android.auth.injection.AuthSocialWebViewComponent
 import org.hyperskill.app.android.main.injection.MainComponent
 import org.hyperskill.app.android.network.injection.AndroidNetworkModule
 import org.hyperskill.app.android.step.injection.StepComponent
@@ -33,5 +34,6 @@ interface AppCoreComponent {
     fun mainComponentBuilder(): MainComponent.Builder
     fun authSocialComponentBuilder(): AuthSocialComponent.Builder
     fun authEmailComponentBuilder(): AuthCredentialsComponent.Builder
+    fun authSocialWebViewComponentBuilder(): AuthSocialWebViewComponent.Builder
     fun stepComponentBuilder(): StepComponent.Builder
 }
