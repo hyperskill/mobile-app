@@ -19,6 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController = rootViewController
         self.window?.makeKeyAndVisible()
 
+        AppAppearance.themeApplication()
+
         SentryManager.configure()
         ProgressHUD.configure()
         KeyboardManager.configure()

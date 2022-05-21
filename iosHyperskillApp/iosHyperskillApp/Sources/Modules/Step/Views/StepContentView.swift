@@ -12,7 +12,7 @@ struct StepContentView: View {
                 )
 
                 StepActionButton(
-                    title: Strings.stepStartPracticing,
+                    title: Strings.Step.startPracticing,
                     style: .greenOutline
                 ) {
                     print("Start practicing tapped")

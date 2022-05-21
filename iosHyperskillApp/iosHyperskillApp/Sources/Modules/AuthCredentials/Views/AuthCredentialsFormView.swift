@@ -34,7 +34,7 @@ struct AuthCredentialsFormView: View {
         VStack(spacing: appearance.stackSpacing) {
             VStack(spacing: 0) {
                 TextFieldWrapper(
-                    placeholder: Strings.authEmailPlaceholder,
+                    placeholder: Strings.AuthCredentials.emailPlaceholder,
                     text: $emailText,
                     makeTextField: { AuthTextField(type: .text) },
                     configuration: .combined([.email, .partOfChain]),
@@ -47,7 +47,7 @@ struct AuthCredentialsFormView: View {
 
             VStack(spacing: 0) {
                 TextFieldWrapper(
-                    placeholder: Strings.authEmailPasswordPlaceholder,
+                    placeholder: Strings.AuthCredentials.passwordPlaceholder,
                     text: $passwordText,
                     makeTextField: { AuthTextField(type: .password) },
                     configuration: .combined([.password, .lastOfChainGo]),
@@ -63,14 +63,14 @@ struct AuthCredentialsFormView: View {
                 AuthCredentialsErrorView(message: errorMessage)
             }
 
-            Button(Strings.authEmailLogIn, action: doLogIn)
+            Button(Strings.AuthCredentials.logIn, action: doLogIn)
                 .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
                 .disabled(!isInputFulfilled)
 
             Button(
                 action: doResetPassword,
                 label: {
-                    Text(Strings.authEmailResetPassword)
+                    Text(Strings.AuthCredentials.resetPassword)
                         .font(.body)
                         .foregroundColor(Color(ColorPalette.primary))
                 }
