@@ -1,6 +1,6 @@
 import Foundation
 
-struct ChoiceQuizViewData {
+struct StepQuizChoiceViewData {
     let navigationTitle: String
     let desc: String
 
@@ -25,8 +25,8 @@ struct ChoiceQuizViewData {
 }
 
 #if DEBUG
-extension ChoiceQuizViewData {
-    static func makePlaceholder(isMultipleChoice: Bool, quizStatus: QuizStatus? = nil) -> ChoiceQuizViewData {
+extension StepQuizChoiceViewData {
+    static func makePlaceholder(isMultipleChoice: Bool, quizStatus: QuizStatus? = nil) -> StepQuizChoiceViewData {
         let feedbackText: String? = {
             switch quizStatus {
             case .correct:
@@ -38,7 +38,7 @@ extension ChoiceQuizViewData {
             }
         }()
 
-        return ChoiceQuizViewData(
+        return StepQuizChoiceViewData(
             navigationTitle: "Problem's title",
             desc: "Select a statement that will throw an exception.",
             statsUsers: 2438,

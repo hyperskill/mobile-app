@@ -3,7 +3,7 @@ import SwiftUI
 struct StepQuizChoiceView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
-    @State var viewData: ChoiceQuizViewData
+    @State var viewData: StepQuizChoiceViewData
 
     var body: some View {
         ScrollView {
@@ -75,28 +75,34 @@ struct StepQuizChoiceView_Previews: PreviewProvider {
                     NavigationLink(
                         "Single Not solved",
                         destination: StepQuizChoiceView(
-                            viewData: ChoiceQuizViewData.makePlaceholder(isMultipleChoice: false)
+                            viewData: StepQuizChoiceViewData.makePlaceholder(isMultipleChoice: false)
                         )
                     )
 
                     NavigationLink(
                         "Single Correct",
                         destination: StepQuizChoiceView(
-                            viewData: ChoiceQuizViewData.makePlaceholder(isMultipleChoice: false, quizStatus: .correct)
+                            viewData: StepQuizChoiceViewData.makePlaceholder(
+                                isMultipleChoice: false,
+                                quizStatus: .correct
+                            )
                         )
                     )
 
                     NavigationLink(
                         "Single Wrong",
                         destination: StepQuizChoiceView(
-                            viewData: ChoiceQuizViewData.makePlaceholder(isMultipleChoice: false, quizStatus: .wrong)
+                            viewData: StepQuizChoiceViewData.makePlaceholder(
+                                isMultipleChoice: false,
+                                quizStatus: .wrong
+                            )
                         )
                     )
 
                     NavigationLink(
                         "Single Evaluation",
                         destination: StepQuizChoiceView(
-                            viewData: ChoiceQuizViewData.makePlaceholder(
+                            viewData: StepQuizChoiceViewData.makePlaceholder(
                                 isMultipleChoice: false,
                                 quizStatus: .evaluation
                             )
@@ -108,28 +114,31 @@ struct StepQuizChoiceView_Previews: PreviewProvider {
                     NavigationLink(
                         "Multiple Not solved",
                         destination: StepQuizChoiceView(
-                            viewData: ChoiceQuizViewData.makePlaceholder(isMultipleChoice: true)
+                            viewData: StepQuizChoiceViewData.makePlaceholder(isMultipleChoice: true)
                         )
                     )
 
                     NavigationLink(
                         "Multiple Correct",
                         destination: StepQuizChoiceView(
-                            viewData: ChoiceQuizViewData.makePlaceholder(isMultipleChoice: true, quizStatus: .correct)
+                            viewData: StepQuizChoiceViewData.makePlaceholder(
+                                isMultipleChoice: true,
+                                quizStatus: .correct
+                            )
                         )
                     )
 
                     NavigationLink(
                         "Multiple Wrong",
                         destination: StepQuizChoiceView(
-                            viewData: ChoiceQuizViewData.makePlaceholder(isMultipleChoice: true, quizStatus: .wrong)
+                            viewData: StepQuizChoiceViewData.makePlaceholder(isMultipleChoice: true, quizStatus: .wrong)
                         )
                     )
 
                     NavigationLink(
                         "Multiple Evaluation",
                         destination: StepQuizChoiceView(
-                            viewData: ChoiceQuizViewData.makePlaceholder(
+                            viewData: StepQuizChoiceViewData.makePlaceholder(
                                 isMultipleChoice: true,
                                 quizStatus: .evaluation
                             )

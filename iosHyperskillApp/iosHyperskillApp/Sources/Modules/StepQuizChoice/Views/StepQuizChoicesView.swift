@@ -11,7 +11,7 @@ struct StepQuizChoicesView: View {
 
     var quizTitle: String
 
-    @Binding var choices: [ChoiceQuizViewData.Choice]
+    @Binding var choices: [StepQuizChoiceViewData.Choice]
 
     var isMultipleChoice: Bool
 
