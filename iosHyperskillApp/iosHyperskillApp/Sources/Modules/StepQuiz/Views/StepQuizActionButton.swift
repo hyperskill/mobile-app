@@ -22,13 +22,13 @@ struct StepQuizActionButton: View {
         fileprivate var title: String {
             switch self {
             case .normal:
-                return Strings.choiceQuizSendButtonText
+                return Strings.StepQuiz.sendButton
             case .correct:
-                return Strings.choiceQuizContinueButtonText
+                return Strings.StepQuiz.continueButton
             case .wrong:
-                return Strings.choiceQuizRetryButtonText
+                return Strings.StepQuiz.retryButton
             case .evaluation:
-                return Strings.choiceQuizCheckingButtonText
+                return Strings.StepQuiz.checkingButton
             }
         }
 

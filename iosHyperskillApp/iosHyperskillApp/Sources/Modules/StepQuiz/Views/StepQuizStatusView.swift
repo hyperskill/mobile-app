@@ -50,9 +50,9 @@ struct StepQuizStatusView: View {
         fileprivate var title: String {
             switch self {
             case .correct:
-                return Strings.choiceQuizCorrectStatusText
+                return Strings.StepQuiz.quizStatusCorrect
             case .wrong:
-                return Strings.choiceQuizWrongStatusText
+                return Strings.StepQuiz.quizStatusWrong
             }
         }
 

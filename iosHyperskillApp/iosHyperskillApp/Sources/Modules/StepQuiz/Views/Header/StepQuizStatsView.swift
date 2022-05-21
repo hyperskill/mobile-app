@@ -33,9 +33,9 @@ struct StepQuizStatsView: View {
 struct StepQuizStatsView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            StepQuizStatsView(text: Strings.choiceQuizStatText(users: 2438, hours: 13))
+            StepQuizStatsView(text: "2438 users solved this problem. Latest completion was about 13 hours ago.")
 
-            StepQuizStatsView(text: Strings.choiceQuizStatText(users: 2438, hours: 13))
+            StepQuizStatsView(text: "2438 users solved this problem. Latest completion was about 13 hours ago.")
                 .preferredColorScheme(.dark)
         }
         .previewLayout(.sizeThatFits)

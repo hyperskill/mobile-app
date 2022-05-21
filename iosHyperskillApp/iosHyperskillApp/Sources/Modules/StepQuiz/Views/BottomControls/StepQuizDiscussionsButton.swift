@@ -19,7 +19,7 @@ struct StepQuizDiscussionsButton: View {
         Button(
             action: { self.onClick?() },
             label: {
-                Text(Strings.choiceQuizDiscussionsButtonText)
+                Text(Strings.StepQuiz.discussionsButton)
                     .font(.body)
                     .frame(maxWidth: .infinity, minHeight: appearance.minHeight)
                     .overlay(

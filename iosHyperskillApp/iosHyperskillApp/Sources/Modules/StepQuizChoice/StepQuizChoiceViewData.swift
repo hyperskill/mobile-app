@@ -1,11 +1,11 @@
 import Foundation
+import shared
 
 struct StepQuizChoiceViewData {
     let navigationTitle: String
     let desc: String
 
-    let statsUsers: Int
-    let statsHours: Int
+    let formattedStats: String
 
     let isMultipleChoice: Bool
     var choices: [Choice]
@@ -27,12 +27,17 @@ struct StepQuizChoiceViewData {
 #if DEBUG
 extension StepQuizChoiceViewData {
     static func makePlaceholder(isMultipleChoice: Bool, quizStatus: QuizStatus? = nil) -> StepQuizChoiceViewData {
+        let statsTextMapper = StepQuizStatsTextMapper(resourceProvider: ResourceProviderImpl())
+        let formattedStats = statsTextMapper.getFormattedStepQuizStats(users: 2438, hours: 1)
+
         let feedbackText: String? = {
             switch quizStatus {
             case .correct:
-                return Strings.choiceQuizCorrectFeedbackText
+                return """
+That's right! Since any comparison results in a boolean value, there is no need to write everything twice.
+"""
             case .wrong:
-                return Strings.choiceQuizWrongFeedbackText
+                return "Practice makes perfect. Let's learn from mistakes and try again."
             default:
                 return nil
             }
@@ -41,8 +46,7 @@ extension StepQuizChoiceViewData {
         return StepQuizChoiceViewData(
             navigationTitle: "Problem's title",
             desc: "Select a statement that will throw an exception.",
-            statsUsers: 2438,
-            statsHours: 13,
+            formattedStats: formattedStats,
             isMultipleChoice: isMultipleChoice,
             choices: [
                 Choice(text: "char[] characters = new char[0];", isSelected: false),

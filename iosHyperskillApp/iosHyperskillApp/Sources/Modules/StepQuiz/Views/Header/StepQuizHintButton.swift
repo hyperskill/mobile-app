@@ -26,7 +26,7 @@ struct StepQuizHintButton: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(widthHeight: appearance.iconWidthHeight)
 
-                    Text(Strings.choiceQuizHintButtonText)
+                    Text(Strings.StepQuiz.hintButton)
                         .font(.subheadline)
                 }
                 .padding(appearance.insets.edgeInsets)

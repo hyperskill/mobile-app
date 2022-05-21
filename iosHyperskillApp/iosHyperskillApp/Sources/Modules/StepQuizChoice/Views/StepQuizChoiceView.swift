@@ -8,12 +8,7 @@ struct StepQuizChoiceView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                StepQuizStatsView(
-                    text: Strings.choiceQuizStatText(
-                        users: viewData.statsUsers,
-                        hours: viewData.statsHours
-                    )
-                )
+                StepQuizStatsView(text: viewData.formattedStats)
 
                 StepQuizDescView(text: viewData.desc)
 
