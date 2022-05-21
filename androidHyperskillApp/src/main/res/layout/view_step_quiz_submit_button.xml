@@ -17,5 +17,5 @@
 
         android:theme="@style/ThemeOverlay.Blue"
 
-        android:text="@string/step_quiz_action_button_submit" />
+        android:text="@string/choice_quiz_send_button_text" />
 </androidx.appcompat.widget.LinearLayoutCompat>
