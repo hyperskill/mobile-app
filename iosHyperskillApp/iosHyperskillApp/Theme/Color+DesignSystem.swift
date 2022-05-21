@@ -14,12 +14,12 @@ extension Color {
     /// The material color for text labels that contain secondary content.
     ///
     /// `OnSurface_0.6`
-    static var secondaryText: Color { Color(ColorPalette.onSurface.withAlphaComponent(0.6)) }
+    static var secondaryText: Color { Color(ColorPalette.onSurfaceAlpha60) }
 
     /// The material color for text labels that contain disabled content.
     ///
     /// `OnSurface_0.38`
-    static var disabledText: Color { Color(ColorPalette.onSurface.withAlphaComponent(0.38)) }
+    static var disabledText: Color { Color(ColorPalette.onSurfaceAlpha38) }
 
     /// The system color for text labels that contain primary content.
     static var systemPrimaryText: Color { Color(UIColor.label) }

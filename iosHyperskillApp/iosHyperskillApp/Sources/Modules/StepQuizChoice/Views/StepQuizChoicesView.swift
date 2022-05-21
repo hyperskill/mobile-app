@@ -1,22 +1,32 @@
 import SwiftUI
 
-struct ChoiceQuizView: View {
-    var task: String
+extension StepQuizChoicesView {
+    struct Appearance {
+        let interItemSpacing: CGFloat = 20
+    }
+}
+
+struct StepQuizChoicesView: View {
+    private(set) var appearance = Appearance()
+
+    var quizTitle: String
+
     @Binding var choices: [ChoiceQuizViewData.Choice]
+
     var isMultipleChoice: Bool
 
     var body: some View {
-        VStack(alignment: .leading) {
-            VStack(alignment: .leading, spacing: 16) {
-                Text(task)
-                .font(.caption)
-                .foregroundColor(Color(ColorPalette.onSurfaceAlpha38))
+        VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
+            VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
+                Text(quizTitle)
+                    .font(.caption)
+                    .foregroundColor(.disabledText)
                 Divider()
-            }.padding(.bottom, 20)
+            }
 
-            VStack(alignment: .leading, spacing: 20) {
+            VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
                 ForEach($choices, id: \.text) { choice in
-                    ChoiceQuizElementView(
+                    StepQuizChoiceElementView(
                         isSelected: choice.isSelected,
                         text: choice.text.wrappedValue,
                         isMultipleChoice: isMultipleChoice,
@@ -27,7 +37,7 @@ struct ChoiceQuizView: View {
         }
     }
 
-    func selectChoice(selectedChoice: Binding<Bool>) {
+    private func selectChoice(selectedChoice: Binding<Bool>) {
         if !isMultipleChoice {
             for i in choices.indices {
                 choices[i].isSelected = false
@@ -39,10 +49,11 @@ struct ChoiceQuizView: View {
     }
 }
 
-struct ChoiceView_Previews: PreviewProvider {
+struct StepQuizChoicesView_Previews: PreviewProvider {
     static var previews: some View {
-            ChoiceQuizView(
-                task: "Task text",
+        Group {
+            StepQuizChoicesView(
+                quizTitle: "Task text",
                 choices: .constant([
                     .init(text: "choice1", isSelected: true),
                     .init(text: "choice2", isSelected: false)
@@ -50,13 +61,16 @@ struct ChoiceView_Previews: PreviewProvider {
                 isMultipleChoice: true
             )
 
-            ChoiceQuizView(
-                task: "Task text",
+            StepQuizChoicesView(
+                quizTitle: "Task text",
                 choices: .constant([
                     .init(text: "choice3", isSelected: true),
                     .init(text: "choice4", isSelected: false)
                 ]),
                 isMultipleChoice: false
             )
+        }
+        .previewLayout(.sizeThatFits)
+        .padding()
     }
 }

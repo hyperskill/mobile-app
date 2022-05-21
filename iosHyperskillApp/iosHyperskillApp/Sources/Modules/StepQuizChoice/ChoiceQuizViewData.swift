@@ -1,37 +1,58 @@
+import Foundation
+
 struct ChoiceQuizViewData {
-    let title: String = "Problem's title"
-    let desc: String = "Select a statement that will throw an exception."
+    let navigationTitle: String
+    let desc: String
 
-    var choices: [Choice] = [
-        Choice(text: "char[] characters = new char[0];", isSelected: false),
-        Choice(text: "char[] characters = new char[1];", isSelected: false),
-        Choice(text: "char[] characters = new char[555];", isSelected: false),
-        Choice(text: "char[] characters = new char[-5];", isSelected: false)
-    ]
+    let statsUsers: Int
+    let statsHours: Int
 
-    let type: QuizType
+    let isMultipleChoice: Bool
+    var choices: [Choice]
 
-    let statsUsers: Int = 2438
-    let statsHours: Int = 13
-    let status: QuizStatus?
+    let quizStatus: QuizStatus?
 
+    let feedbackText: String?
+
+    var quizTitle: String {
+        isMultipleChoice ? "Select one option from the list" : "Select one or more options from the list"
+    }
 
     struct Choice {
         var text: String
         var isSelected: Bool
     }
+}
 
-    var task: String {
-        switch type {
-        case .single:
-            return "Select one option from the list"
-        case .multiple:
-            return "Select one or more options from the list"
-        }
+#if DEBUG
+extension ChoiceQuizViewData {
+    static func makePlaceholder(isMultipleChoice: Bool, quizStatus: QuizStatus? = nil) -> ChoiceQuizViewData {
+        let feedbackText: String? = {
+            switch quizStatus {
+            case .correct:
+                return Strings.choiceQuizCorrectFeedbackText
+            case .wrong:
+                return Strings.choiceQuizWrongFeedbackText
+            default:
+                return nil
+            }
+        }()
+
+        return ChoiceQuizViewData(
+            navigationTitle: "Problem's title",
+            desc: "Select a statement that will throw an exception.",
+            statsUsers: 2438,
+            statsHours: 13,
+            isMultipleChoice: isMultipleChoice,
+            choices: [
+                Choice(text: "char[] characters = new char[0];", isSelected: false),
+                Choice(text: "char[] characters = new char[1];", isSelected: false),
+                Choice(text: "char[] characters = new char[555];", isSelected: false),
+                Choice(text: "char[] characters = new char[-5];", isSelected: false)
+            ],
+            quizStatus: quizStatus,
+            feedbackText: feedbackText
+        )
     }
 }
-
-enum QuizType {
-    case single
-    case multiple
-}
+#endif

@@ -1,3 +1,5 @@
+import Foundation
+
 enum QuizStatus {
     case evaluation
     case wrong

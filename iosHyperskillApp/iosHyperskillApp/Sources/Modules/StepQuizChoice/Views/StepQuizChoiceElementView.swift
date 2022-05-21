@@ -1,16 +1,18 @@
 import SwiftUI
 
-extension ChoiceQuizElementView {
+extension StepQuizChoiceElementView {
     struct Appearance {
-        var interItemSpacing = LayoutInsets.smallInset
+        let interItemSpacing = LayoutInsets.smallInset
 
-        var minHeight: CGFloat = 24
-        var checkboxIndicatorWidthHeight: CGFloat = 18
-        var radioIndicatorWidthHeight: CGFloat = 20
+        let minHeight: CGFloat = 24
+        let checkboxIndicatorWidthHeight: CGFloat = 18
+        let radioIndicatorWidthHeight: CGFloat = 20
     }
 }
 
-struct ChoiceQuizElementView: View {
+struct StepQuizChoiceElementView: View {
+    private(set)var appearance = Appearance()
+
     var isSelected: Binding<Bool>
 
     let text: String
@@ -18,8 +20,6 @@ struct ChoiceQuizElementView: View {
     var isMultipleChoice: Bool
 
     var selectChoice: (Binding<Bool>) -> Void
-
-    private(set)var appearance = Appearance()
 
     var body: some View {
         Button(
@@ -56,30 +56,32 @@ struct ChoiceQuizElementView: View {
     }
 }
 
-struct ChoiceQuizElementView_Previews: PreviewProvider {
+struct StepQuizChoiceElementView_Previews: PreviewProvider {
     static var previews: some View {
-        let lambda = { (selectedChoice: Binding<Bool>) -> Void in selectedChoice.wrappedValue.toggle() }
+        let lambda = { (selectedChoice: Binding<Bool>) -> Void in
+            selectedChoice.wrappedValue.toggle()
+        }
 
         return Group {
-            ChoiceQuizElementView(
+            StepQuizChoiceElementView(
                 isSelected: .constant(true),
                 text: "Some option",
                 isMultipleChoice: true,
                 selectChoice: lambda
             )
-            ChoiceQuizElementView(
+            StepQuizChoiceElementView(
                 isSelected: .constant(false),
                 text: "Some option",
                 isMultipleChoice: true,
                 selectChoice: lambda
             )
-            ChoiceQuizElementView(
+            StepQuizChoiceElementView(
                 isSelected: .constant(true),
                 text: "Some option",
                 isMultipleChoice: false,
                 selectChoice: lambda
             )
-            ChoiceQuizElementView(
+            StepQuizChoiceElementView(
                 isSelected: .constant(false),
                 text: "Some option",
                 isMultipleChoice: false,
