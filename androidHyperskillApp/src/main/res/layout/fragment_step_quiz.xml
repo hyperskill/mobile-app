@@ -82,6 +82,14 @@
         android:maxWidth="@dimen/auth_button_max_width"
         android:background="@color/color_on_surface_alpha_12"/>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/stepQuizChoiceRecyclerView"
+        app:layout_constraintTop_toBottomOf="@+id/stepQuizDescriptionAndAnswersDivider"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
+
     <include
         android:id="@+id/stepQuizFeedbackBlocks"
         layout="@layout/layout_step_quiz_feedback_block"
@@ -90,7 +98,7 @@
         android:layout_margin="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stepQuizDescriptionAndAnswersDivider" />
+        app:layout_constraintTop_toBottomOf="@+id/stepQuizChoiceRecyclerView" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/stepQuizSubmitButton"
