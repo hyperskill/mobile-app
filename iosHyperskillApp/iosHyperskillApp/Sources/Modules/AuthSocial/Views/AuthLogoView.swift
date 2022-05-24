@@ -5,11 +5,11 @@ struct AuthLogoView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Image("logo")
+            Image(Images.AuthSocial.hyperskill)
                 .resizable()
                 .frame(width: logoWidthHeight, height: logoWidthHeight)
 
-            Text(Strings.authSocialLogInTitle)
+            Text(Strings.AuthSocial.logInTitle)
                 .font(.body)
                 .multilineTextAlignment(.center)
                 .padding(.top)

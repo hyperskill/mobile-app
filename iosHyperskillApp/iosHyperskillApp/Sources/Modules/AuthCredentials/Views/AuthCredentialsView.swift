@@ -60,7 +60,7 @@ struct AuthCredentialsView: View {
             .onChange(of: passwordText) { _ in viewModel.doFormInputChange(email: emailText, password: passwordText) }
             .disabled(formState is AuthCredentialsFeatureFormStateLoading)
 
-            Button(Strings.authEmailSocialText, action: { presentationMode.wrappedValue.dismiss() })
+            Button(Strings.AuthCredentials.socialText, action: { presentationMode.wrappedValue.dismiss() })
                 .buttonStyle(OutlineButtonStyle(style: .violet))
                 .padding(appearance.continueWithSocialButtonInsets.edgeInsets)
         }

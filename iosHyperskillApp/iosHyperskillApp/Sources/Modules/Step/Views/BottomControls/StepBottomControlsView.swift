@@ -14,7 +14,7 @@ struct StepBottomControlsView: View {
             StepRatingControl(onClick: onRatingClick)
 
             StepActionButton(
-                title: Strings.stepStartPracticing,
+                title: Strings.Step.startPracticing,
                 style: .greenFilled,
                 onClick: onStartPracticingClick
             )
