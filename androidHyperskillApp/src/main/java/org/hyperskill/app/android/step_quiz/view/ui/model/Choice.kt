@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.step_quiz.model
+package org.hyperskill.app.android.step_quiz.view.ui.model
 
 import ru.nobird.app.core.model.Identifiable
 
