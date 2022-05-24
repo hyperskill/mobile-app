@@ -71,7 +71,9 @@ class MainActivity :
                 }
         }
         // TODO Uncomment after finishing ALTAPPS-87
-        router.newRootScreen(StepQuizScreen)
+        if (savedInstanceState == null) {
+            router.newRootScreen(StepQuizScreen)
+        }
     }
 
     private fun injectComponent() {
