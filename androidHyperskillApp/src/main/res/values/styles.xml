@@ -61,13 +61,13 @@
 
     <style name="StepQuizFeedback.Correct">
         <item name="android:theme">@style/ThemeOverlay.Red</item>
-        <item name="android:backgroundTint">@color/color_green_200_alpha_12</item>
+        <item name="backgroundTint">@color/color_green_200_alpha_12</item>
         <item name="android:textColor">@color/step_quiz_feedback_right_color</item>
     </style>
 
     <style name="StepQuizFeedback.Wrong">
         <item name="android:theme">@style/ThemeOverlay.Red</item>
-        <item name="android:backgroundTint">@android:color/transparent</item>
+        <item name="backgroundTint">@android:color/transparent</item>
         <item name="android:textColor">@color/step_quiz_feedback_wrong_color</item>
         <item name="drawableTint">@color/step_quiz_feedback_wrong_color</item>
     </style>
