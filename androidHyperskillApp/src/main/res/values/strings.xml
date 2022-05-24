@@ -7,15 +7,4 @@
     <string name="step_quiz_appbar_tooltip_title">Info</string>
     <string name="reload">Reload</string>
 
-
-    <!-- Step quiz -->
-
-    <string name="step_quiz_feedback_wrong_not_last_try">Not correct, but keep on trying  and never give up!</string>
-    <string name="step_quiz_feedback_correct_free_answer">You’re absolutely correct!</string>
-    <string name="step_quiz_feedback_title_text">FEEDBACK:</string>
-    <string name="step_quiz_discussion_text">Show discussions</string>
-    <string name="step_quiz_solved_count_text">%d users solved this problem. Latest completion was about %d hours ago.</string>
-    <string name="step_quiz_hint_text">See hint</string>
-    <string name="step_quiz_select_one_option_text">Select one option from the list</string>
-    <string name="step_quiz_select_multiple_options_text">Select one or more options from the list</string>
 </resources>
