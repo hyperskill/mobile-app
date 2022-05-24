@@ -40,8 +40,8 @@
 
     <!-- Step quiz screen -->
 
-    <dimen name="step_quiz_toolbar_height">56</dimen>
-    <dimen name="step_quiz_toolbar_margin_horizontal">56</dimen>
+    <dimen name="step_quiz_toolbar_height">56dp</dimen>
+    <dimen name="step_quiz_toolbar_margin_horizontal">56dp</dimen>
     <dimen name="step_quiz_toolbar_padding_vertical">16dp</dimen>
     <dimen name="step_quiz_submit_button_height">47dp</dimen>
     <dimen name="step_quiz_feedback_right_textview_height">48dp</dimen>

@@ -7,6 +7,6 @@
 
     <!-- Step quiz -->
 
-    <color name="step_quiz_feedback_wrong_color">?colorPrimary</color>
-    <color name="step_quiz_feedback_right_color">?colorSecondary</color>
+    <color name="step_quiz_feedback_wrong_color">@color/color_primary</color>
+    <color name="step_quiz_feedback_right_color">@color/color_secondary</color>
 </resources>

@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    tools:viewBindingIgnore="true">
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/stepQuizFeedbackWrong"
@@ -21,7 +20,7 @@
         android:layout_height="@dimen/step_quiz_feedback_right_textview_height"
         android:maxWidth="@dimen/auth_button_max_width"
         app:drawableStartCompat="@drawable/ic_checkmark"
-        tools:text="@string/step_quiz_choice_single_choice_title" />
+        tools:text="@string/step_quiz_status_correct_text" />
 
     <com.google.android.material.card.MaterialCardView
         android:layout_marginTop="20dp"
@@ -50,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:fontFamily="@font/menlo_regular"
+                android:fontFamily="@font/pt_mono"
                 android:text="That's right!"
                 android:textColor="@color/color_on_surface_alpha_87"
                 android:textSize="14sp"
