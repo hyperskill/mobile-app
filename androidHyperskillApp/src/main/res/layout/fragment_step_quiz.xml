@@ -27,7 +27,7 @@
         <TextView
             android:id="@+id/stepQuizSolvedCountTextView"
             android:textColor="@color/color_on_surface_alpha_60"
-            android:text="@string/choice_quiz_stat_text"
+            android:text="@string/step_quiz_stats_text"
             android:textSize="14sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -53,7 +53,7 @@
         android:layout_marginTop="20dp"
         android:insetTop="0dp"
         android:insetBottom="0dp"
-        android:text="@string/choice_quiz_hint_button_text"
+        android:text="@string/step_quiz_hint_button_text"
         app:layout_constraintTop_toBottomOf="@+id/stepQuizDescriptionTextView"
         app:icon="@drawable/ic_lightning"
         app:iconPadding="8dp"
@@ -68,7 +68,7 @@
         android:textSize="12sp"
         android:layout_margin="20dp"
         android:textColor="@color/color_on_surface_alpha_38"
-        android:text="@string/choice_quiz_single_option_task_text"
+        android:text="@string/step_quiz_choice_single_choice_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -133,7 +133,7 @@
         android:layout_margin="20dp"
         android:insetTop="0dp"
         android:insetBottom="0dp"
-        android:text="@string/choice_quiz_discussions_button_text"
+        android:text="@string/step_quiz_discussions_button_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:icon="@drawable/ic_discussion"
         app:layout_constraintEnd_toEndOf="parent"

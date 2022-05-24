@@ -13,7 +13,7 @@
         android:layout_height="@dimen/step_quiz_feedback_wrong_textview_height"
         android:maxWidth="@dimen/auth_button_max_width"
         app:drawableStartCompat="@drawable/ic_info_outline_24px"
-        tools:text="@string/choice_quiz_wrong_status_text" />
+        tools:text="@string/step_quiz_status_wrong_text" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/stepQuizFeedbackCorrect"
@@ -21,7 +21,7 @@
         android:layout_height="@dimen/step_quiz_feedback_right_textview_height"
         android:maxWidth="@dimen/auth_button_max_width"
         app:drawableStartCompat="@drawable/ic_checkmark"
-        tools:text="@string/choice_quiz_correct_status_text" />
+        tools:text="@string/step_quiz_choice_single_choice_title" />
 
     <com.google.android.material.card.MaterialCardView
         android:layout_marginTop="20dp"
@@ -44,7 +44,7 @@
                 android:textSize="12sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/choice_quiz_feedback_title" />
+                android:text="@string/step_quiz_feedback_title" />
 
             <TextView
                 android:layout_width="wrap_content"
