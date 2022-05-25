@@ -14,10 +14,11 @@ import kotlinx.coroutines.launch
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.view.ui.fragment.AuthFragment
+import org.hyperskill.app.android.auth.view.ui.navigation.AuthScreen
 import org.hyperskill.app.android.core.view.ui.navigation.AppNavigationContainer
 import org.hyperskill.app.android.databinding.ActivityMainBinding
+import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.presentation.MainViewModel
-import org.hyperskill.app.android.step.view.ui.screen.StepQuizScreen
 import org.hyperskill.app.main.presentation.AppFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.resolveColorAttribute
@@ -70,10 +71,6 @@ class MainActivity :
                     mainViewModelProvider.onNewMessage(AppFeature.Message.UserAuthorized)
                 }
         }
-        // TODO Uncomment after finishing ALTAPPS-87
-        if (savedInstanceState == null) {
-            router.newRootScreen(StepQuizScreen)
-        }
     }
 
     private fun injectComponent() {
@@ -100,15 +97,14 @@ class MainActivity :
         super.onPause()
     }
 
-    // TODO Uncomment after finishing ALTAPPS-87
     override fun onAction(action: AppFeature.Action.ViewAction) {
-//        when (action) {
-//            is AppFeature.Action.ViewAction.NavigateTo.AuthScreen ->
-//                router.newRootScreen(AuthScreen)
-//            is AppFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
-//                router.newRootScreen(HomeScreen)
-//            }
-//        }
+        when (action) {
+            is AppFeature.Action.ViewAction.NavigateTo.AuthScreen ->
+                router.newRootScreen(AuthScreen)
+            is AppFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
+                router.newRootScreen(HomeScreen)
+            }
+        }
     }
 
     override fun render(state: AppFeature.State) {
