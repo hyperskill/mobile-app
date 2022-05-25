@@ -2,11 +2,4 @@
 <resources>
     <color name="color_elevation_overlay_2dp">@color/color_black_900_alpha_7</color>
     <color name="color_divider">@color/color_elevation_overlay_2dp</color>
-
-
-
-    <!-- Step quiz -->
-
-    <color name="step_quiz_feedback_wrong_color">@color/color_primary</color>
-    <color name="step_quiz_feedback_right_color">@color/color_secondary</color>
 </resources>
