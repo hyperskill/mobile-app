@@ -1,3 +1,4 @@
+import SkeletonUI
 import SwiftUI
 
 extension StepQuizChoicesView {
@@ -14,6 +15,8 @@ struct StepQuizChoicesView: View {
     @Binding var choices: [StepQuizChoiceViewData.Choice]
 
     var isMultipleChoice: Bool
+
+    var loading = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
@@ -32,6 +35,8 @@ struct StepQuizChoicesView: View {
                         isMultipleChoice: isMultipleChoice,
                         selectChoice: self.selectChoice
                     )
+                    .skeleton(with: loading)
+                    .frame(width: .infinity, height: 24)
                 }
             }
         }
