@@ -15,7 +15,7 @@ struct StepQuizChoicesView: View {
     @Binding var choices: [StepQuizChoiceViewData.Choice]
 
     var isMultipleChoice: Bool
-    
+
     var loading = false
 
     var body: some View {
