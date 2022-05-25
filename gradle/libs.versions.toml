@@ -1,5 +1,5 @@
 [versions]
-androidGradlePlugin = '7.1.0'
+androidGradlePlugin = '7.2.0'
 kotlin = '1.6.0'
 kotlinCoroutines = { strictly = '1.6.0-native-mt' }
 ktor = '2.0.0'

@@ -40,7 +40,7 @@
                 android:textColor="?android:textColorSecondary"
                 app:layout_constraintLeft_toLeftOf="@id/stepTheorySubtitle"
                 app:layout_constraintTop_toBottomOf="@id/stepTheorySubtitle"
-                tools:drawableStart="@drawable/ic_step_theory_time"
+                tools:drawableStart="@drawable/ic_time"
                 tools:text="3 minutes reading" />
 
             <com.google.android.material.button.MaterialButton

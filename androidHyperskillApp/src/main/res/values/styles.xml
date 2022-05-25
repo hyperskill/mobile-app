@@ -38,4 +38,54 @@
         <item name="drawableTint">?android:textColorPrimary</item>
     </style>
 
+    <style name="PlaceholderTextViewStyle">
+        <item name="android:textAppearance">?textAppearanceBody1</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+        <item name="android:padding">@dimen/padding_placeholders</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="StepQuizFeedback">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textAppearance">?textAppearanceBody1</item>
+        <item name="android:drawablePadding">16dp</item>
+        <item name="android:background">@drawable/bg_shape_rounded</item>
+    </style>
+
+    <style name="StepQuizFeedback.Correct">
+        <item name="backgroundTint">@color/color_green_200_alpha_12</item>
+        <item name="android:textColor">@color/color_secondary</item>
+        <item name="drawableTint">@color/color_secondary</item>
+    </style>
+
+    <style name="StepQuizFeedback.Wrong">
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="android:textColor">@color/color_primary</item>
+        <item name="drawableTint">@color/color_primary</item>
+    </style>
+
+    <style name="StepQuizFeedback.Feedback">
+        <item name="strokeColor">@color/color_on_surface_alpha_12</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="background">@color/color_background</item>
+    </style>
+
+    <style name="StepQuizDescription">
+        <item name="android:textAppearance">?textAppearanceCaption</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+    </style>
+
+    <style name="StepQuizChoiceElement">
+        <item name="android:padding">8dp</item>
+        <item name="android:buttonTint">@color/color_on_surface_alpha_60</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
 </resources>

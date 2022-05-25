@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/stepQuizFeedbackWrong"
+        style="@style/StepQuizFeedback.Wrong"
+        android:layout_height="@dimen/step_quiz_feedback_wrong_textview_height"
+        android:maxWidth="@dimen/auth_button_max_width"
+        app:drawableStartCompat="@drawable/ic_info_outline_24px"
+        android:text="@string/step_quiz_status_wrong_text" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/stepQuizFeedbackCorrect"
+        style="@style/StepQuizFeedback.Correct"
+        android:layout_height="@dimen/step_quiz_feedback_right_textview_height"
+        android:maxWidth="@dimen/auth_button_max_width"
+        app:drawableStartCompat="@drawable/ic_checkmark"
+        android:text="@string/step_quiz_status_correct_text" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_marginTop="20dp"
+        android:id="@+id/stepQuizFeedback"
+        style="@style/StepQuizFeedback.Feedback"
+        android:layout_height="wrap_content"
+        android:maxWidth="@dimen/auth_button_max_width">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="14dp"
+            android:layout_marginVertical="12dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/stepQuizTitleTextView"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textColor="@color/color_on_surface_alpha_38"
+                android:textSize="12sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/step_quiz_feedback_title" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/pt_mono"
+                android:text="That's right!"
+                android:textColor="@color/color_on_surface_alpha_87"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/stepQuizTitleTextView" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
