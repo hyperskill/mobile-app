@@ -3,17 +3,25 @@ import SwiftUI
 struct PlaceholderView: View {
     var type: PlaceholderType
 
-    var onClick: (() -> Void)
+    var onClick: (() -> Void)?
 
     var body: some View {
         VStack(spacing: 28) {
-            Spacer()
             Image(type.image)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 122, height: 122)
+
             Text(type.title)
-            Button(type.buttonText, action: { onClick() })
-                .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
-            Spacer()
+                .font(.body)
+                .foregroundColor(.primaryText)
+
+            if let buttonText = type.buttonText, !buttonText.isEmpty {
+                Button(buttonText, action: { onClick?() })
+                    .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
+            }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
@@ -23,7 +31,7 @@ enum PlaceholderType {
     var image: String {
         switch self {
         case .networkError:
-            return "placeholder-network-error"
+            return Images.Placeholder.networkError
         }
     }
 
@@ -34,7 +42,7 @@ enum PlaceholderType {
         }
     }
 
-    var buttonText: String {
+    var buttonText: String? {
         switch self {
         case .networkError:
             return Strings.Placeholder.networkErrorButtonText
