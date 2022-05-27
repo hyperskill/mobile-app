@@ -6,9 +6,9 @@ import org.hyperskill.app.step.injection.StepComponentManual
 
 interface AppGraph {
     val commonComponent: CommonComponent
-    val mainComponentManual: MainComponentManual
     val networkComponentManual: NetworkComponentManual
     val authComponentManual: AuthComponentManual
+    val mainComponentManual: MainComponentManual
 
     fun buildStepComponent(): StepComponentManual
 }

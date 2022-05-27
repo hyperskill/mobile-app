@@ -9,20 +9,7 @@ final class StepAssembly: Assembly {
     }
 
     func makeModule() -> StepView {
-        let repository = StepRepositoryImpl(
-            stepRemoteDataSource: StepRemoteDataSourceImpl(
-                httpClient: NetworkModule.shared.provideAuthorizedClient(
-                    userAgentInfo: UserAgentBuilder.userAgentInfo,
-                    json: NetworkModule.shared.provideJson(),
-                    settings: Settings.default,
-                    authorizationFlow: AuthDataBuilder.sharedAuthorizationFlow,
-                    authorizationMutex: AuthDataBuilder.sharedAuthorizationMutex
-                )
-            )
-        )
-        let interactor = StepInteractor(stepRepository: repository)
-        let feature = StepFeatureBuilder.shared.build(stepInteractor: interactor)
-
+        let feature = AppGraphBridge.shared.buildStepComponent().stepFeature
         let viewModel = StepViewModel(stepID: self.stepID, feature: feature)
 
         return StepView(viewModel: viewModel)

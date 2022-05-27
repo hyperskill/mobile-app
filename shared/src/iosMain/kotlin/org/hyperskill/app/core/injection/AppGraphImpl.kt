@@ -14,14 +14,14 @@ class AppGraphImpl(
     override val commonComponent: CommonComponent =
         CommonComponentImpl(userAgentInfo)
 
-    override val mainComponentManual: MainComponentManual =
-        MainComponentImpl(this)
-
     override val networkComponentManual: NetworkComponentManual =
         NetworkComponentImpl(this)
 
-    override val authComponentManual: AuthComponentManual
-        get() = AuthComponentImpl(this)
+    override val authComponentManual: AuthComponentManual =
+        AuthComponentImpl(this)
+
+    override val mainComponentManual: MainComponentManual =
+        MainComponentImpl(this)
 
     override fun buildStepComponent(): StepComponentManual =
         StepComponentImpl(this)

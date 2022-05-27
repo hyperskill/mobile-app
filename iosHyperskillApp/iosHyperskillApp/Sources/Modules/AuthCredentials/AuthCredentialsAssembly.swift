@@ -9,10 +9,11 @@ final class AuthCredentialsAssembly: Assembly {
     }
 
     func makeModule() -> AuthCredentialsView {
-        let feature = AuthCredentialsFeatureBuilder.shared.build(authInteractor: .default)
+        let feature = AppGraphBridge.shared.authComponentManual.authCredentialsFeature
 
         let viewModel = AuthCredentialsViewModel(
-            authCredentialsErrorMapper: AuthCredentialsErrorMapper(resourceProvider: ResourceProviderImpl()),
+            authCredentialsErrorMapper:
+                AuthCredentialsErrorMapper(resourceProvider: AppGraphBridge.shared.commonComponent.resourceProvider),
             feature: feature
         )
 

@@ -54,13 +54,15 @@ struct StepCommentStatisticViewData: Identifiable {
 
 extension StepCommentStatisticViewData {
     init(commentStatisticsEntry: CommentStatisticsEntry) {
+        // TODO ALTAPPS-101 – Accessing static graph in view?
+        let stepComponent = AppGraphBridge.shared.buildStepComponent()
         self.id = commentStatisticsEntry.thread.name
-        self.title = CommentThreadTitleMapper(
-            resourceProvider: ResourceProviderImpl()
-        ).getFormattedStepCommentThreadStatistics(
-            thread: commentStatisticsEntry.thread,
-            count: commentStatisticsEntry.totalCount
-        )
+        self.title = stepComponent
+                .commentThreadTitleMapper
+                .getFormattedStepCommentThreadStatistics(
+                        thread: commentStatisticsEntry.thread,
+                        count: commentStatisticsEntry.totalCount
+                )
     }
 }
 
