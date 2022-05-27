@@ -16,7 +16,7 @@ data class Attempt(
     val dataset: Dataset?,
 
     @SerialName("status")
-    val status: AttemptStatus,
+    val status: AttemptStatus?,
     @SerialName("time")
     val time: String,
 
