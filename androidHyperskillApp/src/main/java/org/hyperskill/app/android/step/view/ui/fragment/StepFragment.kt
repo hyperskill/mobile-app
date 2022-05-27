@@ -44,6 +44,8 @@ class StepFragment :
     @Inject
     internal lateinit var commentThreadTitleMapper: CommentThreadTitleMapper
 
+    lateinit var commentThreadTitleMapperManual: CommentThreadTitleMapper
+
     private val viewBinding: FragmentStepTheoryBinding by viewBinding(FragmentStepTheoryBinding::bind)
     private val stepTheoryRatingAdapter: DefaultDelegateAdapter<StepTheoryRating> = DefaultDelegateAdapter()
     private val stepCommentStatisticsAdapter: DefaultDelegateAdapter<CommentStatisticsEntry> = DefaultDelegateAdapter()
@@ -51,6 +53,7 @@ class StepFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponent()
+        injectManual()
         stepTheoryRatingAdapter.items = listOf(
             StepTheoryRating.EXCELLENT,
             StepTheoryRating.GOOD,
@@ -74,6 +77,11 @@ class StepFragment :
             .stepComponentBuilder()
             .build()
             .inject(this)
+    }
+
+    private fun injectManual() {
+        val stepComponent = HyperskillApp.graph().buildStepComponent()
+        commentThreadTitleMapperManual = stepComponent.commentThreadTitleMapper
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -108,6 +116,8 @@ class StepFragment :
         }
         setupStepRatingRecyclerView()
         setupCommentStatisticsRecyclerView()
+        println("ALTAPPS – Dagger Mapper – $commentThreadTitleMapper")
+        println("ALTAPPS – Manual Mapper – $commentThreadTitleMapperManual")
     }
 
     override fun onAction(action: StepFeature.Action.ViewAction) {
@@ -152,7 +162,7 @@ class StepFragment :
             val itemViewBinding: ItemStepCommentActionBinding = ItemStepCommentActionBinding.bind(this.itemView)
 
             onBind { data ->
-                itemViewBinding.root.text = commentThreadTitleMapper.getFormattedStepCommentThreadStatistics(data.thread, data.totalCount)
+                itemViewBinding.root.text = commentThreadTitleMapperManual.getFormattedStepCommentThreadStatistics(data.thread, data.totalCount)
             }
         }
     }

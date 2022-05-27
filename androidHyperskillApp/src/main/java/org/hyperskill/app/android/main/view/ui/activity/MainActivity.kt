@@ -3,10 +3,10 @@ package org.hyperskill.app.android.main.view.ui.activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
 import kotlinx.coroutines.flow.collectLatest
@@ -71,6 +71,10 @@ class MainActivity :
                     mainViewModelProvider.onNewMessage(AppFeature.Message.UserAuthorized)
                 }
         }
+
+//        if (savedInstanceState == null) {
+//            router.newRootScreen(StepScreen)
+//        }
     }
 
     private fun injectComponent() {
