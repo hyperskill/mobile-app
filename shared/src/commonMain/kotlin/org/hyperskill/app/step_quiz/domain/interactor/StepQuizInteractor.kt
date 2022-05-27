@@ -1,6 +1,5 @@
 package org.hyperskill.app.step_quiz.domain.interactor
 
-import kotlinx.coroutines.delay
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.attempts.AttemptStatus
@@ -47,7 +46,6 @@ class StepQuizInteractor(
                 .getOrThrow()
             return pollSubmission(submission.id)
         }
-
 
     private suspend fun pollSubmission(submissionId: Long): Result<Submission> {
         while (true) {
