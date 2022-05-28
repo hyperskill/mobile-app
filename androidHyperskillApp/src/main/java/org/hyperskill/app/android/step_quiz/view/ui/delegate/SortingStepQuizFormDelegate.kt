@@ -1,21 +1,19 @@
 package org.hyperskill.app.android.step_quiz.view.ui.delegate
 
-import android.view.View
-import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.step_quiz.view.ui.adapter.SortingOptionAdapterDelegate
 import org.hyperskill.app.android.step_quiz.view.ui.model.SortingOption
 import ru.nobird.app.core.model.swap
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 
 class SortingStepQuizFormDelegate(
-    containerView: View,
+    binding: FragmentStepQuizBinding,
     private val onQuizChanged: (Unit) -> Unit
-) {
-    private val quizDescription = containerView.findViewById<TextView>(R.id.stepQuizDescriptionTextView)
+): StepQuizFormDelegate {
+    private val quizDescription = binding.stepQuizSelectCountTextView
 
     private val optionsAdapter = DefaultDelegateAdapter<SortingOption>()
 
@@ -24,7 +22,14 @@ class SortingStepQuizFormDelegate(
 
         optionsAdapter += SortingOptionAdapterDelegate(optionsAdapter, ::moveSortingOption)
 
-        with(containerView.findViewById<RecyclerView>(R.id.sortingRecycler)) {
+        // TODO: Remove before merging to delevop
+        optionsAdapter.items = listOf(
+            SortingOption(1, "Value 1", true),
+            SortingOption(2, "Value 2", true),
+            SortingOption(3, "Value 3", true)
+        )
+
+        with(binding.stepQuizChoiceRecyclerView.sortingRecycler) {
             adapter = optionsAdapter
             isNestedScrollingEnabled = false
             layoutManager = LinearLayoutManager(context)
@@ -49,4 +54,8 @@ class SortingStepQuizFormDelegate(
         optionsAdapter.notifyItemChanged(targetPosition)
         onQuizChanged(Unit)
     }
+
+    override fun setState(state: Unit) {}
+
+    override fun createReply() {}
 }
