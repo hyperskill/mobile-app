@@ -57,4 +57,8 @@
     <!-- Step quiz choice -->
     <string name="step_quiz_choice_single_choice_title">Select one option from the list</string>
     <string name="step_quiz_choice_multiple_choice_title">Select one or more options from the list</string>
+
+    <!-- Step quiz sorting -->
+    <string name="step_quiz_sorting_description">Sort a given list</string>
+
 </resources>
