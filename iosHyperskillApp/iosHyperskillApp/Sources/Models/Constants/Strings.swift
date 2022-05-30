@@ -51,4 +51,8 @@ enum Strings {
         static let singleChoiceTitle = sharedStrings.step_quiz_choice_single_choice_title.localized()
         static let multipleChoiceTitle = sharedStrings.step_quiz_choice_multiple_choice_title.localized()
     }
+
+    enum StepQuizSorting {
+        static let title = sharedStrings.step_quiz_sorting_title.localized()
+    }
 }
