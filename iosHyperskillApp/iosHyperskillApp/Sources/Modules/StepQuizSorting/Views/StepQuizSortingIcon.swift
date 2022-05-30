@@ -11,9 +11,9 @@ struct StepQuizSortingIcon: View {
                 .imageScale(.large)
 
                 .frame(widthHeight: 24)
-                .foregroundColor(Color(
-                    disabled ? ColorPalette.onSurfaceAlpha12 : ColorPalette.onSurfaceAlpha38
-                ))
+                .foregroundColor(
+                    Color(disabled ? ColorPalette.onSurfaceAlpha12 : ColorPalette.onSurfaceAlpha38)
+                )
         })
         .disabled(disabled)
     }
