@@ -58,6 +58,10 @@
     <string name="step_quiz_choice_single_choice_title">Select one option from the list</string>
     <string name="step_quiz_choice_multiple_choice_title">Select one or more options from the list</string>
 
+    <!-- Placeholder -->
+    <string name="placeholder_network_error_title">Oops! It seems like the network error.</string>
+    <string name="placeholder_network_error_button_text">Reload</string>
+
     <!-- Step quiz sorting -->
     <string name="step_quiz_sorting_title">Put the items in the correct order</string>
 </resources>

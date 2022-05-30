@@ -52,6 +52,15 @@ enum Strings {
         static let multipleChoiceTitle = sharedStrings.step_quiz_choice_multiple_choice_title.localized()
     }
 
+    // MARK: - Placeholder -
+
+    enum Placeholder {
+        static let networkErrorTitle = sharedStrings.placeholder_network_error_title.localized()
+        static let networkErrorButtonText = sharedStrings.placeholder_network_error_button_text.localized()
+    }
+
+    // MARK: - StepQuizSorting -
+
     enum StepQuizSorting {
         static let title = sharedStrings.step_quiz_sorting_title.localized()
     }
