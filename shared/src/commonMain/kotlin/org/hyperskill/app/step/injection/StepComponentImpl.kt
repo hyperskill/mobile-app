@@ -10,10 +10,9 @@ import org.hyperskill.app.step.remote.StepRemoteDataSourceImpl
 import org.hyperskill.app.step.view.mapper.CommentThreadTitleMapper
 import ru.nobird.app.presentation.redux.feature.Feature
 
-class StepComponentImpl(private val appGraph: AppGraph) : StepComponentManual {
-
+class StepComponentImpl(private val appGraph: AppGraph) : StepComponent {
     private val stepRemoteDataSource: StepRemoteDataSource = StepRemoteDataSourceImpl(
-        appGraph.networkComponentManual.authorizedHttpClient
+        appGraph.networkComponent.authorizedHttpClient
     )
     private val stepRepository: StepRepository = StepRepositoryImpl(stepRemoteDataSource)
     private val stepInteractor: StepInteractor = StepInteractor(stepRepository)

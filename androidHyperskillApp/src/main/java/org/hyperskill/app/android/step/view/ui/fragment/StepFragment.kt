@@ -27,7 +27,6 @@ import org.hyperskill.app.step.view.mapper.CommentThreadTitleMapper
 import ru.nobird.android.ui.adapterdelegates.dsl.adapterDelegate
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.app.presentation.redux.container.ReduxView
-import javax.inject.Inject
 import kotlin.math.abs
 
 class StepFragment :
@@ -38,13 +37,9 @@ class StepFragment :
             StepFragment()
     }
 
-    @Inject
-    internal lateinit var resourceProvider: ResourceProvider
+    private lateinit var resourceProvider: ResourceProvider
 
-    @Inject
-    internal lateinit var commentThreadTitleMapper: CommentThreadTitleMapper
-
-    lateinit var commentThreadTitleMapperManual: CommentThreadTitleMapper
+    private lateinit var commentThreadTitleMapper: CommentThreadTitleMapper
 
     private val viewBinding: FragmentStepTheoryBinding by viewBinding(FragmentStepTheoryBinding::bind)
     private val stepTheoryRatingAdapter: DefaultDelegateAdapter<StepTheoryRating> = DefaultDelegateAdapter()
@@ -53,7 +48,6 @@ class StepFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponent()
-        injectManual()
         stepTheoryRatingAdapter.items = listOf(
             StepTheoryRating.EXCELLENT,
             StepTheoryRating.GOOD,
@@ -72,16 +66,11 @@ class StepFragment :
     }
 
     private fun injectComponent() {
-        HyperskillApp
-            .component()
-            .stepComponentBuilder()
-            .build()
-            .inject(this)
-    }
-
-    private fun injectManual() {
         val stepComponent = HyperskillApp.graph().buildStepComponent()
-        commentThreadTitleMapperManual = stepComponent.commentThreadTitleMapper
+        val platformStepComponent = HyperskillApp.graph().buildPlatformStepComponent(stepComponent)
+        resourceProvider = HyperskillApp.graph().commonComponent.resourceProvider
+        commentThreadTitleMapper = stepComponent.commentThreadTitleMapper
+        // TODO Setup ViewModelFactory
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -116,8 +105,6 @@ class StepFragment :
         }
         setupStepRatingRecyclerView()
         setupCommentStatisticsRecyclerView()
-        println("ALTAPPS – Dagger Mapper – $commentThreadTitleMapper")
-        println("ALTAPPS – Manual Mapper – $commentThreadTitleMapperManual")
     }
 
     override fun onAction(action: StepFeature.Action.ViewAction) {
@@ -162,7 +149,7 @@ class StepFragment :
             val itemViewBinding: ItemStepCommentActionBinding = ItemStepCommentActionBinding.bind(this.itemView)
 
             onBind { data ->
-                itemViewBinding.root.text = commentThreadTitleMapperManual.getFormattedStepCommentThreadStatistics(data.thread, data.totalCount)
+                itemViewBinding.root.text = commentThreadTitleMapper.getFormattedStepCommentThreadStatistics(data.thread, data.totalCount)
             }
         }
     }

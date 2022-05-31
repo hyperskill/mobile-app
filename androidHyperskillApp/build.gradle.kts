@@ -42,7 +42,6 @@ dependencies {
     ktlintRuleset(libs.ktlintRules)
 
     implementation(libs.multiplatform.settings)
-    implementation(libs.android.security)
 
     implementation(libs.material.progress.bar)
     implementation(libs.android.sentry)

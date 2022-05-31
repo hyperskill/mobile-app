@@ -1,12 +1,18 @@
 package org.hyperskill.app.core.injection
 
 import org.hyperskill.app.auth.injection.AuthComponentImpl
-import org.hyperskill.app.auth.injection.AuthComponentManual
+import org.hyperskill.app.auth.injection.AuthComponent
+import org.hyperskill.app.auth.injection.AuthCredentialsComponent
+import org.hyperskill.app.auth.injection.AuthCredentialsComponentImpl
+import org.hyperskill.app.auth.injection.AuthSocialComponent
+import org.hyperskill.app.auth.injection.AuthSocialComponentImpl
 import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.main.injection.MainComponentImpl
-import org.hyperskill.app.main.injection.MainComponentManual
+import org.hyperskill.app.main.injection.MainComponent
+import org.hyperskill.app.network.injection.NetworkComponent
+import org.hyperskill.app.network.injection.NetworkComponentImpl
 import org.hyperskill.app.step.injection.StepComponentImpl
-import org.hyperskill.app.step.injection.StepComponentManual
+import org.hyperskill.app.step.injection.StepComponent
 
 class AppGraphImpl(
     userAgentInfo: UserAgentInfo
@@ -14,15 +20,21 @@ class AppGraphImpl(
     override val commonComponent: CommonComponent =
         CommonComponentImpl(userAgentInfo)
 
-    override val networkComponentManual: NetworkComponentManual =
+    override val networkComponent: NetworkComponent =
         NetworkComponentImpl(this)
 
-    override val authComponentManual: AuthComponentManual =
+    override val authComponent: AuthComponent =
         AuthComponentImpl(this)
 
-    override val mainComponentManual: MainComponentManual =
+    override val mainComponent: MainComponent =
         MainComponentImpl(this)
 
-    override fun buildStepComponent(): StepComponentManual =
+    override fun buildAuthSocialComponent(): AuthSocialComponent =
+        AuthSocialComponentImpl(commonComponent, authComponent)
+
+    override fun buildAuthCredentialsComponent(): AuthCredentialsComponent =
+        AuthCredentialsComponentImpl(commonComponent, authComponent)
+
+    override fun buildStepComponent(): StepComponent =
         StepComponentImpl(this)
 }

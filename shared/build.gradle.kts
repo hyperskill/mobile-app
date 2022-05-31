@@ -64,7 +64,10 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
+                implementation(libs.android.security)
                 implementation(libs.ktor.android)
+                implementation(libs.kit.view.redux)
+                implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
             }
         }
         val androidTest by getting {

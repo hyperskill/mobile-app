@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.auth.presentation.AuthCredentialsViewModel
+import org.hyperskill.app.auth.presentation.AuthCredentialsViewModel
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthFlow
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthSocialScreen
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
@@ -27,7 +27,6 @@ import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
-import javax.inject.Inject
 
 class AuthCredentialsFragment :
     Fragment(R.layout.fragment_auth_email),
@@ -38,11 +37,8 @@ class AuthCredentialsFragment :
             AuthCredentialsFragment()
     }
 
-    @Inject
-    internal lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    @Inject
-    internal lateinit var authCredentialsErrorMapper: AuthCredentialsErrorMapper
+    private lateinit var authCredentialsErrorMapper: AuthCredentialsErrorMapper
+    private lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val viewStateDelegate: ViewStateDelegate<AuthCredentialsFeature.FormState> = ViewStateDelegate()
     private val authCredentialsViewModel: AuthCredentialsViewModel by reduxViewModel(this) { viewModelFactory }
@@ -99,11 +95,10 @@ class AuthCredentialsFragment :
     }
 
     private fun injectComponent() {
-        HyperskillApp
-            .component()
-            .authEmailComponentBuilder()
-            .build()
-            .inject(this)
+        val authCredentialsComponent = HyperskillApp.graph().buildAuthCredentialsComponent()
+        val platformAuthComponent = HyperskillApp.graph().buildPlatformAuthCredentialsComponent(authCredentialsComponent)
+        authCredentialsErrorMapper = authCredentialsComponent.authCredentialsErrorMapper
+        viewModelFactory = platformAuthComponent.manualViewModelFactory
     }
 
     override fun onAction(action: AuthCredentialsFeature.Action.ViewAction) {

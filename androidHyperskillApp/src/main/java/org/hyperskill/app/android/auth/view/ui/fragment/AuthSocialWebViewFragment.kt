@@ -15,7 +15,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.auth.presentation.AuthSocialWebViewViewModel
+import org.hyperskill.app.auth.presentation.AuthSocialWebViewViewModel
 import org.hyperskill.app.android.databinding.DialogInAppWebViewBinding
 import org.hyperskill.app.auth.domain.model.AuthSocialError
 import org.hyperskill.app.auth.domain.model.SocialAuthProvider
@@ -27,7 +27,6 @@ import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
-import javax.inject.Inject
 
 class AuthSocialWebViewFragment :
     DialogFragment(R.layout.dialog_in_app_web_view),
@@ -41,11 +40,8 @@ class AuthSocialWebViewFragment :
             }
     }
 
-    @Inject
-    internal lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    @Inject
-    internal lateinit var resourceProvider: ResourceProvider
+    private lateinit var resourceProvider: ResourceProvider
+    private lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val authSocialWebViewViewModel: AuthSocialWebViewViewModel by reduxViewModel(this) { viewModelFactory }
 
@@ -58,11 +54,9 @@ class AuthSocialWebViewFragment :
     private val viewStateDelegate = ViewStateDelegate<AuthSocialWebViewFeature.State>()
 
     private fun injectComponent() {
-        HyperskillApp
-            .component()
-            .authSocialWebViewComponentBuilder()
-            .build()
-            .inject(this)
+        val authSocialWebViewComponent = HyperskillApp.graph().buildPlatformAuthSocialWebViewComponent()
+        resourceProvider = HyperskillApp.graph().commonComponent.resourceProvider
+        viewModelFactory = authSocialWebViewComponent.manualViewModelFactory
     }
 
     private fun initViewStateDelegate() {

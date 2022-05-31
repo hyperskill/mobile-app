@@ -6,20 +6,15 @@ import android.os.Build
 import io.sentry.SentryLevel
 import io.sentry.android.core.SentryAndroid
 import io.sentry.android.fragment.FragmentLifecycleIntegration
-import org.hyperskill.app.android.core.injection.AppCoreComponent
-import org.hyperskill.app.android.core.injection.DaggerAppCoreComponent
 import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.core.injection.AndroidAppComponent
-import org.hyperskill.app.core.injection.AppGraphImpl
+import org.hyperskill.app.core.injection.AndroidAppComponentImpl
 import org.hyperskill.app.core.remote.UserAgentInfo
 import ru.nobird.android.view.base.ui.extension.isMainProcess
 
 class HyperskillApp : Application() {
     companion object {
         lateinit var application: HyperskillApp
-
-        fun component(): AppCoreComponent =
-            application.component
 
         fun getAppContext(): Context =
             application.applicationContext
@@ -30,8 +25,6 @@ class HyperskillApp : Application() {
 
     private lateinit var appGraph: AndroidAppComponent
 
-    private lateinit var component: AppCoreComponent
-
     override fun onCreate() {
         super.onCreate()
         if (!isMainProcess) return
@@ -40,12 +33,7 @@ class HyperskillApp : Application() {
 
         application = this
 
-        component = DaggerAppCoreComponent.builder()
-            .context(application)
-            .build()
-
-        component.inject(this)
-        appGraph = AppGraphImpl(this, buildUserAgentInfo())
+        appGraph = AndroidAppComponentImpl(this, buildUserAgentInfo())
         initSentry()
     }
 

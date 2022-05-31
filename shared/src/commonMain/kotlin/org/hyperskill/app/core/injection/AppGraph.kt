@@ -1,14 +1,19 @@
 package org.hyperskill.app.core.injection
 
-import org.hyperskill.app.auth.injection.AuthComponentManual
-import org.hyperskill.app.main.injection.MainComponentManual
-import org.hyperskill.app.step.injection.StepComponentManual
+import org.hyperskill.app.auth.injection.AuthComponent
+import org.hyperskill.app.auth.injection.AuthCredentialsComponent
+import org.hyperskill.app.auth.injection.AuthSocialComponent
+import org.hyperskill.app.main.injection.MainComponent
+import org.hyperskill.app.network.injection.NetworkComponent
+import org.hyperskill.app.step.injection.StepComponent
 
 interface AppGraph {
     val commonComponent: CommonComponent
-    val networkComponentManual: NetworkComponentManual
-    val authComponentManual: AuthComponentManual
-    val mainComponentManual: MainComponentManual
+    val networkComponent: NetworkComponent
+    val authComponent: AuthComponent
+    val mainComponent: MainComponent
 
-    fun buildStepComponent(): StepComponentManual
+    fun buildAuthSocialComponent(): AuthSocialComponent
+    fun buildAuthCredentialsComponent(): AuthCredentialsComponent
+    fun buildStepComponent(): StepComponent
 }
