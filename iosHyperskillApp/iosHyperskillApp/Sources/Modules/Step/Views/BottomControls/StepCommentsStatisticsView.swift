@@ -19,9 +19,11 @@ struct StepCommentsStatisticsView: View {
     }
 }
 
+#if DEBUG
 struct StepCommentsStatisticsView_Previews: PreviewProvider {
     static var previews: some View {
         StepCommentsStatisticsView(viewData: StepCommentStatisticViewData.placeholders)
             .padding()
     }
 }
+#endif
