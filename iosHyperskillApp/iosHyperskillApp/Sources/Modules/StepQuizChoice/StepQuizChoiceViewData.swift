@@ -27,7 +27,8 @@ struct StepQuizChoiceViewData {
 #if DEBUG
 extension StepQuizChoiceViewData {
     static func makePlaceholder(isMultipleChoice: Bool, quizStatus: QuizStatus? = nil) -> StepQuizChoiceViewData {
-        let statsTextMapper = StepQuizStatsTextMapper(resourceProvider: ResourceProviderImpl())
+        let stepComponent = AppGraphBridge.shared.buildStepComponent()
+        let statsTextMapper = stepComponent.stepQuizStatsTextMapper
         let formattedStats = statsTextMapper.getFormattedStepQuizStats(users: 2438, hours: 1)
 
         let feedbackText: String? = {

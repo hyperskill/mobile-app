@@ -9,12 +9,12 @@ final class AuthSocialAssembly: Assembly {
     }
 
     func makeModule() -> AuthSocialView {
-        let feature = AppGraphBridge.shared.authComponentManual.authSocialFeature
+        let authSocialComponent = AppGraphBridge.shared.buildAuthSocialComponent()
 
         let viewModel = AuthSocialViewModel(
             socialAuthService: SocialAuthService.shared,
-            authSocialErrorMapper: AuthSocialErrorMapper(resourceProvider: AppGraphBridge.shared.commonComponent.resourceProvider),
-            feature: feature
+            authSocialErrorMapper: authSocialComponent.authSocialErrorMapper,
+            feature: authSocialComponent.authSocialFeature
         )
 
         return AuthSocialView(viewModel: viewModel, navigationState: self.navigationState)
