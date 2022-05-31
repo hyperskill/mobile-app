@@ -72,7 +72,6 @@ class MainActivity :
                     mainViewModelProvider.onNewMessage(AppFeature.Message.UserAuthorized)
                 }
         }
-        router.newRootScreen(StepQuizScreen)
     }
 
     private fun injectComponent() {
@@ -100,13 +99,13 @@ class MainActivity :
     }
 
     override fun onAction(action: AppFeature.Action.ViewAction) {
-//        when (action) {
-//            is AppFeature.Action.ViewAction.NavigateTo.AuthScreen ->
-//                router.newRootScreen(AuthScreen)
-//            is AppFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
-//                router.newRootScreen(HomeScreen)
-//            }
-//        }
+        when (action) {
+            is AppFeature.Action.ViewAction.NavigateTo.AuthScreen ->
+                router.newRootScreen(AuthScreen)
+            is AppFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
+                router.newRootScreen(HomeScreen)
+            }
+        }
     }
 
     override fun render(state: AppFeature.State) {

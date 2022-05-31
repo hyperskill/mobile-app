@@ -2,7 +2,6 @@ package org.hyperskill.app.android.step_quiz.view.ui.adapter
 
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.ViewCompat
 import org.hyperskill.app.android.R
@@ -10,11 +9,15 @@ import org.hyperskill.app.android.step_quiz.view.ui.model.SortingOption
 import ru.nobird.android.ui.adapterdelegates.AdapterDelegate
 import ru.nobird.android.ui.adapterdelegates.DelegateViewHolder
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
+import by.kirich1409.viewbindingdelegate.viewBinding
+import org.hyperskill.app.android.databinding.ItemStepQuizSortingBinding
 
 class SortingOptionAdapterDelegate(
     private val adapter: DefaultDelegateAdapter<SortingOption>,
     private val onMoveItemClicked: (position: Int, direction: SortingDirection) -> Unit
 ) : AdapterDelegate<SortingOption, DelegateViewHolder<SortingOption>>() {
+
+
     override fun isForViewType(position: Int, data: SortingOption): Boolean =
         true
 
@@ -22,9 +25,10 @@ class SortingOptionAdapterDelegate(
         ViewHolder(createView(parent, R.layout.item_step_quiz_sorting))
 
     private inner class ViewHolder(root: View) : DelegateViewHolder<SortingOption>(root) {
-        private val stepQuizSortingOption = root.findViewById<TextView>(R.id.stepQuizSortingOption)
-        private val stepQuizSortingOptionUp = root.findViewById<AppCompatImageView>(R.id.stepQuizSortingOptionUp)
-        private val stepQuizSortingOptionDown = root.findViewById<AppCompatImageView>(R.id.stepQuizSortingOptionDown)
+        private val viewBinding: ItemStepQuizSortingBinding by viewBinding(ItemStepQuizSortingBinding::bind)
+        private val stepQuizSortingOption = viewBinding.stepQuizSortingOption
+        private val stepQuizSortingOptionUp = viewBinding.stepQuizSortingOptionUp
+        private val stepQuizSortingOptionDown = viewBinding.stepQuizSortingOptionDown
 
         init {
             stepQuizSortingOptionUp.setOnClickListener { onMoveItemClicked(adapterPosition, SortingDirection.UP) }
