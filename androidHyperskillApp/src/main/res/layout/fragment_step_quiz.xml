@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/stepQuizAppBar"
+        layout="@layout/view_step_quiz_appbar" />
+
+    <LinearLayout
+        android:id="@+id/stepQuizSolvedCountLinearLayout"
+        app:layout_constraintTop_toBottomOf="@id/stepQuizAppBar"
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:maxWidth="@dimen/auth_button_max_width"
+        android:layout_marginHorizontal="20dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="4dp"
+            app:drawableStartCompat="@drawable/ic_time" />
+
+        <TextView
+            android:id="@+id/stepQuizSolvedCountTextView"
+            android:textColor="@color/color_on_surface_alpha_60"
+            android:text="@string/step_quiz_stats_text"
+            android:textSize="14sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <TextView
+        app:layout_constraintTop_toBottomOf="@+id/stepQuizSolvedCountLinearLayout"
+        android:layout_margin="20dp"
+        android:id="@+id/stepQuizDescriptionTextView"
+        android:text="Select a statement that will throw an exception."
+        android:textSize="14sp"
+        android:textColor="@color/color_on_surface_alpha_87"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/stepQuizHintButton"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/step_quiz_hint_button_height"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="@string/step_quiz_hint_button_text"
+        app:layout_constraintTop_toBottomOf="@+id/stepQuizDescriptionTextView"
+        app:icon="@drawable/ic_lightning"
+        app:iconPadding="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0"
+        app:strokeColor="?colorPrimary" />
+
+    <TextView
+        android:id="@+id/stepQuizSelectCountTextView"
+        app:layout_constraintTop_toBottomOf="@+id/stepQuizHintButton"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="12sp"
+        android:layout_margin="20dp"
+        android:textColor="@color/color_on_surface_alpha_38"
+        android:text="@string/step_quiz_choice_single_choice_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:id="@+id/stepQuizDescriptionAndAnswersDivider"
+        app:layout_constraintTop_toBottomOf="@+id/stepQuizSelectCountTextView"
+        android:layout_width="match_parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_height="1dp"
+        android:maxWidth="@dimen/auth_button_max_width"
+        android:background="@color/color_on_surface_alpha_12"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/stepQuizChoiceRecyclerView"
+        app:layout_constraintTop_toBottomOf="@+id/stepQuizDescriptionAndAnswersDivider"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
+
+    <include
+        android:id="@+id/stepQuizFeedbackBlocks"
+        layout="@layout/layout_step_quiz_feedback_block"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stepQuizChoiceRecyclerView" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/stepQuizSubmitButton"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/step_quiz_submit_button_height"
+        android:layout_margin="20dp"
+        android:theme="@style/ThemeOverlay.Blue"
+        android:text="@string/step_quiz_send_button_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stepQuizFeedbackBlocks" />
+
+
+    <include
+        android:id="@+id/stepQuizNetworkError"
+        layout="@layout/error_no_connection_with_button"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:layout_constraintVertical_bias="0" />
+
+    <View
+        app:layout_constraintBottom_toTopOf="@+id/stepQuizDiscussionButton"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/color_on_surface_alpha_12"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/stepQuizDiscussionButton"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/step_quiz_discussion_button_height"
+        android:layout_margin="20dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="@string/step_quiz_discussions_button_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:icon="@drawable/ic_discussion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintWidth_max="@dimen/auth_button_max_width"
+        app:strokeColor="?colorPrimary" />
+
+    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+        android:id="@+id/stepQuizProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

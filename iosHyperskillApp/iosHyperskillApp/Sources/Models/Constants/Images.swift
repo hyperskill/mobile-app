@@ -44,4 +44,10 @@ enum Images {
 
         static let lightning = "step-quiz-lightning"
     }
+
+    // MARK: - Placeholder -
+
+    enum Placeholder {
+        static let networkError = "placeholder-network-error"
+    }
 }

@@ -16,6 +16,8 @@ target 'iosHyperskillApp' do
 
   pod 'IQKeyboardManagerSwift', '6.5.9'
   pod 'SVProgressHUD', '2.2.5'
+  
+  pod 'SkeletonUI', '1.0.7'
 end
 
 post_install do |installer|

@@ -18,6 +18,7 @@ PODS:
     - Sentry/Core (= 7.13.0)
   - Sentry/Core (7.13.0)
   - shared (1.0)
+  - SkeletonUI (1.0.7)
   - SVProgressHUD (2.2.5)
   - SwiftLint (0.47.0)
 
@@ -26,6 +27,7 @@ DEPENDENCIES:
   - IQKeyboardManagerSwift (= 6.5.9)
   - Sentry (= 7.13.0)
   - shared (from `../shared`)
+  - SkeletonUI (= 1.0.7)
   - SVProgressHUD (= 2.2.5)
   - SwiftLint (= 0.47.0)
 
@@ -37,6 +39,7 @@ SPEC REPOS:
     - GTMSessionFetcher
     - IQKeyboardManagerSwift
     - Sentry
+    - SkeletonUI
     - SVProgressHUD
     - SwiftLint
 
@@ -52,9 +55,10 @@ SPEC CHECKSUMS:
   IQKeyboardManagerSwift: 6e839c575c4aa1078d58a596e41244e77abe918f
   Sentry: c55b9f69091e58cc48adc3c25bbca908a480e08d
   shared: 57c23201ce62604481c21dfbabc812accac99edd
+  SkeletonUI: 18fbcd8698480432852d7e30a65b8d5e138266f0
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
 
-PODFILE CHECKSUM: e3502587a1b021db835d92d5c800faba4125372e
+PODFILE CHECKSUM: 387ae80e4780ac04a690e99c1debbcfe447dd6d4
 
 COCOAPODS: 1.11.3

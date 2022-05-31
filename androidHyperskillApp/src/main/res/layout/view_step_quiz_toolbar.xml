@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.appbar.MaterialToolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/step_quiz_toolbar_height"
+    android:layout_gravity="center"
+    app:contentInsetStartWithNavigation="0dp"
+    app:layout_scrollFlags="scroll"
+    app:menu="@menu/step_quiz_appbar_menu"
+    app:navigationIcon="@drawable/ic_toolbar_back"
+    app:navigationIconTint="?colorControlNormal">
+
+    <TextView
+        android:id="@+id/stepQuizToolbarTitle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginEnd="@dimen/step_quiz_toolbar_margin_horizontal"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:paddingVertical="@dimen/step_quiz_toolbar_padding_vertical"
+        android:textAppearance="?textAppearanceSubtitle1"
+        android:textColor="@color/material_on_surface_emphasis_high_type"
+        android:textSize="18sp"
+        tools:text="Problem's title" />
+</com.google.android.material.appbar.MaterialToolbar>
