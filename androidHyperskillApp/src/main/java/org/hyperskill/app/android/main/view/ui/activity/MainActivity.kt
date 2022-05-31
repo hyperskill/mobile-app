@@ -19,7 +19,6 @@ import org.hyperskill.app.android.core.view.ui.navigation.AppNavigationContainer
 import org.hyperskill.app.android.databinding.ActivityMainBinding
 import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.presentation.MainViewModel
-import org.hyperskill.app.android.step_quiz.view.ui.screen.StepQuizScreen
 import org.hyperskill.app.main.presentation.AppFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.resolveColorAttribute

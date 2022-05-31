@@ -2,7 +2,6 @@ package org.hyperskill.app.android.step_quiz.view.ui.adapter
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.ViewCompat
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.step_quiz.view.ui.model.SortingOption
@@ -16,7 +15,6 @@ class SortingOptionAdapterDelegate(
     private val adapter: DefaultDelegateAdapter<SortingOption>,
     private val onMoveItemClicked: (position: Int, direction: SortingDirection) -> Unit
 ) : AdapterDelegate<SortingOption, DelegateViewHolder<SortingOption>>() {
-
 
     override fun isForViewType(position: Int, data: SortingOption): Boolean =
         true

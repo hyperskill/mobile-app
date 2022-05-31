@@ -12,7 +12,7 @@ import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 class SortingStepQuizFormDelegate(
     binding: FragmentStepQuizBinding,
     private val onQuizChanged: (Unit) -> Unit
-): StepQuizFormDelegate {
+) : StepQuizFormDelegate {
     private val quizDescription = binding.stepQuizSelectCountTextView
 
     private val optionsAdapter = DefaultDelegateAdapter<SortingOption>()
