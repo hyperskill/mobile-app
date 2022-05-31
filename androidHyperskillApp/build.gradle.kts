@@ -27,9 +27,6 @@ dependencies {
     implementation(libs.kit.view.redux)
     implementation(libs.kit.view.navigation)
 
-    implementation(libs.dagger)
-    kapt(libs.dagger.compiler)
-
     implementation(libs.bundles.ktor.common)
 
     implementation(libs.gms.services)

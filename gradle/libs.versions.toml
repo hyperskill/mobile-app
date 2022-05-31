@@ -41,9 +41,6 @@ kit-view-redux = { module = "ru.nobird.android.view:redux", version = "1.3.0" }
 kit-view-injection = { module = "ru.nobird.android.view:injection", version = "1.1.0" }
 kit-view-navigation = { module = "ru.nobird.android.view:navigation", version = "1.1.0" }
 
-dagger = { module = "com.google.dagger:dagger", version = "2.40.1" }
-dagger-compiler = { module = "com.google.dagger:dagger-compiler", version = "2.40.1" }
-
 multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version = "0.8.1" }
 
 android-ui-material = { module = "com.google.android.material:material", version = "1.4.0" }
