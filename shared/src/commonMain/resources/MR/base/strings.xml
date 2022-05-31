@@ -61,4 +61,7 @@
     <!-- Step quiz sorting -->
     <string name="step_quiz_sorting_description">Sort a given list</string>
 
+    <!-- Placeholder -->
+    <string name="placeholder_network_error_title">Oops! It seems like the network error.</string>
+    <string name="placeholder_network_error_button_text">Reload</string>
 </resources>
