@@ -8,5 +8,10 @@ class PlatformAuthCredentialsComponentImpl(
     private val authCredentialsComponent: AuthCredentialsComponent
 ) : PlatformAuthCredentialsComponent {
     override val manualViewModelFactory: ManualViewModelFactory
-        get() = ManualViewModelFactory(mapOf(AuthCredentialsViewModel::class.java to { AuthCredentialsViewModel(authCredentialsComponent.authCredentialsFeature.wrapWithViewContainer()) } ))
+        get() = ManualViewModelFactory(
+            mapOf(
+                AuthCredentialsViewModel::class.java to
+                    { AuthCredentialsViewModel(authCredentialsComponent.authCredentialsFeature.wrapWithViewContainer()) }
+            )
+        )
 }

@@ -11,5 +11,10 @@ class PlatformAuthSocialWebViewComponentImpl : PlatformAuthSocialWebViewComponen
         get() = AuthSocialWebViewFeatureBuilder.build()
 
     override val manualViewModelFactory: ManualViewModelFactory
-        get() = ManualViewModelFactory(mapOf(AuthSocialWebViewViewModel::class.java to { AuthSocialWebViewViewModel(feature.wrapWithViewContainer()) } ))
+        get() = ManualViewModelFactory(
+            mapOf(
+                AuthSocialWebViewViewModel::class.java to
+                    { AuthSocialWebViewViewModel(feature.wrapWithViewContainer()) }
+            )
+        )
 }
