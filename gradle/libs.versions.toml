@@ -49,6 +49,7 @@ android-ui-constraintlayout = { module = "androidx.constraintlayout:constraintla
 android-ui-core-ktx = { module = "androidx.core:core-ktx", version = "1.3.0" }
 android-ui-fragment = { module = "androidx.fragment:fragment", version.ref = "fragment"}
 android-ui-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragment"}
+android-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version = "2.4.1" }
 android-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version = "2.4.0" }
 
 android-test-junit = { module = "junit:junit", version = "4.13.2" }

@@ -56,7 +56,7 @@ class AuthSocialWebViewFragment :
     private fun injectComponent() {
         val authSocialWebViewComponent = HyperskillApp.graph().buildPlatformAuthSocialWebViewComponent()
         resourceProvider = HyperskillApp.graph().commonComponent.resourceProvider
-        viewModelFactory = authSocialWebViewComponent.manualViewModelFactory
+        viewModelFactory = authSocialWebViewComponent.reduxViewModelFactory
     }
 
     private fun initViewStateDelegate() {

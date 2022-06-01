@@ -98,7 +98,7 @@ class AuthCredentialsFragment :
         val authCredentialsComponent = HyperskillApp.graph().buildAuthCredentialsComponent()
         val platformAuthComponent = HyperskillApp.graph().buildPlatformAuthCredentialsComponent(authCredentialsComponent)
         authCredentialsErrorMapper = authCredentialsComponent.authCredentialsErrorMapper
-        viewModelFactory = platformAuthComponent.manualViewModelFactory
+        viewModelFactory = platformAuthComponent.reduxViewModelFactory
     }
 
     override fun onAction(action: AuthCredentialsFeature.Action.ViewAction) {

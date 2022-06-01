@@ -73,7 +73,7 @@ class MainActivity :
     }
 
     private fun injectManual() {
-        viewModelFactory = HyperskillApp.graph().platformMainComponent.manualViewModelFactory
+        viewModelFactory = HyperskillApp.graph().platformMainComponent.reduxViewModelFactory
     }
 
     private fun initViewStateDelegate() {

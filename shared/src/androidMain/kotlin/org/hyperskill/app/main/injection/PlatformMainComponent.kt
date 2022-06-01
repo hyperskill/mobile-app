@@ -1,7 +1,7 @@
 package org.hyperskill.app.main.injection
 
-import org.hyperskill.app.core.injection.ManualViewModelFactory
+import org.hyperskill.app.core.injection.ReduxViewModelFactory
 
 actual interface PlatformMainComponent {
-    val manualViewModelFactory: ManualViewModelFactory
+    val reduxViewModelFactory: ReduxViewModelFactory
 }

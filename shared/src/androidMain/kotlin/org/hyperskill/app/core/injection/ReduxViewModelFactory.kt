@@ -3,7 +3,7 @@ package org.hyperskill.app.core.injection
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
-class ManualViewModelFactory(
+class ReduxViewModelFactory(
     private val viewModelMap: Map<Class<out ViewModel>, () -> ViewModel>
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")

@@ -87,7 +87,7 @@ class AuthSocialFragment :
         val platformSocialComponent = HyperskillApp.graph().buildPlatformAuthSocialComponent(authSocialComponent)
         resourceProvider = HyperskillApp.graph().commonComponent.resourceProvider
         authSocialErrorMapper = authSocialComponent.authSocialErrorMapper
-        viewModelFactory = platformSocialComponent.manualViewModelFactory
+        viewModelFactory = platformSocialComponent.reduxViewModelFactory
     }
 
     private fun onSocialClickListener(social: AuthSocialCardInfo) {
