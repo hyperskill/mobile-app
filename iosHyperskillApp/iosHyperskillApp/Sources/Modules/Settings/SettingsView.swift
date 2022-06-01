@@ -11,7 +11,9 @@ struct SettingsView: View {
                     Text(authResponse ?? "N/A")
                 }
                 .onAppear {
-                    authResponse = Settings.default.getStringOrNull(key: AuthCacheKeyValues.shared.AUTH_RESPONSE)
+                    authResponse = AppGraphBridge.sharedAppGraph.commonComponent.settings.getStringOrNull(
+                        key: AuthCacheKeyValues.shared.AUTH_RESPONSE
+                    )
                 }
             }
             .navigationBarTitle("SettingsTitle")

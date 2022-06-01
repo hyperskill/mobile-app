@@ -65,6 +65,7 @@
 		2C9B66C427ECA73700569645 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9B66C327ECA73700569645 /* AppDelegate.swift */; };
 		2C9CC1BD280920B5006604D7 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9CC1BC280920B5006604D7 /* KeyboardManager.swift */; };
 		2C9CC1BF28092E06006604D7 /* AuthAdaptiveContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9CC1BE28092E06006604D7 /* AuthAdaptiveContentView.swift */; };
+		2C9ECBA3284736090015CFD2 /* StepViewDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9ECBA2284736090015CFD2 /* StepViewDataMapper.swift */; };
 		2CA8E093281039EB00154088 /* OutlineButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA8E090281039EB00154088 /* OutlineButtonStyle.swift */; };
 		2CA8E094281039EB00154088 /* RoundedRectangleButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA8E091281039EB00154088 /* RoundedRectangleButtonStyle.swift */; };
 		2CA8E095281039EB00154088 /* BounceButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA8E092281039EB00154088 /* BounceButtonStyle.swift */; };
@@ -188,6 +189,7 @@
 		2C9B66C327ECA73700569645 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C9CC1BC280920B5006604D7 /* KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
 		2C9CC1BE28092E06006604D7 /* AuthAdaptiveContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAdaptiveContentView.swift; sourceTree = "<group>"; };
+		2C9ECBA2284736090015CFD2 /* StepViewDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepViewDataMapper.swift; sourceTree = "<group>"; };
 		2CA8E090281039EB00154088 /* OutlineButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutlineButtonStyle.swift; sourceTree = "<group>"; };
 		2CA8E091281039EB00154088 /* RoundedRectangleButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedRectangleButtonStyle.swift; sourceTree = "<group>"; };
 		2CA8E092281039EB00154088 /* BounceButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BounceButtonStyle.swift; sourceTree = "<group>"; };
@@ -590,6 +592,15 @@
 			path = UIKit;
 			sourceTree = "<group>";
 		};
+		2C9ECBA1284735F80015CFD2 /* ViewData */ = {
+			isa = PBXGroup;
+			children = (
+				2CAE8D0B2805829A00E6C83D /* StepViewData.swift */,
+				2C9ECBA2284736090015CFD2 /* StepViewDataMapper.swift */,
+			);
+			path = ViewData;
+			sourceTree = "<group>";
+		};
 		2CA8E08E281039EB00154088 /* Styles */ = {
 			isa = PBXGroup;
 			children = (
@@ -612,8 +623,8 @@
 			isa = PBXGroup;
 			children = (
 				2CAE8CF3280525D400E6C83D /* StepAssembly.swift */,
-				2CAE8D0B2805829A00E6C83D /* StepViewData.swift */,
 				2CAE8CEF280525BE00E6C83D /* StepViewModel.swift */,
+				2C9ECBA1284735F80015CFD2 /* ViewData */,
 				2CAE8CF5280525DB00E6C83D /* Views */,
 			);
 			path = Step;
@@ -1085,6 +1096,7 @@
 				E9B3A18C2828093800FE248B /* StepQuizActionButton.swift in Sources */,
 				2C725B632809198000A49043 /* BackgroundView.swift in Sources */,
 				2CF43414281281DB002893CD /* AuthTextField.swift in Sources */,
+				2C9ECBA3284736090015CFD2 /* StepViewDataMapper.swift in Sources */,
 				2CAE8CF2280525C900E6C83D /* StepView.swift in Sources */,
 				2C9CC1BD280920B5006604D7 /* KeyboardManager.swift in Sources */,
 				2C32375328380C340062CAF6 /* NavigationToolbarInfoItem.swift in Sources */,

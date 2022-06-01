@@ -19,7 +19,7 @@ struct StepView: View {
             case is StepFeatureStateError:
                 Text("Error")
             case let data as StepFeatureStateData:
-                StepContentView(viewData: data.step.viewData)
+                StepContentView(viewData: viewModel.makeViewData(data.step))
                     .navigationTitle(data.step.title)
             default:
                 Text("Unkwown state")

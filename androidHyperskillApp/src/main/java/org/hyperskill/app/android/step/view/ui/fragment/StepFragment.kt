@@ -27,7 +27,6 @@ import org.hyperskill.app.step.view.mapper.CommentThreadTitleMapper
 import ru.nobird.android.ui.adapterdelegates.dsl.adapterDelegate
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.app.presentation.redux.container.ReduxView
-import javax.inject.Inject
 import kotlin.math.abs
 
 class StepFragment :
@@ -38,11 +37,9 @@ class StepFragment :
             StepFragment()
     }
 
-    @Inject
-    internal lateinit var resourceProvider: ResourceProvider
+    private lateinit var resourceProvider: ResourceProvider
 
-    @Inject
-    internal lateinit var commentThreadTitleMapper: CommentThreadTitleMapper
+    private lateinit var commentThreadTitleMapper: CommentThreadTitleMapper
 
     private val viewBinding: FragmentStepTheoryBinding by viewBinding(FragmentStepTheoryBinding::bind)
     private val stepTheoryRatingAdapter: DefaultDelegateAdapter<StepTheoryRating> = DefaultDelegateAdapter()
@@ -69,11 +66,11 @@ class StepFragment :
     }
 
     private fun injectComponent() {
-        HyperskillApp
-            .component()
-            .stepComponentBuilder()
-            .build()
-            .inject(this)
+        val stepComponent = HyperskillApp.graph().buildStepComponent()
+        val platformStepComponent = HyperskillApp.graph().buildPlatformStepComponent(stepComponent)
+        resourceProvider = HyperskillApp.graph().commonComponent.resourceProvider
+        commentThreadTitleMapper = stepComponent.commentThreadTitleMapper
+        // TODO Setup ViewModelFactory
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
