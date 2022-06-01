@@ -4,7 +4,7 @@ import shared
 struct StepQuizSortingViewData {
     var items: [Option]
 
-    struct Option {
+    struct Option: Hashable {
         var id: Int
         var text: String
     }

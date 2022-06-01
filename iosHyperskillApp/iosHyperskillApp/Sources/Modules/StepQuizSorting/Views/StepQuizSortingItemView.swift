@@ -9,9 +9,9 @@ struct StepQuizSortingItemView: View {
 
     var maxPosition: Int
 
-    var moveUp: (Int) -> Void
+    var moveUp: () -> Void
 
-    var moveDown: (Int) -> Void
+    var moveDown: () -> Void
 
     var body: some View {
         HStack {
@@ -21,29 +21,23 @@ struct StepQuizSortingItemView: View {
 
 
             Spacer()
-            VStack {
+            VStack(spacing: 16) {
                 StepQuizSortingIcon(
-                    disabled: position == minPosition,
-                    onClick: { moveUp(position) }
+                    direction: .upward,
+                    onClick: moveUp
                 )
-                    .rotationEffect(.degrees(90))
+                    .disabled(position == minPosition)
 
-
-                Spacer()
 
                 StepQuizSortingIcon(
-                    disabled: position == maxPosition,
-                    onClick: { moveDown(position) }
+                    direction: .down,
+                    onClick: moveDown
                 )
-                    .rotationEffect(.degrees(-90))
+                    .disabled(position == maxPosition)
             }
         }
-        .frame(height: 92)
         .padding()
-        .overlay(
-            RoundedRectangle(cornerRadius: 6)
-                .stroke(Color(ColorPalette.onSurfaceAlpha12))
-        )
+        .addBorder(color: Color(ColorPalette.onSurfaceAlpha12), cornerRadius: 6)
     }
 }
 
@@ -55,33 +49,31 @@ struct StepQuizSortingItemView_Previews: PreviewProvider {
 
         let middleItem = items[1]
 
-        let lastItem = items[items.capacity - 1]
-
-        let lambda: (Int) -> Void = { _ in }
+        let lastItem = items[items.count - 1]
 
         return Group {
             StepQuizSortingItemView(
                 text: firstItem.text,
                 position: 0,
-                maxPosition: items.capacity - 1,
-                moveUp: lambda,
-                moveDown: lambda
+                maxPosition: items.count - 1,
+                moveUp: {},
+                moveDown: {}
             )
 
             StepQuizSortingItemView(
                 text: middleItem.text,
                 position: 1,
-                maxPosition: items.capacity - 1,
-                moveUp: lambda,
-                moveDown: lambda
+                maxPosition: items.count - 1,
+                moveUp: {},
+                moveDown: {}
             )
 
             StepQuizSortingItemView(
                 text: lastItem.text,
-                position: items.capacity - 1,
-                maxPosition: items.capacity - 1,
-                moveUp: lambda,
-                moveDown: lambda
+                position: items.count - 1,
+                maxPosition: items.count - 1,
+                moveUp: {},
+                moveDown: {}
             )
         }
         .previewLayout(.sizeThatFits)

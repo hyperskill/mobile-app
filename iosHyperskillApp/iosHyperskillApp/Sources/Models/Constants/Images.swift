@@ -50,4 +50,11 @@ enum Images {
     enum Placeholder {
         static let networkError = "placeholder-network-error"
     }
+
+    // MARK: - StepSorting -
+
+    enum StepSorting {
+        static let chevronUp = "chevron.up"
+        static let chevronDown = "chevron.down"
+    }
 }

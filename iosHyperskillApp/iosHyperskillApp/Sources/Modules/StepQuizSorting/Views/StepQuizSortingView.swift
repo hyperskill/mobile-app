@@ -5,20 +5,28 @@ struct StepQuizSortingView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
-            ForEach(viewData.items.indices, id: \.self) { i in
+            ForEach(Array(viewData.items.enumerated()), id: \.element) { index, item in
                 StepQuizSortingItemView(
-                    text: viewData.items[i].text,
-                    position: i,
-                    maxPosition: viewData.items.capacity - 1,
-                    moveUp: moveUp,
-                    moveDown: moveDown
+                    text: item.text,
+                    position: index,
+                    maxPosition: viewData.items.count - 1,
+                    moveUp: {
+                        withAnimation {
+                            moveUp(position: index)
+                        }
+                    },
+                    moveDown: {
+                        withAnimation {
+                            moveDown(position: index)
+                        }
+                    }
                 )
             }
         }
     }
 
     private func moveUp(position: Int) {
-        if position == 0 {
+        guard position > 0 else {
             return
         }
         let tmp = viewData.items[position - 1]
@@ -27,7 +35,7 @@ struct StepQuizSortingView: View {
     }
 
     private func moveDown(position: Int) {
-        if position == viewData.items.capacity - 1 {
+        guard position < viewData.items.count - 1 else {
             return
         }
         let tmp = viewData.items[position + 1]
