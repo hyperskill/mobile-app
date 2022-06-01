@@ -3,37 +3,28 @@ import SwiftUI
 struct StepQuizSortingItemView: View {
     var text: String
 
-    var position: Int
+    var isMoveUpEnabled: Bool
 
-    var minPosition: Int = 0
+    var isMoveDownEnabled: Bool
 
-    var maxPosition: Int
+    var onMoveUp: () -> Void
 
-    var moveUp: () -> Void
-
-    var moveDown: () -> Void
+    var onMoveDown: () -> Void
 
     var body: some View {
-        HStack {
+        HStack(spacing: LayoutInsets.smallInset) {
             Text(text)
                 .font(.body)
                 .foregroundColor(.primaryText)
+                .multilineTextAlignment(.leading)
+                .frame(maxWidth: .infinity, alignment: .leading)
 
+            VStack(spacing: LayoutInsets.defaultInset) {
+                StepQuizSortingIcon(direction: .up, onTap: onMoveUp)
+                    .disabled(!isMoveUpEnabled)
 
-            Spacer()
-            VStack(spacing: 16) {
-                StepQuizSortingIcon(
-                    direction: .upward,
-                    onClick: moveUp
-                )
-                    .disabled(position == minPosition)
-
-
-                StepQuizSortingIcon(
-                    direction: .down,
-                    onClick: moveDown
-                )
-                    .disabled(position == maxPosition)
+                StepQuizSortingIcon(direction: .down, onTap: onMoveDown)
+                    .disabled(!isMoveDownEnabled)
             }
         }
         .padding()
@@ -54,26 +45,26 @@ struct StepQuizSortingItemView_Previews: PreviewProvider {
         return Group {
             StepQuizSortingItemView(
                 text: firstItem.text,
-                position: 0,
-                maxPosition: items.count - 1,
-                moveUp: {},
-                moveDown: {}
+                isMoveUpEnabled: false,
+                isMoveDownEnabled: true,
+                onMoveUp: {},
+                onMoveDown: {}
             )
 
             StepQuizSortingItemView(
                 text: middleItem.text,
-                position: 1,
-                maxPosition: items.count - 1,
-                moveUp: {},
-                moveDown: {}
+                isMoveUpEnabled: true,
+                isMoveDownEnabled: true,
+                onMoveUp: {},
+                onMoveDown: {}
             )
 
             StepQuizSortingItemView(
                 text: lastItem.text,
-                position: items.count - 1,
-                maxPosition: items.count - 1,
-                moveUp: {},
-                moveDown: {}
+                isMoveUpEnabled: true,
+                isMoveDownEnabled: false,
+                onMoveUp: {},
+                onMoveDown: {}
             )
         }
         .previewLayout(.sizeThatFits)

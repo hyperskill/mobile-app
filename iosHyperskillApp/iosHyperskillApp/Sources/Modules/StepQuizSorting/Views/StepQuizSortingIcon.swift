@@ -3,36 +3,31 @@ import SwiftUI
 struct StepQuizSortingIcon: View {
     @Environment(\.isEnabled) private var isEnabled
 
-    var direction: SortingDirection
+    var direction: Direction
 
-    var onClick: () -> Void
+    var onTap: () -> Void
 
     var body: some View {
-        Button(
-            action: onClick,
-            label: {
-                Image(systemName: direction.image)
-                    .imageScale(.large)
-                    .frame(widthHeight: 24)
-                    .foregroundColor(
-                        Color(isEnabled ? ColorPalette.onSurfaceAlpha38 : ColorPalette.onSurfaceAlpha12)
-                    )
-            }
-        )
-        .disabled(!isEnabled)
+        Button(action: onTap) {
+            Image(systemName: direction.systemImageName)
+                .imageScale(.large)
+                .frame(widthHeight: 24)
+                .foregroundColor(Color(isEnabled ? ColorPalette.onSurfaceAlpha38 : ColorPalette.onSurfaceAlpha12))
+        }
     }
-}
 
-enum SortingDirection {
-    case upward
-    case down
+    enum Direction {
+        // swiftlint:disable:next identifier_name
+        case up
+        case down
 
-    var image: String {
-        switch self {
-        case .upward:
-            return Images.StepSorting.chevronUp
-        case .down:
-            return Images.StepSorting.chevronDown
+        fileprivate var systemImageName: String {
+            switch self {
+            case .up:
+                return Images.SystemSymbol.Chevron.up
+            case .down:
+                return Images.SystemSymbol.Chevron.down
+            }
         }
     }
 }
@@ -40,10 +35,10 @@ enum SortingDirection {
 struct StepQuizSortingIcon_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            StepQuizSortingIcon(direction: .upward, onClick: {}).disabled(false)
-            StepQuizSortingIcon(direction: .upward, onClick: {}).disabled(true)
-            StepQuizSortingIcon(direction: .down, onClick: {}).disabled(false)
-            StepQuizSortingIcon(direction: .down, onClick: {}).disabled(true)
+            StepQuizSortingIcon(direction: .up, onTap: {}).disabled(false)
+            StepQuizSortingIcon(direction: .up, onTap: {}).disabled(true)
+            StepQuizSortingIcon(direction: .down, onTap: {}).disabled(false)
+            StepQuizSortingIcon(direction: .down, onTap: {}).disabled(true)
         }
         .previewLayout(.sizeThatFits)
         .padding()

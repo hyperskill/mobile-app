@@ -25,6 +25,7 @@
 		2C1F5888280D5D6200372A37 /* SocialAuthSDKProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F5887280D5D6200372A37 /* SocialAuthSDKProvider.swift */; };
 		2C1F588B280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F588A280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift */; };
 		2C225E48281A5B6800E8ABD2 /* SourcelessRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C225E47281A5B6800E8ABD2 /* SourcelessRouter.swift */; };
+		2C2452492847C27C00226702 /* Images+SystemNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2452482847C27C00226702 /* Images+SystemNames.swift */; };
 		2C2D492E281151E100753F16 /* AuthCredentialsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2D492D281151E100753F16 /* AuthCredentialsAssembly.swift */; };
 		2C2D4930281151EB00753F16 /* AuthCredentialsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2D492F281151EB00753F16 /* AuthCredentialsViewModel.swift */; };
 		2C2D4932281154CB00753F16 /* Injection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2D4931281154CB00753F16 /* Injection.swift */; };
@@ -151,6 +152,7 @@
 		2C1F5887280D5D6200372A37 /* SocialAuthSDKProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialAuthSDKProvider.swift; sourceTree = "<group>"; };
 		2C1F588A280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSocialAuthSDKProvider.swift; sourceTree = "<group>"; };
 		2C225E47281A5B6800E8ABD2 /* SourcelessRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourcelessRouter.swift; sourceTree = "<group>"; };
+		2C2452482847C27C00226702 /* Images+SystemNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Images+SystemNames.swift"; sourceTree = "<group>"; };
 		2C2D492D281151E100753F16 /* AuthCredentialsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsAssembly.swift; sourceTree = "<group>"; };
 		2C2D492F281151EB00753F16 /* AuthCredentialsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsViewModel.swift; sourceTree = "<group>"; };
 		2C2D4931281154CB00753F16 /* Injection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Injection.swift; sourceTree = "<group>"; };
@@ -322,7 +324,6 @@
 		2C1DEE2D27EC40200001A567 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				E993E9A728426FD5005988EC /* StepQuizSorting */,
 				2CE31F4927F1E058008EEE66 /* App */,
 				2C725B6428091ACF00A49043 /* AuthCredentials */,
 				2C005DD027EF5C4800DC6503 /* AuthSocial */,
@@ -331,6 +332,7 @@
 				2CAE8CEE280525A100E6C83D /* Step */,
 				2C41127428376DE3004948A3 /* StepQuiz */,
 				E9802D03281BB5A500CF3AC1 /* StepQuizChoice */,
+				E993E9A728426FD5005988EC /* StepQuizSorting */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -413,6 +415,15 @@
 				2C1F5887280D5D6200372A37 /* SocialAuthSDKProvider.swift */,
 			);
 			path = SDKs;
+			sourceTree = "<group>";
+		};
+		2C24524A2847C28100226702 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				2C32374C2837F7190062CAF6 /* Images.swift */,
+				2C2452482847C27C00226702 /* Images+SystemNames.swift */,
+			);
+			path = Images;
 			sourceTree = "<group>";
 		};
 		2C323750283808300062CAF6 /* View */ = {
@@ -730,9 +741,9 @@
 			children = (
 				2C1F5876280D2B4800372A37 /* ApplicationInfo.swift */,
 				2C005DCB27EF5B0300DC6503 /* GoogleServiceInfo.swift */,
-				2C32374C2837F7190062CAF6 /* Images.swift */,
 				2C2FD621281920B1004E7AF6 /* SentryInfo.swift */,
 				2C42EFAC27F2C29500B4648B /* Strings.swift */,
+				2C24524A2847C28100226702 /* Images */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -834,8 +845,8 @@
 		E993E9A728426FD5005988EC /* StepQuizSorting */ = {
 			isa = PBXGroup;
 			children = (
-				E993E9AA2842762C005988EC /* Views */,
 				E993E9A828426FF2005988EC /* StepQuizSortingViewData.swift */,
+				E993E9AA2842762C005988EC /* Views */,
 			);
 			path = StepQuizSorting;
 			sourceTree = "<group>";
@@ -843,9 +854,9 @@
 		E993E9AA2842762C005988EC /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E900D10028434D0400A77BBC /* StepQuizSortingView.swift */,
-				E900D10228434E0D00A77BBC /* StepQuizSortingItemView.swift */,
 				E900D1042843573A00A77BBC /* StepQuizSortingIcon.swift */,
+				E900D10228434E0D00A77BBC /* StepQuizSortingItemView.swift */,
+				E900D10028434D0400A77BBC /* StepQuizSortingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1027,6 +1038,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C2452492847C27C00226702 /* Images+SystemNames.swift in Sources */,
 				2CAFD39127FC5D5D00F88B0B /* Color+DesignSystem.swift in Sources */,
 				2CF4341228126C79002893CD /* View+EndEditing.swift in Sources */,
 				E910171728329808002E70F5 /* StepQuizChoiceElementView.swift in Sources */,

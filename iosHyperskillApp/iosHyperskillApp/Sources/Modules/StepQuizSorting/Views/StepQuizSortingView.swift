@@ -4,20 +4,20 @@ struct StepQuizSortingView: View {
     @State var viewData: StepQuizSortingViewData
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
+        VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
             ForEach(Array(viewData.items.enumerated()), id: \.element) { index, item in
                 StepQuizSortingItemView(
                     text: item.text,
-                    position: index,
-                    maxPosition: viewData.items.count - 1,
-                    moveUp: {
+                    isMoveUpEnabled: index > 0,
+                    isMoveDownEnabled: index < viewData.items.count - 1,
+                    onMoveUp: {
                         withAnimation {
-                            moveUp(position: index)
+                            doMoveUp(from: index)
                         }
                     },
-                    moveDown: {
+                    onMoveDown: {
                         withAnimation {
-                            moveDown(position: index)
+                            doMoveDown(from: index)
                         }
                     }
                 )
@@ -25,22 +25,16 @@ struct StepQuizSortingView: View {
         }
     }
 
-    private func moveUp(position: Int) {
-        guard position > 0 else {
-            return
-        }
-        let tmp = viewData.items[position - 1]
-        viewData.items[position - 1] = viewData.items[position]
-        viewData.items[position] = tmp
+    private func doMoveUp(from index: Int) {
+        let tmp = viewData.items[index - 1]
+        viewData.items[index - 1] = viewData.items[index]
+        viewData.items[index] = tmp
     }
 
-    private func moveDown(position: Int) {
-        guard position < viewData.items.count - 1 else {
-            return
-        }
-        let tmp = viewData.items[position + 1]
-        viewData.items[position + 1] = viewData.items[position]
-        viewData.items[position] = tmp
+    private func doMoveDown(from index: Int) {
+        let tmp = viewData.items[index + 1]
+        viewData.items[index + 1] = viewData.items[index]
+        viewData.items[index] = tmp
     }
 }
 
@@ -48,6 +42,7 @@ struct StepQuizSortingView: View {
 struct StepQuizSortingView_Previews: PreviewProvider {
     static var previews: some View {
         StepQuizSortingView(viewData: StepQuizSortingViewData.makePlaceholder())
+            .padding()
     }
 }
 #endif
