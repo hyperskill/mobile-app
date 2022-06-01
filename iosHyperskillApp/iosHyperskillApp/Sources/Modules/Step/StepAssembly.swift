@@ -9,8 +9,8 @@ final class StepAssembly: Assembly {
     }
 
     func makeModule() -> StepView {
-        let commonComponent = AppGraphBridge.shared.commonComponent
-        let stepComponent = AppGraphBridge.shared.buildStepComponent()
+        let commonComponent = AppGraphBridge.sharedAppGraph.commonComponent
+        let stepComponent = AppGraphBridge.sharedAppGraph.buildStepComponent()
 
         let viewModel = StepViewModel(
             stepID: self.stepID,

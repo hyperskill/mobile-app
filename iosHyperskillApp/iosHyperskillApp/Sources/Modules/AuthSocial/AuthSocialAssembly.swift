@@ -9,7 +9,7 @@ final class AuthSocialAssembly: Assembly {
     }
 
     func makeModule() -> AuthSocialView {
-        let authSocialComponent = AppGraphBridge.shared.buildAuthSocialComponent()
+        let authSocialComponent = AppGraphBridge.sharedAppGraph.buildAuthSocialComponent()
 
         let viewModel = AuthSocialViewModel(
             socialAuthService: SocialAuthService.shared,

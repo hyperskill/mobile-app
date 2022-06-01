@@ -11,7 +11,7 @@ struct SettingsView: View {
                     Text(authResponse ?? "N/A")
                 }
                 .onAppear {
-                    authResponse = AppGraphBridge.shared.commonComponent.settings.getStringOrNull(
+                    authResponse = AppGraphBridge.sharedAppGraph.commonComponent.settings.getStringOrNull(
                         key: AuthCacheKeyValues.shared.AUTH_RESPONSE
                     )
                 }

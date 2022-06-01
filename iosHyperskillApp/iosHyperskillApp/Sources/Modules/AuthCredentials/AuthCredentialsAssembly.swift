@@ -9,7 +9,7 @@ final class AuthCredentialsAssembly: Assembly {
     }
 
     func makeModule() -> AuthCredentialsView {
-        let authCredentialsComponent = AppGraphBridge.shared.buildAuthCredentialsComponent()
+        let authCredentialsComponent = AppGraphBridge.sharedAppGraph.buildAuthCredentialsComponent()
 
         let viewModel = AuthCredentialsViewModel(
             authCredentialsErrorMapper: authCredentialsComponent.authCredentialsErrorMapper,
