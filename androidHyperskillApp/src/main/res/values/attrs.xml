@@ -13,4 +13,13 @@
     <attr name="selectableItemBackgroundRounded" format="reference" />
 
     <attr name="isNightMode" format="boolean" />
+
+    <declare-styleable name="LoadingView">
+        <attr name="radius" format="dimension"/>
+        <attr name="duration" format="integer"/>
+        <attr name="interval" format="integer"/>
+        <attr name="baseColor" format="reference|color"/>
+        <attr name="deepColor" format="reference|color"/>
+        <attr name="progressLength" format="dimension"/>
+    </declare-styleable>
 </resources>

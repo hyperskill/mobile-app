@@ -19,7 +19,7 @@ import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.BuildConfig
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.auth.presentation.AuthSocialViewModel
+import org.hyperskill.app.auth.presentation.AuthSocialViewModel
 import org.hyperskill.app.android.auth.view.ui.adapter.delegates.AuthSocialAdapterDelegate
 import org.hyperskill.app.android.auth.view.ui.model.AuthSocialCardInfo
 import org.hyperskill.app.android.databinding.FragmentAuthSocialBinding
@@ -38,7 +38,6 @@ import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
-import javax.inject.Inject
 
 class AuthSocialFragment :
     Fragment(R.layout.fragment_auth_social),
@@ -50,14 +49,11 @@ class AuthSocialFragment :
             AuthSocialFragment()
     }
 
-    @Inject
-    internal lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var resourceProvider: ResourceProvider
 
-    @Inject
-    internal lateinit var resourceProvider: ResourceProvider
+    private lateinit var authSocialErrorMapper: AuthSocialErrorMapper
 
-    @Inject
-    internal lateinit var authSocialErrorMapper: AuthSocialErrorMapper
+    private lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val authSocialViewModel: AuthSocialViewModel by reduxViewModel(this) { viewModelFactory }
 
@@ -87,11 +83,11 @@ class AuthSocialFragment :
     }
 
     private fun injectComponent() {
-        HyperskillApp
-            .component()
-            .authSocialComponentBuilder()
-            .build()
-            .inject(this)
+        val authSocialComponent = HyperskillApp.graph().buildAuthSocialComponent()
+        val platformSocialComponent = HyperskillApp.graph().buildPlatformAuthSocialComponent(authSocialComponent)
+        resourceProvider = HyperskillApp.graph().commonComponent.resourceProvider
+        authSocialErrorMapper = authSocialComponent.authSocialErrorMapper
+        viewModelFactory = platformSocialComponent.reduxViewModelFactory
     }
 
     private fun onSocialClickListener(social: AuthSocialCardInfo) {

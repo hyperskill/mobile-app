@@ -27,9 +27,6 @@ dependencies {
     implementation(libs.kit.view.redux)
     implementation(libs.kit.view.navigation)
 
-    implementation(libs.dagger)
-    kapt(libs.dagger.compiler)
-
     implementation(libs.bundles.ktor.common)
 
     implementation(libs.gms.services)
@@ -42,7 +39,6 @@ dependencies {
     ktlintRuleset(libs.ktlintRules)
 
     implementation(libs.multiplatform.settings)
-    implementation(libs.android.security)
 
     implementation(libs.material.progress.bar)
     implementation(libs.android.sentry)

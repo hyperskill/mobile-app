@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="@dimen/step_quiz_profile_arrow_width"
+    android:height="@dimen/step_quiz_profile_arrow_height"
+    android:viewportHeight="24"
+    android:viewportWidth="48">
+    <path
+        android:name="arrow_bottom"
+        android:pathData="M 4.06 2.513 L 22.547 21 C 23.365 21.816 24.692 21.816 25.508 21 L 43.995 2.513"
+        android:strokeColor="#000000"
+        android:strokeWidth="@integer/arrow_stroke"/>
+</vector>
