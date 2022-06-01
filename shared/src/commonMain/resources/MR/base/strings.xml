@@ -64,4 +64,7 @@
     <!-- Placeholder -->
     <string name="placeholder_network_error_title">Oops! It seems like the network error.</string>
     <string name="placeholder_network_error_button_text">Reload</string>
+
+    <!-- Step quiz sorting -->
+    <string name="step_quiz_sorting_title">Put the items in the correct order</string>
 </resources>
