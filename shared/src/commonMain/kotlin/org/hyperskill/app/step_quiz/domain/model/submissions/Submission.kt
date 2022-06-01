@@ -19,6 +19,6 @@ data class Submission(
     val reply: Reply? = null,
     @SerialName("attempt")
     val attempt: Long = 0,
-//    @SerialName("feedback") TODO ALTAPPS-88 feedback field value could be string or object
-//    val feedback: Feedback? = null
+    @SerialName("feedback")
+    val feedback: Feedback? = null
 )
