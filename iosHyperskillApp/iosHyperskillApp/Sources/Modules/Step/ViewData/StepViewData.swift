@@ -14,18 +14,6 @@ struct StepViewData {
     let commentsStatistics: [StepCommentStatisticViewData]
 }
 
-extension Step {
-    var viewData: StepViewData {
-        StepViewData(
-            title: self.title,
-            formattedType: self.type.capitalized,
-            formattedTimeToComplete: "3 minutes remaining",
-            text: self.block.text,
-            commentsStatistics: self.commentsStatistics.map(\.viewData)
-        )
-    }
-}
-
 #if DEBUG
 extension StepViewData {
     static var placeholder: StepViewData {
@@ -50,26 +38,6 @@ to read.
 struct StepCommentStatisticViewData: Identifiable {
     let id: String
     let title: String
-}
-
-extension StepCommentStatisticViewData {
-    init(commentStatisticsEntry: CommentStatisticsEntry) {
-        // TODO ALTAPPS-101 – Accessing static graph in view?
-        let stepComponent = AppGraphBridge.shared.buildStepComponent()
-        self.id = commentStatisticsEntry.thread.name
-        self.title = stepComponent
-                .commentThreadTitleMapper
-                .getFormattedStepCommentThreadStatistics(
-                        thread: commentStatisticsEntry.thread,
-                        count: commentStatisticsEntry.totalCount
-                )
-    }
-}
-
-extension CommentStatisticsEntry {
-    var viewData: StepCommentStatisticViewData {
-        StepCommentStatisticViewData(commentStatisticsEntry: self)
-    }
 }
 
 #if DEBUG
