@@ -27,5 +27,5 @@ data class Reply(
     @SerialName("solve_sql")
     val solveSql: String? = null,
 
-    var tableChoices: List<TableChoiceAnswer>? = null //this is not serialize by default, because  field 'choices' is already created by different type
+    var tableChoices: List<TableChoiceAnswer>? = null // this is not serialize by default, because  field 'choices' is already created by different type
 )

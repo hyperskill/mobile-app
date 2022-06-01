@@ -11,7 +11,7 @@ import org.hyperskill.app.step_quiz.domain.model.submissions.Feedback
 object FeedbackTextSerializer : KSerializer<Feedback.Text> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("Feedback.Text", PrimitiveKind.STRING)
 
-    override fun serialize(encoder: Encoder, value: Feedback.Text) =
+    override fun serialize(encoder: Encoder, value: Feedback.Text): Unit =
         encoder.encodeString(value.text)
 
     override fun deserialize(decoder: Decoder): Feedback.Text =
