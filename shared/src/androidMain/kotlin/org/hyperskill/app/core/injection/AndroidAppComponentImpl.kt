@@ -25,6 +25,8 @@ import org.hyperskill.app.step.injection.PlatformStepComponent
 import org.hyperskill.app.step.injection.PlatformStepComponentImpl
 import org.hyperskill.app.step.injection.StepComponentImpl
 import org.hyperskill.app.step.injection.StepComponent
+import org.hyperskill.app.step_quiz.injection.StepQuizComponent
+import org.hyperskill.app.step_quiz.injection.StepQuizComponentImpl
 
 class AndroidAppComponentImpl(
     private val application: Application,
@@ -77,4 +79,7 @@ class AndroidAppComponentImpl(
 
     override fun buildPlatformStepComponent(stepComponent: StepComponent): PlatformStepComponent =
         PlatformStepComponentImpl(stepComponent)
+
+    override fun buildStepQuizComponent(): StepQuizComponent =
+        StepQuizComponentImpl(this)
 }
