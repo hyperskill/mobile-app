@@ -5,14 +5,14 @@ struct StepQuizTableViewData {
     let columns: [Column]
     let isMultipleChoice: Bool
 
-    struct Row: Identifiable, Equatable {
+    struct Row: Identifiable {
         let text: String
         var answers: [Column]
 
         var id: Int { self.text.hashValue }
     }
 
-    struct Column: Identifiable, Equatable {
+    struct Column: Identifiable {
         let text: String
 
         var id: Int { self.text.hashValue }
