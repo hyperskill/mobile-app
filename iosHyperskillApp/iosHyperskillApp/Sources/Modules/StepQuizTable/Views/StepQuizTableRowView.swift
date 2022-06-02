@@ -26,7 +26,7 @@ struct StepQuizTableRowView: View {
                             .font(.body)
                             .foregroundColor(.primaryText)
 
-                        if let subtitle = subtitle {
+                        if let subtitle = subtitle, !subtitle.isEmpty {
                             Text(subtitle)
                                 .font(.subheadline)
                                 .foregroundColor(.secondaryText)
@@ -52,6 +52,8 @@ struct StepQuizTableRowView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             StepQuizTableRowView(title: "Variant A", subtitle: "Variant Option", onTap: {})
+
+            StepQuizTableRowView(title: "Variant A", subtitle: nil, onTap: {})
 
             StepQuizTableRowView(title: "Variant A", subtitle: "Variant Option", onTap: {})
                 .preferredColorScheme(.dark)
