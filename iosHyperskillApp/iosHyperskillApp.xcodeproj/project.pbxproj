@@ -53,6 +53,14 @@
 		2C84094F2805B28B009C6BE9 /* StepRatingControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C84094E2805B28B009C6BE9 /* StepRatingControl.swift */; };
 		2C8409532805BF3C009C6BE9 /* StepContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8409522805BF3C009C6BE9 /* StepContentView.swift */; };
 		2C863D932804279E0021EFED /* Require.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C863D922804279E0021EFED /* Require.swift */; };
+		2C8E4F96284895A30011ADFA /* PanModalPresentableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E4F95284895A30011ADFA /* PanModalPresentableViewController.swift */; };
+		2C8E4F982848961C0011ADFA /* UIViewController+PresentPanModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E4F972848961C0011ADFA /* UIViewController+PresentPanModal.swift */; };
+		2C8E4F9A284897360011ADFA /* PanModalSwiftUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E4F99284897360011ADFA /* PanModalSwiftUIViewController.swift */; };
+		2C8E4F9C2848A1550011ADFA /* PanModalViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E4F9B2848A1550011ADFA /* PanModalViewModifier.swift */; };
+		2C8E4FA12848BF1F0011ADFA /* StepQuizTableSelectColumnsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E4FA02848BF1F0011ADFA /* StepQuizTableSelectColumnsViewController.swift */; };
+		2C8E4FB12848C9050011ADFA /* StepQuizTableSelectColumnsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E4FB02848C9050011ADFA /* StepQuizTableSelectColumnsView.swift */; };
+		2C8E4FB42848CB980011ADFA /* StepQuizTableSelectColumnsColumnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E4FB32848CB980011ADFA /* StepQuizTableSelectColumnsColumnView.swift */; };
+		2C8E4FB628490C020011ADFA /* PanModalPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E4FB528490C020011ADFA /* PanModalPresenter.swift */; };
 		2C906CBE280E5D9C0079C594 /* ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C906CBD280E5D9C0079C594 /* ProgressHUD.swift */; };
 		2C919DE827EEEDD60022A2F2 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C919DE727EEEDD60022A2F2 /* LinkedList.swift */; };
 		2C919E3327EEF92F0022A2F2 /* LinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C919E3227EEF92F0022A2F2 /* LinkedListTests.swift */; };
@@ -92,6 +100,9 @@
 		2CF43410281268A1002893CD /* String+Whitespaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF4340F281268A1002893CD /* String+Whitespaces.swift */; };
 		2CF4341228126C79002893CD /* View+EndEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF4341128126C79002893CD /* View+EndEditing.swift */; };
 		2CF43414281281DB002893CD /* AuthTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF43413281281DB002893CD /* AuthTextField.swift */; };
+		2CF72AA32847757300E1C192 /* StepQuizTableViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF72AA22847757300E1C192 /* StepQuizTableViewData.swift */; };
+		2CF72AA5284775BF00E1C192 /* StepQuizTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF72AA4284775BF00E1C192 /* StepQuizTableView.swift */; };
+		2CF72AA828477E0600E1C192 /* StepQuizTableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF72AA728477E0600E1C192 /* StepQuizTableRowView.swift */; };
 		40D8E6EFE44EB7A6092C171B /* Pods_iosHyperskillApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C0F8A86D62CB915A1E49CAA /* Pods_iosHyperskillApp.framework */; };
 		E900D10128434D0400A77BBC /* StepQuizSortingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E900D10028434D0400A77BBC /* StepQuizSortingView.swift */; };
 		E900D10328434E0D00A77BBC /* StepQuizSortingItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E900D10228434E0D00A77BBC /* StepQuizSortingItemView.swift */; };
@@ -181,6 +192,14 @@
 		2C84094E2805B28B009C6BE9 /* StepRatingControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepRatingControl.swift; sourceTree = "<group>"; };
 		2C8409522805BF3C009C6BE9 /* StepContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepContentView.swift; sourceTree = "<group>"; };
 		2C863D922804279E0021EFED /* Require.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Require.swift; sourceTree = "<group>"; };
+		2C8E4F95284895A30011ADFA /* PanModalPresentableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanModalPresentableViewController.swift; sourceTree = "<group>"; };
+		2C8E4F972848961C0011ADFA /* UIViewController+PresentPanModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+PresentPanModal.swift"; sourceTree = "<group>"; };
+		2C8E4F99284897360011ADFA /* PanModalSwiftUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanModalSwiftUIViewController.swift; sourceTree = "<group>"; };
+		2C8E4F9B2848A1550011ADFA /* PanModalViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanModalViewModifier.swift; sourceTree = "<group>"; };
+		2C8E4FA02848BF1F0011ADFA /* StepQuizTableSelectColumnsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableSelectColumnsViewController.swift; sourceTree = "<group>"; };
+		2C8E4FB02848C9050011ADFA /* StepQuizTableSelectColumnsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableSelectColumnsView.swift; sourceTree = "<group>"; };
+		2C8E4FB32848CB980011ADFA /* StepQuizTableSelectColumnsColumnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableSelectColumnsColumnView.swift; sourceTree = "<group>"; };
+		2C8E4FB528490C020011ADFA /* PanModalPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanModalPresenter.swift; sourceTree = "<group>"; };
 		2C906CBD280E5D9C0079C594 /* ProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressHUD.swift; sourceTree = "<group>"; };
 		2C919DE727EEEDD60022A2F2 /* LinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
 		2C919DED27EEF5BC0022A2F2 /* iosHyperskillAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iosHyperskillAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -221,6 +240,9 @@
 		2CF4340F281268A1002893CD /* String+Whitespaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Whitespaces.swift"; sourceTree = "<group>"; };
 		2CF4341128126C79002893CD /* View+EndEditing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+EndEditing.swift"; sourceTree = "<group>"; };
 		2CF43413281281DB002893CD /* AuthTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTextField.swift; sourceTree = "<group>"; };
+		2CF72AA22847757300E1C192 /* StepQuizTableViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableViewData.swift; sourceTree = "<group>"; };
+		2CF72AA4284775BF00E1C192 /* StepQuizTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableView.swift; sourceTree = "<group>"; };
+		2CF72AA728477E0600E1C192 /* StepQuizTableRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableRowView.swift; sourceTree = "<group>"; };
 		2D7F5C51275BBB18DCE9ACE9 /* Pods-iosHyperskillApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosHyperskillApp.debug.xcconfig"; path = "Target Support Files/Pods-iosHyperskillApp/Pods-iosHyperskillApp.debug.xcconfig"; sourceTree = "<group>"; };
 		515FEBC2A5D8EFBA7FB80795 /* Pods-iosHyperskillApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosHyperskillApp.release.xcconfig"; path = "Target Support Files/Pods-iosHyperskillApp/Pods-iosHyperskillApp.release.xcconfig"; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* iosHyperskillApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosHyperskillApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -335,6 +357,8 @@
 				2C41127428376DE3004948A3 /* StepQuiz */,
 				E9802D03281BB5A500CF3AC1 /* StepQuizChoice */,
 				E993E9A728426FD5005988EC /* StepQuizSorting */,
+				2CF72AA12847755100E1C192 /* StepQuizTable */,
+				2C8E4F9D2848BE420011ADFA /* StepQuizTableSelectColumns */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -543,6 +567,36 @@
 				2C82BA312844B01D004C9013 /* PlaceholderView+Configurations.swift */,
 			);
 			path = PlaceholderView;
+			sourceTree = "<group>";
+		};
+		2C8E4F032848788D0011ADFA /* PanModal */ = {
+			isa = PBXGroup;
+			children = (
+				2C8E4F95284895A30011ADFA /* PanModalPresentableViewController.swift */,
+				2C8E4FB528490C020011ADFA /* PanModalPresenter.swift */,
+				2C8E4F99284897360011ADFA /* PanModalSwiftUIViewController.swift */,
+				2C8E4F9B2848A1550011ADFA /* PanModalViewModifier.swift */,
+				2C8E4F972848961C0011ADFA /* UIViewController+PresentPanModal.swift */,
+			);
+			path = PanModal;
+			sourceTree = "<group>";
+		};
+		2C8E4F9D2848BE420011ADFA /* StepQuizTableSelectColumns */ = {
+			isa = PBXGroup;
+			children = (
+				2C8E4FA02848BF1F0011ADFA /* StepQuizTableSelectColumnsViewController.swift */,
+				2C8E4FB22848CB6A0011ADFA /* Views */,
+			);
+			path = StepQuizTableSelectColumns;
+			sourceTree = "<group>";
+		};
+		2C8E4FB22848CB6A0011ADFA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2C8E4FB32848CB980011ADFA /* StepQuizTableSelectColumnsColumnView.swift */,
+				2C8E4FB02848C9050011ADFA /* StepQuizTableSelectColumnsView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		2C906CBC280E5C7D0079C594 /* Systems */ = {
@@ -764,6 +818,7 @@
 			children = (
 				2C919DE627EEEDC40022A2F2 /* Collections */,
 				2CF2DA4327EC7DBC0055426D /* Core */,
+				2C8E4F032848788D0011ADFA /* PanModal */,
 				2C1F5867280D061800372A37 /* WebController */,
 			);
 			path = Frameworks;
@@ -785,6 +840,24 @@
 				2CF4340F281268A1002893CD /* String+Whitespaces.swift */,
 			);
 			path = SwiftStdlib;
+			sourceTree = "<group>";
+		};
+		2CF72AA12847755100E1C192 /* StepQuizTable */ = {
+			isa = PBXGroup;
+			children = (
+				2CF72AA22847757300E1C192 /* StepQuizTableViewData.swift */,
+				2CF72AA6284775D100E1C192 /* Views */,
+			);
+			path = StepQuizTable;
+			sourceTree = "<group>";
+		};
+		2CF72AA6284775D100E1C192 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2CF72AA728477E0600E1C192 /* StepQuizTableRowView.swift */,
+				2CF72AA4284775BF00E1C192 /* StepQuizTableView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		69078482427C2E9AB934883B /* Pods */ = {
@@ -1072,12 +1145,15 @@
 				E99D4CED2826A37400B49D52 /* AppAppearance.swift in Sources */,
 				2C84094F2805B28B009C6BE9 /* StepRatingControl.swift in Sources */,
 				E9B2CF5D2822975400B2DC6F /* StepQuizStatsView.swift in Sources */,
+				2C8E4FB12848C9050011ADFA /* StepQuizTableSelectColumnsView.swift in Sources */,
 				2C005DCC27EF5B0300DC6503 /* GoogleServiceInfo.swift in Sources */,
+				2C8E4FB628490C020011ADFA /* PanModalPresenter.swift in Sources */,
 				E94D238D28057F440003273F /* AuthCredentialsView.swift in Sources */,
 				2CE31F4827F1BB79008EEE66 /* AuthSocialAssembly.swift in Sources */,
 				2CC4AAF1280DB513002276A0 /* WebOAuthService.swift in Sources */,
 				2CF43410281268A1002893CD /* String+Whitespaces.swift in Sources */,
 				2CF2DA3A27EC5B2D0055426D /* Assembly.swift in Sources */,
+				2C8E4FB42848CB980011ADFA /* StepQuizTableSelectColumnsColumnView.swift in Sources */,
 				2C863D932804279E0021EFED /* Require.swift in Sources */,
 				2C177EC32837B65500D841DB /* View+Frame.swift in Sources */,
 				2C2FD62428192123004E7AF6 /* BundlePropertyListDeserializer.swift in Sources */,
@@ -1095,11 +1171,14 @@
 				2C58DE292803D197002A2774 /* UIColor+DynamicColor.swift in Sources */,
 				2CAE8D092805789100E6C83D /* StepCommentsStatisticsView.swift in Sources */,
 				2C725B5E28090D1F00A49043 /* View+Border.swift in Sources */,
+				2C8E4F9C2848A1550011ADFA /* PanModalViewModifier.swift in Sources */,
+				2C8E4F9A284897360011ADFA /* PanModalSwiftUIViewController.swift in Sources */,
 				2CE31F4D27F1E0C8008EEE66 /* AppAssembly.swift in Sources */,
 				2CCF3B5A280050890075D12C /* DeviceInfo.swift in Sources */,
 				2C963BCA2812D3550036DD53 /* SettingsView.swift in Sources */,
 				2C963BCC2812D9330036DD53 /* SettingsAssembly.swift in Sources */,
 				2C58DE2B2803DEE2002A2774 /* VerticalCenteredScrollView.swift in Sources */,
+				2C8E4FA12848BF1F0011ADFA /* StepQuizTableSelectColumnsViewController.swift in Sources */,
 				2C1F5877280D2B4800372A37 /* ApplicationInfo.swift in Sources */,
 				2C2D4932281154CB00753F16 /* Injection.swift in Sources */,
 				E900D1052843573A00A77BBC /* StepQuizSortingIcon.swift in Sources */,
@@ -1119,10 +1198,12 @@
 				E96E80F627EF57BA00AA6683 /* AuthSocialViewModel.swift in Sources */,
 				2C1F5869280D063800372A37 /* WebViewController.swift in Sources */,
 				2CAE8D07280576C600E6C83D /* StepBottomControlsView.swift in Sources */,
+				2C8E4F96284895A30011ADFA /* PanModalPresentableViewController.swift in Sources */,
 				E9978886282FFC6E00ADD74A /* StepQuizChoiceViewData.swift in Sources */,
 				2C005DCE27EF5B4400DC6503 /* AppView.swift in Sources */,
 				2C9CC1BF28092E06006604D7 /* AuthAdaptiveContentView.swift in Sources */,
 				2C2FD61E28191EC0004E7AF6 /* SentryManager.swift in Sources */,
+				2C8E4F982848961C0011ADFA /* UIViewController+PresentPanModal.swift in Sources */,
 				2CA8E095281039EB00154088 /* BounceButtonStyle.swift in Sources */,
 				2CAE8D0C2805829A00E6C83D /* StepViewData.swift in Sources */,
 				2C1F587B280D2E5100372A37 /* URLExtensions.swift in Sources */,
@@ -1131,9 +1212,11 @@
 				E99D4CEF2826B91100B49D52 /* StepQuizStatusView.swift in Sources */,
 				2CAE8CF4280525D400E6C83D /* StepAssembly.swift in Sources */,
 				E9B2CF6D2822AE5F00B2DC6F /* StepQuizFeedbackView.swift in Sources */,
+				2CF72AA828477E0600E1C192 /* StepQuizTableRowView.swift in Sources */,
 				2C32374D2837F7190062CAF6 /* Images.swift in Sources */,
 				2C1F588B280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift in Sources */,
 				E9C8C5692822B897005A81EB /* StepQuizChoicesView.swift in Sources */,
+				2CF72AA32847757300E1C192 /* StepQuizTableViewData.swift in Sources */,
 				E93B3745283E527000968DF0 /* PlaceholderView.swift in Sources */,
 				E9B2CF5F2822979400B2DC6F /* StepQuizHintButton.swift in Sources */,
 				2C42EFB527F2EAB300B4648B /* GraphicsColor+UIColor.swift in Sources */,
@@ -1153,6 +1236,7 @@
 				E91017152832975C002E70F5 /* CheckboxButton.swift in Sources */,
 				2C42EFB727F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift in Sources */,
 				E99788882830061300ADD74A /* QuizStatus.swift in Sources */,
+				2CF72AA5284775BF00E1C192 /* StepQuizTableView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

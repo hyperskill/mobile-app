@@ -8,8 +8,11 @@ struct AppView: View {
 
     @Environment(\.colorScheme) private var colorScheme
 
-    init(viewModel: AppViewModel) {
+    @StateObject private var panModalPresenter: PanModalPresenter
+
+    init(viewModel: AppViewModel, panModalPresenter: PanModalPresenter) {
         self.viewModel = viewModel
+        self._panModalPresenter = StateObject(wrappedValue: panModalPresenter)
         self.viewModel.onViewAction = self.handleViewAction(_:)
     }
 
@@ -58,6 +61,7 @@ struct AppView: View {
                 AuthSocialAssembly(navigationState: navigationState)
                     .makeModule()
             }
+            .environmentObject(panModalPresenter)
         default:
             ProgressView()
         }

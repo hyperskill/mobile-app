@@ -14,20 +14,24 @@ PODS:
     - GTMSessionFetcher/Core (~> 1.5)
   - GTMSessionFetcher/Core (1.7.1)
   - IQKeyboardManagerSwift (6.5.9)
+  - PanModal (1.2.7)
   - Sentry (7.13.0):
     - Sentry/Core (= 7.13.0)
   - Sentry/Core (7.13.0)
   - shared (1.0)
   - SkeletonUI (1.0.7)
+  - SnapKit (5.6.0)
   - SVProgressHUD (2.2.5)
   - SwiftLint (0.47.0)
 
 DEPENDENCIES:
   - GoogleSignIn (= 6.1.0)
   - IQKeyboardManagerSwift (= 6.5.9)
+  - PanModal (from `https://github.com/ivan-magda/PanModal.git`, branch `remove-presenting-appearance-transitions`)
   - Sentry (= 7.13.0)
   - shared (from `../shared`)
   - SkeletonUI (= 1.0.7)
+  - SnapKit (= 5.6.0)
   - SVProgressHUD (= 2.2.5)
   - SwiftLint (= 0.47.0)
 
@@ -40,12 +44,21 @@ SPEC REPOS:
     - IQKeyboardManagerSwift
     - Sentry
     - SkeletonUI
+    - SnapKit
     - SVProgressHUD
     - SwiftLint
 
 EXTERNAL SOURCES:
+  PanModal:
+    :branch: remove-presenting-appearance-transitions
+    :git: https://github.com/ivan-magda/PanModal.git
   shared:
     :path: "../shared"
+
+CHECKOUT OPTIONS:
+  PanModal:
+    :commit: 32fc8b5868b0254a2025c9c01b24c0e4b3fe537d
+    :git: https://github.com/ivan-magda/PanModal.git
 
 SPEC CHECKSUMS:
   AppAuth: 80317d99ac7ff2801a2f18ff86b48cd315ed465d
@@ -53,12 +66,14 @@ SPEC CHECKSUMS:
   GTMAppAuth: 987526d41b07efb1bedda5e936fe0cb718a03113
   GTMSessionFetcher: 4577a4cc914a5a07c40a8a0ad0acc22080418c2d
   IQKeyboardManagerSwift: 6e839c575c4aa1078d58a596e41244e77abe918f
+  PanModal: 3e16ead1a907fb06f4df3f13492fd00149fa4974
   Sentry: c55b9f69091e58cc48adc3c25bbca908a480e08d
   shared: 57c23201ce62604481c21dfbabc812accac99edd
   SkeletonUI: 18fbcd8698480432852d7e30a65b8d5e138266f0
+  SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
 
-PODFILE CHECKSUM: 387ae80e4780ac04a690e99c1debbcfe447dd6d4
+PODFILE CHECKSUM: 10801ce14055ba9f24da77658d05da531e9dace1
 
 COCOAPODS: 1.11.3

@@ -61,6 +61,10 @@
     <!-- Step quiz sorting -->
     <string name="step_quiz_sorting_description">Sort a given list</string>
 
+    <!-- Step quiz table -->
+    <string name="step_quiz_table_single_choice_prompt">Choose from the table</string>
+    <string name="step_quiz_table_multiple_choice_prompt">Choose one or multiple options</string>
+
     <!-- Placeholder -->
     <string name="placeholder_network_error_title">Oops! It seems like the network error.</string>
     <string name="placeholder_network_error_button_text">Reload</string>

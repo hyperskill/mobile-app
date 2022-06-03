@@ -52,6 +52,13 @@ enum Strings {
         static let multipleChoiceTitle = sharedStrings.step_quiz_choice_multiple_choice_title.localized()
     }
 
+    // MARK: - StepQuizTable -
+
+    enum StepQuizTable {
+        static let singleChoicePrompt = sharedStrings.step_quiz_table_single_choice_prompt.localized()
+        static let multipleChoicePrompt = sharedStrings.step_quiz_table_multiple_choice_prompt.localized()
+    }
+
     // MARK: - Placeholder -
 
     enum Placeholder {

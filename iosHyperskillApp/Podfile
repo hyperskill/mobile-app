@@ -18,6 +18,8 @@ target 'iosHyperskillApp' do
   pod 'SVProgressHUD', '2.2.5'
   
   pod 'SkeletonUI', '1.0.7'
+  pod 'SnapKit', '5.6.0'
+  pod 'PanModal', :git => 'https://github.com/ivan-magda/PanModal.git', :branch => 'remove-presenting-appearance-transitions'
 end
 
 post_install do |installer|
