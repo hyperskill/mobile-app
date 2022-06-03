@@ -8,8 +8,10 @@ import org.hyperskill.app.step_quiz.data.source.SubmissionRemoteDataSource
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
 import org.hyperskill.app.step_quiz.domain.repository.AttemptRepository
 import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
+import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.remote.AttemptRemoteDataSourceImpl
 import org.hyperskill.app.step_quiz.remote.SubmissionRemoteDataSourceImpl
+import ru.nobird.app.presentation.redux.feature.Feature
 
 class StepQuizComponentImpl(private val appGraph: AppGraph) : StepQuizComponent {
     private val attemptRemoteDataSource: AttemptRemoteDataSource = AttemptRemoteDataSourceImpl(
@@ -25,4 +27,7 @@ class StepQuizComponentImpl(private val appGraph: AppGraph) : StepQuizComponent 
 
     override val stepQuizInteractor: StepQuizInteractor
         get() = StepQuizInteractor(attemptRepository, submissionRepository)
+
+    override val stepQuizFeature: Feature<StepQuizFeature.State, StepQuizFeature.Message, StepQuizFeature.Action>
+        get() = StepQuizFeatureBuilder.build(stepQuizInteractor)
 }
