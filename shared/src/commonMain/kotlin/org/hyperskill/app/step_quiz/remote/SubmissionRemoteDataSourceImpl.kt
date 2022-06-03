@@ -32,7 +32,7 @@ class SubmissionRemoteDataSourceImpl(
     override suspend fun getSubmissionsForAttempt(attemptId: Long): Result<List<Submission>> =
         kotlin.runCatching {
             httpClient
-                .get("/api/submisions") {
+                .get("/api/submissions") {
                     contentType(ContentType.Application.Json)
                     parameter("attempt", attemptId)
                 }.body<SubmissionResponse>().submissions
