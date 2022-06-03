@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct StepQuizSortingIcon: View {
+struct ChevronIcon: View {
     @Environment(\.isEnabled) private var isEnabled
 
     var direction: Direction
@@ -35,10 +35,10 @@ struct StepQuizSortingIcon: View {
 struct StepQuizSortingIcon_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            StepQuizSortingIcon(direction: .up, onTap: {}).disabled(false)
-            StepQuizSortingIcon(direction: .up, onTap: {}).disabled(true)
-            StepQuizSortingIcon(direction: .down, onTap: {}).disabled(false)
-            StepQuizSortingIcon(direction: .down, onTap: {}).disabled(true)
+            ChevronIcon(direction: .up, onTap: {}).disabled(false)
+            ChevronIcon(direction: .up, onTap: {}).disabled(true)
+            ChevronIcon(direction: .down, onTap: {}).disabled(false)
+            ChevronIcon(direction: .down, onTap: {}).disabled(true)
         }
         .previewLayout(.sizeThatFits)
         .padding()
