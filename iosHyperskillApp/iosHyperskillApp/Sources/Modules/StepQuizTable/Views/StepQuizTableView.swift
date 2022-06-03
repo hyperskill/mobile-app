@@ -47,6 +47,7 @@ struct StepQuizTableView: View {
 struct StepQuizTableView_Previews: PreviewProvider {
     static var previews: some View {
         StepQuizTableView(viewData: .singleChoicePlaceholder)
+            .environmentObject(PanModalPresenter(sourcelessRouter: SourcelessRouter()))
             .previewLayout(.sizeThatFits)
     }
 }
