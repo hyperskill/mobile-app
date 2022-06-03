@@ -20,6 +20,8 @@ interface SubmissionRepository {
         getSubmissionsForStep(stepId, userId, page)
             .map { list -> list.filter { it.attempt == attemptId } }
 
+    suspend fun getSubmissionsForAttempt(attemptId: Long): Result<List<Submission>>
+
     suspend fun getSubmissions(submissionsIds: List<Long>): Result<List<Submission>>
 
     suspend fun createSubmission(
