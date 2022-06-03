@@ -13,6 +13,8 @@ import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.network.injection.NetworkComponentImpl
 import org.hyperskill.app.step.injection.StepComponentImpl
 import org.hyperskill.app.step.injection.StepComponent
+import org.hyperskill.app.step_quiz.injection.StepQuizComponent
+import org.hyperskill.app.step_quiz.injection.StepQuizComponentImpl
 
 class AppGraphImpl(
     userAgentInfo: UserAgentInfo
@@ -37,4 +39,7 @@ class AppGraphImpl(
 
     override fun buildStepComponent(): StepComponent =
         StepComponentImpl(this)
+
+    override fun buildStepQuizComponent(): StepQuizComponent =
+        StepQuizComponentImpl(this)
 }

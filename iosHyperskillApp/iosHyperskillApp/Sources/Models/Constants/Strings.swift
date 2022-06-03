@@ -65,4 +65,10 @@ enum Strings {
         static let networkErrorTitle = sharedStrings.placeholder_network_error_title.localized()
         static let networkErrorButtonText = sharedStrings.placeholder_network_error_button_text.localized()
     }
+
+    // MARK: - StepQuizSorting -
+
+    enum StepQuizSorting {
+        static let title = sharedStrings.step_quiz_sorting_title.localized()
+    }
 }
