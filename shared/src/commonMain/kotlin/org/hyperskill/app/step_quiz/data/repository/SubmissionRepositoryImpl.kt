@@ -19,9 +19,6 @@ class SubmissionRepositoryImpl(
     override suspend fun getSubmissions(submissionsIds: List<Long>): Result<List<Submission>> =
         submissionRemoteDataSource.getSubmissions(submissionsIds)
 
-    override suspend fun getSubmissionsForAttempt(attemptId: Long): Result<List<Submission>> =
-        submissionRemoteDataSource.getSubmissionsForAttempt(attemptId)
-
     override suspend fun createSubmission(
         attemptId: Long,
         reply: Reply,

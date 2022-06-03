@@ -15,13 +15,12 @@ class StepQuizActionDispatcher(
             is Action.FetchAttempt -> {
                 // TODO ALTAPPS-102 Will get user id inside interactor
                 val message = stepQuizInteractor
-                    .getAttempt(action.step.id, userId = 234547455)
+                    .getAttempt(action.step.id, userId = 0)
                     .fold(
                         onSuccess = { attempt ->
-                            val message = getSubmissionState(attempt.id, action.step.id, userId = 234547455).fold(
+                            val message = getSubmissionState(attempt.id, action.step.id, userId = 0).fold(
                                 onSuccess = { Message.FetchAttemptSuccess(attempt, it) },
                                 onFailure = {
-                                    println("ALTAPPS – Error – $it")
                                     Message.FetchAttemptError
                                 }
                             )
@@ -68,7 +67,6 @@ class StepQuizActionDispatcher(
         stepQuizInteractor
             .getSubmission(attemptId, stepId, userId)
             .map { submission ->
-                println("ALTAPPS – Here we go")
                 if (submission == null) {
                     StepQuizFeature.SubmissionState.Empty()
                 } else {

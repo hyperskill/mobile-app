@@ -35,11 +35,6 @@ class StepQuizInteractor(
             .getSubmissionsForAttempt(attemptId, stepId, userId)
             .map { it.firstOrNull() }
 
-    suspend fun getSubmissionForAttempt(attemptId: Long): Result<Submission?> =
-        submissionRepository
-            .getSubmissionsForAttempt(attemptId)
-            .map { it.firstOrNull() }
-
     suspend fun createSubmission(
         attemptId: Long,
         reply: Reply,
