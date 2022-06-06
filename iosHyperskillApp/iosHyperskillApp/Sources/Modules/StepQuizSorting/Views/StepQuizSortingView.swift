@@ -8,16 +8,18 @@ struct StepQuizSortingView: View {
             ForEach(Array(viewData.items.enumerated()), id: \.element) { index, item in
                 StepQuizSortingItemView(
                     text: item.text,
-                    onMoveUp: index > 0 ? {
+                    isMoveUpEnabled: index > 0,
+                    isMoveDownEnabled: index < viewData.items.count - 1,
+                    onMoveUp: {
                         withAnimation {
                             doMoveUp(from: index)
                         }
-                    } : nil,
-                    onMoveDown: index < viewData.items.count - 1 ? {
+                    },
+                    onMoveDown: {
                         withAnimation {
                             doMoveDown(from: index)
                         }
-                    } : nil
+                    }
                 )
             }
         }

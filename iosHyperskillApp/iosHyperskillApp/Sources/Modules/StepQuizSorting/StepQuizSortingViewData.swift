@@ -12,7 +12,7 @@ struct StepQuizSortingViewData {
 
 #if DEBUG
 extension StepQuizSortingViewData {
-    static func makePlaceholder() -> StepQuizSortingViewData {
+    static func makePlaceholder(quizStatus: QuizStatus? = nil) -> StepQuizSortingViewData {
         StepQuizSortingViewData(
             items: [
                 Option(id: 0, text: "char[] characters = new char[0];"),

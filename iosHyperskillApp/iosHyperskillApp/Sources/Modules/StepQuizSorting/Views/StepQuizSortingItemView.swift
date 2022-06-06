@@ -3,18 +3,32 @@ import SwiftUI
 struct StepQuizSortingItemView: View {
     var text: String
 
-    var onMoveUp: (() -> Void)?
+    var isMoveUpEnabled: Bool
 
-    var onMoveDown: (() -> Void)?
+    var isMoveDownEnabled: Bool
+
+    var onMoveUp: () -> Void
+
+    var onMoveDown: () -> Void
 
     var body: some View {
-        ItemWithChevrons(onMoveUp: onMoveUp, onMoveDown: onMoveDown, content: {
+        HStack(spacing: LayoutInsets.smallInset) {
             Text(text)
                 .font(.body)
                 .foregroundColor(.primaryText)
                 .multilineTextAlignment(.leading)
                 .frame(maxWidth: .infinity, alignment: .leading)
-        })
+
+            VStack(spacing: LayoutInsets.defaultInset) {
+                StepQuizSortingIcon(direction: .up, onTap: onMoveUp)
+                    .disabled(!isMoveUpEnabled)
+
+                StepQuizSortingIcon(direction: .down, onTap: onMoveDown)
+                    .disabled(!isMoveDownEnabled)
+            }
+        }
+        .padding()
+        .addBorder(color: Color(ColorPalette.onSurfaceAlpha12), cornerRadius: 6)
     }
 }
 
@@ -31,20 +45,26 @@ struct StepQuizSortingItemView_Previews: PreviewProvider {
         return Group {
             StepQuizSortingItemView(
                 text: firstItem.text,
-                onMoveUp: nil,
+                isMoveUpEnabled: false,
+                isMoveDownEnabled: true,
+                onMoveUp: {},
                 onMoveDown: {}
             )
 
             StepQuizSortingItemView(
                 text: middleItem.text,
+                isMoveUpEnabled: true,
+                isMoveDownEnabled: true,
                 onMoveUp: {},
                 onMoveDown: {}
             )
 
             StepQuizSortingItemView(
                 text: lastItem.text,
+                isMoveUpEnabled: true,
+                isMoveDownEnabled: false,
                 onMoveUp: {},
-                onMoveDown: nil
+                onMoveDown: {}
             )
         }
         .previewLayout(.sizeThatFits)
