@@ -9,6 +9,8 @@ import org.hyperskill.app.auth.injection.PlatformAuthSocialWebViewComponent
 import org.hyperskill.app.main.injection.PlatformMainComponent
 import org.hyperskill.app.step.injection.PlatformStepComponent
 import org.hyperskill.app.step.injection.StepComponent
+import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponent
+import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 
 interface AndroidAppComponent : AppGraph {
     val context: Context
@@ -18,4 +20,5 @@ interface AndroidAppComponent : AppGraph {
     fun buildPlatformAuthSocialComponent(authSocialComponent: AuthSocialComponent): PlatformAuthSocialComponent
     fun buildPlatformAuthCredentialsComponent(authCredentialsComponent: AuthCredentialsComponent): PlatformAuthCredentialsComponent
     fun buildPlatformStepComponent(stepComponent: StepComponent): PlatformStepComponent
+    fun buildPlatformStepQuizComponent(stepQuizComponent: StepQuizComponent): PlatformStepQuizComponent
 }
