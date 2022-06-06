@@ -16,11 +16,14 @@ struct StepQuizMatchingViewData {
         struct Option: Hashable {
             let id: Int
             let text: String
-            
-            static func == (lhs: StepQuizMatchingViewData.MatchItem.Option, rhs: StepQuizMatchingViewData.MatchItem.Option) -> Bool {
+
+            static func == (
+                lhs: StepQuizMatchingViewData.MatchItem.Option,
+                rhs: StepQuizMatchingViewData.MatchItem.Option
+            ) -> Bool {
                 lhs.id == rhs.id
             }
-            
+
             func hash(into hasher: inout Hasher) {
                 hasher.combine(id)
             }

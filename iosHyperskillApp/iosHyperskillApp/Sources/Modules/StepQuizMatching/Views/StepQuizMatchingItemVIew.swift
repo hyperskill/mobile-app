@@ -7,7 +7,7 @@ struct StepQuizMatchingItemVIew: View {
     var onMoveDown: () -> Void
     var isMoveUpEnabled: Bool
     var isMoveDownEnabled: Bool
-    
+
     var body: some View {
         VStack(spacing: LayoutInsets.defaultInset) {
             GeometryReader { proxy in
@@ -21,7 +21,7 @@ struct StepQuizMatchingItemVIew: View {
                     )
             }
             .frame(height: 50)
-            
+
             HStack {
                 GeometryReader { proxy in
                     HStack {
@@ -37,10 +37,8 @@ struct StepQuizMatchingItemVIew: View {
                             width: proxy.size.width * 0.9
                         )
                     }
-                    
                 }
                 .frame(height: 92)
-                
             }
         }
         .frame(width: .infinity)
@@ -59,7 +57,7 @@ struct StepQuizMatchingItemVIew_Previews: PreviewProvider {
                 isMoveUpEnabled: false,
                 isMoveDownEnabled: true
             )
-            
+
             StepQuizMatchingItemVIew(
                 titleText: item.title.text,
                 optionText: item.option.text,
@@ -68,7 +66,7 @@ struct StepQuizMatchingItemVIew_Previews: PreviewProvider {
                 isMoveUpEnabled: true,
                 isMoveDownEnabled: true
             )
-            
+
             StepQuizMatchingItemVIew(
                 titleText: item.title.text,
                 optionText: item.option.text,
