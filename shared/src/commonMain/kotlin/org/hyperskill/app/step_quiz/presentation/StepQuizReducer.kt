@@ -84,7 +84,7 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
 
     private fun isSubmissionInTerminalState(state: State.AttemptLoaded): Boolean =
         state.submissionState is StepQuizFeature.SubmissionState.Loaded &&
-            state.submissionState.submission.status.let { it == SubmissionStatus.CORRECT ||  it == SubmissionStatus.WRONG }
+            state.submissionState.submission.status.let { it == SubmissionStatus.CORRECT ||  it == SubmissionStatus.WRONG || it == SubmissionStatus.OUTDATED }
 
     private fun createLocalSubmission(oldState: State.AttemptLoaded, reply: Reply): Submission {
         val submissionId = (oldState.submissionState as? StepQuizFeature.SubmissionState.Loaded)
