@@ -24,6 +24,19 @@
 		2C1F5882280D5BAA00372A37 /* SocialAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F5881280D5BAA00372A37 /* SocialAuthService.swift */; };
 		2C1F5888280D5D6200372A37 /* SocialAuthSDKProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F5887280D5D6200372A37 /* SocialAuthSDKProvider.swift */; };
 		2C1F588B280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F588A280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift */; };
+		2C20FBA4284F165A006D879E /* ProcessedContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20FBA3284F165A006D879E /* ProcessedContent.swift */; };
+		2C20FBA6284F1924006D879E /* ContentProcessingInjection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20FBA5284F1924006D879E /* ContentProcessingInjection.swift */; };
+		2C20FBA8284F193A006D879E /* ContentProcessingRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20FBA7284F193A006D879E /* ContentProcessingRule.swift */; };
+		2C20FBAA284F1951006D879E /* ContentProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20FBA9284F1951006D879E /* ContentProcessor.swift */; };
+		2C20FBAC284F1964006D879E /* HTMLExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20FBAB284F1964006D879E /* HTMLExtractor.swift */; };
+		2C20FBAE284F1D05006D879E /* FontWeightNameMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20FBAD284F1D05006D879E /* FontWeightNameMapping.swift */; };
+		2C20FBB0284F1D8B006D879E /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20FBAF284F1D8B006D879E /* UIColor+Hex.swift */; };
+		2C20FBB2284F4FEA006D879E /* highlight.js in Resources */ = {isa = PBXBuildFile; fileRef = 2C20FBB1284F4FEA006D879E /* highlight.js */; };
+		2C20FBB4284F5145006D879E /* kotlin-playground-1.21.1.min.js in Resources */ = {isa = PBXBuildFile; fileRef = 2C20FBB3284F5145006D879E /* kotlin-playground-1.21.1.min.js */; };
+		2C20FBB6284F54DF006D879E /* jquery-3.4.1.min.js in Resources */ = {isa = PBXBuildFile; fileRef = 2C20FBB5284F54DF006D879E /* jquery-3.4.1.min.js */; };
+		2C20FBB8284F630C006D879E /* MathJax.js in Resources */ = {isa = PBXBuildFile; fileRef = 2C20FBB7284F630C006D879E /* MathJax.js */; };
+		2C20FBBB284F647C006D879E /* stepikcontent.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C20FBB9284F647C006D879E /* stepikcontent.css */; };
+		2C20FBBC284F647C006D879E /* wysiwyg.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C20FBBA284F647C006D879E /* wysiwyg.css */; };
 		2C225E48281A5B6800E8ABD2 /* SourcelessRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C225E47281A5B6800E8ABD2 /* SourcelessRouter.swift */; };
 		2C2452492847C27C00226702 /* Images+SystemNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2452482847C27C00226702 /* Images+SystemNames.swift */; };
 		2C2D492E281151E100753F16 /* AuthCredentialsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2D492D281151E100753F16 /* AuthCredentialsAssembly.swift */; };
@@ -166,6 +179,19 @@
 		2C1F5881280D5BAA00372A37 /* SocialAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialAuthService.swift; sourceTree = "<group>"; };
 		2C1F5887280D5D6200372A37 /* SocialAuthSDKProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialAuthSDKProvider.swift; sourceTree = "<group>"; };
 		2C1F588A280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSocialAuthSDKProvider.swift; sourceTree = "<group>"; };
+		2C20FBA3284F165A006D879E /* ProcessedContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessedContent.swift; sourceTree = "<group>"; };
+		2C20FBA5284F1924006D879E /* ContentProcessingInjection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentProcessingInjection.swift; sourceTree = "<group>"; };
+		2C20FBA7284F193A006D879E /* ContentProcessingRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentProcessingRule.swift; sourceTree = "<group>"; };
+		2C20FBA9284F1951006D879E /* ContentProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentProcessor.swift; sourceTree = "<group>"; };
+		2C20FBAB284F1964006D879E /* HTMLExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLExtractor.swift; sourceTree = "<group>"; };
+		2C20FBAD284F1D05006D879E /* FontWeightNameMapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontWeightNameMapping.swift; sourceTree = "<group>"; };
+		2C20FBAF284F1D8B006D879E /* UIColor+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
+		2C20FBB1284F4FEA006D879E /* highlight.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = highlight.js; sourceTree = "<group>"; };
+		2C20FBB3284F5145006D879E /* kotlin-playground-1.21.1.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "kotlin-playground-1.21.1.min.js"; sourceTree = "<group>"; };
+		2C20FBB5284F54DF006D879E /* jquery-3.4.1.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-3.4.1.min.js"; sourceTree = "<group>"; };
+		2C20FBB7284F630C006D879E /* MathJax.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MathJax.js; sourceTree = "<group>"; };
+		2C20FBB9284F647C006D879E /* stepikcontent.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = stepikcontent.css; sourceTree = "<group>"; };
+		2C20FBBA284F647C006D879E /* wysiwyg.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = wysiwyg.css; sourceTree = "<group>"; };
 		2C225E47281A5B6800E8ABD2 /* SourcelessRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourcelessRouter.swift; sourceTree = "<group>"; };
 		2C2452482847C27C00226702 /* Images+SystemNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Images+SystemNames.swift"; sourceTree = "<group>"; };
 		2C2D492D281151E100753F16 /* AuthCredentialsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsAssembly.swift; sourceTree = "<group>"; };
@@ -450,6 +476,34 @@
 			path = SDKs;
 			sourceTree = "<group>";
 		};
+		2C20FBA0284F15EC006D879E /* ContentProcessor */ = {
+			isa = PBXGroup;
+			children = (
+				2C20FBA1284F15FD006D879E /* Processing */,
+				2C20FBA2284F1606006D879E /* View */,
+			);
+			path = ContentProcessor;
+			sourceTree = "<group>";
+		};
+		2C20FBA1284F15FD006D879E /* Processing */ = {
+			isa = PBXGroup;
+			children = (
+				2C20FBA5284F1924006D879E /* ContentProcessingInjection.swift */,
+				2C20FBA7284F193A006D879E /* ContentProcessingRule.swift */,
+				2C20FBA9284F1951006D879E /* ContentProcessor.swift */,
+				2C20FBAB284F1964006D879E /* HTMLExtractor.swift */,
+				2C20FBA3284F165A006D879E /* ProcessedContent.swift */,
+			);
+			path = Processing;
+			sourceTree = "<group>";
+		};
+		2C20FBA2284F1606006D879E /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		2C24524A2847C28100226702 /* Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -669,6 +723,7 @@
 			isa = PBXGroup;
 			children = (
 				2C58DE282803D197002A2774 /* UIColor+DynamicColor.swift */,
+				2C20FBAF284F1D8B006D879E /* UIColor+Hex.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -777,7 +832,13 @@
 		2CE2817727E8EEDC00641E22 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2C20FBB9284F647C006D879E /* stepikcontent.css */,
+				2C20FBBA284F647C006D879E /* wysiwyg.css */,
 				2C1F5872280D0E0000372A37 /* iosHyperskillApp-Bridging-Header.h */,
+				2C20FBB1284F4FEA006D879E /* highlight.js */,
+				2C20FBB5284F54DF006D879E /* jquery-3.4.1.min.js */,
+				2C20FBB3284F5145006D879E /* kotlin-playground-1.21.1.min.js */,
+				2C20FBB7284F630C006D879E /* MathJax.js */,
 				2CE2817827E8EF1E00641E22 /* GoogleService-Info.plist */,
 				7555FF8C242A565B00829871 /* Info.plist */,
 				2C2FD61F28191FFE004E7AF6 /* Sentry-Info.plist */,
@@ -802,6 +863,7 @@
 		2CF2DA3B27EC5B980055426D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				2C20FBAD284F1D05006D879E /* FontWeightNameMapping.swift */,
 				E99788872830061300ADD74A /* QuizStatus.swift */,
 				2CF2DA3C27EC5BA00055426D /* Constants */,
 			);
@@ -824,6 +886,7 @@
 			isa = PBXGroup;
 			children = (
 				2C919DE627EEEDC40022A2F2 /* Collections */,
+				2C20FBA0284F15EC006D879E /* ContentProcessor */,
 				2CF2DA4327EC7DBC0055426D /* Core */,
 				2C8E4F032848788D0011ADFA /* PanModal */,
 				2C1F5867280D061800372A37 /* WebController */,
@@ -1063,10 +1126,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CE2817927E8EF1E00641E22 /* GoogleService-Info.plist in Resources */,
+				2C20FBB6284F54DF006D879E /* jquery-3.4.1.min.js in Resources */,
 				2C42EFA827F2C03D00B4648B /* Localizable.strings in Resources */,
+				2C20FBBB284F647C006D879E /* stepikcontent.css in Resources */,
 				058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */,
+				2C20FBBC284F647C006D879E /* wysiwyg.css in Resources */,
+				2C20FBB2284F4FEA006D879E /* highlight.js in Resources */,
 				058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */,
+				2C20FBB4284F5145006D879E /* kotlin-playground-1.21.1.min.js in Resources */,
 				2C2FD62028191FFE004E7AF6 /* Sentry-Info.plist in Resources */,
+				2C20FBB8284F630C006D879E /* MathJax.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1191,14 +1260,17 @@
 				2C225E48281A5B6800E8ABD2 /* SourcelessRouter.swift in Sources */,
 				2C46D0632807E4C100B3636E /* TextFieldWrapper.swift in Sources */,
 				2CAFD38F27FC517D00F88B0B /* ColorPalette.swift in Sources */,
+				2C20FBAA284F1951006D879E /* ContentProcessor.swift in Sources */,
 				2C1F5888280D5D6200372A37 /* SocialAuthSDKProvider.swift in Sources */,
 				2CAE8CF728052F9600E6C83D /* StepHeaderView.swift in Sources */,
 				2C919E3527EEFF110022A2F2 /* Queue.swift in Sources */,
 				2C58DE292803D197002A2774 /* UIColor+DynamicColor.swift in Sources */,
 				2CAE8D092805789100E6C83D /* StepCommentsStatisticsView.swift in Sources */,
+				2C20FBA8284F193A006D879E /* ContentProcessingRule.swift in Sources */,
 				2C725B5E28090D1F00A49043 /* View+Border.swift in Sources */,
 				2C8E4F9C2848A1550011ADFA /* PanModalViewModifier.swift in Sources */,
 				2C8E4F9A284897360011ADFA /* PanModalSwiftUIViewController.swift in Sources */,
+				2C20FBA6284F1924006D879E /* ContentProcessingInjection.swift in Sources */,
 				2CE31F4D27F1E0C8008EEE66 /* AppAssembly.swift in Sources */,
 				2CCF3B5A280050890075D12C /* DeviceInfo.swift in Sources */,
 				2C963BCA2812D3550036DD53 /* SettingsView.swift in Sources */,
@@ -1206,6 +1278,7 @@
 				2C58DE2B2803DEE2002A2774 /* VerticalCenteredScrollView.swift in Sources */,
 				2C8E4FA12848BF1F0011ADFA /* StepQuizTableSelectColumnsViewController.swift in Sources */,
 				2C1F5877280D2B4800372A37 /* ApplicationInfo.swift in Sources */,
+				2C20FBAE284F1D05006D879E /* FontWeightNameMapping.swift in Sources */,
 				2C2D4932281154CB00753F16 /* Injection.swift in Sources */,
 				E900D1052843573A00A77BBC /* StepQuizSortingIcon.swift in Sources */,
 				2CAE8D0528055D8300E6C83D /* StepActionButton.swift in Sources */,
@@ -1237,7 +1310,9 @@
 				2C1F586B280D094A00372A37 /* WebControllerManager.swift in Sources */,
 				E92D659727FC2F4100953029 /* AuthSocialButton.swift in Sources */,
 				E99D4CEF2826B91100B49D52 /* StepQuizStatusView.swift in Sources */,
+				2C20FBB0284F1D8B006D879E /* UIColor+Hex.swift in Sources */,
 				2CAE8CF4280525D400E6C83D /* StepAssembly.swift in Sources */,
+				2C20FBA4284F165A006D879E /* ProcessedContent.swift in Sources */,
 				E9B2CF6D2822AE5F00B2DC6F /* StepQuizFeedbackView.swift in Sources */,
 				2CF72AA828477E0600E1C192 /* StepQuizTableRowView.swift in Sources */,
 				2C32374D2837F7190062CAF6 /* Images.swift in Sources */,
@@ -1248,6 +1323,7 @@
 				E9B2CF5F2822979400B2DC6F /* StepQuizHintButton.swift in Sources */,
 				2C42EFB527F2EAB300B4648B /* GraphicsColor+UIColor.swift in Sources */,
 				E9D2D670284E0A70000757AC /* StepQuizMatchingViewData.swift in Sources */,
+				2C20FBAC284F1964006D879E /* HTMLExtractor.swift in Sources */,
 				E9B3A18C2828093800FE248B /* StepQuizActionButton.swift in Sources */,
 				2C725B632809198000A49043 /* BackgroundView.swift in Sources */,
 				2CF43414281281DB002893CD /* AuthTextField.swift in Sources */,

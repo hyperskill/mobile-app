@@ -30,6 +30,8 @@ local.properties
 
 iosHyperskillApp/.build/
 
+iosHyperskillApp/.idea/
+
 # CocoaPods
 #
 iosHyperskillApp/Pods/
