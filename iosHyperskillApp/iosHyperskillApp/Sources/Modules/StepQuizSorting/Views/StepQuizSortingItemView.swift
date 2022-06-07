@@ -1,15 +1,15 @@
 import SwiftUI
 
 struct StepQuizSortingItemView: View {
-    var text: String
+    let text: String
 
-    var isMoveUpEnabled: Bool
+    let isMoveUpEnabled: Bool
 
-    var isMoveDownEnabled: Bool
+    let isMoveDownEnabled: Bool
 
-    var onMoveUp: () -> Void
+    let onMoveUp: () -> Void
 
-    var onMoveDown: () -> Void
+    let onMoveDown: () -> Void
 
     var body: some View {
         HStack(spacing: LayoutInsets.smallInset) {

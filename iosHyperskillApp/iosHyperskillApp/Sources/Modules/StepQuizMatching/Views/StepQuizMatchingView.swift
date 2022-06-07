@@ -6,9 +6,11 @@ struct StepQuizMatchingView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
             ForEach(Array(viewData.items.enumerated()), id: \.element.option) { index, item in
-                StepQuizMatchingItemVIew(
-                    titleText: item.title.text,
-                    optionText: item.option.text,
+                StepQuizMatchingItemView(
+                    title: item.title.text,
+                    option: item.option.text,
+                    isMoveUpEnabled: index > 0,
+                    isMoveDownEnabled: index < viewData.items.count - 1,
                     onMoveUp: {
                         withAnimation {
                             doMoveUp(from: index)
@@ -18,9 +20,7 @@ struct StepQuizMatchingView: View {
                         withAnimation {
                             doMoveDown(from: index)
                         }
-                    },
-                    isMoveUpEnabled: index > 0,
-                    isMoveDownEnabled: index < viewData.items.count - 1
+                    }
                 )
             }
         }
@@ -39,9 +39,11 @@ struct StepQuizMatchingView: View {
     }
 }
 
+#if DEBUG
 struct StepQuizMatchingView_Previews: PreviewProvider {
     static var previews: some View {
-        StepQuizMatchingView(viewData: .makePlaceholder())
+        StepQuizMatchingView(viewData: .placeholder)
             .padding()
     }
 }
+#endif

@@ -16,31 +16,23 @@ struct StepQuizMatchingViewData {
         struct Option: Hashable {
             let id: Int
             let text: String
-
-            static func == (
-                lhs: StepQuizMatchingViewData.MatchItem.Option,
-                rhs: StepQuizMatchingViewData.MatchItem.Option
-            ) -> Bool {
-                lhs.id == rhs.id
-            }
-
-            func hash(into hasher: inout Hasher) {
-                hasher.combine(id)
-            }
         }
     }
 }
 
 #if DEBUG
 extension StepQuizMatchingViewData {
-    static func makePlaceholder() -> StepQuizMatchingViewData {
-        StepQuizMatchingViewData(
-            items: [
-                MatchItem(title: .init(id: 0, text: "a"), option: .init(id: 0, text: "Variant 1")),
-                MatchItem(title: .init(id: 1, text: "b"), option: .init(id: 1, text: "Variant 2")),
-                MatchItem(title: .init(id: 2, text: "c"), option: .init(id: 2, text: "Variant 3")),
-                MatchItem(title: .init(id: 3, text: "d"), option: .init(id: 3, text: "Variant 4"))
-            ]
+    static var placeholder: StepQuizMatchingViewData {
+        let pairs = [
+            ("a", "Variant 1"),
+            ("b", "Variant 2"),
+            ("c", "Variant 3")
+        ]
+
+        return StepQuizMatchingViewData(
+            items: pairs.enumerated().map { index, pair in
+                .init(title: .init(id: index, text: pair.0), option: .init(id: index, text: pair.1))
+            }
         )
     }
 }
