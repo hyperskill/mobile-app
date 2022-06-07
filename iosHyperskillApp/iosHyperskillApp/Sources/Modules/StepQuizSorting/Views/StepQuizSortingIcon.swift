@@ -3,9 +3,9 @@ import SwiftUI
 struct StepQuizSortingIcon: View {
     @Environment(\.isEnabled) private var isEnabled
 
-    var direction: Direction
+    let direction: Direction
 
-    var onTap: () -> Void
+    let onTap: () -> Void
 
     var body: some View {
         Button(action: onTap) {
