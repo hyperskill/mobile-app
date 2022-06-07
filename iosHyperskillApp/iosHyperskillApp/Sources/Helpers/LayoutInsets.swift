@@ -63,6 +63,13 @@ struct LayoutInsets {
         self.bottomInset = insets.bottom
     }
 
+    init(uiEdgeInsets: UIEdgeInsets) {
+        self.topInset = uiEdgeInsets.top
+        self.leadingInset = uiEdgeInsets.left
+        self.trailingInset = uiEdgeInsets.right
+        self.bottomInset = uiEdgeInsets.bottom
+    }
+
     init(inset: CGFloat) {
         self.topInset = inset
         self.leadingInset = inset
