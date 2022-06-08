@@ -53,6 +53,7 @@
 		2C2FD62028191FFE004E7AF6 /* Sentry-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C2FD61F28191FFE004E7AF6 /* Sentry-Info.plist */; };
 		2C2FD622281920B1004E7AF6 /* SentryInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2FD621281920B1004E7AF6 /* SentryInfo.swift */; };
 		2C2FD62428192123004E7AF6 /* BundlePropertyListDeserializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2FD62328192123004E7AF6 /* BundlePropertyListDeserializer.swift */; };
+		2C2FF9C928506FDE0069C092 /* LatexView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2FF9C828506FDE0069C092 /* LatexView.swift */; };
 		2C32374D2837F7190062CAF6 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C32374C2837F7190062CAF6 /* Images.swift */; };
 		2C32375328380C340062CAF6 /* NavigationToolbarInfoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C32375228380C340062CAF6 /* NavigationToolbarInfoItem.swift */; };
 		2C41127828376F6D004948A3 /* StepQuizDiscussionsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C41127728376F6D004948A3 /* StepQuizDiscussionsButton.swift */; };
@@ -117,6 +118,7 @@
 		2CE31F4B27F1E070008EEE66 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4A27F1E070008EEE66 /* AppViewModel.swift */; };
 		2CE31F4D27F1E0C8008EEE66 /* AppAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4C27F1E0C8008EEE66 /* AppAssembly.swift */; };
 		2CF2DA3A27EC5B2D0055426D /* Assembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF2DA3927EC5B2D0055426D /* Assembly.swift */; };
+		2CF41A8E28505D2C000736D6 /* SwiftUIProcessedContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF41A8D28505D2C000736D6 /* SwiftUIProcessedContentView.swift */; };
 		2CF43410281268A1002893CD /* String+Whitespaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF4340F281268A1002893CD /* String+Whitespaces.swift */; };
 		2CF4341228126C79002893CD /* View+EndEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF4341128126C79002893CD /* View+EndEditing.swift */; };
 		2CF43414281281DB002893CD /* AuthTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF43413281281DB002893CD /* AuthTextField.swift */; };
@@ -215,6 +217,7 @@
 		2C2FD61F28191FFE004E7AF6 /* Sentry-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Sentry-Info.plist"; sourceTree = "<group>"; };
 		2C2FD621281920B1004E7AF6 /* SentryInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentryInfo.swift; sourceTree = "<group>"; };
 		2C2FD62328192123004E7AF6 /* BundlePropertyListDeserializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundlePropertyListDeserializer.swift; sourceTree = "<group>"; };
+		2C2FF9C828506FDE0069C092 /* LatexView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatexView.swift; sourceTree = "<group>"; };
 		2C32374C2837F7190062CAF6 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		2C32375228380C340062CAF6 /* NavigationToolbarInfoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationToolbarInfoItem.swift; sourceTree = "<group>"; };
 		2C41127728376F6D004948A3 /* StepQuizDiscussionsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizDiscussionsButton.swift; sourceTree = "<group>"; };
@@ -280,6 +283,7 @@
 		2CE31F4A27F1E070008EEE66 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		2CE31F4C27F1E0C8008EEE66 /* AppAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAssembly.swift; sourceTree = "<group>"; };
 		2CF2DA3927EC5B2D0055426D /* Assembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembly.swift; sourceTree = "<group>"; };
+		2CF41A8D28505D2C000736D6 /* SwiftUIProcessedContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIProcessedContentView.swift; sourceTree = "<group>"; };
 		2CF4340F281268A1002893CD /* String+Whitespaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Whitespaces.swift"; sourceTree = "<group>"; };
 		2CF4341128126C79002893CD /* View+EndEditing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+EndEditing.swift"; sourceTree = "<group>"; };
 		2CF43413281281DB002893CD /* AuthTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTextField.swift; sourceTree = "<group>"; };
@@ -516,9 +520,8 @@
 		2C20FBA2284F1606006D879E /* View */ = {
 			isa = PBXGroup;
 			children = (
-				2C20FBBD284F658E006D879E /* ProcessedContentTextView.swift */,
-				2C20FBCA284F7A45006D879E /* ProcessedContentView.swift */,
-				2C20FBC3284F67F3006D879E /* ProcessedContentWebView.swift */,
+				2CF41A8F28506F12000736D6 /* SwiftUI */,
+				2C2FF9CA285073340069C092 /* UIKit */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -538,6 +541,16 @@
 				2C2452482847C27C00226702 /* Images+SystemNames.swift */,
 			);
 			path = Images;
+			sourceTree = "<group>";
+		};
+		2C2FF9CA285073340069C092 /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				2C20FBBD284F658E006D879E /* ProcessedContentTextView.swift */,
+				2C20FBCA284F7A45006D879E /* ProcessedContentView.swift */,
+				2C20FBC3284F67F3006D879E /* ProcessedContentWebView.swift */,
+			);
+			path = UIKit;
 			sourceTree = "<group>";
 		};
 		2C323750283808300062CAF6 /* View */ = {
@@ -933,6 +946,15 @@
 			path = Core;
 			sourceTree = "<group>";
 		};
+		2CF41A8F28506F12000736D6 /* SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				2C2FF9C828506FDE0069C092 /* LatexView.swift */,
+				2CF41A8D28505D2C000736D6 /* SwiftUIProcessedContentView.swift */,
+			);
+			path = SwiftUI;
+			sourceTree = "<group>";
+		};
 		2CF4340E28126886002893CD /* SwiftStdlib */ = {
 			isa = PBXGroup;
 			children = (
@@ -1320,6 +1342,7 @@
 				2C42EFAD27F2C29500B4648B /* Strings.swift in Sources */,
 				2C906CBE280E5D9C0079C594 /* ProgressHUD.swift in Sources */,
 				2CA8E094281039EB00154088 /* RoundedRectangleButtonStyle.swift in Sources */,
+				2C2FF9C928506FDE0069C092 /* LatexView.swift in Sources */,
 				2C20FBC7284F6928006D879E /* ProgrammaticallyInitializableViewProtocol.swift in Sources */,
 				E951757927E61ACD00995008 /* AuthSocialView.swift in Sources */,
 				2C1F5875280D0E0000372A37 /* WKWebViewPanelManager.m in Sources */,
@@ -1353,6 +1376,7 @@
 				2C32374D2837F7190062CAF6 /* Images.swift in Sources */,
 				2C1F588B280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift in Sources */,
 				E9C8C5692822B897005A81EB /* StepQuizChoicesView.swift in Sources */,
+				2CF41A8E28505D2C000736D6 /* SwiftUIProcessedContentView.swift in Sources */,
 				2CF72AA32847757300E1C192 /* StepQuizTableViewData.swift in Sources */,
 				E93B3745283E527000968DF0 /* PlaceholderView.swift in Sources */,
 				E9B2CF5F2822979400B2DC6F /* StepQuizHintButton.swift in Sources */,
