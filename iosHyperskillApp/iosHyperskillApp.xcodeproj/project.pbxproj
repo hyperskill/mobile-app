@@ -35,7 +35,6 @@
 		2C20FBB4284F5145006D879E /* kotlin-playground-1.21.1.min.js in Resources */ = {isa = PBXBuildFile; fileRef = 2C20FBB3284F5145006D879E /* kotlin-playground-1.21.1.min.js */; };
 		2C20FBB6284F54DF006D879E /* jquery-3.4.1.min.js in Resources */ = {isa = PBXBuildFile; fileRef = 2C20FBB5284F54DF006D879E /* jquery-3.4.1.min.js */; };
 		2C20FBB8284F630C006D879E /* MathJax.js in Resources */ = {isa = PBXBuildFile; fileRef = 2C20FBB7284F630C006D879E /* MathJax.js */; };
-		2C20FBBB284F647C006D879E /* stepikcontent.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C20FBB9284F647C006D879E /* stepikcontent.css */; };
 		2C20FBBC284F647C006D879E /* wysiwyg.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C20FBBA284F647C006D879E /* wysiwyg.css */; };
 		2C20FBBE284F658E006D879E /* ProcessedContentTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20FBBD284F658E006D879E /* ProcessedContentTextView.swift */; };
 		2C20FBC0284F65F6006D879E /* HTMLToAttributedStringConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20FBBF284F65F6006D879E /* HTMLToAttributedStringConverter.swift */; };
@@ -92,6 +91,13 @@
 		2C963BCA2812D3550036DD53 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C963BC92812D3550036DD53 /* SettingsView.swift */; };
 		2C963BCC2812D9330036DD53 /* SettingsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C963BCB2812D9330036DD53 /* SettingsAssembly.swift */; };
 		2C963BCE2812E7B60036DD53 /* AppNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C963BCD2812E7B60036DD53 /* AppNavigation.swift */; };
+		2C98C7A62850B93100857783 /* alt.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C98C79E2850B93100857783 /* alt.css */; };
+		2C98C7A72850B93100857783 /* fonts.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C98C79F2850B93100857783 /* fonts.css */; };
+		2C98C7A92850B93100857783 /* highlight.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C98C7A12850B93100857783 /* highlight.css */; };
+		2C98C7AA2850B93100857783 /* step.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C98C7A22850B93100857783 /* step.css */; };
+		2C98C7AB2850B93100857783 /* variables.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C98C7A32850B93100857783 /* variables.css */; };
+		2C98C7AC2850B93100857783 /* bootstrap.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C98C7A42850B93100857783 /* bootstrap.css */; };
+		2C98C7AD2850B93100857783 /* icons.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C98C7A52850B93100857783 /* icons.css */; };
 		2C9B66C427ECA73700569645 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9B66C327ECA73700569645 /* AppDelegate.swift */; };
 		2C9CC1BD280920B5006604D7 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9CC1BC280920B5006604D7 /* KeyboardManager.swift */; };
 		2C9CC1BF28092E06006604D7 /* AuthAdaptiveContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9CC1BE28092E06006604D7 /* AuthAdaptiveContentView.swift */; };
@@ -199,7 +205,6 @@
 		2C20FBB3284F5145006D879E /* kotlin-playground-1.21.1.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "kotlin-playground-1.21.1.min.js"; sourceTree = "<group>"; };
 		2C20FBB5284F54DF006D879E /* jquery-3.4.1.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-3.4.1.min.js"; sourceTree = "<group>"; };
 		2C20FBB7284F630C006D879E /* MathJax.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MathJax.js; sourceTree = "<group>"; };
-		2C20FBB9284F647C006D879E /* stepikcontent.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = stepikcontent.css; sourceTree = "<group>"; };
 		2C20FBBA284F647C006D879E /* wysiwyg.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = wysiwyg.css; sourceTree = "<group>"; };
 		2C20FBBD284F658E006D879E /* ProcessedContentTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessedContentTextView.swift; sourceTree = "<group>"; };
 		2C20FBBF284F65F6006D879E /* HTMLToAttributedStringConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLToAttributedStringConverter.swift; sourceTree = "<group>"; };
@@ -257,6 +262,13 @@
 		2C963BC92812D3550036DD53 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		2C963BCB2812D9330036DD53 /* SettingsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAssembly.swift; sourceTree = "<group>"; };
 		2C963BCD2812E7B60036DD53 /* AppNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigation.swift; sourceTree = "<group>"; };
+		2C98C79E2850B93100857783 /* alt.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = alt.css; sourceTree = "<group>"; };
+		2C98C79F2850B93100857783 /* fonts.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = fonts.css; sourceTree = "<group>"; };
+		2C98C7A12850B93100857783 /* highlight.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = highlight.css; sourceTree = "<group>"; };
+		2C98C7A22850B93100857783 /* step.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = step.css; sourceTree = "<group>"; };
+		2C98C7A32850B93100857783 /* variables.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = variables.css; sourceTree = "<group>"; };
+		2C98C7A42850B93100857783 /* bootstrap.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = bootstrap.css; sourceTree = "<group>"; };
+		2C98C7A52850B93100857783 /* icons.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = icons.css; sourceTree = "<group>"; };
 		2C9B66C327ECA73700569645 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C9CC1BC280920B5006604D7 /* KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
 		2C9CC1BE28092E06006604D7 /* AuthAdaptiveContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAdaptiveContentView.swift; sourceTree = "<group>"; };
@@ -874,7 +886,13 @@
 		2CE2817727E8EEDC00641E22 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				2C20FBB9284F647C006D879E /* stepikcontent.css */,
+				2C98C79E2850B93100857783 /* alt.css */,
+				2C98C7A42850B93100857783 /* bootstrap.css */,
+				2C98C79F2850B93100857783 /* fonts.css */,
+				2C98C7A12850B93100857783 /* highlight.css */,
+				2C98C7A52850B93100857783 /* icons.css */,
+				2C98C7A22850B93100857783 /* step.css */,
+				2C98C7A32850B93100857783 /* variables.css */,
 				2C20FBBA284F647C006D879E /* wysiwyg.css */,
 				2C1F5872280D0E0000372A37 /* iosHyperskillApp-Bridging-Header.h */,
 				2C20FBB1284F4FEA006D879E /* highlight.js */,
@@ -1176,15 +1194,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C98C7A92850B93100857783 /* highlight.css in Resources */,
 				2CE2817927E8EF1E00641E22 /* GoogleService-Info.plist in Resources */,
 				2C20FBB6284F54DF006D879E /* jquery-3.4.1.min.js in Resources */,
 				2C42EFA827F2C03D00B4648B /* Localizable.strings in Resources */,
-				2C20FBBB284F647C006D879E /* stepikcontent.css in Resources */,
+				2C98C7A62850B93100857783 /* alt.css in Resources */,
 				058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */,
 				2C20FBBC284F647C006D879E /* wysiwyg.css in Resources */,
+				2C98C7AD2850B93100857783 /* icons.css in Resources */,
+				2C98C7A72850B93100857783 /* fonts.css in Resources */,
 				2C20FBB2284F4FEA006D879E /* highlight.js in Resources */,
 				058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */,
+				2C98C7AA2850B93100857783 /* step.css in Resources */,
+				2C98C7AC2850B93100857783 /* bootstrap.css in Resources */,
 				2C20FBB4284F5145006D879E /* kotlin-playground-1.21.1.min.js in Resources */,
+				2C98C7AB2850B93100857783 /* variables.css in Resources */,
 				2C2FD62028191FFE004E7AF6 /* Sentry-Info.plist in Resources */,
 				2C20FBB8284F630C006D879E /* MathJax.js in Resources */,
 			);

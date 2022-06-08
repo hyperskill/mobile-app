@@ -1,0 +1,95 @@
+.type-report {
+  opacity: 0.25;
+  -webkit-transition: opacity 0.25s ease-in-out;
+  transition: opacity 0.25s ease-in-out;
+}
+
+.type-report:hover {
+  opacity: 1;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-align: left !important;
+}
+
+h5 {
+  margin-block-end: 0px;
+}
+
+h5 ~ p {
+  margin-block-start: 0.5rem;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+li > pre,
+li + pre {
+  margin-top: 0.5rem;
+}
+
+.alert {
+  overflow: auto;
+}
+
+.wysiwyg-text-align-center {
+  text-align: center;
+}
+
+.wysiwyg-font-sup {
+  font-size: xx-small;
+  vertical-align: super;
+}
+
+.table {
+  float: unset;
+  width: 100% !important;
+  height: 100% !important;
+  word-break: break-word;
+  table-layout: fixed;
+}
+
+.content-section + .content-section {
+  margin-top: 2.25rem;
+}
+
+-header-header_theory::before {
+  content: "§" counter(section) ". ";
+  counter-increment: section;
+}
+
+.katex {
+  padding-bottom: 10px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.katex::-webkit-scrollbar {
+  height: 0.65rem;
+  background: #fafafa;
+  border-radius: 0.375rem;
+}
+
+.katex::-webkit-scrollbar-thumb {
+  background-color: var(--black25);
+  border-color: #fafafa;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 0.375rem;
+}
+
+.katex::-webkit-scrollbar-thumb:hover {
+  background-color: var(--black75);
+}
+
+.katex::-webkit-scrollbar-track {
+  background: #fafafa;
+  border-radius: 0.375rem;
+}

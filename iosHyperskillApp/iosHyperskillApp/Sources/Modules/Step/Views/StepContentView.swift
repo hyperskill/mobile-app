@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct StepContentView: View {
-    let viewData: StepViewData
+    @State var viewData: StepViewData
 
     var body: some View {
         ScrollView {
@@ -18,7 +18,14 @@ struct StepContentView: View {
                     print("Start practicing tapped")
                 }
 
-                Text(viewData.text)
+                LatexView(
+                    text: $viewData.text,
+                    configuration: .init(
+                        contentProcessor: ContentProcessor(
+                            injections: ContentProcessor.defaultInjections + [StepStylesInjection()]
+                        )
+                    )
+                )
 
                 StepBottomControlsView(
                     commentStatisticsViewData: viewData.commentsStatistics,

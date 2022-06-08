@@ -13,7 +13,7 @@ extension ProcessedContentView {
         var labelFont = UIFont.systemFont(ofSize: 17, weight: .regular)
         var labelTextColor = ColorPalette.onSurfaceAlpha87
 
-        var activityIndicatorViewStyle = UIActivityIndicatorView.Style.large
+        var activityIndicatorViewStyle = UIActivityIndicatorView.Style.medium
         var activityIndicatorViewColor: UIColor?
 
         var insets = LayoutInsets(uiEdgeInsets: .zero)
@@ -185,7 +185,7 @@ final class ProcessedContentView: UIView {
         if text?.isEmpty ?? true {
             self.processedContent = nil
         } else {
-            self.activityIndicatorView.startAnimating()
+            self.setProgressAnimationHidden(false)
 
             DispatchQueue.global(qos: .userInitiated).async {
                 let processedContent = self.contentProcessor.processContent(text ?? "")
@@ -196,13 +196,13 @@ final class ProcessedContentView: UIView {
                     }
 
                     if processedContent == strongSelf.processedContent {
-                        strongSelf.activityIndicatorView.stopAnimating()
+                        strongSelf.setProgressAnimationHidden(true)
                     }
 
                     strongSelf.processedContent = processedContent
 
                     if case .text = processedContent {
-                        strongSelf.activityIndicatorView.stopAnimating()
+                        strongSelf.setProgressAnimationHidden(true)
                         strongSelf.delegate?.processedContentViewDidLoadContent(strongSelf)
                     }
                 }
@@ -211,6 +211,16 @@ final class ProcessedContentView: UIView {
     }
 
     // MARK: Private API
+
+    private func setProgressAnimationHidden(_ isHidden: Bool) {
+        if isHidden {
+            self.contentView.alpha = 1
+            self.activityIndicatorView.stopAnimating()
+        } else {
+            self.contentView.alpha = 0
+            self.activityIndicatorView.startAnimating()
+        }
+    }
 
     private func updateContentViewHeightConstraintOffset() {
         self.contentViewHeightConstraint?.update(offset: max(0, self.intrinsicContentSize.height))
@@ -251,7 +261,7 @@ final class ProcessedContentView: UIView {
 
     private func setWebViewText(_ text: String) {
         if !self.activityIndicatorView.isAnimating {
-            self.activityIndicatorView.startAnimating()
+            self.setProgressAnimationHidden(false)
         }
 
         if !self.didSetupWebView {
@@ -350,7 +360,9 @@ extension ProcessedContentView: ProcessedContentWebViewDelegate {
             return
         }
 
-        self.activityIndicatorView.stopAnimating()
+        UIView.animate(withDuration: 0.33, delay: 0) {
+            self.setProgressAnimationHidden(true)
+        }
         self.updateContentViewHeightConstraintOffset()
 
         self.delegate?.processedContentViewDidLoadContent(self)

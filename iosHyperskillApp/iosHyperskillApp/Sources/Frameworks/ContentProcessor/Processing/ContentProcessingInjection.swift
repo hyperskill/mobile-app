@@ -23,12 +23,26 @@ extension ContentProcessingInjection {
     func shouldInject(to code: String) -> Bool { true }
 }
 
-/// Injects WYSIWYG and Stepik CSS files
+/// Injects common CSS files
 final class CommonStylesInjection: ContentProcessingInjection {
     var headScript: String {
         """
         <link rel="stylesheet" type="text/css" href="wysiwyg.css">
-        <link rel="stylesheet" type="text/css" href="stepikcontent.css">
+        <link rel="stylesheet" type="text/css" href="alt.css">
+        <link rel="stylesheet" type="text/css" href="bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="fonts.css">
+        <link rel="stylesheet" type="text/css" href="highlight.css">
+        <link rel="stylesheet" type="text/css" href="icons.css">
+        <link rel="stylesheet" type="text/css" href="variables.css">
+        """
+    }
+}
+
+/// Injects step text CSS files
+final class StepStylesInjection: ContentProcessingInjection {
+    var headScript: String {
+        """
+        <link rel="stylesheet" type="text/css" href="step.css">
         """
     }
 }

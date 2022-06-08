@@ -4,7 +4,7 @@ import UIKit
 struct SwiftUIProcessedContentView: UIViewRepresentable {
     typealias UIViewType = ProcessedContentView
 
-    @Binding var text: String?
+    @Binding var text: String
 
     var configuration = Configuration()
 
@@ -102,19 +102,5 @@ extension SwiftUIProcessedContentView {
             self.contentProcessor = contentProcessor
             self.htmlToAttributedStringConverter = HTMLToAttributedStringConverter(font: appearance.labelFont)
         }
-    }
-}
-
-// MARK: - SwiftUIProcessedContentView (Previews) -
-
-// swiftlint:disable all
-let latexViewText = """
-<p style=\"text-align: center;\"><a href=\"http://atomickotlin.com\" rel=\"nofollow noopener noreferrer\"><img alt=\"\" src=\"https://ucarecdn.com/57ea9a4e-b8a9-4d14-9748-d1851cc58247/\" width=\"70\"></a></p>\n\n<p> </p>\n\n<h1 style=\"text-align: center;\">Manipulating Lists</h1>\n\n<blockquote>\n<p>Instead of implementing your own operations for manipulating lists, you can combine standard library operations.</p>\n</blockquote>\n\n<p>This atom shows operations that manipulate several lists by combining them in different ways.</p>
-"""
-
-struct LatexView_Previews: PreviewProvider {
-    static var previews: some View {
-        SwiftUIProcessedContentView(text: .constant(latexViewText))
-            .frame(width: 200, height: 200, alignment: .center)
     }
 }
