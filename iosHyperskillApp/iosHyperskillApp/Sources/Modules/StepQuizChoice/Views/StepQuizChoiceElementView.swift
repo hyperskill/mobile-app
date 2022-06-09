@@ -35,9 +35,7 @@ struct StepQuizChoiceElementView: View {
                         }
                     )
 
-                    Text(text)
-                        .font(.body)
-                        .foregroundColor(.primaryText)
+                    LatexView(text: .constant(text), configuration: .quizContent())
                 }
             }
         )

@@ -11,8 +11,8 @@ enum AppAppearance {
 
         coloredAppearance.backgroundColor = ColorPalette.background
 
-        coloredAppearance.titleTextAttributes = [.foregroundColor: ColorPalette.onSurfaceAlpha87]
-        coloredAppearance.largeTitleTextAttributes = [.foregroundColor: ColorPalette.onSurfaceAlpha87]
+        coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.primaryText]
+        coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.primaryText]
 
         UINavigationBar.appearance().standardAppearance = coloredAppearance
         UINavigationBar.appearance().compactAppearance = coloredAppearance

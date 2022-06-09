@@ -1,6 +1,15 @@
 import SwiftUI
 
+extension StepContentView {
+    struct Appearance {
+        let stepTextFont = UIFont.preferredFont(forTextStyle: .body)
+        let stepTextColor = UIColor.primaryText
+    }
+}
+
 struct StepContentView: View {
+    private(set) var appearance = Appearance()
+
     @State var viewData: StepViewData
 
     var body: some View {
@@ -21,8 +30,13 @@ struct StepContentView: View {
                 LatexView(
                     text: $viewData.text,
                     configuration: .init(
+                        appearance: .init(labelFont: appearance.stepTextFont),
                         contentProcessor: ContentProcessor(
-                            injections: ContentProcessor.defaultInjections + [StepStylesInjection()]
+                            injections: ContentProcessor.defaultInjections + [
+                                StepStylesInjection(),
+                                FontInjection(font: appearance.stepTextFont),
+                                TextColorInjection(dynamicColor: appearance.stepTextColor)
+                            ]
                         )
                     )
                 )

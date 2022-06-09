@@ -9,17 +9,17 @@ extension Color {
     /// The material color for text labels that contain primary content.
     ///
     /// `OnSurface_0.87`
-    static var primaryText: Color { Color(ColorPalette.onSurfaceAlpha87) }
+    static var primaryText: Color { Color(UIColor.primaryText) }
 
     /// The material color for text labels that contain secondary content.
     ///
     /// `OnSurface_0.6`
-    static var secondaryText: Color { Color(ColorPalette.onSurfaceAlpha60) }
+    static var secondaryText: Color { Color(UIColor.secondaryText) }
 
     /// The material color for text labels that contain disabled content.
     ///
     /// `OnSurface_0.38`
-    static var disabledText: Color { Color(ColorPalette.onSurfaceAlpha38) }
+    static var disabledText: Color { Color(UIColor.disabledText) }
 
     /// The system color for text labels that contain primary content.
     static var systemPrimaryText: Color { Color(UIColor.label) }

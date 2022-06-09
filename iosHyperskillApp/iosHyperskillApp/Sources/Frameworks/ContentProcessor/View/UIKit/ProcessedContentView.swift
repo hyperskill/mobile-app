@@ -11,7 +11,7 @@ protocol ProcessedContentViewDelegate: AnyObject {
 extension ProcessedContentView {
     struct Appearance {
         var labelFont = UIFont.systemFont(ofSize: 17, weight: .regular)
-        var labelTextColor = ColorPalette.onSurfaceAlpha87
+        var labelTextColor = UIColor.primaryText
 
         var activityIndicatorViewStyle = UIActivityIndicatorView.Style.medium
         var activityIndicatorViewColor: UIColor?

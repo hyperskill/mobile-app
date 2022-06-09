@@ -199,7 +199,6 @@ final class ProcessedContentWebView: UIView {
                 try await Task.sleep(nanoseconds: UnitConverters.Nanosecond.from(second: delayInSeconds))
 
                 let result = try await self.webView.evaluateJavaScript("document.readyState;")
-                print("ProcessedContentWebView :: waitForDocumentCompleteState result = \(String(describing: result))")
 
                 currentDocumentReadyState = result as? String
                 retryCount += 1
@@ -211,13 +210,11 @@ final class ProcessedContentWebView: UIView {
 
     private func getContentHeight() async -> Int {
         let result = try? await self.webView.evaluateJavaScript("document.body.scrollHeight;")
-        print("ProcessedContentWebView :: getContentHeight result = \(String(describing: result))")
         return result as? Int ?? 0
     }
 
     private func getContentWidth() async -> Int {
         let result = try? await self.webView.evaluateJavaScript("document.body.scrollWidth;")
-        print("ProcessedContentWebView :: getContentWidth result = \(String(describing: result))")
         return result as? Int ?? 0
     }
 

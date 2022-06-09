@@ -20,7 +20,7 @@ struct StepQuizChoiceView: View {
                     quizTitle: viewData.quizTitle,
                     choices: $viewData.choices,
                     isMultipleChoice: viewData.isMultipleChoice,
-                    loading: true
+                    loading: false
                 )
 
                 if let quizStatus = viewData.quizStatus {

@@ -13,11 +13,7 @@ struct StepQuizSortingItemView: View {
 
     var body: some View {
         HStack(spacing: LayoutInsets.smallInset) {
-            Text(text)
-                .font(.body)
-                .foregroundColor(.primaryText)
-                .multilineTextAlignment(.leading)
-                .frame(maxWidth: .infinity, alignment: .leading)
+            LatexView(text: .constant(text), configuration: .quizContent())
 
             VStack(spacing: LayoutInsets.defaultInset) {
                 StepQuizSortingIcon(direction: .up, onTap: onMoveUp)

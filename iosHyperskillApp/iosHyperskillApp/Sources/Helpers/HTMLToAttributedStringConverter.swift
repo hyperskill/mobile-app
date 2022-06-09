@@ -18,7 +18,7 @@ final class HTMLToAttributedStringConverter: HTMLToAttributedStringConverterProt
             .dynamic(light: UIColor(hex6: 0x56A4FF), dark: UIColor(hex6: 0x70B5FF)),
             .normal
         )
-        .foregroundColor(ColorPalette.onSurfaceAlpha87, .highlighted)
+        .foregroundColor(.primaryText, .highlighted)
 
     static func defaultTagStyles(fontSize: CGFloat) -> [Style] {
         [

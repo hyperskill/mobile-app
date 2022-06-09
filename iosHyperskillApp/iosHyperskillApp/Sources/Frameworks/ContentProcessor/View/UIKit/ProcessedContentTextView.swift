@@ -9,7 +9,7 @@ protocol ProcessedContentTextViewDelegate: AnyObject {
 extension ProcessedContentTextView {
     struct Appearance {
         var font = UIFont.systemFont(ofSize: 17, weight: .regular)
-        var textColor = ColorPalette.onSurfaceAlpha87
+        var textColor = UIColor.primaryText
     }
 }
 

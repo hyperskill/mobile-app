@@ -28,6 +28,7 @@ final class CommonStylesInjection: ContentProcessingInjection {
     var headScript: String {
         """
         <link rel="stylesheet" type="text/css" href="wysiwyg.css">
+        <link rel="stylesheet" type="text/css" href="altcontent.css">
         <link rel="stylesheet" type="text/css" href="alt.css">
         <link rel="stylesheet" type="text/css" href="bootstrap.css">
         <link rel="stylesheet" type="text/css" href="fonts.css">

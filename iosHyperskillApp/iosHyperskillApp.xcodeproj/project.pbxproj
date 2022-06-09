@@ -45,6 +45,7 @@
 		2C20FBCB284F7A45006D879E /* ProcessedContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20FBCA284F7A45006D879E /* ProcessedContentView.swift */; };
 		2C225E48281A5B6800E8ABD2 /* SourcelessRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C225E47281A5B6800E8ABD2 /* SourcelessRouter.swift */; };
 		2C2452492847C27C00226702 /* Images+SystemNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2452482847C27C00226702 /* Images+SystemNames.swift */; };
+		2C25BFD52851F8F00036C689 /* UIColor+DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C25BFD42851F8F00036C689 /* UIColor+DesignSystem.swift */; };
 		2C2D492E281151E100753F16 /* AuthCredentialsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2D492D281151E100753F16 /* AuthCredentialsAssembly.swift */; };
 		2C2D4930281151EB00753F16 /* AuthCredentialsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2D492F281151EB00753F16 /* AuthCredentialsViewModel.swift */; };
 		2C2D4932281154CB00753F16 /* Injection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2D4931281154CB00753F16 /* Injection.swift */; };
@@ -62,6 +63,7 @@
 		2C42EFB527F2EAB300B4648B /* GraphicsColor+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C42EFB427F2EAB300B4648B /* GraphicsColor+UIColor.swift */; };
 		2C42EFB727F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C42EFB627F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift */; };
 		2C46D0632807E4C100B3636E /* TextFieldWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */; };
+		2C49CC922851D4AC0040BA7F /* altcontent.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C49CC912851D4AC0040BA7F /* altcontent.css */; };
 		2C58DE232803BF97002A2774 /* AuthLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C58DE222803BF97002A2774 /* AuthLogoView.swift */; };
 		2C58DE252803C185002A2774 /* AuthSocialControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C58DE242803C185002A2774 /* AuthSocialControlsView.swift */; };
 		2C58DE292803D197002A2774 /* UIColor+DynamicColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C58DE282803D197002A2774 /* UIColor+DynamicColor.swift */; };
@@ -215,6 +217,7 @@
 		2C20FBCA284F7A45006D879E /* ProcessedContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessedContentView.swift; sourceTree = "<group>"; };
 		2C225E47281A5B6800E8ABD2 /* SourcelessRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourcelessRouter.swift; sourceTree = "<group>"; };
 		2C2452482847C27C00226702 /* Images+SystemNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Images+SystemNames.swift"; sourceTree = "<group>"; };
+		2C25BFD42851F8F00036C689 /* UIColor+DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+DesignSystem.swift"; sourceTree = "<group>"; };
 		2C2D492D281151E100753F16 /* AuthCredentialsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsAssembly.swift; sourceTree = "<group>"; };
 		2C2D492F281151EB00753F16 /* AuthCredentialsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsViewModel.swift; sourceTree = "<group>"; };
 		2C2D4931281154CB00753F16 /* Injection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Injection.swift; sourceTree = "<group>"; };
@@ -232,6 +235,7 @@
 		2C42EFB427F2EAB300B4648B /* GraphicsColor+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GraphicsColor+UIColor.swift"; sourceTree = "<group>"; };
 		2C42EFB627F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResourcesColorResourceThemed+UIColor.swift"; sourceTree = "<group>"; };
 		2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWrapper.swift; sourceTree = "<group>"; };
+		2C49CC912851D4AC0040BA7F /* altcontent.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = altcontent.css; sourceTree = "<group>"; };
 		2C58DE222803BF97002A2774 /* AuthLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthLogoView.swift; sourceTree = "<group>"; };
 		2C58DE242803C185002A2774 /* AuthSocialControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialControlsView.swift; sourceTree = "<group>"; };
 		2C58DE282803D197002A2774 /* UIColor+DynamicColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+DynamicColor.swift"; sourceTree = "<group>"; };
@@ -845,6 +849,7 @@
 			children = (
 				2CAFD39027FC5D5D00F88B0B /* Color+DesignSystem.swift */,
 				2CAFD38E27FC517D00F88B0B /* ColorPalette.swift */,
+				2C25BFD42851F8F00036C689 /* UIColor+DesignSystem.swift */,
 			);
 			path = Theme;
 			sourceTree = "<group>";
@@ -887,6 +892,7 @@
 			isa = PBXGroup;
 			children = (
 				2C98C79E2850B93100857783 /* alt.css */,
+				2C49CC912851D4AC0040BA7F /* altcontent.css */,
 				2C98C7A42850B93100857783 /* bootstrap.css */,
 				2C98C79F2850B93100857783 /* fonts.css */,
 				2C98C7A12850B93100857783 /* highlight.css */,
@@ -1195,6 +1201,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C98C7A92850B93100857783 /* highlight.css in Resources */,
+				2C49CC922851D4AC0040BA7F /* altcontent.css in Resources */,
 				2CE2817927E8EF1E00641E22 /* GoogleService-Info.plist in Resources */,
 				2C20FBB6284F54DF006D879E /* jquery-3.4.1.min.js in Resources */,
 				2C42EFA827F2C03D00B4648B /* Localizable.strings in Resources */,
@@ -1421,6 +1428,7 @@
 				E9B2CF5B2822960D00B2DC6F /* StepQuizBottomControls.swift in Sources */,
 				2C82BA322844B01D004C9013 /* PlaceholderView+Configurations.swift in Sources */,
 				E97A92F32835065000B9FC92 /* StepQuizProgressView.swift in Sources */,
+				2C25BFD52851F8F00036C689 /* UIColor+DesignSystem.swift in Sources */,
 				E91017152832975C002E70F5 /* CheckboxButton.swift in Sources */,
 				2C42EFB727F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift in Sources */,
 				E99788882830061300ADD74A /* QuizStatus.swift in Sources */,

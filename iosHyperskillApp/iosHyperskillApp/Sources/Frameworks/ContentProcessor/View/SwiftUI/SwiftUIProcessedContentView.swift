@@ -102,5 +102,20 @@ extension SwiftUIProcessedContentView {
             self.contentProcessor = contentProcessor
             self.htmlToAttributedStringConverter = HTMLToAttributedStringConverter(font: appearance.labelFont)
         }
+
+        static func quizContent(
+            textFont: UIFont = UIFont.preferredFont(forTextStyle: .body),
+            textColor: UIColor = UIColor.primaryText
+        ) -> Configuration {
+            Configuration(
+                appearance: .init(labelFont: textFont),
+                contentProcessor: ContentProcessor(
+                    injections: ContentProcessor.defaultInjections + [
+                        FontInjection(font: textFont),
+                        TextColorInjection(dynamicColor: textColor)
+                    ]
+                )
+            )
+        }
     }
 }
