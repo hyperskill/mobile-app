@@ -45,13 +45,17 @@ final class WebControllerManager: NSObject {
 
     func presentWebControllerWithURL(
         _ url: URL,
-        inController controller: UIViewController,
+        inController controller: UIViewController? = nil,
         withKey key: WebControllerKey,
         allowsSafari: Bool,
         backButtonStyle: BackButtonStyle,
         animated: Bool = true,
         forceCustom: Bool = false
     ) {
+        guard let controller = controller ?? SourcelessRouter().currentPresentedViewController() else {
+            return
+        }
+
         func present(url: URL) {
             if forceCustom {
                 self.currentWebControllerKey = key
@@ -97,7 +101,7 @@ final class WebControllerManager: NSObject {
 
     func presentWebControllerWithURLString(
         _ urlString: String,
-        inController controller: UIViewController,
+        inController controller: UIViewController? = nil,
         withKey key: WebControllerKey,
         allowsSafari: Bool,
         backButtonStyle: BackButtonStyle

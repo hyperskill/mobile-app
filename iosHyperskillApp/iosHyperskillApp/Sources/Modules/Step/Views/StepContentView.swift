@@ -1,7 +1,16 @@
 import SwiftUI
 
+extension StepContentView {
+    struct Appearance {
+        let stepTextFont = UIFont.preferredFont(forTextStyle: .body)
+        let stepTextColor = UIColor.primaryText
+    }
+}
+
 struct StepContentView: View {
-    let viewData: StepViewData
+    private(set) var appearance = Appearance()
+
+    @State var viewData: StepViewData
 
     var body: some View {
         ScrollView {
@@ -18,7 +27,19 @@ struct StepContentView: View {
                     print("Start practicing tapped")
                 }
 
-                Text(viewData.text)
+                LatexView(
+                    text: $viewData.text,
+                    configuration: .init(
+                        appearance: .init(labelFont: appearance.stepTextFont),
+                        contentProcessor: ContentProcessor(
+                            injections: ContentProcessor.defaultInjections + [
+                                StepStylesInjection(),
+                                FontInjection(font: appearance.stepTextFont),
+                                TextColorInjection(dynamicColor: appearance.stepTextColor)
+                            ]
+                        )
+                    )
+                )
 
                 StepBottomControlsView(
                     commentStatisticsViewData: viewData.commentsStatistics,

@@ -1,6 +1,15 @@
 import SwiftUI
 
+extension StepQuizTableSelectColumnsView {
+    struct Appearance {
+        let titleLeadingInset: CGFloat = 28
+        let titleLeadingInsetMultipleChoice: CGFloat = 26
+    }
+}
+
 struct StepQuizTableSelectColumnsView: View {
+    private(set) var appearance = Appearance()
+
     private let prompt: String
     private let title: String
 
@@ -33,14 +42,15 @@ struct StepQuizTableSelectColumnsView: View {
                 .font(.caption)
                 .foregroundColor(.primaryText)
 
-            VStack(alignment: .stepQuizTableSelectColumnsTitleAlignmentGuide, spacing: LayoutInsets.defaultInset) {
-                Text(title)
-                    .font(.body)
-                    .foregroundColor(.primaryText)
-                    .multilineTextAlignment(.leading)
-                    .alignmentGuide(.stepQuizTableSelectColumnsTitleAlignmentGuide) { context in
-                        context[.leading]
-                    }
+            VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
+                LatexView(
+                    text: .constant(title),
+                    configuration: .quizContent()
+                )
+                .padding(
+                    .leading,
+                    isMultipleChoice ? appearance.titleLeadingInsetMultipleChoice : appearance.titleLeadingInset
+                )
 
                 VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
                     ForEach(columns) { column in
@@ -81,20 +91,6 @@ struct StepQuizTableSelectColumnsView: View {
 
         onColumnsChanged(selectedColumnsIDs)
     }
-}
-
-extension HorizontalAlignment {
-    /// A custom alignment for title and text.
-    private struct StepQuizTableSelectColumnsTitleAlignment: AlignmentID {
-        static func defaultValue(in context: ViewDimensions) -> CGFloat {
-            context[HorizontalAlignment.leading]
-        }
-    }
-
-    /// A guide for aligning titles.
-    static let stepQuizTableSelectColumnsTitleAlignmentGuide = HorizontalAlignment(
-        StepQuizTableSelectColumnsTitleAlignment.self
-    )
 }
 
 struct StepQuizTableSelectColumnsView_Previews: PreviewProvider {

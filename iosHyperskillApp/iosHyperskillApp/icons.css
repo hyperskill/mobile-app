@@ -1,0 +1,18 @@
+.h-icon {
+  display: inline-block;
+  overflow: visible;
+  vertical-align: -0.15em;
+}
+
+.icon-question {
+  width: 1em;
+  height: 1em;
+  color: var(--black50);
+  cursor: help;
+  -webkit-transition: color 0.25s ease-in-out;
+  transition: color 0.25s ease-in-out;
+}
+
+.icon-question:hover {
+  color: var(--black100);
+}

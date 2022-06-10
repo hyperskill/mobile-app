@@ -24,8 +24,28 @@
 		2C1F5882280D5BAA00372A37 /* SocialAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F5881280D5BAA00372A37 /* SocialAuthService.swift */; };
 		2C1F5888280D5D6200372A37 /* SocialAuthSDKProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F5887280D5D6200372A37 /* SocialAuthSDKProvider.swift */; };
 		2C1F588B280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F588A280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift */; };
+		2C20FBA4284F165A006D879E /* ProcessedContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20FBA3284F165A006D879E /* ProcessedContent.swift */; };
+		2C20FBA6284F1924006D879E /* ContentProcessingInjection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20FBA5284F1924006D879E /* ContentProcessingInjection.swift */; };
+		2C20FBA8284F193A006D879E /* ContentProcessingRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20FBA7284F193A006D879E /* ContentProcessingRule.swift */; };
+		2C20FBAA284F1951006D879E /* ContentProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20FBA9284F1951006D879E /* ContentProcessor.swift */; };
+		2C20FBAC284F1964006D879E /* HTMLExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20FBAB284F1964006D879E /* HTMLExtractor.swift */; };
+		2C20FBAE284F1D05006D879E /* FontWeightNameMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20FBAD284F1D05006D879E /* FontWeightNameMapping.swift */; };
+		2C20FBB0284F1D8B006D879E /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20FBAF284F1D8B006D879E /* UIColor+Hex.swift */; };
+		2C20FBB2284F4FEA006D879E /* highlight.js in Resources */ = {isa = PBXBuildFile; fileRef = 2C20FBB1284F4FEA006D879E /* highlight.js */; };
+		2C20FBB4284F5145006D879E /* kotlin-playground-1.21.1.min.js in Resources */ = {isa = PBXBuildFile; fileRef = 2C20FBB3284F5145006D879E /* kotlin-playground-1.21.1.min.js */; };
+		2C20FBB6284F54DF006D879E /* jquery-3.4.1.min.js in Resources */ = {isa = PBXBuildFile; fileRef = 2C20FBB5284F54DF006D879E /* jquery-3.4.1.min.js */; };
+		2C20FBB8284F630C006D879E /* MathJax.js in Resources */ = {isa = PBXBuildFile; fileRef = 2C20FBB7284F630C006D879E /* MathJax.js */; };
+		2C20FBBC284F647C006D879E /* wysiwyg.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C20FBBA284F647C006D879E /* wysiwyg.css */; };
+		2C20FBBE284F658E006D879E /* ProcessedContentTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20FBBD284F658E006D879E /* ProcessedContentTextView.swift */; };
+		2C20FBC0284F65F6006D879E /* HTMLToAttributedStringConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20FBBF284F65F6006D879E /* HTMLToAttributedStringConverter.swift */; };
+		2C20FBC2284F66FC006D879E /* NSAttributedString+TrimmingCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20FBC1284F66FC006D879E /* NSAttributedString+TrimmingCharacters.swift */; };
+		2C20FBC4284F67F3006D879E /* ProcessedContentWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20FBC3284F67F3006D879E /* ProcessedContentWebView.swift */; };
+		2C20FBC7284F6928006D879E /* ProgrammaticallyInitializableViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20FBC6284F6928006D879E /* ProgrammaticallyInitializableViewProtocol.swift */; };
+		2C20FBC9284F6F97006D879E /* UnitConverters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20FBC8284F6F97006D879E /* UnitConverters.swift */; };
+		2C20FBCB284F7A45006D879E /* ProcessedContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20FBCA284F7A45006D879E /* ProcessedContentView.swift */; };
 		2C225E48281A5B6800E8ABD2 /* SourcelessRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C225E47281A5B6800E8ABD2 /* SourcelessRouter.swift */; };
 		2C2452492847C27C00226702 /* Images+SystemNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2452482847C27C00226702 /* Images+SystemNames.swift */; };
+		2C25BFD52851F8F00036C689 /* UIColor+DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C25BFD42851F8F00036C689 /* UIColor+DesignSystem.swift */; };
 		2C2D492E281151E100753F16 /* AuthCredentialsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2D492D281151E100753F16 /* AuthCredentialsAssembly.swift */; };
 		2C2D4930281151EB00753F16 /* AuthCredentialsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2D492F281151EB00753F16 /* AuthCredentialsViewModel.swift */; };
 		2C2D4932281154CB00753F16 /* Injection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2D4931281154CB00753F16 /* Injection.swift */; };
@@ -33,6 +53,7 @@
 		2C2FD62028191FFE004E7AF6 /* Sentry-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C2FD61F28191FFE004E7AF6 /* Sentry-Info.plist */; };
 		2C2FD622281920B1004E7AF6 /* SentryInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2FD621281920B1004E7AF6 /* SentryInfo.swift */; };
 		2C2FD62428192123004E7AF6 /* BundlePropertyListDeserializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2FD62328192123004E7AF6 /* BundlePropertyListDeserializer.swift */; };
+		2C2FF9C928506FDE0069C092 /* LatexView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2FF9C828506FDE0069C092 /* LatexView.swift */; };
 		2C32374D2837F7190062CAF6 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C32374C2837F7190062CAF6 /* Images.swift */; };
 		2C32375328380C340062CAF6 /* NavigationToolbarInfoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C32375228380C340062CAF6 /* NavigationToolbarInfoItem.swift */; };
 		2C41127828376F6D004948A3 /* StepQuizDiscussionsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C41127728376F6D004948A3 /* StepQuizDiscussionsButton.swift */; };
@@ -42,6 +63,7 @@
 		2C42EFB527F2EAB300B4648B /* GraphicsColor+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C42EFB427F2EAB300B4648B /* GraphicsColor+UIColor.swift */; };
 		2C42EFB727F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C42EFB627F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift */; };
 		2C46D0632807E4C100B3636E /* TextFieldWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */; };
+		2C49CC922851D4AC0040BA7F /* altcontent.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C49CC912851D4AC0040BA7F /* altcontent.css */; };
 		2C58DE232803BF97002A2774 /* AuthLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C58DE222803BF97002A2774 /* AuthLogoView.swift */; };
 		2C58DE252803C185002A2774 /* AuthSocialControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C58DE242803C185002A2774 /* AuthSocialControlsView.swift */; };
 		2C58DE292803D197002A2774 /* UIColor+DynamicColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C58DE282803D197002A2774 /* UIColor+DynamicColor.swift */; };
@@ -71,6 +93,13 @@
 		2C963BCA2812D3550036DD53 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C963BC92812D3550036DD53 /* SettingsView.swift */; };
 		2C963BCC2812D9330036DD53 /* SettingsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C963BCB2812D9330036DD53 /* SettingsAssembly.swift */; };
 		2C963BCE2812E7B60036DD53 /* AppNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C963BCD2812E7B60036DD53 /* AppNavigation.swift */; };
+		2C98C7A62850B93100857783 /* alt.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C98C79E2850B93100857783 /* alt.css */; };
+		2C98C7A72850B93100857783 /* fonts.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C98C79F2850B93100857783 /* fonts.css */; };
+		2C98C7A92850B93100857783 /* highlight.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C98C7A12850B93100857783 /* highlight.css */; };
+		2C98C7AA2850B93100857783 /* step.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C98C7A22850B93100857783 /* step.css */; };
+		2C98C7AB2850B93100857783 /* variables.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C98C7A32850B93100857783 /* variables.css */; };
+		2C98C7AC2850B93100857783 /* bootstrap.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C98C7A42850B93100857783 /* bootstrap.css */; };
+		2C98C7AD2850B93100857783 /* icons.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C98C7A52850B93100857783 /* icons.css */; };
 		2C9B66C427ECA73700569645 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9B66C327ECA73700569645 /* AppDelegate.swift */; };
 		2C9CC1BD280920B5006604D7 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9CC1BC280920B5006604D7 /* KeyboardManager.swift */; };
 		2C9CC1BF28092E06006604D7 /* AuthAdaptiveContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9CC1BE28092E06006604D7 /* AuthAdaptiveContentView.swift */; };
@@ -97,6 +126,7 @@
 		2CE31F4B27F1E070008EEE66 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4A27F1E070008EEE66 /* AppViewModel.swift */; };
 		2CE31F4D27F1E0C8008EEE66 /* AppAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4C27F1E0C8008EEE66 /* AppAssembly.swift */; };
 		2CF2DA3A27EC5B2D0055426D /* Assembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF2DA3927EC5B2D0055426D /* Assembly.swift */; };
+		2CF41A8E28505D2C000736D6 /* SwiftUIProcessedContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF41A8D28505D2C000736D6 /* SwiftUIProcessedContentView.swift */; };
 		2CF43410281268A1002893CD /* String+Whitespaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF4340F281268A1002893CD /* String+Whitespaces.swift */; };
 		2CF4341228126C79002893CD /* View+EndEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF4341128126C79002893CD /* View+EndEditing.swift */; };
 		2CF43414281281DB002893CD /* AuthTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF43413281281DB002893CD /* AuthTextField.swift */; };
@@ -166,8 +196,28 @@
 		2C1F5881280D5BAA00372A37 /* SocialAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialAuthService.swift; sourceTree = "<group>"; };
 		2C1F5887280D5D6200372A37 /* SocialAuthSDKProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialAuthSDKProvider.swift; sourceTree = "<group>"; };
 		2C1F588A280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSocialAuthSDKProvider.swift; sourceTree = "<group>"; };
+		2C20FBA3284F165A006D879E /* ProcessedContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessedContent.swift; sourceTree = "<group>"; };
+		2C20FBA5284F1924006D879E /* ContentProcessingInjection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentProcessingInjection.swift; sourceTree = "<group>"; };
+		2C20FBA7284F193A006D879E /* ContentProcessingRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentProcessingRule.swift; sourceTree = "<group>"; };
+		2C20FBA9284F1951006D879E /* ContentProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentProcessor.swift; sourceTree = "<group>"; };
+		2C20FBAB284F1964006D879E /* HTMLExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLExtractor.swift; sourceTree = "<group>"; };
+		2C20FBAD284F1D05006D879E /* FontWeightNameMapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontWeightNameMapping.swift; sourceTree = "<group>"; };
+		2C20FBAF284F1D8B006D879E /* UIColor+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
+		2C20FBB1284F4FEA006D879E /* highlight.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = highlight.js; sourceTree = "<group>"; };
+		2C20FBB3284F5145006D879E /* kotlin-playground-1.21.1.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "kotlin-playground-1.21.1.min.js"; sourceTree = "<group>"; };
+		2C20FBB5284F54DF006D879E /* jquery-3.4.1.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-3.4.1.min.js"; sourceTree = "<group>"; };
+		2C20FBB7284F630C006D879E /* MathJax.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MathJax.js; sourceTree = "<group>"; };
+		2C20FBBA284F647C006D879E /* wysiwyg.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = wysiwyg.css; sourceTree = "<group>"; };
+		2C20FBBD284F658E006D879E /* ProcessedContentTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessedContentTextView.swift; sourceTree = "<group>"; };
+		2C20FBBF284F65F6006D879E /* HTMLToAttributedStringConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLToAttributedStringConverter.swift; sourceTree = "<group>"; };
+		2C20FBC1284F66FC006D879E /* NSAttributedString+TrimmingCharacters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+TrimmingCharacters.swift"; sourceTree = "<group>"; };
+		2C20FBC3284F67F3006D879E /* ProcessedContentWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessedContentWebView.swift; sourceTree = "<group>"; };
+		2C20FBC6284F6928006D879E /* ProgrammaticallyInitializableViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgrammaticallyInitializableViewProtocol.swift; sourceTree = "<group>"; };
+		2C20FBC8284F6F97006D879E /* UnitConverters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitConverters.swift; sourceTree = "<group>"; };
+		2C20FBCA284F7A45006D879E /* ProcessedContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessedContentView.swift; sourceTree = "<group>"; };
 		2C225E47281A5B6800E8ABD2 /* SourcelessRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourcelessRouter.swift; sourceTree = "<group>"; };
 		2C2452482847C27C00226702 /* Images+SystemNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Images+SystemNames.swift"; sourceTree = "<group>"; };
+		2C25BFD42851F8F00036C689 /* UIColor+DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+DesignSystem.swift"; sourceTree = "<group>"; };
 		2C2D492D281151E100753F16 /* AuthCredentialsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsAssembly.swift; sourceTree = "<group>"; };
 		2C2D492F281151EB00753F16 /* AuthCredentialsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsViewModel.swift; sourceTree = "<group>"; };
 		2C2D4931281154CB00753F16 /* Injection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Injection.swift; sourceTree = "<group>"; };
@@ -175,6 +225,7 @@
 		2C2FD61F28191FFE004E7AF6 /* Sentry-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Sentry-Info.plist"; sourceTree = "<group>"; };
 		2C2FD621281920B1004E7AF6 /* SentryInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentryInfo.swift; sourceTree = "<group>"; };
 		2C2FD62328192123004E7AF6 /* BundlePropertyListDeserializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundlePropertyListDeserializer.swift; sourceTree = "<group>"; };
+		2C2FF9C828506FDE0069C092 /* LatexView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatexView.swift; sourceTree = "<group>"; };
 		2C32374C2837F7190062CAF6 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		2C32375228380C340062CAF6 /* NavigationToolbarInfoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationToolbarInfoItem.swift; sourceTree = "<group>"; };
 		2C41127728376F6D004948A3 /* StepQuizDiscussionsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizDiscussionsButton.swift; sourceTree = "<group>"; };
@@ -184,6 +235,7 @@
 		2C42EFB427F2EAB300B4648B /* GraphicsColor+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GraphicsColor+UIColor.swift"; sourceTree = "<group>"; };
 		2C42EFB627F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResourcesColorResourceThemed+UIColor.swift"; sourceTree = "<group>"; };
 		2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWrapper.swift; sourceTree = "<group>"; };
+		2C49CC912851D4AC0040BA7F /* altcontent.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = altcontent.css; sourceTree = "<group>"; };
 		2C58DE222803BF97002A2774 /* AuthLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthLogoView.swift; sourceTree = "<group>"; };
 		2C58DE242803C185002A2774 /* AuthSocialControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialControlsView.swift; sourceTree = "<group>"; };
 		2C58DE282803D197002A2774 /* UIColor+DynamicColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+DynamicColor.swift"; sourceTree = "<group>"; };
@@ -214,6 +266,13 @@
 		2C963BC92812D3550036DD53 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		2C963BCB2812D9330036DD53 /* SettingsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAssembly.swift; sourceTree = "<group>"; };
 		2C963BCD2812E7B60036DD53 /* AppNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigation.swift; sourceTree = "<group>"; };
+		2C98C79E2850B93100857783 /* alt.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = alt.css; sourceTree = "<group>"; };
+		2C98C79F2850B93100857783 /* fonts.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = fonts.css; sourceTree = "<group>"; };
+		2C98C7A12850B93100857783 /* highlight.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = highlight.css; sourceTree = "<group>"; };
+		2C98C7A22850B93100857783 /* step.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = step.css; sourceTree = "<group>"; };
+		2C98C7A32850B93100857783 /* variables.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = variables.css; sourceTree = "<group>"; };
+		2C98C7A42850B93100857783 /* bootstrap.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = bootstrap.css; sourceTree = "<group>"; };
+		2C98C7A52850B93100857783 /* icons.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = icons.css; sourceTree = "<group>"; };
 		2C9B66C327ECA73700569645 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C9CC1BC280920B5006604D7 /* KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
 		2C9CC1BE28092E06006604D7 /* AuthAdaptiveContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAdaptiveContentView.swift; sourceTree = "<group>"; };
@@ -240,6 +299,7 @@
 		2CE31F4A27F1E070008EEE66 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		2CE31F4C27F1E0C8008EEE66 /* AppAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAssembly.swift; sourceTree = "<group>"; };
 		2CF2DA3927EC5B2D0055426D /* Assembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembly.swift; sourceTree = "<group>"; };
+		2CF41A8D28505D2C000736D6 /* SwiftUIProcessedContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIProcessedContentView.swift; sourceTree = "<group>"; };
 		2CF4340F281268A1002893CD /* String+Whitespaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Whitespaces.swift"; sourceTree = "<group>"; };
 		2CF4341128126C79002893CD /* View+EndEditing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+EndEditing.swift"; sourceTree = "<group>"; };
 		2CF43413281281DB002893CD /* AuthTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTextField.swift; sourceTree = "<group>"; };
@@ -344,6 +404,7 @@
 				2CCF3B5628004F860075D12C /* Helpers */,
 				2CF2DA3B27EC5B980055426D /* Models */,
 				2C1DEE2D27EC40200001A567 /* Modules */,
+				2C20FBC5284F691C006D879E /* Protocols */,
 				2C1F5880280D5B8200372A37 /* Services */,
 				2C906CBC280E5C7D0079C594 /* Systems */,
 				2C005DCF27EF5BD200DC6503 /* Views */,
@@ -384,6 +445,7 @@
 		2C1F586C280D09A100372A37 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				2C20FBC1284F66FC006D879E /* NSAttributedString+TrimmingCharacters.swift */,
 				2C1F587A280D2E5100372A37 /* URLExtensions.swift */,
 			);
 			path = Foundation;
@@ -450,6 +512,44 @@
 			path = SDKs;
 			sourceTree = "<group>";
 		};
+		2C20FBA0284F15EC006D879E /* ContentProcessor */ = {
+			isa = PBXGroup;
+			children = (
+				2C20FBA1284F15FD006D879E /* Processing */,
+				2C20FBA2284F1606006D879E /* View */,
+			);
+			path = ContentProcessor;
+			sourceTree = "<group>";
+		};
+		2C20FBA1284F15FD006D879E /* Processing */ = {
+			isa = PBXGroup;
+			children = (
+				2C20FBA5284F1924006D879E /* ContentProcessingInjection.swift */,
+				2C20FBA7284F193A006D879E /* ContentProcessingRule.swift */,
+				2C20FBA9284F1951006D879E /* ContentProcessor.swift */,
+				2C20FBAB284F1964006D879E /* HTMLExtractor.swift */,
+				2C20FBA3284F165A006D879E /* ProcessedContent.swift */,
+			);
+			path = Processing;
+			sourceTree = "<group>";
+		};
+		2C20FBA2284F1606006D879E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2CF41A8F28506F12000736D6 /* SwiftUI */,
+				2C2FF9CA285073340069C092 /* UIKit */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		2C20FBC5284F691C006D879E /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				2C20FBC6284F6928006D879E /* ProgrammaticallyInitializableViewProtocol.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		2C24524A2847C28100226702 /* Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -457,6 +557,16 @@
 				2C2452482847C27C00226702 /* Images+SystemNames.swift */,
 			);
 			path = Images;
+			sourceTree = "<group>";
+		};
+		2C2FF9CA285073340069C092 /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				2C20FBBD284F658E006D879E /* ProcessedContentTextView.swift */,
+				2C20FBCA284F7A45006D879E /* ProcessedContentView.swift */,
+				2C20FBC3284F67F3006D879E /* ProcessedContentWebView.swift */,
+			);
+			path = UIKit;
 			sourceTree = "<group>";
 		};
 		2C323750283808300062CAF6 /* View */ = {
@@ -669,6 +779,7 @@
 			isa = PBXGroup;
 			children = (
 				2C58DE282803D197002A2774 /* UIColor+DynamicColor.swift */,
+				2C20FBAF284F1D8B006D879E /* UIColor+Hex.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -738,6 +849,7 @@
 			children = (
 				2CAFD39027FC5D5D00F88B0B /* Color+DesignSystem.swift */,
 				2CAFD38E27FC517D00F88B0B /* ColorPalette.swift */,
+				2C25BFD42851F8F00036C689 /* UIColor+DesignSystem.swift */,
 			);
 			path = Theme;
 			sourceTree = "<group>";
@@ -766,9 +878,11 @@
 			children = (
 				2C2FD62328192123004E7AF6 /* BundlePropertyListDeserializer.swift */,
 				2CCF3B59280050890075D12C /* DeviceInfo.swift */,
+				2C20FBBF284F65F6006D879E /* HTMLToAttributedStringConverter.swift */,
 				2C725B602809125700A49043 /* LayoutInsets.swift */,
 				2C863D922804279E0021EFED /* Require.swift */,
 				2C225E47281A5B6800E8ABD2 /* SourcelessRouter.swift */,
+				2C20FBC8284F6F97006D879E /* UnitConverters.swift */,
 				2CCF3B5728004FC40075D12C /* UserAgentBuilder.swift */,
 			);
 			path = Helpers;
@@ -777,7 +891,20 @@
 		2CE2817727E8EEDC00641E22 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2C98C79E2850B93100857783 /* alt.css */,
+				2C49CC912851D4AC0040BA7F /* altcontent.css */,
+				2C98C7A42850B93100857783 /* bootstrap.css */,
+				2C98C79F2850B93100857783 /* fonts.css */,
+				2C98C7A12850B93100857783 /* highlight.css */,
+				2C98C7A52850B93100857783 /* icons.css */,
+				2C98C7A22850B93100857783 /* step.css */,
+				2C98C7A32850B93100857783 /* variables.css */,
+				2C20FBBA284F647C006D879E /* wysiwyg.css */,
 				2C1F5872280D0E0000372A37 /* iosHyperskillApp-Bridging-Header.h */,
+				2C20FBB1284F4FEA006D879E /* highlight.js */,
+				2C20FBB5284F54DF006D879E /* jquery-3.4.1.min.js */,
+				2C20FBB3284F5145006D879E /* kotlin-playground-1.21.1.min.js */,
+				2C20FBB7284F630C006D879E /* MathJax.js */,
 				2CE2817827E8EF1E00641E22 /* GoogleService-Info.plist */,
 				7555FF8C242A565B00829871 /* Info.plist */,
 				2C2FD61F28191FFE004E7AF6 /* Sentry-Info.plist */,
@@ -802,6 +929,7 @@
 		2CF2DA3B27EC5B980055426D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				2C20FBAD284F1D05006D879E /* FontWeightNameMapping.swift */,
 				E99788872830061300ADD74A /* QuizStatus.swift */,
 				2CF2DA3C27EC5BA00055426D /* Constants */,
 			);
@@ -824,6 +952,7 @@
 			isa = PBXGroup;
 			children = (
 				2C919DE627EEEDC40022A2F2 /* Collections */,
+				2C20FBA0284F15EC006D879E /* ContentProcessor */,
 				2CF2DA4327EC7DBC0055426D /* Core */,
 				2C8E4F032848788D0011ADFA /* PanModal */,
 				2C1F5867280D061800372A37 /* WebController */,
@@ -839,6 +968,15 @@
 				2C2D4931281154CB00753F16 /* Injection.swift */,
 			);
 			path = Core;
+			sourceTree = "<group>";
+		};
+		2CF41A8F28506F12000736D6 /* SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				2C2FF9C828506FDE0069C092 /* LatexView.swift */,
+				2CF41A8D28505D2C000736D6 /* SwiftUIProcessedContentView.swift */,
+			);
+			path = SwiftUI;
 			sourceTree = "<group>";
 		};
 		2CF4340E28126886002893CD /* SwiftStdlib */ = {
@@ -1062,11 +1200,24 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C98C7A92850B93100857783 /* highlight.css in Resources */,
+				2C49CC922851D4AC0040BA7F /* altcontent.css in Resources */,
 				2CE2817927E8EF1E00641E22 /* GoogleService-Info.plist in Resources */,
+				2C20FBB6284F54DF006D879E /* jquery-3.4.1.min.js in Resources */,
 				2C42EFA827F2C03D00B4648B /* Localizable.strings in Resources */,
+				2C98C7A62850B93100857783 /* alt.css in Resources */,
 				058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */,
+				2C20FBBC284F647C006D879E /* wysiwyg.css in Resources */,
+				2C98C7AD2850B93100857783 /* icons.css in Resources */,
+				2C98C7A72850B93100857783 /* fonts.css in Resources */,
+				2C20FBB2284F4FEA006D879E /* highlight.js in Resources */,
 				058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */,
+				2C98C7AA2850B93100857783 /* step.css in Resources */,
+				2C98C7AC2850B93100857783 /* bootstrap.css in Resources */,
+				2C20FBB4284F5145006D879E /* kotlin-playground-1.21.1.min.js in Resources */,
+				2C98C7AB2850B93100857783 /* variables.css in Resources */,
 				2C2FD62028191FFE004E7AF6 /* Sentry-Info.plist in Resources */,
+				2C20FBB8284F630C006D879E /* MathJax.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1172,6 +1323,7 @@
 				2C84094F2805B28B009C6BE9 /* StepRatingControl.swift in Sources */,
 				E9B2CF5D2822975400B2DC6F /* StepQuizStatsView.swift in Sources */,
 				2C8E4FB12848C9050011ADFA /* StepQuizTableSelectColumnsView.swift in Sources */,
+				2C20FBC4284F67F3006D879E /* ProcessedContentWebView.swift in Sources */,
 				2C005DCC27EF5B0300DC6503 /* GoogleServiceInfo.swift in Sources */,
 				2C8E4FB628490C020011ADFA /* PanModalPresenter.swift in Sources */,
 				E94D238D28057F440003273F /* AuthCredentialsView.swift in Sources */,
@@ -1187,18 +1339,23 @@
 				2CCF3B5828004FC40075D12C /* UserAgentBuilder.swift in Sources */,
 				2C963BC52812D1A70036DD53 /* HomeView.swift in Sources */,
 				E9101713283296F3002E70F5 /* RadioButton.swift in Sources */,
+				2C20FBC2284F66FC006D879E /* NSAttributedString+TrimmingCharacters.swift in Sources */,
 				2C919DE827EEEDD60022A2F2 /* LinkedList.swift in Sources */,
 				2C225E48281A5B6800E8ABD2 /* SourcelessRouter.swift in Sources */,
 				2C46D0632807E4C100B3636E /* TextFieldWrapper.swift in Sources */,
 				2CAFD38F27FC517D00F88B0B /* ColorPalette.swift in Sources */,
+				2C20FBAA284F1951006D879E /* ContentProcessor.swift in Sources */,
 				2C1F5888280D5D6200372A37 /* SocialAuthSDKProvider.swift in Sources */,
 				2CAE8CF728052F9600E6C83D /* StepHeaderView.swift in Sources */,
 				2C919E3527EEFF110022A2F2 /* Queue.swift in Sources */,
 				2C58DE292803D197002A2774 /* UIColor+DynamicColor.swift in Sources */,
 				2CAE8D092805789100E6C83D /* StepCommentsStatisticsView.swift in Sources */,
+				2C20FBA8284F193A006D879E /* ContentProcessingRule.swift in Sources */,
+				2C20FBC9284F6F97006D879E /* UnitConverters.swift in Sources */,
 				2C725B5E28090D1F00A49043 /* View+Border.swift in Sources */,
 				2C8E4F9C2848A1550011ADFA /* PanModalViewModifier.swift in Sources */,
 				2C8E4F9A284897360011ADFA /* PanModalSwiftUIViewController.swift in Sources */,
+				2C20FBA6284F1924006D879E /* ContentProcessingInjection.swift in Sources */,
 				2CE31F4D27F1E0C8008EEE66 /* AppAssembly.swift in Sources */,
 				2CCF3B5A280050890075D12C /* DeviceInfo.swift in Sources */,
 				2C963BCA2812D3550036DD53 /* SettingsView.swift in Sources */,
@@ -1206,6 +1363,8 @@
 				2C58DE2B2803DEE2002A2774 /* VerticalCenteredScrollView.swift in Sources */,
 				2C8E4FA12848BF1F0011ADFA /* StepQuizTableSelectColumnsViewController.swift in Sources */,
 				2C1F5877280D2B4800372A37 /* ApplicationInfo.swift in Sources */,
+				2C20FBBE284F658E006D879E /* ProcessedContentTextView.swift in Sources */,
+				2C20FBAE284F1D05006D879E /* FontWeightNameMapping.swift in Sources */,
 				2C2D4932281154CB00753F16 /* Injection.swift in Sources */,
 				E900D1052843573A00A77BBC /* StepQuizSortingIcon.swift in Sources */,
 				2CAE8D0528055D8300E6C83D /* StepActionButton.swift in Sources */,
@@ -1214,6 +1373,8 @@
 				2C42EFAD27F2C29500B4648B /* Strings.swift in Sources */,
 				2C906CBE280E5D9C0079C594 /* ProgressHUD.swift in Sources */,
 				2CA8E094281039EB00154088 /* RoundedRectangleButtonStyle.swift in Sources */,
+				2C2FF9C928506FDE0069C092 /* LatexView.swift in Sources */,
+				2C20FBC7284F6928006D879E /* ProgrammaticallyInitializableViewProtocol.swift in Sources */,
 				E951757927E61ACD00995008 /* AuthSocialView.swift in Sources */,
 				2C1F5875280D0E0000372A37 /* WKWebViewPanelManager.m in Sources */,
 				2C1F5870280D0CB700372A37 /* WebCacheCleaner.swift in Sources */,
@@ -1233,21 +1394,27 @@
 				2C8E4F982848961C0011ADFA /* UIViewController+PresentPanModal.swift in Sources */,
 				2CA8E095281039EB00154088 /* BounceButtonStyle.swift in Sources */,
 				2CAE8D0C2805829A00E6C83D /* StepViewData.swift in Sources */,
+				2C20FBCB284F7A45006D879E /* ProcessedContentView.swift in Sources */,
 				2C1F587B280D2E5100372A37 /* URLExtensions.swift in Sources */,
 				2C1F586B280D094A00372A37 /* WebControllerManager.swift in Sources */,
 				E92D659727FC2F4100953029 /* AuthSocialButton.swift in Sources */,
 				E99D4CEF2826B91100B49D52 /* StepQuizStatusView.swift in Sources */,
+				2C20FBB0284F1D8B006D879E /* UIColor+Hex.swift in Sources */,
 				2CAE8CF4280525D400E6C83D /* StepAssembly.swift in Sources */,
+				2C20FBA4284F165A006D879E /* ProcessedContent.swift in Sources */,
 				E9B2CF6D2822AE5F00B2DC6F /* StepQuizFeedbackView.swift in Sources */,
 				2CF72AA828477E0600E1C192 /* StepQuizTableRowView.swift in Sources */,
 				2C32374D2837F7190062CAF6 /* Images.swift in Sources */,
 				2C1F588B280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift in Sources */,
 				E9C8C5692822B897005A81EB /* StepQuizChoicesView.swift in Sources */,
+				2CF41A8E28505D2C000736D6 /* SwiftUIProcessedContentView.swift in Sources */,
 				2CF72AA32847757300E1C192 /* StepQuizTableViewData.swift in Sources */,
 				E93B3745283E527000968DF0 /* PlaceholderView.swift in Sources */,
 				E9B2CF5F2822979400B2DC6F /* StepQuizHintButton.swift in Sources */,
 				2C42EFB527F2EAB300B4648B /* GraphicsColor+UIColor.swift in Sources */,
 				E9D2D670284E0A70000757AC /* StepQuizMatchingViewData.swift in Sources */,
+				2C20FBC0284F65F6006D879E /* HTMLToAttributedStringConverter.swift in Sources */,
+				2C20FBAC284F1964006D879E /* HTMLExtractor.swift in Sources */,
 				E9B3A18C2828093800FE248B /* StepQuizActionButton.swift in Sources */,
 				2C725B632809198000A49043 /* BackgroundView.swift in Sources */,
 				2CF43414281281DB002893CD /* AuthTextField.swift in Sources */,
@@ -1261,6 +1428,7 @@
 				E9B2CF5B2822960D00B2DC6F /* StepQuizBottomControls.swift in Sources */,
 				2C82BA322844B01D004C9013 /* PlaceholderView+Configurations.swift in Sources */,
 				E97A92F32835065000B9FC92 /* StepQuizProgressView.swift in Sources */,
+				2C25BFD52851F8F00036C689 /* UIColor+DesignSystem.swift in Sources */,
 				E91017152832975C002E70F5 /* CheckboxButton.swift in Sources */,
 				2C42EFB727F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift in Sources */,
 				E99788882830061300ADD74A /* QuizStatus.swift in Sources */,

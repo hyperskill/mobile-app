@@ -2,6 +2,12 @@ import SwiftUI
 
 extension StepQuizTableRowView {
     struct Appearance {
+        let titleFont = UIFont.preferredFont(forTextStyle: .body)
+        let titleTextColor = UIColor.primaryText
+
+        let subtitleFont = UIFont.preferredFont(forTextStyle: .subheadline)
+        let subtitleTextColor = UIColor.secondaryText
+
         let interItemSpacing = LayoutInsets.smallInset
 
         let chevronRightIconWidthHeight: CGFloat = 24
@@ -22,14 +28,22 @@ struct StepQuizTableRowView: View {
             HStack(spacing: appearance.interItemSpacing) {
                 VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
                     Group {
-                        Text(title)
-                            .font(.body)
-                            .foregroundColor(.primaryText)
+                        LatexView(
+                            text: .constant(title),
+                            configuration: .quizContent(
+                                textFont: appearance.titleFont,
+                                textColor: appearance.titleTextColor
+                            )
+                        )
 
                         if let subtitle = subtitle, !subtitle.isEmpty {
-                            Text(subtitle)
-                                .font(.subheadline)
-                                .foregroundColor(.secondaryText)
+                            LatexView(
+                                text: .constant(subtitle),
+                                configuration: .quizContent(
+                                    textFont: appearance.subtitleFont,
+                                    textColor: appearance.subtitleTextColor
+                                )
+                            )
                         }
                     }
                     .multilineTextAlignment(.leading)
