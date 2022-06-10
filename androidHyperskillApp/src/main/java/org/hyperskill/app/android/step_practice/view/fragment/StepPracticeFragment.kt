@@ -31,8 +31,10 @@ class StepPracticeFragment : Fragment(R.layout.fragment_step_practice) {
             }
         }
     }
-    private val viewBinding: FragmentStepPracticeBinding by viewBinding(FragmentStepPracticeBinding::bind)
     private lateinit var resourceProvider: ResourceProvider
+
+    private val viewBinding: FragmentStepPracticeBinding by viewBinding(FragmentStepPracticeBinding::bind)
+
     private lateinit var step: Step
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,7 +51,7 @@ class StepPracticeFragment : Fragment(R.layout.fragment_step_practice) {
         viewBinding.stepPracticeCompletion.text = resourceProvider.getString(
             SharedResources.strings.step_quiz_stats_text,
             step.solvedBy.toString(),
-            "10 minutes"
+            "10 minutes" // TODO Update with data from step
         )
         initStepTheoryFragment(step)
         setStepQuizFragment(step)

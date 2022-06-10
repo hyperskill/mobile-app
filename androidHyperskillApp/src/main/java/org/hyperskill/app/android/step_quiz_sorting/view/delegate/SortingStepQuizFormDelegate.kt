@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizSortingBinding
-import org.hyperskill.app.android.step_quiz.presentation.model.ReplyResult
+import org.hyperskill.app.android.step_quiz.view.model.ReplyResult
 import org.hyperskill.app.android.step_quiz_sorting.view.adapter.SortingOptionAdapterDelegate
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz_sorting.view.mapper.SortingOptionMapper

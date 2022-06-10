@@ -18,7 +18,7 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.HorizontalMarginItemDecoration
 import org.hyperskill.app.android.databinding.FragmentStepTheoryBinding
 import org.hyperskill.app.android.databinding.ItemStepTheoryRatingBinding
-import org.hyperskill.app.android.step_content_text.view.model.StepTheoryRating
+import org.hyperskill.app.android.step_theory.view.model.StepTheoryRating
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.VerticalMarginItemDecoration
 import org.hyperskill.app.android.databinding.ItemStepCommentActionBinding
 import org.hyperskill.app.android.step_content_text.view.fragment.TextStepContentFragment
@@ -44,13 +44,14 @@ class StepTheoryFragment : Fragment(R.layout.fragment_step_theory) {
         }
     }
 
-    private lateinit var step: Step
     private lateinit var resourceProvider: ResourceProvider
     private lateinit var commentThreadTitleMapper: CommentThreadTitleMapper
 
     private val viewBinding: FragmentStepTheoryBinding by viewBinding(FragmentStepTheoryBinding::bind)
     private val stepTheoryRatingAdapter: DefaultDelegateAdapter<StepTheoryRating> = DefaultDelegateAdapter()
     private val stepCommentStatisticsAdapter: DefaultDelegateAdapter<CommentStatisticsEntry> = DefaultDelegateAdapter()
+
+    private lateinit var step: Step
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -35,6 +35,7 @@ class StepQuizFeedbackBlocksDelegate(
         layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackEvaluation.setCompoundDrawablesWithIntrinsicBounds(evaluationDrawable, null, null, null)
         evaluationDrawable.start()
 
+        // TODO Ask design team about correct feedback
         layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackCorrect.text = "Good job!"
         layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackWrong.setText(R.string.step_quiz_status_wrong_text)
     }
@@ -43,6 +44,7 @@ class StepQuizFeedbackBlocksDelegate(
         viewStateDelegate.switchState(state)
         when (state) {
             is StepQuizFeedbackState.Correct -> {
+                // TODO Ask design team about correct feedback
                 layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackCorrect.text = "Good job!"
                 setHint(layoutStepQuizFeedbackBlockBinding, state.hint)
             }

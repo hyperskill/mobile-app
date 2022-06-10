@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.step_quiz.presentation.mapper
+package org.hyperskill.app.android.step_quiz.view.mapper
 
 import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
@@ -39,5 +39,4 @@ class StepQuizFeedbackMapper {
                     """<pre><span style="font-family: 'Roboto';">$it</span></pre>"""
                 }
             }
-//            ?.let(TextUtil::linkify)
 }

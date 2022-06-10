@@ -10,8 +10,8 @@ import com.chrynan.parcelable.core.getParcelable
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
-import org.hyperskill.app.android.step_quiz.presentation.model.ReplyResult
-import org.hyperskill.app.android.step_quiz.presentation.mapper.StepQuizFeedbackMapper
+import org.hyperskill.app.android.step_quiz.view.model.ReplyResult
+import org.hyperskill.app.android.step_quiz.view.mapper.StepQuizFeedbackMapper
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFeedbackBlocksDelegate
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizViewStateDelegateFactory
@@ -30,22 +30,23 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
     }
 
     private lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    protected val viewBinding: FragmentStepQuizBinding by viewBinding(FragmentStepQuizBinding::bind)
+    private val stepQuizViewModel: StepQuizViewModel by viewModels { viewModelFactory }
+
     private lateinit var viewStateDelegate: ViewStateDelegate<StepQuizFeature.State>
     private lateinit var stepQuizFeedbackBlocksDelegate: StepQuizFeedbackBlocksDelegate
     private lateinit var stepQuizFormDelegate: StepQuizFormDelegate
-    private lateinit var step: Step
+    private val stepQuizFeedbackMapper = StepQuizFeedbackMapper()
 
     protected abstract val quizViews: Array<View>
 
-    private val stepQuizFeedbackMapper = StepQuizFeedbackMapper()
-    private val stepQuizViewModel: StepQuizViewModel by viewModels { viewModelFactory }
-    protected val viewBinding: FragmentStepQuizBinding by viewBinding(FragmentStepQuizBinding::bind)
+    private lateinit var step: Step
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponent()
         step = requireArguments().getParcelable<Step>(KEY_STEP) ?: throw IllegalStateException()
-        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.InitWithStep(step))
     }
 
     private fun injectComponent() {
@@ -56,16 +57,18 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewStateDelegate = StepQuizViewStateDelegateFactory.create(viewBinding, *quizViews)
         stepQuizFeedbackBlocksDelegate = StepQuizFeedbackBlocksDelegate(requireContext(), viewBinding.stepQuizFeedbackBlocks)
         stepQuizFormDelegate = createStepQuizFormDelegate(viewBinding)
+
         viewBinding.stepQuizSubmitButton.setOnClickListener {
             onActionButtonClicked()
         }
         viewBinding.stepQuizNetworkError.tryAgain.setOnClickListener {
             stepQuizViewModel.onNewMessage(StepQuizFeature.Message.InitWithStep(step, forceUpdate = true))
         }
+
+        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.InitWithStep(step))
     }
 
     protected abstract fun createStepQuizFormDelegate(containerBinding: FragmentStepQuizBinding): StepQuizFormDelegate

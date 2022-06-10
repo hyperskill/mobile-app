@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.step_content_text.view.model
+package org.hyperskill.app.android.step_theory.view.model
 
 import androidx.annotation.DrawableRes
 import org.hyperskill.app.android.R

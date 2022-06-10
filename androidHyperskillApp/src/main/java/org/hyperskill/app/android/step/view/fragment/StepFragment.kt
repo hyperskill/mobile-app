@@ -45,10 +45,10 @@ class StepFragment : Fragment(R.layout.fragment_step), ReduxView<StepFeature.Sta
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewStateDelegate()
-        stepViewModel.onNewMessage(StepFeature.Message.Init(stepId))
         viewBinding.stepError.tryAgain.setOnClickListener {
             stepViewModel.onNewMessage(StepFeature.Message.Init(stepId, forceUpdate = true))
         }
+        stepViewModel.onNewMessage(StepFeature.Message.Init(stepId))
     }
 
     private fun injectComponent() {

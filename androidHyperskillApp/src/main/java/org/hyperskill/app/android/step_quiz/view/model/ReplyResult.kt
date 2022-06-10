@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.step_quiz.presentation.model
+package org.hyperskill.app.android.step_quiz.view.model
 
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 
