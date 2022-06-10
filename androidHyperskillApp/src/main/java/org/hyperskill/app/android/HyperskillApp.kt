@@ -34,9 +34,9 @@ class HyperskillApp : Application() {
         super.onCreate()
         if (!isMainProcess) return
 
-        SoLoader.init(this, false)
-
         if (BuildConfig.DEBUG && FlipperUtils.shouldEnableFlipper(this)) {
+            SoLoader.init(this, false)
+
             val client = AndroidFlipperClient.getInstance(this)
             client.addPlugin(InspectorFlipperPlugin(this, DescriptorMapping.withDefaults()))
             client.start()
