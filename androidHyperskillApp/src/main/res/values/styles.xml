@@ -66,7 +66,7 @@
     </style>
 
     <style name="StepQuizFeedback.Wrong">
-        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="backgroundTint">@color/color_blue_200_alpha_12</item>
         <item name="android:textColor">@color/color_primary</item>
         <item name="drawableTint">@color/color_primary</item>
     </style>

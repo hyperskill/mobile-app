@@ -8,6 +8,7 @@ ktlintRules = '1.0.0'
 adapters = '1.1.1'
 sentry = '5.7.3'
 fragment = '1.4.1'
+flipper = '0.148.0'
 
 kitPresentationRedux = '1.3.1'
 
@@ -40,6 +41,7 @@ kit-view-ui = { module = "ru.nobird.android.view:ui", version = '1.1.0' }
 kit-view-redux = { module = "ru.nobird.android.view:redux", version = "1.3.0" }
 kit-view-injection = { module = "ru.nobird.android.view:injection", version = "1.1.0" }
 kit-view-navigation = { module = "ru.nobird.android.view:navigation", version = "1.1.0" }
+kit-ui-adapters = { module = "ru.nobird.android.ui:adapters", version.ref = "adapters" }
 
 multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version = "0.8.1" }
 
@@ -64,12 +66,15 @@ mokoResources-main = { module = "dev.icerock.moko:resources", version.ref = "mok
 mokoResources-test = { module = "dev.icerock.moko:resources-test", version.ref = "mokoResources"}
 
 ktlintRules = { module = "ru.nobird.android.ktlint:rules", version.ref = "ktlintRules"}
-nobird-ui-adapters = { module = "ru.nobird.android.ui:adapters", version.ref = "adapters" }
 
 android-security = { module = "androidx.security:security-crypto", version = "1.1.0-alpha03" }
-material-progress-bar = { module = "me.zhanghai.android.materialprogressbar:library", version = "1.6.1" }
+android-material-progress-bar = { module = "me.zhanghai.android.materialprogressbar:library", version = "1.6.1" }
 android-sentry = { module = "io.sentry:sentry-android", version.ref = "sentry" }
 android-sentry-fragment = { module = "io.sentry:sentry-android-fragment", version.ref = "sentry" }
+android-flipper = { module = "com.facebook.flipper:flipper", version.ref = "flipper" }
+android-flipper-noop = { module = "com.facebook.flipper:flipper-noop", version.ref = "flipper" }
+android-soloader = { module = "com.facebook.soloader:soloader", version = "0.10.1" }
+android-parcelable = { module = "com.chrynan.parcelable:parcelable-core", version = "0.4.1" }
 
 [bundles]
 ktor-common = ['ktor-core', 'ktor-serialization', 'ktor-logging', 'ktor-contentNegotiation', 'ktor-serialization-json']

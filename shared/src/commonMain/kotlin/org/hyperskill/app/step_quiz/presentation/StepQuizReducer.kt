@@ -68,13 +68,15 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                     null
                 }
             is Message.CreateSubmissionError ->
-                if (state is State.AttemptLoaded) {
-                    state to setOf(Action.ViewAction.ShowNetworkError)
+                if (state is State.AttemptLoaded && state.submissionState is StepQuizFeature.SubmissionState.Loaded) {
+                    val submission = state.submissionState.submission.copy(status = SubmissionStatus.LOCAL)
+
+                    state.copy(submissionState = StepQuizFeature.SubmissionState.Loaded(submission)) to setOf(Action.ViewAction.ShowNetworkError)
                 } else {
                     null
                 }
             is Message.SyncReply ->
-                if (state is State.AttemptLoaded && !isSubmissionInTerminalState(state)) {
+                if (state is State.AttemptLoaded && StepQuizResolver.isQuizEnabled(state)) {
                     val submission = createLocalSubmission(state, message.reply)
                     state.copy(submissionState = StepQuizFeature.SubmissionState.Loaded(submission)) to emptySet()
                 } else {
@@ -82,16 +84,12 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 }
         } ?: (state to emptySet())
 
-    private fun isSubmissionInTerminalState(state: State.AttemptLoaded): Boolean =
-        state.submissionState is StepQuizFeature.SubmissionState.Loaded &&
-            state.submissionState.submission.status.let { it == SubmissionStatus.CORRECT ||  it == SubmissionStatus.WRONG || it == SubmissionStatus.OUTDATED }
-
     private fun createLocalSubmission(oldState: State.AttemptLoaded, reply: Reply): Submission {
         val submissionId = (oldState.submissionState as? StepQuizFeature.SubmissionState.Loaded)
             ?.submission
             ?.id
             ?: 0
 
-        return Submission(id = submissionId, attempt = oldState.attempt.id, reply = reply, time = Clock.System.now().toString())
+        return Submission(id = submissionId, attempt = oldState.attempt.id, reply = reply, status = SubmissionStatus.LOCAL, time = Clock.System.now().toString())
     }
 }

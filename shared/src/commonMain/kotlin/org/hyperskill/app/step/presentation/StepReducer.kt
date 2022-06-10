@@ -20,5 +20,5 @@ class StepReducer : StateReducer<State, Message, Action> {
                 State.Data(message.step) to emptySet()
             is Message.StepLoaded.Error ->
                 State.Error to emptySet()
-        } ?: state to emptySet()
+        } ?: (state to emptySet())
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="bottom"
+    tools:viewBindingIgnore="true">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/stepQuizFeedback"
+        style="@style/StepQuizFeedback.Wrong"
+        android:text="Current quiz type is not supported in mobile app yet"
+        android:layout_margin="16dp"
+        app:drawableStartCompat="@drawable/ic_info_outline_24px" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
