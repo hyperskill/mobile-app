@@ -58,10 +58,12 @@ class StepFragment : Fragment(R.layout.fragment_step), ReduxView<StepFeature.Sta
     }
 
     private fun initViewStateDelegate() {
-        viewStateDelegate.addState<StepFeature.State.Idle>()
-        viewStateDelegate.addState<StepFeature.State.Loading>(viewBinding.stepProgress) // TODO Replace progress bar with skeletons
-        viewStateDelegate.addState<StepFeature.State.Error>(viewBinding.stepError.root)
-        viewStateDelegate.addState<StepFeature.State.Data>(viewBinding.stepContainer)
+        with(viewStateDelegate) {
+            addState<StepFeature.State.Idle>()
+            addState<StepFeature.State.Loading>(viewBinding.stepProgress) // TODO Replace progress bar with skeletons
+            addState<StepFeature.State.Error>(viewBinding.stepError.root)
+            addState<StepFeature.State.Data>(viewBinding.stepContainer)
+        }
     }
 
     override fun onAction(action: StepFeature.Action.ViewAction) {

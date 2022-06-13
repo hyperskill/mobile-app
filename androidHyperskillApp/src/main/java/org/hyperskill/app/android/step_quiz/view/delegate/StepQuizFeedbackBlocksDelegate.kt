@@ -20,11 +20,13 @@ class StepQuizFeedbackBlocksDelegate(
     private val viewStateDelegate = ViewStateDelegate<StepQuizFeedbackState>()
 
     init {
-        viewStateDelegate.addState<StepQuizFeedbackState.Idle>()
-        viewStateDelegate.addState<StepQuizFeedbackState.Evaluation>(layoutStepQuizFeedbackBlockBinding.root, layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackEvaluation)
-        viewStateDelegate.addState<StepQuizFeedbackState.Correct>(layoutStepQuizFeedbackBlockBinding.root, layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackCorrect, layoutStepQuizFeedbackBlockBinding.stepQuizFeedback)
-        viewStateDelegate.addState<StepQuizFeedbackState.Wrong>(layoutStepQuizFeedbackBlockBinding.root, layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackWrong, layoutStepQuizFeedbackBlockBinding.stepQuizFeedback)
-        viewStateDelegate.addState<StepQuizFeedbackState.Validation>(layoutStepQuizFeedbackBlockBinding.root, layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackValidation)
+        with(viewStateDelegate) {
+            addState<StepQuizFeedbackState.Idle>()
+            addState<StepQuizFeedbackState.Evaluation>(layoutStepQuizFeedbackBlockBinding.root, layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackEvaluation)
+            addState<StepQuizFeedbackState.Correct>(layoutStepQuizFeedbackBlockBinding.root, layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackCorrect, layoutStepQuizFeedbackBlockBinding.stepQuizFeedback)
+            addState<StepQuizFeedbackState.Wrong>(layoutStepQuizFeedbackBlockBinding.root, layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackWrong, layoutStepQuizFeedbackBlockBinding.stepQuizFeedback)
+            addState<StepQuizFeedbackState.Validation>(layoutStepQuizFeedbackBlockBinding.root, layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackValidation)
+        }
 
         val evaluationDrawable = AnimationDrawable()
         evaluationDrawable.addFrame(context.getDrawableCompat(R.drawable.ic_step_quiz_evaluation_frame_1), EVALUATION_FRAME_DURATION_MS)
