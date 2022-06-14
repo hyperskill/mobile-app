@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct StepContentView: View {
+struct StepTheoryContentView: View {
     let viewData: StepViewData
 
     var body: some View {
@@ -37,6 +37,6 @@ struct StepContentView: View {
 
 struct StepContentView_Previews: PreviewProvider {
     static var previews: some View {
-        StepContentView(viewData: .placeholder)
+        StepTheoryContentView(viewData: .placeholder)
     }
 }

@@ -10,8 +10,6 @@ struct StepQuizChoiceView: View {
             VStack(alignment: .leading, spacing: 20) {
                 StepQuizStatsView(text: viewData.formattedStats)
 
-                StepQuizDescView(text: viewData.desc)
-
                 StepQuizHintButton(
                     onClick: { print("onHintButtonClick") }
                 )

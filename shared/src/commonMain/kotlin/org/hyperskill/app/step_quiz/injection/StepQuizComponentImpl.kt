@@ -2,6 +2,7 @@ package org.hyperskill.app.step_quiz.injection
 
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.step.view.mapper.StepQuizStatsTextMapper
 import org.hyperskill.app.step_quiz.data.repository.AttemptRepositoryImpl
 import org.hyperskill.app.step_quiz.data.repository.SubmissionRepositoryImpl
 import org.hyperskill.app.step_quiz.data.source.AttemptRemoteDataSource
@@ -30,6 +31,9 @@ class StepQuizComponentImpl(private val appGraph: AppGraph) : StepQuizComponent 
         submissionRemoteDataSource
     )
 
+    override val stepQuizStatsTextMapper: StepQuizStatsTextMapper
+        get() = StepQuizStatsTextMapper(appGraph.commonComponent.resourceProvider)
+    
     override val stepQuizInteractor: StepQuizInteractor
         get() = StepQuizInteractor(attemptRepository, submissionRepository)
 

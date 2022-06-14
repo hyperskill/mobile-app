@@ -17,7 +17,7 @@ final class StepViewDataMapper {
 
         return StepViewData(
             title: step.title,
-            formattedType: step.type.capitalized,
+            formattedType: step.type.name.capitalized,
             formattedTimeToComplete: formattedTimeToComplete,
             text: step.block.text,
             commentsStatistics: commentsStatistics
