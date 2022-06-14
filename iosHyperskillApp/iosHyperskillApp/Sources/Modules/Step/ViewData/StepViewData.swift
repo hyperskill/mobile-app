@@ -9,7 +9,7 @@ struct StepViewData {
     let formattedType: String
     let formattedTimeToComplete: String
 
-    let text: String
+    var text: String
 
     let commentsStatistics: [StepCommentStatisticViewData]
 }

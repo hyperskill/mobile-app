@@ -1,6 +1,15 @@
 import SwiftUI
 
+extension StepQuizFeedbackView {
+    struct Appearance {
+        let textFont = UIFont.monospacedSystemFont(ofSize: 14, weight: .regular)
+        let textColor = UIColor.primaryText
+    }
+}
+
 struct StepQuizFeedbackView: View {
+    private(set) var appearance = Appearance()
+
     var text: String
 
     var body: some View {
@@ -9,9 +18,18 @@ struct StepQuizFeedbackView: View {
                 .font(.caption)
                 .foregroundColor(.disabledText)
 
-            Text(text)
-                .font(.system(size: 14, design: .monospaced))
-                .foregroundColor(.primaryText)
+            LatexView(
+                text: .constant(text),
+                configuration: .init(
+                    appearance: .init(labelFont: appearance.textFont, backgroundColor: .clear),
+                    contentProcessor: ContentProcessor(
+                        injections: ContentProcessor.defaultInjections + [
+                            FontInjection(font: appearance.textFont),
+                            TextColorInjection(dynamicColor: appearance.textColor)
+                        ]
+                    )
+                )
+            )
         }
         .frame(maxWidth: .infinity)
         .padding()

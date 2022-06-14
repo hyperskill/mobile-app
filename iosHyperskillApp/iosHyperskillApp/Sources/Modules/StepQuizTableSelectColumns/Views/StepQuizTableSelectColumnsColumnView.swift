@@ -25,13 +25,7 @@ struct StepQuizTableSelectColumnsColumnView: View {
             HStack(spacing: appearance.interItemSpacing) {
                 buildIndicator(isSelected: isSelected, onTap: onTap)
 
-                Text(text)
-                    .font(.body)
-                    .foregroundColor(.primaryText)
-                    .multilineTextAlignment(.leading)
-                    .alignmentGuide(.stepQuizTableSelectColumnsTitleAlignmentGuide) { context in
-                        context[.leading]
-                    }
+                LatexView(text: .constant(text), configuration: .quizContent())
             }
         }
         .padding(.vertical)

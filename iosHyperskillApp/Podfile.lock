@@ -5,6 +5,7 @@ PODS:
   - AppAuth/Core (1.5.0)
   - AppAuth/ExternalUserAgent (1.5.0):
     - AppAuth/Core
+  - Atributika (4.10.1)
   - GoogleSignIn (6.1.0):
     - AppAuth (~> 1.4)
     - GTMAppAuth (~> 1.0)
@@ -14,6 +15,7 @@ PODS:
     - GTMSessionFetcher/Core (~> 1.5)
   - GTMSessionFetcher/Core (1.7.1)
   - IQKeyboardManagerSwift (6.5.9)
+  - Kanna (5.2.7)
   - PanModal (1.2.7)
   - Sentry (7.13.0):
     - Sentry/Core (= 7.13.0)
@@ -21,30 +23,37 @@ PODS:
   - shared (1.0)
   - SkeletonUI (1.0.7)
   - SnapKit (5.6.0)
+  - STRegex (2.1.1)
   - SVProgressHUD (2.2.5)
   - SwiftLint (0.47.0)
 
 DEPENDENCIES:
+  - Atributika (= 4.10.1)
   - GoogleSignIn (= 6.1.0)
   - IQKeyboardManagerSwift (= 6.5.9)
+  - Kanna (= 5.2.7)
   - PanModal (from `https://github.com/ivan-magda/PanModal.git`, branch `remove-presenting-appearance-transitions`)
   - Sentry (= 7.13.0)
   - shared (from `../shared`)
   - SkeletonUI (= 1.0.7)
   - SnapKit (= 5.6.0)
+  - STRegex (= 2.1.1)
   - SVProgressHUD (= 2.2.5)
   - SwiftLint (= 0.47.0)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - AppAuth
+    - Atributika
     - GoogleSignIn
     - GTMAppAuth
     - GTMSessionFetcher
     - IQKeyboardManagerSwift
+    - Kanna
     - Sentry
     - SkeletonUI
     - SnapKit
+    - STRegex
     - SVProgressHUD
     - SwiftLint
 
@@ -62,18 +71,21 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   AppAuth: 80317d99ac7ff2801a2f18ff86b48cd315ed465d
+  Atributika: 47e778507cfb3cd2c996278b0285221a62e97d71
   GoogleSignIn: c90b5bec45e780f54c6a8e1e3c182a86e3dda69d
   GTMAppAuth: 987526d41b07efb1bedda5e936fe0cb718a03113
   GTMSessionFetcher: 4577a4cc914a5a07c40a8a0ad0acc22080418c2d
   IQKeyboardManagerSwift: 6e839c575c4aa1078d58a596e41244e77abe918f
+  Kanna: 01cfbddc127f5ff0963692f285fcbc8a9d62d234
   PanModal: 3e16ead1a907fb06f4df3f13492fd00149fa4974
   Sentry: c55b9f69091e58cc48adc3c25bbca908a480e08d
   shared: 57c23201ce62604481c21dfbabc812accac99edd
   SkeletonUI: 18fbcd8698480432852d7e30a65b8d5e138266f0
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
+  STRegex: d49e88d0fe58538d3175fdd989bc1243b9be2a07
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
 
-PODFILE CHECKSUM: 10801ce14055ba9f24da77658d05da531e9dace1
+PODFILE CHECKSUM: d7e4e5d6d744efdea2da8e3cc8877829acfae5a9
 
 COCOAPODS: 1.11.3
