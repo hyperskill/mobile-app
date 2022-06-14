@@ -6,7 +6,6 @@
     android:layout_height="@dimen/step_quiz_toolbar_height"
     android:layout_gravity="center"
     app:contentInsetStartWithNavigation="0dp"
-    app:layout_scrollFlags="scroll"
     app:menu="@menu/step_quiz_appbar_menu"
     app:navigationIcon="@drawable/ic_toolbar_back"
     app:navigationIconTint="?colorControlNormal">

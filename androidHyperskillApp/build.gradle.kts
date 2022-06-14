@@ -32,17 +32,20 @@ dependencies {
     implementation(libs.gms.services)
     implementation(libs.gms.login)
     implementation(libs.viewbinding)
-    implementation(libs.nobird.ui.adapters)
+    implementation(libs.kit.ui.adapters)
 
     testImplementation(libs.bundles.android.test)
 
     ktlintRuleset(libs.ktlintRules)
 
-    implementation(libs.multiplatform.settings)
-
-    implementation(libs.material.progress.bar)
+    implementation(libs.android.material.progress.bar)
     implementation(libs.android.sentry)
     implementation(libs.android.sentry.fragment)
+    implementation(libs.android.parcelable)
+
+    debugImplementation(libs.android.flipper)
+    debugImplementation(libs.android.soloader)
+    releaseImplementation(libs.android.flipper.noop)
 }
 
 android {

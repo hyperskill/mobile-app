@@ -12,5 +12,7 @@ enum class SubmissionStatus {
     @SerialName("correct")
     CORRECT,
     @SerialName("outdated")
-    OUTDATED
+    OUTDATED,
+    @SerialName("local")
+    LOCAL
 }

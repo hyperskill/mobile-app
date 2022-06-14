@@ -41,16 +41,14 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(libs.kotlin.coroutines.core)
-
-                // network
                 implementation(libs.bundles.ktor.common)
                 implementation(libs.kit.model)
                 implementation(libs.kotlin.datetime)
+                implementation(libs.kit.presentation.reduxCoroutines)
 
                 api(libs.kit.presentation.redux)
                 api(libs.mokoResources.main)
-                implementation(libs.kit.presentation.reduxCoroutines)
-                implementation(libs.multiplatform.settings)
+                api(libs.multiplatform.settings)
             }
         }
         val commonTest by getting {

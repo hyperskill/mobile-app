@@ -17,7 +17,7 @@ data class Step(
     @SerialName("title")
     val title: String,
     @SerialName("type")
-    val type: String,
+    val type: Type,
     @SerialName("block")
     val block: Block,
     @SerialName("topic")
@@ -33,5 +33,17 @@ data class Step(
     @SerialName("content_created_at")
     val contentCreatedAt: Instant,
     @SerialName("content_updated_at")
-    val contentUpdatedAt: Instant
-)
+    val contentUpdatedAt: Instant,
+    @SerialName("solved_by")
+    val solvedBy: Int,
+    @SerialName("seconds_to_complete")
+    val secondsToComplete: Float
+) {
+    @Serializable
+    enum class Type {
+        @SerialName("theory")
+        THEORY,
+        @SerialName("practice")
+        PRACTICE
+    }
+}

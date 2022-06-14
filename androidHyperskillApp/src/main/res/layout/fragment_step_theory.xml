@@ -55,16 +55,14 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/stepTheoryTimeToComplete" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <FrameLayout
                 android:id="@+id/stepTheoryContent"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/step_theory_elements_margin"
-                android:textAppearance="?textAppearanceBody2"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/stepTheoryPracticeActionBeginning"
-                tools:text="Programs in which there's nothing to calculate are quite rare. Therefore, learning to program with numbers is never a bad idea. An even more valuable skill we are about to learn is the processing of user data. With its help, you can create interactive and by far more flexible applications. So let's get started!" />
+                app:layout_constraintTop_toBottomOf="@id/stepTheoryPracticeActionBeginning"/>
 
 
             <androidx.appcompat.widget.AppCompatTextView

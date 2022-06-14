@@ -15,6 +15,18 @@
         android:text="@string/step_quiz_status_wrong_text" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/stepQuizFeedbackEvaluation"
+        style="@style/StepQuizFeedback.Wrong"
+
+        android:text="Evaluation..." />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/stepQuizFeedbackValidation"
+        style="@style/StepQuizFeedback.Wrong"
+        android:text="Evaluation"
+        app:drawableStartCompat="@drawable/ic_info_outline_24px" />
+
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/stepQuizFeedbackCorrect"
         style="@style/StepQuizFeedback.Correct"
         android:layout_height="@dimen/step_quiz_feedback_right_textview_height"
@@ -46,6 +58,7 @@
                 android:text="@string/step_quiz_feedback_title" />
 
             <TextView
+                android:id="@+id/stepQuizFeedbackBody"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"

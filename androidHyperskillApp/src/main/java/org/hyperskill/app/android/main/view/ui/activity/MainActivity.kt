@@ -96,9 +96,8 @@ class MainActivity :
         when (action) {
             is AppFeature.Action.ViewAction.NavigateTo.AuthScreen ->
                 router.newRootScreen(AuthScreen)
-            is AppFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
+            is AppFeature.Action.ViewAction.NavigateTo.HomeScreen ->
                 router.newRootScreen(HomeScreen)
-            }
         }
     }
 
