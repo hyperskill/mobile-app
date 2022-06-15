@@ -41,7 +41,7 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
 
     protected abstract val quizViews: Array<View>
 
-    private lateinit var step: Step
+    protected lateinit var step: Step
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
