@@ -4,8 +4,11 @@ import shared
 final class StepQuizViewDataMapper {
     private let stepQuizStatsTextMapper: StepQuizStatsTextMapper
 
-    init(stepQuizStatsTextMapper: StepQuizStatsTextMapper) {
+    private let stepQuizTitleMapper: StepQuizTitleMapper
+
+    init(stepQuizStatsTextMapper: StepQuizStatsTextMapper, stepQuizTitleMapper: StepQuizTitleMapper) {
         self.stepQuizStatsTextMapper = stepQuizStatsTextMapper
+        self.stepQuizTitleMapper = stepQuizTitleMapper
     }
 
     func mapStepToViewData(_ step: Step) -> StepQuizViewData {
@@ -16,7 +19,8 @@ final class StepQuizViewDataMapper {
 
         return StepQuizViewData(
             formattedStats: formattedStats,
-            text: step.block.text
+            stepText: step.block.text,
+            quizName: self.stepQuizTitleMapper.getStepQuizTitle(block: step.block)
         )
     }
 }

@@ -1,7 +1,18 @@
 import shared
 import SwiftUI
 
+extension StepQuizView {
+    struct Appearance {
+        let interItemSpacing: CGFloat = 20
+
+        let stepTextFont = UIFont.preferredFont(forTextStyle: .subheadline)
+        let stepTextColor = UIColor.primaryText
+    }
+}
+
 struct StepQuizView: View {
+    private(set) var appearance = Appearance()
+
     @ObservedObject private var viewModel: StepQuizViewModel
 
     @Environment(\.presentationMode) private var presentationMode
@@ -15,16 +26,30 @@ struct StepQuizView: View {
         let viewData = viewModel.makeViewData()
 
         ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
+            LazyVStack(alignment: .leading, spacing: appearance.interItemSpacing) {
                 StepQuizStatsView(text: viewData.formattedStats)
 
-                Text(viewData.text)
-                    .font(.subheadline)
-                    .foregroundColor(.primaryText)
+                LatexView(
+                    text: .constant(viewData.stepText),
+                    configuration: .init(
+                        appearance: .init(labelFont: appearance.stepTextFont),
+                        contentProcessor: ContentProcessor(
+                            injections: ContentProcessor.defaultInjections + [
+                                StepStylesInjection(),
+                                FontInjection(font: appearance.stepTextFont),
+                                TextColorInjection(dynamicColor: appearance.stepTextColor)
+                            ]
+                        )
+                    )
+                )
 
                 StepQuizHintButton(
                     onClick: { print("onHintButtonClick") }
                 )
+
+                if let quizName = viewData.quizName {
+                    StepQuizNameView(text: quizName)
+                }
 
 //                if let quizStatus = viewData.quizStatus {
 //                    switch quizStatus {

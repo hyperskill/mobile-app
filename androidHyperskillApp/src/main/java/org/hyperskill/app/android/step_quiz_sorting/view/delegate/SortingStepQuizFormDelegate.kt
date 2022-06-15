@@ -28,7 +28,7 @@ class SortingStepQuizFormDelegate(
     private val sortingOptionMapper = SortingOptionMapper()
 
     init {
-        quizDescription.setText(R.string.step_quiz_sorting_description)
+        quizDescription.setText(R.string.step_quiz_sorting_title)
 
         optionsAdapter += SortingOptionAdapterDelegate(optionsAdapter, ::moveSortingOption)
 

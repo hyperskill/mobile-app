@@ -1,4 +1,4 @@
-package org.hyperskill.app.step.view.mapper
+package org.hyperskill.app.step_quiz.view.mapper
 
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider

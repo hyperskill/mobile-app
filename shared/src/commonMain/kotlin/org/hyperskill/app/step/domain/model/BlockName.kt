@@ -3,6 +3,7 @@ package org.hyperskill.app.step.domain.model
 object BlockName {
     const val CHOICE = "choice"
     const val CODE = "code"
+    const val MATCHING = "matching"
     const val MATH = "math"
     const val NUMBER = "number"
     const val SORTING = "sorting"

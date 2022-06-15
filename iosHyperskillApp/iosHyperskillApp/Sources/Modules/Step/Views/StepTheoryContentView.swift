@@ -2,6 +2,8 @@ import SwiftUI
 
 extension StepTheoryContentView {
     struct Appearance {
+        let interItemSpacing: CGFloat = 24
+
         let stepTextFont = UIFont.preferredFont(forTextStyle: .body)
         let stepTextColor = UIColor.primaryText
     }
@@ -14,7 +16,7 @@ struct StepTheoryContentView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 24) {
+            LazyVStack(alignment: .leading, spacing: appearance.interItemSpacing) {
                 StepHeaderView(
                     title: viewData.formattedType,
                     timeToComplete: viewData.formattedTimeToComplete

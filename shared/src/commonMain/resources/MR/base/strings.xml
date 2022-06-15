@@ -59,16 +59,27 @@
     <string name="step_quiz_choice_multiple_choice_title">Select one or more options from the list</string>
 
     <!-- Step quiz sorting -->
-    <string name="step_quiz_sorting_description">Sort a given list</string>
+    <string name="step_quiz_sorting_title">Put the items in the correct order</string>
+
+    <!-- Step quiz matching -->
+    <string name="step_quiz_matching_title">Match the items from left and right columns</string>
 
     <!-- Step quiz table -->
+    <string name="step_quiz_table_single_choice_title">Choose one option for each row</string>
+    <string name="step_quiz_table_multiple_choice_title">Choose one or multiple options for each row</string>
     <string name="step_quiz_table_single_choice_prompt">Choose from the table</string>
     <string name="step_quiz_table_multiple_choice_prompt">Choose one or multiple options</string>
+
+    <!-- Step quiz math -->
+    <string name="step_quiz_math_title">Enter a math formula</string>
+
+    <!-- Step quiz number -->
+    <string name="step_quiz_number_title">Enter a number</string>
+
+    <!-- Step quiz string -->
+    <string name="step_quiz_string_title">Enter a short text</string>
 
     <!-- Placeholder -->
     <string name="placeholder_network_error_title">Oops! It seems like the network error.</string>
     <string name="placeholder_network_error_button_text">Reload</string>
-
-    <!-- Step quiz sorting -->
-    <string name="step_quiz_sorting_title">Put the items in the correct order</string>
 </resources>
