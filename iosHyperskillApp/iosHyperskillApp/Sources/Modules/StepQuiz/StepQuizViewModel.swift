@@ -16,6 +16,10 @@ final class StepQuizViewModel: FeatureViewModel<
         super.init(feature: feature)
     }
 
+    func loadAttempt() {
+        self.onNewMessage(StepQuizFeatureMessageInitWithStep(step: self.step, forceUpdate: false))
+    }
+
     func makeViewData() -> StepQuizViewData {
         self.viewDataMapper.mapStepToViewData(self.step)
     }

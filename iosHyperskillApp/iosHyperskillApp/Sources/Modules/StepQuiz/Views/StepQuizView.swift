@@ -23,6 +23,39 @@ struct StepQuizView: View {
     }
 
     var body: some View {
+        buildBody()
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonTitleRemoved {
+                presentationMode.wrappedValue.dismiss()
+            }
+            .toolbar {
+                NavigationToolbarInfoItem(
+                    onClick: { print("onToolbarInfoItemClick") }
+                )
+            }
+            .onAppear {
+                viewModel.startListening()
+
+                if viewModel.state is StepQuizFeatureStateIdle {
+                    viewModel.loadAttempt()
+                }
+            }
+            .onDisappear(perform: viewModel.stopListening)
+    }
+
+    // MARK: Private API
+
+    @ViewBuilder
+    private func buildBody() -> some View {
+        if viewModel.state is StepQuizFeatureStateNetworkError {
+            Text("Error")
+        } else {
+            buildContent()
+        }
+    }
+
+    @ViewBuilder
+    private func buildContent() -> some View {
         let viewData = viewModel.makeViewData()
 
         ScrollView {
@@ -77,18 +110,7 @@ struct StepQuizView: View {
                 onShowDiscussionsClick: { print("onShowDiscussionsClick") }
             )
         }
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonTitleRemoved {
-            presentationMode.wrappedValue.dismiss()
-        }
-        .toolbar {
-            NavigationToolbarInfoItem(
-                onClick: { print("onToolbarInfoItemClick") }
-            )
-        }
     }
-
-    // MARK: Private API
 
     private func handleViewAction(_ viewAction: StepQuizFeatureActionViewAction) {
         print("StepQuizView :: \(#function) viewAction = \(viewAction)")
