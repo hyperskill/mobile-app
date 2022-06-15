@@ -6,7 +6,6 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.chrynan.parcelable.core.putParcelable
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
-import org.hyperskill.app.android.databinding.LayoutStepQuizSortingBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizTextBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.fragment.DefaultStepQuizFragment
