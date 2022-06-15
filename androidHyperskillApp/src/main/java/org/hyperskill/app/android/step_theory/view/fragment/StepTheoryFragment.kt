@@ -6,6 +6,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.core.view.ViewCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -83,10 +84,15 @@ class StepTheoryFragment : Fragment(R.layout.fragment_step_theory) {
         viewBinding.stepTheoryFab.setOnClickListener {
             activity?.onBackPressed()
         }
-        viewBinding.stepTheoryTimeToComplete.text = resourceProvider.getString(
-            SharedResources.strings.step_theory_reading_text,
-            resourceProvider.getQuantityString(SharedResources.plurals.minutes, step.secondsToComplete.toInt(), step.secondsToComplete.toInt())
-        )
+
+        viewBinding.stepTheoryTimeToComplete.isVisible = step.secondsToComplete != null
+        step.secondsToComplete?.let { secondsToComplete ->
+            viewBinding.stepTheoryTimeToComplete.text = resourceProvider.getString(
+                SharedResources.strings.step_theory_reading_text,
+                resourceProvider.getQuantityString(SharedResources.plurals.minutes, secondsToComplete.toInt(), secondsToComplete.toInt())
+            )
+        }
+
         viewBinding.stepTheoryReactionTitle.text = buildSpannedString {
             append(resources.getString(R.string.step_rating_text_part_1))
             append(" ")

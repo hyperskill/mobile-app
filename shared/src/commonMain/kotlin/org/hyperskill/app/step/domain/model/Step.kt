@@ -37,7 +37,7 @@ data class Step(
     @SerialName("solved_by")
     val solvedBy: Int,
     @SerialName("seconds_to_complete")
-    val secondsToComplete: Float
+    val secondsToComplete: Float?
 ) {
     @Serializable
     enum class Type {
