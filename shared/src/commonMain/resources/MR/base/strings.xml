@@ -60,6 +60,7 @@
 
     <!-- Step quiz sorting -->
     <string name="step_quiz_sorting_description">Sort a given list</string>
+    <string name="step_quiz_sorting_title">Put the items in the correct order</string>
 
     <!-- Step quiz table -->
     <string name="step_quiz_table_single_choice_prompt">Choose from the table</string>
@@ -69,9 +70,6 @@
     <string name="placeholder_network_error_title">Oops! It seems like the network error.</string>
     <string name="placeholder_network_error_button_text">Reload</string>
 
-    <!-- Step quiz sorting -->
-    <string name="step_quiz_sorting_title">Put the items in the correct order</string>
-
     <!-- Step quiz string / number math -->
     <string name="step_quiz_text_field_hint">Type your answer here...</string>
     <string name="step_quiz_string_description">Enter a short text</string>
@@ -79,4 +77,8 @@
     <string name="step_quiz_math_description">Enter a formula</string>
     <string name="step_quiz_text_invalid_number_reply">The answer must be a number</string>
     <string name="step_quiz_text_empty_reply">The answer cannot be empty</string>
+
+    <!-- Step quiz matching -->
+    <string name="step_quiz_matching_description">Match the items from left and right columns</string>
+
 </resources>
