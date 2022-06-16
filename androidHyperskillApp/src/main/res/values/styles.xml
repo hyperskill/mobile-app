@@ -88,4 +88,12 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="TableQuizRadioButton" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="colorControlActivated">@color/color_overlay_blue</item>
+    </style>
+
+    <style name="TableQuizCheckbox" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="colorControlActivated">@color/color_overlay_blue</item>
+    </style>
+
 </resources>
