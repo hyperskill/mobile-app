@@ -74,4 +74,10 @@
     <!-- Step quiz matching -->
     <string name="step_quiz_matching_description">Match the items from left and right columns</string>
 
+    <!-- Step quiz table -->
+    <string name="step_quiz_table_description">Choose one option for each row</string>
+    <string name="step_quiz_table_single_choice">Select one option</string>
+    <string name="step_quiz_table_multiple_choice">Select one or more options</string>
+    <string name="step_quiz_table_confirm_choice">Confirm</string>
+
 </resources>
