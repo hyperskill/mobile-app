@@ -9,9 +9,16 @@ class BaseStyleBlock(
     private val textColor: Int
 ) : ContentBlock {
     override val header: String = """
+        <link rel="stylesheet" type="text/css" href="file:///android_asset/css/alt.css"/>
+        <link rel="stylesheet" type="text/css" href="file:///android_asset/css/altcontent.css"/>
+        <link rel="stylesheet" type="text/css" href="file:///android_asset/css/bootstrap.css"/>
+        <link rel="stylesheet" type="text/css" href="file:///android_asset/css/fonts.css"/>
+        <link rel="stylesheet" type="text/css" href="file:///android_asset/css/highlight.css"/>
+        <link rel="stylesheet" type="text/css" href="file:///android_asset/css/hljs.css"/>
+        <link rel="stylesheet" type="text/css" href="file:///android_asset/css/icons.css"/>
+        <link rel="stylesheet" type="text/css" href="file:///android_asset/css/step.css"/>
+        <link rel="stylesheet" type="text/css" href="file:///android_asset/css/variables.css"/>
         <link rel="stylesheet" type="text/css" href="file:///android_asset/css/wysiwyg.css"/>
-        <link rel="stylesheet" type="text/css" href="file:///android_asset/css/hljs${if (isNightMode) "-night" else ""}.css"/>
-        <link rel="stylesheet" type="text/css" href="file:///android_asset/css/base-style${if (isNightMode) "-night" else ""}.css"/>
         
         <style>
             @font-face {
