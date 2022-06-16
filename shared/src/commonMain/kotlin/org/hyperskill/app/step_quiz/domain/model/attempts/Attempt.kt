@@ -2,6 +2,7 @@ package org.hyperskill.app.step_quiz.domain.model.attempts
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import org.hyperskill.app.step.data.serializer.DatasetSerializer
 
 @Serializable
 data class Attempt(
@@ -13,7 +14,8 @@ data class Attempt(
     val user: Long,
 
     @SerialName("dataset")
-    val dataset: Dataset?,
+    @Serializable(with = DatasetSerializer::class)
+    val dataset: Dataset,
 
     @SerialName("status")
     val status: AttemptStatus?,
