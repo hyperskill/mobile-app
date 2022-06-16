@@ -20,7 +20,6 @@ import org.hyperskill.app.android.latex.view.mapper.LatexTextMapper
 import org.hyperskill.app.android.latex.view.mapper.LatexWebViewMapper
 import org.hyperskill.app.android.latex.view.model.LatexData
 import org.hyperskill.app.android.latex.view.model.TextAttributes
-import org.hyperskill.app.core.view.mapper.ResourceProvider
 import ru.nobird.android.view.base.ui.extension.inflate
 
 class LatexView
@@ -35,8 +34,6 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
             typeface = ResourcesCompat.getFont(context, textAttributes.fontResId)
         }
     }
-
-    private val resourceProvider: ResourceProvider
 
     private val latexTextMapper: LatexTextMapper
 
@@ -100,7 +97,6 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
         }
 
     init {
-        resourceProvider = HyperskillApp.graph().commonComponent.resourceProvider
         val platformLatexComponent = HyperskillApp.graph().buildPlatformLatexComponent()
         latexTextMapper = platformLatexComponent.latexTextMapper
         latexWebViewMapper = platformLatexComponent.latexWebViewMapper
@@ -146,7 +142,7 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        webView.webViewClient = webViewClient ?: ExternalLinkWebViewClient(context, resourceProvider)
+        webView.webViewClient = webViewClient ?: ExternalLinkWebViewClient(context)
     }
 
     override fun onDetachedFromWindow() {

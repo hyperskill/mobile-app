@@ -9,11 +9,10 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
 import org.hyperskill.app.SharedResources
-import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.android.HyperskillApp
 
 open class ExternalLinkWebViewClient(
-    private val context: Context,
-    private val resourceProvider: ResourceProvider
+    private val context: Context
 ) : WebViewClient() {
     @Suppress("Deprecation")
     override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
@@ -33,7 +32,7 @@ open class ExternalLinkWebViewClient(
         } catch (e: ActivityNotFoundException) {
             Toast.makeText(
                 context,
-                resourceProvider.getString(SharedResources.strings.external_link_error),
+                HyperskillApp.graph().commonComponent.resourceProvider.getString(SharedResources.strings.external_link_error),
                 Toast.LENGTH_SHORT
             ).show()
         }

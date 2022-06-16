@@ -9,6 +9,7 @@ import ru.nobird.android.ui.adapterdelegates.AdapterDelegate
 import ru.nobird.android.ui.adapterdelegates.DelegateViewHolder
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import by.kirich1409.viewbindingdelegate.viewBinding
+import org.hyperskill.app.android.core.view.ui.widget.ProgressableWebViewClient
 import org.hyperskill.app.android.databinding.ItemStepQuizSortingBinding
 
 class SortingOptionAdapterDelegate(
@@ -25,6 +26,7 @@ class SortingOptionAdapterDelegate(
     private inner class ViewHolder(root: View) : DelegateViewHolder<SortingOption>(root) {
         private val viewBinding: ItemStepQuizSortingBinding by viewBinding(ItemStepQuizSortingBinding::bind)
         private val stepQuizSortingOption = viewBinding.stepQuizSortingOption
+        private val stepQuizSortingOptionProgress = viewBinding.stepQuizSortingOptionProgress
         private val stepQuizSortingOptionUp = viewBinding.stepQuizSortingOptionUp
         private val stepQuizSortingOptionDown = viewBinding.stepQuizSortingOptionDown
 
@@ -35,11 +37,13 @@ class SortingOptionAdapterDelegate(
             stepQuizSortingOptionDown.setOnClickListener {
                 onMoveItemClicked(adapterPosition, SortingDirection.DOWN)
             }
+
+            stepQuizSortingOption.webViewClient = ProgressableWebViewClient(stepQuizSortingOptionProgress, stepQuizSortingOption.webView)
         }
 
         override fun onBind(data: SortingOption) {
             itemView.isEnabled = data.isEnabled
-            stepQuizSortingOption.text = data.option
+            stepQuizSortingOption.setText(data.option)
 
             stepQuizSortingOptionUp.isEnabled = data.isEnabled && adapterPosition != 0
             stepQuizSortingOptionUp.alpha = if (stepQuizSortingOptionUp.isEnabled) 1f else 0.2f
