@@ -31,7 +31,7 @@ class TextStepQuizFormDelegate(
 
     private val context = containerBinding.root.context
 
-    private val quizTextField = binding.stringStepQuizField as TextView
+    private val quizTextField = binding.stringStepQuizFieldEditText as TextView
     private val quizDescription = containerBinding.stepQuizDescription
 
     init {
@@ -96,7 +96,7 @@ class TextStepQuizFormDelegate(
                     reply?.text
             } ?: ""
 
-        quizTextField.isEnabled = submission?.isSubmissionEditable ?: false
+        quizTextField.isEnabled = submission?.isSubmissionEditable ?: true
         quizTextField.setTextIfChanged(text)
     }
 }
