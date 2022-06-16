@@ -12,8 +12,8 @@ import io.sentry.SentryLevel
 import io.sentry.android.core.SentryAndroid
 import io.sentry.android.fragment.FragmentLifecycleIntegration
 import org.hyperskill.app.config.BuildKonfig
-import org.hyperskill.app.core.injection.AndroidAppComponent
-import org.hyperskill.app.core.injection.AndroidAppComponentImpl
+import org.hyperskill.app.android.core.injection.AndroidAppComponent
+import org.hyperskill.app.android.core.injection.AndroidAppComponentImpl
 import org.hyperskill.app.core.remote.UserAgentInfo
 import ru.nobird.android.view.base.ui.extension.isMainProcess
 

@@ -1,11 +1,13 @@
-package org.hyperskill.app.core.injection
+package org.hyperskill.app.android.core.injection
 
 import android.content.Context
+import org.hyperskill.app.android.latex.injection.PlatformLatexComponent
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.auth.injection.PlatformAuthCredentialsComponent
 import org.hyperskill.app.auth.injection.PlatformAuthSocialComponent
 import org.hyperskill.app.auth.injection.PlatformAuthSocialWebViewComponent
+import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.main.injection.PlatformMainComponent
 import org.hyperskill.app.step.injection.PlatformStepComponent
 import org.hyperskill.app.step.injection.StepComponent
@@ -21,4 +23,5 @@ interface AndroidAppComponent : AppGraph {
     fun buildPlatformAuthCredentialsComponent(authCredentialsComponent: AuthCredentialsComponent): PlatformAuthCredentialsComponent
     fun buildPlatformStepComponent(stepComponent: StepComponent): PlatformStepComponent
     fun buildPlatformStepQuizComponent(stepQuizComponent: StepQuizComponent): PlatformStepQuizComponent
+    fun buildPlatformLatexComponent(): PlatformLatexComponent
 }

@@ -13,6 +13,7 @@ import androidx.annotation.IdRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
+import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.widget.ExternalLinkWebViewClient
 import org.hyperskill.app.android.latex.view.mapper.LatexTextMapper
@@ -35,11 +36,11 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
         }
     }
 
-    private lateinit var resourceProvider: ResourceProvider
+    private val resourceProvider: ResourceProvider
 
-    private lateinit var latexTextMapper: LatexTextMapper
+    private val latexTextMapper: LatexTextMapper
 
-    private lateinit var latexWebViewMapper: LatexWebViewMapper
+    private val latexWebViewMapper: LatexWebViewMapper
 
     @IdRes
     private val textViewId: Int
@@ -99,7 +100,10 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
         }
 
     init {
-        // Perform manual DI
+        resourceProvider = HyperskillApp.graph().commonComponent.resourceProvider
+        val platformLatexComponent = HyperskillApp.graph().buildPlatformLatexComponent()
+        latexTextMapper = platformLatexComponent.latexTextMapper
+        latexWebViewMapper = platformLatexComponent.latexWebViewMapper
 
         val array = context.obtainStyledAttributes(attrs, R.styleable.LatexView)
 
