@@ -2,22 +2,24 @@
 <com.google.android.material.textfield.TextInputLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
+    android:id="@+id/stringStepQuizField"
     style="@style/Widget.AppTheme.TextInputLayouts.InputText"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
 
-    app:hintEnabled="false"
+    android:layout_marginHorizontal="20dp"
 
-    app:layout_constraintBottom_toTopOf="@id/stepQuizFeedbackBlocks"
+    android:layout_marginTop="20dp"
+    app:hintEnabled="false"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/stepQuizDescription"
+    app:layout_constraintTop_toBottomOf="@id/stepQuizDescriptionDivider"
 
     app:layout_constraintVertical_bias="0">
 
     <com.google.android.material.textfield.TextInputEditText
 
-        android:id="@+id/stringStepQuizField"
+        android:id="@+id/stringStepQuizFieldEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 

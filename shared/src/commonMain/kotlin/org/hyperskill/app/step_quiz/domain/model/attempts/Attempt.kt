@@ -15,7 +15,7 @@ data class Attempt(
 
     @SerialName("dataset")
     @Serializable(with = DatasetSerializer::class)
-    val dataset: Dataset,
+    val dataset: Dataset?,
 
     @SerialName("status")
     val status: AttemptStatus?,
