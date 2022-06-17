@@ -16,8 +16,8 @@ final class StepQuizViewModel: FeatureViewModel<
         super.init(feature: feature)
     }
 
-    func loadAttempt() {
-        self.onNewMessage(StepQuizFeatureMessageInitWithStep(step: self.step, forceUpdate: false))
+    func loadAttempt(forceUpdate: Bool = false) {
+        self.onNewMessage(StepQuizFeatureMessageInitWithStep(step: self.step, forceUpdate: forceUpdate))
     }
 
     func syncReply(_ reply: Reply) {

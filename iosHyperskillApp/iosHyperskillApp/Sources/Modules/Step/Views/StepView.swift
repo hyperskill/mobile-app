@@ -22,11 +22,17 @@ struct StepView: View {
         switch viewModel.state {
         case is StepFeatureStateIdle:
             ProgressView()
-                .onAppear(perform: viewModel.loadStep)
+                .onAppear {
+                    viewModel.loadStep()
+                }
         case is StepFeatureStateLoading:
             ProgressView()
         case is StepFeatureStateError:
-            Text("Error")
+            PlaceholderView(
+                configuration: .networkError {
+                    viewModel.loadStep(forceUpdate: true)
+                }
+            )
         case let data as StepFeatureStateData:
             buildContent(data: data)
                 .navigationTitle(data.step.title)
