@@ -4,6 +4,12 @@ import shared
 enum Strings {
     private static let sharedStrings = SharedResources.strings.shared
 
+    // MARK: - General -
+
+    enum General {
+        static let connectionError = sharedStrings.connection_error.localized()
+    }
+
     // MARK: - AuthSocial -
 
     enum AuthSocial {

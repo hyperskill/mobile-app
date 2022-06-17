@@ -102,12 +102,15 @@ struct StepQuizView: View {
             if case .unsupported = quizType {
                 StepQuizStatusView(state: .unsupportedQuiz)
             } else {
-                buildChildQuiz(quizType: quizType, attemptLoadedState: attemptLoadedState)
+                buildChildQuiz(for: quizType, attemptLoadedState: attemptLoadedState)
 
                 if let loadedSubmission = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded {
                     buildQuizStatusView(submissionLoadedState: loadedSubmission)
 
-                    buildQuizActionButton(submissionLoadedState: loadedSubmission)
+                    buildQuizActionButton(
+                        attemptLoadedState: attemptLoadedState,
+                        submissionLoadedState: loadedSubmission
+                    )
                 }
             }
         } else {
@@ -118,7 +121,7 @@ struct StepQuizView: View {
 
     @ViewBuilder
     private func buildChildQuiz(
-        quizType: StepQuizChildQuizType,
+        for quizType: StepQuizChildQuizType,
         attemptLoadedState: StepQuizFeatureStateAttemptLoaded
     ) -> some View {
         if let dataset = attemptLoadedState.attempt.dataset {
@@ -162,33 +165,23 @@ struct StepQuizView: View {
     }
 
     @ViewBuilder
-    private func buildQuizActionButton(submissionLoadedState: StepQuizFeatureSubmissionStateLoaded) -> some View {
+    private func buildQuizActionButton(
+        attemptLoadedState: StepQuizFeatureStateAttemptLoaded,
+        submissionLoadedState: StepQuizFeatureSubmissionStateLoaded
+    ) -> some View {
         StepQuizActionButton(
-            state: { () -> StepQuizActionButton.State in
-                guard let submissionStatus = submissionLoadedState.submission.status else {
-                    return .normal
-                }
-
-                switch submissionStatus {
-                case SubmissionStatus.evaluation:
-                    return .evaluation
-                case SubmissionStatus.wrong:
-                    return .wrong
-                case SubmissionStatus.correct:
-                    return .correct
-                case SubmissionStatus.outdated:
-                    return .wrong
-                case SubmissionStatus.local:
-                    return .normal
-                default:
-                    return .normal
-                }
-            }(),
+            state: .init(submissionStatus: submissionLoadedState.submission.status),
             onClick: viewModel.doMainQuizAction
         )
+        .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
     }
 
     private func handleViewAction(_ viewAction: StepQuizFeatureActionViewAction) {
-        print("StepQuizView :: \(#function) viewAction = \(viewAction)")
+        switch viewAction {
+        case is StepQuizFeatureActionViewActionShowNetworkError:
+            ProgressHUD.showError(status: Strings.General.connectionError)
+        default:
+            print("StepQuizView :: unhandled viewAction = \(viewAction)")
+        }
     }
 }
