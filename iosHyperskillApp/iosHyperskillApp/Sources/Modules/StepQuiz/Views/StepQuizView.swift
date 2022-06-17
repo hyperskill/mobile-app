@@ -82,6 +82,8 @@ struct StepQuizView: View {
 
                 StepQuizHintButton(onClick: { print("onHintButtonClick") })
 
+                Text(String(describing: viewModel.state))
+
                 buildQuizContent(quizName: viewData.quizName, stepBlockName: viewData.stepBlockName)
             }
             .padding()
@@ -103,15 +105,8 @@ struct StepQuizView: View {
                 StepQuizStatusView(state: .unsupportedQuiz)
             } else {
                 buildChildQuiz(for: quizType, attemptLoadedState: attemptLoadedState)
-
-                if let loadedSubmission = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded {
-                    buildQuizStatusView(submissionLoadedState: loadedSubmission)
-
-                    buildQuizActionButton(
-                        attemptLoadedState: attemptLoadedState,
-                        submissionLoadedState: loadedSubmission
-                    )
-                }
+                buildQuizStatusView(attemptLoadedState: attemptLoadedState)
+                buildQuizActionButton(attemptLoadedState: attemptLoadedState)
             }
         } else {
             ProgressView()
@@ -140,6 +135,8 @@ struct StepQuizView: View {
                 switch quizType {
                 case .choice:
                     StepQuizChoiceAssembly(dataset: dataset, reply: reply, delegate: viewModel).makeModule()
+                case .matching:
+                    StepQuizMatchingAssembly(dataset: dataset, reply: reply, delegate: viewModel).makeModule()
                 case .unsupported(let blockName):
                     fatalError("Unsupported quiz = \(blockName)")
                 }
@@ -149,8 +146,9 @@ struct StepQuizView: View {
     }
 
     @ViewBuilder
-    private func buildQuizStatusView(submissionLoadedState: StepQuizFeatureSubmissionStateLoaded) -> some View {
-        if let submissionStatus = submissionLoadedState.submission.status {
+    private func buildQuizStatusView(attemptLoadedState: StepQuizFeatureStateAttemptLoaded) -> some View {
+        if let submissionStateLoaded = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded,
+           let submissionStatus = submissionStateLoaded.submission.status {
             switch submissionStatus {
             case SubmissionStatus.evaluation:
                 StepQuizStatusView(state: .evaluation)
@@ -165,12 +163,16 @@ struct StepQuizView: View {
     }
 
     @ViewBuilder
-    private func buildQuizActionButton(
-        attemptLoadedState: StepQuizFeatureStateAttemptLoaded,
-        submissionLoadedState: StepQuizFeatureSubmissionStateLoaded
-    ) -> some View {
+    private func buildQuizActionButton(attemptLoadedState: StepQuizFeatureStateAttemptLoaded) -> some View {
+        let submissionStatus: SubmissionStatus? = {
+            if let submissionStateLoaded = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded {
+                return submissionStateLoaded.submission.status
+            }
+            return SubmissionStatus.local
+        }()
+
         StepQuizActionButton(
-            state: .init(submissionStatus: submissionLoadedState.submission.status),
+            state: .init(submissionStatus: submissionStatus),
             onClick: viewModel.doMainQuizAction
         )
         .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
