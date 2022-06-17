@@ -43,12 +43,13 @@ struct StepQuizStatusView: View {
         case correct
         case wrong
         case evaluation
+        case unsupportedQuiz
 
         fileprivate var iconImageName: String {
             switch self {
             case .correct:
                 return Images.StepQuiz.checkmark
-            case .wrong:
+            case .wrong, .unsupportedQuiz:
                 return Images.StepQuiz.info
             case .evaluation:
                 return ""
@@ -63,6 +64,8 @@ struct StepQuizStatusView: View {
                 return Strings.StepQuiz.quizStatusWrong
             case .evaluation:
                 return Strings.StepQuiz.quizStatusEvaluation
+            case .unsupportedQuiz:
+                return Strings.StepQuiz.unsupportedText
             }
         }
 
@@ -70,7 +73,7 @@ struct StepQuizStatusView: View {
             switch self {
             case .correct:
                 return Color(ColorPalette.secondary)
-            case .wrong, .evaluation:
+            case .wrong, .evaluation, .unsupportedQuiz:
                 return Color(ColorPalette.primary)
             }
         }
@@ -81,14 +84,14 @@ struct StepQuizStatusView: View {
                 return Color(ColorPalette.green200Alpha12)
             case .wrong:
                 return .clear
-            case .evaluation:
-                return Color(ColorPalette.violet200Alpha12)
+            case .evaluation, .unsupportedQuiz:
+                return Color(ColorPalette.blue200Alpha12)
             }
         }
 
         fileprivate var paddingEdgeSet: Edge.Set {
             switch self {
-            case .correct, .evaluation:
+            case .correct, .evaluation, .unsupportedQuiz:
                 return .all
             case .wrong:
                 return .vertical

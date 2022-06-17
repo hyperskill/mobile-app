@@ -44,6 +44,7 @@ enum Strings {
         static let sendButton = sharedStrings.step_quiz_send_button_text.localized()
         static let checkingButton = sharedStrings.step_quiz_checking_button_text.localized()
         static let discussionsButton = sharedStrings.step_quiz_discussions_button_text.localized()
+        static let unsupportedText = sharedStrings.step_quiz_unsupported_quiz_text.localized()
     }
 
     // MARK: - StepQuizChoice -

@@ -54,6 +54,7 @@
     <string name="step_quiz_send_button_text">Send</string>
     <string name="step_quiz_checking_button_text">Checking</string>
     <string name="step_quiz_discussions_button_text">Show discussions</string>
+    <string name="step_quiz_unsupported_quiz_text">Current quiz type is not supported in mobile app yet</string>
 
     <!-- Step quiz choice -->
     <string name="step_quiz_choice_single_choice_title">Select one option from the list</string>

@@ -97,12 +97,18 @@ struct StepQuizView: View {
         }
 
         if let attemptLoadedState = viewModel.state as? StepQuizFeatureStateAttemptLoaded {
-            buildChildQuiz(stepBlockName: stepBlockName, attemptLoadedState: attemptLoadedState)
+            let quizType = StepQuizChildQuizType(blockName: stepBlockName)
 
-            if let submissionLoadedState = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded {
-                buildQuizStatusView(submissionLoadedState: submissionLoadedState)
+            if case .unsupported = quizType {
+                StepQuizStatusView(state: .unsupportedQuiz)
+            } else {
+                buildChildQuiz(quizType: quizType, attemptLoadedState: attemptLoadedState)
 
-                buildQuizActionButton(submissionLoadedState: submissionLoadedState)
+                if let loadedSubmission = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded {
+                    buildQuizStatusView(submissionLoadedState: loadedSubmission)
+
+                    buildQuizActionButton(submissionLoadedState: loadedSubmission)
+                }
             }
         } else {
             ProgressView()
@@ -112,14 +118,10 @@ struct StepQuizView: View {
 
     @ViewBuilder
     private func buildChildQuiz(
-        stepBlockName: String,
+        quizType: StepQuizChildQuizType,
         attemptLoadedState: StepQuizFeatureStateAttemptLoaded
     ) -> some View {
-        let quizType = StepQuizChildQuizType(blockName: stepBlockName)
-
-        if case let .unsupported(blockName) = quizType {
-            Text("Unsupported quiz = \(blockName)")
-        } else if let dataset = attemptLoadedState.attempt.dataset {
+        if let dataset = attemptLoadedState.attempt.dataset {
             let submissionStateEmpty = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateEmpty
             let submissionStateLoaded = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded
 
