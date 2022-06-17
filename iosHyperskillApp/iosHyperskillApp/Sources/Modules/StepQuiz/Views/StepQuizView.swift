@@ -82,8 +82,6 @@ struct StepQuizView: View {
 
                 StepQuizHintButton(onClick: { print("onHintButtonClick") })
 
-                Text(String(describing: viewModel.state))
-
                 buildQuizContent(quizName: viewData.quizName, stepBlockName: viewData.stepBlockName)
             }
             .padding()
@@ -137,6 +135,8 @@ struct StepQuizView: View {
                     StepQuizChoiceAssembly(dataset: dataset, reply: reply, delegate: viewModel).makeModule()
                 case .matching:
                     StepQuizMatchingAssembly(dataset: dataset, reply: reply, delegate: viewModel).makeModule()
+                case .sorting:
+                    StepQuizSortingAssembly(dataset: dataset, reply: reply, delegate: viewModel).makeModule()
                 case .unsupported(let blockName):
                     fatalError("Unsupported quiz = \(blockName)")
                 }

@@ -4,6 +4,7 @@ import shared
 enum StepQuizChildQuizType {
     case choice
     case matching
+    case sorting
     case unsupported(blockName: String)
 
     init(blockName: String) {
@@ -12,6 +13,8 @@ enum StepQuizChildQuizType {
             self = .choice
         case BlockName.shared.MATCHING:
             self = .matching
+        case BlockName.shared.SORTING:
+            self = .sorting
         default:
             self = .unsupported(blockName: blockName)
         }
