@@ -36,6 +36,7 @@ enum Strings {
     enum StepQuiz {
         static let quizStatusCorrect = sharedStrings.step_quiz_status_correct_text.localized()
         static let quizStatusWrong = sharedStrings.step_quiz_status_wrong_text.localized()
+        static let quizStatusEvaluation = sharedStrings.step_quiz_status_evaluation_text.localized()
         static let feedbackTitle = sharedStrings.step_quiz_feedback_title.localized()
         static let hintButton = sharedStrings.step_quiz_hint_button_text.localized()
         static let continueButton = sharedStrings.step_quiz_continue_button_text.localized()

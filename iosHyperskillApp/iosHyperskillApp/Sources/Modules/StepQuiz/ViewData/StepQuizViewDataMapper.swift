@@ -20,6 +20,7 @@ final class StepQuizViewDataMapper {
         return StepQuizViewData(
             formattedStats: formattedStats,
             stepText: step.block.text,
+            stepBlockName: step.block.name,
             quizName: self.stepQuizTitleMapper.getStepQuizTitle(block: step.block)
         )
     }
