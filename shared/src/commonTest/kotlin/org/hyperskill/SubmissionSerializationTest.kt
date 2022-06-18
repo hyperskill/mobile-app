@@ -1,16 +1,15 @@
 package org.hyperskill
 
+import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.encodeToJsonElement
 import kotlinx.serialization.json.putJsonObject
 import org.hyperskill.app.network.injection.NetworkModule
-import org.hyperskill.app.step_quiz.domain.model.submissions.Feedback
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
-import kotlin.test.Test
-import kotlin.test.assertEquals
 
 class SubmissionSerializationTest {
     @Test
@@ -25,7 +24,7 @@ class SubmissionSerializationTest {
                 time = "2017-07-13T16:59:00Z",
                 reply = null,
                 attempt = 200L,
-                //feedback = Feedback.Text("This is a primitive")
+                // feedback = Feedback.Text("This is a primitive")
             )
         )
         val expected = buildJsonObject {
@@ -52,7 +51,7 @@ class SubmissionSerializationTest {
                 time = "2017-07-13T16:59:00Z",
                 reply = null,
                 attempt = 200L,
-                //feedback = Feedback.Object("This is a message")
+                // feedback = Feedback.Object("This is a message")
             )
         )
         val expected = buildJsonObject {
@@ -81,7 +80,7 @@ class SubmissionSerializationTest {
                 time = "2017-07-13T16:59:00Z",
                 reply = null,
                 attempt = 200L,
-                //feedback = Feedback.Text("This is a primitive")
+                // feedback = Feedback.Text("This is a primitive")
             )
         val jsonObject = buildJsonObject {
             put("id", JsonPrimitive(123L))
@@ -107,7 +106,7 @@ class SubmissionSerializationTest {
                 time = "2017-07-13T16:59:00Z",
                 reply = null,
                 attempt = 200L,
-                //feedback = Feedback.Object("This is a message")
+                // feedback = Feedback.Object("This is a message")
             )
         val jsonObject = buildJsonObject {
             put("id", JsonPrimitive(123L))
