@@ -53,7 +53,8 @@ extension StepQuizViewModel: StepQuizChildQuizDelegate {
 
 extension Reply {
     convenience init(
-        choices: [Bool]? = nil,
+        sortingChoices: [Bool]? = nil,
+        tableChoices: [TableChoiceAnswer]? = nil,
         text: String? = nil,
         attachments: [Attachment]? = nil,
         formula: String? = nil,
@@ -62,11 +63,19 @@ extension Reply {
         language: String? = nil,
         code: String? = nil,
         blanks: [String]? = nil,
-        solveSql: String? = nil,
-        tableChoices: [TableChoiceAnswer]? = nil
+        solveSql: String? = nil
     ) {
+        let choicesAnswer: [ChoiceAnswer]? = {
+            if let sortingChoices = sortingChoices {
+                return sortingChoices.map(ChoiceAnswerChoice.init(boolValue:))
+            } else if let tableChoices = tableChoices {
+                return tableChoices.map(ChoiceAnswerTable.init(tableChoice:))
+            }
+            return nil
+        }()
+
         self.init(
-            choices: choices?.map({ KotlinBoolean(value: $0) }),
+            choices: choicesAnswer,
             text: text,
             attachments: attachments,
             formula: formula,
@@ -75,8 +84,7 @@ extension Reply {
             language: language,
             code: code,
             blanks: blanks,
-            solveSql: solveSql,
-            tableChoices: tableChoices
+            solveSql: solveSql
         )
     }
 }

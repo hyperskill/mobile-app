@@ -14,7 +14,13 @@ final class StepQuizChoiceViewModel: ObservableObject {
         self.dataset = dataset
         self.reply = reply
 
-        let choices = reply?.choices?.map(\.boolValue) ?? Array(repeating: false, count: dataset.options?.count ?? 0)
+        let choices: [Bool]
+        if let sortingAnswers = reply?.choices as? [ChoiceAnswerChoice] {
+            choices = sortingAnswers.map(\.boolValue)
+        } else {
+            choices = Array(repeating: false, count: dataset.options?.count ?? 0)
+        }
+
         self.viewData = StepQuizChoiceViewData(
             isMultipleChoice: dataset.isMultipleChoice,
             choices: zip(dataset.options ?? [], choices).map { .init(text: $0, isSelected: $1) }
@@ -30,7 +36,7 @@ final class StepQuizChoiceViewModel: ObservableObject {
             }
         }
 
-        let reply = Reply(choices: self.viewData.choices.map(\.isSelected))
+        let reply = Reply(sortingChoices: self.viewData.choices.map(\.isSelected))
         self.delegate?.handleChildQuizSync(reply: reply)
     }
 }

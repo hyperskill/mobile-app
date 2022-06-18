@@ -25,7 +25,7 @@ class SubmissionSerializationTest {
                 time = "2017-07-13T16:59:00Z",
                 reply = null,
                 attempt = 200L,
-                feedback = Feedback.Text("This is a primitive")
+                //feedback = Feedback.Text("This is a primitive")
             )
         )
         val expected = buildJsonObject {
@@ -52,7 +52,7 @@ class SubmissionSerializationTest {
                 time = "2017-07-13T16:59:00Z",
                 reply = null,
                 attempt = 200L,
-                feedback = Feedback.Object("This is a message")
+                //feedback = Feedback.Object("This is a message")
             )
         )
         val expected = buildJsonObject {
@@ -81,7 +81,7 @@ class SubmissionSerializationTest {
                 time = "2017-07-13T16:59:00Z",
                 reply = null,
                 attempt = 200L,
-                feedback = Feedback.Text("This is a primitive")
+                //feedback = Feedback.Text("This is a primitive")
             )
         val jsonObject = buildJsonObject {
             put("id", JsonPrimitive(123L))
@@ -107,7 +107,7 @@ class SubmissionSerializationTest {
                 time = "2017-07-13T16:59:00Z",
                 reply = null,
                 attempt = 200L,
-                feedback = Feedback.Object("This is a message")
+                //feedback = Feedback.Object("This is a message")
             )
         val jsonObject = buildJsonObject {
             put("id", JsonPrimitive(123L))

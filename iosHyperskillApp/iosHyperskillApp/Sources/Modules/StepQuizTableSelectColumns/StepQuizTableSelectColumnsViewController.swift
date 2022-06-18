@@ -43,8 +43,8 @@ final class StepQuizTableSelectColumnsViewController: PanModalPresentableViewCon
         }
 
         let prompt = self.isMultipleChoice
-            ? Strings.StepQuizTable.singleChoicePrompt
-            : Strings.StepQuizTable.multipleChoicePrompt
+            ? Strings.StepQuizTable.multipleChoicePrompt
+            : Strings.StepQuizTable.singleChoicePrompt
 
         let contentView = StepQuizTableSelectColumnsView(
             prompt: prompt,

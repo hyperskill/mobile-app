@@ -125,6 +125,8 @@ struct StepQuizView: View {
                     StepQuizMatchingAssembly(dataset: dataset, reply: reply, delegate: viewModel).makeModule()
                 case .sorting:
                     StepQuizSortingAssembly(dataset: dataset, reply: reply, delegate: viewModel).makeModule()
+                case .table:
+                    StepQuizTableAssembly(dataset: dataset, reply: reply, delegate: viewModel).makeModule()
                 case .unsupported(let blockName):
                     fatalError("Unsupported quiz = \(blockName)")
                 }
