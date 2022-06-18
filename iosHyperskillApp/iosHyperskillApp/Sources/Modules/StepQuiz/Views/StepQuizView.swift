@@ -25,14 +25,7 @@ struct StepQuizView: View {
     var body: some View {
         buildBody()
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonTitleRemoved {
-                presentationMode.wrappedValue.dismiss()
-            }
-            .toolbar {
-                NavigationToolbarInfoItem(
-                    onClick: { print("onToolbarInfoItemClick") }
-                )
-            }
+            .navigationBarBackButtonTitleRemoved { presentationMode.wrappedValue.dismiss() }
             .onAppear {
                 viewModel.startListening()
 
@@ -54,49 +47,44 @@ struct StepQuizView: View {
                 }
             )
         } else {
-            buildContent()
-        }
-    }
+            let viewData = viewModel.makeViewData()
 
-    @ViewBuilder
-    private func buildContent() -> some View {
-        let viewData = viewModel.makeViewData()
+            ScrollView {
+                LazyVStack(alignment: .leading, spacing: appearance.interItemSpacing) {
+                    StepQuizStatsView(text: viewData.formattedStats)
 
-        ScrollView {
-            LazyVStack(alignment: .leading, spacing: appearance.interItemSpacing) {
-                StepQuizStatsView(text: viewData.formattedStats)
-
-                LatexView(
-                    text: .constant(viewData.stepText),
-                    configuration: .init(
-                        appearance: .init(labelFont: appearance.stepTextFont),
-                        contentProcessor: ContentProcessor(
-                            injections: ContentProcessor.defaultInjections + [
-                                StepStylesInjection(),
-                                FontInjection(font: appearance.stepTextFont),
-                                TextColorInjection(dynamicColor: appearance.stepTextColor)
-                            ]
+                    LatexView(
+                        text: .constant(viewData.stepText),
+                        configuration: .init(
+                            appearance: .init(labelFont: appearance.stepTextFont),
+                            contentProcessor: ContentProcessor(
+                                injections: ContentProcessor.defaultInjections + [
+                                    StepStylesInjection(),
+                                    FontInjection(font: appearance.stepTextFont),
+                                    TextColorInjection(dynamicColor: appearance.stepTextColor)
+                                ]
+                            )
                         )
                     )
-                )
 
-                StepQuizHintButton(onClick: { print("onHintButtonClick") })
-
-                buildQuizContent(quizName: viewData.quizName, stepBlockName: viewData.stepBlockName)
+                    buildQuizContent(
+                        state: viewModel.state,
+                        quizName: viewData.quizName,
+                        stepBlockName: viewData.stepBlockName
+                    )
+                }
+                .padding()
             }
-            .padding()
-
-            StepQuizBottomControls(onShowDiscussionsClick: { print("onShowDiscussionsClick") })
         }
     }
 
     @ViewBuilder
-    private func buildQuizContent(quizName: String?, stepBlockName: String) -> some View {
+    private func buildQuizContent(state: StepQuizFeatureState, quizName: String?, stepBlockName: String) -> some View {
         if let quizName = quizName {
             StepQuizNameView(text: quizName)
         }
 
-        if let attemptLoadedState = viewModel.state as? StepQuizFeatureStateAttemptLoaded {
+        if let attemptLoadedState = state as? StepQuizFeatureStateAttemptLoaded {
             let quizType = StepQuizChildQuizType(blockName: stepBlockName)
 
             if case .unsupported = quizType {
