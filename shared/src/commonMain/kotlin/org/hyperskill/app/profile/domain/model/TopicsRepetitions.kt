@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class TopicsRepetitions(
     @SerialName("repetitions_count")
-    val repetitionsCount: Int,
+    val repetitionsCount: Int? = null,
     @SerialName("repeated_today_count")
-    val repeatedTodayCount: Int
+    val repeatedTodayCount: Int? = null
 )

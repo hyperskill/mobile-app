@@ -20,7 +20,7 @@ data class Profile(
     @SerialName("invitation_code")
     val invitationCode: String,
     @SerialName("comments_posted")
-    val postedComments: PostedComments,     // TODO only one field or may be a list
+    val postedComments: PostedComments,
     @SerialName("username")
     val username: String,
     @SerialName("completed_tracks")

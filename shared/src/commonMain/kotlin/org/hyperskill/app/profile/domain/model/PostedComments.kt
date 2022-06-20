@@ -6,11 +6,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class PostedComments(
     @SerialName("comment")
-    val comment: Long,
+    val comment: Long? = null,
     @SerialName("hint")
-    val hint: Long,
+    val hint: Long? = null,
     @SerialName("useful link")
-    val usefulLink: Long,
+    val usefulLink: Long? = null,
     @SerialName("solutions")
-    val solutions: Long
+    val solutions: Long? = null
 )

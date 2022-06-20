@@ -24,7 +24,7 @@ data class Gamification(
     @SerialName("hypercoins")
     val hypercoins: Long,
     @SerialName("last_code_problem_client")
-    val lastCodeProblemClient: Long?,   // TODO Long or String???
+    val lastCodeProblemClient: Long?,
     @SerialName("notifications_unread")
     val notificationsUnread: Int,
     @SerialName("passed_problems_in_ide")
@@ -36,5 +36,5 @@ data class Gamification(
     @SerialName("seconds_to_reach_stage")
     val secondsToReachStage: Long,
     @SerialName("topics_repetitions")
-    val topicsRepetitions: TopicsRepetitions    // TODO only one field or may be list???
+    val topicsRepetitions: TopicsRepetitions
 )
