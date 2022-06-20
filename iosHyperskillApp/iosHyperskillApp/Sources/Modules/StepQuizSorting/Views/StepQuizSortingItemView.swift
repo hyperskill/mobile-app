@@ -22,7 +22,7 @@ struct StepQuizSortingItemView: View {
             }
         }
         .padding()
-        .addBorder(color: Color(ColorPalette.onSurfaceAlpha12), cornerRadius: 6)
+        .addBorder(color: Color(ColorPalette.onSurfaceAlpha12))
     }
 }
 
