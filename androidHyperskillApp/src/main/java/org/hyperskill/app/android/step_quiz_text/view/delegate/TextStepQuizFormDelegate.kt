@@ -41,10 +41,10 @@ class TextStepQuizFormDelegate(
                     InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE to R.string.step_quiz_string_description
 
                 BlockName.NUMBER ->
-                    InputType.TYPE_CLASS_NUMBER to R.string.step_quiz_number_description  // TODO Ask design team for number task description
+                    InputType.TYPE_CLASS_NUMBER to R.string.step_quiz_number_description
 
                 BlockName.MATH ->
-                    InputType.TYPE_CLASS_TEXT to R.string.step_quiz_math_description    // TODO Ask design team for math task description
+                    InputType.TYPE_CLASS_TEXT to R.string.step_quiz_math_description
 
                 else ->
                     throw IllegalArgumentException("Unsupported block type = $blockName")
