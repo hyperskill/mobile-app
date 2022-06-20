@@ -1,4 +1,4 @@
-package org.hyperskill.app.step.data.serializer
+package org.hyperskill.app.step.domain.model.serializer
 
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject

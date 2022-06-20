@@ -2,7 +2,7 @@ package org.hyperskill.app.step_quiz.domain.model.attempts
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import org.hyperskill.app.step.data.serializer.DatasetSerializer
+import org.hyperskill.app.step.domain.model.serializer.DatasetSerializer
 
 @Serializable
 data class Attempt(
