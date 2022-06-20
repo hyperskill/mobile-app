@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.hyperskill.app.android.latex.view.widget.LatexView
+<org.hyperskill.app.android.core.view.ui.widget.SelectableTextView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@id/latex_textview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
-    android:textAppearance="?textAppearanceBody1"
-    android:textIsSelectable="true"
-
-    android:layout_gravity="top"
-    android:padding="16dp"
-
-    app:webViewId="@id/latex_webview" />
+    android:layout_gravity="center_vertical"
+    app:colorControlNormal="?colorAccent" />

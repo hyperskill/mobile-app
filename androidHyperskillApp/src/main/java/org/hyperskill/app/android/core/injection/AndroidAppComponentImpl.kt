@@ -1,7 +1,9 @@
-package org.hyperskill.app.core.injection
+package org.hyperskill.app.android.core.injection
 
 import android.app.Application
 import android.content.Context
+import org.hyperskill.app.android.latex.injection.PlatformLatexComponent
+import org.hyperskill.app.android.latex.injection.PlatformLatexComponentImpl
 import org.hyperskill.app.auth.injection.AuthComponentImpl
 import org.hyperskill.app.auth.injection.AuthComponent
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
@@ -14,6 +16,8 @@ import org.hyperskill.app.auth.injection.PlatformAuthSocialComponent
 import org.hyperskill.app.auth.injection.PlatformAuthSocialComponentImpl
 import org.hyperskill.app.auth.injection.PlatformAuthSocialWebViewComponent
 import org.hyperskill.app.auth.injection.PlatformAuthSocialWebViewComponentImpl
+import org.hyperskill.app.core.injection.CommonComponent
+import org.hyperskill.app.core.injection.CommonComponentImpl
 import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainComponentImpl
@@ -90,4 +94,10 @@ class AndroidAppComponentImpl(
 
     override fun buildPlatformStepQuizComponent(stepQuizComponent: StepQuizComponent): PlatformStepQuizComponent =
         PlatformStepQuizComponentImpl(stepQuizComponent)
+
+    /**
+     * Latex component
+     */
+    override fun buildPlatformLatexComponent(): PlatformLatexComponent =
+        PlatformLatexComponentImpl(application)
 }
