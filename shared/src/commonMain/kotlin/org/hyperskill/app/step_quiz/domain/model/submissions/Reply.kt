@@ -23,6 +23,8 @@ data class Reply(
     val code: String? = null,
     @SerialName("blanks")
     val blanks: List<String>? = null,
+    @SerialName("files")
+    val files: List<String>? = null,
 
     @SerialName("solve_sql")
     val solveSql: String? = null,

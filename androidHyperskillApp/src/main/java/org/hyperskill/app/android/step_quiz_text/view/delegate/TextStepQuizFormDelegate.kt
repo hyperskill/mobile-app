@@ -72,7 +72,7 @@ class TextStepQuizFormDelegate(
                         ReplyResult((Reply(formula = value)), ReplyResult.Validation.Success)
 
                     else ->
-                        ReplyResult((Reply(text = value)), ReplyResult.Validation.Success)
+                        ReplyResult((Reply(text = value, files = emptyList())), ReplyResult.Validation.Success)
                 }
             } else {
                 ReplyResult(Reply(), ReplyResult.Validation.Error(context.getString(R.string.step_quiz_text_empty_reply)))
