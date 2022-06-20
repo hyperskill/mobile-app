@@ -2,12 +2,18 @@ import PanModal
 import SwiftUI
 import UIKit
 
+extension StepQuizTableSelectColumnsViewController {
+    enum Animation {
+        static let dismissAnimationDelay: TimeInterval = 0.33
+    }
+}
+
 final class StepQuizTableSelectColumnsViewController: PanModalPresentableViewController {
     private let row: StepQuizTableViewData.Row
     private let columns: [StepQuizTableViewData.Column]
     private var selectedColumnsIDs: Set<Int>
     private let isMultipleChoice: Bool
-    private let onColumnsChanged: (Set<Int>) -> Void
+    private let onColumnsSelected: (Set<Int>) -> Void
 
     override var panScrollable: UIScrollView? { self.scrollView }
 
@@ -18,13 +24,13 @@ final class StepQuizTableSelectColumnsViewController: PanModalPresentableViewCon
         columns: [StepQuizTableViewData.Column],
         selectedColumnsIDs: Set<Int>,
         isMultipleChoice: Bool,
-        onColumnsChanged: @escaping (Set<Int>) -> Void
+        onColumnsSelected: @escaping (Set<Int>) -> Void
     ) {
         self.row = row
         self.columns = columns
         self.selectedColumnsIDs = selectedColumnsIDs
         self.isMultipleChoice = isMultipleChoice
-        self.onColumnsChanged = onColumnsChanged
+        self.onColumnsSelected = onColumnsSelected
 
         super.init()
     }
@@ -52,7 +58,8 @@ final class StepQuizTableSelectColumnsViewController: PanModalPresentableViewCon
             columns: self.columns,
             selectedColumnsIDs: self.selectedColumnsIDs,
             isMultipleChoice: self.isMultipleChoice,
-            onColumnsChanged: self.onColumnsChanged
+            onColumnsChanged: self.handleColumnsChanged(_:),
+            onConfirmTapped: self.finishColumnsSelection
         )
         let contentHostingController = UIHostingController(rootView: contentView)
 
@@ -67,5 +74,23 @@ final class StepQuizTableSelectColumnsViewController: PanModalPresentableViewCon
         contentHostingController.didMove(toParent: self)
 
         self.panModalSetNeedsLayoutUpdate()
+    }
+
+    // MARK: Private API
+
+    private func handleColumnsChanged(_ newColumns: Set<Int>) {
+        self.selectedColumnsIDs = newColumns
+
+        if !self.isMultipleChoice {
+            self.finishColumnsSelection()
+        }
+    }
+
+    private func finishColumnsSelection() {
+        self.onColumnsSelected(self.selectedColumnsIDs)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + Animation.dismissAnimationDelay) {
+            self.dismiss(animated: true)
+        }
     }
 }

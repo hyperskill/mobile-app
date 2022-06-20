@@ -35,7 +35,13 @@ final class StepQuizViewModel: FeatureViewModel<
     }
 
     func makeViewData() -> StepQuizViewData {
-        self.viewDataMapper.mapStepToViewData(self.step)
+        let attemptOrNil: Attempt? = {
+            if let attemptLoadedState = self.state as? StepQuizFeatureStateAttemptLoaded {
+                return attemptLoadedState.attempt
+            }
+            return nil
+        }()
+        return self.viewDataMapper.mapStepToViewData(self.step, attempt: attemptOrNil)
     }
 }
 

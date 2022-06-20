@@ -71,6 +71,7 @@
     <string name="step_quiz_table_multiple_choice_title">Choose one or multiple options for each row</string>
     <string name="step_quiz_table_single_choice_prompt">Choose from the table</string>
     <string name="step_quiz_table_multiple_choice_prompt">Choose one or multiple options</string>
+    <string name="step_quiz_table_confirm_button_text">Confirm</string>
 
     <!-- Step quiz math -->
     <string name="step_quiz_math_title">Enter a math formula</string>

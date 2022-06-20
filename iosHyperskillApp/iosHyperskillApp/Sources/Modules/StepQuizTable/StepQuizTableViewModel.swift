@@ -44,7 +44,7 @@ final class StepQuizTableViewModel: ObservableObject {
             columns: self.viewData.columns,
             selectedColumnsIDs: Set(row.answers.map(\.id)),
             isMultipleChoice: self.viewData.isMultipleChoice,
-            onColumnsChanged: { [weak self] selectedColumnsIDs in
+            onColumnsSelected: { [weak self] selectedColumnsIDs in
                 guard let strongSelf = self else {
                     return
                 }

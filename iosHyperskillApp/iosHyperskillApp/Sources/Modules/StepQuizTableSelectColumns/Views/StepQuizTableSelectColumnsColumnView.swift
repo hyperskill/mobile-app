@@ -6,6 +6,8 @@ extension StepQuizTableSelectColumnsColumnView {
 
         let checkboxIndicatorWidthHeight: CGFloat = 18
         let radioIndicatorWidthHeight: CGFloat = 20
+
+        let minHeight: CGFloat = 44
     }
 }
 
@@ -28,7 +30,7 @@ struct StepQuizTableSelectColumnsColumnView: View {
                 LatexView(text: .constant(text), configuration: .quizContent())
             }
         }
-        .padding(.vertical)
+        .frame(maxWidth: .infinity, minHeight: appearance.minHeight)
     }
 
     @ViewBuilder
