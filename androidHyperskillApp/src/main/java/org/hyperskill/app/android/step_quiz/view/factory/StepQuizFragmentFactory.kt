@@ -25,7 +25,7 @@ object StepQuizFragmentFactory {
 
             BlockName.TABLE ->
                 TableStepQuizFragment.newInstance(step)
-                
+
             else ->
                 UnsupportedStepQuizFragment.newInstance()
         }
