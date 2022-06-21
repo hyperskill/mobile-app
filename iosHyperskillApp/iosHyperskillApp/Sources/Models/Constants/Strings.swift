@@ -10,6 +10,14 @@ enum Strings {
         static let connectionError = sharedStrings.connection_error.localized()
     }
 
+    // MARK: - TabBar -
+
+    enum TabBar {
+        static let home = sharedStrings.tab_bar_home_title.localized()
+        static let track = sharedStrings.tab_bar_track_title.localized()
+        static let profile = sharedStrings.tab_bar_profile_title.localized()
+    }
+
     // MARK: - AuthSocial -
 
     enum AuthSocial {
@@ -79,5 +87,29 @@ enum Strings {
 
     enum StepQuizSorting {
         static let title = sharedStrings.step_quiz_sorting_title.localized()
+    }
+
+    // MARK: - Home -
+
+    enum Home {
+        static let title = sharedStrings.home_title.localized()
+    }
+
+    // MARK: - Track -
+
+    enum Track {
+        static let title = sharedStrings.track_title.localized()
+    }
+
+    // MARK: - Profile -
+
+    enum Profile {
+        static let title = sharedStrings.profile_title.localized()
+    }
+
+    // MARK: - Settings -
+
+    enum Settings {
+        static let title = sharedStrings.settings_title.localized()
     }
 }

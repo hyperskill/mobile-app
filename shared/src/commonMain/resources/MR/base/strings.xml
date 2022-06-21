@@ -92,6 +92,23 @@
     <string name="step_quiz_text_invalid_number_reply">The answer must be a number</string>
     <string name="step_quiz_text_empty_reply">The answer cannot be empty</string>
 
+    <!-- Tab bar -->
+    <string name="tab_bar_home_title">Home</string>
+    <string name="tab_bar_track_title">Track</string>
+    <string name="tab_bar_profile_title">Profile</string>
+
+    <!-- Home -->
+    <string name="home_title">Home</string>
+
+    <!-- Track -->
+    <string name="track_title">Track</string>
+
+    <!-- Profile -->
+    <string name="profile_title">Profile</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+
     <!-- Placeholder -->
     <string name="placeholder_network_error_title">Oops! It seems like the network error.</string>
     <string name="placeholder_network_error_button_text">Reload</string>

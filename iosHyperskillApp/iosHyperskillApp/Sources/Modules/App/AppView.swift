@@ -41,21 +41,25 @@ struct AppView: View {
             ProgressView()
         case is AppFeatureStateReady:
             TabView(selection: $navigationState.selectedTab) {
-                HomeAssembly()
-                    .makeModule()
-                    .tag(AppTabItem.home)
-                    .tabItem {
-                        Image(systemName: AppTabItem.home.imageSystemName)
-                        Text(AppTabItem.home.title)
+                ForEach(AppTabItem.allCases, id: \.self) { tab in
+                    // TODO: Refactor to factory when Xcode 14 released
+                    Group {
+                        switch tab {
+                        case .home:
+                            HomeAssembly().makeModule()
+                        case .track:
+                            TrackAssembly().makeModule()
+                        case .profile:
+                            ProfileAssembly().makeModule()
+                        }
                     }
-
-                SettingsAssembly()
-                    .makeModule()
-                    .tag(AppTabItem.settings)
+                    .tag(tab)
                     .tabItem {
-                        Image(systemName: AppTabItem.settings.imageSystemName)
-                        Text(AppTabItem.settings.title)
+                        Image(tab.imageName)
+                            .renderingMode(.template)
+                        Text(tab.title)
                     }
+                }
             }
             .fullScreenCover(isPresented: $navigationState.presentingAuthScreen) {
                 AuthSocialAssembly(navigationState: navigationState)

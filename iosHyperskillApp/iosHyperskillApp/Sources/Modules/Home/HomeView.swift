@@ -28,7 +28,7 @@ struct HomeView: View {
                     }
                 }
             }
-            .navigationTitle("HomeTitle")
+            .navigationTitle(Strings.Home.title)
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }

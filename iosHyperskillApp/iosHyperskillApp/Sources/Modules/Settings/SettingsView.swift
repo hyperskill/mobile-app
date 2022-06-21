@@ -16,7 +16,7 @@ struct SettingsView: View {
                     )
                 }
             }
-            .navigationTitle("SettingsTitle")
+            .navigationTitle(Strings.Settings.title)
         }
     }
 }
