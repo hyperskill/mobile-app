@@ -40,19 +40,6 @@ struct StepQuizActionButton: View {
                 return .green
             }
         }
-
-        init(quizStatus: QuizStatus?) {
-            switch quizStatus {
-            case .none:
-                self = .normal
-            case .evaluation:
-                self = .evaluation
-            case .wrong:
-                self = .wrong
-            case .correct:
-                self = .correct
-            }
-        }
     }
 }
 

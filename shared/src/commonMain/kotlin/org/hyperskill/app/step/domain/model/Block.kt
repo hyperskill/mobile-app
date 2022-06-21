@@ -9,6 +9,18 @@ data class Block(
     val name: String,
     @SerialName("text")
     val text: String,
+    @SerialName("options")
+    val options: Options,
     @SerialName("table_of_contents")
     val tableOfContents: List<TableOfContentsEntry>
-)
+) {
+    @Serializable
+    data class Options(
+        @SerialName("is_multiple_choice")
+        val isMultipleChoice: Boolean? = null,
+        @SerialName("language")
+        val language: String? = null,
+        @SerialName("is_checkbox")
+        val isCheckbox: Boolean? = null
+    )
+}

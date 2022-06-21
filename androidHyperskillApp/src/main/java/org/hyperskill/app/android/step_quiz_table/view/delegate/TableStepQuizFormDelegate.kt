@@ -12,6 +12,7 @@ import org.hyperskill.app.android.step_quiz_table.view.fragment.TableColumnSelec
 import org.hyperskill.app.android.step_quiz_table.view.mapper.TableSelectionItemMapper
 import org.hyperskill.app.android.step_quiz_table.view.model.TableSelectionItem
 import org.hyperskill.app.step_quiz.domain.model.submissions.Cell
+import org.hyperskill.app.step_quiz.domain.model.submissions.ChoiceAnswer
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.TableChoiceAnswer
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
@@ -35,7 +36,7 @@ class TableStepQuizFormDelegate(
     private var isCheckBox: Boolean = false
 
     init {
-        quizDescription.setText(R.string.step_quiz_table_description)
+        quizDescription.setText(R.string.step_quiz_table_single_choice_title)
 
         tableAdapter += TableSelectionItemAdapterDelegate() { index, rowTitle, chosenColumns ->
             TableColumnSelectionBottomSheetDialogFragment
@@ -61,9 +62,16 @@ class TableStepQuizFormDelegate(
     override fun createReply(): ReplyResult =
         ReplyResult(
             Reply(
-                tableChoices = tableAdapter
+                choices = tableAdapter
                     .items
-                    .map { TableChoiceAnswer(nameRow = it.titleText, columns = it.tableChoices) }
+                    .map {
+                        ChoiceAnswer.Table(
+                            TableChoiceAnswer(
+                                nameRow = it.titleText,
+                                columns = it.tableChoices
+                            )
+                        )
+                    }
             ),
             ReplyResult.Validation.Success
         )

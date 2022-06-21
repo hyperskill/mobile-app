@@ -14,6 +14,8 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizReducer
 import org.hyperskill.app.step_quiz.remote.AttemptRemoteDataSourceImpl
 import org.hyperskill.app.step_quiz.remote.SubmissionRemoteDataSourceImpl
+import org.hyperskill.app.step_quiz.view.mapper.StepQuizStatsTextMapper
+import org.hyperskill.app.step_quiz.view.mapper.StepQuizTitleMapper
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
@@ -29,6 +31,12 @@ class StepQuizComponentImpl(private val appGraph: AppGraph) : StepQuizComponent 
     private val submissionRepository: SubmissionRepository = SubmissionRepositoryImpl(
         submissionRemoteDataSource
     )
+
+    override val stepQuizStatsTextMapper: StepQuizStatsTextMapper
+        get() = StepQuizStatsTextMapper(appGraph.commonComponent.resourceProvider)
+
+    override val stepQuizTitleMapper: StepQuizTitleMapper
+        get() = StepQuizTitleMapper(appGraph.commonComponent.resourceProvider)
 
     override val stepQuizInteractor: StepQuizInteractor
         get() = StepQuizInteractor(attemptRepository, submissionRepository)

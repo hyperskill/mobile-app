@@ -5,7 +5,7 @@ struct StepHeaderView: View {
     let timeToComplete: String
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
             Text(title)
                 .font(.title2)
                 .foregroundColor(.systemPrimaryText)

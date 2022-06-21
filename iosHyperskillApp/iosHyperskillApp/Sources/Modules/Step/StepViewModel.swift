@@ -12,8 +12,8 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
         super.init(feature: feature)
     }
 
-    func loadStep() {
-        self.onNewMessage(StepFeatureMessageInit(stepId: Int64(self.stepID), forceUpdate: false))
+    func loadStep(forceUpdate: Bool = false) {
+        self.onNewMessage(StepFeatureMessageInit(stepId: Int64(self.stepID), forceUpdate: forceUpdate))
     }
 
     func makeViewData(_ step: Step) -> StepViewData {

@@ -2,8 +2,8 @@ package org.hyperskill.app.step_quiz.domain.model.submissions
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import org.hyperskill.app.step_quiz.domain.serialization.FeedbackContentSerializer
-import org.hyperskill.app.step_quiz.domain.serialization.FeedbackTextSerializer
+import org.hyperskill.app.step_quiz.domain.serialization.feedback.FeedbackContentSerializer
+import org.hyperskill.app.step_quiz.domain.serialization.feedback.FeedbackTextSerializer
 
 @Serializable(with = FeedbackContentSerializer::class)
 sealed interface Feedback {

@@ -11,6 +11,8 @@ extension StepQuizTableRowView {
         let interItemSpacing = LayoutInsets.smallInset
 
         let chevronRightIconWidthHeight: CGFloat = 24
+
+        let minHeight: CGFloat = 44
     }
 }
 
@@ -21,7 +23,7 @@ struct StepQuizTableRowView: View {
 
     var subtitle: String?
 
-    var onTap: (() -> Void)
+    var onTap: () -> Void
 
     var body: some View {
         Button(action: onTap) {
@@ -58,7 +60,7 @@ struct StepQuizTableRowView: View {
                 }
             }
         }
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, minHeight: appearance.minHeight)
     }
 }
 

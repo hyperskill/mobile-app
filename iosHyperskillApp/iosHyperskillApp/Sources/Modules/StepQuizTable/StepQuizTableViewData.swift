@@ -10,6 +10,10 @@ struct StepQuizTableViewData {
         var answers: [Column]
 
         var id: Int { self.text.hashValue }
+
+        var subtitle: String {
+            self.answers.map(\.text).joined(separator: ", ")
+        }
     }
 
     struct Column: Identifiable {
@@ -18,39 +22,3 @@ struct StepQuizTableViewData {
         var id: Int { self.text.hashValue }
     }
 }
-
-#if DEBUG
-extension StepQuizTableViewData {
-    static var singleChoicePlaceholder: StepQuizTableViewData {
-        StepQuizTableViewData(
-            rows: [
-                .init(text: "Variant A", answers: [.init(text: "Answer 1")]),
-                .init(text: "Variant B", answers: []),
-                .init(text: "Variant C", answers: [])
-            ],
-            columns: [
-                .init(text: "Answer 1"),
-                .init(text: "Answer 2"),
-                .init(text: "Answer 3")
-            ],
-            isMultipleChoice: false
-        )
-    }
-
-    static var multipleChoicePlaceholder: StepQuizTableViewData {
-        StepQuizTableViewData(
-            rows: [
-                .init(text: "Variant A", answers: [.init(text: "Answer 1")]),
-                .init(text: "Variant B", answers: []),
-                .init(text: "Variant C", answers: [])
-            ],
-            columns: [
-                .init(text: "Answer 1"),
-                .init(text: "Answer 2"),
-                .init(text: "Answer 3")
-            ],
-            isMultipleChoice: true
-        )
-    }
-}
-#endif

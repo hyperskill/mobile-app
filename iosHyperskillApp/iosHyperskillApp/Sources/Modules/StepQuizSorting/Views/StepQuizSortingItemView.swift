@@ -4,11 +4,9 @@ struct StepQuizSortingItemView: View {
     let text: String
 
     let isMoveUpEnabled: Bool
-
     let isMoveDownEnabled: Bool
 
     let onMoveUp: () -> Void
-
     let onMoveDown: () -> Void
 
     var body: some View {
@@ -24,19 +22,15 @@ struct StepQuizSortingItemView: View {
             }
         }
         .padding()
-        .addBorder(color: Color(ColorPalette.onSurfaceAlpha12), cornerRadius: 6)
+        .addBorder(color: Color(ColorPalette.onSurfaceAlpha12))
     }
 }
 
 struct StepQuizSortingItemView_Previews: PreviewProvider {
     static var previews: some View {
-        let items = StepQuizSortingViewData.makePlaceholder().items
-
-        let firstItem = items[0]
-
-        let middleItem = items[1]
-
-        let lastItem = items[items.count - 1]
+        let firstItem = StepQuizSortingViewData.Option(id: 0, text: "Byte")
+        let secondItem = StepQuizSortingViewData.Option(id: 1, text: "Short")
+        let thirdItem = StepQuizSortingViewData.Option(id: 2, text: "Long")
 
         return Group {
             StepQuizSortingItemView(
@@ -48,7 +42,7 @@ struct StepQuizSortingItemView_Previews: PreviewProvider {
             )
 
             StepQuizSortingItemView(
-                text: middleItem.text,
+                text: secondItem.text,
                 isMoveUpEnabled: true,
                 isMoveDownEnabled: true,
                 onMoveUp: {},
@@ -56,7 +50,7 @@ struct StepQuizSortingItemView_Previews: PreviewProvider {
             )
 
             StepQuizSortingItemView(
-                text: lastItem.text,
+                text: thirdItem.text,
                 isMoveUpEnabled: true,
                 isMoveDownEnabled: false,
                 onMoveUp: {},

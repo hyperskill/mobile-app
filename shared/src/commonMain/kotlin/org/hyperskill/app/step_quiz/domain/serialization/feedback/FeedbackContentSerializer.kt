@@ -1,4 +1,4 @@
-package org.hyperskill.app.step_quiz.domain.serialization
+package org.hyperskill.app.step_quiz.domain.serialization.feedback
 
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.json.JsonContentPolymorphicSerializer
