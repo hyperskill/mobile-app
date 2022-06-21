@@ -1,6 +1,16 @@
 import Foundation
 
 enum Images {
+    // MARK: - TabBar -
+
+    enum TabBar {
+        static let home = "tab-bar-home"
+
+        static let track = "tab-bar-track"
+
+        static let profile = "tab-bar-profile"
+    }
+
     // MARK: - AuthSocial -
 
     enum AuthSocial {

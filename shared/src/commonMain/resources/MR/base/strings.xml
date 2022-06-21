@@ -88,4 +88,20 @@
     <string name="step_quiz_table_multiple_choice">Select one or more options</string>
     <string name="step_quiz_table_confirm_choice">Confirm</string>
 
+    <!-- Tab bar -->
+    <string name="tab_bar_home_title">Home</string>
+    <string name="tab_bar_track_title">Track</string>
+    <string name="tab_bar_profile_title">Profile</string>
+
+    <!-- Home -->
+    <string name="home_title">Home</string>
+
+    <!-- Track -->
+    <string name="track_title">Track</string>
+
+    <!-- Profile -->
+    <string name="profile_title">Profile</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
 </resources>

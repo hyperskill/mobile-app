@@ -4,7 +4,7 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             Text("")
-                .navigationBarTitle("HomeTitle")
+                .navigationTitle(Strings.Home.title)
         }
     }
 }
