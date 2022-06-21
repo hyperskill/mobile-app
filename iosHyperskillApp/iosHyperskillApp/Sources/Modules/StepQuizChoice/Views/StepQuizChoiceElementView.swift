@@ -11,7 +11,7 @@ extension StepQuizChoiceElementView {
 }
 
 struct StepQuizChoiceElementView: View {
-    private(set)var appearance = Appearance()
+    private(set) var appearance = Appearance()
 
     let isSelected: Bool
 

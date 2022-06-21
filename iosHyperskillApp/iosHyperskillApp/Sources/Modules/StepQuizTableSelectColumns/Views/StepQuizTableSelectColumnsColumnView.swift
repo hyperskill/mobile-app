@@ -12,7 +12,7 @@ extension StepQuizTableSelectColumnsColumnView {
 }
 
 struct StepQuizTableSelectColumnsColumnView: View {
-    private(set)var appearance = Appearance()
+    private(set) var appearance = Appearance()
 
     var isSelected: Binding<Bool>
 

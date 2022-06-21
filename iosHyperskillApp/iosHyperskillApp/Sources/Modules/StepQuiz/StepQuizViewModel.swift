@@ -27,7 +27,8 @@ final class StepQuizViewModel: FeatureViewModel<
     func doMainQuizAction() {
         guard let attemptLoadedState = self.state as? StepQuizFeatureStateAttemptLoaded,
               let submissionLoadedState = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded,
-              let reply = submissionLoadedState.submission.reply else {
+              let reply = submissionLoadedState.submission.reply
+        else {
             return
         }
 
