@@ -2,7 +2,7 @@ import SwiftUI
 
 extension StepQuizChoiceElementView {
     struct Appearance {
-        let interItemSpacing = LayoutInsets.smallInset
+        let interItemSpacing = LayoutInsets.defaultInset
 
         let minHeight: CGFloat = 24
         let checkboxIndicatorWidthHeight: CGFloat = 18
@@ -11,79 +11,61 @@ extension StepQuizChoiceElementView {
 }
 
 struct StepQuizChoiceElementView: View {
-    private(set)var appearance = Appearance()
+    private(set) var appearance = Appearance()
 
-    var isSelected: Binding<Bool>
+    let isSelected: Bool
 
     let text: String
 
-    var isMultipleChoice: Bool
+    let isMultipleChoice: Bool
 
-    var selectChoice: (Binding<Bool>) -> Void
+    let onTap: (() -> Void)
 
     var body: some View {
-        Button(
-            action: {
-                selectChoice(isSelected)
-            },
-            label: {
-                HStack(spacing: appearance.interItemSpacing) {
-                    buildIndicator(
-                        isSelected: isSelected,
-                        onClick: {
-                            selectChoice(isSelected)
-                        }
-                    )
-
-                    LatexView(text: .constant(text), configuration: .quizContent())
+        Button(action: onTap) {
+            HStack(spacing: appearance.interItemSpacing) {
+                if isMultipleChoice {
+                    CheckboxButton(isSelected: .constant(isSelected), onClick: onTap)
+                        .frame(widthHeight: appearance.checkboxIndicatorWidthHeight)
+                } else {
+                    RadioButton(isSelected: .constant(isSelected), onClick: onTap)
+                        .frame(widthHeight: appearance.radioIndicatorWidthHeight)
                 }
-            }
-        )
-        .frame(minHeight: appearance.minHeight)
-    }
 
-    @ViewBuilder
-    private func buildIndicator(isSelected: Binding<Bool>, onClick: @escaping () -> Void) -> some View {
-        if isMultipleChoice {
-            CheckboxButton(isSelected: isSelected, onClick: onClick)
-                .frame(widthHeight: appearance.checkboxIndicatorWidthHeight)
-        } else {
-            RadioButton(isSelected: isSelected, onClick: onClick)
-                .frame(widthHeight: appearance.radioIndicatorWidthHeight)
+                LatexView(text: .constant(text), configuration: .quizContent())
+            }
         }
+        .frame(minHeight: appearance.minHeight)
+        .frame(maxWidth: .infinity)
     }
 }
 
 struct StepQuizChoiceElementView_Previews: PreviewProvider {
     static var previews: some View {
-        let lambda = { (selectedChoice: Binding<Bool>) -> Void in
-            selectedChoice.wrappedValue.toggle()
-        }
-
-        return Group {
+        Group {
             StepQuizChoiceElementView(
-                isSelected: .constant(true),
+                isSelected: true,
                 text: "Some option",
                 isMultipleChoice: true,
-                selectChoice: lambda
+                onTap: {}
             )
             StepQuizChoiceElementView(
-                isSelected: .constant(false),
+                isSelected: false,
                 text: "Some option",
                 isMultipleChoice: true,
-                selectChoice: lambda
+                onTap: {}
             )
             StepQuizChoiceElementView(
-                isSelected: .constant(true),
+                isSelected: true,
                 text: "Some option",
                 isMultipleChoice: false,
-                selectChoice: lambda
+                onTap: {}
             )
             StepQuizChoiceElementView(
-                isSelected: .constant(false),
+                isSelected: false,
                 text: "Some option",
                 isMultipleChoice: false,
-                selectChoice: lambda
+                onTap: {}
             )
         }
         .previewLayout(.sizeThatFits)

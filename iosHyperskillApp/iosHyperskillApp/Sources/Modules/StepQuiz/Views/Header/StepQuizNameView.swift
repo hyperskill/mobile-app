@@ -1,0 +1,22 @@
+import SwiftUI
+
+struct StepQuizNameView: View {
+    let text: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
+            Divider()
+            Text(text)
+                .font(.caption)
+                .foregroundColor(.disabledText)
+        }
+    }
+}
+
+struct StepQuizTitleView_Previews: PreviewProvider {
+    static var previews: some View {
+        StepQuizNameView(text: "Select one option from the list")
+            .previewLayout(.sizeThatFits)
+            .padding()
+    }
+}

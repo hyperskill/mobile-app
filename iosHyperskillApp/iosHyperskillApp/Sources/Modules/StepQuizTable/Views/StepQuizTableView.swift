@@ -1,44 +1,27 @@
 import SwiftUI
 
 struct StepQuizTableView: View {
-    @State var viewData: StepQuizTableViewData
+    @StateObject var viewModel: StepQuizTableViewModel
 
     @EnvironmentObject private var panModalPresenter: PanModalPresenter
 
     var body: some View {
-        VStack(spacing: 0) {
-            ForEach(viewData.rows) { row in
+        VStack(spacing: LayoutInsets.defaultInset) {
+            ForEach(viewModel.viewData.rows) { row in
                 StepQuizTableRowView(
                     title: row.text,
-                    subtitle: makeFormattedSubtitleText(row: row),
+                    subtitle: row.subtitle,
                     onTap: {
                         doSelectColumnsPresentation(for: row)
                     }
                 )
-                .padding()
             }
         }
-    }
-
-    private func makeFormattedSubtitleText(row: StepQuizTableViewData.Row) -> String {
-        row.answers.map(\.text).joined(separator: ", ")
+        .padding(.bottom, LayoutInsets.smallInset)
     }
 
     private func doSelectColumnsPresentation(for row: StepQuizTableViewData.Row) {
-        let viewController = StepQuizTableSelectColumnsViewController(
-            row: row,
-            columns: viewData.columns,
-            selectedColumnsIDs: Set(row.answers.map(\.id)),
-            isMultipleChoice: viewData.isMultipleChoice,
-            onColumnsChanged: { selectedColumnsIDs in
-                guard let targetRowIndex = viewData.rows.firstIndex(where: { $0.id == row.id }) else {
-                    return
-                }
-
-                viewData.rows[targetRowIndex].answers = viewData.columns.filter { selectedColumnsIDs.contains($0.id) }
-            }
-        )
-
+        let viewController = viewModel.makeSelectColumnsViewController(for: row)
         panModalPresenter.presentPanModal(viewController)
     }
 }
@@ -46,7 +29,9 @@ struct StepQuizTableView: View {
 #if DEBUG
 struct StepQuizTableView_Previews: PreviewProvider {
     static var previews: some View {
-        StepQuizTableView(viewData: .singleChoicePlaceholder)
+        StepQuizTableAssembly
+            .makePlaceholder(isMultipleChoice: false)
+            .makeModule()
             .environmentObject(PanModalPresenter(sourcelessRouter: SourcelessRouter()))
             .previewLayout(.sizeThatFits)
     }

@@ -20,13 +20,16 @@ struct StepQuizTableSelectColumnsView: View {
 
     private let onColumnsChanged: (Set<Int>) -> Void
 
+    private let onConfirmTapped: () -> Void
+
     init(
         prompt: String,
         title: String,
         columns: [StepQuizTableViewData.Column],
         selectedColumnsIDs: Set<Int>,
         isMultipleChoice: Bool,
-        onColumnsChanged: @escaping (Set<Int>) -> Void
+        onColumnsChanged: @escaping (Set<Int>) -> Void,
+        onConfirmTapped: @escaping () -> Void
     ) {
         self.prompt = prompt
         self.title = title
@@ -34,6 +37,7 @@ struct StepQuizTableSelectColumnsView: View {
         self.selectedColumnsIDs = selectedColumnsIDs
         self.isMultipleChoice = isMultipleChoice
         self.onColumnsChanged = onColumnsChanged
+        self.onConfirmTapped = onConfirmTapped
     }
 
     var body: some View {
@@ -42,7 +46,7 @@ struct StepQuizTableSelectColumnsView: View {
                 .font(.caption)
                 .foregroundColor(.primaryText)
 
-            VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
+            VStack(alignment: .leading, spacing: 0) {
                 LatexView(
                     text: .constant(title),
                     configuration: .quizContent()
@@ -51,8 +55,9 @@ struct StepQuizTableSelectColumnsView: View {
                     .leading,
                     isMultipleChoice ? appearance.titleLeadingInsetMultipleChoice : appearance.titleLeadingInset
                 )
+                .padding(.bottom, LayoutInsets.smallInset)
 
-                VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
+                VStack(alignment: .leading, spacing: 0) {
                     ForEach(columns) { column in
                         StepQuizTableSelectColumnsColumnView(
                             isSelected: .constant(selectedColumnsIDs.contains(column.id)),
@@ -62,9 +67,16 @@ struct StepQuizTableSelectColumnsView: View {
                                 handleColumnTapped(column: column)
                             }
                         )
-                        .frame(maxWidth: .infinity, alignment: .leading)
                     }
                 }
+
+                if isMultipleChoice {
+                    Button(Strings.StepQuizTable.confirmButton, action: onConfirmTapped)
+                        .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
+                        .padding(.vertical)
+                }
+
+                Spacer()
             }
         }
         .padding()
@@ -106,7 +118,8 @@ struct StepQuizTableSelectColumnsView_Previews: PreviewProvider {
                 ],
                 selectedColumnsIDs: ["2".hashValue],
                 isMultipleChoice: false,
-                onColumnsChanged: { _ in }
+                onColumnsChanged: { _ in },
+                onConfirmTapped: {}
             )
 
             StepQuizTableSelectColumnsView(
@@ -115,7 +128,8 @@ struct StepQuizTableSelectColumnsView_Previews: PreviewProvider {
                 columns: [.init(text: "1"), .init(text: "2"), .init(text: "3")],
                 selectedColumnsIDs: ["1".hashValue, "2".hashValue],
                 isMultipleChoice: true,
-                onColumnsChanged: { _ in }
+                onColumnsChanged: { _ in },
+                onConfirmTapped: {}
             )
         }
         .previewLayout(.sizeThatFits)

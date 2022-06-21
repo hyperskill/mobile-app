@@ -4,6 +4,12 @@ import shared
 enum Strings {
     private static let sharedStrings = SharedResources.strings.shared
 
+    // MARK: - General -
+
+    enum General {
+        static let connectionError = sharedStrings.connection_error.localized()
+    }
+
     // MARK: - TabBar -
 
     enum TabBar {
@@ -44,6 +50,7 @@ enum Strings {
     enum StepQuiz {
         static let quizStatusCorrect = sharedStrings.step_quiz_status_correct_text.localized()
         static let quizStatusWrong = sharedStrings.step_quiz_status_wrong_text.localized()
+        static let quizStatusEvaluation = sharedStrings.step_quiz_status_evaluation_text.localized()
         static let feedbackTitle = sharedStrings.step_quiz_feedback_title.localized()
         static let hintButton = sharedStrings.step_quiz_hint_button_text.localized()
         static let continueButton = sharedStrings.step_quiz_continue_button_text.localized()
@@ -51,6 +58,7 @@ enum Strings {
         static let sendButton = sharedStrings.step_quiz_send_button_text.localized()
         static let checkingButton = sharedStrings.step_quiz_checking_button_text.localized()
         static let discussionsButton = sharedStrings.step_quiz_discussions_button_text.localized()
+        static let unsupportedText = sharedStrings.step_quiz_unsupported_quiz_text.localized()
     }
 
     // MARK: - StepQuizChoice -
@@ -63,8 +71,9 @@ enum Strings {
     // MARK: - StepQuizTable -
 
     enum StepQuizTable {
-        static let singleChoicePrompt = sharedStrings.step_quiz_table_single_choice_prompt.localized()
-        static let multipleChoicePrompt = sharedStrings.step_quiz_table_multiple_choice_prompt.localized()
+        static let singleChoicePrompt = sharedStrings.step_quiz_table_single_choice.localized()
+        static let multipleChoicePrompt = sharedStrings.step_quiz_table_multiple_choice.localized()
+        static let confirmButton = sharedStrings.step_quiz_table_confirm_choice.localized()
     }
 
     // MARK: - Placeholder -

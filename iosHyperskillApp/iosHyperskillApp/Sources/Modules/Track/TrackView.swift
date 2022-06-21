@@ -6,6 +6,7 @@ struct TrackView: View {
             Text("")
                 .navigationTitle(Strings.Track.title)
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

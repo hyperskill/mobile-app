@@ -10,27 +10,51 @@ struct StepView: View {
     }
 
     var body: some View {
-        NavigationView {
-            switch self.viewModel.state {
-            case is StepFeatureStateIdle:
-                ProgressView().onAppear(perform: viewModel.loadStep)
-            case is StepFeatureStateLoading:
-                ProgressView()
-            case is StepFeatureStateError:
-                Text("Error")
-            case let data as StepFeatureStateData:
-                StepContentView(viewData: viewModel.makeViewData(data.step))
-                    .navigationTitle(data.step.title)
-            default:
-                Text("Unkwown state")
-            }
-        }
-        .navigationViewStyle(StackNavigationViewStyle())
-        .onAppear(perform: viewModel.startListening)
-        .onDisappear(perform: viewModel.stopListening)
+        buildBody()
+            .onAppear(perform: viewModel.startListening)
+            .onDisappear(perform: viewModel.stopListening)
     }
 
     // MARK: Private API
+
+    @ViewBuilder
+    private func buildBody() -> some View {
+        switch viewModel.state {
+        case is StepFeatureStateIdle:
+            ProgressView()
+                .onAppear {
+                    viewModel.loadStep()
+                }
+        case is StepFeatureStateLoading:
+            ProgressView()
+        case is StepFeatureStateError:
+            PlaceholderView(
+                configuration: .networkError {
+                    viewModel.loadStep(forceUpdate: true)
+                }
+            )
+        case let data as StepFeatureStateData:
+            buildContent(data: data)
+                .navigationTitle(data.step.title)
+        default:
+            Text("Unkwown state")
+        }
+    }
+
+    @ViewBuilder
+    private func buildContent(data: StepFeatureStateData) -> some View {
+        switch data.step.type {
+        case Step.Type_.theory:
+            StepTheoryContentView(
+                viewData: viewModel.makeViewData(data.step)
+            )
+        case Step.Type_.practice:
+            StepQuizAssembly(step: data.step)
+                .makeModule()
+        default:
+            Text("Unkwown state")
+        }
+    }
 
     private func handleViewAction(_ viewAction: StepFeatureActionViewAction) {
         print("StepView :: \(#function) viewAction = \(viewAction)")

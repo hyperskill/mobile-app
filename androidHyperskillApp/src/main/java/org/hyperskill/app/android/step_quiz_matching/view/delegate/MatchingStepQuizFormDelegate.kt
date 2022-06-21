@@ -27,7 +27,7 @@ class MatchingStepQuizFormDelegate(
     private val matchingItemMapper = MatchingItemMapper()
 
     init {
-        quizDescription.setText(R.string.step_quiz_matching_description)
+        quizDescription.setText(R.string.step_quiz_matching_title)
 
         optionsAdapter += MatchingItemTitleAdapterDelegate()
         optionsAdapter += MatchingItemOptionAdapterDelegate(optionsAdapter, ::moveOption)

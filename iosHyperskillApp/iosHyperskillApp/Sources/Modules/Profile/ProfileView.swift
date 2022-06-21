@@ -21,6 +21,7 @@ struct ProfileView: View {
                 SettingsAssembly().makeModule()
             }
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

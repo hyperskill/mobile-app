@@ -46,6 +46,7 @@
     <!-- Step quiz -->
     <string name="step_quiz_status_correct_text">You’re absolutely correct!</string>
     <string name="step_quiz_status_wrong_text">Not correct, but keep on trying\nand never give up!</string>
+    <string name="step_quiz_status_evaluation_text">Evaluation...</string>
     <string name="step_quiz_stats_text">%s solved this problem. Latest completion was about %s ago.</string>
     <string name="step_quiz_feedback_title">FEEDBACK:</string>
     <string name="step_quiz_hint_button_text">See hint</string>
@@ -54,6 +55,7 @@
     <string name="step_quiz_send_button_text">Send</string>
     <string name="step_quiz_checking_button_text">Checking</string>
     <string name="step_quiz_discussions_button_text">Show discussions</string>
+    <string name="step_quiz_unsupported_quiz_text">Current quiz type is not supported in mobile app yet</string>
 
     <!-- Step quiz choice -->
     <string name="step_quiz_choice_single_choice_title">Select one option from the list</string>
@@ -63,13 +65,24 @@
     <string name="step_quiz_sorting_description">Sort a given list</string>
     <string name="step_quiz_sorting_title">Put the items in the correct order</string>
 
-    <!-- Step quiz table -->
-    <string name="step_quiz_table_single_choice_prompt">Choose from the table</string>
-    <string name="step_quiz_table_multiple_choice_prompt">Choose one or multiple options</string>
+    <!-- Step quiz matching -->
+    <string name="step_quiz_matching_title">Match the items from left and right columns</string>
 
-    <!-- Placeholder -->
-    <string name="placeholder_network_error_title">Oops! It seems like the network error.</string>
-    <string name="placeholder_network_error_button_text">Reload</string>
+    <!-- Step quiz table -->
+    <string name="step_quiz_table_single_choice_title">Choose one option for each row</string>
+    <string name="step_quiz_table_multiple_choice_title">Choose one or multiple options for each row</string>
+    <string name="step_quiz_table_single_choice">Choose one option</string>
+    <string name="step_quiz_table_multiple_choice">Choose one or more options</string>
+    <string name="step_quiz_table_confirm_choice">Confirm</string>
+
+    <!-- Step quiz math -->
+    <string name="step_quiz_math_title">Enter a math formula</string>
+
+    <!-- Step quiz number -->
+    <string name="step_quiz_number_title">Enter a number</string>
+
+    <!-- Step quiz string -->
+    <string name="step_quiz_string_title">Enter a short text</string>
 
     <!-- Step quiz string / number math -->
     <string name="step_quiz_text_field_hint">Type your answer here...</string>
@@ -78,15 +91,6 @@
     <string name="step_quiz_math_description">Enter a math formula</string>
     <string name="step_quiz_text_invalid_number_reply">The answer must be a number</string>
     <string name="step_quiz_text_empty_reply">The answer cannot be empty</string>
-
-    <!-- Step quiz matching -->
-    <string name="step_quiz_matching_description">Match the items from left and right columns</string>
-
-    <!-- Step quiz table -->
-    <string name="step_quiz_table_description">Choose one option for each row</string>
-    <string name="step_quiz_table_single_choice">Select one option</string>
-    <string name="step_quiz_table_multiple_choice">Select one or more options</string>
-    <string name="step_quiz_table_confirm_choice">Confirm</string>
 
     <!-- Tab bar -->
     <string name="tab_bar_home_title">Home</string>
@@ -104,4 +108,8 @@
 
     <!-- Settings -->
     <string name="settings_title">Settings</string>
+
+    <!-- Placeholder -->
+    <string name="placeholder_network_error_title">Oops! It seems like the network error.</string>
+    <string name="placeholder_network_error_button_text">Reload</string>
 </resources>

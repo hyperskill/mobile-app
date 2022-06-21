@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Reply(
     @SerialName("choices")
-    val choices: List<Boolean>? = null,
+    val choices: List<ChoiceAnswer>? = null,
     @SerialName("text")
     val text: String? = null,
     @SerialName("attachments")
@@ -27,7 +27,5 @@ data class Reply(
     val files: List<String>? = null,
 
     @SerialName("solve_sql")
-    val solveSql: String? = null,
-
-    var tableChoices: List<TableChoiceAnswer>? = null // this is not serialize by default, because  field 'choices' is already created by different type
+    val solveSql: String? = null
 )

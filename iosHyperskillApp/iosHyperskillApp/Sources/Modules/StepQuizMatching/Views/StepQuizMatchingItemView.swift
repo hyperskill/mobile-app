@@ -2,9 +2,10 @@ import SwiftUI
 
 extension StepQuizMatchingItemView {
     struct Appearance {
-        let interItemSpacing: CGFloat = 20
-
+        let interItemSpacing = LayoutInsets.defaultInset
         let itemHorizontalInset: CGFloat = 64
+
+        let borderColor = ColorPalette.onSurfaceAlpha12
     }
 }
 
@@ -26,7 +27,7 @@ struct StepQuizMatchingItemView: View {
                 Text(title)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding()
-                    .addBorder(color: Color(ColorPalette.onSurfaceAlpha12))
+                    .addBorder(color: Color(appearance.borderColor))
                     .animation(nil)
 
                 Spacer(minLength: appearance.itemHorizontalInset)
@@ -48,9 +49,13 @@ struct StepQuizMatchingItemView: View {
 }
 
 #if DEBUG
-struct StepQuizMatchingItemVIew_Previews: PreviewProvider {
+struct StepQuizMatchingItemView_Previews: PreviewProvider {
     static var previews: some View {
-        let item = StepQuizMatchingViewData.placeholder.items[0]
+        let item = StepQuizMatchingViewData.MatchItem(
+            title: .init(id: 0, text: "&#x27;\\n&#x27;"),
+            option: .init(id: 0, text: "space character")
+        )
+
         Group {
             StepQuizMatchingItemView(
                 title: item.title.text,

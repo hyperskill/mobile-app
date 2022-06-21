@@ -13,16 +13,21 @@ extension StepQuizStatusView {
 struct StepQuizStatusView: View {
     private(set) var appearance = Appearance()
 
-    var state: State
+    let state: State
 
     var body: some View {
         HStack(spacing: appearance.interItemSpacing) {
-            Image(state.iconImageName)
-                .resizable()
-                .renderingMode(.template)
-                .aspectRatio(contentMode: .fit)
-                .foregroundColor(state.foregroundColor)
-                .frame(widthHeight: appearance.iconImageWidthHeight)
+            if state == .evaluation {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: state.foregroundColor))
+            } else {
+                Image(state.iconImageName)
+                    .resizable()
+                    .renderingMode(.template)
+                    .aspectRatio(contentMode: .fit)
+                    .foregroundColor(state.foregroundColor)
+                    .frame(widthHeight: appearance.iconImageWidthHeight)
+            }
 
             Text(state.title)
                 .foregroundColor(state.foregroundColor)
@@ -37,13 +42,17 @@ struct StepQuizStatusView: View {
     enum State: CaseIterable {
         case correct
         case wrong
+        case evaluation
+        case unsupportedQuiz
 
         fileprivate var iconImageName: String {
             switch self {
             case .correct:
                 return Images.StepQuiz.checkmark
-            case .wrong:
+            case .wrong, .unsupportedQuiz:
                 return Images.StepQuiz.info
+            case .evaluation:
+                return ""
             }
         }
 
@@ -53,6 +62,10 @@ struct StepQuizStatusView: View {
                 return Strings.StepQuiz.quizStatusCorrect
             case .wrong:
                 return Strings.StepQuiz.quizStatusWrong
+            case .evaluation:
+                return Strings.StepQuiz.quizStatusEvaluation
+            case .unsupportedQuiz:
+                return Strings.StepQuiz.unsupportedText
             }
         }
 
@@ -60,7 +73,7 @@ struct StepQuizStatusView: View {
             switch self {
             case .correct:
                 return Color(ColorPalette.secondary)
-            case .wrong:
+            case .wrong, .evaluation, .unsupportedQuiz:
                 return Color(ColorPalette.primary)
             }
         }
@@ -71,12 +84,14 @@ struct StepQuizStatusView: View {
                 return Color(ColorPalette.green200Alpha12)
             case .wrong:
                 return .clear
+            case .evaluation, .unsupportedQuiz:
+                return Color(ColorPalette.blue200Alpha12)
             }
         }
 
         fileprivate var paddingEdgeSet: Edge.Set {
             switch self {
-            case .correct:
+            case .correct, .evaluation, .unsupportedQuiz:
                 return .all
             case .wrong:
                 return .vertical
@@ -90,6 +105,9 @@ struct StepQuizStatusView_Previews: PreviewProvider {
         Group {
             ForEach(StepQuizStatusView.State.allCases, id: \.self) { state in
                 StepQuizStatusView(state: state)
+
+                StepQuizStatusView(state: state)
+                    .preferredColorScheme(.dark)
             }
         }
         .previewLayout(.sizeThatFits)
