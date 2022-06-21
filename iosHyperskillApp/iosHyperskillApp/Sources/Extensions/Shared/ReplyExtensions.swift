@@ -13,6 +13,7 @@ extension Reply {
         language: String? = nil,
         code: String? = nil,
         blanks: [String]? = nil,
+        files: [String]? = nil,
         solveSql: String? = nil
     ) {
         let choicesAnswer: [ChoiceAnswer]? = {
@@ -34,6 +35,7 @@ extension Reply {
             language: language,
             code: code,
             blanks: blanks,
+            files: files,
             solveSql: solveSql
         )
     }

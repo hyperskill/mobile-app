@@ -55,4 +55,10 @@
     <dimen name="step_quiz_profile_arrow_width">16dp</dimen>
     <dimen name="step_quiz_profile_arrow_height">8dp</dimen>
 
+    <!-- String / Number / Math quiz -->
+    <dimen name="step_quiz_text_field_min_height">96dp</dimen>
+
+    <!-- Matching quiz -->
+    <dimen name="step_quiz_matching_item_margin">60dp</dimen>
+
 </resources>

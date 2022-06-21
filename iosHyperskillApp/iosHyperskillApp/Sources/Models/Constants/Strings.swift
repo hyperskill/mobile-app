@@ -63,9 +63,9 @@ enum Strings {
     // MARK: - StepQuizTable -
 
     enum StepQuizTable {
-        static let singleChoicePrompt = sharedStrings.step_quiz_table_single_choice_prompt.localized()
-        static let multipleChoicePrompt = sharedStrings.step_quiz_table_multiple_choice_prompt.localized()
-        static let confirmButton = sharedStrings.step_quiz_table_confirm_button_text.localized()
+        static let singleChoicePrompt = sharedStrings.step_quiz_table_single_choice.localized()
+        static let multipleChoicePrompt = sharedStrings.step_quiz_table_multiple_choice.localized()
+        static let confirmButton = sharedStrings.step_quiz_table_confirm_choice.localized()
     }
 
     // MARK: - Placeholder -

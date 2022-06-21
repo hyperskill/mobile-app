@@ -1,0 +1,23 @@
+html,
+body {
+  font-family: -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1em;
+}
+
+h5 {
+  font-size: 1.375em;
+}
+
+strong,
+b {
+  font-weight: 550;
+}

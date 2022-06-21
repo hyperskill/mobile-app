@@ -18,13 +18,14 @@ final class StepQuizViewDataMapper {
         )
 
         let quizName: String? = {
-            let isMultipleChoice = attempt?.dataset?.isMultipleChoice ?? step.block.options.isMultipleChoice?.boolValue
-            let isCheckbox = attempt?.dataset?.isCheckbox ?? step.block.options.isCheckbox?.boolValue
+            guard let dataset = attempt?.dataset else {
+                return nil
+            }
 
             return self.stepQuizTitleMapper.getStepQuizTitle(
                 blockName: step.block.name,
-                isMultipleChoice: isMultipleChoice != nil ? KotlinBoolean(bool: isMultipleChoice.require()) : nil,
-                isCheckbox: isCheckbox != nil ? KotlinBoolean(bool: isCheckbox.require()) : nil
+                isMultipleChoice: KotlinBoolean(bool: dataset.isMultipleChoice),
+                isCheckbox: KotlinBoolean(bool: dataset.isCheckbox)
             )
         }()
 

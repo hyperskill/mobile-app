@@ -2,6 +2,7 @@
 <resources>
     <!-- General -->
     <string name="connection_error">Connection was lost</string>
+    <string name="external_link_error">Unable to open link: %s</string>
 
     <!-- Users list -->
     <string name="user_list_search_button_title">Search</string>
@@ -61,6 +62,7 @@
     <string name="step_quiz_choice_multiple_choice_title">Select one or more options from the list</string>
 
     <!-- Step quiz sorting -->
+    <string name="step_quiz_sorting_description">Sort a given list</string>
     <string name="step_quiz_sorting_title">Put the items in the correct order</string>
 
     <!-- Step quiz matching -->
@@ -69,9 +71,9 @@
     <!-- Step quiz table -->
     <string name="step_quiz_table_single_choice_title">Choose one option for each row</string>
     <string name="step_quiz_table_multiple_choice_title">Choose one or multiple options for each row</string>
-    <string name="step_quiz_table_single_choice_prompt">Choose from the table</string>
-    <string name="step_quiz_table_multiple_choice_prompt">Choose one or multiple options</string>
-    <string name="step_quiz_table_confirm_button_text">Confirm</string>
+    <string name="step_quiz_table_single_choice">Choose one option</string>
+    <string name="step_quiz_table_multiple_choice">Choose one or more options</string>
+    <string name="step_quiz_table_confirm_choice">Confirm</string>
 
     <!-- Step quiz math -->
     <string name="step_quiz_math_title">Enter a math formula</string>
@@ -81,6 +83,14 @@
 
     <!-- Step quiz string -->
     <string name="step_quiz_string_title">Enter a short text</string>
+
+    <!-- Step quiz string / number math -->
+    <string name="step_quiz_text_field_hint">Type your answer here...</string>
+    <string name="step_quiz_string_description">Enter a short text</string>
+    <string name="step_quiz_number_description">Enter a number</string>
+    <string name="step_quiz_math_description">Enter a math formula</string>
+    <string name="step_quiz_text_invalid_number_reply">The answer must be a number</string>
+    <string name="step_quiz_text_empty_reply">The answer cannot be empty</string>
 
     <!-- Placeholder -->
     <string name="placeholder_network_error_title">Oops! It seems like the network error.</string>
