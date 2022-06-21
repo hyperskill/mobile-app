@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.widget.ProgressableWebViewClient
-import org.hyperskill.app.android.databinding.ItemTableColumnSelectionCheckboxBinding
+import org.hyperskill.app.android.databinding.ItemCompoundSelectionCheckboxBinding
 import org.hyperskill.app.step_quiz.domain.model.submissions.Cell
 import ru.nobird.android.ui.adapterdelegates.AdapterDelegate
 import ru.nobird.android.ui.adapterdelegates.DelegateViewHolder
@@ -19,13 +19,13 @@ class TableColumnMultipleSelectionItemAdapterDelegate(
         true
 
     override fun onCreateViewHolder(parent: ViewGroup): DelegateViewHolder<Cell> =
-        ViewHolder(createView(parent, R.layout.item_table_column_selection_checkbox))
+        ViewHolder(createView(parent, R.layout.item_compound_selection_checkbox))
 
     private inner class ViewHolder(root: View) : DelegateViewHolder<Cell>(root) {
-        private val viewBinding: ItemTableColumnSelectionCheckboxBinding by viewBinding(ItemTableColumnSelectionCheckboxBinding::bind)
-        private val tableColumnCheckBox = viewBinding.tableColumnSelectionCheckBox
-        private val tableColumnText = viewBinding.tableColumnSelectionText
-        private val tableColumnTextProgress = viewBinding.tableColumnSelectionTextProgress
+        private val viewBinding: ItemCompoundSelectionCheckboxBinding by viewBinding(ItemCompoundSelectionCheckboxBinding::bind)
+        private val tableColumnCheckBox = viewBinding.compoundSelectionCheckBox
+        private val tableColumnText = viewBinding.compoundSelectionText
+        private val tableColumnTextProgress = viewBinding.compoundSelectionTextProgress
 
         init {
             root.setOnClickListener {
