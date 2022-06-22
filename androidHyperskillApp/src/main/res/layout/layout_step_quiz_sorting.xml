@@ -11,6 +11,6 @@
     app:layout_constraintBottom_toTopOf="@id/stepQuizFeedbackBlocks"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/stepQuizDescriptionDivider"
+    app:layout_constraintTop_toBottomOf="@+id/stepQuizDescription"
 
     tools:listitem="@layout/item_step_quiz_sorting" />
