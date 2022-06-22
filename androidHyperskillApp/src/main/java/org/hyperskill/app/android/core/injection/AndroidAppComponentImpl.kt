@@ -2,6 +2,8 @@ package org.hyperskill.app.android.core.injection
 
 import android.app.Application
 import android.content.Context
+import org.hyperskill.app.android.code.injection.PlatformCodeEditorComponent
+import org.hyperskill.app.android.code.injection.PlatformCodeEditorComponentImpl
 import org.hyperskill.app.android.latex.injection.PlatformLatexComponent
 import org.hyperskill.app.android.latex.injection.PlatformLatexComponentImpl
 import org.hyperskill.app.auth.injection.AuthComponentImpl
@@ -100,4 +102,10 @@ class AndroidAppComponentImpl(
      */
     override fun buildPlatformLatexComponent(): PlatformLatexComponent =
         PlatformLatexComponentImpl(application)
+
+    /**
+     * CodeEditor component
+     */
+    override fun buildPlatformCodeEditorComponent(): PlatformCodeEditorComponent =
+        PlatformCodeEditorComponentImpl(application)
 }
