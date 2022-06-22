@@ -7,7 +7,9 @@ class StepInteractor(
     private val stepRepository: StepRepository
 ) {
     suspend fun getStep(stepId: Long): Result<Step> =
-        stepRepository.getStep(stepId)
+        kotlin.runCatching {
+            return stepRepository.getStep(stepId)
+        }
 
     suspend fun getSteps(stepIds: List<Long>): Result<List<Step>> =
         stepRepository.getSteps(stepIds)
