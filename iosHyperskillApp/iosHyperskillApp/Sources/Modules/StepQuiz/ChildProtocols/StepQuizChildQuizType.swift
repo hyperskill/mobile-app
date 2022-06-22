@@ -6,6 +6,9 @@ enum StepQuizChildQuizType {
     case matching
     case sorting
     case table
+    case string
+    case number
+    case math
     case unsupported(blockName: String)
 
     init(blockName: String) {
@@ -18,6 +21,12 @@ enum StepQuizChildQuizType {
             self = .sorting
         case BlockName.shared.TABLE:
             self = .table
+        case BlockName.shared.STRING:
+            self = .string
+        case BlockName.shared.NUMBER:
+            self = .number
+        case BlockName.shared.MATH:
+            self = .math
         default:
             self = .unsupported(blockName: blockName)
         }

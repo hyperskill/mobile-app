@@ -86,9 +86,6 @@
 
     <!-- Step quiz string / number math -->
     <string name="step_quiz_text_field_hint">Type your answer here...</string>
-    <string name="step_quiz_string_description">Enter a short text</string>
-    <string name="step_quiz_number_description">Enter a number</string>
-    <string name="step_quiz_math_description">Enter a math formula</string>
     <string name="step_quiz_text_invalid_number_reply">The answer must be a number</string>
     <string name="step_quiz_text_empty_reply">The answer cannot be empty</string>
 

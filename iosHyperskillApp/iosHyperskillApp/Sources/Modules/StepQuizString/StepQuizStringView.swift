@@ -17,36 +17,41 @@ extension StepQuizStringView {
 struct StepQuizStringView: View {
     private(set) var appearance = Appearance()
 
-    @State private var text = ""
+    @StateObject var viewModel: StepQuizStringViewModel
 
     var body: some View {
-        TextEditor(text: $text)
+        TextEditor(text: $viewModel.viewData.text)
             .foregroundColor(appearance.textEditorTextColor)
             .font(appearance.textEditorTextFont)
             .multilineTextAlignment(.leading)
             .disableAutocorrection(true)
             .autocapitalization(.none)
-            .keyboardType(.default)
+            .keyboardType(viewModel.viewData.isDecimalTextInput ? .decimalPad : .default)
             .frame(height: appearance.textEditorHeight)
             .frame(maxWidth: .infinity)
             .padding(appearance.textEditorInsets.edgeInsets)
             .overlay(
-                Text("Type your answer here...")
+                Text(viewModel.viewData.placeholder)
                     .font(appearance.placeholderTextFont)
                     .foregroundColor(appearance.placeholderTextColor)
                     .allowsHitTesting(false)
                     .padding(appearance.placeholderInsets.edgeInsets)
-                    .opacity(text.isEmpty ? 1 : 0)
+                    .opacity(viewModel.viewData.text.isEmpty ? 1 : 0)
                 ,
                 alignment: .topLeading
             )
             .addBorder(color: appearance.textEditorBorderColor)
-            .padding()
     }
 }
 
+#if DEBUG
 struct StepQuizStringView_Previews: PreviewProvider {
     static var previews: some View {
-        StepQuizStringView()
+        StepQuizStringAssembly
+            .makePlaceholder(dataType: .string)
+            .makeModule()
+            .previewLayout(.sizeThatFits)
+            .padding()
     }
 }
+#endif
