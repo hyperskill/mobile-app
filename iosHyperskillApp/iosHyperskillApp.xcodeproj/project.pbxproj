@@ -21,6 +21,7 @@
 		2C079687285CFFF500EE0487 /* StepQuizSortingAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C079686285CFFF500EE0487 /* StepQuizSortingAssembly.swift */; };
 		2C0CD583282BEB6600D5659D /* View+RemoveBackButtonTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0CD582282BEB6600D5659D /* View+RemoveBackButtonTitle.swift */; };
 		2C0DB9012864332B001EA35E /* CodeTextViewLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DB9002864332B001EA35E /* CodeTextViewLayoutManager.swift */; };
+		2C0DB90328643C47001EA35E /* CodeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DB90228643C47001EA35E /* CodeTextView.swift */; };
 		2C1061A2285C349400EBD614 /* StepQuizChildQuizAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1061A1285C349400EBD614 /* StepQuizChildQuizAssembly.swift */; };
 		2C1061A4285C34C900EBD614 /* StepQuizChildQuizDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1061A3285C34C900EBD614 /* StepQuizChildQuizDelegate.swift */; };
 		2C1061A8285C3A2D00EBD614 /* StepQuizChildQuizType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1061A7285C3A2D00EBD614 /* StepQuizChildQuizType.swift */; };
@@ -218,6 +219,7 @@
 		2C079686285CFFF500EE0487 /* StepQuizSortingAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSortingAssembly.swift; sourceTree = "<group>"; };
 		2C0CD582282BEB6600D5659D /* View+RemoveBackButtonTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+RemoveBackButtonTitle.swift"; sourceTree = "<group>"; };
 		2C0DB9002864332B001EA35E /* CodeTextViewLayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeTextViewLayoutManager.swift; sourceTree = "<group>"; };
+		2C0DB90228643C47001EA35E /* CodeTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeTextView.swift; sourceTree = "<group>"; };
 		2C1061A1285C349400EBD614 /* StepQuizChildQuizAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChildQuizAssembly.swift; sourceTree = "<group>"; };
 		2C1061A3285C34C900EBD614 /* StepQuizChildQuizDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChildQuizDelegate.swift; sourceTree = "<group>"; };
 		2C1061A7285C3A2D00EBD614 /* StepQuizChildQuizType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChildQuizType.swift; sourceTree = "<group>"; };
@@ -461,6 +463,7 @@
 		2C0DB8FF28643313001EA35E /* CodeEditor */ = {
 			isa = PBXGroup;
 			children = (
+				2C0DB90228643C47001EA35E /* CodeTextView.swift */,
 				2C0DB9002864332B001EA35E /* CodeTextViewLayoutManager.swift */,
 			);
 			path = CodeEditor;
@@ -1453,6 +1456,7 @@
 				E993E9A928426FF2005988EC /* StepQuizSortingViewData.swift in Sources */,
 				E94D238F280585110003273F /* AuthCredentialsFormView.swift in Sources */,
 				2C2D492E281151E100753F16 /* AuthCredentialsAssembly.swift in Sources */,
+				2C0DB90328643C47001EA35E /* CodeTextView.swift in Sources */,
 				2CCCA3992862D58E00D98089 /* StepQuizStringView.swift in Sources */,
 				2CE31F4B27F1E070008EEE66 /* AppViewModel.swift in Sources */,
 				2CD48D8E28586B6F00CFCC4A /* StepQuizViewDataMapper.swift in Sources */,
