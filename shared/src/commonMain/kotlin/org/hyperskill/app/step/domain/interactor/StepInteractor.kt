@@ -12,5 +12,7 @@ class StepInteractor(
         }
 
     suspend fun getSteps(stepIds: List<Long>): Result<List<Step>> =
-        stepRepository.getSteps(stepIds)
+        kotlin.runCatching {
+            return stepRepository.getSteps(stepIds)
+        }
 }
