@@ -48,6 +48,8 @@ class StepPracticeFragment : Fragment(R.layout.fragment_step_practice) {
         viewBinding.stepPracticeAppBar.stepQuizToolbar.root.setNavigationOnClickListener {
             requireRouter().exit()
         }
+        viewBinding.stepPracticeAppBar.stepQuizToolbar.stepQuizToolbarTitle.text =
+            step.title
         viewBinding.stepPracticeCompletion.text = resourceProvider.getString(
             SharedResources.strings.step_quiz_stats_text,
             step.solvedBy.toString(),

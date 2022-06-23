@@ -17,7 +17,7 @@
         android:layout_gravity="center"
         android:layout_marginEnd="@dimen/step_quiz_toolbar_margin_horizontal"
         android:ellipsize="end"
-        android:maxLines="2"
+        android:maxLines="1"
         android:paddingVertical="@dimen/step_quiz_toolbar_padding_vertical"
         android:textAppearance="?textAppearanceSubtitle1"
         android:textColor="@color/material_on_surface_emphasis_high_type"

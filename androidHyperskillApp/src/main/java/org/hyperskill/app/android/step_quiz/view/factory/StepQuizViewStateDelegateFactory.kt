@@ -13,7 +13,6 @@ object StepQuizViewStateDelegateFactory {
                 addState<StepQuizFeature.State.Loading>(fragmentStepQuizBinding.stepQuizProgress)
                 addState<StepQuizFeature.State.AttemptLoading>(fragmentStepQuizBinding.stepQuizProgress)
                 addState<StepQuizFeature.State.AttemptLoaded>(
-                    fragmentStepQuizBinding.stepQuizDescriptionDivider.root,
                     fragmentStepQuizBinding.stepQuizFeedbackBlocks.root,
                     fragmentStepQuizBinding.stepQuizDescription,
                     fragmentStepQuizBinding.stepQuizSubmitButton,

@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.step_quiz_table.view.widget
+package org.hyperskill.app.android.core.view.ui.widget
 
 import android.content.Context
 import android.util.AttributeSet
@@ -10,7 +10,7 @@ import androidx.core.view.children
 import androidx.core.view.marginLeft
 import org.hyperskill.app.android.latex.view.widget.LatexView
 
-class TableChoiceItemView
+class CompoundLatexItemView
 @JvmOverloads
 constructor(
     context: Context,

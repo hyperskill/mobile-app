@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.widget.ProgressableWebViewClient
-import org.hyperskill.app.android.databinding.ItemTableColumnSelectionRadiobuttonBinding
+import org.hyperskill.app.android.databinding.ItemCompoundSelectionRadiobuttonBinding
 import org.hyperskill.app.step_quiz.domain.model.submissions.Cell
 import ru.nobird.android.ui.adapterdelegates.AdapterDelegate
 import ru.nobird.android.ui.adapterdelegates.DelegateViewHolder
@@ -19,13 +19,13 @@ class TableColumnSingleSelectionItemAdapterDelegate(
         true
 
     override fun onCreateViewHolder(parent: ViewGroup): DelegateViewHolder<Cell> =
-        ViewHolder(createView(parent, R.layout.item_table_column_selection_radiobutton))
+        ViewHolder(createView(parent, R.layout.item_compound_selection_radiobutton))
 
     private inner class ViewHolder(root: View) : DelegateViewHolder<Cell>(root) {
-        private val viewBinding: ItemTableColumnSelectionRadiobuttonBinding by viewBinding(ItemTableColumnSelectionRadiobuttonBinding::bind)
-        private val tableColumnRadioButton = viewBinding.tableColumnSelectionRadioButton
-        private val tableColumnText = viewBinding.tableColumnSelectionText
-        private val tableColumnTextProgress = viewBinding.tableColumnSelectionTextProgress
+        private val viewBinding: ItemCompoundSelectionRadiobuttonBinding by viewBinding(ItemCompoundSelectionRadiobuttonBinding::bind)
+        private val tableColumnRadioButton = viewBinding.compoundSelectionRadioButton
+        private val tableColumnText = viewBinding.compoundSelectionText
+        private val tableColumnTextProgress = viewBinding.compoundSelectionTextProgress
 
         init {
             root.setOnClickListener {
