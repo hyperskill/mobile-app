@@ -20,6 +20,7 @@
 		2C079685285CFFEE00EE0487 /* StepQuizSortingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C079684285CFFEE00EE0487 /* StepQuizSortingViewModel.swift */; };
 		2C079687285CFFF500EE0487 /* StepQuizSortingAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C079686285CFFF500EE0487 /* StepQuizSortingAssembly.swift */; };
 		2C0CD583282BEB6600D5659D /* View+RemoveBackButtonTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0CD582282BEB6600D5659D /* View+RemoveBackButtonTitle.swift */; };
+		2C0DB9012864332B001EA35E /* CodeTextViewLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DB9002864332B001EA35E /* CodeTextViewLayoutManager.swift */; };
 		2C1061A2285C349400EBD614 /* StepQuizChildQuizAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1061A1285C349400EBD614 /* StepQuizChildQuizAssembly.swift */; };
 		2C1061A4285C34C900EBD614 /* StepQuizChildQuizDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1061A3285C34C900EBD614 /* StepQuizChildQuizDelegate.swift */; };
 		2C1061A8285C3A2D00EBD614 /* StepQuizChildQuizType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1061A7285C3A2D00EBD614 /* StepQuizChildQuizType.swift */; };
@@ -216,6 +217,7 @@
 		2C079684285CFFEE00EE0487 /* StepQuizSortingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSortingViewModel.swift; sourceTree = "<group>"; };
 		2C079686285CFFF500EE0487 /* StepQuizSortingAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSortingAssembly.swift; sourceTree = "<group>"; };
 		2C0CD582282BEB6600D5659D /* View+RemoveBackButtonTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+RemoveBackButtonTitle.swift"; sourceTree = "<group>"; };
+		2C0DB9002864332B001EA35E /* CodeTextViewLayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeTextViewLayoutManager.swift; sourceTree = "<group>"; };
 		2C1061A1285C349400EBD614 /* StepQuizChildQuizAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChildQuizAssembly.swift; sourceTree = "<group>"; };
 		2C1061A3285C34C900EBD614 /* StepQuizChildQuizDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChildQuizDelegate.swift; sourceTree = "<group>"; };
 		2C1061A7285C3A2D00EBD614 /* StepQuizChildQuizType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChildQuizType.swift; sourceTree = "<group>"; };
@@ -454,6 +456,14 @@
 				2C023C8A285DCA2100D2D5A9 /* ReplyExtensions.swift */,
 			);
 			path = Shared;
+			sourceTree = "<group>";
+		};
+		2C0DB8FF28643313001EA35E /* CodeEditor */ = {
+			isa = PBXGroup;
+			children = (
+				2C0DB9002864332B001EA35E /* CodeTextViewLayoutManager.swift */,
+			);
+			path = CodeEditor;
 			sourceTree = "<group>";
 		};
 		2C1061A0285C341C00EBD614 /* ChildProtocols */ = {
@@ -1078,6 +1088,7 @@
 		2CF2DA4227EC7DB50055426D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2C0DB8FF28643313001EA35E /* CodeEditor */,
 				2C919DE627EEEDC40022A2F2 /* Collections */,
 				2C20FBA0284F15EC006D879E /* ContentProcessor */,
 				2CF2DA4327EC7DBC0055426D /* Core */,
@@ -1470,6 +1481,7 @@
 				2CD48D872858639500CFCC4A /* StepQuizViewModel.swift in Sources */,
 				E94D238D28057F440003273F /* AuthCredentialsView.swift in Sources */,
 				2CE31F4827F1BB79008EEE66 /* AuthSocialAssembly.swift in Sources */,
+				2C0DB9012864332B001EA35E /* CodeTextViewLayoutManager.swift in Sources */,
 				2CC4AAF1280DB513002276A0 /* WebOAuthService.swift in Sources */,
 				2CF43410281268A1002893CD /* String+Whitespaces.swift in Sources */,
 				2CF2DA3A27EC5B2D0055426D /* Assembly.swift in Sources */,
