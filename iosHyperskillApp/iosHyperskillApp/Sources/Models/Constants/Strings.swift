@@ -89,6 +89,12 @@ enum Strings {
         static let title = sharedStrings.step_quiz_sorting_title.localized()
     }
 
+    // MARK: - StepQuizString -
+
+    enum StepQuizString {
+        static let placeholder = sharedStrings.step_quiz_text_field_hint.localized()
+    }
+
     // MARK: - Home -
 
     enum Home {

@@ -38,13 +38,13 @@ class TextStepQuizFormDelegate(
         val (inputType, @StringRes descriptionTextRes) =
             when (val blockName = stepBlockName) {
                 BlockName.STRING ->
-                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE to R.string.step_quiz_string_description
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE to R.string.step_quiz_string_title
 
                 BlockName.NUMBER ->
-                    InputType.TYPE_CLASS_NUMBER to R.string.step_quiz_number_description
+                    InputType.TYPE_CLASS_NUMBER to R.string.step_quiz_number_title
 
                 BlockName.MATH ->
-                    InputType.TYPE_CLASS_TEXT to R.string.step_quiz_math_description
+                    InputType.TYPE_CLASS_TEXT to R.string.step_quiz_math_title
 
                 else ->
                     throw IllegalArgumentException("Unsupported block type = $blockName")
