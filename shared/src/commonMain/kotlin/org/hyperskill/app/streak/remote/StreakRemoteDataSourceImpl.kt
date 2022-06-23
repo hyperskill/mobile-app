@@ -10,7 +10,7 @@ import org.hyperskill.app.streak.data.source.StreakRemoteDataSource
 import org.hyperskill.app.streak.domain.model.Streak
 import org.hyperskill.app.streak.remote.model.StreakResponse
 
-class StreakRemoteDataSoruceImpl(
+class StreakRemoteDataSourceImpl(
     private val httpClient: HttpClient
 ) : StreakRemoteDataSource {
     override suspend fun getStreaks(userId: Long): Result<List<Streak>> =
