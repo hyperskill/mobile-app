@@ -463,10 +463,26 @@
 		2C0DB8FF28643313001EA35E /* CodeEditor */ = {
 			isa = PBXGroup;
 			children = (
+				2C0DB90528644020001EA35E /* SwiftUI */,
+				2C0DB90428644005001EA35E /* UIKit */,
+			);
+			path = CodeEditor;
+			sourceTree = "<group>";
+		};
+		2C0DB90428644005001EA35E /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
 				2C0DB90228643C47001EA35E /* CodeTextView.swift */,
 				2C0DB9002864332B001EA35E /* CodeTextViewLayoutManager.swift */,
 			);
-			path = CodeEditor;
+			path = UIKit;
+			sourceTree = "<group>";
+		};
+		2C0DB90528644020001EA35E /* SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SwiftUI;
 			sourceTree = "<group>";
 		};
 		2C1061A0285C341C00EBD614 /* ChildProtocols */ = {
