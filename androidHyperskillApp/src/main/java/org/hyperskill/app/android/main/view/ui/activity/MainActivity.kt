@@ -17,7 +17,7 @@ import org.hyperskill.app.android.auth.view.ui.fragment.AuthFragment
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthScreen
 import org.hyperskill.app.android.core.view.ui.navigation.AppNavigationContainer
 import org.hyperskill.app.android.databinding.ActivityMainBinding
-import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
+import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.main.presentation.MainViewModel
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
@@ -97,7 +97,7 @@ class MainActivity :
             is AppFeature.Action.ViewAction.NavigateTo.AuthScreen ->
                 router.newRootScreen(AuthScreen)
             is AppFeature.Action.ViewAction.NavigateTo.HomeScreen ->
-                router.newRootScreen(HomeScreen)
+                router.newRootScreen(MainScreen)
         }
     }
 

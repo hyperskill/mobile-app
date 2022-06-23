@@ -1,14 +1,14 @@
-package org.hyperskill.app.android.home.view.ui.screen
+package org.hyperskill.app.android.track.view.navigation
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import com.github.terrakok.cicerone.androidx.FragmentScreen
-import org.hyperskill.app.android.home.view.ui.fragment.HomeFragment
 import org.hyperskill.app.android.main.view.ui.navigation.Tabs
+import org.hyperskill.app.android.track.view.fragment.TrackFragment
 
-object HomeScreen : FragmentScreen {
-    override val screenKey: String = Tabs.HOME.name
+object TrackScreen : FragmentScreen {
+    override val screenKey: String = Tabs.TRACK.name
 
     override fun createFragment(factory: FragmentFactory): Fragment =
-        HomeFragment.newInstance()
+        TrackFragment.newInstance()
 }
