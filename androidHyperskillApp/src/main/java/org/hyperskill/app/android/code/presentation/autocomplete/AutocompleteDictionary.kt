@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.code.data
+package org.hyperskill.app.android.code.presentation.autocomplete
 
 import ru.nobird.app.core.model.isNotOrdered
 
@@ -53,8 +53,8 @@ class AutocompleteDictionary(
 
     fun getAutocompleteForPrefix(prefix: String): List<String> {
         val comparator = Comparator<String> { s1, s2 -> s1.compareTo(s2, ignoreCase = !isCaseSensitive) }
-        val start = dict.binarySearch(prefix, comparator).let(::getBinarySearchPosition)
-        val end = dict.binarySearch(incrementString(prefix), comparator).let(::getBinarySearchPosition)
+        val start = dict.binarySearch(prefix, comparator).let(Companion::getBinarySearchPosition)
+        val end = dict.binarySearch(incrementString(prefix), comparator).let(Companion::getBinarySearchPosition)
         return dict.slice(start until end)
     }
 }

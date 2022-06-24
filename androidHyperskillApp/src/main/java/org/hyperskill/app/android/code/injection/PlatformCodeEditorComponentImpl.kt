@@ -1,7 +1,7 @@
 package org.hyperskill.app.android.code.injection
 
 import android.content.Context
-import org.hyperskill.app.android.code.data.AutocompleteContainer
+import org.hyperskill.app.android.code.presentation.autocomplete.AutocompleteContainer
 import org.hyperskill.app.android.code.highlight.prettify.PrettifyParser
 import org.hyperskill.app.android.code.view.widget.CodeAnalyzer
 

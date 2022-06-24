@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.code.data
+package org.hyperskill.app.android.code.presentation.autocomplete
 
 import android.content.Context
 import org.hyperskill.app.android.R

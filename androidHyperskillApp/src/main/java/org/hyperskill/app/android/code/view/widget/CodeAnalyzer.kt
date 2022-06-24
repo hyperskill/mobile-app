@@ -1,7 +1,7 @@
 package org.hyperskill.app.android.code.view.widget
 
-import org.hyperskill.app.android.code.data.AutocompleteContainer
-import org.hyperskill.app.android.code.data.AutocompleteState
+import org.hyperskill.app.android.code.presentation.autocomplete.AutocompleteContainer
+import org.hyperskill.app.android.code.presentation.autocomplete.AutocompleteState
 import org.hyperskill.app.android.core.extensions.countWhile
 import org.hyperskill.app.android.core.extensions.substringOrNull
 import org.hyperskill.app.android.core.extensions.takeLastFromIndexWhile
