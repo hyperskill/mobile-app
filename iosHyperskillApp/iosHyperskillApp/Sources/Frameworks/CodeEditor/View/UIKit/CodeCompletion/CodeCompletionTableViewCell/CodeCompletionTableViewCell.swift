@@ -23,7 +23,7 @@ final class CodeCompletionTableViewCell: UITableViewCell, Reusable {
         cellView.attributedText = nil
     }
 
-    func setSuggestion(_ suggestion: String, prefixLength: Int, size: CodeSuggestionsSize?) {
+    func configure(suggestion: String, prefixLength: Int, size: CodeSuggestionsSize?) {
         let fontSize = size?.realSizes.fontSize ?? Appearance.defaultFontSize
 
         let boldFont = UIFont(name: "Courier-Bold", size: fontSize) ?? UIFont.boldSystemFont(ofSize: fontSize)

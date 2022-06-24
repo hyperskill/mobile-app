@@ -75,8 +75,8 @@ final class CodeCompletionTableViewController: UITableViewController {
         let cell: CodeCompletionTableViewCell = tableView.dequeueReusableCell(for: indexPath)
         cell.updateConstraintsIfNeeded()
 
-        cell.setSuggestion(
-            suggestions[indexPath.row],
+        cell.configure(
+            suggestion: suggestions[indexPath.row],
             prefixLength: prefix.count,
             size: delegate?.suggestionsSize
         )
