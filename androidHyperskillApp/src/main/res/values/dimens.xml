@@ -7,6 +7,9 @@
     <dimen name="divider_vertical_size">1dp</dimen>
     <dimen name="default_dialog_elements_margin">16dp</dimen>
     <dimen name="padding_placeholders">20dp</dimen>
+    <dimen name="code_text_size_default">14sp</dimen>
+    <dimen name="code_toolbar_height">48dp</dimen>
+    <dimen name="half_padding">8dp</dimen>
 
 
     <!-- Auth screen -->
