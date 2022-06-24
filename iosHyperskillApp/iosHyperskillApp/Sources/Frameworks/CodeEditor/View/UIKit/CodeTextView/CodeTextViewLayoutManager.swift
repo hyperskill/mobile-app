@@ -7,7 +7,7 @@ extension CodeTextViewLayoutManager {
 
         var lineNumberFont = UIFont.monospacedDigitSystemFont(ofSize: 10, weight: .regular)
         var lineNumberTextColor = UIColor.secondaryText
-        var lineNumberInsets = LayoutInsets(right: 4)
+        var lineNumberInsets = LayoutInsets(trailing: 4)
 
         var currentLineNumberTextColor = UIColor.primaryText
         var currentLineColor = UIColor.disabledText

@@ -5,7 +5,7 @@ extension AuthTextField {
         static let tintColor = UIColor.placeholderText
 
         static let eyeButtonSize = CGSize(width: 24, height: 24)
-        static let eyeButtonInsets = LayoutInsets(top: 0, left: 8, bottom: 0, right: 4)
+        static let eyeButtonInsets = LayoutInsets(top: 0, leading: 8, bottom: 0, trailing: 4)
         static let imageEyeOpened = UIImage(systemName: "eye.fill")
         static let imageEyeClosed = UIImage(systemName: "eye.slash.fill")
     }

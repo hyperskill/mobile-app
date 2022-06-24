@@ -22,6 +22,16 @@
 		2C0CD583282BEB6600D5659D /* View+RemoveBackButtonTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0CD582282BEB6600D5659D /* View+RemoveBackButtonTitle.swift */; };
 		2C0DB9012864332B001EA35E /* CodeTextViewLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DB9002864332B001EA35E /* CodeTextViewLayoutManager.swift */; };
 		2C0DB90328643C47001EA35E /* CodeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DB90228643C47001EA35E /* CodeTextView.swift */; };
+		2C0DB90728644F2C001EA35E /* CodeEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DB90628644F2C001EA35E /* CodeEditorView.swift */; };
+		2C0DB90A2864515B001EA35E /* CodeEditorViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DB9092864515B001EA35E /* CodeEditorViewDelegate.swift */; };
+		2C0DB90E286452D9001EA35E /* CodeLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DB90D286452D9001EA35E /* CodeLanguage.swift */; };
+		2C0DB91028645332001EA35E /* CodeEditorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DB90F28645332001EA35E /* CodeEditorTheme.swift */; };
+		2C0DB912286455D8001EA35E /* CodePlaygroundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DB911286455D8001EA35E /* CodePlaygroundManager.swift */; };
+		2C0DB915286456CE001EA35E /* String+SafeSubscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DB914286456CE001EA35E /* String+SafeSubscript.swift */; };
+		2C0DB91728645760001EA35E /* StringExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DB91628645760001EA35E /* StringExtensionsTests.swift */; };
+		2C0DB919286457E2001EA35E /* String+IndexOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DB918286457E2001EA35E /* String+IndexOf.swift */; };
+		2C0DB91C28645ADA001EA35E /* CodeCompletionKeywords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DB91B28645ADA001EA35E /* CodeCompletionKeywords.swift */; };
+		2C0DB91E2864617E001EA35E /* code-completion-keywords.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C0DB91D2864617E001EA35E /* code-completion-keywords.plist */; };
 		2C1061A2285C349400EBD614 /* StepQuizChildQuizAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1061A1285C349400EBD614 /* StepQuizChildQuizAssembly.swift */; };
 		2C1061A4285C34C900EBD614 /* StepQuizChildQuizDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1061A3285C34C900EBD614 /* StepQuizChildQuizDelegate.swift */; };
 		2C1061A8285C3A2D00EBD614 /* StepQuizChildQuizType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1061A7285C3A2D00EBD614 /* StepQuizChildQuizType.swift */; };
@@ -83,6 +93,13 @@
 		2C58DE252803C185002A2774 /* AuthSocialControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C58DE242803C185002A2774 /* AuthSocialControlsView.swift */; };
 		2C58DE292803D197002A2774 /* UIColor+DynamicColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C58DE282803D197002A2774 /* UIColor+DynamicColor.swift */; };
 		2C58DE2B2803DEE2002A2774 /* VerticalCenteredScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C58DE2A2803DEE2002A2774 /* VerticalCenteredScrollView.swift */; };
+		2C5B2A1B286595810097B270 /* CodeCompletionCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B2A1A286595810097B270 /* CodeCompletionCellView.swift */; };
+		2C5B2A1D286595960097B270 /* CodeCompletionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B2A1C286595960097B270 /* CodeCompletionTableViewCell.swift */; };
+		2C5B2A1F286595AF0097B270 /* CodeCompletionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B2A1E286595AF0097B270 /* CodeCompletionTableViewController.swift */; };
+		2C5B2A21286596030097B270 /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B2A20286596030097B270 /* Reusable.swift */; };
+		2C5B2A23286596400097B270 /* UITableView+RegisterReusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B2A22286596400097B270 /* UITableView+RegisterReusable.swift */; };
+		2C5B2A25286596A80097B270 /* UICollectionView+RegisterReusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B2A24286596A80097B270 /* UICollectionView+RegisterReusable.swift */; };
+		2C5B2A2828659AD80097B270 /* CodeElementSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B2A2728659AD80097B270 /* CodeElementSize.swift */; };
 		2C725B5E28090D1F00A49043 /* View+Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B5D28090D1F00A49043 /* View+Border.swift */; };
 		2C725B612809125700A49043 /* LayoutInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B602809125700A49043 /* LayoutInsets.swift */; };
 		2C725B632809198000A49043 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B622809198000A49043 /* BackgroundView.swift */; };
@@ -220,6 +237,16 @@
 		2C0CD582282BEB6600D5659D /* View+RemoveBackButtonTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+RemoveBackButtonTitle.swift"; sourceTree = "<group>"; };
 		2C0DB9002864332B001EA35E /* CodeTextViewLayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeTextViewLayoutManager.swift; sourceTree = "<group>"; };
 		2C0DB90228643C47001EA35E /* CodeTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeTextView.swift; sourceTree = "<group>"; };
+		2C0DB90628644F2C001EA35E /* CodeEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeEditorView.swift; sourceTree = "<group>"; };
+		2C0DB9092864515B001EA35E /* CodeEditorViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeEditorViewDelegate.swift; sourceTree = "<group>"; };
+		2C0DB90D286452D9001EA35E /* CodeLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeLanguage.swift; sourceTree = "<group>"; };
+		2C0DB90F28645332001EA35E /* CodeEditorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeEditorTheme.swift; sourceTree = "<group>"; };
+		2C0DB911286455D8001EA35E /* CodePlaygroundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePlaygroundManager.swift; sourceTree = "<group>"; };
+		2C0DB914286456CE001EA35E /* String+SafeSubscript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+SafeSubscript.swift"; sourceTree = "<group>"; };
+		2C0DB91628645760001EA35E /* StringExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensionsTests.swift; sourceTree = "<group>"; };
+		2C0DB918286457E2001EA35E /* String+IndexOf.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+IndexOf.swift"; sourceTree = "<group>"; };
+		2C0DB91B28645ADA001EA35E /* CodeCompletionKeywords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeCompletionKeywords.swift; sourceTree = "<group>"; };
+		2C0DB91D2864617E001EA35E /* code-completion-keywords.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "code-completion-keywords.plist"; sourceTree = "<group>"; };
 		2C1061A1285C349400EBD614 /* StepQuizChildQuizAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChildQuizAssembly.swift; sourceTree = "<group>"; };
 		2C1061A3285C34C900EBD614 /* StepQuizChildQuizDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChildQuizDelegate.swift; sourceTree = "<group>"; };
 		2C1061A7285C3A2D00EBD614 /* StepQuizChildQuizType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChildQuizType.swift; sourceTree = "<group>"; };
@@ -283,6 +310,13 @@
 		2C58DE242803C185002A2774 /* AuthSocialControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialControlsView.swift; sourceTree = "<group>"; };
 		2C58DE282803D197002A2774 /* UIColor+DynamicColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+DynamicColor.swift"; sourceTree = "<group>"; };
 		2C58DE2A2803DEE2002A2774 /* VerticalCenteredScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalCenteredScrollView.swift; sourceTree = "<group>"; };
+		2C5B2A1A286595810097B270 /* CodeCompletionCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeCompletionCellView.swift; sourceTree = "<group>"; };
+		2C5B2A1C286595960097B270 /* CodeCompletionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeCompletionTableViewCell.swift; sourceTree = "<group>"; };
+		2C5B2A1E286595AF0097B270 /* CodeCompletionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeCompletionTableViewController.swift; sourceTree = "<group>"; };
+		2C5B2A20286596030097B270 /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
+		2C5B2A22286596400097B270 /* UITableView+RegisterReusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+RegisterReusable.swift"; sourceTree = "<group>"; };
+		2C5B2A24286596A80097B270 /* UICollectionView+RegisterReusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+RegisterReusable.swift"; sourceTree = "<group>"; };
+		2C5B2A2728659AD80097B270 /* CodeElementSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeElementSize.swift; sourceTree = "<group>"; };
 		2C725B5D28090D1F00A49043 /* View+Border.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Border.swift"; sourceTree = "<group>"; };
 		2C725B602809125700A49043 /* LayoutInsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutInsets.swift; sourceTree = "<group>"; };
 		2C725B622809198000A49043 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
@@ -463,8 +497,8 @@
 		2C0DB8FF28643313001EA35E /* CodeEditor */ = {
 			isa = PBXGroup;
 			children = (
-				2C0DB90528644020001EA35E /* SwiftUI */,
-				2C0DB90428644005001EA35E /* UIKit */,
+				2C0DB90B286451CA001EA35E /* Model */,
+				2C0DB90C286451DA001EA35E /* View */,
 			);
 			path = CodeEditor;
 			sourceTree = "<group>";
@@ -472,8 +506,9 @@
 		2C0DB90428644005001EA35E /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
-				2C0DB90228643C47001EA35E /* CodeTextView.swift */,
-				2C0DB9002864332B001EA35E /* CodeTextViewLayoutManager.swift */,
+				2C5B2A2928659B220097B270 /* CodeCompletion */,
+				2C0DB90828645151001EA35E /* CodeEditorView */,
+				2C5B2A2A28659B430097B270 /* CodeTextView */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -483,6 +518,53 @@
 			children = (
 			);
 			path = SwiftUI;
+			sourceTree = "<group>";
+		};
+		2C0DB90828645151001EA35E /* CodeEditorView */ = {
+			isa = PBXGroup;
+			children = (
+				2C0DB90628644F2C001EA35E /* CodeEditorView.swift */,
+				2C0DB9092864515B001EA35E /* CodeEditorViewDelegate.swift */,
+			);
+			path = CodeEditorView;
+			sourceTree = "<group>";
+		};
+		2C0DB90B286451CA001EA35E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2C0DB90F28645332001EA35E /* CodeEditorTheme.swift */,
+				2C5B2A2728659AD80097B270 /* CodeElementSize.swift */,
+				2C0DB90D286452D9001EA35E /* CodeLanguage.swift */,
+				2C0DB9132864568E001EA35E /* Analyze */,
+				2C0DB91A28645AA1001EA35E /* CodeCompletion */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2C0DB90C286451DA001EA35E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2C0DB90528644020001EA35E /* SwiftUI */,
+				2C0DB90428644005001EA35E /* UIKit */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		2C0DB9132864568E001EA35E /* Analyze */ = {
+			isa = PBXGroup;
+			children = (
+				2C0DB911286455D8001EA35E /* CodePlaygroundManager.swift */,
+			);
+			path = Analyze;
+			sourceTree = "<group>";
+		};
+		2C0DB91A28645AA1001EA35E /* CodeCompletion */ = {
+			isa = PBXGroup;
+			children = (
+				2C0DB91D2864617E001EA35E /* code-completion-keywords.plist */,
+				2C0DB91B28645ADA001EA35E /* CodeCompletionKeywords.swift */,
+			);
+			path = CodeCompletion;
 			sourceTree = "<group>";
 		};
 		2C1061A0285C341C00EBD614 /* ChildProtocols */ = {
@@ -566,6 +648,7 @@
 		2C1F587C280D2F6600372A37 /* ExtensionsTests */ = {
 			isa = PBXGroup;
 			children = (
+				2C0DB91628645760001EA35E /* StringExtensionsTests.swift */,
 				2C1F587D280D2F9200372A37 /* URLExtensionsTests.swift */,
 			);
 			path = ExtensionsTests;
@@ -649,6 +732,7 @@
 			isa = PBXGroup;
 			children = (
 				2C20FBC6284F6928006D879E /* ProgrammaticallyInitializableViewProtocol.swift */,
+				2C5B2A20286596030097B270 /* Reusable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -753,6 +837,33 @@
 				E951757827E61ACD00995008 /* AuthSocialView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		2C5B2A192865956F0097B270 /* CodeCompletionTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				2C5B2A1A286595810097B270 /* CodeCompletionCellView.swift */,
+				2C5B2A1C286595960097B270 /* CodeCompletionTableViewCell.swift */,
+			);
+			path = CodeCompletionTableViewCell;
+			sourceTree = "<group>";
+		};
+		2C5B2A2928659B220097B270 /* CodeCompletion */ = {
+			isa = PBXGroup;
+			children = (
+				2C5B2A1E286595AF0097B270 /* CodeCompletionTableViewController.swift */,
+				2C5B2A192865956F0097B270 /* CodeCompletionTableViewCell */,
+			);
+			path = CodeCompletion;
+			sourceTree = "<group>";
+		};
+		2C5B2A2A28659B430097B270 /* CodeTextView */ = {
+			isa = PBXGroup;
+			children = (
+				2C0DB90228643C47001EA35E /* CodeTextView.swift */,
+				2C0DB9002864332B001EA35E /* CodeTextViewLayoutManager.swift */,
+			);
+			path = CodeTextView;
 			sourceTree = "<group>";
 		};
 		2C725B5C28090CE500A49043 /* SwiftUI */ = {
@@ -895,8 +1006,10 @@
 		2C9B66E927ECAF2400569645 /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
+				2C5B2A24286596A80097B270 /* UICollectionView+RegisterReusable.swift */,
 				2C58DE282803D197002A2774 /* UIColor+DynamicColor.swift */,
 				2C20FBAF284F1D8B006D879E /* UIColor+Hex.swift */,
+				2C5B2A22286596400097B270 /* UITableView+RegisterReusable.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -1139,6 +1252,8 @@
 		2CF4340E28126886002893CD /* SwiftStdlib */ = {
 			isa = PBXGroup;
 			children = (
+				2C0DB918286457E2001EA35E /* String+IndexOf.swift */,
+				2C0DB914286456CE001EA35E /* String+SafeSubscript.swift */,
 				2CF4340F281268A1002893CD /* String+Whitespaces.swift */,
 			);
 			path = SwiftStdlib;
@@ -1382,6 +1497,7 @@
 				2C98C7AB2850B93100857783 /* variables.css in Resources */,
 				2C2FD62028191FFE004E7AF6 /* Sentry-Info.plist in Resources */,
 				2C20FBB8284F630C006D879E /* MathJax.js in Resources */,
+				2C0DB91E2864617E001EA35E /* code-completion-keywords.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1452,6 +1568,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C0DB91728645760001EA35E /* StringExtensionsTests.swift in Sources */,
 				2C919E3327EEF92F0022A2F2 /* LinkedListTests.swift in Sources */,
 				2C919E3727EF00950022A2F2 /* QueueTests.swift in Sources */,
 				2C1F587E280D2F9200372A37 /* URLExtensionsTests.swift in Sources */,
@@ -1464,6 +1581,7 @@
 			files = (
 				2CCCA39F2862E45300D98089 /* StepQuizStringViewModel.swift in Sources */,
 				2C2452492847C27C00226702 /* Images+SystemNames.swift in Sources */,
+				2C5B2A2828659AD80097B270 /* CodeElementSize.swift in Sources */,
 				2CAFD39127FC5D5D00F88B0B /* Color+DesignSystem.swift in Sources */,
 				2CF4341228126C79002893CD /* View+EndEditing.swift in Sources */,
 				E910171728329808002E70F5 /* StepQuizChoiceElementView.swift in Sources */,
@@ -1483,17 +1601,22 @@
 				2C963BCE2812E7B60036DD53 /* AppNavigation.swift in Sources */,
 				2C42EFB327F2EA7B00B4648B /* ResourcesStringResource+Localized.swift in Sources */,
 				2C2FD622281920B1004E7AF6 /* SentryInfo.swift in Sources */,
+				2C0DB91C28645ADA001EA35E /* CodeCompletionKeywords.swift in Sources */,
 				2CA8E093281039EB00154088 /* OutlineButtonStyle.swift in Sources */,
 				2C9EB9552861BA02007DDE44 /* AppTabItem.swift in Sources */,
 				E900D10128434D0400A77BBC /* StepQuizSortingView.swift in Sources */,
 				2C963BC72812D1BF0036DD53 /* HomeAssembly.swift in Sources */,
+				2C0DB90A2864515B001EA35E /* CodeEditorViewDelegate.swift in Sources */,
 				2C0CD583282BEB6600D5659D /* View+RemoveBackButtonTitle.swift in Sources */,
 				E99D4CED2826A37400B49D52 /* AppAppearance.swift in Sources */,
+				2C0DB90E286452D9001EA35E /* CodeLanguage.swift in Sources */,
 				2C84094F2805B28B009C6BE9 /* StepRatingControl.swift in Sources */,
 				E9B2CF5D2822975400B2DC6F /* StepQuizStatsView.swift in Sources */,
+				2C5B2A1F286595AF0097B270 /* CodeCompletionTableViewController.swift in Sources */,
 				2C8E4FB12848C9050011ADFA /* StepQuizTableSelectColumnsView.swift in Sources */,
 				2CCCA3A12862E62F00D98089 /* StepQuizStringViewData.swift in Sources */,
 				2C1061A2285C349400EBD614 /* StepQuizChildQuizAssembly.swift in Sources */,
+				2C0DB915286456CE001EA35E /* String+SafeSubscript.swift in Sources */,
 				2C023C86285D927A00D2D5A9 /* StepQuizTableAssembly.swift in Sources */,
 				2C20FBC4284F67F3006D879E /* ProcessedContentWebView.swift in Sources */,
 				2C005DCC27EF5B0300DC6503 /* GoogleServiceInfo.swift in Sources */,
@@ -1502,6 +1625,7 @@
 				E94D238D28057F440003273F /* AuthCredentialsView.swift in Sources */,
 				2CE31F4827F1BB79008EEE66 /* AuthSocialAssembly.swift in Sources */,
 				2C0DB9012864332B001EA35E /* CodeTextViewLayoutManager.swift in Sources */,
+				2C0DB90728644F2C001EA35E /* CodeEditorView.swift in Sources */,
 				2CC4AAF1280DB513002276A0 /* WebOAuthService.swift in Sources */,
 				2CF43410281268A1002893CD /* String+Whitespaces.swift in Sources */,
 				2CF2DA3A27EC5B2D0055426D /* Assembly.swift in Sources */,
@@ -1510,11 +1634,14 @@
 				2C177EC32837B65500D841DB /* View+Frame.swift in Sources */,
 				2C2FD62428192123004E7AF6 /* BundlePropertyListDeserializer.swift in Sources */,
 				2C1F5879280D2D1300372A37 /* WebOAuthURLParser.swift in Sources */,
+				2C5B2A1D286595960097B270 /* CodeCompletionTableViewCell.swift in Sources */,
+				2C0DB91028645332001EA35E /* CodeEditorTheme.swift in Sources */,
 				2CCF3B5828004FC40075D12C /* UserAgentBuilder.swift in Sources */,
 				2C963BC52812D1A70036DD53 /* HomeView.swift in Sources */,
 				E9101713283296F3002E70F5 /* RadioButton.swift in Sources */,
 				2C20FBC2284F66FC006D879E /* NSAttributedString+TrimmingCharacters.swift in Sources */,
 				2C919DE827EEEDD60022A2F2 /* LinkedList.swift in Sources */,
+				2C0DB912286455D8001EA35E /* CodePlaygroundManager.swift in Sources */,
 				2C225E48281A5B6800E8ABD2 /* SourcelessRouter.swift in Sources */,
 				2C9EB95F2861BAD4007DDE44 /* ProfileAssembly.swift in Sources */,
 				2C46D0632807E4C100B3636E /* TextFieldWrapper.swift in Sources */,
@@ -1544,10 +1671,12 @@
 				2C20FBBE284F658E006D879E /* ProcessedContentTextView.swift in Sources */,
 				2C20FBAE284F1D05006D879E /* FontWeightNameMapping.swift in Sources */,
 				2C2D4932281154CB00753F16 /* Injection.swift in Sources */,
+				2C5B2A25286596A80097B270 /* UICollectionView+RegisterReusable.swift in Sources */,
 				E900D1052843573A00A77BBC /* StepQuizSortingIcon.swift in Sources */,
 				2CCCA39B2862E3BB00D98089 /* StepQuizStringDataType.swift in Sources */,
 				2CAE8D0528055D8300E6C83D /* StepActionButton.swift in Sources */,
 				2C2D4930281151EB00753F16 /* AuthCredentialsViewModel.swift in Sources */,
+				2C5B2A1B286595810097B270 /* CodeCompletionCellView.swift in Sources */,
 				E9D69A4028084FF7000E114E /* AuthCredentialsErrorView.swift in Sources */,
 				2C42EFAD27F2C29500B4648B /* Strings.swift in Sources */,
 				2C906CBE280E5D9C0079C594 /* ProgressHUD.swift in Sources */,
@@ -1556,6 +1685,7 @@
 				2C20FBC7284F6928006D879E /* ProgrammaticallyInitializableViewProtocol.swift in Sources */,
 				E951757927E61ACD00995008 /* AuthSocialView.swift in Sources */,
 				2C9EB9582861BA57007DDE44 /* TrackView.swift in Sources */,
+				2C5B2A21286596030097B270 /* Reusable.swift in Sources */,
 				2C1F5875280D0E0000372A37 /* WKWebViewPanelManager.m in Sources */,
 				2C1F5870280D0CB700372A37 /* WebCacheCleaner.swift in Sources */,
 				E9D2D673284E0A97000757AC /* StepQuizMatchingItemView.swift in Sources */,
@@ -1586,6 +1716,7 @@
 				E99D4CEF2826B91100B49D52 /* StepQuizStatusView.swift in Sources */,
 				2C20FBB0284F1D8B006D879E /* UIColor+Hex.swift in Sources */,
 				2CAE8CF4280525D400E6C83D /* StepAssembly.swift in Sources */,
+				2C0DB919286457E2001EA35E /* String+IndexOf.swift in Sources */,
 				2C1061A4285C34C900EBD614 /* StepQuizChildQuizDelegate.swift in Sources */,
 				2C20FBA4284F165A006D879E /* ProcessedContent.swift in Sources */,
 				E9B2CF6D2822AE5F00B2DC6F /* StepQuizFeedbackView.swift in Sources */,
@@ -1617,6 +1748,7 @@
 				2C8409532805BF3C009C6BE9 /* StepTheoryContentView.swift in Sources */,
 				2CCCA39D2862E44B00D98089 /* StepQuizStringAssembly.swift in Sources */,
 				2C58DE252803C185002A2774 /* AuthSocialControlsView.swift in Sources */,
+				2C5B2A23286596400097B270 /* UITableView+RegisterReusable.swift in Sources */,
 				2CE1C4DF27EDFB3800220041 /* FeatureViewModel.swift in Sources */,
 				E9B2CF5B2822960D00B2DC6F /* StepQuizBottomControls.swift in Sources */,
 				2C82BA322844B01D004C9013 /* PlaceholderView+Configurations.swift in Sources */,
