@@ -1,9 +1,9 @@
 import UIKit
 
 protocol CodeCompletionDelegate: AnyObject {
-    var suggestionsSize: CodeSuggestionsSize { get }
+    var codeCompletionSuggestionsSize: CodeSuggestionsSize { get }
 
-    func didSelectSuggestion(suggestion: String, prefix: String)
+    func didSelectCodeCompletionSuggestion(_ suggestion: String, prefix: String)
 }
 
 final class CodeCompletionTableViewController: UITableViewController {
@@ -13,7 +13,7 @@ final class CodeCompletionTableViewController: UITableViewController {
     weak var delegate: CodeCompletionDelegate?
 
     private var suggestionRowHeight: CGFloat {
-        if let size = delegate?.suggestionsSize {
+        if let size = delegate?.codeCompletionSuggestionsSize {
             return size.realSizes.suggestionHeight
         } else {
             return Self.defaultSuggestionHeight
@@ -78,7 +78,7 @@ final class CodeCompletionTableViewController: UITableViewController {
         cell.configure(
             suggestion: suggestions[indexPath.row],
             prefixLength: prefix.count,
-            size: delegate?.suggestionsSize
+            size: delegate?.codeCompletionSuggestionsSize
         )
 
         return cell
@@ -99,6 +99,6 @@ final class CodeCompletionTableViewController: UITableViewController {
             return
         }
 
-        delegate?.didSelectSuggestion(suggestion: suggestions[row], prefix: prefix)
+        delegate?.didSelectCodeCompletionSuggestion(suggestions[row], prefix: prefix)
     }
 }
