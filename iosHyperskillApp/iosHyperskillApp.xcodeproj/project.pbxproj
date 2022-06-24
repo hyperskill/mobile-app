@@ -81,6 +81,9 @@
 		2C2FF9C928506FDE0069C092 /* LatexView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2FF9C828506FDE0069C092 /* LatexView.swift */; };
 		2C32374D2837F7190062CAF6 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C32374C2837F7190062CAF6 /* Images.swift */; };
 		2C32375328380C340062CAF6 /* NavigationToolbarInfoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C32375228380C340062CAF6 /* NavigationToolbarInfoItem.swift */; };
+		2C336D102865BF4200C91342 /* CodeEditorThemeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C336D0F2865BF4200C91342 /* CodeEditorThemeService.swift */; };
+		2C336D132865C47900C91342 /* ApplicationTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C336D122865C47900C91342 /* ApplicationTheme.swift */; };
+		2C336D152865C49D00C91342 /* ApplicationThemeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C336D142865C49D00C91342 /* ApplicationThemeService.swift */; };
 		2C41127828376F6D004948A3 /* StepQuizDiscussionsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C41127728376F6D004948A3 /* StepQuizDiscussionsButton.swift */; };
 		2C42EFA827F2C03D00B4648B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2C42EFAA27F2C03D00B4648B /* Localizable.strings */; };
 		2C42EFAD27F2C29500B4648B /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C42EFAC27F2C29500B4648B /* Strings.swift */; };
@@ -298,6 +301,9 @@
 		2C2FF9C828506FDE0069C092 /* LatexView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatexView.swift; sourceTree = "<group>"; };
 		2C32374C2837F7190062CAF6 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		2C32375228380C340062CAF6 /* NavigationToolbarInfoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationToolbarInfoItem.swift; sourceTree = "<group>"; };
+		2C336D0F2865BF4200C91342 /* CodeEditorThemeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeEditorThemeService.swift; sourceTree = "<group>"; };
+		2C336D122865C47900C91342 /* ApplicationTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationTheme.swift; sourceTree = "<group>"; };
+		2C336D142865C49D00C91342 /* ApplicationThemeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationThemeService.swift; sourceTree = "<group>"; };
 		2C41127728376F6D004948A3 /* StepQuizDiscussionsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizDiscussionsButton.swift; sourceTree = "<group>"; };
 		2C42EFA927F2C03D00B4648B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2C42EFAC27F2C29500B4648B /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
@@ -532,11 +538,11 @@
 		2C0DB90B286451CA001EA35E /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				2C0DB90F28645332001EA35E /* CodeEditorTheme.swift */,
 				2C5B2A2728659AD80097B270 /* CodeElementSize.swift */,
 				2C0DB90D286452D9001EA35E /* CodeLanguage.swift */,
 				2C0DB9132864568E001EA35E /* Analyze */,
 				2C0DB91A28645AA1001EA35E /* CodeCompletion */,
+				2C336D0E2865BF3200C91342 /* CodeEditorTheme */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -666,6 +672,7 @@
 		2C1F5880280D5B8200372A37 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				2C336D112865C46400C91342 /* ApplicationTheme */,
 				2C1F5883280D5BE600372A37 /* Auth */,
 			);
 			path = Services;
@@ -765,6 +772,24 @@
 				2C0CD582282BEB6600D5659D /* View+RemoveBackButtonTitle.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		2C336D0E2865BF3200C91342 /* CodeEditorTheme */ = {
+			isa = PBXGroup;
+			children = (
+				2C0DB90F28645332001EA35E /* CodeEditorTheme.swift */,
+				2C336D0F2865BF4200C91342 /* CodeEditorThemeService.swift */,
+			);
+			path = CodeEditorTheme;
+			sourceTree = "<group>";
+		};
+		2C336D112865C46400C91342 /* ApplicationTheme */ = {
+			isa = PBXGroup;
+			children = (
+				2C336D122865C47900C91342 /* ApplicationTheme.swift */,
+				2C336D142865C49D00C91342 /* ApplicationThemeService.swift */,
+			);
+			path = ApplicationTheme;
 			sourceTree = "<group>";
 		};
 		2C41127428376DE3004948A3 /* StepQuiz */ = {
@@ -1607,6 +1632,7 @@
 				E900D10128434D0400A77BBC /* StepQuizSortingView.swift in Sources */,
 				2C963BC72812D1BF0036DD53 /* HomeAssembly.swift in Sources */,
 				2C0DB90A2864515B001EA35E /* CodeEditorViewDelegate.swift in Sources */,
+				2C336D132865C47900C91342 /* ApplicationTheme.swift in Sources */,
 				2C0CD583282BEB6600D5659D /* View+RemoveBackButtonTitle.swift in Sources */,
 				E99D4CED2826A37400B49D52 /* AppAppearance.swift in Sources */,
 				2C0DB90E286452D9001EA35E /* CodeLanguage.swift in Sources */,
@@ -1644,6 +1670,7 @@
 				2C0DB912286455D8001EA35E /* CodePlaygroundManager.swift in Sources */,
 				2C225E48281A5B6800E8ABD2 /* SourcelessRouter.swift in Sources */,
 				2C9EB95F2861BAD4007DDE44 /* ProfileAssembly.swift in Sources */,
+				2C336D102865BF4200C91342 /* CodeEditorThemeService.swift in Sources */,
 				2C46D0632807E4C100B3636E /* TextFieldWrapper.swift in Sources */,
 				2CAFD38F27FC517D00F88B0B /* ColorPalette.swift in Sources */,
 				2C20FBAA284F1951006D879E /* ContentProcessor.swift in Sources */,
@@ -1654,6 +1681,7 @@
 				2CAE8D092805789100E6C83D /* StepCommentsStatisticsView.swift in Sources */,
 				2C20FBA8284F193A006D879E /* ContentProcessingRule.swift in Sources */,
 				2C20FBC9284F6F97006D879E /* UnitConverters.swift in Sources */,
+				2C336D152865C49D00C91342 /* ApplicationThemeService.swift in Sources */,
 				2C725B5E28090D1F00A49043 /* View+Border.swift in Sources */,
 				2C8E4F9C2848A1550011ADFA /* PanModalViewModifier.swift in Sources */,
 				2C8E4F9A284897360011ADFA /* PanModalSwiftUIViewController.swift in Sources */,
