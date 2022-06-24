@@ -1,5 +1,6 @@
 package org.hyperskill.app.android.main.view.ui.activity
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -7,6 +8,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.window.layout.WindowMetricsCalculator
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
 import kotlinx.coroutines.flow.collectLatest
@@ -70,6 +72,10 @@ class MainActivity :
                     mainViewModelProvider.onNewMessage(AppFeature.Message.UserAuthorized)
                 }
         }
+
+        if (getScreenWidthDp() < 600f) {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+        }
     }
 
     private fun injectManual() {
@@ -109,5 +115,15 @@ class MainActivity :
             is AppFeature.State.Ready ->
                 window.statusBarColor = resolveColorAttribute(R.attr.colorPrimaryVariant)
         }
+    }
+
+    fun getScreenWidthDp(): Float {
+        val metrics = WindowMetricsCalculator.getOrCreate()
+            .computeCurrentWindowMetrics(this)
+
+        val widthDp = metrics.bounds.width() /
+            resources.displayMetrics.density
+
+        return widthDp
     }
 }

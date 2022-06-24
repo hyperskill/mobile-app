@@ -46,6 +46,8 @@ dependencies {
     debugImplementation(libs.android.flipper)
     debugImplementation(libs.android.soloader)
     releaseImplementation(libs.android.flipper.noop)
+
+    implementation(libs.android.window)
 }
 
 android {

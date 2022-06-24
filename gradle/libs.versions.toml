@@ -75,6 +75,7 @@ android-flipper = { module = "com.facebook.flipper:flipper", version.ref = "flip
 android-flipper-noop = { module = "com.facebook.flipper:flipper-noop", version.ref = "flipper" }
 android-soloader = { module = "com.facebook.soloader:soloader", version = "0.10.1" }
 android-parcelable = { module = "com.chrynan.parcelable:parcelable-core", version = "0.4.1" }
+android-window = { module = "androidx.window:window", version = "1.1.0-alpha02" }
 
 [bundles]
 ktor-common = ['ktor-core', 'ktor-serialization', 'ktor-logging', 'ktor-contentNegotiation', 'ktor-serialization-json']
