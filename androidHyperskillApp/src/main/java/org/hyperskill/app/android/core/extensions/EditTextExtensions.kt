@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.util
+package org.hyperskill.app.android.core.extensions
 
 import android.widget.EditText
 import kotlin.math.max

@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.util
+package org.hyperskill.app.android.core.extensions
 
 /*
  * Counts while predicate is true

@@ -2,9 +2,9 @@ package org.hyperskill.app.android.code.view.widget
 
 import org.hyperskill.app.android.code.data.AutocompleteContainer
 import org.hyperskill.app.android.code.data.AutocompleteState
-import org.hyperskill.app.android.util.countWhile
-import org.hyperskill.app.android.util.substringOrNull
-import org.hyperskill.app.android.util.takeLastFromIndexWhile
+import org.hyperskill.app.android.core.extensions.countWhile
+import org.hyperskill.app.android.core.extensions.substringOrNull
+import org.hyperskill.app.android.core.extensions.takeLastFromIndexWhile
 import kotlin.math.min
 
 /**

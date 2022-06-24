@@ -9,7 +9,7 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.code.highlight.themes.CodeTheme
 import org.hyperskill.app.android.code.highlight.themes.Presets
 import org.hyperskill.app.android.code.view.adapter.CodeToolbarAdapter
-import org.hyperskill.app.android.util.insertText
+import org.hyperskill.app.android.core.extensions.insertText
 import ru.nobird.android.view.base.ui.extension.inflate
 
 class CodeEditorLayout

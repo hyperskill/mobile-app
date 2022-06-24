@@ -2,7 +2,7 @@ package org.hyperskill.app.android.code.highlight.themes
 
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.util.ColorUtil
+import org.hyperskill.app.android.core.extensions.ColorUtil
 
 object Presets {
     val themes = arrayOf(

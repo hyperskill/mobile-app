@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.code.data.AutocompleteState
-import org.hyperskill.app.android.code.model.symbolsForLanguage
+import org.hyperskill.app.android.code.presentation.model.symbolsForLanguage
 import ru.nobird.android.view.base.ui.extension.resolveColorAttribute
 import kotlin.math.abs
 

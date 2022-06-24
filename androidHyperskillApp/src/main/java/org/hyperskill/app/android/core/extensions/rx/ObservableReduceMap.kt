@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.util.rx
+package org.hyperskill.app.android.core.extensions.rx
 
 import io.reactivex.Observable
 import io.reactivex.ObservableSource

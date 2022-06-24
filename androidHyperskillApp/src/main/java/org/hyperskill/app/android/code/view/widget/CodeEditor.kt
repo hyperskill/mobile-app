@@ -28,8 +28,8 @@ import org.hyperskill.app.android.code.highlight.syntaxhighlight.ParseResult
 import org.hyperskill.app.android.code.highlight.themes.CodeTheme
 import org.hyperskill.app.android.code.highlight.themes.Presets
 import org.hyperskill.app.android.code.view.adapter.CodeToolbarAdapter
-import org.hyperskill.app.android.util.RxEmpty
-import org.hyperskill.app.android.util.substringOrNull
+import org.hyperskill.app.android.core.extensions.RxEmpty
+import org.hyperskill.app.android.core.extensions.substringOrNull
 import ru.nobird.android.view.base.ui.extension.toPx
 import java.util.concurrent.TimeUnit
 import kotlin.math.max

@@ -2,7 +2,7 @@ package org.hyperskill.app.android.code.highlight.themes
 
 import androidx.annotation.ColorInt
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.util.ColorUtil
+import org.hyperskill.app.android.core.extensions.ColorUtil
 
 class CodeTheme(
     val name: String,

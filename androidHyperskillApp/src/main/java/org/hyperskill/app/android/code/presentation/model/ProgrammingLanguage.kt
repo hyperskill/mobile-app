@@ -1,84 +1,34 @@
-package org.hyperskill.app.android.code.model
+package org.hyperskill.app.android.code.presentation.model
 
 import android.content.Context
 import android.os.Parcel
 import android.os.Parcelable
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 import org.hyperskill.app.android.R
 
-@Serializable
 enum class ProgrammingLanguage(val serverPrintableName: String) : Parcelable {
-    @SerialName("python3")
     PYTHON("python3"),
-
-    @SerialName("c++11")
     CPP11("c++11"),
-
-    @SerialName("c++")
     CPP("c++"),
-
-    @SerialName("c")
     C("c"),
-
-    @SerialName("haskell")
     HASKELL("haskell"),
-
-    @SerialName("haskell 7.10")
     HASKELL7("haskell 7.10"),
-
-    @SerialName("haskell 8.0")
     HASKELL8("haskell 8.0"),
-
-    @SerialName("java")
     JAVA("java"),
-
-    @SerialName("java8")
     JAVA8("java8"),
-
-    @SerialName("octave")
     OCTAVE("octave"),
-
-    @SerialName("asm32")
     ASM32("asm32"),
-
-    @SerialName("asm64")
     ASM64("asm64"),
-
-    @SerialName("shell")
     SHELL("shell"),
-
-    @SerialName("rust")
     RUST("rust"),
-
-    @SerialName("r")
     R("r"),
-
-    @SerialName("ruby")
     RUBY("ruby"),
-
-    @SerialName("clojure")
     CLOJURE("clojure"),
-
-    @SerialName("mono c#")
     CS("mono c#"),
-
-    @SerialName("javascript")
     JAVASCRIPT("javascript"),
-
-    @SerialName("scala")
     SCALA("scala"),
-
-    @SerialName("kotlin")
     KOTLIN("kotlin"),
-
-    @SerialName("go")
     GO("go"),
-
-    @SerialName("pascalabc")
     PASCAL("pascalabc"),
-
-    @SerialName("perl")
     PERL("perl"),
     SQL("sql");
 

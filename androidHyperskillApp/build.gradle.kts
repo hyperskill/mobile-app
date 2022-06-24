@@ -7,7 +7,6 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     alias(libs.plugins.sentry.androidGradle)
-    kotlin("plugin.serialization")
 }
 
 dependencies {
