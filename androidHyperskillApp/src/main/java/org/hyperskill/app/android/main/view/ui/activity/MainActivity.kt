@@ -74,7 +74,7 @@ class MainActivity :
         }
 
         if (getScreenWidthDp() < 600f) {
-            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
     }
 
