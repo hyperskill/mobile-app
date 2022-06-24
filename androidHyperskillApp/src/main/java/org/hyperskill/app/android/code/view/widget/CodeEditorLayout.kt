@@ -6,8 +6,8 @@ import androidx.core.content.res.use
 import androidx.core.view.ViewCompat
 import androidx.core.widget.NestedScrollView
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.code.highlight.themes.CodeTheme
-import org.hyperskill.app.android.code.highlight.themes.Presets
+import org.hyperskill.app.android.code.view.model.themes.CodeTheme
+import org.hyperskill.app.android.code.view.model.themes.Presets
 import org.hyperskill.app.android.code.view.adapter.CodeToolbarAdapter
 import org.hyperskill.app.android.core.extensions.insertText
 import ru.nobird.android.view.base.ui.extension.inflate

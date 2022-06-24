@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.code.highlight.themes
+package org.hyperskill.app.android.code.view.model.themes
 
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R

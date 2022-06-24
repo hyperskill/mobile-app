@@ -25,8 +25,8 @@ import io.reactivex.subjects.PublishSubject
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.code.presentation.highlight.prettify.PrettifyParser
 import org.hyperskill.app.android.code.presentation.highlight.syntaxhighlight.ParseResult
-import org.hyperskill.app.android.code.highlight.themes.CodeTheme
-import org.hyperskill.app.android.code.highlight.themes.Presets
+import org.hyperskill.app.android.code.view.model.themes.CodeTheme
+import org.hyperskill.app.android.code.view.model.themes.Presets
 import org.hyperskill.app.android.code.view.adapter.CodeToolbarAdapter
 import org.hyperskill.app.android.core.extensions.RxEmpty
 import org.hyperskill.app.android.core.extensions.substringOrNull

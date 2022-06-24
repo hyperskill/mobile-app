@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.code.highlight.themes
+package org.hyperskill.app.android.code.view.model.themes
 
 import androidx.annotation.ColorInt
 import org.hyperskill.app.android.code.presentation.highlight.prettify.parser.Prettify.PR_KEYWORD
