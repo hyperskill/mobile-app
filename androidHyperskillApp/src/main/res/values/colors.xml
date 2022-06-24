@@ -2,4 +2,6 @@
 <resources>
     <color name="color_elevation_overlay_2dp">@color/color_black_900_alpha_7</color>
     <color name="color_divider">@color/color_elevation_overlay_2dp</color>
+    <color name="default_code_error_highlight_color">@color/color_error</color>
+    <color name="default_code_brackets_highlight_color">#AAFFD77A</color>
 </resources>
