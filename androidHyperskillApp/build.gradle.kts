@@ -48,7 +48,6 @@ dependencies {
     releaseImplementation(libs.android.flipper.noop)
 
     implementation(libs.android.window)
-    
     implementation(libs.android.reactivex.rxandroid)
     implementation(libs.android.reactivex.rxjava)
     implementation(libs.android.reactivex.rxkotlin)
