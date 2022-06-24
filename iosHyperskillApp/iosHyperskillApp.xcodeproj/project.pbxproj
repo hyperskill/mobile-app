@@ -28,7 +28,6 @@
 		2C0DB91028645332001EA35E /* CodeEditorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DB90F28645332001EA35E /* CodeEditorTheme.swift */; };
 		2C0DB912286455D8001EA35E /* CodePlaygroundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DB911286455D8001EA35E /* CodePlaygroundManager.swift */; };
 		2C0DB915286456CE001EA35E /* String+SafeSubscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DB914286456CE001EA35E /* String+SafeSubscript.swift */; };
-		2C0DB91728645760001EA35E /* StringExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DB91628645760001EA35E /* StringExtensionsTests.swift */; };
 		2C0DB919286457E2001EA35E /* String+IndexOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DB918286457E2001EA35E /* String+IndexOf.swift */; };
 		2C0DB91C28645ADA001EA35E /* CodeCompletionKeywords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DB91B28645ADA001EA35E /* CodeCompletionKeywords.swift */; };
 		2C0DB91E2864617E001EA35E /* code-completion-keywords.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C0DB91D2864617E001EA35E /* code-completion-keywords.plist */; };
@@ -252,7 +251,6 @@
 		2C0DB90F28645332001EA35E /* CodeEditorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeEditorTheme.swift; sourceTree = "<group>"; };
 		2C0DB911286455D8001EA35E /* CodePlaygroundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePlaygroundManager.swift; sourceTree = "<group>"; };
 		2C0DB914286456CE001EA35E /* String+SafeSubscript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+SafeSubscript.swift"; sourceTree = "<group>"; };
-		2C0DB91628645760001EA35E /* StringExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensionsTests.swift; sourceTree = "<group>"; };
 		2C0DB918286457E2001EA35E /* String+IndexOf.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+IndexOf.swift"; sourceTree = "<group>"; };
 		2C0DB91B28645ADA001EA35E /* CodeCompletionKeywords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeCompletionKeywords.swift; sourceTree = "<group>"; };
 		2C0DB91D2864617E001EA35E /* code-completion-keywords.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "code-completion-keywords.plist"; sourceTree = "<group>"; };
@@ -668,7 +666,6 @@
 		2C1F587C280D2F6600372A37 /* ExtensionsTests */ = {
 			isa = PBXGroup;
 			children = (
-				2C0DB91628645760001EA35E /* StringExtensionsTests.swift */,
 				2C1F587D280D2F9200372A37 /* URLExtensionsTests.swift */,
 			);
 			path = ExtensionsTests;
@@ -1635,7 +1632,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C0DB91728645760001EA35E /* StringExtensionsTests.swift in Sources */,
 				2C919E3327EEF92F0022A2F2 /* LinkedListTests.swift in Sources */,
 				2C919E3727EF00950022A2F2 /* QueueTests.swift in Sources */,
 				2C1F587E280D2F9200372A37 /* URLExtensionsTests.swift in Sources */,
