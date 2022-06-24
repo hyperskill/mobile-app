@@ -23,8 +23,8 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import org.hyperskill.app.android.HyperskillApp
-import org.hyperskill.app.android.code.highlight.prettify.PrettifyParser
-import org.hyperskill.app.android.code.highlight.syntaxhighlight.ParseResult
+import org.hyperskill.app.android.code.presentation.highlight.prettify.PrettifyParser
+import org.hyperskill.app.android.code.presentation.highlight.syntaxhighlight.ParseResult
 import org.hyperskill.app.android.code.highlight.themes.CodeTheme
 import org.hyperskill.app.android.code.highlight.themes.Presets
 import org.hyperskill.app.android.code.view.adapter.CodeToolbarAdapter
