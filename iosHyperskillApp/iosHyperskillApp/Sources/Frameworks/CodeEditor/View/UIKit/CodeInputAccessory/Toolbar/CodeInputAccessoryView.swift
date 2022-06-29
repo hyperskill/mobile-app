@@ -3,7 +3,7 @@ import UIKit
 
 extension CodeInputAccessoryView {
     struct Appearance {
-        let hideKeyboardImageViewTintColor = UIColor.primaryText
+        let hideKeyboardImageViewTintColor = UIColor.disabledText
         let hideKeyboardImageViewInsets = LayoutInsets(top: 4, leading: 4, bottom: 4, trailing: 8)
 
         let collectionViewInsets = LayoutInsets(top: 4, leading: 8, bottom: 4, trailing: 0)

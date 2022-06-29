@@ -11,8 +11,6 @@ struct CodeEditor: UIViewRepresentable {
 
     var theme: CodeEditorTheme?
 
-    var shouldHighlightCurrentLine = false
-
     var textInsets = UIEdgeInsets.zero
 
     @Environment(\.isEnabled) private var isEnabled
@@ -28,7 +26,7 @@ struct CodeEditor: UIViewRepresentable {
         codeEditorView.codeTemplate = codeTemplate
         codeEditorView.language = language
         codeEditorView.theme = theme
-        codeEditorView.shouldHighlightCurrentLine = shouldHighlightCurrentLine
+        codeEditorView.shouldHighlightCurrentLine = false
         codeEditorView.textInsets = textInsets
 
         codeEditorView.delegate = context.coordinator
@@ -47,6 +45,20 @@ struct CodeEditor: UIViewRepresentable {
         context.coordinator.onCodeDidChange = { newCode in
             self.code = newCode
         }
+        context.coordinator.onDidBeginEditing = { [weak codeEditorView] in
+            guard let codeEditorView = codeEditorView else {
+                return
+            }
+
+            codeEditorView.shouldHighlightCurrentLine = true
+        }
+        context.coordinator.onDidEndEditing = { [weak codeEditorView] in
+            guard let codeEditorView = codeEditorView else {
+                return
+            }
+
+            codeEditorView.shouldHighlightCurrentLine = false
+        }
     }
 }
 
@@ -56,15 +68,23 @@ extension CodeEditor {
     class Coordinator: NSObject, CodeEditorViewDelegate {
         var onCodeDidChange: ((String) -> Void)?
 
+        var onDidBeginEditing: (() -> Void)?
+
+        var onDidEndEditing: (() -> Void)?
+
         func codeEditorViewDidChange(_ codeEditorView: CodeEditorView) {
             onCodeDidChange?(codeEditorView.code ?? "")
         }
 
         func codeEditorView(_ codeEditorView: CodeEditorView, beginEditing editing: Bool) {}
 
-        func codeEditorViewDidBeginEditing(_ codeEditorView: CodeEditorView) {}
+        func codeEditorViewDidBeginEditing(_ codeEditorView: CodeEditorView) {
+            onDidBeginEditing?()
+        }
 
-        func codeEditorViewDidEndEditing(_ codeEditorView: CodeEditorView) {}
+        func codeEditorViewDidEndEditing(_ codeEditorView: CodeEditorView) {
+            onDidEndEditing?()
+        }
 
         func codeEditorViewDidRequestSuggestionPresentationController(
             _ codeEditorView: CodeEditorView
