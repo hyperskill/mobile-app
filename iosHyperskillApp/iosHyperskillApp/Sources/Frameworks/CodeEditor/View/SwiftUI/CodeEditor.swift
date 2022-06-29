@@ -13,6 +13,8 @@ struct CodeEditor: UIViewRepresentable {
 
     var textInsets = UIEdgeInsets.zero
 
+    var appearance = CodeEditorView.Appearance()
+
     @Environment(\.isEnabled) private var isEnabled
 
     // MARK: UIViewRepresentable
@@ -22,7 +24,7 @@ struct CodeEditor: UIViewRepresentable {
     }
 
     func makeUIView(context: Context) -> CodeEditorView {
-        let codeEditorView = CodeEditorView()
+        let codeEditorView = CodeEditorView(appearance: appearance)
         codeEditorView.codeTemplate = codeTemplate
         codeEditorView.language = language
         codeEditorView.theme = theme
