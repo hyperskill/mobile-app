@@ -145,5 +145,5 @@ enum CodeLanguage: String, CaseIterable {
 
     var displayName: String { self.rawValue }
 
-    var highlightrSample: String { CodeLanguageSamples.sample(for: self) }
+    var codeSample: String { CodeLanguageSamples.sample(for: self) }
 }
