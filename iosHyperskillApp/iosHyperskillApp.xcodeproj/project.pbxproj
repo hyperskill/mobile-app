@@ -48,6 +48,8 @@
 		2C1F5882280D5BAA00372A37 /* SocialAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F5881280D5BAA00372A37 /* SocialAuthService.swift */; };
 		2C1F5888280D5D6200372A37 /* SocialAuthSDKProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F5887280D5D6200372A37 /* SocialAuthSDKProvider.swift */; };
 		2C1F588B280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F588A280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift */; };
+		2C20B28C286C4426000F458A /* code-language-samples.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C20B28B286C4426000F458A /* code-language-samples.plist */; };
+		2C20B28F286C4515000F458A /* CodeLanguageSamples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20B28E286C4515000F458A /* CodeLanguageSamples.swift */; };
 		2C20FBA4284F165A006D879E /* ProcessedContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20FBA3284F165A006D879E /* ProcessedContent.swift */; };
 		2C20FBA6284F1924006D879E /* ContentProcessingInjection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20FBA5284F1924006D879E /* ContentProcessingInjection.swift */; };
 		2C20FBA8284F193A006D879E /* ContentProcessingRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20FBA7284F193A006D879E /* ContentProcessingRule.swift */; };
@@ -273,6 +275,8 @@
 		2C1F5881280D5BAA00372A37 /* SocialAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialAuthService.swift; sourceTree = "<group>"; };
 		2C1F5887280D5D6200372A37 /* SocialAuthSDKProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialAuthSDKProvider.swift; sourceTree = "<group>"; };
 		2C1F588A280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSocialAuthSDKProvider.swift; sourceTree = "<group>"; };
+		2C20B28B286C4426000F458A /* code-language-samples.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "code-language-samples.plist"; sourceTree = "<group>"; };
+		2C20B28E286C4515000F458A /* CodeLanguageSamples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeLanguageSamples.swift; sourceTree = "<group>"; };
 		2C20FBA3284F165A006D879E /* ProcessedContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessedContent.swift; sourceTree = "<group>"; };
 		2C20FBA5284F1924006D879E /* ContentProcessingInjection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentProcessingInjection.swift; sourceTree = "<group>"; };
 		2C20FBA7284F193A006D879E /* ContentProcessingRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentProcessingRule.swift; sourceTree = "<group>"; };
@@ -555,6 +559,7 @@
 				2C0DB91A28645AA1001EA35E /* CodeCompletion */,
 				2C336D0E2865BF3200C91342 /* CodeEditorTheme */,
 				2C336D192865CDA400C91342 /* CodeInputAccessory */,
+				2C20B28D286C442E000F458A /* CodeLanguageSamples */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -714,6 +719,15 @@
 				2C1F5887280D5D6200372A37 /* SocialAuthSDKProvider.swift */,
 			);
 			path = SDKs;
+			sourceTree = "<group>";
+		};
+		2C20B28D286C442E000F458A /* CodeLanguageSamples */ = {
+			isa = PBXGroup;
+			children = (
+				2C20B28B286C4426000F458A /* code-language-samples.plist */,
+				2C20B28E286C4515000F458A /* CodeLanguageSamples.swift */,
+			);
+			path = CodeLanguageSamples;
 			sourceTree = "<group>";
 		};
 		2C20FBA0284F15EC006D879E /* ContentProcessor */ = {
@@ -1554,6 +1568,7 @@
 				2C98C7AD2850B93100857783 /* icons.css in Resources */,
 				2C98C7A72850B93100857783 /* fonts.css in Resources */,
 				2C20FBB2284F4FEA006D879E /* highlight.js in Resources */,
+				2C20B28C286C4426000F458A /* code-language-samples.plist in Resources */,
 				058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */,
 				2C98C7AA2850B93100857783 /* step.css in Resources */,
 				2C98C7AC2850B93100857783 /* bootstrap.css in Resources */,
@@ -1715,6 +1730,7 @@
 				2C46D0632807E4C100B3636E /* TextFieldWrapper.swift in Sources */,
 				2CAFD38F27FC517D00F88B0B /* ColorPalette.swift in Sources */,
 				2C20FBAA284F1951006D879E /* ContentProcessor.swift in Sources */,
+				2C20B28F286C4515000F458A /* CodeLanguageSamples.swift in Sources */,
 				2C1F5888280D5D6200372A37 /* SocialAuthSDKProvider.swift in Sources */,
 				2CAE8CF728052F9600E6C83D /* StepHeaderView.swift in Sources */,
 				2C919E3527EEFF110022A2F2 /* Queue.swift in Sources */,
