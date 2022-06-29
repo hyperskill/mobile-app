@@ -40,7 +40,9 @@ struct CodeEditor: UIViewRepresentable {
         if codeEditorView.code != code {
             codeEditorView.code = code
         }
-        codeEditorView.isEditable = isEnabled
+        if codeEditorView.isEditable != isEnabled {
+            codeEditorView.isEditable = isEnabled
+        }
 
         context.coordinator.onCodeDidChange = { newCode in
             self.code = newCode
