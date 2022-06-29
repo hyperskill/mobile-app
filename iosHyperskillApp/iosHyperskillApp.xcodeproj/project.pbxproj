@@ -48,6 +48,7 @@
 		2C1F5882280D5BAA00372A37 /* SocialAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F5881280D5BAA00372A37 /* SocialAuthService.swift */; };
 		2C1F5888280D5D6200372A37 /* SocialAuthSDKProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F5887280D5D6200372A37 /* SocialAuthSDKProvider.swift */; };
 		2C1F588B280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F588A280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift */; };
+		2C20B28A286C350C000F458A /* CodeEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20B289286C350C000F458A /* CodeEditor.swift */; };
 		2C20B28C286C4426000F458A /* code-language-samples.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C20B28B286C4426000F458A /* code-language-samples.plist */; };
 		2C20B28F286C4515000F458A /* CodeLanguageSamples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20B28E286C4515000F458A /* CodeLanguageSamples.swift */; };
 		2C20FBA4284F165A006D879E /* ProcessedContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20FBA3284F165A006D879E /* ProcessedContent.swift */; };
@@ -275,6 +276,7 @@
 		2C1F5881280D5BAA00372A37 /* SocialAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialAuthService.swift; sourceTree = "<group>"; };
 		2C1F5887280D5D6200372A37 /* SocialAuthSDKProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialAuthSDKProvider.swift; sourceTree = "<group>"; };
 		2C1F588A280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSocialAuthSDKProvider.swift; sourceTree = "<group>"; };
+		2C20B289286C350C000F458A /* CodeEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeEditor.swift; sourceTree = "<group>"; };
 		2C20B28B286C4426000F458A /* code-language-samples.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "code-language-samples.plist"; sourceTree = "<group>"; };
 		2C20B28E286C4515000F458A /* CodeLanguageSamples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeLanguageSamples.swift; sourceTree = "<group>"; };
 		2C20FBA3284F165A006D879E /* ProcessedContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessedContent.swift; sourceTree = "<group>"; };
@@ -537,6 +539,7 @@
 		2C0DB90528644020001EA35E /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				2C20B289286C350C000F458A /* CodeEditor.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -1722,6 +1725,7 @@
 				2C963BC52812D1A70036DD53 /* HomeView.swift in Sources */,
 				E9101713283296F3002E70F5 /* RadioButton.swift in Sources */,
 				2C20FBC2284F66FC006D879E /* NSAttributedString+TrimmingCharacters.swift in Sources */,
+				2C20B28A286C350C000F458A /* CodeEditor.swift in Sources */,
 				2C919DE827EEEDD60022A2F2 /* LinkedList.swift in Sources */,
 				2C0DB912286455D8001EA35E /* CodePlaygroundManager.swift in Sources */,
 				2C225E48281A5B6800E8ABD2 /* SourcelessRouter.swift in Sources */,

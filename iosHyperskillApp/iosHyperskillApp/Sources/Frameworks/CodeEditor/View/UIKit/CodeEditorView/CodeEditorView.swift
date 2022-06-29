@@ -66,7 +66,7 @@ final class CodeEditorView: UIView {
         }
     }
 
-    var shouldHighlightCurrentLine = true {
+    var shouldHighlightCurrentLine = false {
         didSet {
             codeTextView.shouldHighlightCurrentLine = shouldHighlightCurrentLine
         }
@@ -87,7 +87,7 @@ final class CodeEditorView: UIView {
     init(
         frame: CGRect = .zero,
         appearance: Appearance = Appearance(),
-        codeEditorThemeService: CodeEditorThemeServiceProtocol,
+        codeEditorThemeService: CodeEditorThemeServiceProtocol = CodeEditorThemeService(),
         elementsSize: CodeQuizElementsSize = DeviceInfo.current.isPad ? .big : .small
     ) {
         self.appearance = appearance

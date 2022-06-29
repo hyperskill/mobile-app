@@ -380,12 +380,13 @@ final class CodePlaygroundManager {
         textView: UITextView,
         suggestionsDelegate: CodeCompletionDelegate
     ) {
+        // TODO: Crashes here UIViewControllerHierarchyInconsistency
         if currentCodeCompletionTableViewController == nil {
-            let codeCompletionTableViewController = CodeCompletionTableViewController()
-            viewController.addChild(codeCompletionTableViewController)
-            textView.addSubview(codeCompletionTableViewController.view)
-            codeCompletionTableViewController.delegate = suggestionsDelegate
-            currentCodeCompletionTableViewController = codeCompletionTableViewController
+//            let codeCompletionTableViewController = CodeCompletionTableViewController()
+//            viewController.addChild(codeCompletionTableViewController)
+//            textView.addSubview(codeCompletionTableViewController.view)
+//            codeCompletionTableViewController.delegate = suggestionsDelegate
+//            currentCodeCompletionTableViewController = codeCompletionTableViewController
         }
 
         currentCodeCompletionTableViewController?.suggestions = suggestions
