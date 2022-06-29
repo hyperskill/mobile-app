@@ -3,6 +3,7 @@ import UIKit
 
 extension CodeInputAccessoryView {
     struct Appearance {
+        let hideKeyboardImageViewTintColor = UIColor.primaryText
         let hideKeyboardImageViewInsets = LayoutInsets(top: 4, leading: 4, bottom: 4, trailing: 8)
 
         let collectionViewInsets = LayoutInsets(top: 4, leading: 8, bottom: 4, trailing: 0)
@@ -23,7 +24,8 @@ final class CodeInputAccessoryView: UIView {
     private let hideKeyboardAction: (() -> Void)?
 
     private lazy var hideKeyboardImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "Hide keyboard filled Gray"))
+        let imageView = UIImageView(image: UIImage(systemName: "keyboard.chevron.compact.down"))
+        imageView.tintColor = appearance.hideKeyboardImageViewTintColor
         imageView.contentMode = .scaleAspectFit
         imageView.isUserInteractionEnabled = true
         let tapGestureRecognizer = UITapGestureRecognizer(
