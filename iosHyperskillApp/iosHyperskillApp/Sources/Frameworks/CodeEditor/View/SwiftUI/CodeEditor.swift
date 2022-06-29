@@ -91,7 +91,13 @@ extension CodeEditor {
         func codeEditorViewDidRequestSuggestionPresentationController(
             _ codeEditorView: CodeEditorView
         ) -> UIViewController? {
-            SourcelessRouter().currentPresentedViewController()
+            // TODO: Walk up and find correct controller otherwise UIViewControllerHierarchyInconsistency will be thrown
+//            guard let rootViewController = SourcelessRouter().window?.rootViewController else {
+//                return nil
+//            }
+//
+//            return rootViewController.children.first?.children.first?.children.first?.children.first
+            nil
         }
     }
 }

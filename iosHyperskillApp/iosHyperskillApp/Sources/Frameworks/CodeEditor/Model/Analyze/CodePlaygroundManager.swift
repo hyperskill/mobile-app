@@ -380,13 +380,12 @@ final class CodePlaygroundManager {
         textView: UITextView,
         suggestionsDelegate: CodeCompletionDelegate
     ) {
-        // TODO: Crashes here UIViewControllerHierarchyInconsistency
         if currentCodeCompletionTableViewController == nil {
-//            let codeCompletionTableViewController = CodeCompletionTableViewController()
-//            viewController.addChild(codeCompletionTableViewController)
-//            textView.addSubview(codeCompletionTableViewController.view)
-//            codeCompletionTableViewController.delegate = suggestionsDelegate
-//            currentCodeCompletionTableViewController = codeCompletionTableViewController
+            let codeCompletionTableViewController = CodeCompletionTableViewController()
+            viewController.addChild(codeCompletionTableViewController)
+            textView.addSubview(codeCompletionTableViewController.view)
+            codeCompletionTableViewController.delegate = suggestionsDelegate
+            currentCodeCompletionTableViewController = codeCompletionTableViewController
         }
 
         currentCodeCompletionTableViewController?.suggestions = suggestions
@@ -399,8 +398,7 @@ final class CodePlaygroundManager {
             var suggestionsFrameMinX = caretRect.minX
             var suggestionsFrameMinY = caretRect.maxY
 
-            //let suggestionsHeight = suggestionsController!.suggestionsHeight
-            let suggestionsHeight = 0.0
+            let suggestionsHeight = currentCodeCompletionTableViewController?.suggestionsHeight ?? 0
 
             // Check if we need to move suggestionsFrame
             if suggestionsFrameMinY + suggestionsHeight > (textView.frame.maxY - textView.frame.origin.y) {
