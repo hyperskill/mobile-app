@@ -110,4 +110,11 @@
     <!-- Placeholder -->
     <string name="placeholder_network_error_title">Oops! It seems like the network error.</string>
     <string name="placeholder_network_error_button_text">Reload</string>
+
+    <!-- Placeholder for new users -->
+    <string name="placeholder_register_text">Register</string>
+    <string name="placeholder_instruction_text">To get access to the content you should register at our website first.</string>
+    <string name="placeholder_continue_button_text">Continue to hyperskill.org \u2197</string>
+    <string name="placeholder_first_description_text">Right now you can solve one random problem every day.</string>
+    <string name="placeholder_second_description_text">We add new features every week. Stay tuned :)</string>
 </resources>
