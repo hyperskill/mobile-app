@@ -39,6 +39,16 @@ enum Strings {
         static let passwordPlaceholder = sharedStrings.auth_credentials_password_placeholder.localized()
     }
 
+    // MARK: - Register -
+
+    enum Register {
+        static let title = sharedStrings.register_title.localized()
+        static let introText = sharedStrings.register_intro_text.localized()
+        static let buttonText = sharedStrings.register_button_text.localized()
+        static let possibilityText = sharedStrings.register_possibility_text.localized()
+        static let callText = sharedStrings.register_call_text.localized()
+    }
+
     // MARK: - Step -
 
     enum Step {

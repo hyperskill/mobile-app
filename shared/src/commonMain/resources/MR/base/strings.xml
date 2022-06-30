@@ -31,6 +31,13 @@
     <string name="auth_credentials_email_empty">Please enter an email address</string>
     <string name="auth_credentials_password_empty">Please enter a password</string>
 
+    <!--  Register  -->
+    <string name="register_title">Register</string>
+    <string name="register_intro_text">To get access to the content you should register at our website first.</string>
+    <string name="register_button_text">Continue to hyperskill.org ↗</string>
+    <string name="register_possibility_text">Right now you can solve one random problem every day.</string>
+    <string name="register_call_text">We add new features every week. Stay turned :)</string>
+
     <!-- Step -->
     <string name="step_theory_text">Theory</string>
     <string name="step_start_practicing_text">Start practicing</string>
