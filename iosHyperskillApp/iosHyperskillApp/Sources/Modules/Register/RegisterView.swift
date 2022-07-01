@@ -1,16 +1,24 @@
 import SwiftUI
 
+extension RegisterView {
+    struct Appearance {
+        let logoWidthHeight: CGFloat = 48
+        let bigPadding: CGFloat = 48
+        let smallPadding: CGFloat = 20
+    }
+}
+
 struct RegisterView: View {
-    var logoWidthHeight: CGFloat = 48
+    private(set) var appearance = Appearance()
 
     var registerUrl: URL? = URL(string: "https://hyperskill.org/register")
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 48) {
-            VStack(alignment: .center, spacing: 20) {
+        VStack(alignment: .leading, spacing: appearance.bigPadding) {
+            VStack(alignment: .center, spacing: appearance.smallPadding) {
                 Image(Images.AuthSocial.hyperskill)
                     .resizable()
-                    .frame(width: logoWidthHeight, height: logoWidthHeight)
+                    .frame(widthHeight: appearance.logoWidthHeight)
 
                 Text(Strings.Register.title)
                     .font(.title2)
@@ -29,7 +37,7 @@ struct RegisterView: View {
             }
 
 
-            VStack(alignment: .leading, spacing: 20) {
+            VStack(alignment: .leading, spacing: appearance.smallPadding) {
                 Text(Strings.Register.possibilityText)
                     .font(.body)
                     .foregroundColor(.primaryText)
