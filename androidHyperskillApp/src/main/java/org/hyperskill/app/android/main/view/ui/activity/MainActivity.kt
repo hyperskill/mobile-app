@@ -8,7 +8,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.window.layout.WindowMetricsCalculator
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
 import kotlinx.coroutines.flow.collectLatest
@@ -73,7 +72,7 @@ class MainActivity :
                 }
         }
 
-        if (getScreenWidthDp() < 600f) {
+        if (!resources.getBoolean(R.bool.is_tablet)) {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
     }
@@ -115,15 +114,5 @@ class MainActivity :
             is AppFeature.State.Ready ->
                 window.statusBarColor = resolveColorAttribute(R.attr.colorPrimaryVariant)
         }
-    }
-
-    fun getScreenWidthDp(): Float {
-        val metrics = WindowMetricsCalculator.getOrCreate()
-            .computeCurrentWindowMetrics(this)
-
-        val widthDp = metrics.bounds.width() /
-            resources.displayMetrics.density
-
-        return widthDp
     }
 }
