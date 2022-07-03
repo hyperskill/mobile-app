@@ -26,6 +26,9 @@ target 'iosHyperskillApp' do
   pod 'STRegex', '2.1.1'
   pod 'SnapKit', '5.6.0'
   pod 'Atributika', '4.10.1'
+
+  # CodeEditor
+  pod 'Highlightr', :git => 'https://github.com/raspu/Highlightr.git', :branch => 'master'
 end
 
 post_install do |installer|
