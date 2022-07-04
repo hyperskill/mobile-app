@@ -37,7 +37,7 @@ struct AuthSocialControlsView: View {
                 )
             }
 
-            Button(Strings.AuthSocial.emailText, action: self.onContinueWithEmailClick)
+            Button(Strings.Auth.Social.emailText, action: self.onContinueWithEmailClick)
                 .padding(appearance.continueWithEmailButtonLayoutInsets.edgeInsets)
                 .buttonStyle(OutlineButtonStyle(style: .violet))
         }
@@ -48,13 +48,13 @@ private extension SocialAuthProvider {
     var humanReadableName: String {
         switch self {
         case .jetbrains:
-            return Strings.AuthSocial.jetBrainsAccount
+            return Strings.Auth.Social.jetBrainsAccount
         case .google:
-            return Strings.AuthSocial.googleAccount
+            return Strings.Auth.Social.googleAccount
         case .github:
-            return Strings.AuthSocial.gitHubAccount
+            return Strings.Auth.Social.gitHubAccount
         case .apple:
-            return Strings.AuthSocial.appleAccount
+            return Strings.Auth.Social.appleAccount
         }
     }
 
