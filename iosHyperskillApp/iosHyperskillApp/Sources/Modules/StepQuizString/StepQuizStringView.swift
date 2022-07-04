@@ -10,7 +10,7 @@ extension StepQuizStringView {
 
         let placeholderTextFont = Font.body
         let placeholderTextColor = Color.secondaryText
-        let placeholderInsets = LayoutInsets(top: 16, left: 13, bottom: 16, right: 16)
+        let placeholderInsets = LayoutInsets(top: 16, leading: 13, bottom: 16, trailing: 16)
     }
 }
 

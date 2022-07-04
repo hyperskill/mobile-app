@@ -5,7 +5,7 @@ extension StepQuizDiscussionsButton {
         var minHeight: CGFloat = 44
 
         var iconWidthHeight: CGFloat = 20
-        var iconLayoutInsets = LayoutInsets(left: 18)
+        var iconLayoutInsets = LayoutInsets(leading: 18)
         var iconTintColor = Color(ColorPalette.primary)
     }
 }

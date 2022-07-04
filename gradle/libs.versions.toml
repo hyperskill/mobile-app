@@ -75,6 +75,7 @@ android-flipper = { module = "com.facebook.flipper:flipper", version.ref = "flip
 android-flipper-noop = { module = "com.facebook.flipper:flipper-noop", version.ref = "flipper" }
 android-soloader = { module = "com.facebook.soloader:soloader", version = "0.10.1" }
 android-parcelable = { module = "com.chrynan.parcelable:parcelable-core", version = "0.4.1" }
+
 android-reactivex-rxandroid = { module = "io.reactivex.rxjava2:rxandroid", version = "2.1.0" }
 android-reactivex-rxjava = { module = "io.reactivex.rxjava2:rxjava", version = "2.2.5" }
 android-reactivex-rxkotlin = { module = "io.reactivex.rxjava2:rxkotlin", version = "2.3.0" }
