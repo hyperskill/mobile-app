@@ -1,5 +1,6 @@
 package org.hyperskill.app.android.main.view.ui.activity
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -69,6 +70,10 @@ class MainActivity :
                 .collectLatest {
                     mainViewModelProvider.onNewMessage(AppFeature.Message.UserAuthorized)
                 }
+        }
+
+        if (!resources.getBoolean(R.bool.is_tablet)) {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
     }
 
