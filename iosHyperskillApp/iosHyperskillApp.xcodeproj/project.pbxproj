@@ -171,7 +171,7 @@
 		E91017152832975C002E70F5 /* CheckboxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91017142832975C002E70F5 /* CheckboxButton.swift */; };
 		E910171728329808002E70F5 /* StepQuizChoiceElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910171628329808002E70F5 /* StepQuizChoiceElementView.swift */; };
 		E92D659727FC2F4100953029 /* AuthSocialButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92D659627FC2F4100953029 /* AuthSocialButton.swift */; };
-		E9380EDA286B48A400CBF221 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9380ED9286B48A400CBF221 /* RegisterView.swift */; };
+		E9380EDA286B48A400CBF221 /* NewUserPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9380ED9286B48A400CBF221 /* NewUserPlaceholderView.swift */; };
 		E93B3745283E527000968DF0 /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93B3744283E527000968DF0 /* PlaceholderView.swift */; };
 		E94D238D28057F440003273F /* AuthCredentialsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D238C28057F440003273F /* AuthCredentialsView.swift */; };
 		E94D238F280585110003273F /* AuthCredentialsFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D238E280585110003273F /* AuthCredentialsFormView.swift */; };
@@ -375,7 +375,7 @@
 		E91017142832975C002E70F5 /* CheckboxButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxButton.swift; sourceTree = "<group>"; };
 		E910171628329808002E70F5 /* StepQuizChoiceElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChoiceElementView.swift; sourceTree = "<group>"; };
 		E92D659627FC2F4100953029 /* AuthSocialButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialButton.swift; sourceTree = "<group>"; };
-		E9380ED9286B48A400CBF221 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		E9380ED9286B48A400CBF221 /* NewUserPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewUserPlaceholderView.swift; sourceTree = "<group>"; };
 		E93B3744283E527000968DF0 /* PlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderView.swift; sourceTree = "<group>"; };
 		E94D238C28057F440003273F /* AuthCredentialsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsView.swift; sourceTree = "<group>"; };
 		E94D238E280585110003273F /* AuthCredentialsFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsFormView.swift; sourceTree = "<group>"; };
@@ -488,7 +488,6 @@
 		2C1DEE2D27EC40200001A567 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				E9380ED8286B488A00CBF221 /* Register */,
 				2CE31F4927F1E058008EEE66 /* App */,
 				2C725B6428091ACF00A49043 /* AuthCredentials */,
 				2C005DD027EF5C4800DC6503 /* AuthSocial */,
@@ -750,6 +749,7 @@
 		2C725B6528091B0100A49043 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E9380ED9286B48A400CBF221 /* NewUserPlaceholderView.swift */,
 				E9D69A3F28084FF7000E114E /* AuthCredentialsErrorView.swift */,
 				E94D238E280585110003273F /* AuthCredentialsFormView.swift */,
 				E94D238C28057F440003273F /* AuthCredentialsView.swift */,
@@ -1184,14 +1184,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		E9380ED8286B488A00CBF221 /* Register */ = {
-			isa = PBXGroup;
-			children = (
-				E9380ED9286B48A400CBF221 /* RegisterView.swift */,
-			);
-			path = Register;
-			sourceTree = "<group>";
-		};
 		E9802D03281BB5A500CF3AC1 /* StepQuizChoice */ = {
 			isa = PBXGroup;
 			children = (
@@ -1452,7 +1444,7 @@
 				2C9B66C427ECA73700569645 /* AppDelegate.swift in Sources */,
 				E993E9A928426FF2005988EC /* StepQuizSortingViewData.swift in Sources */,
 				E94D238F280585110003273F /* AuthCredentialsFormView.swift in Sources */,
-				E9380EDA286B48A400CBF221 /* RegisterView.swift in Sources */,
+				E9380EDA286B48A400CBF221 /* NewUserPlaceholderView.swift in Sources */,
 				2C2D492E281151E100753F16 /* AuthCredentialsAssembly.swift in Sources */,
 				2CCCA3992862D58E00D98089 /* StepQuizStringView.swift in Sources */,
 				2CE31F4B27F1E070008EEE66 /* AppViewModel.swift in Sources */,

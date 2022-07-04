@@ -1,6 +1,6 @@
 import SwiftUI
 
-extension RegisterView {
+extension NewUserPlaceholderView {
     struct Appearance {
         let logoWidthHeight: CGFloat = 48
         let bigPadding: CGFloat = 48
@@ -8,7 +8,7 @@ extension RegisterView {
     }
 }
 
-struct RegisterView: View {
+struct NewUserPlaceholderView: View {
     private(set) var appearance = Appearance()
 
     var registerUrl: URL? = URL(string: "https://hyperskill.org/register")
@@ -55,6 +55,6 @@ struct RegisterView: View {
 
 struct RegisterView_Previews: PreviewProvider {
     static var previews: some View {
-        RegisterView()
+        NewUserPlaceholderView()
     }
 }
