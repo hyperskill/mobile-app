@@ -18,25 +18,39 @@ enum Strings {
         static let profile = sharedStrings.tab_bar_profile_title.localized()
     }
 
-    // MARK: - AuthSocial -
+    // MARK: - Auth -
 
-    enum AuthSocial {
-        static let logInTitle = sharedStrings.auth_log_in_title.localized()
-        static let jetBrainsAccount = sharedStrings.auth_jetbrains_account_text.localized()
-        static let googleAccount = sharedStrings.auth_google_account_text.localized()
-        static let gitHubAccount = sharedStrings.auth_github_account_text.localized()
-        static let appleAccount = sharedStrings.auth_apple_account_text.localized()
-        static let emailText = sharedStrings.auth_email_text.localized()
-    }
+    enum Auth {
+        // MARK: Social
 
-    // MARK: - AuthCredentials -
+        enum Social {
+            static let logInTitle = sharedStrings.auth_log_in_title.localized()
+            static let jetBrainsAccount = sharedStrings.auth_jetbrains_account_text.localized()
+            static let googleAccount = sharedStrings.auth_google_account_text.localized()
+            static let gitHubAccount = sharedStrings.auth_github_account_text.localized()
+            static let appleAccount = sharedStrings.auth_apple_account_text.localized()
+            static let emailText = sharedStrings.auth_email_text.localized()
+        }
 
-    enum AuthCredentials {
-        static let socialText = sharedStrings.auth_credentials_social_text.localized()
-        static let resetPassword = sharedStrings.auth_credentials_reset_password_text.localized()
-        static let logIn = sharedStrings.auth_credentials_log_in_text.localized()
-        static let emailPlaceholder = sharedStrings.auth_credentials_email_placeholder.localized()
-        static let passwordPlaceholder = sharedStrings.auth_credentials_password_placeholder.localized()
+        // MARK: Credentials
+
+        enum Credentials {
+            static let socialText = sharedStrings.auth_credentials_social_text.localized()
+            static let resetPassword = sharedStrings.auth_credentials_reset_password_text.localized()
+            static let logIn = sharedStrings.auth_credentials_log_in_text.localized()
+            static let emailPlaceholder = sharedStrings.auth_credentials_email_placeholder.localized()
+            static let passwordPlaceholder = sharedStrings.auth_credentials_password_placeholder.localized()
+        }
+
+        // MARK: NewUserPlaceholder
+
+        enum NewUserPlaceholder {
+            static let title = sharedStrings.register_title.localized()
+            static let introText = sharedStrings.register_intro_text.localized()
+            static let buttonText = sharedStrings.register_button_text.localized()
+            static let possibilityText = sharedStrings.register_possibility_text.localized()
+            static let callText = sharedStrings.register_call_text.localized()
+        }
     }
 
     // MARK: - Step -
