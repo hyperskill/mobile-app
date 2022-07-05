@@ -5,6 +5,20 @@ struct TrackViewData {
     let name: String
     let role: String
 
+    let timeToCompleteTrackTitle: String
+    let timeToCompleteTrackSubtitle: String
+
+    let completedGraduateProjectTitle: String?
+    let completedGraduateProjectSubtitle: String
+
+    let completedTopicsTitle: String
+    let completedTopicsProgress: Float
+    let completedTopicsSubtitle: String
+
+    let appliedCoreTopicsByCompletingProjectStagesTitle: String
+    let appliedCoreTopicsByCompletingProjectStagesProgress: Float
+    let appliedCoreTopicsByCompletingProjectStagesSubtitle: String
+
     let rating: String?
     let timeToComplete: String?
     let projectsCount: String?
@@ -19,6 +33,16 @@ extension TrackViewData {
             iconImageName: Images.TabBar.track,
             name: "Python for Beginners",
             role: "Learning now",
+            timeToCompleteTrackTitle: "~ 56 h",
+            timeToCompleteTrackSubtitle: "Time to complete the track",
+            completedGraduateProjectTitle: "1",
+            completedGraduateProjectSubtitle: "Completed graduate project ",
+            completedTopicsTitle: "48 / 149",
+            completedTopicsProgress: 0.322_147_651,
+            completedTopicsSubtitle: "Completed topics",
+            appliedCoreTopicsByCompletingProjectStagesTitle: "0 / 138",
+            appliedCoreTopicsByCompletingProjectStagesProgress: 0,
+            appliedCoreTopicsByCompletingProjectStagesSubtitle: "Applied core topics by completing project stages",
             rating: "4.7",
             timeToComplete: "104 hours",
             projectsCount: "20 projects",

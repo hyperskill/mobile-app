@@ -58,6 +58,10 @@ enum Images {
     // MARK: - Track -
 
     enum Track {
+        static let projectGraduate = "track-project-graduate"
+
+        static let hammer = "track-hammer"
+
         enum About {
             static let rating = "track-about-stat-item-star"
 

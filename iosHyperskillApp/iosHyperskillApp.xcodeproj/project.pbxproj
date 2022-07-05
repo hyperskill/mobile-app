@@ -126,6 +126,7 @@
 		2C84094F2805B28B009C6BE9 /* StepRatingControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C84094E2805B28B009C6BE9 /* StepRatingControl.swift */; };
 		2C8409532805BF3C009C6BE9 /* StepTheoryContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8409522805BF3C009C6BE9 /* StepTheoryContentView.swift */; };
 		2C863D932804279E0021EFED /* Require.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C863D922804279E0021EFED /* Require.swift */; };
+		2C88C71F28745DD0005B7311 /* TrackCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C88C71E28745DD0005B7311 /* TrackCardView.swift */; };
 		2C8E4F96284895A30011ADFA /* PanModalPresentableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E4F95284895A30011ADFA /* PanModalPresentableViewController.swift */; };
 		2C8E4F982848961C0011ADFA /* UIViewController+PresentPanModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E4F972848961C0011ADFA /* UIViewController+PresentPanModal.swift */; };
 		2C8E4F9A284897360011ADFA /* PanModalSwiftUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E4F99284897360011ADFA /* PanModalSwiftUIViewController.swift */; };
@@ -362,6 +363,7 @@
 		2C84094E2805B28B009C6BE9 /* StepRatingControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepRatingControl.swift; sourceTree = "<group>"; };
 		2C8409522805BF3C009C6BE9 /* StepTheoryContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepTheoryContentView.swift; sourceTree = "<group>"; };
 		2C863D922804279E0021EFED /* Require.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Require.swift; sourceTree = "<group>"; };
+		2C88C71E28745DD0005B7311 /* TrackCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackCardView.swift; sourceTree = "<group>"; };
 		2C8E4F95284895A30011ADFA /* PanModalPresentableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanModalPresentableViewController.swift; sourceTree = "<group>"; };
 		2C8E4F972848961C0011ADFA /* UIViewController+PresentPanModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+PresentPanModal.swift"; sourceTree = "<group>"; };
 		2C8E4F99284897360011ADFA /* PanModalSwiftUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanModalSwiftUIViewController.swift; sourceTree = "<group>"; };
@@ -965,6 +967,7 @@
 		2C65636D28742963006AAD77 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2C88C71E28745DD0005B7311 /* TrackCardView.swift */,
 				2C9EB9572861BA57007DDE44 /* TrackView.swift */,
 				2C65637428743F32006AAD77 /* About */,
 				2C65637B28744DE2006AAD77 /* Header */,
@@ -1780,6 +1783,7 @@
 				2C20B28A286C350C000F458A /* CodeEditor.swift in Sources */,
 				2C919DE827EEEDD60022A2F2 /* LinkedList.swift in Sources */,
 				2C0DB912286455D8001EA35E /* CodePlaygroundManager.swift in Sources */,
+				2C88C71F28745DD0005B7311 /* TrackCardView.swift in Sources */,
 				2C225E48281A5B6800E8ABD2 /* SourcelessRouter.swift in Sources */,
 				2C9EB95F2861BAD4007DDE44 /* ProfileAssembly.swift in Sources */,
 				2C336D102865BF4200C91342 /* CodeEditorThemeService.swift in Sources */,

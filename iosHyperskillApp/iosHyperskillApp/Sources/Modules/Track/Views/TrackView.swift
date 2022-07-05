@@ -22,6 +22,8 @@ struct TrackView: View {
                         role: viewData.role
                     )
 
+                    cardsView
+
                     TrackAboutView(
                         rating: viewData.rating,
                         timeToComplete: viewData.timeToComplete,
@@ -36,14 +38,58 @@ struct TrackView: View {
             }
             .frame(maxWidth: .infinity)
             .navigationTitle(Strings.Track.title)
-            .background(BackgroundView())
+            .background(BackgroundView(color: .systemGroupedBackground))
         }
         .navigationViewStyle(StackNavigationViewStyle())
+    }
+
+    private var cardsView: some View {
+        VStack(spacing: appearance.spacingBetweenRelativeItems) {
+            HStack(spacing: appearance.spacingBetweenRelativeItems) {
+                TrackCardView(
+                    title: viewData.timeToCompleteTrackTitle,
+                    imageName: Images.Step.clock,
+                    progress: nil,
+                    subtitle: viewData.timeToCompleteTrackSubtitle
+                )
+
+                if let completedGraduateProjectTitle = viewData.completedGraduateProjectTitle {
+                    TrackCardView(
+                        title: completedGraduateProjectTitle,
+                        imageName: Images.Track.projectGraduate,
+                        imageRenderingMode: .original,
+                        progress: nil,
+                        subtitle: viewData.completedGraduateProjectSubtitle
+                    )
+                }
+            }
+
+            TrackCardView(
+                title: viewData.completedTopicsTitle,
+                imageName: Images.Track.About.topic,
+                progress: viewData.completedTopicsProgress,
+                subtitle: viewData.completedTopicsSubtitle
+            )
+
+            TrackCardView(
+                title: viewData.appliedCoreTopicsByCompletingProjectStagesTitle,
+                imageName: Images.Track.hammer,
+                progress: viewData.appliedCoreTopicsByCompletingProjectStagesProgress,
+                subtitle: viewData.appliedCoreTopicsByCompletingProjectStagesSubtitle
+            )
+        }
+        .padding(.horizontal)
     }
 }
 
 struct TrackView_Previews: PreviewProvider {
     static var previews: some View {
-        TrackAssembly().makeModule()
+        Group {
+            TrackAssembly().makeModule()
+
+            TrackAssembly()
+                .makeModule()
+                .preferredColorScheme(.dark)
+        }
     }
 }
