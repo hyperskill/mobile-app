@@ -112,6 +112,12 @@
 		2C5B2A23286596400097B270 /* UITableView+RegisterReusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B2A22286596400097B270 /* UITableView+RegisterReusable.swift */; };
 		2C5B2A25286596A80097B270 /* UICollectionView+RegisterReusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B2A24286596A80097B270 /* UICollectionView+RegisterReusable.swift */; };
 		2C5B2A2828659AD80097B270 /* CodeElementSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B2A2728659AD80097B270 /* CodeElementSize.swift */; };
+		2C65636F28742B7B006AAD77 /* TrackAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65636E28742B7B006AAD77 /* TrackAvatarView.swift */; };
+		2C65637128743796006AAD77 /* TrackViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65637028743796006AAD77 /* TrackViewData.swift */; };
+		2C65637328743910006AAD77 /* TrackAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65637228743910006AAD77 /* TrackAboutView.swift */; };
+		2C65637628743F5B006AAD77 /* TrackAboutStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65637528743F5B006AAD77 /* TrackAboutStatsView.swift */; };
+		2C656378287440D5006AAD77 /* TrackAboutStatItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C656377287440D5006AAD77 /* TrackAboutStatItemView.swift */; };
+		2C65637A28744DDA006AAD77 /* TrackHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65637928744DDA006AAD77 /* TrackHeaderView.swift */; };
 		2C725B5E28090D1F00A49043 /* View+Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B5D28090D1F00A49043 /* View+Border.swift */; };
 		2C725B612809125700A49043 /* LayoutInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B602809125700A49043 /* LayoutInsets.swift */; };
 		2C725B632809198000A49043 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B622809198000A49043 /* BackgroundView.swift */; };
@@ -342,6 +348,12 @@
 		2C5B2A22286596400097B270 /* UITableView+RegisterReusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+RegisterReusable.swift"; sourceTree = "<group>"; };
 		2C5B2A24286596A80097B270 /* UICollectionView+RegisterReusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+RegisterReusable.swift"; sourceTree = "<group>"; };
 		2C5B2A2728659AD80097B270 /* CodeElementSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeElementSize.swift; sourceTree = "<group>"; };
+		2C65636E28742B7B006AAD77 /* TrackAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackAvatarView.swift; sourceTree = "<group>"; };
+		2C65637028743796006AAD77 /* TrackViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewData.swift; sourceTree = "<group>"; };
+		2C65637228743910006AAD77 /* TrackAboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackAboutView.swift; sourceTree = "<group>"; };
+		2C65637528743F5B006AAD77 /* TrackAboutStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackAboutStatsView.swift; sourceTree = "<group>"; };
+		2C656377287440D5006AAD77 /* TrackAboutStatItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackAboutStatItemView.swift; sourceTree = "<group>"; };
+		2C65637928744DDA006AAD77 /* TrackHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackHeaderView.swift; sourceTree = "<group>"; };
 		2C725B5D28090D1F00A49043 /* View+Border.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Border.swift"; sourceTree = "<group>"; };
 		2C725B602809125700A49043 /* LayoutInsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutInsets.swift; sourceTree = "<group>"; };
 		2C725B622809198000A49043 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
@@ -950,6 +962,35 @@
 			path = CodeTextView;
 			sourceTree = "<group>";
 		};
+		2C65636D28742963006AAD77 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2C9EB9572861BA57007DDE44 /* TrackView.swift */,
+				2C65637428743F32006AAD77 /* About */,
+				2C65637B28744DE2006AAD77 /* Header */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		2C65637428743F32006AAD77 /* About */ = {
+			isa = PBXGroup;
+			children = (
+				2C656377287440D5006AAD77 /* TrackAboutStatItemView.swift */,
+				2C65637528743F5B006AAD77 /* TrackAboutStatsView.swift */,
+				2C65637228743910006AAD77 /* TrackAboutView.swift */,
+			);
+			path = About;
+			sourceTree = "<group>";
+		};
+		2C65637B28744DE2006AAD77 /* Header */ = {
+			isa = PBXGroup;
+			children = (
+				2C65636E28742B7B006AAD77 /* TrackAvatarView.swift */,
+				2C65637928744DDA006AAD77 /* TrackHeaderView.swift */,
+			);
+			path = Header;
+			sourceTree = "<group>";
+		};
 		2C725B5C28090CE500A49043 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
@@ -1104,7 +1145,8 @@
 			isa = PBXGroup;
 			children = (
 				2C9EB9592861BA80007DDE44 /* TrackAssembly.swift */,
-				2C9EB9572861BA57007DDE44 /* TrackView.swift */,
+				2C65637028743796006AAD77 /* TrackViewData.swift */,
+				2C65636D28742963006AAD77 /* Views */,
 			);
 			path = Track;
 			sourceTree = "<group>";
@@ -1711,6 +1753,7 @@
 				2C023C86285D927A00D2D5A9 /* StepQuizTableAssembly.swift in Sources */,
 				2C20FBC4284F67F3006D879E /* ProcessedContentWebView.swift in Sources */,
 				2C005DCC27EF5B0300DC6503 /* GoogleServiceInfo.swift in Sources */,
+				2C65637628743F5B006AAD77 /* TrackAboutStatsView.swift in Sources */,
 				2C8E4FB628490C020011ADFA /* PanModalPresenter.swift in Sources */,
 				2C336D172865C9CD00C91342 /* UIView+TraitCollection.swift in Sources */,
 				2CD48D872858639500CFCC4A /* StepQuizViewModel.swift in Sources */,
@@ -1721,6 +1764,7 @@
 				2CC4AAF1280DB513002276A0 /* WebOAuthService.swift in Sources */,
 				2CF43410281268A1002893CD /* String+Whitespaces.swift in Sources */,
 				2CF2DA3A27EC5B2D0055426D /* Assembly.swift in Sources */,
+				2C65637A28744DDA006AAD77 /* TrackHeaderView.swift in Sources */,
 				2C8E4FB42848CB980011ADFA /* StepQuizTableSelectColumnsColumnView.swift in Sources */,
 				2C863D932804279E0021EFED /* Require.swift in Sources */,
 				2C177EC32837B65500D841DB /* View+Frame.swift in Sources */,
@@ -1783,6 +1827,7 @@
 				E951757927E61ACD00995008 /* AuthSocialView.swift in Sources */,
 				2C9EB9582861BA57007DDE44 /* TrackView.swift in Sources */,
 				2C5B2A21286596030097B270 /* Reusable.swift in Sources */,
+				2C65637128743796006AAD77 /* TrackViewData.swift in Sources */,
 				2C1F5875280D0E0000372A37 /* WKWebViewPanelManager.m in Sources */,
 				2C1F5870280D0CB700372A37 /* WebCacheCleaner.swift in Sources */,
 				E9D2D673284E0A97000757AC /* StepQuizMatchingItemView.swift in Sources */,
@@ -1825,6 +1870,7 @@
 				2C9EB95D2861BABC007DDE44 /* ProfileView.swift in Sources */,
 				2CF41A8E28505D2C000736D6 /* SwiftUIProcessedContentView.swift in Sources */,
 				2CF72AA32847757300E1C192 /* StepQuizTableViewData.swift in Sources */,
+				2C65636F28742B7B006AAD77 /* TrackAvatarView.swift in Sources */,
 				E93B3745283E527000968DF0 /* PlaceholderView.swift in Sources */,
 				E9B2CF5F2822979400B2DC6F /* StepQuizHintButton.swift in Sources */,
 				2C42EFB527F2EAB300B4648B /* GraphicsColor+UIColor.swift in Sources */,
@@ -1842,6 +1888,7 @@
 				2C079685285CFFEE00EE0487 /* StepQuizSortingViewModel.swift in Sources */,
 				2C9ECBA3284736090015CFD2 /* StepViewDataMapper.swift in Sources */,
 				2CAE8CF2280525C900E6C83D /* StepView.swift in Sources */,
+				2C65637328743910006AAD77 /* TrackAboutView.swift in Sources */,
 				2C023C8B285DCA2100D2D5A9 /* ReplyExtensions.swift in Sources */,
 				2C9CC1BD280920B5006604D7 /* KeyboardManager.swift in Sources */,
 				2C32375328380C340062CAF6 /* NavigationToolbarInfoItem.swift in Sources */,
@@ -1851,6 +1898,7 @@
 				2C5B2A23286596400097B270 /* UITableView+RegisterReusable.swift in Sources */,
 				2CE1C4DF27EDFB3800220041 /* FeatureViewModel.swift in Sources */,
 				E9B2CF5B2822960D00B2DC6F /* StepQuizBottomControls.swift in Sources */,
+				2C656378287440D5006AAD77 /* TrackAboutStatItemView.swift in Sources */,
 				2C82BA322844B01D004C9013 /* PlaceholderView+Configurations.swift in Sources */,
 				2C25BFD52851F8F00036C689 /* UIColor+DesignSystem.swift in Sources */,
 				2C023C8D285DCA4300D2D5A9 /* DatasetExtensions.swift in Sources */,

@@ -79,7 +79,7 @@ struct AuthCredentialsFormView: View {
         }
         .padding()
         .background(Color(appearance.backgroundColor))
-        .addBorder()
+        .addBorder(color: .border)
     }
 
     // MARK: Private API

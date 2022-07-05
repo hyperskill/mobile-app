@@ -2,6 +2,6 @@ import SwiftUI
 
 final class TrackAssembly: Assembly {
     func makeModule() -> TrackView {
-        TrackView()
+        TrackView(viewData: .placeholder)
     }
 }

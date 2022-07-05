@@ -55,6 +55,18 @@ enum Images {
         static let lightning = "step-quiz-lightning"
     }
 
+    // MARK: - Track -
+
+    enum Track {
+        enum About {
+            static let rating = "track-about-stat-item-star"
+
+            static let project = "track-about-stat-item-project"
+
+            static let topic = "track-about-stat-item-topic"
+        }
+    }
+
     // MARK: - Placeholder -
 
     enum Placeholder {

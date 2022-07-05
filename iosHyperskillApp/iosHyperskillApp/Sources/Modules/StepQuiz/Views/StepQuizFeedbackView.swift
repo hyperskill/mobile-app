@@ -34,7 +34,7 @@ struct StepQuizFeedbackView: View {
         .frame(maxWidth: .infinity)
         .padding()
         .background(Color.background)
-        .addBorder(color: Color(ColorPalette.onSurfaceAlpha12))
+        .addBorder()
     }
 }
 
