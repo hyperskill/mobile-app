@@ -1,11 +1,10 @@
-package org.hyperskill.app.android.streak.delegate
+package org.hyperskill.app.android.streak.view.delegate
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.view.ui.adapter.decoration.HorizontalMarginItemDecoration
 import org.hyperskill.app.android.databinding.LayoutStreakCardBinding
-import org.hyperskill.app.android.streak.adapter.StreakCardDisabledAdapterDelegate
-import org.hyperskill.app.android.streak.adapter.StreakCardEnabledAdapterDelegate
-import org.hyperskill.app.android.streak.decorator.SpacingDecorator
+import org.hyperskill.app.android.streak.view.adapter.StreakCardAdapterDelegate
 import org.hyperskill.app.streak.domain.model.Streak
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 
@@ -19,10 +18,9 @@ class StreakCardFormDelegate(
 
     init {
         // TODO test streak, replace from GET request
-        val streak = Streak(0, "", 3, 0, false)
+        val streak = Streak(0, "", 2, 0, false)
 
-        optionsAdapter += StreakCardEnabledAdapterDelegate(streak)
-        optionsAdapter += StreakCardDisabledAdapterDelegate(streak)
+        optionsAdapter += StreakCardAdapterDelegate(streak)
         optionsAdapter.items = List(5) {}
 
         with(binding.streakLastFiveRecyclerView) {
@@ -31,7 +29,13 @@ class StreakCardFormDelegate(
                 override fun canScrollHorizontally(): Boolean = false
             }
 
-            addItemDecoration(SpacingDecorator(resources.getDimensionPixelSize(R.dimen.streak_last_five_recycler_items_space)))
+            addItemDecoration(
+                HorizontalMarginItemDecoration(
+                    resources.getDimensionPixelSize(R.dimen.streak_last_five_recycler_items_space) / 2,
+                    0,
+                    0
+                )
+            )
         }
     }
 }
