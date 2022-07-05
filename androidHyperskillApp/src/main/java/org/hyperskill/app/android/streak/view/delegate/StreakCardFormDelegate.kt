@@ -31,7 +31,7 @@ class StreakCardFormDelegate(
 
             addItemDecoration(
                 HorizontalMarginItemDecoration(
-                    resources.getDimensionPixelSize(R.dimen.streak_last_five_recycler_items_space) / 2,
+                    resources.getDimensionPixelSize(R.dimen.streak_last_five_recycler_items_space),
                     0,
                     0
                 )

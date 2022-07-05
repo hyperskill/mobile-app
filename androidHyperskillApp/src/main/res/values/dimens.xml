@@ -67,6 +67,6 @@
     <!-- Streak -->
     <dimen name="streak_recycler_fire_width">20dp</dimen>
     <dimen name="streak_recycler_fire_height">20dp</dimen>
-    <dimen name="streak_last_five_recycler_items_space">8dp</dimen>
+    <dimen name="streak_last_five_recycler_items_space">4dp</dimen>
 
 </resources>

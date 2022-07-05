@@ -123,6 +123,7 @@
     <string name="streak_keep_solving_problems_text">Keep solving problems</string>
     <string name="streak_previous_five_days_text">your previous 5 days</string>
     <string name="streak_today_text">today</string>
+    <string name="streak_days_text">days</string>
 
     <!-- Placeholder for new users -->
     <string name="placeholder_register_text">Register</string>
