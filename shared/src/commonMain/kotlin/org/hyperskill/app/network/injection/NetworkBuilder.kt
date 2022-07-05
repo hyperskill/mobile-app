@@ -132,8 +132,7 @@ object NetworkBuilder {
                         true
                     } else {
                         val delta = Clock.System.now().epochSeconds - accessTokenTimestamp
-                        val expireMillis = (authResponse.expiresIn - 50) * 1000
-                        delta > expireMillis
+                        delta > authResponse.expiresIn
                     }
                 }
                 tokenFailureReporter = {

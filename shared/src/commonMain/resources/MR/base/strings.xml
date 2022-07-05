@@ -118,10 +118,18 @@
     <string name="placeholder_network_error_title">Oops! It seems like the network error.</string>
     <string name="placeholder_network_error_button_text">Reload</string>
 
+    <!-- Streak -->
+    <string name="streak_solving_problem_text">Solving problem streak</string>
+    <string name="streak_keep_solving_problems_text">Keep solving problems</string>
+    <string name="streak_previous_five_days_text">your previous 5 days</string>
+    <string name="streak_today_text">today</string>
+    <string name="streak_days_text">days</string>
+
     <!-- Placeholder for new users -->
     <string name="placeholder_register_text">Register</string>
     <string name="placeholder_instruction_text">To get access to the content you should register at our website first.</string>
     <string name="placeholder_continue_button_text">Continue to hyperskill.org \u2197</string>
     <string name="placeholder_first_description_text">Right now you can solve one random problem every day.</string>
     <string name="placeholder_second_description_text">We add new features every week. Stay tuned :)</string>
+    
 </resources>
