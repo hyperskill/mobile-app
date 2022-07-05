@@ -107,6 +107,13 @@
 
     <!-- Track -->
     <string name="track_title">Track</string>
+    <string name="track_learning_now_text">Learning now</string>
+    <string name="track_time_to_complete_text">Time to complete the track</string>
+    <string name="track_completed_graduate_project_text">Completed graduate projects</string>
+    <string name="track_completed_topics_text">Completed topics</string>
+    <string name="track_applied_core_topics_text">Applied core topics by completing project stages </string>
+    <string name="track_about_text">About</string>
+    <string name="track_keep_progress_in_web_text">Keep your progress in web \u2197</string>
 
     <!-- Profile -->
     <string name="profile_title">Profile</string>
