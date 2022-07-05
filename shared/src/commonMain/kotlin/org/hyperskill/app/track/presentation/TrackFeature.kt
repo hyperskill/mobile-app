@@ -1,12 +1,13 @@
 package org.hyperskill.app.track.presentation
 
 import org.hyperskill.app.track.domain.model.Track
+import org.hyperskill.app.track.domain.model.TrackProgress
 
 interface TrackFeature {
     sealed interface State {
         object Idle : State
         object Loading : State
-        data class Content(val track: Track) : State
+        data class Content(val track: Track, val trackProgress: TrackProgress) : State
         object NetworkError : State
     }
 
@@ -16,7 +17,7 @@ interface TrackFeature {
             val forceUpdate: Boolean
         ) : Message
 
-        data class TrackSuccess(val track: Track) : Message
+        data class TrackSuccess(val track: Track, val trackProgress: TrackProgress) : Message
         data class TrackError(val message: String) : Message
     }
 

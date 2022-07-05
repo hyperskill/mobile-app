@@ -13,16 +13,25 @@ class TrackActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchTrack -> {
-                val result = trackInteractor.getTrack(action.trackId)
+                val trackResult = trackInteractor.getTrack(action.trackId)
+                val trackProgressResult = trackInteractor.getTrackProgress(action.trackId)
 
-                val message =
-                    result
-                        .map { Message.TrackSuccess(it) }
-                        .getOrElse {
-                            Message.TrackError(message = it.message ?: "")
-                        }
+                val track = trackResult.getOrElse {
+                    onNewMessage(
+                        Message.TrackError(message = it.message ?: "")
+                    )
+                    return
+                }
+                val trackProgress = trackProgressResult.getOrElse {
+                    onNewMessage(
+                        Message.TrackError(message = it.message ?: "")
+                    )
+                    return
+                }
 
-                onNewMessage(message)
+                onNewMessage(
+                    Message.TrackSuccess(track, trackProgress)
+                )
             }
         }
     }

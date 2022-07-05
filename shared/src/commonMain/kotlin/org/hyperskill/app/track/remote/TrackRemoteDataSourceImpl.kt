@@ -8,6 +8,8 @@ import io.ktor.client.request.get
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.client.request.parameter
+import org.hyperskill.app.track.domain.model.TrackProgress
+import org.hyperskill.app.track.remote.model.TrackProgressResponse
 import org.hyperskill.app.track.remote.model.TrackResponse
 
 class TrackRemoteDataSourceImpl(
@@ -20,5 +22,14 @@ class TrackRemoteDataSourceImpl(
                     contentType(ContentType.Application.Json)
                     parameter("ids", trackIds.joinToString(separator = ","))
                 }.body<TrackResponse>().tracks
+        }
+
+    override suspend fun getTracksProgresses(trackIds: List<Long>): Result<List<TrackProgress>> =
+        kotlin.runCatching {
+            httpClient
+                .get("/api/progresses") {
+                    contentType(ContentType.Application.Json)
+                    parameter("ids", trackIds.joinToString(separator = ",") { "track-$it" })
+                }.body<TrackProgressResponse>().progresses
         }
 }

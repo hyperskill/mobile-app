@@ -17,7 +17,7 @@ class TrackReducer : StateReducer<State, Message, Action> {
                     null
                 }
             is Message.TrackSuccess ->
-                State.Content(message.track) to emptySet()
+                State.Content(message.track, message.trackProgress) to emptySet()
             is Message.TrackError ->
                 State.NetworkError to emptySet()
         } ?: (state to emptySet())
