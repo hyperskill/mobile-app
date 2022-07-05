@@ -11,7 +11,7 @@ protocol ProcessedContentWebViewDelegate: AnyObject {
 
 extension ProcessedContentWebView {
     struct Appearance {
-        var insets = LayoutInsets(top: 10, left: 16, bottom: 4, right: 16)
+        var insets = LayoutInsets(top: 10, leading: 16, bottom: 4, trailing: 16)
         var backgroundColor = UIColor.systemBackground
     }
 }

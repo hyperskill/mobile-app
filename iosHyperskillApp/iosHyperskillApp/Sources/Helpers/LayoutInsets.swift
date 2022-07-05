@@ -13,28 +13,28 @@ struct LayoutInsets {
     private let bottomInset: CGFloat?
 
     var top: CGFloat {
-        guard let value = self.topInset else {
+        guard let value = topInset else {
             fatalError("Top inset is undefined")
         }
         return value
     }
 
     var leading: CGFloat {
-        guard let value = self.leadingInset else {
+        guard let value = leadingInset else {
             fatalError("Leading inset is undefined")
         }
         return value
     }
 
     var trailing: CGFloat {
-        guard let value = self.trailingInset else {
+        guard let value = trailingInset else {
             fatalError("Trailing inset is undefined")
         }
         return value
     }
 
     var bottom: CGFloat {
-        guard let value = self.bottomInset else {
+        guard let value = bottomInset else {
             fatalError("Bottom inset is undefined")
         }
         return value
@@ -42,52 +42,61 @@ struct LayoutInsets {
 
     var edgeInsets: EdgeInsets {
         EdgeInsets(
-            top: self.topInset ?? 0,
-            leading: self.leadingInset ?? 0,
-            bottom: self.bottomInset ?? 0,
-            trailing: self.trailingInset ?? 0
+            top: topInset ?? 0,
+            leading: leadingInset ?? 0,
+            bottom: bottomInset ?? 0,
+            trailing: trailingInset ?? 0
         )
     }
 
-    init(top: CGFloat? = nil, left: CGFloat? = nil, bottom: CGFloat? = nil, right: CGFloat? = nil) {
-        self.topInset = top
-        self.leadingInset = left
-        self.trailingInset = right
-        self.bottomInset = bottom
+    var uiEdgeInsets: UIEdgeInsets {
+        UIEdgeInsets(
+            top: topInset ?? 0,
+            left: leadingInset ?? 0,
+            bottom: bottomInset ?? 0,
+            right: trailingInset ?? 0
+        )
+    }
+
+    init(top: CGFloat? = nil, leading: CGFloat? = nil, bottom: CGFloat? = nil, trailing: CGFloat? = nil) {
+        topInset = top
+        leadingInset = leading
+        bottomInset = bottom
+        trailingInset = trailing
     }
 
     init(insets: EdgeInsets) {
-        self.topInset = insets.top
-        self.leadingInset = insets.leading
-        self.trailingInset = insets.trailing
-        self.bottomInset = insets.bottom
+        topInset = insets.top
+        leadingInset = insets.leading
+        bottomInset = insets.bottom
+        trailingInset = insets.trailing
     }
 
     init(uiEdgeInsets: UIEdgeInsets) {
-        self.topInset = uiEdgeInsets.top
-        self.leadingInset = uiEdgeInsets.left
-        self.trailingInset = uiEdgeInsets.right
-        self.bottomInset = uiEdgeInsets.bottom
+        topInset = uiEdgeInsets.top
+        leadingInset = uiEdgeInsets.left
+        bottomInset = uiEdgeInsets.bottom
+        trailingInset = uiEdgeInsets.right
     }
 
     init(inset: CGFloat) {
-        self.topInset = inset
-        self.leadingInset = inset
-        self.trailingInset = inset
-        self.bottomInset = inset
+        topInset = inset
+        leadingInset = inset
+        bottomInset = inset
+        trailingInset = inset
     }
 
     init(horizontal: CGFloat) {
-        self.topInset = nil
-        self.leadingInset = horizontal
-        self.trailingInset = horizontal
-        self.bottomInset = nil
+        topInset = nil
+        leadingInset = horizontal
+        bottomInset = nil
+        trailingInset = horizontal
     }
 
     init(vertical: CGFloat) {
-        self.topInset = vertical
-        self.leadingInset = nil
-        self.trailingInset = nil
-        self.bottomInset = vertical
+        topInset = vertical
+        leadingInset = nil
+        bottomInset = vertical
+        trailingInset = nil
     }
 }

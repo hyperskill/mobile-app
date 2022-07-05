@@ -6,7 +6,7 @@ extension StepQuizHintButton {
 
         let iconWidthHeight: CGFloat = 16
 
-        let insets = LayoutInsets(top: 8, left: 12, bottom: 8, right: 12)
+        let insets = LayoutInsets(top: 8, leading: 12, bottom: 8, trailing: 12)
     }
 }
 

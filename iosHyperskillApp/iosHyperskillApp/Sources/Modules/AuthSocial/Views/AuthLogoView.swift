@@ -9,7 +9,7 @@ struct AuthLogoView: View {
                 .resizable()
                 .frame(width: logoWidthHeight, height: logoWidthHeight)
 
-            Text(Strings.AuthSocial.logInTitle)
+            Text(Strings.Auth.Social.logInTitle)
                 .font(.body)
                 .multilineTextAlignment(.center)
                 .padding(.top)
