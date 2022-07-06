@@ -121,10 +121,11 @@ class TrackFragment :
 
     private fun initAboutSection(track: Track, trackProgress: TrackProgress) {
         with(viewBinding) {
-            trackAboutTextView.text = "${trackProgress.usefulness ?: "?"}"
-            trackAboutAllPerformTimeTextView.text = ""
-            trackAboutProjectsCountTextView.text = "${track.projects.size}"
-            trackAboutTopicsCountTextView.text = "${track.topicsCount}"
+            trackAboutTextView.text = "${trackProgress.usefulness ?: "?"} hours"
+            trackAboutAllPerformTimeTextView.text = "${(track.secondsToComplete / 3600).roundToInt()} hours"
+            trackAboutProjectsCountTextView.text = "${track.projects.size} projects"
+            trackAboutTopicsCountTextView.text = "${track.topicsCount} topics"
+            trackAboutDescriptionTextView.text = track.description
 
             // TODO fromHtml is deprecated, what to use instead?
             trackAboutKeepYourProgressInWebTextView.text = Html.fromHtml(resources.getString(R.string.track_keep_progress_in_web_text))
