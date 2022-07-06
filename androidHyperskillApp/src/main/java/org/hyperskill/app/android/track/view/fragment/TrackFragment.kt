@@ -130,9 +130,8 @@ class TrackFragment :
             // TODO fromHtml is deprecated, what to use instead?
             trackAboutKeepYourProgressInWebTextView.text = Html.fromHtml(resources.getString(R.string.track_keep_progress_in_web_text))
             trackAboutKeepYourProgressInWebTextView.setOnClickListener {
-                // TODO where to send user?
                 val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = Uri.parse(BuildKonfig.BASE_URL)
+                intent.data = Uri.parse(BuildKonfig.BASE_URL + "track/${track.id}")
                 startActivity(intent)
             }
         }
