@@ -204,7 +204,6 @@
 		E92D659727FC2F4100953029 /* AuthSocialButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92D659627FC2F4100953029 /* AuthSocialButton.swift */; };
 		E9380EDA286B48A400CBF221 /* AuthNewUserPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9380ED9286B48A400CBF221 /* AuthNewUserPlaceholderView.swift */; };
 		E93B3745283E527000968DF0 /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93B3744283E527000968DF0 /* PlaceholderView.swift */; };
-		E94A6D0928748A09005F9ACC /* StreakCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94A6D0828748A09005F9ACC /* StreakCardView.swift */; };
 		E94A6D0B28748C3E005F9ACC /* StreakIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94A6D0A28748C3E005F9ACC /* StreakIcon.swift */; };
 		E94A6D0D28748DFF005F9ACC /* StreakDaysCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94A6D0C28748DFF005F9ACC /* StreakDaysCount.swift */; };
 		E94A6D0F28749491005F9ACC /* StreakState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94A6D0E28749491005F9ACC /* StreakState.swift */; };
@@ -227,6 +226,7 @@
 		E9D2D675284E0B30000757AC /* StepQuizMatchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2D674284E0B30000757AC /* StepQuizMatchingView.swift */; };
 		E9D69A4028084FF7000E114E /* AuthCredentialsErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D69A3F28084FF7000E114E /* AuthCredentialsErrorView.swift */; };
 		E9F655C82875780D00291143 /* StreakDaysPrevious.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F655C72875780D00291143 /* StreakDaysPrevious.swift */; };
+		E9F655CA2875914200291143 /* StreakCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F655C92875914200291143 /* StreakCardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -444,7 +444,6 @@
 		E92D659627FC2F4100953029 /* AuthSocialButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialButton.swift; sourceTree = "<group>"; };
 		E9380ED9286B48A400CBF221 /* AuthNewUserPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNewUserPlaceholderView.swift; sourceTree = "<group>"; };
 		E93B3744283E527000968DF0 /* PlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderView.swift; sourceTree = "<group>"; };
-		E94A6D0828748A09005F9ACC /* StreakCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCardView.swift; sourceTree = "<group>"; };
 		E94A6D0A28748C3E005F9ACC /* StreakIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakIcon.swift; sourceTree = "<group>"; };
 		E94A6D0C28748DFF005F9ACC /* StreakDaysCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakDaysCount.swift; sourceTree = "<group>"; };
 		E94A6D0E28749491005F9ACC /* StreakState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakState.swift; sourceTree = "<group>"; };
@@ -467,6 +466,7 @@
 		E9D2D674284E0B30000757AC /* StepQuizMatchingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingView.swift; sourceTree = "<group>"; };
 		E9D69A3F28084FF7000E114E /* AuthCredentialsErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsErrorView.swift; sourceTree = "<group>"; };
 		E9F655C72875780D00291143 /* StreakDaysPrevious.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakDaysPrevious.swift; sourceTree = "<group>"; };
+		E9F655C92875914200291143 /* StreakCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1428,10 +1428,10 @@
 			isa = PBXGroup;
 			children = (
 				2C963BC42812D1A70036DD53 /* HomeView.swift */,
-				E94A6D0828748A09005F9ACC /* StreakCardView.swift */,
 				E94A6D0A28748C3E005F9ACC /* StreakIcon.swift */,
 				E94A6D0C28748DFF005F9ACC /* StreakDaysCount.swift */,
 				E9F655C72875780D00291143 /* StreakDaysPrevious.swift */,
+				E9F655C92875914200291143 /* StreakCardView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1738,7 +1738,6 @@
 				2C8E4FB628490C020011ADFA /* PanModalPresenter.swift in Sources */,
 				2C336D172865C9CD00C91342 /* UIView+TraitCollection.swift in Sources */,
 				2CD48D872858639500CFCC4A /* StepQuizViewModel.swift in Sources */,
-				E94A6D0928748A09005F9ACC /* StreakCardView.swift in Sources */,
 				E94D238D28057F440003273F /* AuthCredentialsView.swift in Sources */,
 				2CE31F4827F1BB79008EEE66 /* AuthSocialAssembly.swift in Sources */,
 				2C0DB9012864332B001EA35E /* CodeTextViewLayoutManager.swift in Sources */,
@@ -1868,6 +1867,7 @@
 				2CD48D852858638A00CFCC4A /* StepQuizAssembly.swift in Sources */,
 				2C079685285CFFEE00EE0487 /* StepQuizSortingViewModel.swift in Sources */,
 				E94A6D0B28748C3E005F9ACC /* StreakIcon.swift in Sources */,
+				E9F655CA2875914200291143 /* StreakCardView.swift in Sources */,
 				2C9ECBA3284736090015CFD2 /* StepViewDataMapper.swift in Sources */,
 				2CAE8CF2280525C900E6C83D /* StepView.swift in Sources */,
 				2C023C8B285DCA2100D2D5A9 /* ReplyExtensions.swift in Sources */,

@@ -7,6 +7,7 @@ struct StreakIcon: View {
 
     var body: some View {
         Image(state.icon)
+            .renderingMode(.original)
             .resizable()
             .frame(widthHeight: widthHeight)
     }

@@ -1,14 +1,22 @@
 import SwiftUI
 
+extension StreakDaysPrevious {
+    struct Appearance {
+        let streakIconSize: CGFloat = 20
+    }
+}
+
 struct StreakDaysPrevious: View {
-    var days: [StreakState]
+    let previousDays: [StreakState]
+
+    let appearance = Appearance()
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                ForEach(Array(days.enumerated()), id: \.offset) { index, day in
-                    StreakIcon(state: day, widthHeight: 20)
-                    if index != days.count - 1 {
+        VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
+            HStack(spacing: .zero) {
+                ForEach(Array(previousDays.enumerated()), id: \.offset) { index, day in
+                    StreakIcon(state: day, widthHeight: appearance.streakIconSize)
+                    if index != previousDays.count - 1 {
                         Spacer()
                     }
                 }
@@ -23,7 +31,7 @@ struct StreakDaysPrevious: View {
 
 struct StreakDaysPrevious_Previews: PreviewProvider {
     static var previews: some View {
-        StreakDaysPrevious(days: [.passive, .passive, .frozen, .active, .active])
+        StreakDaysPrevious(previousDays: [.passive, .passive, .frozen, .active, .active])
             .previewLayout(.sizeThatFits)
     }
 }
