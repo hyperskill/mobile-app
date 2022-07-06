@@ -132,4 +132,14 @@ enum Strings {
     enum Settings {
         static let title = sharedStrings.settings_title.localized()
     }
+
+    // MARK: - Streak -
+
+    enum Streak {
+        static let solvingProblemText = sharedStrings.streak_solving_problem_text.localized()
+        static let keepSolvingProblemsText = sharedStrings.streak_keep_solving_problems_text.localized()
+        static let previousFiveDaysText = sharedStrings.streak_previous_five_days_text.localized()
+        static let todayText = sharedStrings.streak_today_text.localized()
+        static let daysText = sharedStrings.streak_days_text.localized()
+    }
 }
