@@ -7,7 +7,7 @@ extension StreakCardView {
         let todayBorderWidth: CGFloat = 2
         let todayBorderRadius: CGFloat = 4
 
-        let shadowColor = Color(UIColor.black.withAlphaComponent(0.05))
+        let shadowColor = Color.black.opacity(0.05)
         let shadowRadius: CGFloat = 8
         let shadowX: CGFloat = 0
         let shadowY: CGFloat = 2
