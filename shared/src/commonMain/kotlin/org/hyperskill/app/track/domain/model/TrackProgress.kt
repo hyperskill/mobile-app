@@ -12,11 +12,11 @@ data class TrackProgress(
     @SerialName("user_id")
     val userId: Long,
     @SerialName("clarity")
-    val clarity: Float,
+    val clarity: Float?,
     @SerialName("fun")
-    val funMeasure: Float,
+    val funMeasure: Float?,
     @SerialName("usefulness")
-    val usefulness: Float,
+    val usefulness: Float?,
     @SerialName("completed_projects")
     val completedProjects: List<Long>,
     @SerialName("completed_capstone_projects")

@@ -13,5 +13,4 @@ class TrackRepositoryImpl(
 
     override suspend fun getTracksProgresses(trackIds: List<Long>): Result<List<TrackProgress>> =
         trackRemoteDataSource.getTracksProgresses(trackIds)
-
 }
