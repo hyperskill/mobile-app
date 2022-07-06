@@ -131,7 +131,7 @@ class TrackFragment :
             trackAboutKeepYourProgressInWebTextView.text = Html.fromHtml(resources.getString(R.string.track_keep_progress_in_web_text))
             trackAboutKeepYourProgressInWebTextView.setOnClickListener {
                 val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = Uri.parse(BuildKonfig.BASE_URL + "track/${track.id}")
+                intent.data = Uri.parse(BuildKonfig.BASE_URL + "tracks/${track.id}")
                 startActivity(intent)
             }
         }
