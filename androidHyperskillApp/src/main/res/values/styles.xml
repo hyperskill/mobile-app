@@ -112,6 +112,16 @@
         <item name="strokeWidth">1dp</item>
         <item name="cornerRadius">@dimen/corner_radius</item>
         <item name="strokeColor">@color/color_on_surface_alpha_12</item>
+        
+    <style name="StreakStatCard">
+        <item name="cornerRadius">@dimen/corner_radius</item>
+        <item name="strokeColor">@color/color_on_surface_alpha_12</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
+
+    <style name="StreakSmallText">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_on_surface_alpha_60</item>
     </style>
 
 </resources>
