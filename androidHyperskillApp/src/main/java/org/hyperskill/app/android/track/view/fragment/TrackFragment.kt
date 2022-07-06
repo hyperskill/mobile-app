@@ -121,7 +121,7 @@ class TrackFragment :
 
     private fun initAboutSection(track: Track, trackProgress: TrackProgress) {
         with(viewBinding) {
-            trackAboutTextView.text = "${trackProgress.usefulness ?: "?"} hours"
+            trackAboutUsefulnessTextView.text = "${trackProgress.usefulness ?: "?"} hours"
             trackAboutAllPerformTimeTextView.text = "${(track.secondsToComplete / 3600).roundToInt()} hours"
             trackAboutProjectsCountTextView.text = "${track.projects.size} projects"
             trackAboutTopicsCountTextView.text = "${track.topicsCount} topics"
