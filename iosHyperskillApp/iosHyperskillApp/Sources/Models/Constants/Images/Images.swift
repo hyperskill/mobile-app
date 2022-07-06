@@ -60,4 +60,14 @@ enum Images {
     enum Placeholder {
         static let networkError = "placeholder-network-error"
     }
+
+    // MARK: - Home -
+
+    enum Home {
+        enum Streak {
+            static let streakActive = "home-streak-active"
+            static let streakPassive = "home-streak-passive"
+            static let streakFrozen = "home-streak-frozen"
+        }
+    }
 }
