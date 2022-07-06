@@ -95,8 +95,12 @@ class TrackFragment :
                 add(SvgDecoder.Factory())
             }
             .build()
-        viewBinding.trackIconImageView.load(track.cover, svgImageLoader) {
-            scale(Scale.FILL)
+        if (track.cover != null) {
+            viewBinding.trackIconImageView.load(track.cover, svgImageLoader) {
+                scale(Scale.FILL)
+            }
+        } else {
+            viewBinding.trackIconImageView.visibility = View.GONE
         }
         viewBinding.trackNameTextView.text = track.title
 
@@ -112,10 +116,18 @@ class TrackFragment :
             trackCompletedGraduateProjectsTextView.text = "${trackProgress.completedCapstoneProjects.size}"
 
             trackCompletedTopicsTextView.text = "${trackProgress.learnedTopicsCount} / ${track.topicsCount}"
-            trackCompletedTopicsProgressIndicator.progress = trackProgress.learnedTopicsCount / track.topicsCount * 100
+            trackCompletedTopicsProgressIndicator.progress =
+                if (track.topicsCount == 0)
+                    0
+                else
+                    trackProgress.learnedTopicsCount / track.topicsCount * 100
 
             trackAppliedCoreTopicsTextView.text = "${trackProgress.appliedCapstoneTopicsCount} / ${track.capstoneTopicsCount}"
-            trackAppliedCoreTopicsProgressIndicator.progress = trackProgress.appliedCapstoneTopicsCount / track.capstoneTopicsCount * 100
+            trackAppliedCoreTopicsProgressIndicator.progress =
+                if (track.capstoneTopicsCount == 0)
+                    0
+                else
+                    trackProgress.appliedCapstoneTopicsCount / track.capstoneTopicsCount * 100
         }
     }
 

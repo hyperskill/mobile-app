@@ -28,7 +28,7 @@ data class Track(
     @SerialName("topics_count")
     val topicsCount: Int,
     @SerialName("cover")
-    val cover: String,
+    val cover: String?,
     @SerialName("careers")
     val careers: String,
     @SerialName("projects")
