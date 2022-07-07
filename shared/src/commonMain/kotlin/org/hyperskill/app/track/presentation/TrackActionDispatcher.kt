@@ -15,6 +15,7 @@ class TrackActionDispatcher(
             is Action.FetchTrack -> {
                 val trackResult = trackInteractor.getTrack(action.trackId)
                 val trackProgressResult = trackInteractor.getTrackProgress(action.trackId)
+                val studyPlanResult = trackInteractor.getStudyPlanByTrackId(action.trackId)
 
                 val track = trackResult.getOrElse {
                     onNewMessage(
@@ -28,9 +29,10 @@ class TrackActionDispatcher(
                     )
                     return
                 }
+                val studyPlan = studyPlanResult.getOrNull()
 
                 onNewMessage(
-                    Message.TrackSuccess(track, trackProgress)
+                    Message.TrackSuccess(track, trackProgress, studyPlan)
                 )
             }
         }

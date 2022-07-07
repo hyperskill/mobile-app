@@ -16,6 +16,7 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentTrackBinding
 import org.hyperskill.app.config.BuildKonfig
+import org.hyperskill.app.track.domain.model.StudyPlan
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.domain.model.TrackProgress
 import org.hyperskill.app.track.presentation.TrackFeature
@@ -85,11 +86,11 @@ class TrackFragment :
             viewBinding.trackProgress.visibility = View.VISIBLE
         }
         if (state is TrackFeature.State.Content) {
-            initTrack(state.track, state.trackProgress)
+            initTrack(state.track, state.trackProgress, state.studyPlan)
         }
     }
 
-    private fun initTrack(track: Track, trackProgress: TrackProgress) {
+    private fun initTrack(track: Track, trackProgress: TrackProgress, studyPlan: StudyPlan?) {
         val svgImageLoader = ImageLoader.Builder(requireContext())
             .components {
                 add(SvgDecoder.Factory())
@@ -104,14 +105,15 @@ class TrackFragment :
         }
         viewBinding.trackNameTextView.text = track.title
 
-        initCards(track, trackProgress)
+        initCards(track, trackProgress, studyPlan)
         initAboutSection(track, trackProgress)
     }
 
-    private fun initCards(track: Track, trackProgress: TrackProgress) {
+    private fun initCards(track: Track, trackProgress: TrackProgress, studyPlan: StudyPlan?) {
         with(viewBinding) {
             // TODO must get this time from /api/study-plans
-            trackTimeToCompleteTextView.text = "~ ${(track.secondsToComplete / 3600).roundToInt()} h"
+            val hoursToComplete = studyPlan?.secondsToReachTrack?.toFloat()?.div(3600)?.roundToInt() ?: 0
+            trackTimeToCompleteTextView.text = "~ $hoursToComplete h"
 
             trackCompletedGraduateProjectsTextView.text = "${trackProgress.completedCapstoneProjects.size}"
 
@@ -133,7 +135,7 @@ class TrackFragment :
 
     private fun initAboutSection(track: Track, trackProgress: TrackProgress) {
         with(viewBinding) {
-            trackAboutUsefulnessTextView.text = "${trackProgress.usefulness ?: "?"} hours"
+            trackAboutUsefulnessTextView.text = "${trackProgress.usefulness ?: "0"}"
             trackAboutAllPerformTimeTextView.text = "${(track.secondsToComplete / 3600).roundToInt()} hours"
             trackAboutProjectsCountTextView.text = "${track.projects.size} projects"
             trackAboutTopicsCountTextView.text = "${track.topicsCount} topics"
