@@ -5,12 +5,15 @@
     style="@style/StreakStatCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
     app:cardCornerRadius="@dimen/corner_radius">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp">
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="12dp">
 
         <ImageView
             android:id="@+id/streakStatFire"
@@ -18,115 +21,86 @@
             android:layout_height="32dp"
             android:layout_marginBottom="20dp"
             android:src="@drawable/ic_fire_disabled"
-            app:layout_constraintBottom_toTopOf="@+id/streakStatCardDays"
-            app:layout_constraintEnd_toEndOf="@+id/streakStatCardDays"
-            app:layout_constraintStart_toStartOf="@+id/streakStatCardDays"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/streakStatCardDays"
-            style="@style/StreakStatCard"
+        <TextView
+            android:id="@+id/streakDaysCountTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/streakTodayCardView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/streakTodayCardView"
-            app:layout_constraintVertical_bias="0">
+            android:layout_marginStart="20dp"
+            android:text="0"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="24sp"
+            app:layout_constraintStart_toEndOf="@+id/streakStatFire"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+        <TextView
+            android:id="@+id/streakDaysTextStaticTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/streak_days_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="24sp"
+            app:layout_constraintStart_toEndOf="@+id/streakDaysCountTextView"
+            app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/streakDaysCountTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingTop="2dp"
-                    android:text="0"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                    android:textSize="24sp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center"
-                    android:paddingHorizontal="12dp"
-                    android:paddingBottom="8dp"
-                    android:text="@string/streak_days_text"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-            </LinearLayout>
-
-
-        </com.google.android.material.card.MaterialCardView>
-
+        <ImageView
+            android:id="@+id/streakNewRecordCrown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:src="@drawable/ic_crown"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@+id/streakDaysTextStaticTextView"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/streakSolvingProblemsTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:gravity="end"
             android:text="@string/streak_solving_problem_text"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textSize="18sp"
-            app:layout_constraintStart_toEndOf="@+id/streakStatCardDays"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_goneMarginStart="16dp" />
-
-        <TextView
-            android:id="@+id/streakKeepSolvingTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/streak_keep_solving_problems_text"
-            android:textAppearance="@style/StreakSmallText"
-            app:layout_constraintStart_toStartOf="@+id/streakSolvingProblemsTextView"
-            app:layout_constraintTop_toBottomOf="@+id/streakSolvingProblemsTextView" />
+            android:textColor="@color/color_on_surface_alpha_60"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/streakLastFiveRecyclerView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginVertical="16dp"
             app:layout_constraintBottom_toTopOf="@+id/streakPreviousFiveDaysTextView"
-            app:layout_constraintStart_toStartOf="@+id/streakKeepSolvingTextView"
-            app:layout_constraintTop_toBottomOf="@+id/streakKeepSolvingTextView" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/streakStatFire" />
+
+        <include
+            android:id="@+id/streakTodayIncludedFire"
+            layout="@layout/item_streak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/streakTodayTextView"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
             android:id="@+id/streakPreviousFiveDaysTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:text="@string/streak_previous_five_days_text"
-            android:textAppearance="@style/StreakSmallText"
-            app:layout_constraintBottom_toBottomOf="@+id/streakTodayCardView"
+            android:textColor="@color/color_on_surface_alpha_60"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/streakLastFiveRecyclerView" />
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/streakTodayCardView"
+        <TextView
+            android:id="@+id/streakTodayTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:text="@string/streak_today_text"
+            android:textColor="@color/color_on_surface_alpha_60"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/streakPreviousFiveDaysTextView"
-            app:strokeColor="@color/color_overlay_blue"
-            app:strokeWidth="2dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginHorizontal="12dp"
-                android:layout_marginVertical="8dp"
-                android:drawablePadding="8dp"
-                android:text="@string/streak_today_text"
-                android:textAppearance="@style/StreakSmallText"
-                app:drawableTopCompat="@drawable/ic_fire_disabled" />
-
-        </com.google.android.material.card.MaterialCardView>
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -102,9 +102,4 @@
         <item name="strokeWidth">1dp</item>
     </style>
 
-    <style name="StreakSmallText">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/color_on_surface_alpha_60</item>
-    </style>
-
 </resources>
