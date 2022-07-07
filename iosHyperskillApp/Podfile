@@ -29,6 +29,10 @@ target 'iosHyperskillApp' do
 
   # CodeEditor
   pod 'Highlightr', :git => 'https://github.com/raspu/Highlightr.git', :branch => 'master'
+
+  # LazyImage with SVG support
+  pod 'NukeUI', :git => 'https://github.com/kean/NukeUI.git', :tag => '0.8.3'
+  pod 'SVGKit', :git => 'https://github.com/SVGKit/SVGKit.git', :branch => '3.x'
 end
 
 post_install do |installer|
