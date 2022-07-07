@@ -1,6 +1,9 @@
 import Foundation
 
 struct ProfileViewData {
+    let fullname: String
+    let role: String
+
     let about: About
 
     struct About {
@@ -24,6 +27,8 @@ struct ProfileViewData {
 extension ProfileViewData {
     static var placeholder: ProfileViewData {
         ProfileViewData(
+            fullname: "Konstantin Konstantinopolsky",
+            role: "JetBrains Academy Team",
             about: .init(
                 livesInText: "Lives in India",
                 speaksText: "Speaks English, Hindi",

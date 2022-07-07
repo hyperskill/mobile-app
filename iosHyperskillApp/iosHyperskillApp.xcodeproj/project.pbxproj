@@ -93,6 +93,7 @@
 		2C336D262865E39D00C91342 /* CodeInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C336D252865E39D00C91342 /* CodeInputAccessoryView.swift */; };
 		2C336D282865E53800C91342 /* CodeInputAccessoryBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C336D272865E53800C91342 /* CodeInputAccessoryBuilder.swift */; };
 		2C37960F2876F36F00C197E2 /* ProfileViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C37960E2876F36F00C197E2 /* ProfileViewData.swift */; };
+		2C3796122877001700C197E2 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3796112877001700C197E2 /* ProfileHeaderView.swift */; };
 		2C41127828376F6D004948A3 /* StepQuizDiscussionsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C41127728376F6D004948A3 /* StepQuizDiscussionsButton.swift */; };
 		2C42EFA827F2C03D00B4648B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2C42EFAA27F2C03D00B4648B /* Localizable.strings */; };
 		2C42EFAD27F2C29500B4648B /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C42EFAC27F2C29500B4648B /* Strings.swift */; };
@@ -331,6 +332,7 @@
 		2C336D252865E39D00C91342 /* CodeInputAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeInputAccessoryView.swift; sourceTree = "<group>"; };
 		2C336D272865E53800C91342 /* CodeInputAccessoryBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeInputAccessoryBuilder.swift; sourceTree = "<group>"; };
 		2C37960E2876F36F00C197E2 /* ProfileViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewData.swift; sourceTree = "<group>"; };
+		2C3796112877001700C197E2 /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		2C41127728376F6D004948A3 /* StepQuizDiscussionsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizDiscussionsButton.swift; sourceTree = "<group>"; };
 		2C42EFA927F2C03D00B4648B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2C42EFAC27F2C29500B4648B /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
@@ -870,6 +872,7 @@
 		2C3796102876FC3E00C197E2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2C3796112877001700C197E2 /* ProfileHeaderView.swift */,
 				2C9EB95C2861BABC007DDE44 /* ProfileView.swift */,
 				2C4FBD8F2876C95200ACA5C8 /* About */,
 			);
@@ -1801,6 +1804,7 @@
 				2C20FBA8284F193A006D879E /* ContentProcessingRule.swift in Sources */,
 				2C20FBC9284F6F97006D879E /* UnitConverters.swift in Sources */,
 				2C336D152865C49D00C91342 /* ApplicationThemeService.swift in Sources */,
+				2C3796122877001700C197E2 /* ProfileHeaderView.swift in Sources */,
 				2C725B5E28090D1F00A49043 /* View+Border.swift in Sources */,
 				2C8E4F9C2848A1550011ADFA /* PanModalViewModifier.swift in Sources */,
 				2C8E4F9A284897360011ADFA /* PanModalSwiftUIViewController.swift in Sources */,

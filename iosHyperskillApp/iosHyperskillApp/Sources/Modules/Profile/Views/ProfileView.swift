@@ -17,6 +17,11 @@ struct ProfileView: View {
         NavigationView {
             ScrollView {
                 VStack(spacing: appearance.spacingBetweenContainers) {
+                    ProfileHeaderView(
+                        title: viewData.fullname,
+                        subtitle: viewData.role
+                    )
+
                     ProfileAboutView(
                         livesInText: viewData.about.livesInText,
                         speaksText: viewData.about.speaksText,
