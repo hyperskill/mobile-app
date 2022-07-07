@@ -7,13 +7,13 @@ extension StreakDaysPrevious {
 }
 
 struct StreakDaysPrevious: View {
-    let previousDays: [StreakState]
+    private(set) var appearance = Appearance()
 
-    let appearance = Appearance()
+    let previousDays: [StreakState]
 
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
-            HStack(spacing: .zero) {
+            HStack(spacing: 0) {
                 ForEach(Array(previousDays.enumerated()), id: \.offset) { index, day in
                     StreakIcon(state: day, widthHeight: appearance.streakIconSize)
                     if index != previousDays.count - 1 {

@@ -8,11 +8,11 @@ extension StreakDaysCount {
 }
 
 struct StreakDaysCount: View {
+    private(set) var appearance = Appearance()
+
     let count: Int
 
     let todayState: StreakState
-
-    let appearance = Appearance()
 
     var body: some View {
         VStack(spacing: appearance.spacing) {

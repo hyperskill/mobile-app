@@ -1075,8 +1075,8 @@
 			isa = PBXGroup;
 			children = (
 				2C963BC62812D1BF0036DD53 /* HomeAssembly.swift */,
-				E94A6D07287489F5005F9ACC /* Views */,
 				E94A6D0E28749491005F9ACC /* StreakState.swift */,
+				E94A6D07287489F5005F9ACC /* Views */,
 			);
 			path = Home;
 			sourceTree = "<group>";

@@ -3,30 +3,30 @@ import SwiftUI
 extension StreakCardView {
     struct Appearance {
         let streakIconSize: CGFloat = 20
+
         let todayBorderWidth: CGFloat = 2
         let todayBorderRadius: CGFloat = 4
-        let cardBorderWidth: CGFloat = 1
-        let cardBorderRadius: CGFloat = 8
-        let cardShadowOpacity: Double = 0.05
-        let cardShadowRadius: CGFloat = 8
-        let cardShadowY: CGFloat = 2
+
+        let shadowColor = Color.black.opacity(0.05)
+        let shadowRadius: CGFloat = 8
+        let shadowX: CGFloat = 0
+        let shadowY: CGFloat = 2
     }
 }
 
 struct StreakCardView: View {
+    private(set) var appearance = Appearance()
+
     let count: Int
     let todayState: StreakState
     let previousDays: [StreakState]
-
-    let appearance = Appearance()
-
 
     var body: some View {
         HStack(spacing: LayoutInsets.defaultInset) {
             StreakDaysCount(count: count, todayState: todayState)
 
             VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
-                VStack(alignment: .leading, spacing: .zero) {
+                VStack(alignment: .leading, spacing: 0) {
                     Text(Strings.Streak.solvingProblemText)
                         .font(.title3)
                         .foregroundColor(.primaryText)
@@ -56,25 +56,25 @@ struct StreakCardView: View {
             }
         }
         .padding()
-        .addBorder(
-            color: Color(ColorPalette.onSurfaceAlpha12),
-            width: appearance.cardBorderWidth,
-            cornerRadius: appearance.cardBorderRadius
-        )
-        .background(
-            Color(ColorPalette.surface)
-            .shadow(
-                color: .black.opacity(appearance.cardShadowOpacity),
-                radius: appearance.cardShadowRadius,
-                x: .zero,
-                y: appearance.cardShadowY
-            )
+        .background(Color(ColorPalette.surface))
+        .addBorder(color: Color(ColorPalette.onSurfaceAlpha12))
+        .shadow(
+            color: appearance.shadowColor,
+            radius: appearance.shadowRadius,
+            x: appearance.shadowX,
+            y: appearance.shadowY
         )
     }
 }
 
 struct StreakCardView_Previews: PreviewProvider {
     static var previews: some View {
-        StreakCardView(count: 3, todayState: .active, previousDays: [.active, .passive, .passive, .frozen, .active])
+        StreakCardView(
+            count: 3,
+            todayState: .active,
+            previousDays: [.active, .passive, .passive, .frozen, .active]
+        )
+        .previewLayout(.sizeThatFits)
+        .padding()
     }
 }
