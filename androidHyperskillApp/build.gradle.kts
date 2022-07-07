@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.android.reactivex.rxandroid)
     implementation(libs.android.reactivex.rxjava)
     implementation(libs.android.reactivex.rxkotlin)
+    implementation(libs.nvi18n)
 }
 
 android {
