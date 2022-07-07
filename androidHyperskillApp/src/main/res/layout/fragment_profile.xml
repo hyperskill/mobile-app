@@ -322,6 +322,7 @@
 
         <TextView
             android:clickable="true"
+            android:focusable="true"
             android:layout_marginBottom="20dp"
             android:layout_marginStart="20dp"
             app:layout_constraintStart_toStartOf="parent"
