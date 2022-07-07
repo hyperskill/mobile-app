@@ -76,11 +76,10 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <com.google.android.material.textview.MaterialTextView
+                    <TextView
                         android:id="@+id/trackTimeToCompleteTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableTint="@color/color_black_900"
                         android:text="~ 56 h"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                         app:drawableEndCompat="@drawable/ic_track_time" />
