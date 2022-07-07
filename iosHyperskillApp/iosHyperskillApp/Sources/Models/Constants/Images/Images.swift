@@ -70,14 +70,14 @@ enum Images {
             static let streakFrozen = "home-streak-frozen"
         }
 
-        enum DailyProblem {
-            static let calendar = "daily-problem-calendar"
-            static let done = "daily-problem-done"
-            static let gembox = "daily-problem-gembox"
-            static let hexogensCompleted = "daily-problem-hexogens-completed"
-            static let hexogensUncompleted = "daily-problem-hexogens-uncompleted"
-            static let arrowCompleted = "daily-problem-arrow-completed"
-            static let arrowUncompleted = "daily-problem-arrow-uncompleted"
+        enum ProblemOfDay {
+            static let calendar = "problem-of-day-calendar"
+            static let done = "problem-of-day-done"
+            static let gembox = "problem-of-day-gembox"
+            static let hexogensCompleted = "problem-of-day-hexogens-completed"
+            static let hexogensUncompleted = "problem-of-day-hexogens-uncompleted"
+            static let arrowCompleted = "problem-of-day-arrow-completed"
+            static let arrowUncompleted = "problem-of-day-arrow-uncompleted"
         }
     }
 }

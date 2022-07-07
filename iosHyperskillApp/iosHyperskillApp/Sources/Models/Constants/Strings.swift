@@ -143,14 +143,14 @@ enum Strings {
         static let daysText = sharedStrings.streak_days_text.localized()
     }
 
-    // MARK: - DailyProblem -
+    // MARK: - ProblemOfDay -
 
-    enum DailyProblem {
-        static let titleUncompleted = sharedStrings.daily_problem_title_uncompleted.localized()
-        static let titleCompleted = sharedStrings.daily_problem_title_completed.localized()
-        static let noProblemsToSolve = sharedStrings.daily_problem_no_problems_to_solve.localized()
-        static let solveARandomProblem = sharedStrings.daily_problem_solve_a_random_problem.localized()
-        static let getBack = sharedStrings.daily_problem_get_back.localized()
-        static let nextProblemIn = sharedStrings.daily_problem_next_problem_in.localized()
+    enum ProblemOfDay {
+        static let titleUncompleted = sharedStrings.problem_of_day_title_uncompleted.localized()
+        static let titleCompleted = sharedStrings.problem_of_day_title_completed.localized()
+        static let noProblemsToSolve = sharedStrings.problem_of_day_no_problems_to_solve.localized()
+        static let solveARandomProblem = sharedStrings.problem_of_day_solve_a_random_problem.localized()
+        static let getBack = sharedStrings.problem_of_day_get_back.localized()
+        static let nextProblemIn = sharedStrings.problem_of_day_next_problem_in.localized()
     }
 }
