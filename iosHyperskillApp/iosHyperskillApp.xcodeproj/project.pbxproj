@@ -135,6 +135,8 @@
 		2C8E4FB12848C9050011ADFA /* StepQuizTableSelectColumnsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E4FB02848C9050011ADFA /* StepQuizTableSelectColumnsView.swift */; };
 		2C8E4FB42848CB980011ADFA /* StepQuizTableSelectColumnsColumnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E4FB32848CB980011ADFA /* StepQuizTableSelectColumnsColumnView.swift */; };
 		2C8E4FB628490C020011ADFA /* PanModalPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E4FB528490C020011ADFA /* PanModalPresenter.swift */; };
+		2C8E66D52878771B00D3928D /* ProfilePresentationDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E66D42878771B00D3928D /* ProfilePresentationDescription.swift */; };
+		2C8E66D7287877F500D3928D /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E66D6287877F500D3928D /* ProfileViewModel.swift */; };
 		2C906CBE280E5D9C0079C594 /* ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C906CBD280E5D9C0079C594 /* ProgressHUD.swift */; };
 		2C919DE827EEEDD60022A2F2 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C919DE727EEEDD60022A2F2 /* LinkedList.swift */; };
 		2C919E3327EEF92F0022A2F2 /* LinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C919E3227EEF92F0022A2F2 /* LinkedListTests.swift */; };
@@ -377,6 +379,8 @@
 		2C8E4FB02848C9050011ADFA /* StepQuizTableSelectColumnsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableSelectColumnsView.swift; sourceTree = "<group>"; };
 		2C8E4FB32848CB980011ADFA /* StepQuizTableSelectColumnsColumnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableSelectColumnsColumnView.swift; sourceTree = "<group>"; };
 		2C8E4FB528490C020011ADFA /* PanModalPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanModalPresenter.swift; sourceTree = "<group>"; };
+		2C8E66D42878771B00D3928D /* ProfilePresentationDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePresentationDescription.swift; sourceTree = "<group>"; };
+		2C8E66D6287877F500D3928D /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		2C906CBD280E5D9C0079C594 /* ProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressHUD.swift; sourceTree = "<group>"; };
 		2C919DE727EEEDD60022A2F2 /* LinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
 		2C919DED27EEF5BC0022A2F2 /* iosHyperskillAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iosHyperskillAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1168,7 +1172,9 @@
 			isa = PBXGroup;
 			children = (
 				2C9EB95E2861BAD4007DDE44 /* ProfileAssembly.swift */,
+				2C8E66D42878771B00D3928D /* ProfilePresentationDescription.swift */,
 				2C37960E2876F36F00C197E2 /* ProfileViewData.swift */,
+				2C8E66D6287877F500D3928D /* ProfileViewModel.swift */,
 				2C3796102876FC3E00C197E2 /* Views */,
 			);
 			path = Profile;
@@ -1758,6 +1764,7 @@
 				E910171728329808002E70F5 /* StepQuizChoiceElementView.swift in Sources */,
 				E9802D07281BB5CC00CF3AC1 /* StepQuizChoiceView.swift in Sources */,
 				2C9B66C427ECA73700569645 /* AppDelegate.swift in Sources */,
+				2C8E66D52878771B00D3928D /* ProfilePresentationDescription.swift in Sources */,
 				E993E9A928426FF2005988EC /* StepQuizSortingViewData.swift in Sources */,
 				E94D238F280585110003273F /* AuthCredentialsFormView.swift in Sources */,
 				E9380EDA286B48A400CBF221 /* AuthNewUserPlaceholderView.swift in Sources */,
@@ -1813,6 +1820,7 @@
 				2C177EC32837B65500D841DB /* View+Frame.swift in Sources */,
 				2C336D242865E38B00C91342 /* CodeInputAccessoryCollectionViewCell.swift in Sources */,
 				2C2FD62428192123004E7AF6 /* BundlePropertyListDeserializer.swift in Sources */,
+				2C8E66D7287877F500D3928D /* ProfileViewModel.swift in Sources */,
 				2C1F5879280D2D1300372A37 /* WebOAuthURLParser.swift in Sources */,
 				2C5B2A1D286595960097B270 /* CodeCompletionTableViewCell.swift in Sources */,
 				2C27C77E28773042006A641A /* NukeManager.swift in Sources */,

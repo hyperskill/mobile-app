@@ -50,7 +50,7 @@ struct AppView: View {
                         case .track:
                             TrackAssembly().makeModule()
                         case .profile:
-                            ProfileAssembly().makeModule()
+                            ProfileAssembly(presentationDescription: .init(profileType: .currentUser)).makeModule()
                         }
                     }
                     .tag(tab)

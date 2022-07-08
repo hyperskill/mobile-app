@@ -1,3 +1,4 @@
+import shared
 import SwiftUI
 
 extension ProfileView {
@@ -11,7 +12,15 @@ struct ProfileView: View {
 
     @State private var presentingSettings = false
 
+    @ObservedObject private var viewModel: ProfileViewModel
+
     let viewData: ProfileViewData
+
+    init(viewModel: ProfileViewModel, viewData: ProfileViewData) {
+        self.viewModel = viewModel
+        self.viewData = viewData
+        self.viewModel.onViewAction = self.handleViewAction(_:)
+    }
 
     var body: some View {
         NavigationView {
@@ -59,11 +68,17 @@ struct ProfileView: View {
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
+        .onAppear(perform: viewModel.startListening)
+        .onDisappear(perform: viewModel.stopListening)
+    }
+
+    private func handleViewAction(_ viewAction: ProfileFeatureActionViewAction) {
+        print("ProfileView :: \(#function) viewAction = \(viewAction)")
     }
 }
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(viewData: .placeholder)
+        ProfileAssembly(presentationDescription: .init(profileType: .currentUser)).makeModule()
     }
 }
