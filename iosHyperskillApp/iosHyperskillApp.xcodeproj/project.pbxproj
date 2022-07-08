@@ -19,6 +19,7 @@
 		2C079683285CEF0900EE0487 /* StepQuizMatchingAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C079682285CEF0900EE0487 /* StepQuizMatchingAssembly.swift */; };
 		2C079685285CFFEE00EE0487 /* StepQuizSortingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C079684285CFFEE00EE0487 /* StepQuizSortingViewModel.swift */; };
 		2C079687285CFFF500EE0487 /* StepQuizSortingAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C079686285CFFF500EE0487 /* StepQuizSortingAssembly.swift */; };
+		2C08A939287866A200F1DCA2 /* ProfileAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C08A938287866A200F1DCA2 /* ProfileAvatarView.swift */; };
 		2C0CD583282BEB6600D5659D /* View+RemoveBackButtonTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0CD582282BEB6600D5659D /* View+RemoveBackButtonTitle.swift */; };
 		2C0DB9012864332B001EA35E /* CodeTextViewLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DB9002864332B001EA35E /* CodeTextViewLayoutManager.swift */; };
 		2C0DB90328643C47001EA35E /* CodeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DB90228643C47001EA35E /* CodeTextView.swift */; };
@@ -258,6 +259,7 @@
 		2C079682285CEF0900EE0487 /* StepQuizMatchingAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingAssembly.swift; sourceTree = "<group>"; };
 		2C079684285CFFEE00EE0487 /* StepQuizSortingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSortingViewModel.swift; sourceTree = "<group>"; };
 		2C079686285CFFF500EE0487 /* StepQuizSortingAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSortingAssembly.swift; sourceTree = "<group>"; };
+		2C08A938287866A200F1DCA2 /* ProfileAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAvatarView.swift; sourceTree = "<group>"; };
 		2C0CD582282BEB6600D5659D /* View+RemoveBackButtonTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+RemoveBackButtonTitle.swift"; sourceTree = "<group>"; };
 		2C0DB9002864332B001EA35E /* CodeTextViewLayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeTextViewLayoutManager.swift; sourceTree = "<group>"; };
 		2C0DB90228643C47001EA35E /* CodeTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeTextView.swift; sourceTree = "<group>"; };
@@ -884,6 +886,7 @@
 		2C3796102876FC3E00C197E2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2C08A938287866A200F1DCA2 /* ProfileAvatarView.swift */,
 				2C3796112877001700C197E2 /* ProfileHeaderView.swift */,
 				2C9EB95C2861BABC007DDE44 /* ProfileView.swift */,
 				2C4FBD8F2876C95200ACA5C8 /* About */,
@@ -1469,9 +1472,9 @@
 		E94A6D07287489F5005F9ACC /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2C963BC42812D1A70036DD53 /* HomeView.swift */,
 				E9F655CF2875B31B00291143 /* ProblemOfDay */,
 				E9F655CE2875B30B00291143 /* Streak */,
-				2C963BC42812D1A70036DD53 /* HomeView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1540,8 +1543,8 @@
 		E9F655CE2875B30B00291143 /* Streak */ = {
 			isa = PBXGroup;
 			children = (
-				E94A6D0A28748C3E005F9ACC /* StreakIcon.swift */,
 				E9F655C92875914200291143 /* StreakCardView.swift */,
+				E94A6D0A28748C3E005F9ACC /* StreakIcon.swift */,
 			);
 			path = Streak;
 			sourceTree = "<group>";
@@ -1825,6 +1828,7 @@
 				2C9EB95F2861BAD4007DDE44 /* ProfileAssembly.swift in Sources */,
 				2C336D102865BF4200C91342 /* CodeEditorThemeService.swift in Sources */,
 				2C46D0632807E4C100B3636E /* TextFieldWrapper.swift in Sources */,
+				2C08A939287866A200F1DCA2 /* ProfileAvatarView.swift in Sources */,
 				2CAFD38F27FC517D00F88B0B /* ColorPalette.swift in Sources */,
 				2C20FBAA284F1951006D879E /* ContentProcessor.swift in Sources */,
 				2C20B28F286C4515000F458A /* CodeLanguageSamples.swift in Sources */,
@@ -1891,7 +1895,6 @@
 				2CA8E095281039EB00154088 /* BounceButtonStyle.swift in Sources */,
 				2C1061AC285C3C4300EBD614 /* StepQuizChoiceViewModel.swift in Sources */,
 				2CD48D8B2858684100CFCC4A /* StepQuizViewData.swift in Sources */,
-				E9F655C82875780D00291143 /* StreakDaysPrevious.swift in Sources */,
 				2C4FBD8C2876C39C00ACA5C8 /* ProfileAboutView.swift in Sources */,
 				2C023C88285D928100D2D5A9 /* StepQuizTableViewModel.swift in Sources */,
 				2CAE8D0C2805829A00E6C83D /* StepViewData.swift in Sources */,

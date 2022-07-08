@@ -3,12 +3,13 @@ import SwiftUI
 extension ProfileHeaderView {
     struct Appearance {
         let avatarImageWidthHeight: CGFloat = 64
-        let avatarImageCornerRadius: CGFloat = 128
     }
 }
 
 struct ProfileHeaderView: View {
     private(set) var appearance = Appearance()
+
+    let avatarSource: String?
 
     let title: String
 
@@ -16,14 +17,8 @@ struct ProfileHeaderView: View {
 
     var body: some View {
         HStack(spacing: LayoutInsets.defaultInset) {
-            Image(systemName: "star")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
+            ProfileAvatarView(avatarSource)
                 .frame(widthHeight: appearance.avatarImageWidthHeight)
-                .addBorder(
-                    color: Color(ColorPalette.onSurfaceAlpha12),
-                    cornerRadius: appearance.avatarImageCornerRadius
-                )
 
             VStack(alignment: .leading, spacing: 0) {
                 Text(title)
@@ -46,6 +41,7 @@ struct ProfileHeaderView: View {
 struct ProfileHeaderView_Previews: PreviewProvider {
     static var previews: some View {
         ProfileHeaderView(
+            avatarSource: nil,
             title: "Konstantin Konstantinopolsky",
             subtitle: "JetBrains Academy Team"
         )

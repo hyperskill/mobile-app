@@ -1,6 +1,7 @@
 import Foundation
 
 struct ProfileViewData {
+    let avatarSource: String?
     let fullname: String
     let role: String
 
@@ -27,6 +28,7 @@ struct ProfileViewData {
 extension ProfileViewData {
     static var placeholder: ProfileViewData {
         ProfileViewData(
+            avatarSource: "https://graph.facebook.com/v2.12/1997379783674780/picture?type=square&height=600&width=600&return_ssl_resources=1",
             fullname: "Konstantin Konstantinopolsky",
             role: "JetBrains Academy Team",
             about: .init(

@@ -18,6 +18,7 @@ struct ProfileView: View {
             ScrollView {
                 VStack(spacing: appearance.spacingBetweenContainers) {
                     ProfileHeaderView(
+                        avatarSource: viewData.avatarSource,
                         title: viewData.fullname,
                         subtitle: viewData.role
                     )
