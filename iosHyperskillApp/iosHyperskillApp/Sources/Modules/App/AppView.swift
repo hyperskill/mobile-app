@@ -37,8 +37,19 @@ struct AppView: View {
         let state = viewModel.state
 
         switch state {
-        case is AppFeatureStateIdle, is AppFeatureStateLoading:
+        case is AppFeatureStateIdle:
             ProgressView()
+                .onAppear {
+                    viewModel.loadApp()
+                }
+        case is AppFeatureStateLoading:
+            ProgressView()
+        case is AppFeatureStateNetworkError:
+            PlaceholderView(
+                configuration: .networkError {
+                    viewModel.loadApp(forceUpdate: true)
+                }
+            )
         case is AppFeatureStateReady:
             TabView(selection: $navigationState.selectedTab) {
                 ForEach(AppTabItem.allCases, id: \.self) { tab in
@@ -65,6 +76,9 @@ struct AppView: View {
                 AuthSocialAssembly(navigationState: navigationState)
                     .makeModule()
             }
+            .fullScreenCover(isPresented: $navigationState.presentingNewUserScreen) {
+                AuthNewUserPlaceholderView()
+            }
             .environmentObject(panModalPresenter)
         default:
             ProgressView()
@@ -77,13 +91,16 @@ struct AppView: View {
 
     private func handleViewAction(_ viewAction: AppFeatureActionViewAction) {
         switch viewAction {
+        case is AppFeatureActionViewActionNavigateToHomeScreen:
+            withAnimation {
+                navigationState.presentingAuthScreen = false
+            }
         case is AppFeatureActionViewActionNavigateToAuthScreen:
             withAnimation {
                 navigationState.presentingAuthScreen = true
             }
-        case is AppFeatureActionViewActionNavigateToHomeScreen:
+        case is AppFeatureActionViewActionNavigateToNewUserScreen:
             withAnimation {
-                navigationState.presentingAuthScreen = false
             }
         default:
             print("AppView :: unhandled viewAction = \(viewAction)")
