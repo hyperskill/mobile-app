@@ -3,10 +3,14 @@ import SwiftUI
 extension ProblemOfDayCardView {
     struct Appearance {
         let spacing: CGFloat = 12
+
         let gemboxSize: CGFloat = 24
+
         let unavailableOpacity: Double = 0.38
         let normalOpacity: Double = 1
+
         let backgroundMaxHeight: Double = 116
+
         let titleIconSizeDefault: CGFloat = 24
         let titleIconSizeSmall: CGFloat = 16
     }
@@ -32,7 +36,8 @@ struct ProblemOfDayCardView: View {
                 titleIcon: state.titleIcon,
                 titleText: state.titleText,
                 arrowIcon: state.arrowIcon,
-                arrowDisabled: state == .unavailable
+                isArrowDisabled: state == .unavailable,
+                onTap: {}
             )
 
             Text(state.desc)
@@ -79,9 +84,7 @@ struct ProblemOfDayCardView: View {
             ,
             alignment: .topTrailing
         )
-        .addBorder(
-            color: Color(ColorPalette.onSurfaceAlpha12)
-        )
+        .addBorder(color: Color(ColorPalette.onSurfaceAlpha12))
     }
 
     // MARK: - ProblemOfDayState -
@@ -91,7 +94,7 @@ struct ProblemOfDayCardView: View {
         case uncompleted
         case unavailable
 
-        var desc: String {
+        fileprivate var desc: String {
             switch self {
             case .completed:
                 return Strings.ProblemOfDay.getBack
@@ -102,7 +105,7 @@ struct ProblemOfDayCardView: View {
             }
         }
 
-        var hexogens: String {
+        fileprivate var hexogens: String {
             switch self {
             case .completed:
                 return Images.Home.ProblemOfDay.hexogensCompleted
@@ -111,7 +114,7 @@ struct ProblemOfDayCardView: View {
             }
         }
 
-        var titleIcon: String {
+        fileprivate var titleIcon: String {
             switch self {
             case .completed:
                 return Images.Home.ProblemOfDay.done
@@ -120,7 +123,7 @@ struct ProblemOfDayCardView: View {
             }
         }
 
-        var titleIconSize: CGFloat {
+        fileprivate var titleIconSize: CGFloat {
             switch self {
             case .completed:
                 return 16
@@ -129,7 +132,7 @@ struct ProblemOfDayCardView: View {
             }
         }
 
-        var titleText: String {
+        fileprivate var titleText: String {
             switch self {
             case .completed:
                 return Strings.ProblemOfDay.titleCompleted
@@ -138,7 +141,7 @@ struct ProblemOfDayCardView: View {
             }
         }
 
-        var arrowIcon: String {
+        fileprivate var arrowIcon: String {
             switch self {
             case .completed:
                 return Images.Home.ProblemOfDay.arrowCompleted

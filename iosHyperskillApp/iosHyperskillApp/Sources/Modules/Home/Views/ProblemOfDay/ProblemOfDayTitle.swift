@@ -12,8 +12,11 @@ struct ProblemOfDayTitle: View {
 
     let titleIcon: String
     let titleText: String
+
     let arrowIcon: String
-    let arrowDisabled: Bool
+    let isArrowDisabled: Bool
+
+    let onTap: () -> Void
 
     var body: some View {
         HStack(spacing: LayoutInsets.smallInset) {
@@ -29,7 +32,7 @@ struct ProblemOfDayTitle: View {
             Spacer()
 
             Button(
-                action: {},
+                action: onTap,
                 label: {
                     Image(arrowIcon)
                         .renderingMode(.original)
@@ -37,7 +40,7 @@ struct ProblemOfDayTitle: View {
                         .frame(widthHeight: appearance.arrowIconSize)
                 }
             )
-            .disabled(arrowDisabled)
+            .disabled(isArrowDisabled)
         }
     }
 }
@@ -49,7 +52,8 @@ struct ProblemTitle_Previews: PreviewProvider {
             titleIcon: Images.Home.ProblemOfDay.calendar,
             titleText: Strings.ProblemOfDay.titleUncompleted,
             arrowIcon: Images.Home.ProblemOfDay.arrowUncompleted,
-            arrowDisabled: false
+            isArrowDisabled: false,
+            onTap: {}
         )
         .previewLayout(.sizeThatFits)
     }
