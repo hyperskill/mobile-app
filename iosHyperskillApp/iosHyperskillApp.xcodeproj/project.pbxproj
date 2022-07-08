@@ -137,6 +137,7 @@
 		2C8E4FB628490C020011ADFA /* PanModalPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E4FB528490C020011ADFA /* PanModalPresenter.swift */; };
 		2C8E66D52878771B00D3928D /* ProfilePresentationDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E66D42878771B00D3928D /* ProfilePresentationDescription.swift */; };
 		2C8E66D7287877F500D3928D /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E66D6287877F500D3928D /* ProfileViewModel.swift */; };
+		2C8E66D9287896CF00D3928D /* TabNavigationLazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E66D8287896CF00D3928D /* TabNavigationLazyView.swift */; };
 		2C906CBE280E5D9C0079C594 /* ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C906CBD280E5D9C0079C594 /* ProgressHUD.swift */; };
 		2C919DE827EEEDD60022A2F2 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C919DE727EEEDD60022A2F2 /* LinkedList.swift */; };
 		2C919E3327EEF92F0022A2F2 /* LinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C919E3227EEF92F0022A2F2 /* LinkedListTests.swift */; };
@@ -381,6 +382,7 @@
 		2C8E4FB528490C020011ADFA /* PanModalPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanModalPresenter.swift; sourceTree = "<group>"; };
 		2C8E66D42878771B00D3928D /* ProfilePresentationDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePresentationDescription.swift; sourceTree = "<group>"; };
 		2C8E66D6287877F500D3928D /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		2C8E66D8287896CF00D3928D /* TabNavigationLazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabNavigationLazyView.swift; sourceTree = "<group>"; };
 		2C906CBD280E5D9C0079C594 /* ProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressHUD.swift; sourceTree = "<group>"; };
 		2C919DE727EEEDD60022A2F2 /* LinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
 		2C919DED27EEF5BC0022A2F2 /* iosHyperskillAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iosHyperskillAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -521,6 +523,7 @@
 				E91017142832975C002E70F5 /* CheckboxButton.swift */,
 				2C32375228380C340062CAF6 /* NavigationToolbarInfoItem.swift */,
 				E9101712283296F3002E70F5 /* RadioButton.swift */,
+				2C8E66D8287896CF00D3928D /* TabNavigationLazyView.swift */,
 				2C58DE2A2803DEE2002A2774 /* VerticalCenteredScrollView.swift */,
 				2C82BA302844AFED004C9013 /* PlaceholderView */,
 				2CA8E08E281039EB00154088 /* Styles */,
@@ -1900,6 +1903,7 @@
 				2C9CC1BF28092E06006604D7 /* AuthAdaptiveContentView.swift in Sources */,
 				2C2FD61E28191EC0004E7AF6 /* SentryManager.swift in Sources */,
 				2C8E4F982848961C0011ADFA /* UIViewController+PresentPanModal.swift in Sources */,
+				2C8E66D9287896CF00D3928D /* TabNavigationLazyView.swift in Sources */,
 				2CA8E095281039EB00154088 /* BounceButtonStyle.swift in Sources */,
 				2C1061AC285C3C4300EBD614 /* StepQuizChoiceViewModel.swift in Sources */,
 				2CD48D8B2858684100CFCC4A /* StepQuizViewData.swift in Sources */,

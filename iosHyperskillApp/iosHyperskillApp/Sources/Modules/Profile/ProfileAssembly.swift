@@ -12,6 +12,10 @@ final class ProfileAssembly: Assembly {
         self.init(presentationDescription: .init(profileType: .otherUser(profileUserID: otherUserID)))
     }
 
+    static func currentUser() -> ProfileAssembly {
+        ProfileAssembly(presentationDescription: .init(profileType: .currentUser))
+    }
+
     func makeModule() -> ProfileView {
         let profileComponent = AppGraphBridge.sharedAppGraph.buildProfileComponent()
 
