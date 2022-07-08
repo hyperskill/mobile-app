@@ -27,6 +27,8 @@ import org.hyperskill.app.main.injection.PlatformMainComponent
 import org.hyperskill.app.main.injection.PlatformMainComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.network.injection.NetworkComponentImpl
+import org.hyperskill.app.profile.injection.ProfileDataComponent
+import org.hyperskill.app.profile.injection.ProfileDataComponentImpl
 import org.hyperskill.app.step.injection.PlatformStepComponent
 import org.hyperskill.app.step.injection.PlatformStepComponentImpl
 import org.hyperskill.app.step.injection.StepComponentImpl
@@ -108,4 +110,10 @@ class AndroidAppComponentImpl(
      */
     override fun buildPlatformCodeEditorComponent(): PlatformCodeEditorComponent =
         PlatformCodeEditorComponentImpl(application)
+
+    /**
+     * Profile components
+     */
+    override fun buildProfileDataComponent(): ProfileDataComponent =
+        ProfileDataComponentImpl(this)
 }
