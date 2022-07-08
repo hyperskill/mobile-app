@@ -24,6 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SentryManager.configure()
         ProgressHUD.configure()
         KeyboardManager.configure()
+        NukeManager.registerCustomDecoders()
 
         return true
     }
