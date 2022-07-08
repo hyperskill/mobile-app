@@ -36,8 +36,7 @@ struct ProfileView: View {
                         onSocialAccountTapped: { socialAccount in
                             print("ProfileAboutView :: onSocialAccountTapped = \(socialAccount)")
                         },
-                        buttonText: viewData.about.buttonText,
-                        onButtonTapped: {
+                        onFullVersionButtonTapped: {
                             print("ProfileAboutView :: onButtonTapped")
                         }
                     )

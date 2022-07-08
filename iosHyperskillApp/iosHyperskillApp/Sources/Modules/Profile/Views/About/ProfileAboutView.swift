@@ -23,12 +23,11 @@ struct ProfileAboutView: View {
     let githubUsername: String?
     var onSocialAccountTapped: (ProfileAboutSocialAccountsView.SocialAccount) -> Void
 
-    let buttonText: String
-    var onButtonTapped: () -> Void
+    var onFullVersionButtonTapped: () -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
-            Text("About me")
+            Text(Strings.Profile.aboutMe)
                 .font(.title3)
                 .foregroundColor(.primaryText)
 
@@ -46,7 +45,7 @@ struct ProfileAboutView: View {
 
             if let bio = bio {
                 VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
-                    Text("Bio")
+                    Text(Strings.Profile.bio)
                         .font(.headline)
                         .foregroundColor(.primaryText)
 
@@ -58,7 +57,7 @@ struct ProfileAboutView: View {
 
             if let experience = experience {
                 VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
-                    Text("Experience")
+                    Text(Strings.Profile.experience)
                         .font(.headline)
                         .foregroundColor(.primaryText)
 
@@ -78,9 +77,12 @@ struct ProfileAboutView: View {
 
             Spacer()
 
-            Button(action: onButtonTapped, label: { Text(buttonText).underline() })
-                .font(.body)
-                .foregroundColor(.secondaryText)
+            Button(
+                action: onFullVersionButtonTapped,
+                label: { Text(Strings.Profile.viewFullVersionButton).underline() }
+            )
+            .font(.body)
+            .foregroundColor(.secondaryText)
         }
         .padding()
         .background(BackgroundView(color: Color(ColorPalette.surface)))
@@ -127,8 +129,7 @@ I’ve learned so much spending in my mid-school. And I learned even more at the
             redditUsername: "test",
             githubUsername: "test",
             onSocialAccountTapped: { _ in },
-            buttonText: "View the full version of profile ↗",
-            onButtonTapped: {}
+            onFullVersionButtonTapped: {}
         )
         .previewLayout(.sizeThatFits)
     }

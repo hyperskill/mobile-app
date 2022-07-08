@@ -110,6 +110,12 @@
 
     <!-- Profile -->
     <string name="profile_title">Profile</string>
+    <string name="profile_about_me_text">About me</string>
+    <string name="profile_lives_in_text">Lives in </string>
+    <string name="profile_speaks_text">Speaks </string>
+    <string name="profile_bio_text">Bio</string>
+    <string name="profile_experience_text">Experience</string>
+    <string name="profile_view_full_version_button_text_ios">View the full version of profile ↗</string>
 
     <!-- Settings -->
     <string name="settings_title">Settings</string>

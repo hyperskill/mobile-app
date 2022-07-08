@@ -125,6 +125,12 @@ enum Strings {
 
     enum Profile {
         static let title = sharedStrings.profile_title.localized()
+        static let aboutMe = sharedStrings.profile_about_me_text.localized()
+        static let livesIn = sharedStrings.profile_lives_in_text.localized()
+        static let speaks = sharedStrings.profile_speaks_text.localized()
+        static let bio = sharedStrings.profile_bio_text.localized()
+        static let experience = sharedStrings.profile_experience_text.localized()
+        static let viewFullVersionButton = sharedStrings.profile_view_full_version_button_text_ios.localized()
     }
 
     // MARK: - Settings -

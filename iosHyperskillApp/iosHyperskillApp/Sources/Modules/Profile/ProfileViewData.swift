@@ -20,8 +20,6 @@ struct ProfileViewData {
         let linkedInUsername: String?
         let redditUsername: String?
         let githubUsername: String?
-
-        let buttonText: String
     }
 }
 
@@ -45,8 +43,7 @@ I’ve learned so much spending in my mid-school. And I learned even more at the
                 twitterUsername: "test",
                 linkedInUsername: "test",
                 redditUsername: "test",
-                githubUsername: "test",
-                buttonText: "View the full version of profile ↗"
+                githubUsername: "test"
             )
         )
     }
