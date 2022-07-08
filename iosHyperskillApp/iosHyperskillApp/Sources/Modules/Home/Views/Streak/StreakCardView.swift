@@ -2,10 +2,17 @@ import SwiftUI
 
 extension StreakCardView {
     struct Appearance {
-        let streakIconSize: CGFloat = 20
+        let spacing: CGFloat = 16
 
+        let streakIconSizeDefault: CGFloat = 20
+        let streakIconSizeLarge: CGFloat = 36
+
+        let crownLeftMargin: CGFloat = 5
+        let crownWidth: CGFloat = 12
+        let crownHeight: CGFloat = 10
+
+        let defaultBorderWidth: CGFloat = 1
         let todayBorderWidth: CGFloat = 2
-        let todayBorderRadius: CGFloat = 4
 
         let shadowColor = Color.black.opacity(0.05)
         let shadowRadius: CGFloat = 8
@@ -17,42 +24,67 @@ extension StreakCardView {
 struct StreakCardView: View {
     private(set) var appearance = Appearance()
 
-    let count: Int
-    let todayState: StreakState
-    let previousDays: [StreakState]
+    let currentStreak: Int
+    let maxStreak: Int
+    let daysStates: [StreakState]
 
     var body: some View {
-        HStack(spacing: LayoutInsets.defaultInset) {
-            StreakDaysCount(count: count, todayState: todayState)
+        VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
+            HStack(spacing: LayoutInsets.defaultInset) {
+                StreakIcon(state: daysStates[daysStates.count - 1], widthHeight: appearance.streakIconSizeLarge)
 
-            VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
-                VStack(alignment: .leading, spacing: 0) {
-                    Text(Strings.Streak.solvingProblemText)
-                        .font(.title3)
+
+                HStack(alignment: .top, spacing: appearance.crownLeftMargin) {
+                    Text("\(currentStreak) \(Strings.Streak.daysText)")
+                        .font(.title)
                         .foregroundColor(.primaryText)
 
-                    Text(Strings.Streak.keepSolvingProblemsText)
-                        .font(.subheadline)
-                        .foregroundColor(.secondaryText)
-                }
-
-                HStack(spacing: LayoutInsets.smallInset) {
-                    StreakDaysPrevious(previousDays: previousDays)
-
-                    VStack(spacing: LayoutInsets.smallInset) {
-                        StreakIcon(state: todayState, widthHeight: appearance.streakIconSize)
-
-                        Text(Strings.Streak.todayText)
-                            .font(.subheadline)
-                            .foregroundColor(.secondaryText)
+                    if currentStreak == maxStreak {
+                        Image(Images.Home.Streak.crown)
+                            .renderingMode(.original)
+                            .resizable()
+                            .frame(width: appearance.crownWidth, height: appearance.crownHeight)
                     }
-                    .padding()
-                    .addBorder(
-                        color: Color(ColorPalette.primary),
-                        width: appearance.todayBorderWidth,
-                        cornerRadius: appearance.todayBorderRadius
-                    )
                 }
+
+                Spacer()
+
+                Text(Strings.Streak.solvingProblemText)
+                    .font(.subheadline)
+                    .foregroundColor(.secondaryText)
+            }
+
+
+            HStack(spacing: 0) {
+                ForEach(Array(daysStates.enumerated()), id: \.offset) { index, dayState in
+                    StreakIcon(state: dayState, widthHeight: appearance.streakIconSizeDefault)
+                        .padding(LayoutInsets.smallInset)
+                        .addBorder(
+                            color: Color(
+                                index != daysStates.count - 1
+                                ? ColorPalette.onSurfaceAlpha12
+                                : ColorPalette.primary
+                            ),
+                            width: index != daysStates.count - 1
+                                   ? appearance.defaultBorderWidth
+                                   : appearance.todayBorderWidth
+                        )
+                    if index != daysStates.count - 1 {
+                        Spacer()
+                    }
+                }
+            }
+
+            HStack {
+                Text(Strings.Streak.previousFiveDaysText)
+                    .font(.subheadline)
+                    .foregroundColor(.secondaryText)
+
+                Spacer()
+
+                Text(Strings.Streak.todayText)
+                    .font(.subheadline)
+                    .foregroundColor(.secondaryText)
             }
         }
         .padding()
@@ -69,11 +101,20 @@ struct StreakCardView: View {
 
 struct StreakCardView_Previews: PreviewProvider {
     static var previews: some View {
-        StreakCardView(
-            count: 3,
-            todayState: .active,
-            previousDays: [.active, .passive, .passive, .frozen, .active]
-        )
+        Group {
+            StreakCardView(
+                currentStreak: 3,
+                maxStreak: 3,
+                daysStates: [.passive, .passive, .active, .active, .frozen]
+            )
+
+            StreakCardView(
+                currentStreak: 0,
+                maxStreak: 3,
+                daysStates: [.passive, .passive, .active, .passive, .passive]
+            )
+        }
+
         .previewLayout(.sizeThatFits)
         .padding()
     }

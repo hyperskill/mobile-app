@@ -119,7 +119,7 @@
     <string name="placeholder_network_error_button_text">Reload</string>
 
     <!-- Streak -->
-    <string name="streak_solving_problem_text">Solving problem streak</string>
+    <string name="streak_solving_problem_text">Solving problems streak</string>
     <string name="streak_keep_solving_problems_text">Keep solving problems</string>
     <string name="streak_previous_five_days_text">your previous 5 days</string>
     <string name="streak_today_text">today</string>

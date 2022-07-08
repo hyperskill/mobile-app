@@ -68,6 +68,7 @@ enum Images {
             static let streakActive = "home-streak-active"
             static let streakPassive = "home-streak-passive"
             static let streakFrozen = "home-streak-frozen"
+            static let crown = "home-streak-crown"
         }
 
         enum ProblemOfDay {
