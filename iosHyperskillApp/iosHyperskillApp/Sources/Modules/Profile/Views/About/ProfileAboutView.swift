@@ -16,12 +16,8 @@ struct ProfileAboutView: View {
 
     let experience: String?
 
-    let facebookUsername: String?
-    let twitterUsername: String?
-    let linkedInUsername: String?
-    let redditUsername: String?
-    let githubUsername: String?
-    var onSocialAccountTapped: (ProfileAboutSocialAccountsView.SocialAccount) -> Void
+    let socialAccounts: [ProfileSocialAccount]
+    var onSocialAccountTapped: (ProfileSocialAccount) -> Void
 
     var onFullVersionButtonTapped: () -> Void
 
@@ -67,9 +63,9 @@ struct ProfileAboutView: View {
                 }
             }
 
-            if !availableSocialAccounts.isEmpty {
+            if !socialAccounts.isEmpty {
                 ProfileAboutSocialAccountsView(
-                    availableSocialAccounts: availableSocialAccounts,
+                    availableSocialAccounts: socialAccounts,
                     onSocialAccountTapped: onSocialAccountTapped
                 )
                 .offset(appearance.socialAccountsOffset)
@@ -88,28 +84,6 @@ struct ProfileAboutView: View {
         .padding()
         .background(BackgroundView(color: Color(ColorPalette.surface)))
     }
-
-    private var availableSocialAccounts: [ProfileAboutSocialAccountsView.SocialAccount] {
-        var result = [ProfileAboutSocialAccountsView.SocialAccount]()
-
-        if facebookUsername != nil {
-            result.append(.facebook)
-        }
-        if twitterUsername != nil {
-            result.append(.twitter)
-        }
-        if linkedInUsername != nil {
-            result.append(.linkedIn)
-        }
-        if redditUsername != nil {
-            result.append(.reddit)
-        }
-        if githubUsername != nil {
-            result.append(.github)
-        }
-
-        return result
-    }
 }
 
 struct ProfileAboutView_Previews: PreviewProvider {
@@ -124,11 +98,7 @@ finally learn to do these tasks faster than anyone else. Anyway, good luck to yo
             experience: """
 I’ve learned so much spending in my mid-school. And I learned even more at the high-school. Amazing experience!
 """,
-            facebookUsername: "test",
-            twitterUsername: "test",
-            linkedInUsername: "test",
-            redditUsername: "test",
-            githubUsername: "test",
+            socialAccounts: [.init(type: .facebook, username: "")],
             onSocialAccountTapped: { _ in },
             onFullVersionButtonTapped: {}
         )

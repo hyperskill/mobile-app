@@ -35,6 +35,23 @@ final class ProfileViewModel: FeatureViewModel<
         }
     }
 
+    func presentSocialAccount(_ profileSocialAccount: ProfileSocialAccount) {
+        guard let profileURL = profileSocialAccount.profileURL else {
+            return
+        }
+
+        UIApplication.shared.open(profileURL, options: [:]) { success in
+            if !success {
+                WebControllerManager.shared.presentWebControllerWithURL(
+                    profileURL,
+                    withKey: .externalLink,
+                    allowsSafari: true,
+                    backButtonStyle: .done
+                )
+            }
+        }
+    }
+
     func makeViewData(_ profile: Profile) -> ProfileViewData {
         viewDataMapper.mapProfileToViewData(profile)
     }

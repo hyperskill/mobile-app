@@ -9,23 +9,23 @@ extension ProfileAboutSocialAccountsView {
 struct ProfileAboutSocialAccountsView: View {
     private(set) var appearance = Appearance()
 
-    let availableSocialAccounts: [SocialAccount]
+    let availableSocialAccounts: [ProfileSocialAccount]
 
-    var onSocialAccountTapped: (SocialAccount) -> Void
+    var onSocialAccountTapped: (ProfileSocialAccount) -> Void
 
     var body: some View {
         HStack(spacing: 0) {
-            ForEach(availableSocialAccounts, id: \.self) { socialAccount in
+            ForEach(availableSocialAccounts, id: \.type) { socialAccount in
                 Button(
                     action: {
                         onSocialAccountTapped(socialAccount)
                     },
                     label: {
-                        Image(socialAccount.imageName)
+                        Image(socialAccount.type.imageName)
                             .resizable()
                             .renderingMode(.template)
                             .aspectRatio(contentMode: .fit)
-                            .frame(widthHeight: socialAccount.imageWidthHeight)
+                            .frame(widthHeight: socialAccount.type.imageWidthHeight)
                             .foregroundColor(.secondaryText)
                     }
                 )
@@ -33,50 +33,48 @@ struct ProfileAboutSocialAccountsView: View {
             }
         }
     }
+}
 
-    enum SocialAccount: CaseIterable {
-        case facebook
-        case twitter
-        case linkedIn
-        case reddit
-        case github
-
-        fileprivate var imageName: String {
-            switch self {
-            case .facebook:
-                return Images.Profile.About.Social.facebook
-            case .twitter:
-                return Images.Profile.About.Social.twitter
-            case .linkedIn:
-                return Images.Profile.About.Social.linkedIn
-            case .reddit:
-                return Images.Profile.About.Social.reddit
-            case .github:
-                return Images.Profile.About.Social.github
-            }
+fileprivate extension ProfileSocialAccount.SocialAccount {
+    var imageName: String {
+        switch self {
+        case .facebook:
+            return Images.Profile.About.Social.facebook
+        case .twitter:
+            return Images.Profile.About.Social.twitter
+        case .linkedIn:
+            return Images.Profile.About.Social.linkedIn
+        case .reddit:
+            return Images.Profile.About.Social.reddit
+        case .github:
+            return Images.Profile.About.Social.github
         }
+    }
 
-        fileprivate var imageWidthHeight: CGFloat {
-            switch self {
-            case .reddit:
-                return 26
-            default:
-                return 24
-            }
+    var imageWidthHeight: CGFloat {
+        switch self {
+        case .reddit:
+            return 26
+        default:
+            return 24
         }
     }
 }
 
 struct ProfileAboutSocialAccountsView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
+        let availableSocialAccounts = ProfileSocialAccount.SocialAccount
+            .allCases
+            .map { ProfileSocialAccount(type: $0, username: "") }
+
+        return Group {
             ProfileAboutSocialAccountsView(
-                availableSocialAccounts: ProfileAboutSocialAccountsView.SocialAccount.allCases,
+                availableSocialAccounts: availableSocialAccounts,
                 onSocialAccountTapped: { _ in }
             )
 
             ProfileAboutSocialAccountsView(
-                availableSocialAccounts: ProfileAboutSocialAccountsView.SocialAccount.allCases,
+                availableSocialAccounts: availableSocialAccounts,
                 onSocialAccountTapped: { _ in }
             )
             .preferredColorScheme(.dark)

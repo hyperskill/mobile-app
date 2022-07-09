@@ -73,18 +73,12 @@ struct ProfileView: View {
                     )
 
                     ProfileAboutView(
-                        livesInText: viewData.about.livesInText,
-                        speaksText: viewData.about.speaksText,
-                        bio: viewData.about.bio,
-                        experience: viewData.about.experience,
-                        facebookUsername: viewData.about.facebookUsername,
-                        twitterUsername: viewData.about.twitterUsername,
-                        linkedInUsername: viewData.about.linkedInUsername,
-                        redditUsername: viewData.about.redditUsername,
-                        githubUsername: viewData.about.githubUsername,
-                        onSocialAccountTapped: { socialAccount in
-                            print("ProfileAboutView :: onSocialAccountTapped = \(socialAccount)")
-                        },
+                        livesInText: viewData.livesInText,
+                        speaksText: viewData.speaksText,
+                        bio: viewData.bio,
+                        experience: viewData.experience,
+                        socialAccounts: viewData.socialAccounts,
+                        onSocialAccountTapped: viewModel.presentSocialAccount(_:),
                         onFullVersionButtonTapped: {
                             print("ProfileAboutView :: onButtonTapped")
                         }

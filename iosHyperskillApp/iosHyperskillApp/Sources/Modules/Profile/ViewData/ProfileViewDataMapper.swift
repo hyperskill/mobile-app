@@ -5,17 +5,6 @@ final class ProfileViewDataMapper {
     func mapProfileToViewData(_ profile: Profile) -> ProfileViewData {
         let role = profile.isStaff ? "JetBrains Academy Team" : "Learner"
 
-        let aboutViewData = makeAboutViewData(profile: profile)
-
-        return ProfileViewData(
-            avatarSource: trimmedNonEmptyString(profile.avatar),
-            fullname: profile.fullname,
-            role: role,
-            about: aboutViewData
-        )
-    }
-
-    private func makeAboutViewData(profile: Profile) -> ProfileViewData.About {
         let livesInText: String? = {
             guard let countryCode = trimmedNonEmptyString(profile.country) else {
                 return nil
@@ -43,16 +32,37 @@ final class ProfileViewDataMapper {
             return "\(Strings.Profile.speaks) \(formattedLanguages)"
         }()
 
-        return ProfileViewData.About(
+        let socialAccounts: [ProfileSocialAccount] = {
+            var result = [ProfileSocialAccount]()
+
+            if let facebookUsername = trimmedNonEmptyString(profile.facebookUsername) {
+                result.append(.init(type: .facebook, username: facebookUsername))
+            }
+            if let twitterUsername = trimmedNonEmptyString(profile.twitterUsername) {
+                result.append(.init(type: .twitter, username: twitterUsername))
+            }
+            if let linkedinUsername = trimmedNonEmptyString(profile.linkedinUsername) {
+                result.append(.init(type: .linkedIn, username: linkedinUsername))
+            }
+            if let redditUsername = trimmedNonEmptyString(profile.redditUsername) {
+                result.append(.init(type: .reddit, username: redditUsername))
+            }
+            if let githubUsername = trimmedNonEmptyString(profile.githubUsername) {
+                result.append(.init(type: .github, username: githubUsername))
+            }
+
+            return result
+        }()
+
+        return ProfileViewData(
+            avatarSource: trimmedNonEmptyString(profile.avatar),
+            fullname: profile.fullname,
+            role: role,
             livesInText: livesInText,
             speaksText: speaksText,
             bio: trimmedNonEmptyString(profile.bio),
             experience: trimmedNonEmptyString(profile.experience),
-            facebookUsername: trimmedNonEmptyString(profile.facebookUsername),
-            twitterUsername: trimmedNonEmptyString(profile.twitterUsername),
-            linkedInUsername: trimmedNonEmptyString(profile.linkedinUsername),
-            redditUsername: trimmedNonEmptyString(profile.redditUsername),
-            githubUsername: trimmedNonEmptyString(profile.githubUsername)
+            socialAccounts: socialAccounts
         )
     }
 

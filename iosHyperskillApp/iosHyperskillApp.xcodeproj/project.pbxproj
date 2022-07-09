@@ -188,6 +188,7 @@
 		2CCF3B5A280050890075D12C /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCF3B59280050890075D12C /* DeviceInfo.swift */; };
 		2CD3652528796C4300D61855 /* ProfileViewDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD3652428796C4300D61855 /* ProfileViewDataMapper.swift */; };
 		2CD3652828797D3600D61855 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD3652728797D3600D61855 /* Formatter.swift */; };
+		2CD3652C287987FA00D61855 /* ProfileSocialAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD3652B287987FA00D61855 /* ProfileSocialAccount.swift */; };
 		2CD48D852858638A00CFCC4A /* StepQuizAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD48D842858638A00CFCC4A /* StepQuizAssembly.swift */; };
 		2CD48D872858639500CFCC4A /* StepQuizViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD48D862858639500CFCC4A /* StepQuizViewModel.swift */; };
 		2CD48D892858657100CFCC4A /* StepQuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD48D882858657100CFCC4A /* StepQuizView.swift */; };
@@ -436,6 +437,7 @@
 		2CCF3B59280050890075D12C /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
 		2CD3652428796C4300D61855 /* ProfileViewDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewDataMapper.swift; sourceTree = "<group>"; };
 		2CD3652728797D3600D61855 /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
+		2CD3652B287987FA00D61855 /* ProfileSocialAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSocialAccount.swift; sourceTree = "<group>"; };
 		2CD48D842858638A00CFCC4A /* StepQuizAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizAssembly.swift; sourceTree = "<group>"; };
 		2CD48D862858639500CFCC4A /* StepQuizViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizViewModel.swift; sourceTree = "<group>"; };
 		2CD48D882858657100CFCC4A /* StepQuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizView.swift; sourceTree = "<group>"; };
@@ -1306,6 +1308,7 @@
 		2CD3652328796C3000D61855 /* ViewData */ = {
 			isa = PBXGroup;
 			children = (
+				2CD3652B287987FA00D61855 /* ProfileSocialAccount.swift */,
 				2C37960E2876F36F00C197E2 /* ProfileViewData.swift */,
 				2CD3652428796C4300D61855 /* ProfileViewDataMapper.swift */,
 			);
@@ -1970,6 +1973,7 @@
 				2CD48D852858638A00CFCC4A /* StepQuizAssembly.swift in Sources */,
 				2C079685285CFFEE00EE0487 /* StepQuizSortingViewModel.swift in Sources */,
 				E94A6D0B28748C3E005F9ACC /* StreakIcon.swift in Sources */,
+				2CD3652C287987FA00D61855 /* ProfileSocialAccount.swift in Sources */,
 				E9F655CA2875914200291143 /* StreakCardView.swift in Sources */,
 				2C9ECBA3284736090015CFD2 /* StepViewDataMapper.swift in Sources */,
 				2CAE8CF2280525C900E6C83D /* StepView.swift in Sources */,
