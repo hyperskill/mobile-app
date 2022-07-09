@@ -1,14 +1,17 @@
 import shared
 import SwiftUI
 
-final class StreakAssembly: Assembly {
+final class StreakAssembly {
     private let streak: Streak
+    private let viewType: ViewType
 
-    init(streak: Streak) {
+    init(streak: Streak, viewType: ViewType) {
         self.streak = streak
+        self.viewType = viewType
     }
 
-    func makeModule() -> StreakCardView {
+    @ViewBuilder
+    func makeModule() -> some View {
         let daysStates = streak.history.map { historicalStreak -> StreakDayState in
             if historicalStreak.isCompleted {
                 return .active
@@ -18,10 +21,24 @@ final class StreakAssembly: Assembly {
             return .passive
         }
 
-        return StreakCardView(
-            currentStreak: Int(streak.currentStreak),
-            maxStreak: Int(streak.maxStreak),
-            daysStates: daysStates
-        )
+        switch viewType {
+        case .plain:
+            StreakView(
+                currentStreak: Int(streak.currentStreak),
+                maxStreak: Int(streak.maxStreak),
+                daysStates: daysStates
+            )
+        case .card:
+            StreakCardView(
+                currentStreak: Int(streak.currentStreak),
+                maxStreak: Int(streak.maxStreak),
+                daysStates: daysStates
+            )
+        }
+    }
+
+    enum ViewType {
+        case plain
+        case card
     }
 }
