@@ -68,6 +68,17 @@ enum Images {
             static let streakActive = "home-streak-active"
             static let streakPassive = "home-streak-passive"
             static let streakFrozen = "home-streak-frozen"
+            static let crown = "home-streak-crown"
+        }
+
+        enum ProblemOfDay {
+            static let calendar = "problem-of-day-calendar"
+            static let done = "problem-of-day-done"
+            static let gembox = "problem-of-day-gembox"
+            static let hexogensCompleted = "problem-of-day-hexogens-completed"
+            static let hexogensUncompleted = "problem-of-day-hexogens-uncompleted"
+            static let arrowCompleted = "problem-of-day-arrow-completed"
+            static let arrowUncompleted = "problem-of-day-arrow-uncompleted"
         }
     }
 }

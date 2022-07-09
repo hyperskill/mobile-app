@@ -6,6 +6,10 @@ PODS:
   - AppAuth/ExternalUserAgent (1.5.0):
     - AppAuth/Core
   - Atributika (4.10.1)
+  - CocoaLumberjack (3.7.4):
+    - CocoaLumberjack/Core (= 3.7.4)
+  - CocoaLumberjack/Core (3.7.4)
+  - Gifu (3.3.1)
   - GoogleSignIn (6.1.0):
     - AppAuth (~> 1.4)
     - GTMAppAuth (~> 1.0)
@@ -17,6 +21,10 @@ PODS:
   - Highlightr (2.1.0)
   - IQKeyboardManagerSwift (6.5.9)
   - Kanna (5.2.7)
+  - Nuke (10.7.1)
+  - NukeUI (0.8.1):
+    - Gifu (~> 3.0)
+    - Nuke (~> 10.5)
   - PanModal (1.2.7)
   - Sentry (7.13.0):
     - Sentry/Core (= 7.13.0)
@@ -25,6 +33,8 @@ PODS:
   - SkeletonUI (1.0.7)
   - SnapKit (5.6.0)
   - STRegex (2.1.1)
+  - SVGKit (3.1.0):
+    - CocoaLumberjack (~> 3.0)
   - SVProgressHUD (2.2.5)
   - SwiftLint (0.47.0)
 
@@ -34,12 +44,14 @@ DEPENDENCIES:
   - Highlightr (from `https://github.com/raspu/Highlightr.git`, branch `master`)
   - IQKeyboardManagerSwift (= 6.5.9)
   - Kanna (= 5.2.7)
+  - NukeUI (from `https://github.com/kean/NukeUI.git`, tag `0.8.3`)
   - PanModal (from `https://github.com/ivan-magda/PanModal.git`, branch `remove-presenting-appearance-transitions`)
   - Sentry (= 7.13.0)
   - shared (from `../shared`)
   - SkeletonUI (= 1.0.7)
   - SnapKit (= 5.6.0)
   - STRegex (= 2.1.1)
+  - SVGKit (from `https://github.com/SVGKit/SVGKit.git`, branch `3.x`)
   - SVProgressHUD (= 2.2.5)
   - SwiftLint (= 0.47.0)
 
@@ -47,11 +59,14 @@ SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - AppAuth
     - Atributika
+    - CocoaLumberjack
+    - Gifu
     - GoogleSignIn
     - GTMAppAuth
     - GTMSessionFetcher
     - IQKeyboardManagerSwift
     - Kanna
+    - Nuke
     - Sentry
     - SkeletonUI
     - SnapKit
@@ -63,38 +78,55 @@ EXTERNAL SOURCES:
   Highlightr:
     :branch: master
     :git: https://github.com/raspu/Highlightr.git
+  NukeUI:
+    :git: https://github.com/kean/NukeUI.git
+    :tag: 0.8.3
   PanModal:
     :branch: remove-presenting-appearance-transitions
     :git: https://github.com/ivan-magda/PanModal.git
   shared:
     :path: "../shared"
+  SVGKit:
+    :branch: 3.x
+    :git: https://github.com/SVGKit/SVGKit.git
 
 CHECKOUT OPTIONS:
   Highlightr:
     :commit: 048188df13e145657554a53a24882df5461fc96a
     :git: https://github.com/raspu/Highlightr.git
+  NukeUI:
+    :git: https://github.com/kean/NukeUI.git
+    :tag: 0.8.3
   PanModal:
     :commit: 32fc8b5868b0254a2025c9c01b24c0e4b3fe537d
     :git: https://github.com/ivan-magda/PanModal.git
+  SVGKit:
+    :commit: 451e057db1a6b4166a3a75f8e25fa67f05a044b5
+    :git: https://github.com/SVGKit/SVGKit.git
 
 SPEC CHECKSUMS:
   AppAuth: 80317d99ac7ff2801a2f18ff86b48cd315ed465d
   Atributika: 47e778507cfb3cd2c996278b0285221a62e97d71
+  CocoaLumberjack: 543c79c114dadc3b1aba95641d8738b06b05b646
+  Gifu: 416d4e38c4c2fed012f019e0a1d3ffcb58e5b842
   GoogleSignIn: c90b5bec45e780f54c6a8e1e3c182a86e3dda69d
   GTMAppAuth: 987526d41b07efb1bedda5e936fe0cb718a03113
   GTMSessionFetcher: 4577a4cc914a5a07c40a8a0ad0acc22080418c2d
   Highlightr: 683f05d5223cade533a78528a35c9f06e4caddf8
   IQKeyboardManagerSwift: 6e839c575c4aa1078d58a596e41244e77abe918f
   Kanna: 01cfbddc127f5ff0963692f285fcbc8a9d62d234
+  Nuke: 279f17a599fd1c83cf51de5e0e1f2db143a287b0
+  NukeUI: 3c7ec7b299dd99707afdc783b436f39768b4493b
   PanModal: 3e16ead1a907fb06f4df3f13492fd00149fa4974
   Sentry: c55b9f69091e58cc48adc3c25bbca908a480e08d
   shared: 57c23201ce62604481c21dfbabc812accac99edd
   SkeletonUI: 18fbcd8698480432852d7e30a65b8d5e138266f0
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   STRegex: d49e88d0fe58538d3175fdd989bc1243b9be2a07
+  SVGKit: 3c8468aab0026048532a3b27a0c81cdd939f0649
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
 
-PODFILE CHECKSUM: 168d4a65012d10058022447e154950869ed6ffb5
+PODFILE CHECKSUM: 49fd79088d9440b64e69ea2d37067ff93269d314
 
 COCOAPODS: 1.11.3
