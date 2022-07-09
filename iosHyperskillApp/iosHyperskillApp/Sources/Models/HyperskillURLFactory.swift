@@ -7,6 +7,12 @@ enum HyperskillURLFactory {
         makeURL(path: .register, queryItems: fromMobile ? [.fromMobileApp] : [])
     }
 
+    // MARK: Profile
+
+    static func makeProfile(id: Int) -> URL? {
+        makeURL(path: .profile(id))
+    }
+
     // MARK: - Private API -
 
     private static func makeURL(
@@ -39,11 +45,14 @@ enum HyperskillURLFactory {
 
     private enum Path {
         case register
+        case profile(Int)
 
         var formattedPath: String {
             switch self {
             case .register:
                 return "/register"
+            case .profile(let id):
+                return "/profile/\(id)"
             }
         }
     }

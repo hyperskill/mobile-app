@@ -79,9 +79,7 @@ struct ProfileView: View {
                         experience: viewData.experience,
                         socialAccounts: viewData.socialAccounts,
                         onSocialAccountTapped: viewModel.presentSocialAccount(_:),
-                        onFullVersionButtonTapped: {
-                            print("ProfileAboutView :: onButtonTapped")
-                        }
+                        onFullVersionButtonTapped: viewModel.presentProfileFullVersion
                     )
                 }
                 .padding(.vertical)

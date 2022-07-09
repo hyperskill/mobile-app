@@ -35,6 +35,12 @@ final class ProfileViewModel: FeatureViewModel<
         }
     }
 
+    func makeViewData(_ profile: Profile) -> ProfileViewData {
+        viewDataMapper.mapProfileToViewData(profile)
+    }
+
+    // MARK: Presentation
+
     func presentSocialAccount(_ profileSocialAccount: ProfileSocialAccount) {
         guard let profileURL = profileSocialAccount.profileURL else {
             return
@@ -52,7 +58,17 @@ final class ProfileViewModel: FeatureViewModel<
         }
     }
 
-    func makeViewData(_ profile: Profile) -> ProfileViewData {
-        viewDataMapper.mapProfileToViewData(profile)
+    func presentProfileFullVersion() {
+        guard let contentState = state as? ProfileFeatureStateContent,
+              let url = HyperskillURLFactory.makeProfile(id: Int(contentState.profile.id)) else {
+            return
+        }
+
+        WebControllerManager.shared.presentWebControllerWithURL(
+            url,
+            withKey: .externalLink,
+            allowsSafari: true,
+            backButtonStyle: .done
+        )
     }
 }
