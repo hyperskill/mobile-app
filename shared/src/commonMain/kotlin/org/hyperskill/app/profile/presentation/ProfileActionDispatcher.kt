@@ -2,31 +2,37 @@ package org.hyperskill.app.profile.presentation
 
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
-import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 import org.hyperskill.app.profile.presentation.ProfileFeature.Action
 import org.hyperskill.app.profile.presentation.ProfileFeature.Message
+import org.hyperskill.app.streak.domain.interactor.StreakInteractor
+import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class ProfileActionDispatcher(
     config: ActionDispatcherOptions,
-    private val profileInteractor: ProfileInteractor
+    private val profileInteractor: ProfileInteractor,
+    private val streakInteractor: StreakInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchCurrentProfile -> {
-                val result = profileInteractor.getCurrentProfile()
-
-                val message =
-                    result
-                        .map {
-                            Message.ProfileLoaded.Success(it)
-                        }
-                        .getOrElse {
-                            Message.ProfileLoaded.Error(errorMsg = it.message ?: "")
-                        }
-
+                val message = profileInteractor
+                    .getCurrentProfile()
+                    .fold(
+                        onSuccess = { profile ->
+                            val message = streakInteractor
+                                .getStreaks(profile.id)
+                                .fold(
+                                    onSuccess = {
+                                        Message.ProfileLoaded.Success(profile, it.firstOrNull())
+                                    },
+                                    onFailure = { Message.ProfileLoaded.Error(it.message ?: "") }
+                                )
+                            message
+                        },
+                        onFailure = { Message.ProfileLoaded.Error(it.message ?: "") }
+                    )
                 onNewMessage(message)
             }
-
             is Action.FetchProfile -> {
                 // TODO add code when GET on any profile is implemented
             }

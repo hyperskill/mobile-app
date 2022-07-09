@@ -97,6 +97,6 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileAssembly(presentationDescription: .init(profileType: .currentUser)).makeModule()
+        ProfileAssembly.currentUser().makeModule()
     }
 }

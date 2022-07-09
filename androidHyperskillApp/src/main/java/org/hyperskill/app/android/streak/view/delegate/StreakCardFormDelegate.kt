@@ -18,7 +18,7 @@ class StreakCardFormDelegate(
 
     init {
         // TODO test streak, replace from GET request
-        val streak = Streak(0, "", 2, 0, false)
+        val streak = Streak(0, "", 2, 0, false, emptyList())
 
         optionsAdapter += StreakCardAdapterDelegate(streak)
         optionsAdapter.items = List(5) {}
