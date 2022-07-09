@@ -17,23 +17,30 @@ final class ProfileViewDataMapper {
 
     private func makeAboutViewData(profile: Profile) -> ProfileViewData.About {
         let livesInText: String? = {
-            guard let country = trimmedNonEmptyString(profile.country) else {
+            guard let countryCode = trimmedNonEmptyString(profile.country) else {
                 return nil
             }
 
-            return "\(Strings.Profile.livesIn) \(country)"
+            let countryName = Formatter.localizedCoutryName(for: countryCode)
+
+            return "\(Strings.Profile.livesIn) \(countryName ?? countryCode)"
         }()
 
         let speaksText: String? = {
-            guard let languages = profile.languages else {
+            guard let languagesCodes = profile.languages else {
                 return nil
             }
 
-            if languages.isEmpty {
+            if languagesCodes.isEmpty {
                 return nil
             }
 
-            return "\(Strings.Profile.speaks) \(languages.joined(separator: ","))"
+            let languagesNames = languagesCodes
+                .compactMap(Formatter.localizedLanguageName(for:))
+                .map(\.capitalized)
+            let formattedLanguages = (languagesNames.isEmpty ? languagesCodes : languagesNames).joined(separator: ", ")
+
+            return "\(Strings.Profile.speaks) \(formattedLanguages)"
         }()
 
         return ProfileViewData.About(
