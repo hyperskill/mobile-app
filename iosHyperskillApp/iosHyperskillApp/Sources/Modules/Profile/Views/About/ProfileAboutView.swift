@@ -84,6 +84,7 @@ struct ProfileAboutView: View {
             .font(.body)
             .foregroundColor(.secondaryText)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
         .background(BackgroundView(color: Color(ColorPalette.surface)))
     }

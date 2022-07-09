@@ -14,16 +14,56 @@ struct ProfileView: View {
 
     @ObservedObject private var viewModel: ProfileViewModel
 
-    let viewData: ProfileViewData
-
-    init(viewModel: ProfileViewModel, viewData: ProfileViewData) {
+    init(viewModel: ProfileViewModel) {
         self.viewModel = viewModel
-        self.viewData = viewData
         self.viewModel.onViewAction = self.handleViewAction(_:)
     }
 
     var body: some View {
         NavigationView {
+            ZStack {
+                BackgroundView(color: .systemGroupedBackground)
+                buildBody()
+            }
+            .navigationTitle(Strings.Profile.title)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(
+                        action: { presentingSettings = true },
+                        label: { Image(systemName: "gear") }
+                    )
+                }
+            }
+            .sheet(isPresented: $presentingSettings) {
+                SettingsAssembly().makeModule()
+            }
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
+        .onAppear(perform: viewModel.startListening)
+        .onDisappear(perform: viewModel.stopListening)
+    }
+
+    // MARK: Private API
+
+    @ViewBuilder
+    private func buildBody() -> some View {
+        switch viewModel.state {
+        case is ProfileFeatureStateIdle:
+            ProgressView()
+                .onAppear {
+                    viewModel.loadProfile()
+                }
+        case is ProfileFeatureStateLoading:
+            ProgressView()
+        case is ProfileFeatureStateError:
+            PlaceholderView(
+                configuration: .networkError {
+                    viewModel.loadProfile(forceUpdate: true)
+                }
+            )
+        case let content as ProfileFeatureStateContent:
+            let viewData = viewModel.makeViewData(content.profile)
+
             ScrollView {
                 VStack(spacing: appearance.spacingBetweenContainers) {
                     ProfileHeaderView(
@@ -53,23 +93,9 @@ struct ProfileView: View {
                 .padding(.vertical)
             }
             .frame(maxWidth: .infinity)
-            .background(BackgroundView(color: .systemGroupedBackground))
-            .navigationTitle(Strings.Profile.title)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(
-                        action: { presentingSettings = true },
-                        label: { Image(systemName: "gear") }
-                    )
-                }
-            }
-            .sheet(isPresented: $presentingSettings) {
-                SettingsAssembly().makeModule()
-            }
+        default:
+            Text("Unkwown state")
         }
-        .navigationViewStyle(StackNavigationViewStyle())
-        .onAppear(perform: viewModel.startListening)
-        .onDisappear(perform: viewModel.stopListening)
     }
 
     private func handleViewAction(_ viewAction: ProfileFeatureActionViewAction) {

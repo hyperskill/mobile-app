@@ -21,9 +21,10 @@ final class ProfileAssembly: Assembly {
 
         let viewModel = ProfileViewModel(
             presentationDescription: presentationDescription,
+            viewDataMapper: ProfileViewDataMapper(),
             feature: profileComponent.profileFeature
         )
 
-        return ProfileView(viewModel: viewModel, viewData: .placeholder)
+        return ProfileView(viewModel: viewModel)
     }
 }
