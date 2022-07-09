@@ -115,7 +115,7 @@
     <string name="profile_speaks_text">Speaks</string>
     <string name="profile_bio_text">Bio</string>
     <string name="profile_experience_text">Experience</string>
-    <string name="profile_view_full_version_button_text_ios">View the full version of profile ↗</string>
+    <string name="profile_view_full_version_button_text">View the full version of profile in web</string>
 
     <!-- Settings -->
     <string name="settings_title">Settings</string>
