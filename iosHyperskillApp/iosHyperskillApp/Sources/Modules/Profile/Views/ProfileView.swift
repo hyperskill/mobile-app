@@ -72,6 +72,12 @@ struct ProfileView: View {
                         subtitle: viewData.role
                     )
 
+                    if let streak = content.streak {
+                        StreakAssembly(streak: streak)
+                            .makeModule()
+                            .padding(.horizontal)
+                    }
+
                     ProfileAboutView(
                         livesInText: viewData.livesInText,
                         speaksText: viewData.speaksText,

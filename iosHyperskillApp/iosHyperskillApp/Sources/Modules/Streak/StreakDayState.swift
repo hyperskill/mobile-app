@@ -1,6 +1,6 @@
 import Foundation
 
-enum StreakState {
+enum StreakDayState {
     case active
     case passive
     case frozen

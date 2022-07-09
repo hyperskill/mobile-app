@@ -26,7 +26,7 @@ struct StreakCardView: View {
 
     let currentStreak: Int
     let maxStreak: Int
-    let daysStates: [StreakState]
+    let daysStates: [StreakDayState]
 
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
@@ -114,7 +114,6 @@ struct StreakCardView_Previews: PreviewProvider {
                 daysStates: [.passive, .passive, .active, .passive, .passive]
             )
         }
-
         .previewLayout(.sizeThatFits)
         .padding()
     }

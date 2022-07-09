@@ -13,4 +13,7 @@ data class HistoricalStreak(
     val targetType: String,
     @SerialName("target_id")
     val targetId: Long?
-)
+) {
+    val isCompleted: Boolean =
+        state == StreakState.COMPLETED || state == StreakState.MANUAL_COMPLETED
+}
