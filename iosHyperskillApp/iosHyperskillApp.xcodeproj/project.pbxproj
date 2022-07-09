@@ -73,7 +73,7 @@
 		2C20FBCB284F7A45006D879E /* ProcessedContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20FBCA284F7A45006D879E /* ProcessedContentView.swift */; };
 		2C225E48281A5B6800E8ABD2 /* SourcelessRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C225E47281A5B6800E8ABD2 /* SourcelessRouter.swift */; };
 		2C23C0062879EA7D0083709F /* StreakDayState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C23C0052879EA7D0083709F /* StreakDayState.swift */; };
-		2C23C00A2879EB1E0083709F /* StreakAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C23C0092879EB1E0083709F /* StreakAssembly.swift */; };
+		2C23C00A2879EB1E0083709F /* StreakViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C23C0092879EB1E0083709F /* StreakViewBuilder.swift */; };
 		2C23C00D2879F2290083709F /* StreakView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C23C00C2879F2290083709F /* StreakView.swift */; };
 		2C2452492847C27C00226702 /* Images+SystemNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2452482847C27C00226702 /* Images+SystemNames.swift */; };
 		2C25BFD52851F8F00036C689 /* UIColor+DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C25BFD42851F8F00036C689 /* UIColor+DesignSystem.swift */; };
@@ -323,7 +323,7 @@
 		2C20FBCA284F7A45006D879E /* ProcessedContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessedContentView.swift; sourceTree = "<group>"; };
 		2C225E47281A5B6800E8ABD2 /* SourcelessRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourcelessRouter.swift; sourceTree = "<group>"; };
 		2C23C0052879EA7D0083709F /* StreakDayState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakDayState.swift; sourceTree = "<group>"; };
-		2C23C0092879EB1E0083709F /* StreakAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakAssembly.swift; sourceTree = "<group>"; };
+		2C23C0092879EB1E0083709F /* StreakViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakViewBuilder.swift; sourceTree = "<group>"; };
 		2C23C00C2879F2290083709F /* StreakView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakView.swift; sourceTree = "<group>"; };
 		2C2452482847C27C00226702 /* Images+SystemNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Images+SystemNames.swift"; sourceTree = "<group>"; };
 		2C25BFD42851F8F00036C689 /* UIColor+DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+DesignSystem.swift"; sourceTree = "<group>"; };
@@ -1582,8 +1582,8 @@
 		E9F655CE2875B30B00291143 /* Streak */ = {
 			isa = PBXGroup;
 			children = (
-				2C23C0092879EB1E0083709F /* StreakAssembly.swift */,
 				2C23C0052879EA7D0083709F /* StreakDayState.swift */,
+				2C23C0092879EB1E0083709F /* StreakViewBuilder.swift */,
 				2C23C00B2879EBCD0083709F /* Views */,
 			);
 			path = Streak;
@@ -1960,7 +1960,7 @@
 				2C1061AA285C3C3300EBD614 /* StepQuizChoiceAssembly.swift in Sources */,
 				2CF72AA828477E0600E1C192 /* StepQuizTableRowView.swift in Sources */,
 				2C32374D2837F7190062CAF6 /* Images.swift in Sources */,
-				2C23C00A2879EB1E0083709F /* StreakAssembly.swift in Sources */,
+				2C23C00A2879EB1E0083709F /* StreakViewBuilder.swift in Sources */,
 				2C1F588B280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift in Sources */,
 				2C9EB95D2861BABC007DDE44 /* ProfileView.swift in Sources */,
 				2CF41A8E28505D2C000736D6 /* SwiftUIProcessedContentView.swift in Sources */,

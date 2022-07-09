@@ -73,8 +73,8 @@ struct ProfileView: View {
                     )
 
                     if let streak = content.streak {
-                        StreakAssembly(streak: streak, viewType: .plain)
-                            .makeModule()
+                        StreakViewBuilder(streak: streak, viewType: .plain)
+                            .build()
                             .padding()
                             .background(Color(ColorPalette.surface))
                     }

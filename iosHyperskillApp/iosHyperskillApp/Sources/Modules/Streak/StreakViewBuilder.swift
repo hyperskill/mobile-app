@@ -1,7 +1,7 @@
 import shared
 import SwiftUI
 
-final class StreakAssembly {
+final class StreakViewBuilder {
     private let streak: Streak
     private let viewType: ViewType
 
@@ -11,7 +11,7 @@ final class StreakAssembly {
     }
 
     @ViewBuilder
-    func makeModule() -> some View {
+    func build() -> some View {
         let daysStates = streak.history.map { historicalStreak -> StreakDayState in
             if historicalStreak.isCompleted {
                 return .active
