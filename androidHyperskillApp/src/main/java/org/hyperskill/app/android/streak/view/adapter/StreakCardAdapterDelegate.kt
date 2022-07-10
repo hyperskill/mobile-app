@@ -29,9 +29,9 @@ class StreakCardAdapterDelegate(
                 viewBinding.itemStreakImageView.setImageResource(R.drawable.ic_fire_enabled)
             }
 
-            if (adapterPosition == adapter.itemCount - 1 && streak.kind == Streak.Kind.FROZEN) {
-                viewBinding.itemStreakImageView.setImageResource(R.drawable.ic_fire_freeze)
-            }
+//            if (adapterPosition == adapter.itemCount - 1 && streak.kind == Streak.Kind.FROZEN) {
+//                viewBinding.itemStreakImageView.setImageResource(R.drawable.ic_fire_freeze)
+//            }
         }
     }
 }

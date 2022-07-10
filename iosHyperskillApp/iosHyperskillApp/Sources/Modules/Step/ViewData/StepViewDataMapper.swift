@@ -2,10 +2,16 @@ import Foundation
 import shared
 
 final class StepViewDataMapper {
+    private let formatter: Formatter
     private let resourceProvider: ResourceProvider
     private let commentThreadTitleMapper: CommentThreadTitleMapper
 
-    init(resourceProvider: ResourceProvider, commentThreadTitleMapper: CommentThreadTitleMapper) {
+    init(
+        formatter: Formatter,
+        resourceProvider: ResourceProvider,
+        commentThreadTitleMapper: CommentThreadTitleMapper
+    ) {
+        self.formatter = formatter
         self.resourceProvider = resourceProvider
         self.commentThreadTitleMapper = commentThreadTitleMapper
     }
@@ -27,11 +33,7 @@ final class StepViewDataMapper {
     // MARK: Private API
 
     private func mapTimeToComplete(minutes: Int32) -> String {
-        let minutesQuantityString = self.resourceProvider.getQuantityString(
-            pluralsResource: SharedResources.plurals.shared.minutes,
-            quantity: minutes,
-            args: KotlinArray(size: 1, init: { _ in NSNumber(value: minutes) })
-        )
+        let minutesQuantityString = formatter.minutesCount(minutes)
 
         return self.resourceProvider.getString(
             stringResource: SharedResources.strings.shared.step_theory_reading_text,

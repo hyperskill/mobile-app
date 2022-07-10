@@ -81,4 +81,18 @@ enum Images {
             static let arrowUncompleted = "problem-of-day-arrow-uncompleted"
         }
     }
+
+    // MARK: - Profile -
+
+    enum Profile {
+        enum About {
+            enum Social {
+                static let facebook = "profile-about-social-facebook"
+                static let twitter = "profile-about-social-twitter"
+                static let linkedIn = "profile-about-social-linkedin"
+                static let reddit = "profile-about-social-reddit"
+                static let github = "profile-about-social-github"
+            }
+        }
+    }
 }

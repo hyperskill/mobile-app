@@ -1,9 +1,7 @@
 import SwiftUI
 
-extension StreakCardView {
+extension StreakView {
     struct Appearance {
-        let spacing: CGFloat = 16
-
         let streakIconSizeDefault: CGFloat = 20
         let streakIconSizeLarge: CGFloat = 36
 
@@ -13,29 +11,28 @@ extension StreakCardView {
 
         let defaultBorderWidth: CGFloat = 1
         let todayBorderWidth: CGFloat = 2
-
-        let shadowColor = Color.black.opacity(0.05)
-        let shadowRadius: CGFloat = 8
-        let shadowX: CGFloat = 0
-        let shadowY: CGFloat = 2
     }
 }
 
-struct StreakCardView: View {
+struct StreakView: View {
     private(set) var appearance = Appearance()
 
     let currentStreak: Int
+    let currentStreakCountString: String
+
     let maxStreak: Int
-    let daysStates: [StreakState]
+    let daysStates: [StreakDayState]
 
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
             HStack(spacing: LayoutInsets.defaultInset) {
-                StreakIcon(state: daysStates[daysStates.count - 1], widthHeight: appearance.streakIconSizeLarge)
-
+                StreakIcon(
+                    state: daysStates[daysStates.count - 1],
+                    widthHeight: appearance.streakIconSizeLarge
+                )
 
                 HStack(alignment: .top, spacing: appearance.crownLeftMargin) {
-                    Text("\(currentStreak) \(Strings.Streak.daysText)")
+                    Text(currentStreakCountString)
                         .font(.title)
                         .foregroundColor(.primaryText)
 
@@ -54,7 +51,6 @@ struct StreakCardView: View {
                     .foregroundColor(.secondaryText)
             }
 
-
             HStack(spacing: 0) {
                 ForEach(Array(daysStates.enumerated()), id: \.offset) { index, dayState in
                     StreakIcon(state: dayState, widthHeight: appearance.streakIconSizeDefault)
@@ -62,12 +58,12 @@ struct StreakCardView: View {
                         .addBorder(
                             color: Color(
                                 index != daysStates.count - 1
-                                ? ColorPalette.onSurfaceAlpha12
-                                : ColorPalette.primary
+                                    ? ColorPalette.onSurfaceAlpha12
+                                    : ColorPalette.primary
                             ),
                             width: index != daysStates.count - 1
-                                   ? appearance.defaultBorderWidth
-                                   : appearance.todayBorderWidth
+                                ? appearance.defaultBorderWidth
+                                : appearance.todayBorderWidth
                         )
                     if index != daysStates.count - 1 {
                         Spacer()
@@ -87,34 +83,27 @@ struct StreakCardView: View {
                     .foregroundColor(.secondaryText)
             }
         }
-        .padding()
         .background(Color(ColorPalette.surface))
-        .addBorder(color: Color(ColorPalette.onSurfaceAlpha12))
-        .shadow(
-            color: appearance.shadowColor,
-            radius: appearance.shadowRadius,
-            x: appearance.shadowX,
-            y: appearance.shadowY
-        )
     }
 }
 
-struct StreakCardView_Previews: PreviewProvider {
+struct StreakView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            StreakCardView(
+            StreakView(
                 currentStreak: 3,
+                currentStreakCountString: "3 days",
                 maxStreak: 3,
                 daysStates: [.passive, .passive, .active, .active, .frozen]
             )
 
-            StreakCardView(
+            StreakView(
                 currentStreak: 0,
+                currentStreakCountString: "0 days",
                 maxStreak: 3,
                 daysStates: [.passive, .passive, .active, .passive, .passive]
             )
         }
-
         .previewLayout(.sizeThatFits)
         .padding()
     }

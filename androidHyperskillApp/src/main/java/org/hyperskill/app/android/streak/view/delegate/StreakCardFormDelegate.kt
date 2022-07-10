@@ -40,10 +40,10 @@ class StreakCardFormDelegate(
             )
         }
 
-        if (streak.kind == Streak.Kind.COMPLETED || streak.kind == Streak.Kind.MANUAL_COMPLETED) {
-            binding.streakStatFire.setImageResource(R.drawable.ic_fire_enabled)
-            binding.streakTodayIncludedFire.itemStreakImageView.setImageResource(R.drawable.ic_fire_enabled)
-        }
+//        if (streak.kind == Streak.Kind.COMPLETED || streak.kind == Streak.Kind.MANUAL_COMPLETED) {
+//            binding.streakStatFire.setImageResource(R.drawable.ic_fire_enabled)
+//            binding.streakTodayIncludedFire.itemStreakImageView.setImageResource(R.drawable.ic_fire_enabled)
+//        }
 
         if (streak.isNewRecord) {
             binding.streakNewRecordCrown.visibility = View.VISIBLE

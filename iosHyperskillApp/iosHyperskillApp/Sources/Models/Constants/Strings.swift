@@ -125,6 +125,14 @@ enum Strings {
 
     enum Profile {
         static let title = sharedStrings.profile_title.localized()
+        static let aboutMe = sharedStrings.profile_about_me_text.localized()
+        static let livesIn = sharedStrings.profile_lives_in_text.localized()
+        static let speaks = sharedStrings.profile_speaks_text.localized()
+        static let bio = sharedStrings.profile_bio_text.localized()
+        static let experience = sharedStrings.profile_experience_text.localized()
+        static let viewFullVersionButton = sharedStrings.profile_view_full_version_button_text.localized()
+        static let roleStaff = sharedStrings.profile_role_staff_text.localized()
+        static let roleLearner = sharedStrings.profile_role_learner_text.localized()
     }
 
     // MARK: - Settings -
@@ -140,7 +148,6 @@ enum Strings {
         static let keepSolvingProblemsText = sharedStrings.streak_keep_solving_problems_text.localized()
         static let previousFiveDaysText = sharedStrings.streak_previous_five_days_text.localized()
         static let todayText = sharedStrings.streak_today_text.localized()
-        static let daysText = sharedStrings.streak_days_text.localized()
     }
 
     // MARK: - ProblemOfDay -
