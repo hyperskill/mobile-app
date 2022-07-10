@@ -3,14 +3,14 @@ import NukeUI
 import SkeletonUI
 import SwiftUI
 
-extension ProfileAvatarView {
+extension LazyAvatarView {
     struct Appearance {
         var borderColor = Color(ColorPalette.onSurfaceAlpha12)
         var borderWidth: CGFloat = 1
     }
 }
 
-struct ProfileAvatarView: View {
+struct LazyAvatarView: View {
     private(set) var appearance = Appearance()
 
     private let source: ImageRequestConvertible?
@@ -59,7 +59,7 @@ struct ProfileAvatarView: View {
 struct ProfileAvatarView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ProfileAvatarView("")
+            LazyAvatarView("")
                 .frame(widthHeight: 64)
         }
         .previewLayout(.sizeThatFits)

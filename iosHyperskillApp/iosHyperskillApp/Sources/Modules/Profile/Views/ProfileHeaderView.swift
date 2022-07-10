@@ -17,7 +17,7 @@ struct ProfileHeaderView: View {
 
     var body: some View {
         HStack(spacing: LayoutInsets.defaultInset) {
-            ProfileAvatarView(avatarSource)
+            LazyAvatarView(avatarSource)
                 .frame(widthHeight: appearance.avatarImageWidthHeight)
 
             VStack(alignment: .leading, spacing: 0) {
