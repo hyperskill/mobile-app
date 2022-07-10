@@ -15,22 +15,20 @@ class ProfileActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchCurrentProfile -> {
-                val message = profileInteractor
+                val currentProfile = profileInteractor
                     .getCurrentProfile()
-                    .fold(
-                        onSuccess = { profile ->
-                            val message = streakInteractor
-                                .getStreaks(profile.id)
-                                .fold(
-                                    onSuccess = {
-                                        Message.ProfileLoaded.Success(profile, it.firstOrNull())
-                                    },
-                                    onFailure = { Message.ProfileLoaded.Error(it.message ?: "") }
-                                )
-                            message
-                        },
-                        onFailure = { Message.ProfileLoaded.Error(it.message ?: "") }
-                    )
+                    .getOrNull()
+
+                if (currentProfile == null) {
+                    onNewMessage(Message.ProfileLoaded.Error(""))
+                    return
+                }
+
+                val message = streakInteractor
+                    .getStreaks(currentProfile.id)
+                    .map { Message.ProfileLoaded.Success(currentProfile, it.firstOrNull()) }
+                    .getOrElse { Message.ProfileLoaded.Error(it.message ?: "") }
+
                 onNewMessage(message)
             }
             is Action.FetchProfile -> {
