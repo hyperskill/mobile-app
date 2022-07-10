@@ -8,10 +8,12 @@ struct ProfilePresentationDescription {
         case otherUser(profileUserID: Int)
 
         var isCurrentUser: Bool {
-            if case .currentUser = self {
+            switch self {
+            case .currentUser:
                 return true
+            case .otherUser:
+                return false
             }
-            return false
         }
     }
 }
