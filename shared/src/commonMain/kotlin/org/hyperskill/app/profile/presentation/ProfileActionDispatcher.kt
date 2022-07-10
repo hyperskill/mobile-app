@@ -17,12 +17,10 @@ class ProfileActionDispatcher(
             is Action.FetchCurrentProfile -> {
                 val currentProfile = profileInteractor
                     .getCurrentProfile()
-                    .getOrNull()
-
-                if (currentProfile == null) {
-                    onNewMessage(Message.ProfileLoaded.Error(""))
-                    return
-                }
+                    .getOrElse {
+                        onNewMessage(Message.ProfileLoaded.Error(it.message ?: ""))
+                        return
+                    }
 
                 val message = streakInteractor
                     .getStreaks(currentProfile.id)
