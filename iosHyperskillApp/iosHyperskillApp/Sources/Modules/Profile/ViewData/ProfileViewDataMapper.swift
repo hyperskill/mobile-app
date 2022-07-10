@@ -3,7 +3,7 @@ import shared
 
 final class ProfileViewDataMapper {
     func mapProfileToViewData(_ profile: Profile) -> ProfileViewData {
-        let role = profile.isStaff ? "JetBrains Academy Team" : "Learner"
+        let role = profile.isStaff ? Strings.Profile.roleStaff : Strings.Profile.roleLearner
 
         let livesInText: String? = {
             guard let countryCode = trimmedNonEmptyString(profile.country) else {

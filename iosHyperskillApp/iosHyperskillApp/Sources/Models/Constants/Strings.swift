@@ -131,6 +131,8 @@ enum Strings {
         static let bio = sharedStrings.profile_bio_text.localized()
         static let experience = sharedStrings.profile_experience_text.localized()
         static let viewFullVersionButton = sharedStrings.profile_view_full_version_button_text.localized()
+        static let roleStaff = sharedStrings.profile_role_staff_text.localized()
+        static let roleLearner = sharedStrings.profile_role_learner_text.localized()
     }
 
     // MARK: - Settings -
