@@ -13,12 +13,15 @@ struct StreakCardView: View {
     private(set) var appearance = Appearance()
 
     let currentStreak: Int
+    let currentStreakCountString: String
+
     let maxStreak: Int
     let daysStates: [StreakDayState]
 
     var body: some View {
         StreakView(
             currentStreak: currentStreak,
+            currentStreakCountString: currentStreakCountString,
             maxStreak: maxStreak,
             daysStates: daysStates
         )
@@ -39,12 +42,14 @@ struct StreakCardView_Previews: PreviewProvider {
         Group {
             StreakCardView(
                 currentStreak: 3,
+                currentStreakCountString: "3 days",
                 maxStreak: 3,
                 daysStates: [.passive, .passive, .active, .active, .frozen]
             )
 
             StreakCardView(
                 currentStreak: 0,
+                currentStreakCountString: "0 days",
                 maxStreak: 3,
                 daysStates: [.passive, .passive, .active, .passive, .passive]
             )

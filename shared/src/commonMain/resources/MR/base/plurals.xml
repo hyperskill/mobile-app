@@ -8,6 +8,10 @@
         <item quantity="one">%d hour</item>
         <item quantity="other">%d hours</item>
     </plural>
+    <plural name="days">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plural>
     <plural name="users">
         <item quantity="one">%d user</item>
         <item quantity="other">%d users</item>

@@ -5,14 +5,19 @@ final class StreakViewBuilder {
     private let streak: Streak
     private let viewType: ViewType
 
-    init(streak: Streak, viewType: ViewType) {
+    private let formatter: Formatter
+
+    init(streak: Streak, viewType: ViewType, formatter: Formatter = .default) {
         self.streak = streak
         self.viewType = viewType
+        self.formatter = formatter
     }
 
     @ViewBuilder
     func build() -> some View {
-        let daysStates = streak.history.map { historicalStreak -> StreakDayState in
+        let currentStreakCountString = formatter.daysCount(streak.currentStreak)
+
+        let daysStates = streak.history.reversed().map { historicalStreak -> StreakDayState in
             if historicalStreak.isCompleted {
                 return .active
             } else if historicalStreak.state == StreakState.frozen {
@@ -25,12 +30,14 @@ final class StreakViewBuilder {
         case .plain:
             StreakView(
                 currentStreak: Int(streak.currentStreak),
+                currentStreakCountString: currentStreakCountString,
                 maxStreak: Int(streak.maxStreak),
                 daysStates: daysStates
             )
         case .card:
             StreakCardView(
                 currentStreak: Int(streak.currentStreak),
+                currentStreakCountString: currentStreakCountString,
                 maxStreak: Int(streak.maxStreak),
                 daysStates: daysStates
             )

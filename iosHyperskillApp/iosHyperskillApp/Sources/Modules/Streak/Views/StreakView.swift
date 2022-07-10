@@ -18,6 +18,8 @@ struct StreakView: View {
     private(set) var appearance = Appearance()
 
     let currentStreak: Int
+    let currentStreakCountString: String
+
     let maxStreak: Int
     let daysStates: [StreakDayState]
 
@@ -30,7 +32,7 @@ struct StreakView: View {
                 )
 
                 HStack(alignment: .top, spacing: appearance.crownLeftMargin) {
-                    Text("\(currentStreak) \(Strings.Streak.daysText)")
+                    Text(currentStreakCountString)
                         .font(.title)
                         .foregroundColor(.primaryText)
 
@@ -90,12 +92,14 @@ struct StreakView_Previews: PreviewProvider {
         Group {
             StreakView(
                 currentStreak: 3,
+                currentStreakCountString: "3 days",
                 maxStreak: 3,
                 daysStates: [.passive, .passive, .active, .active, .frozen]
             )
 
             StreakView(
                 currentStreak: 0,
+                currentStreakCountString: "0 days",
                 maxStreak: 3,
                 daysStates: [.passive, .passive, .active, .passive, .passive]
             )
