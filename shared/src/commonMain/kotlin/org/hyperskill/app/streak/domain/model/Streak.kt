@@ -14,5 +14,7 @@ data class Streak(
     @SerialName("max_streak")
     val maxStreak: Int,
     @SerialName("is_new_record")
-    val isNewRecord: Boolean
+    val isNewRecord: Boolean,
+    @SerialName("history")
+    val history: List<HistoricalStreak>
 )
