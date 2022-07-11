@@ -12,8 +12,6 @@ import coil.ImageLoader
 import coil.decode.SvgDecoder
 import coil.load
 import coil.transform.CircleCropTransformation
-import com.neovisionaries.i18n.CountryCode
-import com.neovisionaries.i18n.LanguageCode
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentProfileBinding
@@ -28,6 +26,7 @@ import org.hyperskill.app.streak.domain.model.Streak
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
+import java.util.Locale
 
 class ProfileFragment :
     Fragment(R.layout.fragment_profile),
@@ -143,14 +142,14 @@ class ProfileFragment :
     private fun setupAboutMeSection() {
         if (profile.country != null) {
             viewBinding.profileAboutLivesTextView.text =
-                "${resources.getString(R.string.profile_lives_in_text)} ${CountryCode.getByAlpha2Code(profile.country).getName()}"
+                "${resources.getString(R.string.profile_lives_in_text)} ${ Locale(Locale.ENGLISH.language, profile.country).displayCountry }"
         } else {
             viewBinding.profileAboutLivesTextView.visibility = View.GONE
         }
 
         if (profile.languages?.isEmpty() == false) {
             viewBinding.profileAboutSpeaksTextView.text =
-                "${resources.getString(R.string.profile_speaks_text)} ${profile.languages!!.joinToString(", ") { LanguageCode.getByCode(it).getName() }}"
+                "${resources.getString(R.string.profile_speaks_text)} ${profile.languages!!.joinToString(", ") { Locale(it).getDisplayLanguage(Locale.ENGLISH) }}"
         } else {
             viewBinding.profileAboutSpeaksTextView.visibility = View.GONE
         }

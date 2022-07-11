@@ -44,7 +44,6 @@ kit-view-navigation = { module = "ru.nobird.android.view:navigation", version = 
 kit-ui-adapters = { module = "ru.nobird.android.ui:adapters", version.ref = "adapters" }
 
 multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version = "0.8.1" }
-nvi18n = { module = "com.neovisionaries:nv-i18n", version = "1.28" }
 
 android-ui-material = { module = "com.google.android.material:material", version = "1.4.0" }
 android-ui-appcompat = { module = "androidx.appcompat:appcompat", version = "1.4.0" }

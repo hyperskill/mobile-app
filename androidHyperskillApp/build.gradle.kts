@@ -52,7 +52,6 @@ dependencies {
     implementation(libs.android.reactivex.rxkotlin)
     implementation(libs.android.coil)
     implementation(libs.android.coil.svg)
-    implementation(libs.nvi18n)
 }
 
 android {
