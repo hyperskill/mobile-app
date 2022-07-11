@@ -92,9 +92,10 @@
                 android:orientation="vertical">
 
                 <include
+                    android:layout_marginHorizontal="20dp"
                     android:id="@+id/profileStreakLayout"
                     layout="@layout/layout_streak_card"
-                    android:layout_width="320dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
