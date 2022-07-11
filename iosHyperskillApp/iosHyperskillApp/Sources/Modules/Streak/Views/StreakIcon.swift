@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct StreakIcon: View {
-    let state: StreakState
+    let state: StreakDayState
 
     let widthHeight: CGFloat
 
@@ -13,7 +13,7 @@ struct StreakIcon: View {
     }
 }
 
-fileprivate extension StreakState {
+fileprivate extension StreakDayState {
     var icon: String {
         switch self {
         case .active:

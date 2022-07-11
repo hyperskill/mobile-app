@@ -1,6 +1,31 @@
 import Foundation
 
 extension String {
+    func trimmedNonEmptyOrNil() -> String? {
+        let trimmedString = self.trimmed()
+        return trimmedString.isEmpty ? nil : trimmedString
+    }
+
+    // MARK: IndexOf
+
+    func indexOf(_ target: String) -> Int? {
+        if let range = self.range(of: target) {
+            return self.distance(from: startIndex, to: range.lowerBound)
+        } else {
+            return nil
+        }
+    }
+
+    func lastIndexOf(_ target: String) -> Int? {
+        if let range = self.range(of: target, options: .backwards) {
+            return self.distance(from: startIndex, to: range.lowerBound)
+        } else {
+            return nil
+        }
+    }
+
+    // MARK: - SafeSubscript -
+
     /// Safely subscript string with index.
     ///
     ///     "Hello World!"[safe: 3] -> "l"
@@ -69,5 +94,25 @@ extension String {
         }
 
         return String(self[lowerIndex...upperIndex])
+    }
+
+    // MARK: - Whitespaces -
+
+    var containsWhitespace: Bool {
+        self.rangeOfCharacter(from: .whitespacesAndNewlines) != nil
+    }
+
+    /// String with no spaces or new lines in beginning and end.
+    func trimmed() -> String {
+        self.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    func condenseWhitespace() -> String {
+        let components = self.components(separatedBy: .whitespacesAndNewlines)
+        return components.filter { !$0.isEmpty }.joined(separator: " ")
+    }
+
+    func normalizeNewline() -> String {
+        self.replacingOccurrences(of: "\n+", with: "\n", options: .regularExpression, range: nil)
     }
 }

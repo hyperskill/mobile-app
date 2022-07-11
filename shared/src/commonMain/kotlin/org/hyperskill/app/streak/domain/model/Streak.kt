@@ -14,11 +14,7 @@ data class Streak(
     @SerialName("max_streak")
     val maxStreak: Int,
     @SerialName("is_new_record")
-    val isNewRecord: Boolean
-) {
-    companion object Kind {
-        const val COMPLETED = "completed"
-        const val MANUAL_COMPLETED = "manual_completed"
-        const val FROZEN = "frozen"
-    }
-}
+    val isNewRecord: Boolean,
+    @SerialName("history")
+    val history: List<HistoricalStreak>
+)

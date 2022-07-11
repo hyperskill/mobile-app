@@ -22,7 +22,7 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                 }
             }
             is Message.ProfileLoaded.Success ->
-                State.Content(message.profile) to emptySet()
+                State.Content(message.profile, message.streak) to emptySet()
             is Message.ProfileLoaded.Error ->
                 State.Error to emptySet()
         } ?: (state to emptySet())
