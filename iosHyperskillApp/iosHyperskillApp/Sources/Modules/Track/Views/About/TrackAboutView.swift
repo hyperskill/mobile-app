@@ -23,7 +23,7 @@ struct TrackAboutView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: appearance.spacing) {
-            Text("About")
+            Text(Strings.Track.about)
                 .font(.title3)
                 .foregroundColor(.primaryText)
 

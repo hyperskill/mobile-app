@@ -32,17 +32,17 @@ extension TrackViewData {
         TrackViewData(
             iconImageName: Images.TabBar.track,
             name: "Python for Beginners",
-            role: "Learning now",
+            role: Strings.Track.learningNow,
             timeToCompleteTrackTitle: "~ 56 h",
-            timeToCompleteTrackSubtitle: "Time to complete the track",
+            timeToCompleteTrackSubtitle: Strings.Track.timeToComplete,
             completedGraduateProjectTitle: "1",
-            completedGraduateProjectSubtitle: "Completed graduate project ",
+            completedGraduateProjectSubtitle: Strings.Track.completedGraduateProject,
             completedTopicsTitle: "48 / 149",
             completedTopicsProgress: 0.322_147_651,
-            completedTopicsSubtitle: "Completed topics",
+            completedTopicsSubtitle: Strings.Track.completedTopics,
             appliedCoreTopicsByCompletingProjectStagesTitle: "0 / 138",
             appliedCoreTopicsByCompletingProjectStagesProgress: 0,
-            appliedCoreTopicsByCompletingProjectStagesSubtitle: "Applied core topics by completing project stages",
+            appliedCoreTopicsByCompletingProjectStagesSubtitle: Strings.Track.appliedCoreTopics,
             rating: "4.7",
             timeToComplete: "104 hours",
             projectsCount: "20 projects",
@@ -52,7 +52,7 @@ You've never tried programming and would like to build a solid foundation? This 
 completing this track you’ll create 5 simple projects. We’ll start with the basics and will use a lot of examples to
 really explain the possibilities of...
 """,
-            buttonText: "Keep your progress in web ↗"
+            buttonText: Strings.Track.keepProgressInWeb
         )
     }
 }

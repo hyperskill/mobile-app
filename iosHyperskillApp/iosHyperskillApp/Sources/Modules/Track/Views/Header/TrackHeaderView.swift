@@ -3,21 +3,21 @@ import SwiftUI
 struct TrackHeaderView: View {
     let iconImageName: String
 
-    let name: String
+    let title: String
 
-    let role: String
+    let subtitle: String
 
     var body: some View {
         VStack(spacing: LayoutInsets.defaultInset) {
             TrackAvatarView(imageName: iconImageName)
 
             VStack(spacing: LayoutInsets.smallInset) {
-                Text(name)
+                Text(title)
                     .font(.title3)
                     .foregroundColor(.primaryText)
                     .multilineTextAlignment(.center)
 
-                Text(role)
+                Text(subtitle)
                     .font(.caption)
                     .foregroundColor(.secondaryText)
                     .multilineTextAlignment(.center)
@@ -31,8 +31,8 @@ struct TrackHeaderView_Previews: PreviewProvider {
     static var previews: some View {
         TrackHeaderView(
             iconImageName: Images.TabBar.track,
-            name: "Python for Beginners",
-            role: "Learning now"
+            title: "Python for Beginners",
+            subtitle: "Learning now"
         )
         .previewLayout(.sizeThatFits)
         .padding()

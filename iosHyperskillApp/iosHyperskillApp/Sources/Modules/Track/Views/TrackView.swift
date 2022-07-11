@@ -18,8 +18,8 @@ struct TrackView: View {
                 VStack(spacing: appearance.spacingBetweenContainers) {
                     TrackHeaderView(
                         iconImageName: viewData.iconImageName,
-                        name: viewData.name,
-                        role: viewData.role
+                        title: viewData.name,
+                        subtitle: viewData.role
                     )
 
                     cardsView

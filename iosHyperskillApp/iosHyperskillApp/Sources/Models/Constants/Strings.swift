@@ -119,6 +119,13 @@ enum Strings {
 
     enum Track {
         static let title = sharedStrings.track_title.localized()
+        static let learningNow = sharedStrings.track_learning_now_text.localized()
+        static let timeToComplete = sharedStrings.track_time_to_complete_text.localized()
+        static let completedGraduateProject = sharedStrings.track_completed_graduate_project_text.localized()
+        static let completedTopics = sharedStrings.track_completed_topics_text.localized()
+        static let appliedCoreTopics = sharedStrings.track_applied_core_topics_text.localized()
+        static let about = sharedStrings.track_about_text.localized()
+        static let keepProgressInWeb = sharedStrings.track_keep_progress_in_web_text.localized()
     }
 
     // MARK: - Profile -
