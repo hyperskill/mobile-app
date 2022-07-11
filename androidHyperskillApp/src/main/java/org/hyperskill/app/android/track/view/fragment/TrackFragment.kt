@@ -120,7 +120,6 @@ class TrackFragment :
 
     private fun setupCards() {
         with(viewBinding) {
-            // TODO must get this time from /api/study-plans
             val hoursToComplete = studyPlan?.secondsToReachTrack?.toFloat()?.div(3600)?.roundToInt() ?: 0
             trackTimeToCompleteTextView.text = "~ $hoursToComplete h"
 
