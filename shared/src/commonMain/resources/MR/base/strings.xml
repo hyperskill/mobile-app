@@ -118,6 +118,8 @@
     <string name="profile_view_full_version_button_text">View the full version of profile in web</string>
     <string name="profile_role_staff_text">JetBrains Academy Team</string>
     <string name="profile_role_learner_text">Learner</string>
+    <string name="profile_schedule_text">Schedule:</string>
+    <string name="profile_switch_compat_text">Daily study reminders</string>
 
     <!-- Settings -->
     <string name="settings_title">Settings</string>
@@ -128,6 +130,7 @@
 
     <!-- Streak -->
     <string name="streak_solving_problem_text">Solving problems streak</string>
+    <string name="streak_solving_problem_text_android">Solving problems\nstreak</string>
     <string name="streak_keep_solving_problems_text">Keep solving problems</string>
     <string name="streak_previous_five_days_text">your previous 5 days</string>
     <string name="streak_today_text">today</string>
