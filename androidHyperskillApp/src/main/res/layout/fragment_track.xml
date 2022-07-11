@@ -309,7 +309,7 @@
                 android:layout_marginTop="16dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:text="@string/track_keep_progress_in_web_text"
+                android:text="@string/track_continue_in_web_text"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -321,7 +321,7 @@
 
 
     <me.zhanghai.android.materialprogressbar.MaterialProgressBar
-        android:id="@+id/trackProgress"
+        android:id="@+id/trackProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center" />

@@ -46,6 +46,10 @@ class TrackFragment :
 
     private var trackId: Long by argument()
 
+    private lateinit var track: Track
+    private lateinit var trackProgress: TrackProgress
+    private var studyPlan: StudyPlan? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponents()
@@ -70,7 +74,7 @@ class TrackFragment :
     private fun initViewStateDelegate() {
         with(viewStateDelegate) {
             addState<TrackFeature.State.Idle>()
-            addState<TrackFeature.State.Loading>(viewBinding.trackProgress)
+            addState<TrackFeature.State.Loading>(viewBinding.trackProgressBar)
             addState<TrackFeature.State.NetworkError>(viewBinding.trackError.root)
             addState<TrackFeature.State.Content>(viewBinding.trackContainer)
         }
@@ -82,15 +86,23 @@ class TrackFragment :
 
     override fun render(state: TrackFeature.State) {
         viewStateDelegate.switchState(state)
-        if (state is TrackFeature.State.Loading) {
-            viewBinding.trackProgress.visibility = View.VISIBLE
-        }
+
         if (state is TrackFeature.State.Content) {
-            initTrack(state.track, state.trackProgress, state.studyPlan)
+            track = state.track
+            trackProgress = state.trackProgress
+            studyPlan = state.studyPlan
+
+            setupTrack()
         }
     }
 
-    private fun initTrack(track: Track, trackProgress: TrackProgress, studyPlan: StudyPlan?) {
+    private fun setupTrack() {
+        setupTrackCoverAndName()
+        setupCards()
+        setupAboutSection()
+    }
+
+    private fun setupTrackCoverAndName() {
         val svgImageLoader = ImageLoader.Builder(requireContext())
             .components {
                 add(SvgDecoder.Factory())
@@ -104,12 +116,9 @@ class TrackFragment :
             viewBinding.trackIconImageView.visibility = View.GONE
         }
         viewBinding.trackNameTextView.text = track.title
-
-        initCards(track, trackProgress, studyPlan)
-        initAboutSection(track, trackProgress)
     }
 
-    private fun initCards(track: Track, trackProgress: TrackProgress, studyPlan: StudyPlan?) {
+    private fun setupCards() {
         with(viewBinding) {
             // TODO must get this time from /api/study-plans
             val hoursToComplete = studyPlan?.secondsToReachTrack?.toFloat()?.div(3600)?.roundToInt() ?: 0
@@ -133,7 +142,7 @@ class TrackFragment :
         }
     }
 
-    private fun initAboutSection(track: Track, trackProgress: TrackProgress) {
+    private fun setupAboutSection() {
         with(viewBinding) {
             trackAboutUsefulnessTextView.text = "${trackProgress.usefulness ?: "0"}"
             trackAboutAllPerformTimeTextView.text = "${(track.secondsToComplete / 3600).roundToInt()} hours"
@@ -141,8 +150,7 @@ class TrackFragment :
             trackAboutTopicsCountTextView.text = "${track.topicsCount} topics"
             trackAboutDescriptionTextView.text = track.description
 
-            // TODO fromHtml is deprecated, what to use instead?
-            trackAboutKeepYourProgressInWebTextView.text = Html.fromHtml(resources.getString(R.string.track_keep_progress_in_web_text))
+            trackAboutKeepYourProgressInWebTextView.text = Html.fromHtml(resources.getString(R.string.track_continue_in_web_text))
             trackAboutKeepYourProgressInWebTextView.setOnClickListener {
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.data = Uri.parse(BuildKonfig.BASE_URL + "tracks/${track.id}")
