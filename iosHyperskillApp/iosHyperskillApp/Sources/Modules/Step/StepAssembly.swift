@@ -15,6 +15,7 @@ final class StepAssembly: Assembly {
         let viewModel = StepViewModel(
             stepID: self.stepID,
             viewDataMapper: StepViewDataMapper(
+                formatter: Formatter(resourceProvider: commonComponent.resourceProvider),
                 resourceProvider: commonComponent.resourceProvider,
                 commentThreadTitleMapper: stepComponent.commentThreadTitleMapper
             ),

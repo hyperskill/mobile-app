@@ -79,6 +79,8 @@ android-parcelable = { module = "com.chrynan.parcelable:parcelable-core", versio
 android-reactivex-rxandroid = { module = "io.reactivex.rxjava2:rxandroid", version = "2.1.0" }
 android-reactivex-rxjava = { module = "io.reactivex.rxjava2:rxjava", version = "2.2.5" }
 android-reactivex-rxkotlin = { module = "io.reactivex.rxjava2:rxkotlin", version = "2.3.0" }
+android-coil = { module = "io.coil-kt:coil", version = "2.1.0" }
+android-coil-svg = { module = "io.coil-kt:coil-svg", version = "2.1.0" }
 
 [bundles]
 ktor-common = ['ktor-core', 'ktor-serialization', 'ktor-logging', 'ktor-contentNegotiation', 'ktor-serialization-json']

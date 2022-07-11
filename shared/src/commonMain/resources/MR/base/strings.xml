@@ -107,9 +107,24 @@
 
     <!-- Track -->
     <string name="track_title">Track</string>
+    <string name="track_learning_now_text">Learning now</string>
+    <string name="track_time_to_complete_text">Time to complete the track</string>
+    <string name="track_completed_graduate_project_text">Completed graduate projects</string>
+    <string name="track_completed_topics_text">Completed topics</string>
+    <string name="track_applied_core_topics_text">Applied core topics by completing project stages </string>
+    <string name="track_about_text">About</string>
+    <string name="track_keep_progress_in_web_text">&lt;u>Keep your progress in web&lt;/u> \u2197</string>
 
     <!-- Profile -->
     <string name="profile_title">Profile</string>
+    <string name="profile_about_me_text">About me</string>
+    <string name="profile_lives_in_text">Lives in</string>
+    <string name="profile_speaks_text">Speaks</string>
+    <string name="profile_bio_text">Bio</string>
+    <string name="profile_experience_text">Experience</string>
+    <string name="profile_view_full_version_button_text">View the full version of profile in web</string>
+    <string name="profile_role_staff_text">JetBrains Academy Team</string>
+    <string name="profile_role_learner_text">Learner</string>
 
     <!-- Settings -->
     <string name="settings_title">Settings</string>
@@ -118,10 +133,26 @@
     <string name="placeholder_network_error_title">Oops! It seems like the network error.</string>
     <string name="placeholder_network_error_button_text">Reload</string>
 
+    <!-- Streak -->
+    <string name="streak_solving_problem_text">Solving problems streak</string>
+    <string name="streak_keep_solving_problems_text">Keep solving problems</string>
+    <string name="streak_previous_five_days_text">your previous 5 days</string>
+    <string name="streak_today_text">today</string>
+    <string name="streak_days_text">days</string>
+
+    <!-- Daily problem -->
+    <string name="problem_of_day_title_uncompleted">Problem of the day</string>
+    <string name="problem_of_day_title_completed">Problem of the day solved</string>
+    <string name="problem_of_day_no_problems_to_solve">No problems to solve. Complete more topics to unlock a new problem.</string>
+    <string name="problem_of_day_solve_a_random_problem">Solve a random problem using the topics you already know to practice what you\'ve learned.</string>
+    <string name="problem_of_day_get_back">Get back later to solve another problem.</string>
+    <string name="problem_of_day_next_problem_in">Next problem in</string>
+
     <!-- Placeholder for new users -->
     <string name="placeholder_register_text">Register</string>
     <string name="placeholder_instruction_text">To get access to the content you should register at our website first.</string>
     <string name="placeholder_continue_button_text">Continue to hyperskill.org \u2197</string>
     <string name="placeholder_first_description_text">Right now you can solve one random problem every day.</string>
     <string name="placeholder_second_description_text">We add new features every week. Stay tuned :)</string>
+    
 </resources>
