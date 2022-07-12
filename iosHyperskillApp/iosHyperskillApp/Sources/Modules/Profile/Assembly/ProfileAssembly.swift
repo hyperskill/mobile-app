@@ -17,14 +17,11 @@ final class ProfileAssembly: Assembly {
     }
 
     func makeModule() -> ProfileView {
-        let commonComponent = AppGraphBridge.sharedAppGraph.commonComponent
         let profileComponent = AppGraphBridge.sharedAppGraph.buildProfileComponent()
 
         let viewModel = ProfileViewModel(
             presentationDescription: presentationDescription,
-            viewDataMapper: ProfileViewDataMapper(
-                formatter: Formatter(resourceProvider: commonComponent.resourceProvider)
-            ),
+            viewDataMapper: ProfileViewDataMapper(),
             feature: profileComponent.profileFeature
         )
 

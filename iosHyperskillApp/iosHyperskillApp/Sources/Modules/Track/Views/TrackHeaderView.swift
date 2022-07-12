@@ -1,7 +1,15 @@
 import SwiftUI
 
+extension TrackHeaderView {
+    struct Appearance {
+        let avatarImageWidthHeight: CGFloat = 34
+    }
+}
+
 struct TrackHeaderView: View {
-    let iconImageName: String
+    private(set) var appearance = Appearance()
+
+    let avatarSource: String?
 
     let title: String
 
@@ -9,7 +17,8 @@ struct TrackHeaderView: View {
 
     var body: some View {
         VStack(spacing: LayoutInsets.defaultInset) {
-            TrackAvatarView(imageName: iconImageName)
+            LazyAvatarView(avatarSource)
+                .frame(widthHeight: appearance.avatarImageWidthHeight)
 
             VStack(spacing: LayoutInsets.smallInset) {
                 Text(title)
@@ -30,7 +39,7 @@ struct TrackHeaderView: View {
 struct TrackHeaderView_Previews: PreviewProvider {
     static var previews: some View {
         TrackHeaderView(
-            iconImageName: Images.TabBar.track,
+            avatarSource: nil,
             title: "Python for Beginners",
             subtitle: "Learning now"
         )

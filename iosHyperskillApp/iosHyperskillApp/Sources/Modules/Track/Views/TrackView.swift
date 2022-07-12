@@ -1,3 +1,4 @@
+import shared
 import SwiftUI
 
 extension TrackView {
@@ -10,84 +11,130 @@ extension TrackView {
 struct TrackView: View {
     private(set) var appearance = Appearance()
 
-    let viewData: TrackViewData
+    @ObservedObject private var viewModel: TrackViewModel
+
+    init(viewModel: TrackViewModel) {
+        self.viewModel = viewModel
+        self.viewModel.onViewAction = self.handleViewAction(_:)
+    }
 
     var body: some View {
         NavigationView {
+            ZStack {
+                BackgroundView(color: .systemGroupedBackground)
+                buildBody()
+            }
+            .navigationTitle(Strings.Track.title)
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
+        .onAppear(perform: viewModel.startListening)
+        .onDisappear(perform: viewModel.stopListening)
+    }
+
+    // MARK: Private API
+
+    @ViewBuilder
+    private func buildBody() -> some View {
+        switch viewModel.state {
+        case is TrackFeatureStateIdle:
+            ProgressView()
+                .onAppear {
+                    viewModel.loadTrack()
+                }
+        case is TrackFeatureStateLoading:
+            ProgressView()
+        case is TrackFeatureStateNetworkError:
+            PlaceholderView(
+                configuration: .networkError {
+                    viewModel.loadTrack(forceUpdate: true)
+                }
+            )
+        case let content as TrackFeatureStateContent:
+            let viewData = viewModel.makeViewData(
+                track: content.track,
+                trackProgress: content.trackProgress,
+                studyPlan: content.studyPlan
+            )
+
             ScrollView {
                 VStack(spacing: appearance.spacingBetweenContainers) {
                     TrackHeaderView(
-                        iconImageName: viewData.iconImageName,
+                        avatarSource: viewData.coverSource,
                         title: viewData.name,
-                        subtitle: viewData.role
+                        subtitle: viewData.learningRole
                     )
 
-                    cardsView
+                    cardsView(viewData: viewData)
 
                     TrackAboutView(
-                        rating: viewData.rating,
-                        timeToComplete: viewData.timeToComplete,
-                        projectsCount: viewData.projectsCount,
-                        topicsCount: viewData.topicsCount,
+                        rating: viewData.ratingText,
+                        timeToComplete: viewData.allTimeToCompleteText,
+                        projectsCount: viewData.projectsCountText,
+                        topicsCount: viewData.topicsCountText,
                         description: viewData.description,
-                        buttonText: viewData.buttonText,
+                        buttonText: viewData.webActionButtonText,
                         onButtonTapped: {}
                     )
                 }
                 .padding(.vertical)
             }
             .frame(maxWidth: .infinity)
-            .navigationTitle(Strings.Track.title)
-            .background(BackgroundView(color: .systemGroupedBackground))
+        default:
+            Text("Unkwown state")
         }
-        .navigationViewStyle(StackNavigationViewStyle())
     }
 
-    private var cardsView: some View {
+    private func cardsView(viewData: TrackViewData) -> some View {
         VStack(spacing: appearance.spacingBetweenRelativeItems) {
             HStack(spacing: appearance.spacingBetweenRelativeItems) {
                 TrackCardView(
-                    title: viewData.timeToCompleteTrackTitle,
+                    title: viewData.currentTimeToCompleteText,
                     imageName: Images.Step.clock,
                     progress: nil,
-                    subtitle: viewData.timeToCompleteTrackSubtitle
+                    subtitle: Strings.Track.timeToComplete
                 )
 
-                if let completedGraduateProjectTitle = viewData.completedGraduateProjectTitle {
+                if let completedGraduateProjectsCountText = viewData.completedGraduateProjectsCountText {
                     TrackCardView(
-                        title: completedGraduateProjectTitle,
+                        title: completedGraduateProjectsCountText,
                         imageName: Images.Track.projectGraduate,
                         imageRenderingMode: .original,
                         progress: nil,
-                        subtitle: viewData.completedGraduateProjectSubtitle
+                        subtitle: Strings.Track.completedGraduateProject
                     )
                 }
             }
 
             TrackCardView(
-                title: viewData.completedTopicsTitle,
+                title: viewData.completedTopicsText,
                 imageName: Images.Track.About.topic,
                 progress: viewData.completedTopicsProgress,
-                subtitle: viewData.completedTopicsSubtitle
+                subtitle: Strings.Track.completedTopics
             )
 
-            TrackCardView(
-                title: viewData.appliedCoreTopicsByCompletingProjectStagesTitle,
-                imageName: Images.Track.hammer,
-                progress: viewData.appliedCoreTopicsByCompletingProjectStagesProgress,
-                subtitle: viewData.appliedCoreTopicsByCompletingProjectStagesSubtitle
-            )
+            if let capstoneTopicsText = viewData.capstoneTopicsText {
+                TrackCardView(
+                    title: capstoneTopicsText,
+                    imageName: Images.Track.hammer,
+                    progress: viewData.capstoneTopicsProgress,
+                    subtitle: Strings.Track.appliedCoreTopics
+                )
+            }
         }
         .padding(.horizontal)
+    }
+
+    private func handleViewAction(_ viewAction: TrackFeatureActionViewAction) {
+        print("TrackView :: \(#function) viewAction = \(viewAction)")
     }
 }
 
 struct TrackView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            TrackAssembly().makeModule()
+            TrackAssembly(trackID: 2).makeModule()
 
-            TrackAssembly()
+            TrackAssembly(trackID: 2)
                 .makeModule()
                 .preferredColorScheme(.dark)
         }

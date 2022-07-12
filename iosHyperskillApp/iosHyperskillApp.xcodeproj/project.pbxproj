@@ -120,7 +120,6 @@
 		2C5B2A23286596400097B270 /* UITableView+RegisterReusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B2A22286596400097B270 /* UITableView+RegisterReusable.swift */; };
 		2C5B2A25286596A80097B270 /* UICollectionView+RegisterReusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B2A24286596A80097B270 /* UICollectionView+RegisterReusable.swift */; };
 		2C5B2A2828659AD80097B270 /* CodeElementSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B2A2728659AD80097B270 /* CodeElementSize.swift */; };
-		2C65636F28742B7B006AAD77 /* TrackAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65636E28742B7B006AAD77 /* TrackAvatarView.swift */; };
 		2C65637128743796006AAD77 /* TrackViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65637028743796006AAD77 /* TrackViewData.swift */; };
 		2C65637328743910006AAD77 /* TrackAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65637228743910006AAD77 /* TrackAboutView.swift */; };
 		2C65637628743F5B006AAD77 /* TrackAboutStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65637528743F5B006AAD77 /* TrackAboutStatsView.swift */; };
@@ -215,6 +214,8 @@
 		2CF72AA32847757300E1C192 /* StepQuizTableViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF72AA22847757300E1C192 /* StepQuizTableViewData.swift */; };
 		2CF72AA5284775BF00E1C192 /* StepQuizTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF72AA4284775BF00E1C192 /* StepQuizTableView.swift */; };
 		2CF72AA828477E0600E1C192 /* StepQuizTableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF72AA728477E0600E1C192 /* StepQuizTableRowView.swift */; };
+		2CFCACF4287C4CAC0098EA0B /* TrackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFCACF3287C4CAB0098EA0B /* TrackViewModel.swift */; };
+		2CFCACF6287C5D510098EA0B /* TrackViewDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFCACF5287C5D510098EA0B /* TrackViewDataMapper.swift */; };
 		40D8E6EFE44EB7A6092C171B /* Pods_iosHyperskillApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C0F8A86D62CB915A1E49CAA /* Pods_iosHyperskillApp.framework */; };
 		E900D10128434D0400A77BBC /* StepQuizSortingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E900D10028434D0400A77BBC /* StepQuizSortingView.swift */; };
 		E900D10328434E0D00A77BBC /* StepQuizSortingItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E900D10228434E0D00A77BBC /* StepQuizSortingItemView.swift */; };
@@ -375,7 +376,6 @@
 		2C5B2A22286596400097B270 /* UITableView+RegisterReusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+RegisterReusable.swift"; sourceTree = "<group>"; };
 		2C5B2A24286596A80097B270 /* UICollectionView+RegisterReusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+RegisterReusable.swift"; sourceTree = "<group>"; };
 		2C5B2A2728659AD80097B270 /* CodeElementSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeElementSize.swift; sourceTree = "<group>"; };
-		2C65636E28742B7B006AAD77 /* TrackAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackAvatarView.swift; sourceTree = "<group>"; };
 		2C65637028743796006AAD77 /* TrackViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewData.swift; sourceTree = "<group>"; };
 		2C65637228743910006AAD77 /* TrackAboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackAboutView.swift; sourceTree = "<group>"; };
 		2C65637528743F5B006AAD77 /* TrackAboutStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackAboutStatsView.swift; sourceTree = "<group>"; };
@@ -471,6 +471,8 @@
 		2CF72AA22847757300E1C192 /* StepQuizTableViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableViewData.swift; sourceTree = "<group>"; };
 		2CF72AA4284775BF00E1C192 /* StepQuizTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableView.swift; sourceTree = "<group>"; };
 		2CF72AA728477E0600E1C192 /* StepQuizTableRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableRowView.swift; sourceTree = "<group>"; };
+		2CFCACF3287C4CAB0098EA0B /* TrackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewModel.swift; sourceTree = "<group>"; };
+		2CFCACF5287C5D510098EA0B /* TrackViewDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewDataMapper.swift; sourceTree = "<group>"; };
 		2D7F5C51275BBB18DCE9ACE9 /* Pods-iosHyperskillApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosHyperskillApp.debug.xcconfig"; path = "Target Support Files/Pods-iosHyperskillApp/Pods-iosHyperskillApp.debug.xcconfig"; sourceTree = "<group>"; };
 		515FEBC2A5D8EFBA7FB80795 /* Pods-iosHyperskillApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosHyperskillApp.release.xcconfig"; path = "Target Support Files/Pods-iosHyperskillApp/Pods-iosHyperskillApp.release.xcconfig"; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* iosHyperskillApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosHyperskillApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1046,9 +1048,9 @@
 			isa = PBXGroup;
 			children = (
 				2C88C71E28745DD0005B7311 /* TrackCardView.swift */,
+				2C65637928744DDA006AAD77 /* TrackHeaderView.swift */,
 				2C9EB9572861BA57007DDE44 /* TrackView.swift */,
 				2C65637428743F32006AAD77 /* About */,
-				2C65637B28744DE2006AAD77 /* Header */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1061,15 +1063,6 @@
 				2C65637228743910006AAD77 /* TrackAboutView.swift */,
 			);
 			path = About;
-			sourceTree = "<group>";
-		};
-		2C65637B28744DE2006AAD77 /* Header */ = {
-			isa = PBXGroup;
-			children = (
-				2C65636E28742B7B006AAD77 /* TrackAvatarView.swift */,
-				2C65637928744DDA006AAD77 /* TrackHeaderView.swift */,
-			);
-			path = Header;
 			sourceTree = "<group>";
 		};
 		2C725B5C28090CE500A49043 /* SwiftUI */ = {
@@ -1227,7 +1220,8 @@
 			isa = PBXGroup;
 			children = (
 				2C9EB9592861BA80007DDE44 /* TrackAssembly.swift */,
-				2C65637028743796006AAD77 /* TrackViewData.swift */,
+				2CFCACF3287C4CAB0098EA0B /* TrackViewModel.swift */,
+				2CFCACF7287C5D580098EA0B /* ViewData */,
 				2C65636D28742963006AAD77 /* Views */,
 			);
 			path = Track;
@@ -1508,6 +1502,15 @@
 				2CF72AA4284775BF00E1C192 /* StepQuizTableView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		2CFCACF7287C5D580098EA0B /* ViewData */ = {
+			isa = PBXGroup;
+			children = (
+				2C65637028743796006AAD77 /* TrackViewData.swift */,
+				2CFCACF5287C5D510098EA0B /* TrackViewDataMapper.swift */,
+			);
+			path = ViewData;
 			sourceTree = "<group>";
 		};
 		69078482427C2E9AB934883B /* Pods */ = {
@@ -1848,6 +1851,7 @@
 				2CCCA3992862D58E00D98089 /* StepQuizStringView.swift in Sources */,
 				2CE31F4B27F1E070008EEE66 /* AppViewModel.swift in Sources */,
 				2CD48D8E28586B6F00CFCC4A /* StepQuizViewDataMapper.swift in Sources */,
+				2CFCACF6287C5D510098EA0B /* TrackViewDataMapper.swift in Sources */,
 				2C41127828376F6D004948A3 /* StepQuizDiscussionsButton.swift in Sources */,
 				2C725B612809125700A49043 /* LayoutInsets.swift in Sources */,
 				E9D2D675284E0B30000757AC /* StepQuizMatchingView.swift in Sources */,
@@ -2005,7 +2009,6 @@
 				2C9EB95D2861BABC007DDE44 /* ProfileView.swift in Sources */,
 				2CF41A8E28505D2C000736D6 /* SwiftUIProcessedContentView.swift in Sources */,
 				2CF72AA32847757300E1C192 /* StepQuizTableViewData.swift in Sources */,
-				2C65636F28742B7B006AAD77 /* TrackAvatarView.swift in Sources */,
 				E93B3745283E527000968DF0 /* PlaceholderView.swift in Sources */,
 				E9B2CF5F2822979400B2DC6F /* StepQuizHintButton.swift in Sources */,
 				2C42EFB527F2EAB300B4648B /* GraphicsColor+UIColor.swift in Sources */,
@@ -2032,6 +2035,7 @@
 				2C32375328380C340062CAF6 /* NavigationToolbarInfoItem.swift in Sources */,
 				2C8409532805BF3C009C6BE9 /* StepTheoryContentView.swift in Sources */,
 				2CCCA39D2862E44B00D98089 /* StepQuizStringAssembly.swift in Sources */,
+				2CFCACF4287C4CAC0098EA0B /* TrackViewModel.swift in Sources */,
 				2C792324287B759500A3F61D /* StringExtensions.swift in Sources */,
 				2C58DE252803C185002A2774 /* AuthSocialControlsView.swift in Sources */,
 				2C5B2A23286596400097B270 /* UITableView+RegisterReusable.swift in Sources */,

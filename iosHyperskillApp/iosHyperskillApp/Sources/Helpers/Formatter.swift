@@ -10,6 +10,13 @@ final class Formatter {
         self.pluralsResources = pluralsResources
     }
 
+    // MARK: Numbers
+
+    /// Format floating point rating with 2 decimal points; 0.123456 -> "0.12"
+    static func averageRating(_ number: Float) -> String {
+        String(format: "%.2f", number)
+    }
+
     // MARK: Count
 
     /// Format days count with localized and pluralized suffix; 1 -> "1 day", 5 -> "5 days"
@@ -42,7 +49,7 @@ final class Formatter {
 
     // MARK: Locale
 
-    func localizedCoutryName(
+    static func localizedCoutryName(
         for regionCode: String,
         languageCode: String = Locale.current.languageCode ?? "en"
     ) -> String? {
@@ -50,7 +57,7 @@ final class Formatter {
             .localizedString(forRegionCode: regionCode)
     }
 
-    func localizedLanguageName(for languageCode: String) -> String? {
+    static func localizedLanguageName(for languageCode: String) -> String? {
         Locale.current.localizedString(forLanguageCode: languageCode)
     }
 }

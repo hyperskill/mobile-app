@@ -125,7 +125,7 @@ enum Strings {
         static let completedTopics = sharedStrings.track_completed_topics_text.localized()
         static let appliedCoreTopics = sharedStrings.track_applied_core_topics_text.localized()
         static let about = sharedStrings.track_about_text.localized()
-        static let keepProgressInWeb = sharedStrings.track_keep_progress_in_web_text.localized()
+        static let continueInWebButton = sharedStrings.track_continue_in_web_text.localized()
     }
 
     // MARK: - Profile -
