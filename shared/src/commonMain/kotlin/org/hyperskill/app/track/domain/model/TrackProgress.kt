@@ -2,6 +2,7 @@ package org.hyperskill.app.track.domain.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.math.roundToInt
 
 @Serializable
 data class TrackProgress(
@@ -45,4 +46,12 @@ data class TrackProgress(
     val canIssueCertificate: Boolean,
     @SerialName("certificate_url")
     val certificateUrl: String?
-)
+) {
+    private val internalfunMeasure = (funMeasure ?: 0).toDouble()
+    private val internalClarity = (clarity ?: 0).toDouble()
+    private val internalUsefulness = (usefulness ?: 0).toDouble()
+
+    private val avgRating = (internalfunMeasure + internalClarity + internalUsefulness) / 3
+
+    val trackRating = (avgRating * 10).roundToInt() / 10.0
+}
