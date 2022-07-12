@@ -18,12 +18,10 @@ class StepQuizActionDispatcher(
             is Action.FetchAttempt -> {
                 val currentProfile = profileInteractor
                     .getCurrentProfile(sourceType = DataSourceType.CACHE)
-                    .getOrNull()
-
-                if (currentProfile == null) {
-                    onNewMessage(Message.FetchAttemptError)
-                    return
-                }
+                    .getOrElse {
+                        onNewMessage(Message.FetchAttemptError)
+                        return
+                    }
 
                 val message = stepQuizInteractor
                     .getAttempt(action.step.id, currentProfile.id)
