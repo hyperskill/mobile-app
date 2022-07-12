@@ -39,7 +39,11 @@ class StreakCardFormDelegate(
             binding.streakNewRecordCrown.visibility = View.VISIBLE
         }
 
-        binding.streakDaysCountTextView.text = "${streak.currentStreak}"
+        binding.streakDaysCountTextView.text = context.resources.getQuantityString(
+            R.plurals.days,
+            streak.currentStreak,
+            streak.currentStreak
+        )
 
         binding.streakTodayIncludedFire.itemStreak.strokeWidth =
             context.resources.getDimensionPixelSize(R.dimen.streak_today_streak_card_stroke_width)
