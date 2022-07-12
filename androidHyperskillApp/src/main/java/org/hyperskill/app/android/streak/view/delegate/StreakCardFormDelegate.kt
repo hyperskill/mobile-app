@@ -6,6 +6,7 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.LayoutStreakCardBinding
 import org.hyperskill.app.streak.domain.model.Streak
 import org.hyperskill.app.streak.domain.model.StreakState
+import kotlin.collections.zip
 
 class StreakCardFormDelegate(
     context: Context,
@@ -21,17 +22,15 @@ class StreakCardFormDelegate(
             binding.streakFifthDayIncludedFire
         )
 
-        for (i in streakDaysFires.indices) {
-            if (streak.currentStreak + i >= streakDaysFires.size) {
-                streakDaysFires[i].itemStreakImageView.setImageResource(R.drawable.ic_fire_enabled)
+        for (pair in streakDaysFires zip streak.history.reversed()) {
+            if (pair.second.state == StreakState.FROZEN) {
+                pair.first.itemStreakImageView.setImageResource(R.drawable.ic_fire_freeze)
+            } else if (pair.second.isCompleted) {
+                pair.first.itemStreakImageView.setImageResource(R.drawable.ic_fire_enabled)
             }
         }
 
-        if (streak.history.lastOrNull()?.state == StreakState.FROZEN) {
-            streakDaysFires.last().itemStreakImageView.setImageResource(R.drawable.ic_fire_freeze)
-        }
-
-        if (streak.history.lastOrNull()?.isCompleted == true) {
+        if (streak.history.first().isCompleted) {
             binding.streakStatFire.setImageResource(R.drawable.ic_fire_enabled)
             binding.streakTodayIncludedFire.itemStreakImageView.setImageResource(R.drawable.ic_fire_enabled)
         }

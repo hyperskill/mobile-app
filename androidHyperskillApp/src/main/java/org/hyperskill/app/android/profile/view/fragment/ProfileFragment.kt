@@ -45,7 +45,7 @@ class ProfileFragment :
     private lateinit var streakFormDelegate: StreakCardFormDelegate
 
     private lateinit var profile: Profile
-    private lateinit var streak: Streak
+    private var streak: Streak? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,14 +86,18 @@ class ProfileFragment :
         when (state) {
             is ProfileFeature.State.Content -> {
                 profile = state.profile
-                streak = state.streak ?: Streak(profile.id, "", 0, 0, false, emptyList())
+                streak = state.streak
                 setupProfile()
             }
         }
     }
 
     private fun setupProfile() {
-        streakFormDelegate = StreakCardFormDelegate(requireContext(), viewBinding.profileStreakLayout, streak)
+        if (streak != null) {
+            streakFormDelegate = StreakCardFormDelegate(requireContext(), viewBinding.profileStreakLayout, streak!!)
+        } else {
+            viewBinding.profileStreakLayout.root.visibility = View.GONE
+        }
 
         setupNameProfileBadge()
         setupRemindersSchedule()
