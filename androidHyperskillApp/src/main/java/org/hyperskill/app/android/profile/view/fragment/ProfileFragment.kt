@@ -24,6 +24,7 @@ import org.hyperskill.app.profile.presentation.ProfileFeature
 import org.hyperskill.app.profile.presentation.ProfileViewModel
 import org.hyperskill.app.streak.domain.model.Streak
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
+import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 import java.util.Locale
@@ -32,9 +33,16 @@ class ProfileFragment :
     Fragment(R.layout.fragment_profile),
     ReduxView<ProfileFeature.State, ProfileFeature.Action.ViewAction> {
     companion object {
-        fun newInstance(): Fragment =
+        fun newInstance(profileId: Long? = null, isInitCurrent: Boolean = true): Fragment =
             ProfileFragment()
+                .apply {
+                    this.profileId = profileId ?: 0
+                    this.isInitCurrent = isInitCurrent
+                }
     }
+
+    private var profileId: Long by argument()
+    private var isInitCurrent: Boolean by argument()
 
     private lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -56,10 +64,10 @@ class ProfileFragment :
         super.onViewCreated(view, savedInstanceState)
         initViewStateDelegate()
         viewBinding.profileError.tryAgain.setOnClickListener {
-            profileViewModel.onNewMessage(ProfileFeature.Message.Init(forceUpdate = true))
+            profileViewModel.onNewMessage(ProfileFeature.Message.Init(profileId = profileId, forceUpdate = true, isInitCurrent = isInitCurrent))
         }
 
-        profileViewModel.onNewMessage(ProfileFeature.Message.Init())
+        profileViewModel.onNewMessage(ProfileFeature.Message.Init(profileId = profileId, isInitCurrent = isInitCurrent))
     }
 
     private fun injectComponents() {
@@ -85,6 +93,7 @@ class ProfileFragment :
         viewStateDelegate.switchState(state)
         when (state) {
             is ProfileFeature.State.Content -> {
+                profileId = state.profile.id
                 profile = state.profile
                 streak = state.streak
                 setupProfile()
