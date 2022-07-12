@@ -17,11 +17,11 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentProfileBinding
 import org.hyperskill.app.android.streak.view.delegate.StreakCardFormDelegate
 import org.hyperskill.app.android.view.base.ui.extension.redirectToUsernamePage
-import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.view.social_redirect.SocialNetworksRedirect
 import org.hyperskill.app.profile.presentation.ProfileFeature
 import org.hyperskill.app.profile.presentation.ProfileViewModel
+import org.hyperskill.app.profile.routing.ProfileRedirectLinkBuilder
 import org.hyperskill.app.streak.domain.model.Streak
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.argument
@@ -234,7 +234,7 @@ class ProfileFragment :
         viewBinding.profileViewFullVersionTextView.paintFlags = viewBinding.profileViewFullVersionTextView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         viewBinding.profileViewFullVersionTextView.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(BuildKonfig.BASE_URL + "profile/${profile.id}")
+            intent.data = Uri.parse(ProfileRedirectLinkBuilder.getProfileLink(profile.id))
             startActivity(intent)
         }
     }
