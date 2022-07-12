@@ -1,8 +1,6 @@
 package org.hyperskill.app.track.presentation
 
 import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.track.domain.interactor.TrackInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
