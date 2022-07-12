@@ -54,16 +54,18 @@ struct AppView: View {
             TabView(selection: $navigationState.selectedTab) {
                 ForEach(AppTabItem.allCases, id: \.self) { tab in
                     // TODO: Refactor to factory when Xcode 14 released
-                    Group {
-                        switch tab {
-                        case .home:
-                            HomeAssembly().makeModule()
-                        case .track:
-                            TrackAssembly().makeModule()
-                        case .profile:
-                            ProfileAssembly().makeModule()
+                    TabNavigationLazyView(
+                        Group {
+                            switch tab {
+                            case .home:
+                                HomeAssembly().makeModule()
+                            case .track:
+                                TrackAssembly().makeModule()
+                            case .profile:
+                                ProfileAssembly.currentUser().makeModule()
+                            }
                         }
-                    }
+                    )
                     .tag(tab)
                     .tabItem {
                         Image(tab.imageName)

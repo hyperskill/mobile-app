@@ -23,8 +23,8 @@ data class Gamification(
     val passedActivities: Int,
     @SerialName("hypercoins")
     val hypercoins: Long,
-    @SerialName("last_code_problem_client")
-    val lastCodeProblemClient: Long?,
+//    @SerialName("last_code_problem_client") // web - String
+//    val lastCodeProblemClient: Long?,
     @SerialName("notifications_unread")
     val notificationsUnread: Int,
     @SerialName("passed_problems_in_ide")

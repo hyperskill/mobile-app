@@ -1,20 +1,22 @@
 package org.hyperskill.app.core.injection
 
-import org.hyperskill.app.auth.injection.AuthComponentImpl
 import org.hyperskill.app.auth.injection.AuthComponent
+import org.hyperskill.app.auth.injection.AuthComponentImpl
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
 import org.hyperskill.app.auth.injection.AuthCredentialsComponentImpl
 import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponentImpl
 import org.hyperskill.app.core.remote.UserAgentInfo
-import org.hyperskill.app.main.injection.MainComponentImpl
 import org.hyperskill.app.main.injection.MainComponent
+import org.hyperskill.app.main.injection.MainComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.network.injection.NetworkComponentImpl
 import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponentImpl
-import org.hyperskill.app.step.injection.StepComponentImpl
+import org.hyperskill.app.profile.injection.ProfileComponent
+import org.hyperskill.app.profile.injection.ProfileComponentImpl
 import org.hyperskill.app.step.injection.StepComponent
+import org.hyperskill.app.step.injection.StepComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponentImpl
 
@@ -47,4 +49,7 @@ class AppGraphImpl(
 
     override fun buildProfileDataComponent(): ProfileDataComponent =
         ProfileDataComponentImpl(this)
+
+    override fun buildProfileComponent(): ProfileComponent =
+        ProfileComponentImpl(this)
 }
