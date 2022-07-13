@@ -2,17 +2,30 @@ import Foundation
 import shared
 
 final class TrackViewDataMapper {
+    private let formatter: Formatter
+
+    init(formatter: Formatter) {
+        self.formatter = formatter
+    }
+
     func mapTrackDataToViewData(track: Track, trackProgress: TrackProgress, studyPlan: StudyPlan?) -> TrackViewData {
-        let currentTimeToCompleteText: String = {
-            let hoursToComplete = Int(Float(studyPlan?.secondsToReachTrack ?? 0) / 3600.0)
-            return "~ \(hoursToComplete) h"
+        let currentTimeToCompleteText: String? = {
+            guard let secondsToReachTrack = studyPlan?.secondsToReachTrack else {
+                return nil
+            }
+
+            let hours = UnitConverters.Hour.from(seconds: TimeInterval(secondsToReachTrack), roundingRule: .up)
+
+            return "~ \(hours) h"
         }()
 
-        let completedGraduateProjectsCountText = track.capstoneTopicsCount > 0
-            ? "\(trackProgress.completedCapstoneProjects.count)"
-            : nil
+        let completedGraduateProjectsCountText = track.capstoneProjects.isEmpty
+            ? nil
+            : "\(trackProgress.completedCapstoneProjects.count)"
 
-        let completedTopicsText = "\(trackProgress.learnedTopicsCount) / \(track.topicsCount)"
+        let completedTopicsText = track.topicsCount > 0
+            ? "\(trackProgress.learnedTopicsCount) / \(track.topicsCount)"
+            : nil
         let completedTopicsProgress = track.topicsCount == 0
             ? 0
             : Float(trackProgress.learnedTopicsCount) / Float(track.topicsCount)
@@ -25,27 +38,30 @@ final class TrackViewDataMapper {
             : 0
 
         let ratingText: String? = {
-            guard let usefulness = trackProgress.usefulness else {
+            guard trackProgress.averageRating > 0 else {
                 return nil
             }
 
-            return Formatter.averageRating(usefulness.floatValue)
+            return Formatter.averageRating(trackProgress.averageRating, decimalPoints: 1)
         }()
 
-        let allTimeToCompleteText: String = {
-            let hours = Int(track.secondsToComplete / 3600)
-            return "\(hours) hours"
-        }()
+        let allTimeToCompleteText = formatter.hoursInSeconds(track.secondsToComplete)
 
         let projectsCountText: String? = {
             guard !track.projects.isEmpty else {
                 return nil
             }
 
-            return "\(track.projects.count) projects"
+            return formatter.projectsCount(track.projects.count)
         }()
 
-        let topicsCountText = "\(track.topicsCount) topics"
+        let topicsCountText: String? = {
+            guard track.topicsCount > 0 else {
+                return nil
+            }
+
+            return formatter.topicsCount(track.topicsCount)
+        }()
 
         return TrackViewData(
             coverSource: track.cover?.trimmedNonEmptyOrNil(),

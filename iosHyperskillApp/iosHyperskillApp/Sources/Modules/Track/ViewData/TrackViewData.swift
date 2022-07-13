@@ -5,11 +5,11 @@ struct TrackViewData {
     let name: String
     let learningRole: String
 
-    let currentTimeToCompleteText: String
+    let currentTimeToCompleteText: String?
 
     let completedGraduateProjectsCountText: String?
 
-    let completedTopicsText: String
+    let completedTopicsText: String?
     let completedTopicsProgress: Float
 
     let capstoneTopicsText: String?

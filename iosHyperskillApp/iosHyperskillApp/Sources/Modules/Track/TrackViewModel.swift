@@ -19,4 +19,18 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
     func makeViewData(track: Track, trackProgress: TrackProgress, studyPlan: StudyPlan?) -> TrackViewData {
         viewDataMapper.mapTrackDataToViewData(track: track, trackProgress: trackProgress, studyPlan: studyPlan)
     }
+
+    func presentStudyPlanInWeb() {
+        guard state is TrackFeatureStateContent,
+              let url = HyperskillURLFactory.makeStudyPlan() else {
+            return
+        }
+
+        WebControllerManager.shared.presentWebControllerWithURL(
+            url,
+            withKey: .externalLink,
+            allowsSafari: true,
+            backButtonStyle: .done
+        )
+    }
 }

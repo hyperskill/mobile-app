@@ -64,7 +64,15 @@ struct TrackView: View {
                         subtitle: viewData.learningRole
                     )
 
-                    cardsView(viewData: viewData)
+                    TrackCardsView(
+                        appearance: .init(spacing: appearance.spacingBetweenRelativeItems),
+                        timeToComplete: viewData.currentTimeToCompleteText,
+                        completedGraduateProjects: viewData.completedGraduateProjectsCountText,
+                        completedTopics: viewData.completedTopicsText,
+                        completedTopicsProgress: viewData.completedTopicsProgress,
+                        capstoneTopics: viewData.capstoneTopicsText,
+                        capstoneTopicsProgress: viewData.capstoneTopicsProgress
+                    )
 
                     TrackAboutView(
                         rating: viewData.ratingText,
@@ -73,7 +81,7 @@ struct TrackView: View {
                         topicsCount: viewData.topicsCountText,
                         description: viewData.description,
                         buttonText: viewData.webActionButtonText,
-                        onButtonTapped: {}
+                        onButtonTapped: viewModel.presentStudyPlanInWeb
                     )
                 }
                 .padding(.vertical)
@@ -82,46 +90,6 @@ struct TrackView: View {
         default:
             Text("Unkwown state")
         }
-    }
-
-    private func cardsView(viewData: TrackViewData) -> some View {
-        VStack(spacing: appearance.spacingBetweenRelativeItems) {
-            HStack(spacing: appearance.spacingBetweenRelativeItems) {
-                TrackCardView(
-                    title: viewData.currentTimeToCompleteText,
-                    imageName: Images.Step.clock,
-                    progress: nil,
-                    subtitle: Strings.Track.timeToComplete
-                )
-
-                if let completedGraduateProjectsCountText = viewData.completedGraduateProjectsCountText {
-                    TrackCardView(
-                        title: completedGraduateProjectsCountText,
-                        imageName: Images.Track.projectGraduate,
-                        imageRenderingMode: .original,
-                        progress: nil,
-                        subtitle: Strings.Track.completedGraduateProject
-                    )
-                }
-            }
-
-            TrackCardView(
-                title: viewData.completedTopicsText,
-                imageName: Images.Track.About.topic,
-                progress: viewData.completedTopicsProgress,
-                subtitle: Strings.Track.completedTopics
-            )
-
-            if let capstoneTopicsText = viewData.capstoneTopicsText {
-                TrackCardView(
-                    title: capstoneTopicsText,
-                    imageName: Images.Track.hammer,
-                    progress: viewData.capstoneTopicsProgress,
-                    subtitle: Strings.Track.appliedCoreTopics
-                )
-            }
-        }
-        .padding(.horizontal)
     }
 
     private func handleViewAction(_ viewAction: TrackFeatureActionViewAction) {

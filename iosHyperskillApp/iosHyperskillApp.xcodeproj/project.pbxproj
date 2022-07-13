@@ -186,6 +186,7 @@
 		2CAE8D0C2805829A00E6C83D /* StepViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAE8D0B2805829A00E6C83D /* StepViewData.swift */; };
 		2CAFD38F27FC517D00F88B0B /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAFD38E27FC517D00F88B0B /* ColorPalette.swift */; };
 		2CAFD39127FC5D5D00F88B0B /* Color+DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAFD39027FC5D5D00F88B0B /* Color+DesignSystem.swift */; };
+		2CBDC647287ECAAB002FB6F6 /* TrackCardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBDC646287ECAAB002FB6F6 /* TrackCardsView.swift */; };
 		2CC4AAF1280DB513002276A0 /* WebOAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC4AAF0280DB513002276A0 /* WebOAuthService.swift */; };
 		2CCCA3992862D58E00D98089 /* StepQuizStringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCCA3982862D58E00D98089 /* StepQuizStringView.swift */; };
 		2CCCA39B2862E3BB00D98089 /* StepQuizStringDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCCA39A2862E3BB00D98089 /* StepQuizStringDataType.swift */; };
@@ -443,6 +444,7 @@
 		2CAE8D0B2805829A00E6C83D /* StepViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepViewData.swift; sourceTree = "<group>"; };
 		2CAFD38E27FC517D00F88B0B /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		2CAFD39027FC5D5D00F88B0B /* Color+DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+DesignSystem.swift"; sourceTree = "<group>"; };
+		2CBDC646287ECAAB002FB6F6 /* TrackCardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackCardsView.swift; sourceTree = "<group>"; };
 		2CC4AAF0280DB513002276A0 /* WebOAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebOAuthService.swift; sourceTree = "<group>"; };
 		2CCCA3982862D58E00D98089 /* StepQuizStringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizStringView.swift; sourceTree = "<group>"; };
 		2CCCA39A2862E3BB00D98089 /* StepQuizStringDataType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizStringDataType.swift; sourceTree = "<group>"; };
@@ -1047,10 +1049,10 @@
 		2C65636D28742963006AAD77 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2C88C71E28745DD0005B7311 /* TrackCardView.swift */,
 				2C65637928744DDA006AAD77 /* TrackHeaderView.swift */,
 				2C9EB9572861BA57007DDE44 /* TrackView.swift */,
 				2C65637428743F32006AAD77 /* About */,
+				2CBDC648287ECAB2002FB6F6 /* Cards */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1306,6 +1308,15 @@
 				2C25BFD42851F8F00036C689 /* UIColor+DesignSystem.swift */,
 			);
 			path = Theme;
+			sourceTree = "<group>";
+		};
+		2CBDC648287ECAB2002FB6F6 /* Cards */ = {
+			isa = PBXGroup;
+			children = (
+				2CBDC646287ECAAB002FB6F6 /* TrackCardsView.swift */,
+				2C88C71E28745DD0005B7311 /* TrackCardView.swift */,
+			);
+			path = Cards;
 			sourceTree = "<group>";
 		};
 		2CC4AAF2280DB8B6002276A0 /* Web */ = {
@@ -1834,6 +1845,7 @@
 			files = (
 				2CCCA39F2862E45300D98089 /* StepQuizStringViewModel.swift in Sources */,
 				2C2452492847C27C00226702 /* Images+SystemNames.swift in Sources */,
+				2CBDC647287ECAAB002FB6F6 /* TrackCardsView.swift in Sources */,
 				2C5B2A2828659AD80097B270 /* CodeElementSize.swift in Sources */,
 				2CAFD39127FC5D5D00F88B0B /* Color+DesignSystem.swift in Sources */,
 				2CF4341228126C79002893CD /* View+EndEditing.swift in Sources */,

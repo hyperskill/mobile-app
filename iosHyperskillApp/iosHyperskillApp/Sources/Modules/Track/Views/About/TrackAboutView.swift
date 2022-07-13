@@ -42,6 +42,7 @@ struct TrackAboutView: View {
                 .font(.body)
                 .foregroundColor(.secondaryText)
         }
+        .frame(maxWidth: .infinity)
         .padding(appearance.insets.edgeInsets)
         .background(BackgroundView(color: Color(ColorPalette.surface)))
     }
