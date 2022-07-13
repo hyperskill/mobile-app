@@ -39,6 +39,10 @@ import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponent
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponentImpl
+import org.hyperskill.app.track.injection.PlatformTrackComponent
+import org.hyperskill.app.track.injection.PlatformTrackComponentImpl
+import org.hyperskill.app.track.injection.TrackComponent
+import org.hyperskill.app.track.injection.TrackComponentImpl
 
 class AndroidAppComponentImpl(
     private val application: Application,
@@ -112,6 +116,15 @@ class AndroidAppComponentImpl(
      */
     override fun buildPlatformCodeEditorComponent(): PlatformCodeEditorComponent =
         PlatformCodeEditorComponentImpl(application)
+
+    /**
+     * Track component
+     */
+    override fun buildTrackComponent(): TrackComponent =
+        TrackComponentImpl(this)
+
+    override fun buildPlatformTrackComponent(trackComponent: TrackComponent): PlatformTrackComponent =
+        PlatformTrackComponentImpl(trackComponent)
 
     /**
      * Profile component

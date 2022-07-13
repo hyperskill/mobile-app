@@ -68,7 +68,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     router.switch(HomeScreen)
                 }
                 R.id.track_tab -> {
-                    router.switch(TrackScreen)
+                    // TODO get id from cached profile when ALTAPPS-164 is merged
+                    router.switch(TrackScreen(31))
                 }
                 R.id.profile_tab -> {
                     router.switch(ProfileScreen(isInitCurrent = true))

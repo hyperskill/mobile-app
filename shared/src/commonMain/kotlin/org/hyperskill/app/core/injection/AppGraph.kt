@@ -8,6 +8,7 @@ import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
+import org.hyperskill.app.track.injection.TrackComponent
 
 interface AppGraph {
     val commonComponent: CommonComponent
@@ -19,5 +20,6 @@ interface AppGraph {
     fun buildAuthCredentialsComponent(): AuthCredentialsComponent
     fun buildStepComponent(): StepComponent
     fun buildStepQuizComponent(): StepQuizComponent
+    fun buildTrackComponent(): TrackComponent
     fun buildProfileComponent(): ProfileComponent
 }
