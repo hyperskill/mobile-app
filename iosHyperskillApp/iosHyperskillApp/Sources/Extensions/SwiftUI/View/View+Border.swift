@@ -2,7 +2,7 @@ import SwiftUI
 
 extension View {
     func addBorder(
-        color: Color = Color(ColorPalette.onSurfaceAlpha12),
+        color: Color = .border,
         width: CGFloat = 1,
         cornerRadius: CGFloat = 8
     ) -> some View {

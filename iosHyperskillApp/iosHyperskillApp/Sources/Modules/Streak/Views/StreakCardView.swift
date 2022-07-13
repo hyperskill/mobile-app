@@ -27,7 +27,7 @@ struct StreakCardView: View {
         )
         .padding()
         .background(Color(ColorPalette.surface))
-        .addBorder(color: Color(ColorPalette.onSurfaceAlpha12))
+        .addBorder()
         .shadow(
             color: appearance.shadowColor,
             radius: appearance.shadowRadius,

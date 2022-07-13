@@ -45,7 +45,7 @@ extension Color {
     static var opaqueSeparator: Color { Color(UIColor.opaqueSeparator) }
 
     /// The color for borders.
-    static var border: Color { Color(UIColor.dynamic(light: ColorPalette.brown, dark: .separator)) }
+    static var border: Color { Color(ColorPalette.onSurfaceAlpha9) }
 
     // MARK: Standard Content Background Colors
 
