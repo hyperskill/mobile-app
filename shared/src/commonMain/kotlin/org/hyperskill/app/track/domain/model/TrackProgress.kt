@@ -47,11 +47,15 @@ data class TrackProgress(
     @SerialName("certificate_url")
     val certificateUrl: String?
 ) {
-    private val internalfunMeasure = (funMeasure ?: 0).toDouble()
-    private val internalClarity = (clarity ?: 0).toDouble()
-    private val internalUsefulness = (usefulness ?: 0).toDouble()
 
-    private val avgRating = (internalfunMeasure + internalClarity + internalUsefulness) / 3
+    val averageRating: Double
+        get() {
+            val internalfunMeasure = (funMeasure ?: 0).toDouble()
+            val internalClarity = (clarity ?: 0).toDouble()
+            val internalUsefulness = (usefulness ?: 0).toDouble()
+            val avgRating = (internalfunMeasure + internalClarity + internalUsefulness) / 3
 
-    val trackRating = (avgRating * 10).roundToInt() / 10.0
+            return (avgRating * 10).roundToInt() / 10.0
+        }
+
 }

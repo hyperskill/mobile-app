@@ -147,7 +147,7 @@ class TrackFragment :
 
     private fun setupAboutSection() {
         with(viewBinding) {
-            trackAboutUsefulnessTextView.text = "${trackProgress.trackRating}"
+            trackAboutUsefulnessTextView.text = "${trackProgress.averageRating}"
             val hoursToComplete = (track.secondsToComplete / 3600).roundToInt()
             trackAboutAllPerformTimeTextView.text = resources.getQuantityString(
                 R.plurals.hours,
