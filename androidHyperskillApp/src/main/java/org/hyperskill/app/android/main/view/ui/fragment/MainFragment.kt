@@ -71,7 +71,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     router.switch(TrackScreen)
                 }
                 R.id.profile_tab -> {
-                    router.switch(ProfileScreen)
+                    router.switch(ProfileScreen(isInitCurrent = true))
                 }
             }
             return@setOnItemSelectedListener true

@@ -102,4 +102,10 @@
         <item name="strokeWidth">1dp</item>
     </style>
 
+    <style name="ColorSwitchStyle">
+        <item name="colorControlActivated">@color/color_primary</item>
+        <item name="colorSwitchThumbNormal">@color/color_on_primary</item>
+        <item name="android:colorForeground">@color/color_on_surface_alpha_9</item>
+    </style>
+
 </resources>

@@ -36,7 +36,7 @@ struct StreakView: View {
                         .font(.title)
                         .foregroundColor(.primaryText)
 
-                    if currentStreak == maxStreak {
+                    if currentStreak > maxStreak {
                         Image(Images.Home.Streak.crown)
                             .renderingMode(.original)
                             .resizable()
