@@ -47,7 +47,6 @@ data class TrackProgress(
     @SerialName("certificate_url")
     val certificateUrl: String?
 ) {
-
     val averageRating: Double
         get() {
             val internalfunMeasure = (funMeasure ?: 0).toDouble()
@@ -57,5 +56,4 @@ data class TrackProgress(
 
             return (avgRating * 10).roundToInt() / 10.0
         }
-
 }
