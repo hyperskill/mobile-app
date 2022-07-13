@@ -29,7 +29,8 @@ class HomeComponentImpl(appGraph: AppGraph) : HomeComponent {
     private val profileRemoteDataSource: ProfileRemoteDataSource = ProfileRemoteDataSourceImpl(
         appGraph.networkComponent.authorizedHttpClient
     )
-    private val profileRepository: ProfileRepository = ProfileRepositoryImpl(profileRemoteDataSource)
+    private val profileRepository: ProfileRepository =
+        ProfileRepositoryImpl(profileRemoteDataSource)
     private val profileInteractor: ProfileInteractor = ProfileInteractor(profileRepository)
 
     private val stepRemoteDataSource: StepRemoteDataSource = StepRemoteDataSourceImpl(

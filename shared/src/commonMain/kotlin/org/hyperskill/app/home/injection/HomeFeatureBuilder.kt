@@ -14,9 +14,18 @@ import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 object HomeFeatureBuilder {
-    fun build(streakInteractor: StreakInteractor, profileInteractor: ProfileInteractor, stepInteractor: StepInteractor): Feature<State, Message, Action> {
+    fun build(
+        streakInteractor: StreakInteractor,
+        profileInteractor: ProfileInteractor,
+        stepInteractor: StepInteractor
+    ): Feature<State, Message, Action> {
         val homeReducer = HomeReducer()
-        val homeActionDispatcher = HomeActionDispatcher(ActionDispatcherOptions(), streakInteractor, profileInteractor, stepInteractor)
+        val homeActionDispatcher = HomeActionDispatcher(
+            ActionDispatcherOptions(),
+            streakInteractor,
+            profileInteractor,
+            stepInteractor
+        )
 
         return ReduxFeature(State.Idle, homeReducer)
             .wrapWithActionDispatcher(homeActionDispatcher)

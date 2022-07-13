@@ -24,21 +24,22 @@ class HomeActionDispatcher(
                         return
                     }
 
-                val problemOfDayState: HomeFeature.ProblemOfDayState = if (currentProfile.dailyStep == null) {
-                    HomeFeature.ProblemOfDayState.Empty
-                } else {
-                    val step = stepInteractor.getStep(currentProfile.dailyStep)
-                        .getOrElse {
-                            onNewMessage(Message.HomeFailure)
-                            return
-                        }
-
-                    if (step.isCompleted) {
-                        HomeFeature.ProblemOfDayState.Solved(step)
+                val problemOfDayState: HomeFeature.ProblemOfDayState =
+                    if (currentProfile.dailyStep == null) {
+                        HomeFeature.ProblemOfDayState.Empty
                     } else {
-                        HomeFeature.ProblemOfDayState.NeedToSolve(step)
+                        val step = stepInteractor.getStep(currentProfile.dailyStep)
+                            .getOrElse {
+                                onNewMessage(Message.HomeFailure)
+                                return
+                            }
+
+                        if (step.isCompleted) {
+                            HomeFeature.ProblemOfDayState.Solved(step)
+                        } else {
+                            HomeFeature.ProblemOfDayState.NeedToSolve(step)
+                        }
                     }
-                }
 
                 val streak = streakInteractor
                     .getStreaks(currentProfile.id)

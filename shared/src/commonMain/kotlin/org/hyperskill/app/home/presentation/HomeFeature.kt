@@ -19,12 +19,14 @@ interface HomeFeature {
 
     sealed interface Message {
         data class Init(val forceUpdate: Boolean) : Message
-        data class HomeSuccess(val streak: Streak?, val problemOfDayState: ProblemOfDayState): Message
-        object HomeFailure: Message
+        data class HomeSuccess(val streak: Streak?, val problemOfDayState: ProblemOfDayState) :
+            Message
+
+        object HomeFailure : Message
     }
 
     sealed interface Action {
-        object FetchHomeScreenData: Action
+        object FetchHomeScreenData : Action
         sealed class ViewAction : Action
     }
 }
