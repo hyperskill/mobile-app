@@ -1,11 +1,12 @@
 import Foundation
+import shared
 
 struct ProfileSocialAccount {
     let type: SocialAccount
     let username: String
 
     var profileURL: URL? {
-        URL(string: "\(type.profilePrefix)/\(username)")
+        URL(string: "\(type.profilePrefix)\(username)")
     }
 
     enum SocialAccount: CaseIterable {
@@ -18,15 +19,15 @@ struct ProfileSocialAccount {
         fileprivate var profilePrefix: String {
             switch self {
             case .facebook:
-                return "https://www.facebook.com"
+                return SocialNetworksRedirect.facebook.baseUrl
             case .twitter:
-                return "https://twitter.com"
+                return SocialNetworksRedirect.twitter.baseUrl
             case .linkedIn:
-                return "https://www.linkedin.com/in"
+                return SocialNetworksRedirect.linkedin.baseUrl
             case .reddit:
-                return "https://www.reddit.com/user"
+                return SocialNetworksRedirect.reddit.baseUrl
             case .github:
-                return "https://github.com"
+                return SocialNetworksRedirect.github.baseUrl
             }
         }
     }
