@@ -1,5 +1,6 @@
 package org.hyperskill.app.track.presentation
 
+import kotlinx.coroutines.async
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.track.domain.interactor.TrackInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
@@ -13,23 +14,29 @@ class TrackActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchTrack -> {
-                val trackResult = trackInteractor.getTrack(action.trackId)
-                val trackProgressResult = trackInteractor.getTrackProgress(action.trackId)
-                val studyPlanResult = trackInteractor.getStudyPlanByTrackId(action.trackId)
+                val trackResult = actionScope.async {
+                    trackInteractor.getTrack(action.trackId)
+                }
+                val trackProgressResult = actionScope.async {
+                    trackInteractor.getTrackProgress(action.trackId)
+                }
+                val studyPlanResult = actionScope.async {
+                    trackInteractor.getStudyPlanByTrackId(action.trackId)
+                }
 
-                val track = trackResult.getOrElse {
+                val track = trackResult.await().getOrElse {
                     onNewMessage(
                         Message.TrackError(message = it.message ?: "")
                     )
                     return
                 }
-                val trackProgress = trackProgressResult.getOrElse {
+                val trackProgress = trackProgressResult.await().getOrElse {
                     onNewMessage(
                         Message.TrackError(message = it.message ?: "")
                     )
                     return
                 }
-                val studyPlan = studyPlanResult.getOrNull()
+                val studyPlan = studyPlanResult.await().getOrNull()
 
                 onNewMessage(
                     Message.TrackSuccess(track, trackProgress, studyPlan)

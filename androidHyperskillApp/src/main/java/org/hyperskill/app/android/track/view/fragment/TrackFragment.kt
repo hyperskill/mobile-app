@@ -1,9 +1,9 @@
 package org.hyperskill.app.android.track.view.fragment
 
 import android.content.Intent
+import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
-import android.text.Html
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -15,12 +15,12 @@ import coil.size.Scale
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentTrackBinding
-import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.track.domain.model.StudyPlan
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.domain.model.TrackProgress
 import org.hyperskill.app.track.presentation.TrackFeature
 import org.hyperskill.app.track.presentation.TrackViewModel
+import org.hyperskill.app.track.routing.TrackRedirectLinkBuilder
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -46,6 +46,10 @@ class TrackFragment :
 
     private var trackId: Long by argument()
 
+    private lateinit var track: Track
+    private lateinit var trackProgress: TrackProgress
+    private var studyPlan: StudyPlan? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponents()
@@ -70,7 +74,7 @@ class TrackFragment :
     private fun initViewStateDelegate() {
         with(viewStateDelegate) {
             addState<TrackFeature.State.Idle>()
-            addState<TrackFeature.State.Loading>(viewBinding.trackProgress)
+            addState<TrackFeature.State.Loading>(viewBinding.trackProgressBar)
             addState<TrackFeature.State.NetworkError>(viewBinding.trackError.root)
             addState<TrackFeature.State.Content>(viewBinding.trackContainer)
         }
@@ -82,15 +86,23 @@ class TrackFragment :
 
     override fun render(state: TrackFeature.State) {
         viewStateDelegate.switchState(state)
-        if (state is TrackFeature.State.Loading) {
-            viewBinding.trackProgress.visibility = View.VISIBLE
-        }
+
         if (state is TrackFeature.State.Content) {
-            initTrack(state.track, state.trackProgress, state.studyPlan)
+            track = state.track
+            trackProgress = state.trackProgress
+            studyPlan = state.studyPlan
+
+            setupTrack()
         }
     }
 
-    private fun initTrack(track: Track, trackProgress: TrackProgress, studyPlan: StudyPlan?) {
+    private fun setupTrack() {
+        setupTrackCoverAndName()
+        setupCards()
+        setupAboutSection()
+    }
+
+    private fun setupTrackCoverAndName() {
         val svgImageLoader = ImageLoader.Builder(requireContext())
             .components {
                 add(SvgDecoder.Factory())
@@ -104,18 +116,12 @@ class TrackFragment :
             viewBinding.trackIconImageView.visibility = View.GONE
         }
         viewBinding.trackNameTextView.text = track.title
-
-        initCards(track, trackProgress, studyPlan)
-        initAboutSection(track, trackProgress)
     }
 
-    private fun initCards(track: Track, trackProgress: TrackProgress, studyPlan: StudyPlan?) {
+    private fun setupCards() {
         with(viewBinding) {
-            // TODO must get this time from /api/study-plans
             val hoursToComplete = studyPlan?.secondsToReachTrack?.toFloat()?.div(3600)?.roundToInt() ?: 0
             trackTimeToCompleteTextView.text = "~ $hoursToComplete h"
-
-            trackCompletedGraduateProjectsTextView.text = "${trackProgress.completedCapstoneProjects.size}"
 
             trackCompletedTopicsTextView.text = "${trackProgress.learnedTopicsCount} / ${track.topicsCount}"
             trackCompletedTopicsProgressIndicator.progress =
@@ -124,28 +130,57 @@ class TrackFragment :
                 else
                     trackProgress.learnedTopicsCount / track.topicsCount * 100
 
-            trackAppliedCoreTopicsTextView.text = "${trackProgress.appliedCapstoneTopicsCount} / ${track.capstoneTopicsCount}"
-            trackAppliedCoreTopicsProgressIndicator.progress =
-                if (track.capstoneTopicsCount == 0)
-                    0
-                else
-                    trackProgress.appliedCapstoneTopicsCount / track.capstoneTopicsCount * 100
+            if (track.capstoneProjects.isEmpty()) {
+                trackProgressCompletedGraduateProjectsCardView.visibility = View.GONE
+            } else {
+                trackCompletedGraduateProjectsTextView.text = "${trackProgress.completedCapstoneProjects.size}"
+            }
+
+            if (track.capstoneTopicsCount == 0) {
+                trackAppliedCoreTopicsCardView.visibility = View.GONE
+            } else {
+                trackAppliedCoreTopicsTextView.text = "${trackProgress.appliedCapstoneTopicsCount} / ${track.capstoneTopicsCount}"
+                trackAppliedCoreTopicsProgressIndicator.progress = trackProgress.appliedCapstoneTopicsCount / track.capstoneTopicsCount * 100
+            }
         }
     }
 
-    private fun initAboutSection(track: Track, trackProgress: TrackProgress) {
+    private fun setupAboutSection() {
         with(viewBinding) {
-            trackAboutUsefulnessTextView.text = "${trackProgress.usefulness ?: "0"}"
-            trackAboutAllPerformTimeTextView.text = "${(track.secondsToComplete / 3600).roundToInt()} hours"
-            trackAboutProjectsCountTextView.text = "${track.projects.size} projects"
-            trackAboutTopicsCountTextView.text = "${track.topicsCount} topics"
+            trackAboutUsefulnessTextView.text = "${trackProgress.averageRating}"
+            val hoursToComplete = (track.secondsToComplete / 3600).roundToInt()
+            trackAboutAllPerformTimeTextView.text = resources.getQuantityString(
+                R.plurals.hours,
+                hoursToComplete,
+                hoursToComplete
+            )
+
+            if (track.projects.isEmpty()) {
+                trackAboutProjectsCountTextView.visibility = View.GONE
+            } else {
+                trackAboutProjectsCountTextView.text = resources.getQuantityString(
+                    R.plurals.projects,
+                    track.projects.size,
+                    track.projects.size
+                )
+            }
+
+            if (track.topicsCount == 0) {
+                trackAboutTopicsCountTextView.visibility = View.GONE
+            } else {
+                trackAboutTopicsCountTextView.text = resources.getQuantityString(
+                    R.plurals.topics,
+                    track.topicsCount,
+                    track.topicsCount
+                )
+            }
+
             trackAboutDescriptionTextView.text = track.description
 
-            // TODO fromHtml is deprecated, what to use instead?
-            trackAboutKeepYourProgressInWebTextView.text = Html.fromHtml(resources.getString(R.string.track_keep_progress_in_web_text))
+            trackAboutKeepYourProgressInWebTextView.paintFlags = trackAboutKeepYourProgressInWebTextView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
             trackAboutKeepYourProgressInWebTextView.setOnClickListener {
                 val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = Uri.parse(BuildKonfig.BASE_URL + "tracks/${track.id}")
+                intent.data = Uri.parse(TrackRedirectLinkBuilder.getTrackLink(track.id))
                 startActivity(intent)
             }
         }

@@ -18,6 +18,7 @@
     <color name="color_white_50_alpha_60">#FFFFFF99</color>
     <color name="color_white_50_alpha_38">#FFFFFF61</color>
     <color name="color_white_50_alpha_12">#FFFFFF1F</color>
+    <color name="color_white_50_alpha_9">#FFFFFF17</color>
 
     <color name="color_brown">#EDEDED</color>
     
@@ -63,6 +64,7 @@
     <color name="color_black_900_alpha_60">#00000099</color>
     <color name="color_black_900_alpha_38">#00000061</color>
     <color name="color_black_900_alpha_12">#0000001F</color>
+    <color name="color_black_900_alpha_9">#00000017</color>
 
     <!-- Candidate for removal -->
     <color name="color_black_900_alpha_7">#00000017</color>
@@ -147,6 +149,10 @@
     <color name="color_on_surface_alpha_12">
         <light>@color/color_black_900_alpha_12</light>
         <dark>@color/color_white_50_alpha_12</dark>
+    </color>
+    <color name="color_on_surface_alpha_9">
+        <light>@color/color_black_900_alpha_9</light>
+        <dark>@color/color_white_50_alpha_9</dark>
     </color>
 
     <color name="color_error">
