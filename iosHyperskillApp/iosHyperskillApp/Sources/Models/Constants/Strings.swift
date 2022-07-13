@@ -113,6 +113,8 @@ enum Strings {
 
     enum Home {
         static let title = sharedStrings.home_title.localized()
+        static let helloLetsLearn = sharedStrings.home_hello_lets_learn.localized()
+        static let keepPracticing = sharedStrings.home_keep_practicing.localized()
     }
 
     // MARK: - Track -

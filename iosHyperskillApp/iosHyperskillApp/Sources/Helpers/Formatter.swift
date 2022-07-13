@@ -27,6 +27,12 @@ final class Formatter {
     }
 
     /// Format minutes count with localized and pluralized suffix; 1 -> "1 minute", 5 -> "5 minutes"
+    func minutesCount(seconds: Int) -> String {
+        let minute = 60
+        return minutesCount(seconds / minute)
+    }
+
+    /// Format minutes count with localized and pluralized suffix; 1 -> "1 minute", 5 -> "5 minutes"
     func minutesCount(_ count: Int) -> String {
         minutesCount(Int32(count))
     }
@@ -35,6 +41,20 @@ final class Formatter {
     func minutesCount(_ count: Int32) -> String {
         resourceProvider.getQuantityString(
             pluralsResource: pluralsResources.minutes,
+            quantity: count,
+            args: KotlinArray(size: 1, init: { _ in NSNumber(value: count) })
+        )
+    }
+
+    /// Format minutes count with localized and pluralized suffix; 1 -> "1 hour", 5 -> "5 hours"
+    func hoursCount(_ count: Int) -> String {
+        hoursCount(Int32(count))
+    }
+
+    /// Format minutes count with localized and pluralized suffix; 1 -> "1 hour", 5 -> "5 hours"
+    func hoursCount(_ count: Int32) -> String {
+        resourceProvider.getQuantityString(
+            pluralsResource: pluralsResources.hours,
             quantity: count,
             args: KotlinArray(size: 1, init: { _ in NSNumber(value: count) })
         )
