@@ -9,6 +9,8 @@ import org.hyperskill.app.auth.injection.PlatformAuthCredentialsComponent
 import org.hyperskill.app.auth.injection.PlatformAuthSocialComponent
 import org.hyperskill.app.auth.injection.PlatformAuthSocialWebViewComponent
 import org.hyperskill.app.core.injection.AppGraph
+import org.hyperskill.app.home.injection.HomeComponent
+import org.hyperskill.app.home.injection.PlatformHomeComponent
 import org.hyperskill.app.main.injection.PlatformMainComponent
 import org.hyperskill.app.profile.injection.PlatformProfileComponent
 import org.hyperskill.app.profile.injection.ProfileComponent
@@ -29,4 +31,5 @@ interface AndroidAppComponent : AppGraph {
     fun buildPlatformLatexComponent(): PlatformLatexComponent
     fun buildPlatformCodeEditorComponent(): PlatformCodeEditorComponent
     fun buildPlatformProfileComponent(profileComponent: ProfileComponent): PlatformProfileComponent
+    fun buildPlatformHomeComponent(homeComponent: HomeComponent): PlatformHomeComponent
 }
