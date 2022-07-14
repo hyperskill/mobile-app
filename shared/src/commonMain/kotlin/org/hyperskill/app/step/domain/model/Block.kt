@@ -21,6 +21,16 @@ data class Block(
         @SerialName("language")
         val language: String? = null,
         @SerialName("is_checkbox")
-        val isCheckbox: Boolean? = null
+        val isCheckbox: Boolean? = null,
+        @SerialName("execution_time_limit")
+        val executionTimeLimit: Int? = null,
+        @SerialName("execution_memory_limit")
+        val executionMemoryLimit: Int? = null,
+        @SerialName("limits")
+        val limits: Map<String, Limit>? = null,
+        @SerialName("code_templates")
+        val codeTemplates: Map<String, String>? = null,
+        @SerialName("samples")
+        val samples: List<Sample>
     )
 }
