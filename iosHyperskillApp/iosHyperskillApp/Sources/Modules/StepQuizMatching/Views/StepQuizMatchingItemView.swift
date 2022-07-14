@@ -4,8 +4,6 @@ extension StepQuizMatchingItemView {
     struct Appearance {
         let interItemSpacing = LayoutInsets.defaultInset
         let itemHorizontalInset: CGFloat = 64
-
-        let borderColor = ColorPalette.onSurfaceAlpha12
     }
 }
 
@@ -27,7 +25,7 @@ struct StepQuizMatchingItemView: View {
                 Text(title)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding()
-                    .addBorder(color: Color(appearance.borderColor))
+                    .addBorder()
                     .animation(nil)
 
                 Spacer(minLength: appearance.itemHorizontalInset)
