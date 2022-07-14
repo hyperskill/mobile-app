@@ -24,33 +24,34 @@ class HomeActionDispatcher(
                         return
                     }
 
-                val problemOfDayState: HomeFeature.ProblemOfDayState =
-                    if (currentProfile.dailyStep == null) {
-                        HomeFeature.ProblemOfDayState.Empty
-                    } else {
-                        val step = stepInteractor.getStep(currentProfile.dailyStep)
-                            .getOrElse {
-                                onNewMessage(Message.HomeFailure)
-                                return
-                            }
-
-                        if (step.isCompleted) {
-                            HomeFeature.ProblemOfDayState.Solved(step)
-                        } else {
-                            HomeFeature.ProblemOfDayState.NeedToSolve(step)
-                        }
-                    }
-
-                val streak = streakInteractor
-                    .getStreaks(currentProfile.id)
+                val problemOfDayState = getProblemOfDayState(currentProfile.dailyStep)
                     .getOrElse {
                         onNewMessage(Message.HomeFailure)
                         return
                     }
-                    .firstOrNull()
 
-                onNewMessage(Message.HomeSuccess(streak, problemOfDayState))
+                val message = streakInteractor
+                    .getStreaks(currentProfile.id)
+                    .map { Message.HomeSuccess(it.firstOrNull(), problemOfDayState) }
+                    .getOrElse { Message.HomeFailure }
+
+                onNewMessage(message)
             }
         }
     }
+
+    private suspend fun getProblemOfDayState(dailyStepId: Long?): Result<HomeFeature.ProblemOfDayState> =
+        if (dailyStepId == null) {
+            Result.success(HomeFeature.ProblemOfDayState.Empty)
+        } else {
+            stepInteractor
+                .getStep(dailyStepId)
+                .map { step ->
+                    if (step.isCompleted) {
+                        HomeFeature.ProblemOfDayState.Solved(step)
+                    } else {
+                        HomeFeature.ProblemOfDayState.NeedToSolve(step)
+                    }
+                }
+        }
 }
