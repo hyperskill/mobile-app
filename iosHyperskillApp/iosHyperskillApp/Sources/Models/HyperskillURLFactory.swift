@@ -1,6 +1,10 @@
 import Foundation
 
 enum HyperskillURLFactory {
+    static let jetbrainsHost = "jetbrains.com"
+    static let hiHyperskillHost = "hi.hyperskill.org"
+    static let supportHyperskillHost = "support.hyperskill.org"
+
     // MARK: Auth
 
     static func makeRegister(fromMobile: Bool = true) -> URL? {
@@ -23,6 +27,20 @@ enum HyperskillURLFactory {
 
     static func makeStudyPlan() -> URL? {
         makeURL(path: .studyPlan)
+    }
+
+    // MARK: Settings
+
+    static func makeTermOfService() -> URL? {
+        makeURL(path: .termOfService, host: jetbrainsHost)
+    }
+
+    static func makePrivacyPolicy() -> URL? {
+        makeURL(path: .privacyPolicy, host: hiHyperskillHost)
+    }
+
+    static func makeHelpCenter() -> URL? {
+        makeURL(path: .helpCenter, host: supportHyperskillHost)
     }
 
     // MARK: - Private API -
@@ -60,6 +78,9 @@ enum HyperskillURLFactory {
         case profile(Int)
         case track(Int)
         case studyPlan
+        case termOfService
+        case privacyPolicy
+        case helpCenter
 
         var formattedPath: String {
             switch self {
@@ -71,6 +92,12 @@ enum HyperskillURLFactory {
                 return "/tracks/\(id)"
             case .studyPlan:
                 return "/study-plan"
+            case .termOfService:
+                return "/legal/terms/jetbrains-academy.html"
+            case .privacyPolicy:
+                return "/terms"
+            case .helpCenter:
+                return "/hc/en-us"
             }
         }
     }
