@@ -70,4 +70,8 @@
     <dimen name="streak_last_five_recycler_items_space">6dp</dimen>
     <dimen name="streak_today_streak_card_stroke_width">2dp</dimen>
 
+    <!-- Step quiz code -->
+    <dimen name="embedded_code_editor_height">96dp</dimen>
+    <dimen name="step_quiz_fullscreen_code_layout_bottom_padding">80dp</dimen>
+
 </resources>

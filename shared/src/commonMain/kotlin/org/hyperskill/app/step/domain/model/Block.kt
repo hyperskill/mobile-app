@@ -31,6 +31,6 @@ data class Block(
         @SerialName("code_templates")
         val codeTemplates: Map<String, String>? = null,
         @SerialName("samples")
-        val samples: List<Sample>
+        val samples: List<List<String>>? = null
     )
 }

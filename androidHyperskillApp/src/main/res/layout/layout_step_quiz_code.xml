@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/stepQuizCodeContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+
+    app:layout_goneMarginTop="0dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginBottom="16dp"
+
+    app:layout_constraintVertical_bias="0"
+
+    app:layout_constraintTop_toBottomOf="@+id/stepQuizDescription"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintBottom_toTopOf="@id/stepQuizFeedbackBlocks">
+
+    <include
+        android:id="@+id/stepQuizCodeDetails"
+        layout="@layout/layout_step_quiz_code_details" />
+
+<!--    <LinearLayout-->
+<!--        android:orientation="vertical"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:padding="20dp"-->
+<!--        android:layout_height="wrap_content" >-->
+
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_marginBottom="16dp"-->
+<!--            android:textSize="12sp"-->
+<!--            android:text="@string/step_quiz_code_write_program_text"-->
+<!--            android:layout_height="wrap_content" />-->
+
+<!--        <include layout="@layout/view_divider_vertical" />-->
+
+
+<!--    </LinearLayout>-->
+
+    <org.hyperskill.app.android.code.view.widget.CodeEditorLayout
+        android:layout_marginTop="20dp"
+        android:id="@+id/codeStepLayout"
+        android:layout_marginHorizontal="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/embedded_code_editor_height"
+        android:fillViewport="true" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

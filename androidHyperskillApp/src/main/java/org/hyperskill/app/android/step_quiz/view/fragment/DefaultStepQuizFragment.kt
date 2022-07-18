@@ -73,7 +73,7 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
 
     protected abstract fun createStepQuizFormDelegate(containerBinding: FragmentStepQuizBinding): StepQuizFormDelegate
 
-    private fun onActionButtonClicked() {
+    protected fun onActionButtonClicked() {
         val replyResult = stepQuizFormDelegate.createReply()
         when (replyResult.validation) {
             is ReplyResult.Validation.Success ->
