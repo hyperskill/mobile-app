@@ -17,6 +17,7 @@
             android:layout_height="match_parent" />
 
         <include
+            android:id="@+id/fullScreenCodeKeyboardExtension"
             layout="@layout/layout_step_quiz_code_keyboard_extension"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
