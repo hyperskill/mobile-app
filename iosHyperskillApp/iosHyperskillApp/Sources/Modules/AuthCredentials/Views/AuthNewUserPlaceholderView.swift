@@ -32,7 +32,7 @@ struct AuthNewUserPlaceholderView: View {
                 .foregroundColor(.primaryText)
 
             if let registerURL = Self.registerURL {
-                URLButton(text: Strings.Auth.NewUserPlaceholder.buttonText, url: registerURL)
+                OpenURLInsideAppButton(text: Strings.Auth.NewUserPlaceholder.buttonText, url: registerURL)
                     .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
             }
 

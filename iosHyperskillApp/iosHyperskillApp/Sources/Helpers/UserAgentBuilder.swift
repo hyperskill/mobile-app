@@ -13,9 +13,9 @@ enum UserAgentBuilder {
         }()
 
         return UserAgentInfo(
-            versionName: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "N/A",
+            versionName: MainBundleInfo.versionName,
             osVersion: osVersion,
-            versionCode: Bundle.main.infoDictionary?[kCFBundleVersionKey as String] as? String ?? "N/A",
+            versionCode: MainBundleInfo.versionCode,
             applicationId: Bundle.main.bundleIdentifier ?? "N/A"
         )
     }

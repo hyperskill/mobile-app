@@ -1,45 +1,57 @@
+import Highlightr
 import shared
 import SwiftUI
 
-enum Theme: String, CaseIterable, Identifiable {
-    case light, dark, system
+private enum Theme: String, CaseIterable, Identifiable {
+    case light
+    case dark
+    case system
+
     var id: Self { self }
+
+    var title: String {
+        switch self {
+        case .light:
+            return Strings.Settings.light
+        case .dark:
+            return Strings.Settings.dark
+        case .system:
+            return Strings.Settings.system
+        }
+    }
 }
 
 
 struct SettingsView: View {
     @Environment(\.presentationMode) private var presentationMode
 
-    private static let termsOfServiceURL = HyperskillURLFactory.makeTermOfService()
+    private static let termsOfServiceURL = URL(string: "https://www.jetbrains.com/legal/terms/jetbrains-academy.html")
 
-    private static let privacyPolicyURL = HyperskillURLFactory.makePrivacyPolicy()
+    private static let privacyPolicyURL = URL(string: "https://hi.hyperskill.org/terms")
 
-    private static let helpCenterURL = HyperskillURLFactory.makeHelpCenter()
+    private static let helpCenterURL = URL(string: "https://support.hyperskill.org/hc/en-us")
 
     @State private var selectedTheme: Theme = .light
 
     var body: some View {
         NavigationView {
             Form {
-                Section(
-                    header: Text(Strings.Settings.appearance)
-                        .font(.headline)
-                        .foregroundColor(Color(ColorPalette.primary))
-                ) {
+                Section(header: Text(Strings.Settings.appearance)) {
                     Picker(Strings.Settings.theme, selection: $selectedTheme) {
-                        Text(Strings.Settings.light).tag(Theme.light)
-                        Text(Strings.Settings.dark).tag(Theme.dark)
-                        Text(Strings.Settings.system).tag(Theme.system)
+                        ForEach(Theme.allCases) { theme in
+                            if theme != selectedTheme {
+                                Text(theme.title)
+                                    .navigationTitle(Strings.Settings.theme)
+                            } else {
+                                Text(theme.title)
+                            }
+                        }
                     }
                 }
 
-                Section(
-                    header: Text(Strings.Settings.about)
-                        .font(.headline)
-                        .foregroundColor(Color(ColorPalette.primary))
-                ) {
+                Section(header: Text(Strings.Settings.about)) {
                     if let termsOfServiceURL = Self.termsOfServiceURL {
-                        URLButton(
+                        OpenURLInsideAppButton(
                             text: Strings.Settings.termsOfService,
                             url: termsOfServiceURL
                         )
@@ -47,7 +59,7 @@ struct SettingsView: View {
                     }
 
                     if let privacyPolicyURL = Self.privacyPolicyURL {
-                        URLButton(
+                        OpenURLInsideAppButton(
                             text: Strings.Settings.privacyPolicy,
                             url: privacyPolicyURL
                         )
@@ -55,7 +67,7 @@ struct SettingsView: View {
                     }
 
                     if let helpCenterURL = Self.helpCenterURL {
-                        URLButton(
+                        OpenURLInsideAppButton(
                             text: Strings.Settings.helpCenter,
                             url: helpCenterURL
                         )
@@ -65,19 +77,14 @@ struct SettingsView: View {
                     HStack {
                         Text(Strings.Settings.version)
                             .foregroundColor(.primaryText)
-                            .font(.body)
                         Spacer()
-                        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
-                            Text(version)
-                                .foregroundColor(.secondaryText)
-                                .font(.body)
-                        }
+                        Text("\(MainBundleInfo.versionName) (\(MainBundleInfo.versionCode))")
+                            .foregroundColor(.secondaryText)
                     }
 
                     Button(Strings.Settings.rateApplication) {
                     }
                     .foregroundColor(Color(ColorPalette.primary))
-                    .font(.body)
                 }
 
                 Section {
@@ -92,21 +99,13 @@ struct SettingsView: View {
                     .foregroundColor(Color(ColorPalette.overlayRed))
                 }
             }
-
-
-
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(Strings.Settings.title)
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(
-                        action: { presentationMode.wrappedValue.dismiss() },
-                        label: {
-                            Text(Strings.Settings.done)
-                                .font(.body)
-                                .foregroundColor(Color(ColorPalette.primary))
-                        }
-                    )
+                ToolbarItem(placement: .primaryAction) {
+                    Button(Strings.General.done) {
+                        presentationMode.wrappedValue.dismiss()
+                    }
                 }
             }
         }

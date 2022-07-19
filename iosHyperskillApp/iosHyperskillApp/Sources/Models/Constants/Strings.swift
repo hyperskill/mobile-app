@@ -8,6 +8,7 @@ enum Strings {
 
     enum General {
         static let connectionError = sharedStrings.connection_error.localized()
+        static let done = sharedStrings.done_text.localized()
     }
 
     // MARK: - TabBar -
@@ -146,7 +147,6 @@ enum Strings {
 
     enum Settings {
         static let title = sharedStrings.settings_title.localized()
-        static let done = sharedStrings.settings_done.localized()
         static let appearance = sharedStrings.settings_appearance.localized()
         static let theme = sharedStrings.settings_theme.localized()
         static let light = sharedStrings.settings_light.localized()

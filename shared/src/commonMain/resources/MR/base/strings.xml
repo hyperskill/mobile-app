@@ -3,6 +3,7 @@
     <!-- General -->
     <string name="connection_error">Connection was lost</string>
     <string name="external_link_error">Unable to open link: %s</string>
+    <string name="done_text">Done</string>
 
     <!-- Users list -->
     <string name="user_list_search_button_title">Search</string>
@@ -130,7 +131,6 @@
 
     <!-- Settings -->
     <string name="settings_title">Settings</string>
-    <string name="settings_done">Done</string>
     <string name="settings_appearance">Appearance</string>
     <string name="settings_theme">Theme</string>
     <string name="settings_light">Light</string>

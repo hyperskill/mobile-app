@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct URLButton: View {
+struct OpenURLInsideAppButton: View {
     let text: String
 
     let url: URL
@@ -20,7 +20,7 @@ struct URLButton: View {
 struct URLButton_Previews: PreviewProvider {
     static var previews: some View {
         if let url = HyperskillURLFactory.makeRegister() {
-            URLButton(text: "URL button", url: url)
+            OpenURLInsideAppButton(text: "URL button", url: url)
         }
     }
 }
