@@ -9,8 +9,8 @@ import androidx.annotation.MainThread
 import androidx.appcompat.widget.AppCompatImageView
 import org.hyperskill.app.android.R
 
-class ArrowImageView(context: Context, attrs: AttributeSet?, defStyleAttr: Int)
-    : AppCompatImageView(context, attrs, defStyleAttr) {
+class ArrowImageView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
+    AppCompatImageView(context, attrs, defStyleAttr) {
 
     constructor(context: Context) : this(context, null)
 

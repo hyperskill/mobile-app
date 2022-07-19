@@ -1,5 +1,6 @@
 package org.hyperskill.app.android.view.base.ui.extension
 
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
@@ -29,7 +30,7 @@ fun TextView.setCompoundDrawables(
     @DrawableRes end: Int = -1,
     @DrawableRes bottom: Int = -1
 ) {
-    fun TextView.getDrawableOrNull(@DrawableRes res: Int) =
+    fun TextView.getDrawableOrNull(@DrawableRes res: Int): Drawable? =
         if (res != -1) AppCompatResources.getDrawable(context, res) else null
 
     val startDrawable = getDrawableOrNull(start)
@@ -81,9 +82,8 @@ fun View.expand(animationListener: Animation.AnimationListener? = null) {
             requestLayout()
         }
 
-        override fun willChangeBounds(): Boolean {
-            return true
-        }
+        override fun willChangeBounds(): Boolean =
+            true
     }
 
     a.duration = durationMillis.toLong()
