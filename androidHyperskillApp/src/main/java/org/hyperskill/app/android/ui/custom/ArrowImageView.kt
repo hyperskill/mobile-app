@@ -16,7 +16,6 @@ class ArrowImageView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) 
 
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
 
-
     companion object {
         private const val IS_ARROW_BOTTOM_DEFAULT = true
         private const val parentParcelableStateKey = "parentParcelableStateKey"

@@ -63,7 +63,6 @@ fun View.snackbar(message: String, length: Int = Snackbar.LENGTH_SHORT) {
         .show()
 }
 
-
 private const val durationMillis = 300
 
 fun View.expand(animationListener: Animation.AnimationListener? = null) {
@@ -104,9 +103,8 @@ fun View.collapse(animationListener: Animation.AnimationListener? = null) {
             }
         }
 
-        override fun willChangeBounds(): Boolean {
-            return true
-        }
+        override fun willChangeBounds(): Boolean =
+            true
     }
 
     a.duration = durationMillis.toLong()
