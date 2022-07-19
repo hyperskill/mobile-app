@@ -178,7 +178,13 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment(),
          *  Code play ground view binding
          */
         submitButtonSeparator = playgroundLayout.findViewById(R.id.submitButtonSeparator)
-        codeSubmitButton = playgroundLayout.findViewById(R.id.codeSubmitButton)
+
+        codeSubmitButton = playgroundLayout.findViewById(R.id.stepQuizSubmitButton)
+        codeSubmitButton.setText(R.string.step_quiz_code_run_solution_button_text)
+        codeSubmitButton.setIconResource(R.drawable.ic_run)
+        codeSubmitButton.iconPadding = requireContext().resources.getDimensionPixelSize(R.dimen.step_quiz_fullscreen_code_layout_action_button_icon_padding)
+        codeSubmitButton.setOnClickListener { submitCodeActionClick() }
+
 //        retryButton = playgroundLayout.stepQuizRetry
 //
 //        retryButton.isVisible = false
@@ -200,9 +206,6 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment(),
         codeLayoutDelegate.setDetailsContentData(lang)
         viewBinding.fullScreenCodeViewPager.setCurrentItem(CODE_TAB, false)
 
-        codeSubmitButton.setIconResource(R.drawable.ic_run)
-        codeSubmitButton.iconPadding = requireContext().resources.getDimensionPixelSize(R.dimen.step_quiz_fullscreen_code_layout_action_button_icon_padding)
-        codeSubmitButton.setOnClickListener { submitCodeActionClick() }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

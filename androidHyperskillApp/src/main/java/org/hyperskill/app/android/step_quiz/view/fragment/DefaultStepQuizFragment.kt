@@ -61,7 +61,7 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
         stepQuizFeedbackBlocksDelegate = StepQuizFeedbackBlocksDelegate(requireContext(), viewBinding.stepQuizFeedbackBlocks)
         stepQuizFormDelegate = createStepQuizFormDelegate(viewBinding)
 
-        viewBinding.stepQuizSubmitButton.setOnClickListener {
+        viewBinding.stepQuizButtons.stepQuizSubmitButton.setOnClickListener {
             onActionButtonClicked()
         }
         viewBinding.stepQuizNetworkError.tryAgain.setOnClickListener {
@@ -105,7 +105,7 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
         if (state is StepQuizFeature.State.AttemptLoaded) {
             stepQuizFormDelegate.setState(state)
             stepQuizFeedbackBlocksDelegate.setState(stepQuizFeedbackMapper.mapToStepQuizFeedbackState(step.block.name, state))
-            viewBinding.stepQuizSubmitButton.isEnabled = StepQuizResolver.isQuizEnabled(state)
+            viewBinding.stepQuizButtons.stepQuizSubmitButton.isEnabled = StepQuizResolver.isQuizEnabled(state)
         }
     }
 
