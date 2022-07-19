@@ -3,6 +3,7 @@ package org.hyperskill.app.core.injection
 import org.hyperskill.app.auth.injection.AuthComponent
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponent
+import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.profile.injection.ProfileComponent
@@ -22,4 +23,5 @@ interface AppGraph {
     fun buildStepQuizComponent(): StepQuizComponent
     fun buildTrackComponent(): TrackComponent
     fun buildProfileComponent(): ProfileComponent
+    fun buildHomeComponent(): HomeComponent
 }

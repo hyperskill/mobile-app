@@ -7,6 +7,8 @@ import org.hyperskill.app.auth.injection.AuthCredentialsComponentImpl
 import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponentImpl
 import org.hyperskill.app.core.remote.UserAgentInfo
+import org.hyperskill.app.home.injection.HomeComponent
+import org.hyperskill.app.home.injection.HomeComponentImpl
 import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
@@ -52,4 +54,7 @@ class AppGraphImpl(
 
     override fun buildProfileComponent(): ProfileComponent =
         ProfileComponentImpl(this)
+
+    override fun buildHomeComponent(): HomeComponent =
+        HomeComponentImpl(this)
 }
