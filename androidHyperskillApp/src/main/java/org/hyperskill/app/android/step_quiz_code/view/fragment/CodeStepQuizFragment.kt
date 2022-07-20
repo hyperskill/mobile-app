@@ -51,7 +51,6 @@ class CodeStepQuizFragment :
         get() = arrayOf(binding.stepQuizCodeContainer)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        viewBinding.stepQuizDescription.visibility = View.GONE
         _binding = LayoutStepQuizCodeBinding.inflate(LayoutInflater.from(requireContext()), viewBinding.root, false)
         viewBinding.root.addView(binding.root)
 
