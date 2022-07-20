@@ -1,5 +1,7 @@
 package org.hyperskill.app.android.step_quiz_code.view.delegate
 
+import android.view.View
+import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.code.view.widget.CodeEditorLayout
@@ -21,6 +23,11 @@ class CodeStepQuizFormDelegate(
 ) : StepQuizFormDelegate {
 
     init {
+        (
+            (containerBinding.root.parent.parent as View).findViewById<View>(R.id.stepQuizDescriptionDivider)
+                .layoutParams as ViewGroup.MarginLayoutParams
+            )
+            .setMargins(0, 0, 0, 0)
 
         with(containerBinding.stepQuizButtons.stepQuizSubmitButton) {
             setText(R.string.step_quiz_code_run_solution_button_text)
