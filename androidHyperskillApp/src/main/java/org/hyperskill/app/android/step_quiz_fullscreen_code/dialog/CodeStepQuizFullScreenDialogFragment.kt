@@ -39,7 +39,8 @@ import org.hyperskill.app.step.domain.model.Step
 import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.base.ui.extension.hideKeyboard
 
-class CodeStepQuizFullScreenDialogFragment : DialogFragment(),
+class CodeStepQuizFullScreenDialogFragment :
+    DialogFragment(),
     ResetCodeDialogFragment.Callback {
     companion object {
         const val TAG = "CodeStepQuizFullScreenDialogFragment"
@@ -50,7 +51,13 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment(),
         private const val INSTRUCTION_TAB = 0
         private const val CODE_TAB = 1
 
-        fun newInstance(lang: String, code: String, codeTemplates: Map<String, String>, step: Step): DialogFragment {
+        fun newInstance(
+            lang: String,
+            code: String,
+            codeTemplates: Map<String, String>,
+            step: Step,
+            isShowRetryButton: Boolean
+        ): DialogFragment {
             val arguments = Bundle().apply {
                 putParcelable(DefaultStepQuizFragment.KEY_STEP, step)
             }
@@ -59,11 +66,14 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment(),
                 this.lang = lang
                 this.code = code
                 this.codeTemplates = codeTemplates
+                this.isShowRetryButton = isShowRetryButton
             }
         }
     }
 
-    private val viewBinding: DialogStepQuizCodeFullscreenBinding by viewBinding(DialogStepQuizCodeFullscreenBinding::bind)
+    private val viewBinding: DialogStepQuizCodeFullscreenBinding by viewBinding(
+        DialogStepQuizCodeFullscreenBinding::bind
+    )
 
     private lateinit var codeLayoutDelegate: CodeLayoutDelegate
 
@@ -76,7 +86,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment(),
     private lateinit var codeLayout: CodeEditorLayout
     private lateinit var submitButtonSeparator: View
     private lateinit var codeSubmitButton: MaterialButton
-//    private lateinit var retryButton: View
+    private lateinit var retryButton: View
 
     private lateinit var codeToolbarAdapter: CodeToolbarAdapter
 
@@ -87,6 +97,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment(),
     private var code: String by argument()
     private var codeTemplates: Map<String, String> by argument()
     private lateinit var step: Step
+    private var isShowRetryButton: Boolean by argument()
 
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -110,13 +121,18 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        step = requireArguments().getParcelable<Step>(DefaultStepQuizFragment.KEY_STEP) ?: throw IllegalStateException()
+        step = requireArguments().getParcelable<Step>(DefaultStepQuizFragment.KEY_STEP)
+            ?: throw IllegalStateException()
 
         setStyle(STYLE_NO_TITLE, R.style.ThemeOverlay_AppTheme_Dialog_Fullscreen)
         injectComponent()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? =
         inflater.inflate(R.layout.dialog_step_quiz_code_fullscreen, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -144,10 +160,10 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment(),
             }
         }
 
-        if (savedInstanceState != null) {
-            lang = savedInstanceState.getString(ARG_LANG) ?: return
-            code = savedInstanceState.getString(ARG_CODE) ?: return
-        }
+//        if (savedInstanceState != null) {
+//            lang = savedInstanceState.getString(ARG_LANG) ?: return
+//            code = savedInstanceState.getString(ARG_CODE) ?: return
+//        }
 
         initViewPager()
 
@@ -156,11 +172,16 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment(),
             .text
             .takeIf(String::isNotEmpty)
 
-        val textHeader = instructionsLayout.findViewById<LatexView>(R.id.stepQuizCodeFullscreenInstructionTextHeader)
+        val textHeader =
+            instructionsLayout.findViewById<LatexView>(R.id.stepQuizCodeFullscreenInstructionTextHeader)
         if (latexWebView == null) {
             latexWebView = LayoutInflater
                 .from(requireContext().applicationContext)
-                .inflate(R.layout.layout_latex_webview, textHeader as ViewGroup, false) as LatexWebView
+                .inflate(
+                    R.layout.layout_latex_webview,
+                    textHeader as ViewGroup,
+                    false
+                ) as LatexWebView
         }
 
         latexWebView?.let {
@@ -168,20 +189,36 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment(),
         }
         instructionsLayout.findViewById<AppCompatTextView>(R.id.stepQuizCodeFullscreenInstructionPracticeCompletion).text =
             resourceProvider.getString(
-            SharedResources.strings.step_quiz_stats_text,
-            step.solvedBy.toString(),
-            "10 minutes" // TODO Update with data from step
-        )
-        instructionsLayout.findViewById<LatexView>(R.id.stepQuizCodeFullscreenInstructionTextHeader).setText(text)
+                SharedResources.strings.step_quiz_stats_text,
+                step.solvedBy.toString(),
+                "10 minutes" // TODO Update with data from step
+            )
+        instructionsLayout.findViewById<LatexView>(R.id.stepQuizCodeFullscreenInstructionTextHeader)
+            .setText(text)
 
         /**
          *  Code play ground view binding
          */
         submitButtonSeparator = playgroundLayout.findViewById(R.id.submitButtonSeparator)
-        codeSubmitButton = playgroundLayout.findViewById(R.id.codeSubmitButton)
-//        retryButton = playgroundLayout.stepQuizRetry
-//
-//        retryButton.isVisible = false
+
+        codeSubmitButton = playgroundLayout.findViewById(R.id.stepQuizSubmitButton)
+        codeSubmitButton.setText(R.string.step_quiz_code_run_solution_button_text)
+        codeSubmitButton.setIconResource(R.drawable.ic_run)
+        codeSubmitButton.iconPadding =
+            requireContext().resources.getDimensionPixelSize(R.dimen.step_quiz_fullscreen_code_layout_action_button_icon_padding)
+        codeSubmitButton.setOnClickListener { submitCodeActionClick() }
+
+        retryButton = playgroundLayout.findViewById(R.id.stepQuizRetryButton)
+        retryButton.setOnClickListener {
+            val dialog = ResetCodeDialogFragment.newInstance()
+            if (!dialog.isAdded) {
+                dialog.show(childFragmentManager, null)
+            }
+        }
+        if (isShowRetryButton) {
+            retryButton.visibility = View.VISIBLE
+        }
+
         setupCodeToolbarAdapter()
         setupKeyboardExtension()
 
@@ -199,10 +236,6 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment(),
         codeLayoutDelegate.setLanguage(lang, code)
         codeLayoutDelegate.setDetailsContentData(lang)
         viewBinding.fullScreenCodeViewPager.setCurrentItem(CODE_TAB, false)
-
-        codeSubmitButton.setIconResource(R.drawable.ic_run)
-        codeSubmitButton.iconPadding = requireContext().resources.getDimensionPixelSize(R.dimen.step_quiz_fullscreen_code_layout_action_button_icon_padding)
-        codeSubmitButton.setOnClickListener { submitCodeActionClick() }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -216,13 +249,15 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment(),
 
         viewBinding.fullScreenCodeViewPager.adapter = pagerAdapter
         viewBinding.fullScreenCodeTabs.setupWithViewPager(viewBinding.fullScreenCodeViewPager)
-        viewBinding.fullScreenCodeViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrollStateChanged(p0: Int) {}
-            override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {}
-            override fun onPageSelected(p0: Int) {
-                view?.hideKeyboard()
+        viewBinding.fullScreenCodeViewPager.addOnPageChangeListener(
+            object : ViewPager.OnPageChangeListener {
+                override fun onPageScrollStateChanged(p0: Int) {}
+                override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {}
+                override fun onPageSelected(p0: Int) {
+                    view?.hideKeyboard()
+                }
             }
-        })
+        )
 
         instructionsLayout = pagerAdapter.getViewAt(INSTRUCTION_TAB)
         playgroundLayout = pagerAdapter.getViewAt(CODE_TAB)
@@ -234,7 +269,10 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment(),
         dialog
             ?.window
             ?.let { window ->
-                window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT,  ViewGroup.LayoutParams.MATCH_PARENT)
+                window.setLayout(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                )
                 window.setWindowAnimations(R.style.ThemeOverlay_AppTheme_Dialog_Fullscreen)
             }
         dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
@@ -255,7 +293,13 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment(),
             .apply {
                 onSymbolClickListener = object : CodeToolbarAdapter.OnSymbolClickListener {
                     override fun onSymbolClick(symbol: String, offset: Int) {
-                        codeLayout.insertText(CodeToolbarUtil.mapToolbarSymbolToPrintable(symbol, codeLayout.indentSize), offset)
+                        codeLayout.insertText(
+                            CodeToolbarUtil.mapToolbarSymbolToPrintable(
+                                symbol,
+                                codeLayout.indentSize
+                            ),
+                            offset
+                        )
                     }
                 }
             }
@@ -267,7 +311,8 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment(),
     private fun setupKeyboardExtension() {
         with(viewBinding.fullScreenCodeKeyboardExtension.stepQuizCodeKeyboardExtension) {
             adapter = codeToolbarAdapter
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
         codeLayout.codeToolbarAdapter = codeToolbarAdapter
 
@@ -275,7 +320,8 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment(),
             viewBinding.coordinator,
             onKeyboardHidden = {
                 if (keyboardShown) {
-                    viewBinding.fullScreenCodeKeyboardExtension.stepQuizCodeKeyboardExtension.visibility = View.GONE
+                    viewBinding.fullScreenCodeKeyboardExtension.stepQuizCodeKeyboardExtension.visibility =
+                        View.GONE
                     codeLayout.isNestedScrollingEnabled = true
                     codeLayout.layoutParams =
                         (codeLayout.layoutParams as RelativeLayout.LayoutParams)
@@ -296,13 +342,15 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment(),
                 if (!keyboardShown) {
                     // We show the keyboard extension only when "Code" tab is opened
                     if (viewBinding.fullScreenCodeViewPager.currentItem == CODE_TAB) {
-                        viewBinding.fullScreenCodeKeyboardExtension.stepQuizCodeKeyboardExtension.visibility = View.VISIBLE
+                        viewBinding.fullScreenCodeKeyboardExtension.stepQuizCodeKeyboardExtension.visibility =
+                            View.VISIBLE
                     }
                     codeLayout.isNestedScrollingEnabled = false
                     codeLayout.layoutParams =
                         (codeLayout.layoutParams as RelativeLayout.LayoutParams)
                             .apply {
-                                bottomMargin = viewBinding.fullScreenCodeKeyboardExtension.stepQuizCodeKeyboardExtension.height
+                                bottomMargin =
+                                    viewBinding.fullScreenCodeKeyboardExtension.stepQuizCodeKeyboardExtension.height
                             }
                     codeLayout.setPadding(0, 0, 0, 0)
                     setViewsVisibility(needShow = false)
@@ -316,6 +364,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment(),
      *  Hiding views upon opening keyboard
      */
     private fun setViewsVisibility(needShow: Boolean) {
+        retryButton.isVisible = needShow and isShowRetryButton
         submitButtonSeparator.isVisible = needShow
         codeSubmitButton.isVisible = needShow
         viewBinding.fullScreenCenteredToolbar.centeredToolbar.isVisible = needShow

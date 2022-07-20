@@ -9,11 +9,12 @@ import android.view.WindowManager
 
 const val PART_OF_KEYBOARD_ON_SCREEN = 0.15
 
-//this method works good with activities, this listener will be destroyed with viewTree
+// this method works good with activities, this listener will be destroyed with viewTree
 inline fun setOnKeyboardOpenListener(
-        rootView: View,
-        crossinline onKeyboardShown: () -> Unit,
-        crossinline onKeyboardHidden: () -> Unit) {
+    rootView: View,
+    crossinline onKeyboardShown: () -> Unit,
+    crossinline onKeyboardHidden: () -> Unit
+) {
     rootView.viewTreeObserver.addOnGlobalLayoutListener {
         val rect = Rect()
         rootView.getWindowVisibleDisplayFrame(rect)
@@ -29,13 +30,16 @@ inline fun setOnKeyboardOpenListener(
     }
 }
 
-//methods for retain fragments
+// methods for retain fragments
 fun listenKeyboardChanges(
-        rootView: View,
-        onKeyboardShown: () -> Unit,
-        onKeyboardHidden: () -> Unit): ViewTreeObserver.OnGlobalLayoutListener {
+    rootView: View,
+    onKeyboardShown: () -> Unit,
+    onKeyboardHidden: () -> Unit
+): ViewTreeObserver.OnGlobalLayoutListener {
     val metrics = DisplayMetrics()
-    (rootView.context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.getMetrics(metrics)
+    (rootView.context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.getMetrics(
+        metrics
+    )
     val height = metrics.heightPixels
     val onGlobalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
         val rect = Rect()
@@ -51,10 +55,11 @@ fun listenKeyboardChanges(
     return onGlobalLayoutListener
 }
 
-//stop listening for avoiding memory leak
+// stop listening for avoiding memory leak
 fun stopListenKeyboardChanges(
-        rootView: View,
-        onGlobalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener?) {
+    rootView: View,
+    onGlobalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener?
+) {
     onGlobalLayoutListener?.let {
         rootView.viewTreeObserver.removeOnGlobalLayoutListener(it)
     }

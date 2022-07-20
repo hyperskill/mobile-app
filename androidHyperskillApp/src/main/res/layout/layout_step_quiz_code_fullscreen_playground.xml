@@ -14,19 +14,19 @@
         android:paddingBottom="@dimen/step_quiz_fullscreen_code_layout_bottom_padding"
         android:fillViewport="true" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/codeSubmitButton"
-        android:text="@string/step_quiz_code_run_solution_button_text"
+    <include
+        android:id="@+id/codeButtons"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/step_quiz_submit_button_height"
         android:layout_margin="16dp"
-        android:layout_alignParentBottom="true"/>
+        layout="@layout/layout_quiz_buttons" />
 
     <include
         android:id="@+id/submitButtonSeparator"
         android:layout_width="match_parent"
         android:layout_height="?dividerVerticalSize"
-        android:layout_above="@id/codeSubmitButton"
+        android:layout_above="@id/codeButtons"
         layout="@layout/view_divider_vertical" />
 
 </RelativeLayout>

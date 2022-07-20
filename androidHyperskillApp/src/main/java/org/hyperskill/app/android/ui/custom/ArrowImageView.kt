@@ -9,13 +9,12 @@ import androidx.annotation.MainThread
 import androidx.appcompat.widget.AppCompatImageView
 import org.hyperskill.app.android.R
 
-class ArrowImageView(context: Context, attrs: AttributeSet?, defStyleAttr: Int)
-    : AppCompatImageView(context, attrs, defStyleAttr) {
+class ArrowImageView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
+    AppCompatImageView(context, attrs, defStyleAttr) {
 
     constructor(context: Context) : this(context, null)
 
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
-
 
     companion object {
         private const val IS_ARROW_BOTTOM_DEFAULT = true
