@@ -55,7 +55,8 @@ class CodeStepQuizFullScreenDialogFragment :
             lang: String,
             code: String,
             codeTemplates: Map<String, String>,
-            step: Step
+            step: Step,
+            isShowRetryButton: Boolean
         ): DialogFragment {
             val arguments = Bundle().apply {
                 putParcelable(DefaultStepQuizFragment.KEY_STEP, step)
@@ -65,6 +66,7 @@ class CodeStepQuizFullScreenDialogFragment :
                 this.lang = lang
                 this.code = code
                 this.codeTemplates = codeTemplates
+                this.isShowRetryButton = isShowRetryButton
             }
         }
     }
@@ -84,7 +86,7 @@ class CodeStepQuizFullScreenDialogFragment :
     private lateinit var codeLayout: CodeEditorLayout
     private lateinit var submitButtonSeparator: View
     private lateinit var codeSubmitButton: MaterialButton
-//    private lateinit var retryButton: View
+    private lateinit var retryButton: View
 
     private lateinit var codeToolbarAdapter: CodeToolbarAdapter
 
@@ -95,6 +97,7 @@ class CodeStepQuizFullScreenDialogFragment :
     private var code: String by argument()
     private var codeTemplates: Map<String, String> by argument()
     private lateinit var step: Step
+    private var isShowRetryButton: Boolean by argument()
 
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -157,10 +160,10 @@ class CodeStepQuizFullScreenDialogFragment :
             }
         }
 
-        if (savedInstanceState != null) {
-            lang = savedInstanceState.getString(ARG_LANG) ?: return
-            code = savedInstanceState.getString(ARG_CODE) ?: return
-        }
+//        if (savedInstanceState != null) {
+//            lang = savedInstanceState.getString(ARG_LANG) ?: return
+//            code = savedInstanceState.getString(ARG_CODE) ?: return
+//        }
 
         initViewPager()
 
@@ -205,9 +208,17 @@ class CodeStepQuizFullScreenDialogFragment :
             requireContext().resources.getDimensionPixelSize(R.dimen.step_quiz_fullscreen_code_layout_action_button_icon_padding)
         codeSubmitButton.setOnClickListener { submitCodeActionClick() }
 
-//        retryButton = playgroundLayout.stepQuizRetry
-//
-//        retryButton.isVisible = false
+        retryButton = playgroundLayout.findViewById(R.id.stepQuizRetryButton)
+        retryButton.setOnClickListener {
+            val dialog = ResetCodeDialogFragment.newInstance()
+            if (!dialog.isAdded) {
+                dialog.show(childFragmentManager, null)
+            }
+        }
+        if (isShowRetryButton) {
+            retryButton.visibility = View.VISIBLE
+        }
+
         setupCodeToolbarAdapter()
         setupKeyboardExtension()
 
@@ -353,6 +364,7 @@ class CodeStepQuizFullScreenDialogFragment :
      *  Hiding views upon opening keyboard
      */
     private fun setViewsVisibility(needShow: Boolean) {
+        retryButton.isVisible = needShow and isShowRetryButton
         submitButtonSeparator.isVisible = needShow
         codeSubmitButton.isVisible = needShow
         viewBinding.fullScreenCenteredToolbar.centeredToolbar.isVisible = needShow

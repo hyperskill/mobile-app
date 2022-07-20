@@ -7,7 +7,6 @@ import org.hyperskill.app.android.code.view.widget.CodeEditorLayout
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.model.ReplyResult
-import org.hyperskill.app.step.domain.model.Block
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
@@ -15,15 +14,13 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
 class CodeStepQuizFormDelegate(
     private val containerBinding: FragmentStepQuizBinding,
     private val codeLayout: CodeEditorLayout,
-    private val codeOptions: Block.Options,
+    private val lang: String,
+    private var code: String,
     private val codeLayoutDelegate: CodeLayoutDelegate,
     private val onFullscreenClicked: (lang: String, code: String) -> Unit,
     private val onQuizChanged: (ReplyResult) -> Unit
 ) : StepQuizFormDelegate {
     private val quizDescription = containerBinding.stepQuizDescription
-
-    private val lang: String = codeOptions.limits!!.keys.first()
-    private var code: String = codeOptions.codeTemplates?.get(lang) ?: ""
 
     init {
         quizDescription.setText(R.string.step_quiz_code_write_program_text)
@@ -40,13 +37,12 @@ class CodeStepQuizFormDelegate(
         with(codeLayout.codeEditor) {
             isFocusable = false
 
-            setOnClickListener {
-                onFullscreenClicked(lang, code)
-            }
-
             doAfterTextChanged {
                 onQuizChanged(createReply())
             }
+        }
+        codeLayout.codeEditor.setOnClickListener {
+            onFullscreenClicked(lang, code)
         }
 
         codeLayoutDelegate.setEnabled(true)
