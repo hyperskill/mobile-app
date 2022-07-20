@@ -11,10 +11,12 @@ struct StepQuizSortingSkeletonView: View {
 
     var body: some View {
         VStack(spacing: LayoutInsets.largeInset) {
-            ForEach(0..<4) { _ in
-                Skeleton()
+            ForEach(0..<3) { _ in
+                SkeletonRoundedView()
                     .frame(height: appearance.skeletonHeight)
             }
+
+            SkeletonRoundedButton()
         }
     }
 }

@@ -13,10 +13,10 @@ struct StepQuizMatchingSkeletonView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.largeInset) {
-            ForEach(0..<4) { _ in
+            ForEach(0..<2) { _ in
                 VStack(alignment: .leading, spacing: LayoutInsets.largeInset) {
                     HStack(spacing: 0) {
-                        Skeleton()
+                        SkeletonRoundedView()
                             .frame(height: appearance.smallSkeletonHeight)
 
                         Spacer(minLength: appearance.itemHorizontalInset)
@@ -25,11 +25,13 @@ struct StepQuizMatchingSkeletonView: View {
                     HStack(spacing: 0) {
                         Spacer(minLength: appearance.itemHorizontalInset)
 
-                        Skeleton()
+                        SkeletonRoundedView()
                             .frame(height: appearance.largeSkeletonHeight)
                     }
                 }
             }
+
+            SkeletonRoundedButton()
         }
     }
 }

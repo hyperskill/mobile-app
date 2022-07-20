@@ -157,6 +157,7 @@
 		2C963BCC2812D9330036DD53 /* SettingsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C963BCB2812D9330036DD53 /* SettingsAssembly.swift */; };
 		2C963BCE2812E7B60036DD53 /* AppNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C963BCD2812E7B60036DD53 /* AppNavigation.swift */; };
 		2C97E55A2859A2C500EA1A21 /* StepQuizNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C97E5592859A2C500EA1A21 /* StepQuizNameView.swift */; };
+		2C97F50A28880B6F00DE77B7 /* SkeletonRoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C97F50928880B6F00DE77B7 /* SkeletonRoundedButton.swift */; };
 		2C98C7A62850B93100857783 /* alt.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C98C79E2850B93100857783 /* alt.css */; };
 		2C98C7A72850B93100857783 /* fonts.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C98C79F2850B93100857783 /* fonts.css */; };
 		2C98C7A92850B93100857783 /* highlight.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C98C7A12850B93100857783 /* highlight.css */; };
@@ -242,7 +243,7 @@
 		E99B21872887E9C5006A6154 /* StepQuizSortingSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99B21862887E9C5006A6154 /* StepQuizSortingSkeletonView.swift */; };
 		E99B21892887E9DA006A6154 /* StepQuizTableSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99B21882887E9DA006A6154 /* StepQuizTableSkeletonView.swift */; };
 		E99B218C2887EA14006A6154 /* StepQuizStringSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99B218B2887EA14006A6154 /* StepQuizStringSkeletonView.swift */; };
-		E99B218E2887EA9B006A6154 /* Skeleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99B218D2887EA9B006A6154 /* Skeleton.swift */; };
+		E99B218E2887EA9B006A6154 /* SkeletonRoundedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99B218D2887EA9B006A6154 /* SkeletonRoundedView.swift */; };
 		E99D4CED2826A37400B49D52 /* AppAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99D4CEC2826A37400B49D52 /* AppAppearance.swift */; };
 		E99D4CEF2826B91100B49D52 /* StepQuizStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99D4CEE2826B91100B49D52 /* StepQuizStatusView.swift */; };
 		E9B2CF5B2822960D00B2DC6F /* StepQuizBottomControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B2CF5A2822960D00B2DC6F /* StepQuizBottomControls.swift */; };
@@ -422,6 +423,7 @@
 		2C963BCB2812D9330036DD53 /* SettingsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAssembly.swift; sourceTree = "<group>"; };
 		2C963BCD2812E7B60036DD53 /* AppNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigation.swift; sourceTree = "<group>"; };
 		2C97E5592859A2C500EA1A21 /* StepQuizNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizNameView.swift; sourceTree = "<group>"; };
+		2C97F50928880B6F00DE77B7 /* SkeletonRoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonRoundedButton.swift; sourceTree = "<group>"; };
 		2C98C79E2850B93100857783 /* alt.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = alt.css; sourceTree = "<group>"; };
 		2C98C79F2850B93100857783 /* fonts.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = fonts.css; sourceTree = "<group>"; };
 		2C98C7A12850B93100857783 /* highlight.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = highlight.css; sourceTree = "<group>"; };
@@ -511,7 +513,7 @@
 		E99B21862887E9C5006A6154 /* StepQuizSortingSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSortingSkeletonView.swift; sourceTree = "<group>"; };
 		E99B21882887E9DA006A6154 /* StepQuizTableSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableSkeletonView.swift; sourceTree = "<group>"; };
 		E99B218B2887EA14006A6154 /* StepQuizStringSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizStringSkeletonView.swift; sourceTree = "<group>"; };
-		E99B218D2887EA9B006A6154 /* Skeleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skeleton.swift; sourceTree = "<group>"; };
+		E99B218D2887EA9B006A6154 /* SkeletonRoundedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonRoundedView.swift; sourceTree = "<group>"; };
 		E99D4CEC2826A37400B49D52 /* AppAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAppearance.swift; sourceTree = "<group>"; };
 		E99D4CEE2826B91100B49D52 /* StepQuizStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizStatusView.swift; sourceTree = "<group>"; };
 		E9B2CF5A2822960D00B2DC6F /* StepQuizBottomControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizBottomControls.swift; sourceTree = "<group>"; };
@@ -565,9 +567,9 @@
 				2C8E66D8287896CF00D3928D /* TabNavigationLazyView.swift */,
 				2C58DE2A2803DEE2002A2774 /* VerticalCenteredScrollView.swift */,
 				2C82BA302844AFED004C9013 /* PlaceholderView */,
+				2C60F1B428880AA600B66C78 /* Skeletons */,
 				2CA8E08E281039EB00154088 /* Styles */,
 				2C46D0612807E4A600B3636E /* Wrappers */,
-				E99B218D2887EA9B006A6154 /* Skeleton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1062,6 +1064,15 @@
 			path = CodeTextView;
 			sourceTree = "<group>";
 		};
+		2C60F1B428880AA600B66C78 /* Skeletons */ = {
+			isa = PBXGroup;
+			children = (
+				2C97F50928880B6F00DE77B7 /* SkeletonRoundedButton.swift */,
+				E99B218D2887EA9B006A6154 /* SkeletonRoundedView.swift */,
+			);
+			path = Skeletons;
+			sourceTree = "<group>";
+		};
 		2C65636D28742963006AAD77 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -1347,11 +1358,11 @@
 		2CCCA3972862D57100D98089 /* StepQuizString */ = {
 			isa = PBXGroup;
 			children = (
-				E99B218A2887EA04006A6154 /* Views */,
 				2CCCA39C2862E44B00D98089 /* StepQuizStringAssembly.swift */,
 				2CCCA39A2862E3BB00D98089 /* StepQuizStringDataType.swift */,
 				2CCCA3A02862E62F00D98089 /* StepQuizStringViewData.swift */,
 				2CCCA39E2862E45300D98089 /* StepQuizStringViewModel.swift */,
+				E99B218A2887EA04006A6154 /* Views */,
 			);
 			path = StepQuizString;
 			sourceTree = "<group>";
@@ -1896,6 +1907,7 @@
 				2C41127828376F6D004948A3 /* StepQuizDiscussionsButton.swift in Sources */,
 				2C725B612809125700A49043 /* LayoutInsets.swift in Sources */,
 				E9D2D675284E0B30000757AC /* StepQuizMatchingView.swift in Sources */,
+				2C97F50A28880B6F00DE77B7 /* SkeletonRoundedButton.swift in Sources */,
 				2CAE8CF0280525BE00E6C83D /* StepViewModel.swift in Sources */,
 				2C963BCE2812E7B60036DD53 /* AppNavigation.swift in Sources */,
 				2C42EFB327F2EA7B00B4648B /* ResourcesStringResource+Localized.swift in Sources */,
@@ -2016,7 +2028,7 @@
 				E900D10328434E0D00A77BBC /* StepQuizSortingItemView.swift in Sources */,
 				E96E80F627EF57BA00AA6683 /* AuthSocialViewModel.swift in Sources */,
 				2C079683285CEF0900EE0487 /* StepQuizMatchingAssembly.swift in Sources */,
-				E99B218E2887EA9B006A6154 /* Skeleton.swift in Sources */,
+				E99B218E2887EA9B006A6154 /* SkeletonRoundedView.swift in Sources */,
 				2C1F5869280D063800372A37 /* WebViewController.swift in Sources */,
 				2CAE8D07280576C600E6C83D /* StepBottomControlsView.swift in Sources */,
 				2C8E4F96284895A30011ADFA /* PanModalPresentableViewController.swift in Sources */,

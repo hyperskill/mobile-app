@@ -15,7 +15,10 @@ enum StepQuizSkeletonViewFactory {
         case .string, .number, .math:
             StepQuizStringSkeletonView()
         case .unsupported(let blockName):
-            fatalError("StepQuizSkeletonViewFactory :: did receive unsupported quizType = \(blockName)")
+            // swiftlint:disable:next redundant_discardable_let https://github.com/realm/SwiftLint/issues/3855
+            let _ = print("StepQuizSkeletonViewFactory :: did receive unsupported quizType = \(blockName)")
+            SkeletonRoundedView()
+                .frame(height: 100)
         }
     }
 }

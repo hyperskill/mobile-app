@@ -13,12 +13,11 @@ struct StepQuizChoiceSkeletonView: View {
     var body: some View {
         VStack(spacing: LayoutInsets.largeInset) {
             ForEach(0..<4) { _ in
-                Skeleton()
+                SkeletonRoundedView()
                     .frame(height: appearance.smallSkeletonHeight)
             }
 
-            Skeleton()
-                .frame(height: appearance.largeSkeletonHeight)
+            SkeletonRoundedButton()
         }
     }
 }

@@ -2,7 +2,7 @@ import SwiftUI
 
 extension StepQuizTableSkeletonView {
     struct Appearance {
-        let skeletonHeight: CGFloat = 21
+        let skeletonHeight: CGFloat = 44
     }
 }
 
@@ -12,7 +12,7 @@ struct StepQuizTableSkeletonView: View {
     var body: some View {
         VStack(spacing: LayoutInsets.largeInset) {
             ForEach(0..<4) { _ in
-                Skeleton()
+                SkeletonRoundedView()
                     .frame(height: appearance.skeletonHeight)
             }
         }

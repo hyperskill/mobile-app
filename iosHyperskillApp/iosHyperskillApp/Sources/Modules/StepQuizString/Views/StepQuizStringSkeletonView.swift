@@ -1,22 +1,12 @@
 import SwiftUI
 
-extension StepQuizStringSkeletonView {
-    struct Appearance {
-        let smallSkeletonHeight: CGFloat = 48
-        let largeSkeletonHeight: CGFloat = 96
-    }
-}
-
 struct StepQuizStringSkeletonView: View {
-    private(set) var appearance = Appearance()
-
     var body: some View {
         VStack(spacing: LayoutInsets.largeInset) {
-            Skeleton()
-                .frame(height: appearance.largeSkeletonHeight)
+            SkeletonRoundedView()
+                .frame(height: 96)
 
-            Skeleton()
-                .frame(height: appearance.smallSkeletonHeight)
+            SkeletonRoundedButton()
         }
     }
 }
