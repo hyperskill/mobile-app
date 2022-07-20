@@ -1,17 +1,38 @@
 import SwiftUI
 
 struct OpenURLInsideAppButton: View {
-    let text: String
+    private let text: String
 
-    let url: URL
+    private let url: URL
+
+    private let webControllerManager: WebControllerManager
+    private let webControllerKey: WebControllerManager.WebControllerKey
+    private let webControllerAllowsSafari: Bool
+    private let webControllerBackButtonStyle: WebControllerManager.BackButtonStyle
+
+    init(
+        text: String,
+        url: URL,
+        webControllerManager: WebControllerManager = .shared,
+        webControllerKey: WebControllerManager.WebControllerKey = .externalLink,
+        webControllerAllowsSafari: Bool = true,
+        webControllerBackButtonStyle: WebControllerManager.BackButtonStyle = .done
+    ) {
+        self.text = text
+        self.url = url
+        self.webControllerManager = webControllerManager
+        self.webControllerKey = webControllerKey
+        self.webControllerAllowsSafari = webControllerAllowsSafari
+        self.webControllerBackButtonStyle = webControllerBackButtonStyle
+    }
 
     var body: some View {
         Button(text) {
-            WebControllerManager.shared.presentWebControllerWithURL(
+            webControllerManager.presentWebControllerWithURL(
                 url,
-                withKey: .externalLink,
-                allowsSafari: true,
-                backButtonStyle: .done
+                withKey: webControllerKey,
+                allowsSafari: webControllerAllowsSafari,
+                backButtonStyle: webControllerBackButtonStyle
             )
         }
     }

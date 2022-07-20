@@ -1,4 +1,3 @@
-import Highlightr
 import shared
 import SwiftUI
 
@@ -12,36 +11,33 @@ private enum Theme: String, CaseIterable, Identifiable {
     var title: String {
         switch self {
         case .light:
-            return Strings.Settings.light
+            return Strings.Settings.Theme.light
         case .dark:
-            return Strings.Settings.dark
+            return Strings.Settings.Theme.dark
         case .system:
-            return Strings.Settings.system
+            return Strings.Settings.Theme.system
         }
     }
 }
 
-
 struct SettingsView: View {
-    @Environment(\.presentationMode) private var presentationMode
-
     private static let termsOfServiceURL = URL(string: "https://www.jetbrains.com/legal/terms/jetbrains-academy.html")
-
     private static let privacyPolicyURL = URL(string: "https://hi.hyperskill.org/terms")
-
     private static let helpCenterURL = URL(string: "https://support.hyperskill.org/hc/en-us")
 
     @State private var selectedTheme: Theme = .light
+
+    @Environment(\.presentationMode) private var presentationMode
 
     var body: some View {
         NavigationView {
             Form {
                 Section(header: Text(Strings.Settings.appearance)) {
-                    Picker(Strings.Settings.theme, selection: $selectedTheme) {
+                    Picker(Strings.Settings.Theme.title, selection: $selectedTheme) {
                         ForEach(Theme.allCases) { theme in
                             if theme != selectedTheme {
                                 Text(theme.title)
-                                    .navigationTitle(Strings.Settings.theme)
+                                    .navigationTitle(Strings.Settings.Theme.title)
                             } else {
                                 Text(theme.title)
                             }
@@ -77,9 +73,13 @@ struct SettingsView: View {
                     HStack {
                         Text(Strings.Settings.version)
                             .foregroundColor(.primaryText)
+
                         Spacer()
-                        Text("\(MainBundleInfo.versionName) (\(MainBundleInfo.versionCode))")
-                            .foregroundColor(.secondaryText)
+
+                        if let shortVersionWithBuildNumberString = MainBundleInfo.shortVersionWithBuildNumberString {
+                            Text(shortVersionWithBuildNumberString)
+                                .foregroundColor(.secondaryText)
+                        }
                     }
 
                     Button(Strings.Settings.rateApplication) {

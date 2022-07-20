@@ -1,8 +1,6 @@
 import Foundation
 
 enum HyperskillURLFactory {
-    static let jetbrainsHost = "jetbrains.com"
-
     // MARK: Auth
 
     static func makeRegister(fromMobile: Bool = true) -> URL? {

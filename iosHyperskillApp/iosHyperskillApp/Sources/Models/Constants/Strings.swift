@@ -148,10 +148,6 @@ enum Strings {
     enum Settings {
         static let title = sharedStrings.settings_title.localized()
         static let appearance = sharedStrings.settings_appearance.localized()
-        static let theme = sharedStrings.settings_theme.localized()
-        static let light = sharedStrings.settings_light.localized()
-        static let dark = sharedStrings.settings_dark.localized()
-        static let system = sharedStrings.settings_system.localized()
         static let about = sharedStrings.settings_about.localized()
         static let termsOfService = sharedStrings.settings_terms_of_service.localized()
         static let privacyPolicy = sharedStrings.settings_privacy_policy.localized()
@@ -160,6 +156,14 @@ enum Strings {
         static let rateApplication = sharedStrings.settings_rate_application.localized()
         static let logout = sharedStrings.settings_logout.localized()
         static let deleteAccount = sharedStrings.settings_delete_account.localized()
+
+        enum Theme {
+            static let title = sharedStrings.settings_theme.localized()
+
+            static let light = sharedStrings.settings_theme_light.localized()
+            static let dark = sharedStrings.settings_theme_dark.localized()
+            static let system = sharedStrings.settings_theme_system.localized()
+        }
     }
 
     // MARK: - Streak -
