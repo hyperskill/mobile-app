@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+    <plural name="seconds">
+        <item quantity="one">%d second</item>
+        <item quantity="other">%d seconds</item>
+    </plural>
     <plural name="minutes">
         <item quantity="one">%d minute</item>
         <item quantity="other">%d minutes</item>
