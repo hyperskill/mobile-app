@@ -22,7 +22,10 @@ final class StepQuizCodeAssembly: StepQuizChildQuizAssembly {
             blockOptions: self.blockOptions,
             dataset: self.dataset,
             reply: self.reply,
-            viewDataMapper: StepQuizCodeViewDataMapper(resourceProvider: commonComponent.resourceProvider)
+            viewDataMapper: StepQuizCodeViewDataMapper(
+                formatter: Formatter(resourceProvider: commonComponent.resourceProvider),
+                resourceProvider: commonComponent.resourceProvider
+            )
         )
         viewModel.delegate = self.delegate
 
@@ -34,6 +37,8 @@ final class StepQuizCodeAssembly: StepQuizChildQuizAssembly {
 extension StepQuizCodeAssembly {
     static func makePlaceholder() -> StepQuizCodeAssembly {
         let blockOptions = Block.Options(
+            executionTimeLimit: 5,
+            executionMemoryLimit: 256,
             samples: [
                 [
                     "3\n3\n3\n",

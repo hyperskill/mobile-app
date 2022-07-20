@@ -2,16 +2,38 @@ import Foundation
 import shared
 
 final class StepQuizCodeViewDataMapper {
+    private let formatter: Formatter
     private let resourceProvider: ResourceProvider
 
-    init(resourceProvider: ResourceProvider) {
+    init(formatter: Formatter, resourceProvider: ResourceProvider) {
+        self.formatter = formatter
         self.resourceProvider = resourceProvider
     }
 
     func mapCodeDataToViewData(blockOptions: Block.Options) -> StepQuizCodeViewData {
         let samples = mapSamples(blockOptions.samples)
 
-        return StepQuizCodeViewData(samples: samples)
+        let executionTimeLimit: String? = {
+            if let executionTimeLimit = blockOptions.executionTimeLimit {
+                return formatter.secondsCount(executionTimeLimit.int32Value)
+            }
+            return nil
+        }()
+        let executionMemoryLimit: String? = {
+            if let executionMemoryLimit = blockOptions.executionMemoryLimit {
+                return resourceProvider.getString(
+                    stringResource: Strings.StepQuizCode.memoryLimitValueResource,
+                    args: KotlinArray(size: 1, init: { _ in NSNumber(value: executionMemoryLimit.intValue) })
+                )
+            }
+            return nil
+        }()
+
+        return StepQuizCodeViewData(
+            samples: samples,
+            executionTimeLimit: executionTimeLimit,
+            executionMemoryLimit: executionMemoryLimit
+        )
     }
 
     // MARK: Private API
@@ -30,8 +52,14 @@ final class StepQuizCodeViewDataMapper {
                 continue
             }
 
-            let inputTitle = mapSampleInputTitle(index: displayIndex)
-            let outputTitle = mapSampleOutputTitle(index: displayIndex)
+            let inputTitle = resourceProvider.getString(
+                stringResource: Strings.StepQuizCode.sampleInputTitleResource,
+                args: KotlinArray(size: 1, init: { _ in NSNumber(value: displayIndex) })
+            )
+            let outputTitle = resourceProvider.getString(
+                stringResource: Strings.StepQuizCode.sampleOutputTitleResource,
+                args: KotlinArray(size: 1, init: { _ in NSNumber(value: displayIndex) })
+            )
 
             result.append(
                 .init(
@@ -46,19 +74,5 @@ final class StepQuizCodeViewDataMapper {
         }
 
         return result
-    }
-
-    private func mapSampleInputTitle(index: Int) -> String {
-        resourceProvider.getString(
-            stringResource: Strings.StepQuizCode.sampleInputTitleResource,
-            args: KotlinArray(size: 1, init: { _ in NSNumber(value: index) })
-        )
-    }
-
-    private func mapSampleOutputTitle(index: Int) -> String {
-        resourceProvider.getString(
-            stringResource: Strings.StepQuizCode.sampleOutputTitleResource,
-            args: KotlinArray(size: 1, init: { _ in NSNumber(value: index) })
-        )
     }
 }

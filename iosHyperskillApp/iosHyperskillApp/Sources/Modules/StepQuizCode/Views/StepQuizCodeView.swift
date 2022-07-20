@@ -4,7 +4,11 @@ struct StepQuizCodeView: View {
     @StateObject var viewModel: StepQuizCodeViewModel
 
     var body: some View {
-        StepQuizCodeDetailsView(samples: viewModel.viewData.samples)
+        StepQuizCodeDetailsView(
+            samples: viewModel.viewData.samples,
+            executionTimeLimit: viewModel.viewData.executionTimeLimit,
+            executionMemoryLimit: viewModel.viewData.executionMemoryLimit
+        )
     }
 }
 

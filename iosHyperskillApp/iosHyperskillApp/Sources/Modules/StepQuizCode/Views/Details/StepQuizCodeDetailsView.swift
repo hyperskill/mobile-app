@@ -3,8 +3,15 @@ import SwiftUI
 struct StepQuizCodeDetailsView: View {
     let samples: [StepQuizCodeViewData.Sample]
 
+    let executionTimeLimit: String?
+    let executionMemoryLimit: String?
+
     var body: some View {
-        StepQuizCodeSamplesView(samples: samples)
+        StepQuizCodeSamplesView(
+            samples: samples,
+            executionTimeLimit: executionTimeLimit,
+            executionMemoryLimit: executionMemoryLimit
+        )
     }
 }
 
@@ -18,7 +25,9 @@ struct StepQuizCodeDetailsView_Previews: PreviewProvider {
                     outputTitle: "Sample Output 1",
                     outputValue: "true"
                 )
-            ]
+            ],
+            executionTimeLimit: "Time limit: 8 seconds",
+            executionMemoryLimit: "Memory limit: 256 MB"
         )
         .previewLayout(.sizeThatFits)
         .padding()

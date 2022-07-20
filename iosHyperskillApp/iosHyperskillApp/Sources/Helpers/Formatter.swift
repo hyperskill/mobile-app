@@ -50,6 +50,23 @@ final class Formatter {
 
     // MARK: Date
 
+    /// Format seconds with localized and pluralized suffix; 1 -> "1 second", 5 -> "5 seconds"
+    func secondsCount(_ seconds: TimeInterval, roundingRule: FloatingPointRoundingRule = .up) -> String {
+        secondsCount(Int(seconds.rounded(roundingRule)))
+    }
+
+    /// Format seconds with localized and pluralized suffix; 1 -> "1 second", 5 -> "5 seconds"
+    func secondsCount(_ count: Int) -> String { secondsCount(Int32(count)) }
+
+    /// Format seconds with localized and pluralized suffix; 1 -> "1 second", 5 -> "5 seconds"
+    func secondsCount(_ count: Int32) -> String {
+        resourceProvider.getQuantityString(
+            pluralsResource: pluralsResources.seconds,
+            quantity: count,
+            args: KotlinArray(size: 1, init: { _ in NSNumber(value: count) })
+        )
+    }
+
     /// Format days count with localized and pluralized suffix; 1 -> "1 day", 5 -> "5 days"
     func daysCount(_ count: Int) -> String { daysCount(Int32(count)) }
 
