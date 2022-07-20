@@ -3,6 +3,7 @@ import shared
 
 enum StepQuizChildQuizType {
     case choice
+    case code
     case matching
     case sorting
     case table
@@ -15,6 +16,8 @@ enum StepQuizChildQuizType {
         switch blockName {
         case BlockName.shared.CHOICE:
             self = .choice
+        case BlockName.shared.CODE:
+            self = .code
         case BlockName.shared.MATCHING:
             self = .matching
         case BlockName.shared.SORTING:

@@ -4,11 +4,21 @@ struct StepQuizCodeView: View {
     @StateObject var viewModel: StepQuizCodeViewModel
 
     var body: some View {
-        StepQuizCodeDetailsView(
-            samples: viewModel.viewData.samples,
-            executionTimeLimit: viewModel.viewData.executionTimeLimit,
-            executionMemoryLimit: viewModel.viewData.executionMemoryLimit
-        )
+        VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
+            StepQuizCodeDetailsView(
+                samples: viewModel.viewData.samples,
+                executionTimeLimit: viewModel.viewData.executionTimeLimit,
+                executionMemoryLimit: viewModel.viewData.executionMemoryLimit
+            )
+            .padding(.horizontal, -LayoutInsets.defaultInset)
+
+            VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
+                Text(Strings.StepQuizCode.title)
+                    .font(.caption)
+                    .foregroundColor(.disabledText)
+                Divider()
+            }
+        }
     }
 }
 

@@ -139,7 +139,7 @@ class CodeStepQuizFullScreenDialogFragment :
         super.onViewCreated(view, savedInstanceState)
 
         with(viewBinding.fullScreenCenteredToolbar) {
-            centeredToolbarTitle.text = getString(R.string.step_quiz_code_write_program_text)
+            centeredToolbarTitle.text = getString(R.string.step_quiz_code_title)
             centeredToolbar.inflateMenu(R.menu.code_playground_menu)
             centeredToolbar.setNavigationOnClickListener { dismiss() }
             centeredToolbar.apply {

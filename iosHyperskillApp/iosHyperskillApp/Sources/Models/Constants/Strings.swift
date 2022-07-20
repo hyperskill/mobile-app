@@ -86,12 +86,16 @@ enum Strings {
     // MARK: - StepQuizCode -
 
     enum StepQuizCode {
+        static let title = sharedStrings.step_quiz_code_title.localized()
+
         static let sampleInputTitleResource = sharedStrings.step_quiz_code_detail_sample_input_title
         static let sampleOutputTitleResource = sharedStrings.step_quiz_code_detail_sample_output_title
 
         static let timeLimitTitle = sharedStrings.step_quiz_code_detail_execution_time_limit_title.localized()
         static let memoryLimitTitle = sharedStrings.step_quiz_code_detail_execution_memory_limit_title.localized()
         static let memoryLimitValueResource = sharedStrings.step_quiz_code_detail_execution_memory_limit_value
+
+        static let detailsTitle = sharedStrings.step_quiz_code_details.localized()
     }
 
     // MARK: - StepQuizTable -

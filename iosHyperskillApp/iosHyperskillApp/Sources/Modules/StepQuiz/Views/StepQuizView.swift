@@ -137,6 +137,14 @@ struct StepQuizView: View {
                         delegate: viewModel
                     )
                     .makeModule()
+                case .code:
+                    StepQuizCodeAssembly(
+                        blockOptions: stepBlockOptions,
+                        dataset: dataset,
+                        reply: reply,
+                        delegate: viewModel
+                    )
+                    .makeModule()
                 case .matching:
                     StepQuizMatchingAssembly(
                         blockOptions: stepBlockOptions,

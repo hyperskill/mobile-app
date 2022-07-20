@@ -22,6 +22,11 @@ final class StepQuizViewDataMapper {
                 return nil
             }
 
+            // Custom title rendering by code quiz
+            if step.block.name == BlockName.shared.CODE {
+                return nil
+            }
+
             return self.stepQuizTitleMapper.getStepQuizTitle(
                 blockName: step.block.name,
                 isMultipleChoice: KotlinBoolean(bool: dataset.isMultipleChoice),
