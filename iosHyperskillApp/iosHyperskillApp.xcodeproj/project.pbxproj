@@ -251,6 +251,8 @@
 		E9B2CF5F2822979400B2DC6F /* StepQuizHintButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B2CF5E2822979400B2DC6F /* StepQuizHintButton.swift */; };
 		E9B2CF6D2822AE5F00B2DC6F /* StepQuizFeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B2CF6C2822AE5F00B2DC6F /* StepQuizFeedbackView.swift */; };
 		E9B3A18C2828093800FE248B /* StepQuizActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B3A18B2828093800FE248B /* StepQuizActionButton.swift */; };
+		E9C3506D2886B0FE0080D277 /* MainBundleInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C3506C2886B0FE0080D277 /* MainBundleInfo.swift */; };
+		E9C3506F2886D0600080D277 /* OpenURLInsideAppButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C3506E2886D0600080D277 /* OpenURLInsideAppButton.swift */; };
 		E9D2D670284E0A70000757AC /* StepQuizMatchingViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2D66F284E0A70000757AC /* StepQuizMatchingViewData.swift */; };
 		E9D2D673284E0A97000757AC /* StepQuizMatchingItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2D672284E0A97000757AC /* StepQuizMatchingItemView.swift */; };
 		E9D2D675284E0B30000757AC /* StepQuizMatchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2D674284E0B30000757AC /* StepQuizMatchingView.swift */; };
@@ -521,6 +523,8 @@
 		E9B2CF5E2822979400B2DC6F /* StepQuizHintButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizHintButton.swift; sourceTree = "<group>"; };
 		E9B2CF6C2822AE5F00B2DC6F /* StepQuizFeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizFeedbackView.swift; sourceTree = "<group>"; };
 		E9B3A18B2828093800FE248B /* StepQuizActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizActionButton.swift; sourceTree = "<group>"; };
+		E9C3506C2886B0FE0080D277 /* MainBundleInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainBundleInfo.swift; sourceTree = "<group>"; };
+		E9C3506E2886D0600080D277 /* OpenURLInsideAppButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenURLInsideAppButton.swift; sourceTree = "<group>"; };
 		E9D2D66F284E0A70000757AC /* StepQuizMatchingViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingViewData.swift; sourceTree = "<group>"; };
 		E9D2D672284E0A97000757AC /* StepQuizMatchingItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingItemView.swift; sourceTree = "<group>"; };
 		E9D2D674284E0B30000757AC /* StepQuizMatchingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingView.swift; sourceTree = "<group>"; };
@@ -563,6 +567,7 @@
 				E91017142832975C002E70F5 /* CheckboxButton.swift */,
 				2C08A938287866A200F1DCA2 /* LazyAvatarView.swift */,
 				2C32375228380C340062CAF6 /* NavigationToolbarInfoItem.swift */,
+				E9C3506E2886D0600080D277 /* OpenURLInsideAppButton.swift */,
 				E9101712283296F3002E70F5 /* RadioButton.swift */,
 				2C8E66D8287896CF00D3928D /* TabNavigationLazyView.swift */,
 				2C58DE2A2803DEE2002A2774 /* VerticalCenteredScrollView.swift */,
@@ -1385,6 +1390,7 @@
 				2CD3652728797D3600D61855 /* Formatter.swift */,
 				2C20FBBF284F65F6006D879E /* HTMLToAttributedStringConverter.swift */,
 				2C725B602809125700A49043 /* LayoutInsets.swift */,
+				E9C3506C2886B0FE0080D277 /* MainBundleInfo.swift */,
 				2C863D922804279E0021EFED /* Require.swift */,
 				2C225E47281A5B6800E8ABD2 /* SourcelessRouter.swift */,
 				2C20FBC8284F6F97006D879E /* UnitConverters.swift */,
@@ -1917,6 +1923,7 @@
 				2C9EB9552861BA02007DDE44 /* AppTabItem.swift in Sources */,
 				2C336D282865E53800C91342 /* CodeInputAccessoryBuilder.swift in Sources */,
 				E900D10128434D0400A77BBC /* StepQuizSortingView.swift in Sources */,
+				E9C3506F2886D0600080D277 /* OpenURLInsideAppButton.swift in Sources */,
 				2C23C0062879EA7D0083709F /* StreakDayState.swift in Sources */,
 				2C963BC72812D1BF0036DD53 /* HomeAssembly.swift in Sources */,
 				2C4FBD8E2876C94800ACA5C8 /* ProfileAboutSocialAccountsView.swift in Sources */,
@@ -2005,6 +2012,7 @@
 				E900D1052843573A00A77BBC /* StepQuizSortingIcon.swift in Sources */,
 				2CCCA39B2862E3BB00D98089 /* StepQuizStringDataType.swift in Sources */,
 				E99B21852887E9B0006A6154 /* StepQuizMatchingSkeletonView.swift in Sources */,
+				E9C3506D2886B0FE0080D277 /* MainBundleInfo.swift in Sources */,
 				2CAE8D0528055D8300E6C83D /* StepActionButton.swift in Sources */,
 				2C37960F2876F36F00C197E2 /* ProfileViewData.swift in Sources */,
 				2C2D4930281151EB00753F16 /* AuthCredentialsViewModel.swift in Sources */,
