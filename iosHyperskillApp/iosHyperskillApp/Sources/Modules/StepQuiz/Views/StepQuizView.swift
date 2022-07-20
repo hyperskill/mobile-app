@@ -95,7 +95,7 @@ struct StepQuizView: View {
                 buildQuizActionButton(attemptLoadedState: attemptLoadedState)
             }
         } else {
-            StepQuizSkeletonView(quizType: quizType)
+            StepQuizSkeletonViewFactory.makeSkeleton(for: quizType)
         }
     }
 
