@@ -4,10 +4,12 @@ import SwiftUI
 final class StepQuizSortingAssembly: StepQuizChildQuizAssembly {
     weak var delegate: StepQuizChildQuizDelegate?
 
+    private let blockOptions: Block.Options
     private let dataset: Dataset
     private let reply: Reply?
 
-    init(dataset: Dataset, reply: Reply?, delegate: StepQuizChildQuizDelegate?) {
+    init(blockOptions: Block.Options, dataset: Dataset, reply: Reply?, delegate: StepQuizChildQuizDelegate?) {
+        self.blockOptions = blockOptions
         self.dataset = dataset
         self.reply = reply
         self.delegate = delegate
@@ -25,7 +27,7 @@ final class StepQuizSortingAssembly: StepQuizChildQuizAssembly {
 extension StepQuizSortingAssembly {
     static func makePlaceholder() -> StepQuizSortingAssembly {
         let dataset = Dataset(options: ["Byte", "Short", "Long", "Int"])
-        return StepQuizSortingAssembly(dataset: dataset, reply: nil, delegate: nil)
+        return StepQuizSortingAssembly(blockOptions: .init(), dataset: dataset, reply: nil, delegate: nil)
     }
 }
 #endif

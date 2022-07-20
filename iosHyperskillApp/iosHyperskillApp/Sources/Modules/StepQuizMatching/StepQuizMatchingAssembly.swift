@@ -4,10 +4,12 @@ import SwiftUI
 final class StepQuizMatchingAssembly: StepQuizChildQuizAssembly {
     weak var delegate: StepQuizChildQuizDelegate?
 
+    private let blockOptions: Block.Options
     private let dataset: Dataset
     private let reply: Reply?
 
-    init(dataset: Dataset, reply: Reply?, delegate: StepQuizChildQuizDelegate?) {
+    init(blockOptions: Block.Options, dataset: Dataset, reply: Reply?, delegate: StepQuizChildQuizDelegate?) {
+        self.blockOptions = blockOptions
         self.dataset = dataset
         self.reply = reply
         self.delegate = delegate
@@ -32,7 +34,7 @@ extension StepQuizMatchingAssembly {
                 .init(first: "&#x27;\\\\&#x27;", second: "tab character")
             ]
         )
-        return StepQuizMatchingAssembly(dataset: dataset, reply: nil, delegate: nil)
+        return StepQuizMatchingAssembly(blockOptions: .init(), dataset: dataset, reply: nil, delegate: nil)
     }
 }
 #endif

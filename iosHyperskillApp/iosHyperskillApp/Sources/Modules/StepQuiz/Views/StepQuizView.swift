@@ -70,7 +70,8 @@ struct StepQuizView: View {
                     buildQuizContent(
                         state: viewModel.state,
                         quizName: viewData.quizName,
-                        stepBlockName: viewData.stepBlockName
+                        stepBlockName: viewData.stepBlockName,
+                        stepBlockOptions: viewModel.stepBlockOptions
                     )
                 }
                 .padding()
@@ -79,7 +80,12 @@ struct StepQuizView: View {
     }
 
     @ViewBuilder
-    private func buildQuizContent(state: StepQuizFeatureState, quizName: String?, stepBlockName: String) -> some View {
+    private func buildQuizContent(
+        state: StepQuizFeatureState,
+        quizName: String?,
+        stepBlockName: String,
+        stepBlockOptions: Block.Options
+    ) -> some View {
         if let quizName = quizName {
             StepQuizNameView(text: quizName)
         }
@@ -90,7 +96,11 @@ struct StepQuizView: View {
             if case .unsupported = quizType {
                 StepQuizStatusView(state: .unsupportedQuiz)
             } else {
-                buildChildQuiz(for: quizType, attemptLoadedState: attemptLoadedState)
+                buildChildQuiz(
+                    for: quizType,
+                    attemptLoadedState: attemptLoadedState,
+                    stepBlockOptions: stepBlockOptions
+                )
                 buildQuizStatusView(attemptLoadedState: attemptLoadedState)
                 buildQuizActionButton(attemptLoadedState: attemptLoadedState)
             }
@@ -103,7 +113,8 @@ struct StepQuizView: View {
     @ViewBuilder
     private func buildChildQuiz(
         for quizType: StepQuizChildQuizType,
-        attemptLoadedState: StepQuizFeatureStateAttemptLoaded
+        attemptLoadedState: StepQuizFeatureStateAttemptLoaded,
+        stepBlockOptions: Block.Options
     ) -> some View {
         if let dataset = attemptLoadedState.attempt.dataset {
             let submissionStateEmpty = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateEmpty
@@ -120,16 +131,41 @@ struct StepQuizView: View {
             Group {
                 switch quizType {
                 case .choice:
-                    StepQuizChoiceAssembly(dataset: dataset, reply: reply, delegate: viewModel).makeModule()
+                    StepQuizChoiceAssembly(
+                        blockOptions: stepBlockOptions,
+                        dataset: dataset,
+                        reply: reply,
+                        delegate: viewModel
+                    )
+                    .makeModule()
                 case .matching:
-                    StepQuizMatchingAssembly(dataset: dataset, reply: reply, delegate: viewModel).makeModule()
+                    StepQuizMatchingAssembly(
+                        blockOptions: stepBlockOptions,
+                        dataset: dataset,
+                        reply: reply,
+                        delegate: viewModel
+                    )
+                    .makeModule()
                 case .sorting:
-                    StepQuizSortingAssembly(dataset: dataset, reply: reply, delegate: viewModel).makeModule()
+                    StepQuizSortingAssembly(
+                        blockOptions: stepBlockOptions,
+                        dataset: dataset,
+                        reply: reply,
+                        delegate: viewModel
+                    )
+                    .makeModule()
                 case .table:
-                    StepQuizTableAssembly(dataset: dataset, reply: reply, delegate: viewModel).makeModule()
+                    StepQuizTableAssembly(
+                        blockOptions: stepBlockOptions,
+                        dataset: dataset,
+                        reply: reply,
+                        delegate: viewModel
+                    )
+                    .makeModule()
                 case .string, .number, .math:
                     StepQuizStringAssembly(
                         dataType: .init(quizType: quizType).require(),
+                        blockOptions: stepBlockOptions,
                         dataset: dataset,
                         reply: reply,
                         delegate: viewModel
