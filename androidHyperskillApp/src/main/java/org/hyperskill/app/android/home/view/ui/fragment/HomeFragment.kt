@@ -1,49 +1,110 @@
 package org.hyperskill.app.android.home.view.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.google.android.material.snackbar.Snackbar
+import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentHomeBinding
-import org.hyperskill.app.android.databinding.LayoutProblemOfTheDayCardBinding
 import org.hyperskill.app.android.problem_of_day.view.delegate.ProblemOfDayCardFormDelegate
 import org.hyperskill.app.android.step.view.screen.StepScreen
+import org.hyperskill.app.android.streak.view.delegate.StreakCardFormDelegate
 import org.hyperskill.app.home.presentation.HomeFeature
-import ru.nobird.android.view.base.ui.extension.snackbar
+import org.hyperskill.app.home.presentation.HomeViewModel
+import org.hyperskill.app.streak.domain.model.Streak
+import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
+import ru.nobird.android.view.redux.ui.extension.reduxViewModel
+import ru.nobird.app.presentation.redux.container.ReduxView
 
-class HomeFragment : Fragment(R.layout.layout_problem_of_the_day_card) {
+class HomeFragment :
+    Fragment(R.layout.fragment_home),
+    ReduxView<HomeFeature.State, HomeFeature.Action.ViewAction> {
     companion object {
         fun newInstance(): Fragment =
             HomeFragment()
     }
 
-//    private val viewBinding: FragmentHomeBinding by viewBinding(FragmentHomeBinding::bind)
-    private val viewBinding: LayoutProblemOfTheDayCardBinding by viewBinding(LayoutProblemOfTheDayCardBinding::bind)
+    private lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val viewBinding: FragmentHomeBinding by viewBinding(FragmentHomeBinding::bind)
+    private val homeViewModel: HomeViewModel by reduxViewModel(this) { viewModelFactory }
+    private val viewStateDelegate: ViewStateDelegate<HomeFeature.State> = ViewStateDelegate()
+
+    private lateinit var problemOfDayCardFormDelegate: ProblemOfDayCardFormDelegate
+    private lateinit var streakCardFormDelegate: StreakCardFormDelegate
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        injectComponents()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViewStateDelegate()
 
-        ProblemOfDayCardFormDelegate(
-            requireContext(),
-            viewBinding,
-            HomeFeature.ProblemOfDayState.Empty,
-            ::onActionButtonClicked
-        )
+        viewBinding.homeScreenError.tryAgain.setOnClickListener {
+            homeViewModel.onNewMessage(HomeFeature.Message.Init(forceUpdate = true))
+        }
 
-//        viewBinding.homeAction.setOnClickListener {
-//            val stepId = viewBinding.homeInputEditText.text.toString().toLongOrNull()
-//            if (stepId == null) {
-//                view.snackbar("Insert a valid number", Snackbar.LENGTH_SHORT)
-//            } else {
-//                requireRouter().navigateTo(StepScreen(stepId))
-//            }
-//        }
+        homeViewModel.onNewMessage(HomeFeature.Message.Init(forceUpdate = true))
     }
 
-    private fun onActionButtonClicked(stepId: Long) {
+    private fun injectComponents() {
+        val homeComponent = HyperskillApp.graph().buildHomeComponent()
+        val platformHomeComponent = HyperskillApp.graph().buildPlatformHomeComponent(homeComponent)
+        viewModelFactory = platformHomeComponent.reduxViewModelFactory
+    }
+
+    private fun onProblemOfDayCardActionButtonClicked(stepId: Long) {
         requireRouter().navigateTo(StepScreen(stepId))
+    }
+
+    private fun initViewStateDelegate() {
+        with(viewStateDelegate) {
+            addState<HomeFeature.State.Idle>()
+            addState<HomeFeature.State.Loading>(viewBinding.homeScreenProgress)
+            addState<HomeFeature.State.NetworkError>(viewBinding.homeScreenError.root)
+            addState<HomeFeature.State.Content>(viewBinding.homeScreenContainer)
+        }
+    }
+
+    private fun setupStreakCardDelegate(streak: Streak?) {
+        if (streak == null) {
+            viewBinding.homeScreenStreakCard.root.visibility = View.GONE
+            return
+        }
+
+        streakCardFormDelegate = StreakCardFormDelegate(
+            requireContext(),
+            viewBinding.homeScreenStreakCard,
+            streak
+        )
+    }
+
+    private fun setupProblemOfDayCardDelegate(state: HomeFeature.ProblemOfDayState) {
+        problemOfDayCardFormDelegate = ProblemOfDayCardFormDelegate(
+            requireContext(),
+            viewBinding.homeScreenProblemOfDayCard,
+            state,
+            ::onProblemOfDayCardActionButtonClicked
+        )
+    }
+
+    override fun onAction(action: HomeFeature.Action.ViewAction) {
+    }
+
+    override fun render(state: HomeFeature.State) {
+        Log.d("TEST_HOME", "Switched to $state")
+        viewStateDelegate.switchState(state)
+        when (state) {
+            is HomeFeature.State.Content -> {
+                setupStreakCardDelegate(state.streak)
+                setupProblemOfDayCardDelegate(state.problemOfDayState)
+            }
+        }
     }
 }
