@@ -90,9 +90,9 @@ struct StepQuizView: View {
             StepQuizNameView(text: quizName)
         }
 
-        if let attemptLoadedState = state as? StepQuizFeatureStateAttemptLoaded {
-            let quizType = StepQuizChildQuizType(blockName: stepBlockName)
+        let quizType = StepQuizChildQuizType(blockName: stepBlockName)
 
+        if let attemptLoadedState = state as? StepQuizFeatureStateAttemptLoaded {
             if case .unsupported = quizType {
                 StepQuizStatusView(state: .unsupportedQuiz)
             } else {
@@ -105,8 +105,7 @@ struct StepQuizView: View {
                 buildQuizActionButton(attemptLoadedState: attemptLoadedState)
             }
         } else {
-            ProgressView()
-                .frame(maxWidth: .infinity, alignment: .center)
+            StepQuizSkeletonViewFactory.makeSkeleton(for: quizType)
         }
     }
 

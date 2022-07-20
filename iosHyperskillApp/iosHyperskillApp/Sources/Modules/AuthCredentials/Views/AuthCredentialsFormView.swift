@@ -8,7 +8,9 @@ extension AuthCredentialsFormView {
 
         let resetPasswordButtonInset = LayoutInsets.smallInset
 
-        let backgroundColor = UIColor.dynamic(light: ColorPalette.surface, dark: .secondarySystemBackground)
+        let backgroundColor = Color(UIColor.dynamic(light: ColorPalette.surface, dark: .secondarySystemBackground))
+
+        let borderColor = Color(UIColor.dynamic(light: ColorPalette.brown, dark: .separator))
     }
 }
 
@@ -78,8 +80,8 @@ struct AuthCredentialsFormView: View {
             .padding(appearance.resetPasswordButtonInset)
         }
         .padding()
-        .background(Color(appearance.backgroundColor))
-        .addBorder()
+        .background(appearance.backgroundColor)
+        .addBorder(color: appearance.borderColor)
     }
 
     // MARK: Private API

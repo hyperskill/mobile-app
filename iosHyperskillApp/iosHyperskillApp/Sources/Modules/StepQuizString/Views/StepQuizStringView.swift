@@ -4,7 +4,6 @@ extension StepQuizStringView {
     struct Appearance {
         let textEditorTextColor = Color.primaryText
         let textEditorTextFont = Font.body
-        let textEditorBorderColor = Color(ColorPalette.onSurfaceAlpha12)
         let textEditorHeight: CGFloat = 96
         let textEditorInsets = LayoutInsets.small
 
@@ -40,7 +39,7 @@ struct StepQuizStringView: View {
                 ,
                 alignment: .topLeading
             )
-            .addBorder(color: appearance.textEditorBorderColor)
+            .addBorder()
     }
 }
 

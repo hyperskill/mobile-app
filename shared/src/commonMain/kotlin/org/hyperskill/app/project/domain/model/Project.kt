@@ -36,7 +36,7 @@ data class Project(
     @SerialName("title")
     val title: String,
     @SerialName("tracks")
-    val tracks: Map<String, Track>,
+    val tracks: Map<String, ProjectTrack>,
     @SerialName("use_ide")
     val useIDE: Boolean,
     @SerialName("is_deprecated")
