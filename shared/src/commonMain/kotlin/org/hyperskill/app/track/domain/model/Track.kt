@@ -21,14 +21,14 @@ data class Track(
     val projectsByLevel: ProjectsByLevel,
     @SerialName("results")
     val results: String,
-    @SerialName("second_to_complete")
+    @SerialName("seconds_to_complete")
     val secondsToComplete: Double,
     @SerialName("title")
     val title: String,
     @SerialName("topics_count")
     val topicsCount: Int,
     @SerialName("cover")
-    val cover: String,
+    val cover: String?,
     @SerialName("careers")
     val careers: String,
     @SerialName("projects")

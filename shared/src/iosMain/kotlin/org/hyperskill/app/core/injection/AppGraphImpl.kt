@@ -19,6 +19,8 @@ import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step.injection.StepComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponentImpl
+import org.hyperskill.app.track.injection.TrackComponent
+import org.hyperskill.app.track.injection.TrackComponentImpl
 
 class AppGraphImpl(
     userAgentInfo: UserAgentInfo
@@ -49,6 +51,9 @@ class AppGraphImpl(
 
     override fun buildProfileDataComponent(): ProfileDataComponent =
         ProfileDataComponentImpl(this)
+
+    override fun buildTrackComponent(): TrackComponent =
+        TrackComponentImpl(this)
 
     override fun buildProfileComponent(): ProfileComponent =
         ProfileComponentImpl(this)

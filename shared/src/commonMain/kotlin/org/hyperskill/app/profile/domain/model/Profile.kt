@@ -98,5 +98,5 @@ data class Profile(
     @SerialName("isic_name")
     val isicName: String,
     @SerialName("isic_status")
-    val isicStatus: Int
+    val isicStatus: Long
 )
