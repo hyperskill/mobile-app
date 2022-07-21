@@ -1,22 +1,20 @@
 package org.hyperskill.app.android.profile_settings.view.dialog
 
-import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentProfileSettingsBinding
 
-class ProfileSettingsDialogFragment : DialogFragment() {
+class ProfileSettingsDialogFragment : DialogFragment(R.layout.fragment_profile_settings) {
     companion object {
         const val TAG = "ProfileSettingsDialogFragment"
 
@@ -32,28 +30,17 @@ class ProfileSettingsDialogFragment : DialogFragment() {
             ProfileSettingsDialogFragment()
     }
 
-    private var _binding: FragmentProfileSettingsBinding? = null
-    private val binding: FragmentProfileSettingsBinding
-        get() = _binding!!
+    private val viewBinding: FragmentProfileSettingsBinding by viewBinding(FragmentProfileSettingsBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_FRAME, R.style.ThemeOverlay_AppTheme_Dialog_Fullscreen)
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        _binding = FragmentProfileSettingsBinding.inflate(LayoutInflater.from(context))
-
-        return super.onCreateDialog(savedInstanceState)
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
-        binding.root
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(binding.settingsCenteredToolbar) {
+        with(viewBinding.settingsCenteredToolbar) {
             centeredToolbarTitle.setText(R.string.settings_title)
             centeredToolbarTitle.setTextAppearance(R.style.TextAppearance_AppCompat_Body2)
             centeredToolbarTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18F)
@@ -68,7 +55,7 @@ class ProfileSettingsDialogFragment : DialogFragment() {
             resources.getString(R.string.settings_theme_system)
         )
 
-        binding.settingsThemeButton.setOnClickListener {
+        viewBinding.settingsThemeButton.setOnClickListener {
             MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog)
                 .setTitle(R.string.settings_theme)
                 .setSingleChoiceItems(themes, -1) { _, which ->
@@ -86,29 +73,24 @@ class ProfileSettingsDialogFragment : DialogFragment() {
                 .show()
         }
 
-        binding.settingsTermsOfServiceButton.setOnClickListener {
+        viewBinding.settingsTermsOfServiceButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(TERMS_OF_SERVICE_URL)
             ContextCompat.startActivity(requireContext(), intent, null)
         }
 
-        binding.settingsPrivacyPolicyButton.setOnClickListener {
+        viewBinding.settingsPrivacyPolicyButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(PRIVACY_POLICY_URL)
             ContextCompat.startActivity(requireContext(), intent, null)
         }
 
-        binding.settingsHelpCenterButton.setOnClickListener {
+        viewBinding.settingsHelpCenterButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(HELP_CENTER_URL)
             ContextCompat.startActivity(requireContext(), intent, null)
         }
 
-        binding.settingsVersionTextView.text = HyperskillApp.graph().commonComponent.userAgentInfo.versionName
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        viewBinding.settingsVersionTextView.text = HyperskillApp.graph().commonComponent.userAgentInfo.versionName
     }
 }
