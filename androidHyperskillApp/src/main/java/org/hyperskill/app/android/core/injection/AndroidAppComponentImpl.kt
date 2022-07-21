@@ -71,7 +71,7 @@ class AndroidAppComponentImpl(
      * Auth social component
      */
     override fun buildAuthSocialComponent(): AuthSocialComponent =
-        AuthSocialComponentImpl(commonComponent, authComponent)
+        AuthSocialComponentImpl(commonComponent, authComponent, buildProfileDataComponent())
 
     override fun buildPlatformAuthSocialComponent(authSocialComponent: AuthSocialComponent): PlatformAuthSocialComponent =
         PlatformAuthSocialComponentImpl(authSocialComponent)
@@ -80,7 +80,7 @@ class AndroidAppComponentImpl(
      * Auth credentials component
      */
     override fun buildAuthCredentialsComponent(): AuthCredentialsComponent =
-        AuthCredentialsComponentImpl(commonComponent, authComponent)
+        AuthCredentialsComponentImpl(commonComponent, authComponent, buildProfileDataComponent())
 
     override fun buildPlatformAuthCredentialsComponent(authCredentialsComponent: AuthCredentialsComponent): PlatformAuthCredentialsComponent =
         PlatformAuthCredentialsComponentImpl(authCredentialsComponent)

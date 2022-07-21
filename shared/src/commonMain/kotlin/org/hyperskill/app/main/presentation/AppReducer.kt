@@ -20,7 +20,12 @@ class AppReducer : StateReducer<State, Message, Action> {
             }
             is Message.UserAuthorized ->
                 if (state is State.Ready && !state.isAuthorized) {
-                    State.Ready(isAuthorized = true) to setOf(Action.ViewAction.NavigateTo.HomeScreen)
+                    val action = if (message.isNewUser) {
+                        Action.ViewAction.NavigateTo.NewUserScreen
+                    } else {
+                        Action.ViewAction.NavigateTo.HomeScreen
+                    }
+                    State.Ready(isAuthorized = true) to setOf(action)
                 } else {
                     null
                 }
@@ -33,6 +38,8 @@ class AppReducer : StateReducer<State, Message, Action> {
             is Message.UserAccountStatus ->
                 if (state is State.Loading) {
                     val isAuthorized = !message.profile.isGuest
+
+                    println("ALT – ${message.profile}")
 
                     val action =
                         if (isAuthorized) {

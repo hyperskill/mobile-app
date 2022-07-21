@@ -73,7 +73,8 @@ class MainActivity :
                 .observeResult(AuthFragment.AUTH_SUCCESS)
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collectLatest {
-                    mainViewModelProvider.onNewMessage(AppFeature.Message.UserAuthorized)
+                    val isNewUser = (it as? Boolean) ?: true
+                    mainViewModelProvider.onNewMessage(AppFeature.Message.UserAuthorized(isNewUser))
                 }
         }
 

@@ -12,7 +12,7 @@ interface AppFeature {
 
     sealed interface Message {
         data class Init(val forceUpdate: Boolean = false) : Message
-        object UserAuthorized : Message
+        data class UserAuthorized(val isNewUser: Boolean) : Message
         object UserDeauthorized : Message
         data class UserAccountStatus(val profile: Profile) : Message
         object UserAccountStatusError : Message

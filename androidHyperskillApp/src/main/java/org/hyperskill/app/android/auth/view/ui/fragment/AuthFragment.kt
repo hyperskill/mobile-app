@@ -22,8 +22,8 @@ class AuthFragment : FlowFragment(), AuthFlow {
         }
     }
 
-    override fun onAuthSuccess() {
-        requireAppRouter().sendResult(AUTH_SUCCESS, Unit)
+    override fun onAuthSuccess(isNewUser: Boolean) {
+        requireAppRouter().sendResult(AUTH_SUCCESS, isNewUser)
     }
 
     private fun initNavigation() {
