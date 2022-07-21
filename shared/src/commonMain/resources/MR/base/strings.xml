@@ -127,7 +127,8 @@
     <string name="profile_role_staff_text">JetBrains Academy Team</string>
     <string name="profile_role_learner_text">Learner</string>
     <string name="profile_schedule_text">Schedule:</string>
-    <string name="profile_switch_compat_text">Daily study reminders</string>
+    <string name="profile_reminders_title">Daily study reminders</string>
+    <string name="profile_reminders_schedule">Schedule:</string>
 
     <!-- Settings -->
     <string name="settings_title">Settings</string>
@@ -171,4 +172,5 @@
     <string name="placeholder_first_description_text">Right now you can solve one random problem every day.</string>
     <string name="placeholder_second_description_text">We add new features every week. Stay tuned :)</string>
 
+    <!--  -->
 </resources>

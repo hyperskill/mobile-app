@@ -79,6 +79,8 @@ struct ProfileView: View {
                             .background(Color(ColorPalette.surface))
                     }
 
+                    ProfileRemindersView()
+
                     ProfileAboutView(
                         livesInText: viewData.livesInText,
                         speaksText: viewData.speaksText,
