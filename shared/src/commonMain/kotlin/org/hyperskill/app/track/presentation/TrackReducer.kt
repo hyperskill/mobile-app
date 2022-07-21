@@ -12,7 +12,7 @@ class TrackReducer : StateReducer<State, Message, Action> {
                 if (state is State.Idle ||
                     (message.forceUpdate && (state is State.Content || state is State.NetworkError))
                 ) {
-                    State.Loading to setOf(Action.FetchTrack(message.trackId))
+                    State.Loading to setOf(Action.FetchTrack)
                 } else {
                     null
                 }

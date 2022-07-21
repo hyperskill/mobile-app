@@ -1,7 +1,9 @@
 package org.hyperskill.app.track.presentation
 
 import kotlinx.coroutines.async
+import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.track.domain.interactor.TrackInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 import org.hyperskill.app.track.presentation.TrackFeature.Action
@@ -9,19 +11,33 @@ import org.hyperskill.app.track.presentation.TrackFeature.Message
 
 class TrackActionDispatcher(
     config: ActionDispatcherOptions,
-    private val trackInteractor: TrackInteractor
+    private val trackInteractor: TrackInteractor,
+    private val profileInteractor: ProfileInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchTrack -> {
+                val trackId = profileInteractor
+                    .getCurrentProfile(sourceType = DataSourceType.CACHE)
+                    .map { profile -> profile.trackId }
+                    .getOrElse {
+                        Message.TrackError(message = it.message ?: "")
+                        return
+                    }
+
+                if (trackId == null) {
+                    Message.TrackError("")
+                    return
+                }
+
                 val trackResult = actionScope.async {
-                    trackInteractor.getTrack(action.trackId)
+                    trackInteractor.getTrack(trackId)
                 }
                 val trackProgressResult = actionScope.async {
-                    trackInteractor.getTrackProgress(action.trackId)
+                    trackInteractor.getTrackProgress(trackId)
                 }
                 val studyPlanResult = actionScope.async {
-                    trackInteractor.getStudyPlanByTrackId(action.trackId)
+                    trackInteractor.getStudyPlanByTrackId(trackId)
                 }
 
                 val track = trackResult.await().getOrElse {

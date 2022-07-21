@@ -32,7 +32,7 @@ class AuthCredentialsReducer : StateReducer<State, Message, Action> {
             }
             is Message.AuthSuccess -> {
                 if (state.formState is AuthCredentialsFeature.FormState.Loading) {
-                    state.copy(formState = AuthCredentialsFeature.FormState.Authenticated) to setOf(Action.ViewAction.CompleteAuthFlow)
+                    state.copy(formState = AuthCredentialsFeature.FormState.Authenticated) to setOf(Action.ViewAction.CompleteAuthFlow(message.isNewUser))
                 } else {
                     null
                 }
@@ -44,5 +44,5 @@ class AuthCredentialsReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
-        } ?: state to emptySet()
+        } ?: (state to emptySet())
 }

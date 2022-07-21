@@ -12,4 +12,10 @@ class AuthCacheDataSourceImpl(
         kotlin.runCatching {
             settings.get<String>(AUTH_RESPONSE) != null
         }
+
+    override suspend fun clearCache() {
+        kotlin.runCatching {
+            settings.remove(AUTH_RESPONSE)
+        }
+    }
 }
