@@ -17,7 +17,7 @@ class AuthSocialReducer : StateReducer<State, Message, Action> {
             }
             is Message.AuthSuccess -> {
                 if (state is State.Loading) {
-                    State.Authenticated to setOf(Action.ViewAction.CompleteAuthFlow)
+                    State.Authenticated to setOf(Action.ViewAction.CompleteAuthFlow(message.isNewUser))
                 } else {
                     null
                 }
@@ -29,5 +29,5 @@ class AuthSocialReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
-        } ?: state to emptySet()
+        } ?: (state to emptySet())
 }

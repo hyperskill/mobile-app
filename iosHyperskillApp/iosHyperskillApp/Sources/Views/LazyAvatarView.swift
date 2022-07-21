@@ -5,7 +5,7 @@ import SwiftUI
 
 extension LazyAvatarView {
     struct Appearance {
-        var borderColor = Color(ColorPalette.onSurfaceAlpha12)
+        var borderColor = Color.border
         var borderWidth: CGFloat = 1
     }
 }

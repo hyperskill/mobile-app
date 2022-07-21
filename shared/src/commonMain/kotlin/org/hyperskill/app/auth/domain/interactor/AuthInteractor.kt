@@ -19,4 +19,8 @@ class AuthInteractor(
 
     suspend fun authWithEmail(email: String, password: String): Result<Unit> =
         authRepository.authWithEmail(email, password)
+
+    suspend fun clearCache() {
+        authRepository.clearCache()
+    }
 }

@@ -2,12 +2,6 @@ import Foundation
 import shared
 
 final class ProfileViewDataMapper {
-    private let formatter: Formatter
-
-    init(formatter: Formatter) {
-        self.formatter = formatter
-    }
-
     func mapProfileToViewData(_ profile: Profile) -> ProfileViewData {
         let role = profile.isStaff ? Strings.Profile.roleStaff : Strings.Profile.roleLearner
 
@@ -16,7 +10,7 @@ final class ProfileViewDataMapper {
                 return nil
             }
 
-            let countryName = formatter.localizedCoutryName(for: countryCode)
+            let countryName = Formatter.localizedCoutryName(for: countryCode)
 
             return "\(Strings.Profile.livesIn) \(countryName ?? countryCode)"
         }()
@@ -31,7 +25,7 @@ final class ProfileViewDataMapper {
             }
 
             let languagesNames = languagesCodes
-                .compactMap(formatter.localizedLanguageName(for:))
+                .compactMap(Formatter.localizedLanguageName(for:))
                 .map(\.capitalized)
             let formattedLanguages = (languagesNames.isEmpty ? languagesCodes : languagesNames).joined(separator: ", ")
 

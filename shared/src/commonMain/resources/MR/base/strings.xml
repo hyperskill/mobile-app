@@ -5,6 +5,7 @@
     <string name="external_link_error">Unable to open link: %s</string>
     <string name="yes">Yes</string>
     <string name="cancel">Cancel</string>
+    <string name="done_text">Done</string>
 
     <!-- Users list -->
     <string name="user_list_search_button_title">Search</string>
@@ -145,6 +146,19 @@
 
     <!-- Settings -->
     <string name="settings_title">Settings</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_theme_system">System</string>
+    <string name="settings_about">About</string>
+    <string name="settings_terms_of_service">JetBrains Academy Terms of Service</string>
+    <string name="settings_privacy_policy">Hyperskill Terms of Service and Privacy Policy</string>
+    <string name="settings_help_center">Help Center</string>
+    <string name="settings_version">Version</string>
+    <string name="settings_rate_application">Rate this application</string>
+    <string name="settings_logout">Logout</string>
+    <string name="settings_delete_account">Delete account</string>
 
     <!-- Placeholder -->
     <string name="placeholder_network_error_title">Oops! It seems like the network error.</string>

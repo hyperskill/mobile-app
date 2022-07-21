@@ -22,7 +22,7 @@ struct StepQuizSortingItemView: View {
             }
         }
         .padding()
-        .addBorder(color: Color(ColorPalette.onSurfaceAlpha12))
+        .addBorder()
     }
 }
 
@@ -58,5 +58,6 @@ struct StepQuizSortingItemView_Previews: PreviewProvider {
             )
         }
         .previewLayout(.sizeThatFits)
+        .padding()
     }
 }

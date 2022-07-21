@@ -3,9 +3,11 @@ import SwiftUI
 struct LayoutInsets {
     static let smallInset: CGFloat = 8
     static let defaultInset: CGFloat = 16
+    static let largeInset: CGFloat = 20
 
     static let small = LayoutInsets(inset: Self.smallInset)
     static let `default` = LayoutInsets(inset: Self.defaultInset)
+    static let large = LayoutInsets(inset: Self.largeInset)
 
     private let topInset: CGFloat?
     private let leadingInset: CGFloat?
@@ -98,5 +100,12 @@ struct LayoutInsets {
         leadingInset = nil
         bottomInset = vertical
         trailingInset = nil
+    }
+
+    init(horizontal: CGFloat, vertical: CGFloat) {
+        topInset = vertical
+        leadingInset = horizontal
+        bottomInset = vertical
+        trailingInset = horizontal
     }
 }

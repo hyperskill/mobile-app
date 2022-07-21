@@ -13,6 +13,18 @@ enum HyperskillURLFactory {
         makeURL(path: .profile(id))
     }
 
+    // MARK: Track
+
+    static func makeTrack(id: Int) -> URL? {
+        makeURL(path: .track(id))
+    }
+
+    // MARK: StudyPlan
+
+    static func makeStudyPlan() -> URL? {
+        makeURL(path: .studyPlan)
+    }
+
     // MARK: - Private API -
 
     private static func makeURL(
@@ -46,6 +58,8 @@ enum HyperskillURLFactory {
     private enum Path {
         case register
         case profile(Int)
+        case track(Int)
+        case studyPlan
 
         var formattedPath: String {
             switch self {
@@ -53,6 +67,10 @@ enum HyperskillURLFactory {
                 return "/register"
             case .profile(let id):
                 return "/profile/\(id)"
+            case .track(let id):
+                return "/tracks/\(id)"
+            case .studyPlan:
+                return "/study-plan"
             }
         }
     }
