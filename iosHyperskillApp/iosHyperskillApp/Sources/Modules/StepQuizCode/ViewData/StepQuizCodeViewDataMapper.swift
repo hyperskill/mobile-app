@@ -10,26 +10,60 @@ final class StepQuizCodeViewDataMapper {
         self.resourceProvider = resourceProvider
     }
 
-    func mapCodeDataToViewData(blockOptions: Block.Options) -> StepQuizCodeViewData {
-        let samples = mapSamples(blockOptions.samples)
-
-        let executionTimeLimit: String? = {
-            if let executionTimeLimit = blockOptions.executionTimeLimit {
-                return formatter.secondsCount(executionTimeLimit.int32Value)
+    func mapCodeDataToViewData(blockOptions: Block.Options, reply: Reply?) -> StepQuizCodeViewData {
+        let languageStringValue = reply?.language ?? blockOptions.limits?.first?.key
+        let language: CodeLanguage? = {
+            if let languageStringValue = languageStringValue {
+                return CodeLanguage(rawValue: languageStringValue)
             }
             return nil
         }()
-        let executionMemoryLimit: String? = {
-            if let executionMemoryLimit = blockOptions.executionMemoryLimit {
-                return resourceProvider.getString(
-                    stringResource: Strings.StepQuizCode.memoryLimitValueResource,
-                    args: KotlinArray(size: 1, init: { _ in NSNumber(value: executionMemoryLimit.intValue) })
-                )
+
+        let codeTemplate: String? = {
+            guard let languageStringValue = languageStringValue else {
+                return nil
             }
+
+            if let codeTemplate = blockOptions.codeTemplates?[languageStringValue] {
+                return codeTemplate
+            } else if let language = language {
+                return CodeLanguageSamples.sample(for: language)
+            }
+
             return nil
+        }()
+
+        let samples = mapSamples(blockOptions.samples)
+
+        let languageLimits: Limit? = {
+            guard let languageStringValue = languageStringValue else {
+                return nil
+            }
+
+            return blockOptions.limits?[languageStringValue]
+        }()
+        let executionTimeLimit: String? = {
+            guard let timeLimit = languageLimits?.time ?? blockOptions.executionTimeLimit?.int32Value else {
+                return nil
+            }
+
+            return formatter.secondsCount(timeLimit)
+        }()
+        let executionMemoryLimit: String? = {
+            guard let memoryLimit = languageLimits?.memory ?? blockOptions.executionMemoryLimit?.int32Value else {
+                return nil
+            }
+
+            return resourceProvider.getString(
+                stringResource: Strings.StepQuizCode.memoryLimitValueResource,
+                args: KotlinArray(size: 1, init: { _ in NSNumber(value: memoryLimit) })
+            )
         }()
 
         return StepQuizCodeViewData(
+            language: language,
+            code: reply?.code ?? codeTemplate,
+            codeTemplate: codeTemplate,
             samples: samples,
             executionTimeLimit: executionTimeLimit,
             executionMemoryLimit: executionMemoryLimit

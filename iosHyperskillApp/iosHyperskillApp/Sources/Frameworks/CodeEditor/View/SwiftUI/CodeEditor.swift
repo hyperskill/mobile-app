@@ -3,19 +3,19 @@ import SwiftUI
 struct CodeEditor: UIViewRepresentable {
     typealias UIViewType = CodeEditorView
 
-    @Binding var code: String
+    @Binding var code: String?
 
     var codeTemplate: String?
 
-    let language: CodeLanguage
+    let language: CodeLanguage?
 
     var theme: CodeEditorTheme?
+
+    var isEditable = true
 
     var textInsets = UIEdgeInsets.zero
 
     var appearance = CodeEditorView.Appearance()
-
-    @Environment(\.isEnabled) private var isEnabled
 
     // MARK: UIViewRepresentable
 
@@ -40,8 +40,8 @@ struct CodeEditor: UIViewRepresentable {
         if codeEditorView.code != code {
             codeEditorView.code = code
         }
-        if codeEditorView.isEditable != isEnabled {
-            codeEditorView.isEditable = isEnabled
+        if codeEditorView.isEditable != isEditable {
+            codeEditorView.isEditable = isEditable
         }
 
         context.coordinator.onCodeDidChange = { newCode in

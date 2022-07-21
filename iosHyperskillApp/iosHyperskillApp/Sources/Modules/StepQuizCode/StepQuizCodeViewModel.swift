@@ -19,6 +19,6 @@ final class StepQuizCodeViewModel: ObservableObject {
         self.reply = reply
 
         self.viewDataMapper = viewDataMapper
-        self.viewData = self.viewDataMapper.mapCodeDataToViewData(blockOptions: self.blockOptions)
+        self.viewData = self.viewDataMapper.mapCodeDataToViewData(blockOptions: self.blockOptions, reply: self.reply)
     }
 }

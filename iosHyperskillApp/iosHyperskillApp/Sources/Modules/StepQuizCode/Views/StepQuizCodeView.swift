@@ -1,6 +1,15 @@
 import SwiftUI
 
+extension StepQuizCodeView {
+    struct Appearance {
+        let codeEditorInsets = LayoutInsets(horizontal: 0, vertical: LayoutInsets.defaultInset)
+        let codeEditorHeight: CGFloat = 128
+    }
+}
+
 struct StepQuizCodeView: View {
+    private(set) var appearance = Appearance()
+
     @StateObject var viewModel: StepQuizCodeViewModel
 
     var body: some View {
@@ -12,12 +21,18 @@ struct StepQuizCodeView: View {
             )
             .padding(.horizontal, -LayoutInsets.defaultInset)
 
-            VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
-                Text(Strings.StepQuizCode.title)
-                    .font(.caption)
-                    .foregroundColor(.disabledText)
-                Divider()
-            }
+            StepQuizNameView(text: Strings.StepQuizCode.title, dividerLocation: .bottom)
+
+            CodeEditor(
+                code: .constant(viewModel.viewData.code),
+                codeTemplate: viewModel.viewData.codeTemplate,
+                language: viewModel.viewData.language,
+                isEditable: false,
+                textInsets: appearance.codeEditorInsets.uiEdgeInsets
+            )
+            .frame(height: appearance.codeEditorHeight)
+            .frame(maxWidth: .infinity)
+            .addBorder()
         }
     }
 }

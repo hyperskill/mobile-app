@@ -39,6 +39,12 @@ extension StepQuizCodeAssembly {
         let blockOptions = Block.Options(
             executionTimeLimit: 5,
             executionMemoryLimit: 256,
+            limits: [
+                "kotlin": .init(time: 8, memory: 256)
+            ],
+            codeTemplates: [
+                "kotlin": "fun main() {\n    // put your code here\n}"
+            ],
             samples: [
                 [
                     "3\n3\n3\n",

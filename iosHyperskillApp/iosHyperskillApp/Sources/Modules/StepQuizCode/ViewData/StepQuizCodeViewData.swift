@@ -1,6 +1,11 @@
 import Foundation
 
 struct StepQuizCodeViewData {
+    let language: CodeLanguage?
+
+    let code: String?
+    let codeTemplate: String?
+
     let samples: [Sample]
 
     let executionTimeLimit: String?
