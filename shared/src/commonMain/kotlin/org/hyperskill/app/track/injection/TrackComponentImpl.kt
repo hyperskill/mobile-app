@@ -17,5 +17,5 @@ class TrackComponentImpl(private val appGraph: AppGraph) : TrackComponent {
     private val trackInteractor: TrackInteractor = TrackInteractor(trackRepository)
 
     override val trackFeature: Feature<TrackFeature.State, TrackFeature.Message, TrackFeature.Action>
-        get() = TrackFeatureBuilder.build(trackInteractor)
+        get() = TrackFeatureBuilder.build(trackInteractor, appGraph.buildProfileDataComponent().profileInteractor)
 }
