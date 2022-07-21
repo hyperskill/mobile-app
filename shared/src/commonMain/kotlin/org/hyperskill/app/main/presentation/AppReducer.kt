@@ -39,8 +39,6 @@ class AppReducer : StateReducer<State, Message, Action> {
                 if (state is State.Loading) {
                     val isAuthorized = !message.profile.isGuest
 
-                    println("ALT – ${message.profile}")
-
                     val action =
                         if (isAuthorized) {
                             if (message.profile.trackId == null) {
