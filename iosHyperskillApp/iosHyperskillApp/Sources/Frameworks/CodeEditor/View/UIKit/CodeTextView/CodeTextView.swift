@@ -10,7 +10,26 @@ extension CodeTextView {
 
         var lineNumberFont = UIFont.monospacedDigitSystemFont(ofSize: 10, weight: .regular)
         var lineNumberTextColor = UIColor.secondaryText
+        var lineNumberInsets = LayoutInsets(trailing: 4)
         var lineSpacing: CGFloat = 1.2
+
+        var currentLineNumberTextColor = UIColor.primaryText
+        var currentLineColor = UIColor.disabledText
+        var currentLineWidth: CGFloat = 24
+
+        var colorsUpdateStrategy = ColorsUpdateStrategy.invertThemeBackgroundColor()
+
+        enum ColorsUpdateStrategy {
+            case onlyOriginal
+            case invertThemeBackgroundColor(alphaComponents: AlphaComponents = .init())
+
+            struct AlphaComponents {
+                var gutterBorderColorAlpha: CGFloat = 0.5
+                var lineNumberTextColorAlpha: CGFloat = 0.5
+                var currentLineColorAlpha: CGFloat = 0.15
+                var currentLineNumberTextColorAlpha: CGFloat = 1
+            }
+        }
     }
 }
 
@@ -65,7 +84,11 @@ final class CodeTextView: UITextView {
                 lineSpacing: self.appearance.lineSpacing,
                 gutterWidth: self.appearance.gutterWidth,
                 lineNumberFont: self.appearance.lineNumberFont,
-                lineNumberTextColor: self.appearance.lineNumberTextColor
+                lineNumberTextColor: self.appearance.lineNumberTextColor,
+                lineNumberInsets: self.appearance.lineNumberInsets,
+                currentLineNumberTextColor: self.appearance.currentLineNumberTextColor,
+                currentLineColor: self.appearance.currentLineColor,
+                currentLineWidth: self.appearance.currentLineWidth
             )
         )
 
@@ -180,15 +203,23 @@ final class CodeTextView: UITextView {
 
         backgroundColor = themeBackgroundColor
         appearance.gutterBackgroundColor = themeBackgroundColor
-        appearance.gutterBorderColor = invertedThemeBackgroundColor.withAlphaComponent(0.5)
+
+        guard case .invertThemeBackgroundColor(let alphas) = appearance.colorsUpdateStrategy else {
+            return
+        }
+
+        appearance.gutterBorderColor = invertedThemeBackgroundColor.withAlphaComponent(alphas.gutterBorderColorAlpha)
 
         guard let codeTextViewLayoutManager = codeTextViewLayoutManager else {
             return
         }
 
-        codeTextViewLayoutManager.appearance.lineNumberTextColor = invertedThemeBackgroundColor.withAlphaComponent(0.5)
-        codeTextViewLayoutManager.appearance.currentLineColor = invertedThemeBackgroundColor.withAlphaComponent(0.15)
-        codeTextViewLayoutManager.appearance.currentLineNumberTextColor = invertedThemeBackgroundColor
+        codeTextViewLayoutManager.appearance.lineNumberTextColor
+            = invertedThemeBackgroundColor.withAlphaComponent(alphas.lineNumberTextColorAlpha)
+        codeTextViewLayoutManager.appearance.currentLineColor
+            = invertedThemeBackgroundColor.withAlphaComponent(alphas.currentLineColorAlpha)
+        codeTextViewLayoutManager.appearance.currentLineNumberTextColor
+            = invertedThemeBackgroundColor.withAlphaComponent(alphas.currentLineNumberTextColorAlpha)
     }
 
     private func invertColor(_ color: UIColor) -> UIColor {

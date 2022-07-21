@@ -2,7 +2,9 @@ import SnapKit
 import UIKit
 
 extension CodeEditorView {
-    struct Appearance {}
+    struct Appearance {
+        var textViewAppearance = CodeTextView.Appearance()
+    }
 }
 
 final class CodeEditorView: UIView {
@@ -11,7 +13,7 @@ final class CodeEditorView: UIView {
     weak var delegate: CodeEditorViewDelegate?
 
     private lazy var codeTextView: CodeTextView = {
-        let codeTextView = CodeTextView()
+        let codeTextView = CodeTextView(appearance: self.appearance.textViewAppearance)
         codeTextView.delegate = self
         // Disable features
         codeTextView.autocapitalizationType = .none

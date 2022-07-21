@@ -2,7 +2,7 @@ import SwiftUI
 
 extension StepQuizCodeView {
     struct Appearance {
-        let codeEditorInsets = LayoutInsets(horizontal: 0, vertical: LayoutInsets.defaultInset)
+        let codeEditorInsets = LayoutInsets(vertical: LayoutInsets.defaultInset)
         let codeEditorHeight: CGFloat = 128
     }
 }
@@ -11,6 +11,8 @@ struct StepQuizCodeView: View {
     private(set) var appearance = Appearance()
 
     @StateObject var viewModel: StepQuizCodeViewModel
+
+    @State private var isPresentedFullScreen = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
@@ -33,16 +35,29 @@ struct StepQuizCodeView: View {
             .frame(height: appearance.codeEditorHeight)
             .frame(maxWidth: .infinity)
             .addBorder()
+            .onTapGesture {
+                isPresentedFullScreen = true
+            }
+        }
+        .fullScreenCover(isPresented: $isPresentedFullScreen) {
+            StepQuizCodeFullScreenAssembly().makeModule()
         }
     }
 }
 
 struct StepQuizCodeView_Previews: PreviewProvider {
     static var previews: some View {
-        StepQuizCodeAssembly
-            .makePlaceholder()
-            .makeModule()
-            .previewLayout(.sizeThatFits)
-            .padding()
+        Group {
+            StepQuizCodeAssembly
+                .makePlaceholder()
+                .makeModule()
+
+            StepQuizCodeAssembly
+                .makePlaceholder()
+                .makeModule()
+                .preferredColorScheme(.dark)
+        }
+        .previewLayout(.sizeThatFits)
+        .padding()
     }
 }

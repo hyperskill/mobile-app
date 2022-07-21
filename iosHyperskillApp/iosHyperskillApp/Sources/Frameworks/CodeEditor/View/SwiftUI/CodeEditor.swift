@@ -15,7 +15,11 @@ struct CodeEditor: UIViewRepresentable {
 
     var textInsets = UIEdgeInsets.zero
 
-    var appearance = CodeEditorView.Appearance()
+    var appearance: CodeEditorView.Appearance?
+
+    var themeService: CodeEditorThemeServiceProtocol = CodeEditorThemeService()
+
+    var elementsSize: CodeQuizElementsSize = DeviceInfo.current.isPad ? .big : .small
 
     // MARK: UIViewRepresentable
 
@@ -24,10 +28,15 @@ struct CodeEditor: UIViewRepresentable {
     }
 
     func makeUIView(context: Context) -> CodeEditorView {
-        let codeEditorView = CodeEditorView(appearance: appearance)
+        let appearance = self.appearance ?? .makeDefault(elementsSize: elementsSize)
+        let codeEditorView = CodeEditorView(
+            appearance: appearance,
+            codeEditorThemeService: themeService,
+            elementsSize: elementsSize
+        )
         codeEditorView.codeTemplate = codeTemplate
         codeEditorView.language = language
-        codeEditorView.theme = theme
+        codeEditorView.theme = theme ?? themeService.theme
         codeEditorView.shouldHighlightCurrentLine = false
         codeEditorView.textInsets = textInsets
 
@@ -99,6 +108,34 @@ extension CodeEditor {
 //            return rootViewController.children.first?.children.first?.children.first?.children.first
             nil
         }
+    }
+}
+
+// MARK: - CodeEditorView.Appearance (Default) -
+
+private extension CodeEditorView.Appearance {
+    static func makeDefault(elementsSize: CodeQuizElementsSize) -> CodeEditorView.Appearance {
+        CodeEditorView.Appearance(
+            textViewAppearance: .init(
+                gutterWidth: elementsSize.elements.editor.realSizes.gutterWidth,
+                gutterBorderWidth: 0.5,
+                lineNumberFont: UIFont.monospacedDigitSystemFont(
+                    ofSize: elementsSize.elements.editor.realSizes.lineNumberFontSize,
+                    weight: .regular
+                ),
+                lineNumberInsets: LayoutInsets(trailing: 4),
+                lineSpacing: 1.2,
+                currentLineWidth: elementsSize.elements.editor.realSizes.gutterWidth,
+                colorsUpdateStrategy: .invertThemeBackgroundColor(
+                    alphaComponents: .init(
+                        gutterBorderColorAlpha: 0.09,
+                        lineNumberTextColorAlpha: 0.38,
+                        currentLineColorAlpha: 0.09,
+                        currentLineNumberTextColorAlpha: 0.6
+                    )
+                )
+            )
+        )
     }
 }
 
