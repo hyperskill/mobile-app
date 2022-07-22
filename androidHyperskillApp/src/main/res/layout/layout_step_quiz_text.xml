@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" >
+    android:layout_margin="20dp"
+    android:orientation="vertical"
+
+    app:layout_constraintBottom_toTopOf="@+id/stepQuizFeedbackBlocks"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/stepQuizDescription"
+
+    app:layout_constraintVertical_bias="0">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/stringStepQuizField"
@@ -11,15 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:layout_margin="20dp"
 
-        app:hintEnabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/stepQuizFeedbackBlocks"
-        app:layout_constraintTop_toBottomOf="@+id/stepQuizDescription"
-
-        app:layout_constraintVertical_bias="0">
+        app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
 
@@ -42,10 +44,10 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <include
+        android:id="@+id/stringStepQuizSkeleton"
+        layout="@layout/layout_step_quiz_text_skeleton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:id="@+id/stringStepQuizSkeleton"
-        layout="@layout/layout_step_quiz_text_skeleton" />
+        android:visibility="gone" />
 
-</FrameLayout>
+</LinearLayout>
