@@ -38,6 +38,9 @@ class TableStepQuizFragment :
     override val quizViews: Array<View>
         get() = arrayOf(binding.tableRecycler)
 
+    override val skeletonView: View
+        get() = binding.tableSkeleton.root
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = LayoutStepQuizTableBinding.inflate(LayoutInflater.from(requireContext()), viewBinding.root, false)
         viewBinding.root.addView(binding.root)
