@@ -6,11 +6,9 @@ final class StepQuizViewModel: FeatureViewModel<
   StepQuizFeatureMessage,
   StepQuizFeatureActionViewAction
 > {
-    private let step: Step
+    let step: Step
 
     private let viewDataMapper: StepQuizViewDataMapper
-
-    var stepBlockOptions: Block.Options { step.block.options }
 
     init(step: Step, viewDataMapper: StepQuizViewDataMapper, feature: Presentation_reduxFeature) {
         self.step = step

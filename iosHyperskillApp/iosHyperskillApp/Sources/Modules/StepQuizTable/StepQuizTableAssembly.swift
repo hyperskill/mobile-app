@@ -4,12 +4,12 @@ import SwiftUI
 final class StepQuizTableAssembly: StepQuizChildQuizAssembly {
     weak var delegate: StepQuizChildQuizDelegate?
 
-    private let blockOptions: Block.Options
+    private let step: Step
     private let dataset: Dataset
     private let reply: Reply?
 
-    init(blockOptions: Block.Options, dataset: Dataset, reply: Reply?, delegate: StepQuizChildQuizDelegate?) {
-        self.blockOptions = blockOptions
+    init(step: Step, dataset: Dataset, reply: Reply?, delegate: StepQuizChildQuizDelegate?) {
+        self.step = step
         self.dataset = dataset
         self.reply = reply
         self.delegate = delegate
@@ -39,7 +39,7 @@ extension StepQuizTableAssembly {
             ],
             isCheckbox: isMultipleChoice
         )
-        return StepQuizTableAssembly(blockOptions: .init(), dataset: dataset, reply: nil, delegate: nil)
+        return StepQuizTableAssembly(step: .init(), dataset: dataset, reply: nil, delegate: nil)
     }
 }
 #endif

@@ -4,7 +4,7 @@ import SwiftUI
 final class StepQuizStringAssembly: StepQuizChildQuizAssembly {
     weak var delegate: StepQuizChildQuizDelegate?
 
-    private let blockOptions: Block.Options
+    private let step: Step
     private let dataset: Dataset
     private let reply: Reply?
 
@@ -12,20 +12,20 @@ final class StepQuizStringAssembly: StepQuizChildQuizAssembly {
 
     init(
         dataType: StepQuizStringDataType,
-        blockOptions: Block.Options,
+        step: Step,
         dataset: Dataset,
         reply: Reply?,
         delegate: StepQuizChildQuizDelegate?
     ) {
         self.dataType = dataType
-        self.blockOptions = blockOptions
+        self.step = step
         self.dataset = dataset
         self.reply = reply
         self.delegate = delegate
     }
 
-    init(blockOptions: Block.Options, dataset: Dataset, reply: Reply?, delegate: StepQuizChildQuizDelegate?) {
-        self.blockOptions = blockOptions
+    init(step: Step, dataset: Dataset, reply: Reply?, delegate: StepQuizChildQuizDelegate?) {
+        self.step = step
         self.dataset = dataset
         self.reply = reply
         self.delegate = delegate
@@ -42,7 +42,7 @@ final class StepQuizStringAssembly: StepQuizChildQuizAssembly {
 #if DEBUG
 extension StepQuizStringAssembly {
     static func makePlaceholder(dataType: StepQuizStringDataType) -> StepQuizStringAssembly {
-        StepQuizStringAssembly(dataType: dataType, blockOptions: .init(), dataset: .init(), reply: nil, delegate: nil)
+        StepQuizStringAssembly(dataType: dataType, step: .init(), dataset: .init(), reply: nil, delegate: nil)
     }
 }
 #endif

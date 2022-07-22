@@ -5,7 +5,7 @@ import shared
 final class StepQuizCodeViewModel: ObservableObject {
     weak var delegate: StepQuizChildQuizDelegate?
 
-    private let blockOptions: Block.Options
+    private let step: Step
     private let dataset: Dataset
     private let reply: Reply?
 
@@ -13,12 +13,12 @@ final class StepQuizCodeViewModel: ObservableObject {
 
     @Published private(set) var viewData: StepQuizCodeViewData
 
-    init(blockOptions: Block.Options, dataset: Dataset, reply: Reply?, viewDataMapper: StepQuizCodeViewDataMapper) {
-        self.blockOptions = blockOptions
+    init(step: Step, dataset: Dataset, reply: Reply?, viewDataMapper: StepQuizCodeViewDataMapper) {
+        self.step = step
         self.dataset = dataset
         self.reply = reply
 
         self.viewDataMapper = viewDataMapper
-        self.viewData = self.viewDataMapper.mapCodeDataToViewData(blockOptions: self.blockOptions, reply: self.reply)
+        self.viewData = self.viewDataMapper.mapCodeDataToViewData(step: self.step, reply: self.reply)
     }
 }

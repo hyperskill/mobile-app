@@ -5,7 +5,7 @@ import SwiftUI
 protocol StepQuizChildQuizAssembly: Assembly {
     var delegate: StepQuizChildQuizDelegate? { get set }
 
-    init(blockOptions: Block.Options, dataset: Dataset, reply: Reply?, delegate: StepQuizChildQuizDelegate?)
+    init(step: Step, dataset: Dataset, reply: Reply?, delegate: StepQuizChildQuizDelegate?)
 }
 
 // TODO: try Swift 5.7

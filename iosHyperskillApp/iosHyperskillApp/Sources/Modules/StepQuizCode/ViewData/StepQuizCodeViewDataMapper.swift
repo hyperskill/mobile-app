@@ -5,12 +5,21 @@ final class StepQuizCodeViewDataMapper {
     private let formatter: Formatter
     private let resourceProvider: ResourceProvider
 
-    init(formatter: Formatter, resourceProvider: ResourceProvider) {
+    private let stepQuizStatsTextMapper: StepQuizStatsTextMapper
+
+    init(
+        formatter: Formatter,
+        resourceProvider: ResourceProvider,
+        stepQuizStatsTextMapper: StepQuizStatsTextMapper
+    ) {
         self.formatter = formatter
         self.resourceProvider = resourceProvider
+        self.stepQuizStatsTextMapper = stepQuizStatsTextMapper
     }
 
-    func mapCodeDataToViewData(blockOptions: Block.Options, reply: Reply?) -> StepQuizCodeViewData {
+    func mapCodeDataToViewData(step: Step, reply: Reply?) -> StepQuizCodeViewData {
+        let blockOptions = step.block.options
+
         let languageStringValue = reply?.language ?? blockOptions.limits?.first?.key
         let language: CodeLanguage? = {
             if let languageStringValue = languageStringValue {
@@ -60,13 +69,20 @@ final class StepQuizCodeViewDataMapper {
             )
         }()
 
+        let stepStats = stepQuizStatsTextMapper.getFormattedStepQuizStats(
+            users: step.solvedBy,
+            hours: 1 // TODO: Use `step.last_completed_at`
+        )
+
         return StepQuizCodeViewData(
             language: language,
             code: reply?.code ?? codeTemplate,
             codeTemplate: codeTemplate,
             samples: samples,
             executionTimeLimit: executionTimeLimit,
-            executionMemoryLimit: executionMemoryLimit
+            executionMemoryLimit: executionMemoryLimit,
+            stepText: step.block.text,
+            stepStats: stepStats
         )
     }
 

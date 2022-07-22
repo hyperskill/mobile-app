@@ -4,12 +4,12 @@ import SwiftUI
 final class StepQuizCodeAssembly: StepQuizChildQuizAssembly {
     weak var delegate: StepQuizChildQuizDelegate?
 
-    private let blockOptions: Block.Options
+    private let step: Step
     private let dataset: Dataset
     private let reply: Reply?
 
-    init(blockOptions: Block.Options, dataset: Dataset, reply: Reply?, delegate: StepQuizChildQuizDelegate?) {
-        self.blockOptions = blockOptions
+    init(step: Step, dataset: Dataset, reply: Reply?, delegate: StepQuizChildQuizDelegate?) {
+        self.step = step
         self.dataset = dataset
         self.reply = reply
         self.delegate = delegate
@@ -19,12 +19,13 @@ final class StepQuizCodeAssembly: StepQuizChildQuizAssembly {
         let commonComponent = AppGraphBridge.sharedAppGraph.commonComponent
 
         let viewModel = StepQuizCodeViewModel(
-            blockOptions: self.blockOptions,
+            step: self.step,
             dataset: self.dataset,
             reply: self.reply,
             viewDataMapper: StepQuizCodeViewDataMapper(
                 formatter: Formatter(resourceProvider: commonComponent.resourceProvider),
-                resourceProvider: commonComponent.resourceProvider
+                resourceProvider: commonComponent.resourceProvider,
+                stepQuizStatsTextMapper: StepQuizStatsTextMapper(resourceProvider: commonComponent.resourceProvider)
             )
         )
         viewModel.delegate = self.delegate
@@ -60,7 +61,13 @@ extension StepQuizCodeAssembly {
                 ]
             ]
         )
-        return StepQuizCodeAssembly(blockOptions: blockOptions, dataset: .init(), reply: nil, delegate: nil)
+        let step = Step(
+            block: Block(
+                options: blockOptions
+            )
+        )
+
+        return StepQuizCodeAssembly(step: step, dataset: .init(), reply: nil, delegate: nil)
     }
 }
 #endif

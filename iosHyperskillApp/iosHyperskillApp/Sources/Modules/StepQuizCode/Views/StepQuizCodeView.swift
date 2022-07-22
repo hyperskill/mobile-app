@@ -40,7 +40,10 @@ struct StepQuizCodeView: View {
             }
         }
         .fullScreenCover(isPresented: $isPresentedFullScreen) {
-            StepQuizCodeFullScreenAssembly().makeModule()
+            StepQuizCodeFullScreenAssembly(
+                codeQuizViewData: viewModel.viewData
+            )
+            .makeModule()
         }
     }
 }

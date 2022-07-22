@@ -69,9 +69,9 @@ struct StepQuizView: View {
 
                     buildQuizContent(
                         state: viewModel.state,
+                        step: viewModel.step,
                         quizName: viewData.quizName,
-                        stepBlockName: viewData.stepBlockName,
-                        stepBlockOptions: viewModel.stepBlockOptions
+                        stepBlockName: viewData.stepBlockName
                     )
                 }
                 .padding()
@@ -82,9 +82,9 @@ struct StepQuizView: View {
     @ViewBuilder
     private func buildQuizContent(
         state: StepQuizFeatureState,
+        step: Step,
         quizName: String?,
-        stepBlockName: String,
-        stepBlockOptions: Block.Options
+        stepBlockName: String
     ) -> some View {
         if let quizName = quizName {
             StepQuizNameView(text: quizName)
@@ -99,7 +99,7 @@ struct StepQuizView: View {
                 buildChildQuiz(
                     for: quizType,
                     attemptLoadedState: attemptLoadedState,
-                    stepBlockOptions: stepBlockOptions
+                    step: step
                 )
                 buildQuizStatusView(attemptLoadedState: attemptLoadedState)
                 buildQuizActionButton(attemptLoadedState: attemptLoadedState)
@@ -113,7 +113,7 @@ struct StepQuizView: View {
     private func buildChildQuiz(
         for quizType: StepQuizChildQuizType,
         attemptLoadedState: StepQuizFeatureStateAttemptLoaded,
-        stepBlockOptions: Block.Options
+        step: Step
     ) -> some View {
         if let dataset = attemptLoadedState.attempt.dataset {
             let submissionStateEmpty = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateEmpty
@@ -127,11 +127,12 @@ struct StepQuizView: View {
                 return false
             }()
 
+            // TODO: Use here child quiz assembly instance when Swift 5.7 released
             Group {
                 switch quizType {
                 case .choice:
                     StepQuizChoiceAssembly(
-                        blockOptions: stepBlockOptions,
+                        step: step,
                         dataset: dataset,
                         reply: reply,
                         delegate: viewModel
@@ -139,7 +140,7 @@ struct StepQuizView: View {
                     .makeModule()
                 case .code:
                     StepQuizCodeAssembly(
-                        blockOptions: stepBlockOptions,
+                        step: step,
                         dataset: dataset,
                         reply: reply,
                         delegate: viewModel
@@ -147,7 +148,7 @@ struct StepQuizView: View {
                     .makeModule()
                 case .matching:
                     StepQuizMatchingAssembly(
-                        blockOptions: stepBlockOptions,
+                        step: step,
                         dataset: dataset,
                         reply: reply,
                         delegate: viewModel
@@ -155,7 +156,7 @@ struct StepQuizView: View {
                     .makeModule()
                 case .sorting:
                     StepQuizSortingAssembly(
-                        blockOptions: stepBlockOptions,
+                        step: step,
                         dataset: dataset,
                         reply: reply,
                         delegate: viewModel
@@ -163,7 +164,7 @@ struct StepQuizView: View {
                     .makeModule()
                 case .table:
                     StepQuizTableAssembly(
-                        blockOptions: stepBlockOptions,
+                        step: step,
                         dataset: dataset,
                         reply: reply,
                         delegate: viewModel
@@ -172,7 +173,7 @@ struct StepQuizView: View {
                 case .string, .number, .math:
                     StepQuizStringAssembly(
                         dataType: .init(quizType: quizType).require(),
-                        blockOptions: stepBlockOptions,
+                        step: step,
                         dataset: dataset,
                         reply: reply,
                         delegate: viewModel
