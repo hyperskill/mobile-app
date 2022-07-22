@@ -88,14 +88,20 @@ enum Strings {
     enum StepQuizCode {
         static let title = sharedStrings.step_quiz_code_title.localized()
 
+        static let detailsTitle = sharedStrings.step_quiz_code_details.localized()
         static let sampleInputTitleResource = sharedStrings.step_quiz_code_detail_sample_input_title
         static let sampleOutputTitleResource = sharedStrings.step_quiz_code_detail_sample_output_title
-
         static let timeLimitTitle = sharedStrings.step_quiz_code_detail_execution_time_limit_title.localized()
         static let memoryLimitTitle = sharedStrings.step_quiz_code_detail_execution_memory_limit_title.localized()
         static let memoryLimitValueResource = sharedStrings.step_quiz_code_detail_execution_memory_limit_value
 
-        static let detailsTitle = sharedStrings.step_quiz_code_details.localized()
+        static let runSolutionButton = sharedStrings.step_quiz_code_run_solution_button_text.localized()
+        static let resetCodeDialogTitle = sharedStrings.reset_code_dialog_title.localized()
+        static let resetCodeDialogExplanation = sharedStrings.reset_code_dialog_explanation.localized()
+        static let fullScreenDetailsTab = sharedStrings.step_quiz_code_full_screen_details_tab.localized()
+        static let fullScreenCodeTab = sharedStrings.step_quiz_code_full_screen_code_tab.localized()
+        static let emptyLang = sharedStrings.step_quiz_code_empty_lang.localized()
+        static let reset = sharedStrings.step_quiz_code_reset.localized()
     }
 
     // MARK: - StepQuizTable -

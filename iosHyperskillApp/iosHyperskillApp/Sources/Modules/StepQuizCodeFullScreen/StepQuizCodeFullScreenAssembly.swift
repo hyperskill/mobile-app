@@ -3,13 +3,15 @@ import SwiftUI
 
 final class StepQuizCodeFullScreenAssembly: Assembly {
     private let codeQuizViewData: StepQuizCodeViewData
+    private let initialTab: StepQuizCodeFullScreenTab
 
-    init(codeQuizViewData: StepQuizCodeViewData) {
+    init(codeQuizViewData: StepQuizCodeViewData, initialTab: StepQuizCodeFullScreenTab = .code) {
         self.codeQuizViewData = codeQuizViewData
+        self.initialTab = initialTab
     }
 
     func makeModule() -> StepQuizCodeFullScreenView {
-        StepQuizCodeFullScreenView(codeQuizViewData: codeQuizViewData)
+        StepQuizCodeFullScreenView(codeQuizViewData: codeQuizViewData, initialTab: initialTab)
     }
 }
 

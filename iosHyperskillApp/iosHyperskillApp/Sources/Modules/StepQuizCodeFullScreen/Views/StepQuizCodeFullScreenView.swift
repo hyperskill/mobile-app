@@ -3,36 +3,51 @@ import SwiftUI
 struct StepQuizCodeFullScreenView: View {
     private let codeQuizViewData: StepQuizCodeViewData
 
-    @State private var selectedTab = StepQuizCodeFullScreenTabItem.code
+    @State private var selectedTab: StepQuizCodeFullScreenTab
 
     @State private var code: String?
 
     @Environment(\.presentationMode) private var presentationMode
 
-    init(codeQuizViewData: StepQuizCodeViewData) {
+    init(
+        codeQuizViewData: StepQuizCodeViewData,
+        initialTab: StepQuizCodeFullScreenTab = .code
+    ) {
         self.codeQuizViewData = codeQuizViewData
-        self.code = codeQuizViewData.code
+        self._selectedTab = State(initialValue: initialTab)
+        self._code = State(initialValue: codeQuizViewData.code)
     }
 
     var body: some View {
-        TabView(selection: $selectedTab) {
-            TabNavigationLazyView(
-                StepQuizCodeFullScreenDetailsView(
-                    stepStats: codeQuizViewData.stepStats,
-                    stepText: codeQuizViewData.stepText,
-                    samples: codeQuizViewData.samples,
-                    executionTimeLimit: codeQuizViewData.executionTimeLimit,
-                    executionMemoryLimit: codeQuizViewData.executionMemoryLimit
+        VStack {
+            HSTabBar(
+                titles: StepQuizCodeFullScreenTab.allCases.map(\.title),
+                selectedTabIndex: Binding(
+                    get: { selectedTab.rawValue },
+                    set: { selectedTab = StepQuizCodeFullScreenTab.allCases[$0] }
                 )
             )
-            .tag(StepQuizCodeFullScreenTabItem.details)
+            .background(BackgroundView())
 
-            Button("Second Dismiss Modal") {
-                presentationMode.wrappedValue.dismiss()
+            TabView(selection: $selectedTab) {
+                TabNavigationLazyView(
+                    StepQuizCodeFullScreenDetailsView(
+                        stepStats: codeQuizViewData.stepStats,
+                        stepText: codeQuizViewData.stepText,
+                        samples: codeQuizViewData.samples,
+                        executionTimeLimit: codeQuizViewData.executionTimeLimit,
+                        executionMemoryLimit: codeQuizViewData.executionMemoryLimit
+                    )
+                )
+                .tag(StepQuizCodeFullScreenTab.details)
+
+                Button("Second Dismiss Modal") {
+                    presentationMode.wrappedValue.dismiss()
+                }
+                .tag(StepQuizCodeFullScreenTab.code)
             }
-            .tag(StepQuizCodeFullScreenTabItem.code)
+            .tabViewStyle(.page(indexDisplayMode: .never))
         }
-        .tabViewStyle(.page(indexDisplayMode: .never))
     }
 }
 

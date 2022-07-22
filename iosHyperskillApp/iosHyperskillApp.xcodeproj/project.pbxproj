@@ -224,8 +224,9 @@
 		2CEB50C6288A92820044F9AB /* StepExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB50C5288A92820044F9AB /* StepExtensions.swift */; };
 		2CEB50C8288A94050044F9AB /* BlockExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB50C7288A94050044F9AB /* BlockExtensions.swift */; };
 		2CEB50CB288A95D70044F9AB /* KotlinxDatetimeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB50CA288A95D70044F9AB /* KotlinxDatetimeExtensions.swift */; };
-		2CEB50CE288AACEA0044F9AB /* StepQuizCodeFullScreenTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB50CD288AACEA0044F9AB /* StepQuizCodeFullScreenTabItem.swift */; };
+		2CEB50CE288AACEA0044F9AB /* StepQuizCodeFullScreenTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB50CD288AACEA0044F9AB /* StepQuizCodeFullScreenTab.swift */; };
 		2CEB50D0288AADA40044F9AB /* StepQuizCodeFullScreenDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB50CF288AADA40044F9AB /* StepQuizCodeFullScreenDetailsView.swift */; };
+		2CEB50D6288ACBD10044F9AB /* HSTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB50D5288ACBD10044F9AB /* HSTabBar.swift */; };
 		2CF2DA3A27EC5B2D0055426D /* Assembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF2DA3927EC5B2D0055426D /* Assembly.swift */; };
 		2CF41A8E28505D2C000736D6 /* SwiftUIProcessedContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF41A8D28505D2C000736D6 /* SwiftUIProcessedContentView.swift */; };
 		2CF4341228126C79002893CD /* View+EndEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF4341128126C79002893CD /* View+EndEditing.swift */; };
@@ -509,8 +510,9 @@
 		2CEB50C5288A92820044F9AB /* StepExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepExtensions.swift; sourceTree = "<group>"; };
 		2CEB50C7288A94050044F9AB /* BlockExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockExtensions.swift; sourceTree = "<group>"; };
 		2CEB50CA288A95D70044F9AB /* KotlinxDatetimeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KotlinxDatetimeExtensions.swift; sourceTree = "<group>"; };
-		2CEB50CD288AACEA0044F9AB /* StepQuizCodeFullScreenTabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeFullScreenTabItem.swift; sourceTree = "<group>"; };
+		2CEB50CD288AACEA0044F9AB /* StepQuizCodeFullScreenTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeFullScreenTab.swift; sourceTree = "<group>"; };
 		2CEB50CF288AADA40044F9AB /* StepQuizCodeFullScreenDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeFullScreenDetailsView.swift; sourceTree = "<group>"; };
+		2CEB50D5288ACBD10044F9AB /* HSTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSTabBar.swift; sourceTree = "<group>"; };
 		2CF2DA3927EC5B2D0055426D /* Assembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembly.swift; sourceTree = "<group>"; };
 		2CF41A8D28505D2C000736D6 /* SwiftUIProcessedContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIProcessedContentView.swift; sourceTree = "<group>"; };
 		2CF4341128126C79002893CD /* View+EndEditing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+EndEditing.swift"; sourceTree = "<group>"; };
@@ -599,6 +601,7 @@
 			children = (
 				2C725B622809198000A49043 /* BackgroundView.swift */,
 				E91017142832975C002E70F5 /* CheckboxButton.swift */,
+				2CEB50D5288ACBD10044F9AB /* HSTabBar.swift */,
 				2C08A938287866A200F1DCA2 /* LazyAvatarView.swift */,
 				2C32375228380C340062CAF6 /* NavigationToolbarInfoItem.swift */,
 				E9C3506E2886D0600080D277 /* OpenURLInsideAppButton.swift */,
@@ -1443,7 +1446,7 @@
 			isa = PBXGroup;
 			children = (
 				2CBFB94B28897DD70044D1BA /* StepQuizCodeFullScreenAssembly.swift */,
-				2CEB50CD288AACEA0044F9AB /* StepQuizCodeFullScreenTabItem.swift */,
+				2CEB50CD288AACEA0044F9AB /* StepQuizCodeFullScreenTab.swift */,
 				2CEB50CC288AACD50044F9AB /* Views */,
 			);
 			path = StepQuizCodeFullScreen;
@@ -2031,9 +2034,10 @@
 				2CFCACF6287C5D510098EA0B /* TrackViewDataMapper.swift in Sources */,
 				2C41127828376F6D004948A3 /* StepQuizDiscussionsButton.swift in Sources */,
 				2C725B612809125700A49043 /* LayoutInsets.swift in Sources */,
-				2CEB50CE288AACEA0044F9AB /* StepQuizCodeFullScreenTabItem.swift in Sources */,
+				2CEB50CE288AACEA0044F9AB /* StepQuizCodeFullScreenTab.swift in Sources */,
 				2CEB50C8288A94050044F9AB /* BlockExtensions.swift in Sources */,
 				E9D2D675284E0B30000757AC /* StepQuizMatchingView.swift in Sources */,
+				2CEB50D6288ACBD10044F9AB /* HSTabBar.swift in Sources */,
 				2C97F50A28880B6F00DE77B7 /* SkeletonRoundedButton.swift in Sources */,
 				2CAE8CF0280525BE00E6C83D /* StepViewModel.swift in Sources */,
 				2C963BCE2812E7B60036DD53 /* AppNavigation.swift in Sources */,
