@@ -8,6 +8,8 @@
 
     android:layout_margin="20dp"
 
+    app:layout_constraintVertical_bias="0"
+
     app:layout_constraintBottom_toTopOf="@id/stepQuizFeedbackBlocks"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
@@ -21,6 +23,7 @@
         tools:listitem="@layout/item_step_quiz_sorting" />
 
     <include
+        android:layout_marginTop="20dp"
         android:id="@+id/sortingSkeleton"
         layout="@layout/layout_step_quiz_sorting_skeleton"
         android:layout_width="match_parent"

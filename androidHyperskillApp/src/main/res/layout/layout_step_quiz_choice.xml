@@ -23,6 +23,10 @@
         tools:listitem="@layout/item_step_quiz_single_choice" />
 
     <include
+        android:layout_marginTop="28dp"
+        android:layout_marginHorizontal="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/stepQuizChoiceSkeleton"
         layout="@layout/layout_step_quiz_choice_skeleton" />
 
