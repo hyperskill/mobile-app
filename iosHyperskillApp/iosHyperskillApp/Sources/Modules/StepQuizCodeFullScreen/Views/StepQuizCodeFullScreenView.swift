@@ -19,35 +19,55 @@ struct StepQuizCodeFullScreenView: View {
     }
 
     var body: some View {
-        VStack {
-            HSTabBar(
-                titles: StepQuizCodeFullScreenTab.allCases.map(\.title),
-                selectedTabIndex: Binding(
-                    get: { selectedTab.rawValue },
-                    set: { selectedTab = StepQuizCodeFullScreenTab.allCases[$0] }
-                )
-            )
-            .background(BackgroundView())
-
-            TabView(selection: $selectedTab) {
-                TabNavigationLazyView(
-                    StepQuizCodeFullScreenDetailsView(
-                        stepStats: codeQuizViewData.stepStats,
-                        stepText: codeQuizViewData.stepText,
-                        samples: codeQuizViewData.samples,
-                        executionTimeLimit: codeQuizViewData.executionTimeLimit,
-                        executionMemoryLimit: codeQuizViewData.executionMemoryLimit
+        NavigationView {
+            VStack(spacing: 0) {
+                HSTabBar(
+                    titles: StepQuizCodeFullScreenTab.allCases.map(\.title),
+                    selectedTabIndex: Binding(
+                        get: { selectedTab.rawValue },
+                        set: { selectedTab = StepQuizCodeFullScreenTab.allCases[$0] }
                     )
                 )
-                .tag(StepQuizCodeFullScreenTab.details)
+                .background(BackgroundView())
 
-                Button("Second Dismiss Modal") {
-                    presentationMode.wrappedValue.dismiss()
+                TabView(selection: $selectedTab) {
+                    TabNavigationLazyView(
+                        StepQuizCodeFullScreenDetailsView(
+                            stepStats: codeQuizViewData.stepStats,
+                            stepText: codeQuizViewData.stepText,
+                            samples: codeQuizViewData.samples,
+                            executionTimeLimit: codeQuizViewData.executionTimeLimit,
+                            executionMemoryLimit: codeQuizViewData.executionMemoryLimit
+                        )
+                    )
+                    .tag(StepQuizCodeFullScreenTab.details)
+
+                    Button("Second Dismiss Modal") {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                    .tag(StepQuizCodeFullScreenTab.code)
                 }
-                .tag(StepQuizCodeFullScreenTab.code)
+                .tabViewStyle(.page(indexDisplayMode: .never))
             }
-            .tabViewStyle(.page(indexDisplayMode: .never))
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle(Strings.StepQuizCode.title)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(
+                        action: { presentationMode.wrappedValue.dismiss() },
+                        label: { Image(systemName: "xmark") }
+                    )
+                }
+
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(
+                        action: {},
+                        label: { Image(systemName: "ellipsis") }
+                    )
+                }
+            }
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
