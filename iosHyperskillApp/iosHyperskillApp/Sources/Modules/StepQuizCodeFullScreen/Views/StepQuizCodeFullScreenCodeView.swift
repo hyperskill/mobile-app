@@ -21,11 +21,16 @@ struct StepQuizCodeFullScreenCodeView: View {
 
     let language: CodeLanguage?
 
-    var onDidBeginEditingCode: () -> Void
-    var onDidEndEditingCode: () -> Void
+    let isActionButtonsVisible: Bool
+
+    let onDidBeginEditingCode: () -> Void
+    let onDidEndEditingCode: () -> Void
+
+    let onTapRetry: () -> Void
+    let onTapRunCode: () -> Void
 
     var body: some View {
-        ZStack(alignment: .center) {
+        ZStack(alignment: .bottom) {
             CodeEditor(
                 code: $code,
                 codeTemplate: codeTemplate,
@@ -35,6 +40,20 @@ struct StepQuizCodeFullScreenCodeView: View {
                 onDidEndEditing: onDidEndEditingCode
             )
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+            if isActionButtonsVisible {
+                HStack(spacing: LayoutInsets.defaultInset) {
+                    StepQuizRetryButton(onTap: onTapRetry)
+
+                    StepQuizActionButton(
+                        state: .normal,
+                        titleForState: { _ in Strings.StepQuizCode.runSolutionButton },
+                        systemImageNameForState: { _ in "play" },
+                        onTap: onTapRunCode
+                    )
+                }
+                .padding()
+            }
         }
     }
 }
@@ -45,8 +64,11 @@ struct StepQuizCodeFullScreenCodeView_Previews: PreviewProvider {
             code: .constant("fun main() {\n    // put your code here\n}"),
             codeTemplate: "fun main() {\n    // put your code here\n}",
             language: .kotlin,
+            isActionButtonsVisible: true,
             onDidBeginEditingCode: {},
-            onDidEndEditingCode: {}
+            onDidEndEditingCode: {},
+            onTapRetry: {},
+            onTapRunCode: {}
         )
     }
 }

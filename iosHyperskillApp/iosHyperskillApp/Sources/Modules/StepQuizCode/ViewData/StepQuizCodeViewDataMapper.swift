@@ -76,6 +76,7 @@ final class StepQuizCodeViewDataMapper {
 
         return StepQuizCodeViewData(
             language: language,
+            languageStringValue: languageStringValue,
             code: reply?.code ?? codeTemplate,
             codeTemplate: codeTemplate,
             samples: samples,

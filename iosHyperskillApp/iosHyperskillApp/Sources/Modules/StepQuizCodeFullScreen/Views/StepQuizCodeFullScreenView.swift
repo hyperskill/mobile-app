@@ -1,23 +1,22 @@
 import SwiftUI
 
 struct StepQuizCodeFullScreenView: View {
-    private let codeQuizViewData: StepQuizCodeViewData
+    @StateObject private var viewModel: StepQuizCodeFullScreenViewModel
 
     @State private var selectedTab: StepQuizCodeFullScreenTab
 
     @State private var code: String?
-
-    @State private var isNavigationBarHidden = false
+    @State private var isEditingCode = false
 
     @Environment(\.presentationMode) private var presentationMode
 
     init(
-        codeQuizViewData: StepQuizCodeViewData,
+        viewModel: StepQuizCodeFullScreenViewModel,
         initialTab: StepQuizCodeFullScreenTab = .code
     ) {
-        self.codeQuizViewData = codeQuizViewData
+        self._viewModel = StateObject(wrappedValue: viewModel)
         self._selectedTab = State(initialValue: initialTab)
-        self._code = State(initialValue: codeQuizViewData.code)
+        self._code = State(initialValue: viewModel.codeQuizViewData.code)
     }
 
     var body: some View {
@@ -32,28 +31,37 @@ struct StepQuizCodeFullScreenView: View {
                 )
                 .background(BackgroundView())
 
+                let viewData = viewModel.codeQuizViewData
+
                 TabView(selection: $selectedTab) {
                     TabNavigationLazyView(
                         StepQuizCodeFullScreenDetailsView(
-                            stepStats: codeQuizViewData.stepStats,
-                            stepText: codeQuizViewData.stepText,
-                            samples: codeQuizViewData.samples,
-                            executionTimeLimit: codeQuizViewData.executionTimeLimit,
-                            executionMemoryLimit: codeQuizViewData.executionMemoryLimit
+                            stepStats: viewData.stepStats,
+                            stepText: viewData.stepText,
+                            samples: viewData.samples,
+                            executionTimeLimit: viewData.executionTimeLimit,
+                            executionMemoryLimit: viewData.executionMemoryLimit
                         )
                     )
                     .tag(StepQuizCodeFullScreenTab.details)
 
                     StepQuizCodeFullScreenCodeView(
-                        code: $code,
-                        codeTemplate: codeQuizViewData.codeTemplate,
-                        language: codeQuizViewData.language,
+                        code: $code.onChange(viewModel.doCodeUpdate(code:)),
+                        codeTemplate: viewData.codeTemplate,
+                        language: viewData.language,
+                        isActionButtonsVisible: !isEditingCode,
                         onDidBeginEditingCode: {
-                            isNavigationBarHidden = true
+                            withAnimation {
+                                isEditingCode = true
+                            }
                         },
                         onDidEndEditingCode: {
-                            isNavigationBarHidden = false
-                        }
+                            withAnimation {
+                                isEditingCode = false
+                            }
+                        },
+                        onTapRetry: viewModel.doRetry,
+                        onTapRunCode: viewModel.doRunCode
                     )
                     .tag(StepQuizCodeFullScreenTab.code)
                 }
@@ -61,7 +69,6 @@ struct StepQuizCodeFullScreenView: View {
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(Strings.StepQuizCode.title)
-            .navigationBarHidden(isNavigationBarHidden)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(
@@ -79,7 +86,6 @@ struct StepQuizCodeFullScreenView: View {
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        .animation(.default, value: isNavigationBarHidden)
         .onAppear {
             KeyboardManager.setEnabled(false)
         }

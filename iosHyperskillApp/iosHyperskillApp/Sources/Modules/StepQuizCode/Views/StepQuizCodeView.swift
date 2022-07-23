@@ -14,6 +14,8 @@ struct StepQuizCodeView: View {
 
     @State private var isPresentedFullScreen = false
 
+    @Environment(\.isEnabled) private var isEnabled
+
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
             StepQuizCodeDetailsView(
@@ -36,12 +38,15 @@ struct StepQuizCodeView: View {
             .frame(maxWidth: .infinity)
             .addBorder()
             .onTapGesture {
-                isPresentedFullScreen = true
+                if isEnabled {
+                    isPresentedFullScreen = true
+                }
             }
         }
         .fullScreenCover(isPresented: $isPresentedFullScreen) {
             StepQuizCodeFullScreenAssembly(
-                codeQuizViewData: viewModel.viewData
+                codeQuizViewData: viewModel.viewData,
+                output: viewModel
             )
             .makeModule()
         }

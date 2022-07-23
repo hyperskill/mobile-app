@@ -1,0 +1,23 @@
+import Foundation
+
+final class StepQuizCodeFullScreenViewModel: ObservableObject {
+    weak var moduleOutput: StepQuizCodeFullScreenOutputProtocol?
+
+    let codeQuizViewData: StepQuizCodeViewData
+
+    init(codeQuizViewData: StepQuizCodeViewData) {
+        self.codeQuizViewData = codeQuizViewData
+    }
+
+    func doCodeUpdate(code: String?) {
+        moduleOutput?.handleStepQuizCodeFullScreenUpdatedCode(code)
+    }
+
+    func doRetry() {
+        print(#function)
+    }
+
+    func doRunCode() {
+        moduleOutput?.handleStepQuizCodeFullScreenSubmitRequested()
+    }
+}

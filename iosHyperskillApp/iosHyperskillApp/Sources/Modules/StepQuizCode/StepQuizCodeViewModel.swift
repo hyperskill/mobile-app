@@ -21,4 +21,25 @@ final class StepQuizCodeViewModel: ObservableObject {
         self.viewDataMapper = viewDataMapper
         self.viewData = self.viewDataMapper.mapCodeDataToViewData(step: self.step, reply: self.reply)
     }
+
+    private func syncReply(code: String?) {
+        let reply = Reply(language: viewData.languageStringValue, code: code)
+        delegate?.handleChildQuizSync(reply: reply)
+    }
+}
+
+// MARK: - StepQuizCodeViewModel: StepQuizCodeFullScreenOutputProtocol -
+
+extension StepQuizCodeViewModel: StepQuizCodeFullScreenOutputProtocol {
+    func handleStepQuizCodeFullScreenUpdatedCode(_ code: String?) {
+        viewData.code = code
+
+        DispatchQueue.main.async {
+            self.syncReply(code: code)
+        }
+    }
+
+    func handleStepQuizCodeFullScreenSubmitRequested() {
+        print("StepQuizCodeViewModel :: handleStepQuizCodeFullScreenSubmitRequested")
+    }
 }

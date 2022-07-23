@@ -2,8 +2,9 @@ import Foundation
 
 struct StepQuizCodeViewData {
     let language: CodeLanguage?
+    let languageStringValue: String?
 
-    let code: String?
+    var code: String?
     let codeTemplate: String?
 
     let samples: [Sample]

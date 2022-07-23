@@ -2,16 +2,26 @@ import shared
 import SwiftUI
 
 final class StepQuizCodeFullScreenAssembly: Assembly {
+    private weak var moduleOutput: StepQuizCodeFullScreenOutputProtocol?
+
     private let codeQuizViewData: StepQuizCodeViewData
     private let initialTab: StepQuizCodeFullScreenTab
 
-    init(codeQuizViewData: StepQuizCodeViewData, initialTab: StepQuizCodeFullScreenTab = .code) {
+    init(
+        codeQuizViewData: StepQuizCodeViewData,
+        initialTab: StepQuizCodeFullScreenTab = .code,
+        output: StepQuizCodeFullScreenOutputProtocol? = nil
+    ) {
         self.codeQuizViewData = codeQuizViewData
         self.initialTab = initialTab
+        self.moduleOutput = output
     }
 
     func makeModule() -> StepQuizCodeFullScreenView {
-        StepQuizCodeFullScreenView(codeQuizViewData: codeQuizViewData, initialTab: initialTab)
+        let viewModel = StepQuizCodeFullScreenViewModel(codeQuizViewData: codeQuizViewData)
+        viewModel.moduleOutput = moduleOutput
+
+        return StepQuizCodeFullScreenView(viewModel: viewModel, initialTab: initialTab)
     }
 }
 
@@ -21,6 +31,7 @@ extension StepQuizCodeFullScreenAssembly {
         StepQuizCodeFullScreenAssembly(
             codeQuizViewData: StepQuizCodeViewData(
                 language: .kotlin,
+                languageStringValue: "kotlin",
                 code: "fun main() {\n    // put your code here\n}",
                 codeTemplate: "fun main() {\n    // put your code here\n}",
                 samples: [

@@ -8,6 +8,8 @@ extension StepQuizRetryButton {
         var tintColor = Color(ColorPalette.primary)
 
         var borderColor = Color(ColorPalette.primaryAlpha38)
+
+        var backgroundColor = Color(ColorPalette.surface)
     }
 }
 
@@ -24,10 +26,12 @@ struct StepQuizRetryButton: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(widthHeight: appearance.iconWidthHeight)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(appearance.backgroundColor)
                 .addBorder(color: appearance.borderColor)
         }
         .foregroundColor(appearance.tintColor)
         .frame(widthHeight: appearance.widthHeight)
+        .buttonStyle(BounceButtonStyle())
     }
 }
 
