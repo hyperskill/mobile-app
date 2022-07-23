@@ -53,7 +53,7 @@ extension StepQuizViewModel: StepQuizChildQuizDelegate {
         self.syncReply(reply)
     }
 
-    func handleChildQuizSubmit(reply: Reply) {
+    func handleChildQuizSubmitCurrentReply() {
         self.doMainQuizAction()
     }
 }

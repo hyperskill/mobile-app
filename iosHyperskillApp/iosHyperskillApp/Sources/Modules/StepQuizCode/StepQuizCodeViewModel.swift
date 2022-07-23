@@ -13,6 +13,8 @@ final class StepQuizCodeViewModel: ObservableObject {
 
     @Published private(set) var viewData: StepQuizCodeViewData
 
+    @Published var navigationState = StepQuizCodeNavigationState()
+
     init(step: Step, dataset: Dataset, reply: Reply?, viewDataMapper: StepQuizCodeViewDataMapper) {
         self.step = step
         self.dataset = dataset
@@ -40,6 +42,10 @@ extension StepQuizCodeViewModel: StepQuizCodeFullScreenOutputProtocol {
     }
 
     func handleStepQuizCodeFullScreenSubmitRequested() {
-        print("StepQuizCodeViewModel :: handleStepQuizCodeFullScreenSubmitRequested")
+        navigationState.presentingFullScreen = false
+
+        DispatchQueue.main.async {
+            self.delegate?.handleChildQuizSubmitCurrentReply()
+        }
     }
 }

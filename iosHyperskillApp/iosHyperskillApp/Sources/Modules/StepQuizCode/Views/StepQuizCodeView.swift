@@ -12,25 +12,25 @@ struct StepQuizCodeView: View {
 
     @StateObject var viewModel: StepQuizCodeViewModel
 
-    @State private var isPresentedFullScreen = false
-
     @Environment(\.isEnabled) private var isEnabled
 
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
+            let viewData = viewModel.viewData
+
             StepQuizCodeDetailsView(
-                samples: viewModel.viewData.samples,
-                executionTimeLimit: viewModel.viewData.executionTimeLimit,
-                executionMemoryLimit: viewModel.viewData.executionMemoryLimit
+                samples: viewData.samples,
+                executionTimeLimit: viewData.executionTimeLimit,
+                executionMemoryLimit: viewData.executionMemoryLimit
             )
             .padding(.horizontal, -LayoutInsets.defaultInset)
 
             StepQuizNameView(text: Strings.StepQuizCode.title, dividerLocation: .bottom)
 
             CodeEditor(
-                code: .constant(viewModel.viewData.code),
-                codeTemplate: viewModel.viewData.codeTemplate,
-                language: viewModel.viewData.language,
+                code: .constant(viewData.code),
+                codeTemplate: viewData.codeTemplate,
+                language: viewData.language,
                 isEditable: false,
                 textInsets: appearance.codeEditorInsets.uiEdgeInsets
             )
@@ -39,11 +39,11 @@ struct StepQuizCodeView: View {
             .addBorder()
             .onTapGesture {
                 if isEnabled {
-                    isPresentedFullScreen = true
+                    viewModel.navigationState.presentingFullScreen = true
                 }
             }
         }
-        .fullScreenCover(isPresented: $isPresentedFullScreen) {
+        .fullScreenCover(isPresented: $viewModel.navigationState.presentingFullScreen) {
             StepQuizCodeFullScreenAssembly(
                 codeQuizViewData: viewModel.viewData,
                 output: viewModel
