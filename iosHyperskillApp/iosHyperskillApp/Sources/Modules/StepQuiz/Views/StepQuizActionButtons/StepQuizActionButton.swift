@@ -3,12 +3,25 @@ import SwiftUI
 struct StepQuizActionButton: View {
     var state = State.default
 
-    var onClick: (() -> Void)?
+    var titleForState: ((State) -> String?)?
+    var systemImageNameForState: ((State) -> String)?
+
+    var onTap: () -> Void
+
+    private var overlayImage: RoundedRectangleButtonStyle.OverlayImage? {
+        if let systemImageName = systemImageNameForState?(state) {
+            return .init(imageSystemName: systemImageName)
+        }
+        return nil
+    }
 
     var body: some View {
-        Button(state.title, action: { onClick?() })
-            .buttonStyle(RoundedRectangleButtonStyle(style: state.style))
-            .disabled(state == .evaluation)
+        Button(
+            titleForState?(state) ?? state.title,
+            action: onTap
+        )
+        .buttonStyle(RoundedRectangleButtonStyle(style: state.style, overlayImage: overlayImage))
+        .disabled(state == .evaluation)
     }
 
     enum State: CaseIterable {
@@ -47,8 +60,15 @@ struct StepQuizActionButton_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             ForEach(StepQuizActionButton.State.allCases, id: \.self) { state in
-                StepQuizActionButton(state: state)
+                StepQuizActionButton(state: state, onTap: {})
             }
+
+            StepQuizActionButton(
+                state: .normal,
+                titleForState: { _ in "Run solution" },
+                systemImageNameForState: { _ in "play" },
+                onTap: {}
+            )
         }
         .previewLayout(.sizeThatFits)
         .padding()

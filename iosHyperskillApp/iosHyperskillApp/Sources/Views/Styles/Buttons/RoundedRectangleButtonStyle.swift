@@ -13,6 +13,8 @@ struct RoundedRectangleButtonStyle: ButtonStyle {
     var bounceScale: CGFloat = 0.95
     var bounceDuration: TimeInterval = 0.15
 
+    var overlayImage: OverlayImage?
+
     @Environment(\.isEnabled) private var isEnabled
 
     func makeBody(configuration: Configuration) -> some View {
@@ -20,9 +22,26 @@ struct RoundedRectangleButtonStyle: ButtonStyle {
             .foregroundColor(foregroundColor)
             .font(font)
             .frame(maxWidth: .infinity, minHeight: minHeight, alignment: .center)
+            .if(overlayImage != nil, transform: { view in
+                view.overlay(
+                    Image(systemName: overlayImage.require().imageSystemName)
+                        .font(font)
+                        .foregroundColor(foregroundColor)
+                        .padding(overlayImage.require().insets)
+                    ,
+                    alignment: overlayImage.require().alignment
+                )
+            })
             .background(backgroundColor.cornerRadius(cornerRadius).opacity(isEnabled ? 1 : backgroundDisabledOpacity))
             .scaleEffect(configuration.isPressed ? bounceScale : 1)
             .animation(.easeOut(duration: bounceDuration), value: configuration.isPressed)
+    }
+
+    struct OverlayImage {
+        let imageSystemName: String
+
+        var insets = LayoutInsets(leading: LayoutInsets.defaultInset).edgeInsets
+        let alignment = Alignment.leading
     }
 
     enum Style {
@@ -50,15 +69,25 @@ struct RoundedRectangleButtonStyle: ButtonStyle {
 }
 
 extension RoundedRectangleButtonStyle {
-    init(style: Style) {
-        self.init(foregroundColor: style.foregroundColor, backgroundColor: style.backgroundColor)
+    init(style: Style, overlayImage: OverlayImage? = nil) {
+        self.init(
+            foregroundColor: style.foregroundColor,
+            backgroundColor: style.backgroundColor,
+            overlayImage: overlayImage
+        )
     }
 }
 
 struct RoundedRectangleButtonStyle_Previews: PreviewProvider {
     static var previews: some View {
-        Button("Press Me", action: {})
-            .buttonStyle(RoundedRectangleButtonStyle())
-            .padding()
+        Group {
+            Button("Press Me", action: {})
+                .buttonStyle(RoundedRectangleButtonStyle())
+
+            Button("Press Me", action: {})
+                .buttonStyle(RoundedRectangleButtonStyle(overlayImage: .init(imageSystemName: "play")))
+        }
+        .previewLayout(.sizeThatFits)
+        .padding()
     }
 }

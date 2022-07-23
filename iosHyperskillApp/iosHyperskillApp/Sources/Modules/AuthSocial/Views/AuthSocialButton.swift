@@ -39,13 +39,15 @@ struct AuthSocialButton: View {
 struct AuthSocialButton_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            AuthSocialButton(text: "Google", imageName: "google_logo", action: {})
+            AuthSocialButton(text: "Google", imageName: Images.AuthSocial.google, action: {})
                 .padding(.horizontal)
                 .preferredColorScheme(.light)
 
-            AuthSocialButton(text: "Google", imageName: "google_logo", action: {})
+            AuthSocialButton(text: "Google", imageName: Images.AuthSocial.google, action: {})
                 .padding(.horizontal)
                 .preferredColorScheme(.dark)
         }
+        .previewLayout(.sizeThatFits)
+        .padding()
     }
 }

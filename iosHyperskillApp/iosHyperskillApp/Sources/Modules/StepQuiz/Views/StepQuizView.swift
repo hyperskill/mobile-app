@@ -215,7 +215,7 @@ struct StepQuizView: View {
 
         StepQuizActionButton(
             state: .init(submissionStatus: submissionStatus),
-            onClick: viewModel.doMainQuizAction
+            onTap: viewModel.doMainQuizAction
         )
         .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
     }
