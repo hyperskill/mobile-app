@@ -7,6 +7,8 @@ struct StepQuizCodeFullScreenView: View {
 
     @State private var code: String?
 
+    @State private var isNavigationBarHidden = false
+
     @Environment(\.presentationMode) private var presentationMode
 
     init(
@@ -42,15 +44,24 @@ struct StepQuizCodeFullScreenView: View {
                     )
                     .tag(StepQuizCodeFullScreenTab.details)
 
-                    Button("Second Dismiss Modal") {
-                        presentationMode.wrappedValue.dismiss()
-                    }
+                    StepQuizCodeFullScreenCodeView(
+                        code: $code,
+                        codeTemplate: codeQuizViewData.codeTemplate,
+                        language: codeQuizViewData.language,
+                        onDidBeginEditingCode: {
+                            isNavigationBarHidden = true
+                        },
+                        onDidEndEditingCode: {
+                            isNavigationBarHidden = false
+                        }
+                    )
                     .tag(StepQuizCodeFullScreenTab.code)
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(Strings.StepQuizCode.title)
+            .navigationBarHidden(isNavigationBarHidden)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(
@@ -68,6 +79,13 @@ struct StepQuizCodeFullScreenView: View {
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
+        .animation(.default, value: isNavigationBarHidden)
+        .onAppear {
+            KeyboardManager.setEnabled(false)
+        }
+        .onDisappear {
+            KeyboardManager.setEnabled(true)
+        }
     }
 }
 

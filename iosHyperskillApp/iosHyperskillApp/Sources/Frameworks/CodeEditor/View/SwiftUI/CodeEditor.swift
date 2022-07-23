@@ -21,6 +21,10 @@ struct CodeEditor: UIViewRepresentable {
 
     var elementsSize: CodeQuizElementsSize = DeviceInfo.current.isPad ? .big : .small
 
+    var onDidBeginEditing: (() -> Void)?
+
+    var onDidEndEditing: (() -> Void)?
+
     // MARK: UIViewRepresentable
 
     func makeCoordinator() -> Coordinator {
@@ -62,6 +66,8 @@ struct CodeEditor: UIViewRepresentable {
             }
 
             codeEditorView.shouldHighlightCurrentLine = true
+
+            self.onDidBeginEditing?()
         }
         context.coordinator.onDidEndEditing = { [weak codeEditorView] in
             guard let codeEditorView = codeEditorView else {
@@ -69,6 +75,8 @@ struct CodeEditor: UIViewRepresentable {
             }
 
             codeEditorView.shouldHighlightCurrentLine = false
+
+            self.onDidEndEditing?()
         }
     }
 }
