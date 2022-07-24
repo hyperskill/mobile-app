@@ -20,7 +20,7 @@ interface HomeFeature {
     sealed interface Message {
         data class Init(val forceUpdate: Boolean) : Message
         data class HomeSuccess(val streak: Streak?, val problemOfDayState: ProblemOfDayState) : Message
-        data class HomeNextProblemInUpdate(val seconds: Long): Message
+        data class HomeNextProblemInUpdate(val seconds: Long) : Message
         object HomeFailure : Message
     }
 
