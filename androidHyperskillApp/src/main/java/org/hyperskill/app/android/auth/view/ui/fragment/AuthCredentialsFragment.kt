@@ -104,7 +104,7 @@ class AuthCredentialsFragment :
     override fun onAction(action: AuthCredentialsFeature.Action.ViewAction) {
         when (action) {
             is AuthCredentialsFeature.Action.ViewAction.CompleteAuthFlow -> {
-                (parentFragment as? AuthFlow)?.onAuthSuccess()
+                (parentFragment as? AuthFlow)?.onAuthSuccess(action.isNewUser)
             }
         }
     }

@@ -13,12 +13,16 @@ import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.network.injection.NetworkComponentImpl
+import org.hyperskill.app.profile.injection.ProfileDataComponent
+import org.hyperskill.app.profile.injection.ProfileDataComponentImpl
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile.injection.ProfileComponentImpl
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step.injection.StepComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponentImpl
+import org.hyperskill.app.track.injection.TrackComponent
+import org.hyperskill.app.track.injection.TrackComponentImpl
 
 class AppGraphImpl(
     userAgentInfo: UserAgentInfo
@@ -36,16 +40,22 @@ class AppGraphImpl(
         MainComponentImpl(this)
 
     override fun buildAuthSocialComponent(): AuthSocialComponent =
-        AuthSocialComponentImpl(commonComponent, authComponent)
+        AuthSocialComponentImpl(commonComponent, authComponent, buildProfileDataComponent())
 
     override fun buildAuthCredentialsComponent(): AuthCredentialsComponent =
-        AuthCredentialsComponentImpl(commonComponent, authComponent)
+        AuthCredentialsComponentImpl(commonComponent, authComponent, buildProfileDataComponent())
 
     override fun buildStepComponent(): StepComponent =
         StepComponentImpl(this)
 
     override fun buildStepQuizComponent(): StepQuizComponent =
         StepQuizComponentImpl(this)
+
+    override fun buildProfileDataComponent(): ProfileDataComponent =
+        ProfileDataComponentImpl(this)
+
+    override fun buildTrackComponent(): TrackComponent =
+        TrackComponentImpl(this)
 
     override fun buildProfileComponent(): ProfileComponent =
         ProfileComponentImpl(this)

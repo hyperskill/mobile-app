@@ -36,7 +36,7 @@ struct StreakView: View {
                         .font(.title)
                         .foregroundColor(.primaryText)
 
-                    if currentStreak == maxStreak {
+                    if currentStreak > maxStreak {
                         Image(Images.Home.Streak.crown)
                             .renderingMode(.original)
                             .resizable()
@@ -58,7 +58,7 @@ struct StreakView: View {
                         .addBorder(
                             color: Color(
                                 index != daysStates.count - 1
-                                    ? ColorPalette.onSurfaceAlpha12
+                                    ? ColorPalette.onSurfaceAlpha9
                                     : ColorPalette.primary
                             ),
                             width: index != daysStates.count - 1

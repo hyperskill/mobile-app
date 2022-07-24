@@ -31,10 +31,12 @@ import org.hyperskill.app.main.injection.PlatformMainComponent
 import org.hyperskill.app.main.injection.PlatformMainComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.network.injection.NetworkComponentImpl
-import org.hyperskill.app.profile.injection.PlatformProfileComponent
-import org.hyperskill.app.profile.injection.PlatformProfileComponentImpl
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile.injection.ProfileComponentImpl
+import org.hyperskill.app.profile.injection.ProfileDataComponent
+import org.hyperskill.app.profile.injection.ProfileDataComponentImpl
+import org.hyperskill.app.profile.injection.PlatformProfileComponent
+import org.hyperskill.app.profile.injection.PlatformProfileComponentImpl
 import org.hyperskill.app.step.injection.PlatformStepComponent
 import org.hyperskill.app.step.injection.PlatformStepComponentImpl
 import org.hyperskill.app.step.injection.StepComponent
@@ -43,6 +45,10 @@ import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponent
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponentImpl
+import org.hyperskill.app.track.injection.PlatformTrackComponent
+import org.hyperskill.app.track.injection.PlatformTrackComponentImpl
+import org.hyperskill.app.track.injection.TrackComponent
+import org.hyperskill.app.track.injection.TrackComponentImpl
 
 class AndroidAppComponentImpl(
     private val application: Application,
@@ -73,7 +79,7 @@ class AndroidAppComponentImpl(
      * Auth social component
      */
     override fun buildAuthSocialComponent(): AuthSocialComponent =
-        AuthSocialComponentImpl(commonComponent, authComponent)
+        AuthSocialComponentImpl(commonComponent, authComponent, buildProfileDataComponent())
 
     override fun buildPlatformAuthSocialComponent(authSocialComponent: AuthSocialComponent): PlatformAuthSocialComponent =
         PlatformAuthSocialComponentImpl(authSocialComponent)
@@ -82,7 +88,7 @@ class AndroidAppComponentImpl(
      * Auth credentials component
      */
     override fun buildAuthCredentialsComponent(): AuthCredentialsComponent =
-        AuthCredentialsComponentImpl(commonComponent, authComponent)
+        AuthCredentialsComponentImpl(commonComponent, authComponent, buildProfileDataComponent())
 
     override fun buildPlatformAuthCredentialsComponent(authCredentialsComponent: AuthCredentialsComponent): PlatformAuthCredentialsComponent =
         PlatformAuthCredentialsComponentImpl(authCredentialsComponent)
@@ -118,8 +124,20 @@ class AndroidAppComponentImpl(
         PlatformCodeEditorComponentImpl(application)
 
     /**
-     * Profile component
+     * Track component
      */
+    override fun buildTrackComponent(): TrackComponent =
+        TrackComponentImpl(this)
+
+    override fun buildPlatformTrackComponent(trackComponent: TrackComponent): PlatformTrackComponent =
+        PlatformTrackComponentImpl(trackComponent)
+
+    /**
+     * Profile components
+     */
+    override fun buildProfileDataComponent(): ProfileDataComponent =
+        ProfileDataComponentImpl(this)
+
     override fun buildProfileComponent(): ProfileComponent =
         ProfileComponentImpl(this)
 

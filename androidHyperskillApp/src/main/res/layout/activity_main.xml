@@ -4,9 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+        android:id="@+id/mainProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
     <include
-        android:id="@+id/mainSplash"
-        layout="@layout/view_main_splash" />
+        android:id="@+id/mainError"
+        layout="@layout/error_no_connection_with_button"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/mainNavigationContainer"

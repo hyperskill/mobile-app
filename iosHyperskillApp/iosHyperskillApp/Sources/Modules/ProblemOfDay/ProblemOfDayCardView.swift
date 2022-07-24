@@ -87,7 +87,7 @@ struct ProblemOfDayCardView: View {
             ,
             alignment: .topTrailing
         )
-        .addBorder(color: Color(ColorPalette.onSurfaceAlpha12))
+        .addBorder()
     }
 
     // MARK: - ProblemOfDayState -

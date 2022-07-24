@@ -16,4 +16,12 @@
         <item quantity="one">%d user</item>
         <item quantity="other">%d users</item>
     </plural>
+    <plural name="projects">
+        <item quantity="one">%d project</item>
+        <item quantity="other">%d projects</item>
+    </plural>
+    <plural name="topics">
+        <item quantity="one">%d topic</item>
+        <item quantity="other">%d topics</item>
+    </plural>
 </resources>

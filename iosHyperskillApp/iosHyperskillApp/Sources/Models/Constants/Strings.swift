@@ -8,6 +8,7 @@ enum Strings {
 
     enum General {
         static let connectionError = sharedStrings.connection_error.localized()
+        static let done = sharedStrings.done_text.localized()
     }
 
     // MARK: - TabBar -
@@ -121,6 +122,13 @@ enum Strings {
 
     enum Track {
         static let title = sharedStrings.track_title.localized()
+        static let learningNow = sharedStrings.track_learning_now_text.localized()
+        static let timeToComplete = sharedStrings.track_time_to_complete_text.localized()
+        static let completedGraduateProject = sharedStrings.track_completed_graduate_project_text.localized()
+        static let completedTopics = sharedStrings.track_completed_topics_text.localized()
+        static let appliedCoreTopics = sharedStrings.track_applied_core_topics_text.localized()
+        static let about = sharedStrings.track_about_text.localized()
+        static let continueInWebButton = sharedStrings.track_continue_in_web_text.localized()
     }
 
     // MARK: - Profile -
@@ -141,6 +149,23 @@ enum Strings {
 
     enum Settings {
         static let title = sharedStrings.settings_title.localized()
+        static let appearance = sharedStrings.settings_appearance.localized()
+        static let about = sharedStrings.settings_about.localized()
+        static let termsOfService = sharedStrings.settings_terms_of_service.localized()
+        static let privacyPolicy = sharedStrings.settings_privacy_policy.localized()
+        static let helpCenter = sharedStrings.settings_help_center.localized()
+        static let version = sharedStrings.settings_version.localized()
+        static let rateApplication = sharedStrings.settings_rate_application.localized()
+        static let logout = sharedStrings.settings_logout.localized()
+        static let deleteAccount = sharedStrings.settings_delete_account.localized()
+
+        enum Theme {
+            static let title = sharedStrings.settings_theme.localized()
+
+            static let light = sharedStrings.settings_theme_light.localized()
+            static let dark = sharedStrings.settings_theme_dark.localized()
+            static let system = sharedStrings.settings_theme_system.localized()
+        }
     }
 
     // MARK: - Streak -

@@ -18,6 +18,8 @@ import org.hyperskill.app.step.injection.PlatformStepComponent
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
+import org.hyperskill.app.track.injection.PlatformTrackComponent
+import org.hyperskill.app.track.injection.TrackComponent
 
 interface AndroidAppComponent : AppGraph {
     val context: Context
@@ -30,6 +32,7 @@ interface AndroidAppComponent : AppGraph {
     fun buildPlatformStepQuizComponent(stepQuizComponent: StepQuizComponent): PlatformStepQuizComponent
     fun buildPlatformLatexComponent(): PlatformLatexComponent
     fun buildPlatformCodeEditorComponent(): PlatformCodeEditorComponent
+    fun buildPlatformTrackComponent(trackComponent: TrackComponent): PlatformTrackComponent
     fun buildPlatformProfileComponent(profileComponent: ProfileComponent): PlatformProfileComponent
     fun buildPlatformHomeComponent(homeComponent: HomeComponent): PlatformHomeComponent
 }

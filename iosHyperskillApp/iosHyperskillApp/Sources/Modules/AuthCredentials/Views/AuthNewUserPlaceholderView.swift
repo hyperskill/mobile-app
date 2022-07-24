@@ -32,15 +32,8 @@ struct AuthNewUserPlaceholderView: View {
                 .foregroundColor(.primaryText)
 
             if let registerURL = Self.registerURL {
-                Button(Strings.Auth.NewUserPlaceholder.buttonText) {
-                    WebControllerManager.shared.presentWebControllerWithURL(
-                        registerURL,
-                        withKey: .externalLink,
-                        allowsSafari: true,
-                        backButtonStyle: .done
-                    )
-                }
-                .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
+                OpenURLInsideAppButton(text: Strings.Auth.NewUserPlaceholder.buttonText, url: registerURL)
+                    .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
             }
 
 

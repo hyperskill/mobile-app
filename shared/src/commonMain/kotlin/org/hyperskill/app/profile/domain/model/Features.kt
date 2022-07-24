@@ -7,8 +7,8 @@ import kotlinx.serialization.Serializable
 data class Features(
     @SerialName("learning_path.diagnostic")
     val learningPathDiagnostic: Boolean,
-//    @SerialName("frontend.confirm_email_toast")
-//    val frontendConfirmEmailToast: Boolean,
+    @SerialName("frontend.confirm_email_toast")
+    val frontendConfirmEmailToast: Boolean,
     @SerialName("topics.repetition")
     val topicsRepetition: Boolean,
     @SerialName("gamification_badges")
@@ -21,8 +21,8 @@ data class Features(
     val settingsIsic: Boolean,
     @SerialName("new_profile.tracks")
     val newProfileTracks: Boolean,
-//    @SerialName("metrics.frontend_events")
-//    val metricsFrontendEvents: Boolean,
+    @SerialName("metrics.frontend_events")
+    val metricsFrontendEvents: Boolean,
     @SerialName("registration.simplified_form")
     val registrationSimplifiedForm: Boolean,
     @SerialName("knowledge_map.next_to_learn_topic")
@@ -63,6 +63,6 @@ data class Features(
     val projectNewCardDesign: Boolean,
     @SerialName("study_plan.track_feedback")
     val studyPlanTrackFeedback: Boolean,
-//    @SerialName("discord_study_groups")
-//    val discordStudyGroups: Boolean
+    @SerialName("discord_study_groups")
+    val discordStudyGroups: Boolean? = null
 )

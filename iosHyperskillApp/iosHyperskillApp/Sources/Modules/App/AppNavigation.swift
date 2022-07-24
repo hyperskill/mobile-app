@@ -4,4 +4,6 @@ final class AppNavigationState: ObservableObject {
     @Published var selectedTab = AppTabItem.home
 
     @Published var presentingAuthScreen = false
+
+    @Published var presentingNewUserScreen = false
 }
