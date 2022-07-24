@@ -26,6 +26,15 @@ final class Formatter {
         )
     }
 
+    /// Format hours and minutes count with localized and pluralized suffix;  7260 -> "2 hours 1 minute", 7320 -> "2 hours 2 minute"
+    func hoursMinutesCount(seconds: Int) -> String {
+        let secondsPerMinute = 60
+        let secondsPerHour = secondsPerMinute * 60
+        let hours = seconds / secondsPerHour
+        let minutes = (seconds % secondsPerHour) / secondsPerMinute
+        return "\(hours != 0 ? hoursCount(hours) : "") \(minutes != 0 ? minutesCount(minutes) : "")"
+    }
+
     /// Format minutes count with localized and pluralized suffix; 1 -> "1 minute", 5 -> "5 minutes"
     func minutesCount(seconds: Int) -> String {
         let minute = 60

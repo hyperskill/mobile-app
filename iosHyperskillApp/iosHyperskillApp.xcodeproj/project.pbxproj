@@ -215,6 +215,8 @@
 		E9101713283296F3002E70F5 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9101712283296F3002E70F5 /* RadioButton.swift */; };
 		E91017152832975C002E70F5 /* CheckboxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91017142832975C002E70F5 /* CheckboxButton.swift */; };
 		E910171728329808002E70F5 /* StepQuizChoiceElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910171628329808002E70F5 /* StepQuizChoiceElementView.swift */; };
+		E9102757288D19E100FF4564 /* ProblemOfDayViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9102756288D19E100FF4564 /* ProblemOfDayViewData.swift */; };
+		E9102759288D1BDB00FF4564 /* ProblemOfDayViewDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9102758288D1BDB00FF4564 /* ProblemOfDayViewDataMapper.swift */; };
 		E927EC372876BFF30000B898 /* ProblemOfDayTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E927EC362876BFF30000B898 /* ProblemOfDayTitle.swift */; };
 		E92D659727FC2F4100953029 /* AuthSocialButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92D659627FC2F4100953029 /* AuthSocialButton.swift */; };
 		E9380EDA286B48A400CBF221 /* AuthNewUserPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9380ED9286B48A400CBF221 /* AuthNewUserPlaceholderView.swift */; };
@@ -471,6 +473,8 @@
 		E9101712283296F3002E70F5 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		E91017142832975C002E70F5 /* CheckboxButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxButton.swift; sourceTree = "<group>"; };
 		E910171628329808002E70F5 /* StepQuizChoiceElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChoiceElementView.swift; sourceTree = "<group>"; };
+		E9102756288D19E100FF4564 /* ProblemOfDayViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDayViewData.swift; sourceTree = "<group>"; };
+		E9102758288D1BDB00FF4564 /* ProblemOfDayViewDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDayViewDataMapper.swift; sourceTree = "<group>"; };
 		E927EC362876BFF30000B898 /* ProblemOfDayTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDayTitle.swift; sourceTree = "<group>"; };
 		E92D659627FC2F4100953029 /* AuthSocialButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialButton.swift; sourceTree = "<group>"; };
 		E9380ED9286B48A400CBF221 /* AuthNewUserPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNewUserPlaceholderView.swift; sourceTree = "<group>"; };
@@ -1146,6 +1150,7 @@
 		2C963BC32812D16C0036DD53 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				E9102755288D19CC00FF4564 /* ViewData */,
 				2C963BC62812D1BF0036DD53 /* HomeAssembly.swift */,
 				2C963BC42812D1A70036DD53 /* HomeView.swift */,
 				E99CCB0A287E945300898BBF /* HomeViewModel.swift */,
@@ -1521,6 +1526,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E9102755288D19CC00FF4564 /* ViewData */ = {
+			isa = PBXGroup;
+			children = (
+				E9102756288D19E100FF4564 /* ProblemOfDayViewData.swift */,
+				E9102758288D1BDB00FF4564 /* ProblemOfDayViewDataMapper.swift */,
+			);
+			path = ViewData;
+			sourceTree = "<group>";
+		};
 		E9802D03281BB5A500CF3AC1 /* StepQuizChoice */ = {
 			isa = PBXGroup;
 			children = (
@@ -1798,6 +1812,7 @@
 				2C5B2A2828659AD80097B270 /* CodeElementSize.swift in Sources */,
 				2CAFD39127FC5D5D00F88B0B /* Color+DesignSystem.swift in Sources */,
 				2CF4341228126C79002893CD /* View+EndEditing.swift in Sources */,
+				E9102757288D19E100FF4564 /* ProblemOfDayViewData.swift in Sources */,
 				E910171728329808002E70F5 /* StepQuizChoiceElementView.swift in Sources */,
 				E99CCB0D287E98AC00898BBF /* HomeViewStub.swift in Sources */,
 				E9802D07281BB5CC00CF3AC1 /* StepQuizChoiceView.swift in Sources */,
@@ -1992,6 +2007,7 @@
 				2C9CC1BD280920B5006604D7 /* KeyboardManager.swift in Sources */,
 				2C32375328380C340062CAF6 /* NavigationToolbarInfoItem.swift in Sources */,
 				2C8409532805BF3C009C6BE9 /* StepTheoryContentView.swift in Sources */,
+				E9102759288D1BDB00FF4564 /* ProblemOfDayViewDataMapper.swift in Sources */,
 				2CCCA39D2862E44B00D98089 /* StepQuizStringAssembly.swift in Sources */,
 				2C792324287B759500A3F61D /* StringExtensions.swift in Sources */,
 				2C58DE252803C185002A2774 /* AuthSocialControlsView.swift in Sources */,

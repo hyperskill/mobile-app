@@ -10,13 +10,10 @@ extension HomeView {
 struct HomeView: View {
     private(set) var appearance = Appearance()
 
-    private let formatter: Formatter
-
     @ObservedObject private var viewModel: HomeViewModel
 
-    init(formatter: Formatter, viewModel: HomeViewModel) {
+    init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
-        self.formatter = formatter
         self.viewModel.onViewAction = self.handleViewAction(_:)
     }
 
@@ -74,16 +71,10 @@ struct HomeView: View {
                 StreakViewBuilder(streak: streak, viewType: .card).build()
             }
 
-            if data.problemOfDayState as? HomeFeatureProblemOfDayStateSolved != nil {
-                ProblemOfDayCardView(state: .completed, timeToSolve: nil, nextProblemIn: self.nextProblemIn())
-            } else if data.problemOfDayState as? HomeFeatureProblemOfDayStateEmpty != nil {
-                ProblemOfDayCardView(state: .unavailable, timeToSolve: nil, nextProblemIn: nil)
-            } else if let problem = data.problemOfDayState as? HomeFeatureProblemOfDayStateNeedToSolve,
-            let secondsToComplete = problem.step.secondsToComplete {
+            if let viewData = viewModel.makeProblemOfDayViewData() {
                 ProblemOfDayCardView(
-                    state: .uncompleted,
-                    timeToSolve: formatter.minutesCount(seconds: Int(truncating: secondsToComplete)),
-                    nextProblemIn: nil
+                    viewData: viewData,
+                    onReloadTap: { viewModel.loadContent(forceUpdate: true) }
                 )
             }
         }
@@ -91,39 +82,6 @@ struct HomeView: View {
 
     private func handleViewAction(_ viewAction: HomeFeatureActionViewAction) {
         print("HomeView :: \(#function) viewAction = \(viewAction)")
-    }
-
-    // TODO: нужно ли эту функцию куда-то вынести?
-    private func nextProblemIn() -> String {
-        guard let timezoneNewYork = TimeZone(identifier: "America/New_York"),
-              let timezoneUtc = TimeZone(identifier: "UTC") else {
-            return ""
-        }
-
-        var calendar = Calendar.current
-
-        calendar.timeZone = timezoneUtc
-
-        let todayNewYork = Date().convertToTimeZone(
-            initTimeZone: timezoneUtc,
-            timeZone: timezoneNewYork
-        )
-
-
-        let midnight = calendar.startOfDay(for: Date())
-        let tomorrow = calendar.date(byAdding: .day, value: 1, to: midnight)
-
-        if let tomorrow = tomorrow {
-            let tomorrowEpoch = tomorrow.timeIntervalSince1970
-
-            let diff = Int(tomorrowEpoch - todayNewYork.timeIntervalSince1970)
-
-            let hours = diff / 3600
-            let minutes = (diff - hours * 3600) / 60
-            return "\(hours) \(formatter.hoursCount(hours)) \(minutes) \(formatter.hoursCount(minutes))"
-        } else {
-            return ""
-        }
     }
 }
 

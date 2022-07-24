@@ -19,32 +19,30 @@ extension ProblemOfDayCardView {
 struct ProblemOfDayCardView: View {
     private(set) var appearance = Appearance()
 
-    let state: ProblemOfDayState
+    let viewData: ProblemOfDayViewData
 
-    let timeToSolve: String?
-
-    let nextProblemIn: String?
+    let onReloadTap: () -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: appearance.spacing) {
             ProblemOfDayTitle(
                 appearance: .init(
-                    titleIconSize: state == .completed
+                    titleIconSize: viewData.state == .completed
                     ? appearance.titleIconSizeSmall
                     : appearance.titleIconSizeDefault
                 ),
-                titleIcon: state.titleIcon,
-                titleText: state.titleText,
-                arrowIcon: state.arrowIcon,
-                isArrowDisabled: state == .unavailable,
+                titleIcon: viewData.state.titleIcon,
+                titleText: viewData.state.titleText,
+                arrowIcon: viewData.state.arrowIcon,
+                isArrowDisabled: viewData.state == .unavailable,
                 onTap: {}
             )
 
-            Text(state.desc)
+            Text(viewData.state.desc)
                 .font(.subheadline)
                 .foregroundColor(.secondaryText)
 
-            if let timeToSolve = timeToSolve {
+            if let timeToSolve = viewData.timeToSolve, viewData.state == .uncompleted {
                 HStack {
                     Text(timeToSolve)
                         .font(.subheadline)
@@ -57,26 +55,31 @@ struct ProblemOfDayCardView: View {
                         .resizable()
                         .frame(widthHeight: appearance.gemboxSize)
                 }
-
-                Divider()
             }
 
-            if let nextProblemIn = nextProblemIn, state != .unavailable {
-                HStack {
-                    Text(Strings.ProblemOfDay.nextProblemIn)
-                        .font(.body)
-                        .foregroundColor(.primaryText)
+            if let nextProblemIn = viewData.nextProblemIn, viewData.state != .unavailable {
+                Divider()
 
-                    Text(nextProblemIn)
-                        .font(.subheadline)
-                        .foregroundColor(.primaryText)
+                if viewData.needToRefresh {
+                    Button(Strings.Placeholder.networkErrorButtonText, action: onReloadTap)
+                        .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
+                } else {
+                    HStack {
+                        Text(Strings.ProblemOfDay.nextProblemIn)
+                            .font(.body)
+                            .foregroundColor(.primaryText)
+
+                        Text(nextProblemIn)
+                            .font(.subheadline)
+                            .foregroundColor(.primaryText)
+                    }
                 }
             }
         }
         .padding()
-        .opacity(state == .unavailable ? appearance.unavailableOpacity : appearance.normalOpacity)
+        .opacity(viewData.state == .unavailable ? appearance.unavailableOpacity : appearance.normalOpacity)
         .background(
-            Image(state.hexogens)
+            Image(viewData.state.hexogens)
                 .renderingMode(.original)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
@@ -155,11 +158,35 @@ struct ProblemOfDayCardView: View {
 struct DailyProblemCardView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ProblemOfDayCardView(state: .uncompleted, timeToSolve: "5 minutes", nextProblemIn: "6 hrs 27 mins")
+            ProblemOfDayCardView(
+                viewData: ProblemOfDayViewData(
+                    state: .uncompleted,
+                    timeToSolve: "5 minutes",
+                    nextProblemIn: "6 hours 27 minutes",
+                    needToRefresh: true
+                ),
+                onReloadTap: {}
+            )
 
-            ProblemOfDayCardView(state: .unavailable, timeToSolve: nil, nextProblemIn: nil)
+            ProblemOfDayCardView(
+                viewData: ProblemOfDayViewData(
+                    state: .unavailable,
+                    timeToSolve: nil,
+                    nextProblemIn: nil,
+                    needToRefresh: false
+                ),
+                onReloadTap: {}
+            )
 
-            ProblemOfDayCardView(state: .completed, timeToSolve: nil, nextProblemIn: "6 hrs 27 mins")
+            ProblemOfDayCardView(
+                viewData: ProblemOfDayViewData(
+                    state: .completed,
+                    timeToSolve: nil,
+                    nextProblemIn: "6 hours 27 minutes",
+                    needToRefresh: false
+                ),
+                onReloadTap: {}
+            )
         }
         .previewLayout(.sizeThatFits)
     }

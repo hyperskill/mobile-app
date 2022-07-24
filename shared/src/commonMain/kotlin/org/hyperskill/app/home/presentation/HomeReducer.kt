@@ -20,5 +20,21 @@ class HomeReducer : StateReducer<State, Message, Action> {
                 State.Content(message.streak, message.problemOfDayState) to emptySet()
             is Message.HomeFailure ->
                 State.NetworkError to emptySet()
+            is Message.HomeNextProblemInUpdate ->
+                if (state is State.Content) {
+                    when (state.problemOfDayState) {
+                        is HomeFeature.ProblemOfDayState.NeedToSolve -> {
+                            state.copy(problemOfDayState = state.problemOfDayState.copy(nextProblemIn = message.seconds)) to setOf()
+                        }
+                        is HomeFeature.ProblemOfDayState.Solved -> {
+                            state.copy(problemOfDayState = state.problemOfDayState.copy(nextProblemIn = message.seconds)) to setOf()
+                        }
+                        else -> {
+                            null
+                        }
+                    }
+                } else {
+                    null
+                }
         } ?: (state to emptySet())
 }
