@@ -263,7 +263,6 @@
 		E9D69A4028084FF7000E114E /* AuthCredentialsErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D69A3F28084FF7000E114E /* AuthCredentialsErrorView.swift */; };
 		E9F655CA2875914200291143 /* StreakCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F655C92875914200291143 /* StreakCardView.swift */; };
 		E9F655D12875B32700291143 /* ProblemOfDayCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F655D02875B32700291143 /* ProblemOfDayCardView.swift */; };
-		E9FFA3B5287F1CA3007FA7E1 /* Date+ConvertToTimeZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FFA3B4287F1CA3007FA7E1 /* Date+ConvertToTimeZone.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -516,8 +515,6 @@
 		E9802D06281BB5CC00CF3AC1 /* StepQuizChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChoiceView.swift; sourceTree = "<group>"; };
 		E993E9A828426FF2005988EC /* StepQuizSortingViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSortingViewData.swift; sourceTree = "<group>"; };
 		E9978885282FFC6E00ADD74A /* StepQuizChoiceViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChoiceViewData.swift; sourceTree = "<group>"; };
-		E99CCB0A287E945300898BBF /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
-		E99CCB0C287E98AC00898BBF /* HomeViewStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewStub.swift; sourceTree = "<group>"; };
 		E99B21802887E535006A6154 /* StepQuizSkeletonViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSkeletonViewFactory.swift; sourceTree = "<group>"; };
 		E99B21822887E996006A6154 /* StepQuizChoiceSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChoiceSkeletonView.swift; sourceTree = "<group>"; };
 		E99B21842887E9B0006A6154 /* StepQuizMatchingSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingSkeletonView.swift; sourceTree = "<group>"; };
@@ -525,6 +522,8 @@
 		E99B21882887E9DA006A6154 /* StepQuizTableSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableSkeletonView.swift; sourceTree = "<group>"; };
 		E99B218B2887EA14006A6154 /* StepQuizStringSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizStringSkeletonView.swift; sourceTree = "<group>"; };
 		E99B218D2887EA9B006A6154 /* SkeletonRoundedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonRoundedView.swift; sourceTree = "<group>"; };
+		E99CCB0A287E945300898BBF /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		E99CCB0C287E98AC00898BBF /* HomeViewStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewStub.swift; sourceTree = "<group>"; };
 		E99D4CEC2826A37400B49D52 /* AppAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAppearance.swift; sourceTree = "<group>"; };
 		E99D4CEE2826B91100B49D52 /* StepQuizStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizStatusView.swift; sourceTree = "<group>"; };
 		E9B2CF5A2822960D00B2DC6F /* StepQuizBottomControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizBottomControls.swift; sourceTree = "<group>"; };
@@ -540,7 +539,6 @@
 		E9D69A3F28084FF7000E114E /* AuthCredentialsErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsErrorView.swift; sourceTree = "<group>"; };
 		E9F655C92875914200291143 /* StreakCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCardView.swift; sourceTree = "<group>"; };
 		E9F655D02875B32700291143 /* ProblemOfDayCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDayCardView.swift; sourceTree = "<group>"; };
-		E9FFA3B4287F1CA3007FA7E1 /* Date+ConvertToTimeZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+ConvertToTimeZone.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -752,7 +750,6 @@
 			children = (
 				2C20FBC1284F66FC006D879E /* NSAttributedString+TrimmingCharacters.swift */,
 				2C1F587A280D2E5100372A37 /* URLExtensions.swift */,
-				E9FFA3B4287F1CA3007FA7E1 /* Date+ConvertToTimeZone.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -1947,7 +1944,6 @@
 				2CA8E093281039EB00154088 /* OutlineButtonStyle.swift in Sources */,
 				2C9EB9552861BA02007DDE44 /* AppTabItem.swift in Sources */,
 				2C336D282865E53800C91342 /* CodeInputAccessoryBuilder.swift in Sources */,
-				E9FFA3B5287F1CA3007FA7E1 /* Date+ConvertToTimeZone.swift in Sources */,
 				E900D10128434D0400A77BBC /* StepQuizSortingView.swift in Sources */,
 				E9C3506F2886D0600080D277 /* OpenURLInsideAppButton.swift in Sources */,
 				2C23C0062879EA7D0083709F /* StreakDayState.swift in Sources */,
