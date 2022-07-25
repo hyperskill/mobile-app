@@ -14,7 +14,7 @@ final class StepQuizCodeFullScreenViewModel: ObservableObject {
     }
 
     func doRetry() {
-        print(#function)
+        moduleOutput?.handleStepQuizCodeFullScreenRetryRequested()
     }
 
     func doRunCode() {

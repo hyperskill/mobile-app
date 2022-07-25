@@ -8,6 +8,8 @@ struct StepQuizCodeFullScreenView: View {
     @State private var code: String?
     @State private var isEditingCode = false
 
+    @State private var isPresentingResetAlert = false
+
     @Environment(\.presentationMode) private var presentationMode
 
     init(
@@ -46,7 +48,7 @@ struct StepQuizCodeFullScreenView: View {
                     .tag(StepQuizCodeFullScreenTab.details)
 
                     StepQuizCodeFullScreenCodeView(
-                        code: $code.onChange(viewModel.doCodeUpdate(code:)),
+                        code: $code,
                         codeTemplate: viewData.codeTemplate,
                         language: viewData.language,
                         isActionButtonsVisible: !isEditingCode,
@@ -63,27 +65,14 @@ struct StepQuizCodeFullScreenView: View {
                         onTapRetry: viewModel.doRetry,
                         onTapRunCode: viewModel.doRunCode
                     )
+                    .onChange(of: code, perform: viewModel.doCodeUpdate(code:))
                     .tag(StepQuizCodeFullScreenTab.code)
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(Strings.StepQuizCode.title)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button(
-                        action: { presentationMode.wrappedValue.dismiss() },
-                        label: { Image(systemName: "xmark") }
-                    )
-                }
-
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(
-                        action: {},
-                        label: { Image(systemName: "ellipsis") }
-                    )
-                }
-            }
+            .toolbar(content: buildToolbarContent)
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
@@ -92,6 +81,46 @@ struct StepQuizCodeFullScreenView: View {
         .onDisappear {
             KeyboardManager.setEnabled(true)
         }
+    }
+
+    @ToolbarContentBuilder
+    private func buildToolbarContent() -> some ToolbarContent {
+        ToolbarItem(placement: .cancellationAction) {
+            Button(
+                action: { presentationMode.wrappedValue.dismiss() },
+                label: { Image(systemName: "xmark") }
+            )
+        }
+
+        ToolbarItem(placement: .navigationBarTrailing) {
+            Menu(
+                content: {
+                    Button(Strings.StepQuizCode.reset) {
+                        isPresentingResetAlert = true
+                    }
+                },
+                label: {
+                    Image(systemName: "ellipsis")
+                }
+            )
+            .alert(isPresented: $isPresentingResetAlert) {
+                Alert(
+                    title: Text(Strings.StepQuizCode.resetCodeDialogTitle),
+                    message: Text(Strings.StepQuizCode.resetCodeDialogExplanation),
+                    primaryButton: .default(
+                        Text(Strings.General.cancel)
+                    ),
+                    secondaryButton: .destructive(
+                        Text(Strings.StepQuizCode.reset),
+                        action: resetCode
+                    )
+                )
+            }
+        }
+    }
+
+    private func resetCode() {
+        code = viewModel.codeQuizViewData.codeTemplate
     }
 }
 

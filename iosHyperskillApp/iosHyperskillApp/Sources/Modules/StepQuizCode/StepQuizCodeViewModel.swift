@@ -41,6 +41,10 @@ extension StepQuizCodeViewModel: StepQuizCodeFullScreenOutputProtocol {
         }
     }
 
+    func handleStepQuizCodeFullScreenRetryRequested() {
+        print(#function)
+    }
+
     func handleStepQuizCodeFullScreenSubmitRequested() {
         navigationState.presentingFullScreen = false
 
