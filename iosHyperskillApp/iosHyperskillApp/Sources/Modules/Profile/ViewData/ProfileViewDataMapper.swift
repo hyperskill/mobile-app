@@ -10,7 +10,7 @@ final class ProfileViewDataMapper {
                 return nil
             }
 
-            let countryName = Formatter.localizedCoutryName(for: countryCode)
+            let countryName = Formatter.localizedCountryName(for: countryCode)
 
             return "\(Strings.Profile.livesIn) \(countryName ?? countryCode)"
         }()

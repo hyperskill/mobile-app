@@ -13,7 +13,7 @@ struct AuthSocialButton: View {
 
     var body: some View {
         Button(
-            action: self.action,
+            action: action,
             label: {
                 Text(text)
                     .font(.subheadline)

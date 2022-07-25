@@ -19,16 +19,16 @@ final class StepQuizCodeAssembly: StepQuizChildQuizAssembly {
         let commonComponent = AppGraphBridge.sharedAppGraph.commonComponent
 
         let viewModel = StepQuizCodeViewModel(
-            step: self.step,
-            dataset: self.dataset,
-            reply: self.reply,
+            step: step,
+            dataset: dataset,
+            reply: reply,
             viewDataMapper: StepQuizCodeViewDataMapper(
                 formatter: Formatter(resourceProvider: commonComponent.resourceProvider),
                 resourceProvider: commonComponent.resourceProvider,
                 stepQuizStatsTextMapper: StepQuizStatsTextMapper(resourceProvider: commonComponent.resourceProvider)
             )
         )
-        viewModel.delegate = self.delegate
+        viewModel.delegate = delegate
 
         return StepQuizCodeView(viewModel: viewModel)
     }

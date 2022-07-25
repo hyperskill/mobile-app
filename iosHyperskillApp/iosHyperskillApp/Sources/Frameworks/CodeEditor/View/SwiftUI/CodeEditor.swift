@@ -32,9 +32,8 @@ struct CodeEditor: UIViewRepresentable {
     }
 
     func makeUIView(context: Context) -> CodeEditorView {
-        let appearance = self.appearance ?? .makeDefault(elementsSize: elementsSize)
         let codeEditorView = CodeEditorView(
-            appearance: appearance,
+            appearance: appearance ?? .makeDefault(elementsSize: elementsSize),
             codeEditorThemeService: themeService,
             elementsSize: elementsSize
         )
@@ -67,7 +66,7 @@ struct CodeEditor: UIViewRepresentable {
 
             codeEditorView.shouldHighlightCurrentLine = true
 
-            self.onDidBeginEditing?()
+            onDidBeginEditing?()
         }
         context.coordinator.onDidEndEditing = { [weak codeEditorView] in
             guard let codeEditorView = codeEditorView else {
@@ -76,7 +75,7 @@ struct CodeEditor: UIViewRepresentable {
 
             codeEditorView.shouldHighlightCurrentLine = false
 
-            self.onDidEndEditing?()
+            onDidEndEditing?()
         }
     }
 }

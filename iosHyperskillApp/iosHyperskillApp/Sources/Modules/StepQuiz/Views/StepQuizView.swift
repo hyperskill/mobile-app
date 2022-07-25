@@ -70,7 +70,7 @@ struct StepQuizView: View {
                     buildQuizContent(
                         state: viewModel.state,
                         step: viewModel.step,
-                        quizName: viewData.quizName,
+                        stepQuizName: viewData.quizName,
                         stepBlockName: viewData.stepBlockName
                     )
                 }
@@ -83,11 +83,11 @@ struct StepQuizView: View {
     private func buildQuizContent(
         state: StepQuizFeatureState,
         step: Step,
-        quizName: String?,
+        stepQuizName: String?,
         stepBlockName: String
     ) -> some View {
-        if let quizName = quizName {
-            StepQuizNameView(text: quizName)
+        if let stepQuizName = stepQuizName {
+            StepQuizNameView(text: stepQuizName)
         }
 
         let quizType = StepQuizChildQuizType(blockName: stepBlockName)
@@ -96,11 +96,7 @@ struct StepQuizView: View {
             if case .unsupported = quizType {
                 StepQuizStatusView(state: .unsupportedQuiz)
             } else {
-                buildChildQuiz(
-                    for: quizType,
-                    attemptLoadedState: attemptLoadedState,
-                    step: step
-                )
+                buildChildQuiz(quizType: quizType, step: step, attemptLoadedState: attemptLoadedState)
                 buildQuizStatusView(attemptLoadedState: attemptLoadedState)
                 buildQuizActionButtons(quizType: quizType, attemptLoadedState: attemptLoadedState)
             }
@@ -111,9 +107,9 @@ struct StepQuizView: View {
 
     @ViewBuilder
     private func buildChildQuiz(
-        for quizType: StepQuizChildQuizType,
-        attemptLoadedState: StepQuizFeatureStateAttemptLoaded,
-        step: Step
+        quizType: StepQuizChildQuizType,
+        step: Step,
+        attemptLoadedState: StepQuizFeatureStateAttemptLoaded
     ) -> some View {
         if let dataset = attemptLoadedState.attempt.dataset {
             let submissionStateEmpty = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateEmpty

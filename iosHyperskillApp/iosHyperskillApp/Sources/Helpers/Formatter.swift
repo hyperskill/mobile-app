@@ -104,12 +104,11 @@ final class Formatter {
 
     // MARK: Locale
 
-    static func localizedCoutryName(
+    static func localizedCountryName(
         for regionCode: String,
         languageCode: String = Locale.current.languageCode ?? "en"
     ) -> String? {
-        Locale(identifier: languageCode + "_" + regionCode)
-            .localizedString(forRegionCode: regionCode)
+        Locale(identifier: languageCode + "_" + regionCode).localizedString(forRegionCode: regionCode)
     }
 
     static func localizedLanguageName(for languageCode: String) -> String? {

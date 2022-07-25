@@ -12,7 +12,7 @@ final class StepQuizViewDataMapper {
     }
 
     func mapStepToViewData(_ step: Step, attempt: Attempt?) -> StepQuizViewData {
-        let formattedStats = self.stepQuizStatsTextMapper.getFormattedStepQuizStats(
+        let formattedStats = stepQuizStatsTextMapper.getFormattedStepQuizStats(
             users: step.solvedBy,
             hours: 1 // TODO: Use `step.last_completed_at`
         )
