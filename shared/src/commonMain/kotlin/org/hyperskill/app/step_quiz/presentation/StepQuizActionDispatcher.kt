@@ -1,6 +1,8 @@
 package org.hyperskill.app.step_quiz.presentation
 
+import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Action
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Message
@@ -8,17 +10,24 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class StepQuizActionDispatcher(
     config: ActionDispatcherOptions,
-    private val stepQuizInteractor: StepQuizInteractor
+    private val stepQuizInteractor: StepQuizInteractor,
+    private val profileInteractor: ProfileInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchAttempt -> {
-                // TODO ALTAPPS-102 Will get user id inside interactor
+                val currentProfile = profileInteractor
+                    .getCurrentProfile(sourceType = DataSourceType.CACHE)
+                    .getOrElse {
+                        onNewMessage(Message.FetchAttemptError)
+                        return
+                    }
+
                 val message = stepQuizInteractor
-                    .getAttempt(action.step.id, userId = 0)
+                    .getAttempt(action.step.id, currentProfile.id)
                     .fold(
                         onSuccess = { attempt ->
-                            val message = getSubmissionState(attempt.id, action.step.id, userId = 0).fold(
+                            val message = getSubmissionState(attempt.id, action.step.id, currentProfile.id).fold(
                                 onSuccess = { Message.FetchAttemptSuccess(attempt, it) },
                                 onFailure = {
                                     Message.FetchAttemptError

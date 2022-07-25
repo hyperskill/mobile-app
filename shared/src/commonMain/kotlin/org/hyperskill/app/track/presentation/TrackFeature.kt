@@ -31,7 +31,7 @@ interface TrackFeature {
     }
 
     sealed interface Action {
-        data class FetchTrack(val trackId: Long) : Action
+        object FetchTrack : Action
         sealed interface ViewAction : Action
     }
 }

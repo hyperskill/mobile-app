@@ -52,6 +52,7 @@ class CodeQuizInstructionDelegate(
                 }
             }
         } else {
+            stepQuizCodeDetailsArrow.isVisible = false
             stepQuizCodeDetailsContent.isVisible = true
         }
     }
