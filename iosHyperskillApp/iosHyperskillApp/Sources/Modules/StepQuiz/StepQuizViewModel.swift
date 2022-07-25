@@ -17,7 +17,7 @@ final class StepQuizViewModel: FeatureViewModel<
     }
 
     func loadAttempt(forceUpdate: Bool = false) {
-        self.onNewMessage(StepQuizFeatureMessageInitWithStep(step: self.step, forceUpdate: forceUpdate))
+        self.onNewMessage(StepQuizFeatureMessageInitWithStep(step: step, forceUpdate: forceUpdate))
     }
 
     func syncReply(_ reply: Reply) {
@@ -25,14 +25,18 @@ final class StepQuizViewModel: FeatureViewModel<
     }
 
     func doMainQuizAction() {
-        guard let attemptLoadedState = self.state as? StepQuizFeatureStateAttemptLoaded,
+        guard let attemptLoadedState = state as? StepQuizFeatureStateAttemptLoaded,
               let submissionLoadedState = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded,
               let reply = submissionLoadedState.submission.reply
         else {
             return
         }
 
-        self.onNewMessage(StepQuizFeatureMessageCreateSubmissionClicked(step: self.step, reply: reply))
+        self.onNewMessage(StepQuizFeatureMessageCreateSubmissionClicked(step: step, reply: reply))
+    }
+
+    func doQuizRetryAction() {
+        print(#function)
     }
 
     func makeViewData() -> StepQuizViewData {
@@ -42,7 +46,7 @@ final class StepQuizViewModel: FeatureViewModel<
             }
             return nil
         }()
-        return self.viewDataMapper.mapStepToViewData(self.step, attempt: attemptOrNil)
+        return viewDataMapper.mapStepToViewData(step, attempt: attemptOrNil)
     }
 }
 
@@ -50,10 +54,14 @@ final class StepQuizViewModel: FeatureViewModel<
 
 extension StepQuizViewModel: StepQuizChildQuizDelegate {
     func handleChildQuizSync(reply: Reply) {
-        self.syncReply(reply)
+        syncReply(reply)
     }
 
     func handleChildQuizSubmitCurrentReply() {
-        self.doMainQuizAction()
+        doMainQuizAction()
+    }
+
+    func handleChildQuizRetry() {
+        doQuizRetryAction()
     }
 }

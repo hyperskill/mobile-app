@@ -42,7 +42,9 @@ extension StepQuizCodeViewModel: StepQuizCodeFullScreenOutputProtocol {
     }
 
     func handleStepQuizCodeFullScreenRetryRequested() {
-        print(#function)
+        DispatchQueue.main.async {
+            self.delegate?.handleChildQuizRetry()
+        }
     }
 
     func handleStepQuizCodeFullScreenSubmitRequested() {

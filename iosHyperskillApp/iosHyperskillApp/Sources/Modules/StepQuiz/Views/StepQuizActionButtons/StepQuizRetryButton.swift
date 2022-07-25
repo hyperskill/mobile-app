@@ -3,7 +3,7 @@ import SwiftUI
 extension StepQuizRetryButton {
     struct Appearance {
         var iconWidthHeight: CGFloat = 20
-        var widthHeight: CGFloat = 48
+        var widthHeight: CGFloat = 44
 
         var tintColor = Color(ColorPalette.primary)
 

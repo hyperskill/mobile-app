@@ -4,7 +4,7 @@ struct StepQuizActionButton: View {
     var state = State.default
 
     var titleForState: ((State) -> String?)?
-    var systemImageNameForState: ((State) -> String)?
+    var systemImageNameForState: ((State) -> String?)?
 
     var onTap: () -> Void
 

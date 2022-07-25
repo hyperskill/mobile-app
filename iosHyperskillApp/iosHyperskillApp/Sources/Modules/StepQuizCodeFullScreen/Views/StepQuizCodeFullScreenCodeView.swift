@@ -42,16 +42,15 @@ struct StepQuizCodeFullScreenCodeView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
 
             if isActionButtonsVisible {
-                HStack(spacing: LayoutInsets.defaultInset) {
-                    StepQuizRetryButton(onTap: onTapRetry)
-
-                    StepQuizActionButton(
+                StepQuizActionButtons(
+                    retryButton: .init(action: onTapRetry),
+                    primaryButton: .init(
                         state: .normal,
-                        titleForState: { _ in Strings.StepQuizCode.runSolutionButton },
-                        systemImageNameForState: { _ in "play" },
-                        onTap: onTapRunCode
+                        titleForState: StepQuizActionButtonCodeQuizDelegate.getTitle(for:),
+                        systemImageNameForState: StepQuizActionButtonCodeQuizDelegate.getSystemImageName(for:),
+                        action: onTapRunCode
                     )
-                }
+                )
                 .padding()
             }
         }

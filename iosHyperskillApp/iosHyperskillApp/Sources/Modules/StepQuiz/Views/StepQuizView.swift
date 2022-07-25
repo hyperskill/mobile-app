@@ -102,7 +102,7 @@ struct StepQuizView: View {
                     step: step
                 )
                 buildQuizStatusView(attemptLoadedState: attemptLoadedState)
-                buildQuizActionButton(attemptLoadedState: attemptLoadedState)
+                buildQuizActionButtons(quizType: quizType, attemptLoadedState: attemptLoadedState)
             }
         } else {
             StepQuizSkeletonViewFactory.makeSkeleton(for: quizType)
@@ -205,7 +205,10 @@ struct StepQuizView: View {
     }
 
     @ViewBuilder
-    private func buildQuizActionButton(attemptLoadedState: StepQuizFeatureStateAttemptLoaded) -> some View {
+    private func buildQuizActionButtons(
+        quizType: StepQuizChildQuizType,
+        attemptLoadedState: StepQuizFeatureStateAttemptLoaded
+    ) -> some View {
         let submissionStatus: SubmissionStatus? = {
             if let submissionStateLoaded = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded {
                 return submissionStateLoaded.submission.status
@@ -213,9 +216,41 @@ struct StepQuizView: View {
             return SubmissionStatus.local
         }()
 
-        StepQuizActionButton(
-            state: .init(submissionStatus: submissionStatus),
-            onTap: viewModel.doMainQuizAction
+        let isCodeQuiz: Bool = {
+            if case .code = quizType {
+                return true
+            }
+            return false
+        }()
+
+        let retryButtonDescription: StepQuizActionButtons.RetryButton? = {
+            guard isCodeQuiz else {
+                return nil
+            }
+
+            return .init(appearance: .init(backgroundColor: .clear), action: viewModel.doQuizRetryAction)
+        }()
+
+        let primaryButtonDescription: StepQuizActionButtons.PrimaryButton = {
+            let codeQuizCustomParamsForState = { (state: StepQuizActionButton.State) -> (String, String)? in
+                guard isCodeQuiz else {
+                    return nil
+                }
+
+                return StepQuizActionButtonCodeQuizDelegate.getParamsForState(state)
+            }
+
+            return StepQuizActionButtons.PrimaryButton(
+                state: .init(submissionStatus: submissionStatus),
+                titleForState: { codeQuizCustomParamsForState($0)?.0 },
+                systemImageNameForState: { codeQuizCustomParamsForState($0)?.1 },
+                action: viewModel.doMainQuizAction
+            )
+        }()
+
+        StepQuizActionButtons(
+            retryButton: retryButtonDescription,
+            primaryButton: primaryButtonDescription
         )
         .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
     }
