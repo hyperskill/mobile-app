@@ -34,6 +34,9 @@ class SortingStepQuizFragment :
     override val quizViews: Array<View>
         get() = arrayOf(binding.sortingRecycler)
 
+    override val skeletonView: View
+        get() = binding.sortingSkeleton.root
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = LayoutStepQuizSortingBinding.inflate(LayoutInflater.from(requireContext()), viewBinding.root, false)
         viewBinding.root.addView(binding.root)

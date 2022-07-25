@@ -40,6 +40,7 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
     private val stepQuizFeedbackMapper = StepQuizFeedbackMapper()
 
     protected abstract val quizViews: Array<View>
+    protected abstract val skeletonView: View
 
     protected lateinit var step: Step
 
@@ -57,7 +58,7 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewStateDelegate = StepQuizViewStateDelegateFactory.create(viewBinding, *quizViews)
+        viewStateDelegate = StepQuizViewStateDelegateFactory.create(viewBinding, skeletonView, *quizViews)
         stepQuizFeedbackBlocksDelegate = StepQuizFeedbackBlocksDelegate(requireContext(), viewBinding.stepQuizFeedbackBlocks)
         stepQuizFormDelegate = createStepQuizFormDelegate(viewBinding)
 

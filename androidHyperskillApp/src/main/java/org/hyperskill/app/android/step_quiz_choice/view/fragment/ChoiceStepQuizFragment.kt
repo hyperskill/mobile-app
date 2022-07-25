@@ -34,6 +34,9 @@ class ChoiceStepQuizFragment :
     override val quizViews: Array<View>
         get() = arrayOf(binding.stepQuizChoiceRecyclerView)
 
+    override val skeletonView: View
+        get() = binding.stepQuizChoiceSkeleton.root
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = LayoutStepQuizChoiceBinding.inflate(LayoutInflater.from(requireContext()), viewBinding.root, false)
         viewBinding.root.addView(binding.root)
