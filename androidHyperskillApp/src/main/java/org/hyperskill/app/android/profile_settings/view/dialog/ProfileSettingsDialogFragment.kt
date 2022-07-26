@@ -22,10 +22,6 @@ class ProfileSettingsDialogFragment : DialogFragment(R.layout.fragment_profile_s
         const val DARK = 1
         const val SYSTEM = 2
 
-        const val TERMS_OF_SERVICE_URL = "https://www.jetbrains.com/legal/terms/jetbrains-academy.html"
-        const val PRIVACY_POLICY_URL = "https://hi.hyperskill.org/terms"
-        const val HELP_CENTER_URL = "https://support.hyperskill.org/hc/en-us"
-
         fun newInstance(): DialogFragment =
             ProfileSettingsDialogFragment()
     }
@@ -74,23 +70,23 @@ class ProfileSettingsDialogFragment : DialogFragment(R.layout.fragment_profile_s
         }
 
         viewBinding.settingsTermsOfServiceButton.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(TERMS_OF_SERVICE_URL)
-            ContextCompat.startActivity(requireContext(), intent, null)
+            openLinkInBrowser(resources.getString(R.string.settings_terms_of_service_url))
         }
 
         viewBinding.settingsPrivacyPolicyButton.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(PRIVACY_POLICY_URL)
-            ContextCompat.startActivity(requireContext(), intent, null)
+            openLinkInBrowser(resources.getString(R.string.settings_privacy_policy_url))
         }
 
         viewBinding.settingsHelpCenterButton.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(HELP_CENTER_URL)
-            ContextCompat.startActivity(requireContext(), intent, null)
+            openLinkInBrowser(resources.getString(R.string.settings_help_center_url))
         }
 
         viewBinding.settingsVersionTextView.text = HyperskillApp.graph().commonComponent.userAgentInfo.versionName
+    }
+
+    private fun openLinkInBrowser(link: String) {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(link)
+        ContextCompat.startActivity(requireContext(), intent, null)
     }
 }
