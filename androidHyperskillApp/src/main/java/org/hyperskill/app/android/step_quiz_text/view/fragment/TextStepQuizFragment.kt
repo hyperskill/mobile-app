@@ -34,6 +34,9 @@ class TextStepQuizFragment :
     override val quizViews: Array<View>
         get() = arrayOf(binding.stringStepQuizField)
 
+    override val skeletonView: View
+        get() = binding.stringStepQuizSkeleton.root
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = LayoutStepQuizTextBinding.inflate(LayoutInflater.from(requireContext()), viewBinding.root, false)
         viewBinding.root.addView(binding.root)

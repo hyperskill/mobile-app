@@ -6,6 +6,7 @@
     <string name="yes">Yes</string>
     <string name="cancel">Cancel</string>
     <string name="done_text">Done</string>
+    <string name="cancel">Cancel</string>
 
     <!-- Users list -->
     <string name="user_list_search_button_title">Search</string>
@@ -159,6 +160,9 @@
     <string name="settings_rate_application">Rate this application</string>
     <string name="settings_logout">Logout</string>
     <string name="settings_delete_account">Delete account</string>
+    <string name="settings_terms_of_service_url">https://www.jetbrains.com/legal/terms/jetbrains-academy.html</string>
+    <string name="settings_privacy_policy_url">https://hi.hyperskill.org/terms</string>
+    <string name="settings_help_center_url">https://support.hyperskill.org/hc/en-us</string>
 
     <!-- Placeholder -->
     <string name="placeholder_network_error_title">Oops! It seems like the network error.</string>

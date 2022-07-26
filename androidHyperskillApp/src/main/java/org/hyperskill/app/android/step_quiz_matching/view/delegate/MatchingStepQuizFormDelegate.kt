@@ -1,5 +1,7 @@
 package org.hyperskill.app.android.step_quiz_matching.view.delegate
 
+import android.util.TypedValue
+import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import org.hyperskill.app.android.R
@@ -26,11 +28,30 @@ class MatchingStepQuizFormDelegate(
     private val optionsAdapter = DefaultDelegateAdapter<MatchingItem>()
     private val matchingItemMapper = MatchingItemMapper()
 
+    companion object {
+        const val SKELETON_TITLE_HEIGHT = 50f
+    }
+
     init {
         quizDescription.setText(R.string.step_quiz_matching_title)
 
         optionsAdapter += MatchingItemTitleAdapterDelegate()
         optionsAdapter += MatchingItemOptionAdapterDelegate(optionsAdapter, ::moveOption)
+
+        with(binding.sortingSkeleton.firstSkeleton) {
+            layoutParams =
+                (layoutParams as ViewGroup.MarginLayoutParams).apply {
+                    rightMargin = context.resources.getDimensionPixelOffset(R.dimen.step_quiz_matching_item_margin)
+                }
+            layoutParams.height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, SKELETON_TITLE_HEIGHT, resources.displayMetrics).toInt()
+        }
+
+        with(binding.sortingSkeleton.secondSkeleton) {
+            layoutParams =
+                (layoutParams as ViewGroup.MarginLayoutParams).apply {
+                    leftMargin = context.resources.getDimensionPixelOffset(R.dimen.step_quiz_matching_item_margin)
+                }
+        }
 
         with(binding.sortingRecycler) {
             adapter = optionsAdapter
