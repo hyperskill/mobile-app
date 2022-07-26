@@ -2,7 +2,9 @@ package org.hyperskill.app.home.injection
 
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.home.presentation.HomeFeature
+import org.hyperskill.app.profile.cache.ProfileCacheDataSourceImpl
 import org.hyperskill.app.profile.data.repository.ProfileRepositoryImpl
+import org.hyperskill.app.profile.data.source.ProfileCacheDataSource
 import org.hyperskill.app.profile.data.source.ProfileRemoteDataSource
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.profile.domain.repository.ProfileRepository
@@ -29,8 +31,11 @@ class HomeComponentImpl(appGraph: AppGraph) : HomeComponent {
     private val profileRemoteDataSource: ProfileRemoteDataSource = ProfileRemoteDataSourceImpl(
         appGraph.networkComponent.authorizedHttpClient
     )
+    private val profileCacheDataSource: ProfileCacheDataSource = ProfileCacheDataSourceImpl(
+        appGraph.commonComponent.json, appGraph.commonComponent.settings
+    )
     private val profileRepository: ProfileRepository =
-        ProfileRepositoryImpl(profileRemoteDataSource)
+        ProfileRepositoryImpl(profileRemoteDataSource, profileCacheDataSource)
     private val profileInteractor: ProfileInteractor = ProfileInteractor(profileRepository)
 
     private val stepRemoteDataSource: StepRemoteDataSource = StepRemoteDataSourceImpl(
