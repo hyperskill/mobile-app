@@ -24,10 +24,10 @@ class HomeReducer : StateReducer<State, Message, Action> {
                 if (state is State.Content) {
                     when (state.problemOfDayState) {
                         is HomeFeature.ProblemOfDayState.NeedToSolve -> {
-                            state.copy(problemOfDayState = state.problemOfDayState.copy(nextProblemIn = message.seconds)) to setOf()
+                            State.Content(state.streak, HomeFeature.ProblemOfDayState.NeedToSolve(state.problemOfDayState.step, message.seconds)) to setOf()
                         }
                         is HomeFeature.ProblemOfDayState.Solved -> {
-                            state.copy(problemOfDayState = state.problemOfDayState.copy(nextProblemIn = message.seconds)) to setOf()
+                            State.Content(state.streak, HomeFeature.ProblemOfDayState.Solved(state.problemOfDayState.step, message.seconds)) to setOf()
                         }
                         else -> {
                             null
