@@ -16,7 +16,7 @@ struct HourIntervalPicker: View {
 
             Picker("", selection: $selectedInterval) {
                 ForEach(intervals.reversed(), id: \.self) { interval in
-                    Text(formatInterval(interval: interval))
+                    Text(makeFormattedInterval(interval))
                 }
             }
             .accentColor(Color(ColorPalette.primary))
@@ -25,7 +25,7 @@ struct HourIntervalPicker: View {
         .foregroundColor(.secondaryText)
     }
 
-    private func formatInterval(interval: Int) -> String {
+    private func makeFormattedInterval(_ interval: Int) -> String {
         "\(interval < 10 ? "0" : "")\(interval):00 - \(interval + 1 < 10 ? "0" : "")\(interval + 1):00"
     }
 }
@@ -33,7 +33,7 @@ struct HourIntervalPicker: View {
 struct HourIntervalPicker_Previews: PreviewProvider {
     static var previews: some View {
         HourIntervalPicker(
-            text: Strings.Profile.remindersSchedule,
+            text: Strings.Profile.DailyStudyReminders.schedule,
             selectedInterval: .constant(1)
         )
         .padding()

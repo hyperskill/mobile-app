@@ -59,8 +59,8 @@ data class Profile(
     val email: String,
     @SerialName("kind")
     val kind: String,
-    @SerialName("features")
-    val features: Features,
+//    @SerialName("features")
+//    val features: Features,
     @SerialName("is_anonymous")
     val isAnonymous: Boolean,
     @SerialName("can_issue_certificate")

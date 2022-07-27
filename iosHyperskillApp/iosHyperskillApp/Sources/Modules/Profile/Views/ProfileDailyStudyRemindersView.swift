@@ -1,20 +1,20 @@
 import SwiftUI
 
 struct ProfileDailyStudyRemindersView: View {
-    @State private var activated = false
+    @State private var isActivated = false
 
     @State private var selectedHour: Int = 21
 
     var body: some View {
         VStack {
-            Toggle(Strings.Profile.remindersTitle, isOn: $activated)
+            Toggle(Strings.Profile.DailyStudyReminders.title, isOn: $isActivated)
                 .font(.title3)
 
-            if activated {
+            if isActivated {
                 Divider()
 
                 HourIntervalPicker(
-                    text: Strings.Profile.remindersSchedule,
+                    text: Strings.Profile.DailyStudyReminders.schedule,
                     selectedInterval: $selectedHour
                 )
             }
