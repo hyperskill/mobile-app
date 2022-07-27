@@ -11,6 +11,7 @@ struct HourIntervalPicker: View {
         HStack(spacing: 0) {
             Text(text)
                 .font(.body)
+                .foregroundColor(.secondaryText)
 
             Spacer()
 
@@ -22,7 +23,6 @@ struct HourIntervalPicker: View {
             .accentColor(Color(ColorPalette.primary))
             .pickerStyle(.menu)
         }
-        .foregroundColor(.secondaryText)
     }
 
     private func makeFormattedInterval(_ interval: Int) -> String {

@@ -9,6 +9,7 @@ struct ProfileDailyStudyRemindersView: View {
         VStack {
             Toggle(Strings.Profile.DailyStudyReminders.title, isOn: $isActivated)
                 .font(.title3)
+                .foregroundColor(.primaryText)
 
             if isActivated {
                 Divider()
