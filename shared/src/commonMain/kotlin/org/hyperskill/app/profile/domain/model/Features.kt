@@ -6,63 +6,63 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Features(
     @SerialName("learning_path.diagnostic")
-    val learningPathDiagnostic: Boolean? = null,
+    val learningPathDiagnostic: Boolean,
     @SerialName("frontend.confirm_email_toast")
-    val frontendConfirmEmailToast: Boolean? = null,
+    val frontendConfirmEmailToast: Boolean,
     @SerialName("topics.repetition")
-    val topicsRepetition: Boolean? = null,
+    val topicsRepetition: Boolean,
     @SerialName("gamification_badges")
-    val gamificationBadges: Boolean? = null,
+    val gamificationBadges: Boolean,
     @SerialName("backend.track_activities")
-    val backendTrackActivities: Boolean? = null,
+    val backendTrackActivities: Boolean,
     @SerialName("stages_progress_indicators")
-    val stagesProgressIndicatos: Boolean? = null,
+    val stagesProgressIndicatos: Boolean,
     @SerialName("settings.isic")
-    val settingsIsic: Boolean? = null,
+    val settingsIsic: Boolean,
     @SerialName("new_profile.tracks")
-    val newProfileTracks: Boolean? = null,
+    val newProfileTracks: Boolean,
     @SerialName("metrics.frontend_events")
-    val metricsFrontendEvents: Boolean? = null,
+    val metricsFrontendEvents: Boolean,
     @SerialName("registration.simplified_form")
-    val registrationSimplifiedForm: Boolean? = null,
+    val registrationSimplifiedForm: Boolean,
     @SerialName("knowledge_map.next_to_learn_topic")
-    val knowledgeMapNextToLearnTopic: Boolean? = null,
+    val knowledgeMapNextToLearnTopic: Boolean,
     @SerialName("study_plan.stack_completed_activities")
-    val studyPlanStackCompletedActivities: Boolean? = null,
+    val studyPlanStackCompletedActivities: Boolean,
     @SerialName("frontend.kindergarten")
-    val frontendKindergarten: Boolean? = null,
+    val frontendKindergarten: Boolean,
     @SerialName("projects.capstone_project")
-    val projectsCapstoneProject: Boolean? = null,
+    val projectsCapstoneProject: Boolean,
     @SerialName("header.streak_dropdown")
-    val headerStreakDropdown: Boolean? = null,
+    val headerStreakDropdown: Boolean,
     @SerialName("project_knowledge_map")
-    val projectKnowledgeMap: Boolean? = null,
+    val projectKnowledgeMap: Boolean,
     @SerialName("header.track_dashboard")
-    val headerTrackDashboard: Boolean? = null,
+    val headerTrackDashboard: Boolean,
     @SerialName("ui.capstone_projects")
-    val uiCapstoneProjects: Boolean? = null,
+    val uiCapstoneProjects: Boolean,
     @SerialName("users.disabled_landing_redirect")
-    val usersDisabledLandingRedirect: Boolean? = null,
+    val usersDisabledLandingRedirect: Boolean,
     @SerialName("steps.dataset_in_ide")
-    val stepsDatasetInIDE: Boolean? = null,
+    val stepsDatasetInIDE: Boolean,
     @SerialName("study_plan.project_feedback")
-    val studyPlayProjectFeedback: Boolean? = null,
+    val studyPlayProjectFeedback: Boolean,
     @SerialName("streaks.freeze_token_enabled")
-    val streaksFreezeTokenEnabled: Boolean? = null,
+    val streaksFreezeTokenEnabled: Boolean,
     @SerialName("exp.hide_diagnostics_results")
-    val expHideDiagnosticsResults: Boolean? = null,
+    val expHideDiagnosticsResults: Boolean,
     @SerialName("exp.hide_diagnostics_feedback")
-    val expHideDiagnosticsFeedback: Boolean? = null,
+    val expHideDiagnosticsFeedback: Boolean,
     @SerialName("track_landing.personal_plan_info")
-    val trackLandingPersonalPlanInfo: Boolean? = null,
+    val trackLandingPersonalPlanInfo: Boolean,
     @SerialName("track.new_card_design")
-    val trackNewCardDesign: Boolean? = null,
+    val trackNewCardDesign: Boolean,
     @SerialName("progress.use_ws_only")
-    val progressUseWsOnly: Boolean? = null,
+    val progressUseWsOnly: Boolean,
     @SerialName("project.new_card_design")
-    val projectNewCardDesign: Boolean? = null,
+    val projectNewCardDesign: Boolean,
     @SerialName("study_plan.track_feedback")
-    val studyPlanTrackFeedback: Boolean? = null,
+    val studyPlanTrackFeedback: Boolean,
     @SerialName("discord_study_groups")
     val discordStudyGroups: Boolean? = null
 )
