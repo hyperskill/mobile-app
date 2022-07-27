@@ -50,6 +50,9 @@ class CodeStepQuizFragment :
     override val quizViews: Array<View>
         get() = arrayOf(binding.stepQuizCodeContainer)
 
+    override val skeletonView: View
+        get() = binding.stepQuizCodeSkeleton.root
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = LayoutStepQuizCodeBinding.inflate(LayoutInflater.from(requireContext()), viewBinding.root, false)
         viewBinding.root.addView(binding.root)
@@ -60,6 +63,9 @@ class CodeStepQuizFragment :
                 dialog.show(childFragmentManager, null)
             }
         }
+
+        viewBinding.stepQuizDescription.isVisible = false
+        viewBinding.stepQuizDescriptionSkeleton.isVisible = false
 
         super.onViewCreated(view, savedInstanceState)
     }

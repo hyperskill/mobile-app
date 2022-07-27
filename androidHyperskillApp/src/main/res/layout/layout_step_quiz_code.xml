@@ -1,32 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
+<FrameLayout
+
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/stepQuizCodeContainer"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-
-    app:layout_goneMarginTop="0dp"
-    android:layout_marginBottom="16dp"
 
     app:layout_constraintVertical_bias="0"
 
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintBottom_toTopOf="@id/stepQuizFeedbackBlocks">
+    app:layout_constraintBottom_toTopOf="@id/stepQuizFeedbackBlocks"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/stepQuizCodeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+
+        app:layout_goneMarginTop="0dp"
+        android:layout_marginBottom="16dp">
+
+        <include
+            android:id="@+id/stepQuizCodeDetails"
+            layout="@layout/layout_step_quiz_code_details" />
+
+        <org.hyperskill.app.android.code.view.widget.CodeEditorLayout
+            android:id="@+id/codeStepLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/embedded_code_editor_height"
+            android:fillViewport="true" />
+
+        <include layout="@layout/view_divider_vertical" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <include
-        android:id="@+id/stepQuizCodeDetails"
-        layout="@layout/layout_step_quiz_code_details" />
-
-    <org.hyperskill.app.android.code.view.widget.CodeEditorLayout
-        android:id="@+id/codeStepLayout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/embedded_code_editor_height"
-        android:fillViewport="true" />
+        android:layout_height="wrap_content"
+        android:id="@+id/stepQuizCodeSkeleton"
+        layout="@layout/layout_step_quiz_code_skeleton" />
 
-    <include layout="@layout/view_divider_vertical" />
-
-</androidx.appcompat.widget.LinearLayoutCompat>
+</FrameLayout>
