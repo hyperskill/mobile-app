@@ -26,6 +26,7 @@ interface HomeFeature {
 
     sealed interface Action {
         object FetchHomeScreenData : Action
+        object LaunchTimer : Action
         sealed class ViewAction : Action
     }
 }

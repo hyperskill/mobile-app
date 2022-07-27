@@ -28,24 +28,6 @@ class HomeActionDispatcher(
     private val stepInteractor: StepInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
-    private var nextProblemIn = calculateNextProblemIn()
-
-    init {
-        flow {
-            val delay = 1.toDuration(DurationUnit.MINUTES)
-
-            while (true) {
-                emit(nextProblemIn)
-                delay(delay)
-                if (nextProblemIn > 0) {
-                    nextProblemIn -= delay.inWholeSeconds
-                }
-            }
-        }
-            .onEach { seconds -> onNewMessage(Message.HomeNextProblemInUpdate(seconds)) }
-            .launchIn(actionScope)
-    }
-
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchHomeScreenData -> {
@@ -69,6 +51,24 @@ class HomeActionDispatcher(
 
                 onNewMessage(message)
             }
+            is Action.LaunchTimer -> {
+
+                flow {
+                    var nextProblemIn = calculateNextProblemIn()
+                    val delay = 1.toDuration(DurationUnit.MINUTES)
+
+                    while (true) {
+                        emit(nextProblemIn)
+                        if (nextProblemIn <= 0) {
+                            break
+                        }
+                        delay(delay)
+                        nextProblemIn -= delay.inWholeSeconds
+                    }
+                }
+                    .onEach { seconds -> onNewMessage(Message.HomeNextProblemInUpdate(seconds)) }
+                    .launchIn(actionScope)
+            }
         }
     }
 
@@ -76,7 +76,7 @@ class HomeActionDispatcher(
         if (dailyStepId == null) {
             Result.success(HomeFeature.ProblemOfDayState.Empty)
         } else {
-            nextProblemIn = calculateNextProblemIn()
+            val nextProblemIn = calculateNextProblemIn()
             stepInteractor
                 .getStep(dailyStepId)
                 .map { step ->

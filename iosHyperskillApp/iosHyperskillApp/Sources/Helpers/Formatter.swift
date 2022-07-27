@@ -78,8 +78,8 @@ final class Formatter {
         let secondsPerMinute = 60
         let secondsPerHour = secondsPerMinute * 60
         let hours = seconds / secondsPerHour
-        let minutes = (seconds % secondsPerHour) / secondsPerMinute
-        return "\(hours != 0 ? hoursCount(hours) : "") \(minutes != 0 ? minutesCount(minutes) : "")"
+        let minutes = max((seconds % secondsPerHour) / secondsPerMinute, 1)
+        return "\(hours != 0 ? hoursCount(hours) : "") \(minutes != 0 ? minutesCount(minutes) : "")".trimmed()
     }
 
     /// Format minutes count with localized and pluralized suffix; 1 -> "1 minute", 5 -> "5 minutes"
