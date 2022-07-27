@@ -1,7 +1,7 @@
 import SwiftUI
 
-struct ProfileRemindersView: View {
-    @State private var activated = true
+struct ProfileDailyStudyRemindersView: View {
+    @State private var activated = false
 
     @State private var selectedHour: Int = 21
 
@@ -25,9 +25,9 @@ struct ProfileRemindersView: View {
     }
 }
 
-struct ProfileRemindersView_Previews: PreviewProvider {
+struct ProfileDailyStudyRemindersView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileRemindersView()
+        ProfileDailyStudyRemindersView()
             .previewLayout(.sizeThatFits)
     }
 }

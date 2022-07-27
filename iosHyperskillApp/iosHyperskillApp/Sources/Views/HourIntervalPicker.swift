@@ -16,9 +16,11 @@ struct HourIntervalPicker: View {
 
             Picker("", selection: $selectedInterval) {
                 ForEach(intervals.reversed(), id: \.self) { interval in
-                    Text(formatInterval(interval: interval)).tag(interval)
+                    Text(formatInterval(interval: interval))
                 }
             }
+            .accentColor(Color(ColorPalette.primary))
+            .pickerStyle(.menu)
         }
         .foregroundColor(.secondaryText)
     }

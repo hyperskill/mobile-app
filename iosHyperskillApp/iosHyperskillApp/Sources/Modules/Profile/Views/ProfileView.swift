@@ -79,7 +79,7 @@ struct ProfileView: View {
                             .background(Color(ColorPalette.surface))
                     }
 
-                    ProfileRemindersView()
+                    ProfileDailyStudyRemindersView()
 
                     ProfileAboutView(
                         livesInText: viewData.livesInText,
