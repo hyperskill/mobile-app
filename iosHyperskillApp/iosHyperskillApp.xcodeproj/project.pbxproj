@@ -236,6 +236,8 @@
 		E96E80F627EF57BA00AA6683 /* AuthSocialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */; };
 		E9802D07281BB5CC00CF3AC1 /* StepQuizChoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9802D06281BB5CC00CF3AC1 /* StepQuizChoiceView.swift */; };
 		E993E9A928426FF2005988EC /* StepQuizSortingViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E993E9A828426FF2005988EC /* StepQuizSortingViewData.swift */; };
+		E9950E9328893F1700C4D962 /* ProfileDailyStudyRemindersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9950E9228893F1700C4D962 /* ProfileDailyStudyRemindersView.swift */; };
+		E9950E9528894F4700C4D962 /* HourIntervalPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9950E9428894F4700C4D962 /* HourIntervalPicker.swift */; };
 		E9978886282FFC6E00ADD74A /* StepQuizChoiceViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9978885282FFC6E00ADD74A /* StepQuizChoiceViewData.swift */; };
 		E99B21812887E535006A6154 /* StepQuizSkeletonViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99B21802887E535006A6154 /* StepQuizSkeletonViewFactory.swift */; };
 		E99B21832887E996006A6154 /* StepQuizChoiceSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99B21822887E996006A6154 /* StepQuizChoiceSkeletonView.swift */; };
@@ -508,6 +510,8 @@
 		E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialViewModel.swift; sourceTree = "<group>"; };
 		E9802D06281BB5CC00CF3AC1 /* StepQuizChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChoiceView.swift; sourceTree = "<group>"; };
 		E993E9A828426FF2005988EC /* StepQuizSortingViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSortingViewData.swift; sourceTree = "<group>"; };
+		E9950E9228893F1700C4D962 /* ProfileDailyStudyRemindersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDailyStudyRemindersView.swift; sourceTree = "<group>"; };
+		E9950E9428894F4700C4D962 /* HourIntervalPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourIntervalPicker.swift; sourceTree = "<group>"; };
 		E9978885282FFC6E00ADD74A /* StepQuizChoiceViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChoiceViewData.swift; sourceTree = "<group>"; };
 		E99B21802887E535006A6154 /* StepQuizSkeletonViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSkeletonViewFactory.swift; sourceTree = "<group>"; };
 		E99B21822887E996006A6154 /* StepQuizChoiceSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChoiceSkeletonView.swift; sourceTree = "<group>"; };
@@ -565,6 +569,7 @@
 			children = (
 				2C725B622809198000A49043 /* BackgroundView.swift */,
 				E91017142832975C002E70F5 /* CheckboxButton.swift */,
+				E9950E9428894F4700C4D962 /* HourIntervalPicker.swift */,
 				2C08A938287866A200F1DCA2 /* LazyAvatarView.swift */,
 				2C32375228380C340062CAF6 /* NavigationToolbarInfoItem.swift */,
 				E9C3506E2886D0600080D277 /* OpenURLInsideAppButton.swift */,
@@ -952,6 +957,7 @@
 		2C3796102876FC3E00C197E2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E9950E9228893F1700C4D962 /* ProfileDailyStudyRemindersView.swift */,
 				2C3796112877001700C197E2 /* ProfileHeaderView.swift */,
 				2C9EB95C2861BABC007DDE44 /* ProfileView.swift */,
 				2C4FBD8F2876C95200ACA5C8 /* About */,
@@ -1898,6 +1904,7 @@
 				E910171728329808002E70F5 /* StepQuizChoiceElementView.swift in Sources */,
 				E9802D07281BB5CC00CF3AC1 /* StepQuizChoiceView.swift in Sources */,
 				2C9B66C427ECA73700569645 /* AppDelegate.swift in Sources */,
+				E9950E9328893F1700C4D962 /* ProfileDailyStudyRemindersView.swift in Sources */,
 				2C8E66D52878771B00D3928D /* ProfilePresentationDescription.swift in Sources */,
 				E993E9A928426FF2005988EC /* StepQuizSortingViewData.swift in Sources */,
 				E94D238F280585110003273F /* AuthCredentialsFormView.swift in Sources */,
@@ -1958,6 +1965,7 @@
 				2C8E4FB42848CB980011ADFA /* StepQuizTableSelectColumnsColumnView.swift in Sources */,
 				2C863D932804279E0021EFED /* Require.swift in Sources */,
 				2C177EC32837B65500D841DB /* View+Frame.swift in Sources */,
+				E9950E9528894F4700C4D962 /* HourIntervalPicker.swift in Sources */,
 				2C336D242865E38B00C91342 /* CodeInputAccessoryCollectionViewCell.swift in Sources */,
 				2C2FD62428192123004E7AF6 /* BundlePropertyListDeserializer.swift in Sources */,
 				2C8E66D7287877F500D3928D /* ProfileViewModel.swift in Sources */,

@@ -141,6 +141,11 @@ enum Strings {
         static let viewFullVersionButton = sharedStrings.profile_view_full_version_button_text.localized()
         static let roleStaff = sharedStrings.profile_role_staff_text.localized()
         static let roleLearner = sharedStrings.profile_role_learner_text.localized()
+
+        enum DailyStudyReminders {
+            static let title = sharedStrings.profile_daily_study_reminders_text.localized()
+            static let schedule = sharedStrings.profile_daily_study_reminders_schedule_text.localized()
+        }
     }
 
     // MARK: - Settings -
