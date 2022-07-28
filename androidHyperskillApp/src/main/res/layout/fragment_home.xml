@@ -16,7 +16,7 @@
             android:id="@+id/homeScreenHelloLetsLearnTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/home_hello_lets_learn"
+            android:text="@string/home_hello_lets_learn_text"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="@string/home_keep_practicing"
+            android:text="@string/home_keep_practicing_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/homeScreenHelloLetsLearnTextView" />
