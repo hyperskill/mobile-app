@@ -21,6 +21,9 @@ struct CodeEditor: UIViewRepresentable {
 
     var elementsSize: CodeQuizElementsSize = DeviceInfo.current.isPad ? .big : .small
 
+    var suggestionsPresentationContextProvider: CodeEditorSuggestionsPresentationContextProviding? =
+        ResponderChainCodeEditorSuggestionsPresentationContextProvider()
+
     var onDidBeginEditing: (() -> Void)?
 
     var onDidEndEditing: (() -> Void)?
@@ -28,7 +31,7 @@ struct CodeEditor: UIViewRepresentable {
     // MARK: UIViewRepresentable
 
     func makeCoordinator() -> Coordinator {
-        Coordinator()
+        Coordinator(suggestionsPresentationContextProvider: suggestionsPresentationContextProvider)
     }
 
     func makeUIView(context: Context) -> CodeEditorView {
@@ -84,11 +87,17 @@ struct CodeEditor: UIViewRepresentable {
 
 extension CodeEditor {
     class Coordinator: NSObject, CodeEditorViewDelegate {
+        private let suggestionsPresentationContextProvider: CodeEditorSuggestionsPresentationContextProviding?
+
         var onCodeDidChange: ((String) -> Void)?
 
         var onDidBeginEditing: (() -> Void)?
 
         var onDidEndEditing: (() -> Void)?
+
+        init(suggestionsPresentationContextProvider: CodeEditorSuggestionsPresentationContextProviding?) {
+            self.suggestionsPresentationContextProvider = suggestionsPresentationContextProvider
+        }
 
         func codeEditorViewDidChange(_ codeEditorView: CodeEditorView) {
             onCodeDidChange?(codeEditorView.code ?? "")
@@ -107,13 +116,7 @@ extension CodeEditor {
         func codeEditorViewDidRequestSuggestionPresentationController(
             _ codeEditorView: CodeEditorView
         ) -> UIViewController? {
-            // TODO: Walk up and find correct controller otherwise UIViewControllerHierarchyInconsistency will be thrown
-//            guard let rootViewController = SourcelessRouter().window?.rootViewController else {
-//                return nil
-//            }
-//
-//            return rootViewController.children.first?.children.first?.children.first?.children.first
-            nil
+            suggestionsPresentationContextProvider?.presentationController(for: codeEditorView)
         }
     }
 }

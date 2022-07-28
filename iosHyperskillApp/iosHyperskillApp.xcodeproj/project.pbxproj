@@ -190,6 +190,9 @@
 		2C9ECBA3284736090015CFD2 /* StepViewDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9ECBA2284736090015CFD2 /* StepViewDataMapper.swift */; };
 		2CA3B0332888818C00EEF716 /* StepQuizCodeSampleItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA3B0322888818C00EEF716 /* StepQuizCodeSampleItemView.swift */; };
 		2CA3B0362888955F00EEF716 /* StepQuizCodeSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA3B0352888955F00EEF716 /* StepQuizCodeSkeletonView.swift */; };
+		2CA7B88F2893295A00A789EF /* CodeEditorSuggestionsPresentationContextProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA7B88E2893295A00A789EF /* CodeEditorSuggestionsPresentationContextProviding.swift */; };
+		2CA7B892289329C600A789EF /* UIView+FindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA7B891289329C600A789EF /* UIView+FindViewController.swift */; };
+		2CA7B89428932EB100A789EF /* UIWindowExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA7B89328932EB100A789EF /* UIWindowExtensions.swift */; };
 		2CA8E093281039EB00154088 /* OutlineButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA8E090281039EB00154088 /* OutlineButtonStyle.swift */; };
 		2CA8E094281039EB00154088 /* RoundedRectangleButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA8E091281039EB00154088 /* RoundedRectangleButtonStyle.swift */; };
 		2CA8E095281039EB00154088 /* BounceButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA8E092281039EB00154088 /* BounceButtonStyle.swift */; };
@@ -484,6 +487,9 @@
 		2C9ECBA2284736090015CFD2 /* StepViewDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepViewDataMapper.swift; sourceTree = "<group>"; };
 		2CA3B0322888818C00EEF716 /* StepQuizCodeSampleItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeSampleItemView.swift; sourceTree = "<group>"; };
 		2CA3B0352888955F00EEF716 /* StepQuizCodeSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeSkeletonView.swift; sourceTree = "<group>"; };
+		2CA7B88E2893295A00A789EF /* CodeEditorSuggestionsPresentationContextProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeEditorSuggestionsPresentationContextProviding.swift; sourceTree = "<group>"; };
+		2CA7B891289329C600A789EF /* UIView+FindViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+FindViewController.swift"; sourceTree = "<group>"; };
+		2CA7B89328932EB100A789EF /* UIWindowExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIWindowExtensions.swift; sourceTree = "<group>"; };
 		2CA8E090281039EB00154088 /* OutlineButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutlineButtonStyle.swift; sourceTree = "<group>"; };
 		2CA8E091281039EB00154088 /* RoundedRectangleButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedRectangleButtonStyle.swift; sourceTree = "<group>"; };
 		2CA8E092281039EB00154088 /* BounceButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BounceButtonStyle.swift; sourceTree = "<group>"; };
@@ -678,6 +684,7 @@
 			isa = PBXGroup;
 			children = (
 				2C20B289286C350C000F458A /* CodeEditor.swift */,
+				2CA7B88E2893295A00A789EF /* CodeEditorSuggestionsPresentationContextProviding.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -1347,7 +1354,8 @@
 				2C58DE282803D197002A2774 /* UIColor+DynamicColor.swift */,
 				2C20FBAF284F1D8B006D879E /* UIColor+Hex.swift */,
 				2C5B2A22286596400097B270 /* UITableView+RegisterReusable.swift */,
-				2C336D162865C9CD00C91342 /* UIView+TraitCollection.swift */,
+				2CA7B89328932EB100A789EF /* UIWindowExtensions.swift */,
+				2CA7B8902893299B00A789EF /* UIView */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -1390,6 +1398,15 @@
 				2C96743E288831BB0091B6C9 /* StepQuizCodeSamplesView.swift */,
 			);
 			path = Samples;
+			sourceTree = "<group>";
+		};
+		2CA7B8902893299B00A789EF /* UIView */ = {
+			isa = PBXGroup;
+			children = (
+				2CA7B891289329C600A789EF /* UIView+FindViewController.swift */,
+				2C336D162865C9CD00C91342 /* UIView+TraitCollection.swift */,
+			);
+			path = UIView;
 			sourceTree = "<group>";
 		};
 		2CA8E08E281039EB00154088 /* Styles */ = {
@@ -2061,6 +2078,7 @@
 				2CEB50CE288AACEA0044F9AB /* StepQuizCodeFullScreenTab.swift in Sources */,
 				2CEB50C8288A94050044F9AB /* BlockExtensions.swift in Sources */,
 				E9D2D675284E0B30000757AC /* StepQuizMatchingView.swift in Sources */,
+				2CA7B892289329C600A789EF /* UIView+FindViewController.swift in Sources */,
 				2CEB50D6288ACBD10044F9AB /* HSTabBar.swift in Sources */,
 				2C97F50A28880B6F00DE77B7 /* SkeletonRoundedButton.swift in Sources */,
 				2CAE8CF0280525BE00E6C83D /* StepViewModel.swift in Sources */,
@@ -2089,6 +2107,7 @@
 				2C84094F2805B28B009C6BE9 /* StepRatingControl.swift in Sources */,
 				2CBFB94C28897DD70044D1BA /* StepQuizCodeFullScreenAssembly.swift in Sources */,
 				E9B2CF5D2822975400B2DC6F /* StepQuizStatsView.swift in Sources */,
+				2CA7B89428932EB100A789EF /* UIWindowExtensions.swift in Sources */,
 				2C5B2A1F286595AF0097B270 /* CodeCompletionTableViewController.swift in Sources */,
 				2C43B59928731B1E002A66F8 /* HyperskillURLFactory.swift in Sources */,
 				2C8E4FB12848C9050011ADFA /* StepQuizTableSelectColumnsView.swift in Sources */,
@@ -2151,6 +2170,7 @@
 				2C3796122877001700C197E2 /* ProfileHeaderView.swift in Sources */,
 				2C725B5E28090D1F00A49043 /* View+Border.swift in Sources */,
 				2C8E4F9C2848A1550011ADFA /* PanModalViewModifier.swift in Sources */,
+				2CA7B88F2893295A00A789EF /* CodeEditorSuggestionsPresentationContextProviding.swift in Sources */,
 				2C8E4F9A284897360011ADFA /* PanModalSwiftUIViewController.swift in Sources */,
 				2C20FBA6284F1924006D879E /* ContentProcessingInjection.swift in Sources */,
 				2C1061A8285C3A2D00EBD614 /* StepQuizChildQuizType.swift in Sources */,
