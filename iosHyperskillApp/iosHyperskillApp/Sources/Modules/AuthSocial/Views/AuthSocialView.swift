@@ -8,18 +8,14 @@ extension AuthSocialView {
 }
 
 struct AuthSocialView: View {
-    let appearance: Appearance
+    private(set) var appearance = Appearance()
 
     @ObservedObject private var viewModel: AuthSocialViewModel
 
-    @ObservedObject private var navigationState: AppNavigationState
-
     @State private var presentingAuthWithEmail = false
 
-    init(viewModel: AuthSocialViewModel, navigationState: AppNavigationState, appearance: Appearance = Appearance()) {
+    init(viewModel: AuthSocialViewModel) {
         self.viewModel = viewModel
-        self.navigationState = navigationState
-        self.appearance = appearance
         self.viewModel.onViewAction = self.handleViewAction(_:)
     }
 
@@ -44,7 +40,7 @@ struct AuthSocialView: View {
                 )
                 NavigationLink(
                     isActive: $presentingAuthWithEmail,
-                    destination: AuthCredentialsAssembly(navigationState: navigationState).makeModule,
+                    destination: AuthCredentialsAssembly(output: viewModel.moduleOutput).makeModule,
                     label: { EmptyView() }
                 )
             }
@@ -59,10 +55,8 @@ struct AuthSocialView: View {
 
     private func handleViewAction(_ viewAction: AuthSocialFeatureActionViewAction) {
         switch viewAction {
-        case is AuthSocialFeatureActionViewActionCompleteAuthFlow:
-            withAnimation {
-                navigationState.presentingAuthScreen = false
-            }
+        case let completeAuthFlowViewAction as AuthSocialFeatureActionViewActionCompleteAuthFlow:
+            viewModel.doCompleteAuthFlow(isNewUser: completeAuthFlowViewAction.isNewUser)
         case let authError as AuthSocialFeatureActionViewActionShowAuthError:
             let errorText = viewModel.getAuthSocialErrorText(authSocialError: authError.socialError)
             ProgressHUD.showError(status: errorText)

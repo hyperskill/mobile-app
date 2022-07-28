@@ -2,24 +2,18 @@ import shared
 import SwiftUI
 
 struct AppView: View {
-    @ObservedObject private var viewModel: AppViewModel
+    @ObservedObject var viewModel: AppViewModel
 
-    @ObservedObject private var navigationState = AppNavigationState()
+    @ObservedObject var panModalPresenter: PanModalPresenter
 
     @Environment(\.colorScheme) private var colorScheme
-
-    @StateObject private var panModalPresenter: PanModalPresenter
-
-    init(viewModel: AppViewModel, panModalPresenter: PanModalPresenter) {
-        self.viewModel = viewModel
-        self._panModalPresenter = StateObject(wrappedValue: panModalPresenter)
-        self.viewModel.onViewAction = self.handleViewAction(_:)
-    }
 
     var body: some View {
         buildBody()
             .onAppear {
                 viewModel.startListening()
+                viewModel.onViewAction = handleViewAction(_:)
+
                 updateProgressHUDStyle(colorScheme: colorScheme)
             }
             .onDisappear {
@@ -50,8 +44,26 @@ struct AppView: View {
                     viewModel.loadApp(forceUpdate: true)
                 }
             )
-        case is AppFeatureStateReady:
-            TabView(selection: $navigationState.selectedTab) {
+        case let readyState as AppFeatureStateReady:
+            buildContent(
+                isAuthorized: readyState.isAuthorized
+            )
+            .fullScreenCover(isPresented: $viewModel.navigationState.presentingAuthScreen) {
+                AuthSocialAssembly(output: viewModel).makeModule()
+            }
+            .fullScreenCover(isPresented: $viewModel.navigationState.presentingNewUserScreen) {
+                AuthNewUserPlaceholderView()
+            }
+            .environmentObject(panModalPresenter)
+        default:
+            ProgressView()
+        }
+    }
+
+    @ViewBuilder
+    private func buildContent(isAuthorized: Bool) -> some View {
+        if isAuthorized {
+            TabView(selection: $viewModel.navigationState.selectedTab) {
                 ForEach(AppTabItem.allCases, id: \.self) { tab in
                     // TODO: Refactor to factory when Xcode 14 released
                     TabNavigationLazyView(
@@ -74,15 +86,7 @@ struct AppView: View {
                     }
                 }
             }
-            .fullScreenCover(isPresented: $navigationState.presentingAuthScreen) {
-                AuthSocialAssembly(navigationState: navigationState)
-                    .makeModule()
-            }
-            .fullScreenCover(isPresented: $navigationState.presentingNewUserScreen) {
-                AuthNewUserPlaceholderView()
-            }
-            .environmentObject(panModalPresenter)
-        default:
+        } else {
             ProgressView()
         }
     }
@@ -95,14 +99,15 @@ struct AppView: View {
         switch viewAction {
         case is AppFeatureActionViewActionNavigateToHomeScreen:
             withAnimation {
-                navigationState.presentingAuthScreen = false
+                viewModel.navigationState.presentingAuthScreen = false
             }
         case is AppFeatureActionViewActionNavigateToAuthScreen:
             withAnimation {
-                navigationState.presentingAuthScreen = true
+                viewModel.navigationState.presentingAuthScreen = true
             }
         case is AppFeatureActionViewActionNavigateToNewUserScreen:
             withAnimation {
+                viewModel.navigationState.presentingNewUserScreen = true
             }
         default:
             print("AppView :: unhandled viewAction = \(viewAction)")
@@ -110,7 +115,7 @@ struct AppView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct AppView_Previews: PreviewProvider {
     static var previews: some View {
         AppAssembly().makeModule()
     }

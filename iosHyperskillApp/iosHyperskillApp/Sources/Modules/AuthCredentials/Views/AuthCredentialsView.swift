@@ -12,25 +12,17 @@ extension AuthCredentialsView {
 }
 
 struct AuthCredentialsView: View {
-    let appearance: Appearance
+    private(set) var appearance = Appearance()
 
     @ObservedObject private var viewModel: AuthCredentialsViewModel
-
-    @ObservedObject private var navigationState: AppNavigationState
 
     @Environment(\.presentationMode) private var presentationMode
 
     @State private var emailText = ""
     @State private var passwordText = ""
 
-    init(
-        viewModel: AuthCredentialsViewModel,
-        navigationState: AppNavigationState,
-        appearance: Appearance = Appearance()
-    ) {
+    init(viewModel: AuthCredentialsViewModel) {
         self.viewModel = viewModel
-        self.navigationState = navigationState
-        self.appearance = appearance
         self.viewModel.onViewAction = self.handleViewAction(_:)
     }
 
@@ -79,11 +71,9 @@ struct AuthCredentialsView: View {
 
     private func handleViewAction(_ viewAction: AuthCredentialsFeatureActionViewAction) {
         switch viewAction {
-        case is AuthCredentialsFeatureActionViewActionCompleteAuthFlow:
+        case let completeAuthFlowViewAction as AuthCredentialsFeatureActionViewActionCompleteAuthFlow:
             ProgressHUD.showSuccess()
-            withAnimation {
-                navigationState.presentingAuthScreen = false
-            }
+            viewModel.doCompleteAuthFlow(isNewUser: completeAuthFlowViewAction.isNewUser)
         default:
             print("AuthEmailView :: unhandled viewAction = \(viewAction)")
         }

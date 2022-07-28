@@ -12,12 +12,7 @@ extension HomeView {
 struct HomeView: View {
     private(set) var appearance = Appearance()
 
-    @ObservedObject private var viewModel: HomeViewModel
-
-    init(viewModel: HomeViewModel) {
-        self.viewModel = viewModel
-        self.viewModel.onViewAction = self.handleViewAction(_:)
-    }
+    @StateObject var viewModel: HomeViewModel
 
     var body: some View {
         NavigationView {
@@ -29,7 +24,10 @@ struct HomeView: View {
             .navigationBarHidden(true)
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        .onAppear(perform: viewModel.startListening)
+        .onAppear {
+            viewModel.startListening()
+            viewModel.onViewAction = handleViewAction(_:)
+        }
         .onDisappear(perform: viewModel.stopListening)
     }
 

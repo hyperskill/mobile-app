@@ -6,6 +6,8 @@ final class AuthCredentialsViewModel: FeatureViewModel<
   AuthCredentialsFeatureMessage,
   AuthCredentialsFeatureActionViewAction
 > {
+    weak var moduleOutput: AuthOutputProtocol?
+
     private let authCredentialsErrorMapper: AuthCredentialsErrorMapper
 
     var formErrorMessage: String? {
@@ -34,5 +36,9 @@ final class AuthCredentialsViewModel: FeatureViewModel<
 
     func doResetPassword() {
         print("AuthEmailViewModel :: \(#function)")
+    }
+
+    func doCompleteAuthFlow(isNewUser: Bool) {
+        moduleOutput?.handleUserAuthorized(isNewUser: isNewUser)
     }
 }

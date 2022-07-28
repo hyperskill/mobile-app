@@ -2,10 +2,10 @@ import shared
 import SwiftUI
 
 final class AuthCredentialsAssembly: Assembly {
-    private let navigationState: AppNavigationState
+    private weak var moduleOutput: AuthOutputProtocol?
 
-    init(navigationState: AppNavigationState = AppNavigationState()) {
-        self.navigationState = navigationState
+    init(output: AuthOutputProtocol? = nil) {
+        self.moduleOutput = output
     }
 
     func makeModule() -> AuthCredentialsView {
@@ -15,7 +15,8 @@ final class AuthCredentialsAssembly: Assembly {
             authCredentialsErrorMapper: authCredentialsComponent.authCredentialsErrorMapper,
             feature: authCredentialsComponent.authCredentialsFeature
         )
+        viewModel.moduleOutput = moduleOutput
 
-        return AuthCredentialsView(viewModel: viewModel, navigationState: self.navigationState)
+        return AuthCredentialsView(viewModel: viewModel)
     }
 }
