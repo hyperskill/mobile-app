@@ -4,7 +4,7 @@ import SwiftUI
 struct AppView: View {
     @ObservedObject var viewModel: AppViewModel
 
-    @ObservedObject var panModalPresenter: PanModalPresenter
+    private(set) var panModalPresenter: PanModalPresenter
 
     @Environment(\.colorScheme) private var colorScheme
 
