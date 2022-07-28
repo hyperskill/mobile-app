@@ -3,14 +3,14 @@
         <color android:color="@color/color_blue_400" />
     </item>
     <item>
-        <bitmap
-            android:src="@drawable/ic_branded_logo_splash"
-            android:gravity="center" />
+    <bitmap
+        android:src="@drawable/ic_branded_splash_logo"
+        android:gravity="center" />
     </item>
     <item
         android:bottom="48dp">
         <bitmap
-            android:src="@drawable/ic_subtitle_splash"
+            android:src="@drawable/ic_subtitle"
             android:gravity="bottom" />
     </item>
 
