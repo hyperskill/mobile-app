@@ -4,7 +4,7 @@
     </item>
     <item>
         <bitmap
-            android:src="@drawable/ic_branded_splash_logo"
+            android:src="@drawable/ic_branded_logo_splash"
             android:gravity="center" />
     </item>
     <item
