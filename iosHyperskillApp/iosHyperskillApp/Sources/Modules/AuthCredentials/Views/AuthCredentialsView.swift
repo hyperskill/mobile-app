@@ -14,17 +14,12 @@ extension AuthCredentialsView {
 struct AuthCredentialsView: View {
     private(set) var appearance = Appearance()
 
-    @ObservedObject private var viewModel: AuthCredentialsViewModel
+    @StateObject var viewModel: AuthCredentialsViewModel
 
     @Environment(\.presentationMode) private var presentationMode
 
     @State private var emailText = ""
     @State private var passwordText = ""
-
-    init(viewModel: AuthCredentialsViewModel) {
-        self.viewModel = viewModel
-        self.viewModel.onViewAction = self.handleViewAction(_:)
-    }
 
     var body: some View {
         let formState = viewModel.state.formState
@@ -58,6 +53,8 @@ struct AuthCredentialsView: View {
         }
         .onAppear {
             viewModel.startListening()
+            viewModel.onViewAction = handleViewAction(_:)
+
             KeyboardManager.setKeyboardDistanceFromTextField(appearance.keyboardDistanceFromTextField)
         }
         .onDisappear {

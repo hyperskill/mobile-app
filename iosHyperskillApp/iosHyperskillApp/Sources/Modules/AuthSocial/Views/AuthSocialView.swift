@@ -10,14 +10,9 @@ extension AuthSocialView {
 struct AuthSocialView: View {
     private(set) var appearance = Appearance()
 
-    @ObservedObject private var viewModel: AuthSocialViewModel
+    @StateObject var viewModel: AuthSocialViewModel
 
     @State private var presentingAuthWithEmail = false
-
-    init(viewModel: AuthSocialViewModel) {
-        self.viewModel = viewModel
-        self.viewModel.onViewAction = self.handleViewAction(_:)
-    }
 
     var body: some View {
         let state = viewModel.state
@@ -46,7 +41,10 @@ struct AuthSocialView: View {
             }
             .navigationBarHidden(true)
         }
-        .onAppear(perform: viewModel.startListening)
+        .onAppear {
+            viewModel.startListening()
+            viewModel.onViewAction = handleViewAction(_:)
+        }
         .onDisappear(perform: viewModel.stopListening)
         .navigationViewStyle(StackNavigationViewStyle())
     }
