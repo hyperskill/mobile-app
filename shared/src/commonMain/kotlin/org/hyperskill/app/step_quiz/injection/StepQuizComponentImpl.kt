@@ -44,7 +44,7 @@ class StepQuizComponentImpl(private val appGraph: AppGraph) : StepQuizComponent 
     override val stepQuizFeature: Feature<StepQuizFeature.State, StepQuizFeature.Message, StepQuizFeature.Action>
         get() {
             val stepQuizReducer = StepQuizReducer()
-            val stepQuizActionDispatcher = StepQuizActionDispatcher(ActionDispatcherOptions(), stepQuizInteractor)
+            val stepQuizActionDispatcher = StepQuizActionDispatcher(ActionDispatcherOptions(), stepQuizInteractor, appGraph.buildProfileDataComponent().profileInteractor)
 
             return ReduxFeature(StepQuizFeature.State.Idle, stepQuizReducer)
                 .wrapWithActionDispatcher(stepQuizActionDispatcher)

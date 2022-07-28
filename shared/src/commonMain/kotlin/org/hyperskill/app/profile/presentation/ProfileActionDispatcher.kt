@@ -1,5 +1,6 @@
 package org.hyperskill.app.profile.presentation
 
+import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.profile.presentation.ProfileFeature.Action
@@ -16,7 +17,7 @@ class ProfileActionDispatcher(
         when (action) {
             is Action.FetchCurrentProfile -> {
                 val currentProfile = profileInteractor
-                    .getCurrentProfile()
+                    .getCurrentProfile(sourceType = DataSourceType.REMOTE)
                     .getOrElse {
                         onNewMessage(Message.ProfileLoaded.Error(it.message ?: ""))
                         return

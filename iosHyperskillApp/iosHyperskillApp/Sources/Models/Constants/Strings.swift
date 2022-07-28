@@ -8,6 +8,7 @@ enum Strings {
 
     enum General {
         static let connectionError = sharedStrings.connection_error.localized()
+        static let done = sharedStrings.done_text.localized()
     }
 
     // MARK: - TabBar -
@@ -142,12 +143,34 @@ enum Strings {
         static let viewFullVersionButton = sharedStrings.profile_view_full_version_button_text.localized()
         static let roleStaff = sharedStrings.profile_role_staff_text.localized()
         static let roleLearner = sharedStrings.profile_role_learner_text.localized()
+
+        enum DailyStudyReminders {
+            static let title = sharedStrings.profile_daily_study_reminders_text.localized()
+            static let schedule = sharedStrings.profile_daily_study_reminders_schedule_text.localized()
+        }
     }
 
     // MARK: - Settings -
 
     enum Settings {
         static let title = sharedStrings.settings_title.localized()
+        static let appearance = sharedStrings.settings_appearance.localized()
+        static let about = sharedStrings.settings_about.localized()
+        static let termsOfService = sharedStrings.settings_terms_of_service.localized()
+        static let privacyPolicy = sharedStrings.settings_privacy_policy.localized()
+        static let helpCenter = sharedStrings.settings_help_center.localized()
+        static let version = sharedStrings.settings_version.localized()
+        static let rateApplication = sharedStrings.settings_rate_application.localized()
+        static let logout = sharedStrings.settings_logout.localized()
+        static let deleteAccount = sharedStrings.settings_delete_account.localized()
+
+        enum Theme {
+            static let title = sharedStrings.settings_theme.localized()
+
+            static let light = sharedStrings.settings_theme_light.localized()
+            static let dark = sharedStrings.settings_theme_dark.localized()
+            static let system = sharedStrings.settings_theme_system.localized()
+        }
     }
 
     // MARK: - Streak -

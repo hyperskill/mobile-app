@@ -18,6 +18,7 @@ import org.hyperskill.app.android.auth.view.ui.fragment.AuthFragment
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthScreen
 import org.hyperskill.app.android.core.view.ui.navigation.AppNavigationContainer
 import org.hyperskill.app.android.databinding.ActivityMainBinding
+import org.hyperskill.app.android.home.view.ui.screen.PlaceholderNewUserScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.main.presentation.MainViewModel
@@ -61,14 +62,19 @@ class MainActivity :
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
         initViewStateDelegate()
-        mainViewModelProvider.onNewMessage(AppFeature.Message.AppStarted)
+        mainViewModelProvider.onNewMessage(AppFeature.Message.Init(forceUpdate = false))
+
+        viewBinding.mainError.tryAgain.setOnClickListener {
+            mainViewModelProvider.onNewMessage(AppFeature.Message.Init(forceUpdate = true))
+        }
 
         lifecycleScope.launch {
             router
                 .observeResult(AuthFragment.AUTH_SUCCESS)
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collectLatest {
-                    mainViewModelProvider.onNewMessage(AppFeature.Message.UserAuthorized)
+                    val isNewUser = (it as? Boolean) ?: true
+                    mainViewModelProvider.onNewMessage(AppFeature.Message.UserAuthorized(isNewUser))
                 }
         }
 
@@ -82,9 +88,10 @@ class MainActivity :
     }
 
     private fun initViewStateDelegate() {
-        viewStateDelegate.addState<AppFeature.State.Idle>(viewBinding.mainSplash.root)
-        viewStateDelegate.addState<AppFeature.State.Loading>(viewBinding.mainSplash.root)
+        viewStateDelegate.addState<AppFeature.State.Idle>()
+        viewStateDelegate.addState<AppFeature.State.Loading>(viewBinding.mainProgress)
         viewStateDelegate.addState<AppFeature.State.Ready>(viewBinding.mainNavigationContainer)
+        viewStateDelegate.addState<AppFeature.State.NetworkError>(viewBinding.mainError.root)
     }
 
     override fun onResumeFragments() {
@@ -103,6 +110,8 @@ class MainActivity :
                 router.newRootScreen(AuthScreen)
             is AppFeature.Action.ViewAction.NavigateTo.HomeScreen ->
                 router.newRootScreen(MainScreen)
+            is AppFeature.Action.ViewAction.NavigateTo.NewUserScreen ->
+                router.newRootScreen(PlaceholderNewUserScreen)
         }
     }
 

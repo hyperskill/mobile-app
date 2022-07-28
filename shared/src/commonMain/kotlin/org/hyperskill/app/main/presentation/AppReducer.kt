@@ -11,8 +11,8 @@ class AppReducer : StateReducer<State, Message, Action> {
         message: Message
     ): Pair<State, Set<Action>> =
         when (message) {
-            is Message.AppStarted -> {
-                if (state is State.Idle) {
+            is Message.Init -> {
+                if (state is State.Idle || (state is State.NetworkError && message.forceUpdate)) {
                     State.Loading to setOf(Action.DetermineUserAccountStatus)
                 } else {
                     null
@@ -20,7 +20,12 @@ class AppReducer : StateReducer<State, Message, Action> {
             }
             is Message.UserAuthorized ->
                 if (state is State.Ready && !state.isAuthorized) {
-                    State.Ready(isAuthorized = true) to setOf(Action.ViewAction.NavigateTo.HomeScreen)
+                    val action = if (message.isNewUser) {
+                        Action.ViewAction.NavigateTo.NewUserScreen
+                    } else {
+                        Action.ViewAction.NavigateTo.HomeScreen
+                    }
+                    State.Ready(isAuthorized = true) to setOf(action)
                 } else {
                     null
                 }
@@ -32,14 +37,28 @@ class AppReducer : StateReducer<State, Message, Action> {
                 }
             is Message.UserAccountStatus ->
                 if (state is State.Loading) {
-                    val action = if (message.isAuthorized) {
-                        Action.ViewAction.NavigateTo.HomeScreen
-                    } else {
-                        Action.ViewAction.NavigateTo.AuthScreen
-                    }
-                    State.Ready(isAuthorized = message.isAuthorized) to setOf(action)
+                    val isAuthorized = !message.profile.isGuest
+
+                    val action =
+                        if (isAuthorized) {
+                            if (message.profile.trackId == null) {
+                                Action.ViewAction.NavigateTo.NewUserScreen
+                            } else {
+                                Action.ViewAction.NavigateTo.HomeScreen
+                            }
+                        } else {
+                            Action.ViewAction.NavigateTo.AuthScreen
+                        }
+
+                    State.Ready(isAuthorized = isAuthorized) to setOf(action)
                 } else {
                     null
                 }
-        } ?: state to emptySet()
+            is Message.UserAccountStatusError ->
+                if (state is State.Loading) {
+                    State.NetworkError to emptySet()
+                } else {
+                    null
+                }
+        } ?: (state to emptySet())
 }

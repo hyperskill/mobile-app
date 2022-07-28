@@ -15,10 +15,10 @@ data class Profile(
     val bio: String,
     @SerialName("fullname")
     val fullname: String,
-    @SerialName("gamification")
-    val gamification: Gamification,
+//    @SerialName("gamification")
+//    val gamification: Gamification,
     @SerialName("invitation_code")
-    val invitationCode: String,
+    val invitationCode: String?,
     @SerialName("comments_posted")
     val postedComments: PostedComments,
     @SerialName("username")
@@ -54,7 +54,7 @@ data class Profile(
     @SerialName("daily_step")
     val dailyStep: Long?,
     @SerialName("date_registered")
-    val registrationDate: String,
+    val registrationDate: String?,
     @SerialName("email")
     val email: String,
     @SerialName("kind")

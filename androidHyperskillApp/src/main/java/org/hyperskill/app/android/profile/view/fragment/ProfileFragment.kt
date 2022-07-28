@@ -15,6 +15,7 @@ import coil.transform.CircleCropTransformation
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentProfileBinding
+import org.hyperskill.app.android.profile_settings.view.dialog.ProfileSettingsDialogFragment
 import org.hyperskill.app.android.streak.view.delegate.StreakCardFormDelegate
 import org.hyperskill.app.android.view.base.ui.extension.redirectToUsernamePage
 import org.hyperskill.app.profile.domain.model.Profile
@@ -25,6 +26,7 @@ import org.hyperskill.app.profile.routing.ProfileRedirectLinkBuilder
 import org.hyperskill.app.streak.domain.model.Streak
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.argument
+import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 import java.util.Locale
@@ -65,6 +67,12 @@ class ProfileFragment :
         initViewStateDelegate()
         viewBinding.profileError.tryAgain.setOnClickListener {
             profileViewModel.onNewMessage(ProfileFeature.Message.Init(profileId = profileId, forceUpdate = true, isInitCurrent = isInitCurrent))
+        }
+
+        viewBinding.profileSettingsButton.setOnClickListener {
+            ProfileSettingsDialogFragment
+                .newInstance()
+                .showIfNotExists(childFragmentManager, ProfileSettingsDialogFragment.TAG)
         }
 
         profileViewModel.onNewMessage(ProfileFeature.Message.Init(profileId = profileId, isInitCurrent = isInitCurrent))

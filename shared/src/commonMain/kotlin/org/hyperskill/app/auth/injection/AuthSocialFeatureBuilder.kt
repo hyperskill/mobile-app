@@ -7,14 +7,19 @@ import org.hyperskill.app.auth.presentation.AuthSocialFeature.Message
 import org.hyperskill.app.auth.presentation.AuthSocialFeature.State
 import org.hyperskill.app.auth.presentation.AuthSocialReducer
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 object AuthSocialFeatureBuilder {
-    fun build(authInteractor: AuthInteractor): Feature<State, Message, Action> {
+    fun build(authInteractor: AuthInteractor, profileInteractor: ProfileInteractor): Feature<State, Message, Action> {
         val authReducer = AuthSocialReducer()
-        val authActionDispatcher = AuthSocialActionDispatcher(ActionDispatcherOptions(), authInteractor)
+        val authActionDispatcher = AuthSocialActionDispatcher(
+            ActionDispatcherOptions(),
+            authInteractor,
+            profileInteractor
+        )
 
         return ReduxFeature(State.Idle, authReducer)
             .wrapWithActionDispatcher(authActionDispatcher)

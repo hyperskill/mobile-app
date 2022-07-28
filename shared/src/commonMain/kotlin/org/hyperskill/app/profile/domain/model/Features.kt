@@ -64,5 +64,5 @@ data class Features(
     @SerialName("study_plan.track_feedback")
     val studyPlanTrackFeedback: Boolean,
     @SerialName("discord_study_groups")
-    val discordStudyGroups: Boolean
+    val discordStudyGroups: Boolean? = null
 )

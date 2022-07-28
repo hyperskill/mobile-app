@@ -114,7 +114,7 @@
                         android:id="@+id/profileDailyRemindersSwitchCompat"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/profile_switch_compat_text"
+                        android:text="@string/profile_daily_study_reminders_text"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                         android:textSize="18sp"
                         android:theme="@style/ColorSwitchStyle" />
@@ -127,7 +127,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="@string/profile_schedule_text" />
+                        android:text="@string/profile_daily_study_reminders_schedule_text" />
 
                 </LinearLayout>
 

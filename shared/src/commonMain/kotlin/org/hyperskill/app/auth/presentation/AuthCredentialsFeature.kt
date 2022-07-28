@@ -19,14 +19,14 @@ interface AuthCredentialsFeature {
     sealed interface Message {
         data class AuthEditing(val email: String, val password: String) : Message
         object SubmitFormClicked : Message
-        object AuthSuccess : Message
+        data class AuthSuccess(val isNewUser: Boolean) : Message
         data class AuthFailure(val credentialsError: AuthCredentialsError) : Message
     }
 
     sealed interface Action {
         data class AuthWithEmail(val email: String, val password: String) : Action
         sealed interface ViewAction : Action {
-            object CompleteAuthFlow : ViewAction
+            data class CompleteAuthFlow(val isNewUser: Boolean) : ViewAction
         }
     }
 }

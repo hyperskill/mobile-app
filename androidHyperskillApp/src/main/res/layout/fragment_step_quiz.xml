@@ -4,6 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <org.hyperskill.app.android.ui.custom.LoadingView
+        android:id="@+id/stepQuizDescriptionSkeleton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginHorizontal="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="16dp" />
+
     <TextView
         android:id="@+id/stepQuizDescription"
         android:layout_width="match_parent"

@@ -13,14 +13,14 @@ interface AuthSocialFeature {
 
     sealed interface Message {
         data class AuthWithSocial(val authCode: String, val socialAuthProvider: SocialAuthProvider) : Message
-        object AuthSuccess : Message
+        data class AuthSuccess(val isNewUser: Boolean) : Message
         data class AuthFailure(val socialError: AuthSocialError) : Message
     }
 
     sealed interface Action {
         data class AuthWithSocial(val authCode: String, val socialAuthProvider: SocialAuthProvider) : Action
         sealed interface ViewAction : Action {
-            object CompleteAuthFlow : ViewAction
+            data class CompleteAuthFlow(val isNewUser: Boolean) : ViewAction
             data class ShowAuthError(val socialError: AuthSocialError) : ViewAction
         }
     }

@@ -1,6 +1,7 @@
 package org.hyperskill.app.track.injection
 
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.track.domain.interactor.TrackInteractor
 import org.hyperskill.app.track.presentation.TrackActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
@@ -12,9 +13,9 @@ import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 object TrackFeatureBuilder {
-    fun build(trackInteractor: TrackInteractor): Feature<State, Message, Action> {
+    fun build(trackInteractor: TrackInteractor, profileInteractor: ProfileInteractor): Feature<State, Message, Action> {
         val trackReducer = TrackReducer()
-        val trackActionDispatcher = TrackActionDispatcher(ActionDispatcherOptions(), trackInteractor)
+        val trackActionDispatcher = TrackActionDispatcher(ActionDispatcherOptions(), trackInteractor, profileInteractor)
 
         return ReduxFeature(State.Idle, trackReducer)
             .wrapWithActionDispatcher(trackActionDispatcher)

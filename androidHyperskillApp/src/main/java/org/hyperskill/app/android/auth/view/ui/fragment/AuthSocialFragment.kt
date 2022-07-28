@@ -123,7 +123,7 @@ class AuthSocialFragment :
     override fun onAction(action: AuthSocialFeature.Action.ViewAction) {
         when (action) {
             is AuthSocialFeature.Action.ViewAction.CompleteAuthFlow -> {
-                (parentFragment as? AuthFlow)?.onAuthSuccess()
+                (parentFragment as? AuthFlow)?.onAuthSuccess(action.isNewUser)
             }
             is AuthSocialFeature.Action.ViewAction.ShowAuthError -> {
                 view?.snackbar(message = authSocialErrorMapper.getAuthSocialErrorText(action.socialError), Snackbar.LENGTH_LONG)
