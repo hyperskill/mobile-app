@@ -36,6 +36,8 @@ data class Step(
     val contentUpdatedAt: Instant,
     @SerialName("solved_by")
     val solvedBy: Int,
+    @SerialName("is_completed")
+    val isCompleted: Boolean,
     @SerialName("seconds_to_complete")
     val secondsToComplete: Float?
 ) {
