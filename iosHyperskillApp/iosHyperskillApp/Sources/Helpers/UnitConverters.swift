@@ -3,7 +3,13 @@ import Foundation
 enum UnitConverters {
     enum Hour {
         static func from(seconds: TimeInterval, roundingRule: FloatingPointRoundingRule) -> Int {
-            Int((seconds / 3600).rounded(roundingRule))
+            Int((seconds / .oneHour).rounded(roundingRule))
+        }
+    }
+
+    enum Minute {
+        static func from(seconds: TimeInterval, roundingRule: FloatingPointRoundingRule) -> Int {
+            Int((seconds / .oneMinute).rounded(roundingRule))
         }
     }
 
