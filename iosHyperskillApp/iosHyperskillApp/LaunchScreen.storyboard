@@ -25,18 +25,26 @@
                                     <constraint firstAttribute="width" secondItem="pjy-zC-oKA" secondAttribute="height" multiplier="1:1" id="2qX-51-QJs"/>
                                 </constraints>
                             </imageView>
-                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="9" translatesAutoresizingMaskIntoConstraints="NO" id="GXf-eg-gfc" userLabel="launch-screen-footer">
-                                <rect key="frame" x="125.5" y="848" width="163" height="20"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="dcw-ZT-x6V" userLabel="FooterStackView">
+                                <rect key="frame" x="129" y="818" width="156" height="20"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch-screen-footer-logo" translatesAutoresizingMaskIntoConstraints="NO" id="gS2-mC-a8r">
-                                        <rect key="frame" x="0.0" y="0.0" width="104" height="20"/>
-                                    </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2022" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lle-0H-hbm">
-                                        <rect key="frame" x="113" y="1.5" width="50" height="17"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch-screen-logo" translatesAutoresizingMaskIntoConstraints="NO" id="9pd-iU-eg4">
+                                        <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="50" id="ZXi-Il-dc5"/>
+                                            <constraint firstAttribute="height" constant="20" id="NSq-jQ-RkV"/>
+                                            <constraint firstAttribute="width" secondItem="9pd-iU-eg4" secondAttribute="height" multiplier="1:1" id="OLj-DG-8hd"/>
+                                            <constraint firstAttribute="width" constant="20" id="j6Z-qG-0ph"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hyperskill" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fji-eh-IEC">
+                                        <rect key="frame" x="28" y="0.0" width="80" height="20"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2022" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wb6-xz-ZeN">
+                                        <rect key="frame" x="116" y="0.0" width="40" height="20"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -46,14 +54,14 @@
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="GXf-eg-gfc" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="5Yj-Eb-oiY"/>
                             <constraint firstItem="pjy-zC-oKA" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="5pH-Zm-e0a"/>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="bottom" secondItem="dcw-ZT-x6V" secondAttribute="bottom" constant="24" id="6Ab-ZN-nJy"/>
                             <constraint firstItem="pjy-zC-oKA" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="CNt-fb-ash"/>
-                            <constraint firstItem="LDT-cQ-eSK" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" id="Jv2-at-d4f"/>
+                            <constraint firstItem="dcw-ZT-x6V" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="KC4-k8-0vh"/>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="trailing" secondItem="LDT-cQ-eSK" secondAttribute="trailing" id="Qcv-0a-Sie"/>
                             <constraint firstAttribute="bottom" secondItem="LDT-cQ-eSK" secondAttribute="bottom" id="a93-cM-pC2"/>
-                            <constraint firstAttribute="trailing" secondItem="LDT-cQ-eSK" secondAttribute="trailing" id="bO2-Ee-e1c"/>
-                            <constraint firstItem="GXf-eg-gfc" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" constant="-38" id="rml-I9-cDx"/>
                             <constraint firstItem="pjy-zC-oKA" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="0.25" id="uQD-5e-FA9"/>
+                            <constraint firstItem="LDT-cQ-eSK" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" id="wVK-2K-C9X"/>
                             <constraint firstItem="LDT-cQ-eSK" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="xEi-Xp-3DO"/>
                         </constraints>
                     </view>
@@ -65,7 +73,6 @@
     </scenes>
     <resources>
         <image name="launch-screen-background" width="414" height="780"/>
-        <image name="launch-screen-footer-logo" width="104" height="20"/>
         <image name="launch-screen-logo" width="108" height="101"/>
     </resources>
 </document>
