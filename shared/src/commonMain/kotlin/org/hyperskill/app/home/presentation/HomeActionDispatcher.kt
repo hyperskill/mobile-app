@@ -28,6 +28,10 @@ class HomeActionDispatcher(
     private val stepInteractor: StepInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
+    companion object {
+        val DELAY_ONE_MINUTE = 1.toDuration(DurationUnit.MINUTES)
+    }
+
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchHomeScreenData -> {
@@ -52,18 +56,13 @@ class HomeActionDispatcher(
                 onNewMessage(message)
             }
             is Action.LaunchTimer -> {
-
                 flow {
                     var nextProblemIn = calculateNextProblemIn()
-                    val delay = 1.toDuration(DurationUnit.MINUTES)
 
-                    while (true) {
+                    while (nextProblemIn > 0) {
+                        delay(DELAY_ONE_MINUTE)
+                        nextProblemIn -= DELAY_ONE_MINUTE.inWholeSeconds
                         emit(nextProblemIn)
-                        if (nextProblemIn <= 0) {
-                            break
-                        }
-                        delay(delay)
-                        nextProblemIn -= delay.inWholeSeconds
                     }
                 }
                     .onEach { seconds -> onNewMessage(Message.HomeNextProblemInUpdate(seconds)) }
