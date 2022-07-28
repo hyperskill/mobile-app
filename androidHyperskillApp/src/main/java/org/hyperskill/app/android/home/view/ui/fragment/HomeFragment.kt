@@ -1,7 +1,6 @@
 package org.hyperskill.app.android.home.view.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -98,7 +97,6 @@ class HomeFragment :
     }
 
     override fun render(state: HomeFeature.State) {
-        Log.d("TEST_HOME", "Switched to $state")
         viewStateDelegate.switchState(state)
         when (state) {
             is HomeFeature.State.Content -> {
