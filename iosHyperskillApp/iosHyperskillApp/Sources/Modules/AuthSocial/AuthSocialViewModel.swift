@@ -6,6 +6,8 @@ final class AuthSocialViewModel: FeatureViewModel<
   AuthSocialFeatureMessage,
   AuthSocialFeatureActionViewAction
 > {
+    weak var moduleOutput: AuthOutputProtocol?
+
     private let socialAuthService: SocialAuthServiceProtocol
 
     private let authSocialErrorMapper: AuthSocialErrorMapper
@@ -55,5 +57,9 @@ final class AuthSocialViewModel: FeatureViewModel<
 
     func getAuthSocialErrorText(authSocialError: AuthSocialError) -> String {
         self.authSocialErrorMapper.getAuthSocialErrorText(authSocialError: authSocialError)
+    }
+
+    func doCompleteAuthFlow(isNewUser: Bool) {
+        moduleOutput?.handleUserAuthorized(isNewUser: isNewUser)
     }
 }

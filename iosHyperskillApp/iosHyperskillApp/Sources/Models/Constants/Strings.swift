@@ -8,7 +8,9 @@ enum Strings {
 
     enum General {
         static let connectionError = sharedStrings.connection_error.localized()
-        static let done = sharedStrings.done_text.localized()
+        static let done = sharedStrings.done.localized()
+        static let yes = sharedStrings.yes.localized()
+        static let cancel = sharedStrings.cancel.localized()
     }
 
     // MARK: - TabBar -
@@ -83,6 +85,27 @@ enum Strings {
         static let multipleChoiceTitle = sharedStrings.step_quiz_choice_multiple_choice_title.localized()
     }
 
+    // MARK: - StepQuizCode -
+
+    enum StepQuizCode {
+        static let title = sharedStrings.step_quiz_code_title.localized()
+
+        static let detailsTitle = sharedStrings.step_quiz_code_details.localized()
+        static let sampleInputTitleResource = sharedStrings.step_quiz_code_detail_sample_input_title
+        static let sampleOutputTitleResource = sharedStrings.step_quiz_code_detail_sample_output_title
+        static let timeLimitTitle = sharedStrings.step_quiz_code_detail_execution_time_limit_title.localized()
+        static let memoryLimitTitle = sharedStrings.step_quiz_code_detail_execution_memory_limit_title.localized()
+        static let memoryLimitValueResource = sharedStrings.step_quiz_code_detail_execution_memory_limit_value
+
+        static let runSolutionButton = sharedStrings.step_quiz_code_run_solution_button_text.localized()
+        static let resetCodeDialogTitle = sharedStrings.reset_code_dialog_title.localized()
+        static let resetCodeDialogExplanation = sharedStrings.reset_code_dialog_explanation.localized()
+        static let fullScreenDetailsTab = sharedStrings.step_quiz_code_full_screen_details_tab.localized()
+        static let fullScreenCodeTab = sharedStrings.step_quiz_code_full_screen_code_tab.localized()
+        static let emptyLang = sharedStrings.step_quiz_code_empty_lang.localized()
+        static let reset = sharedStrings.step_quiz_code_reset.localized()
+    }
+
     // MARK: - StepQuizTable -
 
     enum StepQuizTable {
@@ -114,6 +137,8 @@ enum Strings {
 
     enum Home {
         static let title = sharedStrings.home_title.localized()
+        static let helloLetsLearn = sharedStrings.home_hello_lets_learn_text.localized()
+        static let keepPracticing = sharedStrings.home_keep_practicing_text.localized()
     }
 
     // MARK: - Track -
@@ -141,6 +166,11 @@ enum Strings {
         static let viewFullVersionButton = sharedStrings.profile_view_full_version_button_text.localized()
         static let roleStaff = sharedStrings.profile_role_staff_text.localized()
         static let roleLearner = sharedStrings.profile_role_learner_text.localized()
+
+        enum DailyStudyReminders {
+            static let title = sharedStrings.profile_daily_study_reminders_text.localized()
+            static let schedule = sharedStrings.profile_daily_study_reminders_schedule_text.localized()
+        }
     }
 
     // MARK: - Settings -

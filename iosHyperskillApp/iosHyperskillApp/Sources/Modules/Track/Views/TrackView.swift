@@ -11,12 +11,7 @@ extension TrackView {
 struct TrackView: View {
     private(set) var appearance = Appearance()
 
-    @ObservedObject private var viewModel: TrackViewModel
-
-    init(viewModel: TrackViewModel) {
-        self.viewModel = viewModel
-        self.viewModel.onViewAction = self.handleViewAction(_:)
-    }
+    @StateObject var viewModel: TrackViewModel
 
     var body: some View {
         NavigationView {
@@ -27,7 +22,10 @@ struct TrackView: View {
             .navigationTitle(Strings.Track.title)
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        .onAppear(perform: viewModel.startListening)
+        .onAppear {
+            viewModel.startListening()
+            viewModel.onViewAction = handleViewAction(_:)
+        }
         .onDisappear(perform: viewModel.stopListening)
     }
 

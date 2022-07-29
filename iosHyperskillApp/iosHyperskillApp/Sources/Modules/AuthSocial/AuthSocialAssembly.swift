@@ -2,10 +2,10 @@ import shared
 import SwiftUI
 
 final class AuthSocialAssembly: Assembly {
-    private let navigationState: AppNavigationState
+    private weak var moduleOutput: AuthOutputProtocol?
 
-    init(navigationState: AppNavigationState = AppNavigationState()) {
-        self.navigationState = navigationState
+    init(output: AuthOutputProtocol? = nil) {
+        self.moduleOutput = output
     }
 
     func makeModule() -> AuthSocialView {
@@ -16,7 +16,8 @@ final class AuthSocialAssembly: Assembly {
             authSocialErrorMapper: authSocialComponent.authSocialErrorMapper,
             feature: authSocialComponent.authSocialFeature
         )
+        viewModel.moduleOutput = moduleOutput
 
-        return AuthSocialView(viewModel: viewModel, navigationState: self.navigationState)
+        return AuthSocialView(viewModel: viewModel)
     }
 }

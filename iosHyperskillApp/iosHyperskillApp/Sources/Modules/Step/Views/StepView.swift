@@ -2,16 +2,14 @@ import shared
 import SwiftUI
 
 struct StepView: View {
-    @ObservedObject private var viewModel: StepViewModel
-
-    init(viewModel: StepViewModel) {
-        self.viewModel = viewModel
-        self.viewModel.onViewAction = self.handleViewAction(_:)
-    }
+    @StateObject var viewModel: StepViewModel
 
     var body: some View {
         buildBody()
-            .onAppear(perform: viewModel.startListening)
+            .onAppear {
+                viewModel.startListening()
+                viewModel.onViewAction = handleViewAction(_:)
+            }
             .onDisappear(perform: viewModel.stopListening)
     }
 

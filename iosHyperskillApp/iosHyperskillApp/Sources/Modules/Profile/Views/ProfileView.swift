@@ -10,14 +10,9 @@ extension ProfileView {
 struct ProfileView: View {
     private(set) var appearance = Appearance()
 
+    @StateObject var viewModel: ProfileViewModel
+
     @State private var presentingSettings = false
-
-    @ObservedObject private var viewModel: ProfileViewModel
-
-    init(viewModel: ProfileViewModel) {
-        self.viewModel = viewModel
-        self.viewModel.onViewAction = self.handleViewAction(_:)
-    }
 
     var body: some View {
         NavigationView {
@@ -39,7 +34,10 @@ struct ProfileView: View {
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        .onAppear(perform: viewModel.startListening)
+        .onAppear {
+            viewModel.startListening()
+            viewModel.onViewAction = handleViewAction(_:)
+        }
         .onDisappear(perform: viewModel.stopListening)
     }
 
@@ -78,6 +76,8 @@ struct ProfileView: View {
                             .padding()
                             .background(Color(ColorPalette.surface))
                     }
+
+                    ProfileDailyStudyRemindersView()
 
                     ProfileAboutView(
                         livesInText: viewData.livesInText,

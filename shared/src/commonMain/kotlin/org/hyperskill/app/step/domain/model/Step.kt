@@ -21,9 +21,9 @@ data class Step(
     @SerialName("block")
     val block: Block,
     @SerialName("topic")
-    val topic: Long,
+    val topic: Long? = null,
     @SerialName("topic_theory")
-    val topicTheory: Long,
+    val topicTheory: Long? = null,
     @SerialName("can_abandon")
     val canAbandon: Boolean,
     @SerialName("can_skip")
@@ -36,6 +36,8 @@ data class Step(
     val contentUpdatedAt: Instant,
     @SerialName("solved_by")
     val solvedBy: Int,
+    @SerialName("is_completed")
+    val isCompleted: Boolean,
     @SerialName("seconds_to_complete")
     val secondsToComplete: Float?
 ) {
