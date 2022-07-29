@@ -10,6 +10,7 @@
         android:id="@+id/stepPracticeAppBar"
         layout="@layout/view_step_quiz_appbar" />
 
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/stepPracticeContainer"
         android:layout_width="match_parent"
@@ -21,7 +22,6 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?colorSurface"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -49,6 +49,7 @@
                 layout="@layout/view_divider_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="?dividerVerticalSize"
+                android:layout_marginBottom="20dp"
                 android:layout_marginHorizontal="20dp" />
 
             <FrameLayout

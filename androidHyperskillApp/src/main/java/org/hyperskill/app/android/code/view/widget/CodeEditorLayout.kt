@@ -15,7 +15,7 @@ import ru.nobird.android.view.base.ui.extension.inflate
 class CodeEditorLayout
 @JvmOverloads
 constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : NestedScrollView(context, attrs, defStyleAttr) {
-    val codeEditor: CodeEditor
+    private val codeEditor: CodeEditor
 
     var theme: CodeTheme
         get() = codeEditor.theme
