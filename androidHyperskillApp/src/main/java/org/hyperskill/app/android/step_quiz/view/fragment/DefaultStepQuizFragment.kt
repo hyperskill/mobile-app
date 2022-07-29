@@ -16,7 +16,9 @@ import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFeedbackBlocks
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizViewStateDelegateFactory
 import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
+import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
 import org.hyperskill.app.step_quiz.presentation.StepQuizViewModel
@@ -62,7 +64,7 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
         stepQuizFeedbackBlocksDelegate = StepQuizFeedbackBlocksDelegate(requireContext(), viewBinding.stepQuizFeedbackBlocks)
         stepQuizFormDelegate = createStepQuizFormDelegate(viewBinding)
 
-        viewBinding.stepQuizSubmitButton.setOnClickListener {
+        viewBinding.stepQuizButtons.stepQuizSubmitButton.setOnClickListener {
             onActionButtonClicked()
         }
         viewBinding.stepQuizNetworkError.tryAgain.setOnClickListener {
@@ -74,7 +76,7 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
 
     protected abstract fun createStepQuizFormDelegate(containerBinding: FragmentStepQuizBinding): StepQuizFormDelegate
 
-    private fun onActionButtonClicked() {
+    protected fun onActionButtonClicked() {
         val replyResult = stepQuizFormDelegate.createReply()
         when (replyResult.validation) {
             is ReplyResult.Validation.Success ->
@@ -106,7 +108,17 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
         if (state is StepQuizFeature.State.AttemptLoaded) {
             stepQuizFormDelegate.setState(state)
             stepQuizFeedbackBlocksDelegate.setState(stepQuizFeedbackMapper.mapToStepQuizFeedbackState(step.block.name, state))
-            viewBinding.stepQuizSubmitButton.isEnabled = StepQuizResolver.isQuizEnabled(state)
+            viewBinding.stepQuizButtons.stepQuizSubmitButton.isEnabled = StepQuizResolver.isQuizEnabled(state)
+
+            if (state.submissionState is StepQuizFeature.SubmissionState.Loaded) {
+                val castedState = state.submissionState as StepQuizFeature.SubmissionState.Loaded
+                if (
+                    step.block.name == BlockName.CODE &&
+                    (castedState.submission.status == SubmissionStatus.CORRECT || castedState.submission.status == SubmissionStatus.WRONG)
+                ) {
+                    viewBinding.stepQuizButtons.stepQuizRetryButton.visibility = View.VISIBLE
+                }
+            }
         }
     }
 

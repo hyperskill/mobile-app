@@ -44,7 +44,7 @@ class CodeToolbarAdapter(private val context: Context) :
             }
         }
 
-    private var onSymbolClickListener: OnSymbolClickListener? = null
+    var onSymbolClickListener: OnSymbolClickListener? = null
     private val onItemClickListener: (CharSequence) -> Unit = { symbol ->
         val word = symbol.toString()
         if (autocomplete.prefix.isNotEmpty() && word.startsWith(
