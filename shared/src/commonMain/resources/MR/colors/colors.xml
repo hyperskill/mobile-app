@@ -35,9 +35,9 @@
     <color name="color_orange_900">#F97A12</color>
     <color name="color_orange_900_alpha_12">#F97A121F</color>
     <color name="color_orange_900_alpha_7">#F97A1212</color>
-    <color name="color_orange_300">#FFEE70</color>
-    <color name="color_orange_300_alpha_12">#FFEE701F</color>
-    <color name="color_orange_300_alpha_7">#FFEE7012</color>
+    <color name="color_orange_300">#FFAA65</color>
+    <color name="color_orange_300_alpha_12">#FFAA651F</color>
+    <color name="color_orange_300_alpha_7">#FFAA6512</color>
 
     <color name="color_yellow_300">#FCBA43</color>
     <color name="color_yellow_300_alpha_12">#FCBA431F</color>

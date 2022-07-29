@@ -46,10 +46,10 @@ class HomeFragment :
         initViewStateDelegate()
 
         viewBinding.homeScreenError.tryAgain.setOnClickListener {
-            homeViewModel.onNewMessage(HomeFeature.Message.Init(forceUpdate = true))
+            homeViewModel.onNewMessage(HomeFeature.Message.Init(forceUpdate = false))
         }
 
-        homeViewModel.onNewMessage(HomeFeature.Message.Init(forceUpdate = true))
+        homeViewModel.onNewMessage(HomeFeature.Message.Init(forceUpdate = false))
     }
 
     private fun injectComponents() {
