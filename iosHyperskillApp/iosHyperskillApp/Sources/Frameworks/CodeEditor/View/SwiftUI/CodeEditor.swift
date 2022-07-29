@@ -3,31 +3,46 @@ import SwiftUI
 struct CodeEditor: UIViewRepresentable {
     typealias UIViewType = CodeEditorView
 
-    @Binding var code: String
+    @Binding var code: String?
 
     var codeTemplate: String?
 
-    let language: CodeLanguage
+    let language: CodeLanguage?
 
     var theme: CodeEditorTheme?
 
+    var isEditable = true
+
     var textInsets = UIEdgeInsets.zero
 
-    var appearance = CodeEditorView.Appearance()
+    var appearance: CodeEditorView.Appearance?
 
-    @Environment(\.isEnabled) private var isEnabled
+    var themeService: CodeEditorThemeServiceProtocol = CodeEditorThemeService()
+
+    var elementsSize: CodeQuizElementsSize = DeviceInfo.current.isPad ? .big : .small
+
+    var suggestionsPresentationContextProvider: CodeEditorSuggestionsPresentationContextProviding? =
+        ResponderChainCodeEditorSuggestionsPresentationContextProvider()
+
+    var onDidBeginEditing: (() -> Void)?
+
+    var onDidEndEditing: (() -> Void)?
 
     // MARK: UIViewRepresentable
 
     func makeCoordinator() -> Coordinator {
-        Coordinator()
+        Coordinator(suggestionsPresentationContextProvider: suggestionsPresentationContextProvider)
     }
 
     func makeUIView(context: Context) -> CodeEditorView {
-        let codeEditorView = CodeEditorView(appearance: appearance)
+        let codeEditorView = CodeEditorView(
+            appearance: appearance ?? .makeDefault(elementsSize: elementsSize),
+            codeEditorThemeService: themeService,
+            elementsSize: elementsSize
+        )
         codeEditorView.codeTemplate = codeTemplate
         codeEditorView.language = language
-        codeEditorView.theme = theme
+        codeEditorView.theme = theme ?? themeService.theme
         codeEditorView.shouldHighlightCurrentLine = false
         codeEditorView.textInsets = textInsets
 
@@ -40,8 +55,8 @@ struct CodeEditor: UIViewRepresentable {
         if codeEditorView.code != code {
             codeEditorView.code = code
         }
-        if codeEditorView.isEditable != isEnabled {
-            codeEditorView.isEditable = isEnabled
+        if codeEditorView.isEditable != isEditable {
+            codeEditorView.isEditable = isEditable
         }
 
         context.coordinator.onCodeDidChange = { newCode in
@@ -53,6 +68,8 @@ struct CodeEditor: UIViewRepresentable {
             }
 
             codeEditorView.shouldHighlightCurrentLine = true
+
+            onDidBeginEditing?()
         }
         context.coordinator.onDidEndEditing = { [weak codeEditorView] in
             guard let codeEditorView = codeEditorView else {
@@ -60,6 +77,8 @@ struct CodeEditor: UIViewRepresentable {
             }
 
             codeEditorView.shouldHighlightCurrentLine = false
+
+            onDidEndEditing?()
         }
     }
 }
@@ -68,11 +87,17 @@ struct CodeEditor: UIViewRepresentable {
 
 extension CodeEditor {
     class Coordinator: NSObject, CodeEditorViewDelegate {
+        private let suggestionsPresentationContextProvider: CodeEditorSuggestionsPresentationContextProviding?
+
         var onCodeDidChange: ((String) -> Void)?
 
         var onDidBeginEditing: (() -> Void)?
 
         var onDidEndEditing: (() -> Void)?
+
+        init(suggestionsPresentationContextProvider: CodeEditorSuggestionsPresentationContextProviding?) {
+            self.suggestionsPresentationContextProvider = suggestionsPresentationContextProvider
+        }
 
         func codeEditorViewDidChange(_ codeEditorView: CodeEditorView) {
             onCodeDidChange?(codeEditorView.code ?? "")
@@ -91,14 +116,36 @@ extension CodeEditor {
         func codeEditorViewDidRequestSuggestionPresentationController(
             _ codeEditorView: CodeEditorView
         ) -> UIViewController? {
-            // TODO: Walk up and find correct controller otherwise UIViewControllerHierarchyInconsistency will be thrown
-//            guard let rootViewController = SourcelessRouter().window?.rootViewController else {
-//                return nil
-//            }
-//
-//            return rootViewController.children.first?.children.first?.children.first?.children.first
-            nil
+            suggestionsPresentationContextProvider?.presentationController(for: codeEditorView)
         }
+    }
+}
+
+// MARK: - CodeEditorView.Appearance (Default) -
+
+private extension CodeEditorView.Appearance {
+    static func makeDefault(elementsSize: CodeQuizElementsSize) -> CodeEditorView.Appearance {
+        CodeEditorView.Appearance(
+            textViewAppearance: .init(
+                gutterWidth: elementsSize.elements.editor.realSizes.gutterWidth,
+                gutterBorderWidth: 0.5,
+                lineNumberFont: UIFont.monospacedDigitSystemFont(
+                    ofSize: elementsSize.elements.editor.realSizes.lineNumberFontSize,
+                    weight: .regular
+                ),
+                lineNumberInsets: LayoutInsets(trailing: 4),
+                lineSpacing: 1.2,
+                currentLineWidth: elementsSize.elements.editor.realSizes.gutterWidth,
+                colorsUpdateStrategy: .invertThemeBackgroundColor(
+                    alphaComponents: .init(
+                        gutterBorderColorAlpha: 0.09,
+                        lineNumberTextColorAlpha: 0.38,
+                        currentLineColorAlpha: 0.09,
+                        currentLineNumberTextColorAlpha: 0.6
+                    )
+                )
+            )
+        )
     }
 }
 

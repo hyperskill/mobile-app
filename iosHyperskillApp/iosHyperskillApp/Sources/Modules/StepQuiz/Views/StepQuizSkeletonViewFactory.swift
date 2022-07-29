@@ -6,6 +6,8 @@ enum StepQuizSkeletonViewFactory {
         switch quizType {
         case .choice:
             StepQuizChoiceSkeletonView()
+        case .code:
+            StepQuizCodeSkeletonView()
         case .matching:
             StepQuizMatchingSkeletonView()
         case .sorting:
@@ -14,9 +16,7 @@ enum StepQuizSkeletonViewFactory {
             StepQuizTableSkeletonView()
         case .string, .number, .math:
             StepQuizStringSkeletonView()
-        case .unsupported(let blockName):
-            // swiftlint:disable:next redundant_discardable_let https://github.com/realm/SwiftLint/issues/3855
-            let _ = print("StepQuizSkeletonViewFactory :: did receive unsupported quizType = \(blockName)")
+        case .unsupported:
             SkeletonRoundedView()
                 .frame(height: 100)
         }

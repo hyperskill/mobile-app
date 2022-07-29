@@ -16,7 +16,7 @@ extension UIView {
         if traitCollection.containsTraits(in: .current) {
             block()
         } else {
-            self.traitCollection.performAsCurrent {
+            traitCollection.performAsCurrent {
                 block()
             }
         }

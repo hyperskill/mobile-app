@@ -15,6 +15,7 @@ class StepQuizTitleMapper(
                 else
                     resourceProvider.getString(SharedResources.strings.step_quiz_choice_single_choice_title)
             }
+            BlockName.CODE -> resourceProvider.getString(SharedResources.strings.step_quiz_code_title)
             BlockName.MATCHING -> resourceProvider.getString(SharedResources.strings.step_quiz_matching_title)
             BlockName.MATH -> resourceProvider.getString(SharedResources.strings.step_quiz_math_title)
             BlockName.NUMBER -> resourceProvider.getString(SharedResources.strings.step_quiz_number_title)

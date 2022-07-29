@@ -3,7 +3,8 @@
     <!-- General -->
     <string name="connection_error">Connection was lost</string>
     <string name="external_link_error">Unable to open link: %s</string>
-    <string name="done_text">Done</string>
+    <string name="done">Done</string>
+    <string name="yes">Yes</string>
     <string name="cancel">Cancel</string>
 
     <!-- Users list -->
@@ -98,6 +99,22 @@
     <string name="step_quiz_text_field_hint">Type your answer here...</string>
     <string name="step_quiz_text_invalid_number_reply">The answer must be a number</string>
     <string name="step_quiz_text_empty_reply">The answer cannot be empty</string>
+
+    <!-- Step quiz code -->
+    <string name="step_quiz_code_title">Write a program</string>
+    <string name="step_quiz_code_detail_sample_input_title">Sample Input %d:</string>
+    <string name="step_quiz_code_detail_sample_output_title">Sample Output %d:</string>
+    <string name="step_quiz_code_detail_execution_time_limit_title">Time limit:</string>
+    <string name="step_quiz_code_detail_execution_memory_limit_title">Memory limit:</string>
+    <string name="step_quiz_code_detail_execution_memory_limit_value">%d MB</string>
+    <string name="step_quiz_code_details">Input / Output Info</string>
+    <string name="step_quiz_code_run_solution_button_text">Run solution</string>
+    <string name="reset_code_dialog_title">Are you sure?</string>
+    <string name="reset_code_dialog_explanation">Your code will be lost</string>
+    <string name="step_quiz_code_full_screen_details_tab">Details</string>
+    <string name="step_quiz_code_full_screen_code_tab">Code</string>
+    <string name="step_quiz_code_empty_lang">No lang</string>
+    <string name="step_quiz_code_reset">Reset</string>
 
     <!-- Tab bar -->
     <string name="tab_bar_home_title">Home</string>

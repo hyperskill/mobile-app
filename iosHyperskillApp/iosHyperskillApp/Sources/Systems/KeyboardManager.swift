@@ -18,4 +18,8 @@ enum KeyboardManager {
     static func setDefaultKeyboardDistanceFromTextField() {
         self.setKeyboardDistanceFromTextField(self.defaultKeyboardDistanceFromTextField)
     }
+
+    static func setEnabled(_ isEnabled: Bool) {
+        IQKeyboardManager.shared.enable = isEnabled
+    }
 }

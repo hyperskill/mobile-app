@@ -6,7 +6,7 @@ protocol CodeEditorThemeServiceProtocol: AnyObject {
 
 final class CodeEditorThemeService: CodeEditorThemeServiceProtocol {
     private static let defaultDarkModeThemeName = "vs2015"
-    private static let defaultLightModeThemeName = "xcode"
+    private static let defaultLightModeThemeName = "vs"
 
     private let deviceInfo: DeviceInfo
     private let applicationThemeService: ApplicationThemeServiceProtocol
