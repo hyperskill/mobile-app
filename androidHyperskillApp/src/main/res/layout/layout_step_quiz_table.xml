@@ -1,19 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
-    android:id="@+id/tableRecycler"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
     android:layout_marginVertical="20dp"
 
-    android:clipToPadding="false"
-    android:clipChildren="false"
-
-    app:layout_constraintVertical_bias="0"
-
     app:layout_constraintBottom_toTopOf="@id/stepQuizFeedbackBlocks"
+
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/stepQuizDescription" />
+    app:layout_constraintTop_toBottomOf="@+id/stepQuizDescription"
+    app:layout_constraintVertical_bias="0">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/tableRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+
+        android:clipToPadding="false"
+        android:gravity="center_vertical" />
+
+
+    <include
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tableSkeleton"
+        layout="@layout/layout_step_quiz_table_skeleton" />
+
+</FrameLayout>

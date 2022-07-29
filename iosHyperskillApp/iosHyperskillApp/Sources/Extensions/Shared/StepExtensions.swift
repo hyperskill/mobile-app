@@ -4,8 +4,8 @@ import shared
 extension Step {
     convenience init(
         id: Int = 0,
-        stepikId: Int = 0,
-        lessonStepikId: Int = 0,
+        stepikID: Int = 0,
+        lessonStepikID: Int = 0,
         position: Int = 0,
         title: String = "",
         type: Type_ = Type_.theory,
@@ -18,12 +18,13 @@ extension Step {
         contentCreatedAt: Kotlinx_datetimeInstant = .fromSwiftCurrentDate(),
         contentUpdatedAt: Kotlinx_datetimeInstant = .fromSwiftCurrentDate(),
         solvedBy: Int = 0,
+        isCompleted: Bool = false,
         secondsToComplete: Float? = nil
     ) {
         self.init(
             id: Int64(id),
-            stepikId: Int64(stepikId),
-            lessonStepikId: Int64(lessonStepikId),
+            stepikId: Int64(stepikID),
+            lessonStepikId: Int64(lessonStepikID),
             position: Int32(position),
             title: title,
             type: type,
@@ -36,6 +37,7 @@ extension Step {
             contentCreatedAt: contentCreatedAt,
             contentUpdatedAt: contentUpdatedAt,
             solvedBy: Int32(solvedBy),
+            isCompleted: isCompleted,
             secondsToComplete: secondsToComplete != nil ? KotlinFloat(value: secondsToComplete.require()) : nil
         )
     }

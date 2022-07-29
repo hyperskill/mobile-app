@@ -21,6 +21,10 @@ import org.hyperskill.app.auth.injection.PlatformAuthSocialWebViewComponentImpl
 import org.hyperskill.app.core.injection.CommonComponent
 import org.hyperskill.app.core.injection.CommonComponentImpl
 import org.hyperskill.app.core.remote.UserAgentInfo
+import org.hyperskill.app.home.injection.HomeComponent
+import org.hyperskill.app.home.injection.HomeComponentImpl
+import org.hyperskill.app.home.injection.PlatformHomeComponent
+import org.hyperskill.app.home.injection.PlatformHomeComponentImpl
 import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainComponentImpl
 import org.hyperskill.app.main.injection.PlatformMainComponent
@@ -139,4 +143,13 @@ class AndroidAppComponentImpl(
 
     override fun buildPlatformProfileComponent(profileComponent: ProfileComponent): PlatformProfileComponent =
         PlatformProfileComponentImpl(profileComponent)
+
+    /**
+     * Home component
+     */
+    override fun buildHomeComponent(): HomeComponent =
+        HomeComponentImpl(this)
+
+    override fun buildPlatformHomeComponent(homeComponent: HomeComponent): PlatformHomeComponent =
+        PlatformHomeComponentImpl(homeComponent)
 }

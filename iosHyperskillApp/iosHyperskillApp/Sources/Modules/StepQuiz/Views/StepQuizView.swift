@@ -13,14 +13,9 @@ extension StepQuizView {
 struct StepQuizView: View {
     private(set) var appearance = Appearance()
 
-    @ObservedObject private var viewModel: StepQuizViewModel
+    @StateObject var viewModel: StepQuizViewModel
 
     @Environment(\.presentationMode) private var presentationMode
-
-    init(viewModel: StepQuizViewModel) {
-        self.viewModel = viewModel
-        self.viewModel.onViewAction = self.handleViewAction(_:)
-    }
 
     var body: some View {
         buildBody()
@@ -28,6 +23,7 @@ struct StepQuizView: View {
             .navigationBarBackButtonTitleRemoved { presentationMode.wrappedValue.dismiss() }
             .onAppear {
                 viewModel.startListening()
+                viewModel.onViewAction = handleViewAction(_:)
 
                 if viewModel.state is StepQuizFeatureStateIdle {
                     viewModel.loadAttempt()

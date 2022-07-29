@@ -123,6 +123,8 @@
 
     <!-- Home -->
     <string name="home_title">Home</string>
+    <string name="home_hello_lets_learn_text">Hello!\nLet’s learn something</string>
+    <string name="home_keep_practicing_text">Keep practicing to achieve your learning goal</string>
 
     <!-- Track -->
     <string name="track_title">Track</string>
@@ -144,8 +146,8 @@
     <string name="profile_view_full_version_button_text">View the full version of profile in web</string>
     <string name="profile_role_staff_text">JetBrains Academy Team</string>
     <string name="profile_role_learner_text">Learner</string>
-    <string name="profile_schedule_text">Schedule:</string>
-    <string name="profile_switch_compat_text">Daily study reminders</string>
+    <string name="profile_daily_study_reminders_text">Daily study reminders</string>
+    <string name="profile_daily_study_reminders_schedule_text">Schedule:</string>
 
     <!-- Settings -->
     <string name="settings_title">Settings</string>
@@ -162,6 +164,9 @@
     <string name="settings_rate_application">Rate this application</string>
     <string name="settings_logout">Logout</string>
     <string name="settings_delete_account">Delete account</string>
+    <string name="settings_terms_of_service_url">https://www.jetbrains.com/legal/terms/jetbrains-academy.html</string>
+    <string name="settings_privacy_policy_url">https://hi.hyperskill.org/terms</string>
+    <string name="settings_help_center_url">https://support.hyperskill.org/hc/en-us</string>
 
     <!-- Placeholder -->
     <string name="placeholder_network_error_title">Oops! It seems like the network error.</string>
@@ -188,5 +193,4 @@
     <string name="placeholder_continue_button_text">Continue to hyperskill.org \u2197</string>
     <string name="placeholder_first_description_text">Right now you can solve one random problem every day.</string>
     <string name="placeholder_second_description_text">We add new features every week. Stay tuned :)</string>
-
 </resources>
