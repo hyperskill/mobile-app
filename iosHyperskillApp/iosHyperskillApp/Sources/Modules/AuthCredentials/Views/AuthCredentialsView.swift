@@ -12,27 +12,14 @@ extension AuthCredentialsView {
 }
 
 struct AuthCredentialsView: View {
-    let appearance: Appearance
+    private(set) var appearance = Appearance()
 
-    @ObservedObject private var viewModel: AuthCredentialsViewModel
-
-    @ObservedObject private var navigationState: AppNavigationState
+    @StateObject var viewModel: AuthCredentialsViewModel
 
     @Environment(\.presentationMode) private var presentationMode
 
     @State private var emailText = ""
     @State private var passwordText = ""
-
-    init(
-        viewModel: AuthCredentialsViewModel,
-        navigationState: AppNavigationState,
-        appearance: Appearance = Appearance()
-    ) {
-        self.viewModel = viewModel
-        self.navigationState = navigationState
-        self.appearance = appearance
-        self.viewModel.onViewAction = self.handleViewAction(_:)
-    }
 
     var body: some View {
         let formState = viewModel.state.formState
@@ -66,6 +53,8 @@ struct AuthCredentialsView: View {
         }
         .onAppear {
             viewModel.startListening()
+            viewModel.onViewAction = handleViewAction(_:)
+
             KeyboardManager.setKeyboardDistanceFromTextField(appearance.keyboardDistanceFromTextField)
         }
         .onDisappear {
@@ -79,11 +68,9 @@ struct AuthCredentialsView: View {
 
     private func handleViewAction(_ viewAction: AuthCredentialsFeatureActionViewAction) {
         switch viewAction {
-        case is AuthCredentialsFeatureActionViewActionCompleteAuthFlow:
+        case let completeAuthFlowViewAction as AuthCredentialsFeatureActionViewActionCompleteAuthFlow:
             ProgressHUD.showSuccess()
-            withAnimation {
-                navigationState.presentingAuthScreen = false
-            }
+            viewModel.doCompleteAuthFlow(isNewUser: completeAuthFlowViewAction.isNewUser)
         default:
             print("AuthEmailView :: unhandled viewAction = \(viewAction)")
         }
