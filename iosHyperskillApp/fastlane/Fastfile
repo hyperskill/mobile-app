@@ -12,6 +12,8 @@ platform :ios do
   itc_team_name = CredentialsManager::AppfileConfig.try_fetch_value(:itc_team_name)
   itc_team_id = CredentialsManager::AppfileConfig.try_fetch_value(:itc_team_id)
 
+  # App Store Connect
+
   desc "Creates new iOS app on both the Apple Developer Portal and App Store Connect"
   lane :register_app do |options|
     app_name = options[:app_name]
@@ -36,6 +38,8 @@ platform :ios do
     )
   end
 
+  # Code Signing
+
   desc "Registers new devices to the Apple Dev Portal"
   lane :sync_device_info do
     register_devices(
@@ -44,8 +48,6 @@ platform :ios do
       team_name: team_name,
     )
   end
-
-  # Code Signing
 
   desc "Match all certificates for scheme"
   desc "Options: scheme, read_only"
@@ -98,5 +100,27 @@ platform :ios do
       team_name: team_name,
       force_for_new_devices: true,
     )
+  end
+
+  # Project
+
+  desc "Increment the build number of project"
+  lane :increment_build do
+    increment_build_number
+  end
+
+  desc "Set the version of project"
+  desc "Options: version"
+  lane :set_version do |options|
+    version = options[:version]
+
+    UI.user_error!("Wrong version parameter") if version.nil?
+
+    increment_version_number(version_number: version)
+  end
+
+  desc "Increment the minor version of project"
+  lane :increment_minor_version do
+    increment_version_number(bump_type: "minor")
   end
 end

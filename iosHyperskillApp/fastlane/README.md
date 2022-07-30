@@ -71,6 +71,32 @@ Match appstore certificates for scheme.
 
 Options: scheme, read_only
 
+### ios increment_build
+
+```sh
+[bundle exec] fastlane ios increment_build
+```
+
+Increment the build number of project
+
+### ios set_version
+
+```sh
+[bundle exec] fastlane ios set_version
+```
+
+Set the version of project
+
+Options: version
+
+### ios increment_minor_version
+
+```sh
+[bundle exec] fastlane ios increment_minor_version
+```
+
+Increment the minor version of project
+
 ----
 
 This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.
