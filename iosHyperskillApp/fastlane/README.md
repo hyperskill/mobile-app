@@ -15,6 +15,16 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## iOS
 
+### ios release
+
+```sh
+[bundle exec] fastlane ios release
+```
+
+Deploy a new version to the App Store
+
+Options: scheme, target
+
 ### ios run_unit_tests
 
 ```sh
@@ -22,14 +32,6 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 ```
 
 Run all unit tests for scheme
-
-### ios register_app
-
-```sh
-[bundle exec] fastlane ios register_app
-```
-
-Creates new iOS app on both the Apple Developer Portal and App Store Connect
 
 ### ios sync_device_info
 
@@ -104,6 +106,14 @@ Options: version
 ```
 
 Increment the minor version of project
+
+### ios register_app
+
+```sh
+[bundle exec] fastlane ios register_app
+```
+
+Creates new iOS app on both the Apple Developer Portal and App Store Connect
 
 ----
 

@@ -53,6 +53,7 @@ struct StepQuizCodeView: View {
     }
 }
 
+#if DEBUG
 struct StepQuizCodeView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
@@ -69,3 +70,4 @@ struct StepQuizCodeView_Previews: PreviewProvider {
         .padding()
     }
 }
+#endif
