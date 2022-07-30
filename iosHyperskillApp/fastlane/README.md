@@ -15,6 +15,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## iOS
 
+### ios register_app
+
+```sh
+[bundle exec] fastlane ios register_app
+```
+
+Creates new iOS app on both the Apple Developer Portal and App Store Connect
+
 ### ios sync_device_info
 
 ```sh
@@ -23,13 +31,45 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 Registers new devices to the Apple Dev Portal
 
-### ios register_app
+### ios match_all
 
 ```sh
-[bundle exec] fastlane ios register_app
+[bundle exec] fastlane ios match_all
 ```
 
-Creates new iOS app on both the Apple Developer Portal and App Store Connect
+Match all certificates for scheme
+
+Options: scheme, read_only
+
+### ios match_dev
+
+```sh
+[bundle exec] fastlane ios match_dev
+```
+
+Match development certificates for scheme
+
+Options: scheme, read_only
+
+### ios match_adhoc
+
+```sh
+[bundle exec] fastlane ios match_adhoc
+```
+
+Match adhoc certificates for scheme
+
+Options: scheme, read_only
+
+### ios match_release
+
+```sh
+[bundle exec] fastlane ios match_release
+```
+
+Match appstore certificates for scheme.
+
+Options: scheme, read_only
 
 ----
 

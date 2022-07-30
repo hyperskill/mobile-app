@@ -12,15 +12,6 @@ platform :ios do
   itc_team_name = CredentialsManager::AppfileConfig.try_fetch_value(:itc_team_name)
   itc_team_id = CredentialsManager::AppfileConfig.try_fetch_value(:itc_team_id)
 
-  desc "Registers new devices to the Apple Dev Portal"
-  lane :sync_device_info do
-    register_devices(
-      devices_file: "fastlane/Devicefile",
-      team_id: team_id,
-      team_name: team_name,
-    )
-  end
-
   desc "Creates new iOS app on both the Apple Developer Portal and App Store Connect"
   lane :register_app do |options|
     app_name = options[:app_name]
@@ -42,6 +33,70 @@ platform :ios do
       team_name: team_name,
       itc_team_id: itc_team_id,
       itc_team_name: itc_team_name,
+    )
+  end
+
+  desc "Registers new devices to the Apple Dev Portal"
+  lane :sync_device_info do
+    register_devices(
+      devices_file: "fastlane/Devicefile",
+      team_id: team_id,
+      team_name: team_name,
+    )
+  end
+
+  # Code Signing
+
+  desc "Match all certificates for scheme"
+  desc "Options: scheme, read_only"
+  lane :match_all do |options|
+    params = {
+      :read_only => options.key?(:read_only) ? options[:read_only] : true,
+    }
+
+    match_dev(params)
+    match_adhoc(params)
+    match_release(params)
+  end
+
+  desc "Match development certificates for scheme"
+  desc "Options: scheme, read_only"
+  lane :match_dev do |options|
+    match_scheme(
+      type: "development",
+      read_only: options.key?(:read_only) ? options[:read_only] : true,
+    )
+  end
+
+  desc "Match adhoc certificates for scheme"
+  desc "Options: scheme, read_only"
+  lane :match_adhoc do |options|
+    match_scheme(
+      type: "adhoc",
+      read_only: options.key?(:read_only) ? options[:read_only] : true,
+    )
+  end
+
+  desc "Match appstore certificates for scheme."
+  desc "Options: scheme, read_only"
+  lane :match_release do |options|
+    match_scheme(
+      type: "appstore",
+      read_only: options.key?(:read_only) ? options[:read_only] : true,
+    )
+  end
+
+  private_lane :match_scheme do |options|
+    type = options[:type]
+    read_only = options.key?(:read_only) ? options[:read_only] : true
+
+    match(
+      type: type,
+      readonly: read_only,
+      app_identifier: app_identifier,
+      team_id: team_id,
+      team_name: team_name,
+      force_for_new_devices: true,
     )
   end
 end
