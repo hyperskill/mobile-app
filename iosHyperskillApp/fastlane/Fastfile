@@ -12,13 +12,22 @@ platform :ios do
   itc_team_name = CredentialsManager::AppfileConfig.try_fetch_value(:itc_team_name)
   itc_team_id = CredentialsManager::AppfileConfig.try_fetch_value(:itc_team_id)
 
-  desc "Creates new iOS apps on both the Apple Developer Portal and App Store Connect"
+  desc "Registers new devices to the Apple Dev Portal"
+  lane :sync_device_info do
+    register_devices(
+      devices_file: "fastlane/Devicefile",
+      team_id: team_id,
+      team_name: team_name,
+    )
+  end
+
+  desc "Creates new iOS app on both the Apple Developer Portal and App Store Connect"
   lane :register_app do |options|
     app_name = options[:app_name]
     UI.user_error!("App name required") if app_name.nil?
 
     company_name = options[:company_name]
-    UI.user_error!("The name of company required") if company_name.nil?
+    UI.user_error!("Name of the company required") if company_name.nil?
 
     language = options.key?(:language) ? options[:language] : "en-US"
     app_version = options.key?(:app_version) ? options[:app_version] : "0.0.1"

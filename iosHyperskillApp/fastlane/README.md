@@ -15,13 +15,21 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## iOS
 
+### ios sync_device_info
+
+```sh
+[bundle exec] fastlane ios sync_device_info
+```
+
+Registers new devices to the Apple Dev Portal
+
 ### ios register_app
 
 ```sh
 [bundle exec] fastlane ios register_app
 ```
 
-Creates new iOS apps on both the Apple Developer Portal and App Store Connect
+Creates new iOS app on both the Apple Developer Portal and App Store Connect
 
 ----
 
