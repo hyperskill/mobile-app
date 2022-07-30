@@ -12,6 +12,27 @@ platform :ios do
   itc_team_name = CredentialsManager::AppfileConfig.try_fetch_value(:itc_team_name)
   itc_team_id = CredentialsManager::AppfileConfig.try_fetch_value(:itc_team_id)
 
+  after_all do |lane, options|
+    clean_build_artifacts
+  end
+
+  error do |lane, exception|
+    clean_build_artifacts
+  end
+
+  # Testing
+
+  desc "Run all unit tests for scheme"
+  lane :run_unit_tests do |options|
+    clear_derived_data
+
+    ENV["FASTLANE_EXPLICIT_OPEN_SIMULATOR"] = "0"
+
+    cocoapods(try_repo_update_on_error: true)
+
+    scan()
+  end
+
   # App Store Connect
 
   desc "Creates new iOS app on both the Apple Developer Portal and App Store Connect"

@@ -36,6 +36,7 @@ iosHyperskillApp/.idea/
 iosHyperskillApp/Pods/
 
 ## fastlane
+iosHyperskillApp/fastlane/test_output/
 iosHyperskillApp/fastlane/report.xml
 ## Google Cloud Storage code signing certificates
 iosHyperskillApp/gc_keys.json
