@@ -32,6 +32,8 @@ iosHyperskillApp/.build/
 
 iosHyperskillApp/.idea/
 
-# CocoaPods
-#
+## CocoaPods
 iosHyperskillApp/Pods/
+
+## fastlane
+iosHyperskillApp/fastlane/report.xml

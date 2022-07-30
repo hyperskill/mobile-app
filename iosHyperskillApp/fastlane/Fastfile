@@ -1,0 +1,38 @@
+fastlane_version "2.208.0"
+
+default_platform(:ios)
+
+platform :ios do
+  # Config variables
+  app_identifier = CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier)
+
+  team_name = CredentialsManager::AppfileConfig.try_fetch_value(:team_name)
+  team_id = CredentialsManager::AppfileConfig.try_fetch_value(:team_id)
+
+  itc_team_name = CredentialsManager::AppfileConfig.try_fetch_value(:itc_team_name)
+  itc_team_id = CredentialsManager::AppfileConfig.try_fetch_value(:itc_team_id)
+
+  desc "Creates new iOS apps on both the Apple Developer Portal and App Store Connect"
+  lane :register_app do |options|
+    app_name = options[:app_name]
+    UI.user_error!("App name required") if app_name.nil?
+
+    company_name = options[:company_name]
+    UI.user_error!("The name of company required") if company_name.nil?
+
+    language = options.key?(:language) ? options[:language] : "en-US"
+    app_version = options.key?(:app_version) ? options[:app_version] : "0.0.1"
+
+    produce(
+      app_identifier: app_identifier,
+      app_name: app_name,
+      language: language,
+      company_name: company_name,
+      app_version: app_version,
+      team_id: team_id,
+      team_name: team_name,
+      itc_team_id: itc_team_id,
+      itc_team_name: itc_team_name,
+    )
+  end
+end
