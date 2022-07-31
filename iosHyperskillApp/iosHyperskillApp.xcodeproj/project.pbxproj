@@ -418,6 +418,7 @@
 		2C43B59828731B1E002A66F8 /* HyperskillURLFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyperskillURLFactory.swift; sourceTree = "<group>"; };
 		2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWrapper.swift; sourceTree = "<group>"; };
 		2C49CC912851D4AC0040BA7F /* altcontent.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = altcontent.css; sourceTree = "<group>"; };
+		2C4D3CB2289689F40079B461 /* iosHyperskillApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iosHyperskillApp.entitlements; sourceTree = "<group>"; };
 		2C4FBD8B2876C39C00ACA5C8 /* ProfileAboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAboutView.swift; sourceTree = "<group>"; };
 		2C4FBD8D2876C94800ACA5C8 /* ProfileAboutSocialAccountsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAboutSocialAccountsView.swift; sourceTree = "<group>"; };
 		2C58DE222803BF97002A2774 /* AuthLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthLogoView.swift; sourceTree = "<group>"; };
@@ -1608,6 +1609,7 @@
 				2C98C7A22850B93100857783 /* step.css */,
 				2C98C7A32850B93100857783 /* variables.css */,
 				2C20FBBA284F647C006D879E /* wysiwyg.css */,
+				2C4D3CB2289689F40079B461 /* iosHyperskillApp.entitlements */,
 				2C1F5872280D0E0000372A37 /* iosHyperskillApp-Bridging-Header.h */,
 				2C20FBB1284F4FEA006D879E /* highlight.js */,
 				2C20FBB5284F54DF006D879E /* jquery-3.4.1.min.js */,
@@ -2565,6 +2567,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = iosHyperskillApp/iosHyperskillApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"iosHyperskillApp/Preview Content\"";
@@ -2597,6 +2600,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = iosHyperskillApp/iosHyperskillApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"iosHyperskillApp/Preview Content\"";
