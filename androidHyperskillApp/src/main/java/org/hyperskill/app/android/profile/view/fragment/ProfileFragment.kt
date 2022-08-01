@@ -75,6 +75,11 @@ class ProfileFragment :
                 .showIfNotExists(childFragmentManager, ProfileSettingsDialogFragment.TAG)
         }
 
+        // TODO remove before merging to develop
+        viewBinding.profileDailyRemindersSwitchCompat.setOnClickListener {
+            HyperskillApp.graph().platformNotificationComponent.mockNotificationDelegate.scheduleNotification()
+        }
+
         profileViewModel.onNewMessage(ProfileFeature.Message.Init(profileId = profileId, isInitCurrent = isInitCurrent))
     }
 

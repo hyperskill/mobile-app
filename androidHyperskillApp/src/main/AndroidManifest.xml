@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.hyperskill.app.android">
 
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+
     <application
         android:name=".HyperskillApp"
         android:allowBackup="false"
@@ -19,5 +21,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver android:name="org.hyperskill.app.android.notification.receiver.AlarmReceiver" />
+
+        <service
+            android:name="org.hyperskill.app.android.notification.service.NotificationAlarmService"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <service
+            android:name="org.hyperskill.app.android.notification.service.BootCompleteService"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <receiver
+            android:name="org.hyperskill.app.android.notification.receiver.BootCompleteReceiver"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
     </application>
 </manifest> 
