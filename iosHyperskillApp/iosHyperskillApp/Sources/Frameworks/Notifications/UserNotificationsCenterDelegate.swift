@@ -16,4 +16,3 @@ extension UserNotificationsCenterDelegate: UNUserNotificationCenterDelegate {
         completionHandler([.alert, .sound])
     }
 }
-Footer

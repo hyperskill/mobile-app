@@ -1,5 +1,4 @@
 import Foundation
-import PromiseKit
 import UserNotifications
 
 /// Defines whether the app is allowed to schedule notifications.
@@ -20,11 +19,11 @@ enum NotificationPermissionStatus: String {
         }
     }
 
-    static var current: Guarantee<NotificationPermissionStatus> {
-        Guarantee { seal in
-            UNUserNotificationCenter.current().getNotificationSettings {
-                seal(NotificationPermissionStatus(authorizationStatus: $0.authorizationStatus))
-            }
+    static var current: NotificationPermissionStatus {
+        get async {
+            NotificationPermissionStatus(
+                authorizationStatus: await UNUserNotificationCenter.current().notificationSettings().authorizationStatus
+            )
         }
     }
 

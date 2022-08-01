@@ -269,13 +269,13 @@
 		E9D2D673284E0A97000757AC /* StepQuizMatchingItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2D672284E0A97000757AC /* StepQuizMatchingItemView.swift */; };
 		E9D2D675284E0B30000757AC /* StepQuizMatchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2D674284E0B30000757AC /* StepQuizMatchingView.swift */; };
 		E9D69A4028084FF7000E114E /* AuthCredentialsErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D69A3F28084FF7000E114E /* AuthCredentialsErrorView.swift */; };
+		E9D9090228980F0100D0EE91 /* UNNotificationTrigger+nextTriggerDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D9090128980F0100D0EE91 /* UNNotificationTrigger+nextTriggerDate.swift */; };
+		E9D90905289814AA00D0EE91 /* NotificationsRegistrationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D90904289814AA00D0EE91 /* NotificationsRegistrationService.swift */; };
 		E9F655CA2875914200291143 /* StreakCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F655C92875914200291143 /* StreakCardView.swift */; };
 		E9F655D12875B32700291143 /* ProblemOfDayCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F655D02875B32700291143 /* ProblemOfDayCardView.swift */; };
 		E9FB89A32893CCAF0011EFFB /* LocalNotificationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FB89A22893CCAF0011EFFB /* LocalNotificationProtocol.swift */; };
-		E9FB89A52893CCEB0011EFFB /* LocalNotificationsMigrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FB89A42893CCEB0011EFFB /* LocalNotificationsMigrator.swift */; };
 		E9FB89A72893CD2C0011EFFB /* LocalNotificationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FB89A62893CD2C0011EFFB /* LocalNotificationsService.swift */; };
 		E9FB89AC2893EA580011EFFB /* NotificationPermissionStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FB89AB2893EA580011EFFB /* NotificationPermissionStatus.swift */; };
-		E9FB89AE2893EA6F0011EFFB /* NotificationPermissionStatusSettingsObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FB89AD2893EA6F0011EFFB /* NotificationPermissionStatusSettingsObserver.swift */; };
 		E9FB89B02893EA900011EFFB /* UserNotificationsCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FB89AF2893EA900011EFFB /* UserNotificationsCenterDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -559,13 +559,13 @@
 		E9D2D672284E0A97000757AC /* StepQuizMatchingItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingItemView.swift; sourceTree = "<group>"; };
 		E9D2D674284E0B30000757AC /* StepQuizMatchingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingView.swift; sourceTree = "<group>"; };
 		E9D69A3F28084FF7000E114E /* AuthCredentialsErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsErrorView.swift; sourceTree = "<group>"; };
+		E9D9090128980F0100D0EE91 /* UNNotificationTrigger+nextTriggerDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UNNotificationTrigger+nextTriggerDate.swift"; sourceTree = "<group>"; };
+		E9D90904289814AA00D0EE91 /* NotificationsRegistrationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsRegistrationService.swift; sourceTree = "<group>"; };
 		E9F655C92875914200291143 /* StreakCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCardView.swift; sourceTree = "<group>"; };
 		E9F655D02875B32700291143 /* ProblemOfDayCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDayCardView.swift; sourceTree = "<group>"; };
 		E9FB89A22893CCAF0011EFFB /* LocalNotificationProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationProtocol.swift; sourceTree = "<group>"; };
-		E9FB89A42893CCEB0011EFFB /* LocalNotificationsMigrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationsMigrator.swift; sourceTree = "<group>"; };
 		E9FB89A62893CD2C0011EFFB /* LocalNotificationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationsService.swift; sourceTree = "<group>"; };
 		E9FB89AB2893EA580011EFFB /* NotificationPermissionStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPermissionStatus.swift; sourceTree = "<group>"; };
-		E9FB89AD2893EA6F0011EFFB /* NotificationPermissionStatusSettingsObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPermissionStatusSettingsObserver.swift; sourceTree = "<group>"; };
 		E9FB89AF2893EA900011EFFB /* UserNotificationsCenterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotificationsCenterDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1269,6 +1269,7 @@
 		2C9B66E827ECAF0200569645 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				E9D908FE28980EB300D0EE91 /* UserNotifications */,
 				2C1F586C280D09A100372A37 /* Foundation */,
 				2C023C89285DC9F800D2D5A9 /* Shared */,
 				2CF4340E28126886002893CD /* SwiftStdlib */,
@@ -1748,6 +1749,22 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		E9D908FE28980EB300D0EE91 /* UserNotifications */ = {
+			isa = PBXGroup;
+			children = (
+				E9D9090128980F0100D0EE91 /* UNNotificationTrigger+nextTriggerDate.swift */,
+			);
+			path = UserNotifications;
+			sourceTree = "<group>";
+		};
+		E9D909032898149400D0EE91 /* Registration */ = {
+			isa = PBXGroup;
+			children = (
+				E9D90904289814AA00D0EE91 /* NotificationsRegistrationService.swift */,
+			);
+			path = Registration;
+			sourceTree = "<group>";
+		};
 		E9F655CE2875B30B00291143 /* Streak */ = {
 			isa = PBXGroup;
 			children = (
@@ -1773,6 +1790,7 @@
 		E9FB89A12893CC790011EFFB /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
+				E9D909032898149400D0EE91 /* Registration */,
 				E9FB89A92893E9CE0011EFFB /* Local */,
 				E9FB89AA2893EA490011EFFB /* PermissionStatus */,
 				E9FB89AF2893EA900011EFFB /* UserNotificationsCenterDelegate.swift */,
@@ -1791,7 +1809,6 @@
 			isa = PBXGroup;
 			children = (
 				E9FB89A22893CCAF0011EFFB /* LocalNotificationProtocol.swift */,
-				E9FB89A42893CCEB0011EFFB /* LocalNotificationsMigrator.swift */,
 				E9FB89A62893CD2C0011EFFB /* LocalNotificationsService.swift */,
 				E9FB89A82893CD4D0011EFFB /* ConcreteNotifications */,
 			);
@@ -1802,7 +1819,6 @@
 			isa = PBXGroup;
 			children = (
 				E9FB89AB2893EA580011EFFB /* NotificationPermissionStatus.swift */,
-				E9FB89AD2893EA6F0011EFFB /* NotificationPermissionStatusSettingsObserver.swift */,
 			);
 			path = PermissionStatus;
 			sourceTree = "<group>";
@@ -2058,7 +2074,6 @@
 				2CCCA3A12862E62F00D98089 /* StepQuizStringViewData.swift in Sources */,
 				2C1061A2285C349400EBD614 /* StepQuizChildQuizAssembly.swift in Sources */,
 				2C023C86285D927A00D2D5A9 /* StepQuizTableAssembly.swift in Sources */,
-				E9FB89AE2893EA6F0011EFFB /* NotificationPermissionStatusSettingsObserver.swift in Sources */,
 				2C20FBC4284F67F3006D879E /* ProcessedContentWebView.swift in Sources */,
 				2C005DCC27EF5B0300DC6503 /* GoogleServiceInfo.swift in Sources */,
 				2C65637628743F5B006AAD77 /* TrackAboutStatsView.swift in Sources */,
@@ -2091,6 +2106,7 @@
 				2CCF3B5828004FC40075D12C /* UserAgentBuilder.swift in Sources */,
 				2C963BC52812D1A70036DD53 /* HomeView.swift in Sources */,
 				E9101713283296F3002E70F5 /* RadioButton.swift in Sources */,
+				E9D9090228980F0100D0EE91 /* UNNotificationTrigger+nextTriggerDate.swift in Sources */,
 				2C20FBC2284F66FC006D879E /* NSAttributedString+TrimmingCharacters.swift in Sources */,
 				2C20B28A286C350C000F458A /* CodeEditor.swift in Sources */,
 				2C919DE827EEEDD60022A2F2 /* LinkedList.swift in Sources */,
@@ -2120,6 +2136,7 @@
 				2C1061A8285C3A2D00EBD614 /* StepQuizChildQuizType.swift in Sources */,
 				2CE31F4D27F1E0C8008EEE66 /* AppAssembly.swift in Sources */,
 				2CCF3B5A280050890075D12C /* DeviceInfo.swift in Sources */,
+				E9D90905289814AA00D0EE91 /* NotificationsRegistrationService.swift in Sources */,
 				2C963BCA2812D3550036DD53 /* SettingsView.swift in Sources */,
 				2C963BCC2812D9330036DD53 /* SettingsAssembly.swift in Sources */,
 				2C079687285CFFF500EE0487 /* StepQuizSortingAssembly.swift in Sources */,
@@ -2192,7 +2209,6 @@
 				2C20FBA4284F165A006D879E /* ProcessedContent.swift in Sources */,
 				E99CCB0B287E945300898BBF /* HomeViewModel.swift in Sources */,
 				E9B2CF6D2822AE5F00B2DC6F /* StepQuizFeedbackView.swift in Sources */,
-				E9FB89A52893CCEB0011EFFB /* LocalNotificationsMigrator.swift in Sources */,
 				2C1061AA285C3C3300EBD614 /* StepQuizChoiceAssembly.swift in Sources */,
 				2CF72AA828477E0600E1C192 /* StepQuizTableRowView.swift in Sources */,
 				2C32374D2837F7190062CAF6 /* Images.swift in Sources */,

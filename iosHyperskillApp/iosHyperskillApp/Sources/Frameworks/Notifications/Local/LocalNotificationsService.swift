@@ -4,28 +4,11 @@ final class LocalNotificationsService {
     // MARK: - Getting Notifications -
     /// Returns a list of all notification requests that are scheduled and waiting to be delivered and
     /// a list of the app’s notifications that are still displayed in Notification Center.
-    func getAllNotifications() -> Guarantee<(pending: [UNNotificationRequest], delivered: [UNNotification])> {
-        Guarantee { seal in
-            when(
-                fulfilled:
-                    self.getPendingNotificationRequests(),
-                self.getDeliveredNotifications()
-            ).done { result in
-                seal((pending: result.0, delivered: result.1))
-            }.cauterize()
-        }
-    }
-
-    private func getPendingNotificationRequests() async -> Guarantee<[UNNotificationRequest]> {
-        Guarantee { seal in
-            UNUserNotificationCenter.current().getPendingNotificationRequests { seal($0) }
-        }
-    }
-
-    private func getDeliveredNotifications() -> Guarantee<[UNNotification]> {
-        Guarantee { seal in
-            UNUserNotificationCenter.current().getDeliveredNotifications { seal($0) }
-        }
+    func getAllNotifications() async -> (pending: [UNNotificationRequest], delivered: [UNNotification]) {
+        await (
+            pending: UNUserNotificationCenter.current().pendingNotificationRequests(),
+            delivered: UNUserNotificationCenter.current().deliveredNotifications()
+        )
     }
 
     // MARK: - Cancelling Notifications -
@@ -52,45 +35,36 @@ final class LocalNotificationsService {
     }
 
     // MARK: - Scheduling Notifications -
-    func scheduleNotification(_ localNotification: LocalNotificationProtocol) -> Promise<Void> {
-        Promise { seal in
-            guard let notificationTrigger = localNotification.trigger else {
-                throw Error.badContentProvider
-            }
-
-            guard self.isFireDateValid(notificationTrigger.nextTriggerDate) else {
-                throw Error.badFireDate
-            }
-
-            let request = UNNotificationRequest(
-                identifier: localNotification.identifier,
-                content: self.makeNotificationContent(localNotification: localNotification),
-                trigger: notificationTrigger
-            )
-
-            UNUserNotificationCenter.current().add(
-                request,
-                withCompletionHandler: { error in
-                    seal.resolve(error)
-                }
-            )
+    func scheduleNotification(_ localNotification: LocalNotificationProtocol) async throws {
+        guard let notificationTrigger = localNotification.trigger else {
+            throw Error.badContentProvider
         }
+
+        guard self.isFireDateValid(notificationTrigger.nextTriggerDate) else {
+            throw Error.badFireDate
+        }
+
+        let request = UNNotificationRequest(
+            identifier: localNotification.identifier,
+            content: self.makeNotificationContent(localNotification: localNotification),
+            trigger: notificationTrigger
+        )
+
+        try? await UNUserNotificationCenter.current().add(request)
     }
 
-    func isNotificationExists(identifier: String) -> Guarantee<Bool> {
-        Guarantee { seal in
-            self.getAllNotifications().done { (pending, delivered) in
-                if pending.contains(where: { $0.identifier == identifier }) {
-                    return seal(true)
-                }
+    func isNotificationExists(identifier: String) async -> Bool {
+        let (pending, delivered) = await self.getAllNotifications()
 
-                if delivered.contains(where: { $0.request.identifier == identifier }) {
-                    return seal(true)
-                }
-
-                seal(false)
-            }
+        if pending.contains(where: { $0.identifier == identifier }) {
+            return true
         }
+
+        if delivered.contains(where: { $0.request.identifier == identifier }) {
+            return true
+        }
+
+        return false
     }
 
     private func makeNotificationContent(localNotification: LocalNotificationProtocol) -> UNNotificationContent {
@@ -100,11 +74,14 @@ final class LocalNotificationsService {
         content.sound = localNotification.sound
 
         var userInfo = localNotification.userInfo
-        userInfo.merge([
-            PayloadKey.notificationName.rawValue: localNotification.identifier,
-            PayloadKey.title.rawValue: localNotification.title,
-            PayloadKey.body.rawValue: localNotification.body
-        ])
+        userInfo.merge(
+            [
+                PayloadKey.notificationName.rawValue: localNotification.identifier,
+                PayloadKey.title.rawValue: localNotification.title,
+                PayloadKey.body.rawValue: localNotification.body
+            ],
+            uniquingKeysWith: { (current, _) in current }
+        )
         content.userInfo = userInfo
 
         return content
