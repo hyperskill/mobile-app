@@ -65,7 +65,8 @@ struct StepQuizView: View {
 
                     buildQuizContent(
                         state: viewModel.state,
-                        quizName: viewData.quizName,
+                        step: viewModel.step,
+                        stepQuizName: viewData.quizName,
                         stepBlockName: viewData.stepBlockName
                     )
                 }
@@ -75,9 +76,14 @@ struct StepQuizView: View {
     }
 
     @ViewBuilder
-    private func buildQuizContent(state: StepQuizFeatureState, quizName: String?, stepBlockName: String) -> some View {
-        if let quizName = quizName {
-            StepQuizNameView(text: quizName)
+    private func buildQuizContent(
+        state: StepQuizFeatureState,
+        step: Step,
+        stepQuizName: String?,
+        stepBlockName: String
+    ) -> some View {
+        if let stepQuizName = stepQuizName {
+            StepQuizNameView(text: stepQuizName)
         }
 
         let quizType = StepQuizChildQuizType(blockName: stepBlockName)
@@ -86,9 +92,9 @@ struct StepQuizView: View {
             if case .unsupported = quizType {
                 StepQuizStatusView(state: .unsupportedQuiz)
             } else {
-                buildChildQuiz(for: quizType, attemptLoadedState: attemptLoadedState)
+                buildChildQuiz(quizType: quizType, step: step, attemptLoadedState: attemptLoadedState)
                 buildQuizStatusView(attemptLoadedState: attemptLoadedState)
-                buildQuizActionButton(attemptLoadedState: attemptLoadedState)
+                buildQuizActionButtons(quizType: quizType, attemptLoadedState: attemptLoadedState)
             }
         } else {
             StepQuizSkeletonViewFactory.makeSkeleton(for: quizType)
@@ -97,7 +103,8 @@ struct StepQuizView: View {
 
     @ViewBuilder
     private func buildChildQuiz(
-        for quizType: StepQuizChildQuizType,
+        quizType: StepQuizChildQuizType,
+        step: Step,
         attemptLoadedState: StepQuizFeatureStateAttemptLoaded
     ) -> some View {
         if let dataset = attemptLoadedState.attempt.dataset {
@@ -112,19 +119,53 @@ struct StepQuizView: View {
                 return false
             }()
 
+            // TODO: Use here child quiz assembly instance when Swift 5.7 released
             Group {
                 switch quizType {
                 case .choice:
-                    StepQuizChoiceAssembly(dataset: dataset, reply: reply, delegate: viewModel).makeModule()
+                    StepQuizChoiceAssembly(
+                        step: step,
+                        dataset: dataset,
+                        reply: reply,
+                        delegate: viewModel
+                    )
+                    .makeModule()
+                case .code:
+                    StepQuizCodeAssembly(
+                        step: step,
+                        dataset: dataset,
+                        reply: reply,
+                        delegate: viewModel
+                    )
+                    .makeModule()
                 case .matching:
-                    StepQuizMatchingAssembly(dataset: dataset, reply: reply, delegate: viewModel).makeModule()
+                    StepQuizMatchingAssembly(
+                        step: step,
+                        dataset: dataset,
+                        reply: reply,
+                        delegate: viewModel
+                    )
+                    .makeModule()
                 case .sorting:
-                    StepQuizSortingAssembly(dataset: dataset, reply: reply, delegate: viewModel).makeModule()
+                    StepQuizSortingAssembly(
+                        step: step,
+                        dataset: dataset,
+                        reply: reply,
+                        delegate: viewModel
+                    )
+                    .makeModule()
                 case .table:
-                    StepQuizTableAssembly(dataset: dataset, reply: reply, delegate: viewModel).makeModule()
+                    StepQuizTableAssembly(
+                        step: step,
+                        dataset: dataset,
+                        reply: reply,
+                        delegate: viewModel
+                    )
+                    .makeModule()
                 case .string, .number, .math:
                     StepQuizStringAssembly(
                         dataType: .init(quizType: quizType).require(),
+                        step: step,
                         dataset: dataset,
                         reply: reply,
                         delegate: viewModel
@@ -156,7 +197,10 @@ struct StepQuizView: View {
     }
 
     @ViewBuilder
-    private func buildQuizActionButton(attemptLoadedState: StepQuizFeatureStateAttemptLoaded) -> some View {
+    private func buildQuizActionButtons(
+        quizType: StepQuizChildQuizType,
+        attemptLoadedState: StepQuizFeatureStateAttemptLoaded
+    ) -> some View {
         let submissionStatus: SubmissionStatus? = {
             if let submissionStateLoaded = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded {
                 return submissionStateLoaded.submission.status
@@ -164,9 +208,41 @@ struct StepQuizView: View {
             return SubmissionStatus.local
         }()
 
-        StepQuizActionButton(
-            state: .init(submissionStatus: submissionStatus),
-            onClick: viewModel.doMainQuizAction
+        let isCodeQuiz: Bool = {
+            if case .code = quizType {
+                return true
+            }
+            return false
+        }()
+
+        let retryButtonDescription: StepQuizActionButtons.RetryButton? = {
+            guard isCodeQuiz else {
+                return nil
+            }
+
+            return .init(appearance: .init(backgroundColor: .clear), action: viewModel.doQuizRetryAction)
+        }()
+
+        let primaryButtonDescription: StepQuizActionButtons.PrimaryButton = {
+            let codeQuizCustomParamsForState = { (state: StepQuizActionButton.State) -> (String, String)? in
+                guard isCodeQuiz else {
+                    return nil
+                }
+
+                return StepQuizActionButtonCodeQuizDelegate.getParamsForState(state)
+            }
+
+            return StepQuizActionButtons.PrimaryButton(
+                state: .init(submissionStatus: submissionStatus),
+                titleForState: { codeQuizCustomParamsForState($0)?.0 },
+                systemImageNameForState: { codeQuizCustomParamsForState($0)?.1 },
+                action: viewModel.doMainQuizAction
+            )
+        }()
+
+        StepQuizActionButtons(
+            retryButton: retryButtonDescription,
+            primaryButton: primaryButtonDescription
         )
         .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
     }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/codeLayoutContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <org.hyperskill.app.android.code.view.widget.CodeEditorLayout
+        android:id="@+id/codeStepLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/step_quiz_fullscreen_code_layout_bottom_padding"
+        android:fillViewport="true" />
+
+    <include
+        android:id="@+id/codeButtons"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_margin="16dp"
+        layout="@layout/layout_quiz_buttons" />
+
+    <include
+        android:id="@+id/submitButtonSeparator"
+        android:layout_width="match_parent"
+        android:layout_height="?dividerVerticalSize"
+        android:layout_above="@id/codeButtons"
+        layout="@layout/view_divider_vertical" />
+
+</RelativeLayout>

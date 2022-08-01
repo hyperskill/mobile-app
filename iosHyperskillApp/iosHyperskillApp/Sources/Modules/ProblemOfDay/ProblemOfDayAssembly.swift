@@ -33,30 +33,7 @@ extension ProblemOfDayAssembly {
         secondsToComplete: Float = 25.6,
         nextProblemIn: Int64 = 21600
     ) -> ProblemOfDayAssembly {
-        let step = Step(
-            id: 0,
-            stepikId: 0,
-            lessonStepikId: 0,
-            position: 0,
-            title: "",
-            type: .practice,
-            block: .init(
-                name: "",
-                text: "",
-                options: .init(isMultipleChoice: nil, language: nil, isCheckbox: nil),
-                tableOfContents: []
-            ),
-            topic: 0,
-            topicTheory: 0,
-            canAbandon: false,
-            canSkip: false,
-            commentsStatistics: [],
-            contentCreatedAt: Kotlinx_datetimeInstant.companion.fromEpochMilliseconds(epochMilliseconds: 0),
-            contentUpdatedAt: Kotlinx_datetimeInstant.companion.fromEpochMilliseconds(epochMilliseconds: 0),
-            solvedBy: 0,
-            isCompleted: false,
-            secondsToComplete: KotlinFloat(value: secondsToComplete)
-        )
+        let step = Step(secondsToComplete: secondsToComplete)
 
         switch state {
         case .completed:

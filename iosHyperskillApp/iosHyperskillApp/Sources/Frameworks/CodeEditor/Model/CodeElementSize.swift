@@ -36,15 +36,21 @@ enum EditorSize {
     case small
     case big
 
-    typealias SizeParams = (editorHeight: CGFloat, fontSize: CGFloat)
-
     var realSizes: SizeParams {
         switch self {
         case .small:
-            return (editorHeight: 200, fontSize: 15)
+            return .init(editorHeight: 200, fontSize: 14, gutterWidth: 32, lineNumberFontSize: 12)
         case .big:
-            return (editorHeight: 400, fontSize: 17)
+            return .init(editorHeight: 400, fontSize: 17, gutterWidth: 48, lineNumberFontSize: 14)
         }
+    }
+
+    struct SizeParams {
+        let editorHeight: CGFloat
+        let fontSize: CGFloat
+
+        let gutterWidth: CGFloat
+        let lineNumberFontSize: CGFloat
     }
 }
 

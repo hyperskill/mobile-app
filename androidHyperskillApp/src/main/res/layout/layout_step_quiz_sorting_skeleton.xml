@@ -11,7 +11,7 @@
 
     <org.hyperskill.app.android.ui.custom.LoadingView
         android:id="@+id/secondSkeleton"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:layout_width="wrap_content"
         android:layout_height="100dp" />
 

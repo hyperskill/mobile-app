@@ -12,13 +12,18 @@ final class StepQuizViewDataMapper {
     }
 
     func mapStepToViewData(_ step: Step, attempt: Attempt?) -> StepQuizViewData {
-        let formattedStats = self.stepQuizStatsTextMapper.getFormattedStepQuizStats(
+        let formattedStats = stepQuizStatsTextMapper.getFormattedStepQuizStats(
             users: step.solvedBy,
             hours: 1 // TODO: Use `step.last_completed_at`
         )
 
         let quizName: String? = {
             guard let dataset = attempt?.dataset else {
+                return nil
+            }
+
+            // Custom title rendering by code quiz
+            if step.block.name == BlockName.shared.CODE {
                 return nil
             }
 
