@@ -418,6 +418,7 @@
 		2C43B59828731B1E002A66F8 /* HyperskillURLFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyperskillURLFactory.swift; sourceTree = "<group>"; };
 		2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWrapper.swift; sourceTree = "<group>"; };
 		2C49CC912851D4AC0040BA7F /* altcontent.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = altcontent.css; sourceTree = "<group>"; };
+		2C4D3CB2289689F40079B461 /* iosHyperskillApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iosHyperskillApp.entitlements; sourceTree = "<group>"; };
 		2C4FBD8B2876C39C00ACA5C8 /* ProfileAboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAboutView.swift; sourceTree = "<group>"; };
 		2C4FBD8D2876C94800ACA5C8 /* ProfileAboutSocialAccountsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAboutSocialAccountsView.swift; sourceTree = "<group>"; };
 		2C58DE222803BF97002A2774 /* AuthLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthLogoView.swift; sourceTree = "<group>"; };
@@ -1608,6 +1609,7 @@
 				2C98C7A22850B93100857783 /* step.css */,
 				2C98C7A32850B93100857783 /* variables.css */,
 				2C20FBBA284F647C006D879E /* wysiwyg.css */,
+				2C4D3CB2289689F40079B461 /* iosHyperskillApp.entitlements */,
 				2C1F5872280D0E0000372A37 /* iosHyperskillApp-Bridging-Header.h */,
 				2C20FBB1284F4FEA006D879E /* highlight.js */,
 				2C20FBB5284F54DF006D879E /* jquery-3.4.1.min.js */,
@@ -1965,7 +1967,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1330;
 				LastUpgradeCheck = 1130;
-				ORGANIZATIONNAME = orgName;
+				ORGANIZATIONNAME = "Stepik Technologies s.r.o.";
 				TargetAttributes = {
 					2C919DEC27EEF5BC0022A2F2 = {
 						CreatedOnToolsVersion = 13.3;
@@ -2408,12 +2410,13 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 3DWS674B2M;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = orgIdentifier.iosHyperskillAppTests;
+				PRODUCT_BUNDLE_IDENTIFIER = org.hyperskill.AppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -2428,11 +2431,12 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 3DWS674B2M;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = orgIdentifier.iosHyperskillAppTests;
+				PRODUCT_BUNDLE_IDENTIFIER = org.hyperskill.AppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -2563,9 +2567,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = iosHyperskillApp/iosHyperskillApp.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"iosHyperskillApp/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 3DWS674B2M;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iosHyperskillApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2578,8 +2584,9 @@
 					shared,
 					"-fprofile-instr-generate",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = orgIdentifier.iosHyperskillApp;
+				PRODUCT_BUNDLE_IDENTIFIER = org.hyperskill.App;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "iosHyperskillApp/iosHyperskillApp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -2593,9 +2600,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = iosHyperskillApp/iosHyperskillApp.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"iosHyperskillApp/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 3DWS674B2M;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iosHyperskillApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2608,8 +2617,9 @@
 					shared,
 					"-fprofile-instr-generate",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = orgIdentifier.iosHyperskillApp;
+				PRODUCT_BUNDLE_IDENTIFIER = org.hyperskill.App;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "iosHyperskillApp/iosHyperskillApp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

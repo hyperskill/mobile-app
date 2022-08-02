@@ -70,9 +70,7 @@ struct HomeView: View {
                     )
                     .makeModule()
 
-                    #if DEBUG
                     HomeDebugStepNavigationView()
-                    #endif
                 }
                 .padding()
             }

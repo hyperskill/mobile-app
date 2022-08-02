@@ -58,8 +58,10 @@ struct StepTheoryContentView: View {
     }
 }
 
+#if DEBUG
 struct StepContentView_Previews: PreviewProvider {
     static var previews: some View {
         StepTheoryContentView(viewData: .placeholder)
     }
 }
+#endif
