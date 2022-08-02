@@ -45,6 +45,13 @@
                 android:layout_height="wrap_content" />
 
             <include
+                android:visibility="gone"
+                android:id="@+id/stepQuizCodeSamples"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/layout_step_quiz_code_details" />
+
+            <include
                 android:id="@+id/stepQuizDescriptionDivider"
                 layout="@layout/view_divider_vertical"
                 android:layout_width="match_parent"
