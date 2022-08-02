@@ -5,6 +5,7 @@ import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -120,8 +121,18 @@ class TrackFragment :
 
     private fun setupCards() {
         with(viewBinding) {
-            val hoursToComplete = studyPlan?.secondsToReachTrack?.toFloat()?.div(3600)?.roundToInt() ?: 0
-            trackTimeToCompleteTextView.text = "~ $hoursToComplete h"
+            if (studyPlan != null) {
+                trackTimeToCompleteTextView.text =
+                    if (studyPlan!!.secondsToReachTrack > 3600) {
+                        "~ ${studyPlan!!.secondsToReachTrack / 3600} h"
+                    } else {
+                        "~ ${studyPlan!!.secondsToReachTrack / 60} m"
+                    }
+            } else {
+                trackProgressTimeCardView.visibility = View.GONE
+                (trackProgressCompletedGraduateProjectsCardView.layoutParams as ViewGroup.MarginLayoutParams)
+                    .setMargins(0, 0, 0, 0)
+            }
 
             trackCompletedTopicsTextView.text = "${trackProgress.completedTopics} / ${track.topicsCount}"
             trackCompletedTopicsProgressIndicator.progress =
