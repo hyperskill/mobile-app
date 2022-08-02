@@ -29,6 +29,8 @@ class CodeStepQuizFormDelegate(
             )
             .setMargins(0, 0, 0, 0)
 
+        containerBinding.stepQuizDescription.setText(R.string.step_quiz_code_write_program_text)
+
         with(containerBinding.stepQuizButtons.stepQuizSubmitButton) {
             setText(R.string.step_quiz_code_run_solution_button_text)
             setIconResource(R.drawable.ic_run)

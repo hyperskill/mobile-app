@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
-
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
     app:layout_constraintVertical_bias="0"
 
-    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/stepQuizDescriptionBarrier"
+    android:layout_marginVertical="16dp"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintBottom_toTopOf="@id/stepQuizFeedbackBlocks"
@@ -18,14 +18,16 @@
         android:id="@+id/stepQuizCodeContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-
-        app:layout_goneMarginTop="0dp"
-        android:layout_marginBottom="16dp">
+        android:orientation="vertical" >
 
         <include
-            android:id="@+id/stepQuizCodeDetails"
-            layout="@layout/layout_step_quiz_code_details" />
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_height="?dividerVerticalSize"
+            layout="@layout/view_divider_vertical" />
+
+        <include layout="@layout/view_divider_vertical" />
 
         <org.hyperskill.app.android.code.view.widget.CodeEditorLayout
             android:id="@+id/codeStepLayout"
@@ -38,6 +40,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <include
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/stepQuizCodeSkeleton"
