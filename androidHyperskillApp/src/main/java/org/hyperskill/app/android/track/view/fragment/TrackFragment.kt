@@ -123,12 +123,12 @@ class TrackFragment :
             val hoursToComplete = studyPlan?.secondsToReachTrack?.toFloat()?.div(3600)?.roundToInt() ?: 0
             trackTimeToCompleteTextView.text = "~ $hoursToComplete h"
 
-            trackCompletedTopicsTextView.text = "${trackProgress.learnedTopicsCount} / ${track.topicsCount}"
+            trackCompletedTopicsTextView.text = "${trackProgress.completedTopics} / ${track.topicsCount}"
             trackCompletedTopicsProgressIndicator.progress =
                 if (track.topicsCount == 0)
                     0
                 else
-                    trackProgress.learnedTopicsCount / track.topicsCount * 100
+                    trackProgress.completedTopics * 100 / track.topicsCount
 
             if (track.capstoneProjects.isEmpty()) {
                 trackProgressCompletedGraduateProjectsCardView.visibility = View.GONE
@@ -140,7 +140,7 @@ class TrackFragment :
                 trackAppliedCoreTopicsCardView.visibility = View.GONE
             } else {
                 trackAppliedCoreTopicsTextView.text = "${trackProgress.appliedCapstoneTopicsCount} / ${track.capstoneTopicsCount}"
-                trackAppliedCoreTopicsProgressIndicator.progress = trackProgress.appliedCapstoneTopicsCount / track.capstoneTopicsCount * 100
+                trackAppliedCoreTopicsProgressIndicator.progress = trackProgress.appliedCapstoneTopicsCount * 100 / track.capstoneTopicsCount
             }
         }
     }
