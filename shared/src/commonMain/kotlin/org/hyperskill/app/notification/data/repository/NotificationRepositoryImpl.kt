@@ -6,7 +6,9 @@ import org.hyperskill.app.notification.domain.repository.NotificationRepository
 class NotificationRepositoryImpl(
     private val notificationCacheDataSource: NotificationCacheDataSource
 ) : NotificationRepository {
-    override suspend fun getNotificationsEnabled() = notificationCacheDataSource.getNotificationsEnabled()
+    override suspend fun getNotificationsEnabled(): Boolean =
+        notificationCacheDataSource.getNotificationsEnabled()
 
-    override suspend fun getNotificationsTimestamp() = notificationCacheDataSource.getNotificationsTimestamp()
+    override suspend fun getNotificationsTimestamp(): Int =
+        notificationCacheDataSource.getNotificationsTimestamp()
 }
