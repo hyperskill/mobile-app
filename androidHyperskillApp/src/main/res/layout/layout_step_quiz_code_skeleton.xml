@@ -6,6 +6,6 @@
 
     <org.hyperskill.app.android.ui.custom.LoadingView
         android:layout_width="match_parent"
-        android:layout_height="48dp" />
+        android:layout_height="@dimen/embedded_code_editor_height" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
