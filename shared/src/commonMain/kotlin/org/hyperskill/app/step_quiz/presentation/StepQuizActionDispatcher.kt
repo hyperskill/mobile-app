@@ -4,6 +4,8 @@ import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
+import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
+import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Action
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Message
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
@@ -40,21 +42,31 @@ class StepQuizActionDispatcher(
                 onNewMessage(message)
             }
             is Action.CreateAttempt -> {
-                val reply = (action.submissionState as? StepQuizFeature.SubmissionState.Loaded)
-                    ?.submission
-                    ?.reply
+                if (stepQuizInteractor.isNeedRecreateAttemptForNewSubmission(action.step)) {
+                    val reply = (action.submissionState as? StepQuizFeature.SubmissionState.Loaded)
+                        ?.submission
+                        ?.reply
 
-                val message = stepQuizInteractor
-                    .createAttempt(action.step.id)
-                    .fold(
-                        onSuccess = {
-                            Message.CreateAttemptSuccess(it, StepQuizFeature.SubmissionState.Empty(reply = reply))
-                        },
-                        onFailure = {
-                            Message.CreateAttemptError
-                        }
-                    )
-                onNewMessage(message)
+                    val message = stepQuizInteractor
+                        .createAttempt(action.step.id)
+                        .fold(
+                            onSuccess = {
+                                Message.CreateAttemptSuccess(it, StepQuizFeature.SubmissionState.Empty(reply = reply))
+                            },
+                            onFailure = {
+                                Message.CreateAttemptError
+                            }
+                        )
+                    onNewMessage(message)
+                } else {
+                    val submissionState = (action.submissionState as? StepQuizFeature.SubmissionState.Loaded)
+                        ?.submission
+                        ?.let { Submission(id = it.id + 1, attempt = action.attempt.id, reply = it.reply, status = SubmissionStatus.LOCAL) }
+                        ?.let { StepQuizFeature.SubmissionState.Loaded(it) }
+                        ?: StepQuizFeature.SubmissionState.Empty()
+
+                    onNewMessage(Message.CreateAttemptSuccess(action.attempt, submissionState))
+                }
             }
             is Action.CreateSubmission -> {
                 val message = stepQuizInteractor
