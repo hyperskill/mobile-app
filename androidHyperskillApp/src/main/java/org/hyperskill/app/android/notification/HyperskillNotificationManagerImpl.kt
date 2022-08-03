@@ -26,7 +26,7 @@ class HyperskillNotificationManagerImpl(
             .getBroadcast(context, AlarmReceiver.REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
 
         alarmManager.cancel(pendingIntent)
-        alarmManager.scheduleCompat(millis, AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent)
+        alarmManager.scheduleCompat(millis, 0, pendingIntent)
 
         settings.putLong(id, millis)
     }

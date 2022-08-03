@@ -2,6 +2,7 @@ package org.hyperskill.app.android.notification.injection
 
 import android.content.Context
 import com.russhwolf.settings.Settings
+import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.notification.HyperskillNotificationManager
 import org.hyperskill.app.android.notification.HyperskillNotificationManagerImpl
 import org.hyperskill.app.android.notification.NotificationPublisher
@@ -16,7 +17,7 @@ class PlatformNotificationComponentImpl(
         get() = HyperskillNotificationManagerImpl(context, settings)
 
     override val notificationPublisher: NotificationPublisher
-        get() = NotificationPublisherImpl()
+        get() = NotificationPublisherImpl(HyperskillApp.graph().platformNotificationComponent.getNotificationDelegates())
 
     override val mockNotificationDelegate: MockNotificationDelegate
         get() = MockNotificationDelegate(context, notificationManager)

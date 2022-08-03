@@ -1,17 +1,11 @@
 package org.hyperskill.app.android.notification.model
 
 import android.app.NotificationManager
-import android.os.Build
 import androidx.annotation.StringRes
 import org.hyperskill.app.android.R
 
 private fun getImportanceCompat(): Int =
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        NotificationManager.IMPORTANCE_HIGH
-    } else {
-        // it is -1 because channel should not be used for previous versions
-        -1
-    }
+    NotificationManager.IMPORTANCE_HIGH
 
 private val commentId = "commentChannel"
 private val reviewId = "reviewChannel"

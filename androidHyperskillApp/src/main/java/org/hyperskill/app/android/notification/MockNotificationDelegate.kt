@@ -21,7 +21,7 @@ class MockNotificationDelegate(
     }
 
     fun scheduleNotification() {
-        val nowPlusMinute = ((System.currentTimeMillis() + 15000) / 1000)
-        scheduleNotificationAt(nowPlusMinute)
+        val nowPlusX = System.currentTimeMillis() + 15 * 1000
+        scheduleNotificationAt(nowPlusX)
     }
 }

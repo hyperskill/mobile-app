@@ -1,10 +1,8 @@
 package org.hyperskill.app.android.notification
 
-import org.hyperskill.app.android.HyperskillApp
-
-class NotificationPublisherImpl : NotificationPublisher {
-    private var notificationDelegates: Set<@JvmSuppressWildcards NotificationDelegate> =
-        HyperskillApp.graph().platformNotificationComponent.getNotificationDelegates()
+class NotificationPublisherImpl(
+    private val notificationDelegates: Set<@JvmSuppressWildcards NotificationDelegate>
+) : NotificationPublisher {
 
     override fun onNeedShowNotificationWithId(id: String) {
         notificationDelegates
