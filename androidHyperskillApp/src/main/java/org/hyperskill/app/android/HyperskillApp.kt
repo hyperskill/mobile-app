@@ -11,6 +11,7 @@ import com.facebook.soloader.SoLoader
 import io.sentry.SentryLevel
 import io.sentry.android.core.SentryAndroid
 import io.sentry.android.fragment.FragmentLifecycleIntegration
+import org.hyperskill.app.android.core.extensions.NotificationChannelInitializer
 import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.android.core.injection.AndroidAppComponent
 import org.hyperskill.app.android.core.injection.AndroidAppComponentImpl
@@ -48,6 +49,7 @@ class HyperskillApp : Application() {
 
         appGraph = AndroidAppComponentImpl(this, buildUserAgentInfo())
         initSentry()
+        initChannels()
     }
 
     private fun initSentry() {
@@ -83,4 +85,8 @@ class HyperskillApp : Application() {
             BuildConfig.VERSION_CODE.toString(),
             BuildConfig.APPLICATION_ID
         )
+
+    private fun initChannels() {
+        NotificationChannelInitializer.initNotificationChannels(this)
+    }
 }
