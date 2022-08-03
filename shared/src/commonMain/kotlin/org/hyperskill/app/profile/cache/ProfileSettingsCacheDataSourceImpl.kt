@@ -7,6 +7,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.hyperskill.app.profile.data.source.ProfileSettingsCacheDataSource
 import org.hyperskill.app.profile.domain.model.ProfileSettings
+import org.hyperskill.app.profile.domain.model.Theme
 
 class ProfileSettingsCacheDataSourceImpl(
     private val json: Json,
@@ -16,9 +17,21 @@ class ProfileSettingsCacheDataSourceImpl(
     override suspend fun getProfileSettings(): Result<ProfileSettings> =
         json.decodeFromString(settings[ProfileSettingsCacheKeyValues.PROFILE_SETTINGS, ""])
 
-    override suspend fun saveProfileSettings(profileSettings: ProfileSettings): Unit =
+    override suspend fun saveProfileSettings(profileSettings: ProfileSettings) {
         settings.putString(
             ProfileSettingsCacheKeyValues.PROFILE_SETTINGS,
             json.encodeToString(profileSettings)
         )
+    }
+
+    override suspend fun changeTheme(theme: Theme) {
+        saveProfileSettings(
+            getProfileSettings()
+                .getOrDefault(defaultSettings())
+                .copy(theme = theme)
+        )
+    }
+
+    private fun defaultSettings(): ProfileSettings =
+        ProfileSettings(Theme.SYSTEM)
 }

@@ -1,6 +1,7 @@
 package org.hyperskill.app.profile.domain.interactor
 
 import org.hyperskill.app.profile.domain.model.ProfileSettings
+import org.hyperskill.app.profile.domain.model.Theme
 import org.hyperskill.app.profile.domain.repository.ProfileSettingsRepository
 
 class ProfileSettingsInteractor(
@@ -9,6 +10,11 @@ class ProfileSettingsInteractor(
     suspend fun getProfileSettings(): Result<ProfileSettings> =
         profileSettingsRepository.getProfileSettings()
 
-    suspend fun saveProfileSettings(profileSettings: ProfileSettings): Unit =
+    suspend fun saveProfileSettings(profileSettings: ProfileSettings) {
         profileSettingsRepository.saveProfileSettings(profileSettings)
+    }
+
+    suspend fun changeTheme(theme: Theme) {
+        profileSettingsRepository.changeTheme(theme)
+    }
 }
