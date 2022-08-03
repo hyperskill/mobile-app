@@ -19,4 +19,10 @@ data class StudyPlan(
     val secondsToReachProject: Long,
     @SerialName("created_at")
     val createdAt: String
-)
+) {
+    val minutesToReachTrack: Int =
+        (secondsToReachProject / 60).toInt()
+
+    val hoursToReachTrack: Int =
+        (secondsToReachTrack / 3600).toInt()
+}

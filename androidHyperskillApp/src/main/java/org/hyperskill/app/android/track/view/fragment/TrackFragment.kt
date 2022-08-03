@@ -123,10 +123,10 @@ class TrackFragment :
         with(viewBinding) {
             if (studyPlan != null) {
                 trackTimeToCompleteTextView.text =
-                    if (studyPlan!!.secondsToReachTrack > 3600) {
-                        "~ ${studyPlan!!.secondsToReachTrack / 3600} h"
+                    if (studyPlan!!.hoursToReachTrack != 0) {
+                        "~ ${studyPlan!!.hoursToReachTrack} h"
                     } else {
-                        "~ ${studyPlan!!.secondsToReachTrack / 60} m"
+                        "~ ${studyPlan!!.minutesToReachTrack} m"
                     }
             } else {
                 trackProgressTimeCardView.visibility = View.GONE
