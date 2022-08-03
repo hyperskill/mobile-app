@@ -21,7 +21,6 @@ import org.hyperskill.app.android.core.view.ui.navigation.AppNavigationContainer
 import org.hyperskill.app.android.databinding.ActivityMainBinding
 import org.hyperskill.app.android.home.view.ui.screen.PlaceholderNewUserScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
-import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.main.presentation.MainViewModel
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
@@ -113,9 +112,7 @@ class MainActivity :
             is AppFeature.Action.ViewAction.NavigateTo.AuthScreen ->
                 router.newRootScreen(AuthScreen)
             is AppFeature.Action.ViewAction.NavigateTo.HomeScreen ->
-                // TODO remove before merging to develop!
-                router.newRootScreen(StepScreen(6011))
-//                router.newRootScreen(MainScreen)
+                router.newRootScreen(MainScreen)
             is AppFeature.Action.ViewAction.NavigateTo.NewUserScreen ->
                 router.newRootScreen(PlaceholderNewUserScreen)
         }
