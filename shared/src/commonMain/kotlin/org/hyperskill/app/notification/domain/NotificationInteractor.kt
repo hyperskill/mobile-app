@@ -8,12 +8,14 @@ class NotificationInteractor(
     suspend fun isNotificationsEnabled(): Boolean =
         notificationRepository.isNotificationsEnabled()
 
-    suspend fun setNotificationsEnabled(enabled: Boolean): Unit =
+    suspend fun setNotificationsEnabled(enabled: Boolean) {
         notificationRepository.setNotificationsEnabled(enabled)
+    }
 
     suspend fun getNotificationTimestamp(key: String): Long =
         notificationRepository.getNotificationTimestamp(key)
 
-    suspend fun setNotificationTimestamp(key: String, timestamp: Long): Unit =
+    suspend fun setNotificationTimestamp(key: String, timestamp: Long) {
         notificationRepository.setNotificationTimestamp(key, timestamp)
+    }
 }
