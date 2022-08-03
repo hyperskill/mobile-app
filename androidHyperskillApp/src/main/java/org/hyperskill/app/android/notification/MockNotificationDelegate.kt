@@ -3,6 +3,7 @@ package org.hyperskill.app.android.notification
 import android.content.Context
 import androidx.core.app.NotificationCompat
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.extensions.DateTimeHelper
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
 
 // TODO remove before merging to develop
@@ -21,7 +22,7 @@ class MockNotificationDelegate(
     }
 
     fun scheduleNotification() {
-        val nowPlusX = System.currentTimeMillis() + 15 * 1000
+        val nowPlusX = DateTimeHelper.nowUtc() + 60 * 2 * 1000
         scheduleNotificationAt(nowPlusX)
     }
 }
