@@ -17,6 +17,8 @@ import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponentImpl
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile.injection.ProfileComponentImpl
+import org.hyperskill.app.profile.injection.ProfileSettingsComponent
+import org.hyperskill.app.profile.injection.ProfileSettingsComponentImpl
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step.injection.StepComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
@@ -59,6 +61,9 @@ class AppGraphImpl(
 
     override fun buildProfileComponent(): ProfileComponent =
         ProfileComponentImpl(this)
+
+    override fun buildProfileSettingsComponent(): ProfileSettingsComponent =
+        ProfileSettingsComponentImpl(this)
 
     override fun buildHomeComponent(): HomeComponent =
         HomeComponentImpl(this)

@@ -8,6 +8,7 @@ import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile.injection.ProfileComponent
+import org.hyperskill.app.profile.injection.ProfileSettingsComponent
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.track.injection.TrackComponent
@@ -25,5 +26,6 @@ interface AppGraph {
     fun buildProfileDataComponent(): ProfileDataComponent
     fun buildTrackComponent(): TrackComponent
     fun buildProfileComponent(): ProfileComponent
+    fun buildProfileSettingsComponent(): ProfileSettingsComponent
     fun buildHomeComponent(): HomeComponent
 }
