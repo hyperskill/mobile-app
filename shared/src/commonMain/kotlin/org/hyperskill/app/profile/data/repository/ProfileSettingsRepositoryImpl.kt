@@ -8,14 +8,14 @@ import org.hyperskill.app.profile.domain.repository.ProfileSettingsRepository
 class ProfileSettingsRepositoryImpl(
     private val profileSettingsCacheDataSource: ProfileSettingsCacheDataSource
 ) : ProfileSettingsRepository {
-    override suspend fun getProfileSettings(): Result<ProfileSettings> =
+    override fun getProfileSettings(): Result<ProfileSettings> =
         profileSettingsCacheDataSource.getProfileSettings()
 
-    override suspend fun saveProfileSettings(profileSettings: ProfileSettings) {
+    override fun saveProfileSettings(profileSettings: ProfileSettings) {
         profileSettingsCacheDataSource.saveProfileSettings(profileSettings)
     }
 
-    override suspend fun changeTheme(theme: Theme) {
+    override fun changeTheme(theme: Theme) {
         profileSettingsCacheDataSource.changeTheme(theme)
     }
 }
