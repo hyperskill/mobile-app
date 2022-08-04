@@ -2,6 +2,7 @@ package org.hyperskill.app.track.domain.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.math.roundToInt
 
 @Serializable
 data class StudyPlan(
@@ -21,8 +22,8 @@ data class StudyPlan(
     val createdAt: String
 ) {
     val minutesToReachTrack: Int =
-        (secondsToReachProject / 60).toInt()
+        (secondsToReachTrack.toDouble() / 60).roundToInt()
 
     val hoursToReachTrack: Int =
-        (secondsToReachTrack / 3600).toInt()
+        (secondsToReachTrack.toDouble() / 3600).roundToInt()
 }
