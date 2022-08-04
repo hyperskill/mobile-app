@@ -14,17 +14,17 @@ class ProfileSettingsCacheDataSourceImpl(
     private val settings: Settings
 ) : ProfileSettingsCacheDataSource {
 
-    override suspend fun getProfileSettings(): Result<ProfileSettings> =
+    override fun getProfileSettings(): Result<ProfileSettings> =
         json.decodeFromString(settings[ProfileSettingsCacheKeyValues.PROFILE_SETTINGS, ""])
 
-    override suspend fun saveProfileSettings(profileSettings: ProfileSettings) {
+    override fun saveProfileSettings(profileSettings: ProfileSettings) {
         settings.putString(
             ProfileSettingsCacheKeyValues.PROFILE_SETTINGS,
             json.encodeToString(profileSettings)
         )
     }
 
-    override suspend fun changeTheme(theme: Theme) {
+    override fun changeTheme(theme: Theme) {
         saveProfileSettings(
             getProfileSettings()
                 .getOrDefault(defaultSettings())

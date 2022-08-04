@@ -4,9 +4,9 @@ import org.hyperskill.app.profile.domain.model.ProfileSettings
 import org.hyperskill.app.profile.domain.model.Theme
 
 interface ProfileSettingsRepository {
-    suspend fun getProfileSettings(): Result<ProfileSettings>
+    fun getProfileSettings(): Result<ProfileSettings>
 
-    suspend fun saveProfileSettings(profileSettings: ProfileSettings)
+    fun saveProfileSettings(profileSettings: ProfileSettings)
 
-    suspend fun changeTheme(theme: Theme)
+    fun changeTheme(theme: Theme)
 }
