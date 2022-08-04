@@ -1,11 +1,11 @@
 package org.hyperskill.app.notification.data.source
 
 interface NotificationCacheDataSource {
-    suspend fun isNotificationsEnabled(): Boolean
+    fun isNotificationsEnabled(): Boolean
 
-    suspend fun setNotificationsEnabled(enabled: Boolean)
+    fun setNotificationsEnabled(enabled: Boolean)
 
-    suspend fun getNotificationTimestamp(key: String): Long
+    fun getNotificationTimestamp(key: String): Long
 
-    suspend fun setNotificationTimestamp(key: String, timestamp: Long)
+    fun setNotificationTimestamp(key: String, timestamp: Long)
 }

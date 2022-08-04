@@ -8,17 +8,17 @@ class NotificationCacheDataSourceImpl(
     private val settings: Settings
 ) : NotificationCacheDataSource {
 
-    override suspend fun isNotificationsEnabled(): Boolean =
+    override fun isNotificationsEnabled(): Boolean =
         settings.getBoolean(NotificationCacheKeyValues.NOTIFICATIONS_ENABLED, false)
 
-    override suspend fun setNotificationsEnabled(enabled: Boolean) {
+    override fun setNotificationsEnabled(enabled: Boolean) {
         settings.putBoolean(NotificationCacheKeyValues.NOTIFICATIONS_ENABLED, enabled)
     }
 
-    override suspend fun getNotificationTimestamp(key: String): Long =
+    override fun getNotificationTimestamp(key: String): Long =
         settings.getLong(key, 0)
 
-    override suspend fun setNotificationTimestamp(key: String, timestamp: Long) {
+    override fun setNotificationTimestamp(key: String, timestamp: Long) {
         settings.putLong(key, timestamp)
     }
 }

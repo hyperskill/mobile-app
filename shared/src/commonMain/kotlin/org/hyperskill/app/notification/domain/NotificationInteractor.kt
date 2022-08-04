@@ -5,17 +5,17 @@ import org.hyperskill.app.notification.domain.repository.NotificationRepository
 class NotificationInteractor(
     private val notificationRepository: NotificationRepository
 ) {
-    suspend fun isNotificationsEnabled(): Boolean =
+    fun isNotificationsEnabled(): Boolean =
         notificationRepository.isNotificationsEnabled()
 
-    suspend fun setNotificationsEnabled(enabled: Boolean) {
+    fun setNotificationsEnabled(enabled: Boolean) {
         notificationRepository.setNotificationsEnabled(enabled)
     }
 
-    suspend fun getNotificationTimestamp(key: String): Long =
+    fun getNotificationTimestamp(key: String): Long =
         notificationRepository.getNotificationTimestamp(key)
 
-    suspend fun setNotificationTimestamp(key: String, timestamp: Long) {
+    fun setNotificationTimestamp(key: String, timestamp: Long) {
         notificationRepository.setNotificationTimestamp(key, timestamp)
     }
 }
