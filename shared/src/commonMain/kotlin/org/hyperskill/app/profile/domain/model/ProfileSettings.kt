@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ProfileSettings(
     @SerialName("theme")
-    val theme: Theme
+    val theme: Theme = Theme.SYSTEM
 )

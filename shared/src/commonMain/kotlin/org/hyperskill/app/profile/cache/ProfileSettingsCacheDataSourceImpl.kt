@@ -16,7 +16,13 @@ class ProfileSettingsCacheDataSourceImpl(
 
     override fun getProfileSettings(): Result<ProfileSettings> {
         val jsonValue: String? = settings.get(ProfileSettingsCacheKeyValues.PROFILE_SETTINGS)
-        return jsonValue?.let { json.decodeFromString(it) } ?: Result.success(createDefaultSettings())
+        return if (jsonValue != null) {
+            json.decodeFromString(jsonValue)
+        } else {
+            val defaultSettings = createDefaultSettings()
+            saveProfileSettings(defaultSettings)
+            Result.success(defaultSettings)
+        }
     }
 
     override fun saveProfileSettings(profileSettings: ProfileSettings) {
@@ -35,5 +41,5 @@ class ProfileSettingsCacheDataSourceImpl(
     }
 
     private fun createDefaultSettings(): ProfileSettings =
-        ProfileSettings(Theme.SYSTEM)
+        ProfileSettings()
 }
