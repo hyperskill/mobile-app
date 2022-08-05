@@ -21,5 +21,11 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                 State.Content(message.profileSettings) to emptySet()
             is Message.ProfileSettingsError ->
                 State.Error to emptySet()
+            is Message.ThemeChanged ->
+                if (state is State.Content) {
+                    State.Content(state.profileSettings.copy(theme = message.theme)) to setOf(Action.ChangeTheme(message.theme))
+                } else {
+                    null
+                }
         } ?: (state to emptySet())
 }

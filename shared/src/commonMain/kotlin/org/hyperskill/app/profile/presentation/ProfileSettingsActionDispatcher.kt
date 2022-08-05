@@ -21,6 +21,9 @@ class ProfileSettingsActionDispatcher(
                     }
                 onNewMessage(Message.ProfileSettingsSuccess(profileSettings))
             }
+            is Action.ChangeTheme -> {
+                profileSettingsInteractor.changeTheme(action.theme)
+            }
         }
     }
 }

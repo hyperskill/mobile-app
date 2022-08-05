@@ -1,6 +1,7 @@
 package org.hyperskill.app.profile.presentation
 
 import org.hyperskill.app.profile.domain.model.ProfileSettings
+import org.hyperskill.app.profile.domain.model.Theme
 
 interface ProfileSettingsFeature {
     sealed interface State {
@@ -14,10 +15,12 @@ interface ProfileSettingsFeature {
         data class InitMessage(val forceUpdate: Boolean = false) : Message
         data class ProfileSettingsSuccess(val profileSettings: ProfileSettings) : Message
         object ProfileSettingsError : Message
+        data class ThemeChanged(val theme: Theme) : Message
     }
 
     sealed interface Action {
         object FetchProfileSettings : Action
+        data class ChangeTheme(val theme: Theme) : Action
         sealed class ViewAction : Action
     }
 }
