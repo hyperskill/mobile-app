@@ -26,4 +26,8 @@ class ProfileRepositoryImpl(
             else ->
                 throw IllegalArgumentException("Unsupported source type = $primarySourceType")
         }
+
+    override suspend fun clearCache() {
+        profileCacheDataSource.clearCache()
+    }
 }

@@ -35,4 +35,11 @@ class ProfileCacheDataSourceImpl(
             }
         settings.putString(key, json.encodeToString(profile))
     }
+
+    override suspend fun clearCache() {
+        kotlin.runCatching {
+            settings.remove(ProfileCacheKeyValues.GUEST_PROFILE)
+            settings.remove(ProfileCacheKeyValues.CURRENT_PROFILE)
+        }
+    }
 }

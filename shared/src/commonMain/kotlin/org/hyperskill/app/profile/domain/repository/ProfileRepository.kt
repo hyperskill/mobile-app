@@ -5,4 +5,5 @@ import org.hyperskill.app.profile.domain.model.Profile
 
 interface ProfileRepository {
     suspend fun getCurrentProfile(primarySourceType: DataSourceType = DataSourceType.CACHE): Result<Profile>
+    suspend fun clearCache()
 }
