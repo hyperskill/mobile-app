@@ -13,7 +13,9 @@ import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.PlatformHomeComponent
 import org.hyperskill.app.main.injection.PlatformMainComponent
 import org.hyperskill.app.profile.injection.PlatformProfileComponent
+import org.hyperskill.app.profile.injection.PlatformProfileSettingsComponent
 import org.hyperskill.app.profile.injection.ProfileComponent
+import org.hyperskill.app.profile.injection.ProfileSettingsComponent
 import org.hyperskill.app.step.injection.PlatformStepComponent
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponent
@@ -34,5 +36,6 @@ interface AndroidAppComponent : AppGraph {
     fun buildPlatformCodeEditorComponent(): PlatformCodeEditorComponent
     fun buildPlatformTrackComponent(trackComponent: TrackComponent): PlatformTrackComponent
     fun buildPlatformProfileComponent(profileComponent: ProfileComponent): PlatformProfileComponent
+    fun buildPlatformProfileSettingsComponent(profileSettingsComponent: ProfileSettingsComponent): PlatformProfileSettingsComponent
     fun buildPlatformHomeComponent(homeComponent: HomeComponent): PlatformHomeComponent
 }
