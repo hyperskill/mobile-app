@@ -1,4 +1,4 @@
-package org.hyperskill.app.profile.domain.model
+package org.hyperskill.app.profile_settings.domain.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

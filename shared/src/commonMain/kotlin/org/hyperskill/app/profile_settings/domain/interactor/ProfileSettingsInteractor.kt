@@ -1,8 +1,8 @@
-package org.hyperskill.app.profile.domain.interactor
+package org.hyperskill.app.profile_settings.domain.interactor
 
-import org.hyperskill.app.profile.domain.model.ProfileSettings
-import org.hyperskill.app.profile.domain.model.Theme
-import org.hyperskill.app.profile.domain.repository.ProfileSettingsRepository
+import org.hyperskill.app.profile_settings.domain.model.ProfileSettings
+import org.hyperskill.app.profile_settings.domain.model.Theme
+import org.hyperskill.app.profile_settings.domain.repository.ProfileSettingsRepository
 
 class ProfileSettingsInteractor(
     private val profileSettingsRepository: ProfileSettingsRepository

@@ -1,7 +1,7 @@
-package org.hyperskill.app.profile.presentation
+package org.hyperskill.app.profile_settings.presentation
 
-import org.hyperskill.app.profile.domain.model.ProfileSettings
-import org.hyperskill.app.profile.domain.model.Theme
+import org.hyperskill.app.profile_settings.domain.model.ProfileSettings
+import org.hyperskill.app.profile_settings.domain.model.Theme
 
 interface ProfileSettingsFeature {
     sealed interface State {

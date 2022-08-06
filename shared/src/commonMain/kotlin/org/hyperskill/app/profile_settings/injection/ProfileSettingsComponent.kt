@@ -1,6 +1,6 @@
-package org.hyperskill.app.profile.injection
+package org.hyperskill.app.profile_settings.injection
 
-import org.hyperskill.app.profile.presentation.ProfileSettingsFeature
+import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature
 import ru.nobird.app.presentation.redux.feature.Feature
 
 interface ProfileSettingsComponent {

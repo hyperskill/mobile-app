@@ -1,13 +1,13 @@
-package org.hyperskill.app.profile.cache
+package org.hyperskill.app.profile_settings.cache
 
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.get
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.hyperskill.app.profile.data.source.ProfileSettingsCacheDataSource
-import org.hyperskill.app.profile.domain.model.ProfileSettings
-import org.hyperskill.app.profile.domain.model.Theme
+import org.hyperskill.app.profile_settings.data.source.ProfileSettingsCacheDataSource
+import org.hyperskill.app.profile_settings.domain.model.ProfileSettings
+import org.hyperskill.app.profile_settings.domain.model.Theme
 
 class ProfileSettingsCacheDataSourceImpl(
     private val json: Json,

@@ -1,9 +1,9 @@
-package org.hyperskill.app.profile.presentation
+package org.hyperskill.app.profile_settings.presentation
 
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.profile.domain.interactor.ProfileSettingsInteractor
-import org.hyperskill.app.profile.presentation.ProfileSettingsFeature.Action
-import org.hyperskill.app.profile.presentation.ProfileSettingsFeature.Message
+import org.hyperskill.app.profile_settings.domain.interactor.ProfileSettingsInteractor
+import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Action
+import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Message
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class ProfileSettingsActionDispatcher(
