@@ -1,9 +1,9 @@
-package org.hyperskill.app.profile.data.repository
+package org.hyperskill.app.profile_settings.data.repository
 
-import org.hyperskill.app.profile.data.source.ProfileSettingsCacheDataSource
-import org.hyperskill.app.profile.domain.model.ProfileSettings
-import org.hyperskill.app.profile.domain.model.Theme
-import org.hyperskill.app.profile.domain.repository.ProfileSettingsRepository
+import org.hyperskill.app.profile_settings.data.source.ProfileSettingsCacheDataSource
+import org.hyperskill.app.profile_settings.domain.model.ProfileSettings
+import org.hyperskill.app.profile_settings.domain.model.Theme
+import org.hyperskill.app.profile_settings.domain.repository.ProfileSettingsRepository
 
 class ProfileSettingsRepositoryImpl(
     private val profileSettingsCacheDataSource: ProfileSettingsCacheDataSource

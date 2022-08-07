@@ -1,9 +1,9 @@
-package org.hyperskill.app.profile.presentation
+package org.hyperskill.app.profile_settings.presentation
 
 import ru.nobird.app.presentation.redux.reducer.StateReducer
-import org.hyperskill.app.profile.presentation.ProfileSettingsFeature.State
-import org.hyperskill.app.profile.presentation.ProfileSettingsFeature.Action
-import org.hyperskill.app.profile.presentation.ProfileSettingsFeature.Message
+import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.State
+import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Action
+import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Message
 
 class ProfileSettingsReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =

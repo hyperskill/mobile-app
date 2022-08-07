@@ -1,4 +1,4 @@
-package org.hyperskill.app.profile.injection
+package org.hyperskill.app.profile_settings.injection
 
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 

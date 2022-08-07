@@ -37,9 +37,9 @@ import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponentImpl
 import org.hyperskill.app.profile.injection.PlatformProfileComponent
 import org.hyperskill.app.profile.injection.PlatformProfileComponentImpl
-import org.hyperskill.app.profile.injection.ProfileSettingsComponent
-import org.hyperskill.app.profile.injection.ProfileSettingsComponentImpl
-import org.hyperskill.app.profile.injection.PlatformProfileSettingsComponent
+import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
+import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponentImpl
+import org.hyperskill.app.profile_settings.injection.PlatformProfileSettingsComponent
 import org.hyperskill.app.profile.injection.PlatformProfileSettingsComponentImpl
 import org.hyperskill.app.step.injection.PlatformStepComponent
 import org.hyperskill.app.step.injection.PlatformStepComponentImpl
