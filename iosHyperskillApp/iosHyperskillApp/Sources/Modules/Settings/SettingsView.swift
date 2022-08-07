@@ -25,7 +25,9 @@ struct SettingsView: View {
     private static let privacyPolicyURL = URL(string: "https://hi.hyperskill.org/terms")
     private static let helpCenterURL = URL(string: "https://support.hyperskill.org/hc/en-us")
 
+    @StateObject var viewModel: SettingsViewModel
     @State private var selectedTheme: Theme = .light
+    @State private var isPresentingLogoutAlert = false
 
     @Environment(\.presentationMode) private var presentationMode
 
@@ -89,6 +91,7 @@ struct SettingsView: View {
 
                 Section {
                     Button(Strings.Settings.logout) {
+                        isPresentingLogoutAlert = true
                     }
                     .foregroundColor(Color(ColorPalette.overlayRed))
                 }
@@ -108,12 +111,42 @@ struct SettingsView: View {
                     }
                 }
             }
+            .alert(isPresented: $isPresentingLogoutAlert) {
+                Alert(
+                    title: Text(Strings.Settings.logoutDialogTitle),
+                    message: Text(Strings.Settings.logoutDialogExplanation),
+                    primaryButton: .default(
+                        Text(Strings.General.no)
+                    ),
+                    secondaryButton: .destructive(
+                        Text(Strings.General.yes),
+                        action: viewModel.logout
+                    )
+                )
+            }
+            .onAppear {
+                viewModel.startListening()
+                viewModel.onViewAction = handleViewAction(_:)
+            }
+            .onDisappear(perform: viewModel.stopListening)
+        }
+    }
+
+    // MARK: Private API
+
+    private func handleViewAction(_ viewAction: ProfileSettingsFeatureActionViewAction) {
+        switch viewAction {
+        case let viewAction as ProfileSettingsFeatureActionViewActionLogout:
+            //TODO: show auth screen
+            break
+        default:
+            print("SettingsView :: unhandled viewAction = \(viewAction)")
         }
     }
 }
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView()
+        SettingsAssembly().makeModule()
     }
 }

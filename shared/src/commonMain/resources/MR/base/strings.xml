@@ -5,6 +5,7 @@
     <string name="external_link_error">Unable to open link: %s</string>
     <string name="done">Done</string>
     <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="cancel">Cancel</string>
 
     <!-- Users list -->
@@ -164,6 +165,8 @@
     <string name="settings_version">Version</string>
     <string name="settings_rate_application">Rate this application</string>
     <string name="settings_logout">Logout</string>
+    <string name="settings_logout_dialog_title">Warning</string>
+    <string name="settings_logout_dialog_explanation">Are you sure you want to log out?</string>
     <string name="settings_delete_account">Delete account</string>
     <string name="settings_terms_of_service_url">https://www.jetbrains.com/legal/terms/jetbrains-academy.html</string>
     <string name="settings_privacy_policy_url">https://hi.hyperskill.org/terms</string>
