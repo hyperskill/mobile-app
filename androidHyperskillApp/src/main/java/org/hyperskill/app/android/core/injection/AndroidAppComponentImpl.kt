@@ -39,6 +39,10 @@ import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponentImpl
 import org.hyperskill.app.profile.injection.PlatformProfileComponent
 import org.hyperskill.app.profile.injection.PlatformProfileComponentImpl
+import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
+import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponentImpl
+import org.hyperskill.app.profile_settings.injection.PlatformProfileSettingsComponent
+import org.hyperskill.app.profile.injection.PlatformProfileSettingsComponentImpl
 import org.hyperskill.app.step.injection.PlatformStepComponent
 import org.hyperskill.app.step.injection.PlatformStepComponentImpl
 import org.hyperskill.app.step.injection.StepComponent
@@ -148,6 +152,15 @@ class AndroidAppComponentImpl(
 
     override fun buildPlatformProfileComponent(profileComponent: ProfileComponent): PlatformProfileComponent =
         PlatformProfileComponentImpl(profileComponent)
+
+    /**
+     * Profile settings component
+     */
+    override fun buildProfileSettingsComponent(): ProfileSettingsComponent =
+        ProfileSettingsComponentImpl(this)
+
+    override fun buildPlatformProfileSettingsComponent(profileSettingsComponent: ProfileSettingsComponent): PlatformProfileSettingsComponent =
+        PlatformProfileSettingsComponentImpl(profileSettingsComponent)
 
     /**
      * Home component
