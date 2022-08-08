@@ -40,9 +40,9 @@ final class LocalNotificationsService {
             throw Error.badContentProvider
         }
 
-        guard self.isFireDateValid(notificationTrigger.nextTriggerDate) else {
-            throw Error.badFireDate
-        }
+//        guard self.isFireDateValid(notificationTrigger.nextTriggerDate) else {
+//            throw Error.badFireDate
+//        }
 
         let request = UNNotificationRequest(
             identifier: localNotification.identifier,
@@ -50,7 +50,7 @@ final class LocalNotificationsService {
             trigger: notificationTrigger
         )
 
-        try? await UNUserNotificationCenter.current().add(request)
+        try await UNUserNotificationCenter.current().add(request)
     }
 
     func isNotificationExists(identifier: String) async -> Bool {
@@ -80,7 +80,7 @@ final class LocalNotificationsService {
                 PayloadKey.title.rawValue: localNotification.title,
                 PayloadKey.body.rawValue: localNotification.body
             ],
-            uniquingKeysWith: { (current, _) in current }
+            uniquingKeysWith: { (_, new) in new }
         )
         content.userInfo = userInfo
 

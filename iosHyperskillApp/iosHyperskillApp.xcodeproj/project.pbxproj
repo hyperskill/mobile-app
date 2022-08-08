@@ -298,7 +298,6 @@
 		E9D2D673284E0A97000757AC /* StepQuizMatchingItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2D672284E0A97000757AC /* StepQuizMatchingItemView.swift */; };
 		E9D2D675284E0B30000757AC /* StepQuizMatchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2D674284E0B30000757AC /* StepQuizMatchingView.swift */; };
 		E9D69A4028084FF7000E114E /* AuthCredentialsErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D69A3F28084FF7000E114E /* AuthCredentialsErrorView.swift */; };
-		E9D9090228980F0100D0EE91 /* UNNotificationTrigger+nextTriggerDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D9090128980F0100D0EE91 /* UNNotificationTrigger+nextTriggerDate.swift */; };
 		E9D90905289814AA00D0EE91 /* NotificationsRegistrationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D90904289814AA00D0EE91 /* NotificationsRegistrationService.swift */; };
 		E9F655CA2875914200291143 /* StreakCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F655C92875914200291143 /* StreakCardView.swift */; };
 		E9F655D12875B32700291143 /* ProblemOfDayCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F655D02875B32700291143 /* ProblemOfDayCardView.swift */; };
@@ -617,7 +616,6 @@
 		E9D2D672284E0A97000757AC /* StepQuizMatchingItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingItemView.swift; sourceTree = "<group>"; };
 		E9D2D674284E0B30000757AC /* StepQuizMatchingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingView.swift; sourceTree = "<group>"; };
 		E9D69A3F28084FF7000E114E /* AuthCredentialsErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsErrorView.swift; sourceTree = "<group>"; };
-		E9D9090128980F0100D0EE91 /* UNNotificationTrigger+nextTriggerDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UNNotificationTrigger+nextTriggerDate.swift"; sourceTree = "<group>"; };
 		E9D90904289814AA00D0EE91 /* NotificationsRegistrationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsRegistrationService.swift; sourceTree = "<group>"; };
 		E9F655C92875914200291143 /* StreakCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCardView.swift; sourceTree = "<group>"; };
 		E9F655D02875B32700291143 /* ProblemOfDayCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDayCardView.swift; sourceTree = "<group>"; };
@@ -1378,7 +1376,6 @@
 		2C9B66E827ECAF0200569645 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				E9D908FE28980EB300D0EE91 /* UserNotifications */,
 				2C1F586C280D09A100372A37 /* Foundation */,
 				2C023C89285DC9F800D2D5A9 /* Shared */,
 				2CF4340E28126886002893CD /* SwiftStdlib */,
@@ -1908,14 +1905,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		E9D908FE28980EB300D0EE91 /* UserNotifications */ = {
-			isa = PBXGroup;
-			children = (
-				E9D9090128980F0100D0EE91 /* UNNotificationTrigger+nextTriggerDate.swift */,
-			);
-			path = UserNotifications;
-			sourceTree = "<group>";
-		};
 		E9D909032898149400D0EE91 /* Registration */ = {
 			isa = PBXGroup;
 			children = (
@@ -2281,7 +2270,6 @@
 				2CCF3B5828004FC40075D12C /* UserAgentBuilder.swift in Sources */,
 				2C963BC52812D1A70036DD53 /* HomeView.swift in Sources */,
 				E9101713283296F3002E70F5 /* RadioButton.swift in Sources */,
-				E9D9090228980F0100D0EE91 /* UNNotificationTrigger+nextTriggerDate.swift in Sources */,
 				2C20FBC2284F66FC006D879E /* NSAttributedString+TrimmingCharacters.swift in Sources */,
 				2C20B28A286C350C000F458A /* CodeEditor.swift in Sources */,
 				2C919DE827EEEDD60022A2F2 /* LinkedList.swift in Sources */,

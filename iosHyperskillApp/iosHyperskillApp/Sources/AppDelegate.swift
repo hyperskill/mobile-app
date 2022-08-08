@@ -5,6 +5,7 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
+    private lazy var userNotificationsCenterDelegate = UserNotificationsCenterDelegate()
 
     // MARK: Initializing the App
 
@@ -25,6 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ProgressHUD.configure()
         KeyboardManager.configure()
         NukeManager.registerCustomDecoders()
+        
+        self.userNotificationsCenterDelegate.attachNotificationDelegate()
 
         return true
     }
