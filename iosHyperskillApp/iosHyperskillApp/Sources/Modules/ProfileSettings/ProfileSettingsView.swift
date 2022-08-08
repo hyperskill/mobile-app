@@ -20,12 +20,13 @@ private enum Theme: String, CaseIterable, Identifiable {
     }
 }
 
-struct SettingsView: View {
+struct ProfileSettingsView: View {
     private static let termsOfServiceURL = URL(string: "https://www.jetbrains.com/legal/terms/jetbrains-academy.html")
     private static let privacyPolicyURL = URL(string: "https://hi.hyperskill.org/terms")
     private static let helpCenterURL = URL(string: "https://support.hyperskill.org/hc/en-us")
 
-    @StateObject var viewModel: SettingsViewModel
+    @StateObject var viewModel: ProfileSettingsViewModel
+
     @State private var selectedTheme: Theme = .light
     @State private var isPresentingLogoutAlert = false
 
@@ -115,38 +116,30 @@ struct SettingsView: View {
                 Alert(
                     title: Text(Strings.Settings.logoutDialogTitle),
                     message: Text(Strings.Settings.logoutDialogExplanation),
-                    primaryButton: .default(
-                        Text(Strings.General.no)
-                    ),
+                    primaryButton: .default(Text(Strings.General.no)),
                     secondaryButton: .destructive(
                         Text(Strings.General.yes),
-                        action: viewModel.logout
+                        action: viewModel.doLogout
                     )
                 )
             }
-            .onAppear {
-                viewModel.startListening()
-                viewModel.onViewAction = handleViewAction(_:)
-            }
-            .onDisappear(perform: viewModel.stopListening)
         }
+        .onAppear {
+            viewModel.startListening()
+            viewModel.onViewAction = handleViewAction(_:)
+        }
+        .onDisappear(perform: viewModel.stopListening)
     }
 
     // MARK: Private API
 
     private func handleViewAction(_ viewAction: ProfileSettingsFeatureActionViewAction) {
-        switch viewAction {
-        case let viewAction as ProfileSettingsFeatureActionViewActionLogout:
-            //TODO: show auth screen
-            break
-        default:
-            print("SettingsView :: unhandled viewAction = \(viewAction)")
-        }
+        print("ProfileSettingsView :: unhandled viewAction = \(viewAction)")
     }
 }
 
-struct SettingsView_Previews: PreviewProvider {
+struct ProfileSettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsAssembly().makeModule()
+        ProfileSettingsAssembly().makeModule()
     }
 }

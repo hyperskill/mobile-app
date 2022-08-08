@@ -8,12 +8,12 @@ import org.hyperskill.app.profile.data.source.ProfileRemoteDataSource
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.profile.domain.repository.ProfileRepository
 import org.hyperskill.app.profile.remote.ProfileRemoteDataSourceImpl
-import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature
 import org.hyperskill.app.profile_settings.cache.ProfileSettingsCacheDataSourceImpl
 import org.hyperskill.app.profile_settings.data.repository.ProfileSettingsRepositoryImpl
 import org.hyperskill.app.profile_settings.data.source.ProfileSettingsCacheDataSource
 import org.hyperskill.app.profile_settings.domain.interactor.ProfileSettingsInteractor
 import org.hyperskill.app.profile_settings.domain.repository.ProfileSettingsRepository
+import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature
 import ru.nobird.app.presentation.redux.feature.Feature
 
 class ProfileSettingsComponentImpl(private val appGraph: AppGraph) : ProfileSettingsComponent {

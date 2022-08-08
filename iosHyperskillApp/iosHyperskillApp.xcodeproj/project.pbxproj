@@ -160,8 +160,8 @@
 		2C919E3727EF00950022A2F2 /* QueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C919E3627EF00950022A2F2 /* QueueTests.swift */; };
 		2C963BC52812D1A70036DD53 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C963BC42812D1A70036DD53 /* HomeView.swift */; };
 		2C963BC72812D1BF0036DD53 /* HomeAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C963BC62812D1BF0036DD53 /* HomeAssembly.swift */; };
-		2C963BCA2812D3550036DD53 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C963BC92812D3550036DD53 /* SettingsView.swift */; };
-		2C963BCC2812D9330036DD53 /* SettingsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C963BCB2812D9330036DD53 /* SettingsAssembly.swift */; };
+		2C963BCA2812D3550036DD53 /* ProfileSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C963BC92812D3550036DD53 /* ProfileSettingsView.swift */; };
+		2C963BCC2812D9330036DD53 /* ProfileSettingsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C963BCB2812D9330036DD53 /* ProfileSettingsAssembly.swift */; };
 		2C963BCE2812E7B60036DD53 /* AppNavigationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C963BCD2812E7B60036DD53 /* AppNavigationState.swift */; };
 		2C96742E288824230091B6C9 /* StepQuizCodeAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C96742D288824230091B6C9 /* StepQuizCodeAssembly.swift */; };
 		2C9674302888242D0091B6C9 /* StepQuizCodeViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C96742F2888242D0091B6C9 /* StepQuizCodeViewData.swift */; };
@@ -298,7 +298,7 @@
 		E9D2D673284E0A97000757AC /* StepQuizMatchingItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2D672284E0A97000757AC /* StepQuizMatchingItemView.swift */; };
 		E9D2D675284E0B30000757AC /* StepQuizMatchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2D674284E0B30000757AC /* StepQuizMatchingView.swift */; };
 		E9D69A4028084FF7000E114E /* AuthCredentialsErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D69A3F28084FF7000E114E /* AuthCredentialsErrorView.swift */; };
-		E9F59B90289FE053001CEA02 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F59B8F289FE053001CEA02 /* SettingsViewModel.swift */; };
+		E9F59B90289FE053001CEA02 /* ProfileSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F59B8F289FE053001CEA02 /* ProfileSettingsViewModel.swift */; };
 		E9F655CA2875914200291143 /* StreakCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F655C92875914200291143 /* StreakCardView.swift */; };
 		E9F655D12875B32700291143 /* ProblemOfDayCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F655D02875B32700291143 /* ProblemOfDayCardView.swift */; };
 /* End PBXBuildFile section */
@@ -471,8 +471,8 @@
 		2C919E3627EF00950022A2F2 /* QueueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueTests.swift; sourceTree = "<group>"; };
 		2C963BC42812D1A70036DD53 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		2C963BC62812D1BF0036DD53 /* HomeAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAssembly.swift; sourceTree = "<group>"; };
-		2C963BC92812D3550036DD53 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		2C963BCB2812D9330036DD53 /* SettingsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAssembly.swift; sourceTree = "<group>"; };
+		2C963BC92812D3550036DD53 /* ProfileSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsView.swift; sourceTree = "<group>"; };
+		2C963BCB2812D9330036DD53 /* ProfileSettingsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsAssembly.swift; sourceTree = "<group>"; };
 		2C963BCD2812E7B60036DD53 /* AppNavigationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationState.swift; sourceTree = "<group>"; };
 		2C96742D288824230091B6C9 /* StepQuizCodeAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeAssembly.swift; sourceTree = "<group>"; };
 		2C96742F2888242D0091B6C9 /* StepQuizCodeViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeViewData.swift; sourceTree = "<group>"; };
@@ -613,7 +613,7 @@
 		E9D2D672284E0A97000757AC /* StepQuizMatchingItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingItemView.swift; sourceTree = "<group>"; };
 		E9D2D674284E0B30000757AC /* StepQuizMatchingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingView.swift; sourceTree = "<group>"; };
 		E9D69A3F28084FF7000E114E /* AuthCredentialsErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsErrorView.swift; sourceTree = "<group>"; };
-		E9F59B8F289FE053001CEA02 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		E9F59B8F289FE053001CEA02 /* ProfileSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsViewModel.swift; sourceTree = "<group>"; };
 		E9F655C92875914200291143 /* StreakCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCardView.swift; sourceTree = "<group>"; };
 		E9F655D02875B32700291143 /* ProblemOfDayCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDayCardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -803,7 +803,7 @@
 				2C963BC32812D16C0036DD53 /* Home */,
 				E9F655CF2875B31B00291143 /* ProblemOfDay */,
 				2C9EB95B2861BAAE007DDE44 /* Profile */,
-				2C963BC82812D3410036DD53 /* Settings */,
+				2C963BC82812D3410036DD53 /* ProfileSettings */,
 				2CAE8CEE280525A100E6C83D /* Step */,
 				2C41127428376DE3004948A3 /* StepQuiz */,
 				E9802D03281BB5A500CF3AC1 /* StepQuizChoice */,
@@ -1317,14 +1317,14 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
-		2C963BC82812D3410036DD53 /* Settings */ = {
+		2C963BC82812D3410036DD53 /* ProfileSettings */ = {
 			isa = PBXGroup;
 			children = (
-				2C963BCB2812D9330036DD53 /* SettingsAssembly.swift */,
-				2C963BC92812D3550036DD53 /* SettingsView.swift */,
-				E9F59B8F289FE053001CEA02 /* SettingsViewModel.swift */,
+				2C963BCB2812D9330036DD53 /* ProfileSettingsAssembly.swift */,
+				2C963BC92812D3550036DD53 /* ProfileSettingsView.swift */,
+				E9F59B8F289FE053001CEA02 /* ProfileSettingsViewModel.swift */,
 			);
-			path = Settings;
+			path = ProfileSettings;
 			sourceTree = "<group>";
 		};
 		2C96742C288823EB0091B6C9 /* StepQuizCode */ = {
@@ -2130,7 +2130,7 @@
 				E9950E9328893F1700C4D962 /* ProfileDailyStudyRemindersView.swift in Sources */,
 				2C8E66D52878771B00D3928D /* ProfilePresentationDescription.swift in Sources */,
 				E993E9A928426FF2005988EC /* StepQuizSortingViewData.swift in Sources */,
-				E9F59B90289FE053001CEA02 /* SettingsViewModel.swift in Sources */,
+				E9F59B90289FE053001CEA02 /* ProfileSettingsViewModel.swift in Sources */,
 				2C967434288824450091B6C9 /* StepQuizCodeView.swift in Sources */,
 				E94D238F280585110003273F /* AuthCredentialsFormView.swift in Sources */,
 				2CEEE03528916A6800282849 /* ProblemOfDayOutputProtocol.swift in Sources */,
@@ -2251,8 +2251,8 @@
 				2C1061A8285C3A2D00EBD614 /* StepQuizChildQuizType.swift in Sources */,
 				2CE31F4D27F1E0C8008EEE66 /* AppAssembly.swift in Sources */,
 				2CCF3B5A280050890075D12C /* DeviceInfo.swift in Sources */,
-				2C963BCA2812D3550036DD53 /* SettingsView.swift in Sources */,
-				2C963BCC2812D9330036DD53 /* SettingsAssembly.swift in Sources */,
+				2C963BCA2812D3550036DD53 /* ProfileSettingsView.swift in Sources */,
+				2C963BCC2812D9330036DD53 /* ProfileSettingsAssembly.swift in Sources */,
 				2C079687285CFFF500EE0487 /* StepQuizSortingAssembly.swift in Sources */,
 				2C58DE2B2803DEE2002A2774 /* VerticalCenteredScrollView.swift in Sources */,
 				2CD48D892858657100CFCC4A /* StepQuizView.swift in Sources */,
