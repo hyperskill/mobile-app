@@ -5,6 +5,7 @@ import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -120,15 +121,25 @@ class TrackFragment :
 
     private fun setupCards() {
         with(viewBinding) {
-            val hoursToComplete = studyPlan?.secondsToReachTrack?.toFloat()?.div(3600)?.roundToInt() ?: 0
-            trackTimeToCompleteTextView.text = "~ $hoursToComplete h"
+            if (studyPlan != null) {
+                trackTimeToCompleteTextView.text =
+                    if (studyPlan!!.hoursToReachTrack != 0) {
+                        "~ ${studyPlan!!.hoursToReachTrack} h"
+                    } else {
+                        "~ ${studyPlan!!.minutesToReachTrack} m"
+                    }
+            } else {
+                trackProgressTimeCardView.visibility = View.GONE
+                (trackProgressCompletedGraduateProjectsCardView.layoutParams as ViewGroup.MarginLayoutParams)
+                    .setMargins(0, 0, 0, 0)
+            }
 
-            trackCompletedTopicsTextView.text = "${trackProgress.learnedTopicsCount} / ${track.topicsCount}"
+            trackCompletedTopicsTextView.text = "${trackProgress.completedTopics} / ${track.topicsCount}"
             trackCompletedTopicsProgressIndicator.progress =
                 if (track.topicsCount == 0)
                     0
                 else
-                    trackProgress.learnedTopicsCount / track.topicsCount * 100
+                    trackProgress.completedTopics * 100 / track.topicsCount
 
             if (track.capstoneProjects.isEmpty()) {
                 trackProgressCompletedGraduateProjectsCardView.visibility = View.GONE
@@ -140,7 +151,7 @@ class TrackFragment :
                 trackAppliedCoreTopicsCardView.visibility = View.GONE
             } else {
                 trackAppliedCoreTopicsTextView.text = "${trackProgress.appliedCapstoneTopicsCount} / ${track.capstoneTopicsCount}"
-                trackAppliedCoreTopicsProgressIndicator.progress = trackProgress.appliedCapstoneTopicsCount / track.capstoneTopicsCount * 100
+                trackAppliedCoreTopicsProgressIndicator.progress = trackProgress.appliedCapstoneTopicsCount * 100 / track.capstoneTopicsCount
             }
         }
     }

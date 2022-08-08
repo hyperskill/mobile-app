@@ -15,7 +15,7 @@ class ProfileSettingsCacheDataSourceImpl(
 ) : ProfileSettingsCacheDataSource {
 
     override fun getProfileSettings(): Result<ProfileSettings> {
-        val jsonValue: String? = settings.get(ProfileSettingsCacheKeyValues.PROFILE_SETTINGS)
+        val jsonValue = settings.getStringOrNull(ProfileSettingsCacheKeyValues.PROFILE_SETTINGS)
         return if (jsonValue != null) {
             json.decodeFromString(jsonValue)
         } else {

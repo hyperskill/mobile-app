@@ -3,6 +3,7 @@ package org.hyperskill.app.android.core.injection
 import android.content.Context
 import org.hyperskill.app.android.code.injection.PlatformCodeEditorComponent
 import org.hyperskill.app.android.latex.injection.PlatformLatexComponent
+import org.hyperskill.app.android.notification.injection.PlatformNotificationComponent
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.auth.injection.PlatformAuthCredentialsComponent
@@ -26,6 +27,7 @@ import org.hyperskill.app.track.injection.TrackComponent
 interface AndroidAppComponent : AppGraph {
     val context: Context
     val platformMainComponent: PlatformMainComponent
+    val platformNotificationComponent: PlatformNotificationComponent
 
     fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent
     fun buildPlatformAuthSocialComponent(authSocialComponent: AuthSocialComponent): PlatformAuthSocialComponent
