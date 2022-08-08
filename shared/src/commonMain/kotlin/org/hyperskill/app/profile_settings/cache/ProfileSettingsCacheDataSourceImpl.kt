@@ -1,7 +1,6 @@
 package org.hyperskill.app.profile_settings.cache
 
 import com.russhwolf.settings.Settings
-import com.russhwolf.settings.get
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -17,7 +16,7 @@ class ProfileSettingsCacheDataSourceImpl(
     override fun getProfileSettings(): Result<ProfileSettings> {
         val jsonValue = settings.getStringOrNull(ProfileSettingsCacheKeyValues.PROFILE_SETTINGS)
         return if (jsonValue != null) {
-            json.decodeFromString(jsonValue)
+            Result.success(json.decodeFromString(jsonValue))
         } else {
             val defaultSettings = createDefaultSettings()
             saveProfileSettings(defaultSettings)

@@ -3,6 +3,7 @@ package org.hyperskill.app.android.main.view.ui.activity
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
@@ -21,8 +22,10 @@ import org.hyperskill.app.android.core.view.ui.navigation.AppNavigationContainer
 import org.hyperskill.app.android.databinding.ActivityMainBinding
 import org.hyperskill.app.android.home.view.ui.screen.PlaceholderNewUserScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
+import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.main.presentation.MainViewModel
+import org.hyperskill.app.profile_settings.domain.model.ProfileSettings
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.resolveColorAttribute
 import ru.nobird.android.view.navigation.navigator.NestedAppNavigator
@@ -43,6 +46,8 @@ class MainActivity :
     private val mainViewModelProvider: MainViewModel by reduxViewModel(this) { viewModelFactory }
     private val localCicerone: Cicerone<Router> = Cicerone.create()
     override val router: Router = localCicerone.router
+
+    private lateinit var profileSettings: ProfileSettings
 
     override val navigator by lazy {
         NestedAppNavigator(
@@ -84,10 +89,14 @@ class MainActivity :
         if (!resources.getBoolean(R.bool.is_tablet)) {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
+
+        AppCompatDelegate.setDefaultNightMode(ThemeMapper.getAppCompatDelegate(profileSettings.theme))
     }
 
     private fun injectManual() {
         viewModelFactory = HyperskillApp.graph().platformMainComponent.reduxViewModelFactory
+
+        profileSettings = HyperskillApp.graph().buildProfileSettingsComponent().profileSettingsInteractor.getProfileSettings().getOrNull()!!
     }
 
     private fun initViewStateDelegate() {
