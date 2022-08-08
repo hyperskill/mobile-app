@@ -87,7 +87,7 @@ struct AppView: View {
                 }
             }
         } else {
-            ProgressView()
+            AuthSocialAssembly(output: viewModel).makeModule()
         }
     }
 

@@ -1,6 +1,7 @@
 package org.hyperskill.app.profile_settings.presentation
 
-import org.hyperskill.app.auth.domain.interactor.AuthInteractor
+import kotlinx.coroutines.flow.MutableSharedFlow
+import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.profile_settings.domain.interactor.ProfileSettingsInteractor
@@ -11,8 +12,8 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 class ProfileSettingsActionDispatcher(
     config: ActionDispatcherOptions,
     private val profileSettingsInteractor: ProfileSettingsInteractor,
-    private val authInteractor: AuthInteractor,
     private val profileInteractor: ProfileInteractor,
+    private val authorizationFlow:  MutableSharedFlow<UserDeauthorized>
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
@@ -29,8 +30,8 @@ class ProfileSettingsActionDispatcher(
                 profileSettingsInteractor.changeTheme(action.theme)
             }
             is Action.Logout -> {
-                authInteractor.clearCache()
                 profileInteractor.clearCache()
+                authorizationFlow.tryEmit(UserDeauthorized)
             }
         }
     }
