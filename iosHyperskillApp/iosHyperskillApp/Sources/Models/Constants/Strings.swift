@@ -218,4 +218,12 @@ enum Strings {
         static let getBack = sharedStrings.problem_of_day_get_back.localized()
         static let nextProblemIn = sharedStrings.problem_of_day_next_problem_in.localized()
     }
+
+    // MARK: - Onboarding -
+    enum Onboarding {
+        static let title = sharedStrings.onboarding_title.localized()
+        static let text = sharedStrings.onboarding_text.localized()
+        static let signIn = sharedStrings.onboarding_sign_in.localized()
+        static let signUp = sharedStrings.onboarding_sign_up.localized()
+    }
 }

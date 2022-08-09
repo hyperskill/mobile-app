@@ -111,4 +111,11 @@ enum Images {
             }
         }
     }
+
+    // MARK: - Onboarding -
+
+    enum Onboarding {
+        static let logo = "onboarding-logo"
+        static let problemOfDayCard = "onboarding-problem-of-day-card"
+    }
 }

@@ -40,7 +40,7 @@
     <string name="register_intro_text">To get access to the content you should register at our website first.</string>
     <string name="register_button_text">Continue to hyperskill.org ↗</string>
     <string name="register_possibility_text">Right now you can solve one random problem every day.</string>
-    <string name="register_call_text">We add new features every week. Stay turned :)</string>
+    <string name="register_call_text">We add new features every week. Stay tuned :)</string>
 
     <!-- Step -->
     <string name="step_theory_text">Theory</string>
@@ -199,4 +199,11 @@
     <string name="placeholder_continue_button_text">Continue to hyperskill.org \u2197</string>
     <string name="placeholder_first_description_text">Right now you can solve one random problem every day.</string>
     <string name="placeholder_second_description_text">We add new features every week. Stay tuned :)</string>
+
+    <!--  Onboarding  -->
+    <string name="onboarding_title">Welcome to Hyperskill</string>
+    <string name="onboarding_text">Regular practice is key to mastering new skills\nLearn on the web and practice with Hypersill Mobile to keep up your learning streak and stay on top of your studies</string>
+    <string name="onboarding_card_text">Practice what you've learned</string>
+    <string name="onboarding_sign_in">Sign in</string>
+    <string name="onboarding_sign_up">Sign up</string>
 </resources>
