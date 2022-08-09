@@ -6,6 +6,8 @@ import org.hyperskill.app.android.code.injection.PlatformCodeEditorComponent
 import org.hyperskill.app.android.code.injection.PlatformCodeEditorComponentImpl
 import org.hyperskill.app.android.latex.injection.PlatformLatexComponent
 import org.hyperskill.app.android.latex.injection.PlatformLatexComponentImpl
+import org.hyperskill.app.android.notification.injection.PlatformNotificationComponent
+import org.hyperskill.app.android.notification.injection.PlatformNotificationComponentImpl
 import org.hyperskill.app.auth.injection.AuthComponent
 import org.hyperskill.app.auth.injection.AuthComponentImpl
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
@@ -37,6 +39,10 @@ import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponentImpl
 import org.hyperskill.app.profile.injection.PlatformProfileComponent
 import org.hyperskill.app.profile.injection.PlatformProfileComponentImpl
+import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
+import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponentImpl
+import org.hyperskill.app.profile_settings.injection.PlatformProfileSettingsComponent
+import org.hyperskill.app.profile.injection.PlatformProfileSettingsComponentImpl
 import org.hyperskill.app.step.injection.PlatformStepComponent
 import org.hyperskill.app.step.injection.PlatformStepComponentImpl
 import org.hyperskill.app.step.injection.StepComponent
@@ -71,6 +77,9 @@ class AndroidAppComponentImpl(
 
     override val authComponent: AuthComponent =
         AuthComponentImpl(this)
+
+    override val platformNotificationComponent: PlatformNotificationComponent =
+        PlatformNotificationComponentImpl(application, commonComponent.settings)
 
     override fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent =
         PlatformAuthSocialWebViewComponentImpl()
@@ -143,6 +152,15 @@ class AndroidAppComponentImpl(
 
     override fun buildPlatformProfileComponent(profileComponent: ProfileComponent): PlatformProfileComponent =
         PlatformProfileComponentImpl(profileComponent)
+
+    /**
+     * Profile settings component
+     */
+    override fun buildProfileSettingsComponent(): ProfileSettingsComponent =
+        ProfileSettingsComponentImpl(this)
+
+    override fun buildPlatformProfileSettingsComponent(profileSettingsComponent: ProfileSettingsComponent): PlatformProfileSettingsComponent =
+        PlatformProfileSettingsComponentImpl(profileSettingsComponent)
 
     /**
      * Home component

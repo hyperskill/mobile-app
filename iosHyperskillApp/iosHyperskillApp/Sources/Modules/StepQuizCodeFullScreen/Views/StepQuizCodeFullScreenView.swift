@@ -124,6 +124,7 @@ struct StepQuizCodeFullScreenView: View {
     }
 }
 
+#if DEBUG
 struct StepQuizCodeFullScreenView_Previews: PreviewProvider {
     static var previews: some View {
         StepQuizCodeFullScreenAssembly
@@ -131,3 +132,4 @@ struct StepQuizCodeFullScreenView_Previews: PreviewProvider {
             .makeModule()
     }
 }
+#endif

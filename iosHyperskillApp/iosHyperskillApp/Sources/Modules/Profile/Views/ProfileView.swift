@@ -30,7 +30,7 @@ struct ProfileView: View {
                 }
             }
             .sheet(isPresented: $presentingSettings) {
-                SettingsAssembly().makeModule()
+                ProfileSettingsAssembly().makeModule()
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())

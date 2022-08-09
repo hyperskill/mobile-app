@@ -6,6 +6,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.chrynan.parcelable.core.putParcelable
+import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizCodeBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
@@ -64,9 +65,6 @@ class CodeStepQuizFragment :
             }
         }
 
-        viewBinding.stepQuizDescription.isVisible = false
-        viewBinding.stepQuizDescriptionSkeleton.isVisible = false
-
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -80,12 +78,15 @@ class CodeStepQuizFragment :
         codeOptions = step.block.options
         lang = codeOptions.limits!!.keys.first()
 
+        val codeDetailsView = (viewBinding.root.parent.parent as View).findViewById<View>(R.id.stepQuizCodeSamples)
+        codeDetailsView.isVisible = true
+
         codeLayoutDelegate = CodeLayoutDelegate(
             codeLayout = binding.codeStepLayout,
             step = step,
             codeTemplates = codeOptions.codeTemplates!!,
             codeQuizInstructionDelegate = CodeQuizInstructionDelegate(
-                binding.stepQuizCodeDetails.root,
+                codeDetailsView,
                 true
             ),
             codeToolbarAdapter = null,

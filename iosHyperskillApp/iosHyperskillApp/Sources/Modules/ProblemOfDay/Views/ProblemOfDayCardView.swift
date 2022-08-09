@@ -177,6 +177,7 @@ struct ProblemOfDayCardView: View {
 
 // MARK: - Previews -
 
+#if DEBUG
 struct DailyProblemCardView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
@@ -211,3 +212,4 @@ struct DailyProblemCardView_Previews: PreviewProvider {
         .padding()
     }
 }
+#endif

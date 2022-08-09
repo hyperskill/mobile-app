@@ -59,6 +59,7 @@
 
     <color name="color_black_900">#000000</color>
     <color name="color_black_850">#121212</color>
+    <color name="color_black_500">#1E1E1E</color>
     <color name="color_black_300">#C4C4C4</color>
     <color name="color_black_900_alpha_87">#000000DE</color>
     <color name="color_black_900_alpha_60">#00000099</color>
@@ -128,7 +129,7 @@
 
     <color name="color_surface">
         <light>@color/color_white_50</light>
-        <dark>@color/color_black_850</dark>
+        <dark>@color/color_black_500</dark>
     </color>
     <color name="color_on_surface">
         <light>@color/color_black_900</light>

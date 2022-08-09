@@ -9,4 +9,8 @@ class ProfileInteractor(
 ) {
     suspend fun getCurrentProfile(sourceType: DataSourceType = DataSourceType.CACHE): Result<Profile> =
         profileRepository.getCurrentProfile(sourceType)
+
+    suspend fun clearCache() {
+        profileRepository.clearCache()
+    }
 }

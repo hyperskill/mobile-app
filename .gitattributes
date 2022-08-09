@@ -12,5 +12,7 @@ sentry.properties filter=git-crypt diff=git-crypt
 
 iosHyperskillApp/iosHyperskillApp/GoogleService-Info.plist filter=git-crypt diff=git-crypt
 iosHyperskillApp/iosHyperskillApp/Sentry-Info.plist filter=git-crypt diff=git-crypt
+iosHyperskillApp/fastlane/Appfile filter=git-crypt diff=git-crypt
+iosHyperskillApp/fastlane/Devicefile filter=git-crypt diff=git-crypt
 
 .gitattributes !filter !diff

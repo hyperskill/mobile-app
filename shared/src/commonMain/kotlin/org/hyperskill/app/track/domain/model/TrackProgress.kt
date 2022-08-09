@@ -49,11 +49,14 @@ data class TrackProgress(
 ) {
     val averageRating: Double
         get() {
-            val internalfunMeasure = (funMeasure ?: 0).toDouble()
+            val internalFunMeasure = (funMeasure ?: 0).toDouble()
             val internalClarity = (clarity ?: 0).toDouble()
             val internalUsefulness = (usefulness ?: 0).toDouble()
-            val avgRating = (internalfunMeasure + internalClarity + internalUsefulness) / 3
+            val avgRating = (internalFunMeasure + internalClarity + internalUsefulness) / 3
 
             return (avgRating * 10).roundToInt() / 10.0
         }
+
+    val completedTopics: Int
+        get() = learnedTopicsCount + skippedTopicsCount
 }
