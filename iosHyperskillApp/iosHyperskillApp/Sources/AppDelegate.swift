@@ -5,7 +5,9 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
-    private lazy weak var userNotificationsCenterDelegate = UserNotificationsCenterDelegate()
+
+    // swiftlint:disable:next weak_delegate
+    private lazy var userNotificationsCenterDelegate = UserNotificationsCenterDelegate()
 
     // MARK: Initializing the App
 

@@ -13,6 +13,6 @@ extension UserNotificationsCenterDelegate: UNUserNotificationCenterDelegate {
         willPresent notification: UNNotification,
         withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
     ) {
-        completionHandler([.list, .banner, .badge, .sound])
+        completionHandler([.banner, .sound])
     }
 }

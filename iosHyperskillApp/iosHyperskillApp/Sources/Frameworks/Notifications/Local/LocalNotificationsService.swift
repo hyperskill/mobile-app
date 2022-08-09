@@ -40,9 +40,9 @@ final class LocalNotificationsService {
             throw Error.badContentProvider
         }
 
-//        guard self.isFireDateValid(notificationTrigger.nextTriggerDate) else {
-//            throw Error.badFireDate
-//        }
+        guard self.isFireDateValid(notificationTrigger.nextTriggerDate) else {
+            throw Error.badFireDate
+        }
 
         let request = UNNotificationRequest(
             identifier: localNotification.identifier,
