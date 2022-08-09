@@ -27,6 +27,8 @@ import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.HomeComponentImpl
 import org.hyperskill.app.home.injection.PlatformHomeComponent
 import org.hyperskill.app.home.injection.PlatformHomeComponentImpl
+import org.hyperskill.app.home.injection.HomeDataComponent
+import org.hyperskill.app.home.injection.HomeDataComponentImpl
 import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainComponentImpl
 import org.hyperskill.app.main.injection.PlatformMainComponent
@@ -80,6 +82,8 @@ class AndroidAppComponentImpl(
 
     override val platformNotificationComponent: PlatformNotificationComponent =
         PlatformNotificationComponentImpl(application, commonComponent.settings)
+
+    override val homeDataComponent: HomeDataComponent by lazy { HomeDataComponentImpl() }
 
     override fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent =
         PlatformAuthSocialWebViewComponentImpl()

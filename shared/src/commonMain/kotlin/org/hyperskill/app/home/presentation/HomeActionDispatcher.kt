@@ -2,8 +2,9 @@ package org.hyperskill.app.home.presentation
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.launch
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.Clock
 import kotlinx.datetime.toLocalDateTime
@@ -12,6 +13,7 @@ import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.plus
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeFeature.Action
 import org.hyperskill.app.home.presentation.HomeFeature.Message
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
@@ -23,6 +25,7 @@ import kotlin.time.toDuration
 
 class HomeActionDispatcher(
     config: ActionDispatcherOptions,
+    private val homeInteractor: HomeInteractor,
     private val streakInteractor: StreakInteractor,
     private val profileInteractor: ProfileInteractor,
     private val stepInteractor: StepInteractor
@@ -30,6 +33,22 @@ class HomeActionDispatcher(
 
     companion object {
         val DELAY_ONE_MINUTE = 1.toDuration(DurationUnit.MINUTES)
+    }
+
+    init {
+        actionScope.launch {
+            val currentProfile = profileInteractor
+                .getCurrentProfile()
+                .getOrElse {
+                    onNewMessage(Message.HomeFailure)
+                    return@launch
+                }
+            homeInteractor.solvedProblemsSharedFlow.collect { id ->
+                if (id == currentProfile.dailyStep) {
+                    onNewMessage(Message.Init(forceUpdate = true))
+                }
+            }
+        }
     }
 
     override suspend fun doSuspendableAction(action: Action) {
