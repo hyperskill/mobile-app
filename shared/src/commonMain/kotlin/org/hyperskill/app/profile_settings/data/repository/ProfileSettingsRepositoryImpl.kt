@@ -8,7 +8,7 @@ import org.hyperskill.app.profile_settings.domain.repository.ProfileSettingsRepo
 class ProfileSettingsRepositoryImpl(
     private val profileSettingsCacheDataSource: ProfileSettingsCacheDataSource
 ) : ProfileSettingsRepository {
-    override fun getProfileSettings(): Result<ProfileSettings> =
+    override fun getProfileSettings(): ProfileSettings =
         profileSettingsCacheDataSource.getProfileSettings()
 
     override fun saveProfileSettings(profileSettings: ProfileSettings) {

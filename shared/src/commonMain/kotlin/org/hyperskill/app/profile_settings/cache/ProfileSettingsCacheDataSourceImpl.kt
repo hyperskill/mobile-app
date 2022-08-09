@@ -1,7 +1,6 @@
 package org.hyperskill.app.profile_settings.cache
 
 import com.russhwolf.settings.Settings
-import com.russhwolf.settings.get
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -14,16 +13,15 @@ class ProfileSettingsCacheDataSourceImpl(
     private val settings: Settings
 ) : ProfileSettingsCacheDataSource {
 
-    override fun getProfileSettings(): Result<ProfileSettings> {
-        val jsonValue = settings.getStringOrNull(ProfileSettingsCacheKeyValues.PROFILE_SETTINGS)
-        return if (jsonValue != null) {
-            json.decodeFromString(jsonValue)
-        } else {
+    override fun getProfileSettings(): ProfileSettings =
+        kotlin.runCatching {
+            val jsonValue = settings.getStringOrNull(ProfileSettingsCacheKeyValues.PROFILE_SETTINGS)
+            return json.decodeFromString(jsonValue!!)
+        }.getOrElse {
             val defaultSettings = createDefaultSettings()
             saveProfileSettings(defaultSettings)
-            Result.success(defaultSettings)
+            return defaultSettings
         }
-    }
 
     override fun saveProfileSettings(profileSettings: ProfileSettings) {
         settings.putString(
@@ -35,7 +33,6 @@ class ProfileSettingsCacheDataSourceImpl(
     override fun changeTheme(theme: Theme) {
         saveProfileSettings(
             getProfileSettings()
-                .getOrDefault(createDefaultSettings())
                 .copy(theme = theme)
         )
     }

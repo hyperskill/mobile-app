@@ -18,12 +18,7 @@ class ProfileSettingsActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchProfileSettings -> {
-                val profileSettings = profileSettingsInteractor
-                    .getProfileSettings()
-                    .getOrElse {
-                        onNewMessage(Message.ProfileSettingsError)
-                        return
-                    }
+                val profileSettings = profileSettingsInteractor.getProfileSettings()
                 onNewMessage(Message.ProfileSettingsSuccess(profileSettings))
             }
             is Action.ChangeTheme -> {
