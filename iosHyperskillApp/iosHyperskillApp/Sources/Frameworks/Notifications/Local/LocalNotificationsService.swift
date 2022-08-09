@@ -12,6 +12,7 @@ final class LocalNotificationsService {
     }
 
     // MARK: - Cancelling Notifications -
+
     func removeAllNotifications() {
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
@@ -22,8 +23,8 @@ final class LocalNotificationsService {
             return
         }
 
-        self.removePendingNotificationRequests(identifiers: identifiers)
-        self.removeDeliveredNotifications(identifiers: identifiers)
+        removePendingNotificationRequests(identifiers: identifiers)
+        removeDeliveredNotifications(identifiers: identifiers)
     }
 
     private func removeDeliveredNotifications(identifiers: [String]) {
@@ -35,18 +36,19 @@ final class LocalNotificationsService {
     }
 
     // MARK: - Scheduling Notifications -
+
     func scheduleNotification(_ localNotification: LocalNotificationProtocol) async throws {
         guard let notificationTrigger = localNotification.trigger else {
             throw Error.badContentProvider
         }
 
-        guard self.isFireDateValid(notificationTrigger.nextTriggerDate) else {
+        guard isFireDateValid(notificationTrigger.nextTriggerDate) else {
             throw Error.badFireDate
         }
 
         let request = UNNotificationRequest(
             identifier: localNotification.identifier,
-            content: self.makeNotificationContent(localNotification: localNotification),
+            content: makeNotificationContent(localNotification: localNotification),
             trigger: notificationTrigger
         )
 
@@ -54,7 +56,7 @@ final class LocalNotificationsService {
     }
 
     func isNotificationExists(identifier: String) async -> Bool {
-        let (pending, delivered) = await self.getAllNotifications()
+        let (pending, delivered) = await getAllNotifications()
 
         if pending.contains(where: { $0.identifier == identifier }) {
             return true
@@ -101,6 +103,7 @@ final class LocalNotificationsService {
     }
 
     // MARK: - Types -
+
     enum PayloadKey: String {
         case notificationName = "LocalNotificationServiceKey"
         case title

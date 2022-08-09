@@ -15,12 +15,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
-        self.window = UIWindow(frame: UIScreen.main.bounds)
+        window = UIWindow(frame: UIScreen.main.bounds)
 
         let rootView = AppAssembly().makeModule()
         let rootViewController = UIHostingController(rootView: rootView)
-        self.window?.rootViewController = rootViewController
-        self.window?.makeKeyAndVisible()
+        window?.rootViewController = rootViewController
+        window?.makeKeyAndVisible()
 
         //AppAppearance.themeApplication()
 
@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         KeyboardManager.configure()
         NukeManager.registerCustomDecoders()
 
-        self.userNotificationsCenterDelegate.attachNotificationDelegate()
+        userNotificationsCenterDelegate.attachNotificationDelegate()
 
         return true
     }

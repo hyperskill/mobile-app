@@ -1388,7 +1388,6 @@
 				2C725B5C28090CE500A49043 /* SwiftUI */,
 				2C42EFB027F2EA3500B4648B /* ThirdParty */,
 				2C9B66E927ECAF2400569645 /* UIKit */,
-				E9317A0028A23FBB00F59373 /* UserNotifications */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1840,14 +1839,6 @@
 			path = ViewData;
 			sourceTree = "<group>";
 		};
-		E9317A0028A23FBB00F59373 /* UserNotifications */ = {
-			isa = PBXGroup;
-			children = (
-				E9317A0128A23FD100F59373 /* UNNotificationTrigger+nextTriggerDate.swift */,
-			);
-			path = UserNotifications;
-			sourceTree = "<group>";
-		};
 		E9802D03281BB5A500CF3AC1 /* StepQuizChoice */ = {
 			isa = PBXGroup;
 			children = (
@@ -1954,19 +1945,12 @@
 		E9FB89A12893CC790011EFFB /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
-				E9D909032898149400D0EE91 /* Registration */,
+				E9FB89AF2893EA900011EFFB /* UserNotificationsCenterDelegate.swift */,
 				E9FB89A92893E9CE0011EFFB /* Local */,
 				E9FB89AA2893EA490011EFFB /* PermissionStatus */,
-				E9FB89AF2893EA900011EFFB /* UserNotificationsCenterDelegate.swift */,
+				E9D909032898149400D0EE91 /* Registration */,
 			);
 			path = Notifications;
-			sourceTree = "<group>";
-		};
-		E9FB89A82893CD4D0011EFFB /* ConcreteNotifications */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ConcreteNotifications;
 			sourceTree = "<group>";
 		};
 		E9FB89A92893E9CE0011EFFB /* Local */ = {
@@ -1974,7 +1958,7 @@
 			children = (
 				E9FB89A22893CCAF0011EFFB /* LocalNotificationProtocol.swift */,
 				E9FB89A62893CD2C0011EFFB /* LocalNotificationsService.swift */,
-				E9FB89A82893CD4D0011EFFB /* ConcreteNotifications */,
+				E9317A0128A23FD100F59373 /* UNNotificationTrigger+nextTriggerDate.swift */,
 			);
 			path = Local;
 			sourceTree = "<group>";
