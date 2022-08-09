@@ -93,9 +93,9 @@ class ProblemOfDayCardFormDelegate(
 
                     problemOfDayTimeToSolveTextView.visibility = View.VISIBLE
                     problemOfDayTimeToSolveTextView.text =
-                        context.resources.getString(
-                            R.string.problem_of_day_minutes,
-                            state.step.secondsToComplete?.div(60)?.toInt()
+                        context.resources.getQuantityString(
+                            R.plurals.minutes,
+                            state.step.secondsToComplete!!.div(60).toInt()
                         )
 
                     problemOfDayNextProblemInLinearLayout.visibility = View.VISIBLE
