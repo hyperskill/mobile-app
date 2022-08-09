@@ -2,7 +2,9 @@ package org.hyperskill.app.auth.cache
 
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.get
+import org.hyperskill.app.auth.cache.AuthCacheKeyValues.AUTH_ACCESS_TOKEN_TIMESTAMP
 import org.hyperskill.app.auth.cache.AuthCacheKeyValues.AUTH_RESPONSE
+import org.hyperskill.app.auth.cache.AuthCacheKeyValues.AUTH_SOCIAL_ORDINAL
 import org.hyperskill.app.auth.data.source.AuthCacheDataSource
 
 class AuthCacheDataSourceImpl(
@@ -16,6 +18,8 @@ class AuthCacheDataSourceImpl(
     override suspend fun clearCache() {
         kotlin.runCatching {
             settings.remove(AUTH_RESPONSE)
+            settings.remove(AUTH_ACCESS_TOKEN_TIMESTAMP)
+            settings.remove(AUTH_SOCIAL_ORDINAL)
         }
     }
 }

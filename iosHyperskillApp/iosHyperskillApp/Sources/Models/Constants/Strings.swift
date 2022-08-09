@@ -10,6 +10,7 @@ enum Strings {
         static let connectionError = sharedStrings.connection_error.localized()
         static let done = sharedStrings.done.localized()
         static let yes = sharedStrings.yes.localized()
+        static let no = sharedStrings.no.localized()
         static let cancel = sharedStrings.cancel.localized()
     }
 
@@ -185,6 +186,8 @@ enum Strings {
         static let version = sharedStrings.settings_version.localized()
         static let rateApplication = sharedStrings.settings_rate_application.localized()
         static let logout = sharedStrings.settings_logout.localized()
+        static let logoutDialogTitle = sharedStrings.settings_logout_dialog_title.localized()
+        static let logoutDialogExplanation = sharedStrings.settings_logout_dialog_explanation.localized()
         static let deleteAccount = sharedStrings.settings_delete_account.localized()
 
         enum Theme {

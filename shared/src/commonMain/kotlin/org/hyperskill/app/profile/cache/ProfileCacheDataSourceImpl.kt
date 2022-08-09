@@ -35,4 +35,9 @@ class ProfileCacheDataSourceImpl(
             }
         settings.putString(key, json.encodeToString(profile))
     }
+
+    override suspend fun clearCache() {
+        settings.remove(ProfileCacheKeyValues.GUEST_PROFILE)
+        settings.remove(ProfileCacheKeyValues.CURRENT_PROFILE)
+    }
 }

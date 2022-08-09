@@ -27,5 +27,7 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
+            is Message.LogoutConfirmed ->
+                state to setOf(Action.Logout)
         } ?: (state to emptySet())
 }

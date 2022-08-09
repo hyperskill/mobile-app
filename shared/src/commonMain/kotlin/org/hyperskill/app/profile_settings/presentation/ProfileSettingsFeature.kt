@@ -16,11 +16,13 @@ interface ProfileSettingsFeature {
         data class ProfileSettingsSuccess(val profileSettings: ProfileSettings) : Message
         object ProfileSettingsError : Message
         data class ThemeChanged(val theme: Theme) : Message
+        object LogoutConfirmed : Message
     }
 
     sealed interface Action {
         object FetchProfileSettings : Action
         data class ChangeTheme(val theme: Theme) : Action
+        object Logout : Action
         sealed class ViewAction : Action
     }
 }
