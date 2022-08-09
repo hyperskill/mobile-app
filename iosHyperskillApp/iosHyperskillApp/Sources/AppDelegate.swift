@@ -6,18 +6,21 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
+    // swiftlint:disable:next weak_delegate
+    private lazy var userNotificationsCenterDelegate = UserNotificationsCenterDelegate()
+
     // MARK: Initializing the App
 
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
-        self.window = UIWindow(frame: UIScreen.main.bounds)
+        window = UIWindow(frame: UIScreen.main.bounds)
 
         let rootView = AppAssembly().makeModule()
         let rootViewController = UIHostingController(rootView: rootView)
-        self.window?.rootViewController = rootViewController
-        self.window?.makeKeyAndVisible()
+        window?.rootViewController = rootViewController
+        window?.makeKeyAndVisible()
 
         //AppAppearance.themeApplication()
 
@@ -25,6 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ProgressHUD.configure()
         KeyboardManager.configure()
         NukeManager.registerCustomDecoders()
+
+        userNotificationsCenterDelegate.attachNotificationDelegate()
 
         return true
     }
