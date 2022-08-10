@@ -78,4 +78,8 @@ class StepQuizInteractor(
             else ->
                 true
         }
+
+    suspend fun notifyStepSolved(id: Long) {
+        submissionRepository.solvedStepsMutableSharedFlow.emit(id)
+    }
 }

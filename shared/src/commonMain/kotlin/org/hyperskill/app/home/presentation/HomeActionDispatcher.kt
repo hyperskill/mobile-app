@@ -43,9 +43,9 @@ class HomeActionDispatcher(
                     onNewMessage(Message.HomeFailure)
                     return@launch
                 }
-            homeInteractor.solvedProblemsSharedFlow.collect { id ->
+            homeInteractor.solvedStepsSharedFlow.collect { id ->
                 if (id == currentProfile.dailyStep) {
-                    onNewMessage(Message.Init(forceUpdate = true))
+                    onNewMessage(Message.ProblemOfDaySolved(id))
                 }
             }
         }
@@ -86,6 +86,21 @@ class HomeActionDispatcher(
                 }
                     .onEach { seconds -> onNewMessage(Message.HomeNextProblemInUpdate(seconds)) }
                     .launchIn(actionScope)
+            }
+            is Action.UpdateOnProblemOfDaySolved -> {
+                val currentProfile = profileInteractor
+                    .getCurrentProfile()
+                    .getOrElse { return }
+
+                val problemOfDayState = getProblemOfDayState(currentProfile.dailyStep)
+                    .getOrElse { return }
+
+                val message = streakInteractor
+                    .getStreaks(currentProfile.id)
+                    .map { Message.HomeSuccess(it.firstOrNull(), problemOfDayState) }
+                    .getOrElse { return }
+
+                onNewMessage(message)
             }
         }
     }

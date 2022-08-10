@@ -5,10 +5,8 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.chrynan.parcelable.core.getParcelable
-import kotlinx.coroutines.launch
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
@@ -18,7 +16,6 @@ import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFeedbackBlocks
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizViewStateDelegateFactory
 import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
-import org.hyperskill.app.home.domain.repository.HomeRepository
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
@@ -49,8 +46,6 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
 
     protected lateinit var step: Step
 
-    private lateinit var homeRepository: HomeRepository
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponent()
@@ -61,8 +56,6 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
         val stepQuizComponent = HyperskillApp.graph().buildStepQuizComponent()
         val platformStepQuizComponent = HyperskillApp.graph().buildPlatformStepQuizComponent(stepQuizComponent)
         viewModelFactory = platformStepQuizComponent.reduxViewModelFactory
-
-        homeRepository = HyperskillApp.graph().homeDataComponent.homeRepository
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -120,12 +113,6 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
             if (state.submissionState is StepQuizFeature.SubmissionState.Loaded) {
                 val castedState = state.submissionState as StepQuizFeature.SubmissionState.Loaded
                 val submissionStatus = castedState.submission.status
-
-                if (submissionStatus == SubmissionStatus.CORRECT) {
-                    stepQuizViewModel.viewModelScope.launch {
-                        homeRepository.solvedProblemsSharedFlow.emit(step.id)
-                    }
-                }
 
                 if (
                     step.block.name == BlockName.CODE &&

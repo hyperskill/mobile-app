@@ -25,5 +25,7 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                 State.Content(message.profile, message.streak) to emptySet()
             is Message.ProfileLoaded.Error ->
                 State.Error to emptySet()
+            is Message.StepSolved ->
+                state to setOf(Action.UpdateStreakInfo)
         } ?: (state to emptySet())
 }

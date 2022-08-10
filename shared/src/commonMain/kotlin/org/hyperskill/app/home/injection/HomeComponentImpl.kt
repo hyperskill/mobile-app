@@ -37,14 +37,14 @@ class HomeComponentImpl(appGraph: AppGraph) : HomeComponent {
     )
     private val profileRepository: ProfileRepository =
         ProfileRepositoryImpl(profileRemoteDataSource, profileCacheDataSource)
-    private val profileInteractor: ProfileInteractor = ProfileInteractor(profileRepository)
+    private val profileInteractor: ProfileInteractor = ProfileInteractor(profileRepository, appGraph.submissionDataComponent.submissionRepository)
 
     private val stepRemoteDataSource: StepRemoteDataSource = StepRemoteDataSourceImpl(
         appGraph.networkComponent.authorizedHttpClient
     )
     private val stepRepository: StepRepository = StepRepositoryImpl(stepRemoteDataSource)
     private val stepInteractor: StepInteractor = StepInteractor(stepRepository)
-    private val homeInteractor: HomeInteractor = HomeInteractor(appGraph.homeDataComponent.homeRepository)
+    private val homeInteractor: HomeInteractor = HomeInteractor(appGraph.submissionDataComponent.submissionRepository)
 
     override val homeFeature: Feature<HomeFeature.State, HomeFeature.Message, HomeFeature.Action>
         get() = HomeFeatureBuilder.build(homeInteractor, streakInteractor, profileInteractor, stepInteractor)

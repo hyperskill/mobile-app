@@ -47,6 +47,7 @@ interface StepQuizFeature {
 
         data class CreateAttempt(val step: Step, val attempt: Attempt, val submissionState: SubmissionState) : Action
         data class CreateSubmission(val step: Step, val attemptId: Long, val reply: Reply) : Action
+        data class NotifyStepSolved(val id: Long) : Action
 
         sealed interface ViewAction : Action {
             object ShowNetworkError : ViewAction // error

@@ -22,11 +22,13 @@ interface HomeFeature {
         data class HomeSuccess(val streak: Streak?, val problemOfDayState: ProblemOfDayState) : Message
         data class HomeNextProblemInUpdate(val seconds: Long) : Message
         object HomeFailure : Message
+        data class ProblemOfDaySolved(val id: Long) : Message
     }
 
     sealed interface Action {
         object FetchHomeScreenData : Action
         object LaunchTimer : Action
+        object UpdateOnProblemOfDaySolved : Action
         sealed class ViewAction : Action
     }
 }

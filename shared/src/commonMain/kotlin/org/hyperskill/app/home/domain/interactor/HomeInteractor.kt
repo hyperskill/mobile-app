@@ -1,10 +1,10 @@
 package org.hyperskill.app.home.domain.interactor
 
 import kotlinx.coroutines.flow.SharedFlow
-import org.hyperskill.app.home.domain.repository.HomeRepository
+import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
 
 class HomeInteractor(
-    private val homeRepository: HomeRepository
+    private val submissionRepository: SubmissionRepository
 ) {
-    val solvedProblemsSharedFlow: SharedFlow<Long> = homeRepository.solvedProblemsSharedFlow
+    val solvedStepsSharedFlow: SharedFlow<Long> = submissionRepository.solvedStepsMutableSharedFlow
 }

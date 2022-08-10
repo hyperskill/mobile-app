@@ -36,5 +36,12 @@ class HomeReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
+            is Message.ProblemOfDaySolved -> {
+                if (state is State.Content) {
+                    state to setOf(Action.UpdateOnProblemOfDaySolved)
+                } else {
+                    null
+                }
+            }
         } ?: (state to emptySet())
 }

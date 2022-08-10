@@ -81,6 +81,9 @@ class StepQuizActionDispatcher(
                     )
                 onNewMessage(message)
             }
+            is Action.NotifyStepSolved -> {
+                stepQuizInteractor.notifyStepSolved(action.id)
+            }
         }
     }
 
