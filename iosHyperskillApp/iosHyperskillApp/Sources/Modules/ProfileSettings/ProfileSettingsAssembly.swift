@@ -4,7 +4,13 @@ final class ProfileSettingsAssembly: Assembly {
     func makeModule() -> ProfileSettingsView {
         let profileSettingsComponent = AppGraphBridge.sharedAppGraph.buildProfileSettingsComponent()
 
-        let viewModel = ProfileSettingsViewModel(feature: profileSettingsComponent.profileSettingsFeature)
+        let applicationThemeService = ApplicationThemeService(
+            profileSettingsInteractor: profileSettingsComponent.profileSettingsInteractor
+        )
+        let viewModel = ProfileSettingsViewModel(
+            applicationThemeService: applicationThemeService,
+            feature: profileSettingsComponent.profileSettingsFeature
+        )
 
         return ProfileSettingsView(viewModel: viewModel)
     }

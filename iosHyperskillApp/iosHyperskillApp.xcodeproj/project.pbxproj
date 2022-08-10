@@ -220,6 +220,7 @@
 		2CCCA3A12862E62F00D98089 /* StepQuizStringViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCCA3A02862E62F00D98089 /* StepQuizStringViewData.swift */; };
 		2CCF3B5828004FC40075D12C /* UserAgentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCF3B5728004FC40075D12C /* UserAgentBuilder.swift */; };
 		2CCF3B5A280050890075D12C /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCF3B59280050890075D12C /* DeviceInfo.swift */; };
+		2CD316C028A3B2040002B2B2 /* ApplicationTheme+SharedTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD316BF28A3B2040002B2B2 /* ApplicationTheme+SharedTheme.swift */; };
 		2CD3652528796C4300D61855 /* ProfileViewDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD3652428796C4300D61855 /* ProfileViewDataMapper.swift */; };
 		2CD3652828797D3600D61855 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD3652728797D3600D61855 /* Formatter.swift */; };
 		2CD3652C287987FA00D61855 /* ProfileSocialAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD3652B287987FA00D61855 /* ProfileSocialAccount.swift */; };
@@ -537,6 +538,7 @@
 		2CCCA3A02862E62F00D98089 /* StepQuizStringViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizStringViewData.swift; sourceTree = "<group>"; };
 		2CCF3B5728004FC40075D12C /* UserAgentBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAgentBuilder.swift; sourceTree = "<group>"; };
 		2CCF3B59280050890075D12C /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
+		2CD316BF28A3B2040002B2B2 /* ApplicationTheme+SharedTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ApplicationTheme+SharedTheme.swift"; sourceTree = "<group>"; };
 		2CD3652428796C4300D61855 /* ProfileViewDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewDataMapper.swift; sourceTree = "<group>"; };
 		2CD3652728797D3600D61855 /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
 		2CD3652B287987FA00D61855 /* ProfileSocialAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSocialAccount.swift; sourceTree = "<group>"; };
@@ -1025,6 +1027,7 @@
 			isa = PBXGroup;
 			children = (
 				2C336D122865C47900C91342 /* ApplicationTheme.swift */,
+				2CD316BF28A3B2040002B2B2 /* ApplicationTheme+SharedTheme.swift */,
 				2C336D142865C49D00C91342 /* ApplicationThemeService.swift */,
 			);
 			path = ApplicationTheme;
@@ -2377,6 +2380,7 @@
 				2C20FBB0284F1D8B006D879E /* UIColor+Hex.swift in Sources */,
 				2C336D1B2865CDF700C91342 /* CodeInputAccessorySymbols.swift in Sources */,
 				2CAE8CF4280525D400E6C83D /* StepAssembly.swift in Sources */,
+				2CD316C028A3B2040002B2B2 /* ApplicationTheme+SharedTheme.swift in Sources */,
 				2C1061A4285C34C900EBD614 /* StepQuizChildQuizDelegate.swift in Sources */,
 				2C20FBA4284F165A006D879E /* ProcessedContent.swift in Sources */,
 				E99CCB0B287E945300898BBF /* HomeViewModel.swift in Sources */,
