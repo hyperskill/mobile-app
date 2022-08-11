@@ -23,5 +23,6 @@ extension AppViewModel: AuthOutputProtocol {
     func handleUserAuthorized(isNewUser: Bool) {
         navigationState.presentingScreen = nil
         onNewMessage(AppFeatureMessageUserAuthorized(isNewUser: isNewUser))
+        NotificationsRegistrationService.requestAuthorization()
     }
 }

@@ -25,7 +25,7 @@ class ProfileSettingsComponentImpl(private val appGraph: AppGraph) : ProfileSett
 
     private val profileSettingsRepository: ProfileSettingsRepository =
         ProfileSettingsRepositoryImpl(profileSettingsCacheDataSource)
-    private val profileSettingsInteractor: ProfileSettingsInteractor =
+    override val profileSettingsInteractor: ProfileSettingsInteractor =
         ProfileSettingsInteractor(profileSettingsRepository)
 
     private val profileRemoteDataSource: ProfileRemoteDataSource = ProfileRemoteDataSourceImpl(

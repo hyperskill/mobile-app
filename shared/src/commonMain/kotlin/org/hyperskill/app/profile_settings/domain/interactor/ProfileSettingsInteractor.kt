@@ -7,7 +7,7 @@ import org.hyperskill.app.profile_settings.domain.repository.ProfileSettingsRepo
 class ProfileSettingsInteractor(
     private val profileSettingsRepository: ProfileSettingsRepository
 ) {
-    fun getProfileSettings(): Result<ProfileSettings> =
+    fun getProfileSettings(): ProfileSettings =
         profileSettingsRepository.getProfileSettings()
 
     fun saveProfileSettings(profileSettings: ProfileSettings) {
