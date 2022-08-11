@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.android.coil)
     implementation(libs.android.coil.svg)
     implementation(libs.android.splashscreen)
+    implementation(libs.android.timepicker)
 }
 
 android {

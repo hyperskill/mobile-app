@@ -12,11 +12,13 @@ import coil.ImageLoader
 import coil.decode.SvgDecoder
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.russhwolf.settings.Settings
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentProfileBinding
 import org.hyperskill.app.android.profile_settings.view.dialog.ProfileSettingsDialogFragment
 import org.hyperskill.app.android.streak.view.delegate.StreakCardFormDelegate
+import org.hyperskill.app.android.view.base.ui.extension.TimeIntervalUtil
 import org.hyperskill.app.android.view.base.ui.extension.redirectToUsernamePage
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.view.social_redirect.SocialNetworksRedirect
@@ -33,7 +35,8 @@ import java.util.Locale
 
 class ProfileFragment :
     Fragment(R.layout.fragment_profile),
-    ReduxView<ProfileFeature.State, ProfileFeature.Action.ViewAction> {
+    ReduxView<ProfileFeature.State, ProfileFeature.Action.ViewAction>,
+    TimeIntervalPickerDialogFragment.Companion.Callback {
     companion object {
         fun newInstance(profileId: Long? = null, isInitCurrent: Boolean = true): Fragment =
             ProfileFragment()
@@ -57,6 +60,8 @@ class ProfileFragment :
     private lateinit var profile: Profile
     private var streak: Streak? = null
 
+    private val settings: Settings = HyperskillApp.graph().commonComponent.settings
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponents()
@@ -77,7 +82,7 @@ class ProfileFragment :
 
         // TODO remove before merging to develop
         viewBinding.profileDailyRemindersSwitchCompat.setOnClickListener {
-            HyperskillApp.graph().platformNotificationComponent.mockNotificationDelegate.scheduleNotification()
+//            HyperskillApp.graph().platformNotificationComponent.mockNotificationDelegate.scheduleNotification()
         }
 
         profileViewModel.onNewMessage(ProfileFeature.Message.Init(profileId = profileId, isInitCurrent = isInitCurrent))
@@ -150,6 +155,15 @@ class ProfileFragment :
 
     private fun setupRemindersSchedule() {
         // TODO
+        viewBinding.profileScheduleTextView.setOnClickListener {
+            TimeIntervalPickerDialogFragment
+                .newInstance()
+                .showIfNotExists(childFragmentManager, TimeIntervalPickerDialogFragment.TAG)
+        }
+        val scheduleTime = settings.getInt(TimeIntervalPickerDialogFragment.CHOSEN_POSITION_KEY, TimeIntervalUtil.defaultTimeCode)
+        viewBinding.profileScheduleTextView.text = requireContext().resources.getString(R.string.profile_daily_study_reminders_schedule_text) +
+            " ${scheduleTime.toString().padStart(2, '0')}:00 - ${(scheduleTime + 1).toString().padStart(2, '0')}:00"
+
         if (viewBinding.profileDailyRemindersSwitchCompat.isChecked) {
             viewBinding.profileScheduleTextView.visibility = View.VISIBLE
         } else {
@@ -250,5 +264,11 @@ class ProfileFragment :
             intent.data = Uri.parse(ProfileRedirectLinkBuilder.getProfileLink(profile.id))
             startActivity(intent)
         }
+    }
+
+    override fun onTimeIntervalPicked(chosenInterval: Int) {
+        settings.putInt(TimeIntervalPickerDialogFragment.CHOSEN_POSITION_KEY, chosenInterval)
+        viewBinding.profileScheduleTextView.text = requireContext().resources.getString(R.string.profile_daily_study_reminders_schedule_text) +
+            " ${chosenInterval.toString().padStart(2, '0')}:00 - ${(chosenInterval + 1).toString().padStart(2, '0')}:00"
     }
 }
