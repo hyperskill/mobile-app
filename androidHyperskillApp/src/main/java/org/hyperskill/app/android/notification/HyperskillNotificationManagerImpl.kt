@@ -5,7 +5,6 @@ import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
-import com.russhwolf.settings.Settings
 import org.hyperskill.app.android.core.extensions.DateTimeHelper
 import org.hyperskill.app.android.notification.receiver.AlarmReceiver
 import org.hyperskill.app.notification.domain.NotificationInteractor

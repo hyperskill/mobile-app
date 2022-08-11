@@ -10,7 +10,7 @@ import org.hyperskill.app.android.core.extensions.DateTimeHelper
 import org.hyperskill.app.android.main.view.ui.activity.MainActivity
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
 import org.hyperskill.app.notification.domain.NotificationInteractor
-import java.util.*
+import java.util.Calendar
 
 class DailyStudyReminderNotificationDelegate(
     private val context: Context,

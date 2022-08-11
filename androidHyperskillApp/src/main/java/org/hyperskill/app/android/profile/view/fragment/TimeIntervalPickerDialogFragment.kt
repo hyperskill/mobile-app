@@ -5,7 +5,6 @@ import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.russhwolf.settings.Settings
 import com.shawnlin.numberpicker.NumberPicker
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R

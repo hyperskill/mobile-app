@@ -13,16 +13,13 @@ import coil.ImageLoader
 import coil.decode.SvgDecoder
 import coil.load
 import coil.transform.CircleCropTransformation
-import com.russhwolf.settings.Settings
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentProfileBinding
 import org.hyperskill.app.android.notification.injection.PlatformNotificationComponent
 import org.hyperskill.app.android.profile_settings.view.dialog.ProfileSettingsDialogFragment
 import org.hyperskill.app.android.streak.view.delegate.StreakCardFormDelegate
-import org.hyperskill.app.android.view.base.ui.extension.TimeIntervalUtil
 import org.hyperskill.app.android.view.base.ui.extension.redirectToUsernamePage
-import org.hyperskill.app.notification.domain.NotificationInteractor
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.view.social_redirect.SocialNetworksRedirect
 import org.hyperskill.app.profile.presentation.ProfileFeature
