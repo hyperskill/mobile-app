@@ -23,11 +23,18 @@ final class CodeEditorThemeService: CodeEditorThemeServiceProtocol {
     }
 
     private var themeName: String {
-        switch applicationThemeService.theme {
-        case .dark:
-            return darkModeThemeName
+        switch applicationThemeService.currentTheme {
         case .light:
             return lightModeThemeName
+        case .dark:
+            return darkModeThemeName
+        case .system:
+            switch UITraitCollection.current.userInterfaceStyle {
+            case .dark:
+                return darkModeThemeName
+            default:
+                return lightModeThemeName
+            }
         }
     }
 
@@ -61,7 +68,7 @@ final class CodeEditorThemeService: CodeEditorThemeServiceProtocol {
 
     init(
         deviceInfo: DeviceInfo = .current,
-        applicationThemeService: ApplicationThemeServiceProtocol = ApplicationThemeService(),
+        applicationThemeService: ApplicationThemeServiceProtocol = ApplicationThemeService.default,
         userDefaults: UserDefaults = .standard
     ) {
         self.deviceInfo = deviceInfo

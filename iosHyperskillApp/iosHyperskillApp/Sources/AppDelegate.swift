@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
 
         //AppAppearance.themeApplication()
+        ApplicationThemeService.default.applyDefaultTheme()
 
         SentryManager.configure()
         ProgressHUD.configure()
