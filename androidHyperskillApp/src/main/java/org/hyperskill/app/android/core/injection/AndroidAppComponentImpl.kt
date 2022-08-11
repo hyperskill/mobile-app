@@ -33,16 +33,16 @@ import org.hyperskill.app.main.injection.PlatformMainComponent
 import org.hyperskill.app.main.injection.PlatformMainComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.network.injection.NetworkComponentImpl
+import org.hyperskill.app.profile.injection.PlatformProfileComponent
+import org.hyperskill.app.profile.injection.PlatformProfileComponentImpl
+import org.hyperskill.app.profile.injection.PlatformProfileSettingsComponentImpl
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile.injection.ProfileComponentImpl
 import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponentImpl
-import org.hyperskill.app.profile.injection.PlatformProfileComponent
-import org.hyperskill.app.profile.injection.PlatformProfileComponentImpl
+import org.hyperskill.app.profile_settings.injection.PlatformProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponentImpl
-import org.hyperskill.app.profile_settings.injection.PlatformProfileSettingsComponent
-import org.hyperskill.app.profile.injection.PlatformProfileSettingsComponentImpl
 import org.hyperskill.app.step.injection.PlatformStepComponent
 import org.hyperskill.app.step.injection.PlatformStepComponentImpl
 import org.hyperskill.app.step.injection.StepComponent
@@ -53,7 +53,6 @@ import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponentImpl
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponentImpl
-import org.hyperskill.app.step_quiz.remote.SubmissionRemoteDataSourceImpl
 import org.hyperskill.app.track.injection.PlatformTrackComponent
 import org.hyperskill.app.track.injection.PlatformTrackComponentImpl
 import org.hyperskill.app.track.injection.TrackComponent
@@ -79,11 +78,7 @@ class AndroidAppComponentImpl(
         NetworkComponentImpl(this)
 
     override val submissionDataComponent: SubmissionDataComponent =
-        SubmissionDataComponentImpl(
-            SubmissionRemoteDataSourceImpl(
-                networkComponent.authorizedHttpClient
-            )
-        )
+        SubmissionDataComponentImpl(this)
 
     override val authComponent: AuthComponent =
         AuthComponentImpl(this)

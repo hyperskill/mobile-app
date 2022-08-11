@@ -1,12 +1,17 @@
 package org.hyperskill.app.step_quiz.injection
 
+import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.step_quiz.data.repository.SubmissionRepositoryImpl
-import org.hyperskill.app.step_quiz.data.source.SubmissionRemoteDataSource
 import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
+import org.hyperskill.app.step_quiz.remote.SubmissionRemoteDataSourceImpl
 
 class SubmissionDataComponentImpl(
-    private val submissionRemoteDataSource: SubmissionRemoteDataSource
+    appGraph: AppGraph
 ) : SubmissionDataComponent {
     override val submissionRepository: SubmissionRepository =
-        SubmissionRepositoryImpl(submissionRemoteDataSource)
+        SubmissionRepositoryImpl(
+            SubmissionRemoteDataSourceImpl(
+                appGraph.networkComponent.authorizedHttpClient
+            )
+        )
 }
