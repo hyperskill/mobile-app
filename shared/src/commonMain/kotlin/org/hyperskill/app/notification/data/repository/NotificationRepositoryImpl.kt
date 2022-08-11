@@ -19,4 +19,11 @@ class NotificationRepositoryImpl(
     override fun setNotificationTimestamp(key: String, timestamp: Long) {
         notificationCacheDataSource.setNotificationTimestamp(key, timestamp)
     }
+
+    override fun getDailyStudyRemindersIntervalStartHour(): Int =
+        notificationCacheDataSource.getDailyStudyRemindersIntervalStartHour()
+
+    override fun setDailyStudyRemindersIntervalStartHour(hour: Int) {
+        notificationCacheDataSource.setDailyStudyRemindersIntervalStartHour(hour)
+    }
 }

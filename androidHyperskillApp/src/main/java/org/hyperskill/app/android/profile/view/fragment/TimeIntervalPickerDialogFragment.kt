@@ -9,14 +9,13 @@ import com.russhwolf.settings.Settings
 import com.shawnlin.numberpicker.NumberPicker
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.notification.injection.PlatformNotificationComponent
 import org.hyperskill.app.android.view.base.ui.extension.TimeIntervalUtil
 import ru.nobird.android.view.base.ui.extension.resolveColorAttribute
 
 class TimeIntervalPickerDialogFragment : DialogFragment() {
     companion object {
         const val TAG = "time_interval_picker_dialog"
-
-        const val CHOSEN_POSITION_KEY = "CHOSEN_POSITION_KEY"
 
         fun newInstance(): TimeIntervalPickerDialogFragment =
             TimeIntervalPickerDialogFragment()
@@ -26,7 +25,7 @@ class TimeIntervalPickerDialogFragment : DialogFragment() {
         }
     }
 
-    private val settings: Settings = HyperskillApp.graph().commonComponent.settings
+    private val platformNotificationComponent: PlatformNotificationComponent = HyperskillApp.graph().platformNotificationComponent
 
     private lateinit var picker: NumberPicker
 
@@ -34,7 +33,7 @@ class TimeIntervalPickerDialogFragment : DialogFragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt(CHOSEN_POSITION_KEY, picker.value)
+        platformNotificationComponent.notificationInteractor.setDailyStudyRemindersIntervalStartHour(picker.value)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -42,7 +41,7 @@ class TimeIntervalPickerDialogFragment : DialogFragment() {
         picker.minValue = 0
         picker.maxValue = TimeIntervalUtil.values.size - 1
         picker.displayedValues = TimeIntervalUtil.values
-        picker.value = settings.getInt(CHOSEN_POSITION_KEY, TimeIntervalUtil.defaultTimeCode)
+        picker.value = platformNotificationComponent.notificationInteractor.getDailyStudyRemindersIntervalStartHour()
         picker.descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
         picker.wrapSelectorWheel = false
         picker.setBackgroundColor(0x0)

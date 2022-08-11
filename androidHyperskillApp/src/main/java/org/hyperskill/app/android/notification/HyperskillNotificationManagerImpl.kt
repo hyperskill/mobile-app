@@ -8,11 +8,12 @@ import android.content.Context
 import com.russhwolf.settings.Settings
 import org.hyperskill.app.android.core.extensions.DateTimeHelper
 import org.hyperskill.app.android.notification.receiver.AlarmReceiver
+import org.hyperskill.app.notification.domain.NotificationInteractor
 import ru.nobird.android.view.base.ui.extension.scheduleCompat
 
 class HyperskillNotificationManagerImpl(
     private val context: Context,
-    private val settings: Settings
+    private val notificationInteractor: NotificationInteractor
 ) : HyperskillNotificationManager {
 
     private val alarmManager: AlarmManager by lazy { context.getSystemService(Context.ALARM_SERVICE) as AlarmManager }
@@ -28,11 +29,11 @@ class HyperskillNotificationManagerImpl(
         alarmManager.cancel(pendingIntent)
         alarmManager.scheduleCompat(millis, AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent)
 
-        settings.putLong(id, millis)
+        notificationInteractor.setNotificationTimestamp(id, millis)
     }
 
     override fun rescheduleActiveNotification(id: String) {
-        val millis = settings.getLong(id)
+        val millis = notificationInteractor.getNotificationTimestamp(id)
         if (millis > 0L && millis > DateTimeHelper.nowUtc()) {
             scheduleNotification(id, millis)
         }

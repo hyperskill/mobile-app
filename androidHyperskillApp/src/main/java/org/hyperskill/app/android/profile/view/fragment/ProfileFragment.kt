@@ -5,6 +5,7 @@ import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -16,10 +17,12 @@ import com.russhwolf.settings.Settings
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentProfileBinding
+import org.hyperskill.app.android.notification.injection.PlatformNotificationComponent
 import org.hyperskill.app.android.profile_settings.view.dialog.ProfileSettingsDialogFragment
 import org.hyperskill.app.android.streak.view.delegate.StreakCardFormDelegate
 import org.hyperskill.app.android.view.base.ui.extension.TimeIntervalUtil
 import org.hyperskill.app.android.view.base.ui.extension.redirectToUsernamePage
+import org.hyperskill.app.notification.domain.NotificationInteractor
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.view.social_redirect.SocialNetworksRedirect
 import org.hyperskill.app.profile.presentation.ProfileFeature
@@ -60,7 +63,7 @@ class ProfileFragment :
     private lateinit var profile: Profile
     private var streak: Streak? = null
 
-    private val settings: Settings = HyperskillApp.graph().commonComponent.settings
+    private val platformNotificationComponent: PlatformNotificationComponent = HyperskillApp.graph().platformNotificationComponent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,11 +81,6 @@ class ProfileFragment :
             ProfileSettingsDialogFragment
                 .newInstance()
                 .showIfNotExists(childFragmentManager, ProfileSettingsDialogFragment.TAG)
-        }
-
-        // TODO remove before merging to develop
-        viewBinding.profileDailyRemindersSwitchCompat.setOnClickListener {
-//            HyperskillApp.graph().platformNotificationComponent.mockNotificationDelegate.scheduleNotification()
         }
 
         profileViewModel.onNewMessage(ProfileFeature.Message.Init(profileId = profileId, isInitCurrent = isInitCurrent))
@@ -160,21 +158,20 @@ class ProfileFragment :
                 .newInstance()
                 .showIfNotExists(childFragmentManager, TimeIntervalPickerDialogFragment.TAG)
         }
-        val scheduleTime = settings.getInt(TimeIntervalPickerDialogFragment.CHOSEN_POSITION_KEY, TimeIntervalUtil.defaultTimeCode)
+        val scheduleTime = platformNotificationComponent.notificationInteractor.getDailyStudyRemindersIntervalStartHour()
+        viewBinding.profileDailyRemindersSwitchCompat.isChecked = platformNotificationComponent.notificationInteractor.isNotificationsEnabled()
+
         viewBinding.profileScheduleTextView.text = requireContext().resources.getString(R.string.profile_daily_study_reminders_schedule_text) +
             " ${scheduleTime.toString().padStart(2, '0')}:00 - ${(scheduleTime + 1).toString().padStart(2, '0')}:00"
 
-        if (viewBinding.profileDailyRemindersSwitchCompat.isChecked) {
-            viewBinding.profileScheduleTextView.visibility = View.VISIBLE
-        } else {
-            viewBinding.profileScheduleTextView.visibility = View.GONE
-        }
+        viewBinding.profileScheduleTextView.isVisible = viewBinding.profileDailyRemindersSwitchCompat.isChecked
 
         viewBinding.profileDailyRemindersSwitchCompat.setOnCheckedChangeListener { _, isChecked ->
+            viewBinding.profileScheduleTextView.isVisible = isChecked
+            platformNotificationComponent.notificationInteractor.setNotificationsEnabled(isChecked)
+
             if (isChecked) {
-                viewBinding.profileScheduleTextView.visibility = View.VISIBLE
-            } else {
-                viewBinding.profileScheduleTextView.visibility = View.GONE
+                platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification()
             }
         }
     }
@@ -267,7 +264,9 @@ class ProfileFragment :
     }
 
     override fun onTimeIntervalPicked(chosenInterval: Int) {
-        settings.putInt(TimeIntervalPickerDialogFragment.CHOSEN_POSITION_KEY, chosenInterval)
+        platformNotificationComponent.notificationInteractor.setDailyStudyRemindersIntervalStartHour(chosenInterval)
+        platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification()
+
         viewBinding.profileScheduleTextView.text = requireContext().resources.getString(R.string.profile_daily_study_reminders_schedule_text) +
             " ${chosenInterval.toString().padStart(2, '0')}:00 - ${(chosenInterval + 1).toString().padStart(2, '0')}:00"
     }

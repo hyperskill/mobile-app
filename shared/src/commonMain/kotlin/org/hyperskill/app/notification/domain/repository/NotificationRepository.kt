@@ -8,4 +8,8 @@ interface NotificationRepository {
     fun getNotificationTimestamp(key: String): Long
 
     fun setNotificationTimestamp(key: String, timestamp: Long)
+
+    fun getDailyStudyRemindersIntervalStartHour(): Int
+
+    fun setDailyStudyRemindersIntervalStartHour(hour: Int)
 }

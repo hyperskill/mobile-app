@@ -18,4 +18,11 @@ class NotificationInteractor(
     fun setNotificationTimestamp(key: String, timestamp: Long) {
         notificationRepository.setNotificationTimestamp(key, timestamp)
     }
+
+    fun getDailyStudyRemindersIntervalStartHour(): Int =
+        notificationRepository.getDailyStudyRemindersIntervalStartHour()
+
+    fun setDailyStudyRemindersIntervalStartHour(hour: Int) {
+        notificationRepository.setDailyStudyRemindersIntervalStartHour(hour)
+    }
 }
