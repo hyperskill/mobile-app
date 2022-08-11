@@ -97,6 +97,19 @@ class ProfileSettingsDialogFragment :
 
         viewBinding.settingsVersionTextView.text = HyperskillApp.graph().commonComponent.userAgentInfo.versionName
 
+        viewBinding.settingsLogoutButton.setOnClickListener {
+            MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog_LogoutDialog)
+                .setTitle(R.string.settings_logout_dialog_title)
+                .setMessage(R.string.settings_logout_dialog_explanation)
+                .setPositiveButton(R.string.yes) { _, _ ->
+                    profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.LogoutConfirmed)
+                }
+                .setNegativeButton(R.string.no) { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
+        }
+
         profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.InitMessage())
     }
 

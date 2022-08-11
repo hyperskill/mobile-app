@@ -153,4 +153,12 @@
         <item name="buttonBarNegativeButtonStyle">@style/AlertDialogOutlinedButton</item>
     </style>
 
+    <style name="ThemeOverlay.App.MaterialAlertDialog.LogoutDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorSecondary">@color/color_primary</item>
+        <item name="android:checkedTextViewStyle">@style/AlertDialogTextStyle</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/AlertDialogTitleStyle</item>
+    </style>
+
 </resources>
