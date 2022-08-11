@@ -302,6 +302,7 @@
 		E9F655CA2875914200291143 /* StreakCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F655C92875914200291143 /* StreakCardView.swift */; };
 		E9F655D12875B32700291143 /* ProblemOfDayCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F655D02875B32700291143 /* ProblemOfDayCardView.swift */; };
 		E9F923F628A2633D00C065A7 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F923F528A2633D00C065A7 /* OnboardingView.swift */; };
+		E9FDB26728A54A39001DE9C3 /* AppPresentingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDB26628A54A39001DE9C3 /* AppPresentingScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -618,6 +619,7 @@
 		E9F655C92875914200291143 /* StreakCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCardView.swift; sourceTree = "<group>"; };
 		E9F655D02875B32700291143 /* ProblemOfDayCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDayCardView.swift; sourceTree = "<group>"; };
 		E9F923F528A2633D00C065A7 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		E9FDB26628A54A39001DE9C3 /* AppPresentingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPresentingScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1640,6 +1642,7 @@
 				2C9EB9542861BA02007DDE44 /* AppTabItem.swift */,
 				2C005DCD27EF5B4400DC6503 /* AppView.swift */,
 				2CE31F4A27F1E070008EEE66 /* AppViewModel.swift */,
+				E9FDB26628A54A39001DE9C3 /* AppPresentingScreen.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -2219,6 +2222,7 @@
 				2C177EC32837B65500D841DB /* View+Frame.swift in Sources */,
 				E9950E9528894F4700C4D962 /* HourIntervalPicker.swift in Sources */,
 				E9F923F628A2633D00C065A7 /* OnboardingView.swift in Sources */,
+				E9FDB26728A54A39001DE9C3 /* AppPresentingScreen.swift in Sources */,
 				2C336D242865E38B00C91342 /* CodeInputAccessoryCollectionViewCell.swift in Sources */,
 				2C2FD62428192123004E7AF6 /* BundlePropertyListDeserializer.swift in Sources */,
 				2C8E66D7287877F500D3928D /* ProfileViewModel.swift in Sources */,

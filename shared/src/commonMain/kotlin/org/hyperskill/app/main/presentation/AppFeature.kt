@@ -14,8 +14,10 @@ interface AppFeature {
         data class Init(val forceUpdate: Boolean = false) : Message
         data class UserAuthorized(val isNewUser: Boolean) : Message
         object UserDeauthorized : Message
-        data class UserAccountStatus(val profile: Profile) : Message
+        data class UserAccountStatus(val profile: Profile, val isOnboardingShowed: Boolean) : Message
         object UserAccountStatusError : Message
+        object OpenAuthScreen : Message
+        object OpenNewUserScreen : Message
     }
 
     sealed interface Action {
@@ -25,6 +27,7 @@ interface AppFeature {
                 object HomeScreen : NavigateTo
                 object AuthScreen : NavigateTo
                 object NewUserScreen : NavigateTo
+                object OnboardingScreen : NavigateTo
             }
         }
     }

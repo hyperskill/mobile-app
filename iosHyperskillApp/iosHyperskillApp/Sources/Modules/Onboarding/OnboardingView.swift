@@ -10,6 +10,9 @@ extension OnboardingView {
 struct OnboardingView: View {
     private(set) var appearance = Appearance()
 
+    let onSignInTap: () -> Void
+    let onSignUpTap: () -> Void
+
     var body: some View {
         ZStack {
             Color(ColorPalette.background)
@@ -45,10 +48,10 @@ struct OnboardingView: View {
 
                 Spacer()
 
-                Button(Strings.Onboarding.signIn) {}
+                Button(Strings.Onboarding.signIn) { onSignInTap() }
                     .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
 
-                Button(Strings.Onboarding.signUp) {}
+                Button(Strings.Onboarding.signUp) { onSignUpTap() }
                     .buttonStyle(OutlineButtonStyle(style: .violet))
             }
             .padding()
@@ -58,9 +61,9 @@ struct OnboardingView: View {
 
 struct OnboardingView_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardingView()
+        OnboardingView(onSignInTap: {}, onSignUpTap: {})
 
-        OnboardingView()
+        OnboardingView(onSignInTap: {}, onSignUpTap: {})
             .preferredColorScheme(.dark)
     }
 }

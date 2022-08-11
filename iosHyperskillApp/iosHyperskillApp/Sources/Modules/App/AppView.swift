@@ -48,11 +48,18 @@ struct AppView: View {
             buildContent(
                 isAuthorized: readyState.isAuthorized
             )
-            .fullScreenCover(isPresented: $viewModel.navigationState.presentingAuthScreen) {
-                AuthSocialAssembly(output: viewModel).makeModule()
-            }
-            .fullScreenCover(isPresented: $viewModel.navigationState.presentingNewUserScreen) {
-                AuthNewUserPlaceholderView()
+            .fullScreenCover(item: $viewModel.navigationState.presentingScreen) { screen in
+                switch screen {
+                case .auth:
+                    AuthSocialAssembly(output: viewModel).makeModule()
+                case .onboarding:
+                    OnboardingView(
+                        onSignInTap: viewModel.openAuthScreen,
+                        onSignUpTap: viewModel.openNewUserScreen
+                    )
+                case .newUser:
+                    AuthNewUserPlaceholderView()
+                }
             }
             .environmentObject(panModalPresenter)
         default:
@@ -87,7 +94,7 @@ struct AppView: View {
                 }
             }
         } else {
-            AuthSocialAssembly(output: viewModel).makeModule()
+            ProgressView()
         }
     }
 
@@ -97,17 +104,21 @@ struct AppView: View {
 
     private func handleViewAction(_ viewAction: AppFeatureActionViewAction) {
         switch viewAction {
+        case is AppFeatureActionViewActionNavigateToOnboardingScreen:
+            withAnimation {
+                viewModel.navigationState.presentingScreen = .onboarding
+            }
         case is AppFeatureActionViewActionNavigateToHomeScreen:
             withAnimation {
-                viewModel.navigationState.presentingAuthScreen = false
+                viewModel.navigationState.presentingScreen = nil
             }
         case is AppFeatureActionViewActionNavigateToAuthScreen:
             withAnimation {
-                viewModel.navigationState.presentingAuthScreen = true
+                viewModel.navigationState.presentingScreen = .auth
             }
         case is AppFeatureActionViewActionNavigateToNewUserScreen:
             withAnimation {
-                viewModel.navigationState.presentingNewUserScreen = true
+                viewModel.navigationState.presentingScreen = .newUser
             }
         default:
             print("AppView :: unhandled viewAction = \(viewAction)")
