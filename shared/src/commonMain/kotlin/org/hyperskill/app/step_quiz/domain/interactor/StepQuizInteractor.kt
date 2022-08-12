@@ -38,6 +38,7 @@ class StepQuizInteractor(
             .map { it.firstOrNull() }
 
     suspend fun createSubmission(
+        stepId: Long,
         attemptId: Long,
         reply: Reply,
         solvingContext: StepContext = StepContext.DEFAULT
@@ -46,7 +47,13 @@ class StepQuizInteractor(
             val submission = submissionRepository
                 .createSubmission(attemptId, reply, solvingContext)
                 .getOrThrow()
-            return pollSubmission(submission.id)
+
+            val pollSub = pollSubmission(submission.id)
+            if (pollSub.getOrNull()?.status == SubmissionStatus.CORRECT) {
+                notifyStepSolved(stepId)
+            }
+
+            return pollSub
         }
 
     private suspend fun pollSubmission(submissionId: Long): Result<Submission> {
@@ -79,7 +86,7 @@ class StepQuizInteractor(
                 true
         }
 
-    suspend fun notifyStepSolved(id: Long) {
-        submissionRepository.solvedStepsMutableSharedFlow.emit(id)
+    private suspend fun notifyStepSolved(stepId: Long) {
+        submissionRepository.solvedStepsMutableSharedFlow.emit(stepId)
     }
 }

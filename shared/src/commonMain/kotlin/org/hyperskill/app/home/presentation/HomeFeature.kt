@@ -21,8 +21,9 @@ interface HomeFeature {
         data class Init(val forceUpdate: Boolean) : Message
         data class HomeSuccess(val streak: Streak?, val problemOfDayState: ProblemOfDayState) : Message
         data class HomeNextProblemInUpdate(val seconds: Long) : Message
+        object ReadyToLaunchNextProblemInTimer : Message
         object HomeFailure : Message
-        data class ProblemOfDaySolved(val id: Long) : Message
+        data class ProblemOfDaySolved(val stepId: Long) : Message
     }
 
     sealed interface Action {

@@ -70,7 +70,7 @@ class StepQuizActionDispatcher(
             }
             is Action.CreateSubmission -> {
                 val message = stepQuizInteractor
-                    .createSubmission(action.attemptId, action.reply)
+                    .createSubmission(action.step.id, action.attemptId, action.reply)
                     .fold(
                         onSuccess = { newSubmission ->
                             Message.CreateSubmissionSuccess(newSubmission)
@@ -80,9 +80,6 @@ class StepQuizActionDispatcher(
                         }
                     )
                 onNewMessage(message)
-            }
-            is Action.NotifyStepSolved -> {
-                stepQuizInteractor.notifyStepSolved(action.id)
             }
         }
     }

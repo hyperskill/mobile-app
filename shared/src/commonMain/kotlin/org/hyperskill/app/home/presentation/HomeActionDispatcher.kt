@@ -54,25 +54,11 @@ class HomeActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchHomeScreenData -> {
-                val currentProfile = profileInteractor
-                    .getCurrentProfile()
-                    .getOrElse {
-                        onNewMessage(Message.HomeFailure)
-                        return
-                    }
+                fetchHomeScreenData {
+                    onNewMessage(Message.HomeFailure)
+                }
 
-                val problemOfDayState = getProblemOfDayState(currentProfile.dailyStep)
-                    .getOrElse {
-                        onNewMessage(Message.HomeFailure)
-                        return
-                    }
-
-                val message = streakInteractor
-                    .getStreaks(currentProfile.id)
-                    .map { Message.HomeSuccess(it.firstOrNull(), problemOfDayState) }
-                    .getOrElse { Message.HomeFailure }
-
-                onNewMessage(message)
+                onNewMessage(Message.ReadyToLaunchNextProblemInTimer)
             }
             is Action.LaunchTimer -> {
                 flow {
@@ -88,21 +74,30 @@ class HomeActionDispatcher(
                     .launchIn(actionScope)
             }
             is Action.UpdateOnProblemOfDaySolved -> {
-                val currentProfile = profileInteractor
-                    .getCurrentProfile()
-                    .getOrElse { return }
-
-                val problemOfDayState = getProblemOfDayState(currentProfile.dailyStep)
-                    .getOrElse { return }
-
-                val message = streakInteractor
-                    .getStreaks(currentProfile.id)
-                    .map { Message.HomeSuccess(it.firstOrNull(), problemOfDayState) }
-                    .getOrElse { return }
-
-                onNewMessage(message)
+                fetchHomeScreenData {}
             }
         }
+    }
+
+    private suspend fun fetchHomeScreenData(onError: () -> Unit) {
+        kotlin.runCatching {
+            val currentProfile = profileInteractor
+                .getCurrentProfile()
+                .getOrThrow()
+
+            val problemOfDayState = getProblemOfDayState(currentProfile.dailyStep)
+                .getOrThrow()
+
+            val message = streakInteractor
+                .getStreaks(currentProfile.id)
+                .map { Message.HomeSuccess(it.firstOrNull(), problemOfDayState) }
+                .getOrThrow()
+
+            onNewMessage(message)
+        }
+            .onFailure {
+                onError()
+            }
     }
 
     private suspend fun getProblemOfDayState(dailyStepId: Long?): Result<HomeFeature.ProblemOfDayState> =

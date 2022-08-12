@@ -61,18 +61,9 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 }
             is Message.CreateSubmissionSuccess ->
                 if (state is State.AttemptLoaded) {
-                    val newState = state.copy(
+                    state.copy(
                         submissionState = StepQuizFeature.SubmissionState.Loaded(message.submission)
-                    )
-
-                    val actions =
-                        if ((newState.submissionState as StepQuizFeature.SubmissionState.Loaded).submission.status == SubmissionStatus.CORRECT) {
-                            setOf(Action.NotifyStepSolved(state.attempt.step))
-                        } else {
-                            emptySet()
-                        }
-
-                    newState to actions
+                    ) to emptySet()
                 } else {
                     null
                 }
