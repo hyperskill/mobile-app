@@ -1,5 +1,6 @@
 package org.hyperskill.app.notification.data.repository
 
+import org.hyperskill.app.notification.data.model.NotificationDescription
 import org.hyperskill.app.notification.data.source.NotificationCacheDataSource
 import org.hyperskill.app.notification.domain.repository.NotificationRepository
 
@@ -26,4 +27,7 @@ class NotificationRepositoryImpl(
     override fun setDailyStudyRemindersIntervalStartHour(hour: Int) {
         notificationCacheDataSource.setDailyStudyRemindersIntervalStartHour(hour)
     }
+
+    override fun getRandomNotificationDescription(): NotificationDescription =
+        notificationCacheDataSource.getRandomNotificationDescription()
 }

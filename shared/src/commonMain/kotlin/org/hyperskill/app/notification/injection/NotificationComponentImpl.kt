@@ -9,7 +9,7 @@ import org.hyperskill.app.notification.domain.repository.NotificationRepository
 
 class NotificationComponentImpl(appGraph: AppGraph) : NotificationComponent {
     private val notificationCacheDataSource: NotificationCacheDataSource =
-        NotificationCacheDataSourceImpl(appGraph.commonComponent.settings)
+        NotificationCacheDataSourceImpl(appGraph.commonComponent.settings, appGraph.commonComponent.resourceProvider)
 
     private val notificationRepository: NotificationRepository =
         NotificationRepositoryImpl(notificationCacheDataSource)

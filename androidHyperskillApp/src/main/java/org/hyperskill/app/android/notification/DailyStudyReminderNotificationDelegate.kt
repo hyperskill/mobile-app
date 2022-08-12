@@ -30,9 +30,14 @@ class DailyStudyReminderNotificationDelegate(
         val intent = Intent(HyperskillApp.getAppContext(), MainActivity::class.java)
         val pendingIntent: PendingIntent = PendingIntent.getActivity(HyperskillApp.getAppContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE)
 
+        val notificationDescription = notificationInteractor.getRandomNotificationDescription()
+
         val notification = NotificationCompat.Builder(context, HyperskillNotificationChannel.DAILY_REMINDER.channelId)
-            .setContentTitle("Hyperskill Daily Reminder")   // TODO change title and text when ALTAPPS-235 is done
-            .setContentText("Let's learn something new!")
+            .setContentTitle(notificationDescription.title)
+            .setStyle(
+                NotificationCompat.BigTextStyle()
+                    .bigText(notificationDescription.text)
+            )
             .setSmallIcon(R.drawable.ic_branded_logo_splash)
             .setContentIntent(pendingIntent)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)

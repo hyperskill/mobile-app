@@ -1,5 +1,6 @@
 package org.hyperskill.app.notification.domain
 
+import org.hyperskill.app.notification.data.model.NotificationDescription
 import org.hyperskill.app.notification.domain.repository.NotificationRepository
 
 class NotificationInteractor(
@@ -25,4 +26,7 @@ class NotificationInteractor(
     fun setDailyStudyRemindersIntervalStartHour(hour: Int) {
         notificationRepository.setDailyStudyRemindersIntervalStartHour(hour)
     }
+
+    fun getRandomNotificationDescription(): NotificationDescription =
+        notificationRepository.getRandomNotificationDescription()
 }
