@@ -1,5 +1,7 @@
 package org.hyperskill.app.notification.domain.repository
 
+import org.hyperskill.app.notification.data.model.Notification
+
 interface NotificationRepository {
     fun isNotificationsEnabled(): Boolean
 
@@ -8,4 +10,6 @@ interface NotificationRepository {
     fun getNotificationTimestamp(key: String): Long
 
     fun setNotificationTimestamp(key: String, timestamp: Long)
+
+    fun getRandomNotification(): Notification
 }

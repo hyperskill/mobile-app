@@ -1,5 +1,6 @@
 package org.hyperskill.app.notification.data.repository
 
+import org.hyperskill.app.notification.data.model.Notification
 import org.hyperskill.app.notification.data.source.NotificationCacheDataSource
 import org.hyperskill.app.notification.domain.repository.NotificationRepository
 
@@ -19,4 +20,7 @@ class NotificationRepositoryImpl(
     override fun setNotificationTimestamp(key: String, timestamp: Long) {
         notificationCacheDataSource.setNotificationTimestamp(key, timestamp)
     }
+
+    override fun getRandomNotification(): Notification =
+        notificationCacheDataSource.getRandomNotification()
 }
