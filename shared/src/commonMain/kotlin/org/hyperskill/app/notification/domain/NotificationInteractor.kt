@@ -1,6 +1,6 @@
 package org.hyperskill.app.notification.domain
 
-import org.hyperskill.app.notification.data.model.Notification
+import org.hyperskill.app.notification.data.model.NotificationDescription
 import org.hyperskill.app.notification.domain.repository.NotificationRepository
 
 class NotificationInteractor(
@@ -20,6 +20,6 @@ class NotificationInteractor(
         notificationRepository.setNotificationTimestamp(key, timestamp)
     }
 
-    fun getRandomNotification(): Notification =
+    fun getRandomNotification(): NotificationDescription =
         notificationRepository.getRandomNotification()
 }

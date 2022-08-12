@@ -1,6 +1,6 @@
 package org.hyperskill.app.notification.data.model
 
-data class Notification(
+data class NotificationDescription(
     val title: String,
-    val desc: String
+    val text: String
 )

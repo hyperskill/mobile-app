@@ -1,6 +1,6 @@
 package org.hyperskill.app.notification.data.source
 
-import org.hyperskill.app.notification.data.model.Notification
+import org.hyperskill.app.notification.data.model.NotificationDescription
 
 interface NotificationCacheDataSource {
     fun isNotificationsEnabled(): Boolean
@@ -11,5 +11,5 @@ interface NotificationCacheDataSource {
 
     fun setNotificationTimestamp(key: String, timestamp: Long)
 
-    fun getRandomNotification(): Notification
+    fun getRandomNotification(): NotificationDescription
 }
