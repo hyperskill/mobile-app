@@ -1,6 +1,7 @@
 package org.hyperskill.app.home.injection
 
 import org.hyperskill.app.core.injection.AppGraph
+import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.profile.cache.ProfileCacheDataSourceImpl
 import org.hyperskill.app.profile.data.repository.ProfileRepositoryImpl
@@ -36,14 +37,15 @@ class HomeComponentImpl(appGraph: AppGraph) : HomeComponent {
     )
     private val profileRepository: ProfileRepository =
         ProfileRepositoryImpl(profileRemoteDataSource, profileCacheDataSource)
-    private val profileInteractor: ProfileInteractor = ProfileInteractor(profileRepository)
+    private val profileInteractor: ProfileInteractor = ProfileInteractor(profileRepository, appGraph.submissionDataComponent.submissionRepository)
 
     private val stepRemoteDataSource: StepRemoteDataSource = StepRemoteDataSourceImpl(
         appGraph.networkComponent.authorizedHttpClient
     )
     private val stepRepository: StepRepository = StepRepositoryImpl(stepRemoteDataSource)
     private val stepInteractor: StepInteractor = StepInteractor(stepRepository)
+    private val homeInteractor: HomeInteractor = HomeInteractor(appGraph.submissionDataComponent.submissionRepository)
 
     override val homeFeature: Feature<HomeFeature.State, HomeFeature.Message, HomeFeature.Action>
-        get() = HomeFeatureBuilder.build(streakInteractor, profileInteractor, stepInteractor)
+        get() = HomeFeatureBuilder.build(homeInteractor, streakInteractor, profileInteractor, stepInteractor)
 }
