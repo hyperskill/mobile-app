@@ -92,10 +92,12 @@ class ProblemOfDayCardFormDelegate(
                     state as HomeFeature.ProblemOfDayState.NeedToSolve
 
                     problemOfDayTimeToSolveTextView.visibility = View.VISIBLE
+                    val minutesToComplete = state.step.secondsToComplete!!.div(60).toInt()
                     problemOfDayTimeToSolveTextView.text =
-                        context.resources.getString(
-                            R.string.problem_of_day_minutes,
-                            state.step.secondsToComplete?.div(60)?.toInt()
+                        context.resources.getQuantityString(
+                            R.plurals.minutes,
+                            minutesToComplete,
+                            minutesToComplete
                         )
 
                     problemOfDayNextProblemInLinearLayout.visibility = View.VISIBLE

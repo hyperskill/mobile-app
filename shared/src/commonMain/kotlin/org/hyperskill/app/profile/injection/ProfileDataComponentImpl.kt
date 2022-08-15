@@ -9,7 +9,7 @@ import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.profile.domain.repository.ProfileRepository
 import org.hyperskill.app.profile.remote.ProfileRemoteDataSourceImpl
 
-class ProfileDataComponentImpl(appGraph: AppGraph) : ProfileDataComponent {
+class ProfileDataComponentImpl(private val appGraph: AppGraph) : ProfileDataComponent {
     private val profileRemoteDataSource: ProfileRemoteDataSource = ProfileRemoteDataSourceImpl(
         appGraph.networkComponent.authorizedHttpClient
     )
@@ -22,5 +22,5 @@ class ProfileDataComponentImpl(appGraph: AppGraph) : ProfileDataComponent {
         profileCacheDataSource
     )
     override val profileInteractor: ProfileInteractor
-        get() = ProfileInteractor(profileRepository)
+        get() = ProfileInteractor(profileRepository, appGraph.submissionDataComponent.submissionRepository)
 }

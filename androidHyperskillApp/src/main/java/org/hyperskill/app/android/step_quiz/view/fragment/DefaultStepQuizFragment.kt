@@ -112,9 +112,11 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
 
             if (state.submissionState is StepQuizFeature.SubmissionState.Loaded) {
                 val castedState = state.submissionState as StepQuizFeature.SubmissionState.Loaded
+                val submissionStatus = castedState.submission.status
+
                 if (
                     step.block.name == BlockName.CODE &&
-                    (castedState.submission.status == SubmissionStatus.CORRECT || castedState.submission.status == SubmissionStatus.WRONG)
+                    (submissionStatus == SubmissionStatus.CORRECT || submissionStatus == SubmissionStatus.WRONG)
                 ) {
                     viewBinding.stepQuizButtons.stepQuizRetryButton.visibility = View.VISIBLE
                 }
