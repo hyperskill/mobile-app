@@ -10,13 +10,21 @@ final class ProfileViewModel: FeatureViewModel<
 
     private let viewDataMapper: ProfileViewDataMapper
 
+    private let notificationInteractor: NotificationInteractor
+
+    private let notificationService: LocalNotificationsService
+
     init(
         presentationDescription: ProfilePresentationDescription,
         viewDataMapper: ProfileViewDataMapper,
+        notificationInteractor: NotificationInteractor,
+        notificationService: LocalNotificationsService,
         feature: Presentation_reduxFeature
     ) {
         self.presentationDescription = presentationDescription
         self.viewDataMapper = viewDataMapper
+        self.notificationInteractor = notificationInteractor
+        self.notificationService = notificationService
         super.init(feature: feature)
     }
 
@@ -69,6 +77,33 @@ final class ProfileViewModel: FeatureViewModel<
             withKey: .externalLink,
             allowsSafari: true,
             backButtonStyle: .done
+        )
+    }
+
+    func isRemindersActivated() -> Bool {
+        self.notificationInteractor.isNotificationsEnabled()
+    }
+
+    func setRemindersActivated(activated: Bool) async {
+        self.notificationInteractor.setNotificationsEnabled(enabled: activated)
+        await self.scheduleNotification()
+    }
+
+    func getRemindersSelectedHour() -> Int {
+        Int(self.notificationInteractor.getDailyStudyRemindersIntervalStartHour())
+    }
+
+    func setRemindersSelectedHour(selectedHour: Int) async {
+        self.notificationInteractor.setDailyStudyRemindersIntervalStartHour(hour: Int32(selectedHour))
+        await self.scheduleNotification()
+    }
+
+    private func scheduleNotification() async {
+        try? await notificationService.scheduleNotification(
+            ReminderLocalNotification(
+                notificationDescritpion: notificationInteractor.getRandomNotificationDescription(),
+                selectedHour: Int(notificationInteractor.getDailyStudyRemindersIntervalStartHour())
+            )
         )
     }
 }

@@ -77,7 +77,12 @@ struct ProfileView: View {
                             .background(Color(ColorPalette.surface))
                     }
 
-                    ProfileDailyStudyRemindersView()
+                    ProfileDailyStudyRemindersView(
+                        isActivated: viewModel.isRemindersActivated(),
+                        selectedHour: viewModel.getRemindersSelectedHour(),
+                        setActivated: viewModel.setRemindersActivated,
+                        setSelectedHour: viewModel.setRemindersSelectedHour
+                    )
 
                     ProfileAboutView(
                         livesInText: viewData.livesInText,

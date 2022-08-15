@@ -301,6 +301,7 @@
 		E9D2D675284E0B30000757AC /* StepQuizMatchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2D674284E0B30000757AC /* StepQuizMatchingView.swift */; };
 		E9D69A4028084FF7000E114E /* AuthCredentialsErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D69A3F28084FF7000E114E /* AuthCredentialsErrorView.swift */; };
 		E9D90905289814AA00D0EE91 /* NotificationsRegistrationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D90904289814AA00D0EE91 /* NotificationsRegistrationService.swift */; };
+		E9EF705128A7DB6500EA0C1C /* ReminderLocalNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EF705028A7DB6500EA0C1C /* ReminderLocalNotification.swift */; };
 		E9F59B90289FE053001CEA02 /* ProfileSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F59B8F289FE053001CEA02 /* ProfileSettingsViewModel.swift */; };
 		E9F655CA2875914200291143 /* StreakCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F655C92875914200291143 /* StreakCardView.swift */; };
 		E9F655D12875B32700291143 /* ProblemOfDayCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F655D02875B32700291143 /* ProblemOfDayCardView.swift */; };
@@ -623,6 +624,7 @@
 		E9D2D674284E0B30000757AC /* StepQuizMatchingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingView.swift; sourceTree = "<group>"; };
 		E9D69A3F28084FF7000E114E /* AuthCredentialsErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsErrorView.swift; sourceTree = "<group>"; };
 		E9D90904289814AA00D0EE91 /* NotificationsRegistrationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsRegistrationService.swift; sourceTree = "<group>"; };
+		E9EF705028A7DB6500EA0C1C /* ReminderLocalNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderLocalNotification.swift; sourceTree = "<group>"; };
 		E9F59B8F289FE053001CEA02 /* ProfileSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsViewModel.swift; sourceTree = "<group>"; };
 		E9F655C92875914200291143 /* StreakCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCardView.swift; sourceTree = "<group>"; };
 		E9F655D02875B32700291143 /* ProblemOfDayCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDayCardView.swift; sourceTree = "<group>"; };
@@ -1923,6 +1925,14 @@
 			path = Registration;
 			sourceTree = "<group>";
 		};
+		E9EF704F28A7DB4900EA0C1C /* ConcreteNotifications */ = {
+			isa = PBXGroup;
+			children = (
+				E9EF705028A7DB6500EA0C1C /* ReminderLocalNotification.swift */,
+			);
+			path = ConcreteNotifications;
+			sourceTree = "<group>";
+		};
 		E9F655CE2875B30B00291143 /* Streak */ = {
 			isa = PBXGroup;
 			children = (
@@ -1959,6 +1969,7 @@
 		E9FB89A92893E9CE0011EFFB /* Local */ = {
 			isa = PBXGroup;
 			children = (
+				E9EF704F28A7DB4900EA0C1C /* ConcreteNotifications */,
 				E9FB89A22893CCAF0011EFFB /* LocalNotificationProtocol.swift */,
 				E9FB89A62893CD2C0011EFFB /* LocalNotificationsService.swift */,
 				E9317A0128A23FD100F59373 /* UNNotificationTrigger+nextTriggerDate.swift */,
@@ -2197,6 +2208,7 @@
 				2CCCA3992862D58E00D98089 /* StepQuizStringView.swift in Sources */,
 				2CE31F4B27F1E070008EEE66 /* AppViewModel.swift in Sources */,
 				2CD48D8E28586B6F00CFCC4A /* StepQuizViewDataMapper.swift in Sources */,
+				E9EF705128A7DB6500EA0C1C /* ReminderLocalNotification.swift in Sources */,
 				2CFCACF6287C5D510098EA0B /* TrackViewDataMapper.swift in Sources */,
 				2C41127828376F6D004948A3 /* StepQuizDiscussionsButton.swift in Sources */,
 				2C725B612809125700A49043 /* LayoutInsets.swift in Sources */,
