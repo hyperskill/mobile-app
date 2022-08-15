@@ -16,7 +16,7 @@ struct ProblemOfDayTitle: View {
     let arrowIcon: String
     let isArrowDisabled: Bool
 
-    let onTap: () -> Void
+    let stepID: Int?
 
     var body: some View {
         HStack(spacing: LayoutInsets.smallInset) {
@@ -31,8 +31,14 @@ struct ProblemOfDayTitle: View {
 
             Spacer()
 
-            Button(
-                action: onTap,
+            NavigationLink(
+                destination: {
+                    if let stepID = stepID {
+                        StepAssembly(stepID: stepID).makeModule()
+                    } else {
+                        EmptyView()
+                    }
+                },
                 label: {
                     Image(arrowIcon)
                         .renderingMode(.original)
@@ -40,7 +46,7 @@ struct ProblemOfDayTitle: View {
                         .frame(widthHeight: appearance.arrowIconSize)
                 }
             )
-            .disabled(isArrowDisabled)
+            .disabled(stepID == nil)
         }
     }
 }
@@ -53,7 +59,7 @@ struct ProblemTitle_Previews: PreviewProvider {
             titleText: Strings.ProblemOfDay.titleUncompleted,
             arrowIcon: Images.Home.ProblemOfDay.arrowUncompleted,
             isArrowDisabled: false,
-            onTap: {}
+            stepID: 4350
         )
         .previewLayout(.sizeThatFits)
     }

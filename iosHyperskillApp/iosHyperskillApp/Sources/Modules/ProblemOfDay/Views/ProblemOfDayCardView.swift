@@ -42,7 +42,7 @@ struct ProblemOfDayCardView: View {
                 titleText: viewData.state.titleText,
                 arrowIcon: viewData.state.titleArrowIconName,
                 isArrowDisabled: viewData.state == .unavailable,
-                onTap: {}
+                stepID: viewData.stepID
             )
 
             Text(viewData.state.descriptionText)
