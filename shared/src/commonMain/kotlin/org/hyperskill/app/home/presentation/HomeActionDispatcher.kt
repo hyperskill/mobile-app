@@ -74,7 +74,17 @@ class HomeActionDispatcher(
                     .launchIn(actionScope)
             }
             is Action.UpdateOnProblemOfDaySolved -> {
-                fetchHomeScreenData {}
+                val currentProfile = profileInteractor
+                    .getCurrentProfile()
+                    .getOrThrow()
+
+                val problemOfDayState = getProblemOfDayState(currentProfile.dailyStep)
+                    .getOrThrow()
+
+                val updatedStreak = action.streak?.getStreakWithTodaySolved()
+
+                val message = Message.HomeSuccess(updatedStreak, problemOfDayState)
+                onNewMessage(message)
             }
         }
     }

@@ -48,7 +48,7 @@ class HomeReducer : StateReducer<State, Message, Action> {
                     state.problemOfDayState is HomeFeature.ProblemOfDayState.NeedToSolve &&
                     state.problemOfDayState.step.id == message.stepId
                 ) {
-                    state to setOf(Action.UpdateOnProblemOfDaySolved)
+                    state to setOf(Action.UpdateOnProblemOfDaySolved(state.streak))
                 } else {
                     null
                 }

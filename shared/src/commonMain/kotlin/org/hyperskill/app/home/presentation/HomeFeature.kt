@@ -29,7 +29,7 @@ interface HomeFeature {
     sealed interface Action {
         object FetchHomeScreenData : Action
         object LaunchTimer : Action
-        object UpdateOnProblemOfDaySolved : Action
+        data class UpdateOnProblemOfDaySolved(val streak: Streak?) : Action
         sealed class ViewAction : Action
     }
 }

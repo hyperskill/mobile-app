@@ -32,7 +32,7 @@ interface ProfileFeature {
     sealed interface Action {
         data class FetchProfile(val profileId: Long) : Action
         object FetchCurrentProfile : Action
-        object UpdateStreakInfo : Action
+        data class UpdateStreakInfo(val streak: Streak?) : Action
         sealed class ViewAction : Action
     }
 }

@@ -48,11 +48,9 @@ class ProfileActionDispatcher(
                     .getCurrentProfile()
                     .getOrElse { return }
 
-                val message = streakInteractor
-                    .getStreaks(currentProfile.id)
-                    .map { Message.ProfileLoaded.Success(currentProfile, it.firstOrNull()) }
-                    .getOrElse { return }
+                val updatedStreak = action.streak?.getStreakWithTodaySolved()
 
+                val message = Message.ProfileLoaded.Success(currentProfile, updatedStreak)
                 onNewMessage(message)
             }
         }
