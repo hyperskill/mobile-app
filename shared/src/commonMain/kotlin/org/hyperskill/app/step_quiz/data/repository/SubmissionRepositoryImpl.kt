@@ -1,5 +1,6 @@
 package org.hyperskill.app.step_quiz.data.repository
 
+import kotlinx.coroutines.flow.MutableSharedFlow
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step_quiz.data.source.SubmissionRemoteDataSource
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
@@ -9,6 +10,8 @@ import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
 class SubmissionRepositoryImpl(
     private val submissionRemoteDataSource: SubmissionRemoteDataSource
 ) : SubmissionRepository {
+    override val solvedStepsMutableSharedFlow: MutableSharedFlow<Long> = MutableSharedFlow()
+
     override suspend fun getSubmissionsForStep(
         stepId: Long,
         userId: Long,

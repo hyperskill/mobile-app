@@ -1,6 +1,7 @@
 package org.hyperskill.app.home.injection
 
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeActionDispatcher
 import org.hyperskill.app.home.presentation.HomeReducer
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
@@ -15,6 +16,7 @@ import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 object HomeFeatureBuilder {
     fun build(
+        homeInteractor: HomeInteractor,
         streakInteractor: StreakInteractor,
         profileInteractor: ProfileInteractor,
         stepInteractor: StepInteractor
@@ -22,6 +24,7 @@ object HomeFeatureBuilder {
         val homeReducer = HomeReducer()
         val homeActionDispatcher = HomeActionDispatcher(
             ActionDispatcherOptions(),
+            homeInteractor,
             streakInteractor,
             profileInteractor,
             stepInteractor

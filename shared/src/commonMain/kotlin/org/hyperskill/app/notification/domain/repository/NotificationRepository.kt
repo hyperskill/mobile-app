@@ -1,11 +1,19 @@
 package org.hyperskill.app.notification.domain.repository
 
-interface NotificationRepository {
-    fun isNotificationsEnabled(): Boolean
+import org.hyperskill.app.notification.data.model.NotificationDescription
 
-    fun setNotificationsEnabled(enabled: Boolean)
+interface NotificationRepository {
+    fun isDailyStudyRemindersEnabled(): Boolean
+
+    fun setDailyStudyRemindersEnabled(enabled: Boolean)
 
     fun getNotificationTimestamp(key: String): Long
 
     fun setNotificationTimestamp(key: String, timestamp: Long)
+
+    fun getDailyStudyRemindersIntervalStartHour(): Int
+
+    fun setDailyStudyRemindersIntervalStartHour(hour: Int)
+
+    fun getRandomDailyStudyRemindersNotificationDescription(): NotificationDescription
 }

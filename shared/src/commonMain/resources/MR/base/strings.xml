@@ -7,6 +7,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
 
     <!-- Users list -->
     <string name="user_list_search_button_title">Search</string>
@@ -171,6 +172,7 @@
     <string name="settings_terms_of_service_url">https://www.jetbrains.com/legal/terms/jetbrains-academy.html</string>
     <string name="settings_privacy_policy_url">https://hi.hyperskill.org/terms</string>
     <string name="settings_help_center_url">https://support.hyperskill.org/hc/en-us</string>
+    <string name="choose_notification_time_interval">Change notification interval</string>
 
     <!-- Placeholder -->
     <string name="placeholder_network_error_title">Oops! It seems like the network error.</string>
@@ -199,6 +201,49 @@
     <string name="placeholder_continue_button_text">Continue to hyperskill.org \u2197</string>
     <string name="placeholder_first_description_text">Right now you can solve one random problem every day.</string>
     <string name="placeholder_second_description_text">We add new features every week. Stay tuned :)</string>
+
+    <!--  Notifications titles & descriptions  -->
+    <string name="notification1_title">Keep it up</string>
+    <string name="notification1_text">Taking the first step is half the battle. You\'re doing great! Let\'s practice for a bit to keep your learning streak going.</string>
+
+    <string name="notification2_title">Eyes on the prize</string>
+    <string name="notification2_text">Even 5 minutes of studying will bring you closer to your learning goal. Come practice now!</string>
+
+    <string name="notification3_title">A little practice will take you a long way</string>
+    <string name="notification3_text">Daily study sessions are the best way to keep your coding skills sharp. Let\'s practice now!</string>
+
+    <string name="notification4_title">Ready to crush your learning session?</string>
+    <string name="notification4_text">Remember: progress beats perfection. Five minutes of daily practice will quickly amount to solid achievements. Let\'s study now!</string>
+
+    <string name="notification5_title">Your daily practice reminder</string>
+    <string name="notification5_text">Take 5 minutes to practice your coding skills now.</string>
+
+    <string name="notification6_title">Hey! Do you have a minute?</string>
+    <string name="notification6_text">It\'s time for your daily practice. Solve a problem to stay on top of your studies.</string>
+
+    <string name="notification7_title">Practice makes perfect</string>
+    <string name="notification7_text">Completing even one programming task a day will keep your skills in top shape.</string>
+
+    <string name="notification8_title">Hello, world!</string>
+    <string name="notification8_text">Your study session today might seem like a small step, but it\'s a giant leap towards your learning goal. Come practice now!</string>
+
+    <string name="notification9_title">It\'s time for your study session</string>
+    <string name="notification9_text">Take a moment to practice to continue your learning streak.</string>
+
+    <string name="notification10_title">Don\'t let your efforts go to waste</string>
+    <string name="notification10_text">Regular practice sessions are the key to consistent results. Come study now!</string>
+
+    <string name="notification11_title">Don\'t give up now!</string>
+    <string name="notification11_text">Making the first step is the hardest part. But you\'re doing amazing so far! Study now to keep your skills in top shape.</string>
+
+    <string name="notification12_title">Keep calm and learn programming</string>
+    <string name="notification12_text">Take it one step at a time: daily study sessions are the quickest way to achieve your learning goals.</string>
+
+    <string name="notification13_title">No one:</string>
+    <string name="notification13_text">Me: Celebrating that I finally got a different error message 🥹</string>
+
+    <string name="notification14_title">No one:</string>
+    <string name="notification14_text">Me: If the IDE knows I\'m missing a semicolon, why won\'t it just add it itself? 🤔</string>
 
     <!--  Onboarding  -->
     <string name="onboarding_title">Welcome\nto Hyperskill</string>

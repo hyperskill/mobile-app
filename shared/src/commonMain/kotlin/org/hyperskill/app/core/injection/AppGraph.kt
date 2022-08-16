@@ -7,11 +7,13 @@ import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
+import org.hyperskill.app.notification.injection.NotificationComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
+import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.track.injection.TrackComponent
 
 interface AppGraph {
@@ -19,6 +21,7 @@ interface AppGraph {
     val networkComponent: NetworkComponent
     val authComponent: AuthComponent
     val mainComponent: MainComponent
+    val submissionDataComponent: SubmissionDataComponent
 
     fun buildAuthSocialComponent(): AuthSocialComponent
     fun buildAuthCredentialsComponent(): AuthCredentialsComponent
@@ -29,5 +32,6 @@ interface AppGraph {
     fun buildProfileComponent(): ProfileComponent
     fun buildProfileSettingsComponent(): ProfileSettingsComponent
     fun buildHomeComponent(): HomeComponent
+    fun buildNotificationComponent(): NotificationComponent
     fun buildOnboardingComponent(): OnboardingComponent
 }
