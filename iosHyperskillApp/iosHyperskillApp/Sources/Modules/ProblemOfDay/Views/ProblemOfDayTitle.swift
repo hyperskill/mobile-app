@@ -14,7 +14,6 @@ struct ProblemOfDayTitle: View {
     let titleText: String
 
     let arrowIcon: String
-    let isArrowDisabled: Bool
 
     var body: some View {
         HStack(spacing: LayoutInsets.smallInset) {
@@ -43,8 +42,7 @@ struct ProblemTitle_Previews: PreviewProvider {
             appearance: .init(titleIconSize: 24),
             titleIcon: Images.Home.ProblemOfDay.calendar,
             titleText: Strings.ProblemOfDay.titleUncompleted,
-            arrowIcon: Images.Home.ProblemOfDay.arrowUncompleted,
-            isArrowDisabled: false
+            arrowIcon: Images.Home.ProblemOfDay.arrowUncompleted
         )
         .previewLayout(.sizeThatFits)
     }

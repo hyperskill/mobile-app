@@ -35,8 +35,6 @@ struct ProblemOfDayCardView: View {
             destination: {
                 if let stepID = viewData.stepID {
                     StepAssembly(stepID: stepID).makeModule()
-                } else {
-                    EmptyView()
                 }
             },
             label: {
@@ -44,13 +42,12 @@ struct ProblemOfDayCardView: View {
                     ProblemOfDayTitle(
                         appearance: .init(
                             titleIconSize: viewData.state == .completed
-                            ? appearance.titleIconSizeSmall
-                            : appearance.titleIconSizeDefault
+                                ? appearance.titleIconSizeSmall
+                                : appearance.titleIconSizeDefault
                         ),
                         titleIcon: viewData.state.titleIconName,
                         titleText: viewData.state.titleText,
-                        arrowIcon: viewData.state.titleArrowIconName,
-                        isArrowDisabled: viewData.state == .unavailable
+                        arrowIcon: viewData.state.titleArrowIconName
                     )
 
                     Text(viewData.state.descriptionText)
