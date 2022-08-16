@@ -47,7 +47,7 @@ class AppReducer : StateReducer<State, Message, Action> {
                                 Action.ViewAction.NavigateTo.HomeScreen
                             }
                         } else {
-                            if (message.isOnboardingShowed) {
+                            if (message.isOnboardingShown) {
                                 Action.ViewAction.NavigateTo.AuthScreen
                             } else {
                                 Action.ViewAction.NavigateTo.OnboardingScreen

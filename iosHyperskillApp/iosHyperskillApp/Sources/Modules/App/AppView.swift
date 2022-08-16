@@ -48,15 +48,16 @@ struct AppView: View {
             buildContent(
                 isAuthorized: readyState.isAuthorized
             )
-            .fullScreenCover(item: $viewModel.navigationState.presentingScreen) { screen in
+            .fullScreenCover(item: $viewModel.navigationState.activeFullScreenModal) { screen in
                 switch screen {
                 case .auth:
                     AuthSocialAssembly(output: viewModel).makeModule()
                 case .onboarding:
-                    OnboardingView(
-                        onSignInTap: viewModel.openAuthScreen,
-                        onSignUpTap: viewModel.openNewUserScreen
+                    OnboardingAssembly(
+                        onSignInTap: viewModel.doAuthPresentation,
+                        onSignUpTap: viewModel.doNewUserPresentation
                     )
+                    .makeModule()
                 case .newUser:
                     AuthNewUserPlaceholderView()
                 }
@@ -106,19 +107,19 @@ struct AppView: View {
         switch viewAction {
         case is AppFeatureActionViewActionNavigateToOnboardingScreen:
             withAnimation {
-                viewModel.navigationState.presentingScreen = .onboarding
+                viewModel.navigationState.activeFullScreenModal = .onboarding
             }
         case is AppFeatureActionViewActionNavigateToHomeScreen:
             withAnimation {
-                viewModel.navigationState.presentingScreen = nil
+                viewModel.navigationState.activeFullScreenModal = nil
             }
         case is AppFeatureActionViewActionNavigateToAuthScreen:
             withAnimation {
-                viewModel.navigationState.presentingScreen = .auth
+                viewModel.navigationState.activeFullScreenModal = .auth
             }
         case is AppFeatureActionViewActionNavigateToNewUserScreen:
             withAnimation {
-                viewModel.navigationState.presentingScreen = .newUser
+                viewModel.navigationState.activeFullScreenModal = .newUser
             }
         default:
             print("AppView :: unhandled viewAction = \(viewAction)")

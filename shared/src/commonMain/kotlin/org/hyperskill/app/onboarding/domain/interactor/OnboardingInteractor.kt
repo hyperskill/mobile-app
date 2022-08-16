@@ -5,10 +5,10 @@ import org.hyperskill.app.onboarding.domain.repository.OnboardingRepository
 class OnboardingInteractor(
     private val onboardingRepository: OnboardingRepository
 ) {
-    fun isOnboardingShowed(): Boolean =
-        onboardingRepository.isOnboardingShowed()
+    fun isOnboardingShown(): Boolean =
+        onboardingRepository.isOnboardingShown()
 
-    fun setOnboardingShowed(showed: Boolean) {
-        onboardingRepository.setOnboardingShowed(showed)
+    fun setOnboardingShown(showed: Boolean) {
+        onboardingRepository.setOnboardingShown(showed)
     }
 }

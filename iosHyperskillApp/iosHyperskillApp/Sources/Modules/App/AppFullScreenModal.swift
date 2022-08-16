@@ -1,6 +1,6 @@
 import Foundation
 
-enum AppPresentingScreen: Identifiable {
+enum AppFullScreenModal: Identifiable {
     case auth
     case onboarding
     case newUser

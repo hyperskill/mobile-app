@@ -220,6 +220,7 @@ enum Strings {
     }
 
     // MARK: - Onboarding -
+
     enum Onboarding {
         static let title = sharedStrings.onboarding_title.localized()
         static let text = sharedStrings.onboarding_text.localized()

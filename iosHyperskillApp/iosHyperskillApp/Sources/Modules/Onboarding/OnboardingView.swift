@@ -1,3 +1,4 @@
+import shared
 import SwiftUI
 
 extension OnboardingView {
@@ -10,13 +11,14 @@ extension OnboardingView {
 struct OnboardingView: View {
     private(set) var appearance = Appearance()
 
+    @StateObject var viewModel: OnboardingViewModel
+
     let onSignInTap: () -> Void
     let onSignUpTap: () -> Void
 
     var body: some View {
         ZStack {
-            Color(ColorPalette.background)
-                .ignoresSafeArea()
+            BackgroundView()
 
             VStack(alignment: .center, spacing: LayoutInsets.largeInset) {
                 Image(Images.Onboarding.logo)
@@ -29,14 +31,13 @@ struct OnboardingView: View {
                     )
 
                 Text(Strings.Onboarding.title)
-                    .font(.title)
+                    .font(.largeTitle)
                     .foregroundColor(.primaryText)
 
                 Text(Strings.Onboarding.text)
                     .font(.body)
                     .foregroundColor(.primaryText)
                     .multilineTextAlignment(.center)
-
 
                 Spacer()
 
@@ -56,14 +57,26 @@ struct OnboardingView: View {
             }
             .padding()
         }
+        .onAppear {
+            viewModel.startListening()
+            viewModel.onViewAction = handleViewAction(_:)
+            viewModel.loadOnboarding()
+        }
+        .onDisappear(perform: viewModel.stopListening)
+    }
+
+    // MARK: Private API
+
+    private func handleViewAction(_ viewAction: OnboardingFeatureActionViewAction) {
+        print("OnboardingView :: \(#function) viewAction = \(viewAction)")
     }
 }
 
 struct OnboardingView_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardingView(onSignInTap: {}, onSignUpTap: {})
+        OnboardingAssembly(onSignInTap: {}, onSignUpTap: {}).makeModule()
 
-        OnboardingView(onSignInTap: {}, onSignUpTap: {})
+        OnboardingAssembly(onSignInTap: {}, onSignUpTap: {}).makeModule()
             .preferredColorScheme(.dark)
     }
 }

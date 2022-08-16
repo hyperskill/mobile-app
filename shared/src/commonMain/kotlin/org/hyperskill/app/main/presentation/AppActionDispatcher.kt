@@ -33,14 +33,10 @@ class AppActionDispatcher(
 
                 val message =
                     profileResult
-                        .map { profile -> Message.UserAccountStatus(profile, onboardingInteractor.isOnboardingShowed()) }
+                        .map { profile -> Message.UserAccountStatus(profile, onboardingInteractor.isOnboardingShown()) }
                         .getOrElse { Message.UserAccountStatusError }
 
                 onNewMessage(message)
-
-                if (message is Message.UserAccountStatus && !message.isOnboardingShowed) {
-                    onboardingInteractor.setOnboardingShowed(true)
-                }
             }
         }
     }

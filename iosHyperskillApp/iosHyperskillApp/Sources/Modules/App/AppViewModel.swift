@@ -8,11 +8,11 @@ final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, A
         onNewMessage(AppFeatureMessageInit(forceUpdate: forceUpdate))
     }
 
-    func openAuthScreen() {
+    func doAuthPresentation() {
         onNewMessage(AppFeatureMessageOpenAuthScreen())
     }
 
-    func openNewUserScreen() {
+    func doNewUserPresentation() {
         onNewMessage(AppFeatureMessageOpenNewUserScreen())
     }
 }
@@ -21,7 +21,7 @@ final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, A
 
 extension AppViewModel: AuthOutputProtocol {
     func handleUserAuthorized(isNewUser: Bool) {
-        navigationState.presentingScreen = nil
+        navigationState.activeFullScreenModal = nil
         onNewMessage(AppFeatureMessageUserAuthorized(isNewUser: isNewUser))
         NotificationsRegistrationService.requestAuthorization()
     }

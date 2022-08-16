@@ -33,6 +33,8 @@ import org.hyperskill.app.main.injection.PlatformMainComponent
 import org.hyperskill.app.main.injection.PlatformMainComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.network.injection.NetworkComponentImpl
+import org.hyperskill.app.onboarding.injection.OnboardingComponent
+import org.hyperskill.app.onboarding.injection.OnboardingComponentImpl
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile.injection.ProfileComponentImpl
 import org.hyperskill.app.profile.injection.ProfileDataComponent
@@ -170,4 +172,7 @@ class AndroidAppComponentImpl(
 
     override fun buildPlatformHomeComponent(homeComponent: HomeComponent): PlatformHomeComponent =
         PlatformHomeComponentImpl(homeComponent)
+
+    override fun buildOnboardingComponent(): OnboardingComponent =
+        OnboardingComponentImpl(this)
 }
