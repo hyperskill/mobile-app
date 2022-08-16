@@ -1,7 +1,7 @@
 import Foundation
 
 protocol OnboardingOutputProtocol: AnyObject {
-    func doAuthPresentation()
+    func handleOnboardingSignInRequested()
 
-    func doNewUserPresentation()
+    func handleOnboardingSignUpRequested()
 }

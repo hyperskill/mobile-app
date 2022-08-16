@@ -13,10 +13,10 @@ final class OnboardingViewModel: FeatureViewModel<
     }
 
     func doAuthPresentation() {
-        moduleOutput?.doAuthPresentation()
+        moduleOutput?.handleOnboardingSignInRequested()
     }
 
     func doNewUserPresentation() {
-        moduleOutput?.doNewUserPresentation()
+        moduleOutput?.handleOnboardingSignUpRequested()
     }
 }

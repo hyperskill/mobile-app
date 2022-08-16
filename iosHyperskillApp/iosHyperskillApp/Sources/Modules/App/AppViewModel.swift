@@ -22,11 +22,11 @@ extension AppViewModel: AuthOutputProtocol {
 // MARK: - AppViewModel: OnboardingOutputProtocol -
 
 extension AppViewModel: OnboardingOutputProtocol {
-    func doAuthPresentation() {
+    func handleOnboardingSignInRequested() {
         onNewMessage(AppFeatureMessageOpenAuthScreen())
     }
 
-    func doNewUserPresentation() {
+    func handleOnboardingSignUpRequested() {
         onNewMessage(AppFeatureMessageOpenNewUserScreen())
     }
 }
