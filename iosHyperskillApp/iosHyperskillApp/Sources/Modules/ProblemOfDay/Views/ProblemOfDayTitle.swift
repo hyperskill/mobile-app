@@ -16,8 +16,6 @@ struct ProblemOfDayTitle: View {
     let arrowIcon: String
     let isArrowDisabled: Bool
 
-    let stepID: Int?
-
     var body: some View {
         HStack(spacing: LayoutInsets.smallInset) {
             Image(titleIcon)
@@ -31,22 +29,10 @@ struct ProblemOfDayTitle: View {
 
             Spacer()
 
-            NavigationLink(
-                destination: {
-                    if let stepID = stepID {
-                        StepAssembly(stepID: stepID).makeModule()
-                    } else {
-                        EmptyView()
-                    }
-                },
-                label: {
-                    Image(arrowIcon)
-                        .renderingMode(.original)
-                        .resizable()
-                        .frame(widthHeight: appearance.arrowIconSize)
-                }
-            )
-            .disabled(stepID == nil)
+            Image(arrowIcon)
+                .renderingMode(.original)
+                .resizable()
+                .frame(widthHeight: appearance.arrowIconSize)
         }
     }
 }
@@ -58,8 +44,7 @@ struct ProblemTitle_Previews: PreviewProvider {
             titleIcon: Images.Home.ProblemOfDay.calendar,
             titleText: Strings.ProblemOfDay.titleUncompleted,
             arrowIcon: Images.Home.ProblemOfDay.arrowUncompleted,
-            isArrowDisabled: false,
-            stepID: 4350
+            isArrowDisabled: false
         )
         .previewLayout(.sizeThatFits)
     }

@@ -54,13 +54,11 @@ final class ProblemOfDayViewDataMapper {
         }()
 
         let stepID: Int? = {
-            let stepID = solvedStateOrNil?.step.id ?? needToSolveStateOrNil?.step.id
-
-            if let stepID = stepID {
-                return Int(stepID)
-            } else {
+            guard let stepID = solvedStateOrNil?.step.id ?? needToSolveStateOrNil?.step.id else {
                 return nil
             }
+
+            return Int(stepID)
         }()
 
         return ProblemOfDayViewData(
