@@ -133,7 +133,7 @@ enum SocialAuthProvider: String, CaseIterable {
         case .github:
             return nil
         case .apple:
-            return nil
+            return AppleIDSocialAuthSDKProvider.shared
         }
     }
 }
