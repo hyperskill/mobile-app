@@ -49,7 +49,9 @@ class FeatureViewModel<State, Message, ViewAction>: ObservableObject {
         }
 
         while let queuedViewAction = self.viewActionQueue.dequeue() {
-            onViewAction(queuedViewAction)
+            DispatchQueue.main.async {
+                onViewAction(queuedViewAction)
+            }
         }
     }
 
@@ -82,7 +84,9 @@ class FeatureViewModel<State, Message, ViewAction>: ObservableObject {
 
         if self.isListeningForChanges,
            let onViewAction = self.onViewAction {
-            onViewAction(viewAction)
+            DispatchQueue.main.async {
+                onViewAction(viewAction)
+            }
         } else {
             self.viewActionQueue.enqueue(value: viewAction)
         }
