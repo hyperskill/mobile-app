@@ -33,26 +33,28 @@ import org.hyperskill.app.main.injection.PlatformMainComponent
 import org.hyperskill.app.main.injection.PlatformMainComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.network.injection.NetworkComponentImpl
-import org.hyperskill.app.profile.injection.PlatformProfileComponent
-import org.hyperskill.app.profile.injection.PlatformProfileComponentImpl
-import org.hyperskill.app.profile.injection.PlatformProfileSettingsComponentImpl
+import org.hyperskill.app.notification.injection.NotificationComponent
+import org.hyperskill.app.notification.injection.NotificationComponentImpl
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile.injection.ProfileComponentImpl
 import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponentImpl
-import org.hyperskill.app.profile_settings.injection.PlatformProfileSettingsComponent
+import org.hyperskill.app.profile.injection.PlatformProfileComponent
+import org.hyperskill.app.profile.injection.PlatformProfileComponentImpl
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponentImpl
+import org.hyperskill.app.profile_settings.injection.PlatformProfileSettingsComponent
+import org.hyperskill.app.profile.injection.PlatformProfileSettingsComponentImpl
 import org.hyperskill.app.step.injection.PlatformStepComponent
 import org.hyperskill.app.step.injection.PlatformStepComponentImpl
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step.injection.StepComponentImpl
-import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponent
-import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponentImpl
-import org.hyperskill.app.step_quiz.injection.StepQuizComponent
-import org.hyperskill.app.step_quiz.injection.StepQuizComponentImpl
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponentImpl
+import org.hyperskill.app.step_quiz.injection.StepQuizComponent
+import org.hyperskill.app.step_quiz.injection.StepQuizComponentImpl
+import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponent
+import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponentImpl
 import org.hyperskill.app.track.injection.PlatformTrackComponent
 import org.hyperskill.app.track.injection.PlatformTrackComponentImpl
 import org.hyperskill.app.track.injection.TrackComponent
@@ -84,7 +86,7 @@ class AndroidAppComponentImpl(
         AuthComponentImpl(this)
 
     override val platformNotificationComponent: PlatformNotificationComponent =
-        PlatformNotificationComponentImpl(application, commonComponent.settings)
+        PlatformNotificationComponentImpl(application, this)
 
     override fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent =
         PlatformAuthSocialWebViewComponentImpl()
@@ -175,4 +177,10 @@ class AndroidAppComponentImpl(
 
     override fun buildPlatformHomeComponent(homeComponent: HomeComponent): PlatformHomeComponent =
         PlatformHomeComponentImpl(homeComponent)
+
+    /**
+     * Notification component
+     */
+    override fun buildNotificationComponent(): NotificationComponent =
+        NotificationComponentImpl(this)
 }

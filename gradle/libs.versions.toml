@@ -82,6 +82,7 @@ android-reactivex-rxkotlin = { module = "io.reactivex.rxjava2:rxkotlin", version
 android-coil = { module = "io.coil-kt:coil", version = "2.1.0" }
 android-coil-svg = { module = "io.coil-kt:coil-svg", version = "2.1.0" }
 android-splashscreen = { module = "androidx.core:core-splashscreen", version = "1.0.0-beta02" }
+android-timepicker = { module = "io.github.ShawnLin013:number-picker", version = "2.4.13" }
 
 [bundles]
 ktor-common = ['ktor-core', 'ktor-serialization', 'ktor-logging', 'ktor-contentNegotiation', 'ktor-serialization-json']

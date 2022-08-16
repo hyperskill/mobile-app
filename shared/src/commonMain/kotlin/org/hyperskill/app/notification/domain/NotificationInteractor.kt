@@ -6,11 +6,11 @@ import org.hyperskill.app.notification.domain.repository.NotificationRepository
 class NotificationInteractor(
     private val notificationRepository: NotificationRepository
 ) {
-    fun isNotificationsEnabled(): Boolean =
-        notificationRepository.isNotificationsEnabled()
+    fun isDailyStudyRemindersEnabled(): Boolean =
+        notificationRepository.isDailyStudyRemindersEnabled()
 
-    fun setNotificationsEnabled(enabled: Boolean) {
-        notificationRepository.setNotificationsEnabled(enabled)
+    fun setDailyStudyRemindersEnabled(enabled: Boolean) {
+        notificationRepository.setDailyStudyRemindersEnabled(enabled)
     }
 
     fun getNotificationTimestamp(key: String): Long =
@@ -20,6 +20,13 @@ class NotificationInteractor(
         notificationRepository.setNotificationTimestamp(key, timestamp)
     }
 
-    fun getRandomNotification(): NotificationDescription =
-        notificationRepository.getRandomNotification()
+    fun getDailyStudyRemindersIntervalStartHour(): Int =
+        notificationRepository.getDailyStudyRemindersIntervalStartHour()
+
+    fun setDailyStudyRemindersIntervalStartHour(hour: Int) {
+        notificationRepository.setDailyStudyRemindersIntervalStartHour(hour)
+    }
+
+    fun getRandomDailyStudyRemindersNotificationDescription(): NotificationDescription =
+        notificationRepository.getRandomDailyStudyRemindersNotificationDescription()
 }
