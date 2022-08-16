@@ -8,7 +8,7 @@ class OnboardingInteractor(
     fun isOnboardingShown(): Boolean =
         onboardingRepository.isOnboardingShown()
 
-    fun setOnboardingShown(showed: Boolean) {
-        onboardingRepository.setOnboardingShown(showed)
+    fun setOnboardingShown(isShown: Boolean) {
+        onboardingRepository.setOnboardingShown(isShown)
     }
 }

@@ -13,9 +13,6 @@ struct OnboardingView: View {
 
     @StateObject var viewModel: OnboardingViewModel
 
-    let onSignInTap: () -> Void
-    let onSignUpTap: () -> Void
-
     var body: some View {
         ZStack {
             BackgroundView()
@@ -49,10 +46,10 @@ struct OnboardingView: View {
 
                 Spacer()
 
-                Button(Strings.Onboarding.signIn) { onSignInTap() }
+                Button(Strings.Onboarding.signIn, action: viewModel.doAuthPresentation)
                     .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
 
-                Button(Strings.Onboarding.signUp) { onSignUpTap() }
+                Button(Strings.Onboarding.signUp, action: viewModel.doNewUserPresentation)
                     .buttonStyle(OutlineButtonStyle(style: .violet))
             }
             .padding()
@@ -74,9 +71,9 @@ struct OnboardingView: View {
 
 struct OnboardingView_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardingAssembly(onSignInTap: {}, onSignUpTap: {}).makeModule()
+        OnboardingAssembly().makeModule()
 
-        OnboardingAssembly(onSignInTap: {}, onSignUpTap: {}).makeModule()
+        OnboardingAssembly().makeModule()
             .preferredColorScheme(.dark)
     }
 }

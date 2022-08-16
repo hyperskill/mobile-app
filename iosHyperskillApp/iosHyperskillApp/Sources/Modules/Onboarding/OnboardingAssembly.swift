@@ -2,12 +2,10 @@ import Foundation
 import shared
 
 final class OnboardingAssembly: Assembly {
-    private let onSignInTap: () -> Void
-    private let onSignUpTap: () -> Void
+    private weak var moduleOutput: OnboardingOutputProtocol?
 
-    init(onSignInTap: @escaping () -> Void, onSignUpTap: @escaping () -> Void) {
-        self.onSignInTap = onSignInTap
-        self.onSignUpTap = onSignUpTap
+    init(output: OnboardingOutputProtocol? = nil) {
+        self.moduleOutput = output
     }
 
     func makeModule() -> OnboardingView {
@@ -17,6 +15,8 @@ final class OnboardingAssembly: Assembly {
             feature: onboardingComponent.onboardingFeature
         )
 
-        return OnboardingView(viewModel: viewModel, onSignInTap: self.onSignInTap, onSignUpTap: self.onSignUpTap)
+        viewModel.moduleOutput = self.moduleOutput
+
+        return OnboardingView(viewModel: viewModel)
     }
 }

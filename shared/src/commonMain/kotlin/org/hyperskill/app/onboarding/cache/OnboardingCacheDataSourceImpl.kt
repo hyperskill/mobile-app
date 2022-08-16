@@ -9,7 +9,7 @@ class OnboardingCacheDataSourceImpl(
     override fun isOnboardingShown(): Boolean =
         settings.getBoolean(OnboardingCacheKeyValues.IS_ONBOARDING_SHOWN)
 
-    override fun setOnboardingShown(showed: Boolean) {
-        settings.putBoolean(OnboardingCacheKeyValues.IS_ONBOARDING_SHOWN, showed)
+    override fun setOnboardingShown(isShown: Boolean) {
+        settings.putBoolean(OnboardingCacheKeyValues.IS_ONBOARDING_SHOWN, isShown)
     }
 }

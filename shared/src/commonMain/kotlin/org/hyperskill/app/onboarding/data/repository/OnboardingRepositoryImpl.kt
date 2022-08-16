@@ -9,7 +9,7 @@ class OnboardingRepositoryImpl(
     override fun isOnboardingShown(): Boolean =
         onboardingCacheDataSource.isOnboardingShown()
 
-    override fun setOnboardingShown(showed: Boolean) {
-        onboardingCacheDataSource.setOnboardingShown(showed)
+    override fun setOnboardingShown(isShown: Boolean) {
+        onboardingCacheDataSource.setOnboardingShown(isShown)
     }
 }

@@ -53,11 +53,7 @@ struct AppView: View {
                 case .auth:
                     AuthSocialAssembly(output: viewModel).makeModule()
                 case .onboarding:
-                    OnboardingAssembly(
-                        onSignInTap: viewModel.doAuthPresentation,
-                        onSignUpTap: viewModel.doNewUserPresentation
-                    )
-                    .makeModule()
+                    OnboardingAssembly(output: viewModel).makeModule()
                 case .newUser:
                     AuthNewUserPlaceholderView()
                 }
