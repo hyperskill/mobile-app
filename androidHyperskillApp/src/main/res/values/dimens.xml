@@ -75,4 +75,8 @@
     <dimen name="step_quiz_fullscreen_code_layout_bottom_padding">80dp</dimen>
     <dimen name="step_quiz_fullscreen_code_layout_action_button_icon_padding">-13dp</dimen>
 
+    <!-- Onboarding -->
+    <dimen name="onboarding_splash_icon_width">48dp</dimen>
+    <dimen name="onboarding_splash_icon_height">45dp</dimen>
+
 </resources>

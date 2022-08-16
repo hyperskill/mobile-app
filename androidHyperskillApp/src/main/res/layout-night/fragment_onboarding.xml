@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp">
+
+    <ImageView
+        android:id="@+id/onboardingSplashLogoImageView"
+        android:layout_width="@dimen/onboarding_splash_icon_width"
+        android:layout_height="@dimen/onboarding_splash_icon_height"
+        android:src="@drawable/ic_splash_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/onboardingWelcomeTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/onboardingSplashLogoImageView"
+        app:layout_constraintWidth_max="@dimen/auth_button_max_width"
+        tools:text="Welcome\nto Hyperskill" />
+
+    <TextView
+        android:id="@+id/onboardingDescriptionTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/onboardingWelcomeTextView"
+        app:layout_constraintWidth_max="@dimen/auth_button_max_width"
+        tools:text="Regular practice is key to mastering new skills. Learn on the web and practice with Hyperskill Mobile to keep up your learning streak and stay on top of your studies." />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/onboarding_problem_of_the_day_pic"
+        app:layout_constraintBottom_toTopOf="@+id/onboardingSignInButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/onboardingDescriptionTextView" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/onboardingSignInButton"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/auth_button_height"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="20dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:maxWidth="@dimen/auth_button_max_width"
+        app:layout_constraintBottom_toTopOf="@+id/onboardingSignUpButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_max="@dimen/auth_button_max_width"
+        app:strokeColor="?colorPrimary"
+        tools:text="Sign in" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/onboardingSignUpButton"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/auth_button_height"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintWidth_max="@dimen/auth_button_max_width"
+        app:strokeColor="?colorPrimary"
+        tools:text="Sign up" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
