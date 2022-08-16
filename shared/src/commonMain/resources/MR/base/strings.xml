@@ -202,7 +202,7 @@
 
     <!--  Onboarding  -->
     <string name="onboarding_title">Welcome to Hyperskill</string>
-    <string name="onboarding_text">Regular practice is key to mastering new skills\nLearn on the web and practice with Hypersill Mobile to keep up your learning streak and stay on top of your studies</string>
+    <string name="onboarding_text">Regular practice is key to mastering new skills. Learn on the web and practice with Hyperskill Mobile to keep up your learning streak and stay on top of your studies.</string>
     <string name="onboarding_card_text">Practice what you've learned</string>
     <string name="onboarding_sign_in">Sign in</string>
     <string name="onboarding_sign_up">Sign up</string>
