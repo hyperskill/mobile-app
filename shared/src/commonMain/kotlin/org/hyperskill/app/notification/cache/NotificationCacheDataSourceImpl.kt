@@ -11,11 +11,11 @@ class NotificationCacheDataSourceImpl(
     private val resourceProvider: ResourceProvider
 ) : NotificationCacheDataSource {
 
-    override fun isNotificationsEnabled(): Boolean =
-        settings.getBoolean(NotificationCacheKeyValues.NOTIFICATIONS_ENABLED, false)
+    override fun isDailyStudyRemindersEnabled(): Boolean =
+        settings.getBoolean(NotificationCacheKeyValues.NOTIFICATIONS_DAILY_REMINDER_ENABLED, false)
 
-    override fun setNotificationsEnabled(enabled: Boolean) {
-        settings.putBoolean(NotificationCacheKeyValues.NOTIFICATIONS_ENABLED, enabled)
+    override fun setDailyStudyRemindersEnabled(enabled: Boolean) {
+        settings.putBoolean(NotificationCacheKeyValues.NOTIFICATIONS_DAILY_REMINDER_ENABLED, enabled)
     }
 
     override fun getNotificationTimestamp(key: String): Long =
@@ -32,10 +32,10 @@ class NotificationCacheDataSourceImpl(
         settings.putInt(NotificationCacheKeyValues.NOTIFICATIONS_DAILY_REMINDER_START_HOUR, hour)
     }
 
-    override fun getRandomNotificationDescription(): NotificationDescription =
-        getNotificationDescriptions().random()
+    override fun getRandomDailyStudyRemindersNotificationDescription(): NotificationDescription =
+        getDailyStudyRemindersNotificationDescriptions().random()
 
-    private fun getNotificationDescriptions() =
+    private fun getDailyStudyRemindersNotificationDescriptions() =
         listOf(
             NotificationDescription(
                 resourceProvider.getString(strings.notification1_title),

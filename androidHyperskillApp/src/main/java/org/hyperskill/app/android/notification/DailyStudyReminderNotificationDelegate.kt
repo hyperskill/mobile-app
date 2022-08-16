@@ -22,7 +22,7 @@ class DailyStudyReminderNotificationDelegate(
     }
 
     override fun onNeedShowNotification() {
-        if (!notificationInteractor.isNotificationsEnabled()) {
+        if (!notificationInteractor.isDailyStudyRemindersEnabled()) {
             return
         }
         scheduleDailyNotification()
@@ -30,7 +30,7 @@ class DailyStudyReminderNotificationDelegate(
         val intent = Intent(HyperskillApp.getAppContext(), MainActivity::class.java)
         val pendingIntent: PendingIntent = PendingIntent.getActivity(HyperskillApp.getAppContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE)
 
-        val notificationDescription = notificationInteractor.getRandomNotificationDescription()
+        val notificationDescription = notificationInteractor.getRandomDailyStudyRemindersNotificationDescription()
 
         val notification = NotificationCompat.Builder(context, HyperskillNotificationChannel.DAILY_REMINDER.channelId)
             .setContentTitle(notificationDescription.title)
@@ -46,7 +46,7 @@ class DailyStudyReminderNotificationDelegate(
     }
 
     fun scheduleDailyNotification() {
-        if (!notificationInteractor.isNotificationsEnabled()) {
+        if (!notificationInteractor.isDailyStudyRemindersEnabled()) {
             return
         }
 

@@ -149,14 +149,13 @@ class ProfileFragment :
     }
 
     private fun setupRemindersSchedule() {
-        // TODO
         viewBinding.profileScheduleTextView.setOnClickListener {
             TimeIntervalPickerDialogFragment
                 .newInstance()
                 .showIfNotExists(childFragmentManager, TimeIntervalPickerDialogFragment.TAG)
         }
         val scheduleTime = platformNotificationComponent.notificationInteractor.getDailyStudyRemindersIntervalStartHour()
-        viewBinding.profileDailyRemindersSwitchCompat.isChecked = platformNotificationComponent.notificationInteractor.isNotificationsEnabled()
+        viewBinding.profileDailyRemindersSwitchCompat.isChecked = platformNotificationComponent.notificationInteractor.isDailyStudyRemindersEnabled()
 
         viewBinding.profileScheduleTextView.text = requireContext().resources.getString(R.string.profile_daily_study_reminders_schedule_text) +
             " ${scheduleTime.toString().padStart(2, '0')}:00 - ${(scheduleTime + 1).toString().padStart(2, '0')}:00"
@@ -165,7 +164,7 @@ class ProfileFragment :
 
         viewBinding.profileDailyRemindersSwitchCompat.setOnCheckedChangeListener { _, isChecked ->
             viewBinding.profileScheduleTextView.isVisible = isChecked
-            platformNotificationComponent.notificationInteractor.setNotificationsEnabled(isChecked)
+            platformNotificationComponent.notificationInteractor.setDailyStudyRemindersEnabled(isChecked)
 
             if (isChecked) {
                 platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification()
