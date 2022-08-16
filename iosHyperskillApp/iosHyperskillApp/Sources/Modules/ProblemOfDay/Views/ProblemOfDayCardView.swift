@@ -31,53 +31,61 @@ struct ProblemOfDayCardView: View {
     var body: some View {
         let viewData = viewModel.makeViewData()
 
-        VStack(alignment: .leading, spacing: appearance.spacing) {
-            ProblemOfDayTitle(
-                appearance: .init(
-                    titleIconSize: viewData.state == .completed
-                        ? appearance.titleIconSizeSmall
-                        : appearance.titleIconSizeDefault
-                ),
-                titleIcon: viewData.state.titleIconName,
-                titleText: viewData.state.titleText,
-                arrowIcon: viewData.state.titleArrowIconName,
-                isArrowDisabled: viewData.state == .unavailable,
-                onTap: {}
-            )
+        NavigationLink(
+            destination: {
+                if let stepID = viewData.stepID {
+                    StepAssembly(stepID: stepID).makeModule()
+                }
+            },
+            label: {
+                VStack(alignment: .leading, spacing: appearance.spacing) {
+                    ProblemOfDayTitle(
+                        appearance: .init(
+                            titleIconSize: viewData.state == .completed
+                                ? appearance.titleIconSizeSmall
+                                : appearance.titleIconSizeDefault
+                        ),
+                        titleIcon: viewData.state.titleIconName,
+                        titleText: viewData.state.titleText,
+                        arrowIcon: viewData.state.titleArrowIconName
+                    )
 
-            Text(viewData.state.descriptionText)
-                .font(.subheadline)
-                .foregroundColor(.secondaryText)
+                    Text(viewData.state.descriptionText)
+                        .font(.subheadline)
+                        .foregroundColor(.secondaryText)
 
-            if viewData.state == .uncompleted,
-               let timeToSolve = viewData.timeToSolve {
-                buildTimeToSolve(timeToSolve: timeToSolve)
+                    if viewData.state == .uncompleted,
+                       let timeToSolve = viewData.timeToSolve {
+                        buildTimeToSolve(timeToSolve: timeToSolve)
+                    }
+
+                    if viewData.state != .unavailable,
+                       let nextProblemIn = viewData.nextProblemIn {
+                        buildNextProblemIn(nextProblemIn: nextProblemIn, needToRefresh: viewData.needToRefresh)
+                    }
+                }
+                .padding()
+                .opacity(viewData.state == .unavailable ? appearance.opacityUnavailable : appearance.opacityNormal)
+                .background(
+                    Image(viewData.state.hexogensImageName)
+                        .renderingMode(.original)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxHeight: appearance.backgroundImageMaxHeight)
+                    ,
+                    alignment: .topTrailing
+                )
+                .background(Color(ColorPalette.surface))
+                .addBorder()
+                .shadow(
+                    color: appearance.shadowColor,
+                    radius: appearance.shadowRadius,
+                    x: appearance.shadowX,
+                    y: appearance.shadowY
+                )
             }
-
-            if viewData.state != .unavailable,
-               let nextProblemIn = viewData.nextProblemIn {
-                buildNextProblemIn(nextProblemIn: nextProblemIn, needToRefresh: viewData.needToRefresh)
-            }
-        }
-        .padding()
-        .opacity(viewData.state == .unavailable ? appearance.opacityUnavailable : appearance.opacityNormal)
-        .background(
-            Image(viewData.state.hexogensImageName)
-                .renderingMode(.original)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(maxHeight: appearance.backgroundImageMaxHeight)
-            ,
-            alignment: .topTrailing
         )
-        .background(Color(ColorPalette.surface))
-        .addBorder()
-        .shadow(
-            color: appearance.shadowColor,
-            radius: appearance.shadowRadius,
-            x: appearance.shadowX,
-            y: appearance.shadowY
-        )
+        .disabled(viewData.stepID == nil)
     }
 
     @ViewBuilder
