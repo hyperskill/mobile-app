@@ -53,11 +53,20 @@ final class ProblemOfDayViewDataMapper {
             return nextProblemIn <= 0
         }()
 
+        let stepID: Int? = {
+            guard let stepID = solvedStateOrNil?.step.id ?? needToSolveStateOrNil?.step.id else {
+                return nil
+            }
+
+            return Int(stepID)
+        }()
+
         return ProblemOfDayViewData(
             state: state,
             timeToSolve: formattedTimeToSolve,
             nextProblemIn: formattedNextProblemIn,
-            needToRefresh: needToRefresh
+            needToRefresh: needToRefresh,
+            stepID: stepID
         )
     }
 }

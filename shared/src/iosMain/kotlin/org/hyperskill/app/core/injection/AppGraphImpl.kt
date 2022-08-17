@@ -13,6 +13,10 @@ import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.network.injection.NetworkComponentImpl
+import org.hyperskill.app.notification.injection.NotificationComponent
+import org.hyperskill.app.notification.injection.NotificationComponentImpl
+import org.hyperskill.app.onboarding.injection.OnboardingComponent
+import org.hyperskill.app.onboarding.injection.OnboardingComponentImpl
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile.injection.ProfileComponentImpl
 import org.hyperskill.app.profile.injection.ProfileDataComponent
@@ -72,4 +76,10 @@ class AppGraphImpl(
 
     override fun buildHomeComponent(): HomeComponent =
         HomeComponentImpl(this)
+
+    override fun buildNotificationComponent(): NotificationComponent =
+        NotificationComponentImpl(this)
+
+    override fun buildOnboardingComponent(): OnboardingComponent =
+        OnboardingComponentImpl(this)
 }
