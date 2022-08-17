@@ -13,6 +13,8 @@ import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.PlatformHomeComponent
 import org.hyperskill.app.main.injection.PlatformMainComponent
+import org.hyperskill.app.onboarding.injection.OnboardingComponent
+import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponent
 import org.hyperskill.app.profile.injection.PlatformProfileComponent
 import org.hyperskill.app.profile_settings.injection.PlatformProfileSettingsComponent
 import org.hyperskill.app.profile.injection.ProfileComponent
@@ -40,4 +42,5 @@ interface AndroidAppComponent : AppGraph {
     fun buildPlatformProfileComponent(profileComponent: ProfileComponent): PlatformProfileComponent
     fun buildPlatformProfileSettingsComponent(profileSettingsComponent: ProfileSettingsComponent): PlatformProfileSettingsComponent
     fun buildPlatformHomeComponent(homeComponent: HomeComponent): PlatformHomeComponent
+    fun buildPlatformOnboardingComponent(onboardingComponent: OnboardingComponent): PlatformOnboardingComponent
 }
