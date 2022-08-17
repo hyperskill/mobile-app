@@ -8,6 +8,7 @@ import org.hyperskill.app.android.latex.injection.PlatformLatexComponent
 import org.hyperskill.app.android.latex.injection.PlatformLatexComponentImpl
 import org.hyperskill.app.android.notification.injection.PlatformNotificationComponent
 import org.hyperskill.app.android.notification.injection.PlatformNotificationComponentImpl
+import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponentImpl
 import org.hyperskill.app.auth.injection.AuthComponent
 import org.hyperskill.app.auth.injection.AuthComponentImpl
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
@@ -37,6 +38,7 @@ import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponentImpl
 import org.hyperskill.app.notification.injection.NotificationComponent
 import org.hyperskill.app.notification.injection.NotificationComponentImpl
+import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponent
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile.injection.ProfileComponentImpl
 import org.hyperskill.app.profile.injection.ProfileDataComponent
@@ -191,4 +193,7 @@ class AndroidAppComponentImpl(
      */
     override fun buildOnboardingComponent(): OnboardingComponent =
         OnboardingComponentImpl(this)
+
+    override fun buildPlatformOnboardingComponent(onboardingComponent: OnboardingComponent): PlatformOnboardingComponent =
+        PlatformOnboardingComponentImpl(onboardingComponent)
 }
