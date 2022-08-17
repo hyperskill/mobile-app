@@ -41,7 +41,7 @@
     <string name="register_intro_text">To get access to the content you should register at our website first.</string>
     <string name="register_button_text">Continue to hyperskill.org ↗</string>
     <string name="register_possibility_text">Right now you can solve one random problem every day.</string>
-    <string name="register_call_text">We add new features every week. Stay turned :)</string>
+    <string name="register_call_text">We add new features every week. Stay tuned :)</string>
 
     <!-- Step -->
     <string name="step_theory_text">Theory</string>
@@ -244,4 +244,10 @@
 
     <string name="notification14_title">No one:</string>
     <string name="notification14_text">Me: If the IDE knows I\'m missing a semicolon, why won\'t it just add it itself? 🤔</string>
+
+    <!--  Onboarding  -->
+    <string name="onboarding_title">Welcome\nto Hyperskill</string>
+    <string name="onboarding_text">Regular practice is key to mastering new skills. Learn on the web and practice with Hyperskill Mobile to keep up your learning streak and stay on top of your studies.</string>
+    <string name="onboarding_sign_in">Sign in</string>
+    <string name="onboarding_sign_up">Sign up</string>
 </resources>

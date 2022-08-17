@@ -33,6 +33,8 @@ import org.hyperskill.app.main.injection.PlatformMainComponent
 import org.hyperskill.app.main.injection.PlatformMainComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.network.injection.NetworkComponentImpl
+import org.hyperskill.app.onboarding.injection.OnboardingComponent
+import org.hyperskill.app.onboarding.injection.OnboardingComponentImpl
 import org.hyperskill.app.notification.injection.NotificationComponent
 import org.hyperskill.app.notification.injection.NotificationComponentImpl
 import org.hyperskill.app.profile.injection.ProfileComponent
@@ -183,4 +185,10 @@ class AndroidAppComponentImpl(
      */
     override fun buildNotificationComponent(): NotificationComponent =
         NotificationComponentImpl(this)
+
+    /**
+     * Onboarding component
+     */
+    override fun buildOnboardingComponent(): OnboardingComponent =
+        OnboardingComponentImpl(this)
 }

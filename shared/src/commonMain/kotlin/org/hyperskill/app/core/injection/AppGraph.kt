@@ -6,6 +6,7 @@ import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.network.injection.NetworkComponent
+import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.notification.injection.NotificationComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile.injection.ProfileComponent
@@ -32,4 +33,5 @@ interface AppGraph {
     fun buildProfileSettingsComponent(): ProfileSettingsComponent
     fun buildHomeComponent(): HomeComponent
     fun buildNotificationComponent(): NotificationComponent
+    fun buildOnboardingComponent(): OnboardingComponent
 }
