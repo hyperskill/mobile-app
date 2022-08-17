@@ -78,8 +78,9 @@ class HomeActionDispatcher(
                     .getCurrentProfile()
                     .getOrElse { return }
 
-                val problemOfDayState = getProblemOfDayState(currentProfile.dailyStep)
+                val step = stepInteractor.getStep(currentProfile.dailyStep!!)
                     .getOrElse { return }
+                val problemOfDayState = HomeFeature.ProblemOfDayState.Solved(step, calculateNextProblemIn())
 
                 val updatedStreak = action.streak?.getStreakWithTodaySolved()
 
