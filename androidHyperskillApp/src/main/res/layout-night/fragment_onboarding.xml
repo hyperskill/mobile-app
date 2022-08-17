@@ -27,7 +27,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/onboardingSplashLogoImageView"
         app:layout_constraintWidth_max="@dimen/auth_button_max_width"
-        tools:text="Welcome\nto Hyperskill" />
+        android:text="@string/onboarding_title" />
 
     <TextView
         android:id="@+id/onboardingDescriptionTextView"
@@ -41,7 +41,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/onboardingWelcomeTextView"
         app:layout_constraintWidth_max="@dimen/auth_button_max_width"
-        tools:text="Regular practice is key to mastering new skills. Learn on the web and practice with Hyperskill Mobile to keep up your learning streak and stay on top of your studies." />
+        android:text="@string/onboarding_text" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -66,7 +66,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintWidth_max="@dimen/auth_button_max_width"
         app:strokeColor="?colorPrimary"
-        tools:text="Sign in" />
+        android:text="@string/onboarding_sign_in" />
 
 
     <com.google.android.material.button.MaterialButton
@@ -82,6 +82,6 @@
         app:layout_constraintVertical_bias="0"
         app:layout_constraintWidth_max="@dimen/auth_button_max_width"
         app:strokeColor="?colorPrimary"
-        tools:text="Sign up" />
+        android:text="@string/onboarding_sign_up" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
