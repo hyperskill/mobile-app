@@ -14,7 +14,7 @@ struct DailyStudyReminderLocalNotification: LocalNotificationProtocol {
 
     private var notificationNumber: Int
 
-    var identifier: String { "\(notificationNumber)" }
+    var identifier: String { "\(Self.identifierPrefix)-\(notificationNumber)" }
 
     private var dateComponents: DateComponents? {
         guard let date = Calendar.current.date(
