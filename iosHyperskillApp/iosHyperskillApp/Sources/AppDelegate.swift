@@ -1,5 +1,4 @@
 import GoogleSignIn
-import shared
 import SwiftUI
 import UIKit
 

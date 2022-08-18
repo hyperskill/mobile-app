@@ -45,14 +45,6 @@ struct DailyStudyReminderLocalNotification: LocalNotificationProtocol {
             self.trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
         }
     }
-
-    fileprivate init(notificationNumber: Int) {
-        self.init(
-            notificationDescription: NotificationDescription(title: "", text: ""),
-            startHour: 0,
-            notificationNumber: notificationNumber
-        )
-    }
 }
 
 // MARK: - NotificationsService (DailyStudyReminderLocalNotification) -
