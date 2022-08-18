@@ -117,7 +117,7 @@ android {
             signingConfig = signingConfigs.getByName("debug")
             applyFlavorConfigsFromFile(this)
             firebaseAppDistribution(
-                configure = Action {
+                configure = {
                     artifactType = "APK"
                     groups = "all-android-testers"
                 }
