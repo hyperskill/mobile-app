@@ -1,4 +1,5 @@
 import GoogleSignIn
+import shared
 import SwiftUI
 import UIKit
 
@@ -8,6 +9,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // swiftlint:disable:next weak_delegate
     private lazy var userNotificationsCenterDelegate = UserNotificationsCenterDelegate()
+    private lazy var notificationsService = NotificationsService()
 
     // MARK: Initializing the App
 
@@ -47,5 +49,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         return true
+    }
+
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        let notificationsInteractor = AppGraphBridge.sharedAppGraph.buildNotificationComponent().notificationInteractor
+        if notificationsInteractor.isNotificationsEnabled() {
+            Task {
+                await notificationsService.scheduleDailyStudyReminderLocalNotifications(
+                    notificationDescriptions: notificationsInteractor.getShuffledNotificationDescriptions(),
+                    startHour: Int(notificationsInteractor.getDailyStudyRemindersIntervalStartHour())
+                )
+            }
+        }
     }
 }

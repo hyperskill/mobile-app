@@ -12,13 +12,13 @@ final class ProfileViewModel: FeatureViewModel<
 
     private let notificationInteractor: NotificationInteractor
 
-    private let notificationService: LocalNotificationsService
+    private let notificationService: NotificationsService
 
     init(
         presentationDescription: ProfilePresentationDescription,
         viewDataMapper: ProfileViewDataMapper,
         notificationInteractor: NotificationInteractor,
-        notificationService: LocalNotificationsService,
+        notificationService: NotificationsService,
         feature: Presentation_reduxFeature
     ) {
         self.presentationDescription = presentationDescription
@@ -80,30 +80,34 @@ final class ProfileViewModel: FeatureViewModel<
         )
     }
 
-    func isRemindersActivated() -> Bool {
+    func isDailyStudyRemindersEnabled() -> Bool {
         self.notificationInteractor.isNotificationsEnabled()
     }
 
-    func setRemindersActivated(activated: Bool) async {
-        self.notificationInteractor.setNotificationsEnabled(enabled: activated)
-        await self.scheduleNotification()
+    func setDailyStudyRemindersActivated(isActivated: Bool) async {
+        self.notificationInteractor.setNotificationsEnabled(enabled: isActivated)
+        if isActivated {
+            await self.scheduleNotifications()
+        } else {
+            notificationService.removeDailyStudyReminderLocalNotifications(
+                notificationsCount: notificationInteractor.getShuffledNotificationDescriptions().count
+            )
+        }
     }
 
-    func getRemindersSelectedHour() -> Int {
+    func getDailyStudyRemindersStartHour() -> Int {
         Int(self.notificationInteractor.getDailyStudyRemindersIntervalStartHour())
     }
 
-    func setRemindersSelectedHour(selectedHour: Int) async {
-        self.notificationInteractor.setDailyStudyRemindersIntervalStartHour(hour: Int32(selectedHour))
-        await self.scheduleNotification()
+    func setDailyStudyRemindersStartHour(startHour: Int) async {
+        self.notificationInteractor.setDailyStudyRemindersIntervalStartHour(hour: Int32(startHour))
+        await self.scheduleNotifications()
     }
 
-    private func scheduleNotification() async {
-        try? await notificationService.scheduleNotification(
-            ReminderLocalNotification(
-                notificationDescritpion: notificationInteractor.getRandomNotificationDescription(),
-                selectedHour: Int(notificationInteractor.getDailyStudyRemindersIntervalStartHour())
-            )
+    private func scheduleNotifications() async {
+        await notificationService.scheduleDailyStudyReminderLocalNotifications(
+            notificationDescriptions: notificationInteractor.getShuffledNotificationDescriptions(),
+            startHour: Int(notificationInteractor.getDailyStudyRemindersIntervalStartHour())
         )
     }
 }

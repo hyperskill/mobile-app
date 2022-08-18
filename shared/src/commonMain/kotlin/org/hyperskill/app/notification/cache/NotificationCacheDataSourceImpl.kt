@@ -35,6 +35,9 @@ class NotificationCacheDataSourceImpl(
     override fun getRandomNotificationDescription(): NotificationDescription =
         getNotificationDescriptions().random()
 
+    override fun getShuffledNotificationDescriptions(): List<NotificationDescription> =
+        getNotificationDescriptions().shuffled()
+
     private fun getNotificationDescriptions() =
         listOf(
             NotificationDescription(

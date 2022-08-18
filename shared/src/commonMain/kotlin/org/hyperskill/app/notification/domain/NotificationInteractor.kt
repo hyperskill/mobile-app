@@ -29,4 +29,7 @@ class NotificationInteractor(
 
     fun getRandomNotificationDescription(): NotificationDescription =
         notificationRepository.getRandomNotificationDescription()
+
+    fun getShuffledNotificationDescriptions(): List<NotificationDescription> =
+        notificationRepository.getShuffledNotificationDescriptions()
 }

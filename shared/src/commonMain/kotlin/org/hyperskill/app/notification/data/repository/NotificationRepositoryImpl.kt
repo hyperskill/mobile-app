@@ -30,4 +30,7 @@ class NotificationRepositoryImpl(
 
     override fun getRandomNotificationDescription(): NotificationDescription =
         notificationCacheDataSource.getRandomNotificationDescription()
+
+    override fun getShuffledNotificationDescriptions(): List<NotificationDescription> =
+        notificationCacheDataSource.getShuffledNotificationDescriptions()
 }
