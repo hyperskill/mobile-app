@@ -5,15 +5,15 @@ struct ProfileDailyStudyRemindersView: View {
 
     @State private var selectedHour: Int
 
-    private var setActivated: (Bool) async -> Void
+    private var setActivated: (Bool) -> Void
 
-    private var setSelectedHour: (Int) async -> Void
+    private var setSelectedHour: (Int) -> Void
 
     init(
         isActivated: Bool,
         selectedHour: Int,
-        setActivated: @escaping (Bool) async -> Void,
-        setSelectedHour: @escaping (Int) async -> Void
+        setActivated: @escaping (Bool) -> Void,
+        setSelectedHour: @escaping (Int) -> Void
     ) {
         self.isActivated = isActivated
         self.selectedHour = selectedHour
@@ -27,9 +27,7 @@ struct ProfileDailyStudyRemindersView: View {
                 .font(.title3)
                 .foregroundColor(.primaryText)
                 .onChange(of: isActivated) { value in
-                    Task {
-                        await setActivated(value)
-                    }
+                    setActivated(value)
                 }
 
             if isActivated {
@@ -40,9 +38,7 @@ struct ProfileDailyStudyRemindersView: View {
                     selectedInterval: $selectedHour
                 )
                 .onChange(of: selectedHour) { value in
-                    Task {
-                        await setSelectedHour(value)
-                    }
+                    setSelectedHour(value)
                 }
             }
         }

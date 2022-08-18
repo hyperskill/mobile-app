@@ -59,14 +59,16 @@ extension NotificationsService {
     func scheduleDailyStudyReminderLocalNotifications(
         notificationDescriptions: [NotificationDescription],
         startHour: Int
-    ) async {
-        for (index, notificationDescription) in notificationDescriptions.enumerated() {
-            let notification = DailyStudyReminderLocalNotification(
-                notificationDescritpion: notificationDescription,
-                startHour: startHour,
-                notificationNumber: index + 1
-            )
-            await self.scheduleLocalNotification(notification)
+    ) {
+        Task {
+            for (index, notificationDescription) in notificationDescriptions.enumerated() {
+                let notification = DailyStudyReminderLocalNotification(
+                    notificationDescritpion: notificationDescription,
+                    startHour: startHour,
+                    notificationNumber: index + 1
+                )
+                await self.scheduleLocalNotification(notification)
+            }
         }
     }
 

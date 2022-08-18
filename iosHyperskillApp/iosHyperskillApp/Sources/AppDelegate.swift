@@ -54,13 +54,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(_ application: UIApplication) {
         let notificationsInteractor = AppGraphBridge.sharedAppGraph.buildNotificationComponent().notificationInteractor
         if notificationsInteractor.isDailyStudyRemindersEnabled() {
-            Task {
-                await notificationsService.scheduleDailyStudyReminderLocalNotifications(
-                    notificationDescriptions: notificationsInteractor
-                        .getShuffledDailyStudyRemindersNotificationDescriptions(),
-                    startHour: Int(notificationsInteractor.getDailyStudyRemindersIntervalStartHour())
-                )
-            }
+            notificationsService.scheduleDailyStudyReminderLocalNotifications(
+                notificationDescriptions: notificationsInteractor
+                    .getShuffledDailyStudyRemindersNotificationDescriptions(),
+                startHour: Int(notificationsInteractor.getDailyStudyRemindersIntervalStartHour())
+            )
         }
     }
 }

@@ -15,6 +15,7 @@ final class NotificationsService {
 }
 
 // MARK: - NotificationsService (LocalNotifications) -
+
 extension NotificationsService {
     func scheduleLocalNotification(_ localNotification: LocalNotificationProtocol, removeIdentical: Bool = true) async {
         if removeIdentical {
