@@ -31,6 +31,7 @@ data class Streak(
                 }
             },
             currentStreak = this.currentStreak + 1,
-            maxStreak = max(this.maxStreak, this.currentStreak + 1)
+            maxStreak = max(this.maxStreak, this.currentStreak + 1),
+            isNewRecord = this.maxStreak <= this.currentStreak + 1
         )
 }
