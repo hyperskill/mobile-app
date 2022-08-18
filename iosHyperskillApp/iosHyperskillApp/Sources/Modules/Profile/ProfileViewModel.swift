@@ -79,7 +79,7 @@ final class ProfileViewModel: FeatureViewModel<
             backButtonStyle: .done
         )
     }
-    
+
     // MARK: Daily study reminders
 
     func isDailyStudyRemindersEnabled() -> Bool {
@@ -90,7 +90,7 @@ final class ProfileViewModel: FeatureViewModel<
         self.notificationInteractor.setDailyStudyRemindersEnabled(enabled: isActivated)
 
         notificationService.removeDailyStudyReminderLocalNotifications()
-        
+
         notificationService.scheduleDailyStudyReminderLocalNotifications()
     }
 
@@ -100,7 +100,7 @@ final class ProfileViewModel: FeatureViewModel<
 
     func setDailyStudyRemindersStartHour(startHour: Int) {
         self.notificationInteractor.setDailyStudyRemindersIntervalStartHour(hour: Int32(startHour))
-        
+
         notificationService.scheduleDailyStudyReminderLocalNotifications()
     }
 }
