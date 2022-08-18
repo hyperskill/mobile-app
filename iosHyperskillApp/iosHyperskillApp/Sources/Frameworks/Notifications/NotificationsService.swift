@@ -5,12 +5,11 @@ import UserNotifications
 final class NotificationsService {
     private let localNotificationsService: LocalNotificationsService
 
+    let notificationInteractor: NotificationInteractor =
+        AppGraphBridge.sharedAppGraph.buildNotificationComponent().notificationInteractor
+
     init(localNotificationsService: LocalNotificationsService = LocalNotificationsService()) {
         self.localNotificationsService = localNotificationsService
-    }
-
-    deinit {
-        NotificationCenter.default.removeObserver(self)
     }
 }
 
@@ -35,5 +34,9 @@ extension NotificationsService {
 
     func removeLocalNotifications(identifiers: [String]) {
         self.localNotificationsService.removeNotifications(identifiers: identifiers)
+    }
+
+    func removeLocalNotifications(matching condition: (String) -> Bool) async {
+        await self.localNotificationsService.removeNotifications(matching: condition)
     }
 }

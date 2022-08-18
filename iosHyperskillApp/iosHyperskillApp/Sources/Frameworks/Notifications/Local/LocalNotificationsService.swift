@@ -27,6 +27,20 @@ final class LocalNotificationsService {
         removeDeliveredNotifications(identifiers: identifiers)
     }
 
+    func removeNotifications(matching condition: (String) -> Bool) async {
+        let (pending, delivered) = await getAllNotifications()
+
+        let filteredPending = pending.filter({ condition($0.identifier) })
+        if !filteredPending.isEmpty {
+            removePendingNotificationRequests(identifiers: filteredPending.map(\.identifier))
+        }
+
+        let filteredDelivered = delivered.filter({ condition($0.request.identifier) })
+        if !filteredDelivered.isEmpty {
+            removeDeliveredNotifications(identifiers: filteredDelivered.map(\.request.identifier))
+        }
+    }
+
     private func removeDeliveredNotifications(identifiers: [String]) {
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: identifiers)
     }
