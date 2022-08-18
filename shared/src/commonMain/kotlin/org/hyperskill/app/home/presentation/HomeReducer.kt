@@ -48,7 +48,18 @@ class HomeReducer : StateReducer<State, Message, Action> {
                     state.problemOfDayState is HomeFeature.ProblemOfDayState.NeedToSolve &&
                     state.problemOfDayState.step.id == message.stepId
                 ) {
-                    state to setOf(Action.UpdateOnProblemOfDaySolved(state.streak))
+                    val completedStep = state.problemOfDayState.step.copy(
+                        isCompleted = true
+                    )
+                    val updatedStreak = state.streak?.getStreakWithTodaySolved()
+
+                    State.Content(
+                        updatedStreak,
+                        HomeFeature.ProblemOfDayState.Solved(
+                            completedStep,
+                            HomeActionDispatcher.calculateNextProblemIn()
+                        )
+                    ) to setOf()
                 } else {
                     null
                 }
