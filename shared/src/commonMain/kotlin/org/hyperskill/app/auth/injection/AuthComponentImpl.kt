@@ -49,5 +49,5 @@ class AuthComponentImpl(
     )
 
     override val authInteractor: AuthInteractor = AuthInteractor(authRepository)
-    override val profileInteractor: ProfileInteractor = ProfileInteractor(profileRepository)
+    override val profileInteractor: ProfileInteractor = ProfileInteractor(profileRepository, appGraph.submissionDataComponent.submissionRepository)
 }

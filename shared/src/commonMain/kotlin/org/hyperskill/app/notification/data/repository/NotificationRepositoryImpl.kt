@@ -7,11 +7,11 @@ import org.hyperskill.app.notification.domain.repository.NotificationRepository
 class NotificationRepositoryImpl(
     private val notificationCacheDataSource: NotificationCacheDataSource
 ) : NotificationRepository {
-    override fun isNotificationsEnabled(): Boolean =
-        notificationCacheDataSource.isNotificationsEnabled()
+    override fun isDailyStudyRemindersEnabled(): Boolean =
+        notificationCacheDataSource.isDailyStudyRemindersEnabled()
 
-    override fun setNotificationsEnabled(enabled: Boolean) {
-        notificationCacheDataSource.setNotificationsEnabled(enabled)
+    override fun setDailyStudyRemindersEnabled(enabled: Boolean) {
+        notificationCacheDataSource.setDailyStudyRemindersEnabled(enabled)
     }
 
     override fun getNotificationTimestamp(key: String): Long =
@@ -28,9 +28,9 @@ class NotificationRepositoryImpl(
         notificationCacheDataSource.setDailyStudyRemindersIntervalStartHour(hour)
     }
 
-    override fun getRandomNotificationDescription(): NotificationDescription =
-        notificationCacheDataSource.getRandomNotificationDescription()
+    override fun getRandomDailyStudyRemindersNotificationDescription(): NotificationDescription =
+        notificationCacheDataSource.getRandomDailyStudyRemindersNotificationDescription()
 
     override fun getShuffledNotificationDescriptions(): List<NotificationDescription> =
-        notificationCacheDataSource.getShuffledNotificationDescriptions()
+        notificationCacheDataSource.getShuffledDailyStudyRemindersNotificationDescriptions()
 }

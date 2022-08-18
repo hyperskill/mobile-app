@@ -3,9 +3,9 @@ package org.hyperskill.app.notification.data.source
 import org.hyperskill.app.notification.data.model.NotificationDescription
 
 interface NotificationCacheDataSource {
-    fun isNotificationsEnabled(): Boolean
+    fun isDailyStudyRemindersEnabled(): Boolean
 
-    fun setNotificationsEnabled(enabled: Boolean)
+    fun setDailyStudyRemindersEnabled(enabled: Boolean)
 
     fun getNotificationTimestamp(key: String): Long
 
@@ -15,7 +15,7 @@ interface NotificationCacheDataSource {
 
     fun setDailyStudyRemindersIntervalStartHour(hour: Int)
 
-    fun getRandomNotificationDescription(): NotificationDescription
+    fun getRandomDailyStudyRemindersNotificationDescription(): NotificationDescription
 
-    fun getShuffledNotificationDescriptions(): List<NotificationDescription>
+    fun getShuffledDailyStudyRemindersNotificationDescriptions(): List<NotificationDescription>
 }

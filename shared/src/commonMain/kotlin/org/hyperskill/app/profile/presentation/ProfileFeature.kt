@@ -25,11 +25,14 @@ interface ProfileFeature {
             data class Success(val profile: Profile, val streak: Streak?) : ProfileLoaded
             data class Error(val errorMsg: String) : ProfileLoaded
         }
+
+        data class StepSolved(val id: Long) : Message
     }
 
     sealed interface Action {
         data class FetchProfile(val profileId: Long) : Action
         object FetchCurrentProfile : Action
+        data class UpdateStreakInfo(val streak: Streak?) : Action
         sealed class ViewAction : Action
     }
 }

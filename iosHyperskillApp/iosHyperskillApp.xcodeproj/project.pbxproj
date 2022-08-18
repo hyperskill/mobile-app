@@ -273,6 +273,7 @@
 		E951757927E61ACD00995008 /* AuthSocialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951757827E61ACD00995008 /* AuthSocialView.swift */; };
 		E96E80F627EF57BA00AA6683 /* AuthSocialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */; };
 		E9802D07281BB5CC00CF3AC1 /* StepQuizChoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9802D06281BB5CC00CF3AC1 /* StepQuizChoiceView.swift */; };
+		E9886D3228ABCE5C003724F9 /* OnboardingOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9886D3128ABCE5C003724F9 /* OnboardingOutputProtocol.swift */; };
 		E993E9A928426FF2005988EC /* StepQuizSortingViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E993E9A828426FF2005988EC /* StepQuizSortingViewData.swift */; };
 		E9950E9328893F1700C4D962 /* ProfileDailyStudyRemindersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9950E9228893F1700C4D962 /* ProfileDailyStudyRemindersView.swift */; };
 		E9950E9528894F4700C4D962 /* HourIntervalPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9950E9428894F4700C4D962 /* HourIntervalPicker.swift */; };
@@ -289,6 +290,8 @@
 		E99CCB0D287E98AC00898BBF /* HomeDebugStepNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99CCB0C287E98AC00898BBF /* HomeDebugStepNavigationView.swift */; };
 		E99D4CED2826A37400B49D52 /* AppAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99D4CEC2826A37400B49D52 /* AppAppearance.swift */; };
 		E99D4CEF2826B91100B49D52 /* StepQuizStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99D4CEE2826B91100B49D52 /* StepQuizStatusView.swift */; };
+		E9A6250D28ABAE30009423EE /* OnboardingAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A6250C28ABAE30009423EE /* OnboardingAssembly.swift */; };
+		E9A6250F28ABAE83009423EE /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A6250E28ABAE83009423EE /* OnboardingViewModel.swift */; };
 		E9B2CF5B2822960D00B2DC6F /* StepQuizBottomControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B2CF5A2822960D00B2DC6F /* StepQuizBottomControls.swift */; };
 		E9B2CF5D2822975400B2DC6F /* StepQuizStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B2CF5C2822975400B2DC6F /* StepQuizStatsView.swift */; };
 		E9B2CF5F2822979400B2DC6F /* StepQuizHintButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B2CF5E2822979400B2DC6F /* StepQuizHintButton.swift */; };
@@ -306,10 +309,12 @@
 		E9F59B90289FE053001CEA02 /* ProfileSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F59B8F289FE053001CEA02 /* ProfileSettingsViewModel.swift */; };
 		E9F655CA2875914200291143 /* StreakCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F655C92875914200291143 /* StreakCardView.swift */; };
 		E9F655D12875B32700291143 /* ProblemOfDayCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F655D02875B32700291143 /* ProblemOfDayCardView.swift */; };
+		E9F923F628A2633D00C065A7 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F923F528A2633D00C065A7 /* OnboardingView.swift */; };
 		E9FB89A32893CCAF0011EFFB /* LocalNotificationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FB89A22893CCAF0011EFFB /* LocalNotificationProtocol.swift */; };
 		E9FB89A72893CD2C0011EFFB /* LocalNotificationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FB89A62893CD2C0011EFFB /* LocalNotificationsService.swift */; };
 		E9FB89AC2893EA580011EFFB /* NotificationPermissionStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FB89AB2893EA580011EFFB /* NotificationPermissionStatus.swift */; };
 		E9FB89B02893EA900011EFFB /* UserNotificationsCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FB89AF2893EA900011EFFB /* UserNotificationsCenterDelegate.swift */; };
+		E9FDB26728A54A39001DE9C3 /* AppFullScreenModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDB26628A54A39001DE9C3 /* AppFullScreenModal.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -597,6 +602,7 @@
 		E951757827E61ACD00995008 /* AuthSocialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialView.swift; sourceTree = "<group>"; };
 		E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialViewModel.swift; sourceTree = "<group>"; };
 		E9802D06281BB5CC00CF3AC1 /* StepQuizChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChoiceView.swift; sourceTree = "<group>"; };
+		E9886D3128ABCE5C003724F9 /* OnboardingOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingOutputProtocol.swift; sourceTree = "<group>"; };
 		E993E9A828426FF2005988EC /* StepQuizSortingViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSortingViewData.swift; sourceTree = "<group>"; };
 		E9950E9228893F1700C4D962 /* ProfileDailyStudyRemindersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDailyStudyRemindersView.swift; sourceTree = "<group>"; };
 		E9950E9428894F4700C4D962 /* HourIntervalPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourIntervalPicker.swift; sourceTree = "<group>"; };
@@ -613,6 +619,8 @@
 		E99CCB0C287E98AC00898BBF /* HomeDebugStepNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDebugStepNavigationView.swift; sourceTree = "<group>"; };
 		E99D4CEC2826A37400B49D52 /* AppAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAppearance.swift; sourceTree = "<group>"; };
 		E99D4CEE2826B91100B49D52 /* StepQuizStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizStatusView.swift; sourceTree = "<group>"; };
+		E9A6250C28ABAE30009423EE /* OnboardingAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingAssembly.swift; sourceTree = "<group>"; };
+		E9A6250E28ABAE83009423EE /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		E9B2CF5A2822960D00B2DC6F /* StepQuizBottomControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizBottomControls.swift; sourceTree = "<group>"; };
 		E9B2CF5C2822975400B2DC6F /* StepQuizStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizStatsView.swift; sourceTree = "<group>"; };
 		E9B2CF5E2822979400B2DC6F /* StepQuizHintButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizHintButton.swift; sourceTree = "<group>"; };
@@ -630,10 +638,12 @@
 		E9F59B8F289FE053001CEA02 /* ProfileSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsViewModel.swift; sourceTree = "<group>"; };
 		E9F655C92875914200291143 /* StreakCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCardView.swift; sourceTree = "<group>"; };
 		E9F655D02875B32700291143 /* ProblemOfDayCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDayCardView.swift; sourceTree = "<group>"; };
+		E9F923F528A2633D00C065A7 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		E9FB89A22893CCAF0011EFFB /* LocalNotificationProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationProtocol.swift; sourceTree = "<group>"; };
 		E9FB89A62893CD2C0011EFFB /* LocalNotificationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationsService.swift; sourceTree = "<group>"; };
 		E9FB89AB2893EA580011EFFB /* NotificationPermissionStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPermissionStatus.swift; sourceTree = "<group>"; };
 		E9FB89AF2893EA900011EFFB /* UserNotificationsCenterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotificationsCenterDelegate.swift; sourceTree = "<group>"; };
+		E9FDB26628A54A39001DE9C3 /* AppFullScreenModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFullScreenModal.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -819,6 +829,7 @@
 				2C725B6428091ACF00A49043 /* AuthCredentials */,
 				2C005DD027EF5C4800DC6503 /* AuthSocial */,
 				2C963BC32812D16C0036DD53 /* Home */,
+				E9F923F428A2632800C065A7 /* Onboarding */,
 				E9F655CF2875B31B00291143 /* ProblemOfDay */,
 				2C9EB95B2861BAAE007DDE44 /* Profile */,
 				2C963BC82812D3410036DD53 /* ProfileSettings */,
@@ -1656,6 +1667,7 @@
 				2C9EB9542861BA02007DDE44 /* AppTabItem.swift */,
 				2C005DCD27EF5B4400DC6503 /* AppView.swift */,
 				2CE31F4A27F1E070008EEE66 /* AppViewModel.swift */,
+				E9FDB26628A54A39001DE9C3 /* AppFullScreenModal.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -1957,6 +1969,17 @@
 			path = ProblemOfDay;
 			sourceTree = "<group>";
 		};
+		E9F923F428A2632800C065A7 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				E9F923F528A2633D00C065A7 /* OnboardingView.swift */,
+				E9A6250C28ABAE30009423EE /* OnboardingAssembly.swift */,
+				E9A6250E28ABAE83009423EE /* OnboardingViewModel.swift */,
+				E9886D3128ABCE5C003724F9 /* OnboardingOutputProtocol.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 		E9FB89A12893CC790011EFFB /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
@@ -2188,6 +2211,7 @@
 				2CBDC647287ECAAB002FB6F6 /* TrackCardsView.swift in Sources */,
 				2C5B2A2828659AD80097B270 /* CodeElementSize.swift in Sources */,
 				2CAFD39127FC5D5D00F88B0B /* Color+DesignSystem.swift in Sources */,
+				E9886D3228ABCE5C003724F9 /* OnboardingOutputProtocol.swift in Sources */,
 				2CF4341228126C79002893CD /* View+EndEditing.swift in Sources */,
 				E9102757288D19E100FF4564 /* ProblemOfDayViewData.swift in Sources */,
 				2CA3B0362888955F00EEF716 /* StepQuizCodeSkeletonView.swift in Sources */,
@@ -2257,9 +2281,11 @@
 				2C023C86285D927A00D2D5A9 /* StepQuizTableAssembly.swift in Sources */,
 				2C20FBC4284F67F3006D879E /* ProcessedContentWebView.swift in Sources */,
 				2C005DCC27EF5B0300DC6503 /* GoogleServiceInfo.swift in Sources */,
+				E9A6250F28ABAE83009423EE /* OnboardingViewModel.swift in Sources */,
 				2C65637628743F5B006AAD77 /* TrackAboutStatsView.swift in Sources */,
 				2CEEE03128916A3100282849 /* ProblemOfDayAssembly.swift in Sources */,
 				2C8E4FB628490C020011ADFA /* PanModalPresenter.swift in Sources */,
+				E9A6250D28ABAE30009423EE /* OnboardingAssembly.swift in Sources */,
 				2C336D172865C9CD00C91342 /* UIView+TraitCollection.swift in Sources */,
 				2CD48D872858639500CFCC4A /* StepQuizViewModel.swift in Sources */,
 				E94D238D28057F440003273F /* AuthCredentialsView.swift in Sources */,
@@ -2277,6 +2303,8 @@
 				2C863D932804279E0021EFED /* Require.swift in Sources */,
 				2C177EC32837B65500D841DB /* View+Frame.swift in Sources */,
 				E9950E9528894F4700C4D962 /* HourIntervalPicker.swift in Sources */,
+				E9F923F628A2633D00C065A7 /* OnboardingView.swift in Sources */,
+				E9FDB26728A54A39001DE9C3 /* AppFullScreenModal.swift in Sources */,
 				2C336D242865E38B00C91342 /* CodeInputAccessoryCollectionViewCell.swift in Sources */,
 				2C2FD62428192123004E7AF6 /* BundlePropertyListDeserializer.swift in Sources */,
 				2C8E66D7287877F500D3928D /* ProfileViewModel.swift in Sources */,

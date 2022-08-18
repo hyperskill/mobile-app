@@ -17,8 +17,6 @@ struct HomeDebugStepNavigationView: View {
                 if let stepID = Int(stepInput) {
                     StepAssembly(stepID: stepID)
                         .makeModule()
-                } else {
-                    EmptyView()
                 }
             }
             .buttonStyle(RoundedRectangleButtonStyle(style: .violet))

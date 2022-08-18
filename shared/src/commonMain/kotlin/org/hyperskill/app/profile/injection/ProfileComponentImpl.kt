@@ -25,7 +25,7 @@ class ProfileComponentImpl(private val appGraph: AppGraph) : ProfileComponent {
         appGraph.commonComponent.settings
     )
     private val profileRepository: ProfileRepository = ProfileRepositoryImpl(profileRemoteDataSource, profileCacheDataSource)
-    private val profileInteractor: ProfileInteractor = ProfileInteractor(profileRepository)
+    private val profileInteractor: ProfileInteractor = ProfileInteractor(profileRepository, appGraph.submissionDataComponent.submissionRepository)
 
     private val streakRemoteDataSource: StreakRemoteDataSource = StreakRemoteDataSourceImpl(
         appGraph.networkComponent.authorizedHttpClient

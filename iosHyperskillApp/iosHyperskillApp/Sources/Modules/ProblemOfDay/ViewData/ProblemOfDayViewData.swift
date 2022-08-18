@@ -5,4 +5,5 @@ struct ProblemOfDayViewData {
     let timeToSolve: String?
     let nextProblemIn: String?
     let needToRefresh: Bool
+    let stepID: Int?
 }

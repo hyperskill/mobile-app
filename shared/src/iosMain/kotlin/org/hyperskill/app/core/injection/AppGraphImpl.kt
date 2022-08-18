@@ -15,16 +15,22 @@ import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.network.injection.NetworkComponentImpl
 import org.hyperskill.app.notification.injection.NotificationComponent
 import org.hyperskill.app.notification.injection.NotificationComponentImpl
-import org.hyperskill.app.profile.injection.ProfileDataComponent
-import org.hyperskill.app.profile.injection.ProfileDataComponentImpl
+import org.hyperskill.app.notification.injection.NotificationComponent
+import org.hyperskill.app.notification.injection.NotificationComponentImpl
+import org.hyperskill.app.onboarding.injection.OnboardingComponent
+import org.hyperskill.app.onboarding.injection.OnboardingComponentImpl
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile.injection.ProfileComponentImpl
+import org.hyperskill.app.profile.injection.ProfileDataComponent
+import org.hyperskill.app.profile.injection.ProfileDataComponentImpl
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponentImpl
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step.injection.StepComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponentImpl
+import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
+import org.hyperskill.app.step_quiz.injection.SubmissionDataComponentImpl
 import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.track.injection.TrackComponentImpl
 
@@ -36,6 +42,9 @@ class AppGraphImpl(
 
     override val networkComponent: NetworkComponent =
         NetworkComponentImpl(this)
+
+    override val submissionDataComponent: SubmissionDataComponent =
+        SubmissionDataComponentImpl(this)
 
     override val authComponent: AuthComponent =
         AuthComponentImpl(this)
@@ -72,4 +81,7 @@ class AppGraphImpl(
 
     override fun buildNotificationComponent(): NotificationComponent =
         NotificationComponentImpl(this)
+
+    override fun buildOnboardingComponent(): OnboardingComponent =
+        OnboardingComponentImpl(this)
 }
