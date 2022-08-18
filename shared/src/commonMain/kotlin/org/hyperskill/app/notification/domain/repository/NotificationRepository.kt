@@ -17,5 +17,5 @@ interface NotificationRepository {
 
     fun getRandomDailyStudyRemindersNotificationDescription(): NotificationDescription
 
-    fun getShuffledNotificationDescriptions(): List<NotificationDescription>
+    fun getShuffledDailyStudyRemindersNotificationDescriptions(): List<NotificationDescription>
 }

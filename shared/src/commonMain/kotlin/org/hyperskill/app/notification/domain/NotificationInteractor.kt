@@ -28,8 +28,8 @@ class NotificationInteractor(
     }
 
     fun getRandomDailyStudyRemindersNotificationDescription(): NotificationDescription =
-        notificationRepository.getRandomNotificationDescription()
+        notificationRepository.getRandomDailyStudyRemindersNotificationDescription()
 
-    fun getShuffledNotificationDescriptions(): List<NotificationDescription> =
-        notificationRepository.getShuffledNotificationDescriptions()
+    fun getShuffledDailyStudyRemindersNotificationDescriptions(): List<NotificationDescription> =
+        notificationRepository.getShuffledDailyStudyRemindersNotificationDescriptions()
 }
