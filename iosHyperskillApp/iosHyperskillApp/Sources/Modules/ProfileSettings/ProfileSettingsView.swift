@@ -2,13 +2,15 @@ import shared
 import SwiftUI
 
 struct ProfileSettingsView: View {
-    private static let termsOfServiceURL = URL(string: "https://www.jetbrains.com/legal/terms/jetbrains-academy.html")
-    private static let privacyPolicyURL = URL(string: "https://hi.hyperskill.org/terms")
-    private static let helpCenterURL = URL(string: "https://support.hyperskill.org/hc/en-us")
+    private static let termsOfServiceURL = URL(string: Strings.Settings.termsOfServiceURL)
+    private static let privacyPolicyURL = URL(string: Strings.Settings.privacyPolicyURL)
+    private static let helpCenterURL = URL(string: Strings.Settings.helpCenterURL)
+    private static let accountDeletionURL = URL(string: Strings.Settings.accountDeletionURL)
 
     @StateObject var viewModel: ProfileSettingsViewModel
 
     @State private var isPresentingLogoutAlert = false
+    @State private var isPresentingAccountDeletionAlert = false
 
     @Environment(\.presentationMode) private var presentationMode
 
@@ -140,9 +142,30 @@ struct ProfileSettingsView: View {
             }
 
             Section {
-                Button(Strings.Settings.deleteAccount) {
+                if let accountDeletionURL = Self.accountDeletionURL {
+                    Button(Strings.Settings.deleteAccount) {
+                        isPresentingAccountDeletionAlert = true
+                    }
+                    .foregroundColor(Color(ColorPalette.overlayRed))
+                    .alert(isPresented: $isPresentingAccountDeletionAlert) {
+                        Alert(
+                            title: Text(Strings.Settings.accountDeletionDialogTitle),
+                            message: Text(Strings.Settings.accountDeletionDialogExplanation),
+                            primaryButton: .default(Text(Strings.General.cancel)),
+                            secondaryButton: .destructive(
+                                Text(Strings.Settings.accountDeletionDialogButtonText),
+                                action: {
+                                    WebControllerManager.shared.presentWebControllerWithURL(
+                                        accountDeletionURL,
+                                        withKey: .externalLink,
+                                        allowsSafari: true,
+                                        backButtonStyle: .done
+                                    )
+                                }
+                            )
+                        )
+                    }
                 }
-                .foregroundColor(Color(ColorPalette.overlayRed))
             }
         }
     }

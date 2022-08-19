@@ -169,9 +169,13 @@
     <string name="settings_logout_dialog_title">Please confirm</string>
     <string name="settings_logout_dialog_explanation">Are you sure you want to log out?</string>
     <string name="settings_delete_account">Delete account</string>
+    <string name="settings_account_deletion_dialog_title">Are you sure you want to delete your account?</string>
+    <string name="settings_account_deletion_dialog_explanation">Your account on Hyperskill (JetBrains Academy) will be deleted. You will no longer be able to use this account both in the app and on the website.</string>
+    <string name="settings_account_deletion_dialog_button_text">Delete</string>
     <string name="settings_terms_of_service_url">https://www.jetbrains.com/legal/terms/jetbrains-academy.html</string>
     <string name="settings_privacy_policy_url">https://hi.hyperskill.org/terms</string>
     <string name="settings_help_center_url">https://support.hyperskill.org/hc/en-us</string>
+    <string name="settings_account_deletion_url">https://hyperskill.org/delete-account</string>
     <string name="choose_notification_time_interval">Change notification interval</string>
 
     <!-- Placeholder -->
