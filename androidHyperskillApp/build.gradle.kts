@@ -8,6 +8,7 @@ plugins {
     kotlin("kapt")
     kotlin("plugin.serialization")
     alias(libs.plugins.sentry.androidGradle)
+    alias(libs.plugins.firebase.appdistribution.gradle)
 }
 
 dependencies {
@@ -115,6 +116,12 @@ android {
         getByName("debug") {
             signingConfig = signingConfigs.getByName("debug")
             applyFlavorConfigsFromFile(this)
+            firebaseAppDistribution(
+                configure = {
+                    artifactType = "APK"
+                    groups = "all-android-testers"
+                }
+            )
         }
         getByName("release") {
             signingConfig = signingConfigs.getByName("release")

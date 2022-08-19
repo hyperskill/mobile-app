@@ -25,6 +25,18 @@ Deploy a new version to the App Store
 
 Options: scheme, target
 
+### ios beta
+
+```sh
+[bundle exec] fastlane ios beta
+```
+
+Submit a new Beta Build to Firebase.
+
+This will also make sure the profile is up to date.
+
+Options: scheme, target
+
 ### ios run_unit_tests
 
 ```sh
