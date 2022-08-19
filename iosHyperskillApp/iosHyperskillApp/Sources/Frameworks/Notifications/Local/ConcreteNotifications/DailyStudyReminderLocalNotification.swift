@@ -60,7 +60,7 @@ extension NotificationsService {
         let notificationDescriptions = self.notificationInteractor
             .getShuffledDailyStudyRemindersNotificationDescriptions()
             .prefix(Self.dailyStudyRemindersCount)
-            .map { description in NotificationDescriptionPlainObject(notificationDescription: description) }
+            .map(NotificationDescriptionPlainObject.init(notificationDescription:))
 
         assert(notificationDescriptions.count == Self.dailyStudyRemindersCount)
 
