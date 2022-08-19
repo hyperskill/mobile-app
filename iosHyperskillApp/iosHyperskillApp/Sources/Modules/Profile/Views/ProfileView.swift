@@ -80,8 +80,8 @@ struct ProfileView: View {
                     ProfileDailyStudyRemindersView(
                         isActivated: viewData.isDailyStudyRemindersEnabled,
                         selectedHour: viewData.dailyStudyRemindersStartHour,
-                        onIsActivatedChanged: viewModel.setDailyStudyRemindersActivated,
-                        onSelectedHourChanged: viewModel.setDailyStudyRemindersStartHour
+                        onIsActivatedChanged: viewModel.setDailyStudyRemindersActivated(isActivated:),
+                        onSelectedHourChanged: viewModel.setDailyStudyRemindersStartHour(startHour:)
                     )
 
                     ProfileAboutView(
