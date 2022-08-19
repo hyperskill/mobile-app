@@ -10,13 +10,19 @@ final class TrackViewDataMapper {
 
     func mapTrackDataToViewData(track: Track, trackProgress: TrackProgress, studyPlan: StudyPlan?) -> TrackViewData {
         let currentTimeToCompleteText: String? = {
-            guard let secondsToReachTrack = studyPlan?.secondsToReachTrack else {
+            guard studyPlan?.hoursToReachTrack != nil || studyPlan?.minutesToReachTrack != nil else {
                 return nil
             }
 
-            let hours = UnitConverters.Hour.from(seconds: TimeInterval(secondsToReachTrack), roundingRule: .up)
+            if let hoursToReachTrack = studyPlan?.hoursToReachTrack {
+                return "~ \(hoursToReachTrack) h"
+            }
 
-            return "~ \(hours) h"
+            if let minutesToReachTrack = studyPlan?.minutesToReachTrack {
+                return "~ \(minutesToReachTrack) m"
+            }
+
+            return nil
         }()
 
         let completedGraduateProjectsCountText = track.capstoneProjects.isEmpty
@@ -24,11 +30,11 @@ final class TrackViewDataMapper {
             : "\(trackProgress.completedCapstoneProjects.count)"
 
         let completedTopicsText = track.topicsCount > 0
-            ? "\(trackProgress.learnedTopicsCount) / \(track.topicsCount)"
+            ? "\(trackProgress.completedTopics) / \(track.topicsCount)"
             : nil
         let completedTopicsProgress = track.topicsCount == 0
             ? 0
-            : Float(trackProgress.learnedTopicsCount) / Float(track.topicsCount)
+            : Float(trackProgress.completedTopics) / Float(track.topicsCount)
 
         let capstoneTopicsText = track.capstoneTopicsCount > 0
             ? "\(trackProgress.appliedCapstoneTopicsCount) / \(track.capstoneTopicsCount)"
