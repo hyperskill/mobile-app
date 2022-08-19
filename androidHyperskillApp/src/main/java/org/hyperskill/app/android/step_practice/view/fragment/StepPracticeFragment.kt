@@ -9,7 +9,6 @@ import com.chrynan.parcelable.core.putParcelable
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.core.extensions.DateTimeHelper
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepPracticeBinding
 import org.hyperskill.app.android.step_content_text.view.fragment.TextStepContentFragment
@@ -53,14 +52,10 @@ class StepPracticeFragment : Fragment(R.layout.fragment_step_practice) {
         viewBinding.stepPracticeAppBar.stepQuizToolbar.stepQuizToolbarTitle.text =
             step.title
 
-        val millisLastSolved = DateTimeHelper.nowUtc() - DateTimeHelper.toCalendar(step.lastCompletedAt).timeInMillis
-
-        println("LAST SOLVED MILLIS $millisLastSolved")
-
         viewBinding.stepPracticeCompletion.text = resourceProvider.getString(
             SharedResources.strings.step_quiz_stats_text,
             step.solvedBy.toString(),
-            TimeFancifier.formatTimeDistance(millisLastSolved)
+            TimeFancifier.formatTimeDistance(step.millisSinceLastCompleted)
         )
         initStepTheoryFragment(step)
         setStepQuizFragment(step)
