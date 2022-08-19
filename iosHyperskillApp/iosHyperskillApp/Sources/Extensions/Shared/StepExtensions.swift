@@ -20,7 +20,7 @@ extension Step {
         solvedBy: Int = 0,
         isCompleted: Bool = false,
         secondsToComplete: Float? = nil,
-        lastCompletedAt: String = ""
+        lastCompletedAt: Kotlinx_datetimeInstant = .fromSwiftCurrentDate()
     ) {
         self.init(
             id: Int64(id),
