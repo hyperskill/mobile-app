@@ -2,10 +2,10 @@ import shared
 import SwiftUI
 
 struct ProfileSettingsView: View {
-    private static let termsOfServiceURL = URL(string: Strings.Settings.termsOfServiceURL)
-    private static let privacyPolicyURL = URL(string: Strings.Settings.privacyPolicyURL)
-    private static let helpCenterURL = URL(string: Strings.Settings.helpCenterURL)
-    private static let accountDeletionURL = URL(string: Strings.Settings.accountDeletionURL)
+    private static let termsOfServiceURL = URL(string: Strings.Settings.termsOfServiceURL).require()
+    private static let privacyPolicyURL = URL(string: Strings.Settings.privacyPolicyURL).require()
+    private static let helpCenterURL = URL(string: Strings.Settings.helpCenterURL).require()
+    private static let accountDeletionURL = URL(string: Strings.Settings.accountDeletionURL).require()
 
     @StateObject var viewModel: ProfileSettingsViewModel
 
@@ -82,29 +82,23 @@ struct ProfileSettingsView: View {
             }
 
             Section(header: Text(Strings.Settings.about)) {
-                if let termsOfServiceURL = Self.termsOfServiceURL {
-                    OpenURLInsideAppButton(
-                        text: Strings.Settings.termsOfService,
-                        url: termsOfServiceURL
-                    )
-                    .foregroundColor(.primaryText)
-                }
+                OpenURLInsideAppButton(
+                    text: Strings.Settings.termsOfService,
+                    url: Self.termsOfServiceURL
+                )
+                .foregroundColor(.primaryText)
 
-                if let privacyPolicyURL = Self.privacyPolicyURL {
-                    OpenURLInsideAppButton(
-                        text: Strings.Settings.privacyPolicy,
-                        url: privacyPolicyURL
-                    )
-                    .foregroundColor(.primaryText)
-                }
+                OpenURLInsideAppButton(
+                    text: Strings.Settings.privacyPolicy,
+                    url: Self.privacyPolicyURL
+                )
+                .foregroundColor(.primaryText)
 
-                if let helpCenterURL = Self.helpCenterURL {
-                    OpenURLInsideAppButton(
-                        text: Strings.Settings.helpCenter,
-                        url: helpCenterURL
-                    )
-                    .foregroundColor(.primaryText)
-                }
+                OpenURLInsideAppButton(
+                    text: Strings.Settings.helpCenter,
+                    url: Self.helpCenterURL
+                )
+                .foregroundColor(.primaryText)
 
                 HStack {
                     Text(Strings.Settings.version)
@@ -142,29 +136,27 @@ struct ProfileSettingsView: View {
             }
 
             Section {
-                if let accountDeletionURL = Self.accountDeletionURL {
-                    Button(Strings.Settings.deleteAccount) {
-                        isPresentingAccountDeletionAlert = true
-                    }
-                    .foregroundColor(Color(ColorPalette.overlayRed))
-                    .alert(isPresented: $isPresentingAccountDeletionAlert) {
-                        Alert(
-                            title: Text(Strings.Settings.accountDeletionDialogTitle),
-                            message: Text(Strings.Settings.accountDeletionDialogExplanation),
-                            primaryButton: .default(Text(Strings.General.cancel)),
-                            secondaryButton: .destructive(
-                                Text(Strings.Settings.accountDeletionDialogButtonText),
-                                action: {
-                                    WebControllerManager.shared.presentWebControllerWithURL(
-                                        accountDeletionURL,
-                                        withKey: .externalLink,
-                                        allowsSafari: true,
-                                        backButtonStyle: .done
-                                    )
-                                }
-                            )
+                Button(Strings.Settings.deleteAccount) {
+                    isPresentingAccountDeletionAlert = true
+                }
+                .foregroundColor(Color(ColorPalette.overlayRed))
+                .alert(isPresented: $isPresentingAccountDeletionAlert) {
+                    Alert(
+                        title: Text(Strings.Settings.deleteAccountAlertTitle),
+                        message: Text(Strings.Settings.deleteAccountAlertMessage),
+                        primaryButton: .default(Text(Strings.General.cancel)),
+                        secondaryButton: .destructive(
+                            Text(Strings.Settings.deletionAccountAlertDeleteButton),
+                            action: {
+                                WebControllerManager.shared.presentWebControllerWithURL(
+                                    Self.accountDeletionURL,
+                                    withKey: .externalLink,
+                                    allowsSafari: true,
+                                    backButtonStyle: .done
+                                )
+                            }
                         )
-                    }
+                    )
                 }
             }
         }

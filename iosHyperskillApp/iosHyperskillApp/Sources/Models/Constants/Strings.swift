@@ -189,11 +189,10 @@ enum Strings {
         static let logoutDialogTitle = sharedStrings.settings_logout_dialog_title.localized()
         static let logoutDialogExplanation = sharedStrings.settings_logout_dialog_explanation.localized()
         static let deleteAccount = sharedStrings.settings_delete_account.localized()
-        static let accountDeletionDialogTitle = sharedStrings.settings_account_deletion_dialog_title.localized()
-        static let accountDeletionDialogExplanation =
-                sharedStrings.settings_account_deletion_dialog_explanation.localized()
-        static let accountDeletionDialogButtonText =
-                sharedStrings.settings_account_deletion_dialog_button_text.localized()
+        static let deleteAccountAlertTitle = sharedStrings.settings_account_deletion_dialog_title.localized()
+        static let deleteAccountAlertMessage = sharedStrings.settings_account_deletion_dialog_explanation.localized()
+        static let deletionAccountAlertDeleteButton =
+                sharedStrings.settings_account_deletion_dialog_delete_button_text.localized()
         static let termsOfServiceURL = sharedStrings.settings_terms_of_service_url.localized()
         static let privacyPolicyURL = sharedStrings.settings_privacy_policy_url.localized()
         static let helpCenterURL = sharedStrings.settings_help_center_url.localized()
