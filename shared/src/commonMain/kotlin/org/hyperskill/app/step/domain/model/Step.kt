@@ -39,7 +39,9 @@ data class Step(
     @SerialName("is_completed")
     val isCompleted: Boolean,
     @SerialName("seconds_to_complete")
-    val secondsToComplete: Float?
+    val secondsToComplete: Float?,
+    @SerialName("last_completed_at")
+    val lastCompletedAt: String
 ) {
     @Serializable
     enum class Type {

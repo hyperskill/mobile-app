@@ -25,6 +25,7 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.code.util.CodeToolbarUtil
 import org.hyperskill.app.android.code.view.adapter.CodeToolbarAdapter
 import org.hyperskill.app.android.code.view.widget.CodeEditorLayout
+import org.hyperskill.app.android.core.extensions.DateTimeHelper
 import org.hyperskill.app.android.databinding.DialogStepQuizCodeFullscreenBinding
 import org.hyperskill.app.android.step_quiz.view.fragment.DefaultStepQuizFragment
 import org.hyperskill.app.android.step_quiz_fullscreen_code.adapter.CodeStepQuizFullScreenPagerAdapter
@@ -35,6 +36,7 @@ import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeLayoutDelegat
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeQuizInstructionDelegate
 import org.hyperskill.app.android.view.base.ui.extension.setOnKeyboardOpenListener
 import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.extension.TimeFancifier
 import org.hyperskill.app.step.domain.model.Step
 import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.base.ui.extension.hideKeyboard
@@ -187,11 +189,14 @@ class CodeStepQuizFullScreenDialogFragment :
         latexWebView?.let {
             (textHeader as ViewGroup).addView(it)
         }
+
+        val millisLastSolved = DateTimeHelper.nowUtc() - DateTimeHelper.toCalendar(step.lastCompletedAt).timeInMillis
+
         instructionsLayout.findViewById<AppCompatTextView>(R.id.stepQuizCodeFullscreenInstructionPracticeCompletion).text =
             resourceProvider.getString(
                 SharedResources.strings.step_quiz_stats_text,
                 step.solvedBy.toString(),
-                "10 minutes" // TODO Update with data from step
+                TimeFancifier.formatTimeDistance(millisLastSolved)
             )
         instructionsLayout.findViewById<LatexView>(R.id.stepQuizCodeFullscreenInstructionTextHeader)
             .setText(text)
