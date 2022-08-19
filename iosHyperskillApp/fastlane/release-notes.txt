@@ -1,4 +1,4 @@
-What's New:
+What to Test:
 1. Allow to change application theme ALTAPPS-233
 2. Profile settings / Logout ALTAPPS-208
 3. Onboarding screen ALTAPPS-225
