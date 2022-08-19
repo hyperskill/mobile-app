@@ -30,4 +30,7 @@ class NotificationRepositoryImpl(
 
     override fun getRandomDailyStudyRemindersNotificationDescription(): NotificationDescription =
         notificationCacheDataSource.getRandomDailyStudyRemindersNotificationDescription()
+
+    override fun getShuffledDailyStudyRemindersNotificationDescriptions(): List<NotificationDescription> =
+        notificationCacheDataSource.getShuffledDailyStudyRemindersNotificationDescriptions()
 }

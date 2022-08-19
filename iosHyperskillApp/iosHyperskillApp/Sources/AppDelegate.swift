@@ -8,6 +8,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // swiftlint:disable:next weak_delegate
     private lazy var userNotificationsCenterDelegate = UserNotificationsCenterDelegate()
+    private lazy var notificationsService = NotificationsService()
 
     // MARK: Initializing the App
 
@@ -33,6 +34,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         userNotificationsCenterDelegate.attachNotificationDelegate()
 
         return true
+    }
+
+    // MARK: Responding to App Life-Cycle Events
+
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        notificationsService.scheduleDailyStudyReminderLocalNotifications()
     }
 
     // MARK: Opening a URL-Specified Resource

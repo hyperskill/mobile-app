@@ -10,13 +10,21 @@ final class ProfileViewModel: FeatureViewModel<
 
     private let viewDataMapper: ProfileViewDataMapper
 
+    private let notificationInteractor: NotificationInteractor
+
+    private let notificationService: NotificationsService
+
     init(
         presentationDescription: ProfilePresentationDescription,
         viewDataMapper: ProfileViewDataMapper,
+        notificationInteractor: NotificationInteractor,
+        notificationService: NotificationsService,
         feature: Presentation_reduxFeature
     ) {
         self.presentationDescription = presentationDescription
         self.viewDataMapper = viewDataMapper
+        self.notificationInteractor = notificationInteractor
+        self.notificationService = notificationService
         super.init(feature: feature)
     }
 
@@ -36,7 +44,11 @@ final class ProfileViewModel: FeatureViewModel<
     }
 
     func makeViewData(_ profile: Profile) -> ProfileViewData {
-        viewDataMapper.mapProfileToViewData(profile)
+        viewDataMapper.mapProfileToViewData(
+            profile,
+            isDailyStudyRemindersEnabled: notificationInteractor.isDailyStudyRemindersEnabled(),
+            dailyStudyRemindersStartHour: Int(notificationInteractor.getDailyStudyRemindersIntervalStartHour())
+        )
     }
 
     // MARK: Presentation
@@ -70,5 +82,23 @@ final class ProfileViewModel: FeatureViewModel<
             allowsSafari: true,
             backButtonStyle: .done
         )
+    }
+
+    // MARK: Daily study reminders
+
+    func setDailyStudyRemindersActivated(isActivated: Bool) {
+        self.notificationInteractor.setDailyStudyRemindersEnabled(enabled: isActivated)
+
+        if isActivated {
+            notificationService.scheduleDailyStudyReminderLocalNotifications()
+        } else {
+            notificationService.removeDailyStudyReminderLocalNotifications()
+        }
+    }
+
+    func setDailyStudyRemindersStartHour(startHour: Int) {
+        self.notificationInteractor.setDailyStudyRemindersIntervalStartHour(hour: Int32(startHour))
+
+        notificationService.scheduleDailyStudyReminderLocalNotifications()
     }
 }
