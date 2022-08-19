@@ -10,16 +10,17 @@ final class TrackViewDataMapper {
 
     func mapTrackDataToViewData(track: Track, trackProgress: TrackProgress, studyPlan: StudyPlan?) -> TrackViewData {
         let currentTimeToCompleteText: String? = {
-            guard studyPlan?.hoursToReachTrack != nil || studyPlan?.minutesToReachTrack != nil else {
+            guard let studyPlan = studyPlan else {
                 return nil
             }
+            
 
-            if let hoursToReachTrack = studyPlan?.hoursToReachTrack {
-                return "~ \(hoursToReachTrack) h"
+            if studyPlan.hoursToReachTrack > 0 {
+                return "~ \(studyPlan.hoursToReachTrack) h"
             }
 
-            if let minutesToReachTrack = studyPlan?.minutesToReachTrack {
-                return "~ \(minutesToReachTrack) m"
+            if studyPlan.minutesToReachTrack > 0 {
+                return "~ \(studyPlan.minutesToReachTrack) m"
             }
 
             return nil
