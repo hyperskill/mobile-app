@@ -71,7 +71,7 @@ final class StepQuizCodeViewDataMapper {
 
         let stepStats = stepQuizStatsTextMapper.getFormattedStepQuizStats(
             users: step.solvedBy,
-            hours: 1 // TODO: Use `step.last_completed_at`
+            millisSinceLastCompleted: step.millisSinceLastCompleted
         )
 
         return StepQuizCodeViewData(

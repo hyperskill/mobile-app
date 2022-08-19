@@ -19,7 +19,8 @@ extension Step {
         contentUpdatedAt: Kotlinx_datetimeInstant = .fromSwiftCurrentDate(),
         solvedBy: Int = 0,
         isCompleted: Bool = false,
-        secondsToComplete: Float? = nil
+        secondsToComplete: Float? = nil,
+        lastCompletedAt: String = ""
     ) {
         self.init(
             id: Int64(id),
@@ -38,7 +39,8 @@ extension Step {
             contentUpdatedAt: contentUpdatedAt,
             solvedBy: Int32(solvedBy),
             isCompleted: isCompleted,
-            secondsToComplete: secondsToComplete != nil ? KotlinFloat(value: secondsToComplete.require()) : nil
+            secondsToComplete: secondsToComplete != nil ? KotlinFloat(value: secondsToComplete.require()) : nil,
+            lastCompletedAt: lastCompletedAt
         )
     }
 }
