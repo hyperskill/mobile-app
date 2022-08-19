@@ -13,7 +13,6 @@ final class TrackViewDataMapper {
             guard let studyPlan = studyPlan else {
                 return nil
             }
-            
 
             if studyPlan.hoursToReachTrack > 0 {
                 return "~ \(studyPlan.hoursToReachTrack) h"
