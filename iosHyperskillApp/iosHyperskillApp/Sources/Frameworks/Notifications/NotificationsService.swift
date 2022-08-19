@@ -28,7 +28,7 @@ extension NotificationsService {
         do {
             try await self.localNotificationsService.scheduleNotification(localNotification)
         } catch {
-            print("Failed schedule local notification with error: \(error)")
+            print("NotificationsService :: failed schedule local notification with error: \(error)")
         }
     }
 
