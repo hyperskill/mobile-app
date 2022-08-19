@@ -146,7 +146,7 @@ struct ProfileSettingsView: View {
                         message: Text(Strings.Settings.deleteAccountAlertMessage),
                         primaryButton: .default(Text(Strings.General.cancel)),
                         secondaryButton: .destructive(
-                            Text(Strings.Settings.deletionAccountAlertDeleteButton),
+                            Text(Strings.Settings.deleteAccountAlertDeleteButton),
                             action: {
                                 WebControllerManager.shared.presentWebControllerWithURL(
                                     Self.accountDeletionURL,
