@@ -33,7 +33,7 @@ struct DailyStudyReminderLocalNotification: LocalNotificationProtocol {
     }
 
     init(
-        notificationDescription: NotificationDescription,
+        notificationDescription: NotificationDescriptionPlainObject,
         startHour: Int,
         notificationNumber: Int
     ) {
@@ -57,17 +57,22 @@ extension NotificationsService {
             return
         }
 
-        self.removeDailyStudyReminderLocalNotifications()
-
         let notificationDescriptions = self.notificationInteractor
             .getShuffledDailyStudyRemindersNotificationDescriptions()
             .prefix(Self.dailyStudyRemindersCount)
+            .map { description in NotificationDescriptionPlainObject(notificationDescription: description) }
+
+        assert(notificationDescriptions.count == Self.dailyStudyRemindersCount)
+
+        let startHour = Int(self.notificationInteractor.getDailyStudyRemindersIntervalStartHour())
 
         Task {
+            await self.internalRemoveDailyStudyReminderLocalNotifications()
+
             for (index, notificationDescription) in notificationDescriptions.enumerated() {
                 let notification = DailyStudyReminderLocalNotification(
                     notificationDescription: notificationDescription,
-                    startHour: Int(self.notificationInteractor.getDailyStudyRemindersIntervalStartHour()),
+                    startHour: startHour,
                     notificationNumber: index + 1
                 )
                 await self.scheduleLocalNotification(notification, removeIdentical: false)
@@ -77,9 +82,13 @@ extension NotificationsService {
 
     func removeDailyStudyReminderLocalNotifications() {
         Task {
-            await self.removeLocalNotifications { identifier in
-                identifier.starts(with: DailyStudyReminderLocalNotification.identifierPrefix)
-            }
+            await self.internalRemoveDailyStudyReminderLocalNotifications()
+        }
+    }
+
+    private func internalRemoveDailyStudyReminderLocalNotifications() async {
+        await self.removeLocalNotifications { identifier in
+            identifier.starts(with: DailyStudyReminderLocalNotification.identifierPrefix)
         }
     }
 }

@@ -19,13 +19,9 @@ final class ProfileAssembly: Assembly {
     func makeModule() -> ProfileView {
         let profileComponent = AppGraphBridge.sharedAppGraph.buildProfileComponent()
 
-        let notificationComponent = AppGraphBridge.sharedAppGraph.buildNotificationComponent()
-
         let viewModel = ProfileViewModel(
             presentationDescription: presentationDescription,
             viewDataMapper: ProfileViewDataMapper(),
-            notificationInteractor: notificationComponent.notificationInteractor,
-            notificationService: NotificationsService(),
             feature: profileComponent.profileFeature
         )
 

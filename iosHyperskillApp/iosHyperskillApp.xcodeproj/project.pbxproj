@@ -309,6 +309,7 @@
 		E9F59B90289FE053001CEA02 /* ProfileSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F59B8F289FE053001CEA02 /* ProfileSettingsViewModel.swift */; };
 		E9F655CA2875914200291143 /* StreakCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F655C92875914200291143 /* StreakCardView.swift */; };
 		E9F655D12875B32700291143 /* ProblemOfDayCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F655D02875B32700291143 /* ProblemOfDayCardView.swift */; };
+		E9F7A5E028AFC2000063913F /* NotificationDescriptionPlainObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F7A5DF28AFC2000063913F /* NotificationDescriptionPlainObject.swift */; };
 		E9F923F628A2633D00C065A7 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F923F528A2633D00C065A7 /* OnboardingView.swift */; };
 		E9FB89A32893CCAF0011EFFB /* LocalNotificationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FB89A22893CCAF0011EFFB /* LocalNotificationProtocol.swift */; };
 		E9FB89A72893CD2C0011EFFB /* LocalNotificationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FB89A62893CD2C0011EFFB /* LocalNotificationsService.swift */; };
@@ -638,6 +639,7 @@
 		E9F59B8F289FE053001CEA02 /* ProfileSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsViewModel.swift; sourceTree = "<group>"; };
 		E9F655C92875914200291143 /* StreakCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCardView.swift; sourceTree = "<group>"; };
 		E9F655D02875B32700291143 /* ProblemOfDayCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDayCardView.swift; sourceTree = "<group>"; };
+		E9F7A5DF28AFC2000063913F /* NotificationDescriptionPlainObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDescriptionPlainObject.swift; sourceTree = "<group>"; };
 		E9F923F528A2633D00C065A7 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		E9FB89A22893CCAF0011EFFB /* LocalNotificationProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationProtocol.swift; sourceTree = "<group>"; };
 		E9FB89A62893CD2C0011EFFB /* LocalNotificationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationsService.swift; sourceTree = "<group>"; };
@@ -1995,10 +1997,11 @@
 		E9FB89A92893E9CE0011EFFB /* Local */ = {
 			isa = PBXGroup;
 			children = (
-				E9EF704F28A7DB4900EA0C1C /* ConcreteNotifications */,
 				E9FB89A22893CCAF0011EFFB /* LocalNotificationProtocol.swift */,
 				E9FB89A62893CD2C0011EFFB /* LocalNotificationsService.swift */,
+				E9F7A5DF28AFC2000063913F /* NotificationDescriptionPlainObject.swift */,
 				E9317A0128A23FD100F59373 /* UNNotificationTrigger+nextTriggerDate.swift */,
+				E9EF704F28A7DB4900EA0C1C /* ConcreteNotifications */,
 			);
 			path = Local;
 			sourceTree = "<group>";
@@ -2453,6 +2456,7 @@
 				E9B3A18C2828093800FE248B /* StepQuizActionButton.swift in Sources */,
 				E9317A0228A23FD100F59373 /* UNNotificationTrigger+nextTriggerDate.swift in Sources */,
 				2C725B632809198000A49043 /* BackgroundView.swift in Sources */,
+				E9F7A5E028AFC2000063913F /* NotificationDescriptionPlainObject.swift in Sources */,
 				2C336D222865E37800C91342 /* CodeInputAccessoryButtonData.swift in Sources */,
 				2C7802C5285C93F900082547 /* StepQuizActionButtonState+SubmissionStatus.swift in Sources */,
 				2CF43414281281DB002893CD /* AuthTextField.swift in Sources */,
