@@ -25,7 +25,7 @@ struct DailyStudyReminderLocalNotification: LocalNotificationProtocol {
             return nil
         }
 
-        var reminderDateComponents = Calendar.current.dateComponents([.hour, .day, .month, .year], from: date)
+        var reminderDateComponents = Calendar.current.dateComponents([.hour, .weekday], from: date)
 
         reminderDateComponents.hour = self.startHour
 
@@ -50,19 +50,27 @@ struct DailyStudyReminderLocalNotification: LocalNotificationProtocol {
 // MARK: - NotificationsService (DailyStudyReminderLocalNotification) -
 
 extension NotificationsService {
+    fileprivate static let dailyStudyRemindersCount = 7
+
     func scheduleDailyStudyReminderLocalNotifications() {
-        if self.notificationInteractor.isDailyStudyRemindersEnabled() {
-            let notificationDescriptions = self.notificationInteractor
-                .getShuffledDailyStudyRemindersNotificationDescriptions()
-            Task {
-                for (index, notificationDescription) in notificationDescriptions.enumerated() {
-                    let notification = DailyStudyReminderLocalNotification(
-                        notificationDescription: notificationDescription,
-                        startHour: Int(self.notificationInteractor.getDailyStudyRemindersIntervalStartHour()),
-                        notificationNumber: index + 1
-                    )
-                    await self.scheduleLocalNotification(notification)
-                }
+        guard self.notificationInteractor.isDailyStudyRemindersEnabled() else {
+            return
+        }
+
+        self.removeDailyStudyReminderLocalNotifications()
+
+        let notificationDescriptions = self.notificationInteractor
+            .getShuffledDailyStudyRemindersNotificationDescriptions()
+            .prefix(Self.dailyStudyRemindersCount)
+
+        Task {
+            for (index, notificationDescription) in notificationDescriptions.enumerated() {
+                let notification = DailyStudyReminderLocalNotification(
+                    notificationDescription: notificationDescription,
+                    startHour: Int(self.notificationInteractor.getDailyStudyRemindersIntervalStartHour()),
+                    notificationNumber: index + 1
+                )
+                await self.scheduleLocalNotification(notification, removeIdentical: false)
             }
         }
     }

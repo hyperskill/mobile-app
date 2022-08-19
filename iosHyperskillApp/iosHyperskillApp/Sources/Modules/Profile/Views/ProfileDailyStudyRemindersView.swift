@@ -5,20 +5,20 @@ struct ProfileDailyStudyRemindersView: View {
 
     @State private var selectedHour: Int
 
-    private var setActivated: (Bool) -> Void
+    private var onIsActivatedChanged: (Bool) -> Void
 
-    private var setSelectedHour: (Int) -> Void
+    private var onSelectedHourChanged: (Int) -> Void
 
     init(
         isActivated: Bool,
         selectedHour: Int,
-        setActivated: @escaping (Bool) -> Void,
-        setSelectedHour: @escaping (Int) -> Void
+        onIsActivatedChanged: @escaping (Bool) -> Void,
+        onSelectedHourChanged: @escaping (Int) -> Void
     ) {
         self.isActivated = isActivated
         self.selectedHour = selectedHour
-        self.setActivated = setActivated
-        self.setSelectedHour = setSelectedHour
+        self.onIsActivatedChanged = onIsActivatedChanged
+        self.onSelectedHourChanged = onSelectedHourChanged
     }
 
     var body: some View {
@@ -27,7 +27,7 @@ struct ProfileDailyStudyRemindersView: View {
                 .font(.title3)
                 .foregroundColor(.primaryText)
                 .onChange(of: isActivated) { value in
-                    setActivated(value)
+                    onIsActivatedChanged(value)
                 }
 
             if isActivated {
@@ -38,7 +38,7 @@ struct ProfileDailyStudyRemindersView: View {
                     selectedInterval: $selectedHour
                 )
                 .onChange(of: selectedHour) { value in
-                    setSelectedHour(value)
+                    onSelectedHourChanged(value)
                 }
             }
         }
@@ -53,8 +53,8 @@ struct ProfileDailyStudyRemindersView_Previews: PreviewProvider {
         ProfileDailyStudyRemindersView(
             isActivated: false,
             selectedHour: 21,
-            setActivated: { _ in },
-            setSelectedHour: { _ in }
+            onIsActivatedChanged: { _ in },
+            onSelectedHourChanged: { _ in }
         )
         .previewLayout(.sizeThatFits)
     }

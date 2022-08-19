@@ -5,11 +5,15 @@ import UserNotifications
 final class NotificationsService {
     private let localNotificationsService: LocalNotificationsService
 
-    let notificationInteractor: NotificationInteractor =
-        AppGraphBridge.sharedAppGraph.buildNotificationComponent().notificationInteractor
+    let notificationInteractor: NotificationInteractor
 
-    init(localNotificationsService: LocalNotificationsService = LocalNotificationsService()) {
+    init(
+        localNotificationsService: LocalNotificationsService = LocalNotificationsService(),
+        notificationInteractor: NotificationInteractor =
+            AppGraphBridge.sharedAppGraph.buildNotificationComponent().notificationInteractor
+    ) {
         self.localNotificationsService = localNotificationsService
+        self.notificationInteractor = notificationInteractor
     }
 }
 

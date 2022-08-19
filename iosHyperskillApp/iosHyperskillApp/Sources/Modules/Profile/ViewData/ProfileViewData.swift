@@ -13,4 +13,7 @@ struct ProfileViewData {
     let experience: String?
 
     let socialAccounts: [ProfileSocialAccount]
+
+    let isDailyStudyRemindersEnabled: Bool
+    let dailyStudyRemindersStartHour: Int
 }

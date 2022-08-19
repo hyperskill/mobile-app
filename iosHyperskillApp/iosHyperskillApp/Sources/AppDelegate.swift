@@ -36,6 +36,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
+    // MARK: Responding to App Life-Cycle Events
+
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        notificationsService.scheduleDailyStudyReminderLocalNotifications()
+    }
+
     // MARK: Opening a URL-Specified Resource
 
     func application(
@@ -48,9 +54,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         return true
-    }
-
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        notificationsService.scheduleDailyStudyReminderLocalNotifications()
     }
 }
