@@ -13,6 +13,7 @@ class AnalyticHyperskillCacheDataSourceImpl : AnalyticHyperskillCacheDataSource 
     override suspend fun getEvents(): List<AnalyticEvent> =
         events.toList()
 
-    override suspend fun clearEvents() =
+    override suspend fun clearEvents() {
         events.clear()
+    }
 }

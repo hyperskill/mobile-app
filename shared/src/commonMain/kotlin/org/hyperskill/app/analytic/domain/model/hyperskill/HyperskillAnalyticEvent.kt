@@ -8,8 +8,8 @@ import ru.nobird.app.core.model.mapOfNotNull
 open class HyperskillAnalyticEvent(
     val route: HyperskillAnalyticRoute,
     val action: HyperskillAnalyticAction,
-    val part: HyperskillAnalyticPart?,
-    val target: HyperskillAnalyticTarget?
+    val part: HyperskillAnalyticPart? = null,
+    val target: HyperskillAnalyticTarget? = null
 ) : AnalyticEvent {
     companion object {
         const val PARAM_CLIENT_TIME = "client_time"

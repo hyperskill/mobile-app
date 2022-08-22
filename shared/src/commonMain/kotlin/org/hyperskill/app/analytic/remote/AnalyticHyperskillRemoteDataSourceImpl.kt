@@ -17,6 +17,10 @@ class AnalyticHyperskillRemoteDataSourceImpl(
 ) : AnalyticHyperskillRemoteDataSource {
     override suspend fun flushEvents(events: List<AnalyticEvent>): Result<Unit> =
         kotlin.runCatching {
+            if (events.isEmpty()) {
+                return Result.success(Unit)
+            }
+
             val httpResponse = httpClient
                 .post("/api/frontend-events") {
                     contentType(ContentType.Application.Json)

@@ -49,14 +49,14 @@ class AnalyticHyperskillRequestTest {
         val events = listOf(
             TestHyperskillAnalyticEvent(
                 userId = TEST_USER_ID,
-                route = HyperskillAnalyticRoute.LOGIN,
+                route = HyperskillAnalyticRoute.Home(),
                 action = HyperskillAnalyticAction.VIEW,
                 part = HyperskillAnalyticPart.MAIN,
                 target = HyperskillAnalyticTarget.SEND
             ),
             TestHyperskillAnalyticEvent(
                 userId = TEST_USER_ID,
-                route = HyperskillAnalyticRoute.LOGIN,
+                route = HyperskillAnalyticRoute.Home(),
                 action = HyperskillAnalyticAction.CLICK,
                 part = null,
                 target = null
@@ -68,7 +68,7 @@ class AnalyticHyperskillRequestTest {
         val expected = buildJsonArray {
             addJsonObject {
                 put(PARAM_CLIENT_TIME, TEST_CLIENT_TIME)
-                put(PARAM_ROUTE, "/login")
+                put(PARAM_ROUTE, "/home")
                 put(PARAM_ACTION, "view")
                 put(PARAM_PART, "main")
                 put(PARAM_TARGET, "send")
@@ -79,7 +79,7 @@ class AnalyticHyperskillRequestTest {
             }
             addJsonObject {
                 put(PARAM_CLIENT_TIME, TEST_CLIENT_TIME)
-                put(PARAM_ROUTE, "/login")
+                put(PARAM_ROUTE, "/home")
                 put(PARAM_ACTION, "click")
                 put(PARAM_USER, TEST_USER_ID)
                 putJsonObject(PARAM_CONTEXT) {
