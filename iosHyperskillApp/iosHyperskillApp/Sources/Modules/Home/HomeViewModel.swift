@@ -3,7 +3,11 @@ import shared
 
 final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage, HomeFeatureActionViewAction> {
     func loadContent(forceUpdate: Bool = false) {
-        self.onNewMessage(HomeFeatureMessageInit(forceUpdate: forceUpdate))
+        onNewMessage(HomeFeatureMessageInit(forceUpdate: forceUpdate))
+    }
+
+    func logViewedEvent() {
+        onNewMessage(HomeFeatureMessageHomeViewedEventMessage())
     }
 }
 

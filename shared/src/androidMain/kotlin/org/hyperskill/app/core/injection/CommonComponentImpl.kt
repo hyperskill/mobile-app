@@ -8,6 +8,7 @@ import com.russhwolf.settings.AndroidSettings
 import com.russhwolf.settings.Settings
 import kotlinx.serialization.json.Json
 import org.hyperskill.app.BuildConfig
+import org.hyperskill.app.Platform
 import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.ResourceProviderImpl
@@ -38,6 +39,9 @@ class CommonComponentImpl(
 
     override val resourceProvider: ResourceProvider =
         ResourceProviderImpl(application)
+
+    override val platform: Platform =
+        Platform()
 
     private fun getMasterKey(context: Context): MasterKey =
         MasterKey

@@ -50,6 +50,7 @@ class HomeFragment :
         }
 
         homeViewModel.onNewMessage(HomeFeature.Message.Init(forceUpdate = false))
+        homeViewModel.onNewMessage(HomeFeature.Message.HomeViewedEventMessage)
     }
 
     private fun injectComponents() {

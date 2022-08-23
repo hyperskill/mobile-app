@@ -1,17 +1,20 @@
 package org.hyperskill.app.home.presentation
 
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.datetime.TimeZone
 import kotlinx.datetime.Clock
-import kotlinx.datetime.toLocalDateTime
-import kotlinx.datetime.toInstant
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
 import kotlinx.datetime.plus
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeFeature.Action
@@ -20,11 +23,10 @@ import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.streak.domain.interactor.StreakInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
-import kotlin.time.DurationUnit
-import kotlin.time.toDuration
 
 class HomeActionDispatcher(
     config: ActionDispatcherOptions,
+    private val analyticInteractor: AnalyticInteractor,
     private val homeInteractor: HomeInteractor,
     private val streakInteractor: StreakInteractor,
     private val profileInteractor: ProfileInteractor,
@@ -96,6 +98,8 @@ class HomeActionDispatcher(
                     .onEach { seconds -> onNewMessage(Message.HomeNextProblemInUpdate(seconds)) }
                     .launchIn(actionScope)
             }
+            is Action.LogAnalyticEvent ->
+                analyticInteractor.logEvent(action.analyticEvent)
         }
     }
 

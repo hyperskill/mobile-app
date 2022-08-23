@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = rootViewController
         window?.makeKeyAndVisible()
 
-        //AppAppearance.themeApplication()
+        AppAppearance.themeApplication(window: window.require())
         ApplicationThemeService.default.applyDefaultTheme()
 
         SentryManager.configure()
