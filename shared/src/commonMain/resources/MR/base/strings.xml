@@ -14,7 +14,7 @@
     <string name="user_list_home_user_name_hint">User name</string>
 
     <!-- Auth -->
-    <string name="auth_log_in_title">Log in to\nJetBrains Academy</string>
+    <string name="auth_log_in_title">Sign in to Hyperskill (JetBrains Academy)</string>
     <string name="auth_jetbrains_account_text">JetBrains Account</string>
     <string name="auth_google_account_text">Google</string>
     <string name="auth_github_account_text">GitHub</string>
@@ -26,22 +26,15 @@
     <!-- Auth credentials -->
     <string name="auth_credentials_social_text">Continue with social networks</string>
     <string name="auth_credentials_reset_password_text">Reset password</string>
-    <string name="auth_credentials_log_in_text">Log in</string>
+    <string name="auth_credentials_log_in_text">Sign in</string>
     <string name="auth_credentials_email_placeholder">Email</string>
     <string name="auth_credentials_password_placeholder">Password</string>
-    <string name="auth_credentials_error_text">Unable to log in. If you registered with a third-party account (e.g.
-        Google), using your email as a login may not work. Try to log in with a third-party account, or reset your
+    <string name="auth_credentials_error_text">Unable to sign in. If you registered with a third-party account (e.g.
+        Google), using your email as a login may not work. Try to sign in with a third-party account, or reset your
         password.
     </string>
     <string name="auth_credentials_email_empty">Please enter an email address</string>
     <string name="auth_credentials_password_empty">Please enter a password</string>
-
-    <!--  Register  -->
-    <string name="register_title">Register</string>
-    <string name="register_intro_text">To get access to the content you should register at our website first.</string>
-    <string name="register_button_text">Continue to hyperskill.org ↗</string>
-    <string name="register_possibility_text">Right now you can solve one random problem every day.</string>
-    <string name="register_call_text">We add new features every week. Stay tuned :)</string>
 
     <!-- Step -->
     <string name="step_theory_text">Theory</string>
@@ -200,9 +193,10 @@
     <string name="problem_of_day_minutes">%d minutes</string>
 
     <!-- Placeholder for new users -->
-    <string name="placeholder_register_text">Register</string>
+    <string name="placeholder_register_text">Sign up</string>
     <string name="placeholder_instruction_text">To get access to the content you should register at our website first.</string>
     <string name="placeholder_continue_button_text">Continue to hyperskill.org \u2197</string>
+    <string name="placeholder_continue_button_text_ios">Continue to hyperskill.org ↗</string>
     <string name="placeholder_first_description_text">Right now you can solve one random problem every day.</string>
     <string name="placeholder_second_description_text">We add new features every week. Stay tuned :)</string>
 

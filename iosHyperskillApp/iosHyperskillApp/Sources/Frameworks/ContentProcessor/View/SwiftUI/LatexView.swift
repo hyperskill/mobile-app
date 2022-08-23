@@ -19,7 +19,7 @@ struct LatexView: View {
             configuration: configuration,
             onContentLoaded: onContentLoaded,
             onHeightUpdated: { newHeight in
-                height = CGFloat(newHeight)
+                height = CGFloat(newHeight) // TODO: Modifying state during view update, this will cause undefined behavior.
             },
             onOpenImageURL: onOpenImageURL ?? openURLInTheWeb(_:),
             onOpenLink: onOpenLink ?? openURLInTheWeb(_:)
