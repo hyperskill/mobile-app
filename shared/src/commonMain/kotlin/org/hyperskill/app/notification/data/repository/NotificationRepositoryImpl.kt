@@ -40,4 +40,7 @@ class NotificationRepositoryImpl(
 
     override fun getUserAskedToEnableDailyRemindersCount(): Long =
         notificationCacheDataSource.getUserAskedToEnableDailyRemindersCount()
+
+    override fun getShuffledDailyStudyRemindersNotificationDescriptions(): List<NotificationDescription> =
+        notificationCacheDataSource.getShuffledDailyStudyRemindersNotificationDescriptions()
 }

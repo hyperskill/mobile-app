@@ -2,7 +2,11 @@ import Foundation
 import shared
 
 final class ProfileViewDataMapper {
-    func mapProfileToViewData(_ profile: Profile) -> ProfileViewData {
+    func mapProfileToViewData(
+        _ profile: Profile,
+        isDailyStudyRemindersEnabled: Bool,
+        dailyStudyRemindersStartHour: Int
+    ) -> ProfileViewData {
         let role = profile.isStaff ? Strings.Profile.roleStaff : Strings.Profile.roleLearner
 
         let livesInText: String? = {
@@ -62,7 +66,9 @@ final class ProfileViewDataMapper {
             speaksText: speaksText,
             bio: profile.bio.trimmedNonEmptyOrNil(),
             experience: profile.experience.trimmedNonEmptyOrNil(),
-            socialAccounts: socialAccounts
+            socialAccounts: socialAccounts,
+            isDailyStudyRemindersEnabled: isDailyStudyRemindersEnabled,
+            dailyStudyRemindersStartHour: dailyStudyRemindersStartHour
         )
     }
 }

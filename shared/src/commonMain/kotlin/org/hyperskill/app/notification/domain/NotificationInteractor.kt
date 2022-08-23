@@ -57,4 +57,7 @@ class NotificationInteractor(
 
     private fun getUserAskedToEnableDailyRemindersCount(): Long =
         notificationRepository.getUserAskedToEnableDailyRemindersCount()
+
+    fun getShuffledDailyStudyRemindersNotificationDescriptions(): List<NotificationDescription> =
+        notificationRepository.getShuffledDailyStudyRemindersNotificationDescriptions()
 }

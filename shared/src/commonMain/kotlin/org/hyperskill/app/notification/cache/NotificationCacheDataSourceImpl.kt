@@ -10,7 +10,6 @@ class NotificationCacheDataSourceImpl(
     private val settings: Settings,
     private val resourceProvider: ResourceProvider
 ) : NotificationCacheDataSource {
-
     override fun isDailyStudyRemindersEnabled(): Boolean =
         settings.getBoolean(NotificationCacheKeyValues.NOTIFICATIONS_DAILY_REMINDER_ENABLED, false)
 
@@ -34,6 +33,9 @@ class NotificationCacheDataSourceImpl(
 
     override fun getRandomDailyStudyRemindersNotificationDescription(): NotificationDescription =
         getDailyStudyRemindersNotificationDescriptions().random()
+
+    override fun getShuffledDailyStudyRemindersNotificationDescriptions(): List<NotificationDescription> =
+        getDailyStudyRemindersNotificationDescriptions().shuffled()
 
     private fun getDailyStudyRemindersNotificationDescriptions() =
         listOf(

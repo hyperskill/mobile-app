@@ -1,15 +1,34 @@
 import SwiftUI
 
 struct ProfileDailyStudyRemindersView: View {
-    @State private var isActivated = false
+    @State private var isActivated: Bool
 
-    @State private var selectedHour: Int = 21
+    @State private var selectedHour: Int
+
+    private var onIsActivatedChanged: (Bool) -> Void
+
+    private var onSelectedHourChanged: (Int) -> Void
+
+    init(
+        isActivated: Bool,
+        selectedHour: Int,
+        onIsActivatedChanged: @escaping (Bool) -> Void,
+        onSelectedHourChanged: @escaping (Int) -> Void
+    ) {
+        self.isActivated = isActivated
+        self.selectedHour = selectedHour
+        self.onIsActivatedChanged = onIsActivatedChanged
+        self.onSelectedHourChanged = onSelectedHourChanged
+    }
 
     var body: some View {
         VStack {
             Toggle(Strings.Profile.DailyStudyReminders.title, isOn: $isActivated)
                 .font(.title3)
                 .foregroundColor(.primaryText)
+                .onChange(of: isActivated) { value in
+                    onIsActivatedChanged(value)
+                }
 
             if isActivated {
                 Divider()
@@ -18,6 +37,9 @@ struct ProfileDailyStudyRemindersView: View {
                     text: Strings.Profile.DailyStudyReminders.schedule,
                     selectedInterval: $selectedHour
                 )
+                .onChange(of: selectedHour) { value in
+                    onSelectedHourChanged(value)
+                }
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -28,7 +50,12 @@ struct ProfileDailyStudyRemindersView: View {
 
 struct ProfileDailyStudyRemindersView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileDailyStudyRemindersView()
-            .previewLayout(.sizeThatFits)
+        ProfileDailyStudyRemindersView(
+            isActivated: false,
+            selectedHour: 21,
+            onIsActivatedChanged: { _ in },
+            onSelectedHourChanged: { _ in }
+        )
+        .previewLayout(.sizeThatFits)
     }
 }

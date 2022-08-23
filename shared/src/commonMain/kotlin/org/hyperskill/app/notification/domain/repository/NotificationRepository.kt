@@ -22,4 +22,6 @@ interface NotificationRepository {
     fun setLastTimeUserAskedToEnableDailyReminders(timestamp: Long)
 
     fun getUserAskedToEnableDailyRemindersCount(): Long
+
+    fun getShuffledDailyStudyRemindersNotificationDescriptions(): List<NotificationDescription>
 }
