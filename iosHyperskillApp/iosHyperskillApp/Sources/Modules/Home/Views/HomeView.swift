@@ -27,6 +27,8 @@ struct HomeView: View {
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
+
+            viewModel.logViewedEvent()
         }
         .onDisappear(perform: viewModel.stopListening)
     }
