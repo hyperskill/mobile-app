@@ -68,7 +68,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     router.switch(HomeScreen)
                 }
                 R.id.track_tab -> {
-                    router.switch(TrackScreen())
+                    router.switch(TrackScreen)
                 }
                 R.id.profile_tab -> {
                     router.switch(ProfileScreen(isInitCurrent = true))
