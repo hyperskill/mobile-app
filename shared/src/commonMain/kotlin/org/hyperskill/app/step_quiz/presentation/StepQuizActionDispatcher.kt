@@ -1,7 +1,11 @@
 package org.hyperskill.app.step_quiz.presentation
 
+import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.extension.AppConstants
+import org.hyperskill.app.notification.domain.NotificationInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
@@ -13,8 +17,20 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 class StepQuizActionDispatcher(
     config: ActionDispatcherOptions,
     private val stepQuizInteractor: StepQuizInteractor,
-    private val profileInteractor: ProfileInteractor
+    private val profileInteractor: ProfileInteractor,
+    private val notificationInteractor: NotificationInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
+
+    init {
+        actionScope.launch {
+            notificationInteractor.solvedStepsSharedFlow.collect {
+                if (notificationInteractor.isRequiredToAskUserToEnableDailyReminders()) {
+                    onNewMessage(Message.NeedToAskUserToEnableDailyReminders)
+                }
+            }
+        }
+    }
+
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchAttempt -> {
@@ -80,6 +96,13 @@ class StepQuizActionDispatcher(
                         }
                     )
                 onNewMessage(message)
+            }
+            is Action.NotifyUserAgreedToEnableDailyReminders -> {
+                notificationInteractor.setDailyStudyRemindersEnabled(true)
+                notificationInteractor.setDailyStudyRemindersIntervalStartHour(AppConstants.DAILY_REMINDERS_AFTER_STEP_SOLVED_START_HOUR)
+            }
+            is Action.NotifyUserDeclinedToEnableDailyReminders -> {
+                notificationInteractor.setLastTimeUserAskedToEnableDailyReminders(Clock.System.now().toEpochMilliseconds())
             }
         }
     }

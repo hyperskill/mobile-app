@@ -2,6 +2,7 @@ package org.hyperskill.app.step_quiz.injection
 
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.notification.domain.NotificationInteractor
 import org.hyperskill.app.step_quiz.data.repository.AttemptRepositoryImpl
 import org.hyperskill.app.step_quiz.data.source.AttemptRemoteDataSource
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
@@ -31,10 +32,17 @@ class StepQuizComponentImpl(private val appGraph: AppGraph) : StepQuizComponent 
     override val stepQuizInteractor: StepQuizInteractor
         get() = StepQuizInteractor(attemptRepository, appGraph.submissionDataComponent.submissionRepository)
 
+    private val notificationInteractor: NotificationInteractor = appGraph.buildNotificationComponent().notificationInteractor
+
     override val stepQuizFeature: Feature<StepQuizFeature.State, StepQuizFeature.Message, StepQuizFeature.Action>
         get() {
             val stepQuizReducer = StepQuizReducer()
-            val stepQuizActionDispatcher = StepQuizActionDispatcher(ActionDispatcherOptions(), stepQuizInteractor, appGraph.buildProfileDataComponent().profileInteractor)
+            val stepQuizActionDispatcher = StepQuizActionDispatcher(
+                ActionDispatcherOptions(),
+                stepQuizInteractor,
+                appGraph.buildProfileDataComponent().profileInteractor,
+                notificationInteractor
+            )
 
             return ReduxFeature(StepQuizFeature.State.Idle, stepQuizReducer)
                 .wrapWithActionDispatcher(stepQuizActionDispatcher)
