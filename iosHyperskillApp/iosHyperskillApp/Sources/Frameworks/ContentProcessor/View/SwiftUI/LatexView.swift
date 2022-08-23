@@ -19,7 +19,9 @@ struct LatexView: View {
             configuration: configuration,
             onContentLoaded: onContentLoaded,
             onHeightUpdated: { newHeight in
-                height = CGFloat(newHeight) // TODO: Modifying state during view update, this will cause undefined behavior.
+                DispatchQueue.main.async {
+                    height = CGFloat(newHeight)
+                }
             },
             onOpenImageURL: onOpenImageURL ?? openURLInTheWeb(_:),
             onOpenLink: onOpenLink ?? openURLInTheWeb(_:)
