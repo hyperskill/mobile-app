@@ -1,15 +1,6 @@
 import SwiftUI
 
-extension StepQuizTableSelectColumnsView {
-    struct Appearance {
-        let titleLeadingInset: CGFloat = 28
-        let titleLeadingInsetMultipleChoice: CGFloat = 26
-    }
-}
-
 struct StepQuizTableSelectColumnsView: View {
-    private(set) var appearance = Appearance()
-
     private let prompt: String
     private let title: String
 
@@ -50,10 +41,6 @@ struct StepQuizTableSelectColumnsView: View {
                 LatexView(
                     text: .constant(title),
                     configuration: .quizContent()
-                )
-                .padding(
-                    .leading,
-                    isMultipleChoice ? appearance.titleLeadingInsetMultipleChoice : appearance.titleLeadingInset
                 )
                 .padding(.bottom, LayoutInsets.smallInset)
 
