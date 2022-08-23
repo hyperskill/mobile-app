@@ -98,9 +98,9 @@ struct TrackView: View {
 struct TrackView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            TrackAssembly(trackID: 2).makeModule()
+            TrackAssembly().makeModule()
 
-            TrackAssembly(trackID: 2)
+            TrackAssembly()
                 .makeModule()
                 .preferredColorScheme(.dark)
         }

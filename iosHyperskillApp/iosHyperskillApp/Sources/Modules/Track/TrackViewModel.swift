@@ -2,18 +2,15 @@ import shared
 import SwiftUI
 
 final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMessage, TrackFeatureActionViewAction> {
-    private let trackID: Int
-
     private let viewDataMapper: TrackViewDataMapper
 
-    init(trackID: Int, viewDataMapper: TrackViewDataMapper, feature: Presentation_reduxFeature) {
-        self.trackID = trackID
+    init(viewDataMapper: TrackViewDataMapper, feature: Presentation_reduxFeature) {
         self.viewDataMapper = viewDataMapper
         super.init(feature: feature)
     }
 
     func loadTrack(forceUpdate: Bool = false) {
-        onNewMessage(TrackFeatureMessageInit(trackId: Int64(trackID), forceUpdate: forceUpdate))
+        onNewMessage(TrackFeatureMessageInit(forceUpdate: forceUpdate))
     }
 
     func makeViewData(track: Track, trackProgress: TrackProgress, studyPlan: StudyPlan?) -> TrackViewData {

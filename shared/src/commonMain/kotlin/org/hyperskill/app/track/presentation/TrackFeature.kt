@@ -17,10 +17,7 @@ interface TrackFeature {
     }
 
     sealed interface Message {
-        data class Init(
-            val trackId: Long,
-            val forceUpdate: Boolean = false
-        ) : Message
+        data class Init(val forceUpdate: Boolean = false) : Message
 
         data class TrackSuccess(
             val track: Track,
