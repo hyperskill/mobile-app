@@ -25,13 +25,13 @@ class AppReducer : StateReducer<State, Message, Action> {
                     } else {
                         Action.ViewAction.NavigateTo.HomeScreen
                     }
-                    State.Ready(isAuthorized = true, trackID = null) to setOf(action)
+                    State.Ready(isAuthorized = true) to setOf(action)
                 } else {
                     null
                 }
             is Message.UserDeauthorized ->
                 if (state is State.Ready && state.isAuthorized) {
-                    State.Ready(isAuthorized = false, trackID = null) to setOf(Action.ViewAction.NavigateTo.AuthScreen)
+                    State.Ready(isAuthorized = false) to setOf(Action.ViewAction.NavigateTo.AuthScreen)
                 } else {
                     null
                 }
@@ -54,7 +54,7 @@ class AppReducer : StateReducer<State, Message, Action> {
                             }
                         }
 
-                    State.Ready(isAuthorized = isAuthorized, trackID = message.profile.trackId) to setOf(action)
+                    State.Ready(isAuthorized = isAuthorized) to setOf(action)
                 } else {
                     null
                 }

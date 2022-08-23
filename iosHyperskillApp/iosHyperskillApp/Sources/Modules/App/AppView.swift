@@ -46,13 +46,7 @@ struct AppView: View {
             )
         case let readyState as AppFeatureStateReady:
             buildContent(
-                isAuthorized: readyState.isAuthorized,
-                trackID: {
-                    guard let trackID = readyState.trackID else {
-                        return nil
-                    }
-                    return Int(truncating: trackID)
-                }()
+                isAuthorized: readyState.isAuthorized
             )
             .fullScreenCover(item: $viewModel.navigationState.activeFullScreenModal) { screen in
                 switch screen {
@@ -71,7 +65,7 @@ struct AppView: View {
     }
 
     @ViewBuilder
-    private func buildContent(isAuthorized: Bool, trackID: Int?) -> some View {
+    private func buildContent(isAuthorized: Bool) -> some View {
         if isAuthorized {
             TabView(selection: $viewModel.navigationState.selectedTab) {
                 ForEach(AppTabItem.allCases, id: \.self) { tab in
@@ -82,9 +76,7 @@ struct AppView: View {
                             case .home:
                                 HomeAssembly().makeModule()
                             case .track:
-                                if let trackID = trackID {
-                                    TrackAssembly(trackID: trackID).makeModule()
-                                }
+                                TrackAssembly(trackID: 18).makeModule()
                             case .profile:
                                 ProfileAssembly.currentUser().makeModule()
                             }

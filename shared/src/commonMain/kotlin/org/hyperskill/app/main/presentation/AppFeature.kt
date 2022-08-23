@@ -7,7 +7,7 @@ interface AppFeature {
         object Idle : State
         object Loading : State
         object NetworkError : State
-        data class Ready(val isAuthorized: Boolean, val trackID: Long?) : State
+        data class Ready(val isAuthorized: Boolean) : State
     }
 
     sealed interface Message {
