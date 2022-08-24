@@ -60,4 +60,9 @@ class NotificationInteractor(
 
     fun getShuffledDailyStudyRemindersNotificationDescriptions(): List<NotificationDescription> =
         notificationRepository.getShuffledDailyStudyRemindersNotificationDescriptions()
+
+    fun clearAskUserToEnableDailyRemindersInfo() {
+        notificationRepository.clearAskUserToEnableDailyRemindersInfo()
+        submissionRepository.clearSolvedStepsCount()
+    }
 }

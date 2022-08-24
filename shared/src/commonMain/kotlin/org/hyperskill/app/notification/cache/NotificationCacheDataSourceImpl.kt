@@ -107,4 +107,9 @@ class NotificationCacheDataSourceImpl(
 
     override fun getUserAskedToEnableDailyRemindersCount(): Long =
         settings.getLong(NotificationCacheKeyValues.NOTIFICATON_USER_ASKED_TO_ENABLE_DAILY_REMINDERS_COUNT, 0)
+
+    override fun clearAskUserToEnableDailyRemindersInfo() {
+        settings.remove(NotificationCacheKeyValues.NOTIFICATON_USER_ASKED_TO_ENABLE_DAILY_REMINDERS_COUNT)
+        settings.remove(NotificationCacheKeyValues.NOTIFICATION_LAST_TIME_USER_ASKED_TO_ENABLE_DAILY_REMINDERS)
+    }
 }

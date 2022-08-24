@@ -24,4 +24,6 @@ interface NotificationRepository {
     fun getUserAskedToEnableDailyRemindersCount(): Long
 
     fun getShuffledDailyStudyRemindersNotificationDescriptions(): List<NotificationDescription>
+
+    fun clearAskUserToEnableDailyRemindersInfo()
 }

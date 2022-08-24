@@ -38,4 +38,8 @@ class SubmissionRepositoryImpl(
 
     override fun getSolvedStepsCount(): Long =
         submissionCacheDataSource.getSolvedStepsCount()
+
+    override fun clearSolvedStepsCount() {
+        submissionCacheDataSource.clearSolvedStepsCount()
+    }
 }

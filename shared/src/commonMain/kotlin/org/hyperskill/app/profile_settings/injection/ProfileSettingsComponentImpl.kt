@@ -1,6 +1,11 @@
 package org.hyperskill.app.profile_settings.injection
 
 import org.hyperskill.app.core.injection.AppGraph
+import org.hyperskill.app.notification.cache.NotificationCacheDataSourceImpl
+import org.hyperskill.app.notification.data.repository.NotificationRepositoryImpl
+import org.hyperskill.app.notification.data.source.NotificationCacheDataSource
+import org.hyperskill.app.notification.domain.NotificationInteractor
+import org.hyperskill.app.notification.domain.repository.NotificationRepository
 import org.hyperskill.app.profile.cache.ProfileCacheDataSourceImpl
 import org.hyperskill.app.profile.data.repository.ProfileRepositoryImpl
 import org.hyperskill.app.profile.data.source.ProfileCacheDataSource
@@ -39,6 +44,21 @@ class ProfileSettingsComponentImpl(private val appGraph: AppGraph) : ProfileSett
         ProfileRepositoryImpl(profileRemoteDataSource, profileCacheDataSource)
     private val profileInteractor: ProfileInteractor = ProfileInteractor(profileRepository, appGraph.submissionDataComponent.submissionRepository)
 
+    private val notificationCacheDataSource: NotificationCacheDataSource = NotificationCacheDataSourceImpl(
+        appGraph.commonComponent.settings,
+        appGraph.commonComponent.resourceProvider
+    )
+    private val notificationRepository: NotificationRepository = NotificationRepositoryImpl(notificationCacheDataSource)
+    private val notificationInteractor: NotificationInteractor = NotificationInteractor(
+        notificationRepository,
+        appGraph.submissionDataComponent.submissionRepository
+    )
+
     override val profileSettingsFeature: Feature<ProfileSettingsFeature.State, ProfileSettingsFeature.Message, ProfileSettingsFeature.Action>
-        get() = ProfileSettingsFeatureBuilder.build(profileSettingsInteractor, profileInteractor, appGraph.networkComponent.authorizationFlow)
+        get() = ProfileSettingsFeatureBuilder.build(
+            profileSettingsInteractor,
+            profileInteractor,
+            notificationInteractor,
+            appGraph.networkComponent.authorizationFlow
+        )
 }
