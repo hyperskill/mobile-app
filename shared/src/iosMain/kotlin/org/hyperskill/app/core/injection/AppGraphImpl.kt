@@ -1,5 +1,7 @@
 package org.hyperskill.app.core.injection
 
+import org.hyperskill.app.analytic.injection.AnalyticComponent
+import org.hyperskill.app.analytic.injection.AnalyticComponentImpl
 import org.hyperskill.app.auth.injection.AuthComponent
 import org.hyperskill.app.auth.injection.AuthComponentImpl
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
@@ -43,6 +45,9 @@ class AppGraphImpl(
 
     override val submissionDataComponent: SubmissionDataComponent =
         SubmissionDataComponentImpl(this)
+
+    override val analyticComponent: AnalyticComponent =
+        AnalyticComponentImpl(this)
 
     override val authComponent: AuthComponent =
         AuthComponentImpl(this)

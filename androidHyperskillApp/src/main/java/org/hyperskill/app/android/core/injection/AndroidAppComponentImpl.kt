@@ -2,13 +2,14 @@ package org.hyperskill.app.android.core.injection
 
 import android.app.Application
 import android.content.Context
+import org.hyperskill.app.analytic.injection.AnalyticComponent
+import org.hyperskill.app.analytic.injection.AnalyticComponentImpl
 import org.hyperskill.app.android.code.injection.PlatformCodeEditorComponent
 import org.hyperskill.app.android.code.injection.PlatformCodeEditorComponentImpl
 import org.hyperskill.app.android.latex.injection.PlatformLatexComponent
 import org.hyperskill.app.android.latex.injection.PlatformLatexComponentImpl
 import org.hyperskill.app.android.notification.injection.PlatformNotificationComponent
 import org.hyperskill.app.android.notification.injection.PlatformNotificationComponentImpl
-import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponentImpl
 import org.hyperskill.app.auth.injection.AuthComponent
 import org.hyperskill.app.auth.injection.AuthComponentImpl
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
@@ -34,31 +35,32 @@ import org.hyperskill.app.main.injection.PlatformMainComponent
 import org.hyperskill.app.main.injection.PlatformMainComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.network.injection.NetworkComponentImpl
-import org.hyperskill.app.onboarding.injection.OnboardingComponent
-import org.hyperskill.app.onboarding.injection.OnboardingComponentImpl
 import org.hyperskill.app.notification.injection.NotificationComponent
 import org.hyperskill.app.notification.injection.NotificationComponentImpl
+import org.hyperskill.app.onboarding.injection.OnboardingComponent
+import org.hyperskill.app.onboarding.injection.OnboardingComponentImpl
 import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponent
+import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponentImpl
+import org.hyperskill.app.profile.injection.PlatformProfileComponent
+import org.hyperskill.app.profile.injection.PlatformProfileComponentImpl
+import org.hyperskill.app.profile.injection.PlatformProfileSettingsComponentImpl
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile.injection.ProfileComponentImpl
 import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponentImpl
-import org.hyperskill.app.profile.injection.PlatformProfileComponent
-import org.hyperskill.app.profile.injection.PlatformProfileComponentImpl
+import org.hyperskill.app.profile_settings.injection.PlatformProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponentImpl
-import org.hyperskill.app.profile_settings.injection.PlatformProfileSettingsComponent
-import org.hyperskill.app.profile.injection.PlatformProfileSettingsComponentImpl
 import org.hyperskill.app.step.injection.PlatformStepComponent
 import org.hyperskill.app.step.injection.PlatformStepComponentImpl
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step.injection.StepComponentImpl
-import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
-import org.hyperskill.app.step_quiz.injection.SubmissionDataComponentImpl
-import org.hyperskill.app.step_quiz.injection.StepQuizComponent
-import org.hyperskill.app.step_quiz.injection.StepQuizComponentImpl
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponent
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponentImpl
+import org.hyperskill.app.step_quiz.injection.StepQuizComponent
+import org.hyperskill.app.step_quiz.injection.StepQuizComponentImpl
+import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
+import org.hyperskill.app.step_quiz.injection.SubmissionDataComponentImpl
 import org.hyperskill.app.track.injection.PlatformTrackComponent
 import org.hyperskill.app.track.injection.PlatformTrackComponentImpl
 import org.hyperskill.app.track.injection.TrackComponent
@@ -85,6 +87,9 @@ class AndroidAppComponentImpl(
 
     override val submissionDataComponent: SubmissionDataComponent =
         SubmissionDataComponentImpl(this)
+
+    override val analyticComponent: AnalyticComponent =
+        AnalyticComponentImpl(this)
 
     override val authComponent: AuthComponent =
         AuthComponentImpl(this)

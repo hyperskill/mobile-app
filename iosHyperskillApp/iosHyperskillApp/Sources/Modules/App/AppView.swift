@@ -76,7 +76,7 @@ struct AppView: View {
                             case .home:
                                 HomeAssembly().makeModule()
                             case .track:
-                                TrackAssembly(trackID: 18).makeModule()
+                                TrackAssembly().makeModule()
                             case .profile:
                                 ProfileAssembly.currentUser().makeModule()
                             }

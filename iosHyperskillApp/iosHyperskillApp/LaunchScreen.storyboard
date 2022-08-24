@@ -73,6 +73,6 @@
     </scenes>
     <resources>
         <image name="launch-screen-background" width="414" height="780"/>
-        <image name="launch-screen-logo" width="108" height="101"/>
+        <image name="launch-screen-logo" width="95" height="128"/>
     </resources>
 </document>

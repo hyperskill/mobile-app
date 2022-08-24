@@ -1,5 +1,7 @@
 package org.hyperskill.app.step_quiz.presentation
 
+import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
@@ -12,7 +14,8 @@ interface StepQuizFeature {
         object AttemptLoading : State
         data class AttemptLoaded(
             val attempt: Attempt,
-            val submissionState: SubmissionState
+            val submissionState: SubmissionState,
+            val currentProfile: Profile
         ) : State
 
         object NetworkError : State
@@ -27,12 +30,17 @@ interface StepQuizFeature {
         data class InitWithStep(val step: Step, val forceUpdate: Boolean = false) : Message
         data class FetchAttemptSuccess(
             val attempt: Attempt,
-            val submissionState: SubmissionState
+            val submissionState: SubmissionState,
+            val currentProfile: Profile
         ) : Message
         object FetchAttemptError : Message
 
         data class CreateAttemptClicked(val step: Step) : Message
-        data class CreateAttemptSuccess(val attempt: Attempt, val submissionState: SubmissionState) : Message
+        data class CreateAttemptSuccess(
+            val attempt: Attempt,
+            val submissionState: SubmissionState,
+            val currentProfile: Profile
+        ) : Message
         object CreateAttemptError : Message
 
         data class CreateSubmissionClicked(val step: Step, val reply: Reply) : Message
@@ -51,6 +59,8 @@ interface StepQuizFeature {
 
         data class CreateAttempt(val step: Step, val attempt: Attempt, val submissionState: SubmissionState) : Action
         data class CreateSubmission(val step: Step, val attemptId: Long, val reply: Reply) : Action
+
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
         object NotifyUserAgreedToEnableDailyReminders : Action
         object NotifyUserDeclinedToEnableDailyReminders : Action

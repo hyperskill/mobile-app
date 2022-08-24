@@ -49,11 +49,11 @@ enum Strings {
         // MARK: NewUserPlaceholder
 
         enum NewUserPlaceholder {
-            static let title = sharedStrings.register_title.localized()
-            static let introText = sharedStrings.register_intro_text.localized()
-            static let buttonText = sharedStrings.register_button_text.localized()
-            static let possibilityText = sharedStrings.register_possibility_text.localized()
-            static let callText = sharedStrings.register_call_text.localized()
+            static let title = sharedStrings.placeholder_register_text.localized()
+            static let introText = sharedStrings.placeholder_instruction_text.localized()
+            static let buttonText = sharedStrings.placeholder_continue_button_text_ios.localized()
+            static let possibilityText = sharedStrings.placeholder_first_description_text.localized()
+            static let callText = sharedStrings.placeholder_second_description_text.localized()
         }
     }
 

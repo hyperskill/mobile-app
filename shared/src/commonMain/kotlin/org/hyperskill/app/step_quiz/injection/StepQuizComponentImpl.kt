@@ -21,7 +21,8 @@ class StepQuizComponentImpl(private val appGraph: AppGraph) : StepQuizComponent 
     private val attemptRemoteDataSource: AttemptRemoteDataSource = AttemptRemoteDataSourceImpl(
         appGraph.networkComponent.authorizedHttpClient
     )
-    private val attemptRepository: AttemptRepository = AttemptRepositoryImpl(attemptRemoteDataSource)
+    private val attemptRepository: AttemptRepository =
+        AttemptRepositoryImpl(attemptRemoteDataSource)
 
     override val stepQuizStatsTextMapper: StepQuizStatsTextMapper
         get() = StepQuizStatsTextMapper(appGraph.commonComponent.resourceProvider)
@@ -30,7 +31,10 @@ class StepQuizComponentImpl(private val appGraph: AppGraph) : StepQuizComponent 
         get() = StepQuizTitleMapper(appGraph.commonComponent.resourceProvider)
 
     override val stepQuizInteractor: StepQuizInteractor
-        get() = StepQuizInteractor(attemptRepository, appGraph.submissionDataComponent.submissionRepository)
+        get() = StepQuizInteractor(
+            attemptRepository,
+            appGraph.submissionDataComponent.submissionRepository
+        )
 
     private val notificationInteractor: NotificationInteractor = appGraph.buildNotificationComponent().notificationInteractor
 
@@ -39,6 +43,7 @@ class StepQuizComponentImpl(private val appGraph: AppGraph) : StepQuizComponent 
             val stepQuizReducer = StepQuizReducer()
             val stepQuizActionDispatcher = StepQuizActionDispatcher(
                 ActionDispatcherOptions(),
+                appGraph.analyticComponent.analyticInteractor,
                 stepQuizInteractor,
                 appGraph.buildProfileDataComponent().profileInteractor,
                 notificationInteractor

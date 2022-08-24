@@ -1,5 +1,6 @@
 package org.hyperskill.app.home.presentation
 
+import org.hyperskill.app.home.domain.analytic.HomeViewedHyperskillAnalyticEvent
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 import org.hyperskill.app.home.presentation.HomeFeature.Action
 import org.hyperskill.app.home.presentation.HomeFeature.Message
@@ -64,5 +65,7 @@ class HomeReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
+            is Message.HomeViewedEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(HomeViewedHyperskillAnalyticEvent()))
         } ?: (state to emptySet())
 }
