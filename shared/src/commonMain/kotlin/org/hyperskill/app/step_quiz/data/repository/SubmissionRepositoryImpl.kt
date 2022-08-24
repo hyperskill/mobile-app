@@ -31,11 +31,11 @@ class SubmissionRepositoryImpl(
     ): Result<Submission> =
         submissionRemoteDataSource.createSubmission(attemptId, reply, solvingContext)
 
-    override suspend fun notifyStepSolved(id: Long) {
-        submissionCacheDataSource.incrementStepsInAppSolved()
-        solvedStepsMutableSharedFlow.emit(id)
+    override suspend fun notifyStepSolved(stepId: Long) {
+        submissionCacheDataSource.incrementSolvedStepsCount()
+        solvedStepsMutableSharedFlow.emit(stepId)
     }
 
-    override fun getStepsInAppSolved(): Long =
-        submissionCacheDataSource.getStepsInAppSolved()
+    override fun getSolvedStepsCount(): Long =
+        submissionCacheDataSource.getSolvedStepsCount()
 }

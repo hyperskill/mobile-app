@@ -31,7 +31,7 @@ interface SubmissionRepository {
         solvingContext: StepContext = StepContext.DEFAULT
     ): Result<Submission>
 
-    suspend fun notifyStepSolved(id: Long)
+    suspend fun notifyStepSolved(stepId: Long)
 
-    fun getStepsInAppSolved(): Long
+    fun getSolvedStepsCount(): Long
 }

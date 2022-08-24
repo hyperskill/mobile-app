@@ -2,7 +2,7 @@ package org.hyperskill.app.notification.domain
 
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.datetime.Clock
-import org.hyperskill.app.extension.AppConstants
+import org.hyperskill.app.notification.data.extension.NotificationExtensions
 import org.hyperskill.app.notification.data.model.NotificationDescription
 import org.hyperskill.app.notification.domain.repository.NotificationRepository
 import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
@@ -42,13 +42,13 @@ class NotificationInteractor(
             return false
         }
 
-        if (submissionRepository.getStepsInAppSolved() == 0L) {
+        if (submissionRepository.getSolvedStepsCount() <= 1L) {
             return true
         }
 
         val lastTimeAsked = notificationRepository.getLastTimeUserAskedToEnableDailyReminders() ?: return true
 
-        return lastTimeAsked + AppConstants.TWO_DAYS_IN_MILLIS <= Clock.System.now().toEpochMilliseconds() && getUserAskedToEnableDailyRemindersCount() < 3
+        return lastTimeAsked + NotificationExtensions.TWO_DAYS_IN_MILLIS <= Clock.System.now().toEpochMilliseconds() && getUserAskedToEnableDailyRemindersCount() < 3
     }
 
     fun setLastTimeUserAskedToEnableDailyReminders(timestamp: Long) {

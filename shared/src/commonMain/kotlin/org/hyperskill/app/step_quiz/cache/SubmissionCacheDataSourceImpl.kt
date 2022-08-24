@@ -6,10 +6,10 @@ import org.hyperskill.app.step_quiz.data.source.SubmissionCacheDataSource
 class SubmissionCacheDataSourceImpl(
     private val settings: Settings
 ) : SubmissionCacheDataSource {
-    override fun incrementStepsInAppSolved() {
-        settings.putLong(SubmissionCacheKeyValues.STEPS_SOLVED_IN_APP, getStepsInAppSolved() + 1)
+    override fun incrementSolvedStepsCount() {
+        settings.putLong(SubmissionCacheKeyValues.STEPS_SOLVED_COUNT, getSolvedStepsCount() + 1)
     }
 
-    override fun getStepsInAppSolved(): Long =
-        settings.getLong(SubmissionCacheKeyValues.STEPS_SOLVED_IN_APP, 0)
+    override fun getSolvedStepsCount(): Long =
+        settings.getLong(SubmissionCacheKeyValues.STEPS_SOLVED_COUNT, 0)
 }

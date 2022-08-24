@@ -4,7 +4,7 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.extension.AppConstants
+import org.hyperskill.app.notification.data.extension.NotificationExtensions
 import org.hyperskill.app.notification.domain.NotificationInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
@@ -99,7 +99,7 @@ class StepQuizActionDispatcher(
             }
             is Action.NotifyUserAgreedToEnableDailyReminders -> {
                 notificationInteractor.setDailyStudyRemindersEnabled(true)
-                notificationInteractor.setDailyStudyRemindersIntervalStartHour(AppConstants.DAILY_REMINDERS_AFTER_STEP_SOLVED_START_HOUR)
+                notificationInteractor.setDailyStudyRemindersIntervalStartHour(NotificationExtensions.DAILY_REMINDERS_AFTER_STEP_SOLVED_START_HOUR)
             }
             is Action.NotifyUserDeclinedToEnableDailyReminders -> {
                 notificationInteractor.setLastTimeUserAskedToEnableDailyReminders(Clock.System.now().toEpochMilliseconds())
