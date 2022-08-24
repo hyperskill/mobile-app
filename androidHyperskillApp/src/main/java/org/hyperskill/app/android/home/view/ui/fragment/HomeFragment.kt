@@ -101,12 +101,6 @@ class HomeFragment :
             state,
             ::onProblemOfDayCardActionButtonClicked
         )
-
-        if (state is HomeFeature.ProblemOfDayState.Solved || state is HomeFeature.ProblemOfDayState.Empty) {
-            viewBinding.homeScreenKeepLearningInWebButton.visibility = View.VISIBLE
-        } else {
-            viewBinding.homeScreenKeepLearningInWebButton.visibility = View.GONE
-        }
     }
 
     override fun onAction(action: HomeFeature.Action.ViewAction) {
