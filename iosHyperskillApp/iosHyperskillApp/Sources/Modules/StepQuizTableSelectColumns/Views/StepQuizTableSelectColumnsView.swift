@@ -70,11 +70,9 @@ struct StepQuizTableSelectColumnsView: View {
                     }
                 }
 
-                if isMultipleChoice {
-                    Button(Strings.StepQuizTable.confirmButton, action: onConfirmTapped)
-                        .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
-                        .padding(.vertical)
-                }
+                Button(Strings.StepQuizTable.confirmButton, action: onConfirmTapped)
+                    .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
+                    .padding(.vertical)
 
                 Spacer()
             }
