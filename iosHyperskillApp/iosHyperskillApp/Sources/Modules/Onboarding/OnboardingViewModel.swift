@@ -19,4 +19,8 @@ final class OnboardingViewModel: FeatureViewModel<
     func doNewUserPresentation() {
         moduleOutput?.handleOnboardingSignUpRequested()
     }
+
+    func logViewedEvent() {
+        onNewMessage(OnboardingFeatureMessageOnboardingViewedEventMessage())
+    }
 }

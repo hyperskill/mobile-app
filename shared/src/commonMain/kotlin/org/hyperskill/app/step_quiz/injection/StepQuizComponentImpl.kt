@@ -40,9 +40,9 @@ class StepQuizComponentImpl(private val appGraph: AppGraph) : StepQuizComponent 
             val stepQuizReducer = StepQuizReducer()
             val stepQuizActionDispatcher = StepQuizActionDispatcher(
                 ActionDispatcherOptions(),
-                appGraph.analyticComponent.analyticInteractor,
                 stepQuizInteractor,
-                appGraph.buildProfileDataComponent().profileInteractor
+                appGraph.buildProfileDataComponent().profileInteractor,
+                appGraph.analyticComponent.analyticInteractor
             )
 
             return ReduxFeature(StepQuizFeature.State.Idle, stepQuizReducer)

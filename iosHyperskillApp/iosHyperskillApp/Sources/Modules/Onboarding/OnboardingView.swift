@@ -63,7 +63,9 @@ struct OnboardingView: View {
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
+
             viewModel.loadOnboarding()
+            viewModel.logViewedEvent()
         }
         .onDisappear(perform: viewModel.stopListening)
     }

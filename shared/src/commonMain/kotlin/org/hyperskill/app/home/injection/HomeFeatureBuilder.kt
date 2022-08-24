@@ -26,11 +26,11 @@ object HomeFeatureBuilder {
         val homeReducer = HomeReducer()
         val homeActionDispatcher = HomeActionDispatcher(
             ActionDispatcherOptions(),
-            analyticInteractor,
             homeInteractor,
             streakInteractor,
             profileInteractor,
-            stepInteractor
+            stepInteractor,
+            analyticInteractor
         )
 
         return ReduxFeature(State.Idle, homeReducer)

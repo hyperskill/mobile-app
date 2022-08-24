@@ -53,6 +53,7 @@ class OnboardingFragment :
         }
 
         onboardingViewModel.onNewMessage(OnboardingFeature.Message.Init)
+        onboardingViewModel.onNewMessage(OnboardingFeature.Message.OnboardingViewedEventMessage)
     }
 
     override fun onAction(action: OnboardingFeature.Action.ViewAction) {

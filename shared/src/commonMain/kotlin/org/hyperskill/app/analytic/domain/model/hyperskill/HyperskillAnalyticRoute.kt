@@ -3,6 +3,10 @@ package org.hyperskill.app.analytic.domain.model.hyperskill
 sealed class HyperskillAnalyticRoute {
     abstract val path: String
 
+    class Onboarding : HyperskillAnalyticRoute() {
+        override val path: String = "/onboarding"
+    }
+
     class Home : HyperskillAnalyticRoute() {
         override val path: String = "/home"
     }
