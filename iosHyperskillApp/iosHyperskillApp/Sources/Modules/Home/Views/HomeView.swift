@@ -31,6 +31,7 @@ struct HomeView: View {
             viewModel.logViewedEvent()
         }
         .onDisappear(perform: viewModel.stopListening)
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 
     // MARK: Private API

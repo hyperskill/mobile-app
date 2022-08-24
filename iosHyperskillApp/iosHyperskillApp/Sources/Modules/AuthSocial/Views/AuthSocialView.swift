@@ -3,7 +3,7 @@ import SwiftUI
 
 extension AuthSocialView {
     struct Appearance {
-        let logoSize: CGFloat = 48
+        let logoWidthHeight: CGFloat = 48
     }
 }
 
@@ -25,8 +25,8 @@ struct AuthSocialView: View {
 
         return NavigationView {
             AuthAdaptiveContentView { horizontalSizeClass in
-                AuthLogoView(logoWidthHeight: appearance.logoSize)
-                    .padding(horizontalSizeClass == .regular ? .bottom : .vertical, appearance.logoSize)
+                AuthLogoView(logoWidthHeight: appearance.logoWidthHeight)
+                    .padding(horizontalSizeClass == .regular ? .bottom : .vertical, appearance.logoWidthHeight)
 
                 AuthSocialControlsView(
                     socialAuthProviders: viewModel.availableSocialAuthProviders,

@@ -5,12 +5,11 @@ struct AuthLogoView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Image(Images.AuthSocial.hyperskill)
-                .resizable()
-                .frame(width: logoWidthHeight, height: logoWidthHeight)
+            HyperskillLogoView(logoWidthHeight: logoWidthHeight)
 
             Text(Strings.Auth.Social.logInTitle)
                 .font(.body)
+                .foregroundColor(.primaryText)
                 .multilineTextAlignment(.center)
                 .padding(.top)
         }

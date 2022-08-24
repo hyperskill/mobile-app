@@ -32,6 +32,7 @@ struct ProfileSettingsView: View {
             viewModel.onViewAction = handleViewAction(_:)
         }
         .onDisappear(perform: viewModel.stopListening)
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 
     // MARK: Private API
