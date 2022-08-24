@@ -112,12 +112,6 @@ struct StepQuizView: View {
             let submissionStateLoaded = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded
 
             let reply = submissionStateLoaded?.submission.reply ?? submissionStateEmpty?.reply
-            let isDisabled: Bool = {
-                if let submissionStateLoaded = submissionStateLoaded {
-                    return !submissionStateLoaded.submission.isSubmissionEditable
-                }
-                return false
-            }()
 
             // TODO: Use here child quiz assembly instance when Swift 5.7 released
             Group {
@@ -175,7 +169,7 @@ struct StepQuizView: View {
                     fatalError("Unsupported quiz = \(blockName)")
                 }
             }
-            .disabled(isDisabled)
+            .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
         }
     }
 
@@ -244,7 +238,6 @@ struct StepQuizView: View {
             retryButton: retryButtonDescription,
             primaryButton: primaryButtonDescription
         )
-        .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
     }
 
     private func handleViewAction(_ viewAction: StepQuizFeatureActionViewAction) {

@@ -8,6 +8,8 @@ struct StepQuizActionButton: View {
 
     var onTap: () -> Void
 
+    @Environment(\.presentationMode) private var presentationMode
+
     private var overlayImage: RoundedRectangleButtonStyle.OverlayImage? {
         if let systemImageName = systemImageNameForState?(state) {
             return .init(imageSystemName: systemImageName)
@@ -18,7 +20,9 @@ struct StepQuizActionButton: View {
     var body: some View {
         Button(
             titleForState?(state) ?? state.title,
-            action: onTap
+            action: state != .correct
+                    ? onTap
+                    : { presentationMode.wrappedValue.dismiss() }
         )
         .buttonStyle(RoundedRectangleButtonStyle(style: state.style, overlayImage: overlayImage))
         .disabled(state == .evaluation)

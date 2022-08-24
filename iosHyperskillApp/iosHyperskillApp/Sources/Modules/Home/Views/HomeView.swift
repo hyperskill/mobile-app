@@ -70,6 +70,14 @@ struct HomeView: View {
                     )
                     .makeModule()
 
+                    if data.problemOfDayState as? HomeFeatureProblemOfDayStateNeedToSolve == nil {
+                        OpenURLInsideAppButton(
+                            text: Strings.Home.keepLearningButtonText,
+                            url: HyperskillURLFactory.makeStudyPlan().require()
+                        )
+                        .buttonStyle(OutlineButtonStyle())
+                    }
+
                     HomeDebugStepNavigationView()
                 }
                 .padding()
