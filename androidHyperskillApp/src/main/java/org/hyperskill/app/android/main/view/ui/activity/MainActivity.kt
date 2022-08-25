@@ -20,7 +20,7 @@ import org.hyperskill.app.android.auth.view.ui.fragment.AuthFragment
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthScreen
 import org.hyperskill.app.android.core.view.ui.navigation.AppNavigationContainer
 import org.hyperskill.app.android.databinding.ActivityMainBinding
-import org.hyperskill.app.android.home.view.ui.screen.PlaceholderNewUserScreen
+import org.hyperskill.app.android.placeholder_new_user.navigation.PlaceholderNewUserScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.onboarding.navigation.OnboardingScreen
 import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper

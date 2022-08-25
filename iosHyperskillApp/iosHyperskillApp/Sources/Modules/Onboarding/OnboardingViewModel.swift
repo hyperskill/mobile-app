@@ -12,11 +12,11 @@ final class OnboardingViewModel: FeatureViewModel<
         onNewMessage(OnboardingFeatureMessageInit())
     }
 
-    func doAuthPresentation() {
+    func doSignPresentation() {
         moduleOutput?.handleOnboardingSignInRequested()
     }
 
-    func doNewUserPresentation() {
+    func doSignUpPresentation() {
         moduleOutput?.handleOnboardingSignUpRequested()
     }
 

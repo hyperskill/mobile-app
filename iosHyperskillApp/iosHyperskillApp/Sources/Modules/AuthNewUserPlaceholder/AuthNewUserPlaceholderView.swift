@@ -1,3 +1,4 @@
+import shared
 import SwiftUI
 
 extension AuthNewUserPlaceholderView {
@@ -15,6 +16,8 @@ struct AuthNewUserPlaceholderView: View {
     private static let registerURL = HyperskillURLFactory.makeRegister()
 
     private(set) var appearance = Appearance()
+
+    @StateObject var viewModel: AuthNewUserPlaceholderViewModel
 
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
@@ -34,6 +37,13 @@ struct AuthNewUserPlaceholderView: View {
             .frame(maxWidth: appearance.contentMaxWidth)
             .padding()
         }
+        .onAppear {
+            viewModel.startListening()
+            viewModel.onViewAction = handleViewAction(_:)
+
+            viewModel.logViewedEvent()
+        }
+        .onDisappear(perform: viewModel.stopListening)
     }
 
     private var content: some View {
@@ -65,13 +75,19 @@ struct AuthNewUserPlaceholderView: View {
             .foregroundColor(.primaryText)
         }
     }
+
+    // MARK: Private API
+
+    private func handleViewAction(_ viewAction: PlaceholderNewUserFeatureActionViewAction) {
+        print("AuthNewUserPlaceholderView :: \(#function) viewAction = \(viewAction)")
+    }
 }
 
 struct AuthNewUserPlaceholderView_Previews: PreviewProvider {
     static var previews: some View {
-        AuthNewUserPlaceholderView()
+        AuthNewUserPlaceholderAssembly().makeModule()
 
-        AuthNewUserPlaceholderView()
+        AuthNewUserPlaceholderAssembly().makeModule()
             .previewDevice(PreviewDevice(rawValue: "iPad (9th generation)"))
     }
 }

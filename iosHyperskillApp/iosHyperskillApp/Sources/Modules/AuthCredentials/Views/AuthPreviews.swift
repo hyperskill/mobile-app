@@ -22,7 +22,8 @@ struct AuthPreviews_Previews: PreviewProvider {
                 .makeModule()
                 .previewDevice(previewDevice)
 
-            AuthNewUserPlaceholderView()
+            AuthNewUserPlaceholderAssembly()
+                .makeModule()
                 .previewDevice(previewDevice)
         }
     }

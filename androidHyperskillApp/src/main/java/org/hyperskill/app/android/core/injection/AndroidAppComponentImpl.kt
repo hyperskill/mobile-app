@@ -41,6 +41,10 @@ import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponentImpl
 import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponent
 import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponentImpl
+import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponent
+import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponentImpl
+import org.hyperskill.app.placeholder_new_user.injection.PlatformPlaceholderNewUserComponent
+import org.hyperskill.app.placeholder_new_user.injection.PlatformPlaceholderNewUserComponentImpl
 import org.hyperskill.app.profile.injection.PlatformProfileComponent
 import org.hyperskill.app.profile.injection.PlatformProfileComponentImpl
 import org.hyperskill.app.profile.injection.PlatformProfileSettingsComponentImpl
@@ -211,4 +215,13 @@ class AndroidAppComponentImpl(
 
     override fun buildPlatformOnboardingComponent(onboardingComponent: OnboardingComponent): PlatformOnboardingComponent =
         PlatformOnboardingComponentImpl(onboardingComponent)
+
+    /**
+     * Placeholder new user component
+     */
+    override fun buildPlaceholderNewUserComponent(): PlaceholderNewUserComponent =
+        PlaceholderNewUserComponentImpl(analyticComponent.analyticInteractor)
+
+    override fun buildPlatformPlaceholderNewUserComponent(placeholderNewUserComponent: PlaceholderNewUserComponent): PlatformPlaceholderNewUserComponent =
+        PlatformPlaceholderNewUserComponentImpl(placeholderNewUserComponent)
 }

@@ -16,6 +16,10 @@ sealed class HyperskillAnalyticRoute {
         }
     }
 
+    class Register : HyperskillAnalyticRoute() {
+        override val path: String = "/register"
+    }
+
     class Home : HyperskillAnalyticRoute() {
         override val path: String = "/home"
     }

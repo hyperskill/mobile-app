@@ -130,6 +130,8 @@
 		2C65637628743F5B006AAD77 /* TrackAboutStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65637528743F5B006AAD77 /* TrackAboutStatsView.swift */; };
 		2C656378287440D5006AAD77 /* TrackAboutStatItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C656377287440D5006AAD77 /* TrackAboutStatItemView.swift */; };
 		2C65637A28744DDA006AAD77 /* TrackHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65637928744DDA006AAD77 /* TrackHeaderView.swift */; };
+		2C6B30A628B7C3F300609CE8 /* AuthNewUserPlaceholderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6B30A528B7C3F300609CE8 /* AuthNewUserPlaceholderViewModel.swift */; };
+		2C6B30A828B7C47800609CE8 /* AuthNewUserPlaceholderAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6B30A728B7C47800609CE8 /* AuthNewUserPlaceholderAssembly.swift */; };
 		2C725B5E28090D1F00A49043 /* View+Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B5D28090D1F00A49043 /* View+Border.swift */; };
 		2C725B612809125700A49043 /* LayoutInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B602809125700A49043 /* LayoutInsets.swift */; };
 		2C725B632809198000A49043 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B622809198000A49043 /* BackgroundView.swift */; };
@@ -457,6 +459,8 @@
 		2C65637528743F5B006AAD77 /* TrackAboutStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackAboutStatsView.swift; sourceTree = "<group>"; };
 		2C656377287440D5006AAD77 /* TrackAboutStatItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackAboutStatItemView.swift; sourceTree = "<group>"; };
 		2C65637928744DDA006AAD77 /* TrackHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackHeaderView.swift; sourceTree = "<group>"; };
+		2C6B30A528B7C3F300609CE8 /* AuthNewUserPlaceholderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNewUserPlaceholderViewModel.swift; sourceTree = "<group>"; };
+		2C6B30A728B7C47800609CE8 /* AuthNewUserPlaceholderAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNewUserPlaceholderAssembly.swift; sourceTree = "<group>"; };
 		2C725B5D28090D1F00A49043 /* View+Border.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Border.swift"; sourceTree = "<group>"; };
 		2C725B602809125700A49043 /* LayoutInsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutInsets.swift; sourceTree = "<group>"; };
 		2C725B622809198000A49043 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
@@ -834,6 +838,7 @@
 			children = (
 				2CE31F4927F1E058008EEE66 /* App */,
 				2C725B6428091ACF00A49043 /* AuthCredentials */,
+				2C6B30A428B7C3BB00609CE8 /* AuthNewUserPlaceholder */,
 				2C005DD027EF5C4800DC6503 /* AuthSocial */,
 				2C963BC32812D16C0036DD53 /* Home */,
 				E9F923F428A2632800C065A7 /* Onboarding */,
@@ -1234,6 +1239,16 @@
 			path = About;
 			sourceTree = "<group>";
 		};
+		2C6B30A428B7C3BB00609CE8 /* AuthNewUserPlaceholder */ = {
+			isa = PBXGroup;
+			children = (
+				2C6B30A728B7C47800609CE8 /* AuthNewUserPlaceholderAssembly.swift */,
+				E9380ED9286B48A400CBF221 /* AuthNewUserPlaceholderView.swift */,
+				2C6B30A528B7C3F300609CE8 /* AuthNewUserPlaceholderViewModel.swift */,
+			);
+			path = AuthNewUserPlaceholder;
+			sourceTree = "<group>";
+		};
 		2C725B5C28090CE500A49043 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
@@ -1258,7 +1273,6 @@
 				E9D69A3F28084FF7000E114E /* AuthCredentialsErrorView.swift */,
 				E94D238E280585110003273F /* AuthCredentialsFormView.swift */,
 				E94D238C28057F440003273F /* AuthCredentialsView.swift */,
-				E9380ED9286B48A400CBF221 /* AuthNewUserPlaceholderView.swift */,
 				2C43CDFA28B56AE600E74762 /* AuthPreviews.swift */,
 				2CF43413281281DB002893CD /* AuthTextField.swift */,
 			);
@@ -2310,6 +2324,7 @@
 				2C65637A28744DDA006AAD77 /* TrackHeaderView.swift in Sources */,
 				2C8E4FB42848CB980011ADFA /* StepQuizTableSelectColumnsColumnView.swift in Sources */,
 				2CB45762288EC29D007C2D77 /* StepQuizActionButtons.swift in Sources */,
+				2C6B30A628B7C3F300609CE8 /* AuthNewUserPlaceholderViewModel.swift in Sources */,
 				2C863D932804279E0021EFED /* Require.swift in Sources */,
 				2C177EC32837B65500D841DB /* View+Frame.swift in Sources */,
 				E9950E9528894F4700C4D962 /* HourIntervalPicker.swift in Sources */,
@@ -2321,6 +2336,7 @@
 				2C8FFE7F2892E1C000574941 /* AuthOutputProtocol.swift in Sources */,
 				2C1F5879280D2D1300372A37 /* WebOAuthURLParser.swift in Sources */,
 				E99B21892887E9DA006A6154 /* StepQuizTableSkeletonView.swift in Sources */,
+				2C6B30A828B7C47800609CE8 /* AuthNewUserPlaceholderAssembly.swift in Sources */,
 				2C5B2A1D286595960097B270 /* CodeCompletionTableViewCell.swift in Sources */,
 				2C27C77E28773042006A641A /* NukeManager.swift in Sources */,
 				2C0DB91028645332001EA35E /* CodeEditorTheme.swift in Sources */,

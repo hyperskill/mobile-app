@@ -10,7 +10,7 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthScreen
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentOnboardingBinding
-import org.hyperskill.app.android.home.view.ui.screen.PlaceholderNewUserScreen
+import org.hyperskill.app.android.placeholder_new_user.navigation.PlaceholderNewUserScreen
 import org.hyperskill.app.onboarding.presentation.OnboardingFeature
 import org.hyperskill.app.onboarding.presentation.OnboardingViewModel
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
