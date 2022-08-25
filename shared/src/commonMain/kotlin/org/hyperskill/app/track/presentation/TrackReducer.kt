@@ -1,9 +1,10 @@
 package org.hyperskill.app.track.presentation
 
-import ru.nobird.app.presentation.redux.reducer.StateReducer
+import org.hyperskill.app.track.domain.analytic.TrackViewedHyperskillAnalyticEvent
 import org.hyperskill.app.track.presentation.TrackFeature.Action
 import org.hyperskill.app.track.presentation.TrackFeature.Message
 import org.hyperskill.app.track.presentation.TrackFeature.State
+import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 class TrackReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
@@ -20,5 +21,7 @@ class TrackReducer : StateReducer<State, Message, Action> {
                 State.Content(message.track, message.trackProgress, message.studyPlan) to emptySet()
             is Message.TrackError ->
                 State.NetworkError to emptySet()
+            is Message.TrackViewedEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(TrackViewedHyperskillAnalyticEvent()))
         } ?: (state to emptySet())
 }

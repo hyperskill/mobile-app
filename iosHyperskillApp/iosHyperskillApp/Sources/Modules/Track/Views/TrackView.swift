@@ -20,8 +20,8 @@ struct TrackView: View {
                 buildBody()
             }
             .navigationTitle(Strings.Track.title)
+            .onAppear(perform: viewModel.logViewedEvent)
         }
-        .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
@@ -80,7 +80,7 @@ struct TrackView: View {
                         topicsCount: viewData.topicsCountText,
                         description: viewData.description,
                         buttonText: viewData.webActionButtonText,
-                        onButtonTapped: viewModel.presentStudyPlanInWeb
+                        onButtonTapped: viewModel.doStudyPlanInWebPresentation
                     )
                 }
                 .padding(.vertical)

@@ -22,13 +22,11 @@ struct HomeView: View {
             }
             .navigationTitle(Strings.Home.title)
             .navigationBarHidden(true)
+            .onAppear(perform: viewModel.logViewedEvent)
         }
-        .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
-
-            viewModel.logViewedEvent()
         }
         .onDisappear(perform: viewModel.stopListening)
         .navigationViewStyle(StackNavigationViewStyle())

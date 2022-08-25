@@ -13,6 +13,7 @@ import coil.ImageLoader
 import coil.decode.SvgDecoder
 import coil.load
 import coil.size.Scale
+import kotlin.math.roundToInt
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentTrackBinding
@@ -25,7 +26,6 @@ import org.hyperskill.app.track.routing.TrackRedirectLinkBuilder
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
-import kotlin.math.roundToInt
 
 class TrackFragment :
     Fragment(R.layout.fragment_track),
@@ -58,6 +58,7 @@ class TrackFragment :
         }
 
         trackViewModel.onNewMessage(TrackFeature.Message.Init())
+        trackViewModel.onNewMessage(TrackFeature.Message.TrackViewedEventMessage)
     }
 
     private fun injectComponents() {

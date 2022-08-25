@@ -13,11 +13,15 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
         onNewMessage(TrackFeatureMessageInit(forceUpdate: forceUpdate))
     }
 
+    func logViewedEvent() {
+        onNewMessage(TrackFeatureMessageTrackViewedEventMessage())
+    }
+
     func makeViewData(track: Track, trackProgress: TrackProgress, studyPlan: StudyPlan?) -> TrackViewData {
         viewDataMapper.mapTrackDataToViewData(track: track, trackProgress: trackProgress, studyPlan: studyPlan)
     }
 
-    func presentStudyPlanInWeb() {
+    func doStudyPlanInWebPresentation() {
         guard state is TrackFeatureStateContent,
               let url = HyperskillURLFactory.makeStudyPlan() else {
             return

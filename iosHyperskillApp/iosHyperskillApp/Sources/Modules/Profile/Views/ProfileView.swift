@@ -33,7 +33,6 @@ struct ProfileView: View {
                 ProfileSettingsAssembly().makeModule()
             }
         }
-        .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
