@@ -26,4 +26,15 @@ enum AppTabItem: CaseIterable {
             return Images.TabBar.profile
         }
     }
+
+    var selectedImageName: String {
+        switch self {
+        case .home:
+            return Images.TabBar.homeFilled
+        case .track:
+            return Images.TabBar.trackFilled
+        case .profile:
+            return Images.TabBar.profileFilled
+        }
+    }
 }

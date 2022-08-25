@@ -9,7 +9,9 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.chrynan.parcelable.core.getParcelable
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
+import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.step_quiz.view.model.ReplyResult
 import org.hyperskill.app.android.step_quiz.view.mapper.StepQuizFeedbackMapper
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFeedbackBlocksDelegate
@@ -113,6 +115,14 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
             if (state.submissionState is StepQuizFeature.SubmissionState.Loaded) {
                 val castedState = state.submissionState as StepQuizFeature.SubmissionState.Loaded
                 val submissionStatus = castedState.submission.status
+
+                if (submissionStatus == SubmissionStatus.CORRECT) {
+                    viewBinding.stepQuizButtons.stepQuizSubmitButton.visibility = View.GONE
+                    viewBinding.stepQuizButtons.stepQuizContinueButton.visibility = View.VISIBLE
+                    viewBinding.stepQuizButtons.stepQuizContinueButton.setOnClickListener {
+                        requireRouter().backTo(MainScreen)
+                    }
+                }
 
                 if (
                     step.block.name == BlockName.CODE &&

@@ -1,15 +1,6 @@
 import SwiftUI
 
-extension StepQuizTableSelectColumnsView {
-    struct Appearance {
-        let titleLeadingInset: CGFloat = 28
-        let titleLeadingInsetMultipleChoice: CGFloat = 26
-    }
-}
-
 struct StepQuizTableSelectColumnsView: View {
-    private(set) var appearance = Appearance()
-
     private let prompt: String
     private let title: String
 
@@ -51,10 +42,6 @@ struct StepQuizTableSelectColumnsView: View {
                     text: .constant(title),
                     configuration: .quizContent()
                 )
-                .padding(
-                    .leading,
-                    isMultipleChoice ? appearance.titleLeadingInsetMultipleChoice : appearance.titleLeadingInset
-                )
                 .padding(.bottom, LayoutInsets.smallInset)
 
                 VStack(alignment: .leading, spacing: 0) {
@@ -70,11 +57,9 @@ struct StepQuizTableSelectColumnsView: View {
                     }
                 }
 
-                if isMultipleChoice {
-                    Button(Strings.StepQuizTable.confirmButton, action: onConfirmTapped)
-                        .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
-                        .padding(.vertical)
-                }
+                Button(Strings.StepQuizTable.confirmButton, action: onConfirmTapped)
+                    .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
+                    .padding(.vertical)
 
                 Spacer()
             }

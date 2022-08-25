@@ -36,11 +36,19 @@ struct StepQuizTableSelectColumnsColumnView: View {
     @ViewBuilder
     private func buildIndicator(isSelected: Binding<Bool>, onTap: @escaping () -> Void) -> some View {
         if isMultipleChoice {
-            CheckboxButton(isSelected: isSelected, onClick: onTap)
-                .frame(widthHeight: appearance.checkboxIndicatorWidthHeight)
+            CheckboxButton(
+                appearance: .init(backgroundUnselectedColor: .clear),
+                isSelected: isSelected,
+                onClick: onTap
+            )
+            .frame(widthHeight: appearance.checkboxIndicatorWidthHeight)
         } else {
-            RadioButton(isSelected: isSelected, onClick: onTap)
-                .frame(widthHeight: appearance.radioIndicatorWidthHeight)
+            RadioButton(
+                appearance: .init(indicatorUnselectedColor: .clear, backgroundColor: .clear),
+                isSelected: isSelected,
+                onClick: onTap
+            )
+            .frame(widthHeight: appearance.radioIndicatorWidthHeight)
         }
     }
 }

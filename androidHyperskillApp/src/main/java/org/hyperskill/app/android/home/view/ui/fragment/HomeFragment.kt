@@ -1,5 +1,7 @@
 package org.hyperskill.app.android.home.view.ui.fragment
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -12,6 +14,7 @@ import org.hyperskill.app.android.databinding.FragmentHomeBinding
 import org.hyperskill.app.android.problem_of_day.view.delegate.ProblemOfDayCardFormDelegate
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.streak.view.delegate.StreakCardFormDelegate
+import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeViewModel
 import org.hyperskill.app.streak.domain.model.Streak
@@ -47,6 +50,12 @@ class HomeFragment :
 
         viewBinding.homeScreenError.tryAgain.setOnClickListener {
             homeViewModel.onNewMessage(HomeFeature.Message.Init(forceUpdate = false))
+        }
+
+        viewBinding.homeScreenKeepLearningInWebButton.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(BuildKonfig.BASE_URL)
+            startActivity(intent)
         }
 
         homeViewModel.onNewMessage(HomeFeature.Message.Init(forceUpdate = false))
@@ -92,6 +101,12 @@ class HomeFragment :
             state,
             ::onProblemOfDayCardActionButtonClicked
         )
+
+        if (state is HomeFeature.ProblemOfDayState.Solved || state is HomeFeature.ProblemOfDayState.Empty) {
+            viewBinding.homeScreenKeepLearningInWebButton.visibility = View.VISIBLE
+        } else {
+            viewBinding.homeScreenKeepLearningInWebButton.visibility = View.GONE
+        }
     }
 
     override fun onAction(action: HomeFeature.Action.ViewAction) {

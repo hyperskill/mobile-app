@@ -108,6 +108,8 @@
 		2C42EFB527F2EAB300B4648B /* GraphicsColor+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C42EFB427F2EAB300B4648B /* GraphicsColor+UIColor.swift */; };
 		2C42EFB727F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C42EFB627F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift */; };
 		2C43B59928731B1E002A66F8 /* HyperskillURLFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C43B59828731B1E002A66F8 /* HyperskillURLFactory.swift */; };
+		2C43CDF928B55CC600E74762 /* HyperskillLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C43CDF828B55CC600E74762 /* HyperskillLogoView.swift */; };
+		2C43CDFB28B56AE600E74762 /* AuthPreviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C43CDFA28B56AE600E74762 /* AuthPreviews.swift */; };
 		2C46D0632807E4C100B3636E /* TextFieldWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */; };
 		2C49CC922851D4AC0040BA7F /* altcontent.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C49CC912851D4AC0040BA7F /* altcontent.css */; };
 		2C4FBD8C2876C39C00ACA5C8 /* ProfileAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4FBD8B2876C39C00ACA5C8 /* ProfileAboutView.swift */; };
@@ -432,6 +434,8 @@
 		2C42EFB427F2EAB300B4648B /* GraphicsColor+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GraphicsColor+UIColor.swift"; sourceTree = "<group>"; };
 		2C42EFB627F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResourcesColorResourceThemed+UIColor.swift"; sourceTree = "<group>"; };
 		2C43B59828731B1E002A66F8 /* HyperskillURLFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyperskillURLFactory.swift; sourceTree = "<group>"; };
+		2C43CDF828B55CC600E74762 /* HyperskillLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyperskillLogoView.swift; sourceTree = "<group>"; };
+		2C43CDFA28B56AE600E74762 /* AuthPreviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPreviews.swift; sourceTree = "<group>"; };
 		2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWrapper.swift; sourceTree = "<group>"; };
 		2C49CC912851D4AC0040BA7F /* altcontent.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = altcontent.css; sourceTree = "<group>"; };
 		2C4D3CB2289689F40079B461 /* iosHyperskillApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iosHyperskillApp.entitlements; sourceTree = "<group>"; };
@@ -682,6 +686,7 @@
 				E91017142832975C002E70F5 /* CheckboxButton.swift */,
 				E9950E9428894F4700C4D962 /* HourIntervalPicker.swift */,
 				2CEB50D5288ACBD10044F9AB /* HSTabBar.swift */,
+				2C43CDF828B55CC600E74762 /* HyperskillLogoView.swift */,
 				2C08A938287866A200F1DCA2 /* LazyAvatarView.swift */,
 				2C32375228380C340062CAF6 /* NavigationToolbarInfoItem.swift */,
 				E9C3506E2886D0600080D277 /* OpenURLInsideAppButton.swift */,
@@ -1254,6 +1259,7 @@
 				E94D238E280585110003273F /* AuthCredentialsFormView.swift */,
 				E94D238C28057F440003273F /* AuthCredentialsView.swift */,
 				E9380ED9286B48A400CBF221 /* AuthNewUserPlaceholderView.swift */,
+				2C43CDFA28B56AE600E74762 /* AuthPreviews.swift */,
 				2CF43413281281DB002893CD /* AuthTextField.swift */,
 			);
 			path = Views;
@@ -1974,10 +1980,10 @@
 		E9F923F428A2632800C065A7 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				E9F923F528A2633D00C065A7 /* OnboardingView.swift */,
 				E9A6250C28ABAE30009423EE /* OnboardingAssembly.swift */,
-				E9A6250E28ABAE83009423EE /* OnboardingViewModel.swift */,
 				E9886D3128ABCE5C003724F9 /* OnboardingOutputProtocol.swift */,
+				E9F923F528A2633D00C065A7 /* OnboardingView.swift */,
+				E9A6250E28ABAE83009423EE /* OnboardingViewModel.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -2241,6 +2247,7 @@
 				E9EF705128A7DB6500EA0C1C /* DailyStudyReminderLocalNotification.swift in Sources */,
 				2CFCACF6287C5D510098EA0B /* TrackViewDataMapper.swift in Sources */,
 				2C41127828376F6D004948A3 /* StepQuizDiscussionsButton.swift in Sources */,
+				2C43CDFB28B56AE600E74762 /* AuthPreviews.swift in Sources */,
 				2C725B612809125700A49043 /* LayoutInsets.swift in Sources */,
 				2CEB50CE288AACEA0044F9AB /* StepQuizCodeFullScreenTab.swift in Sources */,
 				2CEB50C8288A94050044F9AB /* BlockExtensions.swift in Sources */,
@@ -2390,6 +2397,7 @@
 				E9D2D673284E0A97000757AC /* StepQuizMatchingItemView.swift in Sources */,
 				2C2ECCA5288C0661008DDCBA /* StepQuizRetryButton.swift in Sources */,
 				2C58DE232803BF97002A2774 /* AuthLogoView.swift in Sources */,
+				2C43CDF928B55CC600E74762 /* HyperskillLogoView.swift in Sources */,
 				2C1F5882280D5BAA00372A37 /* SocialAuthService.swift in Sources */,
 				E927EC372876BFF30000B898 /* ProblemOfDayTitle.swift in Sources */,
 				E900D10328434E0D00A77BBC /* StepQuizSortingItemView.swift in Sources */,

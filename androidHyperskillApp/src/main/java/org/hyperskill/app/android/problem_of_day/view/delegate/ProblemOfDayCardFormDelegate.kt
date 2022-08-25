@@ -91,14 +91,18 @@ class ProblemOfDayCardFormDelegate(
                 is HomeFeature.ProblemOfDayState.NeedToSolve -> {
                     state as HomeFeature.ProblemOfDayState.NeedToSolve
 
-                    problemOfDayTimeToSolveTextView.visibility = View.VISIBLE
-                    val minutesToComplete = state.step.secondsToComplete!!.div(60).toInt()
-                    problemOfDayTimeToSolveTextView.text =
-                        context.resources.getQuantityString(
-                            R.plurals.minutes,
-                            minutesToComplete,
-                            minutesToComplete
-                        )
+                    if (state.step.secondsToComplete != null) {
+                        problemOfDayTimeToSolveTextView.visibility = View.VISIBLE
+                        val minutesToComplete = state.step.secondsToComplete!!.div(60).toInt()
+                        problemOfDayTimeToSolveTextView.text =
+                            context.resources.getQuantityString(
+                                R.plurals.minutes,
+                                minutesToComplete,
+                                minutesToComplete
+                            )
+                    } else {
+                        problemOfDayTimeToSolveTextView.visibility = View.GONE
+                    }
 
                     problemOfDayNextProblemInLinearLayout.visibility = View.VISIBLE
 

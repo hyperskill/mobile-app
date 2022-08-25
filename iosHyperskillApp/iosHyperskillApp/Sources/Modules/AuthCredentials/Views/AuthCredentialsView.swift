@@ -77,7 +77,7 @@ struct AuthCredentialsView: View {
     }
 }
 
-struct AuthEmailView_Previews: PreviewProvider {
+struct AuthCredentialsView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             AuthCredentialsAssembly().makeModule()

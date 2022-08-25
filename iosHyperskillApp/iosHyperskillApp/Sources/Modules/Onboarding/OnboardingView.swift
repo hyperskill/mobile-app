@@ -3,8 +3,9 @@ import SwiftUI
 
 extension OnboardingView {
     struct Appearance {
-        let logoWidth: CGFloat = 48
-        let logoHeight: CGFloat = 44.85
+        let logoWidthHeight: CGFloat = 48
+
+        let contentMaxWidth: CGFloat = 400
     }
 }
 
@@ -13,23 +14,23 @@ struct OnboardingView: View {
 
     @StateObject var viewModel: OnboardingViewModel
 
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+
     var body: some View {
         ZStack {
             BackgroundView()
 
             VStack(alignment: .center, spacing: LayoutInsets.largeInset) {
-                Image(Images.Onboarding.logo)
-                    .renderingMode(.original)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(
-                        width: appearance.logoWidth,
-                        height: appearance.logoHeight
-                    )
+                if horizontalSizeClass == .regular {
+                    Spacer()
+                }
+
+                HyperskillLogoView(logoWidthHeight: appearance.logoWidthHeight)
 
                 Text(Strings.Onboarding.title)
                     .font(.largeTitle)
                     .foregroundColor(.primaryText)
+                    .multilineTextAlignment(.center)
 
                 Text(Strings.Onboarding.text)
                     .font(.body)
@@ -51,7 +52,12 @@ struct OnboardingView: View {
 
                 Button(Strings.Onboarding.signUp, action: viewModel.doNewUserPresentation)
                     .buttonStyle(OutlineButtonStyle(style: .violet))
+
+                if horizontalSizeClass == .regular {
+                    Spacer()
+                }
             }
+            .frame(maxWidth: appearance.contentMaxWidth)
             .padding()
         }
         .onAppear {
@@ -71,9 +77,17 @@ struct OnboardingView: View {
 
 struct OnboardingView_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardingAssembly().makeModule()
+        OnboardingAssembly()
+            .makeModule()
+            .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro"))
 
-        OnboardingAssembly().makeModule()
+        OnboardingAssembly()
+            .makeModule()
+            .previewDevice(PreviewDevice(rawValue: "iPhone SE (3rd generation)"))
             .preferredColorScheme(.dark)
+
+        OnboardingAssembly()
+            .makeModule()
+            .previewDevice(PreviewDevice(rawValue: "iPad (9th generation)"))
     }
 }
