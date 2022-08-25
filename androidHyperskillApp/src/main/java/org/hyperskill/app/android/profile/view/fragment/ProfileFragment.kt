@@ -13,6 +13,7 @@ import coil.ImageLoader
 import coil.decode.SvgDecoder
 import coil.load
 import coil.transform.CircleCropTransformation
+import java.util.Locale
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentProfileBinding
@@ -21,17 +22,16 @@ import org.hyperskill.app.android.profile_settings.view.dialog.ProfileSettingsDi
 import org.hyperskill.app.android.streak.view.delegate.StreakCardFormDelegate
 import org.hyperskill.app.android.view.base.ui.extension.redirectToUsernamePage
 import org.hyperskill.app.profile.domain.model.Profile
-import org.hyperskill.app.profile.view.social_redirect.SocialNetworksRedirect
 import org.hyperskill.app.profile.presentation.ProfileFeature
 import org.hyperskill.app.profile.presentation.ProfileViewModel
 import org.hyperskill.app.profile.routing.ProfileRedirectLinkBuilder
+import org.hyperskill.app.profile.view.social_redirect.SocialNetworksRedirect
 import org.hyperskill.app.streak.domain.model.Streak
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
-import java.util.Locale
 
 class ProfileFragment :
     Fragment(R.layout.fragment_profile),
@@ -81,6 +81,7 @@ class ProfileFragment :
         }
 
         profileViewModel.onNewMessage(ProfileFeature.Message.Init(profileId = profileId, isInitCurrent = isInitCurrent))
+        profileViewModel.onNewMessage(ProfileFeature.Message.ProfileViewedEventMessage)
     }
 
     private fun injectComponents() {

@@ -24,8 +24,10 @@ class ProfileComponentImpl(private val appGraph: AppGraph) : ProfileComponent {
         appGraph.commonComponent.json,
         appGraph.commonComponent.settings
     )
-    private val profileRepository: ProfileRepository = ProfileRepositoryImpl(profileRemoteDataSource, profileCacheDataSource)
-    private val profileInteractor: ProfileInteractor = ProfileInteractor(profileRepository, appGraph.submissionDataComponent.submissionRepository)
+    private val profileRepository: ProfileRepository =
+        ProfileRepositoryImpl(profileRemoteDataSource, profileCacheDataSource)
+    private val profileInteractor: ProfileInteractor =
+        ProfileInteractor(profileRepository, appGraph.submissionDataComponent.submissionRepository)
 
     private val streakRemoteDataSource: StreakRemoteDataSource = StreakRemoteDataSourceImpl(
         appGraph.networkComponent.authorizedHttpClient
@@ -34,5 +36,9 @@ class ProfileComponentImpl(private val appGraph: AppGraph) : ProfileComponent {
     private val streakInteractor: StreakInteractor = StreakInteractor(streakRepository)
 
     override val profileFeature: Feature<ProfileFeature.State, ProfileFeature.Message, ProfileFeature.Action>
-        get() = ProfileFeatureBuilder.build(profileInteractor, streakInteractor)
+        get() = ProfileFeatureBuilder.build(
+            profileInteractor,
+            streakInteractor,
+            appGraph.analyticComponent.analyticInteractor
+        )
 }

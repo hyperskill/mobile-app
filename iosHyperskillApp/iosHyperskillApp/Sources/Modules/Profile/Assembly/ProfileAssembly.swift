@@ -24,10 +24,10 @@ final class ProfileAssembly: Assembly {
         let viewModel = ProfileViewModel(
             presentationDescription: presentationDescription,
             viewDataMapper: ProfileViewDataMapper(),
-            notificationInteractor: notificationComponent.notificationInteractor,
             notificationService: NotificationsService(
                 notificationInteractor: notificationComponent.notificationInteractor
             ),
+            notificationInteractor: notificationComponent.notificationInteractor,
             feature: profileComponent.profileFeature
         )
 

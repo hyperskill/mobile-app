@@ -32,6 +32,7 @@ struct ProfileView: View {
             .sheet(isPresented: $presentingSettings) {
                 ProfileSettingsAssembly().makeModule()
             }
+            .onAppear(perform: viewModel.logViewedEvent)
         }
         .onAppear {
             viewModel.startListening()

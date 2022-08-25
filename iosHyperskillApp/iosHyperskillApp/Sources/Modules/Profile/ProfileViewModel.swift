@@ -10,21 +10,20 @@ final class ProfileViewModel: FeatureViewModel<
 
     private let viewDataMapper: ProfileViewDataMapper
 
-    private let notificationInteractor: NotificationInteractor
-
     private let notificationService: NotificationsService
+    private let notificationInteractor: NotificationInteractor
 
     init(
         presentationDescription: ProfilePresentationDescription,
         viewDataMapper: ProfileViewDataMapper,
-        notificationInteractor: NotificationInteractor,
         notificationService: NotificationsService,
+        notificationInteractor: NotificationInteractor,
         feature: Presentation_reduxFeature
     ) {
         self.presentationDescription = presentationDescription
         self.viewDataMapper = viewDataMapper
-        self.notificationInteractor = notificationInteractor
         self.notificationService = notificationService
+        self.notificationInteractor = notificationInteractor
         super.init(feature: feature)
     }
 
@@ -100,5 +99,11 @@ final class ProfileViewModel: FeatureViewModel<
         self.notificationInteractor.setDailyStudyRemindersIntervalStartHour(hour: Int32(startHour))
 
         notificationService.scheduleDailyStudyReminderLocalNotifications()
+    }
+
+    // MARK: Analytic
+
+    func logViewedEvent() {
+        onNewMessage(ProfileFeatureMessageProfileViewedEventMessage())
     }
 }

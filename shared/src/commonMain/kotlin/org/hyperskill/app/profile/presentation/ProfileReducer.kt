@@ -1,9 +1,10 @@
 package org.hyperskill.app.profile.presentation
 
-import ru.nobird.app.presentation.redux.reducer.StateReducer
-import org.hyperskill.app.profile.presentation.ProfileFeature.State
+import org.hyperskill.app.profile.domain.analytic.ProfileViewedHyperskillAnalyticEvent
 import org.hyperskill.app.profile.presentation.ProfileFeature.Action
 import org.hyperskill.app.profile.presentation.ProfileFeature.Message
+import org.hyperskill.app.profile.presentation.ProfileFeature.State
+import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 class ProfileReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
@@ -32,5 +33,7 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
+            is Message.ProfileViewedEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(ProfileViewedHyperskillAnalyticEvent()))
         } ?: (state to emptySet())
 }
