@@ -28,6 +28,8 @@ struct StepQuizView: View {
                 if viewModel.state is StepQuizFeatureStateIdle {
                     viewModel.loadAttempt()
                 }
+
+                viewModel.logViewedEvent()
             }
             .onDisappear(perform: viewModel.stopListening)
     }

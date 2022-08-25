@@ -97,6 +97,8 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
+            is Message.StepQuizViewedEventMessage ->
+                state to setOf(Action.LogViewedEvent(message.stepId))
         } ?: (state to emptySet())
 
     private fun createLocalSubmission(oldState: State.AttemptLoaded, reply: Reply): Submission {

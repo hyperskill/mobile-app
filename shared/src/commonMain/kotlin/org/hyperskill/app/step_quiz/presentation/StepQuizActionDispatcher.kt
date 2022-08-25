@@ -1,9 +1,12 @@
 package org.hyperskill.app.step_quiz.presentation
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.profile.domain.model.Profile
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizViewedHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
@@ -89,6 +92,18 @@ class StepQuizActionDispatcher(
                         }
                     )
                 onNewMessage(message)
+            }
+            is Action.LogViewedEvent -> {
+                val currentProfile = profileInteractor
+                    .getCurrentProfile()
+                    .getOrElse { return }
+
+                val analyticEvent = StepQuizViewedHyperskillAnalyticEvent(
+                    if (action.stepId == currentProfile.dailyStep)
+                        HyperskillAnalyticRoute.Learn.Daily(action.stepId)
+                    else HyperskillAnalyticRoute.Learn.Step(action.stepId)
+                )
+                analyticInteractor.logEvent(analyticEvent)
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
