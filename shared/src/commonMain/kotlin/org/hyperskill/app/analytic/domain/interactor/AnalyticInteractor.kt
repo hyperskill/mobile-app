@@ -11,9 +11,11 @@ import org.hyperskill.app.analytic.domain.model.AnalyticSource
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
 import org.hyperskill.app.analytic.domain.processor.AnalyticHyperskillEventProcessor
 import org.hyperskill.app.analytic.domain.repository.AnalyticHyperskillRepository
+import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 
 class AnalyticInteractor(
+    private val authInteractor: AuthInteractor,
     private val profileInteractor: ProfileInteractor,
     private val hyperskillRepository: AnalyticHyperskillRepository,
     private val hyperskillEventProcessor: AnalyticHyperskillEventProcessor
@@ -42,6 +44,20 @@ class AnalyticInteractor(
 
             val processedEvent = hyperskillEventProcessor.processEvent(event, currentProfile.id)
             hyperskillRepository.logEvent(processedEvent)
+
+            val isCurrentUserAuthorized = authInteractor
+                .isAuthorized()
+                .getOrDefault(false)
+            if (!isCurrentUserAuthorized) {
+                println("")
+                println("*********************************************************************************")
+                println("AnalyticInteractor :: unauthorized user skipping event = ${processedEvent.params}")
+                println("*********************************************************************************")
+                println("")
+                flushEventsJob?.cancel()
+                flushEventsJob = null
+                return
+            }
 
             if (flushEventsJob != null && !flushEventsJob!!.isCompleted) {
                 return

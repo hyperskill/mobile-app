@@ -46,11 +46,11 @@ class AppGraphImpl(
     override val submissionDataComponent: SubmissionDataComponent =
         SubmissionDataComponentImpl(this)
 
-    override val analyticComponent: AnalyticComponent =
-        AnalyticComponentImpl(this)
-
     override val authComponent: AuthComponent =
         AuthComponentImpl(this)
+
+    override val analyticComponent: AnalyticComponent =
+        AnalyticComponentImpl(this)
 
     override val mainComponent: MainComponent =
         MainComponentImpl(this)

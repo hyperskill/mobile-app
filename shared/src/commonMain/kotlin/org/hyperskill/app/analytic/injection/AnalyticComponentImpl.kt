@@ -32,6 +32,7 @@ class AnalyticComponentImpl(
 
     override val analyticInteractor: AnalyticInteractor =
         AnalyticInteractor(
+            appGraph.authComponent.authInteractor,
             appGraph.buildProfileDataComponent().profileInteractor,
             hyperskillRepository,
             hyperskillEventProcessor
