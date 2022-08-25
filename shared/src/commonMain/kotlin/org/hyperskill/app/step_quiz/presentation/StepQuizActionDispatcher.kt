@@ -5,7 +5,6 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
-import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizViewedHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
