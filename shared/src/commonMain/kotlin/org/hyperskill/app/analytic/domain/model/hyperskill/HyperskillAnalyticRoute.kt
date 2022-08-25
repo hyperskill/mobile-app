@@ -7,6 +7,10 @@ sealed class HyperskillAnalyticRoute {
         override val path: String = "/onboarding"
     }
 
+    class Login : HyperskillAnalyticRoute() {
+        override val path: String = "/login"
+    }
+
     class Home : HyperskillAnalyticRoute() {
         override val path: String = "/home"
     }

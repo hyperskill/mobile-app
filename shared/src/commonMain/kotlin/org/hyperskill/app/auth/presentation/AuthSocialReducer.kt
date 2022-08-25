@@ -1,5 +1,6 @@
 package org.hyperskill.app.auth.presentation
 
+import org.hyperskill.app.auth.domain.analytic.AuthSocialViewedHyperskillAnalyticEvent
 import org.hyperskill.app.auth.presentation.AuthSocialFeature.Action
 import org.hyperskill.app.auth.presentation.AuthSocialFeature.Message
 import org.hyperskill.app.auth.presentation.AuthSocialFeature.State
@@ -29,5 +30,7 @@ class AuthSocialReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
+            is Message.AuthViewedEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(AuthSocialViewedHyperskillAnalyticEvent()))
         } ?: (state to emptySet())
 }

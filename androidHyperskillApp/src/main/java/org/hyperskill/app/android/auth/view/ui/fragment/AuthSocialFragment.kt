@@ -19,18 +19,18 @@ import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.BuildConfig
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
-import org.hyperskill.app.auth.presentation.AuthSocialViewModel
 import org.hyperskill.app.android.auth.view.ui.adapter.delegates.AuthSocialAdapterDelegate
 import org.hyperskill.app.android.auth.view.ui.model.AuthSocialCardInfo
-import org.hyperskill.app.android.databinding.FragmentAuthSocialBinding
-import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthEmailScreen
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthFlow
+import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
+import org.hyperskill.app.android.databinding.FragmentAuthSocialBinding
 import org.hyperskill.app.auth.domain.model.AuthSocialError
 import org.hyperskill.app.auth.domain.model.SocialAuthProvider
 import org.hyperskill.app.auth.presentation.AuthSocialFeature
+import org.hyperskill.app.auth.presentation.AuthSocialViewModel
 import org.hyperskill.app.auth.view.mapper.AuthSocialErrorMapper
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
@@ -118,6 +118,8 @@ class AuthSocialFragment :
         viewBinding.signInWithEmailMaterialButton.setOnClickListener {
             requireRouter().navigateTo(AuthEmailScreen)
         }
+
+        authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthViewedEventMessage)
     }
 
     override fun onAction(action: AuthSocialFeature.Action.ViewAction) {

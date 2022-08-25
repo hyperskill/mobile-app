@@ -1,5 +1,6 @@
 package org.hyperskill.app.auth.presentation
 
+import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.auth.domain.model.AuthSocialError
 import org.hyperskill.app.auth.domain.model.SocialAuthProvider
 
@@ -15,10 +16,15 @@ interface AuthSocialFeature {
         data class AuthWithSocial(val authCode: String, val socialAuthProvider: SocialAuthProvider) : Message
         data class AuthSuccess(val isNewUser: Boolean) : Message
         data class AuthFailure(val socialError: AuthSocialError) : Message
+
+        object AuthViewedEventMessage : Message
     }
 
     sealed interface Action {
         data class AuthWithSocial(val authCode: String, val socialAuthProvider: SocialAuthProvider) : Action
+
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
+
         sealed interface ViewAction : Action {
             data class CompleteAuthFlow(val isNewUser: Boolean) : ViewAction
             data class ShowAuthError(val socialError: AuthSocialError) : ViewAction

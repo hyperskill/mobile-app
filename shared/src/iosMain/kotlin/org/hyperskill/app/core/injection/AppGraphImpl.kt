@@ -56,7 +56,12 @@ class AppGraphImpl(
         MainComponentImpl(this)
 
     override fun buildAuthSocialComponent(): AuthSocialComponent =
-        AuthSocialComponentImpl(commonComponent, authComponent, buildProfileDataComponent())
+        AuthSocialComponentImpl(
+            commonComponent,
+            authComponent,
+            buildProfileDataComponent(),
+            analyticComponent
+        )
 
     override fun buildAuthCredentialsComponent(): AuthCredentialsComponent =
         AuthCredentialsComponentImpl(commonComponent, authComponent, buildProfileDataComponent())
