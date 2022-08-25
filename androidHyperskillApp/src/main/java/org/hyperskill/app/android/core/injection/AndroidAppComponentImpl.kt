@@ -88,11 +88,11 @@ class AndroidAppComponentImpl(
     override val submissionDataComponent: SubmissionDataComponent =
         SubmissionDataComponentImpl(this)
 
-    override val analyticComponent: AnalyticComponent =
-        AnalyticComponentImpl(this)
-
     override val authComponent: AuthComponent =
         AuthComponentImpl(this)
+
+    override val analyticComponent: AnalyticComponent =
+        AnalyticComponentImpl(this)
 
     override val platformNotificationComponent: PlatformNotificationComponent =
         PlatformNotificationComponentImpl(application, this)
@@ -104,7 +104,12 @@ class AndroidAppComponentImpl(
      * Auth social component
      */
     override fun buildAuthSocialComponent(): AuthSocialComponent =
-        AuthSocialComponentImpl(commonComponent, authComponent, buildProfileDataComponent(), analyticComponent)
+        AuthSocialComponentImpl(
+            commonComponent,
+            authComponent,
+            buildProfileDataComponent(),
+            analyticComponent
+        )
 
     override fun buildPlatformAuthSocialComponent(authSocialComponent: AuthSocialComponent): PlatformAuthSocialComponent =
         PlatformAuthSocialComponentImpl(authSocialComponent)
@@ -113,7 +118,12 @@ class AndroidAppComponentImpl(
      * Auth credentials component
      */
     override fun buildAuthCredentialsComponent(): AuthCredentialsComponent =
-        AuthCredentialsComponentImpl(commonComponent, authComponent, buildProfileDataComponent())
+        AuthCredentialsComponentImpl(
+            commonComponent,
+            authComponent,
+            buildProfileDataComponent(),
+            analyticComponent
+        )
 
     override fun buildPlatformAuthCredentialsComponent(authCredentialsComponent: AuthCredentialsComponent): PlatformAuthCredentialsComponent =
         PlatformAuthCredentialsComponentImpl(authCredentialsComponent)

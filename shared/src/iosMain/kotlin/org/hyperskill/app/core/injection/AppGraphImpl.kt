@@ -64,7 +64,12 @@ class AppGraphImpl(
         )
 
     override fun buildAuthCredentialsComponent(): AuthCredentialsComponent =
-        AuthCredentialsComponentImpl(commonComponent, authComponent, buildProfileDataComponent())
+        AuthCredentialsComponentImpl(
+            commonComponent,
+            authComponent,
+            buildProfileDataComponent(),
+            analyticComponent
+        )
 
     override fun buildStepComponent(): StepComponent =
         StepComponentImpl(this)

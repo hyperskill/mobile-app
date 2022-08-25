@@ -55,6 +55,8 @@ struct AuthCredentialsView: View {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
 
+            viewModel.logViewedEvent()
+
             KeyboardManager.setKeyboardDistanceFromTextField(appearance.keyboardDistanceFromTextField)
         }
         .onDisappear {

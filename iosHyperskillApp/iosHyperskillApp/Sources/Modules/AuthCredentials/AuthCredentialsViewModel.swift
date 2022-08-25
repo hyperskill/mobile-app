@@ -41,4 +41,8 @@ final class AuthCredentialsViewModel: FeatureViewModel<
     func doCompleteAuthFlow(isNewUser: Bool) {
         moduleOutput?.handleUserAuthorized(isNewUser: isNewUser)
     }
+
+    func logViewedEvent() {
+        onNewMessage(AuthCredentialsFeatureMessageAuthViewedEventMessage())
+    }
 }
