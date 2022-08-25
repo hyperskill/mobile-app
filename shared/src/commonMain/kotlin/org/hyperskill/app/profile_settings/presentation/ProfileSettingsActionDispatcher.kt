@@ -1,6 +1,7 @@
 package org.hyperskill.app.profile_settings.presentation
 
 import kotlinx.coroutines.flow.MutableSharedFlow
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
@@ -13,7 +14,8 @@ class ProfileSettingsActionDispatcher(
     config: ActionDispatcherOptions,
     private val profileSettingsInteractor: ProfileSettingsInteractor,
     private val profileInteractor: ProfileInteractor,
-    private val authorizationFlow:  MutableSharedFlow<UserDeauthorized>
+    private val analyticInteractor: AnalyticInteractor,
+    private val authorizationFlow: MutableSharedFlow<UserDeauthorized>
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
@@ -28,6 +30,8 @@ class ProfileSettingsActionDispatcher(
                 profileInteractor.clearCache()
                 authorizationFlow.tryEmit(UserDeauthorized)
             }
+            is Action.LogAnalyticEvent ->
+                analyticInteractor.logEvent(action.analyticEvent)
         }
     }
 }

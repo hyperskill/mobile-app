@@ -37,8 +37,14 @@ class ProfileSettingsComponentImpl(private val appGraph: AppGraph) : ProfileSett
     )
     private val profileRepository: ProfileRepository =
         ProfileRepositoryImpl(profileRemoteDataSource, profileCacheDataSource)
-    private val profileInteractor: ProfileInteractor = ProfileInteractor(profileRepository, appGraph.submissionDataComponent.submissionRepository)
+    private val profileInteractor: ProfileInteractor =
+        ProfileInteractor(profileRepository, appGraph.submissionDataComponent.submissionRepository)
 
     override val profileSettingsFeature: Feature<ProfileSettingsFeature.State, ProfileSettingsFeature.Message, ProfileSettingsFeature.Action>
-        get() = ProfileSettingsFeatureBuilder.build(profileSettingsInteractor, profileInteractor, appGraph.networkComponent.authorizationFlow)
+        get() = ProfileSettingsFeatureBuilder.build(
+            profileSettingsInteractor,
+            profileInteractor,
+            appGraph.analyticComponent.analyticInteractor,
+            appGraph.networkComponent.authorizationFlow
+        )
 }

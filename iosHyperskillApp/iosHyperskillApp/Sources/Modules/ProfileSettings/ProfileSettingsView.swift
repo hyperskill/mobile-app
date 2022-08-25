@@ -26,6 +26,7 @@ struct ProfileSettingsView: View {
                         }
                     }
                 }
+                .onAppear(perform: viewModel.logViewedEvent)
         }
         .onAppear {
             viewModel.startListening()

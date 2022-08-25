@@ -111,6 +111,7 @@ class ProfileSettingsDialogFragment :
         }
 
         profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.InitMessage())
+        profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ProfileSettingsViewedEventMessage)
     }
 
     private fun openLinkInBrowser(link: String) {

@@ -42,7 +42,12 @@ sealed class HyperskillAnalyticRoute {
         override val path: String = "/track"
     }
 
-    class Profile : HyperskillAnalyticRoute() {
+    open class Profile : HyperskillAnalyticRoute() {
         override val path: String = "/profile"
+
+        class Settings : Profile() {
+            override val path: String =
+                "${super.path}/settings"
+        }
     }
 }

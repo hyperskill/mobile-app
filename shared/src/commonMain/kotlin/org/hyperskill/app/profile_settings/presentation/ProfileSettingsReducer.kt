@@ -1,9 +1,10 @@
 package org.hyperskill.app.profile_settings.presentation
 
-import ru.nobird.app.presentation.redux.reducer.StateReducer
-import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.State
+import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsViewedHyperskillAnalyticEvent
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Action
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Message
+import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.State
+import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 class ProfileSettingsReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
@@ -29,5 +30,7 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                 }
             is Message.LogoutConfirmed ->
                 state to setOf(Action.Logout)
+            is Message.ProfileSettingsViewedEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(ProfileSettingsViewedHyperskillAnalyticEvent()))
         } ?: (state to emptySet())
 }

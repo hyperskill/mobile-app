@@ -32,4 +32,10 @@ final class ProfileSettingsViewModel: FeatureViewModel<
     func doLogout() {
         onNewMessage(ProfileSettingsFeatureMessageLogoutConfirmed())
     }
+
+    // MARK: Analytic
+
+    func logViewedEvent() {
+        onNewMessage(ProfileSettingsFeatureMessageProfileSettingsViewedEventMessage())
+    }
 }
