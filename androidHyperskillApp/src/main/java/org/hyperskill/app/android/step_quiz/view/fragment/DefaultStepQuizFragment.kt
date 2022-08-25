@@ -117,12 +117,10 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
                 val submissionStatus = castedState.submission.status
 
                 if (submissionStatus == SubmissionStatus.CORRECT) {
-                    with(viewBinding.stepQuizButtons.stepQuizSubmitButton) {
-                        isEnabled = true
-                        text = requireContext().getString(R.string.step_quiz_continue_button_text)
-                        setOnClickListener {
-                            requireRouter().backTo(MainScreen)
-                        }
+                    viewBinding.stepQuizButtons.stepQuizSubmitButton.visibility = View.GONE
+                    viewBinding.stepQuizButtons.stepQuizContinueButton.visibility = View.VISIBLE
+                    viewBinding.stepQuizButtons.stepQuizContinueButton.setOnClickListener {
+                        requireRouter().backTo(MainScreen)
                     }
                 }
 
