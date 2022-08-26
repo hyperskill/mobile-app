@@ -9,5 +9,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     JETBRAINS_TERMS_OF_SERVICE("jetbrains_terms_of_service"),
     HYPERSKILL_TERMS_OF_SERVICE("hyperskill_terms_of_service"),
     HELP_CENTER("help_center"),
+    LOGOUT("logout"),
+    DELETE_ACCOUNT("delete_account"),
     NOTIFICATIONS_SYSTEM_NOTICE("notifications_system_notice")
 }

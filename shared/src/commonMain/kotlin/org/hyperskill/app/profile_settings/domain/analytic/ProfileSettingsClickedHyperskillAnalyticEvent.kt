@@ -6,10 +6,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
-class ProfileSettingsClickedHelpCenterHyperskillAnalyticEvent :
-    HyperskillAnalyticEvent(
-        HyperskillAnalyticRoute.Profile.Settings(),
-        HyperskillAnalyticAction.CLICK,
-        HyperskillAnalyticPart.MAIN,
-        HyperskillAnalyticTarget.HELP_CENTER
-    )
+class ProfileSettingsClickedHyperskillAnalyticEvent(
+    part: HyperskillAnalyticPart,
+    target: HyperskillAnalyticTarget
+) : HyperskillAnalyticEvent(HyperskillAnalyticRoute.Profile.Settings(), HyperskillAnalyticAction.CLICK, part, target)

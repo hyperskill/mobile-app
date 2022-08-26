@@ -126,6 +126,7 @@ struct ProfileSettingsView: View {
 
             Section {
                 Button(Strings.Settings.logout) {
+                    viewModel.logClickedLogoutEvent()
                     isPresentingLogoutAlert = true
                 }
                 .foregroundColor(Color(ColorPalette.overlayRed))
@@ -144,6 +145,7 @@ struct ProfileSettingsView: View {
 
             Section {
                 Button(Strings.Settings.deleteAccount) {
+                    viewModel.logClickedDeleteAccountEvent()
                     isPresentingAccountDeletionAlert = true
                 }
                 .foregroundColor(Color(ColorPalette.overlayRed))

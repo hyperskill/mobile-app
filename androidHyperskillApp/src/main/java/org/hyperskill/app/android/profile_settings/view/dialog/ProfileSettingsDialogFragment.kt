@@ -11,6 +11,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPart
+import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.representation
@@ -62,14 +64,23 @@ class ProfileSettingsDialogFragment :
             centeredToolbarTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18F)
 
             centeredToolbar.setNavigationOnClickListener {
-                profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ProfileSettingsClickedDoneEventMessage)
+                profileSettingsViewModel.onNewMessage(
+                    ProfileSettingsFeature.Message.ProfileSettingsClickedEventMessage(
+                        HyperskillAnalyticPart.HEAD,
+                        HyperskillAnalyticTarget.DONE
+                    )
+                )
                 dismiss()
             }
             centeredToolbar.setNavigationIcon(R.drawable.ic_close_thin)
         }
 
         viewBinding.settingsThemeButton.setOnClickListener {
-            profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ProfileSettingsClickedThemeEventMessage)
+            profileSettingsViewModel.onNewMessage(
+                ProfileSettingsFeature.Message.ProfileSettingsClickedEventMessage(
+                    target = HyperskillAnalyticTarget.THEME
+                )
+            )
 
             MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog)
                 .setTitle(R.string.settings_theme)
@@ -89,30 +100,65 @@ class ProfileSettingsDialogFragment :
         }
 
         viewBinding.settingsTermsOfServiceButton.setOnClickListener {
-            profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ProfileSettingsClickedTermsOfServiceEventMessage)
+            profileSettingsViewModel.onNewMessage(
+                ProfileSettingsFeature.Message.ProfileSettingsClickedEventMessage(
+                    target = HyperskillAnalyticTarget.JETBRAINS_TERMS_OF_SERVICE
+                )
+            )
             openLinkInBrowser(resources.getString(R.string.settings_terms_of_service_url))
         }
 
         viewBinding.settingsPrivacyPolicyButton.setOnClickListener {
-            profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ProfileSettingsClickedPrivacyPolicyEventMessage)
+            profileSettingsViewModel.onNewMessage(
+                ProfileSettingsFeature.Message.ProfileSettingsClickedEventMessage(
+                    target = HyperskillAnalyticTarget.HYPERSKILL_TERMS_OF_SERVICE
+                )
+            )
             openLinkInBrowser(resources.getString(R.string.settings_privacy_policy_url))
         }
 
         viewBinding.settingsHelpCenterButton.setOnClickListener {
-            profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ProfileSettingsClickedHelpCenterEventMessage)
+            profileSettingsViewModel.onNewMessage(
+                ProfileSettingsFeature.Message.ProfileSettingsClickedEventMessage(
+                    target = HyperskillAnalyticTarget.HELP_CENTER
+                )
+            )
             openLinkInBrowser(resources.getString(R.string.settings_help_center_url))
         }
 
         viewBinding.settingsVersionTextView.text = HyperskillApp.graph().commonComponent.userAgentInfo.versionName
 
         viewBinding.settingsLogoutButton.setOnClickListener {
-            MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog_LogoutDialog)
+            profileSettingsViewModel.onNewMessage(
+                ProfileSettingsFeature.Message.ProfileSettingsClickedEventMessage(
+                    target = HyperskillAnalyticTarget.LOGOUT
+                )
+            )
+            MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog_ProfileSettingsConfirmDialog)
                 .setTitle(R.string.settings_logout_dialog_title)
                 .setMessage(R.string.settings_logout_dialog_explanation)
                 .setPositiveButton(R.string.yes) { _, _ ->
                     profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.LogoutConfirmed)
                 }
                 .setNegativeButton(R.string.no) { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
+        }
+
+        viewBinding.settingsDeleteAccountButton.setOnClickListener {
+            profileSettingsViewModel.onNewMessage(
+                ProfileSettingsFeature.Message.ProfileSettingsClickedEventMessage(
+                    target = HyperskillAnalyticTarget.DELETE_ACCOUNT
+                )
+            )
+            MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog_ProfileSettingsConfirmDialog)
+                .setTitle(R.string.settings_account_deletion_dialog_title)
+                .setMessage(R.string.settings_account_deletion_dialog_explanation)
+                .setPositiveButton(R.string.settings_account_deletion_dialog_delete_button_text) { _, _ ->
+                    openLinkInBrowser(resources.getString(R.string.settings_account_deletion_url))
+                }
+                .setNegativeButton(R.string.cancel) { dialog, _ ->
                     dialog.dismiss()
                 }
                 .show()

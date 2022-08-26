@@ -43,7 +43,12 @@ final class ProfileSettingsViewModel: FeatureViewModel<
     }
 
     func logClickedDoneEvent() {
-        onNewMessage(ProfileSettingsFeatureMessageProfileSettingsClickedDoneEventMessage())
+        onNewMessage(
+            ProfileSettingsFeatureMessageProfileSettingsClickedEventMessage(
+                part: HyperskillAnalyticPart.head,
+                target: HyperskillAnalyticTarget.done
+            )
+        )
     }
 
     func logClickedThemeEvent() {
@@ -51,18 +56,56 @@ final class ProfileSettingsViewModel: FeatureViewModel<
     }
 
     func sendClickedThemeEventMessage() {
-        onNewMessage(ProfileSettingsFeatureMessageProfileSettingsClickedThemeEventMessage())
+        onNewMessage(
+            ProfileSettingsFeatureMessageProfileSettingsClickedEventMessage(
+                part: HyperskillAnalyticPart.main,
+                target: HyperskillAnalyticTarget.theme
+            )
+        )
     }
 
     func logClickedTermsOfServiceEvent() {
-        onNewMessage(ProfileSettingsFeatureMessageProfileSettingsClickedTermsOfServiceEventMessage())
+        onNewMessage(
+            ProfileSettingsFeatureMessageProfileSettingsClickedEventMessage(
+                part: HyperskillAnalyticPart.main,
+                target: HyperskillAnalyticTarget.jetbrainsTermsOfService
+            )
+        )
     }
 
     func logClickedPrivacyPolicyEvent() {
-        onNewMessage(ProfileSettingsFeatureMessageProfileSettingsClickedPrivacyPolicyEventMessage())
+        onNewMessage(
+            ProfileSettingsFeatureMessageProfileSettingsClickedEventMessage(
+                part: HyperskillAnalyticPart.main,
+                target: HyperskillAnalyticTarget.hyperskillTermsOfService
+            )
+        )
     }
 
     func logClickedHelpCenterEvent() {
-        onNewMessage(ProfileSettingsFeatureMessageProfileSettingsClickedHelpCenterEventMessage())
+        onNewMessage(
+            ProfileSettingsFeatureMessageProfileSettingsClickedEventMessage(
+                part: HyperskillAnalyticPart.main,
+                target: HyperskillAnalyticTarget.helpCenter
+            )
+        )
+    }
+
+    func logClickedLogoutEvent() {
+        onNewMessage(
+            ProfileSettingsFeatureMessageProfileSettingsClickedEventMessage(
+                part: HyperskillAnalyticPart.main,
+                target: HyperskillAnalyticTarget.logout
+            )
+        )
+    }
+
+    func logClickedDeleteAccountEvent() {
+        onNewMessage(
+            ProfileSettingsFeatureMessageProfileSettingsClickedEventMessage(
+                part: HyperskillAnalyticPart.main,
+                target: HyperskillAnalyticTarget.deleteAccount
+            )
+        )
     }
 }

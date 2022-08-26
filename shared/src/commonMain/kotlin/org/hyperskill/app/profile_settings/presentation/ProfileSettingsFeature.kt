@@ -1,6 +1,8 @@
 package org.hyperskill.app.profile_settings.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPart
+import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 import org.hyperskill.app.profile_settings.domain.model.ProfileSettings
 import org.hyperskill.app.profile_settings.domain.model.Theme
 
@@ -23,11 +25,10 @@ interface ProfileSettingsFeature {
          * Analytic
          */
         object ProfileSettingsViewedEventMessage : Message
-        object ProfileSettingsClickedDoneEventMessage : Message
-        object ProfileSettingsClickedThemeEventMessage : Message
-        object ProfileSettingsClickedTermsOfServiceEventMessage : Message
-        object ProfileSettingsClickedPrivacyPolicyEventMessage : Message
-        object ProfileSettingsClickedHelpCenterEventMessage : Message
+        data class ProfileSettingsClickedEventMessage(
+            val part: HyperskillAnalyticPart = HyperskillAnalyticPart.MAIN,
+            val target: HyperskillAnalyticTarget
+        ) : Message
     }
 
     sealed interface Action {
