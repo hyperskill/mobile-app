@@ -70,6 +70,8 @@ final class ProfileViewModel: FeatureViewModel<
     }
 
     func presentProfileFullVersion() {
+        logClickedViewFullProfileEvent()
+
         guard let contentState = state as? ProfileFeatureStateContent,
               let url = HyperskillURLFactory.makeProfile(id: Int(contentState.profile.id)) else {
             return
@@ -105,5 +107,9 @@ final class ProfileViewModel: FeatureViewModel<
 
     func logViewedEvent() {
         onNewMessage(ProfileFeatureMessageProfileViewedEventMessage())
+    }
+
+    private func logClickedViewFullProfileEvent() {
+        onNewMessage(ProfileFeatureMessageProfileClickedViewFullProfileEventMessage())
     }
 }

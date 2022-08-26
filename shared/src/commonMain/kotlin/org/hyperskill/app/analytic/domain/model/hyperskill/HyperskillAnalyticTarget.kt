@@ -17,5 +17,6 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     LOGOUT("logout"),
     DELETE_ACCOUNT("delete_account"),
     DELETE_ACCOUNT_NOTICE("delete_account_notice"),
-    NOTIFICATIONS_SYSTEM_NOTICE("notifications_system_notice")
+    NOTIFICATIONS_SYSTEM_NOTICE("notifications_system_notice"),
+    VIEW_FULL_PROFILE("view_full_profile")
 }

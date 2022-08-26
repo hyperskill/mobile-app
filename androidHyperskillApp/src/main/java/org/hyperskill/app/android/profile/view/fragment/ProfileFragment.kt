@@ -254,6 +254,7 @@ class ProfileFragment :
     private fun setupProfileBrowserRedirect() {
         viewBinding.profileViewFullVersionTextView.paintFlags = viewBinding.profileViewFullVersionTextView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         viewBinding.profileViewFullVersionTextView.setOnClickListener {
+            profileViewModel.onNewMessage(ProfileFeature.Message.ProfileClickedViewFullProfileEventMessage)
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(ProfileRedirectLinkBuilder.getProfileLink(profile.id))
             startActivity(intent)
