@@ -3,7 +3,11 @@ import shared
 
 enum NotificationsRegistrationService {
     static func requestAuthorization() {
-        logSystemNoticeShownEvent()
+        if !didShowDefaultPermissionAlert {
+            logSystemNoticeShownEvent()
+        }
+
+        didShowDefaultPermissionAlert = true
 
         UNUserNotificationCenter.current().requestAuthorization(
             options: [.alert, .badge, .sound],
@@ -37,6 +41,21 @@ enum NotificationsRegistrationService {
                 isAllowed: isAllowed
             )
             analyticInteractor.logEvent(event: analyticEvent, completionHandler: { _, _ in })
+        }
+    }
+}
+
+// MARK: - NotificationsRegistrationService (UserDefaults) -
+
+extension NotificationsRegistrationService {
+    private static let didShowDefaultPermissionAlertKey = "didShowDefaultPermissionAlertKey"
+
+    private static var didShowDefaultPermissionAlert: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: didShowDefaultPermissionAlertKey)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: didShowDefaultPermissionAlertKey)
         }
     }
 }
