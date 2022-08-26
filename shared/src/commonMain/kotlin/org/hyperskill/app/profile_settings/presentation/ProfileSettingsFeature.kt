@@ -24,6 +24,7 @@ interface ProfileSettingsFeature {
          */
         object ProfileSettingsViewedEventMessage : Message
         object ProfileSettingsClickedDoneEventMessage : Message
+        object ProfileSettingsClickedThemeEventMessage : Message
     }
 
     sealed interface Action {

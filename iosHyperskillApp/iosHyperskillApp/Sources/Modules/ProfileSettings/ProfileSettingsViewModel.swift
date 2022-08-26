@@ -10,6 +10,9 @@ final class ProfileSettingsViewModel: FeatureViewModel<
 
     private let applicationThemeService: ApplicationThemeServiceProtocol
 
+    // It's impossible to handle onTap on `Picker`, so using `onAppear` callback with debouncer.
+    private let analyticLogClickedThemeEventDebouncer: DebouncerProtocol = Debouncer()
+
     init(
         applicationThemeService: ApplicationThemeServiceProtocol,
         feature: Presentation_reduxFeature
@@ -41,5 +44,13 @@ final class ProfileSettingsViewModel: FeatureViewModel<
 
     func logClickedDoneEvent() {
         onNewMessage(ProfileSettingsFeatureMessageProfileSettingsClickedDoneEventMessage())
+    }
+
+    func logClickedThemeEvent() {
+        analyticLogClickedThemeEventDebouncer.action = sendClickedThemeEventMessage
+    }
+
+    func sendClickedThemeEventMessage() {
+        onNewMessage(ProfileSettingsFeatureMessageProfileSettingsClickedThemeEventMessage())
     }
 }

@@ -77,6 +77,7 @@ struct ProfileSettingsView: View {
                         if theme != ApplicationTheme(sharedTheme: profileSettings.theme) {
                             Text(theme.title)
                                 .navigationTitle(Strings.Settings.Theme.title)
+                                .onAppear(perform: viewModel.logClickedThemeEvent)
                         } else {
                             Text(theme.title)
                         }

@@ -5,5 +5,6 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     ALLOW("allow"),
     DENY("deny"),
     DONE("done"),
+    THEME("theme"),
     NOTIFICATIONS_SYSTEM_NOTICE("notifications_system_notice")
 }

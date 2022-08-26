@@ -69,6 +69,8 @@ class ProfileSettingsDialogFragment :
         }
 
         viewBinding.settingsThemeButton.setOnClickListener {
+            profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ProfileSettingsClickedThemeEventMessage)
+
             MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog)
                 .setTitle(R.string.settings_theme)
                 .setSingleChoiceItems(Theme.values().map { theme -> theme.representation }.toTypedArray(), currentThemePosition) { _, which ->
