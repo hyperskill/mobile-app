@@ -34,6 +34,9 @@ interface ProfileFeature {
          * Analytic
          */
         object ProfileViewedEventMessage : Message
+        object ProfileClickedSettingsEventMessage : Message
+        object ProfileClickedDailyStudyRemindsEventMessage : Message
+        object ProfileClickedDailyStudyRemindsTimeEventMessage : Message
         object ProfileClickedViewFullProfileEventMessage : Message
     }
 

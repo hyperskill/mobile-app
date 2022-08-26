@@ -18,5 +18,8 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     DELETE_ACCOUNT("delete_account"),
     DELETE_ACCOUNT_NOTICE("delete_account_notice"),
     NOTIFICATIONS_SYSTEM_NOTICE("notifications_system_notice"),
-    VIEW_FULL_PROFILE("view_full_profile")
+    VIEW_FULL_PROFILE("view_full_profile"),
+    SETTINGS("settings"),
+    DAILY_STUDY_REMINDS("daily_study_reminds"),
+    DAILY_STUDY_REMINDS_TIME("daily_study_reminds_time")
 }

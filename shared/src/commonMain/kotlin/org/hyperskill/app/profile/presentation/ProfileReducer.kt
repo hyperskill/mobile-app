@@ -1,5 +1,8 @@
 package org.hyperskill.app.profile.presentation
 
+import org.hyperskill.app.profile.domain.analytic.ProfileClickedDailyStudyRemindsHyperskillAnalyticEvent
+import org.hyperskill.app.profile.domain.analytic.ProfileClickedDailyStudyRemindsTimeHyperskillAnalyticEvent
+import org.hyperskill.app.profile.domain.analytic.ProfileClickedSettingsHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.ProfileClickedViewFullProfileHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.ProfileViewedHyperskillAnalyticEvent
 import org.hyperskill.app.profile.presentation.ProfileFeature.Action
@@ -36,6 +39,12 @@ class ProfileReducer : StateReducer<State, Message, Action> {
             }
             is Message.ProfileViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(ProfileViewedHyperskillAnalyticEvent()))
+            is Message.ProfileClickedSettingsEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(ProfileClickedSettingsHyperskillAnalyticEvent()))
+            is Message.ProfileClickedDailyStudyRemindsEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(ProfileClickedDailyStudyRemindsHyperskillAnalyticEvent()))
+            is Message.ProfileClickedDailyStudyRemindsTimeEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(ProfileClickedDailyStudyRemindsTimeHyperskillAnalyticEvent()))
             is Message.ProfileClickedViewFullProfileEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(ProfileClickedViewFullProfileHyperskillAnalyticEvent()))
         } ?: (state to emptySet())

@@ -75,6 +75,7 @@ class ProfileFragment :
         }
 
         viewBinding.profileSettingsButton.setOnClickListener {
+            profileViewModel.onNewMessage(ProfileFeature.Message.ProfileClickedSettingsEventMessage)
             ProfileSettingsDialogFragment
                 .newInstance()
                 .showIfNotExists(childFragmentManager, ProfileSettingsDialogFragment.TAG)
@@ -151,6 +152,7 @@ class ProfileFragment :
 
     private fun setupRemindersSchedule() {
         viewBinding.profileScheduleTextView.setOnClickListener {
+            profileViewModel.onNewMessage(ProfileFeature.Message.ProfileClickedDailyStudyRemindsTimeEventMessage)
             TimeIntervalPickerDialogFragment
                 .newInstance()
                 .showIfNotExists(childFragmentManager, TimeIntervalPickerDialogFragment.TAG)
@@ -164,6 +166,8 @@ class ProfileFragment :
         viewBinding.profileScheduleTextView.isVisible = viewBinding.profileDailyRemindersSwitchCompat.isChecked
 
         viewBinding.profileDailyRemindersSwitchCompat.setOnCheckedChangeListener { _, isChecked ->
+            profileViewModel.onNewMessage(ProfileFeature.Message.ProfileClickedDailyStudyRemindsEventMessage)
+
             viewBinding.profileScheduleTextView.isVisible = isChecked
             platformNotificationComponent.notificationInteractor.setDailyStudyRemindersEnabled(isChecked)
 

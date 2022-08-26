@@ -88,6 +88,8 @@ final class ProfileViewModel: FeatureViewModel<
     // MARK: Daily study reminders
 
     func setDailyStudyRemindersActivated(isActivated: Bool) {
+        logClickedDailyStudyRemindsEvent()
+
         self.notificationInteractor.setDailyStudyRemindersEnabled(enabled: isActivated)
 
         if isActivated {
@@ -107,6 +109,18 @@ final class ProfileViewModel: FeatureViewModel<
 
     func logViewedEvent() {
         onNewMessage(ProfileFeatureMessageProfileViewedEventMessage())
+    }
+
+    func logClickedSettingsEvent() {
+        onNewMessage(ProfileFeatureMessageProfileClickedSettingsEventMessage())
+    }
+
+    private func logClickedDailyStudyRemindsEvent() {
+        onNewMessage(ProfileFeatureMessageProfileClickedDailyStudyRemindsEventMessage())
+    }
+
+    func logClickedDailyStudyRemindsTimeEvent() {
+        onNewMessage(ProfileFeatureMessageProfileClickedDailyStudyRemindsTimeEventMessage())
     }
 
     private func logClickedViewFullProfileEvent() {
