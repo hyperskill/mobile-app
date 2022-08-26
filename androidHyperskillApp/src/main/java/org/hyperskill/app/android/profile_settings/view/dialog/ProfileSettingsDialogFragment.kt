@@ -61,7 +61,10 @@ class ProfileSettingsDialogFragment :
             centeredToolbarTitle.setTextAppearance(R.style.TextAppearance_AppCompat_Body2)
             centeredToolbarTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18F)
 
-            centeredToolbar.setNavigationOnClickListener { dismiss() }
+            centeredToolbar.setNavigationOnClickListener {
+                profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ProfileSettingsClickedDoneEventMessage)
+                dismiss()
+            }
             centeredToolbar.setNavigationIcon(R.drawable.ic_close_thin)
         }
 

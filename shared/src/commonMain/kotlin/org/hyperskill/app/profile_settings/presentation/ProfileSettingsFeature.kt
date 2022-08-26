@@ -19,7 +19,11 @@ interface ProfileSettingsFeature {
         data class ThemeChanged(val theme: Theme) : Message
         object LogoutConfirmed : Message
 
+        /**
+         * Analytic
+         */
         object ProfileSettingsViewedEventMessage : Message
+        object ProfileSettingsClickedDoneEventMessage : Message
     }
 
     sealed interface Action {

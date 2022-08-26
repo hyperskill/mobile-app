@@ -22,6 +22,7 @@ struct ProfileSettingsView: View {
                 .toolbar {
                     ToolbarItem(placement: .primaryAction) {
                         Button(Strings.General.done) {
+                            viewModel.logClickedDoneEvent()
                             presentationMode.wrappedValue.dismiss()
                         }
                     }

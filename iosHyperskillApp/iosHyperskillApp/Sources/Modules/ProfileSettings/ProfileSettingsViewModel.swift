@@ -38,4 +38,8 @@ final class ProfileSettingsViewModel: FeatureViewModel<
     func logViewedEvent() {
         onNewMessage(ProfileSettingsFeatureMessageProfileSettingsViewedEventMessage())
     }
+
+    func logClickedDoneEvent() {
+        onNewMessage(ProfileSettingsFeatureMessageProfileSettingsClickedDoneEventMessage())
+    }
 }
