@@ -105,8 +105,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     private fun logClickedBottomNavigationItemEvent(oldItemId: Int, newItemId: Int) {
-        val oldNavigationItem = getAnalyticNavigationItemType(oldItemId)
-        val newNavigationItem = getAnalyticNavigationItemType(newItemId)
+        val oldNavigationItem = resolveAnalyticNavigationItem(oldItemId)
+        val newNavigationItem = resolveAnalyticNavigationItem(newItemId)
 
         if (oldNavigationItem == null || newNavigationItem == null) {
             return
@@ -116,7 +116,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         analytic.reportEvent(event)
     }
 
-    private fun getAnalyticNavigationItemType(itemId: Int): AppClickedBottomNavigationItemHyperskillAnalyticEvent.NavigationItem? =
+    private fun resolveAnalyticNavigationItem(itemId: Int): AppClickedBottomNavigationItemHyperskillAnalyticEvent.NavigationItem? =
         when (itemId) {
             R.id.home_tab -> AppClickedBottomNavigationItemHyperskillAnalyticEvent.NavigationItem.HOME
             R.id.track_tab -> AppClickedBottomNavigationItemHyperskillAnalyticEvent.NavigationItem.TRACK
