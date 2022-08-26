@@ -24,6 +24,4 @@ interface NotificationCacheDataSource {
     fun getUserAskedToEnableDailyRemindersCount(): Long
 
     fun getShuffledDailyStudyRemindersNotificationDescriptions(): List<NotificationDescription>
-
-    fun clearAskUserToEnableDailyRemindersInfo()
 }

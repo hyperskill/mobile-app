@@ -12,8 +12,4 @@ class SubmissionCacheDataSourceImpl(
 
     override fun getSolvedStepsCount(): Long =
         settings.getLong(SubmissionCacheKeyValues.STEPS_SOLVED_COUNT, 0)
-
-    override fun clearSolvedStepsCount() {
-        settings.remove(SubmissionCacheKeyValues.STEPS_SOLVED_COUNT)
-    }
 }

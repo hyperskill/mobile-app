@@ -3,7 +3,6 @@ package org.hyperskill.app.profile_settings.presentation
 import kotlinx.coroutines.flow.MutableSharedFlow
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.notification.domain.NotificationInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.profile_settings.domain.interactor.ProfileSettingsInteractor
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Action
@@ -14,8 +13,7 @@ class ProfileSettingsActionDispatcher(
     config: ActionDispatcherOptions,
     private val profileSettingsInteractor: ProfileSettingsInteractor,
     private val profileInteractor: ProfileInteractor,
-    private val authorizationFlow:  MutableSharedFlow<UserDeauthorized>,
-    private val notificationInteractor: NotificationInteractor
+    private val authorizationFlow:  MutableSharedFlow<UserDeauthorized>
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
@@ -28,7 +26,6 @@ class ProfileSettingsActionDispatcher(
             }
             is Action.Logout -> {
                 profileInteractor.clearCache()
-                notificationInteractor.clearAskUserToEnableDailyRemindersInfo()
                 authorizationFlow.tryEmit(UserDeauthorized)
             }
         }

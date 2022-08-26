@@ -1,7 +1,6 @@
 package org.hyperskill.app.profile_settings.injection
 
 import org.hyperskill.app.core.injection.AppGraph
-import org.hyperskill.app.notification.domain.NotificationInteractor
 import org.hyperskill.app.profile.cache.ProfileCacheDataSourceImpl
 import org.hyperskill.app.profile.data.repository.ProfileRepositoryImpl
 import org.hyperskill.app.profile.data.source.ProfileCacheDataSource
@@ -40,13 +39,10 @@ class ProfileSettingsComponentImpl(private val appGraph: AppGraph) : ProfileSett
         ProfileRepositoryImpl(profileRemoteDataSource, profileCacheDataSource)
     private val profileInteractor: ProfileInteractor = ProfileInteractor(profileRepository, appGraph.submissionDataComponent.submissionRepository)
 
-    private val notificationInteractor: NotificationInteractor = appGraph.buildNotificationComponent().notificationInteractor
-
     override val profileSettingsFeature: Feature<ProfileSettingsFeature.State, ProfileSettingsFeature.Message, ProfileSettingsFeature.Action>
         get() = ProfileSettingsFeatureBuilder.build(
             profileSettingsInteractor,
             profileInteractor,
-            notificationInteractor,
             appGraph.networkComponent.authorizationFlow
         )
 }

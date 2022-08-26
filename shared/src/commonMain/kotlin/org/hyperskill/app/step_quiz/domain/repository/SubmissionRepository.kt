@@ -34,6 +34,4 @@ interface SubmissionRepository {
     suspend fun notifyStepSolved(stepId: Long)
 
     fun getSolvedStepsCount(): Long
-
-    fun clearSolvedStepsCount()
 }
