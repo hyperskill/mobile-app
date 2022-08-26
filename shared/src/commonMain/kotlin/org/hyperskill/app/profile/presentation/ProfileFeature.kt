@@ -2,7 +2,6 @@ package org.hyperskill.app.profile.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.profile.domain.model.Profile
-import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature
 import org.hyperskill.app.streak.domain.model.Streak
 
 interface ProfileFeature {
