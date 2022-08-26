@@ -99,6 +99,7 @@ class ProfileSettingsDialogFragment :
         }
 
         viewBinding.settingsHelpCenterButton.setOnClickListener {
+            profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ProfileSettingsClickedHelpCenterEventMessage)
             openLinkInBrowser(resources.getString(R.string.settings_help_center_url))
         }
 

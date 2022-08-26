@@ -102,7 +102,8 @@ struct ProfileSettingsView: View {
 
                 OpenURLInsideAppButton(
                     text: Strings.Settings.helpCenter,
-                    url: Self.helpCenterURL
+                    url: Self.helpCenterURL,
+                    onTap: viewModel.logClickedHelpCenterEvent
                 )
                 .foregroundColor(.primaryText)
 

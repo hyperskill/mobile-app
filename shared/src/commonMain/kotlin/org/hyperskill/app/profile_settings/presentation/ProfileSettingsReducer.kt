@@ -1,6 +1,7 @@
 package org.hyperskill.app.profile_settings.presentation
 
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsClickedDoneHyperskillAnalyticEvent
+import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsClickedHelpCenterHyperskillAnalyticEvent
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsClickedPrivacyPolicyHyperskillAnalyticEvent
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsClickedTermsOfServiceHyperskillAnalyticEvent
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsClickedThemeHyperskillAnalyticEvent
@@ -38,22 +39,14 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
             is Message.ProfileSettingsViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(ProfileSettingsViewedHyperskillAnalyticEvent()))
             is Message.ProfileSettingsClickedDoneEventMessage ->
-                state to
-                    setOf(Action.LogAnalyticEvent(ProfileSettingsClickedDoneHyperskillAnalyticEvent()))
+                state to setOf(Action.LogAnalyticEvent(ProfileSettingsClickedDoneHyperskillAnalyticEvent()))
             is Message.ProfileSettingsClickedThemeEventMessage ->
-                state to
-                    setOf(Action.LogAnalyticEvent(ProfileSettingsClickedThemeHyperskillAnalyticEvent()))
+                state to setOf(Action.LogAnalyticEvent(ProfileSettingsClickedThemeHyperskillAnalyticEvent()))
             is Message.ProfileSettingsClickedTermsOfServiceEventMessage ->
-                state to setOf(
-                    Action.LogAnalyticEvent(
-                        ProfileSettingsClickedTermsOfServiceHyperskillAnalyticEvent()
-                    )
-                )
+                state to setOf(Action.LogAnalyticEvent(ProfileSettingsClickedTermsOfServiceHyperskillAnalyticEvent()))
             is Message.ProfileSettingsClickedPrivacyPolicyEventMessage ->
-                state to setOf(
-                    Action.LogAnalyticEvent(
-                        ProfileSettingsClickedPrivacyPolicyHyperskillAnalyticEvent()
-                    )
-                )
+                state to setOf(Action.LogAnalyticEvent(ProfileSettingsClickedPrivacyPolicyHyperskillAnalyticEvent()))
+            is Message.ProfileSettingsClickedHelpCenterEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(ProfileSettingsClickedHelpCenterHyperskillAnalyticEvent()))
         } ?: (state to emptySet())
 }
