@@ -6,12 +6,12 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
-class NotificationSystemNoticeHyperskillAnalyticEvent(
+class NotificationSystemNoticeHiddenHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute,
     isAllowed: Boolean
 ) : HyperskillAnalyticEvent(
     route,
     HyperskillAnalyticAction.HIDDEN,
     HyperskillAnalyticPart.NOTIFICATIONS_SYSTEM_NOTICE,
-    if (isAllowed) HyperskillAnalyticTarget.ALLOW else HyperskillAnalyticTarget.DENY
+    target = if (isAllowed) HyperskillAnalyticTarget.ALLOW else HyperskillAnalyticTarget.DENY
 )
