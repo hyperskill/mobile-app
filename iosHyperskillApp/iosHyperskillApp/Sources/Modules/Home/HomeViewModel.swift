@@ -1,4 +1,3 @@
-import Foundation
 import shared
 import UIKit
 
@@ -10,13 +9,13 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
 
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(handleApplicationDidBecomeActive(_:)),
+            selector: #selector(handleApplicationDidBecomeActive),
             name: UIApplication.didBecomeActiveNotification,
             object: UIApplication.shared
         )
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(handleApplicationDidEnterBackground(_:)),
+            selector: #selector(handleApplicationDidEnterBackground),
             name: UIApplication.didEnterBackgroundNotification,
             object: UIApplication.shared
         )
@@ -33,7 +32,7 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
     // MARK: Private API
 
     @objc
-    private func handleApplicationDidBecomeActive(_: NSNotification) {
+    private func handleApplicationDidBecomeActive() {
         if wasInBackground {
             wasInBackground = false
             onNewMessage(HomeFeatureMessageInit(forceUpdate: true))
@@ -41,7 +40,7 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
     }
 
     @objc
-    private func handleApplicationDidEnterBackground(_: NSNotification) {
+    private func handleApplicationDidEnterBackground() {
         wasInBackground = true
     }
 }
