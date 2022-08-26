@@ -48,6 +48,10 @@ interface StepQuizFeature {
         object CreateSubmissionError : Message
 
         data class SyncReply(val reply: Reply) : Message
+
+        object NeedToAskUserToEnableDailyReminders : Message
+        object UserAgreedToEnableDailyReminders : Message
+        object UserDeclinedToEnableDailyReminders : Message
     }
 
     sealed interface Action {
@@ -58,8 +62,12 @@ interface StepQuizFeature {
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
+        object NotifyUserAgreedToEnableDailyReminders : Action
+        object NotifyUserDeclinedToEnableDailyReminders : Action
+
         sealed interface ViewAction : Action {
             object ShowNetworkError : ViewAction // error
+            object AskUserToEnableDailyReminders : ViewAction
         }
     }
 }
