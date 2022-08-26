@@ -3,6 +3,8 @@ package org.hyperskill.app.profile_settings.presentation
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPart
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsClickedHyperskillAnalyticEvent
+import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsDeleteAccountNoticeHiddenHyperskillAnalyticEvent
+import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsDeleteAccountNoticeShownHyperskillAnalyticEvent
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsViewedHyperskillAnalyticEvent
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Action
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Message
@@ -90,6 +92,16 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                     Action.LogAnalyticEvent(
                         ProfileSettingsClickedHyperskillAnalyticEvent(
                             target = HyperskillAnalyticTarget.DELETE_ACCOUNT
+                        )
+                    )
+                )
+            is Message.ProfileSettingsDeleteAccountNoticeShownEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(ProfileSettingsDeleteAccountNoticeShownHyperskillAnalyticEvent()))
+            is Message.ProfileSettingsDeleteAccountNoticeHiddenEventMessage ->
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        ProfileSettingsDeleteAccountNoticeHiddenHyperskillAnalyticEvent(
+                            message.isConfirmed
                         )
                     )
                 )

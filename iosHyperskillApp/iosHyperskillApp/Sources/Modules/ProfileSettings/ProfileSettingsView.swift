@@ -153,10 +153,16 @@ struct ProfileSettingsView: View {
                     Alert(
                         title: Text(Strings.Settings.deleteAccountAlertTitle),
                         message: Text(Strings.Settings.deleteAccountAlertMessage),
-                        primaryButton: .default(Text(Strings.General.cancel)),
+                        primaryButton: .default(
+                            Text(Strings.General.cancel),
+                            action: {
+                                viewModel.logDeleteAccountNoticeHiddenEvent(isConfirmed: false)
+                            }
+                        ),
                         secondaryButton: .destructive(
                             Text(Strings.Settings.deleteAccountAlertDeleteButton),
                             action: {
+                                viewModel.logDeleteAccountNoticeHiddenEvent(isConfirmed: true)
                                 WebControllerManager.shared.presentWebControllerWithURL(
                                     Self.accountDeletionURL,
                                     withKey: .externalLink,
@@ -166,6 +172,11 @@ struct ProfileSettingsView: View {
                             }
                         )
                     )
+                }
+                .onChange(of: isPresentingAccountDeletionAlert) { newValue in
+                    if newValue {
+                        viewModel.logDeleteAccountNoticeShownEvent()
+                    }
                 }
             }
         }

@@ -73,4 +73,14 @@ final class ProfileSettingsViewModel: FeatureViewModel<
     func logClickedDeleteAccountEvent() {
         onNewMessage(ProfileSettingsFeatureMessageProfileSettingsClickedDeleteAccountEventMessage())
     }
+
+    func logDeleteAccountNoticeShownEvent() {
+        onNewMessage(ProfileSettingsFeatureMessageProfileSettingsDeleteAccountNoticeShownEventMessage())
+    }
+
+    func logDeleteAccountNoticeHiddenEvent(isConfirmed: Bool) {
+        onNewMessage(
+            ProfileSettingsFeatureMessageProfileSettingsDeleteAccountNoticeHiddenEventMessage(isConfirmed: isConfirmed)
+        )
+    }
 }

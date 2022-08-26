@@ -23,13 +23,17 @@ interface ProfileSettingsFeature {
          * Analytic
          */
         object ProfileSettingsViewedEventMessage : Message
+
         object ProfileSettingsClickedDoneEventMessage : Message
         object ProfileSettingsClickedThemeEventMessage : Message
         object ProfileSettingsClickedTermsOfServiceEventMessage : Message
         object ProfileSettingsClickedPrivacyPolicyEventMessage : Message
         object ProfileSettingsClickedHelpCenterEventMessage : Message
         object ProfileSettingsClickedLogoutEventMessage : Message
+
         object ProfileSettingsClickedDeleteAccountEventMessage : Message
+        object ProfileSettingsDeleteAccountNoticeShownEventMessage : Message
+        data class ProfileSettingsDeleteAccountNoticeHiddenEventMessage(val isConfirmed: Boolean) : Message
     }
 
     sealed interface Action {

@@ -120,16 +120,29 @@ class ProfileSettingsDialogFragment :
 
         viewBinding.settingsDeleteAccountButton.setOnClickListener {
             profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ProfileSettingsClickedDeleteAccountEventMessage)
+
             MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog_ProfileSettingsConfirmDialog)
                 .setTitle(R.string.settings_account_deletion_dialog_title)
                 .setMessage(R.string.settings_account_deletion_dialog_explanation)
                 .setPositiveButton(R.string.settings_account_deletion_dialog_delete_button_text) { _, _ ->
+                    profileSettingsViewModel.onNewMessage(
+                        ProfileSettingsFeature.Message.ProfileSettingsDeleteAccountNoticeHiddenEventMessage(
+                            true
+                        )
+                    )
                     openLinkInBrowser(resources.getString(R.string.settings_account_deletion_url))
                 }
                 .setNegativeButton(R.string.cancel) { dialog, _ ->
+                    profileSettingsViewModel.onNewMessage(
+                        ProfileSettingsFeature.Message.ProfileSettingsDeleteAccountNoticeHiddenEventMessage(
+                            false
+                        )
+                    )
                     dialog.dismiss()
                 }
                 .show()
+
+            profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ProfileSettingsDeleteAccountNoticeShownEventMessage)
         }
 
         profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.InitMessage())

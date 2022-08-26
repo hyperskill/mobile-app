@@ -1,9 +1,14 @@
 package org.hyperskill.app.analytic.domain.model.hyperskill
 
 enum class HyperskillAnalyticTarget(val targetName: String) {
+    HOME("home"),
+    TRACK("track"),
+    PROFILE("profile"),
     SEND("send"),
     ALLOW("allow"),
     DENY("deny"),
+    CANCEL("cancel"),
+    DELETE("delete"),
     DONE("done"),
     THEME("theme"),
     JETBRAINS_TERMS_OF_SERVICE("jetbrains_terms_of_service"),
@@ -11,8 +16,6 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     HELP_CENTER("help_center"),
     LOGOUT("logout"),
     DELETE_ACCOUNT("delete_account"),
-    HOME("home"),
-    TRACK("track"),
-    PROFILE("profile"),
+    DELETE_ACCOUNT_NOTICE("delete_account_notice"),
     NOTIFICATIONS_SYSTEM_NOTICE("notifications_system_notice")
 }
