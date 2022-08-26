@@ -57,4 +57,8 @@ final class ProfileSettingsViewModel: FeatureViewModel<
     func logClickedTermsOfServiceEvent() {
         onNewMessage(ProfileSettingsFeatureMessageProfileSettingsClickedTermsOfServiceEventMessage())
     }
+
+    func logClickedPrivacyPolicyEvent() {
+        onNewMessage(ProfileSettingsFeatureMessageProfileSettingsClickedPrivacyPolicyEventMessage())
+    }
 }

@@ -95,7 +95,8 @@ struct ProfileSettingsView: View {
 
                 OpenURLInsideAppButton(
                     text: Strings.Settings.privacyPolicy,
-                    url: Self.privacyPolicyURL
+                    url: Self.privacyPolicyURL,
+                    onTap: viewModel.logClickedPrivacyPolicyEvent
                 )
                 .foregroundColor(.primaryText)
 

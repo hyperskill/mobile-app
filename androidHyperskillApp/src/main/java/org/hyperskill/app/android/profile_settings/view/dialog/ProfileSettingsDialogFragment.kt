@@ -94,6 +94,7 @@ class ProfileSettingsDialogFragment :
         }
 
         viewBinding.settingsPrivacyPolicyButton.setOnClickListener {
+            profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ProfileSettingsClickedPrivacyPolicyEventMessage)
             openLinkInBrowser(resources.getString(R.string.settings_privacy_policy_url))
         }
 
