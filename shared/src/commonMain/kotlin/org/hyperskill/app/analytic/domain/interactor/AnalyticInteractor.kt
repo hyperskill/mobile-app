@@ -6,6 +6,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.hyperskill.app.analytic.domain.model.Analytic
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.analytic.domain.model.AnalyticSource
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -19,12 +20,18 @@ class AnalyticInteractor(
     private val profileInteractor: ProfileInteractor,
     private val hyperskillRepository: AnalyticHyperskillRepository,
     private val hyperskillEventProcessor: AnalyticHyperskillEventProcessor
-) {
+) : Analytic {
     companion object {
         private val FLUSH_EVENTS_DELAY_DURATION: Duration = 5.seconds
     }
 
     private var flushEventsJob: Job? = null
+
+    override fun reportEvent(event: AnalyticEvent) {
+        MainScope().launch {
+            logEvent(event)
+        }
+    }
 
     suspend fun logEvent(event: AnalyticEvent) {
         when (event.source) {
