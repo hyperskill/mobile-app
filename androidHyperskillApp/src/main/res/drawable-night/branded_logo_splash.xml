@@ -10,7 +10,7 @@
     <item
         android:bottom="48dp">
         <bitmap
-            android:src="@drawable/ic_subtitle_splash"
+            android:src="@drawable/ic_subtitle"
             android:gravity="bottom" />
     </item>
 

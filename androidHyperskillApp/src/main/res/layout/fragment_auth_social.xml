@@ -14,7 +14,6 @@
         android:layout_width="@dimen/auth_hyperskill_logo_width"
         android:layout_height="@dimen/auth_hyperskill_logo_height"
         android:layout_marginTop="48dp"
-        android:background="@drawable/bg_shape_logo_rectangle"
         android:src="@drawable/branded_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +47,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/signInWithEmailMaterialButton"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="0dp"
         android:layout_height="@dimen/auth_button_height"
         android:layout_marginHorizontal="20dp"

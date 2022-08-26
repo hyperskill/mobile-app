@@ -2,7 +2,7 @@
 <resources>
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_icon_inset</item>
-        <item name="windowSplashScreenBackground">@color/color_blue_400</item>
+        <item name="windowSplashScreenBackground">@color/splash_screen_color</item>
         <item name="android:windowSplashScreenBrandingImage">@drawable/ic_splash_subtitle</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="postSplashScreenTheme">@style/AppTheme</item>
