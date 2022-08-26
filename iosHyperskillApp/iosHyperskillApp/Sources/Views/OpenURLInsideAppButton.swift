@@ -10,13 +10,16 @@ struct OpenURLInsideAppButton: View {
     private let webControllerAllowsSafari: Bool
     private let webControllerBackButtonStyle: WebControllerManager.BackButtonStyle
 
+    private let onTap: (() -> Void)?
+
     init(
         text: String,
         url: URL,
         webControllerManager: WebControllerManager = .shared,
         webControllerKey: WebControllerManager.WebControllerKey = .externalLink,
         webControllerAllowsSafari: Bool = true,
-        webControllerBackButtonStyle: WebControllerManager.BackButtonStyle = .done
+        webControllerBackButtonStyle: WebControllerManager.BackButtonStyle = .done,
+        onTap: (() -> Void)? = nil
     ) {
         self.text = text
         self.url = url
@@ -24,10 +27,12 @@ struct OpenURLInsideAppButton: View {
         self.webControllerKey = webControllerKey
         self.webControllerAllowsSafari = webControllerAllowsSafari
         self.webControllerBackButtonStyle = webControllerBackButtonStyle
+        self.onTap = onTap
     }
 
     var body: some View {
         Button(text) {
+            onTap?()
             webControllerManager.presentWebControllerWithURL(
                 url,
                 withKey: webControllerKey,

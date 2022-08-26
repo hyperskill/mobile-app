@@ -53,4 +53,8 @@ final class ProfileSettingsViewModel: FeatureViewModel<
     func sendClickedThemeEventMessage() {
         onNewMessage(ProfileSettingsFeatureMessageProfileSettingsClickedThemeEventMessage())
     }
+
+    func logClickedTermsOfServiceEvent() {
+        onNewMessage(ProfileSettingsFeatureMessageProfileSettingsClickedTermsOfServiceEventMessage())
+    }
 }

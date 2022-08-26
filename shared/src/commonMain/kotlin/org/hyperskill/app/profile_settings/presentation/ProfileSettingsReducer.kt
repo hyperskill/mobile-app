@@ -1,6 +1,7 @@
 package org.hyperskill.app.profile_settings.presentation
 
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsClickedDoneHyperskillAnalyticEvent
+import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsClickedTermsOfServiceHyperskillAnalyticEvent
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsClickedThemeHyperskillAnalyticEvent
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsViewedHyperskillAnalyticEvent
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Action
@@ -41,5 +42,11 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
             is Message.ProfileSettingsClickedThemeEventMessage ->
                 state to
                     setOf(Action.LogAnalyticEvent(ProfileSettingsClickedThemeHyperskillAnalyticEvent()))
+            is Message.ProfileSettingsClickedTermsOfServiceEventMessage ->
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        ProfileSettingsClickedTermsOfServiceHyperskillAnalyticEvent()
+                    )
+                )
         } ?: (state to emptySet())
 }

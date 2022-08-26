@@ -6,5 +6,6 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     DENY("deny"),
     DONE("done"),
     THEME("theme"),
+    JETBRAINS_TERMS_OF_SERVICE("jetbrains_terms_of_service"),
     NOTIFICATIONS_SYSTEM_NOTICE("notifications_system_notice")
 }

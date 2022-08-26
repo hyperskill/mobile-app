@@ -89,6 +89,7 @@ class ProfileSettingsDialogFragment :
         }
 
         viewBinding.settingsTermsOfServiceButton.setOnClickListener {
+            profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ProfileSettingsClickedTermsOfServiceEventMessage)
             openLinkInBrowser(resources.getString(R.string.settings_terms_of_service_url))
         }
 

@@ -88,7 +88,8 @@ struct ProfileSettingsView: View {
             Section(header: Text(Strings.Settings.about)) {
                 OpenURLInsideAppButton(
                     text: Strings.Settings.termsOfService,
-                    url: Self.termsOfServiceURL
+                    url: Self.termsOfServiceURL,
+                    onTap: viewModel.logClickedTermsOfServiceEvent
                 )
                 .foregroundColor(.primaryText)
 
