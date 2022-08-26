@@ -50,7 +50,7 @@ class StepQuizInteractor(
 
             val pollSub = pollSubmission(submission.id)
             if (pollSub.getOrNull()?.status == SubmissionStatus.CORRECT) {
-                notifyStepSolved(stepId)
+                submissionRepository.notifyStepSolved(stepId)
             }
 
             return pollSub
@@ -85,8 +85,4 @@ class StepQuizInteractor(
             else ->
                 true
         }
-
-    private suspend fun notifyStepSolved(stepId: Long) {
-        submissionRepository.solvedStepsMutableSharedFlow.emit(stepId)
-    }
 }
