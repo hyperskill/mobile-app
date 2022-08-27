@@ -25,6 +25,7 @@ final class AuthSocialViewModel: FeatureViewModel<
     }
 
     func signIn(with provider: SocialAuthProvider) {
+        logClickedSignInWithSocialEvent(provider: provider)
         Task {
             do {
                 let response = try await self.socialAuthService.signIn(with: provider)
@@ -63,7 +64,19 @@ final class AuthSocialViewModel: FeatureViewModel<
         moduleOutput?.handleUserAuthorized(isNewUser: isNewUser)
     }
 
+    // MARK: Analytic
+
     func logViewedEvent() {
         onNewMessage(AuthSocialFeatureMessageAuthViewedEventMessage())
+    }
+
+    private func logClickedSignInWithSocialEvent(provider: SocialAuthProvider) {
+        onNewMessage(
+            AuthSocialFeatureMessageAuthClickedSignInWithSocialEventMessage(socialAuthProvider: provider.sharedType)
+        )
+    }
+
+    func logClickedContinueWithEmailEvent() {
+        onNewMessage(AuthSocialFeatureMessageAuthClickedContinueWithEmailEventMessage())
     }
 }

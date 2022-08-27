@@ -25,5 +25,10 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     CONTINUE_TO_HYPERSKILL("continue_to_hyperskill"),
     CONTINUE("continue"),
     SIGN_IN("sign_in"),
-    SIGN_UP("sign_up")
+    SIGN_UP("sign_up"),
+    JETBRAINS_ACCOUNT("jetbrains_account"),
+    GOOGLE("google"),
+    GITHUB("github"),
+    APPLE("apple"),
+    CONTINUE_WITH_EMAIL("continue_with_email")
 }

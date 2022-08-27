@@ -17,7 +17,12 @@ interface AuthSocialFeature {
         data class AuthSuccess(val isNewUser: Boolean) : Message
         data class AuthFailure(val socialError: AuthSocialError) : Message
 
+        /**
+         * Analytic
+         */
         object AuthViewedEventMessage : Message
+        data class AuthClickedSignInWithSocialEventMessage(val socialAuthProvider: SocialAuthProvider) : Message
+        object AuthClickedContinueWithEmailEventMessage : Message
     }
 
     sealed interface Action {
