@@ -97,6 +97,12 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
+            is Message.NeedToAskUserToEnableDailyReminders ->
+                state to setOf(Action.ViewAction.AskUserToEnableDailyReminders)
+            is Message.UserAgreedToEnableDailyReminders ->
+                state to setOf(Action.NotifyUserAgreedToEnableDailyReminders)
+            is Message.UserDeclinedToEnableDailyReminders ->
+                state to setOf(Action.NotifyUserDeclinedToEnableDailyReminders)
             is Message.StepQuizViewedEventMessage ->
                 state to setOf(Action.LogViewedEvent(message.stepId))
         } ?: (state to emptySet())

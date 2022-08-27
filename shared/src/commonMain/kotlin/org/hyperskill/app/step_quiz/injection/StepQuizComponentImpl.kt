@@ -42,6 +42,7 @@ class StepQuizComponentImpl(private val appGraph: AppGraph) : StepQuizComponent 
                 ActionDispatcherOptions(),
                 stepQuizInteractor,
                 appGraph.buildProfileDataComponent().profileInteractor,
+                appGraph.buildNotificationComponent().notificationInteractor,
                 appGraph.analyticComponent.analyticInteractor
             )
 

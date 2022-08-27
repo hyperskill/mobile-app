@@ -1,9 +1,13 @@
 package org.hyperskill.app.step_quiz.presentation
 
+import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.notification.data.extension.NotificationExtensions
+import org.hyperskill.app.notification.domain.NotificationInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizViewedHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
@@ -17,8 +21,20 @@ class StepQuizActionDispatcher(
     config: ActionDispatcherOptions,
     private val stepQuizInteractor: StepQuizInteractor,
     private val profileInteractor: ProfileInteractor,
+    private val notificationInteractor: NotificationInteractor,
     private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
+
+    init {
+        actionScope.launch {
+            notificationInteractor.solvedStepsSharedFlow.collect {
+                if (notificationInteractor.isRequiredToAskUserToEnableDailyReminders()) {
+                    onNewMessage(Message.NeedToAskUserToEnableDailyReminders)
+                }
+            }
+        }
+    }
+
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchAttempt -> {
@@ -91,6 +107,15 @@ class StepQuizActionDispatcher(
                         }
                     )
                 onNewMessage(message)
+            }
+            is Action.NotifyUserAgreedToEnableDailyReminders -> {
+                notificationInteractor.setDailyStudyRemindersEnabled(true)
+                notificationInteractor.setDailyStudyRemindersIntervalStartHour(
+                    NotificationExtensions.DAILY_REMINDERS_AFTER_STEP_SOLVED_START_HOUR
+                )
+            }
+            is Action.NotifyUserDeclinedToEnableDailyReminders -> {
+                notificationInteractor.setLastTimeUserAskedToEnableDailyReminders(Clock.System.now().toEpochMilliseconds())
             }
             is Action.LogViewedEvent -> {
                 val currentProfile = profileInteractor

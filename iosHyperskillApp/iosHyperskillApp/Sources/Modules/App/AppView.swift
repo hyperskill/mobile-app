@@ -84,8 +84,13 @@ struct AppView: View {
                     )
                     .tag(tab)
                     .tabItem {
-                        Image(tab.imageName)
-                            .renderingMode(.template)
+                        Image(
+                            tab == viewModel.navigationState.selectedTab
+                                ? tab.selectedImageName
+                                : tab.imageName
+                        )
+                        .renderingMode(.template)
+
                         Text(tab.title)
                     }
                 }

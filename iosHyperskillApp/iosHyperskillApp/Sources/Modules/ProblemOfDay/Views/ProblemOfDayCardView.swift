@@ -88,6 +88,7 @@ struct ProblemOfDayCardView: View {
                 )
             }
         )
+        .buttonStyle(BounceButtonStyle())
         .disabled(viewData.stepID == nil)
         .onChange(of: isPresentingStep) { newValue in
             if newValue {

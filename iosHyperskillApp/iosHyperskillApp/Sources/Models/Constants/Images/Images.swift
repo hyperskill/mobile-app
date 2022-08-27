@@ -11,8 +11,13 @@ enum Images {
 
     enum TabBar {
         static let home = "tab-bar-home"
+        static let homeFilled = "tab-bar-home-filled"
+
         static let track = "tab-bar-track"
+        static let trackFilled = "tab-bar-track-filled"
+
         static let profile = "tab-bar-profile"
+        static let profileFilled = "tab-bar-profile-filled"
     }
 
     // MARK: - AuthSocial -
