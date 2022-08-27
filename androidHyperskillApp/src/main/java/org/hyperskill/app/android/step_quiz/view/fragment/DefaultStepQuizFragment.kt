@@ -121,6 +121,7 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
                     viewBinding.stepQuizButtons.stepQuizSubmitButton.visibility = View.GONE
                     viewBinding.stepQuizButtons.stepQuizContinueButton.visibility = View.VISIBLE
                     viewBinding.stepQuizButtons.stepQuizContinueButton.setOnClickListener {
+                        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.StepQuizClickedContinueEventMessage)
                         requireRouter().backTo(MainScreen)
                     }
                 }

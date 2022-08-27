@@ -53,7 +53,11 @@ interface StepQuizFeature {
         object UserAgreedToEnableDailyReminders : Message
         object UserDeclinedToEnableDailyReminders : Message
 
+        /**
+         * Analytic
+         */
         data class StepQuizViewedEventMessage(val stepId: Long) : Message
+        object StepQuizClickedContinueEventMessage : Message
     }
 
     sealed interface Action {
@@ -65,6 +69,9 @@ interface StepQuizFeature {
         object NotifyUserAgreedToEnableDailyReminders : Action
         object NotifyUserDeclinedToEnableDailyReminders : Action
 
+        /**
+         * Analytic
+         */
         data class LogViewedEvent(val stepId: Long) : Action
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
