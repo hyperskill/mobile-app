@@ -27,7 +27,11 @@ interface TrackFeature {
         ) : Message
         data class TrackError(val message: String) : Message
 
+        /**
+         * Analytic
+         */
         object TrackViewedEventMessage : Message
+        object TrackClickedContinueInWebEventMessage : Message
     }
 
     sealed interface Action {

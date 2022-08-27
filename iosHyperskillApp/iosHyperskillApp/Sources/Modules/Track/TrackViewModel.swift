@@ -13,15 +13,13 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
         onNewMessage(TrackFeatureMessageInit(forceUpdate: forceUpdate))
     }
 
-    func logViewedEvent() {
-        onNewMessage(TrackFeatureMessageTrackViewedEventMessage())
-    }
-
     func makeViewData(track: Track, trackProgress: TrackProgress, studyPlan: StudyPlan?) -> TrackViewData {
         viewDataMapper.mapTrackDataToViewData(track: track, trackProgress: trackProgress, studyPlan: studyPlan)
     }
 
     func doStudyPlanInWebPresentation() {
+        logClickedContinueInWebEvent()
+
         guard state is TrackFeatureStateContent,
               let url = HyperskillURLFactory.makeStudyPlan() else {
             return
@@ -33,5 +31,15 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
             allowsSafari: true,
             backButtonStyle: .done
         )
+    }
+
+    // MARK: Analytic
+
+    func logViewedEvent() {
+        onNewMessage(TrackFeatureMessageTrackViewedEventMessage())
+    }
+
+    private func logClickedContinueInWebEvent() {
+        onNewMessage(TrackFeatureMessageTrackClickedContinueInWebEventMessage())
     }
 }

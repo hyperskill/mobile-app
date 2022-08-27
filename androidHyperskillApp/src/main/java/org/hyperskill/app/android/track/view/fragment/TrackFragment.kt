@@ -185,8 +185,10 @@ class TrackFragment :
 
             trackAboutKeepYourProgressInWebTextView.paintFlags = trackAboutKeepYourProgressInWebTextView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
             trackAboutKeepYourProgressInWebTextView.setOnClickListener {
+                trackViewModel.onNewMessage(TrackFeature.Message.TrackClickedContinueInWebEventMessage)
+
                 val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = Uri.parse(TrackRedirectLinkBuilder.getTrackLink(track.id))
+                intent.data = Uri.parse(TrackRedirectLinkBuilder.getStudyPlanLink())
                 startActivity(intent)
             }
         }
