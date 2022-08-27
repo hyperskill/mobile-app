@@ -26,7 +26,11 @@ interface HomeFeature {
         object HomeFailure : Message
         data class ProblemOfDaySolved(val stepId: Long) : Message
 
+        /**
+         * Analytic
+         */
         object HomeViewedEventMessage : Message
+        object HomeClickedProblemOfDayCardEventMessage : Message
     }
 
     sealed interface Action {

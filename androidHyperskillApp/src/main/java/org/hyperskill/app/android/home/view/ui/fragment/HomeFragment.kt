@@ -60,6 +60,7 @@ class HomeFragment :
     }
 
     private fun onProblemOfDayCardActionButtonClicked(stepId: Long) {
+        homeViewModel.onNewMessage(HomeFeature.Message.HomeClickedProblemOfDayCardEventMessage)
         requireRouter().navigateTo(StepScreen(stepId))
     }
 
