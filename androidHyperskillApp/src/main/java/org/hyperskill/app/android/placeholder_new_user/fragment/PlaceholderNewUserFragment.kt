@@ -47,6 +47,8 @@ class PlaceholderNewUserFragment :
         super.onViewCreated(view, savedInstanceState)
 
         viewBinding.placeholderContinueToHyperskillButton.setOnClickListener {
+            placeholderNewUserViewModel.onNewMessage(PlaceholderNewUserFeature.Message.PlaceholderClickedContinueEventMessage)
+
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(BuildKonfig.BASE_URL)
             startActivity(intent)

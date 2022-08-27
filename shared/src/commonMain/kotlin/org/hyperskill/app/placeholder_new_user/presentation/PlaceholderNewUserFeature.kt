@@ -8,7 +8,11 @@ interface PlaceholderNewUserFeature {
     }
 
     sealed interface Message {
+        /**
+         * Analytic
+         */
         object PlaceholderViewedEventMessage : Message
+        object PlaceholderClickedContinueEventMessage : Message
     }
 
     sealed interface Action {

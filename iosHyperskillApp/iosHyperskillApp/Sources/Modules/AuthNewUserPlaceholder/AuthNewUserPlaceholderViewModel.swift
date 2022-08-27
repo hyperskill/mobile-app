@@ -6,7 +6,13 @@ final class AuthNewUserPlaceholderViewModel: FeatureViewModel<
   PlaceholderNewUserFeatureMessage,
   PlaceholderNewUserFeatureActionViewAction
 > {
+    // MARK: Analytic
+
     func logViewedEvent() {
         onNewMessage(PlaceholderNewUserFeatureMessagePlaceholderViewedEventMessage())
+    }
+
+    func logClickedContinueEvent() {
+        onNewMessage(PlaceholderNewUserFeatureMessagePlaceholderClickedContinueEventMessage())
     }
 }
