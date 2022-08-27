@@ -16,4 +16,12 @@ interface NotificationCacheDataSource {
     fun setDailyStudyRemindersIntervalStartHour(hour: Int)
 
     fun getRandomDailyStudyRemindersNotificationDescription(): NotificationDescription
+
+    fun getLastTimeUserAskedToEnableDailyReminders(): Long?
+
+    fun setLastTimeUserAskedToEnableDailyReminders(timestamp: Long)
+
+    fun getUserAskedToEnableDailyRemindersCount(): Long
+
+    fun getShuffledDailyStudyRemindersNotificationDescriptions(): List<NotificationDescription>
 }

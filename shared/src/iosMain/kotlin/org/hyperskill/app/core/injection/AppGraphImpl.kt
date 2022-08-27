@@ -1,5 +1,7 @@
 package org.hyperskill.app.core.injection
 
+import org.hyperskill.app.analytic.injection.AnalyticComponent
+import org.hyperskill.app.analytic.injection.AnalyticComponentImpl
 import org.hyperskill.app.auth.injection.AuthComponent
 import org.hyperskill.app.auth.injection.AuthComponentImpl
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
@@ -13,6 +15,10 @@ import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.network.injection.NetworkComponentImpl
+import org.hyperskill.app.notification.injection.NotificationComponent
+import org.hyperskill.app.notification.injection.NotificationComponentImpl
+import org.hyperskill.app.onboarding.injection.OnboardingComponent
+import org.hyperskill.app.onboarding.injection.OnboardingComponentImpl
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile.injection.ProfileComponentImpl
 import org.hyperskill.app.profile.injection.ProfileDataComponent
@@ -39,6 +45,9 @@ class AppGraphImpl(
 
     override val submissionDataComponent: SubmissionDataComponent =
         SubmissionDataComponentImpl(this)
+
+    override val analyticComponent: AnalyticComponent =
+        AnalyticComponentImpl(this)
 
     override val authComponent: AuthComponent =
         AuthComponentImpl(this)
@@ -72,4 +81,10 @@ class AppGraphImpl(
 
     override fun buildHomeComponent(): HomeComponent =
         HomeComponentImpl(this)
+
+    override fun buildNotificationComponent(): NotificationComponent =
+        NotificationComponentImpl(this)
+
+    override fun buildOnboardingComponent(): OnboardingComponent =
+        OnboardingComponentImpl(this)
 }

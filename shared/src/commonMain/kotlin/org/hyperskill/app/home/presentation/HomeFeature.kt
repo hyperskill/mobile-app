@@ -1,5 +1,6 @@
 package org.hyperskill.app.home.presentation
 
+import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.streak.domain.model.Streak
 
@@ -24,12 +25,13 @@ interface HomeFeature {
         object ReadyToLaunchNextProblemInTimer : Message
         object HomeFailure : Message
         data class ProblemOfDaySolved(val stepId: Long) : Message
+        object HomeViewedEventMessage : Message
     }
 
     sealed interface Action {
         object FetchHomeScreenData : Action
         object LaunchTimer : Action
-        data class UpdateOnProblemOfDaySolved(val streak: Streak?) : Action
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
         sealed class ViewAction : Action
     }
 }

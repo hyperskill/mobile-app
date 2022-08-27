@@ -39,6 +39,7 @@ struct ProfileView: View {
             viewModel.onViewAction = handleViewAction(_:)
         }
         .onDisappear(perform: viewModel.stopListening)
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 
     // MARK: Private API
@@ -77,7 +78,12 @@ struct ProfileView: View {
                             .background(Color(ColorPalette.surface))
                     }
 
-                    ProfileDailyStudyRemindersView()
+                    ProfileDailyStudyRemindersView(
+                        isActivated: viewData.isDailyStudyRemindersEnabled,
+                        selectedHour: viewData.dailyStudyRemindersStartHour,
+                        onIsActivatedChanged: viewModel.setDailyStudyRemindersActivated(isActivated:),
+                        onSelectedHourChanged: viewModel.setDailyStudyRemindersStartHour(startHour:)
+                    )
 
                     ProfileAboutView(
                         livesInText: viewData.livesInText,

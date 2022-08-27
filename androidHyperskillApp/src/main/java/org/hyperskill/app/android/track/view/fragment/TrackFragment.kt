@@ -23,7 +23,6 @@ import org.hyperskill.app.track.presentation.TrackFeature
 import org.hyperskill.app.track.presentation.TrackViewModel
 import org.hyperskill.app.track.routing.TrackRedirectLinkBuilder
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
-import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 import kotlin.math.roundToInt
@@ -32,11 +31,8 @@ class TrackFragment :
     Fragment(R.layout.fragment_track),
     ReduxView<TrackFeature.State, TrackFeature.Action.ViewAction> {
     companion object {
-        fun newInstance(trackId: Long): Fragment =
+        fun newInstance(): Fragment =
             TrackFragment()
-                .apply {
-                    this.trackId = trackId
-                }
     }
 
     private lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -44,8 +40,6 @@ class TrackFragment :
     private val viewBinding: FragmentTrackBinding by viewBinding(FragmentTrackBinding::bind)
     private val trackViewModel: TrackViewModel by reduxViewModel(this) { viewModelFactory }
     private val viewStateDelegate: ViewStateDelegate<TrackFeature.State> = ViewStateDelegate()
-
-    private var trackId: Long by argument()
 
     private lateinit var track: Track
     private lateinit var trackProgress: TrackProgress
@@ -60,10 +54,10 @@ class TrackFragment :
         super.onViewCreated(view, savedInstanceState)
         initViewStateDelegate()
         viewBinding.trackError.tryAgain.setOnClickListener {
-            trackViewModel.onNewMessage(TrackFeature.Message.Init(trackId, forceUpdate = true))
+            trackViewModel.onNewMessage(TrackFeature.Message.Init(forceUpdate = true))
         }
 
-        trackViewModel.onNewMessage(TrackFeature.Message.Init(trackId))
+        trackViewModel.onNewMessage(TrackFeature.Message.Init())
     }
 
     private fun injectComponents() {

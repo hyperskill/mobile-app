@@ -49,11 +49,11 @@ enum Strings {
         // MARK: NewUserPlaceholder
 
         enum NewUserPlaceholder {
-            static let title = sharedStrings.register_title.localized()
-            static let introText = sharedStrings.register_intro_text.localized()
-            static let buttonText = sharedStrings.register_button_text.localized()
-            static let possibilityText = sharedStrings.register_possibility_text.localized()
-            static let callText = sharedStrings.register_call_text.localized()
+            static let title = sharedStrings.placeholder_register_text.localized()
+            static let introText = sharedStrings.placeholder_instruction_text.localized()
+            static let buttonText = sharedStrings.placeholder_continue_button_text_ios.localized()
+            static let possibilityText = sharedStrings.placeholder_first_description_text.localized()
+            static let callText = sharedStrings.placeholder_second_description_text.localized()
         }
     }
 
@@ -189,6 +189,14 @@ enum Strings {
         static let logoutDialogTitle = sharedStrings.settings_logout_dialog_title.localized()
         static let logoutDialogExplanation = sharedStrings.settings_logout_dialog_explanation.localized()
         static let deleteAccount = sharedStrings.settings_delete_account.localized()
+        static let deleteAccountAlertTitle = sharedStrings.settings_account_deletion_dialog_title.localized()
+        static let deleteAccountAlertMessage = sharedStrings.settings_account_deletion_dialog_explanation.localized()
+        static let deleteAccountAlertDeleteButton =
+            sharedStrings.settings_account_deletion_dialog_delete_button_text.localized()
+        static let termsOfServiceURL = sharedStrings.settings_terms_of_service_url.localized()
+        static let privacyPolicyURL = sharedStrings.settings_privacy_policy_url.localized()
+        static let helpCenterURL = sharedStrings.settings_help_center_url.localized()
+        static let accountDeletionURL = sharedStrings.settings_account_deletion_url.localized()
 
         enum Theme {
             static let title = sharedStrings.settings_theme.localized()
@@ -217,5 +225,14 @@ enum Strings {
         static let solveARandomProblem = sharedStrings.problem_of_day_solve_a_random_problem.localized()
         static let getBack = sharedStrings.problem_of_day_get_back.localized()
         static let nextProblemIn = sharedStrings.problem_of_day_next_problem_in.localized()
+    }
+
+    // MARK: - Onboarding -
+
+    enum Onboarding {
+        static let title = sharedStrings.onboarding_title.localized()
+        static let text = sharedStrings.onboarding_text.localized()
+        static let signIn = sharedStrings.onboarding_sign_in.localized()
+        static let signUp = sharedStrings.onboarding_sign_up.localized()
     }
 }

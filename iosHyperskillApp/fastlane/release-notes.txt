@@ -1,0 +1,5 @@
+What's New:
+1. Allow to change application theme ALTAPPS-233
+2. Profile settings / Logout ALTAPPS-208
+3. Onboarding screen ALTAPPS-225
+4. The button on the Problem of the Day card doesn't work ALTAPPS-240

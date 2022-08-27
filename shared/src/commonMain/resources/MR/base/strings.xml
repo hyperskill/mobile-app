@@ -14,7 +14,7 @@
     <string name="user_list_home_user_name_hint">User name</string>
 
     <!-- Auth -->
-    <string name="auth_log_in_title">Log in to\nJetBrains Academy</string>
+    <string name="auth_log_in_title">Sign in to Hyperskill (JetBrains Academy)</string>
     <string name="auth_jetbrains_account_text">JetBrains Account</string>
     <string name="auth_google_account_text">Google</string>
     <string name="auth_github_account_text">GitHub</string>
@@ -26,22 +26,15 @@
     <!-- Auth credentials -->
     <string name="auth_credentials_social_text">Continue with social networks</string>
     <string name="auth_credentials_reset_password_text">Reset password</string>
-    <string name="auth_credentials_log_in_text">Log in</string>
+    <string name="auth_credentials_log_in_text">Sign in</string>
     <string name="auth_credentials_email_placeholder">Email</string>
     <string name="auth_credentials_password_placeholder">Password</string>
-    <string name="auth_credentials_error_text">Unable to log in. If you registered with a third-party account (e.g.
-        Google), using your email as a login may not work. Try to log in with a third-party account, or reset your
+    <string name="auth_credentials_error_text">Unable to sign in. If you registered with a third-party account (e.g.
+        Google), using your email as a login may not work. Try to sign in with a third-party account, or reset your
         password.
     </string>
     <string name="auth_credentials_email_empty">Please enter an email address</string>
     <string name="auth_credentials_password_empty">Please enter a password</string>
-
-    <!--  Register  -->
-    <string name="register_title">Register</string>
-    <string name="register_intro_text">To get access to the content you should register at our website first.</string>
-    <string name="register_button_text">Continue to hyperskill.org ↗</string>
-    <string name="register_possibility_text">Right now you can solve one random problem every day.</string>
-    <string name="register_call_text">We add new features every week. Stay turned :)</string>
 
     <!-- Step -->
     <string name="step_theory_text">Theory</string>
@@ -59,7 +52,7 @@
     <string name="step_quiz_status_correct_text">You’re absolutely correct!</string>
     <string name="step_quiz_status_wrong_text">Not correct, but keep on trying\nand never give up!</string>
     <string name="step_quiz_status_evaluation_text">Evaluation...</string>
-    <string name="step_quiz_stats_text">%s solved this problem. Latest completion was about %s ago.</string>
+    <string name="step_quiz_stats_text">%s solved this problem. Latest completion was %s ago.</string>
     <string name="step_quiz_feedback_title">FEEDBACK:</string>
     <string name="step_quiz_hint_button_text">See hint</string>
     <string name="step_quiz_continue_button_text">Continue</string>
@@ -169,9 +162,13 @@
     <string name="settings_logout_dialog_title">Please confirm</string>
     <string name="settings_logout_dialog_explanation">Are you sure you want to log out?</string>
     <string name="settings_delete_account">Delete account</string>
+    <string name="settings_account_deletion_dialog_title">Are you sure you want to delete your account?</string>
+    <string name="settings_account_deletion_dialog_explanation">Your account on Hyperskill (JetBrains Academy) will be deleted. You will no longer be able to use this account both in the app and on the website.</string>
+    <string name="settings_account_deletion_dialog_delete_button_text">Delete</string>
     <string name="settings_terms_of_service_url">https://www.jetbrains.com/legal/terms/jetbrains-academy.html</string>
     <string name="settings_privacy_policy_url">https://hi.hyperskill.org/terms</string>
     <string name="settings_help_center_url">https://support.hyperskill.org/hc/en-us</string>
+    <string name="settings_account_deletion_url">https://hyperskill.org/delete-account</string>
     <string name="choose_notification_time_interval">Change notification interval</string>
 
     <!-- Placeholder -->
@@ -196,9 +193,10 @@
     <string name="problem_of_day_minutes">%d minutes</string>
 
     <!-- Placeholder for new users -->
-    <string name="placeholder_register_text">Register</string>
+    <string name="placeholder_register_text">Sign up</string>
     <string name="placeholder_instruction_text">To get access to the content you should register at our website first.</string>
     <string name="placeholder_continue_button_text">Continue to hyperskill.org \u2197</string>
+    <string name="placeholder_continue_button_text_ios">Continue to hyperskill.org ↗</string>
     <string name="placeholder_first_description_text">Right now you can solve one random problem every day.</string>
     <string name="placeholder_second_description_text">We add new features every week. Stay tuned :)</string>
 
@@ -244,4 +242,10 @@
 
     <string name="notification14_title">No one:</string>
     <string name="notification14_text">Me: If the IDE knows I\'m missing a semicolon, why won\'t it just add it itself? 🤔</string>
+
+    <!--  Onboarding  -->
+    <string name="onboarding_title">Welcome\nto Hyperskill</string>
+    <string name="onboarding_text">Regular practice is key to mastering new skills. Learn on the web and practice with Hyperskill Mobile to keep up your learning streak and stay on top of your studies.</string>
+    <string name="onboarding_sign_in">Sign in</string>
+    <string name="onboarding_sign_up">Sign up</string>
 </resources>

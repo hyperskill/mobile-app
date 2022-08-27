@@ -48,11 +48,15 @@ struct AppView: View {
             buildContent(
                 isAuthorized: readyState.isAuthorized
             )
-            .fullScreenCover(isPresented: $viewModel.navigationState.presentingAuthScreen) {
-                AuthSocialAssembly(output: viewModel).makeModule()
-            }
-            .fullScreenCover(isPresented: $viewModel.navigationState.presentingNewUserScreen) {
-                AuthNewUserPlaceholderView()
+            .fullScreenCover(item: $viewModel.navigationState.activeFullScreenModal) { screen in
+                switch screen {
+                case .auth:
+                    AuthSocialAssembly(output: viewModel).makeModule()
+                case .onboarding:
+                    OnboardingAssembly(output: viewModel).makeModule()
+                case .newUser:
+                    AuthNewUserPlaceholderView()
+                }
             }
             .environmentObject(panModalPresenter)
         default:
@@ -72,7 +76,7 @@ struct AppView: View {
                             case .home:
                                 HomeAssembly().makeModule()
                             case .track:
-                                TrackAssembly(trackID: 18).makeModule()
+                                TrackAssembly().makeModule()
                             case .profile:
                                 ProfileAssembly.currentUser().makeModule()
                             }
@@ -80,14 +84,19 @@ struct AppView: View {
                     )
                     .tag(tab)
                     .tabItem {
-                        Image(tab.imageName)
-                            .renderingMode(.template)
+                        Image(
+                            tab == viewModel.navigationState.selectedTab
+                                ? tab.selectedImageName
+                                : tab.imageName
+                        )
+                        .renderingMode(.template)
+
                         Text(tab.title)
                     }
                 }
             }
         } else {
-            AuthSocialAssembly(output: viewModel).makeModule()
+            ProgressView()
         }
     }
 
@@ -97,17 +106,21 @@ struct AppView: View {
 
     private func handleViewAction(_ viewAction: AppFeatureActionViewAction) {
         switch viewAction {
+        case is AppFeatureActionViewActionNavigateToOnboardingScreen:
+            withAnimation {
+                viewModel.navigationState.activeFullScreenModal = .onboarding
+            }
         case is AppFeatureActionViewActionNavigateToHomeScreen:
             withAnimation {
-                viewModel.navigationState.presentingAuthScreen = false
+                viewModel.navigationState.activeFullScreenModal = nil
             }
         case is AppFeatureActionViewActionNavigateToAuthScreen:
             withAnimation {
-                viewModel.navigationState.presentingAuthScreen = true
+                viewModel.navigationState.activeFullScreenModal = .auth
             }
         case is AppFeatureActionViewActionNavigateToNewUserScreen:
             withAnimation {
-                viewModel.navigationState.presentingNewUserScreen = true
+                viewModel.navigationState.activeFullScreenModal = .newUser
             }
         default:
             print("AppView :: unhandled viewAction = \(viewAction)")

@@ -22,6 +22,7 @@ import org.hyperskill.app.android.core.view.ui.navigation.AppNavigationContainer
 import org.hyperskill.app.android.databinding.ActivityMainBinding
 import org.hyperskill.app.android.home.view.ui.screen.PlaceholderNewUserScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
+import org.hyperskill.app.android.onboarding.navigation.OnboardingScreen
 import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.main.presentation.MainViewModel
@@ -118,6 +119,8 @@ class MainActivity :
 
     override fun onAction(action: AppFeature.Action.ViewAction) {
         when (action) {
+            is AppFeature.Action.ViewAction.NavigateTo.OnboardingScreen ->
+                router.newRootScreen(OnboardingScreen)
             is AppFeature.Action.ViewAction.NavigateTo.AuthScreen ->
                 router.newRootScreen(AuthScreen)
             is AppFeature.Action.ViewAction.NavigateTo.HomeScreen ->

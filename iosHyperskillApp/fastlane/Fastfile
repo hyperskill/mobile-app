@@ -12,6 +12,9 @@ platform :ios do
   itc_team_name = CredentialsManager::AppfileConfig.try_fetch_value(:itc_team_name)
   itc_team_id = CredentialsManager::AppfileConfig.try_fetch_value(:itc_team_id)
 
+  firebase_app_id = ENV["FIREBASE_APP_ID"]
+  firebase_cli_token = ENV["FIREBASE_CLI_TOKEN"]
+
   keychain_password = ENV["KEYCHAIN_PASSWORD"]
 
   # Constants
@@ -103,6 +106,67 @@ platform :ios do
       build_number: get_build_number,
     )
     UI.success "Successfully released Hyperskill iOS RELEASE #{scheme} #{vs}"
+  end
+
+  desc "Submit a new Beta Build to Firebase."
+  desc "This will also make sure the profile is up to date."
+  desc "Options: scheme, target"
+  lane :beta do |options|
+    scheme = options[:scheme]
+    target = options[:target]
+
+    UI.user_error!("Wrong scheme parameter") if scheme.nil?
+    UI.user_error!("Wrong target parameter") if target.nil?
+
+    clear_derived_data
+    cocoapods(repo_update: true)
+
+    unlock_keychain(password: keychain_password)
+
+    sync_device_info()
+    match_adhoc()
+
+    # Disable automatic code signing -> build -> enable again
+    set_manual_code_signing(
+      provisioning_profile_mapping: lane_context[SharedValues::MATCH_PROVISIONING_PROFILE_MAPPING],
+      scheme: scheme,
+    )
+
+    begin
+      gym(
+        scheme: "#{scheme}",
+        clean: true,
+        output_directory: "artifacts",
+        output_name: "#{scheme}.ipa",
+        include_bitcode: true,
+        skip_profile_detection: true,
+        export_method: "ad-hoc",
+        export_options: {
+          # use only provisioning profiles from match
+          provisioningProfiles: lane_context[SharedValues::MATCH_PROVISIONING_PROFILE_MAPPING],
+        },
+      )
+    ensure
+      set_auto_code_signing(
+        provisioning_profile_mapping: lane_context[SharedValues::MATCH_PROVISIONING_PROFILE_MAPPING],
+        scheme: scheme,
+      )
+    end
+
+    firebase_app_distribution(
+      app: firebase_app_id,
+      firebase_cli_token: firebase_cli_token,
+      release_notes_file: "fastlane/release-notes.txt",
+      groups: "all-ios-testers",
+    )
+
+    dsym_path = lane_context[SharedValues::DSYM_OUTPUT_PATH]
+
+    vs = make_version_string(
+      version_number: get_version_number(target: target),
+      build_number: get_build_number,
+    )
+    UI.success "Successfully released Hyperskill iOS BETA #{scheme} #{vs}"
   end
 
   # Testing

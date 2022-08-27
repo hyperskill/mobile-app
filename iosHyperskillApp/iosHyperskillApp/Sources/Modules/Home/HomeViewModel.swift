@@ -1,9 +1,47 @@
-import Foundation
 import shared
+import UIKit
 
 final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage, HomeFeatureActionViewAction> {
+    private var wasInBackground = false
+
+    override init(feature: Presentation_reduxFeature) {
+        super.init(feature: feature)
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleApplicationDidBecomeActive),
+            name: UIApplication.didBecomeActiveNotification,
+            object: UIApplication.shared
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleApplicationDidEnterBackground),
+            name: UIApplication.didEnterBackgroundNotification,
+            object: UIApplication.shared
+        )
+    }
+
     func loadContent(forceUpdate: Bool = false) {
-        self.onNewMessage(HomeFeatureMessageInit(forceUpdate: forceUpdate))
+        onNewMessage(HomeFeatureMessageInit(forceUpdate: forceUpdate))
+    }
+
+    func logViewedEvent() {
+        onNewMessage(HomeFeatureMessageHomeViewedEventMessage())
+    }
+
+    // MARK: Private API
+
+    @objc
+    private func handleApplicationDidBecomeActive() {
+        if wasInBackground {
+            wasInBackground = false
+            onNewMessage(HomeFeatureMessageInit(forceUpdate: true))
+        }
+    }
+
+    @objc
+    private func handleApplicationDidEnterBackground() {
+        wasInBackground = true
     }
 }
 
