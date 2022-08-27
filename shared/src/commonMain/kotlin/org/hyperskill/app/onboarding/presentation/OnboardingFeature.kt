@@ -9,7 +9,13 @@ interface OnboardingFeature {
 
     sealed interface Message {
         object Init : Message
+
+        /**
+         * Analytic
+         */
         object OnboardingViewedEventMessage : Message
+        object OnboardingClickedSignInEventMessage : Message
+        object OnboardingClickedSignUnEventMessage : Message
     }
 
     sealed interface Action {

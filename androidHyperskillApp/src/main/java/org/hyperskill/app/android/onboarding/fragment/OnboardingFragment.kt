@@ -45,10 +45,12 @@ class OnboardingFragment :
         super.onViewCreated(view, savedInstanceState)
 
         viewBinding.onboardingSignInButton.setOnClickListener {
+            onboardingViewModel.onNewMessage(OnboardingFeature.Message.OnboardingClickedSignInEventMessage)
             requireRouter().navigateTo(AuthScreen)
         }
 
         viewBinding.onboardingSignUpButton.setOnClickListener {
+            onboardingViewModel.onNewMessage(OnboardingFeature.Message.OnboardingClickedSignUnEventMessage)
             requireRouter().navigateTo(PlaceholderNewUserScreen)
         }
 

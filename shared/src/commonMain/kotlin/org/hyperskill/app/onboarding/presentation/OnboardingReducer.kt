@@ -1,5 +1,7 @@
 package org.hyperskill.app.onboarding.presentation
 
+import org.hyperskill.app.onboarding.domain.analytic.OnboardingClickedSignInHyperskillAnalyticEvent
+import org.hyperskill.app.onboarding.domain.analytic.OnboardingClickedSignUnHyperskillAnalyticEvent
 import org.hyperskill.app.onboarding.domain.analytic.OnboardingViewedHyperskillAnalyticEvent
 import org.hyperskill.app.onboarding.presentation.OnboardingFeature.Action
 import org.hyperskill.app.onboarding.presentation.OnboardingFeature.Message
@@ -13,5 +15,9 @@ class OnboardingReducer : StateReducer<State, Message, Action> {
                 state to setOf(Action.FetchOnboarding)
             is Message.OnboardingViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(OnboardingViewedHyperskillAnalyticEvent()))
+            is Message.OnboardingClickedSignInEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(OnboardingClickedSignInHyperskillAnalyticEvent()))
+            is Message.OnboardingClickedSignUnEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(OnboardingClickedSignUnHyperskillAnalyticEvent()))
         }
 }
