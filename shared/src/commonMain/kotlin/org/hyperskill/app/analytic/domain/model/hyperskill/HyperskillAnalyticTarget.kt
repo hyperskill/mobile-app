@@ -30,5 +30,8 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     GOOGLE("google"),
     GITHUB("github"),
     APPLE("apple"),
-    CONTINUE_WITH_EMAIL("continue_with_email")
+    CONTINUE_WITH_EMAIL("continue_with_email"),
+    LOG_IN("log_in"),
+    RESET_PASSWORD("reset_password"),
+    CONTINUE_WITH_SOCIAL_NETWORKS("continue_with_social_networks")
 }

@@ -23,7 +23,13 @@ interface AuthCredentialsFeature {
         data class AuthSuccess(val isNewUser: Boolean) : Message
         data class AuthFailure(val credentialsError: AuthCredentialsError) : Message
 
+        /**
+         * Analytic
+         */
         object AuthViewedEventMessage : Message
+        object AuthClickedSignInEventMessage : Message
+        object AuthClickedResetPasswordEventMessage : Message
+        object AuthClickedContinueWithSocialEventMessage : Message
     }
 
     sealed interface Action {

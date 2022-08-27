@@ -81,9 +81,14 @@ class AuthCredentialsFragment :
             handled
         }
         viewBinding.signInWithEmailMaterialButton.setOnClickListener {
+            authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.AuthClickedSignInEventMessage)
             authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.SubmitFormClicked)
         }
+        viewBinding.signInWithEmailResetPasswordTextButton.setOnClickListener {
+            authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.AuthClickedResetPasswordEventMessage)
+        }
         viewBinding.signInWithSocialMaterialButton.setOnClickListener {
+            authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.AuthClickedContinueWithSocialEventMessage)
             requireRouter().backTo(AuthSocialScreen)
         }
 
