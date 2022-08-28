@@ -15,12 +15,9 @@ struct StepQuizView: View {
 
     @StateObject var viewModel: StepQuizViewModel
 
-    @Environment(\.presentationMode) private var presentationMode
-
     var body: some View {
         buildBody()
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonTitleRemoved { presentationMode.wrappedValue.dismiss() }
             .onAppear {
                 viewModel.startListening()
                 viewModel.onViewAction = handleViewAction(_:)

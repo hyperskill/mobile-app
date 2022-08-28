@@ -21,5 +21,9 @@ class StepComponentImpl(private val appGraph: AppGraph) : StepComponent {
         get() = CommentThreadTitleMapper(appGraph.commonComponent.resourceProvider)
 
     override val stepFeature: Feature<StepFeature.State, StepFeature.Message, StepFeature.Action>
-        get() = StepFeatureBuilder.build(stepInteractor)
+        get() = StepFeatureBuilder.build(
+            stepInteractor,
+            appGraph.buildProfileDataComponent().profileInteractor,
+            appGraph.analyticComponent.analyticInteractor
+        )
 }

@@ -5,6 +5,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     TRACK("track"),
     PROFILE("profile"),
     SEND("send"),
+    BACK("back"),
     INPUT_OUTPUT_INFO("input_output_info"),
     ALLOW("allow"),
     DENY("deny"),

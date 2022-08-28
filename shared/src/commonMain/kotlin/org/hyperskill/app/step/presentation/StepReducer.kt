@@ -1,9 +1,9 @@
 package org.hyperskill.app.step.presentation
 
-import ru.nobird.app.presentation.redux.reducer.StateReducer
 import org.hyperskill.app.step.presentation.StepFeature.Action
 import org.hyperskill.app.step.presentation.StepFeature.Message
 import org.hyperskill.app.step.presentation.StepFeature.State
+import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 class StepReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
@@ -20,5 +20,7 @@ class StepReducer : StateReducer<State, Message, Action> {
                 State.Data(message.step) to emptySet()
             is Message.StepLoaded.Error ->
                 State.Error to emptySet()
+            is Message.StepClickedBackEventMessage ->
+                state to setOf(Action.LogClickedBackEvent(message.stepId))
         } ?: (state to emptySet())
 }

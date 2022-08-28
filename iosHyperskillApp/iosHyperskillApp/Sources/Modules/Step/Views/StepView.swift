@@ -4,8 +4,14 @@ import SwiftUI
 struct StepView: View {
     @StateObject var viewModel: StepViewModel
 
+    @Environment(\.presentationMode) private var presentationMode
+
     var body: some View {
         buildBody()
+            .navigationBarBackButtonTitleRemoved {
+                viewModel.logClickedBackEvent()
+                presentationMode.wrappedValue.dismiss()
+            }
             .onAppear {
                 viewModel.startListening()
                 viewModel.onViewAction = handleViewAction(_:)
