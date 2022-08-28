@@ -8,6 +8,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     BACK("back"),
     INPUT_OUTPUT_INFO("input_output_info"),
     RESET("reset"),
+    RUN("run"),
     ALLOW("allow"),
     DENY("deny"),
     CANCEL("cancel"),

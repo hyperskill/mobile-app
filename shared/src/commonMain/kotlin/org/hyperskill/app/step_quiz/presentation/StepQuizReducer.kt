@@ -2,9 +2,11 @@ package org.hyperskill.app.step_quiz.presentation
 
 import kotlinx.datetime.Clock
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
+import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedCodeDetailsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedContinueHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRetryHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRunHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedSendHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
@@ -63,7 +65,10 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                         status = SubmissionStatus.EVALUATION
                     )
 
-                    val analyticEvent = StepQuizClickedSendHyperskillAnalyticEvent(route = resolveAnalyticRoute(state))
+                    val analyticRoute = resolveAnalyticRoute(state)
+                    val analyticEvent = if (message.step.block.name == BlockName.CODE)
+                        StepQuizClickedRunHyperskillAnalyticEvent(analyticRoute)
+                    else StepQuizClickedSendHyperskillAnalyticEvent(analyticRoute)
 
                     state.copy(submissionState = StepQuizFeature.SubmissionState.Loaded(submission)) to
                         setOf(
