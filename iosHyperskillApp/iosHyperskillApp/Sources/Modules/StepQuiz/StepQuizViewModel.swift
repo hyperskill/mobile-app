@@ -37,11 +37,7 @@ final class StepQuizViewModel: FeatureViewModel<
 
     func doQuizRetryAction() {
         // TODO: Implement quiz retry
-        print(#function)
-    }
-
-    func logViewedEvent() {
-        onNewMessage(StepQuizFeatureMessageStepQuizViewedEventMessage(stepId: step.id))
+        logClickedRetryEvent()
     }
 
     func makeViewData() -> StepQuizViewData {
@@ -52,6 +48,16 @@ final class StepQuizViewModel: FeatureViewModel<
             return nil
         }()
         return viewDataMapper.mapStepToViewData(step, attempt: attemptOrNil)
+    }
+
+    // MARK: Analytic
+
+    func logViewedEvent() {
+        onNewMessage(StepQuizFeatureMessageStepQuizViewedEventMessage(stepId: step.id))
+    }
+
+    private func logClickedRetryEvent() {
+        onNewMessage(StepQuizFeatureMessageStepQuizClickedRetryEventMessage())
     }
 }
 

@@ -69,6 +69,9 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
         viewBinding.stepQuizButtons.stepQuizSubmitButton.setOnClickListener {
             onActionButtonClicked()
         }
+        viewBinding.stepQuizButtons.stepQuizRetryButton.setOnClickListener {
+            stepQuizViewModel.onNewMessage(StepQuizFeature.Message.StepQuizClickedRetryEventMessage)
+        }
         viewBinding.stepQuizNetworkError.tryAgain.setOnClickListener {
             stepQuizViewModel.onNewMessage(StepQuizFeature.Message.InitWithStep(step, forceUpdate = true))
         }
