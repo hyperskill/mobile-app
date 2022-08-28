@@ -6,11 +6,11 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
-class StepQuizClickedContinueHyperskillAnalyticEvent(
+class StepQuizClickedCodeDetailsHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute
 ) : HyperskillAnalyticEvent(
     route,
     HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.ACTIONS,
-    HyperskillAnalyticTarget.CONTINUE
+    HyperskillAnalyticPart.MAIN,
+    HyperskillAnalyticTarget.INPUT_OUTPUT_INFO
 )

@@ -69,4 +69,8 @@ extension StepQuizViewModel: StepQuizChildQuizDelegate {
     func handleChildQuizRetry() {
         doQuizRetryAction()
     }
+
+    func handleChildQuizAnalyticEventMessage(_ message: StepQuizFeatureMessage) {
+        onNewMessage(message)
+    }
 }

@@ -15,6 +15,7 @@ struct StepQuizCodeDetailsView: View {
     let executionMemoryLimit: String?
 
     private(set) var isAlwaysExpanded = false
+    var onExpandTapped: (() -> Void)?
     @State private var isExpanded = false
 
     var body: some View {
@@ -25,6 +26,7 @@ struct StepQuizCodeDetailsView: View {
             } else {
                 Button(
                     action: {
+                        onExpandTapped?()
                         withAnimation {
                             isExpanded.toggle()
                         }

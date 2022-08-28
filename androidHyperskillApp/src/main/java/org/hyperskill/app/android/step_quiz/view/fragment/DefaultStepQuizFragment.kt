@@ -139,4 +139,12 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
     protected fun syncReplyState(replyResult: ReplyResult) {
         stepQuizViewModel.onNewMessage(StepQuizFeature.Message.SyncReply(replyResult.reply))
     }
+
+    /**
+     * Use only for analytic events logging.
+     * @param message an analytic event message
+     */
+    protected fun logAnalyticEventMessage(message: StepQuizFeature.Message) {
+        stepQuizViewModel.onNewMessage(message)
+    }
 }

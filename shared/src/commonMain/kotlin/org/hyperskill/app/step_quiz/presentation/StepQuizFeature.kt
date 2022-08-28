@@ -57,6 +57,7 @@ interface StepQuizFeature {
          * Analytic
          */
         data class StepQuizViewedEventMessage(val stepId: Long) : Message
+        object StepQuizClickedCodeDetailsEventMessage : Message
         object StepQuizClickedContinueEventMessage : Message
     }
 

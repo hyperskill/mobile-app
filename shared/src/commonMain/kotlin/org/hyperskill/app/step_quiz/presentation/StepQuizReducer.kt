@@ -2,6 +2,7 @@ package org.hyperskill.app.step_quiz.presentation
 
 import kotlinx.datetime.Clock
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedCodeDetailsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedContinueHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedSendHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
@@ -102,6 +103,13 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 state to setOf(Action.NotifyUserDeclinedToEnableDailyReminders)
             is Message.StepQuizViewedEventMessage ->
                 state to setOf(Action.LogViewedEvent(message.stepId))
+            is Message.StepQuizClickedCodeDetailsEventMessage ->
+                if (state is State.AttemptLoaded) {
+                    val event = StepQuizClickedCodeDetailsHyperskillAnalyticEvent(route = resolveAnalyticRoute(state))
+                    state to setOf(Action.LogAnalyticEvent(event))
+                } else {
+                    null
+                }
             is Message.StepQuizClickedContinueEventMessage ->
                 if (state is State.AttemptLoaded) {
                     val event = StepQuizClickedContinueHyperskillAnalyticEvent(route = resolveAnalyticRoute(state))

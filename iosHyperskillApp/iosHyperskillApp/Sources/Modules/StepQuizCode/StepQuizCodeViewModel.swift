@@ -28,6 +28,10 @@ final class StepQuizCodeViewModel: ObservableObject {
         let reply = Reply(language: viewData.languageStringValue, code: code)
         delegate?.handleChildQuizSync(reply: reply)
     }
+
+    func logClickedCodeDetailsEvent() {
+        delegate?.handleChildQuizAnalyticEventMessage(StepQuizFeatureMessageStepQuizClickedCodeDetailsEventMessage())
+    }
 }
 
 // MARK: - StepQuizCodeViewModel: StepQuizCodeFullScreenOutputProtocol -

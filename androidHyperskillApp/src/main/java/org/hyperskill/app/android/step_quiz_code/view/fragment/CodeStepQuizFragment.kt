@@ -87,7 +87,10 @@ class CodeStepQuizFragment :
             codeTemplates = codeOptions.codeTemplates!!,
             codeQuizInstructionDelegate = CodeQuizInstructionDelegate(
                 codeDetailsView,
-                true
+                true,
+                onDetailsIsExpandedStateChanged = {
+                    logAnalyticEventMessage(StepQuizFeature.Message.StepQuizClickedCodeDetailsEventMessage)
+                }
             ),
             codeToolbarAdapter = null,
         )
