@@ -11,6 +11,8 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.auth.view.ui.navigation.AuthScreen
+import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentPlaceholderNewUserScreenBinding
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.config.BuildKonfig
@@ -51,7 +53,7 @@ class PlaceholderNewUserFragment : Fragment(R.layout.fragment_placeholder_new_us
         viewBinding.placeholderSignInButton.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
                 profileInteractor.clearCache()
-                authorizationFlow.emit(UserDeauthorized)
+                requireRouter().newRootScreen(AuthScreen)
             }
         }
     }
