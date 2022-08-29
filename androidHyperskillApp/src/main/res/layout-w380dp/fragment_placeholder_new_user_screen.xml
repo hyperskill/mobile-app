@@ -4,14 +4,14 @@
     android:layout_width="@dimen/auth_button_max_width"
     android:layout_gravity="center_horizontal"
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="20dp">
+    android:paddingHorizontal="20dp">
 
     <ImageView
         android:id="@+id/placeholderIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:src="@drawable/ic_placeholder"
+        android:src="@drawable/branded_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
