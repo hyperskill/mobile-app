@@ -70,10 +70,13 @@ struct HomeView: View {
                     )
                     .makeModule()
 
-                    if data.problemOfDayState as? HomeFeatureProblemOfDayStateNeedToSolve == nil {
+                    let problemOfDayStateIsEmpty = data.problemOfDayState is HomeFeatureProblemOfDayStateEmpty
+                    let problemOfDayStateIsSolved = data.problemOfDayState is HomeFeatureProblemOfDayStateSolved
+
+                    if problemOfDayStateIsEmpty || problemOfDayStateIsSolved {
                         OpenURLInsideAppButton(
-                            text: Strings.Home.keepLearningButtonText,
-                            url: HyperskillURLFactory.makeStudyPlan().require()
+                            text: Strings.Track.continueInWebButton,
+                            url: HyperskillURLFactory.makeIndex().require()
                         )
                         .buttonStyle(OutlineButtonStyle())
                     }

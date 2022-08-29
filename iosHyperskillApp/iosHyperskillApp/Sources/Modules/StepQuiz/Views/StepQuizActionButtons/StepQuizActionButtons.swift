@@ -4,7 +4,11 @@ import SwiftUI
 struct StepQuizActionButtons: View {
     var retryButton: RetryButton?
 
+    var continueButton: ContinueButton?
+
     let primaryButton: PrimaryButton
+
+    @Environment(\.presentationMode) private var presentationMode
 
     var body: some View {
         HStack(spacing: LayoutInsets.defaultInset) {
@@ -15,12 +19,17 @@ struct StepQuizActionButtons: View {
                 )
             }
 
-            StepQuizActionButton(
-                state: primaryButton.state,
-                titleForState: primaryButton.titleForState,
-                systemImageNameForState: primaryButton.systemImageNameForState,
-                onTap: primaryButton.action
-            )
+            if let continueButton = self.continueButton {
+                Button(Strings.StepQuiz.continueButton, action: continueButton.action)
+                    .buttonStyle(RoundedRectangleButtonStyle(style: .green))
+            } else {
+                StepQuizActionButton(
+                    state: primaryButton.state,
+                    titleForState: primaryButton.titleForState,
+                    systemImageNameForState: primaryButton.systemImageNameForState,
+                    onTap: primaryButton.action
+                )
+            }
         }
     }
 
@@ -38,15 +47,22 @@ struct StepQuizActionButtons: View {
 
         let action: () -> Void
     }
+
+    struct ContinueButton {
+        let action: () -> Void
+    }
 }
 
 struct StepQuizActionButtons_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            StepQuizActionButtons(primaryButton: .init(state: .normal, action: {}))
+            StepQuizActionButtons(
+                primaryButton: .init(state: .normal, action: {})
+            )
 
             StepQuizActionButtons(
                 retryButton: .init(action: {}),
+                continueButton: .init(action: {}),
                 primaryButton: .init(state: .normal, action: {})
             )
         }

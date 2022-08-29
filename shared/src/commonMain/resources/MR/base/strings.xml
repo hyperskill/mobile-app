@@ -128,7 +128,6 @@
     <string name="home_title">Home</string>
     <string name="home_hello_lets_learn_text">Hello!\nLet’s learn something</string>
     <string name="home_keep_practicing_text">Keep practicing to achieve your learning goal</string>
-    <string name="home_keep_learning_button_text">Keep learning in web</string>
 
     <!-- Track -->
     <string name="track_title">Track</string>

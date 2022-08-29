@@ -10,8 +10,6 @@ extension StepQuizActionButton.State {
             self = .evaluation
         case SubmissionStatus.wrong:
             self = .wrong
-        case SubmissionStatus.correct:
-            self = .correct
         case SubmissionStatus.outdated:
             self = .wrong
         case SubmissionStatus.local:

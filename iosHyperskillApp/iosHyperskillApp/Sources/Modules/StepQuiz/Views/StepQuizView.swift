@@ -234,8 +234,16 @@ struct StepQuizView: View {
             )
         }()
 
+        let continueButtonDescription: StepQuizActionButtons.ContinueButton? = {
+            guard let submissionStatus = submissionStatus, submissionStatus == SubmissionStatus.correct else {
+                return nil
+            }
+            return .init(action: { self.presentationMode.wrappedValue.dismiss() })
+        }()
+
         StepQuizActionButtons(
             retryButton: retryButtonDescription,
+            continueButton: continueButtonDescription,
             primaryButton: primaryButtonDescription
         )
     }

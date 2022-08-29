@@ -8,8 +8,6 @@ struct StepQuizActionButton: View {
 
     var onTap: () -> Void
 
-    @Environment(\.presentationMode) private var presentationMode
-
     private var overlayImage: RoundedRectangleButtonStyle.OverlayImage? {
         if let systemImageName = systemImageNameForState?(state) {
             return .init(imageSystemName: systemImageName)
@@ -20,17 +18,14 @@ struct StepQuizActionButton: View {
     var body: some View {
         Button(
             titleForState?(state) ?? state.title,
-            action: state != .correct
-                    ? onTap
-                    : { presentationMode.wrappedValue.dismiss() }
+            action: onTap
         )
-        .buttonStyle(RoundedRectangleButtonStyle(style: state.style, overlayImage: overlayImage))
+        .buttonStyle(RoundedRectangleButtonStyle(style: .violet, overlayImage: overlayImage))
         .disabled(state == .evaluation)
     }
 
     enum State: CaseIterable {
         case normal
-        case correct
         case wrong
         case evaluation
 
@@ -40,21 +35,10 @@ struct StepQuizActionButton: View {
             switch self {
             case .normal:
                 return Strings.StepQuiz.sendButton
-            case .correct:
-                return Strings.StepQuiz.continueButton
             case .wrong:
                 return Strings.StepQuiz.retryButton
             case .evaluation:
                 return Strings.StepQuiz.checkingButton
-            }
-        }
-
-        fileprivate var style: RoundedRectangleButtonStyle.Style {
-            switch self {
-            case .normal, .wrong, .evaluation:
-                return .violet
-            case .correct:
-                return .green
             }
         }
     }
