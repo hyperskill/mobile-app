@@ -52,7 +52,6 @@ class HomeFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponents()
-
         requireActivity().lifecycle.addObserver(onForegroundObserver)
     }
 
@@ -76,7 +75,6 @@ class HomeFragment :
 
     override fun onDestroy() {
         super.onDestroy()
-
         requireActivity().lifecycle.removeObserver(onForegroundObserver)
     }
 
