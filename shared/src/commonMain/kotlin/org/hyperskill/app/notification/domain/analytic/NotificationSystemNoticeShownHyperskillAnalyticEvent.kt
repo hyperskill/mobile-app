@@ -11,6 +11,6 @@ class NotificationSystemNoticeShownHyperskillAnalyticEvent(
 ) : HyperskillAnalyticEvent(
     route,
     HyperskillAnalyticAction.SHOWN,
-    HyperskillAnalyticPart.MAIN,
+    HyperskillAnalyticPart.NOTICE,
     HyperskillAnalyticTarget.NOTIFICATIONS_SYSTEM_NOTICE
 )

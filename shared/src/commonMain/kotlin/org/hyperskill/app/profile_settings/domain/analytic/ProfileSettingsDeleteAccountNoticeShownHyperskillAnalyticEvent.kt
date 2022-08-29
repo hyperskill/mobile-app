@@ -9,6 +9,6 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
 class ProfileSettingsDeleteAccountNoticeShownHyperskillAnalyticEvent : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Profile.Settings(),
     HyperskillAnalyticAction.SHOWN,
-    HyperskillAnalyticPart.MAIN,
+    HyperskillAnalyticPart.NOTICE,
     HyperskillAnalyticTarget.DELETE_ACCOUNT_NOTICE
 )
