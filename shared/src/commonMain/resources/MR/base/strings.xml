@@ -8,6 +8,7 @@
     <string name="no">No</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
+    <string name="later">Later</string>
 
     <!-- Users list -->
     <string name="user_list_search_button_title">Search</string>
@@ -248,4 +249,8 @@
     <string name="onboarding_text">Regular practice is key to mastering new skills. Learn on the web and practice with Hyperskill Mobile to keep up your learning streak and stay on top of your studies.</string>
     <string name="onboarding_sign_in">Sign in</string>
     <string name="onboarding_sign_up">Sign up</string>
+
+    <!-- Text for receiving notification after daily step is complete -->
+    <string name="after_daily_step_completed_dialog_title">Stay motivated with daily reminders</string>
+    <string name="after_daily_step_completed_dialog_text">The app will send you notifications to practice everyday and keep up your learning streak</string>
 </resources>
