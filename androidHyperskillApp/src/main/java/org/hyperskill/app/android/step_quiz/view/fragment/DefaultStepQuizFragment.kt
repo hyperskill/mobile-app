@@ -109,7 +109,7 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
                 MaterialAlertDialogBuilder(requireContext())
                     .setTitle(R.string.after_daily_step_completed_dialog_title)
                     .setMessage(R.string.after_daily_step_completed_dialog_text)
-                    .setPositiveButton(R.string.yes) { _, _ ->
+                    .setPositiveButton(R.string.ok) { _, _ ->
                         stepQuizViewModel.onNewMessage(StepQuizFeature.Message.UserAgreedToEnableDailyReminders)
                     }
                     .setNegativeButton(R.string.later) { _, _ ->
