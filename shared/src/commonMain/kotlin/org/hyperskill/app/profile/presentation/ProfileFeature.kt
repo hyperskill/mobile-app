@@ -34,7 +34,7 @@ interface ProfileFeature {
          */
         object ProfileViewedEventMessage : Message
         object ProfileClickedSettingsEventMessage : Message
-        object ProfileClickedDailyStudyRemindsEventMessage : Message
+        data class ProfileClickedDailyStudyRemindsEventMessage(val isEnabled: Boolean) : Message
         object ProfileClickedDailyStudyRemindsTimeEventMessage : Message
         object ProfileClickedViewFullProfileEventMessage : Message
     }

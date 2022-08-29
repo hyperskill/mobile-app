@@ -42,7 +42,7 @@ class ProfileReducer : StateReducer<State, Message, Action> {
             is Message.ProfileClickedSettingsEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(ProfileClickedSettingsHyperskillAnalyticEvent()))
             is Message.ProfileClickedDailyStudyRemindsEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(ProfileClickedDailyStudyRemindsHyperskillAnalyticEvent()))
+                state to setOf(Action.LogAnalyticEvent(ProfileClickedDailyStudyRemindsHyperskillAnalyticEvent(message.isEnabled)))
             is Message.ProfileClickedDailyStudyRemindsTimeEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(ProfileClickedDailyStudyRemindsTimeHyperskillAnalyticEvent()))
             is Message.ProfileClickedViewFullProfileEventMessage ->

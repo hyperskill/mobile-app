@@ -166,7 +166,7 @@ class ProfileFragment :
         viewBinding.profileScheduleTextView.isVisible = viewBinding.profileDailyRemindersSwitchCompat.isChecked
 
         viewBinding.profileDailyRemindersSwitchCompat.setOnCheckedChangeListener { _, isChecked ->
-            profileViewModel.onNewMessage(ProfileFeature.Message.ProfileClickedDailyStudyRemindsEventMessage)
+            profileViewModel.onNewMessage(ProfileFeature.Message.ProfileClickedDailyStudyRemindsEventMessage(isChecked))
 
             viewBinding.profileScheduleTextView.isVisible = isChecked
             platformNotificationComponent.notificationInteractor.setDailyStudyRemindersEnabled(isChecked)

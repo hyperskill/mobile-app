@@ -87,12 +87,12 @@ final class ProfileViewModel: FeatureViewModel<
 
     // MARK: Daily study reminders
 
-    func setDailyStudyRemindersActivated(isActivated: Bool) {
-        logClickedDailyStudyRemindsEvent()
+    func setDailyStudyRemindersEnabled(_ isEnabled: Bool) {
+        logClickedDailyStudyRemindsEvent(isEnabled: isEnabled)
 
-        self.notificationInteractor.setDailyStudyRemindersEnabled(enabled: isActivated)
+        notificationInteractor.setDailyStudyRemindersEnabled(enabled: isEnabled)
 
-        if isActivated {
+        if isEnabled {
             notificationService.scheduleDailyStudyReminderLocalNotifications()
         } else {
             notificationService.removeDailyStudyReminderLocalNotifications()
@@ -100,8 +100,7 @@ final class ProfileViewModel: FeatureViewModel<
     }
 
     func setDailyStudyRemindersStartHour(startHour: Int) {
-        self.notificationInteractor.setDailyStudyRemindersIntervalStartHour(hour: Int32(startHour))
-
+        notificationInteractor.setDailyStudyRemindersIntervalStartHour(hour: Int32(startHour))
         notificationService.scheduleDailyStudyReminderLocalNotifications()
     }
 
@@ -115,8 +114,8 @@ final class ProfileViewModel: FeatureViewModel<
         onNewMessage(ProfileFeatureMessageProfileClickedSettingsEventMessage())
     }
 
-    private func logClickedDailyStudyRemindsEvent() {
-        onNewMessage(ProfileFeatureMessageProfileClickedDailyStudyRemindsEventMessage())
+    private func logClickedDailyStudyRemindsEvent(isEnabled: Bool) {
+        onNewMessage(ProfileFeatureMessageProfileClickedDailyStudyRemindsEventMessage(isEnabled: isEnabled))
     }
 
     func logClickedDailyStudyRemindsTimeEvent() {
