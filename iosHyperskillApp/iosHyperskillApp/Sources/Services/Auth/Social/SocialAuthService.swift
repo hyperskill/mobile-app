@@ -2,8 +2,15 @@ import Foundation
 import shared
 
 struct SocialAuthResponse {
-    var authCode: String?
-    var socialToken: String?
+    let authorizationCode: String
+    var identityToken: String?
+}
+
+extension SocialAuthResponse {
+    init(socialAuthSDKResponse: SocialAuthSDKResponse) {
+        self.authorizationCode = socialAuthSDKResponse.authorizationCode
+        self.identityToken = socialAuthSDKResponse.identityToken
+    }
 }
 
 enum SocialAuthError: Error {
@@ -42,7 +49,7 @@ final class SocialAuthService: SocialAuthServiceProtocol {
     private func signIn(sdkProvider: SocialAuthSDKProvider) async throws -> SocialAuthResponse {
         do {
             let response = try await sdkProvider.signIn()
-            return SocialAuthResponse(socialToken: response.token)
+            return SocialAuthResponse(socialAuthSDKResponse: response)
         } catch {
             guard let sdkError = error as? SocialAuthSDKError else {
                 throw SocialAuthError.connectionError
@@ -62,7 +69,7 @@ final class SocialAuthService: SocialAuthServiceProtocol {
     private func signIn(registerURL: URL) async throws -> SocialAuthResponse {
         do {
             let authCode = try await self.webOAuthService.signIn(registerURL: registerURL)
-            return SocialAuthResponse(authCode: authCode)
+            return SocialAuthResponse(authorizationCode: authCode)
         } catch {
             guard let webOAuthError = error as? WebOAuthError else {
                 throw SocialAuthError.connectionError

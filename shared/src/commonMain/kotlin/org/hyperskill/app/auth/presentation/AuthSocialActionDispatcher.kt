@@ -1,7 +1,7 @@
 package org.hyperskill.app.auth.presentation
 
-import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.auth.domain.exception.AuthSocialException
+import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.auth.domain.model.AuthSocialError
 import org.hyperskill.app.auth.presentation.AuthSocialFeature.Action
 import org.hyperskill.app.auth.presentation.AuthSocialFeature.Message
@@ -18,7 +18,7 @@ class AuthSocialActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.AuthWithSocial -> {
-                val result = authInteractor.authWithSocial(action.authCode, action.socialAuthProvider)
+                val result = authInteractor.authWithSocial(action.authCode, action.idToken, action.socialAuthProvider)
 
                 val message =
                     result

@@ -46,26 +46,35 @@ extension AppleIDSocialAuthSDKProvider: ASAuthorizationControllerDelegate {
         }
 
         guard let appleAuthCode = appleIDCredential.authorizationCode else {
+            #if DEBUG
             print("AppleIDSocialAuthSDKProvider :: Unable to fetch authorization code")
+            #endif
             return handleDidCompleteWithError(SocialAuthSDKError.connectionError)
         }
 
         guard let authCodeString = String(data: appleAuthCode, encoding: .utf8) else {
+            #if DEBUG
             print("AppleIDSocialAuthSDKProvider :: Unable to serialize authorization code from data: \(appleAuthCode.debugDescription)")
+            #endif
             return handleDidCompleteWithError(SocialAuthSDKError.connectionError)
         }
 
         guard let appleIDToken = appleIDCredential.identityToken else {
+            #if DEBUG
             print("AppleIDSocialAuthSDKProvider :: Unable to fetch identity token")
+            #endif
             return handleDidCompleteWithError(SocialAuthSDKError.connectionError)
         }
 
         guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
+            #if DEBUG
             print("AppleIDSocialAuthSDKProvider :: Unable to serialize token string from data: \(appleIDToken.debugDescription)")
+            #endif
             return handleDidCompleteWithError(SocialAuthSDKError.connectionError)
         }
 
-        completionHandler?(.success(SocialAuthSDKResponse(token: idTokenString)))
+        let response = SocialAuthSDKResponse(authorizationCode: authCodeString, identityToken: idTokenString)
+        completionHandler?(.success(response))
     }
 
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
@@ -79,7 +88,7 @@ extension AppleIDSocialAuthSDKProvider: ASAuthorizationControllerDelegate {
             } else if let authorizationError = error as? ASAuthorizationError {
                 switch authorizationError.code {
                 case .canceled:
-                    return .accessDenied
+                    return .canceled
                 case .unknown, .invalidResponse, .notHandled, .failed, .notInteractive:
                     return .connectionError
                 @unknown default:
