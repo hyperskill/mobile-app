@@ -50,6 +50,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/placeholderInstructionTextView" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/placeholderSignInButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/common_signin_button_text"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/placeholderContinueToHyperskillButton" />
+
     <TextView
         android:id="@+id/placeholderFirstDescriptionTextView"
         android:layout_width="match_parent"
@@ -58,16 +69,6 @@
         android:text="@string/placeholder_first_description_text"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/placeholderContinueToHyperskillButton" />
-
-    <TextView
-        android:id="@+id/placeholderSecondDescriptionTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/placeholder_second_description_text"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/placeholderFirstDescriptionTextView" />
+        app:layout_constraintTop_toBottomOf="@id/placeholderSignInButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
