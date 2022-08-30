@@ -64,12 +64,16 @@
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 
-            <include layout="@layout/view_divider_vertical" />
+            <include
+                layout="@layout/view_divider_vertical"
+                android:visibility="gone"
+                />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/stepQuizDiscussionButton"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="@dimen/step_quiz_discussion_button_height"
                 android:layout_margin="20dp"
                 android:insetTop="0dp"

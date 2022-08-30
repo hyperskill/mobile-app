@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- App name -->
+    <string name="app_name">My Hyperskill</string>
+
     <string name="loading">Loading</string>
     <string name="loading_message">Please wait…</string>
     <string name="internet_problem">Oops! It seems like the network error.</string>

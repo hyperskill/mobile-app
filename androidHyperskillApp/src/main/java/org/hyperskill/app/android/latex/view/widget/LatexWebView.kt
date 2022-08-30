@@ -2,7 +2,6 @@ package org.hyperskill.app.android.latex.view.widget
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -61,7 +60,7 @@ constructor(
     private var startY = 0f
 
     init {
-        setBackgroundColor(Color.argb(1, 0, 0, 0))
+        setBackgroundColor(context.getColor(android.R.color.transparent))
         setOnLongClickListener(this.takeIf { !attributes.textIsSelectable })
 
         setOnTouchListener(this)

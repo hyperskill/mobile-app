@@ -1,5 +1,7 @@
 package org.hyperskill.app.android.auth.view.ui.fragment
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
@@ -21,6 +23,7 @@ import org.hyperskill.app.android.databinding.FragmentAuthEmailBinding
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature
 import org.hyperskill.app.auth.presentation.AuthCredentialsViewModel
 import org.hyperskill.app.auth.view.mapper.AuthCredentialsErrorMapper
+import org.hyperskill.app.config.BuildKonfig
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.addKeyboardVisibilityListener
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
@@ -90,6 +93,12 @@ class AuthCredentialsFragment :
         viewBinding.signInWithSocialMaterialButton.setOnClickListener {
             authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.AuthClickedContinueWithSocialEventMessage)
             requireRouter().backTo(AuthSocialScreen)
+        }
+
+        viewBinding.signInWithEmailResetPasswordTextButton.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(BuildKonfig.BASE_URL + "accounts/password/reset/")
+            startActivity(intent)
         }
 
         viewBinding.root.addKeyboardVisibilityListener { isVisible ->

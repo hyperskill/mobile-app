@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
@@ -39,9 +41,18 @@ class HomeFragment :
     private lateinit var problemOfDayCardFormDelegate: ProblemOfDayCardFormDelegate
     private lateinit var streakCardFormDelegate: StreakCardFormDelegate
 
+    private val onForegroundObserver =
+        object : DefaultLifecycleObserver {
+            override fun onResume(owner: LifecycleOwner) {
+                super.onResume(owner)
+                homeViewModel.onNewMessage(HomeFeature.Message.Init(forceUpdate = true))
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponents()
+        requireActivity().lifecycle.addObserver(onForegroundObserver)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,6 +71,11 @@ class HomeFragment :
 
         homeViewModel.onNewMessage(HomeFeature.Message.Init(forceUpdate = false))
         homeViewModel.onNewMessage(HomeFeature.Message.HomeViewedEventMessage)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        requireActivity().lifecycle.removeObserver(onForegroundObserver)
     }
 
     private fun injectComponents() {
