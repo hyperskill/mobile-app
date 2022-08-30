@@ -25,7 +25,7 @@ class PlaceholderNewUserFragment : Fragment(R.layout.fragment_placeholder_new_us
     }
 
     private lateinit var profileInteractor: ProfileInteractor
-    private lateinit var authorizationFlow: MutableSharedFlow<UserDeauthorized>
+    private lateinit var authSharedFlow: MutableSharedFlow<UserDeauthorized>
 
     private val viewBinding: FragmentPlaceholderNewUserScreenBinding by viewBinding(
         FragmentPlaceholderNewUserScreenBinding::bind
@@ -37,8 +37,8 @@ class PlaceholderNewUserFragment : Fragment(R.layout.fragment_placeholder_new_us
     }
 
     private fun injectComponents() {
-        profileInteractor = HyperskillApp.graph().buildProfileDataComponent().profileInteractor
-        authorizationFlow = HyperskillApp.graph().networkComponent.authorizationFlow
+        profileInteractor = HyperskillApp.graph().authComponent.profileInteractor
+        authSharedFlow = HyperskillApp.graph().networkComponent.authorizationFlow
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,6 +53,7 @@ class PlaceholderNewUserFragment : Fragment(R.layout.fragment_placeholder_new_us
         viewBinding.placeholderSignInButton.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
                 profileInteractor.clearCache()
+                authSharedFlow.emit(UserDeauthorized)
                 requireRouter().newRootScreen(AuthScreen)
             }
         }
