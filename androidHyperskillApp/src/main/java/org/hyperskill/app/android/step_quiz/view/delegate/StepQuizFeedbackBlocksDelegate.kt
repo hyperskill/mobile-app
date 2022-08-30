@@ -2,8 +2,10 @@ package org.hyperskill.app.android.step_quiz.view.delegate
 
 import android.content.Context
 import android.graphics.drawable.AnimationDrawable
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.view.ui.widget.ProgressableWebViewClient
 import org.hyperskill.app.android.databinding.LayoutStepQuizFeedbackBlockBinding
 import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
@@ -64,6 +66,10 @@ class StepQuizFeedbackBlocksDelegate(
         hint: String?
     ) {
         layoutStepQuizFeedbackBlockBinding.stepQuizFeedback.isVisible = hint != null
-        layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackBody.text = hint
+        with(layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackBody) {
+            webViewClient = ProgressableWebViewClient(layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackProgress, webView)
+            textView.typeface = ResourcesCompat.getFont(context, R.font.pt_mono)
+            setText(hint)
+        }
     }
 }
