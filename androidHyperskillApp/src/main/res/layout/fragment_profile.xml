@@ -4,92 +4,91 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/profileContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/profileSettingsAvatarNameLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="20dp"
-            android:paddingTop="16dp"
-            android:paddingBottom="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageButton
-                android:id="@+id/profileEditButton"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/profileSettingsAvatarNameLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:background="@android:color/transparent"
-                android:foreground="?attr/selectableItemBackgroundRounded"
-                android:src="@drawable/ic_edit"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toStartOf="@+id/profileSettingsButton"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageButton
-                android:id="@+id/profileSettingsButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:foreground="?attr/selectableItemBackgroundRounded"
-                android:src="@drawable/ic_settings"
+                android:paddingHorizontal="20dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/profileAvatarImageView"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_marginTop="44dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profileEditButton" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
-                app:layout_constraintStart_toEndOf="@+id/profileAvatarImageView"
-                app:layout_constraintTop_toTopOf="@+id/profileAvatarImageView"
-                app:layout_constraintBottom_toBottomOf="@+id/profileAvatarImageView"
-                android:layout_width="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginStart="20dp"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/profileNameTextView"
+                <ImageButton
+                    android:id="@+id/profileEditButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Konstantin\nKonstantinopolsky"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                    android:textSize="18sp" />
+                    android:layout_marginEnd="16dp"
+                    android:background="@android:color/transparent"
+                    android:foreground="?attr/selectableItemBackgroundRounded"
+                    android:src="@drawable/ic_edit"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toStartOf="@+id/profileSettingsButton"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/profileRoleTextView"
+                <ImageButton
+                    android:id="@+id/profileSettingsButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Learner"
-                    android:textColor="@color/color_on_surface_alpha_60"
-                    android:textSize="14sp"/>
-            </LinearLayout>
+                    android:background="@android:color/transparent"
+                    android:foreground="?attr/selectableItemBackgroundRounded"
+                    android:src="@drawable/ic_settings"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/profileAvatarImageView"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginTop="44dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profileEditButton" />
 
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:fillViewport="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profileSettingsAvatarNameLayout">
+                <LinearLayout
+                    app:layout_constraintStart_toEndOf="@+id/profileAvatarImageView"
+                    app:layout_constraintTop_toTopOf="@+id/profileAvatarImageView"
+                    app:layout_constraintBottom_toBottomOf="@+id/profileAvatarImageView"
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="20dp"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/profileNameTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Konstantin\nKonstantinopolsky"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/profileRoleTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Learner"
+                        android:textColor="@color/color_on_surface_alpha_60"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/profileSettingsAvatarNameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -293,12 +292,11 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
             </LinearLayout>
 
-        </androidx.core.widget.NestedScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <me.zhanghai.android.materialprogressbar.MaterialProgressBar
         android:id="@+id/profileProgress"
