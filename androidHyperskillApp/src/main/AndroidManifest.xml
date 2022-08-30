@@ -10,6 +10,8 @@
         android:name=".HyperskillApp"
         android:allowBackup="false"
         android:supportsRtl="true"
+        android:icon="@mipmap/ic_app_icon"
+        android:roundIcon="@mipmap/ic_app_icon_round"
         android:theme="@style/Theme.App.Starting">
 
         <meta-data android:name="io.sentry.auto-init" android:value="false" />

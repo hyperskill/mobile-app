@@ -4,4 +4,7 @@
     <color name="color_divider">@color/color_elevation_overlay_2dp</color>
     <color name="default_code_error_highlight_color">@color/color_error</color>
     <color name="default_code_brackets_highlight_color">#AAFFD77A</color>
+
+    <!-- Splash screen -->
+    <color name="splash_screen_color">#4D9FFF</color>
 </resources>

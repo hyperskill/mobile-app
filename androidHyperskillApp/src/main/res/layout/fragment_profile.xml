@@ -28,6 +28,7 @@
                 android:background="@android:color/transparent"
                 android:foreground="?attr/selectableItemBackgroundRounded"
                 android:src="@drawable/ic_edit"
+                android:visibility="invisible"
                 app:layout_constraintEnd_toStartOf="@+id/profileSettingsButton"
                 app:layout_constraintTop_toTopOf="parent" />
 

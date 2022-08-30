@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
+    android:foreground="?attr/selectableItemBackgroundRounded"
     app:cardCornerRadius="@dimen/corner_radius">
 
     <ImageView
@@ -43,11 +44,11 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_alignParentEnd="true"
-                app:icon="@drawable/ic_right_arrow_problem_day"
                 android:background="@drawable/bg_gradient_blue"
-                android:foreground="?attr/selectableItemBackgroundRounded"
                 app:backgroundTint="@null"
+                app:icon="@drawable/ic_right_arrow_problem_day"
                 app:iconGravity="textStart"
+                android:clickable="false"
                 app:iconPadding="0dp" />
         </RelativeLayout>
 
