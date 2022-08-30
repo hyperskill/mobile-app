@@ -6,6 +6,13 @@ final class AuthNewUserPlaceholderViewModel: FeatureViewModel<
   PlaceholderNewUserFeatureMessage,
   PlaceholderNewUserFeatureActionViewAction
 > {
+    weak var moduleOutput: AuthNewUserPlaceholderOutputProtocol?
+
+    func doSignIn() {
+        onNewMessage(PlaceholderNewUserFeatureMessagePlaceholderSignInTappedMessage())
+        moduleOutput?.handleAuthNewUserPlaceholderSignInRequested()
+    }
+
     // MARK: Analytic
 
     func logViewedEvent() {

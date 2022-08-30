@@ -70,3 +70,11 @@ extension AppViewModel: OnboardingOutputProtocol {
         onNewMessage(AppFeatureMessageOpenNewUserScreen())
     }
 }
+
+// MARK: - AppViewModel: AuthNewUserPlaceholderOutputProtocol -
+
+extension AppViewModel: AuthNewUserPlaceholderOutputProtocol {
+    func handleAuthNewUserPlaceholderSignInRequested() {
+        onNewMessage(AppFeatureMessageOpenAuthScreen())
+    }
+}

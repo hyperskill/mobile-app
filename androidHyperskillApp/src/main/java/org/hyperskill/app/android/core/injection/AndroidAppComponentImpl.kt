@@ -220,7 +220,7 @@ class AndroidAppComponentImpl(
      * Placeholder new user component
      */
     override fun buildPlaceholderNewUserComponent(): PlaceholderNewUserComponent =
-        PlaceholderNewUserComponentImpl(analyticComponent.analyticInteractor)
+        PlaceholderNewUserComponentImpl(analyticComponent.analyticInteractor, networkComponent.authorizationFlow)
 
     override fun buildPlatformPlaceholderNewUserComponent(placeholderNewUserComponent: PlaceholderNewUserComponent): PlatformPlaceholderNewUserComponent =
         PlatformPlaceholderNewUserComponentImpl(placeholderNewUserComponent)

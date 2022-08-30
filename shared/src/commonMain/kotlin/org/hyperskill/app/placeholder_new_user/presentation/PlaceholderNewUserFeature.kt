@@ -8,6 +8,8 @@ interface PlaceholderNewUserFeature {
     }
 
     sealed interface Message {
+        object PlaceholderSignInTappedMessage : Message
+
         /**
          * Analytic
          */
@@ -16,7 +18,12 @@ interface PlaceholderNewUserFeature {
     }
 
     sealed interface Action {
-        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
+        object Logout : Action
         sealed class ViewAction : Action
+
+        /**
+         * Analytic
+         */
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
     }
 }

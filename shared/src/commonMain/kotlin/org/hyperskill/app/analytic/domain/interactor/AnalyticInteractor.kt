@@ -6,6 +6,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import org.hyperskill.app.analytic.domain.model.Analytic
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.analytic.domain.model.AnalyticSource
@@ -27,6 +29,8 @@ class AnalyticInteractor(
         private val FLUSH_EVENTS_DELAY_DURATION: Duration = 5.seconds
     }
 
+    private val profileMutex = Mutex()
+
     private var flushEventsJob: Job? = null
 
     override fun reportEvent(event: AnalyticEvent) {
@@ -47,8 +51,12 @@ class AnalyticInteractor(
                 return
             }
 
-            val currentProfile = getCurrentProfile()
-                .getOrElse { return }
+            val currentProfile: Profile
+            // Prevent multiple network calls when no cached profile
+            profileMutex.withLock {
+                currentProfile = getCurrentProfile()
+                    .getOrElse { return }
+            }
 
             val processedEvent = hyperskillEventProcessor.processEvent(event, currentProfile.id)
             hyperskillRepository.logEvent(processedEvent)

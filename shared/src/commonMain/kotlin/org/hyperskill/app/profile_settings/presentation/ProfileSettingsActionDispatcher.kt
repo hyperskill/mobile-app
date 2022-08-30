@@ -4,7 +4,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.profile_settings.domain.interactor.ProfileSettingsInteractor
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Action
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Message
@@ -13,7 +12,6 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 class ProfileSettingsActionDispatcher(
     config: ActionDispatcherOptions,
     private val profileSettingsInteractor: ProfileSettingsInteractor,
-    private val profileInteractor: ProfileInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val authorizationFlow: MutableSharedFlow<UserDeauthorized>
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
@@ -23,13 +21,10 @@ class ProfileSettingsActionDispatcher(
                 val profileSettings = profileSettingsInteractor.getProfileSettings()
                 onNewMessage(Message.ProfileSettingsSuccess(profileSettings))
             }
-            is Action.ChangeTheme -> {
+            is Action.ChangeTheme ->
                 profileSettingsInteractor.changeTheme(action.theme)
-            }
-            is Action.Logout -> {
-                profileInteractor.clearCache()
+            is Action.Logout ->
                 authorizationFlow.tryEmit(UserDeauthorized)
-            }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
         }

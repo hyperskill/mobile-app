@@ -62,13 +62,18 @@ struct AuthNewUserPlaceholderView: View {
                 .font(.body)
                 .foregroundColor(.primaryText)
 
-            if let registerURL = Self.registerURL {
-                OpenURLInsideAppButton(
-                    text: Strings.Auth.NewUserPlaceholder.buttonText,
-                    url: registerURL,
-                    onTap: viewModel.logClickedContinueEvent
-                )
-                .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
+            VStack(spacing: appearance.spacingSmall) {
+                if let registerURL = Self.registerURL {
+                    OpenURLInsideAppButton(
+                        text: Strings.Auth.NewUserPlaceholder.continueButton,
+                        url: registerURL,
+                        onTap: viewModel.logClickedContinueEvent
+                    )
+                    .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
+                }
+
+                Button(Strings.Auth.NewUserPlaceholder.signInButton, action: viewModel.doSignIn)
+                    .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
             }
 
             VStack(alignment: .leading, spacing: appearance.spacingSmall) {

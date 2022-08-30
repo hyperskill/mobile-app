@@ -51,7 +51,8 @@ enum Strings {
         enum NewUserPlaceholder {
             static let title = sharedStrings.placeholder_register_text.localized()
             static let introText = sharedStrings.placeholder_instruction_text.localized()
-            static let buttonText = sharedStrings.placeholder_continue_button_text_ios.localized()
+            static let continueButton = sharedStrings.placeholder_continue_button_text_ios.localized()
+            static let signInButton = Onboarding.signIn
             static let possibilityText = sharedStrings.placeholder_first_description_text.localized()
             static let callText = sharedStrings.placeholder_second_description_text.localized()
         }

@@ -101,5 +101,5 @@ class AppGraphImpl(
         OnboardingComponentImpl(this)
 
     override fun buildPlaceholderNewUserComponent(): PlaceholderNewUserComponent =
-        PlaceholderNewUserComponentImpl(analyticComponent.analyticInteractor)
+        PlaceholderNewUserComponentImpl(analyticComponent.analyticInteractor, networkComponent.authorizationFlow)
 }
