@@ -31,7 +31,10 @@ class AppReducer : StateReducer<State, Message, Action> {
                 }
             is Message.UserDeauthorized ->
                 if (state is State.Ready && state.isAuthorized) {
-                    State.Ready(isAuthorized = false) to setOf(Action.ViewAction.NavigateTo.AuthScreen)
+                    State.Ready(isAuthorized = false) to setOf(
+                        Action.DetermineUserAccountStatus,
+                        Action.ViewAction.NavigateTo.AuthScreen
+                    )
                 } else {
                     null
                 }
