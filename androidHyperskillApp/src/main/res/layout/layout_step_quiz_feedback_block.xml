@@ -57,17 +57,26 @@
                 android:layout_height="wrap_content"
                 android:text="@string/step_quiz_feedback_title" />
 
-            <TextView
+            <org.hyperskill.app.android.latex.view.widget.LatexView
                 android:id="@+id/stepQuizFeedbackBody"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
                 android:layout_marginTop="8dp"
-                android:fontFamily="@font/pt_mono"
-                android:text="That's right!"
                 android:textColor="@color/color_on_surface_alpha_87"
-                android:textSize="14sp"
+                android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/stepQuizTitleTextView" />
+                app:layout_constraintTop_toBottomOf="@+id/stepQuizTitleTextView">
+
+                <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+                    android:id="@+id/stepQuizFeedbackProgress"
+                    style="@style/Widget.MaterialProgressBar.ProgressBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:indeterminate="true"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+            </org.hyperskill.app.android.latex.view.widget.LatexView>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
