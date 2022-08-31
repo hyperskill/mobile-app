@@ -76,7 +76,7 @@ struct StepQuizView: View {
                             title: Text(Strings.StepQuiz.afterDailyStepCompletedDialogTitle),
                             message: Text(Strings.StepQuiz.afterDailyStepCompletedDialogText),
                             primaryButton: .default(
-                                Text(Strings.General.okay),
+                                Text(Strings.General.ok),
                                 action: {
                                     NotificationsRegistrationService.requestAuthorization(
                                         grantedHandler: viewModel.onNotificationsGranted

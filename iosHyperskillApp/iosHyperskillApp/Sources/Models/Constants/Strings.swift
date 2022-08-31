@@ -13,7 +13,7 @@ enum Strings {
         static let yes = sharedStrings.yes.localized()
         static let no = sharedStrings.no.localized()
         static let cancel = sharedStrings.cancel.localized()
-        static let okay = sharedStrings.ok.localized()
+        static let ok = sharedStrings.ok.localized()
         static let later = sharedStrings.later.localized()
     }
 
