@@ -40,6 +40,10 @@ final class StepQuizViewModel: FeatureViewModel<
         logClickedRetryEvent()
     }
 
+    func doQuizContinueAction() {
+        onNewMessage(StepQuizFeatureMessageContinueClicked())
+    }
+
     func makeViewData() -> StepQuizViewData {
         let attemptOrNil: Attempt? = {
             if let attemptLoadedState = state as? StepQuizFeatureStateAttemptLoaded {
@@ -48,6 +52,14 @@ final class StepQuizViewModel: FeatureViewModel<
             return nil
         }()
         return viewDataMapper.mapStepToViewData(step, attempt: attemptOrNil)
+    }
+
+    func onNotificationsGranted(_ granted: Bool) {
+        if granted {
+            onNewMessage(StepQuizFeatureMessageUserAgreedToEnableDailyReminders())
+        } else {
+            onNewMessage(StepQuizFeatureMessageUserDeclinedToEnableDailyReminders())
+        }
     }
 
     // MARK: Analytic

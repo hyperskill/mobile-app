@@ -15,6 +15,10 @@ struct StepQuizView: View {
 
     @StateObject var viewModel: StepQuizViewModel
 
+    @State private var isPresentingNotificationsPermissionAlert = false
+
+    @Environment(\.presentationMode) private var presentationMode
+
     var body: some View {
         buildBody()
             .navigationBarTitleDisplayMode(.inline)
@@ -68,6 +72,24 @@ struct StepQuizView: View {
                         stepQuizName: viewData.quizName,
                         stepBlockName: viewData.stepBlockName
                     )
+                    .alert(isPresented: $isPresentingNotificationsPermissionAlert) {
+                        Alert(
+                            title: Text(Strings.StepQuiz.afterDailyStepCompletedDialogTitle),
+                            message: Text(Strings.StepQuiz.afterDailyStepCompletedDialogText),
+                            primaryButton: .default(
+                                Text(Strings.General.ok),
+                                action: {
+                                    NotificationsRegistrationService.requestAuthorization(
+                                        grantedHandler: viewModel.onNotificationsGranted
+                                    )
+                                }
+                            ),
+                            secondaryButton: .default(
+                                Text(Strings.General.later),
+                                action: { viewModel.onNotificationsGranted(false) }
+                            )
+                        )
+                    }
                 }
                 .padding()
             }
@@ -222,6 +244,13 @@ struct StepQuizView: View {
             return .init(appearance: .init(backgroundColor: .clear), action: viewModel.doQuizRetryAction)
         }()
 
+        let continueButtonDescription: StepQuizActionButtons.ContinueButton? = {
+            if submissionStatus == SubmissionStatus.correct {
+                return .init(action: viewModel.doQuizContinueAction)
+            }
+            return nil
+        }()
+
         let primaryButtonDescription: StepQuizActionButtons.PrimaryButton = {
             let codeQuizCustomParamsForState = { (state: StepQuizActionButton.State) -> (String, String)? in
                 guard isCodeQuiz else {
@@ -239,17 +268,29 @@ struct StepQuizView: View {
             )
         }()
 
+        let isDisabled: Bool = {
+            if submissionStatus == SubmissionStatus.correct {
+                return false
+            }
+            return !StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState)
+        }()
+
         StepQuizActionButtons(
             retryButton: retryButtonDescription,
+            continueButton: continueButtonDescription,
             primaryButton: primaryButtonDescription
         )
-        .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
+        .disabled(isDisabled)
     }
 
     private func handleViewAction(_ viewAction: StepQuizFeatureActionViewAction) {
         switch viewAction {
         case is StepQuizFeatureActionViewActionShowNetworkError:
             ProgressHUD.showError(status: Strings.General.connectionError)
+        case is StepQuizFeatureActionViewActionAskUserToEnableDailyReminders:
+            isPresentingNotificationsPermissionAlert = true
+        case is StepQuizFeatureActionViewActionNavigateToHomeScreen:
+            presentationMode.wrappedValue.dismiss()
         default:
             print("StepQuizView :: unhandled viewAction = \(viewAction)")
         }

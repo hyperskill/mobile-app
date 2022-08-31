@@ -20,7 +20,7 @@ class AuthSocialActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.AuthWithSocial -> {
-                val result = authInteractor.authWithSocial(action.authCode, action.socialAuthProvider)
+                val result = authInteractor.authWithSocial(action.authCode, action.idToken, action.socialAuthProvider)
 
                 val message =
                     result

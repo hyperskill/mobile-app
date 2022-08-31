@@ -6,12 +6,15 @@ enum Strings {
 
     // MARK: - General -
 
+
     enum General {
         static let connectionError = sharedStrings.connection_error.localized()
         static let done = sharedStrings.done.localized()
         static let yes = sharedStrings.yes.localized()
         static let no = sharedStrings.no.localized()
         static let cancel = sharedStrings.cancel.localized()
+        static let ok = sharedStrings.ok.localized()
+        static let later = sharedStrings.later.localized()
     }
 
     // MARK: - TabBar -
@@ -78,6 +81,9 @@ enum Strings {
         static let checkingButton = sharedStrings.step_quiz_checking_button_text.localized()
         static let discussionsButton = sharedStrings.step_quiz_discussions_button_text.localized()
         static let unsupportedText = sharedStrings.step_quiz_unsupported_quiz_text.localized()
+        static let afterDailyStepCompletedDialogTitle =
+            sharedStrings.after_daily_step_completed_dialog_title.localized()
+        static let afterDailyStepCompletedDialogText = sharedStrings.after_daily_step_completed_dialog_text.localized()
     }
 
     // MARK: - StepQuizChoice -

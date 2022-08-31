@@ -2,23 +2,47 @@ import Foundation
 import shared
 
 enum NotificationsRegistrationService {
-    static func requestAuthorization() {
+    static func requestAuthorization(grantedHandler: @escaping (Bool) -> Void) {
         if !didShowDefaultPermissionAlert {
             logSystemNoticeShownEvent()
         }
 
         didShowDefaultPermissionAlert = true
 
-        UNUserNotificationCenter.current().requestAuthorization(
-            options: [.alert, .badge, .sound],
-            completionHandler: { granted, error in
-                print("NotificationsRegistrationService :: did complete request authorization granted = \(granted)")
-                if let error = error {
+        Task {
+            let notificationPermissionStatus = await NotificationPermissionStatus.current
+
+            switch notificationPermissionStatus {
+            case .notDetermined:
+                do {
+                    let isGranted = try await UNUserNotificationCenter.current().requestAuthorization(
+                        options: [.alert, .badge, .sound]
+                    )
+
+                    logSystemNoticeHiddenEvent(isAllowed: isGranted)
+
+                    await MainActor.run {
+                        grantedHandler(isGranted)
+                    }
+                } catch {
                     print("NotificationsRegistrationService: did fail request authorization with error: \(error)")
+                    await MainActor.run {
+                        grantedHandler(false)
+                    }
                 }
-                logSystemNoticeHiddenEvent(isAllowed: granted)
+            case .denied:
+                await MainActor.run {
+                    grantedHandler(false)
+                    if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+                        UIApplication.shared.open(settingsURL)
+                    }
+                }
+            case .authorized:
+                await MainActor.run {
+                    grantedHandler(true)
+                }
             }
-        )
+        }
     }
 
     // MARK: Analytic

@@ -160,6 +160,6 @@ class AuthSocialFragment :
     }
 
     override fun onSuccess(authCode: String, provider: SocialAuthProvider) {
-        authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthWithSocial(authCode, provider))
+        authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthWithSocial(authCode = authCode, socialAuthProvider = provider))
     }
 }

@@ -2,6 +2,8 @@ import SwiftUI
 
 extension AuthSocialControlsView {
     struct Appearance {
+        let continueWithEmailButtonFont = Font.body
+        let continueWithEmailButtonTextColor = ColorPalette.primary
         let continueWithEmailButtonLayoutInsets = LayoutInsets(top: 24)
     }
 }
@@ -38,8 +40,9 @@ struct AuthSocialControlsView: View {
             }
 
             Button(Strings.Auth.Social.emailText, action: self.onContinueWithEmailClick)
+                .font(.body)
+                .foregroundColor(Color(appearance.continueWithEmailButtonTextColor))
                 .padding(appearance.continueWithEmailButtonLayoutInsets.edgeInsets)
-                .buttonStyle(OutlineButtonStyle(style: .violet))
         }
     }
 }
@@ -81,5 +84,7 @@ struct AuthSocialControlsView_Previews: PreviewProvider {
             AuthSocialControlsView(socialAuthProviders: SocialAuthProvider.allCases)
                 .preferredColorScheme(.dark)
         }
+        .previewLayout(.sizeThatFits)
+        .padding()
     }
 }

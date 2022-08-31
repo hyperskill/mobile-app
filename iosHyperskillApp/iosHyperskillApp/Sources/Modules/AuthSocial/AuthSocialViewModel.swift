@@ -30,18 +30,17 @@ final class AuthSocialViewModel: FeatureViewModel<
             do {
                 let response = try await self.socialAuthService.signIn(with: provider)
 
-                guard let authCode = response.authCode ?? response.socialToken else {
-                    throw SocialAuthError.accessDenied
-                }
-
                 let message = AuthSocialFeatureMessageAuthWithSocial(
-                    authCode: authCode,
+                    authCode: response.authorizationCode,
+                    idToken: response.identityToken,
                     socialAuthProvider: provider.sharedType
                 )
 
                 self.onNewMessage(message)
             } catch {
+                #if DEBUG
                 print("AuthSocialViewModel :: signIn error = \(error)")
+                #endif
 
                 if case SocialAuthError.canceled = error {
                     return

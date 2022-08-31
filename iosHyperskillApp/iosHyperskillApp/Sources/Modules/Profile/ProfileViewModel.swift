@@ -94,6 +94,7 @@ final class ProfileViewModel: FeatureViewModel<
 
         if isEnabled {
             notificationService.scheduleDailyStudyReminderLocalNotifications()
+            NotificationsRegistrationService.requestAuthorization(grantedHandler: { _ in })
         } else {
             notificationService.removeDailyStudyReminderLocalNotifications()
         }

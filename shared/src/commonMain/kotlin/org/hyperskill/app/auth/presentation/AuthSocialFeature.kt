@@ -13,7 +13,12 @@ interface AuthSocialFeature {
     }
 
     sealed interface Message {
-        data class AuthWithSocial(val authCode: String, val socialAuthProvider: SocialAuthProvider) : Message
+        data class AuthWithSocial(
+            val authCode: String,
+            val idToken: String? = null,
+            val socialAuthProvider: SocialAuthProvider
+        ) : Message
+
         data class AuthSuccess(val isNewUser: Boolean) : Message
         data class AuthFailure(val socialError: AuthSocialError) : Message
 
@@ -26,7 +31,11 @@ interface AuthSocialFeature {
     }
 
     sealed interface Action {
-        data class AuthWithSocial(val authCode: String, val socialAuthProvider: SocialAuthProvider) : Action
+        data class AuthWithSocial(
+            val authCode: String,
+            val idToken: String?,
+            val socialAuthProvider: SocialAuthProvider
+        ) : Action
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 

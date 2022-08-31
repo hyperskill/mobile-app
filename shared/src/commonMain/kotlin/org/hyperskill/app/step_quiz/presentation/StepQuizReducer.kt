@@ -94,6 +94,12 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
+            is Message.ContinueClicked ->
+                if (state is State.AttemptLoaded) {
+                    state to setOf(Action.ViewAction.NavigateTo.HomeScreen)
+                } else {
+                    null
+                }
             is Message.SyncReply ->
                 if (state is State.AttemptLoaded && StepQuizResolver.isQuizEnabled(state)) {
                     val submission = createLocalSubmission(state, message.reply)

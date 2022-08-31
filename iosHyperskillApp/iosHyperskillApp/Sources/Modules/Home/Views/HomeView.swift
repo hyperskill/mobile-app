@@ -71,6 +71,17 @@ struct HomeView: View {
                     )
                     .makeModule()
 
+                    let shouldShowContinueInWebButton = data.problemOfDayState is HomeFeatureProblemOfDayStateEmpty ||
+                      data.problemOfDayState is HomeFeatureProblemOfDayStateSolved
+
+                    if shouldShowContinueInWebButton {
+                        OpenURLInsideAppButton(
+                            text: Strings.Track.continueInWebButton,
+                            url: HyperskillURLFactory.makeIndex().require()
+                        )
+                        .buttonStyle(OutlineButtonStyle())
+                    }
+
                     HomeDebugStepNavigationView()
                 }
                 .padding()

@@ -55,7 +55,9 @@ final class WebOAuthService: WebOAuthServiceProtocol {
 
     @objc
     private func didReceiveAuthCode(_ notification: NSNotification) {
+        #if DEBUG
         print("WebOAuthService :: didReceiveAuthCode, notification = \(notification)")
+        #endif
 
         WebControllerManager.shared.dismissWebControllerWithKey(.socialAuth)
         WebControllerManager.shared.onDismissCustomWebController = nil

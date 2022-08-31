@@ -55,7 +55,6 @@ extension AppViewModel: AuthOutputProtocol {
     func handleUserAuthorized(isNewUser: Bool) {
         navigationState.activeFullScreenModal = nil
         onNewMessage(AppFeatureMessageUserAuthorized(isNewUser: isNewUser))
-        NotificationsRegistrationService.requestAuthorization()
     }
 }
 

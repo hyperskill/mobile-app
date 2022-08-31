@@ -13,7 +13,13 @@ class AuthSocialReducer : StateReducer<State, Message, Action> {
         when (message) {
             is Message.AuthWithSocial -> {
                 if (state is State.Idle || state is State.Error) {
-                    State.Loading to setOf(Action.AuthWithSocial(message.authCode, message.socialAuthProvider))
+                    State.Loading to setOf(
+                        Action.AuthWithSocial(
+                            message.authCode,
+                            message.idToken,
+                            message.socialAuthProvider
+                        )
+                    )
                 } else {
                     null
                 }
