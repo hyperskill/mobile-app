@@ -4,8 +4,8 @@ import com.russhwolf.settings.Settings
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.forms.submitForm
-import io.ktor.http.HttpStatusCode
 import io.ktor.client.statement.HttpResponse
+import io.ktor.http.HttpStatusCode
 import io.ktor.http.Parameters
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.sync.Mutex
@@ -15,9 +15,9 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.hyperskill.app.auth.cache.AuthCacheKeyValues
 import org.hyperskill.app.auth.data.source.AuthRemoteDataSource
-import org.hyperskill.app.auth.domain.model.AuthCredentialsError
 import org.hyperskill.app.auth.domain.exception.AuthCredentialsException
 import org.hyperskill.app.auth.domain.exception.AuthSocialException
+import org.hyperskill.app.auth.domain.model.AuthCredentialsError
 import org.hyperskill.app.auth.domain.model.AuthSocialError
 import org.hyperskill.app.auth.domain.model.SocialAuthProvider
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
@@ -37,14 +37,18 @@ class AuthRemoteDataSourceImpl(
     override fun observeUserDeauthorization(): Flow<UserDeauthorized> =
         deauthorizationFlow
 
-    override suspend fun authWithSocial(authCode: String, socialProvider: SocialAuthProvider): Result<Unit> =
+    override suspend fun authWithSocial(
+        authCode: String,
+        idToken: String?,
+        socialProvider: SocialAuthProvider
+    ): Result<Unit> =
         if (socialProvider.isSdk) {
-            authWithSocialToken(authCode, socialProvider.title)
+            authWithSocialToken(authCode, idToken, socialProvider.title)
         } else {
             authWithCode(authCode)
         }
 
-    private suspend fun authWithSocialToken(authCode: String, providerName: String): Result<Unit> =
+    private suspend fun authWithSocialToken(authCode: String, idToken: String?, providerName: String): Result<Unit> =
         kotlin.runCatching {
             val httpResponse =
                 authSocialHttpClient
@@ -55,6 +59,9 @@ class AuthRemoteDataSourceImpl(
                             append("code", authCode)
                             append("grant_type", "authorization_code")
                             append("redirect_uri", BuildKonfig.REDIRECT_URI)
+                            if (idToken != null) {
+                                append("id_token", idToken)
+                            }
                         }
                     )
             resolveSocialAuthHttpResponse(httpResponse)

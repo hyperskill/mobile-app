@@ -25,6 +25,12 @@ enum HyperskillURLFactory {
         makeURL(path: .studyPlan)
     }
 
+    // MARK: Accounts
+
+    static func makeResetPassword() -> URL? {
+        makeURL(path: .resetPassword)
+    }
+
     // MARK: - Private API -
 
     private static func makeURL(
@@ -60,6 +66,7 @@ enum HyperskillURLFactory {
         case profile(Int)
         case track(Int)
         case studyPlan
+        case resetPassword
 
         var formattedPath: String {
             switch self {
@@ -71,6 +78,8 @@ enum HyperskillURLFactory {
                 return "/tracks/\(id)"
             case .studyPlan:
                 return "/study-plan"
+            case .resetPassword:
+                return "/accounts/password/reset"
             }
         }
     }

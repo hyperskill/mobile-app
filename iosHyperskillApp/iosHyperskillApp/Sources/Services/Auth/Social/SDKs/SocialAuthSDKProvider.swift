@@ -5,7 +5,8 @@ protocol SocialAuthSDKProvider: AnyObject {
 }
 
 struct SocialAuthSDKResponse {
-    let token: String
+    let authorizationCode: String
+    var identityToken: String?
 }
 
 enum SocialAuthSDKError: Error {
