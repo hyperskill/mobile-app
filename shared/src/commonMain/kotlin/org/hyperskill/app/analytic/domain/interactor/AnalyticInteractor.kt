@@ -61,27 +61,17 @@ class AnalyticInteractor(
             val processedEvent = hyperskillEventProcessor.processEvent(event, currentProfile.id)
             hyperskillRepository.logEvent(processedEvent)
 
-            val isCurrentUserAuthorized = authInteractor
-                .isAuthorized()
-                .getOrDefault(false)
-            if (!isCurrentUserAuthorized) {
-                println("")
-                println("*********************************************************************************")
-                println("AnalyticInteractor :: unauthorized user skipping event = ${processedEvent.params}")
-                println("*********************************************************************************")
-                println("")
-                flushEventsJob?.cancel()
-                flushEventsJob = null
-                return
-            }
-
             if (flushEventsJob != null && !flushEventsJob!!.isCompleted) {
                 return
             }
 
             flushEventsJob = MainScope().launch {
                 delay(FLUSH_EVENTS_DELAY_DURATION)
-                hyperskillRepository.flushEvents()
+
+                val isAuthorized = authInteractor.isAuthorized()
+                    .getOrDefault(false)
+
+                hyperskillRepository.flushEvents(isAuthorized)
             }
         }
     }

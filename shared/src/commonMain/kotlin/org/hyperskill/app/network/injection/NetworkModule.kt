@@ -2,6 +2,8 @@ package org.hyperskill.app.network.injection
 
 import com.russhwolf.settings.Settings
 import io.ktor.client.HttpClient
+import io.ktor.client.plugins.cookies.AcceptAllCookiesStorage
+import io.ktor.client.plugins.cookies.CookiesStorage
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.serialization.json.Json
@@ -32,7 +34,25 @@ object NetworkModule {
         json: Json,
         settings: Settings,
         authorizationFlow: MutableSharedFlow<UserDeauthorized>,
-        authorizationMutex: Mutex
+        authorizationMutex: Mutex,
+        cookiesStorage: CookiesStorage
     ): HttpClient =
-        NetworkBuilder.buildAuthorizedClient(userAgentInfo, json, settings, authorizationFlow, authorizationMutex)
+        NetworkBuilder.buildAuthorizedClient(
+            userAgentInfo,
+            json,
+            settings,
+            authorizationFlow,
+            authorizationMutex,
+            cookiesStorage
+        )
+
+    fun provideFrontendEventsUnauthorizedClient(
+        userAgentInfo: UserAgentInfo,
+        json: Json,
+        cookiesStorage: CookiesStorage
+    ): HttpClient =
+        NetworkBuilder.buildFrontendEventsUnauthorizedClient(userAgentInfo, json, cookiesStorage)
+
+    fun provideCookiesStorage(): CookiesStorage =
+        AcceptAllCookiesStorage()
 }

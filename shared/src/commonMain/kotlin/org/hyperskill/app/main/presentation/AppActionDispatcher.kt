@@ -22,7 +22,6 @@ class AppActionDispatcher(
             .observeUserDeauthorization()
             .onEach {
                 authInteractor.clearCache()
-                profileInteractor.clearCache()
                 onNewMessage(Message.UserDeauthorized)
             }
             .launchIn(actionScope)

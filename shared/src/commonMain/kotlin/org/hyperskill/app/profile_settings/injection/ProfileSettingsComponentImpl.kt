@@ -23,6 +23,7 @@ class ProfileSettingsComponentImpl(private val appGraph: AppGraph) : ProfileSett
     override val profileSettingsFeature: Feature<ProfileSettingsFeature.State, ProfileSettingsFeature.Message, ProfileSettingsFeature.Action>
         get() = ProfileSettingsFeatureBuilder.build(
             profileSettingsInteractor,
+            appGraph.buildProfileDataComponent().profileInteractor,
             appGraph.analyticComponent.analyticInteractor,
             appGraph.networkComponent.authorizationFlow
         )

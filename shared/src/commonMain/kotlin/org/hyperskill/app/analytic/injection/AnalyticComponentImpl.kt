@@ -16,7 +16,8 @@ class AnalyticComponentImpl(
 ) : AnalyticComponent {
     private val hyperskillRemoteDataSource: AnalyticHyperskillRemoteDataSource =
         AnalyticHyperskillRemoteDataSourceImpl(
-            appGraph.networkComponent.authorizedHttpClient
+            appGraph.networkComponent.authorizedHttpClient,
+            appGraph.networkComponent.frontendEventsUnauthorizedHttpClient
         )
     private val hyperskillCacheDataSource: AnalyticHyperskillCacheDataSource =
         AnalyticHyperskillCacheDataSourceImpl()

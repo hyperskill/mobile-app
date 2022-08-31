@@ -18,12 +18,12 @@ class AnalyticHyperskillRepositoryImpl(
         }
     }
 
-    override suspend fun flushEvents() {
+    override suspend fun flushEvents(isAuthorized: Boolean) {
         val eventsToFlush: List<AnalyticEvent>
         mutex.withLock {
             eventsToFlush = hyperskillCacheDataSource.getEvents()
             hyperskillCacheDataSource.clearEvents()
         }
-        hyperskillRemoteDataSource.flushEvents(eventsToFlush)
+        hyperskillRemoteDataSource.flushEvents(eventsToFlush, isAuthorized)
     }
 }

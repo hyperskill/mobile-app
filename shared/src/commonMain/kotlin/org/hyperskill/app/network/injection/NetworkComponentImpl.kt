@@ -1,6 +1,7 @@
 package org.hyperskill.app.network.injection
 
 import io.ktor.client.HttpClient
+import io.ktor.client.plugins.cookies.CookiesStorage
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.sync.Mutex
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
@@ -32,12 +33,23 @@ class NetworkComponentImpl(
             appGraph.commonComponent.json
         )
 
+    override val cookiesStorage: CookiesStorage =
+        NetworkModule.provideCookiesStorage()
+
     override val authorizedHttpClient: HttpClient =
         NetworkModule.provideAuthorizedClient(
             appGraph.commonComponent.userAgentInfo,
             appGraph.commonComponent.json,
             appGraph.commonComponent.settings,
             authorizationFlow,
-            authMutex
+            authMutex,
+            cookiesStorage
+        )
+
+    override val frontendEventsUnauthorizedHttpClient: HttpClient =
+        NetworkModule.provideFrontendEventsUnauthorizedClient(
+            appGraph.commonComponent.userAgentInfo,
+            appGraph.commonComponent.json,
+            cookiesStorage
         )
 }
