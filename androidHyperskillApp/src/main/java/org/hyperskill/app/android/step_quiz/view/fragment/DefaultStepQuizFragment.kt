@@ -1,7 +1,10 @@
 package org.hyperskill.app.android.step_quiz.view.fragment
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
+import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -10,9 +13,11 @@ import com.chrynan.parcelable.core.getParcelable
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.extensions.isFullyEnabled
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
+import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
 import org.hyperskill.app.android.step_quiz.view.model.ReplyResult
 import org.hyperskill.app.android.step_quiz.view.mapper.StepQuizFeedbackMapper
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFeedbackBlocksDelegate
@@ -111,6 +116,26 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
                     .setMessage(R.string.after_daily_step_completed_dialog_text)
                     .setPositiveButton(R.string.ok) { _, _ ->
                         stepQuizViewModel.onNewMessage(StepQuizFeature.Message.UserAgreedToEnableDailyReminders)
+
+                        val notificationManagerCompat = NotificationManagerCompat.from(requireContext())
+                        if (!notificationManagerCompat.areNotificationsEnabled()) {
+                            val intent: Intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                                .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
+                            startActivity(intent)
+                            return@setPositiveButton
+                        }
+
+                        if (
+                            notificationManagerCompat
+                                .getNotificationChannel(HyperskillNotificationChannel.DAILY_REMINDER.channelId)
+                                ?.isFullyEnabled(NotificationManagerCompat.from(requireContext())) == false
+                        ) {
+                            val intent: Intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
+                                .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
+                                .putExtra(Settings.EXTRA_CHANNEL_ID, HyperskillNotificationChannel.DAILY_REMINDER.channelId)
+                            startActivity(intent)
+                            return@setPositiveButton
+                        }
                     }
                     .setNegativeButton(R.string.later) { _, _ ->
                         stepQuizViewModel.onNewMessage(StepQuizFeature.Message.UserDeclinedToEnableDailyReminders)
