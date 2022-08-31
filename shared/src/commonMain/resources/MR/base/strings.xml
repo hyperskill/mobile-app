@@ -253,4 +253,9 @@
     <!-- Text for receiving notification after daily step is complete -->
     <string name="after_daily_step_completed_dialog_title">Stay motivated with daily reminders</string>
     <string name="after_daily_step_completed_dialog_text">The app will send you notifications to practice everyday and keep up your learning streak</string>
+
+    <!--  Text for feedback email  -->
+    <string name="feedback_email_address">academy@jetbrains.com</string>
+    <string name="feedback_email_subject">[My Hyperskill] %s Feedback</string>
+    <string name="feedback_email_text">\n\n\n---\nUser ID: %s\nApp version: %s\nDevice: %s</string>
 </resources>
