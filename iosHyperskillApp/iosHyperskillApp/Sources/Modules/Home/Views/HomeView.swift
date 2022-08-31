@@ -74,10 +74,6 @@ struct HomeView: View {
                     .makeModule()
 
                     HomeDebugStepNavigationView()
-
-                    Button("test") {
-                        NotificationsRegistrationService.requestAuthorization(grantedHandler: { _ in })
-                    }
                 }
                 .padding()
             }
