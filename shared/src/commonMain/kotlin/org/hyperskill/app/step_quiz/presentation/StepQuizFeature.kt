@@ -47,6 +47,8 @@ interface StepQuizFeature {
         data class CreateSubmissionSuccess(val submission: Submission) : Message
         object CreateSubmissionError : Message
 
+        object ContinueClicked : Message
+
         data class SyncReply(val reply: Reply) : Message
 
         object NeedToAskUserToEnableDailyReminders : Message
@@ -68,6 +70,9 @@ interface StepQuizFeature {
         sealed interface ViewAction : Action {
             object ShowNetworkError : ViewAction // error
             object AskUserToEnableDailyReminders : ViewAction
+            sealed interface NavigateTo : ViewAction {
+                object HomeScreen : NavigateTo
+            }
         }
     }
 }
