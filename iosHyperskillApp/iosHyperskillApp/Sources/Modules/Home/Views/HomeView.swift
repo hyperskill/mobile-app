@@ -70,10 +70,10 @@ struct HomeView: View {
                     )
                     .makeModule()
 
-                    let problemOfDayStateIsEmpty = data.problemOfDayState is HomeFeatureProblemOfDayStateEmpty
-                    let problemOfDayStateIsSolved = data.problemOfDayState is HomeFeatureProblemOfDayStateSolved
+                    let shouldShowContinueInWebButton = data.problemOfDayState is HomeFeatureProblemOfDayStateEmpty ||
+                      data.problemOfDayState is HomeFeatureProblemOfDayStateSolved
 
-                    if problemOfDayStateIsEmpty || problemOfDayStateIsSolved {
+                    if shouldShowContinueInWebButton {
                         OpenURLInsideAppButton(
                             text: Strings.Track.continueInWebButton,
                             url: HyperskillURLFactory.makeIndex().require()

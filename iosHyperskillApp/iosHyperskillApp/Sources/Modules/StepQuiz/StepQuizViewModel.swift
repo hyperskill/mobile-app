@@ -40,6 +40,10 @@ final class StepQuizViewModel: FeatureViewModel<
         print(#function)
     }
 
+    func doQuizContinueAction() {
+        onNewMessage(StepQuizFeatureMessageContinueClicked())
+    }
+
     func makeViewData() -> StepQuizViewData {
         let attemptOrNil: Attempt? = {
             if let attemptLoadedState = self.state as? StepQuizFeatureStateAttemptLoaded {

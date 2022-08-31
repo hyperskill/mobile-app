@@ -8,8 +8,6 @@ struct StepQuizActionButtons: View {
 
     let primaryButton: PrimaryButton
 
-    @Environment(\.presentationMode) private var presentationMode
-
     var body: some View {
         HStack(spacing: LayoutInsets.defaultInset) {
             if let retryButton = retryButton {
@@ -19,9 +17,11 @@ struct StepQuizActionButtons: View {
                 )
             }
 
-            if let continueButton = self.continueButton {
-                Button(Strings.StepQuiz.continueButton, action: continueButton.action)
-                    .buttonStyle(RoundedRectangleButtonStyle(style: .green))
+            if let continueButton = continueButton {
+                StepQuizActionButton(
+                    state: .correct,
+                    onTap: continueButton.action
+                )
             } else {
                 StepQuizActionButton(
                     state: primaryButton.state,
@@ -39,16 +39,16 @@ struct StepQuizActionButtons: View {
         let action: () -> Void
     }
 
+    struct ContinueButton {
+        let action: () -> Void
+    }
+
     struct PrimaryButton {
         let state: StepQuizActionButton.State
 
         var titleForState: ((StepQuizActionButton.State) -> String?)?
         var systemImageNameForState: ((StepQuizActionButton.State) -> String?)?
 
-        let action: () -> Void
-    }
-
-    struct ContinueButton {
         let action: () -> Void
     }
 }

@@ -112,6 +112,12 @@ struct StepQuizView: View {
             let submissionStateLoaded = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded
 
             let reply = submissionStateLoaded?.submission.reply ?? submissionStateEmpty?.reply
+            let isDisabled: Bool = {
+                if let submissionStateLoaded = submissionStateLoaded {
+                    return !submissionStateLoaded.submission.isSubmissionEditable
+                }
+                return false
+            }()
 
             // TODO: Use here child quiz assembly instance when Swift 5.7 released
             Group {
@@ -169,7 +175,7 @@ struct StepQuizView: View {
                     fatalError("Unsupported quiz = \(blockName)")
                 }
             }
-            .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
+            .disabled(isDisabled)
         }
     }
 
@@ -217,6 +223,13 @@ struct StepQuizView: View {
             return .init(appearance: .init(backgroundColor: .clear), action: viewModel.doQuizRetryAction)
         }()
 
+        let continueButtonDescription: StepQuizActionButtons.ContinueButton? = {
+            if submissionStatus == SubmissionStatus.correct {
+                return .init(action: viewModel.doQuizContinueAction)
+            }
+            return nil
+        }()
+
         let primaryButtonDescription: StepQuizActionButtons.PrimaryButton = {
             let codeQuizCustomParamsForState = { (state: StepQuizActionButton.State) -> (String, String)? in
                 guard isCodeQuiz else {
@@ -234,11 +247,11 @@ struct StepQuizView: View {
             )
         }()
 
-        let continueButtonDescription: StepQuizActionButtons.ContinueButton? = {
-            guard let submissionStatus = submissionStatus, submissionStatus == SubmissionStatus.correct else {
-                return nil
+        let isDisabled: Bool = {
+            if submissionStatus == SubmissionStatus.correct {
+                return false
             }
-            return .init(action: { self.presentationMode.wrappedValue.dismiss() })
+            return !StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState)
         }()
 
         StepQuizActionButtons(
@@ -246,12 +259,15 @@ struct StepQuizView: View {
             continueButton: continueButtonDescription,
             primaryButton: primaryButtonDescription
         )
+        .disabled(isDisabled)
     }
 
     private func handleViewAction(_ viewAction: StepQuizFeatureActionViewAction) {
         switch viewAction {
         case is StepQuizFeatureActionViewActionShowNetworkError:
             ProgressHUD.showError(status: Strings.General.connectionError)
+        case is StepQuizFeatureActionViewActionNavigateToHomeScreen:
+            presentationMode.wrappedValue.dismiss()
         default:
             print("StepQuizView :: unhandled viewAction = \(viewAction)")
         }

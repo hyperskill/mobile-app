@@ -20,12 +20,13 @@ struct StepQuizActionButton: View {
             titleForState?(state) ?? state.title,
             action: onTap
         )
-        .buttonStyle(RoundedRectangleButtonStyle(style: .violet, overlayImage: overlayImage))
+        .buttonStyle(RoundedRectangleButtonStyle(style: state.style, overlayImage: overlayImage))
         .disabled(state == .evaluation)
     }
 
     enum State: CaseIterable {
         case normal
+        case correct
         case wrong
         case evaluation
 
@@ -35,10 +36,21 @@ struct StepQuizActionButton: View {
             switch self {
             case .normal:
                 return Strings.StepQuiz.sendButton
+            case .correct:
+                return Strings.StepQuiz.continueButton
             case .wrong:
                 return Strings.StepQuiz.retryButton
             case .evaluation:
                 return Strings.StepQuiz.checkingButton
+            }
+        }
+
+        fileprivate var style: RoundedRectangleButtonStyle.Style {
+            switch self {
+            case .normal, .wrong, .evaluation:
+                return .violet
+            case .correct:
+                return .green
             }
         }
     }
