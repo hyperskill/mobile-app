@@ -1,7 +1,12 @@
 package org.hyperskill.app.step_quiz.presentation
 
+import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.notification.data.extension.NotificationExtensions
+import org.hyperskill.app.notification.domain.NotificationInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
@@ -12,9 +17,22 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class StepQuizActionDispatcher(
     config: ActionDispatcherOptions,
+    private val analyticInteractor: AnalyticInteractor,
     private val stepQuizInteractor: StepQuizInteractor,
-    private val profileInteractor: ProfileInteractor
+    private val profileInteractor: ProfileInteractor,
+    private val notificationInteractor: NotificationInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
+
+    init {
+        actionScope.launch {
+            notificationInteractor.solvedStepsSharedFlow.collect {
+                if (notificationInteractor.isRequiredToAskUserToEnableDailyReminders()) {
+                    onNewMessage(Message.NeedToAskUserToEnableDailyReminders)
+                }
+            }
+        }
+    }
+
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchAttempt -> {
@@ -30,7 +48,7 @@ class StepQuizActionDispatcher(
                     .fold(
                         onSuccess = { attempt ->
                             val message = getSubmissionState(attempt.id, action.step.id, currentProfile.id).fold(
-                                onSuccess = { Message.FetchAttemptSuccess(attempt, it) },
+                                onSuccess = { Message.FetchAttemptSuccess(attempt, it, currentProfile) },
                                 onFailure = {
                                     Message.FetchAttemptError
                                 }
@@ -42,6 +60,13 @@ class StepQuizActionDispatcher(
                 onNewMessage(message)
             }
             is Action.CreateAttempt -> {
+                val currentProfile = profileInteractor
+                    .getCurrentProfile(sourceType = DataSourceType.CACHE)
+                    .getOrElse {
+                        onNewMessage(Message.CreateAttemptError)
+                        return
+                    }
+
                 if (stepQuizInteractor.isNeedRecreateAttemptForNewSubmission(action.step)) {
                     val reply = (action.submissionState as? StepQuizFeature.SubmissionState.Loaded)
                         ?.submission
@@ -51,7 +76,7 @@ class StepQuizActionDispatcher(
                         .createAttempt(action.step.id)
                         .fold(
                             onSuccess = {
-                                Message.CreateAttemptSuccess(it, StepQuizFeature.SubmissionState.Empty(reply = reply))
+                                Message.CreateAttemptSuccess(it, StepQuizFeature.SubmissionState.Empty(reply = reply), currentProfile)
                             },
                             onFailure = {
                                 Message.CreateAttemptError
@@ -65,7 +90,7 @@ class StepQuizActionDispatcher(
                         ?.let { StepQuizFeature.SubmissionState.Loaded(it) }
                         ?: StepQuizFeature.SubmissionState.Empty()
 
-                    onNewMessage(Message.CreateAttemptSuccess(action.attempt, submissionState))
+                    onNewMessage(Message.CreateAttemptSuccess(action.attempt, submissionState, currentProfile))
                 }
             }
             is Action.CreateSubmission -> {
@@ -80,6 +105,17 @@ class StepQuizActionDispatcher(
                         }
                     )
                 onNewMessage(message)
+            }
+            is Action.LogAnalyticEvent ->
+                analyticInteractor.logEvent(action.analyticEvent)
+            is Action.NotifyUserAgreedToEnableDailyReminders -> {
+                notificationInteractor.setDailyStudyRemindersEnabled(true)
+                notificationInteractor.setDailyStudyRemindersIntervalStartHour(
+                    NotificationExtensions.DAILY_REMINDERS_AFTER_STEP_SOLVED_START_HOUR
+                )
+            }
+            is Action.NotifyUserDeclinedToEnableDailyReminders -> {
+                notificationInteractor.setLastTimeUserAskedToEnableDailyReminders(Clock.System.now().toEpochMilliseconds())
             }
         }
     }

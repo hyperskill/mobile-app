@@ -14,8 +14,8 @@ class AuthInteractor(
     suspend fun isAuthorized(): Result<Boolean> =
         authRepository.isAuthorized()
 
-    suspend fun authWithSocial(authCode: String, socialProvider: SocialAuthProvider): Result<Unit> =
-        authRepository.authWithSocial(authCode, socialProvider)
+    suspend fun authWithSocial(authCode: String, idToken: String?, socialProvider: SocialAuthProvider): Result<Unit> =
+        authRepository.authWithSocial(authCode, idToken, socialProvider)
 
     suspend fun authWithEmail(email: String, password: String): Result<Unit> =
         authRepository.authWithEmail(email, password)

@@ -3,8 +3,11 @@ import SwiftUI
 extension AuthNewUserPlaceholderView {
     struct Appearance {
         let logoWidthHeight: CGFloat = 48
-        let bigPadding: CGFloat = 48
-        let smallPadding: CGFloat = 20
+
+        let spacingLarge: CGFloat = 48
+        let spacingSmall: CGFloat = 20
+
+        let contentMaxWidth: CGFloat = 400
     }
 }
 
@@ -13,12 +16,30 @@ struct AuthNewUserPlaceholderView: View {
 
     private(set) var appearance = Appearance()
 
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+
     var body: some View {
-        VStack(alignment: .leading, spacing: appearance.bigPadding) {
-            VStack(alignment: .center, spacing: appearance.smallPadding) {
-                Image(Images.AuthSocial.hyperskill)
-                    .resizable()
-                    .frame(widthHeight: appearance.logoWidthHeight)
+        ZStack {
+            BackgroundView()
+
+            VStack(spacing: 0) {
+                if horizontalSizeClass == .regular {
+                    Spacer()
+                }
+
+                content
+
+                Spacer()
+            }
+            .frame(maxWidth: appearance.contentMaxWidth)
+            .padding()
+        }
+    }
+
+    private var content: some View {
+        VStack(alignment: .leading, spacing: appearance.spacingLarge) {
+            VStack(alignment: .center, spacing: appearance.spacingSmall) {
+                HyperskillLogoView(logoWidthHeight: appearance.logoWidthHeight)
 
                 Text(Strings.Auth.NewUserPlaceholder.title)
                     .font(.title2)
@@ -36,22 +57,21 @@ struct AuthNewUserPlaceholderView: View {
                     .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
             }
 
-
-            VStack(alignment: .leading, spacing: appearance.smallPadding) {
+            VStack(alignment: .leading, spacing: appearance.spacingSmall) {
                 Text(Strings.Auth.NewUserPlaceholder.possibilityText)
                 Text(Strings.Auth.NewUserPlaceholder.callText)
             }
             .font(.body)
             .foregroundColor(.primaryText)
-
-            Spacer()
         }
-        .padding()
     }
 }
 
 struct AuthNewUserPlaceholderView_Previews: PreviewProvider {
     static var previews: some View {
         AuthNewUserPlaceholderView()
+
+        AuthNewUserPlaceholderView()
+            .previewDevice(PreviewDevice(rawValue: "iPad (9th generation)"))
     }
 }

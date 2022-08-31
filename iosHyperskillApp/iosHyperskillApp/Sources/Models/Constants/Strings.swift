@@ -6,12 +6,15 @@ enum Strings {
 
     // MARK: - General -
 
+
     enum General {
         static let connectionError = sharedStrings.connection_error.localized()
         static let done = sharedStrings.done.localized()
         static let yes = sharedStrings.yes.localized()
         static let no = sharedStrings.no.localized()
         static let cancel = sharedStrings.cancel.localized()
+        static let ok = sharedStrings.ok.localized()
+        static let later = sharedStrings.later.localized()
     }
 
     // MARK: - TabBar -
@@ -49,11 +52,11 @@ enum Strings {
         // MARK: NewUserPlaceholder
 
         enum NewUserPlaceholder {
-            static let title = sharedStrings.register_title.localized()
-            static let introText = sharedStrings.register_intro_text.localized()
-            static let buttonText = sharedStrings.register_button_text.localized()
-            static let possibilityText = sharedStrings.register_possibility_text.localized()
-            static let callText = sharedStrings.register_call_text.localized()
+            static let title = sharedStrings.placeholder_register_text.localized()
+            static let introText = sharedStrings.placeholder_instruction_text.localized()
+            static let buttonText = sharedStrings.placeholder_continue_button_text_ios.localized()
+            static let possibilityText = sharedStrings.placeholder_first_description_text.localized()
+            static let callText = sharedStrings.placeholder_second_description_text.localized()
         }
     }
 
@@ -77,6 +80,9 @@ enum Strings {
         static let checkingButton = sharedStrings.step_quiz_checking_button_text.localized()
         static let discussionsButton = sharedStrings.step_quiz_discussions_button_text.localized()
         static let unsupportedText = sharedStrings.step_quiz_unsupported_quiz_text.localized()
+        static let afterDailyStepCompletedDialogTitle =
+            sharedStrings.after_daily_step_completed_dialog_title.localized()
+        static let afterDailyStepCompletedDialogText = sharedStrings.after_daily_step_completed_dialog_text.localized()
     }
 
     // MARK: - StepQuizChoice -

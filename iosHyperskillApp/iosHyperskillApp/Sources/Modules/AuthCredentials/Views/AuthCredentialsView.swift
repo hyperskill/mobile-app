@@ -5,6 +5,8 @@ extension AuthCredentialsView {
     struct Appearance {
         let logoSize: CGFloat = 48
 
+        let continueWithSocialButtonFont = Font.body
+        let continueWithSocialButtonTextColor = ColorPalette.primary
         let continueWithSocialButtonInsets = LayoutInsets(top: 24)
 
         let keyboardDistanceFromTextField: CGFloat = 60
@@ -48,7 +50,8 @@ struct AuthCredentialsView: View {
             .disabled(formState is AuthCredentialsFeatureFormStateLoading)
 
             Button(Strings.Auth.Credentials.socialText, action: { presentationMode.wrappedValue.dismiss() })
-                .buttonStyle(OutlineButtonStyle(style: .violet))
+                .font(appearance.continueWithSocialButtonFont)
+                .foregroundColor(Color(appearance.continueWithSocialButtonTextColor))
                 .padding(appearance.continueWithSocialButtonInsets.edgeInsets)
         }
         .onAppear {
@@ -77,7 +80,7 @@ struct AuthCredentialsView: View {
     }
 }
 
-struct AuthEmailView_Previews: PreviewProvider {
+struct AuthCredentialsView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             AuthCredentialsAssembly().makeModule()

@@ -6,7 +6,6 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.encodeToJsonElement
-import kotlinx.serialization.json.putJsonObject
 import org.hyperskill.app.network.injection.NetworkModule
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
@@ -24,7 +23,7 @@ class SubmissionSerializationTest {
                 time = "2017-07-13T16:59:00Z",
                 reply = null,
                 attempt = 200L,
-                // feedback = Feedback.Text("This is a primitive")
+//                feedback = Feedback.Text("This is a primitive")
             )
         )
         val expected = buildJsonObject {
@@ -34,7 +33,7 @@ class SubmissionSerializationTest {
             put("hint", JsonPrimitive("Hint"))
             put("time", JsonPrimitive("2017-07-13T16:59:00Z"))
             put("attempt", JsonPrimitive(200L))
-            put("feedback", JsonPrimitive("This is a primitive"))
+//            put("feedback", JsonPrimitive("This is a primitive"))
         }
         assertEquals(expected, encodedValue)
     }
@@ -51,7 +50,7 @@ class SubmissionSerializationTest {
                 time = "2017-07-13T16:59:00Z",
                 reply = null,
                 attempt = 200L,
-                // feedback = Feedback.Object("This is a message")
+//                feedback = Feedback.Object("This is a message")
             )
         )
         val expected = buildJsonObject {
@@ -61,9 +60,9 @@ class SubmissionSerializationTest {
             put("hint", JsonPrimitive("Hint"))
             put("time", JsonPrimitive("2017-07-13T16:59:00Z"))
             put("attempt", JsonPrimitive(200L))
-            putJsonObject("feedback") {
-                put("message", JsonPrimitive("This is a message"))
-            }
+//            putJsonObject("feedback") {
+//                put("message", JsonPrimitive("This is a message"))
+//            }
         }
         assertEquals(expected, encodedValue)
     }
@@ -80,7 +79,7 @@ class SubmissionSerializationTest {
                 time = "2017-07-13T16:59:00Z",
                 reply = null,
                 attempt = 200L,
-                // feedback = Feedback.Text("This is a primitive")
+//                feedback = Feedback.Text("This is a primitive")
             )
         val jsonObject = buildJsonObject {
             put("id", JsonPrimitive(123L))
@@ -89,7 +88,7 @@ class SubmissionSerializationTest {
             put("hint", JsonPrimitive("Hint"))
             put("time", JsonPrimitive("2017-07-13T16:59:00Z"))
             put("attempt", JsonPrimitive(200L))
-            put("feedback", JsonPrimitive("This is a primitive"))
+//            put("feedback", JsonPrimitive("This is a primitive"))
         }
         assertEquals(expected, json.decodeFromJsonElement(jsonObject))
     }
@@ -106,7 +105,7 @@ class SubmissionSerializationTest {
                 time = "2017-07-13T16:59:00Z",
                 reply = null,
                 attempt = 200L,
-                // feedback = Feedback.Object("This is a message")
+//                feedback = Feedback.Object("This is a message")
             )
         val jsonObject = buildJsonObject {
             put("id", JsonPrimitive(123L))
@@ -115,9 +114,9 @@ class SubmissionSerializationTest {
             put("hint", JsonPrimitive("Hint"))
             put("time", JsonPrimitive("2017-07-13T16:59:00Z"))
             put("attempt", JsonPrimitive(200L))
-            putJsonObject("feedback") {
-                put("message", JsonPrimitive("This is a message"))
-            }
+//            putJsonObject("feedback") {
+//                put("message", JsonPrimitive("This is a message"))
+//            }
         }
         assertEquals(expected, json.decodeFromJsonElement(jsonObject))
     }

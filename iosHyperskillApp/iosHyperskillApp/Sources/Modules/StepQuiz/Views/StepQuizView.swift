@@ -17,6 +17,8 @@ struct StepQuizView: View {
 
     @Environment(\.presentationMode) private var presentationMode
 
+    @State private var isPresentingNotificationsPermissionAlert = false
+
     var body: some View {
         buildBody()
             .navigationBarTitleDisplayMode(.inline)
@@ -69,6 +71,24 @@ struct StepQuizView: View {
                         stepQuizName: viewData.quizName,
                         stepBlockName: viewData.stepBlockName
                     )
+                    .alert(isPresented: $isPresentingNotificationsPermissionAlert) {
+                        Alert(
+                            title: Text(Strings.StepQuiz.afterDailyStepCompletedDialogTitle),
+                            message: Text(Strings.StepQuiz.afterDailyStepCompletedDialogText),
+                            primaryButton: .default(
+                                Text(Strings.General.ok),
+                                action: {
+                                    NotificationsRegistrationService.requestAuthorization(
+                                        grantedHandler: viewModel.onNotificationsGranted
+                                    )
+                                }
+                            ),
+                            secondaryButton: .default(
+                                Text(Strings.General.later),
+                                action: { viewModel.onNotificationsGranted(false) }
+                            )
+                        )
+                    }
                 }
                 .padding()
             }
@@ -266,6 +286,8 @@ struct StepQuizView: View {
         switch viewAction {
         case is StepQuizFeatureActionViewActionShowNetworkError:
             ProgressHUD.showError(status: Strings.General.connectionError)
+        case is StepQuizFeatureActionViewActionAskUserToEnableDailyReminders:
+            isPresentingNotificationsPermissionAlert = true
         case is StepQuizFeatureActionViewActionNavigateToHomeScreen:
             presentationMode.wrappedValue.dismiss()
         default:

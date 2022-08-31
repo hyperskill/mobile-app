@@ -1,6 +1,8 @@
 package org.hyperskill.app.step_quiz.presentation
 
 import kotlinx.datetime.Clock
+import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedSendHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
@@ -22,7 +24,7 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 }
             is Message.FetchAttemptSuccess ->
                 if (state is State.Loading) {
-                    State.AttemptLoaded(message.attempt, message.submissionState) to emptySet()
+                    State.AttemptLoaded(message.attempt, message.submissionState, message.currentProfile) to emptySet()
                 } else {
                     null
                 }
@@ -40,7 +42,7 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 }
             is Message.CreateAttemptSuccess ->
                 if (state is State.AttemptLoading) {
-                    State.AttemptLoaded(message.attempt, message.submissionState) to emptySet()
+                    State.AttemptLoaded(message.attempt, message.submissionState, message.currentProfile) to emptySet()
                 } else {
                     null
                 }
@@ -52,10 +54,23 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 }
             is Message.CreateSubmissionClicked ->
                 if (state is State.AttemptLoaded) {
-                    val submission = Submission(attempt = state.attempt.id, reply = message.reply, status = SubmissionStatus.EVALUATION)
+                    val submission = Submission(
+                        attempt = state.attempt.id,
+                        reply = message.reply,
+                        status = SubmissionStatus.EVALUATION
+                    )
+
+                    val analyticEvent = StepQuizClickedSendHyperskillAnalyticEvent(
+                        if (state.attempt.step == state.currentProfile.dailyStep)
+                            HyperskillAnalyticRoute.Learn.Daily(state.attempt.step)
+                        else HyperskillAnalyticRoute.Learn.Step(state.attempt.step)
+                    )
 
                     state.copy(submissionState = StepQuizFeature.SubmissionState.Loaded(submission)) to
-                        setOf(Action.CreateSubmission(message.step, state.attempt.id, message.reply))
+                        setOf(
+                            Action.CreateSubmission(message.step, state.attempt.id, message.reply),
+                            Action.LogAnalyticEvent(analyticEvent)
+                        )
                 } else {
                     null
                 }
@@ -88,6 +103,12 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
+            is Message.NeedToAskUserToEnableDailyReminders ->
+                state to setOf(Action.ViewAction.AskUserToEnableDailyReminders)
+            is Message.UserAgreedToEnableDailyReminders ->
+                state to setOf(Action.NotifyUserAgreedToEnableDailyReminders)
+            is Message.UserDeclinedToEnableDailyReminders ->
+                state to setOf(Action.NotifyUserDeclinedToEnableDailyReminders)
         } ?: (state to emptySet())
 
     private fun createLocalSubmission(oldState: State.AttemptLoaded, reply: Reply): Submission {

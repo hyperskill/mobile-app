@@ -8,17 +8,18 @@
     <string name="no">No</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
+    <string name="later">Later</string>
 
     <!-- Users list -->
     <string name="user_list_search_button_title">Search</string>
     <string name="user_list_home_user_name_hint">User name</string>
 
     <!-- Auth -->
-    <string name="auth_log_in_title">Log in to\nJetBrains Academy</string>
+    <string name="auth_log_in_title">Sign in to My Hyperskill</string>
     <string name="auth_jetbrains_account_text">JetBrains Account</string>
     <string name="auth_google_account_text">Google</string>
     <string name="auth_github_account_text">GitHub</string>
-    <string name="auth_apple_account_text">Apple</string>
+    <string name="auth_apple_account_text">Sign in with Apple</string>
     <string name="auth_email_text">Continue with email</string>
     <string name="auth_social_email_already_used">The email associated with this social network is already in use. Try authorizing via email</string>
     <string name="auth_social_email_not_provided_by_social">Authorization error: email is not provided by social network</string>
@@ -26,22 +27,15 @@
     <!-- Auth credentials -->
     <string name="auth_credentials_social_text">Continue with social networks</string>
     <string name="auth_credentials_reset_password_text">Reset password</string>
-    <string name="auth_credentials_log_in_text">Log in</string>
+    <string name="auth_credentials_log_in_text">Sign in</string>
     <string name="auth_credentials_email_placeholder">Email</string>
     <string name="auth_credentials_password_placeholder">Password</string>
-    <string name="auth_credentials_error_text">Unable to log in. If you registered with a third-party account (e.g.
-        Google), using your email as a login may not work. Try to log in with a third-party account, or reset your
+    <string name="auth_credentials_error_text">Unable to sign in. If you registered with a third-party account (e.g.
+        Google), using your email as a login may not work. Try to sign in with a third-party account, or reset your
         password.
     </string>
     <string name="auth_credentials_email_empty">Please enter an email address</string>
     <string name="auth_credentials_password_empty">Please enter a password</string>
-
-    <!--  Register  -->
-    <string name="register_title">Register</string>
-    <string name="register_intro_text">To get access to the content you should register at our website first.</string>
-    <string name="register_button_text">Continue to hyperskill.org ↗</string>
-    <string name="register_possibility_text">Right now you can solve one random problem every day.</string>
-    <string name="register_call_text">We add new features every week. Stay tuned :)</string>
 
     <!-- Step -->
     <string name="step_theory_text">Theory</string>
@@ -200,10 +194,11 @@
     <string name="problem_of_day_minutes">%d minutes</string>
 
     <!-- Placeholder for new users -->
-    <string name="placeholder_register_text">Register</string>
-    <string name="placeholder_instruction_text">To get access to the content you should register at our website first.</string>
+    <string name="placeholder_register_text">Sign up and select a track</string>
+    <string name="placeholder_instruction_text">To get access to the content you should register at our website and select a learning track.</string>
     <string name="placeholder_continue_button_text">Continue to hyperskill.org \u2197</string>
-    <string name="placeholder_first_description_text">Right now you can solve one random problem every day.</string>
+    <string name="placeholder_continue_button_text_ios">Continue to hyperskill.org ↗</string>
+    <string name="placeholder_first_description_text">My Hyperskill helps you practice what you’ve learned and stay on top of your studies. We are working hard to bring even more features. Stay tuned :)</string>
     <string name="placeholder_second_description_text">We add new features every week. Stay tuned :)</string>
 
     <!--  Notifications titles & descriptions  -->
@@ -250,8 +245,12 @@
     <string name="notification14_text">Me: If the IDE knows I\'m missing a semicolon, why won\'t it just add it itself? 🤔</string>
 
     <!--  Onboarding  -->
-    <string name="onboarding_title">Welcome\nto Hyperskill</string>
-    <string name="onboarding_text">Regular practice is key to mastering new skills. Learn on the web and practice with Hyperskill Mobile to keep up your learning streak and stay on top of your studies.</string>
+    <string name="onboarding_title">Welcome\nto My Hyperskill</string>
+    <string name="onboarding_text">Regular practice is key to mastering new skills. Learn on the web and practice with My Hyperskill to keep up your learning streak and stay on top of your studies.</string>
     <string name="onboarding_sign_in">Sign in</string>
     <string name="onboarding_sign_up">Sign up</string>
+
+    <!-- Text for receiving notification after daily step is complete -->
+    <string name="after_daily_step_completed_dialog_title">Stay motivated with daily reminders</string>
+    <string name="after_daily_step_completed_dialog_text">The app will send you notifications to practice everyday and keep up your learning streak</string>
 </resources>

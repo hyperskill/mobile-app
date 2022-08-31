@@ -85,6 +85,7 @@ struct ProblemOfDayCardView: View {
                 )
             }
         )
+        .buttonStyle(BounceButtonStyle())
         .disabled(viewData.stepID == nil)
     }
 

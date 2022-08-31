@@ -16,6 +16,14 @@
         android:layout_height="@dimen/step_quiz_submit_button_height" />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/stepQuizContinueButton"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/step_quiz_submit_button_height"
+        android:text="@string/step_quiz_continue_button_text"
+        android:visibility="gone"
+        android:theme="@style/ThemeOverlay.Green" />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/stepQuizSubmitButton"
         android:layout_width="match_parent"
         android:layout_height="@dimen/step_quiz_submit_button_height"

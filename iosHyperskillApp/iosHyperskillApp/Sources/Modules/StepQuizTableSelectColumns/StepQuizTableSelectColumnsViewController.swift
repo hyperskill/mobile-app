@@ -80,10 +80,6 @@ final class StepQuizTableSelectColumnsViewController: PanModalPresentableViewCon
 
     private func handleColumnsChanged(_ newColumns: Set<Int>) {
         self.selectedColumnsIDs = newColumns
-
-        if !self.isMultipleChoice {
-            self.finishColumnsSelection()
-        }
     }
 
     private func finishColumnsSelection() {

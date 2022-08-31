@@ -7,9 +7,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.chrynan.parcelable.core.getParcelable
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
+import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.step_quiz.view.model.ReplyResult
 import org.hyperskill.app.android.step_quiz.view.mapper.StepQuizFeedbackMapper
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFeedbackBlocksDelegate
@@ -98,8 +101,22 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
     }
 
     override fun onAction(action: StepQuizFeature.Action.ViewAction) {
-        if (action is StepQuizFeature.Action.ViewAction.ShowNetworkError) {
-            view?.snackbar(messageRes = R.string.connection_error)
+        when (action) {
+            is StepQuizFeature.Action.ViewAction.ShowNetworkError -> {
+                view?.snackbar(messageRes = R.string.connection_error)
+            }
+            is StepQuizFeature.Action.ViewAction.AskUserToEnableDailyReminders -> {
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(R.string.after_daily_step_completed_dialog_title)
+                    .setMessage(R.string.after_daily_step_completed_dialog_text)
+                    .setPositiveButton(R.string.ok) { _, _ ->
+                        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.UserAgreedToEnableDailyReminders)
+                    }
+                    .setNegativeButton(R.string.later) { _, _ ->
+                        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.UserDeclinedToEnableDailyReminders)
+                    }
+                    .show()
+            }
         }
     }
 
@@ -113,6 +130,14 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
             if (state.submissionState is StepQuizFeature.SubmissionState.Loaded) {
                 val castedState = state.submissionState as StepQuizFeature.SubmissionState.Loaded
                 val submissionStatus = castedState.submission.status
+
+                if (submissionStatus == SubmissionStatus.CORRECT) {
+                    viewBinding.stepQuizButtons.stepQuizSubmitButton.visibility = View.GONE
+                    viewBinding.stepQuizButtons.stepQuizContinueButton.visibility = View.VISIBLE
+                    viewBinding.stepQuizButtons.stepQuizContinueButton.setOnClickListener {
+                        requireRouter().backTo(MainScreen)
+                    }
+                }
 
                 if (
                     step.block.name == BlockName.CODE &&

@@ -46,6 +46,7 @@ struct CheckboxButton: View {
                             width: proxy.size.width * appearance.checkmarkSizeRatio,
                             height: proxy.size.height * appearance.checkmarkSizeRatio
                         )
+                        .opacity(isSelected ? 1 : 0)
                 )
                 .addBorder(
                     color: isSelected ? appearance.borderSelectedColor : appearance.borderUnselectedColor,

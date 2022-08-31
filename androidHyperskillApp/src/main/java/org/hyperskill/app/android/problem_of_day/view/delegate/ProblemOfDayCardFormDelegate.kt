@@ -46,6 +46,8 @@ class ProblemOfDayCardFormDelegate(
         with(binding) {
             when (cardState) {
                 is HomeFeature.ProblemOfDayState.Empty -> {
+                    root.isClickable = false
+
                     problemOfDayTimeToSolveTextView.visibility = View.GONE
                     problemOfDayNextProblemInLinearLayout.visibility = View.GONE
 
@@ -56,7 +58,6 @@ class ProblemOfDayCardFormDelegate(
 
                     problemOfDayActionButton.setBackgroundResource(R.drawable.bg_gradient_blue)
                     problemOfDayActionButton.setIconTintResource(R.color.color_surface)
-                    problemOfDayActionButton.isClickable = false
 
                     problemOfDayHexogens.setImageResource(R.drawable.bg_hexogens_static)
 
@@ -65,6 +66,11 @@ class ProblemOfDayCardFormDelegate(
                 }
                 is HomeFeature.ProblemOfDayState.Solved -> {
                     state as HomeFeature.ProblemOfDayState.Solved
+
+                    root.isClickable = true
+                    root.setOnClickListener {
+                        onActionButtonClick(cardState.step.id)
+                    }
 
                     problemOfDayTimeToSolveTextView.visibility = View.GONE
                     problemOfDayNextProblemInLinearLayout.visibility = View.VISIBLE
@@ -76,10 +82,6 @@ class ProblemOfDayCardFormDelegate(
 
                     problemOfDayActionButton.setBackgroundResource(R.drawable.bg_gradient_yellow_green)
                     problemOfDayActionButton.setIconTintResource(R.color.color_on_surface_alpha_60)
-                    problemOfDayActionButton.isClickable = true
-                    problemOfDayActionButton.setOnClickListener {
-                        onActionButtonClick(cardState.step.id)
-                    }
 
                     problemOfDayHexogens.setImageResource(R.drawable.bg_hexogens_static_solved)
 
@@ -91,14 +93,23 @@ class ProblemOfDayCardFormDelegate(
                 is HomeFeature.ProblemOfDayState.NeedToSolve -> {
                     state as HomeFeature.ProblemOfDayState.NeedToSolve
 
-                    problemOfDayTimeToSolveTextView.visibility = View.VISIBLE
-                    val minutesToComplete = state.step.secondsToComplete!!.div(60).toInt()
-                    problemOfDayTimeToSolveTextView.text =
-                        context.resources.getQuantityString(
-                            R.plurals.minutes,
-                            minutesToComplete,
-                            minutesToComplete
-                        )
+                    root.isClickable = true
+                    root.setOnClickListener {
+                        onActionButtonClick(cardState.step.id)
+                    }
+
+                    if (state.step.secondsToComplete != null) {
+                        problemOfDayTimeToSolveTextView.visibility = View.VISIBLE
+                        val minutesToComplete = state.step.secondsToComplete!!.div(60).toInt()
+                        problemOfDayTimeToSolveTextView.text =
+                            context.resources.getQuantityString(
+                                R.plurals.minutes,
+                                minutesToComplete,
+                                minutesToComplete
+                            )
+                    } else {
+                        problemOfDayTimeToSolveTextView.visibility = View.GONE
+                    }
 
                     problemOfDayNextProblemInLinearLayout.visibility = View.VISIBLE
 
@@ -109,10 +120,6 @@ class ProblemOfDayCardFormDelegate(
 
                     problemOfDayActionButton.setBackgroundResource(R.drawable.bg_gradient_blue)
                     problemOfDayActionButton.setIconTintResource(R.color.color_surface)
-                    problemOfDayActionButton.isClickable = true
-                    problemOfDayActionButton.setOnClickListener {
-                        onActionButtonClick(cardState.step.id)
-                    }
 
                     problemOfDayHexogens.setImageResource(R.drawable.bg_hexogens_static)
 
