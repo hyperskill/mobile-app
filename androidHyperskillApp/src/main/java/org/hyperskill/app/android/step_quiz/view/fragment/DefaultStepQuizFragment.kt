@@ -109,6 +109,9 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
             is StepQuizFeature.Action.ViewAction.ShowNetworkError -> {
                 view?.snackbar(messageRes = R.string.connection_error)
             }
+            is StepQuizFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
+                requireRouter().backTo(MainScreen)
+            }
             is StepQuizFeature.Action.ViewAction.AskUserToEnableDailyReminders -> {
                 MaterialAlertDialogBuilder(requireContext())
                     .setTitle(R.string.after_daily_step_completed_dialog_title)
@@ -139,8 +142,7 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
                     viewBinding.stepQuizButtons.stepQuizSubmitButton.visibility = View.GONE
                     viewBinding.stepQuizButtons.stepQuizContinueButton.visibility = View.VISIBLE
                     viewBinding.stepQuizButtons.stepQuizContinueButton.setOnClickListener {
-                        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.StepQuizClickedContinueEventMessage)
-                        requireRouter().backTo(MainScreen)
+                        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ContinueClicked)
                     }
                 }
 
