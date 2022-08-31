@@ -101,7 +101,7 @@ class ProfileSettingsDialogFragment :
                 .putExtra(Intent.EXTRA_EMAIL, arrayOf("academy@jetbrains.com"))
                 .putExtra(Intent.EXTRA_SUBJECT, "[My Hyperskill] Android Feedback")
                 .putExtra(Intent.EXTRA_TEXT, "Feedback: ")
-            startActivity(intent)
+            startActivity(Intent.createChooser(intent, "Select your E-Mail app"))
         }
 
         viewBinding.settingsVersionTextView.text = HyperskillApp.graph().commonComponent.userAgentInfo.versionName
