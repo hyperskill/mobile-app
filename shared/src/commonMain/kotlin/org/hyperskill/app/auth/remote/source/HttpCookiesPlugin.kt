@@ -28,10 +28,11 @@ class HttpCookiesPlugin(
         var storage: CookiesStorage? = null
         var shouldSendCookiesForRequest: Boolean? = null
 
-        fun build(): HttpCookiesPlugin = HttpCookiesPlugin(
-            storage ?: throw IllegalArgumentException("storage should be passed"),
-            shouldSendCookiesForRequest ?: throw IllegalArgumentException("shouldSendCookiesForRequest should be passed")
-        )
+        fun build(): HttpCookiesPlugin =
+            HttpCookiesPlugin(
+                storage ?: throw IllegalArgumentException("storage should be passed"),
+                shouldSendCookiesForRequest ?: throw IllegalArgumentException("shouldSendCookiesForRequest should be passed")
+            )
     }
 
     private suspend fun get(requestUrl: Url): List<Cookie> =
