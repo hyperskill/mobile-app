@@ -49,6 +49,14 @@ final class StepQuizViewModel: FeatureViewModel<
         }()
         return viewDataMapper.mapStepToViewData(step, attempt: attemptOrNil)
     }
+
+    func onNotificationsGranted(_ granted: Bool) {
+        if granted {
+            onNewMessage(StepQuizFeatureMessageUserAgreedToEnableDailyReminders())
+        } else {
+            onNewMessage(StepQuizFeatureMessageUserDeclinedToEnableDailyReminders())
+        }
+    }
 }
 
 // MARK: - StepQuizViewModel: StepQuizChildQuizDelegate -
