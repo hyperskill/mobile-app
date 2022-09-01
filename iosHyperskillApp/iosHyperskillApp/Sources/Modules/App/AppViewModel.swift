@@ -4,8 +4,14 @@ import SwiftUI
 final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, AppFeatureActionViewAction> {
     @Published var navigationState = AppNavigationState()
 
+    private let authorizationFlow = AppGraphBridge.sharedAppGraph.networkComponent.authorizationFlow
+
     func loadApp(forceUpdate: Bool = false) {
         onNewMessage(AppFeatureMessageInit(forceUpdate: forceUpdate))
+    }
+
+    func handleNewUserPlaceholderSignInRequested() {
+        authorizationFlow.tryEmit(value: UserDeauthorized())
     }
 }
 

@@ -199,7 +199,6 @@
     <string name="placeholder_continue_button_text">Continue to hyperskill.org \u2197</string>
     <string name="placeholder_continue_button_text_ios">Continue to hyperskill.org ↗</string>
     <string name="placeholder_first_description_text">My Hyperskill helps you practice what you’ve learned and stay on top of your studies. We are working hard to bring even more features. Stay tuned :)</string>
-    <string name="placeholder_second_description_text">We add new features every week. Stay tuned :)</string>
 
     <!--  Notifications titles & descriptions  -->
     <string name="notification1_title">Keep it up</string>
