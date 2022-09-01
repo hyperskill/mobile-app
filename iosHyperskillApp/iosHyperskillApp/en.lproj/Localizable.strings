@@ -2,3 +2,9 @@
 Alert = "Alert";
 Confirm = "Confirm action";
 Prompt = "Enter data";
+
+/* NotificationsRegistrationService */
+DeniedNotificationsSettingsAlertTitle = "Notifications are turned off";
+DeniedNotificationsSettingsAlertMessage = "Seems like you've disabled notifications. Turn on in settings?";
+DeniedNotificationsSettingsAlertPositiveActionTitle = "Settings";
+DeniedNotificationsSettingsAlertNegativeActionTitle = "No";
