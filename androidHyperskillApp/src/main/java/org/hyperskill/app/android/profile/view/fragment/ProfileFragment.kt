@@ -15,9 +15,10 @@ import coil.ImageLoader
 import coil.decode.SvgDecoder
 import coil.load
 import coil.transform.CircleCropTransformation
+import java.util.Locale
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.core.extensions.isFullyEnabled
+import org.hyperskill.app.android.core.extensions.isChannelNotificationsEnabled
 import org.hyperskill.app.android.databinding.FragmentProfileBinding
 import org.hyperskill.app.android.notification.injection.PlatformNotificationComponent
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
@@ -35,8 +36,6 @@ import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
-import java.util.Locale
-import org.hyperskill.app.android.core.extensions.isChannelNotificationsEnabled
 
 class ProfileFragment :
     Fragment(R.layout.fragment_profile),
@@ -167,8 +166,7 @@ class ProfileFragment :
 
         val notificationManagerCompat = NotificationManagerCompat.from(requireContext())
         viewBinding.profileDailyRemindersSwitchCompat.isChecked =
-            notificationManagerCompat.isChannelNotificationsEnabled(HyperskillNotificationChannel.DAILY_REMINDER.channelId) &&
-                platformNotificationComponent.notificationInteractor.isDailyStudyRemindersEnabled()
+            notificationManagerCompat.isChannelNotificationsEnabled(HyperskillNotificationChannel.DAILY_REMINDER.channelId) && platformNotificationComponent.notificationInteractor.isDailyStudyRemindersEnabled()
 
         viewBinding.profileScheduleTextView.isVisible = viewBinding.profileDailyRemindersSwitchCompat.isChecked
 
