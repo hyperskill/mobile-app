@@ -4,7 +4,9 @@ import android.content.Intent
 import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -16,8 +18,10 @@ import coil.transform.CircleCropTransformation
 import java.util.Locale
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.extensions.isChannelNotificationsEnabled
 import org.hyperskill.app.android.databinding.FragmentProfileBinding
 import org.hyperskill.app.android.notification.injection.PlatformNotificationComponent
+import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
 import org.hyperskill.app.android.profile_settings.view.dialog.ProfileSettingsDialogFragment
 import org.hyperskill.app.android.streak.view.delegate.StreakCardFormDelegate
 import org.hyperskill.app.android.view.base.ui.extension.redirectToUsernamePage
@@ -163,17 +167,36 @@ class ProfileFragment :
         viewBinding.profileScheduleTextView.text = requireContext().resources.getString(R.string.profile_daily_study_reminders_schedule_text) +
             " ${scheduleTime.toString().padStart(2, '0')}:00 - ${(scheduleTime + 1).toString().padStart(2, '0')}:00"
 
+        val notificationManagerCompat = NotificationManagerCompat.from(requireContext())
+        viewBinding.profileDailyRemindersSwitchCompat.isChecked =
+            notificationManagerCompat.isChannelNotificationsEnabled(HyperskillNotificationChannel.DAILY_REMINDER.channelId) && platformNotificationComponent.notificationInteractor.isDailyStudyRemindersEnabled()
+
         viewBinding.profileScheduleTextView.isVisible = viewBinding.profileDailyRemindersSwitchCompat.isChecked
 
         viewBinding.profileDailyRemindersSwitchCompat.setOnCheckedChangeListener { _, isChecked ->
             profileViewModel.onNewMessage(ProfileFeature.Message.ProfileClickedDailyStudyRemindsEventMessage(isChecked))
-
-            viewBinding.profileScheduleTextView.isVisible = isChecked
             platformNotificationComponent.notificationInteractor.setDailyStudyRemindersEnabled(isChecked)
 
             if (isChecked) {
                 platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification()
+
+                if (!notificationManagerCompat.areNotificationsEnabled()) {
+                    val intent: Intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                        .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
+                    startActivity(intent)
+                    return@setOnCheckedChangeListener
+                }
+
+                if (!notificationManagerCompat.isChannelNotificationsEnabled(HyperskillNotificationChannel.DAILY_REMINDER.channelId)) {
+                    val intent: Intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
+                        .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
+                        .putExtra(Settings.EXTRA_CHANNEL_ID, HyperskillNotificationChannel.DAILY_REMINDER.channelId)
+                    startActivity(intent)
+                    return@setOnCheckedChangeListener
+                }
             }
+
+            viewBinding.profileScheduleTextView.isVisible = isChecked
         }
     }
 
