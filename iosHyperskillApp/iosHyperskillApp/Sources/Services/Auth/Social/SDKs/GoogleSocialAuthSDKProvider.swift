@@ -41,16 +41,19 @@ final class GoogleSocialAuthSDKProvider: SocialAuthSDKProvider {
             presenting: currentPresentedViewController
         ) { user, error in
             if let error = error {
+                #if DEBUG
                 print("GoogleSocialAuthSDKProvider :: error = \(error.localizedDescription)")
+                #endif
                 if (error as NSError).code == GIDSignInError.canceled.rawValue {
                     completion(.failure(.canceled))
                 } else {
                     completion(.failure(.connectionError))
                 }
             } else if let serverAuthCode = user?.serverAuthCode {
+                #if DEBUG
                 print("GoogleSocialAuthSDKProvider :: success serverAuthCode = \(serverAuthCode)")
-                let token = SocialAuthSDKResponse(token: serverAuthCode)
-                completion(.success(token))
+                #endif
+                completion(.success(SocialAuthSDKResponse(authorizationCode: serverAuthCode)))
             } else {
                 print("GoogleSocialAuthSDKProvider :: error missing serverAuthCode")
                 completion(.failure(.accessDenied))

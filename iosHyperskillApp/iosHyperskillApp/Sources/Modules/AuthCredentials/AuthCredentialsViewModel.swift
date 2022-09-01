@@ -35,7 +35,16 @@ final class AuthCredentialsViewModel: FeatureViewModel<
     }
 
     func doResetPassword() {
-        print("AuthEmailViewModel :: \(#function)")
+        guard let url = HyperskillURLFactory.makeResetPassword() else {
+            return
+        }
+
+        WebControllerManager.shared.presentWebControllerWithURL(
+            url,
+            withKey: .externalLink,
+            allowsSafari: true,
+            backButtonStyle: .done
+        )
     }
 
     func doCompleteAuthFlow(isNewUser: Bool) {

@@ -22,7 +22,7 @@ struct AuthPreviews_Previews: PreviewProvider {
                 .makeModule()
                 .previewDevice(previewDevice)
 
-            AuthNewUserPlaceholderView()
+            AuthNewUserPlaceholderView(onSignInTap: {})
                 .previewDevice(previewDevice)
         }
     }

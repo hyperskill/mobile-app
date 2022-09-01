@@ -1,37 +1,46 @@
 import SwiftUI
 
+extension AuthSocialButton {
+    struct Appearance {
+        let textFont = Font.subheadline
+        var textColor = Color.black.opacity(0.87)
+
+        let imageIconSize = CGSize(width: 24, height: 24)
+
+        let height: CGFloat = 48
+
+        let borderColor = UIColor.dynamic(light: ColorPalette.onSurfaceAlpha38, dark: .clear)
+        let cornerRadius: CGFloat = 6
+    }
+}
+
 struct AuthSocialButton: View {
     let text: String
     let imageName: String
-    private let action: () -> Void
+    let action: () -> Void
 
-    init(text: String, imageName: String, action: @escaping () -> Void) {
-        self.text = text
-        self.imageName = imageName
-        self.action = action
-    }
+    private(set) var appearance = Appearance()
 
     var body: some View {
         Button(
             action: action,
             label: {
                 Text(text)
-                    .font(.subheadline)
-                    .foregroundColor(.black.opacity(0.75))
-                    .frame(maxWidth: .infinity, minHeight: 48, alignment: .center)
+                    .font(appearance.textFont)
+                    .foregroundColor(appearance.textColor)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .frame(height: appearance.height)
                     .background(Color.white)
                     .overlay(
                         Image(imageName)
-                            .frame(width: 24, height: 24)
+                            .frame(size: appearance.imageIconSize)
                             .padding(.leading)
                         ,
-                        alignment: .leading
+                        alignment: .init(horizontal: .leading, vertical: .center)
                     )
-                    .cornerRadius(6)
             }
         )
-        .shadow(color: Color.black.opacity(0.03), radius: 2, x: 0, y: 0)
-        .shadow(color: Color.black.opacity(0.06), radius: 2, x: 0, y: 2)
+        .addBorder(color: Color(appearance.borderColor), cornerRadius: appearance.cornerRadius)
         .buttonStyle(BounceButtonStyle())
     }
 }
