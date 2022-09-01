@@ -36,6 +36,7 @@ import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 import java.util.Locale
+import org.hyperskill.app.android.core.extensions.isChannelNotificationsEnabled
 
 class ProfileFragment :
     Fragment(R.layout.fragment_profile),
@@ -166,12 +167,8 @@ class ProfileFragment :
 
         val notificationManagerCompat = NotificationManagerCompat.from(requireContext())
         viewBinding.profileDailyRemindersSwitchCompat.isChecked =
-            notificationManagerCompat.areNotificationsEnabled() &&
-            (
-                notificationManagerCompat.getNotificationChannel(HyperskillNotificationChannel.DAILY_REMINDER.channelId)
-                    ?.isFullyEnabled(notificationManagerCompat) == true
-                ) &&
-            platformNotificationComponent.notificationInteractor.isDailyStudyRemindersEnabled()
+            notificationManagerCompat.isChannelNotificationsEnabled(HyperskillNotificationChannel.DAILY_REMINDER.channelId) &&
+                platformNotificationComponent.notificationInteractor.isDailyStudyRemindersEnabled()
 
         viewBinding.profileScheduleTextView.isVisible = viewBinding.profileDailyRemindersSwitchCompat.isChecked
 
@@ -188,11 +185,7 @@ class ProfileFragment :
                     return@setOnCheckedChangeListener
                 }
 
-                if (
-                    notificationManagerCompat
-                        .getNotificationChannel(HyperskillNotificationChannel.DAILY_REMINDER.channelId)
-                        ?.isFullyEnabled(NotificationManagerCompat.from(requireContext())) == false
-                ) {
+                if (!notificationManagerCompat.isChannelNotificationsEnabled(HyperskillNotificationChannel.DAILY_REMINDER.channelId)) {
                     val intent: Intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
                         .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
                         .putExtra(Settings.EXTRA_CHANNEL_ID, HyperskillNotificationChannel.DAILY_REMINDER.channelId)
