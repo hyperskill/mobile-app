@@ -91,8 +91,17 @@ class ProfileSettingsDialogFragment :
             openLinkInBrowser(resources.getString(R.string.settings_privacy_policy_url))
         }
 
-        viewBinding.settingsHelpCenterButton.setOnClickListener {
-            openLinkInBrowser(resources.getString(R.string.settings_help_center_url))
+        viewBinding.settingsReportProblemButton.setOnClickListener {
+            openLinkInBrowser(resources.getString(R.string.settings_report_problem_url))
+        }
+
+        viewBinding.settingsSendFeedbackButton.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SENDTO)
+                .setData(Uri.parse("mailto:"))
+                .putExtra(Intent.EXTRA_EMAIL, arrayOf("academy@jetbrains.com"))
+                .putExtra(Intent.EXTRA_SUBJECT, "[My Hyperskill] Android Feedback")
+                .putExtra(Intent.EXTRA_TEXT, "Feedback: ")
+            startActivity(Intent.createChooser(intent, "Select your E-Mail app"))
         }
 
         viewBinding.settingsVersionTextView.text = HyperskillApp.graph().commonComponent.userAgentInfo.versionName
