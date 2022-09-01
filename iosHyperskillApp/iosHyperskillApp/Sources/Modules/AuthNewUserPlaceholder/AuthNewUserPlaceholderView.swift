@@ -54,34 +54,32 @@ struct AuthNewUserPlaceholderView: View {
                 Text(Strings.Auth.NewUserPlaceholder.title)
                     .font(.title2)
                     .foregroundColor(.primaryText)
+                    .multilineTextAlignment(.center)
             }
             .frame(maxWidth: .infinity)
-
 
             Text(Strings.Auth.NewUserPlaceholder.introText)
                 .font(.body)
                 .foregroundColor(.primaryText)
 
             VStack(spacing: appearance.spacingSmall) {
-                if let registerURL = Self.registerURL {
-                    OpenURLInsideAppButton(
-                        text: Strings.Auth.NewUserPlaceholder.continueButton,
-                        url: registerURL,
-                        onTap: viewModel.logClickedContinueEvent
-                    )
-                    .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
-                }
+                OpenURLInsideAppButton(
+                    text: Strings.Auth.NewUserPlaceholder.continueButton,
+                    url: Self.registerURL.require(),
+                    onTap: viewModel.logClickedContinueEvent
+                )
+                .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
 
-                Button(Strings.Auth.NewUserPlaceholder.signInButton, action: viewModel.doSignIn)
-                    .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
+                Button(
+                    Strings.Auth.NewUserPlaceholder.signInButton,
+                    action: viewModel.doSignIn
+                )
+                .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
             }
 
-            VStack(alignment: .leading, spacing: appearance.spacingSmall) {
-                Text(Strings.Auth.NewUserPlaceholder.possibilityText)
-                Text(Strings.Auth.NewUserPlaceholder.callText)
-            }
-            .font(.body)
-            .foregroundColor(.primaryText)
+            Text(Strings.Auth.NewUserPlaceholder.possibilityText)
+                .font(.body)
+                .foregroundColor(.primaryText)
         }
     }
 
