@@ -16,7 +16,6 @@ import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentPlaceholderNewUserScreenBinding
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.config.BuildKonfig
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 
 class PlaceholderNewUserFragment : Fragment(R.layout.fragment_placeholder_new_user_screen) {
     companion object {
@@ -24,7 +23,6 @@ class PlaceholderNewUserFragment : Fragment(R.layout.fragment_placeholder_new_us
             PlaceholderNewUserFragment()
     }
 
-    private lateinit var profileInteractor: ProfileInteractor
     private lateinit var authSharedFlow: MutableSharedFlow<UserDeauthorized>
 
     private val viewBinding: FragmentPlaceholderNewUserScreenBinding by viewBinding(
@@ -37,7 +35,6 @@ class PlaceholderNewUserFragment : Fragment(R.layout.fragment_placeholder_new_us
     }
 
     private fun injectComponents() {
-        profileInteractor = HyperskillApp.graph().authComponent.profileInteractor
         authSharedFlow = HyperskillApp.graph().networkComponent.authorizationFlow
     }
 
@@ -52,7 +49,6 @@ class PlaceholderNewUserFragment : Fragment(R.layout.fragment_placeholder_new_us
 
         viewBinding.placeholderSignInButton.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
-                profileInteractor.clearCache()
                 authSharedFlow.emit(UserDeauthorized)
                 requireRouter().newRootScreen(AuthScreen)
             }

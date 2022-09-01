@@ -18,6 +18,8 @@ struct AuthNewUserPlaceholderView: View {
 
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
+    let onSignInTap: () -> Void
+
     var body: some View {
         ZStack {
             BackgroundView()
@@ -47,31 +49,34 @@ struct AuthNewUserPlaceholderView: View {
             }
             .frame(maxWidth: .infinity)
 
-
             Text(Strings.Auth.NewUserPlaceholder.introText)
                 .font(.body)
                 .foregroundColor(.primaryText)
 
-            if let registerURL = Self.registerURL {
-                OpenURLInsideAppButton(text: Strings.Auth.NewUserPlaceholder.buttonText, url: registerURL)
-                    .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
+            VStack(alignment: .center, spacing: appearance.spacingSmall) {
+                OpenURLInsideAppButton(
+                    text: Strings.Auth.NewUserPlaceholder.buttonText, url: Self.registerURL.require()
+                )
+                .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
+
+                Button(Strings.Auth.Credentials.logIn) {
+                    onSignInTap()
+                }
+                .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
             }
 
-            VStack(alignment: .leading, spacing: appearance.spacingSmall) {
-                Text(Strings.Auth.NewUserPlaceholder.possibilityText)
-                Text(Strings.Auth.NewUserPlaceholder.callText)
-            }
-            .font(.body)
-            .foregroundColor(.primaryText)
+            Text(Strings.Auth.NewUserPlaceholder.possibilityText)
+                .font(.body)
+                .foregroundColor(.primaryText)
         }
     }
 }
 
 struct AuthNewUserPlaceholderView_Previews: PreviewProvider {
     static var previews: some View {
-        AuthNewUserPlaceholderView()
+        AuthNewUserPlaceholderView(onSignInTap: {})
 
-        AuthNewUserPlaceholderView()
+        AuthNewUserPlaceholderView(onSignInTap: {})
             .previewDevice(PreviewDevice(rawValue: "iPad (9th generation)"))
     }
 }
