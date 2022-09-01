@@ -45,4 +45,12 @@ class ProfileSettingsComponentImpl(private val appGraph: AppGraph) : ProfileSett
             profileInteractor,
             appGraph.networkComponent.authorizationFlow
         )
+
+    override suspend fun feedbackEmailDataBuilder(): FeedbackEmailDataBuilder =
+        FeedbackEmailDataBuilder(
+            "My Hyperskill",
+            appGraph.commonComponent.platform,
+            profileInteractor.getCurrentProfile().getOrNull()?.id,
+            appGraph.commonComponent.userAgentInfo.versionCode
+        )
 }
