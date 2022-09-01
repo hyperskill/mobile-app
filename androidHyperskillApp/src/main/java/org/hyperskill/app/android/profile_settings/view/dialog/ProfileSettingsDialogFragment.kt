@@ -9,14 +9,17 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.launch
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.representation
 import org.hyperskill.app.android.databinding.FragmentProfileSettingsBinding
 import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper
 import org.hyperskill.app.profile.presentation.ProfileSettingsViewModel
+import org.hyperskill.app.profile_settings.domain.model.FeedbackEmailData
 import org.hyperskill.app.profile_settings.domain.model.Theme
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
@@ -39,6 +42,8 @@ class ProfileSettingsDialogFragment :
     private val profileSettingsViewModel: ProfileSettingsViewModel by reduxViewModel(this) { viewModelFactory }
     private val viewStateDelegate: ViewStateDelegate<ProfileSettingsFeature.State> = ViewStateDelegate()
 
+    private lateinit var feedbackEmailData: FeedbackEmailData
+
     private var currentThemePosition: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +56,9 @@ class ProfileSettingsDialogFragment :
         val profileSettingsComponent = HyperskillApp.graph().buildProfileSettingsComponent()
         val platformProfileSettingsComponent = HyperskillApp.graph().buildPlatformProfileSettingsComponent(profileSettingsComponent)
         viewModelFactory = platformProfileSettingsComponent.reduxViewModelFactory
+        profileSettingsViewModel.viewModelScope.launch {
+            feedbackEmailData = profileSettingsComponent.feedbackEmailDataBuilder().build()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -98,9 +106,9 @@ class ProfileSettingsDialogFragment :
         viewBinding.settingsSendFeedbackButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_SENDTO)
                 .setData(Uri.parse("mailto:"))
-                .putExtra(Intent.EXTRA_EMAIL, arrayOf("academy@jetbrains.com"))
-                .putExtra(Intent.EXTRA_SUBJECT, "[My Hyperskill] Android Feedback")
-                .putExtra(Intent.EXTRA_TEXT, "Feedback: ")
+                .putExtra(Intent.EXTRA_EMAIL, arrayOf(feedbackEmailData.mailTo))
+                .putExtra(Intent.EXTRA_SUBJECT, feedbackEmailData.subject)
+                .putExtra(Intent.EXTRA_TEXT, feedbackEmailData.body)
             startActivity(Intent.createChooser(intent, "Select your E-Mail app"))
         }
 
