@@ -1,5 +1,6 @@
 package org.hyperskill.app.profile_settings.injection
 
+import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.profile.cache.ProfileCacheDataSourceImpl
 import org.hyperskill.app.profile.data.repository.ProfileRepositoryImpl
@@ -44,5 +45,13 @@ class ProfileSettingsComponentImpl(private val appGraph: AppGraph) : ProfileSett
             profileSettingsInteractor,
             profileInteractor,
             appGraph.networkComponent.authorizationFlow
+        )
+
+    override suspend fun feedbackEmailDataBuilder(): FeedbackEmailDataBuilder =
+        FeedbackEmailDataBuilder(
+            BuildKonfig.APP_NAME,
+            appGraph.commonComponent.platform,
+            profileInteractor.getCurrentProfile().getOrNull()?.id,
+            appGraph.commonComponent.userAgentInfo.versionCode
         )
 }
