@@ -84,8 +84,8 @@ extension NotificationPermissionStatusSettingsObserver {
 // MARK: - NotificationPermissionStatusSettingsObserver (NotificationCenter) -
 
 extension Foundation.Notification.Name {
-    static let notificationPermissionStatusSettingsObserverPermissionStatusDidChange = Foundation.Notification
-        .Name("notificationPermissionStatusSettingsObserverPermissionStatusDidChange")
+    static let notificationPermissionStatusDidChange = Foundation.Notification
+        .Name("notificationPermissionStatusDidChange")
 }
 
 extension NotificationPermissionStatusSettingsObserver {
@@ -94,7 +94,7 @@ extension NotificationPermissionStatusSettingsObserver {
         _ permissionStatus: NotificationPermissionStatus
     ) {
         NotificationCenter.default.post(
-            name: .notificationPermissionStatusSettingsObserverPermissionStatusDidChange,
+            name: .notificationPermissionStatusDidChange,
             object: permissionStatus
         )
     }

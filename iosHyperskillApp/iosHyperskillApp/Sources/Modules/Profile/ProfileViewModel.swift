@@ -33,7 +33,7 @@ final class ProfileViewModel: FeatureViewModel<
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(onPermissionStatusUpdate(_:)),
-            name: .notificationPermissionStatusSettingsObserverPermissionStatusDidChange,
+            name: .notificationPermissionStatusDidChange,
             object: nil
         )
     }
