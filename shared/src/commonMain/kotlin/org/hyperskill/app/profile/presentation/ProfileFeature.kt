@@ -32,11 +32,11 @@ interface ProfileFeature {
         /**
          * Analytic
          */
-        object ProfileViewedEventMessage : Message
-        object ProfileClickedSettingsEventMessage : Message
-        data class ProfileClickedDailyStudyRemindsEventMessage(val isEnabled: Boolean) : Message
-        object ProfileClickedDailyStudyRemindsTimeEventMessage : Message
-        object ProfileClickedViewFullProfileEventMessage : Message
+        object ViewedEventMessage : Message
+        object ClickedSettingsEventMessage : Message
+        data class ClickedDailyStudyRemindsEventMessage(val isEnabled: Boolean) : Message
+        object ClickedDailyStudyRemindsTimeEventMessage : Message
+        object ClickedViewFullProfileEventMessage : Message
     }
 
     sealed interface Action {

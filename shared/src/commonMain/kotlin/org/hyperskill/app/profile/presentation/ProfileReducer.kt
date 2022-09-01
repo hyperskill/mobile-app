@@ -37,15 +37,15 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
-            is Message.ProfileViewedEventMessage ->
+            is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(ProfileViewedHyperskillAnalyticEvent()))
-            is Message.ProfileClickedSettingsEventMessage ->
+            is Message.ClickedSettingsEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(ProfileClickedSettingsHyperskillAnalyticEvent()))
-            is Message.ProfileClickedDailyStudyRemindsEventMessage ->
+            is Message.ClickedDailyStudyRemindsEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(ProfileClickedDailyStudyRemindsHyperskillAnalyticEvent(message.isEnabled)))
-            is Message.ProfileClickedDailyStudyRemindsTimeEventMessage ->
+            is Message.ClickedDailyStudyRemindsTimeEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(ProfileClickedDailyStudyRemindsTimeHyperskillAnalyticEvent()))
-            is Message.ProfileClickedViewFullProfileEventMessage ->
+            is Message.ClickedViewFullProfileEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(ProfileClickedViewFullProfileHyperskillAnalyticEvent()))
         } ?: (state to emptySet())
 }

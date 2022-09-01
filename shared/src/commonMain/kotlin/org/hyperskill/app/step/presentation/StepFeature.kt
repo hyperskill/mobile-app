@@ -21,7 +21,7 @@ interface StepFeature {
             data class Error(val errorMsg: String) : StepLoaded
         }
 
-        data class StepClickedBackEventMessage(val stepId: Long) : Message
+        data class ClickedBackEventMessage(val stepId: Long) : Message
     }
 
     sealed interface Action {

@@ -36,9 +36,9 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                 }
             is Message.LogoutConfirmed ->
                 state to setOf(Action.Logout)
-            is Message.ProfileSettingsViewedEventMessage ->
+            is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(ProfileSettingsViewedHyperskillAnalyticEvent()))
-            is Message.ProfileSettingsClickedDoneEventMessage ->
+            is Message.ClickedDoneEventMessage ->
                 state to setOf(
                     Action.LogAnalyticEvent(
                         ProfileSettingsClickedHyperskillAnalyticEvent(
@@ -47,7 +47,7 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                         )
                     )
                 )
-            is Message.ProfileSettingsClickedThemeEventMessage ->
+            is Message.ClickedThemeEventMessage ->
                 state to setOf(
                     Action.LogAnalyticEvent(
                         ProfileSettingsClickedHyperskillAnalyticEvent(
@@ -55,7 +55,7 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                         )
                     )
                 )
-            is Message.ProfileSettingsClickedTermsOfServiceEventMessage ->
+            is Message.ClickedTermsOfServiceEventMessage ->
                 state to setOf(
                     Action.LogAnalyticEvent(
                         ProfileSettingsClickedHyperskillAnalyticEvent(
@@ -63,7 +63,7 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                         )
                     )
                 )
-            is Message.ProfileSettingsClickedPrivacyPolicyEventMessage ->
+            is Message.ClickedPrivacyPolicyEventMessage ->
                 state to setOf(
                     Action.LogAnalyticEvent(
                         ProfileSettingsClickedHyperskillAnalyticEvent(
@@ -71,7 +71,7 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                         )
                     )
                 )
-            is Message.ProfileSettingsClickedHelpCenterEventMessage ->
+            is Message.ClickedHelpCenterEventMessage ->
                 state to setOf(
                     Action.LogAnalyticEvent(
                         ProfileSettingsClickedHyperskillAnalyticEvent(
@@ -79,7 +79,7 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                         )
                     )
                 )
-            is Message.ProfileSettingsClickedLogoutEventMessage ->
+            is Message.ClickedLogoutEventMessage ->
                 state to setOf(
                     Action.LogAnalyticEvent(
                         ProfileSettingsClickedHyperskillAnalyticEvent(
@@ -87,7 +87,7 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                         )
                     )
                 )
-            is Message.ProfileSettingsClickedDeleteAccountEventMessage ->
+            is Message.ClickedDeleteAccountEventMessage ->
                 state to setOf(
                     Action.LogAnalyticEvent(
                         ProfileSettingsClickedHyperskillAnalyticEvent(
@@ -95,9 +95,9 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                         )
                     )
                 )
-            is Message.ProfileSettingsDeleteAccountNoticeShownEventMessage ->
+            is Message.DeleteAccountNoticeShownEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(ProfileSettingsDeleteAccountNoticeShownHyperskillAnalyticEvent()))
-            is Message.ProfileSettingsDeleteAccountNoticeHiddenEventMessage ->
+            is Message.DeleteAccountNoticeHiddenEventMessage ->
                 state to setOf(
                     Action.LogAnalyticEvent(
                         ProfileSettingsDeleteAccountNoticeHiddenHyperskillAnalyticEvent(

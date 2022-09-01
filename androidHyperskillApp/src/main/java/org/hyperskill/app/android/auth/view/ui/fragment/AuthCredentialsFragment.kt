@@ -84,14 +84,14 @@ class AuthCredentialsFragment :
             handled
         }
         viewBinding.signInWithEmailMaterialButton.setOnClickListener {
-            authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.AuthClickedSignInEventMessage)
+            authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.ClickedSignInEventMessage)
             authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.SubmitFormClicked)
         }
         viewBinding.signInWithEmailResetPasswordTextButton.setOnClickListener {
-            authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.AuthClickedResetPasswordEventMessage)
+            authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.ClickedResetPasswordEventMessage)
         }
         viewBinding.signInWithSocialMaterialButton.setOnClickListener {
-            authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.AuthClickedContinueWithSocialEventMessage)
+            authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.ClickedContinueWithSocialEventMessage)
             requireRouter().backTo(AuthSocialScreen)
         }
 
@@ -107,7 +107,7 @@ class AuthCredentialsFragment :
             viewBinding.signInToTextView.isVisible = !isVisible
         }
 
-        authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.AuthViewedEventMessage)
+        authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.ViewedEventMessage)
     }
 
     private fun injectComponent() {

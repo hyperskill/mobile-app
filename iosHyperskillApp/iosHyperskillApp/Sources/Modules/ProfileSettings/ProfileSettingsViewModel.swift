@@ -39,11 +39,11 @@ final class ProfileSettingsViewModel: FeatureViewModel<
     // MARK: Analytic
 
     func logViewedEvent() {
-        onNewMessage(ProfileSettingsFeatureMessageProfileSettingsViewedEventMessage())
+        onNewMessage(ProfileSettingsFeatureMessageViewedEventMessage())
     }
 
     func logClickedDoneEvent() {
-        onNewMessage(ProfileSettingsFeatureMessageProfileSettingsClickedDoneEventMessage())
+        onNewMessage(ProfileSettingsFeatureMessageClickedDoneEventMessage())
     }
 
     func logClickedThemeEvent() {
@@ -51,36 +51,36 @@ final class ProfileSettingsViewModel: FeatureViewModel<
     }
 
     private func sendClickedThemeEventMessage() {
-        onNewMessage(ProfileSettingsFeatureMessageProfileSettingsClickedThemeEventMessage())
+        onNewMessage(ProfileSettingsFeatureMessageClickedThemeEventMessage())
     }
 
     func logClickedTermsOfServiceEvent() {
-        onNewMessage(ProfileSettingsFeatureMessageProfileSettingsClickedTermsOfServiceEventMessage())
+        onNewMessage(ProfileSettingsFeatureMessageClickedTermsOfServiceEventMessage())
     }
 
     func logClickedPrivacyPolicyEvent() {
-        onNewMessage(ProfileSettingsFeatureMessageProfileSettingsClickedPrivacyPolicyEventMessage())
+        onNewMessage(ProfileSettingsFeatureMessageClickedPrivacyPolicyEventMessage())
     }
 
     func logClickedHelpCenterEvent() {
-        onNewMessage(ProfileSettingsFeatureMessageProfileSettingsClickedHelpCenterEventMessage())
+        onNewMessage(ProfileSettingsFeatureMessageClickedHelpCenterEventMessage())
     }
 
     func logClickedLogoutEvent() {
-        onNewMessage(ProfileSettingsFeatureMessageProfileSettingsClickedLogoutEventMessage())
+        onNewMessage(ProfileSettingsFeatureMessageClickedLogoutEventMessage())
     }
 
     func logClickedDeleteAccountEvent() {
-        onNewMessage(ProfileSettingsFeatureMessageProfileSettingsClickedDeleteAccountEventMessage())
+        onNewMessage(ProfileSettingsFeatureMessageClickedDeleteAccountEventMessage())
     }
 
     func logDeleteAccountNoticeShownEvent() {
-        onNewMessage(ProfileSettingsFeatureMessageProfileSettingsDeleteAccountNoticeShownEventMessage())
+        onNewMessage(ProfileSettingsFeatureMessageDeleteAccountNoticeShownEventMessage())
     }
 
     func logDeleteAccountNoticeHiddenEvent(isConfirmed: Bool) {
         onNewMessage(
-            ProfileSettingsFeatureMessageProfileSettingsDeleteAccountNoticeHiddenEventMessage(isConfirmed: isConfirmed)
+            ProfileSettingsFeatureMessageDeleteAccountNoticeHiddenEventMessage(isConfirmed: isConfirmed)
         )
     }
 }

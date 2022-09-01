@@ -25,14 +25,14 @@ final class OnboardingViewModel: FeatureViewModel<
     // MARK: Analytic
 
     func logViewedEvent() {
-        onNewMessage(OnboardingFeatureMessageOnboardingViewedEventMessage())
+        onNewMessage(OnboardingFeatureMessageViewedEventMessage())
     }
 
     private func logClickedSignInEvent() {
-        onNewMessage(OnboardingFeatureMessageOnboardingClickedSignInEventMessage())
+        onNewMessage(OnboardingFeatureMessageClickedSignInEventMessage())
     }
 
     private func logClickedSignUnEvent() {
-        onNewMessage(OnboardingFeatureMessageOnboardingClickedSignUnEventMessage())
+        onNewMessage(OnboardingFeatureMessageClickedSignUnEventMessage())
     }
 }

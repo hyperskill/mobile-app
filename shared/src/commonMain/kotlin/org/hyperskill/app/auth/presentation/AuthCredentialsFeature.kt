@@ -26,10 +26,10 @@ interface AuthCredentialsFeature {
         /**
          * Analytic
          */
-        object AuthViewedEventMessage : Message
-        object AuthClickedSignInEventMessage : Message
-        object AuthClickedResetPasswordEventMessage : Message
-        object AuthClickedContinueWithSocialEventMessage : Message
+        object ViewedEventMessage : Message
+        object ClickedSignInEventMessage : Message
+        object ClickedResetPasswordEventMessage : Message
+        object ClickedContinueWithSocialEventMessage : Message
     }
 
     sealed interface Action {

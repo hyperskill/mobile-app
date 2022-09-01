@@ -66,16 +66,16 @@ final class AuthSocialViewModel: FeatureViewModel<
     // MARK: Analytic
 
     func logViewedEvent() {
-        onNewMessage(AuthSocialFeatureMessageAuthViewedEventMessage())
+        onNewMessage(AuthSocialFeatureMessageViewedEventMessage())
     }
 
     private func logClickedSignInWithSocialEvent(provider: SocialAuthProvider) {
         onNewMessage(
-            AuthSocialFeatureMessageAuthClickedSignInWithSocialEventMessage(socialAuthProvider: provider.sharedType)
+            AuthSocialFeatureMessageClickedSignInWithSocialEventMessage(socialAuthProvider: provider.sharedType)
         )
     }
 
     func logClickedContinueWithEmailEvent() {
-        onNewMessage(AuthSocialFeatureMessageAuthClickedContinueWithEmailEventMessage())
+        onNewMessage(AuthSocialFeatureMessageClickedContinueWithEmailEventMessage())
     }
 }

@@ -57,18 +57,18 @@ final class AuthCredentialsViewModel: FeatureViewModel<
     // MARK: Analytic
 
     func logViewedEvent() {
-        onNewMessage(AuthCredentialsFeatureMessageAuthViewedEventMessage())
+        onNewMessage(AuthCredentialsFeatureMessageViewedEventMessage())
     }
 
     private func logClickedSignInEvent() {
-        onNewMessage(AuthCredentialsFeatureMessageAuthClickedSignInEventMessage())
+        onNewMessage(AuthCredentialsFeatureMessageClickedSignInEventMessage())
     }
 
     private func logClickedResetPasswordEvent() {
-        onNewMessage(AuthCredentialsFeatureMessageAuthClickedResetPasswordEventMessage())
+        onNewMessage(AuthCredentialsFeatureMessageClickedResetPasswordEventMessage())
     }
 
     func logClickedContinueWithSocialEvent() {
-        onNewMessage(AuthCredentialsFeatureMessageAuthClickedContinueWithSocialEventMessage())
+        onNewMessage(AuthCredentialsFeatureMessageClickedContinueWithSocialEventMessage())
     }
 }

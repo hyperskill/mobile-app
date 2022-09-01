@@ -38,11 +38,11 @@ class AuthSocialReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
-            is Message.AuthViewedEventMessage ->
+            is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(AuthSocialViewedHyperskillAnalyticEvent()))
-            is Message.AuthClickedSignInWithSocialEventMessage ->
+            is Message.ClickedSignInWithSocialEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(AuthSocialClickedSignInWithSocialHyperskillAnalyticEvent(message.socialAuthProvider)))
-            is Message.AuthClickedContinueWithEmailEventMessage ->
+            is Message.ClickedContinueWithEmailEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(AuthSocialClickedContinueWithEmailHyperskillAnalyticEvent()))
         } ?: (state to emptySet())
 }

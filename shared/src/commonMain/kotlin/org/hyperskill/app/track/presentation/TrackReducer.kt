@@ -22,9 +22,9 @@ class TrackReducer : StateReducer<State, Message, Action> {
                 State.Content(message.track, message.trackProgress, message.studyPlan) to emptySet()
             is Message.TrackError ->
                 State.NetworkError to emptySet()
-            is Message.TrackViewedEventMessage ->
+            is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(TrackViewedHyperskillAnalyticEvent()))
-            is Message.TrackClickedContinueInWebEventMessage ->
+            is Message.ClickedContinueInWebEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(TrackClickedContinueInWebHyperskillAnalyticEvent()))
         } ?: (state to emptySet())
 }

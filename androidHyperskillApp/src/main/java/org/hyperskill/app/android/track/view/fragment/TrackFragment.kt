@@ -58,7 +58,7 @@ class TrackFragment :
         }
 
         trackViewModel.onNewMessage(TrackFeature.Message.Init())
-        trackViewModel.onNewMessage(TrackFeature.Message.TrackViewedEventMessage)
+        trackViewModel.onNewMessage(TrackFeature.Message.ViewedEventMessage)
     }
 
     private fun injectComponents() {
@@ -185,7 +185,7 @@ class TrackFragment :
 
             trackAboutKeepYourProgressInWebTextView.paintFlags = trackAboutKeepYourProgressInWebTextView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
             trackAboutKeepYourProgressInWebTextView.setOnClickListener {
-                trackViewModel.onNewMessage(TrackFeature.Message.TrackClickedContinueInWebEventMessage)
+                trackViewModel.onNewMessage(TrackFeature.Message.ClickedContinueInWebEventMessage)
 
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.data = Uri.parse(TrackRedirectLinkBuilder.getStudyPlanLink())

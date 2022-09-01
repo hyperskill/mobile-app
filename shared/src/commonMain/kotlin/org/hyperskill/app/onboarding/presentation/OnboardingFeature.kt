@@ -13,9 +13,9 @@ interface OnboardingFeature {
         /**
          * Analytic
          */
-        object OnboardingViewedEventMessage : Message
-        object OnboardingClickedSignInEventMessage : Message
-        object OnboardingClickedSignUnEventMessage : Message
+        object ViewedEventMessage : Message
+        object ClickedSignInEventMessage : Message
+        object ClickedSignUnEventMessage : Message
     }
 
     sealed interface Action {

@@ -170,22 +170,22 @@ final class ProfileViewModel: FeatureViewModel<
     // MARK: Analytic
 
     func logViewedEvent() {
-        onNewMessage(ProfileFeatureMessageProfileViewedEventMessage())
+        onNewMessage(ProfileFeatureMessageViewedEventMessage())
     }
 
     func logClickedSettingsEvent() {
-        onNewMessage(ProfileFeatureMessageProfileClickedSettingsEventMessage())
+        onNewMessage(ProfileFeatureMessageClickedSettingsEventMessage())
     }
 
     private func logClickedDailyStudyRemindsEvent(isEnabled: Bool) {
-        onNewMessage(ProfileFeatureMessageProfileClickedDailyStudyRemindsEventMessage(isEnabled: isEnabled))
+        onNewMessage(ProfileFeatureMessageClickedDailyStudyRemindsEventMessage(isEnabled: isEnabled))
     }
 
     func logClickedDailyStudyRemindsTimeEvent() {
-        onNewMessage(ProfileFeatureMessageProfileClickedDailyStudyRemindsTimeEventMessage())
+        onNewMessage(ProfileFeatureMessageClickedDailyStudyRemindsTimeEventMessage())
     }
 
     private func logClickedViewFullProfileEvent() {
-        onNewMessage(ProfileFeatureMessageProfileClickedViewFullProfileEventMessage())
+        onNewMessage(ProfileFeatureMessageClickedViewFullProfileEventMessage())
     }
 }
