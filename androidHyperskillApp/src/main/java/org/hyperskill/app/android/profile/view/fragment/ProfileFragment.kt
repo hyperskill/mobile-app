@@ -4,7 +4,9 @@ import android.content.Intent
 import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -13,25 +15,27 @@ import coil.ImageLoader
 import coil.decode.SvgDecoder
 import coil.load
 import coil.transform.CircleCropTransformation
+import java.util.Locale
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.extensions.isChannelNotificationsEnabled
 import org.hyperskill.app.android.databinding.FragmentProfileBinding
 import org.hyperskill.app.android.notification.injection.PlatformNotificationComponent
+import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
 import org.hyperskill.app.android.profile_settings.view.dialog.ProfileSettingsDialogFragment
 import org.hyperskill.app.android.streak.view.delegate.StreakCardFormDelegate
 import org.hyperskill.app.android.view.base.ui.extension.redirectToUsernamePage
 import org.hyperskill.app.profile.domain.model.Profile
-import org.hyperskill.app.profile.view.social_redirect.SocialNetworksRedirect
 import org.hyperskill.app.profile.presentation.ProfileFeature
 import org.hyperskill.app.profile.presentation.ProfileViewModel
 import org.hyperskill.app.profile.routing.ProfileRedirectLinkBuilder
+import org.hyperskill.app.profile.view.social_redirect.SocialNetworksRedirect
 import org.hyperskill.app.streak.domain.model.Streak
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
-import java.util.Locale
 
 class ProfileFragment :
     Fragment(R.layout.fragment_profile),
@@ -160,15 +164,35 @@ class ProfileFragment :
         viewBinding.profileScheduleTextView.text = requireContext().resources.getString(R.string.profile_daily_study_reminders_schedule_text) +
             " ${scheduleTime.toString().padStart(2, '0')}:00 - ${(scheduleTime + 1).toString().padStart(2, '0')}:00"
 
+        val notificationManagerCompat = NotificationManagerCompat.from(requireContext())
+        viewBinding.profileDailyRemindersSwitchCompat.isChecked =
+            notificationManagerCompat.isChannelNotificationsEnabled(HyperskillNotificationChannel.DAILY_REMINDER.channelId) && platformNotificationComponent.notificationInteractor.isDailyStudyRemindersEnabled()
+
         viewBinding.profileScheduleTextView.isVisible = viewBinding.profileDailyRemindersSwitchCompat.isChecked
 
         viewBinding.profileDailyRemindersSwitchCompat.setOnCheckedChangeListener { _, isChecked ->
-            viewBinding.profileScheduleTextView.isVisible = isChecked
             platformNotificationComponent.notificationInteractor.setDailyStudyRemindersEnabled(isChecked)
 
             if (isChecked) {
                 platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification()
+
+                if (!notificationManagerCompat.areNotificationsEnabled()) {
+                    val intent: Intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                        .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
+                    startActivity(intent)
+                    return@setOnCheckedChangeListener
+                }
+
+                if (!notificationManagerCompat.isChannelNotificationsEnabled(HyperskillNotificationChannel.DAILY_REMINDER.channelId)) {
+                    val intent: Intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
+                        .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
+                        .putExtra(Settings.EXTRA_CHANNEL_ID, HyperskillNotificationChannel.DAILY_REMINDER.channelId)
+                    startActivity(intent)
+                    return@setOnCheckedChangeListener
+                }
             }
+
+            viewBinding.profileScheduleTextView.isVisible = isChecked
         }
     }
 
