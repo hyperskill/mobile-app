@@ -6,14 +6,17 @@ final class NotificationsService {
     private let localNotificationsService: LocalNotificationsService
 
     let notificationInteractor: NotificationInteractor
+    let analyticInteractor: AnalyticInteractor
 
     init(
         localNotificationsService: LocalNotificationsService = LocalNotificationsService(),
         notificationInteractor: NotificationInteractor =
-            AppGraphBridge.sharedAppGraph.buildNotificationComponent().notificationInteractor
+            AppGraphBridge.sharedAppGraph.buildNotificationComponent().notificationInteractor,
+        analyticInteractor: AnalyticInteractor = AppGraphBridge.sharedAppGraph.analyticComponent.analyticInteractor
     ) {
         self.localNotificationsService = localNotificationsService
         self.notificationInteractor = notificationInteractor
+        self.analyticInteractor = analyticInteractor
     }
 }
 

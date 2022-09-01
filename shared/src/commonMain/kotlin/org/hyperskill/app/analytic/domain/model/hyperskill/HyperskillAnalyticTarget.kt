@@ -29,6 +29,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     DAILY_STUDY_REMINDS("daily_study_reminds"),
     DAILY_STUDY_REMINDS_TIME("daily_study_reminds_time"),
     DAILY_NOTIFICATIONS_NOTICE("daily_notifications_notice"),
+    DAILY_NOTIFICATION("daily_notification"),
     CONTINUE_TO_HYPERSKILL("continue_to_hyperskill"),
     CONTINUE("continue"),
     SIGN_IN("sign_in"),

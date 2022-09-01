@@ -74,7 +74,9 @@ final class StepQuizViewModel: FeatureViewModel<
                 await MainActor.run {
                     if isNotificationPermissionGranted {
                         onNewMessage(StepQuizFeatureMessageUserAgreedToEnableDailyReminders())
-                        notificationService.scheduleDailyStudyReminderLocalNotifications()
+                        notificationService.scheduleDailyStudyReminderLocalNotifications(
+                            analyticRoute: HyperskillAnalyticRoute.Learn.LearnStep(stepId: step.id)
+                        )
                     } else {
                         onNewMessage(StepQuizFeatureMessageUserDeclinedToEnableDailyReminders())
                     }
