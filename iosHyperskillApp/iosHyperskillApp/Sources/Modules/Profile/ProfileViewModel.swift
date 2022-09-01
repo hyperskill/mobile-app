@@ -11,20 +11,35 @@ final class ProfileViewModel: FeatureViewModel<
     private let viewDataMapper: ProfileViewDataMapper
 
     private let notificationService: NotificationsService
+    private let notificationsRegistrationService: NotificationsRegistrationService
     private let notificationInteractor: NotificationInteractor
 
     init(
         presentationDescription: ProfilePresentationDescription,
         viewDataMapper: ProfileViewDataMapper,
         notificationService: NotificationsService,
+        notificationsRegistrationService: NotificationsRegistrationService,
         notificationInteractor: NotificationInteractor,
         feature: Presentation_reduxFeature
     ) {
         self.presentationDescription = presentationDescription
         self.viewDataMapper = viewDataMapper
         self.notificationService = notificationService
+        self.notificationsRegistrationService = notificationsRegistrationService
         self.notificationInteractor = notificationInteractor
+
         super.init(feature: feature)
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(onPermissionStatusUpdate(_:)),
+            name: .notificationPermissionStatusSettingsObserverPermissionStatusDidChange,
+            object: nil
+        )
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 
     func loadProfile(forceUpdate: Bool = false) {
@@ -90,19 +105,66 @@ final class ProfileViewModel: FeatureViewModel<
     func setDailyStudyRemindersEnabled(_ isEnabled: Bool) {
         logClickedDailyStudyRemindsEvent(isEnabled: isEnabled)
 
-        notificationInteractor.setDailyStudyRemindersEnabled(enabled: isEnabled)
-
         if isEnabled {
-            notificationService.scheduleDailyStudyReminderLocalNotifications()
-            NotificationsRegistrationService.requestAuthorization(grantedHandler: { _ in })
+            Task(priority: .userInitiated) {
+                let isGranted = await notificationsRegistrationService.requestAuthorizationIfNeeded()
+
+                await MainActor.run {
+                    if isGranted {
+                        notificationInteractor.setDailyStudyRemindersEnabled(enabled: true)
+                        notificationService.scheduleDailyStudyReminderLocalNotifications()
+                    } else {
+                        handleUserDeclinedDailyStudyReminders()
+                    }
+
+                    objectWillChange.send()
+                }
+            }
         } else {
-            notificationService.removeDailyStudyReminderLocalNotifications()
+            handleUserDeclinedDailyStudyReminders()
         }
     }
 
     func setDailyStudyRemindersStartHour(startHour: Int) {
         notificationInteractor.setDailyStudyRemindersIntervalStartHour(hour: Int32(startHour))
         notificationService.scheduleDailyStudyReminderLocalNotifications()
+    }
+
+    func determineCurrentNotificationPermissionStatus() {
+        guard notificationInteractor.isDailyStudyRemindersEnabled() else {
+            return
+        }
+
+        Task {
+            let permissionStatus = await NotificationPermissionStatus.current
+
+            if permissionStatus == .denied {
+                await MainActor.run {
+                    handleUserDeclinedDailyStudyReminders(shouldEmitObjectChange: true)
+                }
+            }
+        }
+    }
+
+    private func handleUserDeclinedDailyStudyReminders(shouldEmitObjectChange: Bool = false) {
+        notificationInteractor.setDailyStudyRemindersEnabled(enabled: false)
+        notificationService.removeDailyStudyReminderLocalNotifications()
+
+        if shouldEmitObjectChange {
+            objectWillChange.send()
+        }
+    }
+
+    @objc
+    private func onPermissionStatusUpdate(_ notification: Foundation.Notification) {
+        guard notificationInteractor.isDailyStudyRemindersEnabled(),
+              let permissionStatus = notification.object as? NotificationPermissionStatus else {
+            return
+        }
+
+        if permissionStatus == .denied {
+            handleUserDeclinedDailyStudyReminders(shouldEmitObjectChange: true)
+        }
     }
 
     // MARK: Analytic
