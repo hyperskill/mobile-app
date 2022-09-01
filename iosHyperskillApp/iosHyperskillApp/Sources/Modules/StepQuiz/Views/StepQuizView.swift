@@ -84,7 +84,7 @@ struct StepQuizView: View {
                                     )
                                 }
                             ),
-                            secondaryButton: .default(
+                            secondaryButton: .cancel(
                                 Text(Strings.General.later),
                                 action: { viewModel.onNotificationsGranted(false) }
                             )

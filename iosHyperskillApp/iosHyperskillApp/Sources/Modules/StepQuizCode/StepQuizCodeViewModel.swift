@@ -30,7 +30,7 @@ final class StepQuizCodeViewModel: ObservableObject {
     }
 
     func logClickedCodeDetailsEvent() {
-        delegate?.handleChildQuizAnalyticEventMessage(StepQuizFeatureMessageStepQuizClickedCodeDetailsEventMessage())
+        delegate?.handleChildQuizAnalyticEventMessage(StepQuizFeatureMessageClickedCodeDetailsEventMessage())
     }
 }
 

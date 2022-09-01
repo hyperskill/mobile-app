@@ -58,9 +58,9 @@ interface StepQuizFeature {
         /**
          * Analytic
          */
-        data class StepQuizViewedEventMessage(val stepId: Long) : Message
-        object StepQuizClickedCodeDetailsEventMessage : Message
-        object StepQuizClickedRetryEventMessage : Message
+        data class ViewedEventMessage(val stepId: Long) : Message
+        object ClickedCodeDetailsEventMessage : Message
+        object ClickedRetryEventMessage : Message
     }
 
     sealed interface Action {

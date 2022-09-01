@@ -13,11 +13,11 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
-import org.hyperskill.app.android.step_quiz.view.model.ReplyResult
-import org.hyperskill.app.android.step_quiz.view.mapper.StepQuizFeedbackMapper
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFeedbackBlocksDelegate
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizViewStateDelegateFactory
+import org.hyperskill.app.android.step_quiz.view.mapper.StepQuizFeedbackMapper
+import org.hyperskill.app.android.step_quiz.view.model.ReplyResult
 import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
@@ -71,14 +71,14 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
             onActionButtonClicked()
         }
         viewBinding.stepQuizButtons.stepQuizRetryButton.setOnClickListener {
-            stepQuizViewModel.onNewMessage(StepQuizFeature.Message.StepQuizClickedRetryEventMessage)
+            stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ClickedRetryEventMessage)
         }
         viewBinding.stepQuizNetworkError.tryAgain.setOnClickListener {
             stepQuizViewModel.onNewMessage(StepQuizFeature.Message.InitWithStep(step, forceUpdate = true))
         }
 
         stepQuizViewModel.onNewMessage(StepQuizFeature.Message.InitWithStep(step))
-        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.StepQuizViewedEventMessage(step.id))
+        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ViewedEventMessage(step.id))
     }
 
     protected abstract fun createStepQuizFormDelegate(containerBinding: FragmentStepQuizBinding): StepQuizFormDelegate

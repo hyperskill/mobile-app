@@ -65,11 +65,11 @@ final class StepQuizViewModel: FeatureViewModel<
     // MARK: Analytic
 
     func logViewedEvent() {
-        onNewMessage(StepQuizFeatureMessageStepQuizViewedEventMessage(stepId: step.id))
+        onNewMessage(StepQuizFeatureMessageViewedEventMessage(stepId: step.id))
     }
 
     private func logClickedRetryEvent() {
-        onNewMessage(StepQuizFeatureMessageStepQuizClickedRetryEventMessage())
+        onNewMessage(StepQuizFeatureMessageClickedRetryEventMessage())
     }
 }
 
