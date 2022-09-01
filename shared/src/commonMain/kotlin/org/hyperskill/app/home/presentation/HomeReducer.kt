@@ -70,9 +70,9 @@ class HomeReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
-            is Message.HomeViewedEventMessage ->
+            is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(HomeViewedHyperskillAnalyticEvent()))
-            is Message.HomeClickedProblemOfDayCardEventMessage -> {
+            is Message.ClickedProblemOfDayCardEventMessage -> {
                 if (state is State.Content) {
                     when (state.problemOfDayState) {
                         is HomeFeature.ProblemOfDayState.NeedToSolve -> {

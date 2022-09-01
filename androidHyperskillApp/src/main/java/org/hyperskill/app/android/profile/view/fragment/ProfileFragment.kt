@@ -79,14 +79,14 @@ class ProfileFragment :
         }
 
         viewBinding.profileSettingsButton.setOnClickListener {
-            profileViewModel.onNewMessage(ProfileFeature.Message.ProfileClickedSettingsEventMessage)
+            profileViewModel.onNewMessage(ProfileFeature.Message.ClickedSettingsEventMessage)
             ProfileSettingsDialogFragment
                 .newInstance()
                 .showIfNotExists(childFragmentManager, ProfileSettingsDialogFragment.TAG)
         }
 
         profileViewModel.onNewMessage(ProfileFeature.Message.Init(profileId = profileId, isInitCurrent = isInitCurrent))
-        profileViewModel.onNewMessage(ProfileFeature.Message.ProfileViewedEventMessage)
+        profileViewModel.onNewMessage(ProfileFeature.Message.ViewedEventMessage)
     }
 
     private fun injectComponents() {
@@ -156,7 +156,7 @@ class ProfileFragment :
 
     private fun setupRemindersSchedule() {
         viewBinding.profileScheduleTextView.setOnClickListener {
-            profileViewModel.onNewMessage(ProfileFeature.Message.ProfileClickedDailyStudyRemindsTimeEventMessage)
+            profileViewModel.onNewMessage(ProfileFeature.Message.ClickedDailyStudyRemindsTimeEventMessage)
             TimeIntervalPickerDialogFragment
                 .newInstance()
                 .showIfNotExists(childFragmentManager, TimeIntervalPickerDialogFragment.TAG)
@@ -174,7 +174,7 @@ class ProfileFragment :
         viewBinding.profileScheduleTextView.isVisible = viewBinding.profileDailyRemindersSwitchCompat.isChecked
 
         viewBinding.profileDailyRemindersSwitchCompat.setOnCheckedChangeListener { _, isChecked ->
-            profileViewModel.onNewMessage(ProfileFeature.Message.ProfileClickedDailyStudyRemindsEventMessage(isChecked))
+            profileViewModel.onNewMessage(ProfileFeature.Message.ClickedDailyStudyRemindsEventMessage(isChecked))
             platformNotificationComponent.notificationInteractor.setDailyStudyRemindersEnabled(isChecked)
 
             if (isChecked) {
@@ -281,7 +281,7 @@ class ProfileFragment :
     private fun setupProfileBrowserRedirect() {
         viewBinding.profileViewFullVersionTextView.paintFlags = viewBinding.profileViewFullVersionTextView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         viewBinding.profileViewFullVersionTextView.setOnClickListener {
-            profileViewModel.onNewMessage(ProfileFeature.Message.ProfileClickedViewFullProfileEventMessage)
+            profileViewModel.onNewMessage(ProfileFeature.Message.ClickedViewFullProfileEventMessage)
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(ProfileRedirectLinkBuilder.getProfileLink(profile.id))
             startActivity(intent)

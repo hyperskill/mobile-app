@@ -22,18 +22,18 @@ interface ProfileSettingsFeature {
         /**
          * Analytic
          */
-        object ProfileSettingsViewedEventMessage : Message
+        object ViewedEventMessage : Message
 
-        object ProfileSettingsClickedDoneEventMessage : Message
-        object ProfileSettingsClickedThemeEventMessage : Message
-        object ProfileSettingsClickedTermsOfServiceEventMessage : Message
-        object ProfileSettingsClickedPrivacyPolicyEventMessage : Message
-        object ProfileSettingsClickedHelpCenterEventMessage : Message
-        object ProfileSettingsClickedLogoutEventMessage : Message
+        object ClickedDoneEventMessage : Message
+        object ClickedThemeEventMessage : Message
+        object ClickedTermsOfServiceEventMessage : Message
+        object ClickedPrivacyPolicyEventMessage : Message
+        object ClickedHelpCenterEventMessage : Message
+        object ClickedLogoutEventMessage : Message
 
-        object ProfileSettingsClickedDeleteAccountEventMessage : Message
-        object ProfileSettingsDeleteAccountNoticeShownEventMessage : Message
-        data class ProfileSettingsDeleteAccountNoticeHiddenEventMessage(val isConfirmed: Boolean) : Message
+        object ClickedDeleteAccountEventMessage : Message
+        object DeleteAccountNoticeShownEventMessage : Message
+        data class DeleteAccountNoticeHiddenEventMessage(val isConfirmed: Boolean) : Message
     }
 
     sealed interface Action {

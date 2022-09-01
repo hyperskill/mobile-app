@@ -16,9 +16,9 @@ class PlaceholderNewUserReducer : StateReducer<State, Message, Action> {
                     Action.LogAnalyticEvent(PlaceholderNewUserClickedSignInHyperskillAnalyticEvent()),
                     Action.Logout
                 )
-            is Message.PlaceholderViewedEventMessage ->
+            is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(PlaceholderNewUserViewedHyperskillAnalyticEvent()))
-            is Message.PlaceholderClickedContinueEventMessage ->
+            is Message.ClickedContinueEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(PlaceholderNewUserClickedContinueHyperskillAnalyticEvent()))
         }
 }

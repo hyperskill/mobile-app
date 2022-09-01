@@ -50,7 +50,7 @@ class PlaceholderNewUserFragment :
         super.onViewCreated(view, savedInstanceState)
 
         viewBinding.placeholderContinueToHyperskillButton.setOnClickListener {
-            placeholderNewUserViewModel.onNewMessage(PlaceholderNewUserFeature.Message.PlaceholderClickedContinueEventMessage)
+            placeholderNewUserViewModel.onNewMessage(PlaceholderNewUserFeature.Message.ClickedContinueEventMessage)
 
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(BuildKonfig.BASE_URL)
@@ -62,7 +62,7 @@ class PlaceholderNewUserFragment :
             requireRouter().newRootScreen(AuthScreen)
         }
 
-        placeholderNewUserViewModel.onNewMessage(PlaceholderNewUserFeature.Message.PlaceholderViewedEventMessage)
+        placeholderNewUserViewModel.onNewMessage(PlaceholderNewUserFeature.Message.ViewedEventMessage)
     }
 
     override fun onAction(action: PlaceholderNewUserFeature.Action.ViewAction) {

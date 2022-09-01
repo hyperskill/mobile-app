@@ -23,6 +23,6 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
     // MARK: Analytic
 
     func logClickedBackEvent() {
-        onNewMessage(StepFeatureMessageStepClickedBackEventMessage(stepId: Int64(stepID)))
+        onNewMessage(StepFeatureMessageClickedBackEventMessage(stepId: Int64(stepID)))
     }
 }

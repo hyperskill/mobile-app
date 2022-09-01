@@ -13,11 +13,11 @@ class OnboardingReducer : StateReducer<State, Message, Action> {
         when (message) {
             is Message.Init ->
                 state to setOf(Action.FetchOnboarding)
-            is Message.OnboardingViewedEventMessage ->
+            is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(OnboardingViewedHyperskillAnalyticEvent()))
-            is Message.OnboardingClickedSignInEventMessage ->
+            is Message.ClickedSignInEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(OnboardingClickedSignInHyperskillAnalyticEvent()))
-            is Message.OnboardingClickedSignUnEventMessage ->
+            is Message.ClickedSignUnEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(OnboardingClickedSignUnHyperskillAnalyticEvent()))
         }
 }

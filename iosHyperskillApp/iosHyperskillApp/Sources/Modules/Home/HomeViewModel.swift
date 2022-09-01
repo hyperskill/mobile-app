@@ -28,11 +28,11 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
     // MARK: Analytic
 
     func logViewedEvent() {
-        onNewMessage(HomeFeatureMessageHomeViewedEventMessage())
+        onNewMessage(HomeFeatureMessageViewedEventMessage())
     }
 
     private func logClickedProblemOfDayCardEvent() {
-        onNewMessage(HomeFeatureMessageHomeClickedProblemOfDayCardEventMessage())
+        onNewMessage(HomeFeatureMessageClickedProblemOfDayCardEventMessage())
     }
 
     // MARK: Private API

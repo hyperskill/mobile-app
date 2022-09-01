@@ -36,10 +36,10 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
     // MARK: Analytic
 
     func logViewedEvent() {
-        onNewMessage(TrackFeatureMessageTrackViewedEventMessage())
+        onNewMessage(TrackFeatureMessageViewedEventMessage())
     }
 
     private func logClickedContinueInWebEvent() {
-        onNewMessage(TrackFeatureMessageTrackClickedContinueInWebEventMessage())
+        onNewMessage(TrackFeatureMessageClickedContinueInWebEventMessage())
     }
 }

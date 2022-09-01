@@ -30,8 +30,8 @@ interface TrackFeature {
         /**
          * Analytic
          */
-        object TrackViewedEventMessage : Message
-        object TrackClickedContinueInWebEventMessage : Message
+        object ViewedEventMessage : Message
+        object ClickedContinueInWebEventMessage : Message
     }
 
     sealed interface Action {

@@ -29,8 +29,8 @@ interface HomeFeature {
         /**
          * Analytic
          */
-        object HomeViewedEventMessage : Message
-        object HomeClickedProblemOfDayCardEventMessage : Message
+        object ViewedEventMessage : Message
+        object ClickedProblemOfDayCardEventMessage : Message
     }
 
     sealed interface Action {

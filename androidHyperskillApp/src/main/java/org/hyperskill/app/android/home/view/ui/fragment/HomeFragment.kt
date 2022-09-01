@@ -70,7 +70,7 @@ class HomeFragment :
         }
 
         homeViewModel.onNewMessage(HomeFeature.Message.Init(forceUpdate = false))
-        homeViewModel.onNewMessage(HomeFeature.Message.HomeViewedEventMessage)
+        homeViewModel.onNewMessage(HomeFeature.Message.ViewedEventMessage)
     }
 
     override fun onDestroy() {
@@ -85,7 +85,7 @@ class HomeFragment :
     }
 
     private fun onProblemOfDayCardActionButtonClicked(stepId: Long) {
-        homeViewModel.onNewMessage(HomeFeature.Message.HomeClickedProblemOfDayCardEventMessage)
+        homeViewModel.onNewMessage(HomeFeature.Message.ClickedProblemOfDayCardEventMessage)
         requireRouter().navigateTo(StepScreen(stepId))
     }
 

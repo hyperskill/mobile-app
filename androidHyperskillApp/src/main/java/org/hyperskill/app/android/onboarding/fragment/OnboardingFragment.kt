@@ -45,17 +45,17 @@ class OnboardingFragment :
         super.onViewCreated(view, savedInstanceState)
 
         viewBinding.onboardingSignInButton.setOnClickListener {
-            onboardingViewModel.onNewMessage(OnboardingFeature.Message.OnboardingClickedSignInEventMessage)
+            onboardingViewModel.onNewMessage(OnboardingFeature.Message.ClickedSignInEventMessage)
             requireRouter().navigateTo(AuthScreen)
         }
 
         viewBinding.onboardingSignUpButton.setOnClickListener {
-            onboardingViewModel.onNewMessage(OnboardingFeature.Message.OnboardingClickedSignUnEventMessage)
+            onboardingViewModel.onNewMessage(OnboardingFeature.Message.ClickedSignUnEventMessage)
             requireRouter().navigateTo(PlaceholderNewUserScreen)
         }
 
         onboardingViewModel.onNewMessage(OnboardingFeature.Message.Init)
-        onboardingViewModel.onNewMessage(OnboardingFeature.Message.OnboardingViewedEventMessage)
+        onboardingViewModel.onNewMessage(OnboardingFeature.Message.ViewedEventMessage)
     }
 
     override fun onAction(action: OnboardingFeature.Action.ViewAction) {

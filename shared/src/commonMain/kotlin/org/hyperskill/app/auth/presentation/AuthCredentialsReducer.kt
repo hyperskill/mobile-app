@@ -48,13 +48,13 @@ class AuthCredentialsReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
-            is Message.AuthViewedEventMessage ->
+            is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(AuthCredentialsViewedHyperskillAnalyticEvent()))
-            is Message.AuthClickedSignInEventMessage ->
+            is Message.ClickedSignInEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(AuthCredentialsClickedSignInHyperskillAnalyticEvent()))
-            is Message.AuthClickedResetPasswordEventMessage ->
+            is Message.ClickedResetPasswordEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(AuthCredentialsClickedResetPasswordHyperskillAnalyticEvent()))
-            is Message.AuthClickedContinueWithSocialEventMessage ->
+            is Message.ClickedContinueWithSocialEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(AuthCredentialsClickedContinueWithSocialHyperskillAnalyticEvent()))
         } ?: (state to emptySet())
 }

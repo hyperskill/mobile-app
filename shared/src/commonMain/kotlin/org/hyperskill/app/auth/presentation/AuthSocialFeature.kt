@@ -25,9 +25,9 @@ interface AuthSocialFeature {
         /**
          * Analytic
          */
-        object AuthViewedEventMessage : Message
-        data class AuthClickedSignInWithSocialEventMessage(val socialAuthProvider: SocialAuthProvider) : Message
-        object AuthClickedContinueWithEmailEventMessage : Message
+        object ViewedEventMessage : Message
+        data class ClickedSignInWithSocialEventMessage(val socialAuthProvider: SocialAuthProvider) : Message
+        object ClickedContinueWithEmailEventMessage : Message
     }
 
     sealed interface Action {

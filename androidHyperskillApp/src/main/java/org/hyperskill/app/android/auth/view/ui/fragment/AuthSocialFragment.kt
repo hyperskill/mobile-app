@@ -91,7 +91,7 @@ class AuthSocialFragment :
     }
 
     private fun onSocialClickListener(social: AuthSocialCardInfo) {
-        authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthClickedSignInWithSocialEventMessage(social.socialAuthProvider))
+        authSocialViewModel.onNewMessage(AuthSocialFeature.Message.ClickedSignInWithSocialEventMessage(social.socialAuthProvider))
         val authSocialWebViewFragment = AuthSocialWebViewFragment.newInstance(social.socialAuthProvider)
         when (social) {
             AuthSocialCardInfo.GOOGLE -> {
@@ -117,11 +117,11 @@ class AuthSocialFragment :
         viewBinding.authButtonsRecyclerView.adapter = authMaterialCardViewsAdapter
 
         viewBinding.signInWithEmailMaterialButton.setOnClickListener {
-            authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthClickedContinueWithEmailEventMessage)
+            authSocialViewModel.onNewMessage(AuthSocialFeature.Message.ClickedContinueWithEmailEventMessage)
             requireRouter().navigateTo(AuthEmailScreen)
         }
 
-        authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthViewedEventMessage)
+        authSocialViewModel.onNewMessage(AuthSocialFeature.Message.ViewedEventMessage)
     }
 
     override fun onAction(action: AuthSocialFeature.Action.ViewAction) {
