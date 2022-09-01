@@ -236,6 +236,7 @@
 		2CD48D892858657100CFCC4A /* StepQuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD48D882858657100CFCC4A /* StepQuizView.swift */; };
 		2CD48D8B2858684100CFCC4A /* StepQuizViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD48D8A2858684100CFCC4A /* StepQuizViewData.swift */; };
 		2CD48D8E28586B6F00CFCC4A /* StepQuizViewDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD48D8D28586B6F00CFCC4A /* StepQuizViewDataMapper.swift */; };
+		2CDBE6F528C10DCE00033679 /* NotificationPermissionStatusSettingsObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDBE6F428C10DCE00033679 /* NotificationPermissionStatusSettingsObserver.swift */; };
 		2CE1C4DF27EDFB3800220041 /* FeatureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE1C4DE27EDFB3800220041 /* FeatureViewModel.swift */; };
 		2CE2817927E8EF1E00641E22 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2CE2817827E8EF1E00641E22 /* GoogleService-Info.plist */; };
 		2CE31F4827F1BB79008EEE66 /* AuthSocialAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4727F1BB79008EEE66 /* AuthSocialAssembly.swift */; };
@@ -569,6 +570,7 @@
 		2CD48D882858657100CFCC4A /* StepQuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizView.swift; sourceTree = "<group>"; };
 		2CD48D8A2858684100CFCC4A /* StepQuizViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizViewData.swift; sourceTree = "<group>"; };
 		2CD48D8D28586B6F00CFCC4A /* StepQuizViewDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizViewDataMapper.swift; sourceTree = "<group>"; };
+		2CDBE6F428C10DCE00033679 /* NotificationPermissionStatusSettingsObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPermissionStatusSettingsObserver.swift; sourceTree = "<group>"; };
 		2CE1C4DE27EDFB3800220041 /* FeatureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureViewModel.swift; sourceTree = "<group>"; };
 		2CE2817827E8EF1E00641E22 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2CE31F4727F1BB79008EEE66 /* AuthSocialAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialAssembly.swift; sourceTree = "<group>"; };
@@ -2039,6 +2041,7 @@
 			isa = PBXGroup;
 			children = (
 				E9FB89AB2893EA580011EFFB /* NotificationPermissionStatus.swift */,
+				2CDBE6F428C10DCE00033679 /* NotificationPermissionStatusSettingsObserver.swift */,
 			);
 			path = PermissionStatus;
 			sourceTree = "<group>";
@@ -2418,6 +2421,7 @@
 				2C20FBC7284F6928006D879E /* ProgrammaticallyInitializableViewProtocol.swift in Sources */,
 				E951757927E61ACD00995008 /* AuthSocialView.swift in Sources */,
 				2C9EB9582861BA57007DDE44 /* TrackView.swift in Sources */,
+				2CDBE6F528C10DCE00033679 /* NotificationPermissionStatusSettingsObserver.swift in Sources */,
 				2C5B2A21286596030097B270 /* Reusable.swift in Sources */,
 				2C65637128743796006AAD77 /* TrackViewData.swift in Sources */,
 				2C1F5875280D0E0000372A37 /* WKWebViewPanelManager.m in Sources */,
