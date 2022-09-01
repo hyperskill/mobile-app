@@ -2,7 +2,7 @@ import Foundation
 import shared
 
 struct DailyStudyReminderLocalNotification: LocalNotificationProtocol {
-    fileprivate static let identifierPrefix = "DailyStudyReminderLocalNotification"
+    fileprivate static let identifierPrefix = NotificationsService.NotificationType.dailyStudyReminder.rawValue
 
     var title: String
 
@@ -12,7 +12,16 @@ struct DailyStudyReminderLocalNotification: LocalNotificationProtocol {
 
     private var startHour: Int
 
-    private var notificationNumber: Int
+    private let notificationID: Int
+    private let notificationNumber: Int
+
+    var userInfo: [AnyHashable: Any] {
+        [
+            NotificationsService.PayloadKey.id.rawValue: notificationID,
+            NotificationsService.PayloadKey.type.rawValue: NotificationsService.NotificationType
+                .dailyStudyReminder.rawValue
+        ]
+    }
 
     var identifier: String { "\(Self.identifierPrefix)-\(notificationNumber)" }
 
@@ -40,6 +49,7 @@ struct DailyStudyReminderLocalNotification: LocalNotificationProtocol {
         self.title = notificationDescription.title
         self.body = notificationDescription.text
         self.startHour = startHour
+        self.notificationID = notificationDescription.id
         self.notificationNumber = notificationNumber
         if let dateComponents = self.dateComponents {
             self.trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
