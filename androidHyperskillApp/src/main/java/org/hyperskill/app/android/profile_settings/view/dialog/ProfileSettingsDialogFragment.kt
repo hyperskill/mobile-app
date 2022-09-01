@@ -9,10 +9,8 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.coroutines.launch
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.representation
@@ -42,8 +40,6 @@ class ProfileSettingsDialogFragment :
     private val profileSettingsViewModel: ProfileSettingsViewModel by reduxViewModel(this) { viewModelFactory }
     private val viewStateDelegate: ViewStateDelegate<ProfileSettingsFeature.State> = ViewStateDelegate()
 
-    private lateinit var feedbackEmailData: FeedbackEmailData
-
     private var currentThemePosition: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,9 +52,6 @@ class ProfileSettingsDialogFragment :
         val profileSettingsComponent = HyperskillApp.graph().buildProfileSettingsComponent()
         val platformProfileSettingsComponent = HyperskillApp.graph().buildPlatformProfileSettingsComponent(profileSettingsComponent)
         viewModelFactory = platformProfileSettingsComponent.reduxViewModelFactory
-        profileSettingsViewModel.viewModelScope.launch {
-            feedbackEmailData = profileSettingsComponent.feedbackEmailDataBuilder().build()
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -104,12 +97,7 @@ class ProfileSettingsDialogFragment :
         }
 
         viewBinding.settingsSendFeedbackButton.setOnClickListener {
-            val intent = Intent(Intent.ACTION_SENDTO)
-                .setData(Uri.parse("mailto:"))
-                .putExtra(Intent.EXTRA_EMAIL, arrayOf(feedbackEmailData.mailTo))
-                .putExtra(Intent.EXTRA_SUBJECT, feedbackEmailData.subject)
-                .putExtra(Intent.EXTRA_TEXT, feedbackEmailData.body)
-            startActivity(Intent.createChooser(intent, "Select your E-Mail app"))
+            profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ClickedSendFeedback)
         }
 
         viewBinding.settingsVersionTextView.text = HyperskillApp.graph().commonComponent.userAgentInfo.versionName
@@ -137,7 +125,10 @@ class ProfileSettingsDialogFragment :
     }
 
     override fun onAction(action: ProfileSettingsFeature.Action.ViewAction) {
-        // no op
+        when (action) {
+            is ProfileSettingsFeature.Action.ViewAction.SendFeedback ->
+                sendEmailFeedback(action.feedbackEmailData)
+        }
     }
 
     override fun render(state: ProfileSettingsFeature.State) {
@@ -147,5 +138,14 @@ class ProfileSettingsDialogFragment :
             viewBinding.settingsThemeChosenTextView.text = state.profileSettings.theme.representation
             currentThemePosition = state.profileSettings.theme.ordinal
         }
+    }
+
+    private fun sendEmailFeedback(feedbackEmailData: FeedbackEmailData) {
+        val intent = Intent(Intent.ACTION_SENDTO)
+            .setData(Uri.parse("mailto:"))
+            .putExtra(Intent.EXTRA_EMAIL, arrayOf(feedbackEmailData.mailTo))
+            .putExtra(Intent.EXTRA_SUBJECT, feedbackEmailData.subject)
+            .putExtra(Intent.EXTRA_TEXT, feedbackEmailData.body)
+        startActivity(Intent.createChooser(intent, "Select your E-Mail app"))
     }
 }
