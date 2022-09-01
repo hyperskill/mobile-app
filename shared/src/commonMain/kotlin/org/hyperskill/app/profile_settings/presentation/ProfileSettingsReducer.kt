@@ -36,6 +36,10 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                 }
             is Message.LogoutConfirmed ->
                 state to setOf(Action.Logout)
+            is Message.ClickedSendFeedback ->
+                state to setOf(Action.PrepareFeedbackEmailData)
+            is Message.FeedbackEmailDataPrepared ->
+                state to setOf(Action.ViewAction.SendFeedback(message.feedbackEmailData))
             is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(ProfileSettingsViewedHyperskillAnalyticEvent()))
             is Message.ClickedDoneEventMessage ->

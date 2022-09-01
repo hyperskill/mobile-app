@@ -1,16 +1,15 @@
-package org.hyperskill.app.profile_settings.injection
+package org.hyperskill.app.profile_settings.domain.model
 
 import org.hyperskill.app.Platform
 import org.hyperskill.app.config.BuildKonfig
-import org.hyperskill.app.profile_settings.domain.model.FeedbackEmailData
 
-class FeedbackEmailDataBuilder(
-    private val applicationName: String,
-    private val platform: Platform,
-    private val userId: Long?,
-    private val applicationVersion: String
-) {
-    fun build(): FeedbackEmailData {
+object FeedbackEmailDataBuilder {
+    fun build(
+        applicationName: String,
+        platform: Platform,
+        userId: Long?,
+        applicationVersion: String
+    ): FeedbackEmailData {
         val subject = "[$applicationName] ${platform.feedbackName} Feedback"
 
         val body = "\n\n\n---\nUser ID: ${userId ?: "None"}\nApp version: $applicationVersion\nDevice: ${platform.platform}"

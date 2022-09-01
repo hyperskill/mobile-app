@@ -129,27 +129,6 @@
             android:layout_height="?dividerVerticalSize"
             android:layout_marginStart="20dp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/settingsHelpCenterButton"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:foreground="?attr/selectableItemBackground"
-            android:padding="0dp"
-            android:paddingStart="20dp"
-            android:paddingEnd="16dp"
-            android:text="@string/settings_help_center"
-            android:textAlignment="textStart"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/color_on_surface"
-            android:textSize="16sp"
-            app:rippleColor="@android:color/transparent" />
-
-        <include
-            layout="@layout/view_divider_vertical"
-            android:layout_width="match_parent"
-            android:layout_height="?dividerVerticalSize"
-            android:layout_marginStart="20dp" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -194,7 +173,6 @@
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
             android:foreground="?attr/selectableItemBackground"
             android:padding="0dp"
             android:paddingStart="20dp"
@@ -204,6 +182,54 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textSize="16sp"
             app:rippleColor="@android:color/transparent" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@color/color_surface"
+        android:orientation="vertical">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/settingsSendFeedbackButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
+            android:padding="0dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="16dp"
+            android:text="@string/settings_send_feedback"
+            android:textAlignment="textStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/color_on_surface"
+            android:textSize="16sp"
+            app:rippleColor="@android:color/transparent" />
+
+        <include
+            layout="@layout/view_divider_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="?dividerVerticalSize"
+            android:layout_marginStart="20dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/settingsReportProblemButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
+            android:padding="0dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="16dp"
+            android:text="@string/settings_report_problem"
+            android:textAlignment="textStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/color_on_surface"
+            android:textSize="16sp"
+            app:rippleColor="@android:color/transparent" />
+
 
     </LinearLayout>
 
