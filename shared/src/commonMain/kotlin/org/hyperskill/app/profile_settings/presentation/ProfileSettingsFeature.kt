@@ -32,7 +32,7 @@ interface ProfileSettingsFeature {
         object ClickedThemeEventMessage : Message
         object ClickedTermsOfServiceEventMessage : Message
         object ClickedPrivacyPolicyEventMessage : Message
-        object ClickedHelpCenterEventMessage : Message
+        object ClickedReportProblemEventMessage : Message
         object ClickedLogoutEventMessage : Message
 
         object ClickedDeleteAccountEventMessage : Message

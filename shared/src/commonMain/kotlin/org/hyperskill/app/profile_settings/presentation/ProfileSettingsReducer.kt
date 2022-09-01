@@ -36,8 +36,12 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                 }
             is Message.LogoutConfirmed ->
                 state to setOf(Action.Logout)
-            is Message.ClickedSendFeedback ->
-                state to setOf(Action.PrepareFeedbackEmailData)
+            is Message.ClickedSendFeedback -> {
+                val analyticEvent = ProfileSettingsClickedHyperskillAnalyticEvent(
+                    target = HyperskillAnalyticTarget.SEND_FEEDBACK
+                )
+                state to setOf(Action.PrepareFeedbackEmailData, Action.LogAnalyticEvent(analyticEvent))
+            }
             is Message.FeedbackEmailDataPrepared ->
                 state to setOf(Action.ViewAction.SendFeedback(message.feedbackEmailData))
             is Message.ViewedEventMessage ->
@@ -75,11 +79,11 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                         )
                     )
                 )
-            is Message.ClickedHelpCenterEventMessage ->
+            is Message.ClickedReportProblemEventMessage ->
                 state to setOf(
                     Action.LogAnalyticEvent(
                         ProfileSettingsClickedHyperskillAnalyticEvent(
-                            target = HyperskillAnalyticTarget.HELP_CENTER
+                            target = HyperskillAnalyticTarget.REPORT_PROBLEM
                         )
                     )
                 )

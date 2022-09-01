@@ -99,7 +99,7 @@ class ProfileSettingsDialogFragment :
         }
 
         viewBinding.settingsReportProblemButton.setOnClickListener {
-            profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ClickedHelpCenterEventMessage)
+            profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ClickedReportProblemEventMessage)
             openLinkInBrowser(resources.getString(R.string.settings_report_problem_url))
         }
 

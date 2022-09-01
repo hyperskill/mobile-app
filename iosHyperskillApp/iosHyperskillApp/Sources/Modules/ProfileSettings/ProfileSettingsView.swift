@@ -4,7 +4,7 @@ import SwiftUI
 struct ProfileSettingsView: View {
     private static let termsOfServiceURL = URL(string: Strings.Settings.termsOfServiceURL).require()
     private static let privacyPolicyURL = URL(string: Strings.Settings.privacyPolicyURL).require()
-    private static let helpCenterURL = URL(string: Strings.Settings.helpCenterURL).require()
+    private static let reportProblemURL = URL(string: Strings.Settings.reportProblemURL).require()
     private static let accountDeletionURL = URL(string: Strings.Settings.accountDeletionURL).require()
 
     @StateObject var viewModel: ProfileSettingsViewModel
@@ -101,9 +101,9 @@ struct ProfileSettingsView: View {
                 .foregroundColor(.primaryText)
 
                 OpenURLInsideAppButton(
-                    text: Strings.Settings.helpCenter,
-                    url: Self.helpCenterURL,
-                    onTap: viewModel.logClickedHelpCenterEvent
+                    text: Strings.Settings.reportProblem,
+                    url: Self.reportProblemURL,
+                    onTap: viewModel.logClickedReportProblemEvent
                 )
                 .foregroundColor(.primaryText)
 
