@@ -1,8 +1,10 @@
 package org.hyperskill.app.profile_settings.injection
 
 import kotlinx.coroutines.flow.MutableSharedFlow
+import org.hyperskill.app.Platform
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.profile_settings.domain.interactor.ProfileSettingsInteractor
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsActionDispatcher
@@ -18,11 +20,20 @@ object ProfileSettingsFeatureBuilder {
     fun build(
         profileSettingsInteractor: ProfileSettingsInteractor,
         profileInteractor: ProfileInteractor,
-        authorizationFlow: MutableSharedFlow<UserDeauthorized>
+        authorizationFlow: MutableSharedFlow<UserDeauthorized>,
+        platform: Platform,
+        userAgentInfo: UserAgentInfo
     ): Feature<State, Message, Action> {
         val profileSettingsReducer = ProfileSettingsReducer()
         val profileSettingsActionDispatcher =
-            ProfileSettingsActionDispatcher(ActionDispatcherOptions(), profileSettingsInteractor, profileInteractor, authorizationFlow)
+            ProfileSettingsActionDispatcher(
+                ActionDispatcherOptions(),
+                profileSettingsInteractor,
+                profileInteractor,
+                authorizationFlow,
+                platform,
+                userAgentInfo
+            )
 
         return ReduxFeature(State.Idle, profileSettingsReducer)
             .wrapWithActionDispatcher(profileSettingsActionDispatcher)
