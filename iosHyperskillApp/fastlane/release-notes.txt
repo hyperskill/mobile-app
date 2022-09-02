@@ -1,10 +1,11 @@
 What to Test:
-1. Send events to product analytics ALTAPPS-223
-2. Fix incorrect selected track ALTAPPS-248
-3. Update login, splash, onboarding screens, and app icon ALTAPPS-250
-4. Fix Streak and Daily problem aren't updated if Daily problem is solved in Web ALTAPPS-255
-5. Change global tintColor to primaryColor ALTAPPS-258
-6. Add Confirm button for table single choice ALTAPPS-260
-7. Table problem modal align title to leading edge ALTAPPS-262
-8. Update tab bar icons ALTAPPS-264
-9. Problem of the Day Card bounce animation on tap ALTAPPS-270
+1. Sign in with Apple ALTAPPS-100
+2. Regenerate Google Sign-In configuration file ALTAPPS-238
+3. Ask user permission for receiving notifications after daily step complete ALTAPPS-242
+4. Onboarding improvements for new users ALTAPPS-244
+5. Improve states after Problem of the day is completed ALTAPPS-251
+6. Send all analytic events ALTAPPS-265
+7. Scheduling notifications when notifications are disabled in settings ALTAPPS-273
+8. Fix notifications are not sent in the scheduled time period ALTAPPS-274
+9. Bug reports / Feedback collection in the app ALTAPPS-279
+10. Analytics for notifications ALTAPPS-285
