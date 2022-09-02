@@ -54,22 +54,15 @@ final class StepQuizViewModel: FeatureViewModel<
             return attemptLoadedState.attempt
         }()
 
-        let hintOrNil: String? = {
+        let submissionStateOrNil: StepQuizFeatureSubmissionState? = {
             guard let attemptLoadedState = attemptLoadedStateOrNil else {
                 return nil
             }
 
-            let hintOrNil = (attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded)?
-                .submission.hint
-
-            guard let hint = hintOrNil else {
-                return nil
-            }
-
-            return hint.isEmpty ? nil : hint
+            return attemptLoadedState.submissionState
         }()
 
-        return viewDataMapper.mapStepToViewData(step, attempt: attemptOrNil, hint: hintOrNil)
+        return viewDataMapper.mapStepToViewData(step, attempt: attemptOrNil, submissionState: submissionStateOrNil)
     }
 
     func onNotificationsGranted(_ granted: Bool) {
