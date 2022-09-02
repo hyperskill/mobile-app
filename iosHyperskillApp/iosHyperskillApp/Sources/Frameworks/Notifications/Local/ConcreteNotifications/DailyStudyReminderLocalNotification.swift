@@ -15,8 +15,6 @@ struct DailyStudyReminderLocalNotification: LocalNotificationProtocol {
     private let notificationID: Int
     private let notificationNumber: Int
 
-    fileprivate let fireDate: Date?
-
     var userInfo: [AnyHashable: Any] {
         [
             NotificationsService.PayloadKey.id.rawValue: notificationID,
@@ -26,6 +24,18 @@ struct DailyStudyReminderLocalNotification: LocalNotificationProtocol {
     }
 
     var identifier: String { "\(Self.identifierPrefix)-\(notificationNumber)" }
+
+    fileprivate var fireDate: Date? {
+        guard let nextDayDate = Calendar.current.date(
+            byAdding: .day,
+            value: notificationNumber,
+            to: Date()
+        ) else {
+            return nil
+        }
+
+        return Calendar.current.date(bySettingHour: startHour, minute: 0, second: 0, of: nextDayDate)
+    }
 
     private var dateComponents: DateComponents? {
         guard let fireDate = fireDate else {
@@ -48,12 +58,6 @@ struct DailyStudyReminderLocalNotification: LocalNotificationProtocol {
         self.startHour = startHour
         self.notificationID = notificationDescription.id
         self.notificationNumber = notificationNumber
-
-        self.fireDate = Calendar.current.date(
-            byAdding: .day,
-            value: notificationNumber,
-            to: Date()
-        )
 
         if let dateComponents = self.dateComponents {
             self.trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
