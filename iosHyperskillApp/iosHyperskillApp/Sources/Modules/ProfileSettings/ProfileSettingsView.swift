@@ -113,10 +113,8 @@ struct ProfileSettingsView: View {
             }
 
             Section {
-                Button(Strings.Settings.sendFeedback) {
-                    viewModel.doSendFeedback()
-                }
-                .foregroundColor(.primaryText)
+                Button(Strings.Settings.sendFeedback, action: viewModel.doSendFeedback)
+                    .foregroundColor(.primaryText)
 
                 OpenURLInsideAppButton(
                     text: Strings.Settings.reportProblem,
@@ -173,13 +171,7 @@ struct ProfileSettingsView: View {
     private func handleViewAction(_ viewAction: ProfileSettingsFeatureActionViewAction) {
         switch viewAction {
         case let sendFeedbackViewAction as ProfileSettingsFeatureActionViewActionSendFeedback:
-            let encodedString = ("mailto:\(sendFeedbackViewAction.feedbackEmailData.mailTo)" + "?subject=\(sendFeedbackViewAction.feedbackEmailData.subject)" +
-                "&body=\(sendFeedbackViewAction.feedbackEmailData.body)")
-                .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-
-            if let encodedString = encodedString, let mailtoURL = URL(string: encodedString) {
-                UIApplication.shared.open(mailtoURL)
-            }
+            viewModel.doSendFeedbackPresentation(feedbackEmailData: sendFeedbackViewAction.feedbackEmailData)
         default:
             print("ProfileSettingsView :: unhandled viewAction = \(viewAction)")
         }

@@ -10,6 +10,8 @@ final class ProfileSettingsViewModel: FeatureViewModel<
 
     private let applicationThemeService: ApplicationThemeServiceProtocol
 
+    private lazy var sendEmailFeedbackController = SendEmailFeedbackController()
+
     init(
         applicationThemeService: ApplicationThemeServiceProtocol,
         feature: Presentation_reduxFeature
@@ -35,5 +37,16 @@ final class ProfileSettingsViewModel: FeatureViewModel<
 
     func doSendFeedback() {
         onNewMessage(ProfileSettingsFeatureMessageClickedSendFeedback())
+    }
+
+    func doSendFeedbackPresentation(feedbackEmailData: FeedbackEmailData) {
+        guard let currentPresentedViewController = SourcelessRouter().currentPresentedViewController() else {
+            return
+        }
+
+        sendEmailFeedbackController.sendFeedback(
+            feedbackEmailData: feedbackEmailData,
+            presentationController: currentPresentedViewController
+        )
     }
 }
