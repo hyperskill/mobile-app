@@ -11,18 +11,16 @@ final class StepQuizViewDataMapper {
         self.stepQuizTitleMapper = stepQuizTitleMapper
     }
 
-    func mapStepToViewData(
-        _ step: Step,
-        attempt: Attempt?,
-        submissionState: StepQuizFeatureSubmissionState?
-    ) -> StepQuizViewData {
+    func mapStepDataToViewData(step: Step, state: StepQuizFeatureState) -> StepQuizViewData {
         let formattedStats = stepQuizStatsTextMapper.getFormattedStepQuizStats(
             users: step.solvedBy,
             millisSinceLastCompleted: step.millisSinceLastCompleted
         )
 
+        let attemptLoadedState = state as? StepQuizFeatureStateAttemptLoaded
+
         let quizName: String? = {
-            guard let dataset = attempt?.dataset else {
+            guard let dataset = attemptLoadedState?.attempt.dataset else {
                 return nil
             }
 
@@ -31,20 +29,19 @@ final class StepQuizViewDataMapper {
                 return nil
             }
 
-            return self.stepQuizTitleMapper.getStepQuizTitle(
+            return stepQuizTitleMapper.getStepQuizTitle(
                 blockName: step.block.name,
                 isMultipleChoice: KotlinBoolean(bool: dataset.isMultipleChoice),
                 isCheckbox: KotlinBoolean(bool: dataset.isCheckbox)
             )
         }()
 
-        let hintTextOrNil: String? = {
-            guard let submissionStateLoaded = submissionState as? StepQuizFeatureSubmissionStateLoaded,
-                  let hintText = submissionStateLoaded.submission.hint
-            else {
+        let hintText: String? = {
+            guard let submissionLoaded = attemptLoadedState?.submissionState as? StepQuizFeatureSubmissionStateLoaded,
+                  let hint = submissionLoaded.submission.hint else {
                 return nil
             }
-            return hintText.isEmpty ? nil : hintText
+            return hint.isEmpty ? nil : hint
         }()
 
         return StepQuizViewData(
@@ -52,7 +49,7 @@ final class StepQuizViewDataMapper {
             stepText: step.block.text,
             stepBlockName: step.block.name,
             quizName: quizName,
-            hintText: hintTextOrNil
+            hintText: hintText
         )
     }
 }
