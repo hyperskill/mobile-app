@@ -1,7 +1,7 @@
 package org.hyperskill.app.main.presentation
 
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
@@ -20,15 +20,16 @@ class AppActionDispatcher(
     init {
         authInteractor
             .observeUserDeauthorization()
-            .onEach { _ ->
+            .onEach {
                 authInteractor.clearCache()
                 onNewMessage(Message.UserDeauthorized)
             }
             .launchIn(actionScope)
     }
+
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            Action.DetermineUserAccountStatus -> {
+            is Action.DetermineUserAccountStatus -> {
                 val profileResult = profileInteractor.getCurrentProfile(sourceType = DataSourceType.REMOTE)
 
                 val message =

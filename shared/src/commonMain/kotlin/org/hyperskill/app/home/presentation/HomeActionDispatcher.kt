@@ -26,11 +26,11 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class HomeActionDispatcher(
     config: ActionDispatcherOptions,
-    private val analyticInteractor: AnalyticInteractor,
     private val homeInteractor: HomeInteractor,
     private val streakInteractor: StreakInteractor,
     private val profileInteractor: ProfileInteractor,
-    private val stepInteractor: StepInteractor
+    private val stepInteractor: StepInteractor,
+    private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     companion object {

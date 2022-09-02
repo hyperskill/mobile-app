@@ -1,5 +1,6 @@
 package org.hyperskill.app.auth.presentation
 
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.auth.domain.exception.AuthSocialException
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.auth.domain.model.AuthSocialError
@@ -13,7 +14,8 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 class AuthSocialActionDispatcher(
     config: ActionDispatcherOptions,
     private val authInteractor: AuthInteractor,
-    private val profileInteractor: ProfileInteractor
+    private val profileInteractor: ProfileInteractor,
+    private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
@@ -44,6 +46,8 @@ class AuthSocialActionDispatcher(
 
                 onNewMessage(message)
             }
+            is Action.LogAnalyticEvent ->
+                analyticInteractor.logEvent(action.analyticEvent)
         }
     }
 }

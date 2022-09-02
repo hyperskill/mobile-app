@@ -15,6 +15,7 @@
 		2C023C88285D928100D2D5A9 /* StepQuizTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C023C87285D928100D2D5A9 /* StepQuizTableViewModel.swift */; };
 		2C023C8B285DCA2100D2D5A9 /* ReplyExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C023C8A285DCA2100D2D5A9 /* ReplyExtensions.swift */; };
 		2C023C8D285DCA4300D2D5A9 /* DatasetExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C023C8C285DCA4300D2D5A9 /* DatasetExtensions.swift */; };
+		2C02962028BEA000001BAFB3 /* AuthNewUserPlaceholderOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C02961F28BEA000001BAFB3 /* AuthNewUserPlaceholderOutputProtocol.swift */; };
 		2C079681285CEEFE00EE0487 /* StepQuizMatchingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C079680285CEEFE00EE0487 /* StepQuizMatchingViewModel.swift */; };
 		2C079683285CEF0900EE0487 /* StepQuizMatchingAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C079682285CEF0900EE0487 /* StepQuizMatchingAssembly.swift */; };
 		2C079685285CFFEE00EE0487 /* StepQuizSortingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C079684285CFFEE00EE0487 /* StepQuizSortingViewModel.swift */; };
@@ -114,6 +115,7 @@
 		2C49CC922851D4AC0040BA7F /* altcontent.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C49CC912851D4AC0040BA7F /* altcontent.css */; };
 		2C4FBD8C2876C39C00ACA5C8 /* ProfileAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4FBD8B2876C39C00ACA5C8 /* ProfileAboutView.swift */; };
 		2C4FBD8E2876C94800ACA5C8 /* ProfileAboutSocialAccountsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4FBD8D2876C94800ACA5C8 /* ProfileAboutSocialAccountsView.swift */; };
+		2C55133B28B8DFE8009F7627 /* Debouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C55133A28B8DFE8009F7627 /* Debouncer.swift */; };
 		2C58DE232803BF97002A2774 /* AuthLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C58DE222803BF97002A2774 /* AuthLogoView.swift */; };
 		2C58DE252803C185002A2774 /* AuthSocialControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C58DE242803C185002A2774 /* AuthSocialControlsView.swift */; };
 		2C58DE292803D197002A2774 /* UIColor+DynamicColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C58DE282803D197002A2774 /* UIColor+DynamicColor.swift */; };
@@ -130,6 +132,8 @@
 		2C65637628743F5B006AAD77 /* TrackAboutStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65637528743F5B006AAD77 /* TrackAboutStatsView.swift */; };
 		2C656378287440D5006AAD77 /* TrackAboutStatItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C656377287440D5006AAD77 /* TrackAboutStatItemView.swift */; };
 		2C65637A28744DDA006AAD77 /* TrackHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65637928744DDA006AAD77 /* TrackHeaderView.swift */; };
+		2C6B30A628B7C3F300609CE8 /* AuthNewUserPlaceholderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6B30A528B7C3F300609CE8 /* AuthNewUserPlaceholderViewModel.swift */; };
+		2C6B30A828B7C47800609CE8 /* AuthNewUserPlaceholderAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6B30A728B7C47800609CE8 /* AuthNewUserPlaceholderAssembly.swift */; };
 		2C725B5E28090D1F00A49043 /* View+Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B5D28090D1F00A49043 /* View+Border.swift */; };
 		2C725B612809125700A49043 /* LayoutInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B602809125700A49043 /* LayoutInsets.swift */; };
 		2C725B632809198000A49043 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B622809198000A49043 /* BackgroundView.swift */; };
@@ -340,6 +344,7 @@
 		2C023C87285D928100D2D5A9 /* StepQuizTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableViewModel.swift; sourceTree = "<group>"; };
 		2C023C8A285DCA2100D2D5A9 /* ReplyExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyExtensions.swift; sourceTree = "<group>"; };
 		2C023C8C285DCA4300D2D5A9 /* DatasetExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatasetExtensions.swift; sourceTree = "<group>"; };
+		2C02961F28BEA000001BAFB3 /* AuthNewUserPlaceholderOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNewUserPlaceholderOutputProtocol.swift; sourceTree = "<group>"; };
 		2C079680285CEEFE00EE0487 /* StepQuizMatchingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingViewModel.swift; sourceTree = "<group>"; };
 		2C079682285CEF0900EE0487 /* StepQuizMatchingAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingAssembly.swift; sourceTree = "<group>"; };
 		2C079684285CFFEE00EE0487 /* StepQuizSortingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSortingViewModel.swift; sourceTree = "<group>"; };
@@ -442,6 +447,7 @@
 		2C4D3CB2289689F40079B461 /* iosHyperskillApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iosHyperskillApp.entitlements; sourceTree = "<group>"; };
 		2C4FBD8B2876C39C00ACA5C8 /* ProfileAboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAboutView.swift; sourceTree = "<group>"; };
 		2C4FBD8D2876C94800ACA5C8 /* ProfileAboutSocialAccountsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAboutSocialAccountsView.swift; sourceTree = "<group>"; };
+		2C55133A28B8DFE8009F7627 /* Debouncer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debouncer.swift; sourceTree = "<group>"; };
 		2C58DE222803BF97002A2774 /* AuthLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthLogoView.swift; sourceTree = "<group>"; };
 		2C58DE242803C185002A2774 /* AuthSocialControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialControlsView.swift; sourceTree = "<group>"; };
 		2C58DE282803D197002A2774 /* UIColor+DynamicColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+DynamicColor.swift"; sourceTree = "<group>"; };
@@ -458,6 +464,8 @@
 		2C65637528743F5B006AAD77 /* TrackAboutStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackAboutStatsView.swift; sourceTree = "<group>"; };
 		2C656377287440D5006AAD77 /* TrackAboutStatItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackAboutStatItemView.swift; sourceTree = "<group>"; };
 		2C65637928744DDA006AAD77 /* TrackHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackHeaderView.swift; sourceTree = "<group>"; };
+		2C6B30A528B7C3F300609CE8 /* AuthNewUserPlaceholderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNewUserPlaceholderViewModel.swift; sourceTree = "<group>"; };
+		2C6B30A728B7C47800609CE8 /* AuthNewUserPlaceholderAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNewUserPlaceholderAssembly.swift; sourceTree = "<group>"; };
 		2C725B5D28090D1F00A49043 /* View+Border.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Border.swift"; sourceTree = "<group>"; };
 		2C725B602809125700A49043 /* LayoutInsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutInsets.swift; sourceTree = "<group>"; };
 		2C725B622809198000A49043 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
@@ -836,6 +844,7 @@
 			children = (
 				2CE31F4927F1E058008EEE66 /* App */,
 				2C725B6428091ACF00A49043 /* AuthCredentials */,
+				2C6B30A428B7C3BB00609CE8 /* AuthNewUserPlaceholder */,
 				2C005DD027EF5C4800DC6503 /* AuthSocial */,
 				2C963BC32812D16C0036DD53 /* Home */,
 				E9F923F428A2632800C065A7 /* Onboarding */,
@@ -1237,6 +1246,17 @@
 			path = About;
 			sourceTree = "<group>";
 		};
+		2C6B30A428B7C3BB00609CE8 /* AuthNewUserPlaceholder */ = {
+			isa = PBXGroup;
+			children = (
+				2C6B30A728B7C47800609CE8 /* AuthNewUserPlaceholderAssembly.swift */,
+				2C02961F28BEA000001BAFB3 /* AuthNewUserPlaceholderOutputProtocol.swift */,
+				E9380ED9286B48A400CBF221 /* AuthNewUserPlaceholderView.swift */,
+				2C6B30A528B7C3F300609CE8 /* AuthNewUserPlaceholderViewModel.swift */,
+			);
+			path = AuthNewUserPlaceholder;
+			sourceTree = "<group>";
+		};
 		2C725B5C28090CE500A49043 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
@@ -1261,7 +1281,6 @@
 				E9D69A3F28084FF7000E114E /* AuthCredentialsErrorView.swift */,
 				E94D238E280585110003273F /* AuthCredentialsFormView.swift */,
 				E94D238C28057F440003273F /* AuthCredentialsView.swift */,
-				E9380ED9286B48A400CBF221 /* AuthNewUserPlaceholderView.swift */,
 				2C43CDFA28B56AE600E74762 /* AuthPreviews.swift */,
 				2CF43413281281DB002893CD /* AuthTextField.swift */,
 			);
@@ -1600,6 +1619,7 @@
 			isa = PBXGroup;
 			children = (
 				2C2FD62328192123004E7AF6 /* BundlePropertyListDeserializer.swift */,
+				2C55133A28B8DFE8009F7627 /* Debouncer.swift */,
 				2CCF3B59280050890075D12C /* DeviceInfo.swift */,
 				2CD3652728797D3600D61855 /* Formatter.swift */,
 				2C20FBBF284F65F6006D879E /* HTMLToAttributedStringConverter.swift */,
@@ -2284,6 +2304,7 @@
 				2C0DB90E286452D9001EA35E /* CodeLanguage.swift in Sources */,
 				2C84094F2805B28B009C6BE9 /* StepRatingControl.swift in Sources */,
 				2CBFB94C28897DD70044D1BA /* StepQuizCodeFullScreenAssembly.swift in Sources */,
+				2C02962028BEA000001BAFB3 /* AuthNewUserPlaceholderOutputProtocol.swift in Sources */,
 				E9B2CF5D2822975400B2DC6F /* StepQuizStatsView.swift in Sources */,
 				2CA7B89428932EB100A789EF /* UIWindowExtensions.swift in Sources */,
 				2C5B2A1F286595AF0097B270 /* CodeCompletionTableViewController.swift in Sources */,
@@ -2298,6 +2319,7 @@
 				2C65637628743F5B006AAD77 /* TrackAboutStatsView.swift in Sources */,
 				2CEEE03128916A3100282849 /* ProblemOfDayAssembly.swift in Sources */,
 				2C8E4FB628490C020011ADFA /* PanModalPresenter.swift in Sources */,
+				2C55133B28B8DFE8009F7627 /* Debouncer.swift in Sources */,
 				E9A6250D28ABAE30009423EE /* OnboardingAssembly.swift in Sources */,
 				2C336D172865C9CD00C91342 /* UIView+TraitCollection.swift in Sources */,
 				2CD48D872858639500CFCC4A /* StepQuizViewModel.swift in Sources */,
@@ -2313,6 +2335,7 @@
 				2C65637A28744DDA006AAD77 /* TrackHeaderView.swift in Sources */,
 				2C8E4FB42848CB980011ADFA /* StepQuizTableSelectColumnsColumnView.swift in Sources */,
 				2CB45762288EC29D007C2D77 /* StepQuizActionButtons.swift in Sources */,
+				2C6B30A628B7C3F300609CE8 /* AuthNewUserPlaceholderViewModel.swift in Sources */,
 				2C863D932804279E0021EFED /* Require.swift in Sources */,
 				2C177EC32837B65500D841DB /* View+Frame.swift in Sources */,
 				E9950E9528894F4700C4D962 /* HourIntervalPicker.swift in Sources */,
@@ -2324,6 +2347,7 @@
 				2C8FFE7F2892E1C000574941 /* AuthOutputProtocol.swift in Sources */,
 				2C1F5879280D2D1300372A37 /* WebOAuthURLParser.swift in Sources */,
 				E99B21892887E9DA006A6154 /* StepQuizTableSkeletonView.swift in Sources */,
+				2C6B30A828B7C47800609CE8 /* AuthNewUserPlaceholderAssembly.swift in Sources */,
 				2C5B2A1D286595960097B270 /* CodeCompletionTableViewCell.swift in Sources */,
 				2C27C77E28773042006A641A /* NukeManager.swift in Sources */,
 				2C0DB91028645332001EA35E /* CodeEditorTheme.swift in Sources */,

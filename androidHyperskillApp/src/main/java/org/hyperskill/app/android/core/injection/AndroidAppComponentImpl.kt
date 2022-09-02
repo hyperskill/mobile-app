@@ -41,6 +41,10 @@ import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponentImpl
 import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponent
 import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponentImpl
+import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponent
+import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponentImpl
+import org.hyperskill.app.placeholder_new_user.injection.PlatformPlaceholderNewUserComponent
+import org.hyperskill.app.placeholder_new_user.injection.PlatformPlaceholderNewUserComponentImpl
 import org.hyperskill.app.profile.injection.PlatformProfileComponent
 import org.hyperskill.app.profile.injection.PlatformProfileComponentImpl
 import org.hyperskill.app.profile.injection.PlatformProfileSettingsComponentImpl
@@ -88,11 +92,11 @@ class AndroidAppComponentImpl(
     override val submissionDataComponent: SubmissionDataComponent =
         SubmissionDataComponentImpl(this)
 
-    override val analyticComponent: AnalyticComponent =
-        AnalyticComponentImpl(this)
-
     override val authComponent: AuthComponent =
         AuthComponentImpl(this)
+
+    override val analyticComponent: AnalyticComponent =
+        AnalyticComponentImpl(this)
 
     override val platformNotificationComponent: PlatformNotificationComponent =
         PlatformNotificationComponentImpl(application, this)
@@ -104,7 +108,12 @@ class AndroidAppComponentImpl(
      * Auth social component
      */
     override fun buildAuthSocialComponent(): AuthSocialComponent =
-        AuthSocialComponentImpl(commonComponent, authComponent, buildProfileDataComponent())
+        AuthSocialComponentImpl(
+            commonComponent,
+            authComponent,
+            buildProfileDataComponent(),
+            analyticComponent
+        )
 
     override fun buildPlatformAuthSocialComponent(authSocialComponent: AuthSocialComponent): PlatformAuthSocialComponent =
         PlatformAuthSocialComponentImpl(authSocialComponent)
@@ -113,7 +122,12 @@ class AndroidAppComponentImpl(
      * Auth credentials component
      */
     override fun buildAuthCredentialsComponent(): AuthCredentialsComponent =
-        AuthCredentialsComponentImpl(commonComponent, authComponent, buildProfileDataComponent())
+        AuthCredentialsComponentImpl(
+            commonComponent,
+            authComponent,
+            buildProfileDataComponent(),
+            analyticComponent
+        )
 
     override fun buildPlatformAuthCredentialsComponent(authCredentialsComponent: AuthCredentialsComponent): PlatformAuthCredentialsComponent =
         PlatformAuthCredentialsComponentImpl(authCredentialsComponent)
@@ -201,4 +215,13 @@ class AndroidAppComponentImpl(
 
     override fun buildPlatformOnboardingComponent(onboardingComponent: OnboardingComponent): PlatformOnboardingComponent =
         PlatformOnboardingComponentImpl(onboardingComponent)
+
+    /**
+     * Placeholder new user component
+     */
+    override fun buildPlaceholderNewUserComponent(): PlaceholderNewUserComponent =
+        PlaceholderNewUserComponentImpl(this)
+
+    override fun buildPlatformPlaceholderNewUserComponent(placeholderNewUserComponent: PlaceholderNewUserComponent): PlatformPlaceholderNewUserComponent =
+        PlatformPlaceholderNewUserComponentImpl(placeholderNewUserComponent)
 }

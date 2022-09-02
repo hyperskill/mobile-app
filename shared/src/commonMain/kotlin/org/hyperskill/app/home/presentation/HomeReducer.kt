@@ -1,10 +1,11 @@
 package org.hyperskill.app.home.presentation
 
+import org.hyperskill.app.home.domain.analytic.HomeClickedProblemOfDayCardHyperskillAnalyticEvent
 import org.hyperskill.app.home.domain.analytic.HomeViewedHyperskillAnalyticEvent
-import ru.nobird.app.presentation.redux.reducer.StateReducer
 import org.hyperskill.app.home.presentation.HomeFeature.Action
 import org.hyperskill.app.home.presentation.HomeFeature.Message
 import org.hyperskill.app.home.presentation.HomeFeature.State
+import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 class HomeReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
@@ -25,10 +26,16 @@ class HomeReducer : StateReducer<State, Message, Action> {
                 if (state is State.Content) {
                     when (state.problemOfDayState) {
                         is HomeFeature.ProblemOfDayState.NeedToSolve -> {
-                            State.Content(state.streak, HomeFeature.ProblemOfDayState.NeedToSolve(state.problemOfDayState.step, message.seconds)) to emptySet()
+                            State.Content(
+                                state.streak,
+                                HomeFeature.ProblemOfDayState.NeedToSolve(state.problemOfDayState.step, message.seconds)
+                            ) to emptySet()
                         }
                         is HomeFeature.ProblemOfDayState.Solved -> {
-                            State.Content(state.streak, HomeFeature.ProblemOfDayState.Solved(state.problemOfDayState.step, message.seconds)) to emptySet()
+                            State.Content(
+                                state.streak,
+                                HomeFeature.ProblemOfDayState.Solved(state.problemOfDayState.step, message.seconds)
+                            ) to emptySet()
                         }
                         else -> {
                             null
@@ -49,9 +56,7 @@ class HomeReducer : StateReducer<State, Message, Action> {
                     state.problemOfDayState is HomeFeature.ProblemOfDayState.NeedToSolve &&
                     state.problemOfDayState.step.id == message.stepId
                 ) {
-                    val completedStep = state.problemOfDayState.step.copy(
-                        isCompleted = true
-                    )
+                    val completedStep = state.problemOfDayState.step.copy(isCompleted = true)
                     val updatedStreak = state.streak?.getStreakWithTodaySolved()
 
                     State.Content(
@@ -65,7 +70,36 @@ class HomeReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
-            is Message.HomeViewedEventMessage ->
+            is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(HomeViewedHyperskillAnalyticEvent()))
+            is Message.ClickedProblemOfDayCardEventMessage -> {
+                if (state is State.Content) {
+                    when (state.problemOfDayState) {
+                        is HomeFeature.ProblemOfDayState.NeedToSolve -> {
+                            state to setOf(
+                                Action.LogAnalyticEvent(
+                                    HomeClickedProblemOfDayCardHyperskillAnalyticEvent(
+                                        isCompleted = false
+                                    )
+                                )
+                            )
+                        }
+                        is HomeFeature.ProblemOfDayState.Solved -> {
+                            state to setOf(
+                                Action.LogAnalyticEvent(
+                                    HomeClickedProblemOfDayCardHyperskillAnalyticEvent(
+                                        isCompleted = true
+                                    )
+                                )
+                            )
+                        }
+                        else -> {
+                            null
+                        }
+                    }
+                } else {
+                    null
+                }
+            }
         } ?: (state to emptySet())
 }

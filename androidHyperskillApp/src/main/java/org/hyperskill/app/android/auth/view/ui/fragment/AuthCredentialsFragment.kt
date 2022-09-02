@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
-import org.hyperskill.app.auth.presentation.AuthCredentialsViewModel
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthFlow
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthSocialScreen
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
@@ -22,6 +21,7 @@ import org.hyperskill.app.android.core.view.ui.dialog.dismissIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentAuthEmailBinding
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature
+import org.hyperskill.app.auth.presentation.AuthCredentialsViewModel
 import org.hyperskill.app.auth.view.mapper.AuthCredentialsErrorMapper
 import org.hyperskill.app.config.BuildKonfig
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
@@ -84,9 +84,14 @@ class AuthCredentialsFragment :
             handled
         }
         viewBinding.signInWithEmailMaterialButton.setOnClickListener {
+            authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.ClickedSignInEventMessage)
             authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.SubmitFormClicked)
         }
+        viewBinding.signInWithEmailResetPasswordTextButton.setOnClickListener {
+            authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.ClickedResetPasswordEventMessage)
+        }
         viewBinding.signInWithSocialMaterialButton.setOnClickListener {
+            authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.ClickedContinueWithSocialEventMessage)
             requireRouter().backTo(AuthSocialScreen)
         }
 
@@ -101,6 +106,8 @@ class AuthCredentialsFragment :
             viewBinding.signInHyperskillLogoShapeableImageView.isVisible = !isVisible
             viewBinding.signInToTextView.isVisible = !isVisible
         }
+
+        authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.ViewedEventMessage)
     }
 
     private fun injectComponent() {

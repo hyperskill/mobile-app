@@ -20,10 +20,13 @@ interface StepFeature {
             data class Success(val step: Step) : StepLoaded
             data class Error(val errorMsg: String) : StepLoaded
         }
+
+        data class ClickedBackEventMessage(val stepId: Long) : Message
     }
 
     sealed interface Action {
         data class FetchStep(val stepId: Long) : Action
         sealed class ViewAction : Action
+        data class LogClickedBackEvent(val stepId: Long) : Action
     }
 }

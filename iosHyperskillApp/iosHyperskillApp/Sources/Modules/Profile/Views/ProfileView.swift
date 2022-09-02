@@ -24,7 +24,10 @@ struct ProfileView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(
-                        action: { presentingSettings = true },
+                        action: {
+                            viewModel.logClickedSettingsEvent()
+                            presentingSettings = true
+                        },
                         label: { Image(systemName: "gear") }
                     )
                 }
@@ -32,8 +35,8 @@ struct ProfileView: View {
             .sheet(isPresented: $presentingSettings) {
                 ProfileSettingsAssembly().makeModule()
             }
+            .onAppear(perform: viewModel.logViewedEvent)
         }
-        .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
@@ -81,8 +84,9 @@ struct ProfileView: View {
                     ProfileDailyStudyRemindersView(
                         isActivated: viewData.isDailyStudyRemindersEnabled,
                         selectedHour: viewData.dailyStudyRemindersStartHour,
-                        onIsActivatedChanged: viewModel.setDailyStudyRemindersActivated(isActivated:),
-                        onSelectedHourChanged: viewModel.setDailyStudyRemindersStartHour(startHour:)
+                        onIsActivatedChanged: viewModel.setDailyStudyRemindersEnabled(_:),
+                        onSelectedHourChanged: viewModel.setDailyStudyRemindersStartHour(startHour:),
+                        onSelectedHourTapped: viewModel.logClickedDailyStudyRemindsTimeEvent
                     )
 
                     ProfileAboutView(

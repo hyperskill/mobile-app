@@ -1,5 +1,9 @@
 package org.hyperskill.app.auth.presentation
 
+import org.hyperskill.app.auth.domain.analytic.AuthCredentialsClickedContinueWithSocialHyperskillAnalyticEvent
+import org.hyperskill.app.auth.domain.analytic.AuthCredentialsClickedResetPasswordHyperskillAnalyticEvent
+import org.hyperskill.app.auth.domain.analytic.AuthCredentialsClickedSignInHyperskillAnalyticEvent
+import org.hyperskill.app.auth.domain.analytic.AuthCredentialsViewedHyperskillAnalyticEvent
 import org.hyperskill.app.auth.domain.model.AuthCredentialsError
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.Action
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.Message
@@ -44,5 +48,13 @@ class AuthCredentialsReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
+            is Message.ViewedEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(AuthCredentialsViewedHyperskillAnalyticEvent()))
+            is Message.ClickedSignInEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(AuthCredentialsClickedSignInHyperskillAnalyticEvent()))
+            is Message.ClickedResetPasswordEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(AuthCredentialsClickedResetPasswordHyperskillAnalyticEvent()))
+            is Message.ClickedContinueWithSocialEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(AuthCredentialsClickedContinueWithSocialHyperskillAnalyticEvent()))
         } ?: (state to emptySet())
 }

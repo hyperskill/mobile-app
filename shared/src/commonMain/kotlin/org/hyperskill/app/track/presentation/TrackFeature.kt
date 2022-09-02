@@ -1,5 +1,6 @@
 package org.hyperskill.app.track.presentation
 
+import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.track.domain.model.StudyPlan
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.domain.model.TrackProgress
@@ -25,10 +26,19 @@ interface TrackFeature {
             val studyPlan: StudyPlan? = null
         ) : Message
         data class TrackError(val message: String) : Message
+
+        /**
+         * Analytic
+         */
+        object ViewedEventMessage : Message
+        object ClickedContinueInWebEventMessage : Message
     }
 
     sealed interface Action {
         object FetchTrack : Action
+
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
+
         sealed interface ViewAction : Action
     }
 }

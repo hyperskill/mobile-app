@@ -1,6 +1,7 @@
 package org.hyperskill.app.profile.presentation
 
 import kotlinx.coroutines.launch
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
@@ -13,6 +14,7 @@ class ProfileActionDispatcher(
     config: ActionDispatcherOptions,
     private val profileInteractor: ProfileInteractor,
     private val streakInteractor: StreakInteractor,
+    private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
@@ -53,6 +55,8 @@ class ProfileActionDispatcher(
                 val message = Message.ProfileLoaded.Success(currentProfile, updatedStreak)
                 onNewMessage(message)
             }
+            is Action.LogAnalyticEvent ->
+                analyticInteractor.logEvent(action.analyticEvent)
         }
     }
 }

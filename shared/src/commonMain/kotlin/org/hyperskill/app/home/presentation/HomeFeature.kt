@@ -25,13 +25,20 @@ interface HomeFeature {
         object ReadyToLaunchNextProblemInTimer : Message
         object HomeFailure : Message
         data class ProblemOfDaySolved(val stepId: Long) : Message
-        object HomeViewedEventMessage : Message
+
+        /**
+         * Analytic
+         */
+        object ViewedEventMessage : Message
+        object ClickedProblemOfDayCardEventMessage : Message
     }
 
     sealed interface Action {
         object FetchHomeScreenData : Action
         object LaunchTimer : Action
+
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
+
         sealed class ViewAction : Action
     }
 }

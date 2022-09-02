@@ -1,8 +1,9 @@
 package org.hyperskill.app.auth.presentation
 
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.auth.domain.exception.AuthCredentialsException
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.auth.domain.model.AuthCredentialsError
-import org.hyperskill.app.auth.domain.exception.AuthCredentialsException
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.Action
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.Message
 import org.hyperskill.app.core.domain.DataSourceType
@@ -13,7 +14,8 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 class AuthCredentialsActionDispatcher(
     config: ActionDispatcherOptions,
     private val authInteractor: AuthInteractor,
-    private val profileInteractor: ProfileInteractor
+    private val profileInteractor: ProfileInteractor,
+    private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
@@ -43,6 +45,8 @@ class AuthCredentialsActionDispatcher(
                         )
                 onNewMessage(message)
             }
+            is Action.LogAnalyticEvent ->
+                analyticInteractor.logEvent(action.analyticEvent)
         }
     }
 }

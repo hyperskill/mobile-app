@@ -230,7 +230,8 @@ class CodeStepQuizFullScreenDialogFragment :
             codeTemplates = codeTemplates,
             codeQuizInstructionDelegate = CodeQuizInstructionDelegate(
                 instructionsLayout.findViewById(R.id.stepQuizCodeFullscreenInstructionDetails),
-                false
+                false,
+                onDetailsIsExpandedStateChanged = {}
             ),
             codeToolbarAdapter = codeToolbarAdapter,
         )

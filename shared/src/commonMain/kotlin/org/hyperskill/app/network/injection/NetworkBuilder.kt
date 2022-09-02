@@ -1,18 +1,19 @@
 package org.hyperskill.app.network.injection
 
 import com.russhwolf.settings.Settings
-import io.ktor.client.call.body
 import io.ktor.client.HttpClient
-import io.ktor.http.Parameters
-import io.ktor.client.plugins.defaultRequest
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.call.body
 import io.ktor.client.plugins.UserAgent
-import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.cookies.CookiesStorage
+import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
-import io.ktor.client.request.headers
 import io.ktor.client.request.forms.submitForm
+import io.ktor.client.request.headers
+import io.ktor.http.Parameters
 import io.ktor.http.URLProtocol
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.util.encodeBase64
@@ -28,6 +29,7 @@ import org.hyperskill.app.auth.cache.AuthCacheKeyValues
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.auth.remote.model.AuthResponse
 import org.hyperskill.app.auth.remote.source.BearerTokenHttpClientPlugin
+import org.hyperskill.app.auth.remote.source.HttpCookiesPlugin
 import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.network.domain.model.NetworkClientType
@@ -51,7 +53,8 @@ object NetworkBuilder {
         json: Json,
         settings: Settings,
         authorizationFlow: MutableSharedFlow<UserDeauthorized>,
-        authorizationMutex: Mutex
+        authorizationMutex: Mutex,
+        cookiesStorage: CookiesStorage
     ): HttpClient =
         HttpClient {
             val tokenSocialAuthClient = buildAuthClient(
@@ -71,6 +74,10 @@ object NetworkBuilder {
                     protocol = URLProtocol.HTTPS
                     host = BuildKonfig.HOST
                 }
+            }
+            install(HttpCookiesPlugin) {
+                storage = cookiesStorage
+                shouldSendCookiesForRequest = false
             }
             install(ContentNegotiation) {
                 json(json)
@@ -138,6 +145,34 @@ object NetworkBuilder {
                 tokenFailureReporter = {
                     authorizationFlow.tryEmit(UserDeauthorized)
                 }
+            }
+        }
+
+    internal fun buildFrontendEventsUnauthorizedClient(
+        userAgentInfo: UserAgentInfo,
+        json: Json,
+        cookiesStorage: CookiesStorage
+    ): HttpClient =
+        HttpClient {
+            defaultRequest {
+                url {
+                    protocol = URLProtocol.HTTPS
+                    host = BuildKonfig.HOST
+                }
+            }
+            install(HttpCookiesPlugin) {
+                storage = cookiesStorage
+                shouldSendCookiesForRequest = true
+            }
+            install(ContentNegotiation) {
+                json(json)
+            }
+            install(Logging) {
+                logger = Logger.SIMPLE
+                level = LogLevel.ALL
+            }
+            install(UserAgent) {
+                agent = userAgentInfo.toString()
             }
         }
 

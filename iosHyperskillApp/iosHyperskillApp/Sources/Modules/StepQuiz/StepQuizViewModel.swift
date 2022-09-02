@@ -17,11 +17,11 @@ final class StepQuizViewModel: FeatureViewModel<
     }
 
     func loadAttempt(forceUpdate: Bool = false) {
-        self.onNewMessage(StepQuizFeatureMessageInitWithStep(step: step, forceUpdate: forceUpdate))
+        onNewMessage(StepQuizFeatureMessageInitWithStep(step: step, forceUpdate: forceUpdate))
     }
 
     func syncReply(_ reply: Reply) {
-        self.onNewMessage(StepQuizFeatureMessageSyncReply(reply: reply))
+        onNewMessage(StepQuizFeatureMessageSyncReply(reply: reply))
     }
 
     func doMainQuizAction() {
@@ -32,12 +32,12 @@ final class StepQuizViewModel: FeatureViewModel<
             return
         }
 
-        self.onNewMessage(StepQuizFeatureMessageCreateSubmissionClicked(step: step, reply: reply))
+        onNewMessage(StepQuizFeatureMessageCreateSubmissionClicked(step: step, reply: reply))
     }
 
     func doQuizRetryAction() {
         // TODO: Implement quiz retry
-        print(#function)
+        logClickedRetryEvent()
     }
 
     func doQuizContinueAction() {
@@ -46,7 +46,7 @@ final class StepQuizViewModel: FeatureViewModel<
 
     func makeViewData() -> StepQuizViewData {
         let attemptOrNil: Attempt? = {
-            if let attemptLoadedState = self.state as? StepQuizFeatureStateAttemptLoaded {
+            if let attemptLoadedState = state as? StepQuizFeatureStateAttemptLoaded {
                 return attemptLoadedState.attempt
             }
             return nil
@@ -60,6 +60,16 @@ final class StepQuizViewModel: FeatureViewModel<
         } else {
             onNewMessage(StepQuizFeatureMessageUserDeclinedToEnableDailyReminders())
         }
+    }
+
+    // MARK: Analytic
+
+    func logViewedEvent() {
+        onNewMessage(StepQuizFeatureMessageViewedEventMessage(stepId: step.id))
+    }
+
+    private func logClickedRetryEvent() {
+        onNewMessage(StepQuizFeatureMessageClickedRetryEventMessage())
     }
 }
 
@@ -76,5 +86,9 @@ extension StepQuizViewModel: StepQuizChildQuizDelegate {
 
     func handleChildQuizRetry() {
         doQuizRetryAction()
+    }
+
+    func handleChildQuizAnalyticEventMessage(_ message: StepQuizFeatureMessage) {
+        onNewMessage(message)
     }
 }

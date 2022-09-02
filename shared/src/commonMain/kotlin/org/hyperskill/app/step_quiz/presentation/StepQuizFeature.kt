@@ -54,6 +54,13 @@ interface StepQuizFeature {
         object NeedToAskUserToEnableDailyReminders : Message
         object UserAgreedToEnableDailyReminders : Message
         object UserDeclinedToEnableDailyReminders : Message
+
+        /**
+         * Analytic
+         */
+        data class ViewedEventMessage(val stepId: Long) : Message
+        object ClickedCodeDetailsEventMessage : Message
+        object ClickedRetryEventMessage : Message
     }
 
     sealed interface Action {
@@ -62,10 +69,14 @@ interface StepQuizFeature {
         data class CreateAttempt(val step: Step, val attempt: Attempt, val submissionState: SubmissionState) : Action
         data class CreateSubmission(val step: Step, val attemptId: Long, val reply: Reply) : Action
 
-        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
-
         object NotifyUserAgreedToEnableDailyReminders : Action
         object NotifyUserDeclinedToEnableDailyReminders : Action
+
+        /**
+         * Analytic
+         */
+        data class LogViewedEvent(val stepId: Long) : Action
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
         sealed interface ViewAction : Action {
             object ShowNetworkError : ViewAction // error

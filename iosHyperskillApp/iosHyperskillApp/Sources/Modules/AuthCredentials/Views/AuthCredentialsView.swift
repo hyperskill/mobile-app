@@ -49,14 +49,22 @@ struct AuthCredentialsView: View {
             .onChange(of: passwordText) { _ in viewModel.doFormInputChange(email: emailText, password: passwordText) }
             .disabled(formState is AuthCredentialsFeatureFormStateLoading)
 
-            Button(Strings.Auth.Credentials.socialText, action: { presentationMode.wrappedValue.dismiss() })
-                .font(appearance.continueWithSocialButtonFont)
-                .foregroundColor(Color(appearance.continueWithSocialButtonTextColor))
-                .padding(appearance.continueWithSocialButtonInsets.edgeInsets)
+            Button(
+                Strings.Auth.Credentials.socialText,
+                action: {
+                    viewModel.logClickedContinueWithSocialEvent()
+                    presentationMode.wrappedValue.dismiss()
+                }
+            )
+            .font(appearance.continueWithSocialButtonFont)
+            .foregroundColor(Color(appearance.continueWithSocialButtonTextColor))
+            .padding(appearance.continueWithSocialButtonInsets.edgeInsets)
         }
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
+
+            viewModel.logViewedEvent()
 
             KeyboardManager.setKeyboardDistanceFromTextField(appearance.keyboardDistanceFromTextField)
         }

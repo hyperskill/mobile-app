@@ -10,6 +10,9 @@ final class ProfileSettingsViewModel: FeatureViewModel<
 
     private let applicationThemeService: ApplicationThemeServiceProtocol
 
+    // It's impossible to handle onTap on `Picker`, so using `onAppear` callback with debouncer.
+    private let analyticLogClickedThemeEventDebouncer: DebouncerProtocol = Debouncer()
+
     init(
         applicationThemeService: ApplicationThemeServiceProtocol,
         feature: Presentation_reduxFeature
@@ -31,5 +34,53 @@ final class ProfileSettingsViewModel: FeatureViewModel<
 
     func doLogout() {
         onNewMessage(ProfileSettingsFeatureMessageLogoutConfirmed())
+    }
+
+    // MARK: Analytic
+
+    func logViewedEvent() {
+        onNewMessage(ProfileSettingsFeatureMessageViewedEventMessage())
+    }
+
+    func logClickedDoneEvent() {
+        onNewMessage(ProfileSettingsFeatureMessageClickedDoneEventMessage())
+    }
+
+    func logClickedThemeEvent() {
+        analyticLogClickedThemeEventDebouncer.action = sendClickedThemeEventMessage
+    }
+
+    private func sendClickedThemeEventMessage() {
+        onNewMessage(ProfileSettingsFeatureMessageClickedThemeEventMessage())
+    }
+
+    func logClickedTermsOfServiceEvent() {
+        onNewMessage(ProfileSettingsFeatureMessageClickedTermsOfServiceEventMessage())
+    }
+
+    func logClickedPrivacyPolicyEvent() {
+        onNewMessage(ProfileSettingsFeatureMessageClickedPrivacyPolicyEventMessage())
+    }
+
+    func logClickedReportProblemEvent() {
+        onNewMessage(ProfileSettingsFeatureMessageClickedReportProblemEventMessage())
+    }
+
+    func logClickedLogoutEvent() {
+        onNewMessage(ProfileSettingsFeatureMessageClickedLogoutEventMessage())
+    }
+
+    func logClickedDeleteAccountEvent() {
+        onNewMessage(ProfileSettingsFeatureMessageClickedDeleteAccountEventMessage())
+    }
+
+    func logDeleteAccountNoticeShownEvent() {
+        onNewMessage(ProfileSettingsFeatureMessageDeleteAccountNoticeShownEventMessage())
+    }
+
+    func logDeleteAccountNoticeHiddenEvent(isConfirmed: Bool) {
+        onNewMessage(
+            ProfileSettingsFeatureMessageDeleteAccountNoticeHiddenEventMessage(isConfirmed: isConfirmed)
+        )
     }
 }

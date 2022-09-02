@@ -3,11 +3,13 @@ package org.hyperskill.app.step_quiz.presentation
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.notification.data.extension.NotificationExtensions
 import org.hyperskill.app.notification.domain.NotificationInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizViewedHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
@@ -17,10 +19,10 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class StepQuizActionDispatcher(
     config: ActionDispatcherOptions,
-    private val analyticInteractor: AnalyticInteractor,
     private val stepQuizInteractor: StepQuizInteractor,
     private val profileInteractor: ProfileInteractor,
-    private val notificationInteractor: NotificationInteractor
+    private val notificationInteractor: NotificationInteractor,
+    private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
@@ -106,8 +108,6 @@ class StepQuizActionDispatcher(
                     )
                 onNewMessage(message)
             }
-            is Action.LogAnalyticEvent ->
-                analyticInteractor.logEvent(action.analyticEvent)
             is Action.NotifyUserAgreedToEnableDailyReminders -> {
                 notificationInteractor.setDailyStudyRemindersEnabled(true)
                 notificationInteractor.setDailyStudyRemindersIntervalStartHour(
@@ -117,6 +117,20 @@ class StepQuizActionDispatcher(
             is Action.NotifyUserDeclinedToEnableDailyReminders -> {
                 notificationInteractor.setLastTimeUserAskedToEnableDailyReminders(Clock.System.now().toEpochMilliseconds())
             }
+            is Action.LogViewedEvent -> {
+                val currentProfile = profileInteractor
+                    .getCurrentProfile()
+                    .getOrElse { return }
+
+                val analyticEvent = StepQuizViewedHyperskillAnalyticEvent(
+                    if (action.stepId == currentProfile.dailyStep)
+                        HyperskillAnalyticRoute.Learn.Daily(action.stepId)
+                    else HyperskillAnalyticRoute.Learn.Step(action.stepId)
+                )
+                analyticInteractor.logEvent(analyticEvent)
+            }
+            is Action.LogAnalyticEvent ->
+                analyticInteractor.logEvent(action.analyticEvent)
         }
     }
 

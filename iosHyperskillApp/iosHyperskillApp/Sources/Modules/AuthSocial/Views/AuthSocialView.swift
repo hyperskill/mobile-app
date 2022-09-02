@@ -31,7 +31,10 @@ struct AuthSocialView: View {
                 AuthSocialControlsView(
                     socialAuthProviders: viewModel.availableSocialAuthProviders,
                     onSocialAuthProviderClick: viewModel.signIn(with:),
-                    onContinueWithEmailClick: { presentingAuthWithEmail = true }
+                    onContinueWithEmailClick: {
+                        viewModel.logClickedContinueWithEmailEvent()
+                        presentingAuthWithEmail = true
+                    }
                 )
                 NavigationLink(
                     isActive: $presentingAuthWithEmail,
@@ -40,6 +43,7 @@ struct AuthSocialView: View {
                 )
             }
             .navigationBarHidden(true)
+            .onAppear(perform: viewModel.logViewedEvent)
         }
         .onAppear {
             viewModel.startListening()

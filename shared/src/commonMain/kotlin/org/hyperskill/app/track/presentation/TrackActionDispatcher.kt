@@ -1,18 +1,20 @@
 package org.hyperskill.app.track.presentation
 
 import kotlinx.coroutines.async
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.track.domain.interactor.TrackInteractor
-import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 import org.hyperskill.app.track.presentation.TrackFeature.Action
 import org.hyperskill.app.track.presentation.TrackFeature.Message
+import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class TrackActionDispatcher(
     config: ActionDispatcherOptions,
     private val trackInteractor: TrackInteractor,
-    private val profileInteractor: ProfileInteractor
+    private val profileInteractor: ProfileInteractor,
+    private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
@@ -58,6 +60,8 @@ class TrackActionDispatcher(
                     Message.TrackSuccess(track, trackProgress, studyPlan)
                 )
             }
+            is Action.LogAnalyticEvent ->
+                analyticInteractor.logEvent(action.analyticEvent)
         }
     }
 }

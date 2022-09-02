@@ -1,5 +1,6 @@
 package org.hyperskill.app.auth.injection
 
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.auth.presentation.AuthCredentialsActionDispatcher
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature
@@ -14,12 +15,17 @@ import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 object AuthCredentialsFeatureBuilder {
-    fun build(authInteractor: AuthInteractor, profileInteractor: ProfileInteractor): Feature<State, Message, Action> {
+    fun build(
+        authInteractor: AuthInteractor,
+        profileInteractor: ProfileInteractor,
+        analyticInteractor: AnalyticInteractor
+    ): Feature<State, Message, Action> {
         val authReducer = AuthCredentialsReducer()
         val authActionDispatcher = AuthCredentialsActionDispatcher(
             ActionDispatcherOptions(),
             authInteractor,
-            profileInteractor
+            profileInteractor,
+            analyticInteractor
         )
 
         return ReduxFeature(State("", "", AuthCredentialsFeature.FormState.Editing), authReducer)

@@ -12,11 +12,27 @@ final class OnboardingViewModel: FeatureViewModel<
         onNewMessage(OnboardingFeatureMessageInit())
     }
 
-    func doAuthPresentation() {
+    func doSignPresentation() {
+        logClickedSignInEvent()
         moduleOutput?.handleOnboardingSignInRequested()
     }
 
-    func doNewUserPresentation() {
+    func doSignUpPresentation() {
+        logClickedSignUnEvent()
         moduleOutput?.handleOnboardingSignUpRequested()
+    }
+
+    // MARK: Analytic
+
+    func logViewedEvent() {
+        onNewMessage(OnboardingFeatureMessageViewedEventMessage())
+    }
+
+    private func logClickedSignInEvent() {
+        onNewMessage(OnboardingFeatureMessageClickedSignInEventMessage())
+    }
+
+    private func logClickedSignUnEvent() {
+        onNewMessage(OnboardingFeatureMessageClickedSignUnEventMessage())
     }
 }

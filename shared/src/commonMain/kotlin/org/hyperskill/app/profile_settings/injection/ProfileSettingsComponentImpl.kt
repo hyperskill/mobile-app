@@ -1,13 +1,6 @@
 package org.hyperskill.app.profile_settings.injection
 
 import org.hyperskill.app.core.injection.AppGraph
-import org.hyperskill.app.profile.cache.ProfileCacheDataSourceImpl
-import org.hyperskill.app.profile.data.repository.ProfileRepositoryImpl
-import org.hyperskill.app.profile.data.source.ProfileCacheDataSource
-import org.hyperskill.app.profile.data.source.ProfileRemoteDataSource
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
-import org.hyperskill.app.profile.domain.repository.ProfileRepository
-import org.hyperskill.app.profile.remote.ProfileRemoteDataSourceImpl
 import org.hyperskill.app.profile_settings.cache.ProfileSettingsCacheDataSourceImpl
 import org.hyperskill.app.profile_settings.data.repository.ProfileSettingsRepositoryImpl
 import org.hyperskill.app.profile_settings.data.source.ProfileSettingsCacheDataSource
@@ -22,28 +15,16 @@ class ProfileSettingsComponentImpl(private val appGraph: AppGraph) : ProfileSett
             appGraph.commonComponent.json,
             appGraph.commonComponent.settings
         )
-
     private val profileSettingsRepository: ProfileSettingsRepository =
         ProfileSettingsRepositoryImpl(profileSettingsCacheDataSource)
     override val profileSettingsInteractor: ProfileSettingsInteractor =
         ProfileSettingsInteractor(profileSettingsRepository)
 
-    private val profileRemoteDataSource: ProfileRemoteDataSource = ProfileRemoteDataSourceImpl(
-        appGraph.networkComponent.authorizedHttpClient
-    )
-    private val profileCacheDataSource: ProfileCacheDataSource = ProfileCacheDataSourceImpl(
-        appGraph.commonComponent.json,
-        appGraph.commonComponent.settings
-    )
-    private val profileRepository: ProfileRepository =
-        ProfileRepositoryImpl(profileRemoteDataSource, profileCacheDataSource)
-    private val profileInteractor: ProfileInteractor =
-        ProfileInteractor(profileRepository, appGraph.submissionDataComponent.submissionRepository)
-
     override val profileSettingsFeature: Feature<ProfileSettingsFeature.State, ProfileSettingsFeature.Message, ProfileSettingsFeature.Action>
         get() = ProfileSettingsFeatureBuilder.build(
             profileSettingsInteractor,
-            profileInteractor,
+            appGraph.buildProfileDataComponent().profileInteractor,
+            appGraph.analyticComponent.analyticInteractor,
             appGraph.networkComponent.authorizationFlow,
             appGraph.commonComponent.platform,
             appGraph.commonComponent.userAgentInfo
