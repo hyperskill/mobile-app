@@ -32,4 +32,8 @@ final class ProfileSettingsViewModel: FeatureViewModel<
     func doLogout() {
         onNewMessage(ProfileSettingsFeatureMessageLogoutConfirmed())
     }
+
+    func doSendFeedback() {
+        onNewMessage(ProfileSettingsFeatureMessageClickedSendFeedback())
+    }
 }
