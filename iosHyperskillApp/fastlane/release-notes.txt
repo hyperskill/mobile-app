@@ -1,8 +1,10 @@
 What to Test:
-1. Allow to change application theme ALTAPPS-233
-2. Profile settings / Logout ALTAPPS-208
-3. Onboarding screen ALTAPPS-225
-4. Fix the button on the Problem of the Day card doesn't work ALTAPPS-240
-5. Allow user to schedule daily notifications ALTAPPS-230
-6. Fix track incorrect information ALTAPPS-220
-7. Show warning message before account deletion ALTAPPS-241
+1. Send events to product analytics ALTAPPS-223
+2. Fix incorrect selected track ALTAPPS-248
+3. Update login, splash, onboarding screens, and app icon ALTAPPS-250
+4. Fix Streak and Daily problem aren't updated if Daily problem is solved in Web ALTAPPS-255
+5. Change global tintColor to primaryColor ALTAPPS-258
+6. Add Confirm button for table single choice ALTAPPS-260
+7. Table problem modal align title to leading edge ALTAPPS-262
+8. Update tab bar icons ALTAPPS-264
+9. Problem of the Day Card bounce animation on tap ALTAPPS-270

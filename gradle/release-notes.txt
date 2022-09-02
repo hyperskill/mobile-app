@@ -1,0 +1,6 @@
+What to Test:
+1. Send events to product analytics ALTAPPS-223
+2. Ask user permission for receiving notifications after daily step complete ALTAPPS-243
+3. Improve states after Problem of the day is completed ALTAPPS-252
+4. Update login, splash, onboarding screens ALTAPPS-259
+5. Fix onboarding picture for small screens ALTAPPS-277
