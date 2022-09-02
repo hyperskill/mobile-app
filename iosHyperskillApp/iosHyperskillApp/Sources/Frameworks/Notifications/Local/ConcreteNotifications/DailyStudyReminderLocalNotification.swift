@@ -15,6 +15,8 @@ struct DailyStudyReminderLocalNotification: LocalNotificationProtocol {
     private let notificationID: Int
     private let notificationNumber: Int
 
+    fileprivate let fireDate: Date?
+
     var userInfo: [AnyHashable: Any] {
         [
             NotificationsService.PayloadKey.id.rawValue: notificationID,
@@ -26,16 +28,11 @@ struct DailyStudyReminderLocalNotification: LocalNotificationProtocol {
     var identifier: String { "\(Self.identifierPrefix)-\(notificationNumber)" }
 
     private var dateComponents: DateComponents? {
-        guard let date = Calendar.current.date(
-            byAdding: .day,
-            value: notificationNumber,
-            to: Date()
-        ) else {
+        guard let fireDate = fireDate else {
             return nil
         }
 
-        var reminderDateComponents = Calendar.current.dateComponents([.hour, .weekday], from: date)
-
+        var reminderDateComponents = Calendar.current.dateComponents([.hour, .weekday], from: fireDate)
         reminderDateComponents.hour = startHour
 
         return reminderDateComponents
@@ -51,6 +48,13 @@ struct DailyStudyReminderLocalNotification: LocalNotificationProtocol {
         self.startHour = startHour
         self.notificationID = notificationDescription.id
         self.notificationNumber = notificationNumber
+
+        self.fireDate = Calendar.current.date(
+            byAdding: .day,
+            value: notificationNumber,
+            to: Date()
+        )
+
         if let dateComponents = self.dateComponents {
             self.trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
         }
@@ -61,6 +65,8 @@ struct DailyStudyReminderLocalNotification: LocalNotificationProtocol {
 
 extension NotificationsService {
     fileprivate static let dailyStudyRemindersCount = 7
+
+    private static let iso8601DateFormatter = ISO8601DateFormatter()
 
     func scheduleDailyStudyReminderLocalNotifications(
         analyticRoute: HyperskillAnalyticRoute = HyperskillAnalyticRoute.Home()
@@ -91,10 +97,15 @@ extension NotificationsService {
                 )
                 await scheduleLocalNotification(notification, removeIdentical: false)
 
+                let plannedAtISO8601 = notification.fireDate != nil
+                    ? Self.iso8601DateFormatter.string(from: notification.fireDate.require())
+                    : nil
+
                 await logDailyStudyReminderShownEvent(
                     analyticRoute: analyticRoute,
                     notificationID: notificationDescription.id,
-                    isNotificationPermissionGranted: isNotificationPermissionGranted
+                    isNotificationPermissionGranted: isNotificationPermissionGranted,
+                    plannedAtISO8601: plannedAtISO8601
                 )
             }
         }
@@ -116,12 +127,14 @@ extension NotificationsService {
     private func logDailyStudyReminderShownEvent(
         analyticRoute: HyperskillAnalyticRoute,
         notificationID: Int,
-        isNotificationPermissionGranted: Bool
+        isNotificationPermissionGranted: Bool,
+        plannedAtISO8601: String?
     ) {
         let event = NotificationDailyStudyReminderShownHyperskillAnalyticEvent(
             route: analyticRoute,
             isNotificationPermissionGranted: isNotificationPermissionGranted,
-            notificationId: Int32(notificationID)
+            notificationId: Int32(notificationID),
+            plannedAtISO8601: plannedAtISO8601
         )
         analyticInteractor.logEvent(event: event, completionHandler: { _, _ in })
     }
