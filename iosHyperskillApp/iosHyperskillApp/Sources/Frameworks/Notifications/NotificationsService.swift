@@ -83,22 +83,14 @@ extension NotificationsService {
                 return
             }
 
-            Task {
-                let isNotificationPermissionGranted = await NotificationPermissionStatus.current.isRegistered
-                await logDailyStudyReminderClickedEvent(
-                    notificationID: notificationID,
-                    isNotificationPermissionGranted: isNotificationPermissionGranted
-                )
+            DispatchQueue.main.async {
+                self.logDailyStudyReminderClickedEvent(notificationID: notificationID)
             }
         }
     }
 
-    @MainActor
-    private func logDailyStudyReminderClickedEvent(notificationID: Int, isNotificationPermissionGranted: Bool) {
-        let event = NotificationDailyStudyReminderClickedHyperskillAnalyticEvent(
-            isNotificationPermissionGranted: isNotificationPermissionGranted,
-            notificationId: Int32(notificationID)
-        )
+    private func logDailyStudyReminderClickedEvent(notificationID: Int) {
+        let event = NotificationDailyStudyReminderClickedHyperskillAnalyticEvent(notificationId: Int32(notificationID))
         analyticInteractor.logEvent(event: event, completionHandler: { _, _ in })
     }
 

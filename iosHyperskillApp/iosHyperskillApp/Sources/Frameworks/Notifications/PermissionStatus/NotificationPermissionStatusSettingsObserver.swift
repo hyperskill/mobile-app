@@ -1,7 +1,14 @@
 import Foundation
+import shared
 
 final class NotificationPermissionStatusSettingsObserver {
+    private let notificationInteractor: NotificationInteractor
+
     private var didTransitionToBackground = false
+
+    init(notificationInteractor: NotificationInteractor) {
+        self.notificationInteractor = notificationInteractor
+    }
 
     func startObserving() {
         Task {
@@ -45,6 +52,18 @@ final class NotificationPermissionStatusSettingsObserver {
         }
     }
 
+    @objc
+    private func onPermissionStatusUpdate(_ notification: Foundation.Notification) {
+        guard let permissionStatus = notification.object as? NotificationPermissionStatus else {
+            return
+        }
+
+        // Wait for `UIApplicationWillEnterForeground` event and after that allow status updates.
+        if !didTransitionToBackground {
+            notificationPermissionStatus = permissionStatus
+        }
+    }
+
     @MainActor
     private func addObservers() {
         NotificationCenter.default.addObserver(
@@ -58,6 +77,13 @@ final class NotificationPermissionStatusSettingsObserver {
             selector: #selector(handleApplicationWillResignActive),
             name: UIApplication.willResignActiveNotification,
             object: UIApplication.shared
+        )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(onPermissionStatusUpdate(_:)),
+            name: .notificationsRegistrationServiceDidUpdatePermissionStatus,
+            object: nil
         )
     }
 }
@@ -77,6 +103,9 @@ extension NotificationPermissionStatusSettingsObserver {
         }
         set {
             UserDefaults.standard.set(newValue.rawValue, forKey: Self.notificationPermissionStatusKey)
+            DispatchQueue.main.async {
+                self.notificationInteractor.setNotificationsPermissionGranted(isGranted: newValue.isRegistered)
+            }
         }
     }
 }
@@ -96,6 +125,16 @@ extension NotificationPermissionStatusSettingsObserver {
         NotificationCenter.default.post(
             name: .notificationPermissionStatusDidChange,
             object: permissionStatus
+        )
+    }
+}
+
+// MARK: - NotificationPermissionStatusSettingsObserver (Default Instance) -
+
+extension NotificationPermissionStatusSettingsObserver {
+    static var `default`: NotificationPermissionStatusSettingsObserver {
+        NotificationPermissionStatusSettingsObserver(
+            notificationInteractor: AppGraphBridge.sharedAppGraph.buildNotificationComponent().notificationInteractor
         )
     }
 }

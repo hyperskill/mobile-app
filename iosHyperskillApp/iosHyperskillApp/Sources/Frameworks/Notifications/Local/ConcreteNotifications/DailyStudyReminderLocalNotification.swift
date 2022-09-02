@@ -91,8 +91,6 @@ extension NotificationsService {
         Task {
             await internalRemoveDailyStudyReminderLocalNotifications()
 
-            let isNotificationPermissionGranted = await NotificationPermissionStatus.current.isRegistered
-
             for (index, notificationDescription) in notificationDescriptions.enumerated() {
                 let notification = DailyStudyReminderLocalNotification(
                     notificationDescription: notificationDescription,
@@ -108,7 +106,6 @@ extension NotificationsService {
                 await logDailyStudyReminderShownEvent(
                     analyticRoute: analyticRoute,
                     notificationID: notificationDescription.id,
-                    isNotificationPermissionGranted: isNotificationPermissionGranted,
                     plannedAtISO8601: plannedAtISO8601
                 )
             }
@@ -131,12 +128,10 @@ extension NotificationsService {
     private func logDailyStudyReminderShownEvent(
         analyticRoute: HyperskillAnalyticRoute,
         notificationID: Int,
-        isNotificationPermissionGranted: Bool,
         plannedAtISO8601: String?
     ) {
         let event = NotificationDailyStudyReminderShownHyperskillAnalyticEvent(
             route: analyticRoute,
-            isNotificationPermissionGranted: isNotificationPermissionGranted,
             notificationId: Int32(notificationID),
             plannedAtISO8601: plannedAtISO8601
         )

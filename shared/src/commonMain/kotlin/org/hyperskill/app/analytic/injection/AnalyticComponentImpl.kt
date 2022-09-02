@@ -35,6 +35,7 @@ class AnalyticComponentImpl(
         AnalyticInteractor(
             appGraph.authComponent.authInteractor,
             appGraph.buildProfileDataComponent().profileInteractor,
+            appGraph.buildNotificationComponent().notificationInteractor,
             hyperskillRepository,
             hyperskillEventProcessor
         )

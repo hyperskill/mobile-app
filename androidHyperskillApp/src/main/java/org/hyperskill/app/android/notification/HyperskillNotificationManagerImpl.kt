@@ -7,7 +7,7 @@ import android.app.PendingIntent
 import android.content.Context
 import org.hyperskill.app.android.core.extensions.DateTimeHelper
 import org.hyperskill.app.android.notification.receiver.AlarmReceiver
-import org.hyperskill.app.notification.domain.NotificationInteractor
+import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
 import ru.nobird.android.view.base.ui.extension.scheduleCompat
 
 class HyperskillNotificationManagerImpl(
