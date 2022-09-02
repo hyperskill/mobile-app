@@ -15,14 +15,13 @@ struct StepQuizView: View {
 
     @StateObject var viewModel: StepQuizViewModel
 
-    @Environment(\.presentationMode) private var presentationMode
-
     @State private var isPresentingNotificationsPermissionAlert = false
+
+    @Environment(\.presentationMode) private var presentationMode
 
     var body: some View {
         buildBody()
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonTitleRemoved { presentationMode.wrappedValue.dismiss() }
             .onAppear {
                 viewModel.startListening()
                 viewModel.onViewAction = handleViewAction(_:)
@@ -30,6 +29,8 @@ struct StepQuizView: View {
                 if viewModel.state is StepQuizFeatureStateIdle {
                     viewModel.loadAttempt()
                 }
+
+                viewModel.logViewedEvent()
             }
             .onDisappear(perform: viewModel.stopListening)
     }
@@ -83,7 +84,7 @@ struct StepQuizView: View {
                                     )
                                 }
                             ),
-                            secondaryButton: .default(
+                            secondaryButton: .cancel(
                                 Text(Strings.General.later),
                                 action: { viewModel.onNotificationsGranted(false) }
                             )

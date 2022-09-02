@@ -1,5 +1,6 @@
 package org.hyperskill.app.auth.presentation
 
+import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.auth.domain.model.AuthCredentialsError
 
 interface AuthCredentialsFeature {
@@ -21,10 +22,21 @@ interface AuthCredentialsFeature {
         object SubmitFormClicked : Message
         data class AuthSuccess(val isNewUser: Boolean) : Message
         data class AuthFailure(val credentialsError: AuthCredentialsError) : Message
+
+        /**
+         * Analytic
+         */
+        object ViewedEventMessage : Message
+        object ClickedSignInEventMessage : Message
+        object ClickedResetPasswordEventMessage : Message
+        object ClickedContinueWithSocialEventMessage : Message
     }
 
     sealed interface Action {
         data class AuthWithEmail(val email: String, val password: String) : Action
+
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
+
         sealed interface ViewAction : Action {
             data class CompleteAuthFlow(val isNewUser: Boolean) : ViewAction
         }

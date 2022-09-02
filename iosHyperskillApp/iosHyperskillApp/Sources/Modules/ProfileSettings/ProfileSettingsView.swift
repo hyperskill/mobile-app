@@ -22,10 +22,12 @@ struct ProfileSettingsView: View {
                 .toolbar {
                     ToolbarItem(placement: .primaryAction) {
                         Button(Strings.General.done) {
+                            viewModel.logClickedDoneEvent()
                             presentationMode.wrappedValue.dismiss()
                         }
                     }
                 }
+                .onAppear(perform: viewModel.logViewedEvent)
         }
         .onAppear {
             viewModel.startListening()
@@ -75,6 +77,7 @@ struct ProfileSettingsView: View {
                         if theme != ApplicationTheme(sharedTheme: profileSettings.theme) {
                             Text(theme.title)
                                 .navigationTitle(Strings.Settings.Theme.title)
+                                .onAppear(perform: viewModel.logClickedThemeEvent)
                         } else {
                             Text(theme.title)
                         }
@@ -85,13 +88,15 @@ struct ProfileSettingsView: View {
             Section(header: Text(Strings.Settings.about)) {
                 OpenURLInsideAppButton(
                     text: Strings.Settings.termsOfService,
-                    url: Self.termsOfServiceURL
+                    url: Self.termsOfServiceURL,
+                    onTap: viewModel.logClickedTermsOfServiceEvent
                 )
                 .foregroundColor(.primaryText)
 
                 OpenURLInsideAppButton(
                     text: Strings.Settings.privacyPolicy,
-                    url: Self.privacyPolicyURL
+                    url: Self.privacyPolicyURL,
+                    onTap: viewModel.logClickedPrivacyPolicyEvent
                 )
                 .foregroundColor(.primaryText)
 
@@ -118,13 +123,15 @@ struct ProfileSettingsView: View {
 
                 OpenURLInsideAppButton(
                     text: Strings.Settings.reportProblem,
-                    url: Self.reportProblemURL
+                    url: Self.reportProblemURL,
+                    onTap: viewModel.logClickedReportProblemEvent
                 )
                 .foregroundColor(.primaryText)
             }
 
             Section {
                 Button(Strings.Settings.logout) {
+                    viewModel.logClickedLogoutEvent()
                     isPresentingLogoutAlert = true
                 }
                 .foregroundColor(Color(ColorPalette.overlayRed))
@@ -143,6 +150,7 @@ struct ProfileSettingsView: View {
 
             Section {
                 Button(Strings.Settings.deleteAccount) {
+                    viewModel.logClickedDeleteAccountEvent()
                     isPresentingAccountDeletionAlert = true
                 }
                 .foregroundColor(Color(ColorPalette.overlayRed))
@@ -150,10 +158,16 @@ struct ProfileSettingsView: View {
                     Alert(
                         title: Text(Strings.Settings.deleteAccountAlertTitle),
                         message: Text(Strings.Settings.deleteAccountAlertMessage),
-                        primaryButton: .default(Text(Strings.General.cancel)),
+                        primaryButton: .default(
+                            Text(Strings.General.cancel),
+                            action: {
+                                viewModel.logDeleteAccountNoticeHiddenEvent(isConfirmed: false)
+                            }
+                        ),
                         secondaryButton: .destructive(
                             Text(Strings.Settings.deleteAccountAlertDeleteButton),
                             action: {
+                                viewModel.logDeleteAccountNoticeHiddenEvent(isConfirmed: true)
                                 WebControllerManager.shared.presentWebControllerWithURL(
                                     Self.accountDeletionURL,
                                     withKey: .externalLink,
@@ -163,6 +177,11 @@ struct ProfileSettingsView: View {
                             }
                         )
                     )
+                }
+                .onChange(of: isPresentingAccountDeletionAlert) { newValue in
+                    if newValue {
+                        viewModel.logDeleteAccountNoticeShownEvent()
+                    }
                 }
             }
         }

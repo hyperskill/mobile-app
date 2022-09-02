@@ -8,17 +8,20 @@ struct ProfileDailyStudyRemindersView: View {
     private var onIsActivatedChanged: (Bool) -> Void
 
     private var onSelectedHourChanged: (Int) -> Void
+    private var onSelectedHourTapped: () -> Void
 
     init(
         isActivated: Bool,
         selectedHour: Int,
         onIsActivatedChanged: @escaping (Bool) -> Void,
-        onSelectedHourChanged: @escaping (Int) -> Void
+        onSelectedHourChanged: @escaping (Int) -> Void,
+        onSelectedHourTapped: @escaping () -> Void
     ) {
         self.isActivated = isActivated
         self.selectedHour = selectedHour
         self.onIsActivatedChanged = onIsActivatedChanged
         self.onSelectedHourChanged = onSelectedHourChanged
+        self.onSelectedHourTapped = onSelectedHourTapped
     }
 
     var body: some View {
@@ -40,6 +43,7 @@ struct ProfileDailyStudyRemindersView: View {
                 .onChange(of: selectedHour) { value in
                     onSelectedHourChanged(value)
                 }
+                .onTapGesture(perform: onSelectedHourTapped)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -54,7 +58,8 @@ struct ProfileDailyStudyRemindersView_Previews: PreviewProvider {
             isActivated: false,
             selectedHour: 21,
             onIsActivatedChanged: { _ in },
-            onSelectedHourChanged: { _ in }
+            onSelectedHourChanged: { _ in },
+            onSelectedHourTapped: {}
         )
         .previewLayout(.sizeThatFits)
     }

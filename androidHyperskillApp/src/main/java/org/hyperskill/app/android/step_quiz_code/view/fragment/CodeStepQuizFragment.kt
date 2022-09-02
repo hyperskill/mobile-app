@@ -59,6 +59,7 @@ class CodeStepQuizFragment :
         viewBinding.root.addView(binding.root)
 
         viewBinding.stepQuizButtons.stepQuizRetryButton.setOnClickListener {
+            logAnalyticEventMessage(StepQuizFeature.Message.ClickedRetryEventMessage)
             val dialog = ResetCodeDialogFragment.newInstance()
             if (!dialog.isAdded) {
                 dialog.show(childFragmentManager, null)
@@ -87,7 +88,10 @@ class CodeStepQuizFragment :
             codeTemplates = codeOptions.codeTemplates!!,
             codeQuizInstructionDelegate = CodeQuizInstructionDelegate(
                 codeDetailsView,
-                true
+                true,
+                onDetailsIsExpandedStateChanged = {
+                    logAnalyticEventMessage(StepQuizFeature.Message.ClickedCodeDetailsEventMessage)
+                }
             ),
             codeToolbarAdapter = null,
         )

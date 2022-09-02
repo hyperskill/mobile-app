@@ -25,8 +25,14 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
         onNewMessage(HomeFeatureMessageInit(forceUpdate: forceUpdate))
     }
 
+    // MARK: Analytic
+
     func logViewedEvent() {
-        onNewMessage(HomeFeatureMessageHomeViewedEventMessage())
+        onNewMessage(HomeFeatureMessageViewedEventMessage())
+    }
+
+    private func logClickedProblemOfDayCardEvent() {
+        onNewMessage(HomeFeatureMessageClickedProblemOfDayCardEventMessage())
     }
 
     // MARK: Private API
@@ -50,5 +56,9 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
 extension HomeViewModel: ProblemOfDayOutputProtocol {
     func handleProblemOfDayReloadRequested() {
         loadContent(forceUpdate: true)
+    }
+
+    func handleProblemOfDayContinueActionPerformed() {
+        logClickedProblemOfDayCardEvent()
     }
 }

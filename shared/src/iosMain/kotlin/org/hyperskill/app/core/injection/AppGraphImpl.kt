@@ -19,6 +19,8 @@ import org.hyperskill.app.notification.injection.NotificationComponent
 import org.hyperskill.app.notification.injection.NotificationComponentImpl
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponentImpl
+import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponent
+import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponentImpl
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile.injection.ProfileComponentImpl
 import org.hyperskill.app.profile.injection.ProfileDataComponent
@@ -46,20 +48,30 @@ class AppGraphImpl(
     override val submissionDataComponent: SubmissionDataComponent =
         SubmissionDataComponentImpl(this)
 
-    override val analyticComponent: AnalyticComponent =
-        AnalyticComponentImpl(this)
-
     override val authComponent: AuthComponent =
         AuthComponentImpl(this)
+
+    override val analyticComponent: AnalyticComponent =
+        AnalyticComponentImpl(this)
 
     override val mainComponent: MainComponent =
         MainComponentImpl(this)
 
     override fun buildAuthSocialComponent(): AuthSocialComponent =
-        AuthSocialComponentImpl(commonComponent, authComponent, buildProfileDataComponent())
+        AuthSocialComponentImpl(
+            commonComponent,
+            authComponent,
+            buildProfileDataComponent(),
+            analyticComponent
+        )
 
     override fun buildAuthCredentialsComponent(): AuthCredentialsComponent =
-        AuthCredentialsComponentImpl(commonComponent, authComponent, buildProfileDataComponent())
+        AuthCredentialsComponentImpl(
+            commonComponent,
+            authComponent,
+            buildProfileDataComponent(),
+            analyticComponent
+        )
 
     override fun buildStepComponent(): StepComponent =
         StepComponentImpl(this)
@@ -87,4 +99,7 @@ class AppGraphImpl(
 
     override fun buildOnboardingComponent(): OnboardingComponent =
         OnboardingComponentImpl(this)
+
+    override fun buildPlaceholderNewUserComponent(): PlaceholderNewUserComponent =
+        PlaceholderNewUserComponentImpl(this)
 }

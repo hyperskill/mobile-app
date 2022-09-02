@@ -19,4 +19,8 @@ final class ProblemOfDayViewModel {
     func makeViewData() -> ProblemOfDayViewData {
         viewDataMapper.mapProblemOfDayStateToViewData(problemOfDayState)
     }
+
+    func handleStepNavigationPresentationPerformed() {
+        moduleOutput?.handleProblemOfDayContinueActionPerformed()
+    }
 }

@@ -13,10 +13,16 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
     }
 
     func loadStep(forceUpdate: Bool = false) {
-        self.onNewMessage(StepFeatureMessageInit(stepId: Int64(self.stepID), forceUpdate: forceUpdate))
+        self.onNewMessage(StepFeatureMessageInit(stepId: Int64(stepID), forceUpdate: forceUpdate))
     }
 
     func makeViewData(_ step: Step) -> StepViewData {
         self.viewDataMapper.mapStepToViewData(step)
+    }
+
+    // MARK: Analytic
+
+    func logClickedBackEvent() {
+        onNewMessage(StepFeatureMessageClickedBackEventMessage(stepId: Int64(stepID)))
     }
 }

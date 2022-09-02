@@ -55,7 +55,7 @@ struct AppView: View {
                 case .onboarding:
                     OnboardingAssembly(output: viewModel).makeModule()
                 case .newUser:
-                    AuthNewUserPlaceholderView(onSignInTap: viewModel.handleNewUserPlaceholderSignInRequested)
+                    AuthNewUserPlaceholderAssembly(output: viewModel).makeModule()
                 }
             }
             .environmentObject(panModalPresenter)

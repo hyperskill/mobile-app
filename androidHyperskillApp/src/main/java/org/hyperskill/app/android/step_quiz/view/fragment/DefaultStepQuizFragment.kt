@@ -75,11 +75,15 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
         viewBinding.stepQuizButtons.stepQuizSubmitButton.setOnClickListener {
             onActionButtonClicked()
         }
+        viewBinding.stepQuizButtons.stepQuizRetryButton.setOnClickListener {
+            stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ClickedRetryEventMessage)
+        }
         viewBinding.stepQuizNetworkError.tryAgain.setOnClickListener {
             stepQuizViewModel.onNewMessage(StepQuizFeature.Message.InitWithStep(step, forceUpdate = true))
         }
 
         stepQuizViewModel.onNewMessage(StepQuizFeature.Message.InitWithStep(step))
+        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ViewedEventMessage(step.id))
     }
 
     protected abstract fun createStepQuizFormDelegate(containerBinding: FragmentStepQuizBinding): StepQuizFormDelegate
@@ -109,6 +113,9 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
         when (action) {
             is StepQuizFeature.Action.ViewAction.ShowNetworkError -> {
                 view?.snackbar(messageRes = R.string.connection_error)
+            }
+            is StepQuizFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
+                requireRouter().backTo(MainScreen)
             }
             is StepQuizFeature.Action.ViewAction.AskUserToEnableDailyReminders -> {
                 MaterialAlertDialogBuilder(requireContext())
@@ -156,7 +163,7 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
                     viewBinding.stepQuizButtons.stepQuizSubmitButton.visibility = View.GONE
                     viewBinding.stepQuizButtons.stepQuizContinueButton.visibility = View.VISIBLE
                     viewBinding.stepQuizButtons.stepQuizContinueButton.setOnClickListener {
-                        requireRouter().backTo(MainScreen)
+                        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ContinueClicked)
                     }
                 }
 
@@ -172,5 +179,13 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
 
     protected fun syncReplyState(replyResult: ReplyResult) {
         stepQuizViewModel.onNewMessage(StepQuizFeature.Message.SyncReply(replyResult.reply))
+    }
+
+    /**
+     * Use only for analytic events logging.
+     * @param message an analytic event message
+     */
+    protected fun logAnalyticEventMessage(message: StepQuizFeature.Message) {
+        stepQuizViewModel.onNewMessage(message)
     }
 }

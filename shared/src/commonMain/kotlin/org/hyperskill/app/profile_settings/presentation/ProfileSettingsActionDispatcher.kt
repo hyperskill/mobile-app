@@ -2,6 +2,7 @@ package org.hyperskill.app.profile_settings.presentation
 
 import kotlinx.coroutines.flow.MutableSharedFlow
 import org.hyperskill.app.Platform
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
@@ -17,6 +18,7 @@ class ProfileSettingsActionDispatcher(
     config: ActionDispatcherOptions,
     private val profileSettingsInteractor: ProfileSettingsInteractor,
     private val profileInteractor: ProfileInteractor,
+    private val analyticInteractor: AnalyticInteractor,
     private val authorizationFlow: MutableSharedFlow<UserDeauthorized>,
     private val platform: Platform,
     private val userAgentInfo: UserAgentInfo
@@ -27,9 +29,8 @@ class ProfileSettingsActionDispatcher(
                 val profileSettings = profileSettingsInteractor.getProfileSettings()
                 onNewMessage(Message.ProfileSettingsSuccess(profileSettings))
             }
-            is Action.ChangeTheme -> {
+            is Action.ChangeTheme ->
                 profileSettingsInteractor.changeTheme(action.theme)
-            }
             is Action.Logout -> {
                 profileInteractor.clearCache()
                 authorizationFlow.tryEmit(UserDeauthorized)
@@ -48,6 +49,8 @@ class ProfileSettingsActionDispatcher(
 
                 onNewMessage(Message.FeedbackEmailDataPrepared(feedbackEmailData))
             }
+            is Action.LogAnalyticEvent ->
+                analyticInteractor.logEvent(action.analyticEvent)
         }
     }
 }

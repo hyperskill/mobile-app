@@ -113,7 +113,7 @@
         <item name="cornerRadius">@dimen/corner_radius</item>
         <item name="strokeColor">@color/color_on_surface_alpha_12</item>
     </style>
-        
+
     <style name="StreakStatCard">
         <item name="cornerRadius">@dimen/corner_radius</item>
         <item name="strokeColor">@color/color_on_surface_alpha_12</item>
@@ -134,7 +134,7 @@
     <style name="AlertDialogTitleStyle" parent="@style/TextAppearance.AppCompat.Body2">
         <item name="android:textSize">24sp</item>
     </style>
-    
+
     <style name="AlertDialogRadioButtonStyle" parent="@style/Widget.MaterialComponents.CompoundButton.RadioButton">
         <item name="android:textColor">@color/color_on_background</item>
         <item name="android:textSize">16sp</item>
@@ -153,7 +153,7 @@
         <item name="buttonBarNegativeButtonStyle">@style/AlertDialogOutlinedButton</item>
     </style>
 
-    <style name="ThemeOverlay.App.MaterialAlertDialog.LogoutDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+    <style name="ThemeOverlay.App.MaterialAlertDialog.ProfileSettingsConfirmDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="colorSecondary">@color/color_primary</item>
         <item name="android:checkedTextViewStyle">@style/AlertDialogTextStyle</item>
         <item name="android:layout_width">wrap_content</item>

@@ -20,7 +20,8 @@ import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 
 class CodeQuizInstructionDelegate(
     detailsContainerView: View,
-    isCollapsible: Boolean
+    isCollapsible: Boolean,
+    onDetailsIsExpandedStateChanged: () -> Unit
 ) {
     private val stepQuizCodeDetails: FrameLayout = detailsContainerView.findViewById(R.id.stepQuizCodeDetailsFrameLayout)
     private val stepQuizCodeDetailsArrow: ArrowImageView = detailsContainerView.findViewById(R.id.stepQuizCodeDetailsArrow)
@@ -50,6 +51,7 @@ class CodeQuizInstructionDelegate(
                 } else {
                     stepQuizCodeDetailsContent.collapse()
                 }
+                onDetailsIsExpandedStateChanged()
             }
         } else {
             stepQuizCodeDetailsArrow.isVisible = false

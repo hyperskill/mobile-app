@@ -1,3 +1,4 @@
+import shared
 import SwiftUI
 
 extension AuthNewUserPlaceholderView {
@@ -16,9 +17,9 @@ struct AuthNewUserPlaceholderView: View {
 
     private(set) var appearance = Appearance()
 
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @StateObject var viewModel: AuthNewUserPlaceholderViewModel
 
-    let onSignInTap: () -> Void
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     var body: some View {
         ZStack {
@@ -36,6 +37,13 @@ struct AuthNewUserPlaceholderView: View {
             .frame(maxWidth: appearance.contentMaxWidth)
             .padding()
         }
+        .onAppear {
+            viewModel.startListening()
+            viewModel.onViewAction = handleViewAction(_:)
+
+            viewModel.logViewedEvent()
+        }
+        .onDisappear(perform: viewModel.stopListening)
     }
 
     private var content: some View {
@@ -46,6 +54,7 @@ struct AuthNewUserPlaceholderView: View {
                 Text(Strings.Auth.NewUserPlaceholder.title)
                     .font(.title2)
                     .foregroundColor(.primaryText)
+                    .multilineTextAlignment(.center)
             }
             .frame(maxWidth: .infinity)
 
@@ -53,15 +62,18 @@ struct AuthNewUserPlaceholderView: View {
                 .font(.body)
                 .foregroundColor(.primaryText)
 
-            VStack(alignment: .center, spacing: appearance.spacingSmall) {
+            VStack(spacing: appearance.spacingSmall) {
                 OpenURLInsideAppButton(
-                    text: Strings.Auth.NewUserPlaceholder.buttonText, url: Self.registerURL.require()
+                    text: Strings.Auth.NewUserPlaceholder.continueButton,
+                    url: Self.registerURL.require(),
+                    onTap: viewModel.logClickedContinueEvent
                 )
                 .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
 
-                Button(Strings.Auth.Credentials.logIn) {
-                    onSignInTap()
-                }
+                Button(
+                    Strings.Auth.NewUserPlaceholder.signInButton,
+                    action: viewModel.doSignIn
+                )
                 .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
             }
 
@@ -70,13 +82,19 @@ struct AuthNewUserPlaceholderView: View {
                 .foregroundColor(.primaryText)
         }
     }
+
+    // MARK: Private API
+
+    private func handleViewAction(_ viewAction: PlaceholderNewUserFeatureActionViewAction) {
+        print("AuthNewUserPlaceholderView :: \(#function) viewAction = \(viewAction)")
+    }
 }
 
 struct AuthNewUserPlaceholderView_Previews: PreviewProvider {
     static var previews: some View {
-        AuthNewUserPlaceholderView(onSignInTap: {})
+        AuthNewUserPlaceholderAssembly().makeModule()
 
-        AuthNewUserPlaceholderView(onSignInTap: {})
+        AuthNewUserPlaceholderAssembly().makeModule()
             .previewDevice(PreviewDevice(rawValue: "iPad (9th generation)"))
     }
 }

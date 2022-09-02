@@ -17,7 +17,9 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
         viewDataMapper.mapTrackDataToViewData(track: track, trackProgress: trackProgress, studyPlan: studyPlan)
     }
 
-    func presentStudyPlanInWeb() {
+    func doStudyPlanInWebPresentation() {
+        logClickedContinueInWebEvent()
+
         guard state is TrackFeatureStateContent,
               let url = HyperskillURLFactory.makeStudyPlan() else {
             return
@@ -29,5 +31,15 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
             allowsSafari: true,
             backButtonStyle: .done
         )
+    }
+
+    // MARK: Analytic
+
+    func logViewedEvent() {
+        onNewMessage(TrackFeatureMessageViewedEventMessage())
+    }
+
+    private func logClickedContinueInWebEvent() {
+        onNewMessage(TrackFeatureMessageClickedContinueInWebEventMessage())
     }
 }

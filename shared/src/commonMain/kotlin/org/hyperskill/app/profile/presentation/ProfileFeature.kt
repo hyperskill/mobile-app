@@ -1,5 +1,6 @@
 package org.hyperskill.app.profile.presentation
 
+import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.streak.domain.model.Streak
 
@@ -27,12 +28,24 @@ interface ProfileFeature {
         }
 
         data class StepSolved(val id: Long) : Message
+
+        /**
+         * Analytic
+         */
+        object ViewedEventMessage : Message
+        object ClickedSettingsEventMessage : Message
+        data class ClickedDailyStudyRemindsEventMessage(val isEnabled: Boolean) : Message
+        object ClickedDailyStudyRemindsTimeEventMessage : Message
+        object ClickedViewFullProfileEventMessage : Message
     }
 
     sealed interface Action {
         data class FetchProfile(val profileId: Long) : Action
         object FetchCurrentProfile : Action
         data class UpdateStreakInfo(val streak: Streak?) : Action
+
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
+
         sealed class ViewAction : Action
     }
 }

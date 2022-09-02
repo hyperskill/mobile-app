@@ -13,14 +13,16 @@ import org.hyperskill.app.analytic.remote.exception.AnalyticHyperskillResponseEx
 import org.hyperskill.app.analytic.remote.model.AnalyticHyperskillRequest
 
 class AnalyticHyperskillRemoteDataSourceImpl(
-    private val httpClient: HttpClient
+    private val authorizedHttpClient: HttpClient,
+    private val unauthorizedHttpClient: HttpClient
 ) : AnalyticHyperskillRemoteDataSource {
-    override suspend fun flushEvents(events: List<AnalyticEvent>): Result<Unit> =
+    override suspend fun flushEvents(events: List<AnalyticEvent>, isAuthorized: Boolean): Result<Unit> =
         kotlin.runCatching {
             if (events.isEmpty()) {
                 return Result.success(Unit)
             }
 
+            val httpClient = if (isAuthorized) authorizedHttpClient else unauthorizedHttpClient
             val httpResponse = httpClient
                 .post("/api/frontend-events") {
                     contentType(ContentType.Application.Json)

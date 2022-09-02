@@ -17,7 +17,7 @@ final class AuthCredentialsViewModel: FeatureViewModel<
 
         let authCredentialsError = errorState.credentialsError
 
-        return self.authCredentialsErrorMapper.getAuthCredentialsErrorText(authCredentialsError: authCredentialsError)
+        return authCredentialsErrorMapper.getAuthCredentialsErrorText(authCredentialsError: authCredentialsError)
     }
 
     init(authCredentialsErrorMapper: AuthCredentialsErrorMapper, feature: Presentation_reduxFeature) {
@@ -27,14 +27,17 @@ final class AuthCredentialsViewModel: FeatureViewModel<
 
     func doFormInputChange(email: String, password: String) {
         let message = AuthCredentialsFeatureMessageAuthEditing(email: email, password: password)
-        self.onNewMessage(message)
+        onNewMessage(message)
     }
 
     func doLogIn() {
-        self.onNewMessage(AuthCredentialsFeatureMessageSubmitFormClicked())
+        logClickedSignInEvent()
+        onNewMessage(AuthCredentialsFeatureMessageSubmitFormClicked())
     }
 
     func doResetPassword() {
+        logClickedResetPasswordEvent()
+
         guard let url = HyperskillURLFactory.makeResetPassword() else {
             return
         }
@@ -49,5 +52,23 @@ final class AuthCredentialsViewModel: FeatureViewModel<
 
     func doCompleteAuthFlow(isNewUser: Bool) {
         moduleOutput?.handleUserAuthorized(isNewUser: isNewUser)
+    }
+
+    // MARK: Analytic
+
+    func logViewedEvent() {
+        onNewMessage(AuthCredentialsFeatureMessageViewedEventMessage())
+    }
+
+    private func logClickedSignInEvent() {
+        onNewMessage(AuthCredentialsFeatureMessageClickedSignInEventMessage())
+    }
+
+    private func logClickedResetPasswordEvent() {
+        onNewMessage(AuthCredentialsFeatureMessageClickedResetPasswordEventMessage())
+    }
+
+    func logClickedContinueWithSocialEvent() {
+        onNewMessage(AuthCredentialsFeatureMessageClickedContinueWithSocialEventMessage())
     }
 }

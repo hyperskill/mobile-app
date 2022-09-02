@@ -47,10 +47,10 @@ struct OnboardingView: View {
 
                 Spacer()
 
-                Button(Strings.Onboarding.signIn, action: viewModel.doAuthPresentation)
+                Button(Strings.Onboarding.signIn, action: viewModel.doSignPresentation)
                     .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
 
-                Button(Strings.Onboarding.signUp, action: viewModel.doNewUserPresentation)
+                Button(Strings.Onboarding.signUp, action: viewModel.doSignUpPresentation)
                     .buttonStyle(OutlineButtonStyle(style: .violet))
 
                 if horizontalSizeClass == .regular {
@@ -63,7 +63,9 @@ struct OnboardingView: View {
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
+
             viewModel.loadOnboarding()
+            viewModel.logViewedEvent()
         }
         .onDisappear(perform: viewModel.stopListening)
     }

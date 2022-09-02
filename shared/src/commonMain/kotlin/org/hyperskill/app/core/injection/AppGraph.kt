@@ -9,6 +9,7 @@ import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.notification.injection.NotificationComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
+import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponent
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
@@ -36,4 +37,5 @@ interface AppGraph {
     fun buildHomeComponent(): HomeComponent
     fun buildNotificationComponent(): NotificationComponent
     fun buildOnboardingComponent(): OnboardingComponent
+    fun buildPlaceholderNewUserComponent(): PlaceholderNewUserComponent
 }

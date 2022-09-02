@@ -10,21 +10,20 @@ final class ProfileViewModel: FeatureViewModel<
 
     private let viewDataMapper: ProfileViewDataMapper
 
-    private let notificationInteractor: NotificationInteractor
-
     private let notificationService: NotificationsService
+    private let notificationInteractor: NotificationInteractor
 
     init(
         presentationDescription: ProfilePresentationDescription,
         viewDataMapper: ProfileViewDataMapper,
-        notificationInteractor: NotificationInteractor,
         notificationService: NotificationsService,
+        notificationInteractor: NotificationInteractor,
         feature: Presentation_reduxFeature
     ) {
         self.presentationDescription = presentationDescription
         self.viewDataMapper = viewDataMapper
-        self.notificationInteractor = notificationInteractor
         self.notificationService = notificationService
+        self.notificationInteractor = notificationInteractor
         super.init(feature: feature)
     }
 
@@ -71,6 +70,8 @@ final class ProfileViewModel: FeatureViewModel<
     }
 
     func presentProfileFullVersion() {
+        logClickedViewFullProfileEvent()
+
         guard let contentState = state as? ProfileFeatureStateContent,
               let url = HyperskillURLFactory.makeProfile(id: Int(contentState.profile.id)) else {
             return
@@ -86,10 +87,12 @@ final class ProfileViewModel: FeatureViewModel<
 
     // MARK: Daily study reminders
 
-    func setDailyStudyRemindersActivated(isActivated: Bool) {
-        self.notificationInteractor.setDailyStudyRemindersEnabled(enabled: isActivated)
+    func setDailyStudyRemindersEnabled(_ isEnabled: Bool) {
+        logClickedDailyStudyRemindsEvent(isEnabled: isEnabled)
 
-        if isActivated {
+        notificationInteractor.setDailyStudyRemindersEnabled(enabled: isEnabled)
+
+        if isEnabled {
             notificationService.scheduleDailyStudyReminderLocalNotifications()
             NotificationsRegistrationService.requestAuthorization(grantedHandler: { _ in })
         } else {
@@ -98,8 +101,29 @@ final class ProfileViewModel: FeatureViewModel<
     }
 
     func setDailyStudyRemindersStartHour(startHour: Int) {
-        self.notificationInteractor.setDailyStudyRemindersIntervalStartHour(hour: Int32(startHour))
-
+        notificationInteractor.setDailyStudyRemindersIntervalStartHour(hour: Int32(startHour))
         notificationService.scheduleDailyStudyReminderLocalNotifications()
+    }
+
+    // MARK: Analytic
+
+    func logViewedEvent() {
+        onNewMessage(ProfileFeatureMessageViewedEventMessage())
+    }
+
+    func logClickedSettingsEvent() {
+        onNewMessage(ProfileFeatureMessageClickedSettingsEventMessage())
+    }
+
+    private func logClickedDailyStudyRemindsEvent(isEnabled: Bool) {
+        onNewMessage(ProfileFeatureMessageClickedDailyStudyRemindsEventMessage(isEnabled: isEnabled))
+    }
+
+    func logClickedDailyStudyRemindsTimeEvent() {
+        onNewMessage(ProfileFeatureMessageClickedDailyStudyRemindsTimeEventMessage())
+    }
+
+    private func logClickedViewFullProfileEvent() {
+        onNewMessage(ProfileFeatureMessageClickedViewFullProfileEventMessage())
     }
 }

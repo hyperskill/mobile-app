@@ -62,11 +62,15 @@ class ProfileSettingsDialogFragment :
             centeredToolbarTitle.setTextAppearance(R.style.TextAppearance_AppCompat_Body2)
             centeredToolbarTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18F)
 
-            centeredToolbar.setNavigationOnClickListener { dismiss() }
+            centeredToolbar.setNavigationOnClickListener {
+                profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ClickedDoneEventMessage)
+                dismiss()
+            }
             centeredToolbar.setNavigationIcon(R.drawable.ic_close_thin)
         }
 
         viewBinding.settingsThemeButton.setOnClickListener {
+            profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ClickedThemeEventMessage)
             MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog)
                 .setTitle(R.string.settings_theme)
                 .setSingleChoiceItems(Theme.values().map { theme -> theme.representation }.toTypedArray(), currentThemePosition) { _, which ->
@@ -85,14 +89,17 @@ class ProfileSettingsDialogFragment :
         }
 
         viewBinding.settingsTermsOfServiceButton.setOnClickListener {
+            profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ClickedTermsOfServiceEventMessage)
             openLinkInBrowser(resources.getString(R.string.settings_terms_of_service_url))
         }
 
         viewBinding.settingsPrivacyPolicyButton.setOnClickListener {
+            profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ClickedPrivacyPolicyEventMessage)
             openLinkInBrowser(resources.getString(R.string.settings_privacy_policy_url))
         }
 
         viewBinding.settingsReportProblemButton.setOnClickListener {
+            profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ClickedReportProblemEventMessage)
             openLinkInBrowser(resources.getString(R.string.settings_report_problem_url))
         }
 
@@ -103,7 +110,8 @@ class ProfileSettingsDialogFragment :
         viewBinding.settingsVersionTextView.text = HyperskillApp.graph().commonComponent.userAgentInfo.versionName
 
         viewBinding.settingsLogoutButton.setOnClickListener {
-            MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog_LogoutDialog)
+            profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ClickedLogoutEventMessage)
+            MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog_ProfileSettingsConfirmDialog)
                 .setTitle(R.string.settings_logout_dialog_title)
                 .setMessage(R.string.settings_logout_dialog_explanation)
                 .setPositiveButton(R.string.yes) { _, _ ->
@@ -115,7 +123,35 @@ class ProfileSettingsDialogFragment :
                 .show()
         }
 
+        viewBinding.settingsDeleteAccountButton.setOnClickListener {
+            profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ClickedDeleteAccountEventMessage)
+
+            MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog_ProfileSettingsConfirmDialog)
+                .setTitle(R.string.settings_account_deletion_dialog_title)
+                .setMessage(R.string.settings_account_deletion_dialog_explanation)
+                .setPositiveButton(R.string.settings_account_deletion_dialog_delete_button_text) { _, _ ->
+                    profileSettingsViewModel.onNewMessage(
+                        ProfileSettingsFeature.Message.DeleteAccountNoticeHiddenEventMessage(
+                            true
+                        )
+                    )
+                    openLinkInBrowser(resources.getString(R.string.settings_account_deletion_url))
+                }
+                .setNegativeButton(R.string.cancel) { dialog, _ ->
+                    profileSettingsViewModel.onNewMessage(
+                        ProfileSettingsFeature.Message.DeleteAccountNoticeHiddenEventMessage(
+                            false
+                        )
+                    )
+                    dialog.dismiss()
+                }
+                .show()
+
+            profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.DeleteAccountNoticeShownEventMessage)
+        }
+
         profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.InitMessage())
+        profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ViewedEventMessage)
     }
 
     private fun openLinkInBrowser(link: String) {

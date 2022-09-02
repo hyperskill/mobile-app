@@ -1,9 +1,14 @@
 package org.hyperskill.app.profile.presentation
 
-import ru.nobird.app.presentation.redux.reducer.StateReducer
-import org.hyperskill.app.profile.presentation.ProfileFeature.State
+import org.hyperskill.app.profile.domain.analytic.ProfileClickedDailyStudyRemindsHyperskillAnalyticEvent
+import org.hyperskill.app.profile.domain.analytic.ProfileClickedDailyStudyRemindsTimeHyperskillAnalyticEvent
+import org.hyperskill.app.profile.domain.analytic.ProfileClickedSettingsHyperskillAnalyticEvent
+import org.hyperskill.app.profile.domain.analytic.ProfileClickedViewFullProfileHyperskillAnalyticEvent
+import org.hyperskill.app.profile.domain.analytic.ProfileViewedHyperskillAnalyticEvent
 import org.hyperskill.app.profile.presentation.ProfileFeature.Action
 import org.hyperskill.app.profile.presentation.ProfileFeature.Message
+import org.hyperskill.app.profile.presentation.ProfileFeature.State
+import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 class ProfileReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
@@ -32,5 +37,15 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
+            is Message.ViewedEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(ProfileViewedHyperskillAnalyticEvent()))
+            is Message.ClickedSettingsEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(ProfileClickedSettingsHyperskillAnalyticEvent()))
+            is Message.ClickedDailyStudyRemindsEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(ProfileClickedDailyStudyRemindsHyperskillAnalyticEvent(message.isEnabled)))
+            is Message.ClickedDailyStudyRemindsTimeEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(ProfileClickedDailyStudyRemindsTimeHyperskillAnalyticEvent()))
+            is Message.ClickedViewFullProfileEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(ProfileClickedViewFullProfileHyperskillAnalyticEvent()))
         } ?: (state to emptySet())
 }

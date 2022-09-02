@@ -21,7 +21,8 @@ struct StepQuizCodeView: View {
             StepQuizCodeDetailsView(
                 samples: viewData.samples,
                 executionTimeLimit: viewData.executionTimeLimit,
-                executionMemoryLimit: viewData.executionMemoryLimit
+                executionMemoryLimit: viewData.executionMemoryLimit,
+                onExpandTapped: viewModel.logClickedCodeDetailsEvent
             )
             .padding(.horizontal, -LayoutInsets.defaultInset)
 

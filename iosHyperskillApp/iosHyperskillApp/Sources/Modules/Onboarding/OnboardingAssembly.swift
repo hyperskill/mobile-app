@@ -12,7 +12,6 @@ final class OnboardingAssembly: Assembly {
         let onboardingComponent = AppGraphBridge.sharedAppGraph.buildOnboardingComponent()
 
         let viewModel = OnboardingViewModel(feature: onboardingComponent.onboardingFeature)
-
         viewModel.moduleOutput = self.moduleOutput
 
         return OnboardingView(viewModel: viewModel)

@@ -120,6 +120,7 @@ android {
                 configure = {
                     artifactType = "APK"
                     groups = "all-android-testers"
+                    releaseNotesFile = "gradle/release-notes.txt"
                 }
             )
         }
