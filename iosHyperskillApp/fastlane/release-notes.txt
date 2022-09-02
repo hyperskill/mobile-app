@@ -9,3 +9,4 @@ What to Test:
 8. Fix notifications are not sent in the scheduled time period ALTAPPS-274
 9. Bug reports / Feedback collection in the app ALTAPPS-279
 10. Analytics for notifications ALTAPPS-285
+11. Fix problems feedback not visible ALTAPPS-290
