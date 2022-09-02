@@ -17,6 +17,7 @@ import org.hyperskill.app.android.core.extensions.representation
 import org.hyperskill.app.android.databinding.FragmentProfileSettingsBinding
 import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper
 import org.hyperskill.app.profile.presentation.ProfileSettingsViewModel
+import org.hyperskill.app.profile_settings.domain.model.FeedbackEmailData
 import org.hyperskill.app.profile_settings.domain.model.Theme
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
@@ -97,9 +98,13 @@ class ProfileSettingsDialogFragment :
             openLinkInBrowser(resources.getString(R.string.settings_privacy_policy_url))
         }
 
-        viewBinding.settingsHelpCenterButton.setOnClickListener {
-            profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ClickedHelpCenterEventMessage)
-            openLinkInBrowser(resources.getString(R.string.settings_help_center_url))
+        viewBinding.settingsReportProblemButton.setOnClickListener {
+            profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ClickedReportProblemEventMessage)
+            openLinkInBrowser(resources.getString(R.string.settings_report_problem_url))
+        }
+
+        viewBinding.settingsSendFeedbackButton.setOnClickListener {
+            profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ClickedSendFeedback)
         }
 
         viewBinding.settingsVersionTextView.text = HyperskillApp.graph().commonComponent.userAgentInfo.versionName
@@ -156,7 +161,10 @@ class ProfileSettingsDialogFragment :
     }
 
     override fun onAction(action: ProfileSettingsFeature.Action.ViewAction) {
-        // no op
+        when (action) {
+            is ProfileSettingsFeature.Action.ViewAction.SendFeedback ->
+                sendEmailFeedback(action.feedbackEmailData)
+        }
     }
 
     override fun render(state: ProfileSettingsFeature.State) {
@@ -166,5 +174,14 @@ class ProfileSettingsDialogFragment :
             viewBinding.settingsThemeChosenTextView.text = state.profileSettings.theme.representation
             currentThemePosition = state.profileSettings.theme.ordinal
         }
+    }
+
+    private fun sendEmailFeedback(feedbackEmailData: FeedbackEmailData) {
+        val intent = Intent(Intent.ACTION_SENDTO)
+            .setData(Uri.parse("mailto:"))
+            .putExtra(Intent.EXTRA_EMAIL, arrayOf(feedbackEmailData.mailTo))
+            .putExtra(Intent.EXTRA_SUBJECT, feedbackEmailData.subject)
+            .putExtra(Intent.EXTRA_TEXT, feedbackEmailData.body)
+        startActivity(Intent.createChooser(intent, "Select your E-Mail app"))
     }
 }
