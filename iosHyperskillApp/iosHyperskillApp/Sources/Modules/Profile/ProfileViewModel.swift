@@ -105,6 +105,10 @@ final class ProfileViewModel: FeatureViewModel<
     func setDailyStudyRemindersEnabled(_ isEnabled: Bool) {
         logClickedDailyStudyRemindsEvent(isEnabled: isEnabled)
 
+        // Animate toggle state change
+        notificationInteractor.setDailyStudyRemindersEnabled(enabled: isEnabled)
+        objectWillChange.send()
+
         if isEnabled {
             Task(priority: .userInitiated) {
                 let isGranted = await notificationsRegistrationService.requestAuthorizationIfNeeded()

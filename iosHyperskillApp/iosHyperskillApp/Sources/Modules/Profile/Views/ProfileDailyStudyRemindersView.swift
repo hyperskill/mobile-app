@@ -16,7 +16,9 @@ struct ProfileDailyStudyRemindersView: View {
                 isOn: .init(
                     get: { isActivated },
                     set: { newValue in
-                        onIsActivatedChanged(newValue)
+                        withAnimation {
+                            onIsActivatedChanged(newValue)
+                        }
                     }
                 )
             )
