@@ -11,14 +11,16 @@ final class StepQuizViewDataMapper {
         self.stepQuizTitleMapper = stepQuizTitleMapper
     }
 
-    func mapStepToViewData(_ step: Step, attempt: Attempt?) -> StepQuizViewData {
+    func mapStepDataToViewData(step: Step, state: StepQuizFeatureState) -> StepQuizViewData {
         let formattedStats = stepQuizStatsTextMapper.getFormattedStepQuizStats(
             users: step.solvedBy,
             millisSinceLastCompleted: step.millisSinceLastCompleted
         )
 
+        let attemptLoadedState = state as? StepQuizFeatureStateAttemptLoaded
+
         let quizName: String? = {
-            guard let dataset = attempt?.dataset else {
+            guard let dataset = attemptLoadedState?.attempt.dataset else {
                 return nil
             }
 
@@ -27,18 +29,27 @@ final class StepQuizViewDataMapper {
                 return nil
             }
 
-            return self.stepQuizTitleMapper.getStepQuizTitle(
+            return stepQuizTitleMapper.getStepQuizTitle(
                 blockName: step.block.name,
                 isMultipleChoice: KotlinBoolean(bool: dataset.isMultipleChoice),
                 isCheckbox: KotlinBoolean(bool: dataset.isCheckbox)
             )
         }()
 
+        let hintText: String? = {
+            guard let submissionLoaded = attemptLoadedState?.submissionState as? StepQuizFeatureSubmissionStateLoaded,
+                  let hint = submissionLoaded.submission.hint else {
+                return nil
+            }
+            return hint.isEmpty ? nil : hint
+        }()
+
         return StepQuizViewData(
             formattedStats: formattedStats,
             stepText: step.block.text,
             stepBlockName: step.block.name,
-            quizName: quizName
+            quizName: quizName,
+            hintText: hintText
         )
     }
 }
