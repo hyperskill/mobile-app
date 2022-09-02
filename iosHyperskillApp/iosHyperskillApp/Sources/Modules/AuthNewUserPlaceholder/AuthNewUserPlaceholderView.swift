@@ -74,7 +74,7 @@ struct AuthNewUserPlaceholderView: View {
                     Strings.Auth.NewUserPlaceholder.signInButton,
                     action: viewModel.doSignIn
                 )
-                .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
+                .buttonStyle(OutlineButtonStyle())
             }
 
             Text(Strings.Auth.NewUserPlaceholder.possibilityText)
