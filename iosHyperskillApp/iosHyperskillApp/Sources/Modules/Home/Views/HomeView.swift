@@ -87,6 +87,7 @@ struct HomeView: View {
                 .padding()
             }
             .frame(maxWidth: .infinity)
+            .padding(.top, 0.1)
         default:
             Text("Unkwown state")
         }
