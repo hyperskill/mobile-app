@@ -82,7 +82,7 @@ struct HomeView: View {
                         .buttonStyle(OutlineButtonStyle())
                     }
 
-                    HomeDebugStepNavigationView()
+                    //HomeDebugStepNavigationView()
                 }
                 .padding()
             }
