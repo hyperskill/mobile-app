@@ -1,4 +1,14 @@
+/* Common Phrases */
+OK = "OK";
+Error = "Error";
+
 /* WebControllerManager */
 Alert = "Alert";
 Confirm = "Confirm action";
 Prompt = "Enter data";
+
+/* SendEmailFeedbackController */
+SendEmailFeedbackControllerSendMailErrorAlertMessage = "Unable to send an email. Please check your email settings and try again.";
+SendEmailFeedbackControllerSendMailSuccessMessage = "Sent";
+SendEmailFeedbackControllerNotAbleSendEmailAlertTitle = "Could Not Send Email";
+SendEmailFeedbackControllerNotAbleSendEmailAlertMessage = "Your device could not send e-mail. Please check e-mail configuration and try again.";

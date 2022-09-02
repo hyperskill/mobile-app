@@ -10,6 +10,8 @@ final class ProfileSettingsViewModel: FeatureViewModel<
 
     private let applicationThemeService: ApplicationThemeServiceProtocol
 
+    private lazy var sendEmailFeedbackController = SendEmailFeedbackController()
+
     // It's impossible to handle onTap on `Picker`, so using `onAppear` callback with debouncer.
     private let analyticLogClickedThemeEventDebouncer: DebouncerProtocol = Debouncer()
 
@@ -34,6 +36,21 @@ final class ProfileSettingsViewModel: FeatureViewModel<
 
     func doLogout() {
         onNewMessage(ProfileSettingsFeatureMessageLogoutConfirmed())
+    }
+
+    func doSendFeedback() {
+        onNewMessage(ProfileSettingsFeatureMessageClickedSendFeedback())
+    }
+
+    func doSendFeedbackPresentation(feedbackEmailData: FeedbackEmailData) {
+        guard let currentPresentedViewController = SourcelessRouter().currentPresentedViewController() else {
+            return
+        }
+
+        sendEmailFeedbackController.sendFeedback(
+            feedbackEmailData: feedbackEmailData,
+            presentationController: currentPresentedViewController
+        )
     }
 
     // MARK: Analytic
