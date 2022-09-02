@@ -27,6 +27,7 @@ final class ProfileAssembly: Assembly {
             notificationService: NotificationsService(
                 notificationInteractor: notificationComponent.notificationInteractor
             ),
+            notificationsRegistrationService: .shared,
             notificationInteractor: notificationComponent.notificationInteractor,
             feature: profileComponent.profileFeature
         )

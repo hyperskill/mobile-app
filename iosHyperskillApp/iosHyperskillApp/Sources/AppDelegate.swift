@@ -9,6 +9,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // swiftlint:disable:next weak_delegate
     private lazy var userNotificationsCenterDelegate = UserNotificationsCenterDelegate()
     private lazy var notificationsService = NotificationsService()
+    private lazy var notificationPermissionStatusSettingsObserver = NotificationPermissionStatusSettingsObserver()
 
     // MARK: Initializing the App
 
@@ -32,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NukeManager.registerCustomDecoders()
 
         userNotificationsCenterDelegate.attachNotificationDelegate()
+        notificationPermissionStatusSettingsObserver.startObserving()
 
         return true
     }

@@ -12,3 +12,9 @@ SendEmailFeedbackControllerSendMailErrorAlertMessage = "Unable to send an email.
 SendEmailFeedbackControllerSendMailSuccessMessage = "Sent";
 SendEmailFeedbackControllerNotAbleSendEmailAlertTitle = "Could Not Send Email";
 SendEmailFeedbackControllerNotAbleSendEmailAlertMessage = "Your device could not send e-mail. Please check e-mail configuration and try again.";
+
+/* NotificationsRegistrationService */
+DeniedNotificationsSettingsAlertTitle = "Notifications are turned off";
+DeniedNotificationsSettingsAlertMessage = "Seems like you've disabled notifications. Turn on in settings?";
+DeniedNotificationsSettingsAlertPositiveActionTitle = "Settings";
+DeniedNotificationsSettingsAlertNegativeActionTitle = "No";

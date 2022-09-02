@@ -10,9 +10,20 @@ final class StepQuizViewModel: FeatureViewModel<
 
     private let viewDataMapper: StepQuizViewDataMapper
 
-    init(step: Step, viewDataMapper: StepQuizViewDataMapper, feature: Presentation_reduxFeature) {
+    private let notificationService: NotificationsService
+    private let notificationsRegistrationService: NotificationsRegistrationService
+
+    init(
+        step: Step,
+        viewDataMapper: StepQuizViewDataMapper,
+        notificationService: NotificationsService,
+        notificationsRegistrationService: NotificationsRegistrationService,
+        feature: Presentation_reduxFeature
+    ) {
         self.step = step
         self.viewDataMapper = viewDataMapper
+        self.notificationService = notificationService
+        self.notificationsRegistrationService = notificationsRegistrationService
         super.init(feature: feature)
     }
 
@@ -54,9 +65,21 @@ final class StepQuizViewModel: FeatureViewModel<
         return viewDataMapper.mapStepToViewData(step, attempt: attemptOrNil)
     }
 
-    func onNotificationsGranted(_ granted: Bool) {
-        if granted {
-            onNewMessage(StepQuizFeatureMessageUserAgreedToEnableDailyReminders())
+    func handleDailyStudyRemindersPermissionRequestResult(isGranted: Bool) {
+        if isGranted {
+            Task(priority: .userInitiated) {
+                let isNotificationPermissionGranted =
+                  await notificationsRegistrationService.requestAuthorizationIfNeeded()
+
+                await MainActor.run {
+                    if isNotificationPermissionGranted {
+                        onNewMessage(StepQuizFeatureMessageUserAgreedToEnableDailyReminders())
+                        notificationService.scheduleDailyStudyReminderLocalNotifications()
+                    } else {
+                        onNewMessage(StepQuizFeatureMessageUserDeclinedToEnableDailyReminders())
+                    }
+                }
+            }
         } else {
             onNewMessage(StepQuizFeatureMessageUserDeclinedToEnableDailyReminders())
         }

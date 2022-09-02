@@ -1,37 +1,29 @@
 import SwiftUI
 
 struct ProfileDailyStudyRemindersView: View {
-    @State private var isActivated: Bool
+    var isActivated: Bool
+    @State var selectedHour: Int
 
-    @State private var selectedHour: Int
+    var onIsActivatedChanged: (Bool) -> Void
 
-    private var onIsActivatedChanged: (Bool) -> Void
-
-    private var onSelectedHourChanged: (Int) -> Void
-    private var onSelectedHourTapped: () -> Void
-
-    init(
-        isActivated: Bool,
-        selectedHour: Int,
-        onIsActivatedChanged: @escaping (Bool) -> Void,
-        onSelectedHourChanged: @escaping (Int) -> Void,
-        onSelectedHourTapped: @escaping () -> Void
-    ) {
-        self.isActivated = isActivated
-        self.selectedHour = selectedHour
-        self.onIsActivatedChanged = onIsActivatedChanged
-        self.onSelectedHourChanged = onSelectedHourChanged
-        self.onSelectedHourTapped = onSelectedHourTapped
-    }
+    var onSelectedHourChanged: (Int) -> Void
+    var onSelectedHourTapped: () -> Void
 
     var body: some View {
         VStack {
-            Toggle(Strings.Profile.DailyStudyReminders.title, isOn: $isActivated)
-                .font(.title3)
-                .foregroundColor(.primaryText)
-                .onChange(of: isActivated) { value in
-                    onIsActivatedChanged(value)
-                }
+            Toggle(
+                Strings.Profile.DailyStudyReminders.title,
+                isOn: .init(
+                    get: { isActivated },
+                    set: { newValue in
+                        withAnimation {
+                            onIsActivatedChanged(newValue)
+                        }
+                    }
+                )
+            )
+            .font(.title3)
+            .foregroundColor(.primaryText)
 
             if isActivated {
                 Divider()

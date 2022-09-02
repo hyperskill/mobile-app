@@ -15,7 +15,7 @@ struct StepQuizView: View {
 
     @StateObject var viewModel: StepQuizViewModel
 
-    @State private var isPresentingNotificationsPermissionAlert = false
+    @State private var isPresentingDailyStudyRemindersPermissionAlert = false
 
     @Environment(\.presentationMode) private var presentationMode
 
@@ -72,21 +72,21 @@ struct StepQuizView: View {
                         stepQuizName: viewData.quizName,
                         stepBlockName: viewData.stepBlockName
                     )
-                    .alert(isPresented: $isPresentingNotificationsPermissionAlert) {
+                    .alert(isPresented: $isPresentingDailyStudyRemindersPermissionAlert) {
                         Alert(
                             title: Text(Strings.StepQuiz.afterDailyStepCompletedDialogTitle),
                             message: Text(Strings.StepQuiz.afterDailyStepCompletedDialogText),
                             primaryButton: .default(
                                 Text(Strings.General.ok),
                                 action: {
-                                    NotificationsRegistrationService.requestAuthorization(
-                                        grantedHandler: viewModel.onNotificationsGranted
-                                    )
+                                    viewModel.handleDailyStudyRemindersPermissionRequestResult(isGranted: true)
                                 }
                             ),
                             secondaryButton: .cancel(
                                 Text(Strings.General.later),
-                                action: { viewModel.onNotificationsGranted(false) }
+                                action: {
+                                    viewModel.handleDailyStudyRemindersPermissionRequestResult(isGranted: false)
+                                }
                             )
                         )
                     }
@@ -288,7 +288,7 @@ struct StepQuizView: View {
         case is StepQuizFeatureActionViewActionShowNetworkError:
             ProgressHUD.showError(status: Strings.General.connectionError)
         case is StepQuizFeatureActionViewActionAskUserToEnableDailyReminders:
-            isPresentingNotificationsPermissionAlert = true
+            isPresentingDailyStudyRemindersPermissionAlert = true
         case is StepQuizFeatureActionViewActionNavigateToHomeScreen:
             presentationMode.wrappedValue.dismiss()
         default:
