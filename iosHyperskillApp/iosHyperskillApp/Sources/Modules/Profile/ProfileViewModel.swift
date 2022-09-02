@@ -116,7 +116,9 @@ final class ProfileViewModel: FeatureViewModel<
                 await MainActor.run {
                     if isGranted {
                         notificationInteractor.setDailyStudyRemindersEnabled(enabled: true)
-                        notificationService.scheduleDailyStudyReminderLocalNotifications()
+                        notificationService.scheduleDailyStudyReminderLocalNotifications(
+                            analyticRoute: HyperskillAnalyticRoute.Profile()
+                        )
                     } else {
                         handleUserDeclinedDailyStudyReminders()
                     }
@@ -131,7 +133,9 @@ final class ProfileViewModel: FeatureViewModel<
 
     func setDailyStudyRemindersStartHour(startHour: Int) {
         notificationInteractor.setDailyStudyRemindersIntervalStartHour(hour: Int32(startHour))
-        notificationService.scheduleDailyStudyReminderLocalNotifications()
+        notificationService.scheduleDailyStudyReminderLocalNotifications(
+            analyticRoute: HyperskillAnalyticRoute.Profile()
+        )
     }
 
     func determineCurrentNotificationPermissionStatus() {

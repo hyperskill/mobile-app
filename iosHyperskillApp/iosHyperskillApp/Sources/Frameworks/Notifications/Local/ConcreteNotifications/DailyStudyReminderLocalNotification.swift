@@ -2,7 +2,7 @@ import Foundation
 import shared
 
 struct DailyStudyReminderLocalNotification: LocalNotificationProtocol {
-    fileprivate static let identifierPrefix = "DailyStudyReminderLocalNotification"
+    fileprivate static let identifierPrefix = NotificationsService.NotificationType.dailyStudyReminder.rawValue
 
     var title: String
 
@@ -12,22 +12,28 @@ struct DailyStudyReminderLocalNotification: LocalNotificationProtocol {
 
     private var startHour: Int
 
-    private var notificationNumber: Int
+    private let notificationID: Int
+    private let notificationNumber: Int
+
+    fileprivate let fireDate: Date?
+
+    var userInfo: [AnyHashable: Any] {
+        [
+            NotificationsService.PayloadKey.id.rawValue: notificationID,
+            NotificationsService.PayloadKey.type.rawValue: NotificationsService.NotificationType
+                .dailyStudyReminder.rawValue
+        ]
+    }
 
     var identifier: String { "\(Self.identifierPrefix)-\(notificationNumber)" }
 
     private var dateComponents: DateComponents? {
-        guard let date = Calendar.current.date(
-            byAdding: .day,
-            value: notificationNumber,
-            to: Date()
-        ) else {
+        guard let fireDate = fireDate else {
             return nil
         }
 
-        var reminderDateComponents = Calendar.current.dateComponents([.hour, .weekday], from: date)
-
-        reminderDateComponents.hour = self.startHour
+        var reminderDateComponents = Calendar.current.dateComponents([.hour, .weekday], from: fireDate)
+        reminderDateComponents.hour = startHour
 
         return reminderDateComponents
     }
@@ -40,7 +46,15 @@ struct DailyStudyReminderLocalNotification: LocalNotificationProtocol {
         self.title = notificationDescription.title
         self.body = notificationDescription.text
         self.startHour = startHour
+        self.notificationID = notificationDescription.id
         self.notificationNumber = notificationNumber
+
+        self.fireDate = Calendar.current.date(
+            byAdding: .day,
+            value: notificationNumber,
+            to: Date()
+        )
+
         if let dateComponents = self.dateComponents {
             self.trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
         }
@@ -52,22 +66,28 @@ struct DailyStudyReminderLocalNotification: LocalNotificationProtocol {
 extension NotificationsService {
     fileprivate static let dailyStudyRemindersCount = 7
 
-    func scheduleDailyStudyReminderLocalNotifications() {
+    private static let iso8601DateFormatter = ISO8601DateFormatter()
+
+    func scheduleDailyStudyReminderLocalNotifications(
+        analyticRoute: HyperskillAnalyticRoute = HyperskillAnalyticRoute.Home()
+    ) {
         guard self.notificationInteractor.isDailyStudyRemindersEnabled() else {
             return
         }
 
-        let notificationDescriptions = self.notificationInteractor
+        let notificationDescriptions = notificationInteractor
             .getShuffledDailyStudyRemindersNotificationDescriptions()
             .prefix(Self.dailyStudyRemindersCount)
             .map(NotificationDescriptionPlainObject.init(notificationDescription:))
 
         assert(notificationDescriptions.count == Self.dailyStudyRemindersCount)
 
-        let startHour = Int(self.notificationInteractor.getDailyStudyRemindersIntervalStartHour())
+        let startHour = Int(notificationInteractor.getDailyStudyRemindersIntervalStartHour())
 
         Task {
-            await self.internalRemoveDailyStudyReminderLocalNotifications()
+            await internalRemoveDailyStudyReminderLocalNotifications()
+
+            let isNotificationPermissionGranted = await NotificationPermissionStatus.current.isRegistered
 
             for (index, notificationDescription) in notificationDescriptions.enumerated() {
                 let notification = DailyStudyReminderLocalNotification(
@@ -75,20 +95,47 @@ extension NotificationsService {
                     startHour: startHour,
                     notificationNumber: index + 1
                 )
-                await self.scheduleLocalNotification(notification, removeIdentical: false)
+                await scheduleLocalNotification(notification, removeIdentical: false)
+
+                let plannedAtISO8601 = notification.fireDate != nil
+                    ? Self.iso8601DateFormatter.string(from: notification.fireDate.require())
+                    : nil
+
+                await logDailyStudyReminderShownEvent(
+                    analyticRoute: analyticRoute,
+                    notificationID: notificationDescription.id,
+                    isNotificationPermissionGranted: isNotificationPermissionGranted,
+                    plannedAtISO8601: plannedAtISO8601
+                )
             }
         }
     }
 
     func removeDailyStudyReminderLocalNotifications() {
         Task {
-            await self.internalRemoveDailyStudyReminderLocalNotifications()
+            await internalRemoveDailyStudyReminderLocalNotifications()
         }
     }
 
     private func internalRemoveDailyStudyReminderLocalNotifications() async {
-        await self.removeLocalNotifications { identifier in
+        await removeLocalNotifications { identifier in
             identifier.starts(with: DailyStudyReminderLocalNotification.identifierPrefix)
         }
+    }
+
+    @MainActor
+    private func logDailyStudyReminderShownEvent(
+        analyticRoute: HyperskillAnalyticRoute,
+        notificationID: Int,
+        isNotificationPermissionGranted: Bool,
+        plannedAtISO8601: String?
+    ) {
+        let event = NotificationDailyStudyReminderShownHyperskillAnalyticEvent(
+            route: analyticRoute,
+            isNotificationPermissionGranted: isNotificationPermissionGranted,
+            notificationId: Int32(notificationID),
+            plannedAtISO8601: plannedAtISO8601
+        )
+        analyticInteractor.logEvent(event: event, completionHandler: { _, _ in })
     }
 }

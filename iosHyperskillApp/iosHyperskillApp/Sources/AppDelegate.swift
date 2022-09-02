@@ -32,6 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         KeyboardManager.configure()
         NukeManager.registerCustomDecoders()
 
+        notificationsService.handleLaunchOptions(launchOptions)
         userNotificationsCenterDelegate.attachNotificationDelegate()
         notificationPermissionStatusSettingsObserver.startObserving()
 
@@ -42,6 +43,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         notificationsService.scheduleDailyStudyReminderLocalNotifications()
+    }
+
+    // MARK: Handling Notifications
+
+    func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
+        notificationsService.handleLocalNotification(with: notification.userInfo)
     }
 
     // MARK: Opening a URL-Specified Resource

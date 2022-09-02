@@ -5,6 +5,7 @@ enum class HyperskillAnalyticPart(val partName: String) {
     HEAD("head"),
     TABS("tabs"),
     NOTICE("notice"),
+    NOTIFICATION("notification"),
     ACTIONS("actions"),
     DESCRIPTION("description"),
     DELETE_ACCOUNT_NOTICE("delete_account_notice"),
