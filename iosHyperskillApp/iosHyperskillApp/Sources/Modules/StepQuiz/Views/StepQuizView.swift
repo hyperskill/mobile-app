@@ -70,7 +70,8 @@ struct StepQuizView: View {
                         state: viewModel.state,
                         step: viewModel.step,
                         stepQuizName: viewData.quizName,
-                        stepBlockName: viewData.stepBlockName
+                        stepBlockName: viewData.stepBlockName,
+                        hint: viewData.hint
                     )
                     .alert(isPresented: $isPresentingNotificationsPermissionAlert) {
                         Alert(
@@ -101,7 +102,8 @@ struct StepQuizView: View {
         state: StepQuizFeatureState,
         step: Step,
         stepQuizName: String?,
-        stepBlockName: String
+        stepBlockName: String,
+        hint: String?
     ) -> some View {
         if let stepQuizName = stepQuizName {
             StepQuizNameView(text: stepQuizName)
@@ -115,6 +117,9 @@ struct StepQuizView: View {
             } else {
                 buildChildQuiz(quizType: quizType, step: step, attemptLoadedState: attemptLoadedState)
                 buildQuizStatusView(attemptLoadedState: attemptLoadedState)
+                if let hint = hint {
+                    StepQuizFeedbackView(text: hint)
+                }
                 buildQuizActionButtons(quizType: quizType, attemptLoadedState: attemptLoadedState)
             }
         } else {

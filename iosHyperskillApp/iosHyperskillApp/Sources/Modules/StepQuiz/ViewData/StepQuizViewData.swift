@@ -7,4 +7,6 @@ struct StepQuizViewData {
     let stepBlockName: String
 
     let quizName: String?
+
+    let hint: String?
 }

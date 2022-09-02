@@ -11,7 +11,7 @@ final class StepQuizViewDataMapper {
         self.stepQuizTitleMapper = stepQuizTitleMapper
     }
 
-    func mapStepToViewData(_ step: Step, attempt: Attempt?) -> StepQuizViewData {
+    func mapStepToViewData(_ step: Step, attempt: Attempt?, hint: String?) -> StepQuizViewData {
         let formattedStats = stepQuizStatsTextMapper.getFormattedStepQuizStats(
             users: step.solvedBy,
             millisSinceLastCompleted: step.millisSinceLastCompleted
@@ -38,7 +38,8 @@ final class StepQuizViewDataMapper {
             formattedStats: formattedStats,
             stepText: step.block.text,
             stepBlockName: step.block.name,
-            quizName: quizName
+            quizName: quizName,
+            hint: hint
         )
     }
 }
