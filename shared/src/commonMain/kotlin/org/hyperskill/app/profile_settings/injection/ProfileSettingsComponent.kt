@@ -7,5 +7,4 @@ import ru.nobird.app.presentation.redux.feature.Feature
 interface ProfileSettingsComponent {
     val profileSettingsFeature: Feature<ProfileSettingsFeature.State, ProfileSettingsFeature.Message, ProfileSettingsFeature.Action>
     val profileSettingsInteractor: ProfileSettingsInteractor
-    suspend fun feedbackEmailDataBuilder(): FeedbackEmailDataBuilder
 }

@@ -1,6 +1,7 @@
 package org.hyperskill.app.profile_settings.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.profile_settings.domain.model.FeedbackEmailData
 import org.hyperskill.app.profile_settings.domain.model.ProfileSettings
 import org.hyperskill.app.profile_settings.domain.model.Theme
 
@@ -19,6 +20,9 @@ interface ProfileSettingsFeature {
         data class ThemeChanged(val theme: Theme) : Message
         object LogoutConfirmed : Message
 
+        object ClickedSendFeedback : Message
+        data class FeedbackEmailDataPrepared(val feedbackEmailData: FeedbackEmailData) : Message
+
         /**
          * Analytic
          */
@@ -28,7 +32,7 @@ interface ProfileSettingsFeature {
         object ClickedThemeEventMessage : Message
         object ClickedTermsOfServiceEventMessage : Message
         object ClickedPrivacyPolicyEventMessage : Message
-        object ClickedHelpCenterEventMessage : Message
+        object ClickedReportProblemEventMessage : Message
         object ClickedLogoutEventMessage : Message
 
         object ClickedDeleteAccountEventMessage : Message
@@ -40,9 +44,12 @@ interface ProfileSettingsFeature {
         object FetchProfileSettings : Action
         data class ChangeTheme(val theme: Theme) : Action
         object Logout : Action
+        object PrepareFeedbackEmailData : Action
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
-        sealed class ViewAction : Action
+        sealed interface ViewAction : Action {
+            data class SendFeedback(val feedbackEmailData: FeedbackEmailData) : ViewAction
+        }
     }
 }

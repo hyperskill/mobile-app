@@ -36,6 +36,7 @@
 		2C1061A8285C3A2D00EBD614 /* StepQuizChildQuizType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1061A7285C3A2D00EBD614 /* StepQuizChildQuizType.swift */; };
 		2C1061AA285C3C3300EBD614 /* StepQuizChoiceAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1061A9285C3C3300EBD614 /* StepQuizChoiceAssembly.swift */; };
 		2C1061AC285C3C4300EBD614 /* StepQuizChoiceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1061AB285C3C4300EBD614 /* StepQuizChoiceViewModel.swift */; };
+		2C106D9928C1CE6E004FA584 /* SendEmailFeedbackController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C106D9828C1CE6E004FA584 /* SendEmailFeedbackController.swift */; };
 		2C177EC32837B65500D841DB /* View+Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C177EC22837B65500D841DB /* View+Frame.swift */; };
 		2C1F5869280D063800372A37 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F5868280D063800372A37 /* WebViewController.swift */; };
 		2C1F586B280D094A00372A37 /* WebControllerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F586A280D094A00372A37 /* WebControllerManager.swift */; };
@@ -366,6 +367,7 @@
 		2C1061A7285C3A2D00EBD614 /* StepQuizChildQuizType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChildQuizType.swift; sourceTree = "<group>"; };
 		2C1061A9285C3C3300EBD614 /* StepQuizChoiceAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChoiceAssembly.swift; sourceTree = "<group>"; };
 		2C1061AB285C3C4300EBD614 /* StepQuizChoiceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChoiceViewModel.swift; sourceTree = "<group>"; };
+		2C106D9828C1CE6E004FA584 /* SendEmailFeedbackController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendEmailFeedbackController.swift; sourceTree = "<group>"; };
 		2C177EC22837B65500D841DB /* View+Frame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Frame.swift"; sourceTree = "<group>"; };
 		2C1F5868280D063800372A37 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		2C1F586A280D094A00372A37 /* WebControllerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebControllerManager.swift; sourceTree = "<group>"; };
@@ -822,6 +824,14 @@
 				2C1061A7285C3A2D00EBD614 /* StepQuizChildQuizType.swift */,
 			);
 			path = ChildProtocols;
+			sourceTree = "<group>";
+		};
+		2C106D9A28C1CFA1004FA584 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				2C106D9828C1CE6E004FA584 /* SendEmailFeedbackController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		2C1DEE2C27EC3FE00001A567 /* Sources */ = {
@@ -1385,6 +1395,7 @@
 				2C963BCB2812D9330036DD53 /* ProfileSettingsAssembly.swift */,
 				2C963BC92812D3550036DD53 /* ProfileSettingsView.swift */,
 				E9F59B8F289FE053001CEA02 /* ProfileSettingsViewModel.swift */,
+				2C106D9A28C1CFA1004FA584 /* Controllers */,
 			);
 			path = ProfileSettings;
 			sourceTree = "<group>";
@@ -2344,6 +2355,7 @@
 				E9950E9528894F4700C4D962 /* HourIntervalPicker.swift in Sources */,
 				E9F923F628A2633D00C065A7 /* OnboardingView.swift in Sources */,
 				E9FDB26728A54A39001DE9C3 /* AppFullScreenModal.swift in Sources */,
+				2C106D9928C1CE6E004FA584 /* SendEmailFeedbackController.swift in Sources */,
 				2C336D242865E38B00C91342 /* CodeInputAccessoryCollectionViewCell.swift in Sources */,
 				2C2FD62428192123004E7AF6 /* BundlePropertyListDeserializer.swift in Sources */,
 				2C8E66D7287877F500D3928D /* ProfileViewModel.swift in Sources */,
@@ -2562,7 +2574,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 3DWS674B2M;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -2583,7 +2595,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 3DWS674B2M;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.4;

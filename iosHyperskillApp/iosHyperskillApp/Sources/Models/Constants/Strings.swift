@@ -188,7 +188,8 @@ enum Strings {
         static let about = sharedStrings.settings_about.localized()
         static let termsOfService = sharedStrings.settings_terms_of_service.localized()
         static let privacyPolicy = sharedStrings.settings_privacy_policy.localized()
-        static let helpCenter = sharedStrings.settings_help_center.localized()
+        static let reportProblem = sharedStrings.settings_report_problem.localized()
+        static let sendFeedback = sharedStrings.settings_send_feedback.localized()
         static let version = sharedStrings.settings_version.localized()
         static let rateApplication = sharedStrings.settings_rate_application.localized()
         static let logout = sharedStrings.settings_logout.localized()
@@ -201,7 +202,7 @@ enum Strings {
             sharedStrings.settings_account_deletion_dialog_delete_button_text.localized()
         static let termsOfServiceURL = sharedStrings.settings_terms_of_service_url.localized()
         static let privacyPolicyURL = sharedStrings.settings_privacy_policy_url.localized()
-        static let helpCenterURL = sharedStrings.settings_help_center_url.localized()
+        static let reportProblemURL = sharedStrings.settings_report_problem_url.localized()
         static let accountDeletionURL = sharedStrings.settings_account_deletion_url.localized()
 
         enum Theme {
