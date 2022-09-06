@@ -16,18 +16,21 @@ struct ProfileSettingsView: View {
 
     var body: some View {
         NavigationView {
-            buildBody()
-                .navigationBarTitleDisplayMode(.inline)
-                .navigationTitle(Strings.Settings.title)
-                .toolbar {
-                    ToolbarItem(placement: .primaryAction) {
-                        Button(Strings.General.done) {
-                            viewModel.logClickedDoneEvent()
-                            presentationMode.wrappedValue.dismiss()
-                        }
+            ZStack {
+                UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
+
+                buildBody()
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle(Strings.Settings.title)
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    Button(Strings.General.done) {
+                        viewModel.logClickedDoneEvent()
+                        presentationMode.wrappedValue.dismiss()
                     }
                 }
-                .onAppear(perform: viewModel.logViewedEvent)
+            }
         }
         .onAppear {
             viewModel.startListening()
