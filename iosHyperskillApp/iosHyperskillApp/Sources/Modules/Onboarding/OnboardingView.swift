@@ -18,6 +18,8 @@ struct OnboardingView: View {
 
     var body: some View {
         ZStack {
+            UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
+
             BackgroundView()
 
             VStack(alignment: .center, spacing: LayoutInsets.largeInset) {
@@ -65,7 +67,6 @@ struct OnboardingView: View {
             viewModel.onViewAction = handleViewAction(_:)
 
             viewModel.loadOnboarding()
-            viewModel.logViewedEvent()
         }
         .onDisappear(perform: viewModel.stopListening)
     }

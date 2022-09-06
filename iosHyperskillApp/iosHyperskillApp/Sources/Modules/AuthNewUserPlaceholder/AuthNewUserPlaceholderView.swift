@@ -23,6 +23,8 @@ struct AuthNewUserPlaceholderView: View {
 
     var body: some View {
         ZStack {
+            UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
+
             BackgroundView()
 
             VStack(spacing: 0) {
@@ -40,8 +42,6 @@ struct AuthNewUserPlaceholderView: View {
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
-
-            viewModel.logViewedEvent()
         }
         .onDisappear(perform: viewModel.stopListening)
     }

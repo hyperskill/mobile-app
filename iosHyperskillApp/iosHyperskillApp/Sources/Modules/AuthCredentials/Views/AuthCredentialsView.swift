@@ -34,7 +34,9 @@ struct AuthCredentialsView: View {
             ProgressHUD.dismiss()
         }
 
-        return AuthAdaptiveContentView { horizontalSizeClass in
+        return AuthAdaptiveContentView(
+            onViewDidAppear: viewModel.logViewedEvent
+        ) { horizontalSizeClass in
             AuthLogoView(logoWidthHeight: appearance.logoSize)
                 .padding(horizontalSizeClass == .regular ? .bottom : .vertical, appearance.logoSize)
 
@@ -63,8 +65,6 @@ struct AuthCredentialsView: View {
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
-
-            viewModel.logViewedEvent()
 
             KeyboardManager.setKeyboardDistanceFromTextField(appearance.keyboardDistanceFromTextField)
         }

@@ -17,7 +17,10 @@ struct ProfileView: View {
     var body: some View {
         NavigationView {
             ZStack {
+                UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
+
                 BackgroundView(color: .systemGroupedBackground)
+
                 buildBody()
             }
             .navigationTitle(Strings.Profile.title)
@@ -35,10 +38,7 @@ struct ProfileView: View {
             .sheet(isPresented: $presentingSettings) {
                 ProfileSettingsAssembly().makeModule()
             }
-            .onAppear {
-                viewModel.logViewedEvent()
-                viewModel.determineCurrentNotificationPermissionStatus()
-            }
+            .onAppear(perform: viewModel.determineCurrentNotificationPermissionStatus)
         }
         .onAppear {
             viewModel.startListening()
