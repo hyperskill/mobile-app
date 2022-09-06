@@ -4,7 +4,7 @@ final class TabBarRouter: SourcelessRouter, RouterProtocol {
     private let tab: Tab
     private let popToRoot: Bool
 
-    init(tab: Tab, popToRoot: Bool) {
+    init(tab: Tab, popToRoot: Bool = true) {
         self.tab = tab
         self.popToRoot = popToRoot
     }
