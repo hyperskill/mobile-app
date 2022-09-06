@@ -84,7 +84,8 @@ struct HomeView: View {
                     if shouldShowContinueInWebButton {
                         OpenURLInsideAppButton(
                             text: Strings.Track.continueInWebButton,
-                            url: HyperskillURLFactory.makeIndex().require()
+                            url: HyperskillURLFactory.makeIndex().require(),
+                            onTap: viewModel.logClickedContinueLearningOnWebEvent
                         )
                         .buttonStyle(OutlineButtonStyle())
                     }

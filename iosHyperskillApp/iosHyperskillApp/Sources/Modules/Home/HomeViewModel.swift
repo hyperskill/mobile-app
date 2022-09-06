@@ -36,6 +36,10 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
         onNewMessage(HomeFeatureMessageClickedProblemOfDayCardEventMessage())
     }
 
+    func logClickedContinueLearningOnWebEvent() {
+        onNewMessage(HomeFeatureMessageClickedContinueLearningOnWebEventMessage())
+    }
+
     // MARK: Private API
 
     @objc
