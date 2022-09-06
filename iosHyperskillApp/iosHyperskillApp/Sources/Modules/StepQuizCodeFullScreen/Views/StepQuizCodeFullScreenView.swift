@@ -22,76 +22,72 @@ struct StepQuizCodeFullScreenView: View {
     }
 
     var body: some View {
-        NavigationView {
-            VStack(spacing: 0) {
-                HSTabBar(
-                    titles: StepQuizCodeFullScreenTab.allCases.map(\.title),
-                    selectedTabIndex: Binding(
-                        get: { selectedTab.rawValue },
-                        set: { selectedTab = StepQuizCodeFullScreenTab.allCases[$0] }
+        VStack(spacing: 0) {
+            HSTabBar(
+                titles: StepQuizCodeFullScreenTab.allCases.map(\.title),
+                selectedTabIndex: Binding(
+                    get: { selectedTab.rawValue },
+                    set: { selectedTab = StepQuizCodeFullScreenTab.allCases[$0] }
+                )
+            )
+            .background(BackgroundView())
+
+            let viewData = viewModel.codeQuizViewData
+
+            TabView(selection: $selectedTab) {
+                TabNavigationLazyView(
+                    StepQuizCodeFullScreenDetailsView(
+                        stepStats: viewData.stepStats,
+                        stepText: viewData.stepText,
+                        samples: viewData.samples,
+                        executionTimeLimit: viewData.executionTimeLimit,
+                        executionMemoryLimit: viewData.executionMemoryLimit
                     )
                 )
-                .background(BackgroundView())
+                .tag(StepQuizCodeFullScreenTab.details)
 
-                let viewData = viewModel.codeQuizViewData
-
-                TabView(selection: $selectedTab) {
-                    TabNavigationLazyView(
-                        StepQuizCodeFullScreenDetailsView(
-                            stepStats: viewData.stepStats,
-                            stepText: viewData.stepText,
-                            samples: viewData.samples,
-                            executionTimeLimit: viewData.executionTimeLimit,
-                            executionMemoryLimit: viewData.executionMemoryLimit
-                        )
-                    )
-                    .tag(StepQuizCodeFullScreenTab.details)
-
-                    StepQuizCodeFullScreenCodeView(
-                        code: $code,
-                        codeTemplate: viewData.codeTemplate,
-                        language: viewData.language,
-                        isActionButtonsVisible: !isEditingCode,
-                        onDidBeginEditingCode: {
-                            withAnimation {
-                                isEditingCode = true
-                            }
-                        },
-                        onDidEndEditingCode: {
-                            withAnimation {
-                                isEditingCode = false
-                            }
-                        },
-                        onTapRetry: viewModel.doRetry,
-                        onTapRunCode: viewModel.doRunCode
-                    )
-                    .onChange(of: code, perform: viewModel.doCodeUpdate(code:))
-                    .tag(StepQuizCodeFullScreenTab.code)
-                }
-                .tabViewStyle(.page(indexDisplayMode: .never))
+                StepQuizCodeFullScreenCodeView(
+                    code: $code,
+                    codeTemplate: viewData.codeTemplate,
+                    language: viewData.language,
+                    isActionButtonsVisible: !isEditingCode,
+                    onDidBeginEditingCode: {
+                        withAnimation {
+                            isEditingCode = true
+                        }
+                    },
+                    onDidEndEditingCode: {
+                        withAnimation {
+                            isEditingCode = false
+                        }
+                    },
+                    onTapRetry: viewModel.doRetry,
+                    onTapRunCode: {
+                        presentationMode.wrappedValue.dismiss()
+                        viewModel.doRunCode()
+                    }
+                )
+                .onChange(of: code, perform: viewModel.doCodeUpdate(code:))
+                .tag(StepQuizCodeFullScreenTab.code)
             }
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationTitle(Strings.StepQuizCode.title)
-            .toolbar(content: buildToolbarContent)
+            .tabViewStyle(.page(indexDisplayMode: .never))
         }
-        .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
             KeyboardManager.setEnabled(false)
         }
         .onDisappear {
             KeyboardManager.setEnabled(true)
         }
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle(Strings.StepQuizCode.title)
+        .toolbar(content: buildToolbarContent)
+        .navigationBarBackButtonTitleRemoved {
+            presentationMode.wrappedValue.dismiss()
+        }
     }
 
     @ToolbarContentBuilder
     private func buildToolbarContent() -> some ToolbarContent {
-        ToolbarItem(placement: .cancellationAction) {
-            Button(
-                action: { presentationMode.wrappedValue.dismiss() },
-                label: { Image(systemName: "xmark") }
-            )
-        }
-
         ToolbarItem(placement: .navigationBarTrailing) {
             Menu(
                 content: {

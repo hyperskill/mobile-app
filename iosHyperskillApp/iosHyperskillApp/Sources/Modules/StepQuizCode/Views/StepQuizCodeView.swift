@@ -28,28 +28,28 @@ struct StepQuizCodeView: View {
 
             StepQuizNameView(text: Strings.StepQuizCode.title, dividerLocation: .bottom)
 
-            CodeEditor(
-                code: .constant(viewData.code),
-                codeTemplate: viewData.codeTemplate,
-                language: viewData.language,
-                isEditable: false,
-                textInsets: appearance.codeEditorInsets.uiEdgeInsets
-            )
-            .frame(height: appearance.codeEditorHeight)
-            .frame(maxWidth: .infinity)
-            .addBorder()
-            .onTapGesture {
-                if isEnabled {
-                    viewModel.navigationState.presentingFullScreen = true
+            NavigationLink(
+                destination: {
+                    StepQuizCodeFullScreenAssembly(
+                        codeQuizViewData: viewModel.viewData,
+                        output: viewModel
+                    )
+                    .makeModule()
+                },
+                label: {
+                    CodeEditor(
+                        code: .constant(viewData.code),
+                        codeTemplate: viewData.codeTemplate,
+                        language: viewData.language,
+                        isEditable: false,
+                        textInsets: appearance.codeEditorInsets.uiEdgeInsets
+                    )
+                    .frame(height: appearance.codeEditorHeight)
+                    .frame(maxWidth: .infinity)
+                    .addBorder()
                 }
-            }
-        }
-        .fullScreenCover(isPresented: $viewModel.navigationState.presentingFullScreen) {
-            StepQuizCodeFullScreenAssembly(
-                codeQuizViewData: viewModel.viewData,
-                output: viewModel
             )
-            .makeModule()
+            .disabled(!isEnabled)
         }
     }
 }
