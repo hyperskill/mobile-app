@@ -13,18 +13,24 @@ struct AuthAdaptiveContentView<Content>: View where Content: View {
 
     var content: (UserInterfaceSizeClass?) -> Content
 
+    var onViewDidAppear: (() -> Void)?
+
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     init(
         appearance: Appearance = Appearance(),
+        onViewDidAppear: (() -> Void)? = nil,
         @ViewBuilder content: @escaping (UserInterfaceSizeClass?) -> Content
     ) {
         self.appearance = appearance
+        self.onViewDidAppear = onViewDidAppear
         self.content = content
     }
 
     var body: some View {
         ZStack {
+            UIViewControllerEventsWrapper(onViewDidAppear: onViewDidAppear)
+
             BackgroundView()
 
             VerticalCenteredScrollView(showsIndicators: false) {

@@ -20,19 +20,21 @@ struct StepQuizView: View {
     @Environment(\.presentationMode) private var presentationMode
 
     var body: some View {
-        buildBody()
-            .navigationBarTitleDisplayMode(.inline)
-            .onAppear {
-                viewModel.startListening()
-                viewModel.onViewAction = handleViewAction(_:)
+        ZStack {
+            UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
 
-                if viewModel.state is StepQuizFeatureStateIdle {
-                    viewModel.loadAttempt()
-                }
+            buildBody()
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            viewModel.startListening()
+            viewModel.onViewAction = handleViewAction(_:)
 
-                viewModel.logViewedEvent()
+            if viewModel.state is StepQuizFeatureStateIdle {
+                viewModel.loadAttempt()
             }
-            .onDisappear(perform: viewModel.stopListening)
+        }
+        .onDisappear(perform: viewModel.stopListening)
     }
 
     // MARK: Private API

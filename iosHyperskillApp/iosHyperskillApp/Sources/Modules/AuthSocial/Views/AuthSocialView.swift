@@ -24,7 +24,9 @@ struct AuthSocialView: View {
         }
 
         return NavigationView {
-            AuthAdaptiveContentView { horizontalSizeClass in
+            AuthAdaptiveContentView(
+                onViewDidAppear: viewModel.logViewedEvent
+            ) { horizontalSizeClass in
                 AuthLogoView(logoWidthHeight: appearance.logoWidthHeight)
                     .padding(horizontalSizeClass == .regular ? .bottom : .vertical, appearance.logoWidthHeight)
 
@@ -43,7 +45,6 @@ struct AuthSocialView: View {
                 )
             }
             .navigationBarHidden(true)
-            .onAppear(perform: viewModel.logViewedEvent)
         }
         .onAppear {
             viewModel.startListening()
