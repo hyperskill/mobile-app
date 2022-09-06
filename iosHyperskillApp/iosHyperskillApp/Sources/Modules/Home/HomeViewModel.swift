@@ -24,6 +24,10 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
 
     func loadContent(forceUpdate: Bool = false) {
         onNewMessage(HomeFeatureMessageInit(forceUpdate: forceUpdate || shouldReloadContent))
+
+        if shouldReloadContent {
+            shouldReloadContent = false
+        }
     }
 
     // MARK: Analytic
