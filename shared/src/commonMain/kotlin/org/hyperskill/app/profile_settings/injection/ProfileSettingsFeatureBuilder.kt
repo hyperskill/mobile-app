@@ -3,6 +3,7 @@ package org.hyperskill.app.profile_settings.injection
 import kotlinx.coroutines.flow.MutableSharedFlow
 import org.hyperskill.app.Platform
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.remote.UserAgentInfo
@@ -23,6 +24,7 @@ object ProfileSettingsFeatureBuilder {
         profileInteractor: ProfileInteractor,
         analyticInteractor: AnalyticInteractor,
         authorizationFlow: MutableSharedFlow<UserDeauthorized>,
+        authInteractor: AuthInteractor,
         platform: Platform,
         userAgentInfo: UserAgentInfo
     ): Feature<State, Message, Action> {
@@ -33,6 +35,7 @@ object ProfileSettingsFeatureBuilder {
             profileInteractor,
             analyticInteractor,
             authorizationFlow,
+            authInteractor,
             platform,
             userAgentInfo
         )
