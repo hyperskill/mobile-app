@@ -2,7 +2,8 @@ import shared
 import UIKit
 
 final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage, HomeFeatureActionViewAction> {
-    private var wasInBackground = false
+    private var applicationWasInBackground = false
+    private var shouldReloadContent = false
 
     override init(feature: Presentation_reduxFeature) {
         super.init(feature: feature)
@@ -22,7 +23,7 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
     }
 
     func loadContent(forceUpdate: Bool = false) {
-        onNewMessage(HomeFeatureMessageInit(forceUpdate: forceUpdate))
+        onNewMessage(HomeFeatureMessageInit(forceUpdate: forceUpdate || shouldReloadContent))
     }
 
     // MARK: Analytic
@@ -39,15 +40,17 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
 
     @objc
     private func handleApplicationDidBecomeActive() {
-        if wasInBackground {
-            wasInBackground = false
-            onNewMessage(HomeFeatureMessageInit(forceUpdate: true))
+        guard applicationWasInBackground else {
+            return
         }
+
+        applicationWasInBackground = false
+        shouldReloadContent = true
     }
 
     @objc
     private func handleApplicationDidEnterBackground() {
-        wasInBackground = true
+        applicationWasInBackground = true
     }
 }
 
