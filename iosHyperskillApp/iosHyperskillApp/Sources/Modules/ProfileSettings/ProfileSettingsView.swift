@@ -139,12 +139,25 @@ struct ProfileSettingsView: View {
                     Alert(
                         title: Text(Strings.Settings.logoutDialogTitle),
                         message: Text(Strings.Settings.logoutDialogExplanation),
-                        primaryButton: .default(Text(Strings.General.no)),
+                        primaryButton: .default(
+                            Text(Strings.General.no),
+                            action: {
+                                viewModel.logLogoutNoticeHiddenEvent(isConfirmed: false)
+                            }
+                        ),
                         secondaryButton: .destructive(
                             Text(Strings.General.yes),
-                            action: viewModel.doLogout
+                            action: {
+                                viewModel.logLogoutNoticeHiddenEvent(isConfirmed: true)
+                                viewModel.doLogout()
+                            }
                         )
                     )
+                }
+                .onChange(of: isPresentingLogoutAlert) { newValue in
+                    if newValue {
+                        viewModel.logLogoutNoticeShownEvent()
+                    }
                 }
             }
 

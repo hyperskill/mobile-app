@@ -3,6 +3,7 @@ package org.hyperskill.app.analytic.domain.processor
 import org.hyperskill.app.Platform
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillProcessedAnalyticEvent
+import ru.nobird.app.core.model.mapOfNotNull
 import ru.nobird.app.core.model.safeCast
 
 class AnalyticHyperskillEventProcessor(
@@ -37,9 +38,9 @@ class AnalyticHyperskillEventProcessor(
                 resultParams[PARAM_CONTEXT] = contextMap
             }
         } else {
-            resultParams[PARAM_CONTEXT] = mapOf(
+            resultParams[PARAM_CONTEXT] = mapOfNotNull(
                 PARAM_PLATFORM to platform.analyticName,
-                PARAM_IS_NOTIFICATIONS_ALLOW to isNotificationsPermissionGranted
+                PARAM_IS_NOTIFICATIONS_ALLOW to if (platform.isIos) isNotificationsPermissionGranted else null
             )
         }
 
