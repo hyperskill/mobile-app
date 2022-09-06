@@ -11,6 +11,6 @@ class StepQuizClickedSendHyperskillAnalyticEvent(
 ) : HyperskillAnalyticEvent(
     route,
     HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.MAIN,
+    HyperskillAnalyticPart.ACTIONS,
     HyperskillAnalyticTarget.SEND
 )

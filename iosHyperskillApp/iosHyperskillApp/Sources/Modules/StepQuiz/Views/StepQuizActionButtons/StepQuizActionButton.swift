@@ -39,7 +39,7 @@ struct StepQuizActionButton: View {
             case .correct:
                 return Strings.StepQuiz.continueButton
             case .wrong:
-                return Strings.StepQuiz.retryButton
+                return Strings.StepQuiz.sendButton // .retryButton
             case .evaluation:
                 return Strings.StepQuiz.checkingButton
             }
