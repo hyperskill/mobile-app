@@ -17,12 +17,19 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             ZStack {
+                UIViewControllerEventsWrapper(
+                    onViewDidAppear: {
+                        viewModel.logViewedEvent()
+                        viewModel.loadContent()
+                    }
+                )
+
                 BackgroundView(color: appearance.backgroundColor)
+
                 buildBody()
             }
             .navigationTitle(Strings.Home.title)
             .navigationBarHidden(true)
-            .onAppear(perform: viewModel.logViewedEvent)
         }
         .onAppear {
             viewModel.startListening()

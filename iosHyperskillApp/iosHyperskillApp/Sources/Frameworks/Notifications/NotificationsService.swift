@@ -66,6 +66,7 @@ extension NotificationsService {
         print("NotificationsService :: did receive local notification with info: \(userInfo ?? [:])")
         #endif
         reportReceivedLocalNotification(with: userInfo)
+        routeLocalNotification(with: userInfo)
     }
 
     // MARK: Private Helpers
@@ -92,6 +93,25 @@ extension NotificationsService {
     private func logDailyStudyReminderClickedEvent(notificationID: Int) {
         let event = NotificationDailyStudyReminderClickedHyperskillAnalyticEvent(notificationId: Int32(notificationID))
         analyticInteractor.logEvent(event: event, completionHandler: { _, _ in })
+    }
+
+    private func routeLocalNotification(with userInfo: NotificationUserInfo?) {
+        func route(to tab: TabBarRouter.Tab) {
+            DispatchQueue.main.async {
+                TabBarRouter(tab: tab).route()
+            }
+        }
+
+        guard let userInfo = userInfo,
+              let notificationName = userInfo[
+                LocalNotificationsService.PayloadKey.notificationName.rawValue
+              ] as? String else {
+            return
+        }
+
+        if notificationName.localizedCaseInsensitiveContains(NotificationType.dailyStudyReminder.rawValue) {
+            route(to: .home)
+        }
     }
 
     enum PayloadKey: String {
