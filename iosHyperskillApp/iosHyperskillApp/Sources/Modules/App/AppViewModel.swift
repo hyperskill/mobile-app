@@ -62,11 +62,11 @@ extension AppViewModel: AuthOutputProtocol {
 
 extension AppViewModel: OnboardingOutputProtocol {
     func handleOnboardingSignInRequested() {
-        onNewMessage(AppFeatureMessageOpenAuthScreen())
+        navigationState.activeFullScreenModal = .auth
     }
 
     func handleOnboardingSignUpRequested() {
-        onNewMessage(AppFeatureMessageOpenNewUserScreen())
+        navigationState.activeFullScreenModal = .newUser
     }
 }
 
@@ -74,6 +74,6 @@ extension AppViewModel: OnboardingOutputProtocol {
 
 extension AppViewModel: AuthNewUserPlaceholderOutputProtocol {
     func handleAuthNewUserPlaceholderSignInRequested() {
-        onNewMessage(AppFeatureMessageOpenAuthScreen())
+        navigationState.activeFullScreenModal = .auth
     }
 }

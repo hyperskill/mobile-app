@@ -59,14 +59,16 @@ class PlaceholderNewUserFragment :
 
         viewBinding.placeholderSignInButton.setOnClickListener {
             placeholderNewUserViewModel.onNewMessage(PlaceholderNewUserFeature.Message.PlaceholderSignInTappedMessage)
-            requireRouter().newRootScreen(AuthScreen)
         }
 
         placeholderNewUserViewModel.onNewMessage(PlaceholderNewUserFeature.Message.ViewedEventMessage)
     }
 
     override fun onAction(action: PlaceholderNewUserFeature.Action.ViewAction) {
-        // no op
+        when (action) {
+            PlaceholderNewUserFeature.Action.ViewAction.NavigateTo.AuthScreen ->
+                requireRouter().newRootScreen(AuthScreen)
+        }
     }
 
     override fun render(state: PlaceholderNewUserFeature.State) {
