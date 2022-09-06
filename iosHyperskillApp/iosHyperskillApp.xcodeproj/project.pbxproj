@@ -223,6 +223,9 @@
 		2CBFB94A28897DBB0044D1BA /* StepQuizCodeFullScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBFB94928897DBB0044D1BA /* StepQuizCodeFullScreenView.swift */; };
 		2CBFB94C28897DD70044D1BA /* StepQuizCodeFullScreenAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBFB94B28897DD70044D1BA /* StepQuizCodeFullScreenAssembly.swift */; };
 		2CC4AAF1280DB513002276A0 /* WebOAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC4AAF0280DB513002276A0 /* WebOAuthService.swift */; };
+		2CC78D0928C74E7D0006EF91 /* UIViewControllerEventsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC78D0828C74E7D0006EF91 /* UIViewControllerEventsWrapper.swift */; };
+		2CC78D0C28C74EF90006EF91 /* ViewRelatedEventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC78D0B28C74EF90006EF91 /* ViewRelatedEventsViewController.swift */; };
+		2CC78D0E28C75A3D0006EF91 /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC78D0D28C75A3D0006EF91 /* UIViewControllerExtensions.swift */; };
 		2CCCA3992862D58E00D98089 /* StepQuizStringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCCA3982862D58E00D98089 /* StepQuizStringView.swift */; };
 		2CCCA39B2862E3BB00D98089 /* StepQuizStringDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCCA39A2862E3BB00D98089 /* StepQuizStringDataType.swift */; };
 		2CCCA39D2862E44B00D98089 /* StepQuizStringAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCCA39C2862E44B00D98089 /* StepQuizStringAssembly.swift */; };
@@ -560,6 +563,9 @@
 		2CBFB94928897DBB0044D1BA /* StepQuizCodeFullScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeFullScreenView.swift; sourceTree = "<group>"; };
 		2CBFB94B28897DD70044D1BA /* StepQuizCodeFullScreenAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeFullScreenAssembly.swift; sourceTree = "<group>"; };
 		2CC4AAF0280DB513002276A0 /* WebOAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebOAuthService.swift; sourceTree = "<group>"; };
+		2CC78D0828C74E7D0006EF91 /* UIViewControllerEventsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerEventsWrapper.swift; sourceTree = "<group>"; };
+		2CC78D0B28C74EF90006EF91 /* ViewRelatedEventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRelatedEventsViewController.swift; sourceTree = "<group>"; };
+		2CC78D0D28C75A3D0006EF91 /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
 		2CCCA3982862D58E00D98089 /* StepQuizStringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizStringView.swift; sourceTree = "<group>"; };
 		2CCCA39A2862E3BB00D98089 /* StepQuizStringDataType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizStringDataType.swift; sourceTree = "<group>"; };
 		2CCCA39C2862E44B00D98089 /* StepQuizStringAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizStringAssembly.swift; sourceTree = "<group>"; };
@@ -1180,6 +1186,7 @@
 			isa = PBXGroup;
 			children = (
 				2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */,
+				2CC78D0A28C74EAF0006EF91 /* UIViewControllerEvents */,
 			);
 			path = Wrappers;
 			sourceTree = "<group>";
@@ -1464,6 +1471,7 @@
 				2C58DE282803D197002A2774 /* UIColor+DynamicColor.swift */,
 				2C20FBAF284F1D8B006D879E /* UIColor+Hex.swift */,
 				2C5B2A22286596400097B270 /* UITableView+RegisterReusable.swift */,
+				2CC78D0D28C75A3D0006EF91 /* UIViewControllerExtensions.swift */,
 				2CA7B89328932EB100A789EF /* UIWindowExtensions.swift */,
 				2CA7B8902893299B00A789EF /* UIView */,
 			);
@@ -1618,6 +1626,15 @@
 				2C1F5878280D2D1300372A37 /* WebOAuthURLParser.swift */,
 			);
 			path = Web;
+			sourceTree = "<group>";
+		};
+		2CC78D0A28C74EAF0006EF91 /* UIViewControllerEvents */ = {
+			isa = PBXGroup;
+			children = (
+				2CC78D0828C74E7D0006EF91 /* UIViewControllerEventsWrapper.swift */,
+				2CC78D0B28C74EF90006EF91 /* ViewRelatedEventsViewController.swift */,
+			);
+			path = UIViewControllerEvents;
 			sourceTree = "<group>";
 		};
 		2CCCA3972862D57100D98089 /* StepQuizString */ = {
@@ -2265,6 +2282,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E9FB89A72893CD2C0011EFFB /* LocalNotificationsService.swift in Sources */,
+				2CC78D0928C74E7D0006EF91 /* UIViewControllerEventsWrapper.swift in Sources */,
 				2CCCA39F2862E45300D98089 /* StepQuizStringViewModel.swift in Sources */,
 				2C96742E288824230091B6C9 /* StepQuizCodeAssembly.swift in Sources */,
 				2C2452492847C27C00226702 /* Images+SystemNames.swift in Sources */,
@@ -2463,6 +2481,7 @@
 				E900D10328434E0D00A77BBC /* StepQuizSortingItemView.swift in Sources */,
 				E96E80F627EF57BA00AA6683 /* AuthSocialViewModel.swift in Sources */,
 				2C079683285CEF0900EE0487 /* StepQuizMatchingAssembly.swift in Sources */,
+				2CC78D0C28C74EF90006EF91 /* ViewRelatedEventsViewController.swift in Sources */,
 				2C370439288BE57A008043BF /* StepQuizCodeFullScreenCodeView.swift in Sources */,
 				E99B218E2887EA9B006A6154 /* SkeletonRoundedView.swift in Sources */,
 				2C1F5869280D063800372A37 /* WebViewController.swift in Sources */,
@@ -2524,6 +2543,7 @@
 				E9B3A18C2828093800FE248B /* StepQuizActionButton.swift in Sources */,
 				E9317A0228A23FD100F59373 /* UNNotificationTrigger+nextTriggerDate.swift in Sources */,
 				2C725B632809198000A49043 /* BackgroundView.swift in Sources */,
+				2CC78D0E28C75A3D0006EF91 /* UIViewControllerExtensions.swift in Sources */,
 				E9F7A5E028AFC2000063913F /* NotificationDescriptionPlainObject.swift in Sources */,
 				2C336D222865E37800C91342 /* CodeInputAccessoryButtonData.swift in Sources */,
 				2C7802C5285C93F900082547 /* StepQuizActionButtonState+SubmissionStatus.swift in Sources */,
