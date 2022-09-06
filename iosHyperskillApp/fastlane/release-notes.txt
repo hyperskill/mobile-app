@@ -10,3 +10,7 @@ What to Test:
 9. Bug reports / Feedback collection in the app ALTAPPS-279
 10. Analytics for notifications ALTAPPS-285
 11. Fix problems feedback not visible ALTAPPS-290
+12. Fix code quiz buttons don't work after background ALTAPPS-291
+13. Route to Home on Daily Notification click ALTAPPS-292
+14. Send view events to analytic with guarantee ALTAPPS-293
+15. Fix infinite loading after log out ALTAPPS-294
