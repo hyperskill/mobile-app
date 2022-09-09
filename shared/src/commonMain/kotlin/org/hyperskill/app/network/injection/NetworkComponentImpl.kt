@@ -23,14 +23,16 @@ class NetworkComponentImpl(
         NetworkModule.provideClient(
             NetworkClientType.SOCIAL,
             appGraph.commonComponent.userAgentInfo,
-            appGraph.commonComponent.json
+            appGraph.commonComponent.json,
+            appGraph.commonComponent.buildVariant
         )
 
     override val authCredentialsHttpClient: HttpClient =
         NetworkModule.provideClient(
             NetworkClientType.CREDENTIALS,
             appGraph.commonComponent.userAgentInfo,
-            appGraph.commonComponent.json
+            appGraph.commonComponent.json,
+            appGraph.commonComponent.buildVariant
         )
 
     override val cookiesStorage: CookiesStorage =
@@ -41,6 +43,7 @@ class NetworkComponentImpl(
             appGraph.commonComponent.userAgentInfo,
             appGraph.commonComponent.json,
             appGraph.commonComponent.settings,
+            appGraph.commonComponent.buildVariant,
             authorizationFlow,
             authMutex,
             cookiesStorage
@@ -50,6 +53,7 @@ class NetworkComponentImpl(
         NetworkModule.provideFrontendEventsUnauthorizedClient(
             appGraph.commonComponent.userAgentInfo,
             appGraph.commonComponent.json,
+            appGraph.commonComponent.buildVariant,
             cookiesStorage
         )
 }

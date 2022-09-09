@@ -11,6 +11,7 @@ import org.hyperskill.app.android.core.injection.AndroidAppComponent
 import org.hyperskill.app.android.core.injection.AndroidAppComponentImpl
 import org.hyperskill.app.android.util.DebugToolsHelper
 import org.hyperskill.app.config.BuildKonfig
+import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.remote.UserAgentInfo
 import ru.nobird.android.view.base.ui.extension.isMainProcess
 
@@ -37,7 +38,12 @@ class HyperskillApp : Application() {
 
         DebugToolsHelper.initDebugTools(this)
 
-        appGraph = AndroidAppComponentImpl(this, buildUserAgentInfo())
+        appGraph = AndroidAppComponentImpl(
+            application = this,
+            userAgentInfo = buildUserAgentInfo(),
+            buildVariant = if (BuildConfig.DEBUG) BuildVariant.DEBUG else BuildVariant.RELEASE
+        )
+
         initSentry()
         initChannels()
     }
