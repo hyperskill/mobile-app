@@ -70,9 +70,11 @@ class AuthSocialFragment :
             val authCode = account.serverAuthCode
             onSuccess(authCode!!, SocialAuthProvider.GOOGLE)
         } catch (e: ApiException) {
-            if (e.statusCode == CommonStatusCodes.NETWORK_ERROR) {
-                view?.snackbar(message = resourceProvider.getString(SharedResources.strings.connection_error), Snackbar.LENGTH_LONG)
-            }
+            val message = if (e.statusCode == CommonStatusCodes.NETWORK_ERROR)
+                resourceProvider.getString(SharedResources.strings.connection_error)
+            else resourceProvider.getString(SharedResources.strings.common_error)
+
+            view?.snackbar(message, Snackbar.LENGTH_LONG)
         }
     }
 

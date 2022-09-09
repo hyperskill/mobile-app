@@ -2,6 +2,7 @@
 <resources>
     <!-- General -->
     <string name="connection_error">Connection was lost</string>
+    <string name="common_error">Sorry, something went wrong: please try again later.</string>
     <string name="external_link_error">Unable to open link: %s</string>
     <string name="done">Done</string>
     <string name="yes">Yes</string>
