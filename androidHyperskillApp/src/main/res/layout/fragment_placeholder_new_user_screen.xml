@@ -41,25 +41,32 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/placeholderContinueToHyperskillButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/auth_button_height"
         android:layout_marginTop="48dp"
         android:text="@string/placeholder_continue_button_text"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/placeholderInstructionTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/placeholderInstructionTextView"
+        app:layout_constraintWidth_max="@dimen/auth_button_max_width" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/placeholderSignInButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/auth_button_height"
         android:layout_marginTop="20dp"
-        android:text="@string/common_signin_button_text"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="@string/onboarding_sign_in"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/placeholderContinueToHyperskillButton" />
+        app:layout_constraintTop_toBottomOf="@+id/placeholderContinueToHyperskillButton"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintWidth_max="@dimen/auth_button_max_width"
+        app:strokeColor="?colorPrimary" />
 
     <TextView
         android:id="@+id/placeholderFirstDescriptionTextView"
