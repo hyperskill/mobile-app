@@ -115,7 +115,7 @@ class ProfileSettingsDialogFragment :
                 .setTitle(R.string.settings_sign_out_dialog_title)
                 .setMessage(R.string.settings_sign_out_dialog_explanation)
                 .setPositiveButton(R.string.yes) { _, _ ->
-                    profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.LogoutConfirmed)
+                    profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.SignOutConfirmed)
                 }
                 .setNegativeButton(R.string.no) { dialog, _ ->
                     dialog.dismiss()

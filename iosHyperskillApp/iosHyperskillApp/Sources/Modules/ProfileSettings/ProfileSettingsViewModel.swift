@@ -34,8 +34,8 @@ final class ProfileSettingsViewModel: FeatureViewModel<
         }
     }
 
-    func doLogout() {
-        onNewMessage(ProfileSettingsFeatureMessageLogoutConfirmed())
+    func doSignOut() {
+        onNewMessage(ProfileSettingsFeatureMessageSignOutConfirmed())
     }
 
     func doSendFeedback() {

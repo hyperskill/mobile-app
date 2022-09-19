@@ -145,7 +145,7 @@ struct ProfileSettingsView: View {
                         primaryButton: .default(Text(Strings.General.no)),
                         secondaryButton: .destructive(
                             Text(Strings.General.yes),
-                            action: viewModel.doLogout
+                            action: viewModel.doSignOut
                         )
                     )
                 }
