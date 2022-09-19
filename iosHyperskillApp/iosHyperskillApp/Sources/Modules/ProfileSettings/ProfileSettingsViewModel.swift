@@ -83,8 +83,8 @@ final class ProfileSettingsViewModel: FeatureViewModel<
         onNewMessage(ProfileSettingsFeatureMessageClickedReportProblemEventMessage())
     }
 
-    func logClickedLogoutEvent() {
-        onNewMessage(ProfileSettingsFeatureMessageClickedLogoutEventMessage())
+    func logClickedSignOutEvent() {
+        onNewMessage(ProfileSettingsFeatureMessageClickedSignOutEventMessage())
     }
 
     func logClickedDeleteAccountEvent() {

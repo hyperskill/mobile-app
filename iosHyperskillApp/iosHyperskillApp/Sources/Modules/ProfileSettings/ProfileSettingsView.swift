@@ -134,7 +134,7 @@ struct ProfileSettingsView: View {
 
             Section {
                 Button(Strings.Settings.signOut) {
-                    viewModel.logClickedLogoutEvent()
+                    viewModel.logClickedSignOutEvent()
                     isPresentingSignOutAlert = true
                 }
                 .foregroundColor(Color(ColorPalette.overlayRed))

@@ -87,11 +87,11 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                         )
                     )
                 )
-            is Message.ClickedLogoutEventMessage ->
+            is Message.ClickedSignOutEventMessage ->
                 state to setOf(
                     Action.LogAnalyticEvent(
                         ProfileSettingsClickedHyperskillAnalyticEvent(
-                            target = HyperskillAnalyticTarget.LOGOUT
+                            target = HyperskillAnalyticTarget.SIGN_OUT
                         )
                     )
                 )
