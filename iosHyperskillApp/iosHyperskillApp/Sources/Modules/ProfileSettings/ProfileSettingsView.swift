@@ -9,7 +9,7 @@ struct ProfileSettingsView: View {
 
     @StateObject var viewModel: ProfileSettingsViewModel
 
-    @State private var isPresentingLogoutAlert = false
+    @State private var isPresentingSignOutAlert = false
     @State private var isPresentingAccountDeletionAlert = false
 
     @Environment(\.presentationMode) private var presentationMode
@@ -133,15 +133,15 @@ struct ProfileSettingsView: View {
             }
 
             Section {
-                Button(Strings.Settings.logout) {
+                Button(Strings.Settings.signOut) {
                     viewModel.logClickedLogoutEvent()
-                    isPresentingLogoutAlert = true
+                    isPresentingSignOutAlert = true
                 }
                 .foregroundColor(Color(ColorPalette.overlayRed))
-                .alert(isPresented: $isPresentingLogoutAlert) {
+                .alert(isPresented: $isPresentingSignOutAlert) {
                     Alert(
-                        title: Text(Strings.Settings.logoutDialogTitle),
-                        message: Text(Strings.Settings.logoutDialogExplanation),
+                        title: Text(Strings.Settings.signOutAlertTitle),
+                        message: Text(Strings.Settings.signOutAlertMessage),
                         primaryButton: .default(Text(Strings.General.no)),
                         secondaryButton: .destructive(
                             Text(Strings.General.yes),
