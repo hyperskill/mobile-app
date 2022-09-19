@@ -115,9 +115,10 @@ struct ProfileSettingsView: View {
                     }
                 }
 
-                Button(Strings.Settings.rateApplication) {
-                }
-                .foregroundColor(Color(ColorPalette.primary))
+                // ALTAPPS-312
+                //Button(Strings.Settings.rateApplication) {
+                //}
+                //.foregroundColor(Color(ColorPalette.primary))
             }
 
             Section {
