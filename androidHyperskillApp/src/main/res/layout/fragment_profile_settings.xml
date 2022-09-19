@@ -248,7 +248,7 @@
             android:padding="0dp"
             android:paddingStart="20dp"
             android:paddingEnd="16dp"
-            android:text="@string/settings_logout"
+            android:text="@string/settings_sign_out"
             android:textAlignment="textStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/color_error"
