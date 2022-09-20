@@ -160,9 +160,9 @@
     <string name="settings_send_feedback">Send feedback</string>
     <string name="settings_version">Version</string>
     <string name="settings_rate_application">Rate this application</string>
-    <string name="settings_logout">Logout</string>
-    <string name="settings_logout_dialog_title">Please confirm</string>
-    <string name="settings_logout_dialog_explanation">Are you sure you want to log out?</string>
+    <string name="settings_sign_out">Sign out</string>
+    <string name="settings_sign_out_dialog_title">Please confirm</string>
+    <string name="settings_sign_out_dialog_explanation">Are you sure you want to sign out?</string>
     <string name="settings_delete_account">Delete account</string>
     <string name="settings_account_deletion_dialog_title">Are you sure you want to delete your account?</string>
     <string name="settings_account_deletion_dialog_explanation">Your account on Hyperskill (JetBrains Academy) will be deleted. You will no longer be able to use this account both in the app and on the website.</string>

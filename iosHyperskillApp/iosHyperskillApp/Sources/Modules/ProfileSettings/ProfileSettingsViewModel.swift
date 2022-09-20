@@ -34,8 +34,8 @@ final class ProfileSettingsViewModel: FeatureViewModel<
         }
     }
 
-    func doLogout() {
-        onNewMessage(ProfileSettingsFeatureMessageLogoutConfirmed())
+    func doSignOut() {
+        onNewMessage(ProfileSettingsFeatureMessageSignOutConfirmed())
     }
 
     func doSendFeedback() {
@@ -83,8 +83,8 @@ final class ProfileSettingsViewModel: FeatureViewModel<
         onNewMessage(ProfileSettingsFeatureMessageClickedReportProblemEventMessage())
     }
 
-    func logClickedLogoutEvent() {
-        onNewMessage(ProfileSettingsFeatureMessageClickedLogoutEventMessage())
+    func logClickedSignOutEvent() {
+        onNewMessage(ProfileSettingsFeatureMessageClickedSignOutEventMessage())
     }
 
     func logClickedDeleteAccountEvent() {

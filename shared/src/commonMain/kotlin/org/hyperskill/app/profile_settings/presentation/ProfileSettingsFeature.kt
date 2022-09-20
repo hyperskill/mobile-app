@@ -18,7 +18,7 @@ interface ProfileSettingsFeature {
         data class ProfileSettingsSuccess(val profileSettings: ProfileSettings) : Message
         object ProfileSettingsError : Message
         data class ThemeChanged(val theme: Theme) : Message
-        object LogoutConfirmed : Message
+        object SignOutConfirmed : Message
 
         object ClickedSendFeedback : Message
         data class FeedbackEmailDataPrepared(val feedbackEmailData: FeedbackEmailData) : Message
@@ -33,7 +33,7 @@ interface ProfileSettingsFeature {
         object ClickedTermsOfServiceEventMessage : Message
         object ClickedPrivacyPolicyEventMessage : Message
         object ClickedReportProblemEventMessage : Message
-        object ClickedLogoutEventMessage : Message
+        object ClickedSignOutEventMessage : Message
 
         object ClickedDeleteAccountEventMessage : Message
         object DeleteAccountNoticeShownEventMessage : Message
@@ -43,7 +43,7 @@ interface ProfileSettingsFeature {
     sealed interface Action {
         object FetchProfileSettings : Action
         data class ChangeTheme(val theme: Theme) : Action
-        object Logout : Action
+        object SignOut : Action
         object PrepareFeedbackEmailData : Action
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
