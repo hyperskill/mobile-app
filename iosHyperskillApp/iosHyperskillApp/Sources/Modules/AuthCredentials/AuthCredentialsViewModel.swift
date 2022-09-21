@@ -45,8 +45,7 @@ final class AuthCredentialsViewModel: FeatureViewModel<
         WebControllerManager.shared.presentWebControllerWithURL(
             url,
             withKey: .externalLink,
-            allowsSafari: true,
-            backButtonStyle: .done
+            controllerType: .custom()
         )
     }
 

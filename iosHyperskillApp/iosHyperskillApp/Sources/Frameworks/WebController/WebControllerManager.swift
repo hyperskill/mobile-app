@@ -47,26 +47,17 @@ final class WebControllerManager: NSObject {
         _ url: URL,
         inController controller: UIViewController? = nil,
         withKey key: WebControllerKey,
-        allowsSafari: Bool,
-        backButtonStyle: BackButtonStyle,
-        animated: Bool = true,
-        forceCustom: Bool = false
+        controllerType: WebControllerType,
+        backButtonStyle: BackButtonStyle = .done,
+        animated: Bool = true
     ) {
         guard let controller = controller ?? SourcelessRouter().currentPresentedViewController() else {
             return
         }
 
         func present(url: URL) {
-            if forceCustom {
-                self.currentWebControllerKey = key
-                self.presentCustomWebController(
-                    url,
-                    inController: controller,
-                    allowsSafari: allowsSafari,
-                    backButtonStyle: backButtonStyle,
-                    animated: animated
-                )
-            } else {
+            switch controllerType {
+            case .safari:
                 let safariViewController = SFSafariViewController(url: url)
                 safariViewController.modalPresentationStyle = .fullScreen
 
@@ -74,6 +65,15 @@ final class WebControllerManager: NSObject {
                 self.currentWebController = safariViewController
 
                 controller.present(safariViewController, animated: true)
+            case .custom(let allowsOpenInSafari):
+                self.currentWebControllerKey = key
+                self.presentCustomWebController(
+                    url,
+                    inController: controller,
+                    allowsSafari: allowsOpenInSafari,
+                    backButtonStyle: backButtonStyle,
+                    animated: animated
+                )
             }
         }
 
@@ -103,8 +103,9 @@ final class WebControllerManager: NSObject {
         _ urlString: String,
         inController controller: UIViewController? = nil,
         withKey key: WebControllerKey,
-        allowsSafari: Bool,
-        backButtonStyle: BackButtonStyle
+        controllerType: WebControllerType,
+        backButtonStyle: BackButtonStyle = .done,
+        animated: Bool = true
     ) {
         guard let urlEncodedString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
               let url = URL(string: urlEncodedString) else {
@@ -115,8 +116,9 @@ final class WebControllerManager: NSObject {
             url,
             inController: controller,
             withKey: key,
-            allowsSafari: allowsSafari,
-            backButtonStyle: backButtonStyle
+            controllerType: controllerType,
+            backButtonStyle: backButtonStyle,
+            animated: animated
         )
     }
 
@@ -170,6 +172,11 @@ final class WebControllerManager: NSObject {
     enum WebControllerKey {
         case socialAuth
         case externalLink
+    }
+
+    enum WebControllerType {
+        case safari
+        case custom(allowsOpenInSafari: Bool = true)
     }
 
     enum BackButtonStyle {

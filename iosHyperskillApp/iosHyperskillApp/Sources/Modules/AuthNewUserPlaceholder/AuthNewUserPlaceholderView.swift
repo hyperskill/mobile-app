@@ -66,6 +66,7 @@ struct AuthNewUserPlaceholderView: View {
                 OpenURLInsideAppButton(
                     text: Strings.Auth.NewUserPlaceholder.continueButton,
                     url: Self.registerURL.require(),
+                    webControllerType: .custom(),
                     onTap: viewModel.logClickedContinueEvent
                 )
                 .buttonStyle(RoundedRectangleButtonStyle(style: .violet))

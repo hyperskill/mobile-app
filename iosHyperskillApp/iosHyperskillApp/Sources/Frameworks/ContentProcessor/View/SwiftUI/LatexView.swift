@@ -33,12 +33,7 @@ struct LatexView: View {
     // MARK: Private API
 
     private func openURLInTheWeb(_ url: URL) {
-        WebControllerManager.shared.presentWebControllerWithURL(
-            url,
-            withKey: .externalLink,
-            allowsSafari: true,
-            backButtonStyle: .done
-        )
+        WebControllerManager.shared.presentWebControllerWithURL(url, withKey: .externalLink, controllerType: .safari)
     }
 }
 

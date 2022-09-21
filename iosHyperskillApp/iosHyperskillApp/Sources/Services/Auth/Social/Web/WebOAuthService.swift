@@ -37,9 +37,8 @@ final class WebOAuthService: WebOAuthServiceProtocol {
             registerURL,
             inController: currentPresentedViewController,
             withKey: .socialAuth,
-            allowsSafari: false,
-            backButtonStyle: .close,
-            forceCustom: true
+            controllerType: .custom(allowsOpenInSafari: false),
+            backButtonStyle: .close
         )
         WebControllerManager.shared.onDismissCustomWebController = { [weak self] in
             guard let strongSelf = self else {
