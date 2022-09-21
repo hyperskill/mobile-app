@@ -31,7 +31,7 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 }
             is Message.FetchAttemptSuccess ->
                 if (state is State.Loading) {
-                    State.AttemptLoaded(message.attempt, message.submissionState, message.currentProfile) to emptySet()
+                    State.AttemptLoaded(message.attempt, message.submissionState, message.currentProfile, StepQuizFeature.SubmissionValidationState.Success) to emptySet()
                 } else {
                     null
                 }
@@ -55,7 +55,7 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 }
             is Message.CreateAttemptSuccess ->
                 if (state is State.AttemptLoading) {
-                    State.AttemptLoaded(message.attempt, message.submissionState, message.currentProfile) to emptySet()
+                    State.AttemptLoaded(message.attempt, message.submissionState, message.currentProfile, StepQuizFeature.SubmissionValidationState.Success) to emptySet()
                 } else {
                     null
                 }
@@ -66,6 +66,12 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                     null
                 }
             is Message.CreateSubmissionClicked ->
+                if (state is State.AttemptLoaded) {
+                    state to setOf(Action.ValidateSubmission(message.step, message.reply))
+                } else {
+                    null
+                }
+            is Message.CreateSubmissionValidated ->
                 if (state is State.AttemptLoaded) {
                     val submission = Submission(
                         attempt = state.attempt.id,
@@ -78,14 +84,23 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                         StepQuizClickedRunHyperskillAnalyticEvent(analyticRoute)
                     else StepQuizClickedSendHyperskillAnalyticEvent(analyticRoute)
 
-                    state.copy(submissionState = StepQuizFeature.SubmissionState.Loaded(submission)) to
-                        setOf(
-                            Action.CreateSubmission(message.step, state.attempt.id, message.reply),
-                            Action.LogAnalyticEvent(analyticEvent)
-                        )
+                    state.copy(
+                        submissionState = StepQuizFeature.SubmissionState.Loaded(submission),
+                        submissionValidationState = StepQuizFeature.SubmissionValidationState.Success
+                    ) to setOf(
+                        Action.CreateSubmission(message.step, state.attempt.id, message.reply),
+                        Action.LogAnalyticEvent(analyticEvent)
+                    )
                 } else {
                     null
                 }
+            is Message.CreateSubmissionValidationError -> {
+                if (state is State.AttemptLoaded) {
+                    state.copy(submissionValidationState = message.submissionValidationState) to emptySet()
+                } else {
+                    null
+                }
+            }
             is Message.CreateSubmissionSuccess ->
                 if (state is State.AttemptLoaded) {
                     state.copy(
@@ -94,7 +109,7 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
-            is Message.CreateSubmissionError ->
+            is Message.CreateSubmissionNetworkError ->
                 if (state is State.AttemptLoaded && state.submissionState is StepQuizFeature.SubmissionState.Loaded) {
                     val submission = state.submissionState.submission.copy(status = SubmissionStatus.LOCAL)
 

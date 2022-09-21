@@ -39,9 +39,9 @@ struct StepQuizStatusView: View {
         .cornerRadius(appearance.cornerRadius)
     }
 
-    enum State: CaseIterable {
+    enum State: CaseIterable, Equatable, Hashable {
         case correct
-        case wrong
+        case wrong(String)
         case evaluation
         case unsupportedQuiz
 
@@ -60,8 +60,8 @@ struct StepQuizStatusView: View {
             switch self {
             case .correct:
                 return Strings.StepQuiz.quizStatusCorrect
-            case .wrong:
-                return Strings.StepQuiz.quizStatusWrong
+            case .wrong(let message):
+                return message
             case .evaluation:
                 return Strings.StepQuiz.quizStatusEvaluation
             case .unsupportedQuiz:
@@ -96,6 +96,15 @@ struct StepQuizStatusView: View {
             case .wrong:
                 return .vertical
             }
+        }
+
+        static var allCases: [StepQuizStatusView.State] {
+            [
+                .correct,
+                .wrong(Strings.StepQuiz.quizStatusWrong),
+                .unsupportedQuiz,
+                .evaluation
+            ]
         }
     }
 }

@@ -15,15 +15,20 @@ interface StepQuizFeature {
         data class AttemptLoaded(
             val attempt: Attempt,
             val submissionState: SubmissionState,
-            val currentProfile: Profile
+            val currentProfile: Profile,
+            val submissionValidationState: SubmissionValidationState
         ) : State
 
         object NetworkError : State
     }
-
     sealed interface SubmissionState {
         data class Empty(val reply: Reply? = null) : SubmissionState
         data class Loaded(val submission: Submission) : SubmissionState
+    }
+
+    sealed interface SubmissionValidationState {
+        object Success : SubmissionValidationState
+        data class Error(val message: String) : SubmissionValidationState
     }
 
     sealed interface Message {
@@ -44,8 +49,10 @@ interface StepQuizFeature {
         object CreateAttemptError : Message
 
         data class CreateSubmissionClicked(val step: Step, val reply: Reply) : Message
+        data class CreateSubmissionValidated(val step: Step, val reply: Reply) : Message
         data class CreateSubmissionSuccess(val submission: Submission) : Message
-        object CreateSubmissionError : Message
+        data class CreateSubmissionValidationError(val submissionValidationState: SubmissionValidationState) : Message
+        object CreateSubmissionNetworkError : Message
 
         object ContinueClicked : Message
 
@@ -67,6 +74,7 @@ interface StepQuizFeature {
         data class FetchAttempt(val step: Step) : Action
 
         data class CreateAttempt(val step: Step, val attempt: Attempt, val submissionState: SubmissionState) : Action
+        data class ValidateSubmission(val step: Step, val reply: Reply) : Action
         data class CreateSubmission(val step: Step, val attemptId: Long, val reply: Reply) : Action
 
         object NotifyUserAgreedToEnableDailyReminders : Action
