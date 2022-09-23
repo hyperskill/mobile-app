@@ -35,7 +35,9 @@ final class ProfileSettingsViewModel: FeatureViewModel<
     }
 
     func doSignOut() {
-        onNewMessage(ProfileSettingsFeatureMessageSignOutConfirmed())
+        WebCacheCleaner.clean {
+            self.onNewMessage(ProfileSettingsFeatureMessageSignOutConfirmed())
+        }
     }
 
     func doSendFeedback() {

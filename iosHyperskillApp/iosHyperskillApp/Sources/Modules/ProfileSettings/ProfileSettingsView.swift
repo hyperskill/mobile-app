@@ -92,6 +92,7 @@ struct ProfileSettingsView: View {
                 OpenURLInsideAppButton(
                     text: Strings.Settings.termsOfService,
                     url: Self.termsOfServiceURL,
+                    webControllerType: .safari,
                     onTap: viewModel.logClickedTermsOfServiceEvent
                 )
                 .foregroundColor(.primaryText)
@@ -99,6 +100,7 @@ struct ProfileSettingsView: View {
                 OpenURLInsideAppButton(
                     text: Strings.Settings.privacyPolicy,
                     url: Self.privacyPolicyURL,
+                    webControllerType: .safari,
                     onTap: viewModel.logClickedPrivacyPolicyEvent
                 )
                 .foregroundColor(.primaryText)
@@ -128,6 +130,7 @@ struct ProfileSettingsView: View {
                 OpenURLInsideAppButton(
                     text: Strings.Settings.reportProblem,
                     url: Self.reportProblemURL,
+                    webControllerType: .safari,
                     onTap: viewModel.logClickedReportProblemEvent
                 )
                 .foregroundColor(.primaryText)
@@ -175,8 +178,7 @@ struct ProfileSettingsView: View {
                                 WebControllerManager.shared.presentWebControllerWithURL(
                                     Self.accountDeletionURL,
                                     withKey: .externalLink,
-                                    allowsSafari: true,
-                                    backButtonStyle: .done
+                                    controllerType: .custom()
                                 )
                             }
                         )

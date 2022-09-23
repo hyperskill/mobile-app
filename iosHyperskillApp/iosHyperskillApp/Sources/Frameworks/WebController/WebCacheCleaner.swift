@@ -2,17 +2,13 @@ import Foundation
 import WebKit
 
 enum WebCacheCleaner {
-    static func clean() {
-        for cookie in HTTPCookieStorage.shared.cookies ?? [] where !cookie.domain.contains("hyperskill") {
-            HTTPCookieStorage.shared.deleteCookie(cookie)
-            print("WebCacheCleaner :: Cookie \(cookie) deleted")
-        }
+    static func clean(completionHandler: @escaping () -> Void = {}) {
+        HTTPCookieStorage.shared.removeCookies(since: .distantPast)
 
-        WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
-            records.forEach { record in
-                WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
-                print("WebCacheCleaner :: Record \(record) deleted")
-            }
-        }
+        WKWebsiteDataStore.default().removeData(
+            ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(),
+            modifiedSince: .distantPast,
+            completionHandler: completionHandler
+        )
     }
 }

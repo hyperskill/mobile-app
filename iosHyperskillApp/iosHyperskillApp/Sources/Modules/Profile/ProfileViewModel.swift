@@ -77,7 +77,7 @@ final class ProfileViewModel: FeatureViewModel<
                 WebControllerManager.shared.presentWebControllerWithURL(
                     profileURL,
                     withKey: .externalLink,
-                    allowsSafari: true,
+                    controllerType: .safari,
                     backButtonStyle: .done
                 )
             }
@@ -95,7 +95,7 @@ final class ProfileViewModel: FeatureViewModel<
         WebControllerManager.shared.presentWebControllerWithURL(
             url,
             withKey: .externalLink,
-            allowsSafari: true,
+            controllerType: .custom(),
             backButtonStyle: .done
         )
     }

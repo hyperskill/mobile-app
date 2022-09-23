@@ -66,7 +66,9 @@ class FeatureViewModel<State, Message, ViewAction>: ObservableObject {
             return
         }
 
-        self.objectWillChange.send()
+        DispatchQueue.main.async {
+            self.objectWillChange.send()
+        }
     }
 
     private func handleState(_ newState: Any?) {
