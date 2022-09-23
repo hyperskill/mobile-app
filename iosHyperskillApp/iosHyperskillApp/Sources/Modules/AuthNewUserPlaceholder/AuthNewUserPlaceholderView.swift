@@ -75,7 +75,7 @@ struct AuthNewUserPlaceholderView: View {
                     Strings.Auth.NewUserPlaceholder.signInButton,
                     action: viewModel.doSignIn
                 )
-                .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
+                .buttonStyle(OutlineButtonStyle())
             }
 
             Text(Strings.Auth.NewUserPlaceholder.possibilityText)
@@ -87,7 +87,12 @@ struct AuthNewUserPlaceholderView: View {
     // MARK: Private API
 
     private func handleViewAction(_ viewAction: PlaceholderNewUserFeatureActionViewAction) {
-        print("AuthNewUserPlaceholderView :: \(#function) viewAction = \(viewAction)")
+        switch viewAction {
+        case is PlaceholderNewUserFeatureActionViewActionNavigateToAuthScreen:
+            viewModel.doAuthScreenPresentation()
+        default:
+            break
+        }
     }
 }
 

@@ -11,6 +11,7 @@ class PlaceholderNewUserComponentImpl(
         get() = PlaceholderNewUserFeatureBuilder.build(
             appGraph.buildProfileDataComponent().profileInteractor,
             appGraph.analyticComponent.analyticInteractor,
+            appGraph.authComponent.authInteractor,
             appGraph.networkComponent.authorizationFlow
         )
 }

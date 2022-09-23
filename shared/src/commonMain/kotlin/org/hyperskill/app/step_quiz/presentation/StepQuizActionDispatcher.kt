@@ -7,7 +7,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.notification.data.extension.NotificationExtensions
-import org.hyperskill.app.notification.domain.NotificationInteractor
+import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizViewedHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor

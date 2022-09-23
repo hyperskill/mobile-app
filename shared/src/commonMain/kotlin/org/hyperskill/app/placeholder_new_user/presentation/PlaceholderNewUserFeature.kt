@@ -9,6 +9,7 @@ interface PlaceholderNewUserFeature {
 
     sealed interface Message {
         object PlaceholderSignInTappedMessage : Message
+        object OpenAuthScreen : Message
 
         /**
          * Analytic
@@ -19,7 +20,12 @@ interface PlaceholderNewUserFeature {
 
     sealed interface Action {
         object Logout : Action
-        sealed class ViewAction : Action
+
+        sealed interface ViewAction : Action {
+            sealed interface NavigateTo : ViewAction {
+                object AuthScreen : NavigateTo
+            }
+        }
 
         /**
          * Analytic

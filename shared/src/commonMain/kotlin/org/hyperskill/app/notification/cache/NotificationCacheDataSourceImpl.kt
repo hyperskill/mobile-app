@@ -10,11 +10,18 @@ class NotificationCacheDataSourceImpl(
     private val settings: Settings,
     private val resourceProvider: ResourceProvider
 ) : NotificationCacheDataSource {
+    override fun isNotificationsPermissionGranted(): Boolean =
+        settings.getBoolean(NotificationCacheKeyValues.NOTIFICATIONS_PERMISSION_GRANTED, false)
+
+    override fun setNotificationsPermissionGranted(isGranted: Boolean) {
+        settings.putBoolean(NotificationCacheKeyValues.NOTIFICATIONS_PERMISSION_GRANTED, isGranted)
+    }
+
     override fun isDailyStudyRemindersEnabled(): Boolean =
         settings.getBoolean(NotificationCacheKeyValues.NOTIFICATIONS_DAILY_REMINDER_ENABLED, false)
 
-    override fun setDailyStudyRemindersEnabled(enabled: Boolean) {
-        settings.putBoolean(NotificationCacheKeyValues.NOTIFICATIONS_DAILY_REMINDER_ENABLED, enabled)
+    override fun setDailyStudyRemindersEnabled(isEnabled: Boolean) {
+        settings.putBoolean(NotificationCacheKeyValues.NOTIFICATIONS_DAILY_REMINDER_ENABLED, isEnabled)
     }
 
     override fun getNotificationTimestamp(key: String): Long =
@@ -123,11 +130,11 @@ class NotificationCacheDataSourceImpl(
             timestamp
         )
         settings.putLong(
-            NotificationCacheKeyValues.NOTIFICATON_USER_ASKED_TO_ENABLE_DAILY_REMINDERS_COUNT,
+            NotificationCacheKeyValues.NOTIFICATION_USER_ASKED_TO_ENABLE_DAILY_REMINDERS_COUNT,
             getUserAskedToEnableDailyRemindersCount() + 1
         )
     }
 
     override fun getUserAskedToEnableDailyRemindersCount(): Long =
-        settings.getLong(NotificationCacheKeyValues.NOTIFICATON_USER_ASKED_TO_ENABLE_DAILY_REMINDERS_COUNT, 0)
+        settings.getLong(NotificationCacheKeyValues.NOTIFICATION_USER_ASKED_TO_ENABLE_DAILY_REMINDERS_COUNT, 0)
 }

@@ -89,6 +89,16 @@ final class ProfileSettingsViewModel: FeatureViewModel<
         onNewMessage(ProfileSettingsFeatureMessageClickedSignOutEventMessage())
     }
 
+    func logSignOutNoticeShownEvent() {
+        onNewMessage(ProfileSettingsFeatureMessageSignOutNoticeShownEventMessage())
+    }
+
+    func logSignOutNoticeHiddenEvent(isConfirmed: Bool) {
+        onNewMessage(
+            ProfileSettingsFeatureMessageSignOutNoticeHiddenEventMessage(isConfirmed: isConfirmed)
+        )
+    }
+
     func logClickedDeleteAccountEvent() {
         onNewMessage(ProfileSettingsFeatureMessageClickedDeleteAccountEventMessage())
     }

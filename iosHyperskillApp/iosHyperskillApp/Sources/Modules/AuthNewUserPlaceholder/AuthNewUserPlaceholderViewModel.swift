@@ -10,6 +10,9 @@ final class AuthNewUserPlaceholderViewModel: FeatureViewModel<
 
     func doSignIn() {
         onNewMessage(PlaceholderNewUserFeatureMessagePlaceholderSignInTappedMessage())
+    }
+
+    func doAuthScreenPresentation() {
         moduleOutput?.handleAuthNewUserPlaceholderSignInRequested()
     }
 

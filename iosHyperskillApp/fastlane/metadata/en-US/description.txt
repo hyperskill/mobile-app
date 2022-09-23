@@ -1,0 +1,3 @@
+Hyperskill is an online learning platform that helps people from all over the world learn new skills in Computer Science and beyond. We firmly believe in a holistic approach to learning that allows Hyperskill students to apply theoretical knowledge right to practice while building real-life working applications. 
+
+Regular exercise is key to mastering new skills. With adjustable reminders, daily practice tasks, and a learning streak tracker, My Hyperskill app offers a convenient way to study on your mobile phone wherever and whenever you like.

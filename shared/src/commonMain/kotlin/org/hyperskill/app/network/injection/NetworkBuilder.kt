@@ -31,13 +31,19 @@ import org.hyperskill.app.auth.remote.model.AuthResponse
 import org.hyperskill.app.auth.remote.source.BearerTokenHttpClientPlugin
 import org.hyperskill.app.auth.remote.source.HttpCookiesPlugin
 import org.hyperskill.app.config.BuildKonfig
+import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.network.domain.model.NetworkClientType
 
 object NetworkBuilder {
     private const val AUTHORIZATION_HEADER = "Authorization"
 
-    internal fun buildAuthClient(networkClientType: NetworkClientType, userAgentInfo: UserAgentInfo, json: Json): HttpClient {
+    internal fun buildAuthClient(
+        networkClientType: NetworkClientType,
+        userAgentInfo: UserAgentInfo,
+        json: Json,
+        buildVariant: BuildVariant
+    ): HttpClient {
         val (clientId, clientSecret) = when (networkClientType) {
             NetworkClientType.SOCIAL ->
                 BuildKonfig.OAUTH_CLIENT_ID to BuildKonfig.OAUTH_CLIENT_SECRET
@@ -45,13 +51,19 @@ object NetworkBuilder {
                 BuildKonfig.CREDENTIALS_CLIEND_ID to BuildKonfig.CREDENTIALS_CLIENT_SECRET
         }
 
-        return provideClientFromBasicAuthCredentials(userAgentInfo, json, constructBasicAuthValue(clientId, clientSecret))
+        return provideClientFromBasicAuthCredentials(
+            userAgentInfo,
+            json,
+            buildVariant,
+            constructBasicAuthValue(clientId, clientSecret)
+        )
     }
 
     internal fun buildAuthorizedClient(
         userAgentInfo: UserAgentInfo,
         json: Json,
         settings: Settings,
+        buildVariant: BuildVariant,
         authorizationFlow: MutableSharedFlow<UserDeauthorized>,
         authorizationMutex: Mutex,
         cookiesStorage: CookiesStorage
@@ -60,13 +72,15 @@ object NetworkBuilder {
             val tokenSocialAuthClient = buildAuthClient(
                 NetworkClientType.SOCIAL,
                 userAgentInfo,
-                json
+                json,
+                buildVariant
             )
 
             val tokenCredentialsAuthClient = buildAuthClient(
                 NetworkClientType.CREDENTIALS,
                 userAgentInfo,
-                json
+                json,
+                buildVariant
             )
 
             defaultRequest {
@@ -82,9 +96,11 @@ object NetworkBuilder {
             install(ContentNegotiation) {
                 json(json)
             }
-            install(Logging) {
-                logger = Logger.SIMPLE
-                level = LogLevel.ALL
+            if (buildVariant.isDebug()) {
+                install(Logging) {
+                    logger = Logger.SIMPLE
+                    level = LogLevel.ALL
+                }
             }
             install(UserAgent) {
                 agent = userAgentInfo.toString()
@@ -151,6 +167,7 @@ object NetworkBuilder {
     internal fun buildFrontendEventsUnauthorizedClient(
         userAgentInfo: UserAgentInfo,
         json: Json,
+        buildVariant: BuildVariant,
         cookiesStorage: CookiesStorage
     ): HttpClient =
         HttpClient {
@@ -167,16 +184,23 @@ object NetworkBuilder {
             install(ContentNegotiation) {
                 json(json)
             }
-            install(Logging) {
-                logger = Logger.SIMPLE
-                level = LogLevel.ALL
+            if (buildVariant.isDebug()) {
+                install(Logging) {
+                    logger = Logger.SIMPLE
+                    level = LogLevel.ALL
+                }
             }
             install(UserAgent) {
                 agent = userAgentInfo.toString()
             }
         }
 
-    private fun provideClientFromBasicAuthCredentials(userAgentInfo: UserAgentInfo, json: Json, credentials: String) =
+    private fun provideClientFromBasicAuthCredentials(
+        userAgentInfo: UserAgentInfo,
+        json: Json,
+        buildVariant: BuildVariant,
+        credentials: String
+    ) =
         HttpClient {
             defaultRequest {
                 headers {
@@ -190,9 +214,11 @@ object NetworkBuilder {
             install(ContentNegotiation) {
                 json(json)
             }
-            install(Logging) {
-                logger = Logger.SIMPLE
-                level = LogLevel.ALL
+            if (buildVariant.isDebug()) {
+                install(Logging) {
+                    logger = Logger.SIMPLE
+                    level = LogLevel.ALL
+                }
             }
             install(UserAgent) {
                 agent = userAgentInfo.toString()

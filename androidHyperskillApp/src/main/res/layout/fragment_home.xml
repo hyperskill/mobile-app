@@ -53,6 +53,36 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/homeScreenStreakCard" />
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/homeOpenStepInputLayout"
+            style="@style/Widget.AppTheme.TextInputLayouts.InputText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:hint="Enter step ID"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/homeScreenProblemOfDayCard">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/homeOpenStepInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/homeOpenStepButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Open step"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/homeOpenStepInputLayout" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/homeScreenKeepLearningInWebButton"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -64,7 +94,7 @@
             android:text="@string/track_continue_in_web_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/homeScreenProblemOfDayCard"
+            app:layout_constraintTop_toBottomOf="@+id/homeOpenStepButton"
             app:layout_constraintVertical_bias="0"
             app:layout_constraintWidth_max="@dimen/auth_button_max_width"
             app:strokeColor="?colorPrimary" />

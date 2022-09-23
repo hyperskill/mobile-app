@@ -1,5 +1,6 @@
 package org.hyperskill.app.home.presentation
 
+import org.hyperskill.app.home.domain.analytic.HomeClickedContinueLearningOnWebHyperskillAnalyticEvent
 import org.hyperskill.app.home.domain.analytic.HomeClickedProblemOfDayCardHyperskillAnalyticEvent
 import org.hyperskill.app.home.domain.analytic.HomeViewedHyperskillAnalyticEvent
 import org.hyperskill.app.home.presentation.HomeFeature.Action
@@ -101,5 +102,7 @@ class HomeReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
+            is Message.ClickedContinueLearningOnWebEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(HomeClickedContinueLearningOnWebHyperskillAnalyticEvent()))
         } ?: (state to emptySet())
 }

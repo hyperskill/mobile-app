@@ -111,16 +111,29 @@ class ProfileSettingsDialogFragment :
 
         viewBinding.settingsLogoutButton.setOnClickListener {
             profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ClickedSignOutEventMessage)
+
             MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog_ProfileSettingsConfirmDialog)
                 .setTitle(R.string.settings_sign_out_dialog_title)
                 .setMessage(R.string.settings_sign_out_dialog_explanation)
                 .setPositiveButton(R.string.yes) { _, _ ->
+                    profileSettingsViewModel.onNewMessage(
+                        ProfileSettingsFeature.Message.SignOutNoticeHiddenEventMessage(
+                            isConfirmed = true
+                        )
+                    )
                     profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.SignOutConfirmed)
                 }
                 .setNegativeButton(R.string.no) { dialog, _ ->
+                    profileSettingsViewModel.onNewMessage(
+                        ProfileSettingsFeature.Message.SignOutNoticeHiddenEventMessage(
+                            isConfirmed = false
+                        )
+                    )
                     dialog.dismiss()
                 }
                 .show()
+
+            profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.SignOutNoticeShownEventMessage)
         }
 
         viewBinding.settingsDeleteAccountButton.setOnClickListener {

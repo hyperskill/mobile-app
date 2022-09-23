@@ -85,16 +85,18 @@ struct HomeView: View {
                         OpenURLInsideAppButton(
                             text: Strings.Track.continueInWebButton,
                             url: HyperskillURLFactory.makeIndex().require(),
-                            webControllerType: .custom()
+                            webControllerType: .custom(),
+                            onTap: viewModel.logClickedContinueLearningOnWebEvent
                         )
                         .buttonStyle(OutlineButtonStyle())
                     }
 
-                    HomeDebugStepNavigationView()
+                    //HomeDebugStepNavigationView()
                 }
                 .padding()
             }
             .frame(maxWidth: .infinity)
+            .padding(.top, 0.1)
         default:
             Text("Unkwown state")
         }

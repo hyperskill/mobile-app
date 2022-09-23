@@ -146,12 +146,25 @@ struct ProfileSettingsView: View {
                     Alert(
                         title: Text(Strings.Settings.signOutAlertTitle),
                         message: Text(Strings.Settings.signOutAlertMessage),
-                        primaryButton: .default(Text(Strings.General.no)),
+                        primaryButton: .default(
+                            Text(Strings.General.no),
+                            action: {
+                                viewModel.logSignOutNoticeHiddenEvent(isConfirmed: false)
+                            }
+                        ),
                         secondaryButton: .destructive(
                             Text(Strings.General.yes),
-                            action: viewModel.doSignOut
+                            action: {
+                                viewModel.logSignOutNoticeHiddenEvent(isConfirmed: true)
+                                viewModel.doSignOut()
+                            }
                         )
                     )
+                }
+                .onChange(of: isPresentingSignOutAlert) { newValue in
+                    if newValue {
+                        viewModel.logSignOutNoticeShownEvent()
+                    }
                 }
             }
 

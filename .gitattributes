@@ -6,6 +6,7 @@
 
 androidHyperskillApp/keys/debug_keystore.properties filter=git-crypt diff=git-crypt
 androidHyperskillApp/keys/debug.properties filter=git-crypt diff=git-crypt
+androidHyperskillApp/keys/release.properties filter=git-crypt diff=git-crypt
 buildsystem/certs/** filter=git-crypt diff=git-crypt
 shared/keys/** filter=git-crypt diff=git-crypt
 sentry.properties filter=git-crypt diff=git-crypt
@@ -14,5 +15,6 @@ iosHyperskillApp/iosHyperskillApp/GoogleService-Info.plist filter=git-crypt diff
 iosHyperskillApp/iosHyperskillApp/Sentry-Info.plist filter=git-crypt diff=git-crypt
 iosHyperskillApp/fastlane/Appfile filter=git-crypt diff=git-crypt
 iosHyperskillApp/fastlane/Devicefile filter=git-crypt diff=git-crypt
+iosHyperskillApp/fastlane/metadata/**/review_information/** filter=git-crypt diff=git-crypt
 
 .gitattributes !filter !diff

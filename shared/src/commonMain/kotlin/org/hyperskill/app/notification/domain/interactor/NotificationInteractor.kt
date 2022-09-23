@@ -1,4 +1,4 @@
-package org.hyperskill.app.notification.domain
+package org.hyperskill.app.notification.domain.interactor
 
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.datetime.Clock
@@ -12,6 +12,13 @@ class NotificationInteractor(
     private val submissionRepository: SubmissionRepository
 ) {
     val solvedStepsSharedFlow: SharedFlow<Long> = submissionRepository.solvedStepsMutableSharedFlow
+
+    fun isNotificationsPermissionGranted(): Boolean =
+        notificationRepository.isNotificationsPermissionGranted()
+
+    fun setNotificationsPermissionGranted(isGranted: Boolean) {
+        notificationRepository.setNotificationsPermissionGranted(isGranted)
+    }
 
     fun isDailyStudyRemindersEnabled(): Boolean =
         notificationRepository.isDailyStudyRemindersEnabled()

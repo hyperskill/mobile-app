@@ -16,12 +16,14 @@ import org.hyperskill.app.analytic.domain.processor.AnalyticHyperskillEventProce
 import org.hyperskill.app.analytic.domain.repository.AnalyticHyperskillRepository
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.core.domain.DataSourceType
+import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.profile.domain.model.Profile
 
 class AnalyticInteractor(
     private val authInteractor: AuthInteractor,
     private val profileInteractor: ProfileInteractor,
+    private val notificationInteractor: NotificationInteractor,
     private val hyperskillRepository: AnalyticHyperskillRepository,
     private val hyperskillEventProcessor: AnalyticHyperskillEventProcessor
 ) : Analytic {
@@ -58,7 +60,11 @@ class AnalyticInteractor(
                     .getOrElse { return }
             }
 
-            val processedEvent = hyperskillEventProcessor.processEvent(event, currentProfile.id)
+            val processedEvent = hyperskillEventProcessor.processEvent(
+                event,
+                currentProfile.id,
+                notificationInteractor.isNotificationsPermissionGranted()
+            )
             hyperskillRepository.logEvent(processedEvent)
 
             if (flushEventsJob != null && !flushEventsJob!!.isCompleted) {

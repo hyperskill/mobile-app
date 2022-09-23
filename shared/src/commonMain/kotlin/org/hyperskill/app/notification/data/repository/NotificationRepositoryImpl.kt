@@ -7,6 +7,13 @@ import org.hyperskill.app.notification.domain.repository.NotificationRepository
 class NotificationRepositoryImpl(
     private val notificationCacheDataSource: NotificationCacheDataSource
 ) : NotificationRepository {
+    override fun isNotificationsPermissionGranted(): Boolean =
+        notificationCacheDataSource.isNotificationsPermissionGranted()
+
+    override fun setNotificationsPermissionGranted(isGranted: Boolean) {
+        notificationCacheDataSource.setNotificationsPermissionGranted(isGranted)
+    }
+
     override fun isDailyStudyRemindersEnabled(): Boolean =
         notificationCacheDataSource.isDailyStudyRemindersEnabled()
 

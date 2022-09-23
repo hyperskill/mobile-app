@@ -16,6 +16,8 @@ class PlaceholderNewUserReducer : StateReducer<State, Message, Action> {
                     Action.LogAnalyticEvent(PlaceholderNewUserClickedSignInHyperskillAnalyticEvent()),
                     Action.Logout
                 )
+            is Message.OpenAuthScreen ->
+                state to setOf(Action.ViewAction.NavigateTo.AuthScreen)
             is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(PlaceholderNewUserViewedHyperskillAnalyticEvent()))
             is Message.ClickedContinueEventMessage ->
