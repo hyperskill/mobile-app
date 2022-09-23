@@ -1,0 +1,55 @@
+import Foundation
+import shared
+
+final class StepQuizViewDataMapper {
+    private let stepQuizStatsTextMapper: StepQuizStatsTextMapper
+
+    private let stepQuizTitleMapper: StepQuizTitleMapper
+
+    init(stepQuizStatsTextMapper: StepQuizStatsTextMapper, stepQuizTitleMapper: StepQuizTitleMapper) {
+        self.stepQuizStatsTextMapper = stepQuizStatsTextMapper
+        self.stepQuizTitleMapper = stepQuizTitleMapper
+    }
+
+    func mapStepDataToViewData(step: Step, state: StepQuizFeatureState) -> StepQuizViewData {
+        let formattedStats = stepQuizStatsTextMapper.getFormattedStepQuizStats(
+            users: step.solvedBy,
+            millisSinceLastCompleted: step.millisSinceLastCompleted
+        )
+
+        let attemptLoadedState = state as? StepQuizFeatureStateAttemptLoaded
+
+        let quizName: String? = {
+            guard let dataset = attemptLoadedState?.attempt.dataset else {
+                return nil
+            }
+
+            // Custom title rendering by code quiz
+            if step.block.name == BlockName.shared.CODE {
+                return nil
+            }
+
+            return stepQuizTitleMapper.getStepQuizTitle(
+                blockName: step.block.name,
+                isMultipleChoice: KotlinBoolean(bool: dataset.isMultipleChoice),
+                isCheckbox: KotlinBoolean(bool: dataset.isCheckbox)
+            )
+        }()
+
+        let hintText: String? = {
+            guard let submissionLoaded = attemptLoadedState?.submissionState as? StepQuizFeatureSubmissionStateLoaded,
+                  let hint = submissionLoaded.submission.hint else {
+                return nil
+            }
+            return hint.isEmpty ? nil : hint
+        }()
+
+        return StepQuizViewData(
+            formattedStats: formattedStats,
+            stepText: step.block.text,
+            stepBlockName: step.block.name,
+            quizName: quizName,
+            hintText: hintText
+        )
+    }
+}

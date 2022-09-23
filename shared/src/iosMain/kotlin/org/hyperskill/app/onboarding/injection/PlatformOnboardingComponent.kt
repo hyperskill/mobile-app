@@ -1,0 +1,3 @@
+package org.hyperskill.app.onboarding.injection
+
+actual interface PlatformOnboardingComponent

@@ -1,0 +1,95 @@
+import Foundation
+
+enum HyperskillURLFactory {
+    // MARK: Auth
+
+    static func makeRegister(fromMobile: Bool = true) -> URL? {
+        makeURL(path: .register, queryItems: fromMobile ? [.fromMobileApp] : [])
+    }
+
+    // MARK: Profile
+
+    static func makeProfile(id: Int) -> URL? {
+        makeURL(path: .profile(id))
+    }
+
+    // MARK: Track
+
+    static func makeTrack(id: Int) -> URL? {
+        makeURL(path: .track(id))
+    }
+
+    // MARK: StudyPlan
+
+    static func makeStudyPlan() -> URL? {
+        makeURL(path: .studyPlan)
+    }
+
+    // MARK: Accounts
+
+    static func makeResetPassword() -> URL? {
+        makeURL(path: .resetPassword)
+    }
+
+    // MARK: Index
+
+    static func makeIndex() -> URL? {
+        makeURL(path: .index)
+    }
+
+    // MARK: - Private API -
+
+    private static func makeURL(
+        path: Path?,
+        host: String = ApplicationInfo.host,
+        queryItems: [QueryItem] = []
+    ) -> URL? {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = host
+        components.path = path?.formattedPath ?? ""
+
+        if !queryItems.isEmpty {
+            components.queryItems = queryItems.map(\.urlQueryItem)
+        }
+
+        return components.url
+    }
+
+    private enum QueryItem {
+        case fromMobileApp
+
+        var urlQueryItem: URLQueryItem {
+            switch self {
+            case .fromMobileApp:
+                return URLQueryItem(name: "from_mobile_app", value: "true")
+            }
+        }
+    }
+
+    private enum Path {
+        case register
+        case profile(Int)
+        case track(Int)
+        case studyPlan
+        case resetPassword
+        case index
+
+        var formattedPath: String {
+            switch self {
+            case .register:
+                return "/register"
+            case .profile(let id):
+                return "/profile/\(id)"
+            case .track(let id):
+                return "/tracks/\(id)"
+            case .studyPlan:
+                return "/study-plan"
+            case .resetPassword:
+                return "/accounts/password/reset"
+            case .index:
+                return "/"
+            }
+        }
+    }
+}

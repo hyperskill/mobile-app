@@ -1,77 +1,164 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+import org.jetbrains.kotlin.konan.properties.loadProperties
+import org.jetbrains.kotlin.konan.properties.propertyString
+import org.gradle.internal.os.OperatingSystem
 
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
-    kotlin("plugin.serialization") version "1.5.0"
+    kotlin("plugin.serialization")
     id("com.android.library")
+    id("com.codingfeline.buildkonfig")
+    id("dev.icerock.mobile.multiplatform-resources")
+}
+
+dependencies {
+    ktlintRuleset(libs.ktlintRules)
 }
 
 version = "1.0"
 
 kotlin {
     android()
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
 
-    val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget =
-        if (System.getenv("SDK_NAME")?.startsWith("iphoneos") == true)
-            ::iosArm64
-        else
-            ::iosX64
-
-    iosTarget("ios") {}
-
-    cocoapods {
-        summary = "Some description for the Shared Module"
-        homepage = "Link to the Shared Module homepage"
-        ios.deploymentTarget = "14.1"
-        frameworkName = "shared"
-        podfile = project.file("../iosHyperskillApp/Podfile")
+    if (OperatingSystem.current().isMacOsX) {
+        cocoapods {
+            summary = "Shared code between iOS and Android"
+            homepage = "https://github.com/hyperskill/mobile-app"
+            ios.deploymentTarget = "14.1"
+            podfile = project.file("../iosHyperskillApp/Podfile")
+            framework {
+                baseName = "shared"
+                isStatic = false
+            }
+        }
     }
-    
+
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("ru.nobird.app.core:model:1.0.7")
+                implementation(libs.kotlin.coroutines.core)
+                implementation(libs.bundles.ktor.common)
+                implementation(libs.kit.model)
+                implementation(libs.kotlin.datetime)
+                implementation(libs.kit.presentation.reduxCoroutines)
 
-                //network
-                implementation("io.ktor:ktor-client-core:1.6.1")
-                implementation("io.ktor:ktor-client-serialization:1.6.1")
-
-                api("ru.nobird.app.presentation:presentation-redux:1.2.0")
-                implementation("ru.nobird.app.presentation:presentation-redux-coroutines:1.2.1")
+                api(libs.kit.presentation.redux)
+                api(libs.mokoResources.main)
+                api(libs.multiplatform.settings)
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
+                implementation(libs.kotlin.coroutines.core)
+                implementation(libs.kotlin.coroutines.test)
+                implementation(libs.mokoResources.test)
             }
         }
         val androidMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-okhttp:1.6.1")
+                implementation(libs.android.security)
+                implementation(libs.ktor.android)
+                implementation(libs.kit.view.redux)
+                implementation(libs.android.lifecycle.viewmodel.ktx)
             }
         }
         val androidTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
-                implementation("junit:junit:4.13.2")
+                implementation(libs.bundles.android.test)
+                implementation(libs.kotlin.coroutines.test)
             }
         }
-        val iosMain by getting {
+
+        val iosX64Main by getting
+        val iosArm64Main by getting
+        val iosSimulatorArm64Main by getting
+        val iosMain by creating {
+            dependsOn(commonMain)
+
+            iosX64Main.dependsOn(this)
+            iosArm64Main.dependsOn(this)
+            iosSimulatorArm64Main.dependsOn(this)
+
             dependencies {
-                implementation("io.ktor:ktor-client-ios:1.6.1")
+                implementation(libs.ktor.ios)
             }
         }
-        val iosTest by getting
+        val iosX64Test by getting
+        val iosArm64Test by getting
+        val iosSimulatorArm64Test by getting
+        val iosTest by creating {
+            dependsOn(commonTest)
+
+            iosX64Test.dependsOn(this)
+            iosArm64Test.dependsOn(this)
+            iosSimulatorArm64Test.dependsOn(this)
+        }
     }
 }
 
 android {
-    compileSdkVersion(30)
+    compileSdkVersion(appVersions.versions.compileSdk.get().toInt())
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
-        minSdkVersion(21)
-        targetSdkVersion(30)
+        minSdkVersion(appVersions.versions.minSdk.get().toInt())
+        targetSdkVersion(appVersions.versions.targetSdk.get().toInt())
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    packagingOptions {
+        resources {
+            excludes += "META-INF/LGPL2.1"
+            excludes += "META-INF/AL2.0"
+        }
+    }
+}
+
+buildkonfig {
+    packageName = "org.hyperskill.app.config"
+    exposeObjectWithName = "BuildKonfig"
+
+    defaultConfigs {
+        // required
+    }
+
+    fun applyFlavorConfigsFromFile(flavor: String) {
+        if (SystemProperties.isCI()) return
+        defaultConfigs(flavor) {
+            val properties = loadProperties("${project.rootDir}/shared/keys/$flavor.properties")
+            buildConfigField(STRING, "FLAVOR", flavor)
+            properties.keys.forEach { name ->
+                name as String
+                buildConfigField(
+                    type = STRING,
+                    name = name,
+                    value = requireNotNull(System.getenv(name) ?: properties.propertyString(name))
+                )
+            }
+        }
+    }
+
+    applyFlavorConfigsFromFile("production")
+    applyFlavorConfigsFromFile("dev")
+    applyFlavorConfigsFromFile("release")
+    // add flavors for release.hyperskill.org / dev.hyperskill.org on demand
+}
+
+// Resources directory - src/commonMain/resources/MR
+multiplatformResources {
+    multiplatformResourcesPackage = "org.hyperskill.app"
+    multiplatformResourcesClassName = "SharedResources"
+}
+
+ktlint {
+    filter {
+        exclude { element -> element.file.path.contains("build/") }
     }
 }

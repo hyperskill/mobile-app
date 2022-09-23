@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- General -->
+
+    <dimen name="appbar_elevation">4dp</dimen>
+    <dimen name="corner_radius">8dp</dimen>
+    <dimen name="divider_vertical_size">1dp</dimen>
+    <dimen name="default_dialog_elements_margin">16dp</dimen>
+    <dimen name="padding_placeholders">20dp</dimen>
+    <dimen name="code_text_size_default">14sp</dimen>
+    <dimen name="code_toolbar_height">48dp</dimen>
+    <dimen name="half_padding">8dp</dimen>
+
+
+    <!-- Auth screen -->
+
+    <dimen name="auth_button_max_width">380dp</dimen>
+    <dimen name="auth_button_height">48dp</dimen>
+    <dimen name="auth_button_logo_margin_left">12dp</dimen>
+    <dimen name="auth_button_text_size">14sp</dimen>
+    <dimen name="auth_hyperskill_logo_width">48dp</dimen>
+    <dimen name="auth_hyperskill_logo_height">48dp</dimen>
+
+
+    <!-- Step screen -->
+
+    <dimen name="step_toolbar_height">72dp</dimen>
+    <dimen name="step_toolbar_padding_vertical">12dp</dimen>
+    <dimen name="step_toolbar_margin_end">36dp</dimen>
+    <dimen name="step_content_padding">20dp</dimen>
+
+    <dimen name="step_theory_elements_margin">20dp</dimen>
+
+    <dimen name="step_theory_rating_horizontal_edge_item_margin">10dp</dimen>
+    <dimen name="step_theory_rating_horizontal_item_margin">22dp</dimen>
+    <dimen name="step_theory_rating_vertical_item_margin">10dp</dimen>
+
+    <dimen name="step_theory_comments_statistics_vertical_item_margin">10dp</dimen>
+    <dimen name="step_theory_comments_statistics_recycler_top_margin">40dp</dimen>
+
+    <dimen name="step_theory_fab_margin">20dp</dimen>
+
+
+    <!-- Step quiz screen -->
+
+    <dimen name="step_quiz_toolbar_height">56dp</dimen>
+    <dimen name="step_quiz_toolbar_margin_horizontal">56dp</dimen>
+    <dimen name="step_quiz_toolbar_padding_vertical">16dp</dimen>
+    <dimen name="step_quiz_submit_button_height">47dp</dimen>
+    <dimen name="step_quiz_feedback_right_textview_height">48dp</dimen>
+    <dimen name="step_quiz_feedback_wrong_textview_height">66dp</dimen>
+    <dimen name="step_quiz_discussion_button_height">48dp</dimen>
+    <dimen name="step_quiz_hint_button_height">32dp</dimen>
+    <dimen name="item_choice_skeleton_height">21dp</dimen>
+
+    <!-- Sorting quiz -->
+    <dimen name="step_quiz_sorting_item_elevation">1dp</dimen>
+    <dimen name="step_quiz_profile_arrow_width">16dp</dimen>
+    <dimen name="step_quiz_profile_arrow_height">8dp</dimen>
+
+    <!-- String / Number / Math quiz -->
+    <dimen name="step_quiz_text_field_min_height">96dp</dimen>
+
+    <!-- Matching quiz -->
+    <dimen name="step_quiz_matching_item_margin">60dp</dimen>
+
+    <!-- Streak -->
+    <dimen name="streak_recycler_fire_width">20dp</dimen>
+    <dimen name="streak_recycler_fire_height">20dp</dimen>
+    <dimen name="streak_last_five_recycler_items_space">6dp</dimen>
+    <dimen name="streak_today_streak_card_stroke_width">2dp</dimen>
+
+    <!-- Step quiz code -->
+    <dimen name="embedded_code_editor_height">96dp</dimen>
+    <dimen name="step_quiz_fullscreen_code_layout_bottom_padding">80dp</dimen>
+    <dimen name="step_quiz_fullscreen_code_layout_action_button_icon_padding">-13dp</dimen>
+
+    <!-- Onboarding -->
+    <dimen name="onboarding_splash_icon_width">48dp</dimen>
+    <dimen name="onboarding_splash_icon_height">45dp</dimen>
+
+</resources>

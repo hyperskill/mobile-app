@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.hyperskill.app.android.core.view.ui.widget.CompoundLatexItemView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?selectableItemBackground">
+
+    <androidx.appcompat.widget.AppCompatRadioButton
+        android:id="@+id/compoundSelectionRadioButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="2dp"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:paddingVertical="14dp"
+        android:theme="@style/TableQuizRadioButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/compoundSelectionText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <org.hyperskill.app.android.latex.view.widget.LatexView
+        android:id="@+id/compoundSelectionText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingVertical="16dp"
+        android:paddingEnd="16dp"
+        android:textAppearance="?textAppearanceBody1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/compoundSelectionRadioButton"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+            android:id="@+id/compoundSelectionTextProgress"
+            style="@style/Widget.MaterialProgressBar.ProgressBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:visibility="gone"
+            tools:visibility="visible" />
+    </org.hyperskill.app.android.latex.view.widget.LatexView>
+
+</org.hyperskill.app.android.core.view.ui.widget.CompoundLatexItemView>

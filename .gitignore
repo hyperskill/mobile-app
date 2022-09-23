@@ -15,3 +15,28 @@
 .cxx
 local.properties
 
+/.idea/
+
+# Xcode
+**/xcuserdata/*
+
+## Obj-C/Swift specific
+*.hmap
+
+## App packaging
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+iosHyperskillApp/.build/
+
+iosHyperskillApp/.idea/
+
+## CocoaPods
+iosHyperskillApp/Pods/
+
+## fastlane
+iosHyperskillApp/fastlane/test_output/
+iosHyperskillApp/fastlane/report.xml
+## Google Cloud Storage code signing certificates
+iosHyperskillApp/gc_keys.json

@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="home_search_button_title">Search</string>
-    <string name="home_user_name_hint">User name</string>
+
+    <!-- App name -->
+    <string name="app_name">My Hyperskill</string>
+
+    <string name="loading">Loading</string>
+    <string name="loading_message">Please wait…</string>
+    <string name="internet_problem">Oops! It seems like the network error.</string>
+    <string name="step_quiz_action_button_submit">Send</string>
+    <string name="step_quiz_appbar_tooltip_title">Info</string>
+    <string name="reload">Reload</string>
+
+    <!--svg paths-->
+    <string name="arrow_bottom_path" translatable="false">M 4.06 2.513 L 22.547 21 C 23.365 21.816 24.692 21.816 25.508 21 L 43.995 2.513</string>
+    <string name="arrow_top_path" translatable="false">M 4.06 22 L 22.547 3.513 C 23.365 2.697 24.692 2.697 25.508 3.512 L 43.995 22</string>
+
+    <!-- Notification channel names -->
+    <string name="other_channel_name">Other</string>
+    <string name="daily_reminder_channel_name">Daily reminders</string>
+
 </resources>

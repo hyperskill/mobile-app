@@ -1,0 +1,16 @@
+What to Test:
+1. Sign in with Apple ALTAPPS-100
+2. Regenerate Google Sign-In configuration file ALTAPPS-238
+3. Ask user permission for receiving notifications after daily step complete ALTAPPS-242
+4. Onboarding improvements for new users ALTAPPS-244
+5. Improve states after Problem of the day is completed ALTAPPS-251
+6. Send all analytic events ALTAPPS-265
+7. Scheduling notifications when notifications are disabled in settings ALTAPPS-273
+8. Fix notifications are not sent in the scheduled time period ALTAPPS-274
+9. Bug reports / Feedback collection in the app ALTAPPS-279
+10. Analytics for notifications ALTAPPS-285
+11. Fix problems feedback not visible ALTAPPS-290
+12. Fix code quiz buttons don't work after background ALTAPPS-291
+13. Route to Home on Daily Notification click ALTAPPS-292
+14. Send view events to analytic with guarantee ALTAPPS-293
+15. Fix infinite loading after log out ALTAPPS-294

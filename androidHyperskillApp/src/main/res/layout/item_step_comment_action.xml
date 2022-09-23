@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.button.MaterialButton xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.AppTheme.Button.OutlinedButton"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:insetTop="0dp"
+    android:insetBottom="0dp"
+    android:theme="@style/ThemeOverlay.Blue"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/stepTheoryPracticeActionEnd"
+    tools:text="Comments (0)" />

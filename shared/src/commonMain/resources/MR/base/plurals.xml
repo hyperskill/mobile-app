@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <plural name="seconds">
+        <item quantity="one">%d second</item>
+        <item quantity="other">%d seconds</item>
+    </plural>
+    <plural name="minutes">
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plural>
+    <plural name="hours">
+        <item quantity="one">%d hour</item>
+        <item quantity="other">%d hours</item>
+    </plural>
+    <plural name="days">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plural>
+    <plural name="users">
+        <item quantity="one">%d user</item>
+        <item quantity="other">%d users</item>
+    </plural>
+    <plural name="projects">
+        <item quantity="one">%d project</item>
+        <item quantity="other">%d projects</item>
+    </plural>
+    <plural name="topics">
+        <item quantity="one">%d topic</item>
+        <item quantity="other">%d topics</item>
+    </plural>
+</resources>

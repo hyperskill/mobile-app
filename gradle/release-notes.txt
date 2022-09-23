@@ -1,0 +1,15 @@
+What to Test:
+1. Fix Streak and Daily problem aren't updated if Daily problem is solved in Web ALTAPPS-256
+2. Update login, splash, onboarding screens ALTAPPS-259
+3. Send all analytic events ALTAPPS-265
+4. Fix problems with feedback for incorrect solutions ALTAPPS-267
+5. Remove edit profile button ALTAPPS-268
+6. Remove Show discussion button ALTAPPS-269
+7. Make Problem of the day card clickable ALTAPPS-271
+8. Bug reports / Feedback collection in the app ALTAPPS-281
+9. Remove "Delete account" button from settings ALTAPPS-282
+10. Onboarding improvements for new users ALTAPPS-283
+11. Fix "Reset password" button on sign in with email screen does not redirect ALTAPPS-284
+12. Fix default LatexWebView background color ALTAPPS-286
+13. Fix Scroll in track screen ALTAPPS-287
+14. Sync notifications enabled status between app settings and device settings ALTAPPS-289

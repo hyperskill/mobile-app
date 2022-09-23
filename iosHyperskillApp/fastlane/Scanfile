@@ -1,0 +1,5 @@
+scheme("iosHyperskillApp")
+
+clean(true)
+
+output_types("html")

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/stepTheoryAppBar"
+        layout="@layout/view_step_appbar" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/step_content_padding">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/stepTheorySubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/step_theory_text"
+                android:textAppearance="?textAppearanceSubtitle1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Theory" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/stepTheoryTimeToComplete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:gravity="center_vertical"
+                android:textAppearance="?textAppearanceBody2"
+                android:textColor="?android:textColorSecondary"
+                app:layout_constraintLeft_toLeftOf="@id/stepTheorySubtitle"
+                app:layout_constraintTop_toBottomOf="@id/stepTheorySubtitle"
+                tools:drawableStart="@drawable/ic_time"
+                tools:text="3 minutes reading" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/stepTheoryPracticeActionBeginning"
+                style="@style/Widget.AppTheme.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/step_theory_elements_margin"
+                android:text="@string/step_start_practicing_text"
+                android:theme="@style/ThemeOverlay.Green"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/stepTheoryTimeToComplete" />
+
+            <FrameLayout
+                android:id="@+id/stepTheoryContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/step_theory_elements_margin"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/stepTheoryPracticeActionBeginning"/>
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/stepTheoryReactionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/step_theory_elements_margin"
+                android:textAppearance="?textAppearanceBody1"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/stepTheoryContent"
+                tools:text="How did you like the theory?" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/stepTheoryRatingRecycler"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/step_theory_elements_margin"
+                android:background="@drawable/bg_shape_rounded"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/stepTheoryReactionTitle"
+                tools:itemCount="5"
+                tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_step_theory_rating"
+                tools:orientation="horizontal" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/stepTheoryPracticeActionEnd"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/step_theory_elements_margin"
+                android:text="@string/step_start_practicing_text"
+                android:theme="@style/ThemeOverlay.Green"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/stepTheoryRatingRecycler" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/stepTheoryCommentStatisticsRecycler"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/step_theory_comments_statistics_recycler_top_margin"
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/stepTheoryPracticeActionEnd"
+                tools:itemCount="4"
+                tools:listitem="@layout/item_step_comment_action" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/stepTheoryFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/step_theory_fab_margin"
+        android:layout_marginTop="@dimen/step_theory_fab_margin"
+        android:src="@drawable/ic_toolbar_back"
+        android:theme="@style/StepFloatingActionButton"
+        android:visibility="invisible"
+        app:layout_anchorGravity="top|start"
+        app:tint="?colorControlNormal" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

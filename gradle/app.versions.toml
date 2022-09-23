@@ -1,0 +1,6 @@
+[versions]
+minSdk = '24'
+targetSdk = '31'
+compileSdk = '31'
+versionName = '1.0'
+versionCode = '13'

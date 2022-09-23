@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="alphaEmphasisHigh" format="float" />
+    <attr name="alphaEmphasisMedium" format="float" />
+    <attr name="alphaEmphasisDisabled" format="float" />
+
+    <attr name="appBarElevation" format="dimension|reference" />
+
+    <attr name="dividerVerticalSize" format="dimension|reference" />
+
+    <attr name="buttonCornerRadius" format="dimension|reference" />
+
+    <attr name="selectableItemBackgroundRounded" format="reference" />
+
+    <attr name="isNightMode" format="boolean" />
+
+    <declare-styleable name="LoadingView">
+        <attr name="radius" format="dimension"/>
+        <attr name="duration" format="integer"/>
+        <attr name="interval" format="integer"/>
+        <attr name="baseColor" format="reference|color"/>
+        <attr name="deepColor" format="reference|color"/>
+        <attr name="progressLength" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="LatexView">
+        <attr name="webViewId" format="reference" />
+        <attr name="textViewId" format="reference" />
+    </declare-styleable>
+</resources>

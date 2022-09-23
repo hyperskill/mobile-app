@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <!-- General -->
+    <string name="connection_error">Connection was lost</string>
+    <string name="common_error">Sorry, something went wrong: please try again later.</string>
+    <string name="external_link_error">Unable to open link: %s</string>
+    <string name="done">Done</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="later">Later</string>
+
+    <!-- Users list -->
+    <string name="user_list_search_button_title">Search</string>
+    <string name="user_list_home_user_name_hint">User name</string>
+
+    <!-- Auth -->
+    <string name="auth_log_in_title">Sign in to My Hyperskill</string>
+    <string name="auth_jetbrains_account_text">JetBrains Account</string>
+    <string name="auth_google_account_text">Google</string>
+    <string name="auth_github_account_text">GitHub</string>
+    <string name="auth_apple_account_text">Sign in with Apple</string>
+    <string name="auth_email_text">Continue with email</string>
+    <string name="auth_social_email_already_used">The email associated with this social network is already in use. Try authorizing via email</string>
+    <string name="auth_social_email_not_provided_by_social">Authorization error: email is not provided by social network</string>
+
+    <!-- Auth credentials -->
+    <string name="auth_credentials_social_text">Continue with social networks</string>
+    <string name="auth_credentials_reset_password_text">Reset password</string>
+    <string name="auth_credentials_log_in_text">Sign in</string>
+    <string name="auth_credentials_email_placeholder">Email</string>
+    <string name="auth_credentials_password_placeholder">Password</string>
+    <string name="auth_credentials_error_text">Unable to sign in. If you registered with a third-party account (e.g.
+        Google), using your email as a login may not work. Try to sign in with a third-party account, or reset your
+        password.
+    </string>
+    <string name="auth_credentials_email_empty">Please enter an email address</string>
+    <string name="auth_credentials_password_empty">Please enter a password</string>
+
+    <!-- Step -->
+    <string name="step_theory_text">Theory</string>
+    <string name="step_start_practicing_text">Start practicing</string>
+    <string name="step_rating_text_part_1">How did you like the</string>
+    <string name="step_rating_text_part_2">theory?</string>
+    <string name="step_theory_reading_text">%s reading</string>
+    <string name="step_comment_thread_statistics_text">%s (%s)</string>
+    <string name="step_comment_thread_type_comment_text">Comments</string>
+    <string name="step_comment_thread_type_hint_text">Hint</string>
+    <string name="step_comment_thread_type_useful_link_text">Useful links</string>
+    <string name="step_comment_thread_type_solutions_text">Solutions</string>
+
+    <!-- Step quiz -->
+    <string name="step_quiz_status_correct_text">You’re absolutely correct!</string>
+    <string name="step_quiz_status_wrong_text">Not correct, but keep on trying\nand never give up!</string>
+    <string name="step_quiz_status_evaluation_text">Evaluation...</string>
+    <string name="step_quiz_stats_text">%s solved this problem. Latest completion was %s ago.</string>
+    <string name="step_quiz_feedback_title">FEEDBACK:</string>
+    <string name="step_quiz_hint_button_text">See hint</string>
+    <string name="step_quiz_continue_button_text">Continue</string>
+    <string name="step_quiz_retry_button_text">Retry</string>
+    <string name="step_quiz_send_button_text">Send</string>
+    <string name="step_quiz_checking_button_text">Checking</string>
+    <string name="step_quiz_discussions_button_text">Show discussions</string>
+    <string name="step_quiz_unsupported_quiz_text">Current quiz type is not supported in mobile app yet</string>
+
+    <!-- Step quiz choice -->
+    <string name="step_quiz_choice_single_choice_title">Select one option from the list</string>
+    <string name="step_quiz_choice_multiple_choice_title">Select one or more options from the list</string>
+    <string name="step_quiz_choice_empty_reply">Choose an option</string>
+
+    <!-- Step quiz sorting -->
+    <string name="step_quiz_sorting_description">Sort a given list</string>
+    <string name="step_quiz_sorting_title">Put the items in the correct order</string>
+
+    <!-- Step quiz matching -->
+    <string name="step_quiz_matching_title">Match the items from left and right columns</string>
+
+    <!-- Step quiz table -->
+    <string name="step_quiz_table_single_choice_title">Choose one option for each row</string>
+    <string name="step_quiz_table_multiple_choice_title">Choose one or multiple options for each row</string>
+    <string name="step_quiz_table_single_choice">Choose one option</string>
+    <string name="step_quiz_table_multiple_choice">Choose one or more options</string>
+    <string name="step_quiz_table_confirm_choice">Confirm</string>
+
+    <!-- Step quiz math -->
+    <string name="step_quiz_math_title">Enter a math formula</string>
+
+    <!-- Step quiz number -->
+    <string name="step_quiz_number_title">Enter a number</string>
+
+    <!-- Step quiz string -->
+    <string name="step_quiz_string_title">Enter a short text</string>
+
+    <!-- Step quiz string / number math -->
+    <string name="step_quiz_text_field_hint">Type your answer here...</string>
+    <string name="step_quiz_text_invalid_number_reply">The answer must be a number</string>
+    <string name="step_quiz_text_empty_reply">The answer cannot be empty</string>
+
+    <!-- Step quiz code -->
+    <string name="step_quiz_code_title">Write a program</string>
+    <string name="step_quiz_code_detail_sample_input_title">Sample Input %d:</string>
+    <string name="step_quiz_code_detail_sample_output_title">Sample Output %d:</string>
+    <string name="step_quiz_code_detail_execution_time_limit_title">Time limit:</string>
+    <string name="step_quiz_code_detail_execution_memory_limit_title">Memory limit:</string>
+    <string name="step_quiz_code_detail_execution_memory_limit_value">%d MB</string>
+    <string name="step_quiz_code_details">Input / Output Info</string>
+    <string name="step_quiz_code_write_program_text">Write a program</string>
+    <string name="step_quiz_code_run_solution_button_text">Run solution</string>
+    <string name="reset_code_dialog_title">Are you sure?</string>
+    <string name="reset_code_dialog_explanation">Your code will be lost</string>
+    <string name="step_quiz_code_full_screen_details_tab">Details</string>
+    <string name="step_quiz_code_full_screen_code_tab">Code</string>
+    <string name="step_quiz_code_empty_lang">No lang</string>
+    <string name="step_quiz_code_reset">Reset</string>
+
+    <!-- Tab bar -->
+    <string name="tab_bar_home_title">Home</string>
+    <string name="tab_bar_track_title">Track</string>
+    <string name="tab_bar_profile_title">Profile</string>
+
+    <!-- Home -->
+    <string name="home_title">Home</string>
+    <string name="home_hello_lets_learn_text">Hello!\nLet’s learn something</string>
+    <string name="home_keep_practicing_text">Keep practicing to achieve your learning goal</string>
+
+    <!-- Track -->
+    <string name="track_title">Track</string>
+    <string name="track_learning_now_text">Learning now</string>
+    <string name="track_time_to_complete_text">Time to complete the track</string>
+    <string name="track_completed_graduate_project_text">Completed graduate projects</string>
+    <string name="track_completed_topics_text">Completed topics</string>
+    <string name="track_applied_core_topics_text">Applied core topics by completing project stages</string>
+    <string name="track_about_text">About</string>
+    <string name="track_continue_in_web_text">Continue learning on the web</string>
+
+    <!-- Profile -->
+    <string name="profile_title">Profile</string>
+    <string name="profile_about_me_text">About me</string>
+    <string name="profile_lives_in_text">Lives in</string>
+    <string name="profile_speaks_text">Speaks</string>
+    <string name="profile_bio_text">Bio</string>
+    <string name="profile_experience_text">Experience</string>
+    <string name="profile_view_full_version_button_text">View the full version of profile in web</string>
+    <string name="profile_role_staff_text">JetBrains Academy Team</string>
+    <string name="profile_role_learner_text">Learner</string>
+    <string name="profile_daily_study_reminders_text">Daily study reminders</string>
+    <string name="profile_daily_study_reminders_schedule_text">Schedule:</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_theme_system">System</string>
+    <string name="settings_about">About</string>
+    <string name="settings_terms_of_service">JetBrains Academy Terms of Service</string>
+    <string name="settings_privacy_policy">Hyperskill Terms of Service and Privacy Policy</string>
+    <string name="settings_report_problem">Report a problem</string>
+    <string name="settings_send_feedback">Send feedback</string>
+    <string name="settings_version">Version</string>
+    <string name="settings_rate_application">Rate this application</string>
+    <string name="settings_logout">Logout</string>
+    <string name="settings_logout_dialog_title">Please confirm</string>
+    <string name="settings_logout_dialog_explanation">Are you sure you want to log out?</string>
+    <string name="settings_delete_account">Delete account</string>
+    <string name="settings_account_deletion_dialog_title">Are you sure you want to delete your account?</string>
+    <string name="settings_account_deletion_dialog_explanation">Your account on Hyperskill (JetBrains Academy) will be deleted. You will no longer be able to use this account both in the app and on the website.</string>
+    <string name="settings_account_deletion_dialog_delete_button_text">Delete</string>
+    <string name="settings_terms_of_service_url">https://www.jetbrains.com/legal/terms/jetbrains-academy.html</string>
+    <string name="settings_privacy_policy_url">https://hi.hyperskill.org/terms</string>
+    <string name="settings_report_problem_url">https://support.hyperskill.org/hc/en-us/requests/new</string>
+    <string name="settings_account_deletion_url">https://hyperskill.org/delete-account</string>
+    <string name="choose_notification_time_interval">Change notification interval</string>
+
+    <!-- Placeholder -->
+    <string name="placeholder_network_error_title">Oops! It seems like the network error.</string>
+    <string name="placeholder_network_error_button_text">Reload</string>
+
+    <!-- Streak -->
+    <string name="streak_solving_problem_text">Solving problems streak</string>
+    <string name="streak_keep_solving_problems_text">Keep solving problems</string>
+    <string name="streak_previous_five_days_text">your previous 5 days</string>
+    <string name="streak_today_text">today</string>
+    <string name="streak_days_text">days</string>
+
+    <!-- Daily problem -->
+    <string name="problem_of_day_title_uncompleted">Problem of the day</string>
+    <string name="problem_of_day_title_completed">Problem of the day solved</string>
+    <string name="problem_of_day_no_problems_to_solve">No problems to solve. Complete more topics to unlock a new problem.</string>
+    <string name="problem_of_day_solve_a_random_problem">Solve a random problem using the topics you already know to practice what you\'ve learned.</string>
+    <string name="problem_of_day_get_back">Get back later to solve another problem.</string>
+    <string name="problem_of_day_next_problem_in">Next problem in</string>
+    <string name="problem_of_day_hours_and_minutes">%d hrs %d mins</string>
+    <string name="problem_of_day_minutes">%d minutes</string>
+
+    <!-- Placeholder for new users -->
+    <string name="placeholder_register_text">Sign up and select a track</string>
+    <string name="placeholder_instruction_text">To get access to the content you should register at our website and select a learning track.</string>
+    <string name="placeholder_continue_button_text">Continue to hyperskill.org \u2197</string>
+    <string name="placeholder_continue_button_text_ios">Continue to hyperskill.org ↗</string>
+    <string name="placeholder_first_description_text">My Hyperskill helps you practice what you’ve learned and stay on top of your studies. We are working hard to bring even more features. Stay tuned :)</string>
+
+    <!--  Notifications titles & descriptions  -->
+    <string name="notification1_title">Keep it up</string>
+    <string name="notification1_text">Taking the first step is half the battle. You\'re doing great! Let\'s practice for a bit to keep your learning streak going.</string>
+
+    <string name="notification2_title">Eyes on the prize</string>
+    <string name="notification2_text">Even 5 minutes of studying will bring you closer to your learning goal. Come practice now!</string>
+
+    <string name="notification3_title">A little practice will take you a long way</string>
+    <string name="notification3_text">Daily study sessions are the best way to keep your coding skills sharp. Let\'s practice now!</string>
+
+    <string name="notification4_title">Ready to crush your learning session?</string>
+    <string name="notification4_text">Remember: progress beats perfection. Five minutes of daily practice will quickly amount to solid achievements. Let\'s study now!</string>
+
+    <string name="notification5_title">Your daily practice reminder</string>
+    <string name="notification5_text">Take 5 minutes to practice your coding skills now.</string>
+
+    <string name="notification6_title">Hey! Do you have a minute?</string>
+    <string name="notification6_text">It\'s time for your daily practice. Solve a problem to stay on top of your studies.</string>
+
+    <string name="notification7_title">Practice makes perfect</string>
+    <string name="notification7_text">Completing even one programming task a day will keep your skills in top shape.</string>
+
+    <string name="notification8_title">Hello, world!</string>
+    <string name="notification8_text">Your study session today might seem like a small step, but it\'s a giant leap towards your learning goal. Come practice now!</string>
+
+    <string name="notification9_title">It\'s time for your study session</string>
+    <string name="notification9_text">Take a moment to practice to continue your learning streak.</string>
+
+    <string name="notification10_title">Don\'t let your efforts go to waste</string>
+    <string name="notification10_text">Regular practice sessions are the key to consistent results. Come study now!</string>
+
+    <string name="notification11_title">Don\'t give up now!</string>
+    <string name="notification11_text">Making the first step is the hardest part. But you\'re doing amazing so far! Study now to keep your skills in top shape.</string>
+
+    <string name="notification12_title">Keep calm and learn programming</string>
+    <string name="notification12_text">Take it one step at a time: daily study sessions are the quickest way to achieve your learning goals.</string>
+
+    <string name="notification13_title">No one:</string>
+    <string name="notification13_text">Me: Celebrating that I finally got a different error message 🥹</string>
+
+    <string name="notification14_title">No one:</string>
+    <string name="notification14_text">Me: If the IDE knows I\'m missing a semicolon, why won\'t it just add it itself? 🤔</string>
+
+    <!--  Onboarding  -->
+    <string name="onboarding_title">Welcome\nto My Hyperskill</string>
+    <string name="onboarding_text">Regular practice is key to mastering new skills. Learn on the web and practice with My Hyperskill to keep up your learning streak and stay on top of your studies.</string>
+    <string name="onboarding_sign_in">Sign in</string>
+    <string name="onboarding_sign_up">Sign up</string>
+
+    <!-- Text for receiving notification after daily step is complete -->
+    <string name="after_daily_step_completed_dialog_title">Stay motivated with daily reminders</string>
+    <string name="after_daily_step_completed_dialog_text">The app will send you notifications to practice everyday and keep up your learning streak</string>
+</resources>

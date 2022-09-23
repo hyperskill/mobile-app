@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/settingsAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="?appBarElevation">
+
+        <include
+            android:id="@+id/settingsCenteredToolbar"
+            layout="@layout/view_centered_toolbar" />
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <include layout="@layout/view_divider_vertical" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_surface"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/settings_appearance"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/color_primary" />
+
+        <FrameLayout
+            android:id="@+id/settingsThemeButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:paddingVertical="13dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="@string/settings_theme"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/settingsThemeChosenTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="@string/settings_theme_light"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/color_primary"
+                android:textSize="16sp" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@color/color_surface"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/settings_about"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/color_primary" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/settingsTermsOfServiceButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
+            android:padding="0dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="16dp"
+            android:text="@string/settings_terms_of_service"
+            android:textAlignment="textStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/color_on_surface"
+            android:textSize="16sp"
+            app:rippleColor="@android:color/transparent" />
+
+        <include
+            layout="@layout/view_divider_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="?dividerVerticalSize"
+            android:layout_marginStart="20dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/settingsPrivacyPolicyButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
+            android:padding="0dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="16dp"
+            android:text="@string/settings_privacy_policy"
+            android:textAlignment="textStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/color_on_surface"
+            android:textSize="16sp"
+            app:rippleColor="@android:color/transparent" />
+
+        <include
+            layout="@layout/view_divider_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="?dividerVerticalSize"
+            android:layout_marginStart="20dp" />
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="?selectableItemBackground"
+            android:paddingStart="20dp"
+            android:paddingTop="13dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="@string/settings_version"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/settingsVersionTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="0.0.0"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/color_primary"
+                android:textSize="16sp" />
+
+        </FrameLayout>
+
+        <include
+            layout="@layout/view_divider_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="?dividerVerticalSize"
+
+            android:layout_marginStart="20dp" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/settingsRateAppButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
+            android:padding="0dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="16dp"
+            android:text="@string/settings_rate_application"
+            android:textAlignment="textStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="16sp"
+            app:rippleColor="@android:color/transparent" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@color/color_surface"
+        android:orientation="vertical">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/settingsSendFeedbackButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
+            android:padding="0dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="16dp"
+            android:text="@string/settings_send_feedback"
+            android:textAlignment="textStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/color_on_surface"
+            android:textSize="16sp"
+            app:rippleColor="@android:color/transparent" />
+
+        <include
+            layout="@layout/view_divider_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="?dividerVerticalSize"
+            android:layout_marginStart="20dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/settingsReportProblemButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
+            android:padding="0dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="16dp"
+            android:text="@string/settings_report_problem"
+            android:textAlignment="textStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/color_on_surface"
+            android:textSize="16sp"
+            app:rippleColor="@android:color/transparent" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@color/color_surface">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/settingsLogoutButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
+            android:padding="0dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="16dp"
+            android:text="@string/settings_logout"
+            android:textAlignment="textStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/color_error"
+            android:textSize="16sp"
+            app:rippleColor="@android:color/transparent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@color/color_surface">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/settingsDeleteAccountButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
+            android:padding="0dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="16dp"
+            android:text="@string/settings_delete_account"
+            android:textAlignment="textStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/color_error"
+            android:textSize="16sp"
+            app:rippleColor="@android:color/transparent" />
+    </LinearLayout>
+
+</LinearLayout>
