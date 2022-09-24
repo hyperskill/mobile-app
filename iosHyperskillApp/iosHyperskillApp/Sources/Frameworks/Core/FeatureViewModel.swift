@@ -36,6 +36,7 @@ class FeatureViewModel<State, Message, ViewAction>: ObservableObject {
     // MARK: Public API
 
     func onNewMessage(_ message: Message) {
+        assert(Thread.current.isMainThread)
         self.feature.onNewMessage(message_: message)
     }
 
