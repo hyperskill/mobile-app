@@ -3,7 +3,7 @@ name: Feature Branch CI
 on:
     push:
         branches:
-            - 'feature/**'
+            - "feature/**"
 
 jobs:
     ci:
@@ -22,4 +22,5 @@ jobs:
             - name: Run ktlint
               run: bash ./gradlew ktlintCheck --stacktrace
               env:
-                GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  GITHUB_USER: ${{ github.actor }}
+                  GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
