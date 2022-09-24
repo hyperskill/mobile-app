@@ -66,7 +66,7 @@ class HomeActionDispatcher(
         when (action) {
             is Action.FetchHomeScreenData -> {
                 val currentProfile = profileInteractor
-                    .getCurrentProfile(DataSourceType.REMOTE)
+                    .getCurrentProfile(DataSourceType.REMOTE) // ALTAPPS-303: Get from remote to get relevant problem of the day
                     .getOrElse {
                         onNewMessage(Message.HomeFailure)
                         return
