@@ -223,7 +223,9 @@ struct StepQuizView: View {
             default:
                 EmptyView()
             }
-        } else if let replyValidationError =
+        }
+
+        if let replyValidationError =
                     attemptLoadedState.submissionValidationState as? StepQuizFeatureSubmissionValidationStateError {
             StepQuizStatusView(state: .wrong(replyValidationError.message))
         }
