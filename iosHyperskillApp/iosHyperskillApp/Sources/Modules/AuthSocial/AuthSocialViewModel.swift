@@ -26,17 +26,20 @@ final class AuthSocialViewModel: FeatureViewModel<
 
     func signIn(with provider: SocialAuthProvider) {
         logClickedSignInWithSocialEvent(provider: provider)
-        Task {
+
+        Task(priority: .userInitiated) {
             do {
                 let response = try await self.socialAuthService.signIn(with: provider)
 
-                let message = AuthSocialFeatureMessageAuthWithSocial(
-                    authCode: response.authorizationCode,
-                    idToken: response.identityToken,
-                    socialAuthProvider: provider.sharedType
-                )
+                await MainActor.run {
+                    let message = AuthSocialFeatureMessageAuthWithSocial(
+                        authCode: response.authorizationCode,
+                        idToken: response.identityToken,
+                        socialAuthProvider: provider.sharedType
+                    )
 
-                self.onNewMessage(message)
+                    self.onNewMessage(message)
+                }
             } catch {
                 #if DEBUG
                 print("AuthSocialViewModel :: signIn error = \(error)")
@@ -46,10 +49,8 @@ final class AuthSocialViewModel: FeatureViewModel<
                     return
                 }
 
-                let viewAction = AuthSocialFeatureActionViewActionShowAuthError(socialError: .connectionProblem)
-
                 await MainActor.run {
-                    self.onViewAction?(viewAction)
+                    self.onViewAction?(AuthSocialFeatureActionViewActionShowAuthError(socialError: .connectionProblem))
                 }
             }
         }
