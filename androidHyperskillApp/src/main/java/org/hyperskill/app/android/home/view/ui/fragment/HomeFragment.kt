@@ -5,9 +5,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
@@ -64,10 +64,21 @@ class HomeFragment :
         }
 
         viewBinding.homeScreenKeepLearningInWebButton.setOnClickListener {
+            homeViewModel.onNewMessage(HomeFeature.Message.ClickedContinueLearningOnWebEventMessage)
+
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(BuildKonfig.BASE_URL)
             startActivity(intent)
         }
+
+//        viewBinding.homeOpenStepButton.setOnClickListener {
+//            val stepId = viewBinding.homeOpenStepInputEditText.text.toString().toLongOrNull()
+//            if (stepId == null) {
+//                view.snackbar("Insert a valid number", Snackbar.LENGTH_SHORT)
+//            } else {
+//                requireRouter().navigateTo(StepScreen(stepId))
+//            }
+//        }
 
         homeViewModel.onNewMessage(HomeFeature.Message.Init(forceUpdate = false))
         homeViewModel.onNewMessage(HomeFeature.Message.ViewedEventMessage)

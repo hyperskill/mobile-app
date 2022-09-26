@@ -36,6 +36,7 @@ class FeatureViewModel<State, Message, ViewAction>: ObservableObject {
     // MARK: Public API
 
     func onNewMessage(_ message: Message) {
+        assert(Thread.current.isMainThread)
         self.feature.onNewMessage(message_: message)
     }
 
@@ -66,7 +67,9 @@ class FeatureViewModel<State, Message, ViewAction>: ObservableObject {
             return
         }
 
-        self.objectWillChange.send()
+        DispatchQueue.main.async {
+            self.objectWillChange.send()
+        }
     }
 
     private func handleState(_ newState: Any?) {

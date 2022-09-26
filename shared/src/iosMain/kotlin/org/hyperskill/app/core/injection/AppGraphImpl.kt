@@ -8,6 +8,7 @@ import org.hyperskill.app.auth.injection.AuthCredentialsComponent
 import org.hyperskill.app.auth.injection.AuthCredentialsComponentImpl
 import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponentImpl
+import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.HomeComponentImpl
@@ -37,10 +38,11 @@ import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.track.injection.TrackComponentImpl
 
 class AppGraphImpl(
-    userAgentInfo: UserAgentInfo
+    userAgentInfo: UserAgentInfo,
+    buildVariant: BuildVariant
 ) : iOSAppComponent {
     override val commonComponent: CommonComponent =
-        CommonComponentImpl(userAgentInfo)
+        CommonComponentImpl(userAgentInfo, buildVariant)
 
     override val networkComponent: NetworkComponent =
         NetworkComponentImpl(this)

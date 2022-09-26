@@ -15,6 +15,7 @@ import kotlinx.datetime.plus
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeFeature.Action
@@ -65,7 +66,7 @@ class HomeActionDispatcher(
         when (action) {
             is Action.FetchHomeScreenData -> {
                 val currentProfile = profileInteractor
-                    .getCurrentProfile()
+                    .getCurrentProfile(DataSourceType.REMOTE) // ALTAPPS-303: Get from remote to get relevant problem of the day
                     .getOrElse {
                         onNewMessage(Message.HomeFailure)
                         return

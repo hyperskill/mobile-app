@@ -9,7 +9,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // swiftlint:disable:next weak_delegate
     private lazy var userNotificationsCenterDelegate = UserNotificationsCenterDelegate()
     private lazy var notificationsService = NotificationsService()
-    private lazy var notificationPermissionStatusSettingsObserver = NotificationPermissionStatusSettingsObserver()
+    private lazy var notificationPermissionStatusSettingsObserver = NotificationPermissionStatusSettingsObserver.default
 
     // MARK: Initializing the App
 

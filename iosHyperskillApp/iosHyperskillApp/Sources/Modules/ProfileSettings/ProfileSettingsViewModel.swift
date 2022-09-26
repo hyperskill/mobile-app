@@ -35,7 +35,9 @@ final class ProfileSettingsViewModel: FeatureViewModel<
     }
 
     func doSignOut() {
-        onNewMessage(ProfileSettingsFeatureMessageSignOutConfirmed())
+        WebCacheCleaner.clean {
+            self.onNewMessage(ProfileSettingsFeatureMessageSignOutConfirmed())
+        }
     }
 
     func doSendFeedback() {
@@ -85,6 +87,16 @@ final class ProfileSettingsViewModel: FeatureViewModel<
 
     func logClickedSignOutEvent() {
         onNewMessage(ProfileSettingsFeatureMessageClickedSignOutEventMessage())
+    }
+
+    func logSignOutNoticeShownEvent() {
+        onNewMessage(ProfileSettingsFeatureMessageSignOutNoticeShownEventMessage())
+    }
+
+    func logSignOutNoticeHiddenEvent(isConfirmed: Bool) {
+        onNewMessage(
+            ProfileSettingsFeatureMessageSignOutNoticeHiddenEventMessage(isConfirmed: isConfirmed)
+        )
     }
 
     func logClickedDeleteAccountEvent() {

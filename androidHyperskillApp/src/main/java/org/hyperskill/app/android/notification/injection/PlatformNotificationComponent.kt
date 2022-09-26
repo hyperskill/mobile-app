@@ -4,7 +4,7 @@ import org.hyperskill.app.android.notification.HyperskillNotificationManager
 import org.hyperskill.app.android.notification.NotificationDelegate
 import org.hyperskill.app.android.notification.NotificationPublisher
 import org.hyperskill.app.android.notification.DailyStudyReminderNotificationDelegate
-import org.hyperskill.app.notification.domain.NotificationInteractor
+import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
 
 interface PlatformNotificationComponent {
     val notificationInteractor: NotificationInteractor

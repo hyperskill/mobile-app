@@ -9,6 +9,7 @@ import com.russhwolf.settings.Settings
 import kotlinx.serialization.json.Json
 import org.hyperskill.app.BuildConfig
 import org.hyperskill.app.Platform
+import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.ResourceProviderImpl
@@ -16,7 +17,8 @@ import org.hyperskill.app.network.injection.NetworkModule
 
 class CommonComponentImpl(
     application: Application,
-    override val userAgentInfo: UserAgentInfo
+    override val userAgentInfo: UserAgentInfo,
+    override val buildVariant: BuildVariant
 ) : CommonComponent {
 
     override val json: Json =

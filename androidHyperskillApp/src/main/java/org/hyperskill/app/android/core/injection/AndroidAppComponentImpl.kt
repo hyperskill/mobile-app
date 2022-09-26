@@ -22,6 +22,7 @@ import org.hyperskill.app.auth.injection.PlatformAuthSocialComponent
 import org.hyperskill.app.auth.injection.PlatformAuthSocialComponentImpl
 import org.hyperskill.app.auth.injection.PlatformAuthSocialWebViewComponent
 import org.hyperskill.app.auth.injection.PlatformAuthSocialWebViewComponentImpl
+import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.injection.CommonComponent
 import org.hyperskill.app.core.injection.CommonComponentImpl
 import org.hyperskill.app.core.remote.UserAgentInfo
@@ -72,13 +73,14 @@ import org.hyperskill.app.track.injection.TrackComponentImpl
 
 class AndroidAppComponentImpl(
     private val application: Application,
-    userAgentInfo: UserAgentInfo
+    userAgentInfo: UserAgentInfo,
+    buildVariant: BuildVariant
 ) : AndroidAppComponent {
     override val context: Context
         get() = application
 
     override val commonComponent: CommonComponent =
-        CommonComponentImpl(application, userAgentInfo)
+        CommonComponentImpl(application, userAgentInfo, buildVariant)
 
     override val mainComponent: MainComponent =
         MainComponentImpl(this)

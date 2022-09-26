@@ -82,12 +82,13 @@ platform :ios do
 
     deliver(
       force: true,
+      metadata_path: "./fastlane/metadata",
       app_identifier: app_identifier,
 
       # submit options
       submit_for_review: false,
       skip_screenshots: true,
-      skip_metadata: true,
+      skip_metadata: false,
       phased_release: true,
       automatic_release: true,
       submission_information: {

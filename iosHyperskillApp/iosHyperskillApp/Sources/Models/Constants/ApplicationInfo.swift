@@ -26,4 +26,13 @@ enum BuildType: String {
         return .release
         #endif
     }
+
+    var buildVariant: BuildVariant {
+        switch self {
+        case .debug:
+            return BuildVariant.debug
+        case .release:
+            return BuildVariant.release_
+        }
+    }
 }

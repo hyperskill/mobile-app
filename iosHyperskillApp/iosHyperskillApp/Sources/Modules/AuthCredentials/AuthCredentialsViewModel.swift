@@ -26,8 +26,7 @@ final class AuthCredentialsViewModel: FeatureViewModel<
     }
 
     func doFormInputChange(email: String, password: String) {
-        let message = AuthCredentialsFeatureMessageAuthEditing(email: email, password: password)
-        onNewMessage(message)
+        onNewMessage(AuthCredentialsFeatureMessageAuthEditing(email: email, password: password))
     }
 
     func doLogIn() {
@@ -45,8 +44,7 @@ final class AuthCredentialsViewModel: FeatureViewModel<
         WebControllerManager.shared.presentWebControllerWithURL(
             url,
             withKey: .externalLink,
-            allowsSafari: true,
-            backButtonStyle: .done
+            controllerType: .custom()
         )
     }
 

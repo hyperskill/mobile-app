@@ -128,7 +128,17 @@ android {
             signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = true
             isShrinkResources = true
+
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            applyFlavorConfigsFromFile(this)
+
+            firebaseAppDistribution(
+                configure = {
+                    artifactType = "APK"
+                    groups = "all-android-testers"
+                    releaseNotesFile = "gradle/release-notes.txt"
+                }
+            )
         }
     }
 

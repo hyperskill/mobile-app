@@ -5,6 +5,8 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsClickedHyperskillAnalyticEvent
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsDeleteAccountNoticeHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsDeleteAccountNoticeShownHyperskillAnalyticEvent
+import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsSignOutNoticeHiddenHyperskillAnalyticEvent
+import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsSignOutNoticeShownHyperskillAnalyticEvent
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsViewedHyperskillAnalyticEvent
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Action
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Message
@@ -95,6 +97,10 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                         )
                     )
                 )
+            is Message.SignOutNoticeShownEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(ProfileSettingsSignOutNoticeShownHyperskillAnalyticEvent()))
+            is Message.SignOutNoticeHiddenEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(ProfileSettingsSignOutNoticeHiddenHyperskillAnalyticEvent(message.isConfirmed)))
             is Message.ClickedDeleteAccountEventMessage ->
                 state to setOf(
                     Action.LogAnalyticEvent(

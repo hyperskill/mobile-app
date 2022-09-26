@@ -37,6 +37,8 @@ final class NotificationsRegistrationService {
     private func doRequestAuthorizationFlow() {
         Task(priority: .userInitiated) {
             let permissionStatus = await NotificationPermissionStatus.current
+            postCurrentPermissionStatus(permissionStatus)
+
             switch permissionStatus {
             case .notDetermined:
                 if !Self.didShowSystemPermissionAlert {
@@ -68,6 +70,8 @@ final class NotificationsRegistrationService {
 
     @MainActor
     private func resumeRequestAuthorizationContinuation(isGranted: Bool) {
+        postCurrentPermissionStatus()
+
         requestAuthorizationContinuation?.resume(returning: isGranted)
         requestAuthorizationContinuation = nil
 
@@ -75,7 +79,7 @@ final class NotificationsRegistrationService {
     }
 }
 
-// MARK: - NotificationsRegistrationService (Observing) -
+// MARK: - NotificationsRegistrationService (NotificationCenter) -
 
 extension NotificationsRegistrationService {
     private func addObservers() {
@@ -111,6 +115,27 @@ extension NotificationsRegistrationService {
     private func handleApplicationDidEnterBackground() {
         applicationWasInBackground = true
     }
+
+    private func postCurrentPermissionStatus(_ permissionStatus: NotificationPermissionStatus? = nil) {
+        if let permissionStatus = permissionStatus {
+            NotificationCenter.default.post(
+                name: .notificationsRegistrationServiceDidUpdatePermissionStatus,
+                object: permissionStatus
+            )
+        } else {
+            Task {
+                NotificationCenter.default.post(
+                    name: .notificationsRegistrationServiceDidUpdatePermissionStatus,
+                    object: await NotificationPermissionStatus.current
+                )
+            }
+        }
+    }
+}
+
+extension Foundation.Notification.Name {
+    static let notificationsRegistrationServiceDidUpdatePermissionStatus = Foundation.Notification
+        .Name("notificationsRegistrationServiceDidUpdatePermissionStatus")
 }
 
 // MARK: - NotificationsRegistrationService (Request Authorization via Settings) -

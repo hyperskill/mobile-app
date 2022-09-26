@@ -7,7 +7,7 @@ struct OpenURLInsideAppButton: View {
 
     private let webControllerManager: WebControllerManager
     private let webControllerKey: WebControllerManager.WebControllerKey
-    private let webControllerAllowsSafari: Bool
+    private let webControllerType: WebControllerManager.WebControllerType
     private let webControllerBackButtonStyle: WebControllerManager.BackButtonStyle
 
     private let onTap: (() -> Void)?
@@ -17,7 +17,7 @@ struct OpenURLInsideAppButton: View {
         url: URL,
         webControllerManager: WebControllerManager = .shared,
         webControllerKey: WebControllerManager.WebControllerKey = .externalLink,
-        webControllerAllowsSafari: Bool = true,
+        webControllerType: WebControllerManager.WebControllerType,
         webControllerBackButtonStyle: WebControllerManager.BackButtonStyle = .done,
         onTap: (() -> Void)? = nil
     ) {
@@ -25,7 +25,7 @@ struct OpenURLInsideAppButton: View {
         self.url = url
         self.webControllerManager = webControllerManager
         self.webControllerKey = webControllerKey
-        self.webControllerAllowsSafari = webControllerAllowsSafari
+        self.webControllerType = webControllerType
         self.webControllerBackButtonStyle = webControllerBackButtonStyle
         self.onTap = onTap
     }
@@ -36,7 +36,7 @@ struct OpenURLInsideAppButton: View {
             webControllerManager.presentWebControllerWithURL(
                 url,
                 withKey: webControllerKey,
-                allowsSafari: webControllerAllowsSafari,
+                controllerType: webControllerType,
                 backButtonStyle: webControllerBackButtonStyle
             )
         }
@@ -46,7 +46,7 @@ struct OpenURLInsideAppButton: View {
 struct URLButton_Previews: PreviewProvider {
     static var previews: some View {
         if let url = HyperskillURLFactory.makeRegister() {
-            OpenURLInsideAppButton(text: "URL button", url: url)
+            OpenURLInsideAppButton(text: "URL button", url: url, webControllerType: .safari)
         }
     }
 }
