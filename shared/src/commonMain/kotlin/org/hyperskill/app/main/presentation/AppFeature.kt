@@ -14,7 +14,7 @@ interface AppFeature {
         data class Init(val forceUpdate: Boolean = false) : Message
         data class UserAuthorized(val isNewUser: Boolean) : Message
         object UserDeauthorized : Message
-        data class UserAccountStatus(val profile: Profile, val isOnboardingShown: Boolean) : Message
+        data class UserAccountStatus(val profile: Profile) : Message
         object UserAccountStatusError : Message
         object OpenAuthScreen : Message
         object OpenNewUserScreen : Message

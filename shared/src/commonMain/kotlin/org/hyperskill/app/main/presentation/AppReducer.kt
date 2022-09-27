@@ -31,7 +31,7 @@ class AppReducer : StateReducer<State, Message, Action> {
                 }
             is Message.UserDeauthorized ->
                 if (state is State.Ready && state.isAuthorized) {
-                    State.Ready(isAuthorized = false) to setOf(Action.ViewAction.NavigateTo.AuthScreen)
+                    State.Ready(isAuthorized = false) to setOf(Action.ViewAction.NavigateTo.OnboardingScreen)
                 } else {
                     null
                 }
@@ -47,11 +47,7 @@ class AppReducer : StateReducer<State, Message, Action> {
                                 Action.ViewAction.NavigateTo.HomeScreen
                             }
                         } else {
-                            if (message.isOnboardingShown) {
-                                Action.ViewAction.NavigateTo.AuthScreen
-                            } else {
-                                Action.ViewAction.NavigateTo.OnboardingScreen
-                            }
+                            Action.ViewAction.NavigateTo.OnboardingScreen
                         }
 
                     State.Ready(isAuthorized = isAuthorized) to setOf(action)
