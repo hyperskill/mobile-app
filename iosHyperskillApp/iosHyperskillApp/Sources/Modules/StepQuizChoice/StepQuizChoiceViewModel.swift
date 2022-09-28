@@ -2,8 +2,8 @@ import Combine
 import Foundation
 import shared
 
-final class StepQuizChoiceViewModel: ObservableObject {
-    weak var delegate: StepQuizChildQuizDelegate?
+final class StepQuizChoiceViewModel: ObservableObject, StepQuizChildQuizInputProtocol {
+    weak var moduleOutput: StepQuizChildQuizOutputProtocol?
 
     private let dataset: Dataset
     private let reply: Reply?
@@ -27,16 +27,19 @@ final class StepQuizChoiceViewModel: ObservableObject {
         )
     }
 
+    func createReply() -> Reply {
+        Reply(sortingChoices: viewData.choices.map(\.isSelected))
+    }
+
     func doChoiceSelection(at selectedIndex: Int) {
-        if self.viewData.isMultipleChoice {
-            self.viewData.choices[selectedIndex].isSelected.toggle()
+        if viewData.isMultipleChoice {
+            viewData.choices[selectedIndex].isSelected.toggle()
         } else {
-            for index in self.viewData.choices.indices {
-                self.viewData.choices[index].isSelected = index == selectedIndex ? true : false
+            for index in viewData.choices.indices {
+                viewData.choices[index].isSelected = index == selectedIndex ? true : false
             }
         }
 
-        let reply = Reply(sortingChoices: self.viewData.choices.map(\.isSelected))
-        self.delegate?.handleChildQuizSync(reply: reply)
+        moduleOutput?.handleChildQuizSync(reply: createReply())
     }
 }
