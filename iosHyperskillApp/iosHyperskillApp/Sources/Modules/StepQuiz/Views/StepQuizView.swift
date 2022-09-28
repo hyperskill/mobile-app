@@ -217,7 +217,7 @@ struct StepQuizView: View {
             case SubmissionStatus.evaluation:
                 StepQuizStatusView(state: .evaluation)
             case SubmissionStatus.wrong:
-                StepQuizStatusView(state: .wrong(Strings.StepQuiz.quizStatusWrong))
+                StepQuizStatusView(state: .wrong)
             case SubmissionStatus.correct:
                 StepQuizStatusView(state: .correct)
             default:
@@ -227,7 +227,7 @@ struct StepQuizView: View {
 
         if let replyValidationError =
                     attemptLoadedState.submissionValidationState as? StepQuizFeatureSubmissionValidationStateError {
-            StepQuizStatusView(state: .wrong(replyValidationError.message))
+            StepQuizStatusView(state: .invalidReply(message: replyValidationError.message))
         }
     }
 
