@@ -6,7 +6,6 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizTableBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
-import org.hyperskill.app.android.step_quiz.view.model.ReplyResult
 import org.hyperskill.app.android.step_quiz_table.view.adapter.TableSelectionItemAdapterDelegate
 import org.hyperskill.app.android.step_quiz_table.view.fragment.TableColumnSelectionBottomSheetDialogFragment
 import org.hyperskill.app.android.step_quiz_table.view.mapper.TableSelectionItemMapper
@@ -25,7 +24,7 @@ class TableStepQuizFormDelegate(
     containerBinding: FragmentStepQuizBinding,
     binding: LayoutStepQuizTableBinding,
     private val fragmentManager: FragmentManager,
-    private val onQuizChanged: (ReplyResult) -> Unit
+    private val onQuizChanged: (Reply) -> Unit
 ) : StepQuizFormDelegate {
     private val quizDescription = containerBinding.stepQuizDescription
 
@@ -59,21 +58,18 @@ class TableStepQuizFormDelegate(
         tableAdapter.items = tableSelectionItemMapper.mapToTableSelectionItems(state.attempt, submission, StepQuizResolver.isQuizEnabled(state))
     }
 
-    override fun createReply(): ReplyResult =
-        ReplyResult(
-            Reply(
-                choices = tableAdapter
-                    .items
-                    .map {
-                        ChoiceAnswer.Table(
-                            TableChoiceAnswer(
-                                nameRow = it.titleText,
-                                columns = it.tableChoices
-                            )
+    override fun createReply(): Reply =
+        Reply(
+            choices = tableAdapter
+                .items
+                .map {
+                    ChoiceAnswer.Table(
+                        TableChoiceAnswer(
+                            nameRow = it.titleText,
+                            columns = it.tableChoices
                         )
-                    }
-            ),
-            ReplyResult.Validation.Success
+                    )
+                }
         )
 
     fun updateTableSelectionItem(index: Int, columns: List<Cell>) {

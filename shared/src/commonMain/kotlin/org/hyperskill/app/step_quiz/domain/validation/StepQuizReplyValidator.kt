@@ -34,7 +34,7 @@ class StepQuizReplyValidator(private val resourceProvider: ResourceProvider) {
             BlockName.NUMBER -> if (reply.number.isNullOrEmpty() || !reply.number.matches(NUMBER_VALIDATION_REGEX.toRegex())) {
                 return ReplyValidationResult.Error(getErrorMessage(stepBlockName))
             }
-            BlockName.STRING -> if (reply.text.isNullOrEmpty() || reply.files.isNullOrEmpty()) {
+            BlockName.STRING -> if (reply.text.isNullOrEmpty() || reply.files == null) {
                 return ReplyValidationResult.Error(getErrorMessage(stepBlockName))
             }
             BlockName.TABLE -> {

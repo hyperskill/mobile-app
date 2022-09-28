@@ -13,6 +13,7 @@ import org.hyperskill.app.step_quiz.domain.analytic.StepQuizShownDailyNotificati
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
+import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Action
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Message
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.State
@@ -31,7 +32,7 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 }
             is Message.FetchAttemptSuccess ->
                 if (state is State.Loading) {
-                    State.AttemptLoaded(message.attempt, message.submissionState, message.currentProfile, StepQuizFeature.SubmissionValidationState.Success) to emptySet()
+                    State.AttemptLoaded(message.attempt, message.submissionState, message.currentProfile) to emptySet()
                 } else {
                     null
                 }
@@ -55,7 +56,7 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 }
             is Message.CreateAttemptSuccess ->
                 if (state is State.AttemptLoading) {
-                    State.AttemptLoaded(message.attempt, message.submissionState, message.currentProfile, StepQuizFeature.SubmissionValidationState.Success) to emptySet()
+                    State.AttemptLoaded(message.attempt, message.submissionState, message.currentProfile) to emptySet()
                 } else {
                     null
                 }
@@ -67,40 +68,53 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 }
             is Message.CreateSubmissionClicked ->
                 if (state is State.AttemptLoaded) {
-                    state to setOf(Action.ValidateSubmission(message.step, message.reply))
-                } else {
-                    null
-                }
-            is Message.CreateSubmissionValidated ->
-                if (state is State.AttemptLoaded) {
-                    val submission = Submission(
-                        attempt = state.attempt.id,
-                        reply = message.reply,
-                        status = SubmissionStatus.EVALUATION
-                    )
-
                     val analyticRoute = resolveAnalyticRoute(state)
                     val analyticEvent = if (message.step.block.name == BlockName.CODE)
                         StepQuizClickedRunHyperskillAnalyticEvent(analyticRoute)
                     else StepQuizClickedSendHyperskillAnalyticEvent(analyticRoute)
 
-                    state.copy(
-                        submissionState = StepQuizFeature.SubmissionState.Loaded(submission),
-                        submissionValidationState = StepQuizFeature.SubmissionValidationState.Success
-                    ) to setOf(
-                        Action.CreateSubmission(message.step, state.attempt.id, message.reply),
+                    state to setOf(
+                        Action.CreateSubmissionValidateReply(message.step, message.reply),
                         Action.LogAnalyticEvent(analyticEvent)
                     )
                 } else {
                     null
                 }
-            is Message.CreateSubmissionValidationError -> {
+            is Message.CreateSubmissionReplyValidationResult ->
                 if (state is State.AttemptLoaded) {
-                    state.copy(submissionValidationState = message.submissionValidationState) to emptySet()
+                    when (message.replyValidation) {
+                        is ReplyValidationResult.Error -> {
+                            val submission = Submission(
+                                attempt = state.attempt.id,
+                                reply = message.reply,
+                                status = SubmissionStatus.LOCAL
+                            )
+
+                            state.copy(
+                                submissionState = StepQuizFeature.SubmissionState.Loaded(
+                                    submission,
+                                    message.replyValidation
+                                )
+                            ) to emptySet()
+                        }
+                        ReplyValidationResult.Success -> {
+                            val submission = Submission(
+                                attempt = state.attempt.id,
+                                reply = message.reply,
+                                status = SubmissionStatus.EVALUATION
+                            )
+
+                            state.copy(
+                                submissionState = StepQuizFeature.SubmissionState.Loaded(
+                                    submission,
+                                    message.replyValidation
+                                )
+                            ) to setOf(Action.CreateSubmission(message.step, state.attempt.id, message.reply))
+                        }
+                    }
                 } else {
                     null
                 }
-            }
             is Message.CreateSubmissionSuccess ->
                 if (state is State.AttemptLoaded) {
                     state.copy(

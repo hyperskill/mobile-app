@@ -211,23 +211,21 @@ struct StepQuizView: View {
 
     @ViewBuilder
     private func buildQuizStatusView(attemptLoadedState: StepQuizFeatureStateAttemptLoaded) -> some View {
-        if let submissionStateLoaded = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded,
-           let submissionStatus = submissionStateLoaded.submission.status {
-            switch submissionStatus {
-            case SubmissionStatus.evaluation:
-                StepQuizStatusView(state: .evaluation)
-            case SubmissionStatus.wrong:
-                StepQuizStatusView(state: .wrong)
-            case SubmissionStatus.correct:
-                StepQuizStatusView(state: .correct)
-            default:
-                EmptyView()
+        if let submissionLoadedState = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded {
+            if let replyValidationError = submissionLoadedState.replyValidation as? ReplyValidationResultError {
+                StepQuizStatusView(state: .invalidReply(message: replyValidationError.message))
+            } else if let submissionStatus = submissionLoadedState.submission.status {
+                switch submissionStatus {
+                case SubmissionStatus.evaluation:
+                    StepQuizStatusView(state: .evaluation)
+                case SubmissionStatus.wrong:
+                    StepQuizStatusView(state: .wrong)
+                case SubmissionStatus.correct:
+                    StepQuizStatusView(state: .correct)
+                default:
+                    EmptyView()
+                }
             }
-        }
-
-        if let replyValidationError =
-                    attemptLoadedState.submissionValidationState as? StepQuizFeatureSubmissionValidationStateError {
-            StepQuizStatusView(state: .invalidReply(message: replyValidationError.message))
         }
     }
 

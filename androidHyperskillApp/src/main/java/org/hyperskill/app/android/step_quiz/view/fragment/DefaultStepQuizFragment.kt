@@ -22,11 +22,12 @@ import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFeedbackBlocks
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizViewStateDelegateFactory
 import org.hyperskill.app.android.step_quiz.view.mapper.StepQuizFeedbackMapper
-import org.hyperskill.app.android.step_quiz.view.model.ReplyResult
 import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
+import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
 import org.hyperskill.app.step_quiz.presentation.StepQuizViewModel
@@ -89,14 +90,8 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
     protected abstract fun createStepQuizFormDelegate(containerBinding: FragmentStepQuizBinding): StepQuizFormDelegate
 
     protected fun onActionButtonClicked() {
-        val replyResult = stepQuizFormDelegate.createReply()
-        when (replyResult.validation) {
-            is ReplyResult.Validation.Success ->
-                stepQuizViewModel.onNewMessage(StepQuizFeature.Message.CreateSubmissionClicked(step, replyResult.reply))
-
-            is ReplyResult.Validation.Error ->
-                stepQuizFeedbackBlocksDelegate.setState(StepQuizFeedbackState.Validation(replyResult.validation.message))
-        }
+        val reply = stepQuizFormDelegate.createReply()
+        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.CreateSubmissionClicked(step, reply))
     }
 
     override fun onStart() {
@@ -173,12 +168,17 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
                 ) {
                     viewBinding.stepQuizButtons.stepQuizRetryButton.visibility = View.VISIBLE
                 }
+
+                if (castedState.replyValidation is ReplyValidationResult.Error) {
+                    val replyValidationError = castedState.replyValidation as ReplyValidationResult.Error
+                    stepQuizFeedbackBlocksDelegate.setState(StepQuizFeedbackState.Validation(replyValidationError.message))
+                }
             }
         }
     }
 
-    protected fun syncReplyState(replyResult: ReplyResult) {
-        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.SyncReply(replyResult.reply))
+    protected fun syncReplyState(reply: Reply) {
+        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.SyncReply(reply))
     }
 
     /**

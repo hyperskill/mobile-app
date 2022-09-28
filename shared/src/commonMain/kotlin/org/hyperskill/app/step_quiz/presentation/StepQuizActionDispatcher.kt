@@ -13,7 +13,7 @@ import org.hyperskill.app.step_quiz.domain.analytic.StepQuizViewedHyperskillAnal
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
-import org.hyperskill.app.step_quiz.domain.validation.StepQuizValidator
+import org.hyperskill.app.step_quiz.domain.validation.StepQuizReplyValidator
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Action
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Message
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
@@ -21,10 +21,10 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 class StepQuizActionDispatcher(
     config: ActionDispatcherOptions,
     private val stepQuizInteractor: StepQuizInteractor,
+    private val stepQuizReplyValidator: StepQuizReplyValidator,
     private val profileInteractor: ProfileInteractor,
     private val notificationInteractor: NotificationInteractor,
-    private val analyticInteractor: AnalyticInteractor,
-    private val stepQuizValidator: StepQuizValidator
+    private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
@@ -97,16 +97,9 @@ class StepQuizActionDispatcher(
                     onNewMessage(Message.CreateAttemptSuccess(action.attempt, submissionState, currentProfile))
                 }
             }
-            is Action.ValidateSubmission -> {
-                val submissionValidationState = stepQuizValidator.validate(action.reply)
-
-                val message = if (submissionValidationState is StepQuizFeature.SubmissionValidationState.Error) {
-                    Message.CreateSubmissionValidationError(submissionValidationState)
-                } else {
-                    Message.CreateSubmissionValidated(action.step, action.reply)
-                }
-
-                onNewMessage(message)
+            is Action.CreateSubmissionValidateReply -> {
+                val validationResult = stepQuizReplyValidator.validate(action.reply, action.step.block.name)
+                onNewMessage(Message.CreateSubmissionReplyValidationResult(action.step, action.reply, validationResult))
             }
             is Action.CreateSubmission -> {
                 val message = stepQuizInteractor
