@@ -72,9 +72,11 @@
     <!-- Step quiz sorting -->
     <string name="step_quiz_sorting_description">Sort a given list</string>
     <string name="step_quiz_sorting_title">Put the items in the correct order</string>
+    <string name="step_quiz_sorting_invalid_reply">Sort items</string>
 
     <!-- Step quiz matching -->
     <string name="step_quiz_matching_title">Match the items from left and right columns</string>
+    <string name="step_quiz_matching_invalid_reply">Match items</string>
 
     <!-- Step quiz table -->
     <string name="step_quiz_table_single_choice_title">Choose one option for each row</string>
@@ -82,6 +84,7 @@
     <string name="step_quiz_table_single_choice">Choose one option</string>
     <string name="step_quiz_table_multiple_choice">Choose one or more options</string>
     <string name="step_quiz_table_confirm_choice">Confirm</string>
+    <string name="step_quiz_table_empty_reply">Choose options</string>
 
     <!-- Step quiz math -->
     <string name="step_quiz_math_title">Enter a math formula</string>
