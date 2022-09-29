@@ -1,5 +1,6 @@
 import Foundation
 import Sentry
+import shared
 
 enum SentryManager {
     static func configure() {
@@ -34,5 +35,9 @@ enum SentryManager {
 
     static func clearCurrentUser() {
         SentrySDK.setUser(nil)
+    }
+
+    static func capture(error: KotlinThrowable) {
+        SentrySDK.capture(error: error.asError())
     }
 }

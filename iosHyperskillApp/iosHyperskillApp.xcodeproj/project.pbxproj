@@ -136,6 +136,7 @@
 		2C65637A28744DDA006AAD77 /* TrackHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65637928744DDA006AAD77 /* TrackHeaderView.swift */; };
 		2C6B30A628B7C3F300609CE8 /* AuthNewUserPlaceholderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6B30A528B7C3F300609CE8 /* AuthNewUserPlaceholderViewModel.swift */; };
 		2C6B30A828B7C47800609CE8 /* AuthNewUserPlaceholderAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6B30A728B7C47800609CE8 /* AuthNewUserPlaceholderAssembly.swift */; };
+		2C708D3228E5AA700061A8DB /* KotlinThrowable+AsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C708D3128E5AA700061A8DB /* KotlinThrowable+AsError.swift */; };
 		2C725B5E28090D1F00A49043 /* View+Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B5D28090D1F00A49043 /* View+Border.swift */; };
 		2C725B612809125700A49043 /* LayoutInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B602809125700A49043 /* LayoutInsets.swift */; };
 		2C725B632809198000A49043 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B622809198000A49043 /* BackgroundView.swift */; };
@@ -476,6 +477,7 @@
 		2C65637928744DDA006AAD77 /* TrackHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackHeaderView.swift; sourceTree = "<group>"; };
 		2C6B30A528B7C3F300609CE8 /* AuthNewUserPlaceholderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNewUserPlaceholderViewModel.swift; sourceTree = "<group>"; };
 		2C6B30A728B7C47800609CE8 /* AuthNewUserPlaceholderAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNewUserPlaceholderAssembly.swift; sourceTree = "<group>"; };
+		2C708D3128E5AA700061A8DB /* KotlinThrowable+AsError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KotlinThrowable+AsError.swift"; sourceTree = "<group>"; };
 		2C725B5D28090D1F00A49043 /* View+Border.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Border.swift"; sourceTree = "<group>"; };
 		2C725B602809125700A49043 /* LayoutInsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutInsets.swift; sourceTree = "<group>"; };
 		2C725B622809198000A49043 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
@@ -744,6 +746,7 @@
 				2CEB50C7288A94050044F9AB /* BlockExtensions.swift */,
 				2C96744328883E710091B6C9 /* BlockOptionsExtensions.swift */,
 				2C023C8C285DCA4300D2D5A9 /* DatasetExtensions.swift */,
+				2C708D3128E5AA700061A8DB /* KotlinThrowable+AsError.swift */,
 				2C023C8A285DCA2100D2D5A9 /* ReplyExtensions.swift */,
 				2CEB50C5288A92820044F9AB /* StepExtensions.swift */,
 			);
@@ -2398,6 +2401,7 @@
 				2C2FD62428192123004E7AF6 /* BundlePropertyListDeserializer.swift in Sources */,
 				2C8E66D7287877F500D3928D /* ProfileViewModel.swift in Sources */,
 				2C8FFE7F2892E1C000574941 /* AuthOutputProtocol.swift in Sources */,
+				2C708D3228E5AA700061A8DB /* KotlinThrowable+AsError.swift in Sources */,
 				2C1F5879280D2D1300372A37 /* WebOAuthURLParser.swift in Sources */,
 				E99B21892887E9DA006A6154 /* StepQuizTableSkeletonView.swift in Sources */,
 				2C6B30A828B7C47800609CE8 /* AuthNewUserPlaceholderAssembly.swift in Sources */,

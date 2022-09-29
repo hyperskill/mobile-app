@@ -15,8 +15,8 @@ extension SocialAuthResponse {
 
 enum SocialAuthError: Error {
     case canceled
-    case accessDenied
-    case connectionError
+    case accessDenied(originalError: Error)
+    case connectionError(originalError: Error)
 }
 
 protocol SocialAuthServiceProtocol: AnyObject {
@@ -52,16 +52,16 @@ final class SocialAuthService: SocialAuthServiceProtocol {
             return SocialAuthResponse(socialAuthSDKResponse: response)
         } catch {
             guard let sdkError = error as? SocialAuthSDKError else {
-                throw SocialAuthError.connectionError
+                throw SocialAuthError.connectionError(originalError: error)
             }
 
             switch sdkError {
             case .canceled, .noPresentingViewController:
                 throw SocialAuthError.canceled
-            case .accessDenied:
-                throw SocialAuthError.accessDenied
-            case .connectionError:
-                throw SocialAuthError.connectionError
+            case .accessDenied(let originalError):
+                throw SocialAuthError.accessDenied(originalError: originalError)
+            case .connectionError(let originalError):
+                throw SocialAuthError.connectionError(originalError: originalError)
             }
         }
     }
@@ -72,14 +72,14 @@ final class SocialAuthService: SocialAuthServiceProtocol {
             return SocialAuthResponse(authorizationCode: authCode)
         } catch {
             guard let webOAuthError = error as? WebOAuthError else {
-                throw SocialAuthError.connectionError
+                throw SocialAuthError.connectionError(originalError: error)
             }
 
             switch webOAuthError {
             case .canceled, .noPresentingViewController:
                 throw SocialAuthError.canceled
             case .accessDenied:
-                throw SocialAuthError.accessDenied
+                throw SocialAuthError.accessDenied(originalError: error)
             }
         }
     }
