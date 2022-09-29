@@ -100,7 +100,12 @@ class AuthSocialWebViewFragment :
                                 request: WebResourceRequest?,
                                 error: WebResourceError?
                             ) {
-                                authSocialWebViewViewModel.onNewMessage(AuthSocialWebViewFeature.Message.AuthCodeFailure(AuthSocialError.CONNECTION_PROBLEM))
+                                authSocialWebViewViewModel.onNewMessage(
+                                    AuthSocialWebViewFeature.Message.AuthCodeFailure(
+                                        socialError = AuthSocialError.CONNECTION_PROBLEM,
+                                        originalError = if (error != null) Exception(error.description.toString()) else null
+                                    )
+                                )
                             }
 
                             override fun onPageFinished(view: WebView?, url: String?) {
@@ -155,7 +160,7 @@ class AuthSocialWebViewFragment :
                 dialog?.dismiss()
             }
             is AuthSocialWebViewFeature.Action.CallbackAuthError -> {
-                (parentFragment as? Callback)?.onError(action.socialError)
+                (parentFragment as? Callback)?.onError(action.socialError, action.originalError)
                 dialog?.dismiss()
             }
         }
@@ -169,7 +174,7 @@ class AuthSocialWebViewFragment :
     }
 
     interface Callback {
-        fun onError(error: AuthSocialError)
+        fun onError(error: AuthSocialError, originalError: Throwable?)
         fun onSuccess(authCode: String, provider: SocialAuthProvider)
     }
 }

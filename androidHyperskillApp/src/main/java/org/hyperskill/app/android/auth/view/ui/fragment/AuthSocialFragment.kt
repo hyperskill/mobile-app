@@ -15,6 +15,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.common.api.Scope
 import com.google.android.material.snackbar.Snackbar
+import io.sentry.Sentry
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.BuildConfig
 import org.hyperskill.app.android.HyperskillApp
@@ -70,6 +71,8 @@ class AuthSocialFragment :
             val authCode = account.serverAuthCode
             onSuccess(authCode!!, SocialAuthProvider.GOOGLE)
         } catch (e: ApiException) {
+            Sentry.captureException(e)
+
             val message = if (e.statusCode == CommonStatusCodes.NETWORK_ERROR)
                 resourceProvider.getString(SharedResources.strings.connection_error)
             else resourceProvider.getString(SharedResources.strings.common_error)
@@ -132,6 +135,7 @@ class AuthSocialFragment :
                 (parentFragment as? AuthFlow)?.onAuthSuccess(action.isNewUser)
             }
             is AuthSocialFeature.Action.ViewAction.ShowAuthError -> {
+                Sentry.captureException(action.originalError)
                 view?.snackbar(message = authSocialErrorMapper.getAuthSocialErrorText(action.socialError), Snackbar.LENGTH_LONG)
             }
         }
@@ -157,7 +161,10 @@ class AuthSocialFragment :
         signInWithGoogleCallback.launch(signInIntent)
     }
 
-    override fun onError(error: AuthSocialError) {
+    override fun onError(error: AuthSocialError, originalError: Throwable?) {
+        if (originalError != null) {
+            Sentry.captureException(originalError)
+        }
         view?.snackbar(message = authSocialErrorMapper.getAuthSocialErrorText(error), Snackbar.LENGTH_LONG)
     }
 
