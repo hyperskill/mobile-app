@@ -2,8 +2,8 @@ import Combine
 import Foundation
 import shared
 
-final class StepQuizStringViewModel: ObservableObject {
-    weak var delegate: StepQuizChildQuizDelegate?
+final class StepQuizStringViewModel: ObservableObject, StepQuizChildQuizInputProtocol {
+    weak var moduleOutput: StepQuizChildQuizOutputProtocol?
 
     private let dataset: Dataset
     private let reply: Reply?
@@ -44,22 +44,24 @@ final class StepQuizStringViewModel: ObservableObject {
                 return
             }
 
-            strongSelf.outputCurrentText(newViewData.text)
+            DispatchQueue.main.async {
+                strongSelf.outputCurrentReply()
+            }
         }
     }
 
-    private func outputCurrentText(_ text: String) {
-        let reply: Reply = {
-            switch self.dataType {
-            case .string:
-                return Reply(text: text, files: [])
-            case .number:
-                return Reply(number: text)
-            case .math:
-                return Reply(formula: text)
-            }
-        }()
+    func createReply() -> Reply {
+        switch self.dataType {
+        case .string:
+            return Reply(text: viewData.text, files: [])
+        case .number:
+            return Reply(number: viewData.text)
+        case .math:
+            return Reply(formula: viewData.text)
+        }
+    }
 
-        self.delegate?.handleChildQuizSync(reply: reply)
+    private func outputCurrentReply() {
+        moduleOutput?.handleChildQuizSync(reply: createReply())
     }
 }

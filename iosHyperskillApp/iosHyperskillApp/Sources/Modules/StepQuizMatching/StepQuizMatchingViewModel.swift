@@ -2,8 +2,8 @@ import Combine
 import Foundation
 import shared
 
-final class StepQuizMatchingViewModel: ObservableObject {
-    weak var delegate: StepQuizChildQuizDelegate?
+final class StepQuizMatchingViewModel: ObservableObject, StepQuizChildQuizInputProtocol {
+    weak var moduleOutput: StepQuizChildQuizOutputProtocol?
 
     private let dataset: Dataset
     private let reply: Reply?
@@ -40,23 +40,26 @@ final class StepQuizMatchingViewModel: ObservableObject {
     }
 
     func doMoveUp(from index: Int) {
-        let tmp = self.viewData.items[index - 1].option
-        self.viewData.items[index - 1].option = self.viewData.items[index].option
-        self.viewData.items[index].option = tmp
+        let tmp = viewData.items[index - 1].option
+        viewData.items[index - 1].option = viewData.items[index].option
+        viewData.items[index].option = tmp
 
-        self.outputCurrentReply()
+        outputCurrentReply()
     }
 
     func doMoveDown(from index: Int) {
-        let tmp = self.viewData.items[index + 1].option
-        self.viewData.items[index + 1].option = self.viewData.items[index].option
-        self.viewData.items[index].option = tmp
+        let tmp = viewData.items[index + 1].option
+        viewData.items[index + 1].option = viewData.items[index].option
+        viewData.items[index].option = tmp
 
-        self.outputCurrentReply()
+        outputCurrentReply()
+    }
+
+    func createReply() -> Reply {
+        Reply(ordering: viewData.items.map(\.option.id))
     }
 
     private func outputCurrentReply() {
-        let reply = Reply(ordering: self.viewData.items.map(\.option.id))
-        self.delegate?.handleChildQuizSync(reply: reply)
+        moduleOutput?.handleChildQuizSync(reply: createReply())
     }
 }

@@ -149,79 +149,34 @@ struct StepQuizView: View {
                 return false
             }()
 
-            // TODO: Use here child quiz assembly instance when Swift 5.7 released
-            Group {
-                switch quizType {
-                case .choice:
-                    StepQuizChoiceAssembly(
-                        step: step,
-                        dataset: dataset,
-                        reply: reply,
-                        delegate: viewModel
-                    )
-                    .makeModule()
-                case .code:
-                    StepQuizCodeAssembly(
-                        step: step,
-                        dataset: dataset,
-                        reply: reply,
-                        delegate: viewModel
-                    )
-                    .makeModule()
-                case .matching:
-                    StepQuizMatchingAssembly(
-                        step: step,
-                        dataset: dataset,
-                        reply: reply,
-                        delegate: viewModel
-                    )
-                    .makeModule()
-                case .sorting:
-                    StepQuizSortingAssembly(
-                        step: step,
-                        dataset: dataset,
-                        reply: reply,
-                        delegate: viewModel
-                    )
-                    .makeModule()
-                case .table:
-                    StepQuizTableAssembly(
-                        step: step,
-                        dataset: dataset,
-                        reply: reply,
-                        delegate: viewModel
-                    )
-                    .makeModule()
-                case .string, .number, .math:
-                    StepQuizStringAssembly(
-                        dataType: .init(quizType: quizType).require(),
-                        step: step,
-                        dataset: dataset,
-                        reply: reply,
-                        delegate: viewModel
-                    )
-                    .makeModule()
-                case .unsupported(let blockName):
-                    fatalError("Unsupported quiz = \(blockName)")
-                }
-            }
+            StepQuizChildQuizViewFactory.make(
+                quizType: quizType,
+                step: step,
+                dataset: dataset,
+                reply: reply,
+                onModuleInputDidSet: { viewModel.childQuizModuleInput = $0 },
+                moduleOutput: viewModel
+            )
             .disabled(isDisabled)
         }
     }
 
     @ViewBuilder
     private func buildQuizStatusView(attemptLoadedState: StepQuizFeatureStateAttemptLoaded) -> some View {
-        if let submissionStateLoaded = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded,
-           let submissionStatus = submissionStateLoaded.submission.status {
-            switch submissionStatus {
-            case SubmissionStatus.evaluation:
-                StepQuizStatusView(state: .evaluation)
-            case SubmissionStatus.wrong:
-                StepQuizStatusView(state: .wrong)
-            case SubmissionStatus.correct:
-                StepQuizStatusView(state: .correct)
-            default:
-                EmptyView()
+        if let submissionLoadedState = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded {
+            if let replyValidationError = submissionLoadedState.replyValidation as? ReplyValidationResultError {
+                StepQuizStatusView(state: .invalidReply(message: replyValidationError.message))
+            } else if let submissionStatus = submissionLoadedState.submission.status {
+                switch submissionStatus {
+                case SubmissionStatus.evaluation:
+                    StepQuizStatusView(state: .evaluation)
+                case SubmissionStatus.wrong:
+                    StepQuizStatusView(state: .wrong)
+                case SubmissionStatus.correct:
+                    StepQuizStatusView(state: .correct)
+                default:
+                    EmptyView()
+                }
             }
         }
     }

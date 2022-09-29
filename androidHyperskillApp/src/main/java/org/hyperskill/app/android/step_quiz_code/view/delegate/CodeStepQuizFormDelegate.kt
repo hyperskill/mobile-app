@@ -7,7 +7,6 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.code.view.widget.CodeEditorLayout
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
-import org.hyperskill.app.android.step_quiz.view.model.ReplyResult
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
@@ -19,7 +18,7 @@ class CodeStepQuizFormDelegate(
     private var code: String,
     private val codeLayoutDelegate: CodeLayoutDelegate,
     private val onFullscreenClicked: (lang: String, code: String) -> Unit,
-    private val onQuizChanged: (ReplyResult) -> Unit
+    private val onQuizChanged: (Reply) -> Unit
 ) : StepQuizFormDelegate {
 
     init {
@@ -53,8 +52,8 @@ class CodeStepQuizFormDelegate(
         updateCodeLayoutFromDialog(code)
     }
 
-    override fun createReply(): ReplyResult =
-        ReplyResult(Reply(code = code, language = lang), ReplyResult.Validation.Success)
+    override fun createReply(): Reply =
+        Reply(code = code, language = lang)
 
     override fun setState(state: StepQuizFeature.State.AttemptLoaded) {
         val isEnabled = StepQuizResolver.isQuizEnabled(state)

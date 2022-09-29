@@ -8,7 +8,6 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizTextBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
-import org.hyperskill.app.android.step_quiz.view.model.ReplyResult
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
@@ -18,19 +17,8 @@ class TextStepQuizFormDelegate(
     containerBinding: FragmentStepQuizBinding,
     binding: LayoutStepQuizTextBinding,
     private val stepBlockName: String?,
-    private val onQuizChanged: (ReplyResult) -> Unit
+    private val onQuizChanged: (Reply) -> Unit
 ) : StepQuizFormDelegate {
-    companion object {
-        private const val MINUS = "-\\\u002D\u00AD\u2012\u2013\u2014\u2015\u02D7"
-        private const val PLUS = "+"
-        private const val POINT = ",\\."
-        private const val EXP = "eEеЕ"
-
-        private const val NUMBER_VALIDATION_REGEX = "^[$MINUS$PLUS]?[0-9]*[$POINT]?[0-9]+([$EXP][$$MINUS$PLUS]?[0-9]+)?$"
-    }
-
-    private val context = containerBinding.root.context
-
     private val quizTextField = binding.stringStepQuizFieldEditText as TextView
     private val quizDescription = containerBinding.stepQuizDescription
 
@@ -57,25 +45,15 @@ class TextStepQuizFormDelegate(
         }
     }
 
-    override fun createReply(): ReplyResult =
+    override fun createReply(): Reply =
         quizTextField.text.toString().let { value ->
-            if (value.isNotEmpty()) {
-                when (stepBlockName) {
-                    BlockName.NUMBER ->
-                        if (value.matches(NUMBER_VALIDATION_REGEX.toRegex())) {
-                            ReplyResult((Reply(number = value)), ReplyResult.Validation.Success)
-                        } else {
-                            ReplyResult(Reply(number = value), ReplyResult.Validation.Error(context.getString(R.string.step_quiz_text_invalid_number_reply)))
-                        }
-
-                    BlockName.MATH ->
-                        ReplyResult((Reply(formula = value)), ReplyResult.Validation.Success)
-
-                    else ->
-                        ReplyResult((Reply(text = value, files = emptyList())), ReplyResult.Validation.Success)
-                }
-            } else {
-                ReplyResult(Reply(), ReplyResult.Validation.Error(context.getString(R.string.step_quiz_text_empty_reply)))
+            when (stepBlockName) {
+                BlockName.NUMBER ->
+                    Reply(number = value)
+                BlockName.MATH ->
+                    Reply(formula = value)
+                else ->
+                    Reply(text = value, files = emptyList())
             }
         }
 

@@ -13,6 +13,7 @@ import org.hyperskill.app.step_quiz.domain.analytic.StepQuizViewedHyperskillAnal
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
+import org.hyperskill.app.step_quiz.domain.validation.StepQuizReplyValidator
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Action
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Message
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
@@ -20,6 +21,7 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 class StepQuizActionDispatcher(
     config: ActionDispatcherOptions,
     private val stepQuizInteractor: StepQuizInteractor,
+    private val stepQuizReplyValidator: StepQuizReplyValidator,
     private val profileInteractor: ProfileInteractor,
     private val notificationInteractor: NotificationInteractor,
     private val analyticInteractor: AnalyticInteractor
@@ -95,6 +97,10 @@ class StepQuizActionDispatcher(
                     onNewMessage(Message.CreateAttemptSuccess(action.attempt, submissionState, currentProfile))
                 }
             }
+            is Action.CreateSubmissionValidateReply -> {
+                val validationResult = stepQuizReplyValidator.validate(action.reply, action.step.block.name)
+                onNewMessage(Message.CreateSubmissionReplyValidationResult(action.step, action.reply, validationResult))
+            }
             is Action.CreateSubmission -> {
                 val message = stepQuizInteractor
                     .createSubmission(action.step.id, action.attemptId, action.reply)
@@ -103,7 +109,7 @@ class StepQuizActionDispatcher(
                             Message.CreateSubmissionSuccess(newSubmission)
                         },
                         onFailure = {
-                            Message.CreateSubmissionError
+                            Message.CreateSubmissionNetworkError
                         }
                     )
                 onNewMessage(message)

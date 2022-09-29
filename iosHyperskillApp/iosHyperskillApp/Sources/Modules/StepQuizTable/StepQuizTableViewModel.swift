@@ -2,8 +2,8 @@ import Combine
 import Foundation
 import shared
 
-final class StepQuizTableViewModel: ObservableObject {
-    weak var delegate: StepQuizChildQuizDelegate?
+final class StepQuizTableViewModel: ObservableObject, StepQuizChildQuizInputProtocol {
+    weak var moduleOutput: StepQuizChildQuizOutputProtocol?
 
     private let dataset: Dataset
     private let reply: Reply?
@@ -41,9 +41,9 @@ final class StepQuizTableViewModel: ObservableObject {
     func makeSelectColumnsViewController(for row: StepQuizTableViewData.Row) -> PanModalPresentableViewController {
         let viewController = StepQuizTableSelectColumnsViewController(
             row: row,
-            columns: self.viewData.columns,
+            columns: viewData.columns,
             selectedColumnsIDs: Set(row.answers.map(\.id)),
-            isMultipleChoice: self.viewData.isMultipleChoice,
+            isMultipleChoice: viewData.isMultipleChoice,
             onColumnsSelected: { [weak self] selectedColumnsIDs in
                 guard let strongSelf = self else {
                     return
@@ -63,17 +63,20 @@ final class StepQuizTableViewModel: ObservableObject {
         return viewController
     }
 
-    private func outputCurrentReply() {
-        let reply = Reply(
-            tableChoices: self.viewData.rows.map { row in
+    func createReply() -> Reply {
+        Reply(
+            tableChoices: viewData.rows.map { row in
                 TableChoiceAnswer(
                     nameRow: row.text,
-                    columns: self.viewData.columns.map { column in
+                    columns: viewData.columns.map { column in
                         .init(id: column.text, answer: row.answers.contains(where: { $0.id == column.id }))
                     }
                 )
             }
         )
-        self.delegate?.handleChildQuizSync(reply: reply)
+    }
+
+    private func outputCurrentReply() {
+        moduleOutput?.handleChildQuizSync(reply: createReply())
     }
 }

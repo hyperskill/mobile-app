@@ -1,13 +1,11 @@
 package org.hyperskill.app.android.step_quiz_choice.view.delegate
 
-import android.content.Context
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizChoiceBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
-import org.hyperskill.app.android.step_quiz.view.model.ReplyResult
 import org.hyperskill.app.android.step_quiz_choice.view.adapter.ChoiceMultipleSelectionAdapterDelegate
 import org.hyperskill.app.android.step_quiz_choice.view.adapter.ChoiceSingleSelectionAdapterDelegate
 import org.hyperskill.app.android.step_quiz_choice.view.mapper.ChoiceStepQuizOptionsMapper
@@ -22,8 +20,7 @@ import ru.nobird.app.core.model.safeCast
 class ChoiceStepQuizFormDelegate(
     containerBinding: FragmentStepQuizBinding,
     binding: LayoutStepQuizChoiceBinding,
-    private val context: Context,
-    private val onQuizChanged: (ReplyResult) -> Unit
+    private val onQuizChanged: (Reply) -> Unit
 ) : StepQuizFormDelegate {
 
     private val quizDescription = containerBinding.stepQuizDescription
@@ -73,15 +70,8 @@ class ChoiceStepQuizFormDelegate(
         )
     }
 
-    override fun createReply(): ReplyResult {
-        val choices = choicesAdapter.items.map { ChoiceAnswer.Choice(it.isSelected) }
-
-        return if (choices.none { it.boolValue }) {
-            ReplyResult(Reply(choices = choices), ReplyResult.Validation.Error(context.getString(R.string.step_quiz_choice_empty_reply)))
-        } else {
-            ReplyResult(Reply(choices = choices), ReplyResult.Validation.Success)
-        }
-    }
+    override fun createReply(): Reply =
+        Reply(choices = choicesAdapter.items.map { ChoiceAnswer.Choice(it.isSelected) })
 
     private fun handleSingleChoiceClick(choice: Choice) {
         choicesAdapter.items = choicesAdapter.items.map {
