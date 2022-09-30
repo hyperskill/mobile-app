@@ -17,6 +17,7 @@ import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.track.injection.TrackComponent
+import org.hyperskill.app.user_storage.injection.UserStorageComponent
 
 interface AppGraph {
     val commonComponent: CommonComponent
@@ -38,4 +39,5 @@ interface AppGraph {
     fun buildNotificationComponent(): NotificationComponent
     fun buildOnboardingComponent(): OnboardingComponent
     fun buildPlaceholderNewUserComponent(): PlaceholderNewUserComponent
+    fun buildUserStorageComponent(): UserStorageComponent
 }
