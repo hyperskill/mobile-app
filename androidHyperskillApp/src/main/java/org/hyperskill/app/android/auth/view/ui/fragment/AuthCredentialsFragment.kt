@@ -12,6 +12,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
+import io.sentry.Sentry
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthFlow
@@ -122,6 +123,8 @@ class AuthCredentialsFragment :
             is AuthCredentialsFeature.Action.ViewAction.CompleteAuthFlow -> {
                 (parentFragment as? AuthFlow)?.onAuthSuccess(action.isNewUser)
             }
+            is AuthCredentialsFeature.Action.ViewAction.CaptureError ->
+                Sentry.captureException(action.error)
         }
     }
 

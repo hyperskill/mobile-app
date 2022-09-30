@@ -11,7 +11,7 @@ struct SocialAuthSDKResponse {
 
 enum SocialAuthSDKError: Error {
     case canceled
-    case accessDenied
-    case connectionError
+    case accessDenied(originalError: Error)
+    case connectionError(originalError: Error)
     case noPresentingViewController
 }

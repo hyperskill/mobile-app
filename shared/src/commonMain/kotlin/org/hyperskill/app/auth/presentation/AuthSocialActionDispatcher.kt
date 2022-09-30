@@ -30,7 +30,7 @@ class AuthSocialActionDispatcher(
                                     .getCurrentProfile(DataSourceType.REMOTE)
                                     .fold(
                                         onSuccess = { Message.AuthSuccess(isNewUser = it.trackId == null) },
-                                        onFailure = { Message.AuthFailure(AuthSocialError.CONNECTION_PROBLEM) }
+                                        onFailure = { Message.AuthFailure(AuthSocialError.CONNECTION_PROBLEM, it) }
                                     )
                             },
                             onFailure = {
@@ -40,7 +40,7 @@ class AuthSocialActionDispatcher(
                                     } else {
                                         AuthSocialError.CONNECTION_PROBLEM
                                     }
-                                Message.AuthFailure(error)
+                                Message.AuthFailure(error, it)
                             }
                         )
 

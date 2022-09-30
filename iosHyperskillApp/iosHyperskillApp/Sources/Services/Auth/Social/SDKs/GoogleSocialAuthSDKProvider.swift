@@ -1,6 +1,10 @@
 import GoogleSignIn
 import UIKit
 
+enum GoogleSocialAuthSDKProviderErrorReason: Error {
+    case noServerAuthCode
+}
+
 @MainActor
 final class GoogleSocialAuthSDKProvider: SocialAuthSDKProvider {
     static let shared = GoogleSocialAuthSDKProvider()
@@ -47,7 +51,7 @@ final class GoogleSocialAuthSDKProvider: SocialAuthSDKProvider {
                 if (error as NSError).code == GIDSignInError.canceled.rawValue {
                     completion(.failure(.canceled))
                 } else {
-                    completion(.failure(.connectionError))
+                    completion(.failure(.connectionError(originalError: error)))
                 }
             } else if let serverAuthCode = user?.serverAuthCode {
                 #if DEBUG
@@ -56,7 +60,9 @@ final class GoogleSocialAuthSDKProvider: SocialAuthSDKProvider {
                 completion(.success(SocialAuthSDKResponse(authorizationCode: serverAuthCode)))
             } else {
                 print("GoogleSocialAuthSDKProvider :: error missing serverAuthCode")
-                completion(.failure(.accessDenied))
+                completion(
+                    .failure(.accessDenied(originalError: GoogleSocialAuthSDKProviderErrorReason.noServerAuthCode))
+                )
             }
         }
     }

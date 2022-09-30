@@ -30,7 +30,7 @@ class AuthSocialWebViewReducer : StateReducer<State, Message, Action> {
                 }
             }
             is Message.AuthCodeFailure -> {
-                state to setOf(Action.CallbackAuthError(message.socialError))
+                state to setOf(Action.CallbackAuthError(message.socialError, message.originalError))
             }
         } ?: (state to emptySet())
 }

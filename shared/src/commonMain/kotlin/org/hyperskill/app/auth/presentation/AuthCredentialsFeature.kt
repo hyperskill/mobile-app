@@ -21,7 +21,7 @@ interface AuthCredentialsFeature {
         data class AuthEditing(val email: String, val password: String) : Message
         object SubmitFormClicked : Message
         data class AuthSuccess(val isNewUser: Boolean) : Message
-        data class AuthFailure(val credentialsError: AuthCredentialsError) : Message
+        data class AuthFailure(val credentialsError: AuthCredentialsError, val originalError: Throwable) : Message
 
         /**
          * Analytic
@@ -39,6 +39,7 @@ interface AuthCredentialsFeature {
 
         sealed interface ViewAction : Action {
             data class CompleteAuthFlow(val isNewUser: Boolean) : ViewAction
+            data class CaptureError(val error: Throwable) : ViewAction
         }
     }
 }

@@ -50,7 +50,11 @@ final class AuthSocialViewModel: FeatureViewModel<
                 }
 
                 await MainActor.run {
-                    self.onViewAction?(AuthSocialFeatureActionViewActionShowAuthError(socialError: .connectionProblem))
+                    let message = AuthSocialFeatureActionViewActionShowAuthError(
+                        socialError: .connectionProblem,
+                        originalError: KotlinThrowable(message: String(describing: error))
+                    )
+                    self.onViewAction?(message)
                 }
             }
         }

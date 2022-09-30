@@ -20,7 +20,7 @@ interface AuthSocialFeature {
         ) : Message
 
         data class AuthSuccess(val isNewUser: Boolean) : Message
-        data class AuthFailure(val socialError: AuthSocialError) : Message
+        data class AuthFailure(val socialError: AuthSocialError, val originalError: Throwable) : Message
 
         /**
          * Analytic
@@ -41,7 +41,7 @@ interface AuthSocialFeature {
 
         sealed interface ViewAction : Action {
             data class CompleteAuthFlow(val isNewUser: Boolean) : ViewAction
-            data class ShowAuthError(val socialError: AuthSocialError) : ViewAction
+            data class ShowAuthError(val socialError: AuthSocialError, val originalError: Throwable) : ViewAction
         }
     }
 }
