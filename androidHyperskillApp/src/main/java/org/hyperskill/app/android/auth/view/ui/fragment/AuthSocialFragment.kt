@@ -30,13 +30,13 @@ import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragm
 import org.hyperskill.app.android.core.view.ui.dialog.dismissIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentAuthSocialBinding
+import org.hyperskill.app.android.sentry.domain.model.SentryBreadcrumbKeyValues
 import org.hyperskill.app.auth.domain.model.AuthSocialError
 import org.hyperskill.app.auth.domain.model.SocialAuthProvider
 import org.hyperskill.app.auth.presentation.AuthSocialFeature
 import org.hyperskill.app.auth.presentation.AuthSocialViewModel
 import org.hyperskill.app.auth.view.mapper.AuthSocialErrorMapper
 import org.hyperskill.app.core.view.mapper.ResourceProvider
-import org.hyperskill.app.sentry.domain.model.SentryBreadcrumbKeyValues
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.base.ui.extension.snackbar
@@ -49,8 +49,6 @@ class AuthSocialFragment :
     AuthSocialWebViewFragment.Callback {
 
     companion object {
-        private val TAG = AuthSocialFragment::class.java.simpleName
-
         fun newInstance(): AuthSocialFragment =
             AuthSocialFragment()
     }
@@ -204,9 +202,9 @@ class AuthSocialFragment :
         Sentry.addBreadcrumb(breadcrumb)
 
         if (socialError != null) {
-            Sentry.captureMessage("$TAG: $socialError, $originalError", SentryLevel.ERROR)
+            Sentry.captureMessage("AuthSocial: $socialError, $originalError", SentryLevel.ERROR)
         } else {
-            Sentry.captureMessage("$TAG: $originalError", SentryLevel.ERROR)
+            Sentry.captureMessage("AuthSocial: $originalError", SentryLevel.ERROR)
         }
     }
 }

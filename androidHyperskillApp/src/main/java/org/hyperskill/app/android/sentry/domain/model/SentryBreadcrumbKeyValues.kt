@@ -1,4 +1,4 @@
-package org.hyperskill.app.sentry.domain.model
+package org.hyperskill.app.android.sentry.domain.model
 
 object SentryBreadcrumbKeyValues {
     const val CATEGORY_AUTH_SOCIAL = "auth_social"

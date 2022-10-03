@@ -23,11 +23,11 @@ import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragm
 import org.hyperskill.app.android.core.view.ui.dialog.dismissIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentAuthEmailBinding
+import org.hyperskill.app.android.sentry.domain.model.SentryBreadcrumbKeyValues
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature
 import org.hyperskill.app.auth.presentation.AuthCredentialsViewModel
 import org.hyperskill.app.auth.view.mapper.AuthCredentialsErrorMapper
 import org.hyperskill.app.config.BuildKonfig
-import org.hyperskill.app.sentry.domain.model.SentryBreadcrumbKeyValues
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.addKeyboardVisibilityListener
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
@@ -40,8 +40,6 @@ class AuthCredentialsFragment :
     ReduxView<AuthCredentialsFeature.State, AuthCredentialsFeature.Action.ViewAction> {
 
     companion object {
-        private val TAG = AuthCredentialsFragment::class.java.simpleName
-
         fun newInstance(): AuthCredentialsFragment =
             AuthCredentialsFragment()
     }
@@ -145,7 +143,7 @@ class AuthCredentialsFragment :
                 }
                 Sentry.addBreadcrumb(breadcrumb)
 
-                Sentry.captureMessage("$TAG: ${action.error}", SentryLevel.ERROR)
+                Sentry.captureMessage("AuthCredentials: ${action.error}", SentryLevel.ERROR)
             }
         }
     }
