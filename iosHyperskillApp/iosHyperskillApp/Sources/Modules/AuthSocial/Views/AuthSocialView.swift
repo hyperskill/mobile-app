@@ -61,7 +61,7 @@ struct AuthSocialView: View {
         case let completeAuthFlowViewAction as AuthSocialFeatureActionViewActionCompleteAuthFlow:
             viewModel.doCompleteAuthFlow(isNewUser: completeAuthFlowViewAction.isNewUser)
         case let authError as AuthSocialFeatureActionViewActionShowAuthError:
-            SentryManager.capture(error: authError.originalError)
+            viewModel.logAuthErrorToSentry(socialError: authError.socialError, originalError: authError.originalError)
 
             let errorText = viewModel.getAuthSocialErrorText(authSocialError: authError.socialError)
             ProgressHUD.showError(status: errorText)
