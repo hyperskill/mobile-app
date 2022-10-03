@@ -2,8 +2,8 @@ import Combine
 import Foundation
 import shared
 
-final class StepQuizCodeViewModel: ObservableObject {
-    weak var delegate: StepQuizChildQuizDelegate?
+final class StepQuizCodeViewModel: ObservableObject, StepQuizChildQuizInputProtocol {
+    weak var moduleOutput: StepQuizChildQuizOutputProtocol?
 
     private let step: Step
     private let dataset: Dataset
@@ -24,13 +24,17 @@ final class StepQuizCodeViewModel: ObservableObject {
         self.viewData = self.viewDataMapper.mapCodeDataToViewData(step: self.step, reply: self.reply)
     }
 
+    func createReply() -> Reply {
+        Reply(language: viewData.languageStringValue, code: viewData.code)
+    }
+
     private func syncReply(code: String?) {
         let reply = Reply(language: viewData.languageStringValue, code: code)
-        delegate?.handleChildQuizSync(reply: reply)
+        moduleOutput?.handleChildQuizSync(reply: reply)
     }
 
     func logClickedCodeDetailsEvent() {
-        delegate?.handleChildQuizAnalyticEventMessage(StepQuizFeatureMessageClickedCodeDetailsEventMessage())
+        moduleOutput?.handleChildQuizAnalyticEventMessage(StepQuizFeatureMessageClickedCodeDetailsEventMessage())
     }
 }
 
@@ -47,7 +51,7 @@ extension StepQuizCodeViewModel: StepQuizCodeFullScreenOutputProtocol {
 
     func handleStepQuizCodeFullScreenRetryRequested() {
         DispatchQueue.main.async {
-            self.delegate?.handleChildQuizRetry()
+            self.moduleOutput?.handleChildQuizRetry()
         }
     }
 
@@ -55,7 +59,7 @@ extension StepQuizCodeViewModel: StepQuizCodeFullScreenOutputProtocol {
         navigationState.presentingFullScreen = false
 
         DispatchQueue.main.async {
-            self.delegate?.handleChildQuizSubmitCurrentReply()
+            self.moduleOutput?.handleChildQuizSubmitCurrentReply()
         }
     }
 }

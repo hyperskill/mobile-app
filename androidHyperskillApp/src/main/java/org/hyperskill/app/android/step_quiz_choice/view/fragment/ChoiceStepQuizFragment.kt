@@ -49,5 +49,5 @@ class ChoiceStepQuizFragment :
     }
 
     override fun createStepQuizFormDelegate(containerBinding: FragmentStepQuizBinding): StepQuizFormDelegate =
-        ChoiceStepQuizFormDelegate(containerBinding, binding, requireContext(), onQuizChanged = ::syncReplyState)
+        ChoiceStepQuizFormDelegate(containerBinding, binding, onQuizChanged = ::syncReplyState)
 }

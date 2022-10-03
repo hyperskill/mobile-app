@@ -9,7 +9,6 @@ class MainComponentImpl(private val appGraph: AppGraph) : MainComponent {
     override val appFeature: Feature<AppFeature.State, AppFeature.Message, AppFeature.Action>
         get() = AppFeatureBuilder.build(
             appGraph.authComponent.authInteractor,
-            appGraph.buildProfileDataComponent().profileInteractor,
-            appGraph.buildOnboardingComponent().onboardingInteractor
+            appGraph.buildProfileDataComponent().profileInteractor
         )
 }

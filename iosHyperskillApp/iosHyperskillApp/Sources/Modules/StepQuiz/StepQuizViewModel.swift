@@ -8,6 +8,8 @@ final class StepQuizViewModel: FeatureViewModel<
 > {
     let step: Step
 
+    weak var childQuizModuleInput: StepQuizChildQuizInputProtocol?
+
     private let viewDataMapper: StepQuizViewDataMapper
 
     private let notificationService: NotificationsService
@@ -36,10 +38,7 @@ final class StepQuizViewModel: FeatureViewModel<
     }
 
     func doMainQuizAction() {
-        guard let attemptLoadedState = state as? StepQuizFeatureStateAttemptLoaded,
-              let submissionLoadedState = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded,
-              let reply = submissionLoadedState.submission.reply
-        else {
+        guard let reply = childQuizModuleInput?.createReply() else {
             return
         }
 
@@ -94,7 +93,7 @@ final class StepQuizViewModel: FeatureViewModel<
 
 // MARK: - StepQuizViewModel: StepQuizChildQuizDelegate -
 
-extension StepQuizViewModel: StepQuizChildQuizDelegate {
+extension StepQuizViewModel: StepQuizChildQuizOutputProtocol {
     func handleChildQuizSync(reply: Reply) {
         syncReply(reply)
     }

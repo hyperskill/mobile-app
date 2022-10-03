@@ -6,6 +6,7 @@ import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
+import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
 
 interface StepQuizFeature {
     sealed interface State {
@@ -20,10 +21,12 @@ interface StepQuizFeature {
 
         object NetworkError : State
     }
-
     sealed interface SubmissionState {
         data class Empty(val reply: Reply? = null) : SubmissionState
-        data class Loaded(val submission: Submission) : SubmissionState
+        data class Loaded(
+            val submission: Submission,
+            val replyValidation: ReplyValidationResult? = null
+        ) : SubmissionState
     }
 
     sealed interface Message {
@@ -44,8 +47,13 @@ interface StepQuizFeature {
         object CreateAttemptError : Message
 
         data class CreateSubmissionClicked(val step: Step, val reply: Reply) : Message
+        data class CreateSubmissionReplyValidationResult(
+            val step: Step,
+            val reply: Reply,
+            val replyValidation: ReplyValidationResult
+        ) : Message
         data class CreateSubmissionSuccess(val submission: Submission) : Message
-        object CreateSubmissionError : Message
+        object CreateSubmissionNetworkError : Message
 
         object ContinueClicked : Message
 
@@ -67,6 +75,7 @@ interface StepQuizFeature {
         data class FetchAttempt(val step: Step) : Action
 
         data class CreateAttempt(val step: Step, val attempt: Attempt, val submissionState: SubmissionState) : Action
+        data class CreateSubmissionValidateReply(val step: Step, val reply: Reply) : Action
         data class CreateSubmission(val step: Step, val attemptId: Long, val reply: Reply) : Action
 
         object NotifyUserAgreedToEnableDailyReminders : Action

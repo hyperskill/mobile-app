@@ -2,22 +2,38 @@ import shared
 import SwiftUI
 
 final class StepQuizChoiceAssembly: StepQuizChildQuizAssembly {
-    weak var delegate: StepQuizChildQuizDelegate?
+    var moduleInput: StepQuizChildQuizInputProtocol? {
+        didSet {
+            onModuleInputDidSet(moduleInput)
+        }
+    }
+    weak var moduleOutput: StepQuizChildQuizOutputProtocol?
+
+    private let onModuleInputDidSet: (StepQuizChildQuizInputProtocol?) -> Void
 
     private let step: Step
     private let dataset: Dataset
     private let reply: Reply?
 
-    init(step: Step, dataset: Dataset, reply: Reply?, delegate: StepQuizChildQuizDelegate?) {
+    init(
+        step: Step,
+        dataset: Dataset,
+        reply: Reply?,
+        onModuleInputDidSet: @escaping (StepQuizChildQuizInputProtocol?) -> Void,
+        moduleOutput: StepQuizChildQuizOutputProtocol?
+    ) {
         self.step = step
         self.dataset = dataset
         self.reply = reply
-        self.delegate = delegate
+        self.onModuleInputDidSet = onModuleInputDidSet
+        self.moduleOutput = moduleOutput
     }
 
     func makeModule() -> StepQuizChoiceView {
-        let viewModel = StepQuizChoiceViewModel(dataset: self.dataset, reply: self.reply)
-        viewModel.delegate = self.delegate
+        let viewModel = StepQuizChoiceViewModel(dataset: dataset, reply: reply)
+
+        moduleInput = viewModel
+        viewModel.moduleOutput = moduleOutput
 
         return StepQuizChoiceView(viewModel: viewModel)
     }
@@ -35,7 +51,13 @@ extension StepQuizChoiceAssembly {
             ],
             isMultipleChoice: isMultipleChoice
         )
-        return StepQuizChoiceAssembly(step: .init(), dataset: dataset, reply: nil, delegate: nil)
+        return StepQuizChoiceAssembly(
+            step: .init(),
+            dataset: dataset,
+            reply: nil,
+            onModuleInputDidSet: { _ in },
+            moduleOutput: nil
+        )
     }
 }
 #endif

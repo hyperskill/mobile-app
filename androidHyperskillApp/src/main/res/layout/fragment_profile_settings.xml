@@ -160,13 +160,13 @@
 
         </FrameLayout>
 
+        <!-- ALTAPPS-312 Rate this application button hidden -->
         <include
             layout="@layout/view_divider_vertical"
             android:layout_width="match_parent"
             android:layout_height="?dividerVerticalSize"
-
-            android:layout_marginStart="20dp" />
-
+            android:layout_marginStart="20dp"
+            android:visibility="gone" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/settingsRateAppButton"
@@ -181,6 +181,7 @@
             android:textAlignment="textStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textSize="16sp"
+            android:visibility="gone"
             app:rippleColor="@android:color/transparent" />
 
     </LinearLayout>
@@ -248,7 +249,7 @@
             android:padding="0dp"
             android:paddingStart="20dp"
             android:paddingEnd="16dp"
-            android:text="@string/settings_logout"
+            android:text="@string/settings_sign_out"
             android:textAlignment="textStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/color_error"

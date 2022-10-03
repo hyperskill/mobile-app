@@ -17,7 +17,7 @@ struct StepQuizStatusView: View {
 
     var body: some View {
         HStack(spacing: appearance.interItemSpacing) {
-            if state == .evaluation {
+            if case .evaluation = state {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle(tint: state.foregroundColor))
             } else {
@@ -39,17 +39,28 @@ struct StepQuizStatusView: View {
         .cornerRadius(appearance.cornerRadius)
     }
 
-    enum State: CaseIterable {
+    enum State: CaseIterable, Hashable {
         case correct
         case wrong
         case evaluation
         case unsupportedQuiz
+        case invalidReply(message: String)
+
+        static var allCases: [StepQuizStatusView.State] {
+            [
+                .correct,
+                .wrong,
+                .evaluation,
+                .unsupportedQuiz,
+                .invalidReply(message: "Invalid reply")
+            ]
+        }
 
         fileprivate var iconImageName: String {
             switch self {
             case .correct:
                 return Images.StepQuiz.checkmark
-            case .wrong, .unsupportedQuiz:
+            case .wrong, .unsupportedQuiz, .invalidReply:
                 return Images.StepQuiz.info
             case .evaluation:
                 return ""
@@ -66,6 +77,8 @@ struct StepQuizStatusView: View {
                 return Strings.StepQuiz.quizStatusEvaluation
             case .unsupportedQuiz:
                 return Strings.StepQuiz.unsupportedText
+            case .invalidReply(let message):
+                return message
             }
         }
 
@@ -73,7 +86,7 @@ struct StepQuizStatusView: View {
             switch self {
             case .correct:
                 return Color(ColorPalette.secondary)
-            case .wrong, .evaluation, .unsupportedQuiz:
+            case .wrong, .evaluation, .unsupportedQuiz, .invalidReply:
                 return Color(ColorPalette.primary)
             }
         }
@@ -84,14 +97,14 @@ struct StepQuizStatusView: View {
                 return Color(ColorPalette.green200Alpha12)
             case .wrong:
                 return .clear
-            case .evaluation, .unsupportedQuiz:
+            case .evaluation, .unsupportedQuiz, .invalidReply:
                 return Color(ColorPalette.blue200Alpha12)
             }
         }
 
         fileprivate var paddingEdgeSet: Edge.Set {
             switch self {
-            case .correct, .evaluation, .unsupportedQuiz:
+            case .correct, .evaluation, .unsupportedQuiz, .invalidReply:
                 return .all
             case .wrong:
                 return .vertical

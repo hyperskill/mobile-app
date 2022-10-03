@@ -5,8 +5,8 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsClickedHyperskillAnalyticEvent
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsDeleteAccountNoticeHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsDeleteAccountNoticeShownHyperskillAnalyticEvent
-import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsLogoutNoticeHiddenHyperskillAnalyticEvent
-import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsLogoutNoticeShownHyperskillAnalyticEvent
+import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsSignOutNoticeHiddenHyperskillAnalyticEvent
+import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsSignOutNoticeShownHyperskillAnalyticEvent
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsViewedHyperskillAnalyticEvent
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Action
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Message
@@ -36,8 +36,8 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
-            is Message.LogoutConfirmed ->
-                state to setOf(Action.Logout)
+            is Message.SignOutConfirmed ->
+                state to setOf(Action.SignOut)
             is Message.ClickedSendFeedback -> {
                 val analyticEvent = ProfileSettingsClickedHyperskillAnalyticEvent(
                     target = HyperskillAnalyticTarget.SEND_FEEDBACK
@@ -89,18 +89,18 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                         )
                     )
                 )
-            is Message.ClickedLogoutEventMessage ->
+            is Message.ClickedSignOutEventMessage ->
                 state to setOf(
                     Action.LogAnalyticEvent(
                         ProfileSettingsClickedHyperskillAnalyticEvent(
-                            target = HyperskillAnalyticTarget.LOGOUT
+                            target = HyperskillAnalyticTarget.SIGN_OUT
                         )
                     )
                 )
-            is Message.LogoutNoticeShownEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(ProfileSettingsLogoutNoticeShownHyperskillAnalyticEvent()))
-            is Message.LogoutNoticeHiddenEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(ProfileSettingsLogoutNoticeHiddenHyperskillAnalyticEvent(message.isConfirmed)))
+            is Message.SignOutNoticeShownEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(ProfileSettingsSignOutNoticeShownHyperskillAnalyticEvent()))
+            is Message.SignOutNoticeHiddenEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(ProfileSettingsSignOutNoticeHiddenHyperskillAnalyticEvent(message.isConfirmed)))
             is Message.ClickedDeleteAccountEventMessage ->
                 state to setOf(
                     Action.LogAnalyticEvent(

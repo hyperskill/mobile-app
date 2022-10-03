@@ -8,7 +8,6 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizSortingBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
-import org.hyperskill.app.android.step_quiz.view.model.ReplyResult
 import org.hyperskill.app.android.step_quiz_matching.view.adapter.MatchingItemOptionAdapterDelegate
 import org.hyperskill.app.android.step_quiz_matching.view.adapter.MatchingItemTitleAdapterDelegate
 import org.hyperskill.app.android.step_quiz_matching.view.mapper.MatchingItemMapper
@@ -16,13 +15,13 @@ import org.hyperskill.app.android.step_quiz_matching.view.model.MatchingItem
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
-import ru.nobird.app.core.model.swap
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
+import ru.nobird.app.core.model.swap
 
 class MatchingStepQuizFormDelegate(
     containerBinding: FragmentStepQuizBinding,
     binding: LayoutStepQuizSortingBinding,
-    private val onQuizChanged: (ReplyResult) -> Unit
+    private val onQuizChanged: (Reply) -> Unit
 ) : StepQuizFormDelegate {
     private val quizDescription = containerBinding.stepQuizDescription
     private val optionsAdapter = DefaultDelegateAdapter<MatchingItem>()
@@ -100,14 +99,11 @@ class MatchingStepQuizFormDelegate(
             }
     }
 
-    override fun createReply(): ReplyResult =
-        ReplyResult(
-            Reply(
-                ordering = optionsAdapter
-                    .items
-                    .filterIsInstance<MatchingItem.Option>()
-                    .map(MatchingItem.Option::id)
-            ),
-            ReplyResult.Validation.Success
+    override fun createReply(): Reply =
+        Reply(
+            ordering = optionsAdapter
+                .items
+                .filterIsInstance<MatchingItem.Option>()
+                .map(MatchingItem.Option::id)
         )
 }

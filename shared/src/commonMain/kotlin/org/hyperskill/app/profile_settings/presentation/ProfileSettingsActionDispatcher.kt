@@ -33,7 +33,7 @@ class ProfileSettingsActionDispatcher(
             }
             is Action.ChangeTheme ->
                 profileSettingsInteractor.changeTheme(action.theme)
-            is Action.Logout -> {
+            is Action.SignOut -> {
                 authInteractor.clearCache()
                 profileInteractor.clearCache()
                 authorizationFlow.tryEmit(UserDeauthorized)

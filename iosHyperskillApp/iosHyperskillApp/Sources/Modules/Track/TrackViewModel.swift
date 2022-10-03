@@ -28,7 +28,7 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
         WebControllerManager.shared.presentWebControllerWithURL(
             url,
             withKey: .externalLink,
-            allowsSafari: true,
+            controllerType: .custom(),
             backButtonStyle: .done
         )
     }

@@ -43,7 +43,8 @@ class AuthCredentialsReducer : StateReducer<State, Message, Action> {
             }
             is Message.AuthFailure -> {
                 if (state.formState is AuthCredentialsFeature.FormState.Loading) {
-                    state.copy(formState = AuthCredentialsFeature.FormState.Error(message.credentialsError)) to emptySet()
+                    state.copy(formState = AuthCredentialsFeature.FormState.Error(message.credentialsError)) to
+                        setOf(Action.ViewAction.CaptureError(message.originalError))
                 } else {
                     null
                 }

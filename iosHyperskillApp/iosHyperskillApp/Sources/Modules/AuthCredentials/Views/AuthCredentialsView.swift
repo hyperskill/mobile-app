@@ -82,6 +82,8 @@ struct AuthCredentialsView: View {
         case let completeAuthFlowViewAction as AuthCredentialsFeatureActionViewActionCompleteAuthFlow:
             ProgressHUD.showSuccess()
             viewModel.doCompleteAuthFlow(isNewUser: completeAuthFlowViewAction.isNewUser)
+        case let captureErrorViewAction as AuthCredentialsFeatureActionViewActionCaptureError:
+            SentryManager.capture(error: captureErrorViewAction.error)
         default:
             print("AuthEmailView :: unhandled viewAction = \(viewAction)")
         }

@@ -7,15 +7,13 @@ import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.main.presentation.AppFeature.Action
 import org.hyperskill.app.main.presentation.AppFeature.Message
-import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class AppActionDispatcher(
     config: ActionDispatcherOptions,
     private val authInteractor: AuthInteractor,
-    private val profileInteractor: ProfileInteractor,
-    private val onboardingInteractor: OnboardingInteractor
+    private val profileInteractor: ProfileInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
         authInteractor
@@ -34,7 +32,7 @@ class AppActionDispatcher(
 
                 val message =
                     profileResult
-                        .map { profile -> Message.UserAccountStatus(profile, onboardingInteractor.isOnboardingShown()) }
+                        .map { profile -> Message.UserAccountStatus(profile) }
                         .getOrElse { Message.UserAccountStatusError }
 
                 onNewMessage(message)

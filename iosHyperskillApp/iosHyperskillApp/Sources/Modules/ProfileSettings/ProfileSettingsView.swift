@@ -9,7 +9,7 @@ struct ProfileSettingsView: View {
 
     @StateObject var viewModel: ProfileSettingsViewModel
 
-    @State private var isPresentingLogoutAlert = false
+    @State private var isPresentingSignOutAlert = false
     @State private var isPresentingAccountDeletionAlert = false
 
     @Environment(\.presentationMode) private var presentationMode
@@ -92,6 +92,7 @@ struct ProfileSettingsView: View {
                 OpenURLInsideAppButton(
                     text: Strings.Settings.termsOfService,
                     url: Self.termsOfServiceURL,
+                    webControllerType: .safari,
                     onTap: viewModel.logClickedTermsOfServiceEvent
                 )
                 .foregroundColor(.primaryText)
@@ -99,6 +100,7 @@ struct ProfileSettingsView: View {
                 OpenURLInsideAppButton(
                     text: Strings.Settings.privacyPolicy,
                     url: Self.privacyPolicyURL,
+                    webControllerType: .safari,
                     onTap: viewModel.logClickedPrivacyPolicyEvent
                 )
                 .foregroundColor(.primaryText)
@@ -115,9 +117,10 @@ struct ProfileSettingsView: View {
                     }
                 }
 
-                Button(Strings.Settings.rateApplication) {
-                }
-                .foregroundColor(Color(ColorPalette.primary))
+                // ALTAPPS-312
+                //Button(Strings.Settings.rateApplication) {
+                //}
+                //.foregroundColor(Color(ColorPalette.primary))
             }
 
             Section {
@@ -127,39 +130,40 @@ struct ProfileSettingsView: View {
                 OpenURLInsideAppButton(
                     text: Strings.Settings.reportProblem,
                     url: Self.reportProblemURL,
+                    webControllerType: .safari,
                     onTap: viewModel.logClickedReportProblemEvent
                 )
                 .foregroundColor(.primaryText)
             }
 
             Section {
-                Button(Strings.Settings.logout) {
-                    viewModel.logClickedLogoutEvent()
-                    isPresentingLogoutAlert = true
+                Button(Strings.Settings.signOut) {
+                    viewModel.logClickedSignOutEvent()
+                    isPresentingSignOutAlert = true
                 }
                 .foregroundColor(Color(ColorPalette.overlayRed))
-                .alert(isPresented: $isPresentingLogoutAlert) {
+                .alert(isPresented: $isPresentingSignOutAlert) {
                     Alert(
-                        title: Text(Strings.Settings.logoutDialogTitle),
-                        message: Text(Strings.Settings.logoutDialogExplanation),
+                        title: Text(Strings.Settings.signOutAlertTitle),
+                        message: Text(Strings.Settings.signOutAlertMessage),
                         primaryButton: .default(
                             Text(Strings.General.no),
                             action: {
-                                viewModel.logLogoutNoticeHiddenEvent(isConfirmed: false)
+                                viewModel.logSignOutNoticeHiddenEvent(isConfirmed: false)
                             }
                         ),
                         secondaryButton: .destructive(
                             Text(Strings.General.yes),
                             action: {
-                                viewModel.logLogoutNoticeHiddenEvent(isConfirmed: true)
-                                viewModel.doLogout()
+                                viewModel.logSignOutNoticeHiddenEvent(isConfirmed: true)
+                                viewModel.doSignOut()
                             }
                         )
                     )
                 }
-                .onChange(of: isPresentingLogoutAlert) { newValue in
+                .onChange(of: isPresentingSignOutAlert) { newValue in
                     if newValue {
-                        viewModel.logLogoutNoticeShownEvent()
+                        viewModel.logSignOutNoticeShownEvent()
                     }
                 }
             }
@@ -187,8 +191,7 @@ struct ProfileSettingsView: View {
                                 WebControllerManager.shared.presentWebControllerWithURL(
                                     Self.accountDeletionURL,
                                     withKey: .externalLink,
-                                    allowsSafari: true,
-                                    backButtonStyle: .done
+                                    controllerType: .custom()
                                 )
                             }
                         )

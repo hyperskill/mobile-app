@@ -6,11 +6,9 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
-class ProfileSettingsLogoutNoticeHiddenHyperskillAnalyticEvent(
-    isLogoutConfirmed: Boolean
-) : HyperskillAnalyticEvent(
+class ProfileSettingsSignOutNoticeShownHyperskillAnalyticEvent : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Profile.Settings(),
-    HyperskillAnalyticAction.HIDDEN,
-    HyperskillAnalyticPart.LOGOUT_NOTICE,
-    target = if (isLogoutConfirmed) HyperskillAnalyticTarget.YES else HyperskillAnalyticTarget.NO
+    HyperskillAnalyticAction.SHOWN,
+    HyperskillAnalyticPart.NOTICE,
+    HyperskillAnalyticTarget.SIGN_OUT_NOTICE
 )

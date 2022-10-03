@@ -6,6 +6,7 @@ import org.hyperskill.app.step_quiz.data.repository.AttemptRepositoryImpl
 import org.hyperskill.app.step_quiz.data.source.AttemptRemoteDataSource
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
 import org.hyperskill.app.step_quiz.domain.repository.AttemptRepository
+import org.hyperskill.app.step_quiz.domain.validation.StepQuizReplyValidator
 import org.hyperskill.app.step_quiz.presentation.StepQuizActionDispatcher
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizReducer
@@ -22,6 +23,9 @@ class StepQuizComponentImpl(private val appGraph: AppGraph) : StepQuizComponent 
     )
     private val attemptRepository: AttemptRepository =
         AttemptRepositoryImpl(attemptRemoteDataSource)
+
+    private val stepQuizReplyValidator: StepQuizReplyValidator =
+        StepQuizReplyValidator(appGraph.commonComponent.resourceProvider)
 
     override val stepQuizStatsTextMapper: StepQuizStatsTextMapper
         get() = StepQuizStatsTextMapper(appGraph.commonComponent.resourceProvider)
@@ -41,6 +45,7 @@ class StepQuizComponentImpl(private val appGraph: AppGraph) : StepQuizComponent 
             val stepQuizActionDispatcher = StepQuizActionDispatcher(
                 ActionDispatcherOptions(),
                 stepQuizInteractor,
+                stepQuizReplyValidator,
                 appGraph.buildProfileDataComponent().profileInteractor,
                 appGraph.buildNotificationComponent().notificationInteractor,
                 appGraph.analyticComponent.analyticInteractor

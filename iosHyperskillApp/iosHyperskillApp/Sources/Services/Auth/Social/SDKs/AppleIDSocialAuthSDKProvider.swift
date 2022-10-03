@@ -1,6 +1,14 @@
 import AuthenticationServices
 import Foundation
 
+enum AppleIDSocialAuthSDKProviderErrorReason: Error {
+    case noASAuthorizationAppleIDCredential
+    case noAuthorizationCode
+    case failedSerializeAuthorizationCode
+    case noIdentityToken
+    case failedSerializeIdentityToken
+}
+
 @MainActor
 final class AppleIDSocialAuthSDKProvider: NSObject, SocialAuthSDKProvider {
     private typealias CompletionHandler = (Result<SocialAuthSDKResponse, SocialAuthSDKError>) -> Void
@@ -36,41 +44,63 @@ final class AppleIDSocialAuthSDKProvider: NSObject, SocialAuthSDKProvider {
     }
 }
 
+// MARK: - AppleIDSocialAuthSDKProvider: ASAuthorizationControllerDelegate -
+
 extension AppleIDSocialAuthSDKProvider: ASAuthorizationControllerDelegate {
     func authorizationController(
         controller: ASAuthorizationController,
         didCompleteWithAuthorization authorization: ASAuthorization
     ) {
         guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential else {
-            return handleDidCompleteWithError(SocialAuthSDKError.connectionError)
+            return handleDidCompleteWithError(
+                SocialAuthSDKError.connectionError(
+                    originalError: AppleIDSocialAuthSDKProviderErrorReason.noASAuthorizationAppleIDCredential
+                )
+            )
         }
 
         guard let appleAuthCode = appleIDCredential.authorizationCode else {
             #if DEBUG
             print("AppleIDSocialAuthSDKProvider :: Unable to fetch authorization code")
             #endif
-            return handleDidCompleteWithError(SocialAuthSDKError.connectionError)
+            return handleDidCompleteWithError(
+                SocialAuthSDKError.connectionError(
+                    originalError: AppleIDSocialAuthSDKProviderErrorReason.noAuthorizationCode
+                )
+            )
         }
 
         guard let authCodeString = String(data: appleAuthCode, encoding: .utf8) else {
             #if DEBUG
             print("AppleIDSocialAuthSDKProvider :: Unable to serialize authorization code from data: \(appleAuthCode.debugDescription)")
             #endif
-            return handleDidCompleteWithError(SocialAuthSDKError.connectionError)
+            return handleDidCompleteWithError(
+                SocialAuthSDKError.connectionError(
+                    originalError: AppleIDSocialAuthSDKProviderErrorReason.failedSerializeAuthorizationCode
+                )
+            )
         }
 
         guard let appleIDToken = appleIDCredential.identityToken else {
             #if DEBUG
             print("AppleIDSocialAuthSDKProvider :: Unable to fetch identity token")
             #endif
-            return handleDidCompleteWithError(SocialAuthSDKError.connectionError)
+            return handleDidCompleteWithError(
+                SocialAuthSDKError.connectionError(
+                    originalError: AppleIDSocialAuthSDKProviderErrorReason.noIdentityToken
+                )
+            )
         }
 
         guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
             #if DEBUG
             print("AppleIDSocialAuthSDKProvider :: Unable to serialize token string from data: \(appleIDToken.debugDescription)")
             #endif
-            return handleDidCompleteWithError(SocialAuthSDKError.connectionError)
+            return handleDidCompleteWithError(
+                SocialAuthSDKError.connectionError(
+                    originalError: AppleIDSocialAuthSDKProviderErrorReason.failedSerializeIdentityToken
+                )
+            )
         }
 
         let response = SocialAuthSDKResponse(authorizationCode: authCodeString, identityToken: idTokenString)
@@ -90,18 +120,20 @@ extension AppleIDSocialAuthSDKProvider: ASAuthorizationControllerDelegate {
                 case .canceled:
                     return .canceled
                 case .unknown, .invalidResponse, .notHandled, .failed, .notInteractive:
-                    return .connectionError
+                    return .connectionError(originalError: error)
                 @unknown default:
-                    return .connectionError
+                    return .connectionError(originalError: error)
                 }
             } else {
-                return .connectionError
+                return .connectionError(originalError: error)
             }
         }()
 
         completionHandler?(.failure(sdkError))
     }
 }
+
+// MARK: - AppleIDSocialAuthSDKProvider: ASAuthorizationControllerPresentationContextProviding -
 
 extension AppleIDSocialAuthSDKProvider: ASAuthorizationControllerPresentationContextProviding {
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {

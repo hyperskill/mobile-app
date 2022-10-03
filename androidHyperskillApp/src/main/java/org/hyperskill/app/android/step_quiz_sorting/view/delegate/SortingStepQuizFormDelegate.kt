@@ -5,9 +5,8 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizSortingBinding
-import org.hyperskill.app.android.step_quiz.view.model.ReplyResult
-import org.hyperskill.app.android.step_quiz_sorting.view.adapter.SortingOptionAdapterDelegate
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
+import org.hyperskill.app.android.step_quiz_sorting.view.adapter.SortingOptionAdapterDelegate
 import org.hyperskill.app.android.step_quiz_sorting.view.mapper.SortingOptionMapper
 import org.hyperskill.app.android.step_quiz_sorting.view.model.SortingOption
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
@@ -19,7 +18,7 @@ import ru.nobird.app.core.model.swap
 class SortingStepQuizFormDelegate(
     containerBinding: FragmentStepQuizBinding,
     binding: LayoutStepQuizSortingBinding,
-    private val onQuizChanged: (ReplyResult) -> Unit
+    private val onQuizChanged: (Reply) -> Unit
 ) : StepQuizFormDelegate {
     private val quizDescription = containerBinding.stepQuizDescription
 
@@ -71,6 +70,6 @@ class SortingStepQuizFormDelegate(
             }
     }
 
-    override fun createReply(): ReplyResult =
-        ReplyResult(Reply(ordering = optionsAdapter.items.map(SortingOption::id)), ReplyResult.Validation.Success)
+    override fun createReply(): Reply =
+        Reply(ordering = optionsAdapter.items.map(SortingOption::id))
 }
