@@ -50,9 +50,15 @@ struct StepQuizView: View {
         } else {
             let viewData = viewModel.makeViewData()
 
+            let quizType = StepQuizChildQuizType(blockName: viewData.stepBlockName)
+
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: appearance.interItemSpacing) {
                     StepQuizStatsView(text: viewData.formattedStats)
+
+                    if case .unsupported = quizType {
+                        StepQuizStatusView(state: .unsupportedQuiz)
+                    }
 
                     LatexView(
                         text: .constant(viewData.stepText),
@@ -72,7 +78,7 @@ struct StepQuizView: View {
                         state: viewModel.state,
                         step: viewModel.step,
                         stepQuizName: viewData.quizName,
-                        stepBlockName: viewData.stepBlockName,
+                        quizType: quizType,
                         hintText: viewData.hintText
                     )
                     .alert(isPresented: $isPresentingDailyStudyRemindersPermissionAlert) {
@@ -104,19 +110,15 @@ struct StepQuizView: View {
         state: StepQuizFeatureState,
         step: Step,
         stepQuizName: String?,
-        stepBlockName: String,
+        quizType: StepQuizChildQuizType,
         hintText: String?
     ) -> some View {
         if let stepQuizName = stepQuizName {
             StepQuizNameView(text: stepQuizName)
         }
 
-        let quizType = StepQuizChildQuizType(blockName: stepBlockName)
-
         if let attemptLoadedState = state as? StepQuizFeatureStateAttemptLoaded {
-            if case .unsupported = quizType {
-                StepQuizStatusView(state: .unsupportedQuiz)
-            } else {
+            if case .unsupported = quizType {} else {
                 buildChildQuiz(quizType: quizType, step: step, attemptLoadedState: attemptLoadedState)
                 buildQuizStatusView(attemptLoadedState: attemptLoadedState)
 

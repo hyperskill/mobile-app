@@ -51,6 +51,13 @@ struct StepQuizStringView_Previews: PreviewProvider {
             .makeModule()
             .previewLayout(.sizeThatFits)
             .padding()
+
+        StepQuizStringAssembly
+            .makePlaceholder(dataType: .string)
+            .makeModule()
+            .previewLayout(.sizeThatFits)
+            .padding()
+            .preferredColorScheme(.dark)
     }
 }
 #endif

@@ -3,6 +3,16 @@
     {
       "filename" : "home-streak-passive.pdf",
       "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "home-streak-passive-dark.pdf",
+      "idiom" : "universal"
     }
   ],
   "info" : {
