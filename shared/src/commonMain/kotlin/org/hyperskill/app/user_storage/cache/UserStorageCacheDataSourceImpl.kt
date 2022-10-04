@@ -14,7 +14,7 @@ class UserStorageCacheDataSourceImpl(
 ) : UserStorageCacheDataSource {
     override fun getUserStorage(): Result<UserStorage> =
         kotlin.runCatching {
-            json.decodeFromString(settings[UserStorageCacheKeyValues.USER_STORAGE, ""])
+            json.decodeFromString(settings.getString(UserStorageCacheKeyValues.USER_STORAGE, ""))
         }
 
     override fun saveUserStorage(userStorage: UserStorage) {
