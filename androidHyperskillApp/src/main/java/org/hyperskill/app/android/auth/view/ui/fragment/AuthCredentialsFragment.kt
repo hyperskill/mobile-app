@@ -12,7 +12,9 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
+import io.sentry.Breadcrumb
 import io.sentry.Sentry
+import io.sentry.SentryLevel
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthFlow
@@ -21,6 +23,7 @@ import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragm
 import org.hyperskill.app.android.core.view.ui.dialog.dismissIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentAuthEmailBinding
+import org.hyperskill.app.android.sentry.domain.model.SentryBreadcrumbKeyValues
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature
 import org.hyperskill.app.auth.presentation.AuthCredentialsViewModel
 import org.hyperskill.app.auth.view.mapper.AuthCredentialsErrorMapper
@@ -79,12 +82,14 @@ class AuthCredentialsFragment :
         viewBinding.passwordEditText.setOnEditorActionListener { _, actionId, _ ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_SEND) {
+                logSigningToSentry()
                 authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.SubmitFormClicked)
                 handled = true
             }
             handled
         }
         viewBinding.signInWithEmailMaterialButton.setOnClickListener {
+            logSigningToSentry()
             authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.ClickedSignInEventMessage)
             authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.SubmitFormClicked)
         }
@@ -121,10 +126,25 @@ class AuthCredentialsFragment :
     override fun onAction(action: AuthCredentialsFeature.Action.ViewAction) {
         when (action) {
             is AuthCredentialsFeature.Action.ViewAction.CompleteAuthFlow -> {
+                val breadcrumb = Breadcrumb().apply {
+                    category = SentryBreadcrumbKeyValues.CATEGORY_AUTH_CREDENTIALS
+                    message = "Signed in with log/pas"
+                    level = SentryLevel.INFO
+                }
+                Sentry.addBreadcrumb(breadcrumb)
+
                 (parentFragment as? AuthFlow)?.onAuthSuccess(action.isNewUser)
             }
-            is AuthCredentialsFeature.Action.ViewAction.CaptureError ->
-                Sentry.captureException(action.error)
+            is AuthCredentialsFeature.Action.ViewAction.CaptureError -> {
+                val breadcrumb = Breadcrumb().apply {
+                    category = SentryBreadcrumbKeyValues.CATEGORY_AUTH_CREDENTIALS
+                    message = "Sign in with log/pas failed"
+                    level = SentryLevel.ERROR
+                }
+                Sentry.addBreadcrumb(breadcrumb)
+
+                Sentry.captureMessage("AuthCredentials: ${action.error}", SentryLevel.ERROR)
+            }
         }
     }
 
@@ -144,6 +164,14 @@ class AuthCredentialsFragment :
         }
 
         if (formState is AuthCredentialsFeature.FormState.Error) {
+            val breadcrumb = Breadcrumb().apply {
+                category = SentryBreadcrumbKeyValues.CATEGORY_AUTH_CREDENTIALS
+                message = "Sign in with log/pas failed"
+                level = SentryLevel.INFO
+                setData("form_state_error", formState.credentialsError.toString())
+            }
+            Sentry.addBreadcrumb(breadcrumb)
+
             showError(authCredentialsErrorMapper.getAuthCredentialsErrorText(formState.credentialsError))
         } else {
             hideError()
@@ -167,5 +195,14 @@ class AuthCredentialsFragment :
         viewBinding.emailTextInputLayout.error = null
         viewBinding.passwordTextInputLayout.error = null
         viewBinding.authEmailErrorMsgTextView.text = null
+    }
+
+    private fun logSigningToSentry() {
+        val breadcrumb = Breadcrumb().apply {
+            category = SentryBreadcrumbKeyValues.CATEGORY_AUTH_CREDENTIALS
+            message = "Signing in with log/pas"
+            level = SentryLevel.INFO
+        }
+        Sentry.addBreadcrumb(breadcrumb)
     }
 }

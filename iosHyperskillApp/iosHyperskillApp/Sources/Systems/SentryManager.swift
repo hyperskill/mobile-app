@@ -37,7 +37,19 @@ enum SentryManager {
         SentrySDK.setUser(nil)
     }
 
+    // MARK: Capture
+
     static func capture(error: KotlinThrowable) {
         SentrySDK.capture(error: error.asError())
+    }
+
+    static func captureErrorMessage(error: KotlinThrowable) {
+        captureErrorMessage(String(describing: error.asError()))
+    }
+
+    static func captureErrorMessage(_ message: String) {
+        SentrySDK.capture(message: message) { scope in
+            scope.setLevel(.error)
+        }
     }
 }
