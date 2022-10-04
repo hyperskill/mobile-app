@@ -56,6 +56,8 @@ dependencies {
     implementation(libs.android.coil.svg)
     implementation(libs.android.splashscreen)
     implementation(libs.android.timepicker)
+
+    coreLibraryDesugaring(libs.android.desugar.jdk)
 }
 
 android {
@@ -144,6 +146,14 @@ android {
 
     buildFeatures {
         viewBinding = true
+    }
+
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+
+        // Sets Java compatibility to Java 8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
 
