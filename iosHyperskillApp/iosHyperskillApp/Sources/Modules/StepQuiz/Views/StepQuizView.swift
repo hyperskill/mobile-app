@@ -43,9 +43,12 @@ struct StepQuizView: View {
     private func buildBody() -> some View {
         if viewModel.state is StepQuizFeatureStateNetworkError {
             PlaceholderView(
-                configuration: .networkError {
-                    viewModel.loadAttempt(forceUpdate: true)
-                }
+                configuration: .networkError(
+                    backgroundColor: .clear,
+                    action: {
+                        viewModel.loadAttempt(forceUpdate: true)
+                    }
+                )
             )
         } else {
             let viewData = viewModel.makeViewData()
