@@ -84,6 +84,8 @@ android-coil-svg = { module = "io.coil-kt:coil-svg", version = "2.1.0" }
 android-splashscreen = { module = "androidx.core:core-splashscreen", version = "1.0.0-beta02" }
 android-timepicker = { module = "io.github.ShawnLin013:number-picker", version = "2.4.13" }
 
+android-desugar-jdk = { module = "com.android.tools:desugar_jdk_libs", version = "1.1.5" }
+
 [bundles]
 ktor-common = ['ktor-core', 'ktor-serialization', 'ktor-logging', 'ktor-contentNegotiation', 'ktor-serialization-json']
 android-test = ['android-test-junit', 'android-test-runner', 'android-test-robolectric']
