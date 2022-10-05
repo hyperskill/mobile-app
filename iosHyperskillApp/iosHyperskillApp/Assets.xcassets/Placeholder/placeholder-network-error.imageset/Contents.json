@@ -3,6 +3,16 @@
     {
       "filename" : "placeholder-network-error.pdf",
       "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "placeholder-network-error-dark.pdf",
+      "idiom" : "universal"
     }
   ],
   "info" : {
