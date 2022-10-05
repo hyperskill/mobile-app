@@ -5,10 +5,12 @@ struct StepQuizNameView: View {
 
     var dividerLocation = DividerLocation.top
 
+    @Environment(\.colorScheme) private var colorScheme
+
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
             if dividerLocation == .top {
-                Divider()
+                divider
             }
 
             Text(text)
@@ -16,8 +18,21 @@ struct StepQuizNameView: View {
                 .foregroundColor(.disabledText)
 
             if dividerLocation == .bottom {
-                Divider()
+                divider
             }
+        }
+    }
+
+    @ViewBuilder
+    var divider: some View {
+        switch colorScheme {
+        case .light:
+            Divider()
+        case .dark:
+            Divider()
+                .overlay(Color(UIColor.separator))
+        @unknown default:
+            Divider()
         }
     }
 

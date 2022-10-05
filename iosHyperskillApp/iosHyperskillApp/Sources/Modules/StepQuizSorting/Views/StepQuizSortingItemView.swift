@@ -1,6 +1,14 @@
 import SwiftUI
 
+extension StepQuizSortingItemView {
+    struct Appearance {
+        let borderColor = Color(UIColor.dynamic(light: ColorPalette.onSurfaceAlpha12, dark: .separator))
+    }
+}
+
 struct StepQuizSortingItemView: View {
+    private(set) var appearance = Appearance()
+
     let text: String
 
     let isMoveUpEnabled: Bool
@@ -22,7 +30,7 @@ struct StepQuizSortingItemView: View {
             }
         }
         .padding()
-        .addBorder()
+        .addBorder(color: appearance.borderColor)
     }
 }
 

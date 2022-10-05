@@ -10,6 +10,8 @@ extension StepQuizStringView {
         let placeholderTextFont = Font.body
         let placeholderTextColor = Color.secondaryText
         let placeholderInsets = LayoutInsets(top: 16, leading: 13, bottom: 16, trailing: 16)
+
+        let borderColor = Color(UIColor.dynamic(light: ColorPalette.onSurfaceAlpha12, dark: .separator))
     }
 }
 
@@ -39,7 +41,7 @@ struct StepQuizStringView: View {
                 ,
                 alignment: .topLeading
             )
-            .addBorder()
+            .addBorder(color: appearance.borderColor)
     }
 }
 
