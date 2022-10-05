@@ -118,7 +118,9 @@ struct StepQuizView: View {
         }
 
         if let attemptLoadedState = state as? StepQuizFeatureStateAttemptLoaded {
-            if case .unsupported = quizType {} else {
+            if case .unsupported = quizType {
+                // it's rendered before step text
+            } else {
                 buildChildQuiz(quizType: quizType, step: step, attemptLoadedState: attemptLoadedState)
                 buildQuizStatusView(attemptLoadedState: attemptLoadedState)
 
