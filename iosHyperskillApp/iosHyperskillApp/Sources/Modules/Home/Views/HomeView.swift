@@ -91,7 +91,9 @@ struct HomeView: View {
                         .buttonStyle(OutlineButtonStyle())
                     }
 
-                    //HomeDebugStepNavigationView()
+                    #if BETA_PROFILE || DEBUG
+                    HomeDebugStepNavigationView()
+                    #endif
                 }
                 .padding()
             }
