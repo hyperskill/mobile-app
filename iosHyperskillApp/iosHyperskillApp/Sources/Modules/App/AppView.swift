@@ -6,7 +6,7 @@ struct AppView: View {
 
     private(set) var panModalPresenter: PanModalPresenter
 
-    @Environment(\.colorScheme) private var colorScheme
+    //@Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         buildBody()
@@ -14,14 +14,14 @@ struct AppView: View {
                 viewModel.startListening()
                 viewModel.onViewAction = handleViewAction(_:)
 
-                updateProgressHUDStyle(colorScheme: colorScheme)
+                //updateProgressHUDStyle(colorScheme: colorScheme)
             }
             .onDisappear {
                 viewModel.stopListening()
             }
-            .onChange(of: colorScheme) { newColorScheme in
-                updateProgressHUDStyle(colorScheme: newColorScheme)
-            }
+//            .onChange(of: colorScheme) { newColorScheme in
+//                updateProgressHUDStyle(colorScheme: newColorScheme)
+//            }
     }
 
     // MARK: Private API
@@ -48,16 +48,16 @@ struct AppView: View {
             buildContent(
                 isAuthorized: readyState.isAuthorized
             )
-            .fullScreenCover(item: $viewModel.navigationState.activeFullScreenModal) { screen in
-                switch screen {
-                case .auth:
-                    AuthSocialAssembly(output: viewModel).makeModule()
-                case .onboarding:
-                    OnboardingAssembly(output: viewModel).makeModule()
-                case .newUser:
-                    AuthNewUserPlaceholderAssembly(output: viewModel).makeModule()
-                }
-            }
+//            .fullScreenCover(item: $viewModel.navigationState.activeFullScreenModal) { screen in
+//                switch screen {
+//                case .auth:
+//                    AuthSocialAssembly(output: viewModel).makeModule()
+//                case .onboarding:
+//                    OnboardingAssembly(output: viewModel).makeModule()
+//                case .newUser:
+//                    AuthNewUserPlaceholderAssembly(output: viewModel).makeModule()
+//                }
+//            }
             .environmentObject(panModalPresenter)
         default:
             ProgressView()
@@ -67,69 +67,69 @@ struct AppView: View {
     @ViewBuilder
     private func buildContent(isAuthorized: Bool) -> some View {
         if isAuthorized {
-            TabView(selection: $viewModel.navigationState.selectedTab) {
-                ForEach(AppTabItem.allCases, id: \.self) { tab in
-                    // TODO: Refactor to factory when Xcode 14 released
-                    TabNavigationLazyView(
-                        Group {
-                            switch tab {
-                            case .home:
-                                HomeAssembly().makeModule()
-                            case .track:
-                                TrackAssembly().makeModule()
-                            case .profile:
-                                ProfileAssembly.currentUser().makeModule()
-                            }
-                        }
-                    )
-                    .tag(tab)
-                    .tabItem {
-                        Image(
-                            tab == viewModel.navigationState.selectedTab
-                                ? tab.selectedImageName
-                                : tab.imageName
-                        )
-                        .renderingMode(.template)
-
-                        Text(tab.title)
-                    }
-                }
-            }
+//            TabView(selection: $viewModel.navigationState.selectedTab) {
+//                ForEach(AppTabItem.allCases, id: \.self) { tab in
+//                    // TODO: Refactor to factory when Xcode 14 released
+//                    TabNavigationLazyView(
+//                        Group {
+//                            switch tab {
+//                            case .home:
+//                                HomeAssembly().makeModule()
+//                            case .track:
+//                                TrackAssembly().makeModule()
+//                            case .profile:
+//                                ProfileAssembly.currentUser().makeModule()
+//                            }
+//                        }
+//                    )
+//                    .tag(tab)
+//                    .tabItem {
+//                        Image(
+//                            tab == viewModel.navigationState.selectedTab
+//                                ? tab.selectedImageName
+//                                : tab.imageName
+//                        )
+//                        .renderingMode(.template)
+//
+//                        Text(tab.title)
+//                    }
+//                }
+//            }
         } else {
             ProgressView()
         }
     }
 
-    private func updateProgressHUDStyle(colorScheme: ColorScheme) {
-        ProgressHUD.updateStyle(isDark: colorScheme == .dark)
-    }
+//    private func updateProgressHUDStyle(colorScheme: ColorScheme) {
+//        ProgressHUD.updateStyle(isDark: colorScheme == .dark)
+//    }
 
     private func handleViewAction(_ viewAction: AppFeatureActionViewAction) {
-        switch viewAction {
-        case is AppFeatureActionViewActionNavigateToOnboardingScreen:
-            withAnimation {
-                viewModel.navigationState.activeFullScreenModal = .onboarding
-            }
-        case is AppFeatureActionViewActionNavigateToHomeScreen:
-            withAnimation {
-                viewModel.navigationState.activeFullScreenModal = nil
-            }
-        case is AppFeatureActionViewActionNavigateToAuthScreen:
-            withAnimation {
-                viewModel.navigationState.activeFullScreenModal = .auth
-            }
-        case is AppFeatureActionViewActionNavigateToNewUserScreen:
-            withAnimation {
-                viewModel.navigationState.activeFullScreenModal = .newUser
-            }
-        default:
-            print("AppView :: unhandled viewAction = \(viewAction)")
-        }
+//        switch viewAction {
+//        case is AppFeatureActionViewActionNavigateToOnboardingScreen:
+//            withAnimation {
+//                viewModel.navigationState.activeFullScreenModal = .onboarding
+//            }
+//        case is AppFeatureActionViewActionNavigateToHomeScreen:
+//            withAnimation {
+//                viewModel.navigationState.activeFullScreenModal = nil
+//            }
+//        case is AppFeatureActionViewActionNavigateToAuthScreen:
+//            withAnimation {
+//                viewModel.navigationState.activeFullScreenModal = .auth
+//            }
+//        case is AppFeatureActionViewActionNavigateToNewUserScreen:
+//            withAnimation {
+//                viewModel.navigationState.activeFullScreenModal = .newUser
+//            }
+//        default:
+//            print("AppView :: unhandled viewAction = \(viewAction)")
+//        }
     }
 }
 
-struct AppView_Previews: PreviewProvider {
-    static var previews: some View {
-        AppAssembly().makeModule()
-    }
-}
+//struct AppView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AppAssembly().makeModule()
+//    }
+//}

@@ -5,3 +5,7 @@ protocol Assembly {
 
     func makeModule() -> View
 }
+
+protocol UIKitAssembly: AnyObject {
+    func makeModule() -> UIViewController
+}
