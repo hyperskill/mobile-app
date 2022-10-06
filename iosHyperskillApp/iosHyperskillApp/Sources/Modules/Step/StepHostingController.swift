@@ -6,12 +6,4 @@ final class StepHostingController: UIHostingController<StepView> {
         super.viewDidLoad()
         navigationController?.removeBackButtonTitleForTopController()
     }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        if isMovingFromParent {
-            print("StepHostingController :: isMovingFromParent")
-        }
-    }
 }
