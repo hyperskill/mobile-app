@@ -1,14 +1,14 @@
 import shared
 import SwiftUI
 
-final class StepAssembly: Assembly {
+final class StepAssembly: UIKitAssembly {
     private let stepID: Int
 
     init(stepID: Int) {
         self.stepID = stepID
     }
 
-    func makeModule() -> StepView {
+    func makeModule() -> UIViewController {
         let commonComponent = AppGraphBridge.sharedAppGraph.commonComponent
         let stepComponent = AppGraphBridge.sharedAppGraph.buildStepComponent()
 
@@ -22,6 +22,8 @@ final class StepAssembly: Assembly {
             feature: stepComponent.stepFeature
         )
 
-        return StepView(viewModel: viewModel)
+        let stepView = StepView(viewModel: viewModel)
+
+        return StepHostingController(rootView: stepView)
     }
 }

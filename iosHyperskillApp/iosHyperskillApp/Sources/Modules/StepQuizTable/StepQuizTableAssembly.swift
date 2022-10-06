@@ -35,7 +35,10 @@ final class StepQuizTableAssembly: StepQuizChildQuizAssembly {
         moduleInput = viewModel
         viewModel.moduleOutput = moduleOutput
 
-        return StepQuizTableView(viewModel: viewModel)
+        return StepQuizTableView(
+            viewModel: viewModel,
+            panModalPresenter: PanModalPresenter(sourcelessRouter: SourcelessRouter())
+        )
     }
 }
 

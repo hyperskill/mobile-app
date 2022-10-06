@@ -25,19 +25,22 @@ class AppReducer : StateReducer<State, Message, Action> {
                     } else {
                         Action.ViewAction.NavigateTo.HomeScreen
                     }
-                    State.Ready(isAuthorized = true) to setOf(action)
+                    State.Ready(isAuthorized = true, message.isNewUser) to setOf(action)
                 } else {
                     null
                 }
             is Message.UserDeauthorized ->
                 if (state is State.Ready && state.isAuthorized) {
-                    State.Ready(isAuthorized = false) to setOf(Action.ViewAction.NavigateTo.OnboardingScreen)
+                    state.copy(isAuthorized = false) to
+                        // Skip for new user -> sign in presented
+                        if (state.isNewUser) emptySet() else setOf(Action.ViewAction.NavigateTo.OnboardingScreen)
                 } else {
                     null
                 }
             is Message.UserAccountStatus ->
                 if (state is State.Loading) {
                     val isAuthorized = !message.profile.isGuest
+                    val isNewUser = message.profile.trackId == null
 
                     val action =
                         if (isAuthorized) {
@@ -50,7 +53,7 @@ class AppReducer : StateReducer<State, Message, Action> {
                             Action.ViewAction.NavigateTo.OnboardingScreen
                         }
 
-                    State.Ready(isAuthorized = isAuthorized) to setOf(action)
+                    State.Ready(isAuthorized, isNewUser) to setOf(action)
                 } else {
                     null
                 }

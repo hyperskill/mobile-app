@@ -8,10 +8,16 @@ protocol AppViewControllerProtocol: AnyObject {
     func displayViewAction(_ viewAction: AppFeatureActionViewAction)
 }
 
+extension AppViewController {
+    enum Animation {
+        static let swapRootViewControllerAnimationDuration: TimeInterval = 0.3
+    }
+}
+
 final class AppViewController: UIViewController {
     private let viewModel: AppViewModel
 
-    var appView: AppUIKitView? { view as? AppUIKitView }
+    var appView: AppView? { view as? AppView }
 
     init(viewModel: AppViewModel) {
         self.viewModel = viewModel
@@ -24,7 +30,7 @@ final class AppViewController: UIViewController {
     }
 
     override func loadView() {
-        let view = AppUIKitView(frame: UIScreen.main.bounds, delegate: self)
+        let view = AppView(frame: UIScreen.main.bounds, delegate: self)
         self.view = view
     }
 
@@ -60,14 +66,14 @@ extension AppViewController: AppViewControllerProtocol {
     }
 
     func displayViewAction(_ viewAction: AppFeatureActionViewAction) {
-        print("AppViewController :: \(#function), viewAction = \(viewAction)")
-
         let viewControllerToPresent: UIViewController? = {
             switch viewAction {
             case is AppFeatureActionViewActionNavigateToOnboardingScreen:
                 return UIHostingController(rootView: OnboardingAssembly(output: viewModel).makeModule())
             case is AppFeatureActionViewActionNavigateToHomeScreen:
-                return nil
+                let controller = AppTabBarController()
+                controller.appTabBarControllerDelegate = viewModel
+                return controller
             case is AppFeatureActionViewActionNavigateToAuthScreen:
                 return UIHostingController(rootView: AuthSocialAssembly(output: viewModel).makeModule())
             case is AppFeatureActionViewActionNavigateToNewUserScreen:
@@ -81,6 +87,8 @@ extension AppViewController: AppViewControllerProtocol {
         guard let viewControllerToPresent else {
             return
         }
+
+        assert(children.count <= 2)
 
         let fromViewController = children.first { viewController in
             if viewController is UIHostingController<PlaceholderView> {
@@ -115,7 +123,7 @@ extension AppViewController: AppViewControllerProtocol {
         newViewController.view.layoutIfNeeded()
 
         UIView.animate(
-            withDuration: 0.3,
+            withDuration: Animation.swapRootViewControllerAnimationDuration,
             delay: 0,
             options: .transitionFlipFromLeft,
             animations: {
@@ -139,19 +147,19 @@ extension AppViewController: AppViewControllerProtocol {
 // MARK: - AppViewController: AppViewDelegate -
 
 extension AppViewController: AppViewDelegate {
-    func appViewPlaceholderActionButtonTapped(_ view: AppUIKitView) {
+    func appViewPlaceholderActionButtonTapped(_ view: AppView) {
         viewModel.loadApp(forceUpdate: true)
     }
 
     func appView(
-        _ view: AppUIKitView,
+        _ view: AppView,
         didRequestAddPlaceholderHostingController hostingController: UIHostingController<PlaceholderView>
     ) {
         addChild(hostingController)
     }
 
     func appView(
-        _ view: AppUIKitView,
+        _ view: AppView,
         didConfigurePlaceholderHostingController hostingController: UIHostingController<PlaceholderView>
     ) {
         hostingController.didMove(toParent: self)

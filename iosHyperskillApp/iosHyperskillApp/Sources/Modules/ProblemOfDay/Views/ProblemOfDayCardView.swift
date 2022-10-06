@@ -28,17 +28,12 @@ struct ProblemOfDayCardView: View {
 
     let viewModel: ProblemOfDayViewModel
 
-    @SwiftUI.State private var isPresentingStep = false
-
     var body: some View {
         let viewData = viewModel.makeViewData()
 
-        NavigationLink(
-            isActive: $isPresentingStep,
-            destination: {
-                if let stepID = viewData.stepID {
-                    StepAssembly(stepID: stepID).makeModule()
-                }
+        Button(
+            action: {
+                viewModel.doStepPresentation(stepID: viewData.stepID)
             },
             label: {
                 VStack(alignment: .leading, spacing: appearance.spacing) {
@@ -90,11 +85,6 @@ struct ProblemOfDayCardView: View {
         )
         .buttonStyle(BounceButtonStyle())
         .disabled(viewData.stepID == nil)
-        .onChange(of: isPresentingStep) { newValue in
-            if newValue {
-                viewModel.handleStepNavigationPresentationPerformed()
-            }
-        }
     }
 
     @ViewBuilder

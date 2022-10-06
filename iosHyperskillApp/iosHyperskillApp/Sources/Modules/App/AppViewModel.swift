@@ -7,20 +7,12 @@ final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, A
 
     private let analytic: Analytic
 
-    //@Published var navigationState: AppNavigationState
     private var objectWillChangeCancellable: AnyCancellable?
 
-    init(
-        analytic: Analytic,
-        //navigationState: AppNavigationState = AppNavigationState(),
-        feature: Presentation_reduxFeature
-    ) {
+    init(analytic: Analytic, feature: Presentation_reduxFeature) {
         self.analytic = analytic
-        //self.navigationState = navigationState
 
         super.init(feature: feature)
-
-        //self.navigationState.onSelectedTabChanged = handleSelectedTabChanged(oldValue:newValue:)
 
         self.objectWillChangeCancellable = objectWillChange.sink { _ in
             DispatchQueue.main.async {
@@ -74,7 +66,6 @@ final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, A
 
 extension AppViewModel: AuthOutputProtocol {
     func handleUserAuthorized(isNewUser: Bool) {
-        //navigationState.activeFullScreenModal = nil
         onNewMessage(AppFeatureMessageUserAuthorized(isNewUser: isNewUser))
     }
 }
@@ -96,5 +87,17 @@ extension AppViewModel: OnboardingOutputProtocol {
 extension AppViewModel: AuthNewUserPlaceholderOutputProtocol {
     func handleAuthNewUserPlaceholderSignInRequested() {
         onViewAction?(AppFeatureActionViewActionNavigateToAuthScreen())
+    }
+}
+
+// MARK: - AppViewModel: AppTabBarControllerDelegate -
+
+extension AppViewModel: AppTabBarControllerDelegate {
+    func appTabBarController(
+        _ controller: AppTabBarController,
+        didSelectTabItem newTabItem: AppTabItem,
+        oldTabItem: AppTabItem
+    ) {
+        handleSelectedTabChanged(oldValue: oldTabItem, newValue: newTabItem)
     }
 }
