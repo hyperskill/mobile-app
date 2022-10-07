@@ -63,8 +63,7 @@ final class AppView: UIView {
         case is AppFeatureStateNetworkError:
             loadingIndicator.stopAnimating()
             setPlaceholderHidden(false)
-        case let readyState as AppFeatureStateReady:
-            print(readyState)
+        case is AppFeatureStateReady:
             loadingIndicator.stopAnimating()
             setPlaceholderHidden(true)
         default:

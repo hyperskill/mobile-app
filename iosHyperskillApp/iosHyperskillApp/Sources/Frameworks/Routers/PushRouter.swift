@@ -23,7 +23,9 @@ class PushRouter: PushRouterProtocol {
           rootViewController?.navigationController ?? rootViewController as? UINavigationController
 
         guard let navigationController else {
-            fatalError("Router :: no navigationController in rootViewController = \(String(describing: rootViewController)) hierarchy")
+            return assertionFailure(
+                "Router :: no navigationController in rootViewController = \(String(describing: rootViewController)) hierarchy"
+            )
         }
 
         navigationController.pushViewController(viewController, animated: animated)
