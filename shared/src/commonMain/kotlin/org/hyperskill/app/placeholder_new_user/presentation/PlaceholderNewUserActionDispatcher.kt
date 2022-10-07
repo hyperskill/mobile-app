@@ -25,10 +25,10 @@ class PlaceholderNewUserActionDispatcher(
 
                 if (isAuthorized) {
                     profileInteractor.clearCache()
-                    authorizationFlow.tryEmit(UserDeauthorized)
+                    authorizationFlow.tryEmit(UserDeauthorized(reason = UserDeauthorized.Reason.SIGN_OUT))
+                } else {
+                    onNewMessage(Message.OpenAuthScreen)
                 }
-
-                onNewMessage(Message.OpenAuthScreen)
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)

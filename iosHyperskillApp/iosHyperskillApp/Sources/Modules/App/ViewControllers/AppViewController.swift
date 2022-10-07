@@ -88,8 +88,6 @@ extension AppViewController: AppViewControllerProtocol {
             return
         }
 
-        assert(children.count <= 2)
-
         let fromViewController = children.first { viewController in
             if viewController is UIHostingController<PlaceholderView> {
                 return false
@@ -100,6 +98,8 @@ extension AppViewController: AppViewControllerProtocol {
            type(of: fromViewController) == type(of: viewControllerToPresent) {
             return
         }
+
+        assert(children.count <= 2)
 
         swapRootViewController(from: fromViewController, to: viewControllerToPresent)
     }

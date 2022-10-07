@@ -1,5 +1,6 @@
 package org.hyperskill.app.main.presentation
 
+import org.hyperskill.app.auth.domain.model.UserDeauthorized.Reason
 import org.hyperskill.app.profile.domain.model.Profile
 
 interface AppFeature {
@@ -7,13 +8,13 @@ interface AppFeature {
         object Idle : State
         object Loading : State
         object NetworkError : State
-        data class Ready(val isAuthorized: Boolean, val isNewUser: Boolean) : State
+        data class Ready(val isAuthorized: Boolean) : State
     }
 
     sealed interface Message {
         data class Init(val forceUpdate: Boolean = false) : Message
         data class UserAuthorized(val isNewUser: Boolean) : Message
-        object UserDeauthorized : Message
+        data class UserDeauthorized(val reason: Reason) : Message
         data class UserAccountStatus(val profile: Profile) : Message
         object UserAccountStatusError : Message
         object OpenAuthScreen : Message

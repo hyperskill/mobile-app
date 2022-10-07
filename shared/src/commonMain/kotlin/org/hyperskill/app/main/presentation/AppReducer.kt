@@ -1,5 +1,6 @@
 package org.hyperskill.app.main.presentation
 
+import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.main.presentation.AppFeature.Action
 import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.main.presentation.AppFeature.State
@@ -25,22 +26,23 @@ class AppReducer : StateReducer<State, Message, Action> {
                     } else {
                         Action.ViewAction.NavigateTo.HomeScreen
                     }
-                    State.Ready(isAuthorized = true, message.isNewUser) to setOf(action)
+                    State.Ready(isAuthorized = true) to setOf(action)
                 } else {
                     null
                 }
             is Message.UserDeauthorized ->
                 if (state is State.Ready && state.isAuthorized) {
-                    state.copy(isAuthorized = false) to
-                        // Skip for new user -> sign in presented
-                        if (state.isNewUser) emptySet() else setOf(Action.ViewAction.NavigateTo.OnboardingScreen)
+                    val action = when (message.reason) {
+                        UserDeauthorized.Reason.TOKEN_REFRESH_FAILURE -> Action.ViewAction.NavigateTo.OnboardingScreen
+                        UserDeauthorized.Reason.SIGN_OUT -> Action.ViewAction.NavigateTo.AuthScreen
+                    }
+                    State.Ready(isAuthorized = false) to setOf(action)
                 } else {
                     null
                 }
             is Message.UserAccountStatus ->
                 if (state is State.Loading) {
                     val isAuthorized = !message.profile.isGuest
-                    val isNewUser = message.profile.trackId == null
 
                     val action =
                         if (isAuthorized) {
@@ -53,7 +55,7 @@ class AppReducer : StateReducer<State, Message, Action> {
                             Action.ViewAction.NavigateTo.OnboardingScreen
                         }
 
-                    State.Ready(isAuthorized, isNewUser) to setOf(action)
+                    State.Ready(isAuthorized) to setOf(action)
                 } else {
                     null
                 }
