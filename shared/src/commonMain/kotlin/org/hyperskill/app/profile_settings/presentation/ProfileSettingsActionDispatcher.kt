@@ -53,7 +53,7 @@ class ProfileSettingsActionDispatcher(
                 onNewMessage(Message.FeedbackEmailDataPrepared(feedbackEmailData))
             }
             is Action.LogAnalyticEvent ->
-                analyticInteractor.logEvent(action.analyticEvent)
+                analyticInteractor.logEvent(action.analyticEvent, action.forceLogEvent)
         }
     }
 }

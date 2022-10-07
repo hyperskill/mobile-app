@@ -99,8 +99,10 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                 )
             is Message.SignOutNoticeShownEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(ProfileSettingsSignOutNoticeShownHyperskillAnalyticEvent()))
-            is Message.SignOutNoticeHiddenEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(ProfileSettingsSignOutNoticeHiddenHyperskillAnalyticEvent(message.isConfirmed)))
+            is Message.SignOutNoticeHiddenEventMessage -> {
+                val analyticEvent = ProfileSettingsSignOutNoticeHiddenHyperskillAnalyticEvent(message.isConfirmed)
+                state to setOf(Action.LogAnalyticEvent(analyticEvent, forceLogEvent = message.isConfirmed))
+            }
             is Message.ClickedDeleteAccountEventMessage ->
                 state to setOf(
                     Action.LogAnalyticEvent(

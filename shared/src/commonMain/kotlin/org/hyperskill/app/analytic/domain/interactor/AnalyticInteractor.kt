@@ -35,19 +35,19 @@ class AnalyticInteractor(
 
     private var flushEventsJob: Job? = null
 
-    override fun reportEvent(event: AnalyticEvent) {
+    override fun reportEvent(event: AnalyticEvent, forceReportEvent: Boolean) {
         MainScope().launch {
-            logEvent(event)
+            logEvent(event, forceReportEvent)
         }
     }
 
-    suspend fun logEvent(event: AnalyticEvent) {
+    suspend fun logEvent(event: AnalyticEvent, forceLogEvent: Boolean = false) {
         when (event.source) {
-            AnalyticSource.HYPERSKILL_API -> logHyperskillEvent(event)
+            AnalyticSource.HYPERSKILL_API -> logHyperskillEvent(event, forceLogEvent)
         }
     }
 
-    private suspend fun logHyperskillEvent(event: AnalyticEvent) {
+    private suspend fun logHyperskillEvent(event: AnalyticEvent, forceLogEvent: Boolean) {
         kotlin.runCatching {
             if (event !is HyperskillAnalyticEvent) {
                 return
@@ -72,7 +72,9 @@ class AnalyticInteractor(
             }
 
             flushEventsJob = MainScope().launch {
-                delay(FLUSH_EVENTS_DELAY_DURATION)
+                if (!forceLogEvent) {
+                    delay(FLUSH_EVENTS_DELAY_DURATION)
+                }
 
                 val isAuthorized = authInteractor.isAuthorized()
                     .getOrDefault(false)
