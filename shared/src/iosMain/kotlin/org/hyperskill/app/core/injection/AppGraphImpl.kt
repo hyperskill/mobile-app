@@ -8,6 +8,8 @@ import org.hyperskill.app.auth.injection.AuthCredentialsComponent
 import org.hyperskill.app.auth.injection.AuthCredentialsComponentImpl
 import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponentImpl
+import org.hyperskill.app.comments.injection.CommentsComponent
+import org.hyperskill.app.comments.injection.CommentsComponentImpl
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.home.injection.HomeComponent
@@ -109,4 +111,7 @@ class AppGraphImpl(
 
     override fun buildUserStorageComponent(): UserStorageComponent =
         UserStorageComponentImpl(this)
+
+    override fun buildCommentsComponent(): CommentsComponent =
+        CommentsComponentImpl(this)
 }
