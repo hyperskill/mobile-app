@@ -159,7 +159,7 @@ object NetworkBuilder {
                     }
                 }
                 tokenFailureReporter = {
-                    authorizationFlow.tryEmit(UserDeauthorized)
+                    authorizationFlow.tryEmit(UserDeauthorized(reason = UserDeauthorized.Reason.TOKEN_REFRESH_FAILURE))
                 }
             }
         }

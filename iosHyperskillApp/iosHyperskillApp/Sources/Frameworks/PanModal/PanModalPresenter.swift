@@ -8,7 +8,7 @@ final class PanModalPresenter: ObservableObject {
     }
 
     func presentPanModal(_ panModal: PanModalPresentableViewController) {
-        guard let currentPresentedViewController = self.sourcelessRouter.currentPresentedViewController() else {
+        guard let currentPresentedViewController = sourcelessRouter.currentPresentedViewController() else {
             return
         }
 

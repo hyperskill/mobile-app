@@ -3,7 +3,7 @@ import SwiftUI
 struct StepQuizTableView: View {
     @StateObject var viewModel: StepQuizTableViewModel
 
-    @EnvironmentObject private var panModalPresenter: PanModalPresenter
+    private(set) var panModalPresenter: PanModalPresenter
 
     var body: some View {
         VStack(spacing: LayoutInsets.defaultInset) {
@@ -32,7 +32,6 @@ struct StepQuizTableView_Previews: PreviewProvider {
         StepQuizTableAssembly
             .makePlaceholder(isMultipleChoice: false)
             .makeModule()
-            .environmentObject(PanModalPresenter(sourcelessRouter: SourcelessRouter()))
             .previewLayout(.sizeThatFits)
     }
 }

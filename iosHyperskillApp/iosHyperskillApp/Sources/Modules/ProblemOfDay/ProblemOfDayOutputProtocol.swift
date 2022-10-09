@@ -2,5 +2,5 @@ import Foundation
 
 protocol ProblemOfDayOutputProtocol: AnyObject {
     func handleProblemOfDayReloadRequested()
-    func handleProblemOfDayContinueActionPerformed()
+    func handleProblemOfDayOpenStepRequested(stepID: Int)
 }

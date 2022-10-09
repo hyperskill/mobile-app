@@ -14,23 +14,23 @@ struct HomeView: View {
 
     @StateObject var viewModel: HomeViewModel
 
+    @StateObject var pushRouter: SwiftUIPushRouter
+
     var body: some View {
-        NavigationView {
-            ZStack {
-                UIViewControllerEventsWrapper(
-                    onViewDidAppear: {
-                        viewModel.logViewedEvent()
-                        viewModel.loadContent()
-                    }
-                )
+        ZStack {
+            UIViewControllerEventsWrapper(
+                onViewDidAppear: {
+                    viewModel.logViewedEvent()
+                    viewModel.loadContent()
+                }
+            )
 
-                BackgroundView(color: appearance.backgroundColor)
+            BackgroundView(color: appearance.backgroundColor)
 
-                buildBody()
-            }
-            .navigationTitle(Strings.Home.title)
-            .navigationBarHidden(true)
+            buildBody()
         }
+        .navigationTitle(Strings.Home.title)
+        .navigationBarHidden(true)
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
@@ -92,7 +92,11 @@ struct HomeView: View {
                     }
 
                     #if BETA_PROFILE || DEBUG
-                    HomeDebugStepNavigationView()
+                    HomeDebugStepNavigationView(
+                        onOpenStepTapped: { stepID in
+                            pushRouter.pushViewController(StepAssembly(stepID: stepID).makeModule())
+                        }
+                    )
                     #endif
                 }
                 .padding()
@@ -105,12 +109,20 @@ struct HomeView: View {
     }
 
     private func handleViewAction(_ viewAction: HomeFeatureActionViewAction) {
-        print("HomeView :: \(#function) viewAction = \(viewAction)")
+        switch viewAction {
+        case let navigateToStepScreenViewAction as HomeFeatureActionViewActionNavigateToStepScreen:
+            let assembly = StepAssembly(stepID: Int(navigateToStepScreenViewAction.stepId))
+            pushRouter.pushViewController(assembly.makeModule())
+        default:
+            print("HomeView :: unhandled viewAction = \(viewAction)")
+        }
     }
 }
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeAssembly().makeModule()
+        UIKitViewControllerPreview {
+            HomeAssembly().makeModule()
+        }
     }
 }

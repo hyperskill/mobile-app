@@ -208,6 +208,8 @@ struct ProfileSettingsView: View {
 
     private func handleViewAction(_ viewAction: ProfileSettingsFeatureActionViewAction) {
         switch viewAction {
+        case is ProfileSettingsFeatureActionViewActionNavigateToParentScreen:
+            presentationMode.wrappedValue.dismiss()
         case let sendFeedbackViewAction as ProfileSettingsFeatureActionViewActionSendFeedback:
             viewModel.doSendFeedbackPresentation(feedbackEmailData: sendFeedbackViewAction.feedbackEmailData)
         default:

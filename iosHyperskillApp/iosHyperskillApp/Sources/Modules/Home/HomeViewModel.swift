@@ -69,7 +69,11 @@ extension HomeViewModel: ProblemOfDayOutputProtocol {
         loadContent(forceUpdate: true)
     }
 
-    func handleProblemOfDayContinueActionPerformed() {
+    func handleProblemOfDayOpenStepRequested(stepID: Int) {
         logClickedProblemOfDayCardEvent()
+
+        DispatchQueue.main.async {
+            self.onViewAction?(HomeFeatureActionViewActionNavigateToStepScreen(stepId: Int64(stepID)))
+        }
     }
 }

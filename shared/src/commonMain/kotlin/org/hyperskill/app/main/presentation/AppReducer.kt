@@ -1,5 +1,6 @@
 package org.hyperskill.app.main.presentation
 
+import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.main.presentation.AppFeature.Action
 import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.main.presentation.AppFeature.State
@@ -31,7 +32,11 @@ class AppReducer : StateReducer<State, Message, Action> {
                 }
             is Message.UserDeauthorized ->
                 if (state is State.Ready && state.isAuthorized) {
-                    State.Ready(isAuthorized = false) to setOf(Action.ViewAction.NavigateTo.OnboardingScreen)
+                    val action = when (message.reason) {
+                        UserDeauthorized.Reason.TOKEN_REFRESH_FAILURE -> Action.ViewAction.NavigateTo.OnboardingScreen
+                        UserDeauthorized.Reason.SIGN_OUT -> Action.ViewAction.NavigateTo.AuthScreen
+                    }
+                    State.Ready(isAuthorized = false) to setOf(action)
                 } else {
                     null
                 }
@@ -50,7 +55,7 @@ class AppReducer : StateReducer<State, Message, Action> {
                             Action.ViewAction.NavigateTo.OnboardingScreen
                         }
 
-                    State.Ready(isAuthorized = isAuthorized) to setOf(action)
+                    State.Ready(isAuthorized) to setOf(action)
                 } else {
                     null
                 }

@@ -19,6 +19,7 @@ interface ProfileSettingsFeature {
         object ProfileSettingsError : Message
         data class ThemeChanged(val theme: Theme) : Message
         object SignOutConfirmed : Message
+        object DismissScreen : Message
 
         object ClickedSendFeedback : Message
         data class FeedbackEmailDataPrepared(val feedbackEmailData: FeedbackEmailData) : Message
@@ -53,6 +54,10 @@ interface ProfileSettingsFeature {
 
         sealed interface ViewAction : Action {
             data class SendFeedback(val feedbackEmailData: FeedbackEmailData) : ViewAction
+
+            sealed interface NavigateTo : ViewAction {
+                object ParentScreen : NavigateTo
+            }
         }
     }
 }

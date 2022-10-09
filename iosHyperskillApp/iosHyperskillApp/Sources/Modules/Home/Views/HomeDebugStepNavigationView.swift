@@ -3,6 +3,8 @@ import SwiftUI
 struct HomeDebugStepNavigationView: View {
     @State private var stepInput = ""
 
+    var onOpenStepTapped: ((Int) -> Void)?
+
     var body: some View {
         VStack(spacing: LayoutInsets.defaultInset) {
             TextField(
@@ -13,11 +15,12 @@ struct HomeDebugStepNavigationView: View {
             .disableAutocorrection(true)
             .frame(minHeight: 44)
 
-            NavigationLink("Open step") {
-                if let stepID = Int(stepInput) {
-                    StepAssembly(stepID: stepID)
-                        .makeModule()
+            Button("Open step") {
+                guard let stepID = Int(stepInput) else {
+                    return
                 }
+
+                onOpenStepTapped?(stepID)
             }
             .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
         }

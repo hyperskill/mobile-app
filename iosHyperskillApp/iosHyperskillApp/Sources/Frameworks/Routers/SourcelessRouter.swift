@@ -6,7 +6,12 @@ class SourcelessRouter {
     }
 
     var currentTabBarController: UITabBarController? {
-        window?.rootViewController?.children.first as? UITabBarController
+        for childrenViewController in window?.rootViewController?.children ?? [] {
+            if let tabBarController = childrenViewController as? UITabBarController {
+                return tabBarController
+            }
+        }
+        return nil
     }
 
     var currentNavigation: UINavigationController? {
@@ -17,15 +22,11 @@ class SourcelessRouter {
         let count = tabController.viewControllers?.count ?? 0
         let index = tabController.selectedIndex
 
-        let tabHostingController: UIViewController? = {
-            if index < count {
-                return tabController.viewControllers?[tabController.selectedIndex]
-            } else {
-                return tabController.viewControllers?[0]
-            }
-        }()
+        guard index < count else {
+            return nil
+        }
 
-        return tabHostingController?.children.first as? UINavigationController
+        return tabController.children[index] as? UINavigationController
     }
 
     func currentPresentedViewController() -> UIViewController? {
