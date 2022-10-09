@@ -4,6 +4,7 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
@@ -41,6 +42,10 @@ class AnalyticInteractor(
         }
     }
 
+    override suspend fun flushEvents() {
+        launchHyperskillFlushEventsJob(withDelay = false)
+    }
+
     suspend fun logEvent(event: AnalyticEvent, forceLogEvent: Boolean = false) {
         when (event.source) {
             AnalyticSource.HYPERSKILL_API -> logHyperskillEvent(event, forceLogEvent)
@@ -71,16 +76,21 @@ class AnalyticInteractor(
                 return
             }
 
-            flushEventsJob = MainScope().launch {
-                if (!forceLogEvent) {
-                    delay(FLUSH_EVENTS_DELAY_DURATION)
-                }
+            launchHyperskillFlushEventsJob(withDelay = !forceLogEvent)
+        }
+    }
 
-                val isAuthorized = authInteractor.isAuthorized()
-                    .getOrDefault(false)
-
-                hyperskillRepository.flushEvents(isAuthorized)
+    private suspend fun launchHyperskillFlushEventsJob(withDelay: Boolean) {
+        flushEventsJob?.cancelAndJoin()
+        flushEventsJob = MainScope().launch {
+            if (withDelay) {
+                delay(FLUSH_EVENTS_DELAY_DURATION)
             }
+
+            val isAuthorized = authInteractor.isAuthorized()
+                .getOrDefault(false)
+
+            hyperskillRepository.flushEvents(isAuthorized)
         }
     }
 

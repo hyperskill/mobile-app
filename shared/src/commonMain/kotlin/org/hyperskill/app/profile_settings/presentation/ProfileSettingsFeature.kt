@@ -50,7 +50,7 @@ interface ProfileSettingsFeature {
         object SignOut : Action
         object PrepareFeedbackEmailData : Action
 
-        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent, val forceLogEvent: Boolean = false) : Action
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
         sealed interface ViewAction : Action {
             data class SendFeedback(val feedbackEmailData: FeedbackEmailData) : ViewAction

@@ -3,7 +3,6 @@ package org.hyperskill.app.profile_settings.presentation
 import kotlinx.coroutines.flow.MutableSharedFlow
 import org.hyperskill.app.Platform
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
-import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
@@ -21,7 +20,6 @@ class ProfileSettingsActionDispatcher(
     private val profileInteractor: ProfileInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val authorizationFlow: MutableSharedFlow<UserDeauthorized>,
-    private val authInteractor: AuthInteractor,
     private val platform: Platform,
     private val userAgentInfo: UserAgentInfo
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
@@ -33,11 +31,8 @@ class ProfileSettingsActionDispatcher(
             }
             is Action.ChangeTheme ->
                 profileSettingsInteractor.changeTheme(action.theme)
-            is Action.SignOut -> {
-                authInteractor.clearCache()
-                profileInteractor.clearCache()
+            is Action.SignOut ->
                 authorizationFlow.tryEmit(UserDeauthorized(reason = UserDeauthorized.Reason.SIGN_OUT))
-            }
             is Action.PrepareFeedbackEmailData -> {
                 val currentProfile = profileInteractor
                     .getCurrentProfile()
@@ -53,7 +48,7 @@ class ProfileSettingsActionDispatcher(
                 onNewMessage(Message.FeedbackEmailDataPrepared(feedbackEmailData))
             }
             is Action.LogAnalyticEvent ->
-                analyticInteractor.logEvent(action.analyticEvent, action.forceLogEvent)
+                analyticInteractor.logEvent(action.analyticEvent)
         }
     }
 }
