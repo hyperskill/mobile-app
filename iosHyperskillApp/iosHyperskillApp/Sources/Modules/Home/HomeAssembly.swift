@@ -1,11 +1,17 @@
 import SwiftUI
 
-final class HomeAssembly: Assembly {
-    func makeModule() -> HomeView {
+final class HomeAssembly: UIKitAssembly {
+    func makeModule() -> UIViewController {
         let homeComponent = AppGraphBridge.sharedAppGraph.buildHomeComponent()
 
         let viewModel = HomeViewModel(feature: homeComponent.homeFeature)
 
-        return HomeView(viewModel: viewModel)
+        let pushRouter = SwiftUIPushRouter()
+        let homeView = HomeView(viewModel: viewModel, pushRouter: pushRouter)
+        let hostingController = UIHostingController(rootView: homeView)
+
+        pushRouter.rootViewController = hostingController
+
+        return hostingController
     }
 }

@@ -7,6 +7,8 @@ final class ProfileSettingsViewModel: FeatureViewModel<
   ProfileSettingsFeatureActionViewAction
 > {
     private static let applyNewThemeAnimationDelay: TimeInterval = 0.33
+    private static let dismissScreenAnimationDelay =
+      AppViewController.Animation.swapRootViewControllerAnimationDuration * 0.75
 
     private let applicationThemeService: ApplicationThemeServiceProtocol
 
@@ -37,6 +39,10 @@ final class ProfileSettingsViewModel: FeatureViewModel<
     func doSignOut() {
         WebCacheCleaner.clean {
             self.onNewMessage(ProfileSettingsFeatureMessageSignOutConfirmed())
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + Self.dismissScreenAnimationDelay) {
+                self.onNewMessage(ProfileSettingsFeatureMessageDismissScreen())
+            }
         }
     }
 

@@ -4,14 +4,9 @@ import SwiftUI
 struct StepView: View {
     @StateObject var viewModel: StepViewModel
 
-    @Environment(\.presentationMode) private var presentationMode
-
     var body: some View {
         buildBody()
-            .navigationBarBackButtonTitleRemoved {
-                viewModel.logClickedBackEvent()
-                presentationMode.wrappedValue.dismiss()
-            }
+            .navigationBarHidden(false)
             .onAppear {
                 viewModel.startListening()
                 viewModel.onViewAction = handleViewAction(_:)
@@ -70,6 +65,8 @@ struct StepView: View {
 
 struct StepView_Previews: PreviewProvider {
     static var previews: some View {
-        StepAssembly(stepID: 4350).makeModule()
+        UIKitViewControllerPreview {
+            StepAssembly(stepID: 4350).makeModule()
+        }
     }
 }

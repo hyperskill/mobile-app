@@ -19,8 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
 
-        let rootView = AppAssembly().makeModule()
-        let rootViewController = UIHostingController(rootView: rootView)
+        let rootViewController = AppAssembly().makeModule()
         window?.rootViewController = rootViewController
         window?.makeKeyAndVisible()
 

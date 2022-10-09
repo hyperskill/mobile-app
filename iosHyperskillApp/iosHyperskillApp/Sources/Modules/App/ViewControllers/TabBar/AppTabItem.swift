@@ -38,3 +38,20 @@ enum AppTabItem: CaseIterable {
         }
     }
 }
+
+extension AppTabItem {
+    init?(index: Int) {
+        let targetTabItemInfo = AppTabItem.allCases.enumerated().first { (tabItemIndex, _) in
+            if index == tabItemIndex {
+                return true
+            }
+            return false
+        }
+
+        if let targetTabItemInfo {
+            self = targetTabItemInfo.element
+        } else {
+            return nil
+        }
+    }
+}

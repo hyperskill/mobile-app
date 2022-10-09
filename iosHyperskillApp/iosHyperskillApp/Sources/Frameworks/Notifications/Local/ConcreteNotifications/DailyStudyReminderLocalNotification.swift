@@ -1,5 +1,6 @@
 import Foundation
 import shared
+import UserNotifications
 
 struct DailyStudyReminderLocalNotification: LocalNotificationProtocol {
     fileprivate static let identifierPrefix = NotificationsService.NotificationType.dailyStudyReminder.rawValue

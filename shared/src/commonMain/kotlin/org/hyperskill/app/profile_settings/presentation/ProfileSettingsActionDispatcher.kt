@@ -36,7 +36,7 @@ class ProfileSettingsActionDispatcher(
             is Action.SignOut -> {
                 authInteractor.clearCache()
                 profileInteractor.clearCache()
-                authorizationFlow.tryEmit(UserDeauthorized)
+                authorizationFlow.tryEmit(UserDeauthorized(reason = UserDeauthorized.Reason.SIGN_OUT))
             }
             is Action.PrepareFeedbackEmailData -> {
                 val currentProfile = profileInteractor

@@ -20,7 +20,7 @@ class AppActionDispatcher(
             .observeUserDeauthorization()
             .onEach {
                 authInteractor.clearCache()
-                onNewMessage(Message.UserDeauthorized)
+                onNewMessage(Message.UserDeauthorized(it.reason))
             }
             .launchIn(actionScope)
     }

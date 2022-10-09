@@ -1,3 +1,8 @@
 package org.hyperskill.app.auth.domain.model
 
-object UserDeauthorized
+data class UserDeauthorized(val reason: Reason) {
+    enum class Reason {
+        TOKEN_REFRESH_FAILURE,
+        SIGN_OUT
+    }
+}
