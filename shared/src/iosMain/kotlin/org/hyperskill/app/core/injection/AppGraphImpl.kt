@@ -36,6 +36,8 @@ import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponentImpl
 import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.track.injection.TrackComponentImpl
+import org.hyperskill.app.user_storage.injection.UserStorageComponent
+import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
 
 class AppGraphImpl(
     userAgentInfo: UserAgentInfo,
@@ -104,4 +106,7 @@ class AppGraphImpl(
 
     override fun buildPlaceholderNewUserComponent(): PlaceholderNewUserComponent =
         PlaceholderNewUserComponentImpl(this)
+
+    override fun buildUserStorageComponent(): UserStorageComponent =
+        UserStorageComponentImpl(this)
 }

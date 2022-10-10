@@ -58,7 +58,7 @@ struct StreakView: View {
                         .addBorder(
                             color: Color(
                                 index != daysStates.count - 1
-                                    ? ColorPalette.onSurfaceAlpha9
+                                    ? ColorPalette.onSurfaceAlpha12
                                     : ColorPalette.primary
                             ),
                             width: index != daysStates.count - 1

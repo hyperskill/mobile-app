@@ -1,6 +1,6 @@
 import UIKit
 
-final class TabBarRouter: SourcelessRouter, RouterProtocol {
+final class TabBarRouter: SourcelessRouter, DeepLinkRouterProtocol {
     private let tab: Tab
     private let popToRoot: Bool
 

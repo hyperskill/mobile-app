@@ -1,135 +1,125 @@
 import shared
+import SnapKit
 import SwiftUI
+import UIKit
 
-struct AppView: View {
-    @ObservedObject var viewModel: AppViewModel
+protocol AppViewDelegate: AnyObject {
+    func appView(
+        _ view: AppView,
+        didRequestAddPlaceholderHostingController hostingController: UIHostingController<PlaceholderView>
+    )
+    func appView(
+        _ view: AppView,
+        didConfigurePlaceholderHostingController hostingController: UIHostingController<PlaceholderView>
+    )
+    func appViewPlaceholderActionButtonTapped(_ view: AppView)
+}
 
-    private(set) var panModalPresenter: PanModalPresenter
+extension AppView {
+    struct Appearance {
+        let backgroundColor = ColorPalette.surface
+    }
+}
 
-    @Environment(\.colorScheme) private var colorScheme
+final class AppView: UIView {
+    let appearance: Appearance
 
-    var body: some View {
-        buildBody()
-            .onAppear {
-                viewModel.startListening()
-                viewModel.onViewAction = handleViewAction(_:)
+    weak var delegate: AppViewDelegate?
 
-                updateProgressHUDStyle(colorScheme: colorScheme)
-            }
-            .onDisappear {
-                viewModel.stopListening()
-            }
-            .onChange(of: colorScheme) { newColorScheme in
-                updateProgressHUDStyle(colorScheme: newColorScheme)
-            }
+    private lazy var loadingIndicator: UIActivityIndicatorView = {
+        let loadingIndicatorView = UIActivityIndicatorView(style: .medium)
+        loadingIndicatorView.hidesWhenStopped = true
+        loadingIndicatorView.startAnimating()
+        return loadingIndicatorView
+    }()
+
+    private weak var placeholderHostingController: UIHostingController<PlaceholderView>?
+
+    init(frame: CGRect = .zero, appearance: Appearance = Appearance(), delegate: AppViewDelegate? = nil) {
+        self.appearance = appearance
+        self.delegate = delegate
+
+        super.init(frame: frame)
+
+        setupView()
+        addSubviews()
+        makeConstraints()
+
+        setPlaceholderHidden(true)
     }
 
-    // MARK: Private API
+    @available(*, unavailable)
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
-    @ViewBuilder
-    private func buildBody() -> some View {
-        let state = viewModel.state
-
+    func renderState(_ state: AppFeatureState) {
         switch state {
-        case is AppFeatureStateIdle:
-            ProgressView()
-                .onAppear {
-                    viewModel.loadApp()
-                }
-        case is AppFeatureStateLoading:
-            ProgressView()
+        case is AppFeatureStateIdle, is AppFeatureStateLoading:
+            loadingIndicator.isHidden = false
+            loadingIndicator.startAnimating()
+
+            setPlaceholderHidden(true)
         case is AppFeatureStateNetworkError:
-            PlaceholderView(
-                configuration: .networkError {
-                    viewModel.loadApp(forceUpdate: true)
-                }
-            )
-        case let readyState as AppFeatureStateReady:
-            buildContent(
-                isAuthorized: readyState.isAuthorized
-            )
-            .fullScreenCover(item: $viewModel.navigationState.activeFullScreenModal) { screen in
-                switch screen {
-                case .auth:
-                    AuthSocialAssembly(output: viewModel).makeModule()
-                case .onboarding:
-                    OnboardingAssembly(output: viewModel).makeModule()
-                case .newUser:
-                    AuthNewUserPlaceholderAssembly(output: viewModel).makeModule()
-                }
-            }
-            .environmentObject(panModalPresenter)
+            loadingIndicator.stopAnimating()
+            setPlaceholderHidden(false)
+        case is AppFeatureStateReady:
+            loadingIndicator.stopAnimating()
+            setPlaceholderHidden(true)
         default:
-            ProgressView()
+            break
         }
     }
 
-    @ViewBuilder
-    private func buildContent(isAuthorized: Bool) -> some View {
-        if isAuthorized {
-            TabView(selection: $viewModel.navigationState.selectedTab) {
-                ForEach(AppTabItem.allCases, id: \.self) { tab in
-                    // TODO: Refactor to factory when Xcode 14 released
-                    TabNavigationLazyView(
-                        Group {
-                            switch tab {
-                            case .home:
-                                HomeAssembly().makeModule()
-                            case .track:
-                                TrackAssembly().makeModule()
-                            case .profile:
-                                ProfileAssembly.currentUser().makeModule()
-                            }
-                        }
-                    )
-                    .tag(tab)
-                    .tabItem {
-                        Image(
-                            tab == viewModel.navigationState.selectedTab
-                                ? tab.selectedImageName
-                                : tab.imageName
-                        )
-                        .renderingMode(.template)
+    private func setPlaceholderHidden(_ isHidden: Bool) {
+        placeholderHostingController?.view.isHidden = isHidden
+        placeholderHostingController?.view.alpha = isHidden ? 0 : 1
+    }
+}
 
-                        Text(tab.title)
-                    }
+extension AppView: ProgrammaticallyInitializableViewProtocol {
+    func setupView() {
+        backgroundColor = appearance.backgroundColor
+    }
+
+    func addSubviews() {
+        addSubview(loadingIndicator)
+
+        let placeholderView = PlaceholderView(
+            configuration: .networkError { [weak self] in
+                guard let self else {
+                    return
                 }
+
+                self.delegate?.appViewPlaceholderActionButtonTapped(self)
             }
-        } else {
-            ProgressView()
+        )
+        let placeholderHostingController = UIHostingController(rootView: placeholderView)
+        delegate?.appView(self, didRequestAddPlaceholderHostingController: placeholderHostingController)
+        addSubview(placeholderHostingController.view)
+        self.placeholderHostingController = placeholderHostingController
+    }
+
+    func makeConstraints() {
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        loadingIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
         }
-    }
 
-    private func updateProgressHUDStyle(colorScheme: ColorScheme) {
-        ProgressHUD.updateStyle(isDark: colorScheme == .dark)
-    }
-
-    private func handleViewAction(_ viewAction: AppFeatureActionViewAction) {
-        switch viewAction {
-        case is AppFeatureActionViewActionNavigateToOnboardingScreen:
-            withAnimation {
-                viewModel.navigationState.activeFullScreenModal = .onboarding
+        if let placeholderHostingController {
+            placeholderHostingController.view.translatesAutoresizingMaskIntoConstraints = false
+            placeholderHostingController.view.snp.makeConstraints { make in
+                make.edges.equalToSuperview()
             }
-        case is AppFeatureActionViewActionNavigateToHomeScreen:
-            withAnimation {
-                viewModel.navigationState.activeFullScreenModal = nil
-            }
-        case is AppFeatureActionViewActionNavigateToAuthScreen:
-            withAnimation {
-                viewModel.navigationState.activeFullScreenModal = .auth
-            }
-        case is AppFeatureActionViewActionNavigateToNewUserScreen:
-            withAnimation {
-                viewModel.navigationState.activeFullScreenModal = .newUser
-            }
-        default:
-            print("AppView :: unhandled viewAction = \(viewAction)")
+            delegate?.appView(self, didConfigurePlaceholderHostingController: placeholderHostingController)
         }
     }
 }
 
 struct AppView_Previews: PreviewProvider {
     static var previews: some View {
-        AppAssembly().makeModule()
+        UIKitViewControllerPreview {
+            AppAssembly().makeModule()
+        }
     }
 }

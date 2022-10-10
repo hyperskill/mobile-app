@@ -26,7 +26,6 @@ class ProfileSettingsComponentImpl(private val appGraph: AppGraph) : ProfileSett
             appGraph.buildProfileDataComponent().profileInteractor,
             appGraph.analyticComponent.analyticInteractor,
             appGraph.networkComponent.authorizationFlow,
-            appGraph.authComponent.authInteractor,
             appGraph.commonComponent.platform,
             appGraph.commonComponent.userAgentInfo
         )

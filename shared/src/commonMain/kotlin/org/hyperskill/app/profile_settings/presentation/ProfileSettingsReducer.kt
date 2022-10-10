@@ -38,6 +38,8 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                 }
             is Message.SignOutConfirmed ->
                 state to setOf(Action.SignOut)
+            is Message.DismissScreen ->
+                state to setOf(Action.ViewAction.NavigateTo.ParentScreen)
             is Message.ClickedSendFeedback -> {
                 val analyticEvent = ProfileSettingsClickedHyperskillAnalyticEvent(
                     target = HyperskillAnalyticTarget.SEND_FEEDBACK

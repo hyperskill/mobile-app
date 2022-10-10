@@ -1,8 +1,8 @@
 import shared
-import SwiftUI
+import UIKit
 
-final class AppAssembly: Assembly {
-    func makeModule() -> AppView {
+final class AppAssembly: UIKitAssembly {
+    func makeModule() -> UIViewController {
         let feature = AppGraphBridge.sharedAppGraph.mainComponent.appFeature
 
         let viewModel = AppViewModel(
@@ -10,9 +10,9 @@ final class AppAssembly: Assembly {
             feature: feature
         )
 
-        return AppView(
-            viewModel: viewModel,
-            panModalPresenter: PanModalPresenter(sourcelessRouter: SourcelessRouter())
-        )
+        let viewController = AppViewController(viewModel: viewModel)
+        viewModel.viewController = viewController
+
+        return viewController
     }
 }

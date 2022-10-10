@@ -1,5 +1,6 @@
 import Foundation
 import shared
+import UserNotifications
 
 struct DailyStudyReminderLocalNotification: LocalNotificationProtocol {
     fileprivate static let identifierPrefix = NotificationsService.NotificationType.dailyStudyReminder.rawValue
@@ -135,6 +136,6 @@ extension NotificationsService {
             notificationId: Int32(notificationID),
             plannedAtISO8601: plannedAtISO8601
         )
-        analyticInteractor.logEvent(event: event, completionHandler: { _, _ in })
+        analyticInteractor.logEvent(event: event)
     }
 }

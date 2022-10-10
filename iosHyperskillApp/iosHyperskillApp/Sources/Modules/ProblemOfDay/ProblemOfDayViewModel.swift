@@ -16,11 +16,13 @@ final class ProblemOfDayViewModel {
         moduleOutput?.handleProblemOfDayReloadRequested()
     }
 
-    func makeViewData() -> ProblemOfDayViewData {
-        viewDataMapper.mapProblemOfDayStateToViewData(problemOfDayState)
+    func doStepPresentation(stepID: Int?) {
+        if let stepID {
+            moduleOutput?.handleProblemOfDayOpenStepRequested(stepID: stepID)
+        }
     }
 
-    func handleStepNavigationPresentationPerformed() {
-        moduleOutput?.handleProblemOfDayContinueActionPerformed()
+    func makeViewData() -> ProblemOfDayViewData {
+        viewDataMapper.mapProblemOfDayStateToViewData(problemOfDayState)
     }
 }

@@ -15,31 +15,29 @@ struct ProfileView: View {
     @State private var presentingSettings = false
 
     var body: some View {
-        NavigationView {
-            ZStack {
-                UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
+        ZStack {
+            UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
 
-                BackgroundView(color: .systemGroupedBackground)
+            BackgroundView(color: .systemGroupedBackground)
 
-                buildBody()
-            }
-            .navigationTitle(Strings.Profile.title)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(
-                        action: {
-                            viewModel.logClickedSettingsEvent()
-                            presentingSettings = true
-                        },
-                        label: { Image(systemName: "gear") }
-                    )
-                }
-            }
-            .sheet(isPresented: $presentingSettings) {
-                ProfileSettingsAssembly().makeModule()
-            }
-            .onAppear(perform: viewModel.determineCurrentNotificationPermissionStatus)
+            buildBody()
         }
+        .navigationTitle(Strings.Profile.title)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(
+                    action: {
+                        viewModel.logClickedSettingsEvent()
+                        presentingSettings = true
+                    },
+                    label: { Image(systemName: "gear") }
+                )
+            }
+        }
+        .sheet(isPresented: $presentingSettings) {
+            ProfileSettingsAssembly().makeModule()
+        }
+        .onAppear(perform: viewModel.determineCurrentNotificationPermissionStatus)
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)

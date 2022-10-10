@@ -1,20 +1,33 @@
+import Combine
 import shared
 import SwiftUI
 
 final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, AppFeatureActionViewAction> {
+    weak var viewController: AppViewControllerProtocol?
+
     private let analytic: Analytic
 
-    @Published var navigationState: AppNavigationState
+    private var objectWillChangeCancellable: AnyCancellable?
 
-    init(
-        analytic: Analytic,
-        navigationState: AppNavigationState = AppNavigationState(),
-        feature: Presentation_reduxFeature
-    ) {
+    init(analytic: Analytic, feature: Presentation_reduxFeature) {
         self.analytic = analytic
-        self.navigationState = navigationState
+
         super.init(feature: feature)
-        self.navigationState.onSelectedTabChanged = handleSelectedTabChanged(oldValue:newValue:)
+
+        self.objectWillChangeCancellable = objectWillChange.sink { _ in
+            DispatchQueue.main.async {
+                self.viewController?.displayState(self.state)
+            }
+        }
+        self.onViewAction = { [weak self] viewAction in
+            guard let self else {
+                return
+            }
+
+            DispatchQueue.main.async {
+                self.viewController?.displayViewAction(viewAction)
+            }
+        }
     }
 
     func loadApp(forceUpdate: Bool = false) {
@@ -53,7 +66,6 @@ final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, A
 
 extension AppViewModel: AuthOutputProtocol {
     func handleUserAuthorized(isNewUser: Bool) {
-        navigationState.activeFullScreenModal = nil
         onNewMessage(AppFeatureMessageUserAuthorized(isNewUser: isNewUser))
     }
 }
@@ -62,11 +74,11 @@ extension AppViewModel: AuthOutputProtocol {
 
 extension AppViewModel: OnboardingOutputProtocol {
     func handleOnboardingSignInRequested() {
-        navigationState.activeFullScreenModal = .auth
+        onViewAction?(AppFeatureActionViewActionNavigateToAuthScreen())
     }
 
     func handleOnboardingSignUpRequested() {
-        navigationState.activeFullScreenModal = .newUser
+        onViewAction?(AppFeatureActionViewActionNavigateToNewUserScreen())
     }
 }
 
@@ -74,6 +86,18 @@ extension AppViewModel: OnboardingOutputProtocol {
 
 extension AppViewModel: AuthNewUserPlaceholderOutputProtocol {
     func handleAuthNewUserPlaceholderSignInRequested() {
-        navigationState.activeFullScreenModal = .auth
+        onViewAction?(AppFeatureActionViewActionNavigateToAuthScreen())
+    }
+}
+
+// MARK: - AppViewModel: AppTabBarControllerDelegate -
+
+extension AppViewModel: AppTabBarControllerDelegate {
+    func appTabBarController(
+        _ controller: AppTabBarController,
+        didSelectTabItem newTabItem: AppTabItem,
+        oldTabItem: AppTabItem
+    ) {
+        handleSelectedTabChanged(oldValue: oldTabItem, newValue: newTabItem)
     }
 }

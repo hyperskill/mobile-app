@@ -70,6 +70,8 @@ import org.hyperskill.app.track.injection.PlatformTrackComponent
 import org.hyperskill.app.track.injection.PlatformTrackComponentImpl
 import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.track.injection.TrackComponentImpl
+import org.hyperskill.app.user_storage.injection.UserStorageComponent
+import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
 
 class AndroidAppComponentImpl(
     private val application: Application,
@@ -226,4 +228,7 @@ class AndroidAppComponentImpl(
 
     override fun buildPlatformPlaceholderNewUserComponent(placeholderNewUserComponent: PlaceholderNewUserComponent): PlatformPlaceholderNewUserComponent =
         PlatformPlaceholderNewUserComponentImpl(placeholderNewUserComponent)
+
+    override fun buildUserStorageComponent(): UserStorageComponent =
+        UserStorageComponentImpl(this)
 }

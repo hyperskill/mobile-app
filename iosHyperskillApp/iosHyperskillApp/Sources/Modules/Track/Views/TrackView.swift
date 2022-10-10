@@ -14,16 +14,14 @@ struct TrackView: View {
     @StateObject var viewModel: TrackViewModel
 
     var body: some View {
-        NavigationView {
-            ZStack {
-                UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
+        ZStack {
+            UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
 
-                BackgroundView(color: .systemGroupedBackground)
+            BackgroundView(color: .systemGroupedBackground)
 
-                buildBody()
-            }
-            .navigationTitle(Strings.Track.title)
+            buildBody()
         }
+        .navigationTitle(Strings.Track.title)
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)

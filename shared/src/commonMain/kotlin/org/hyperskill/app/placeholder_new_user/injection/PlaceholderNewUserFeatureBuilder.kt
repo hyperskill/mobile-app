@@ -10,14 +10,12 @@ import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFe
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature.Message
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature.State
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserReducer
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 object PlaceholderNewUserFeatureBuilder {
     fun build(
-        profileInteractor: ProfileInteractor,
         analyticInteractor: AnalyticInteractor,
         authInteractor: AuthInteractor,
         authorizationFlow: MutableSharedFlow<UserDeauthorized>
@@ -25,7 +23,6 @@ object PlaceholderNewUserFeatureBuilder {
         val placeholderNewUserReducer = PlaceholderNewUserReducer()
         val placeholderNewUserActionDispatcher = PlaceholderNewUserActionDispatcher(
             ActionDispatcherOptions(),
-            profileInteractor,
             analyticInteractor,
             authInteractor,
             authorizationFlow

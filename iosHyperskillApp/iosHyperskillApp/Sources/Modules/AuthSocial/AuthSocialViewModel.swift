@@ -68,6 +68,11 @@ final class AuthSocialViewModel: FeatureViewModel<
         moduleOutput?.handleUserAuthorized(isNewUser: isNewUser)
     }
 
+    func logAuthErrorToSentry(socialError: AuthSocialError, originalError: KotlinThrowable) {
+        let message = "AuthSocial: \(socialError), \(String(describing: originalError))"
+        SentryManager.captureErrorMessage(message)
+    }
+
     // MARK: Analytic
 
     func logViewedEvent() {
