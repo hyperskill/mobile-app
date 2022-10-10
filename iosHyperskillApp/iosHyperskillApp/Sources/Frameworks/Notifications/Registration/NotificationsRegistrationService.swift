@@ -210,7 +210,7 @@ extension NotificationsRegistrationService {
     private func logSystemNoticeShownEvent() {
         DispatchQueue.main.async {
             let event = NotificationSystemNoticeShownHyperskillAnalyticEvent(route: HyperskillAnalyticRoute.Home())
-            self.analyticInteractor.logEvent(event: event, completionHandler: { _, _ in })
+            self.analyticInteractor.logEvent(event: event)
         }
     }
 
@@ -220,7 +220,7 @@ extension NotificationsRegistrationService {
                 route: HyperskillAnalyticRoute.Home(),
                 isAllowed: isAllowed
             )
-            self.analyticInteractor.logEvent(event: event, completionHandler: { _, _ in })
+            self.analyticInteractor.logEvent(event: event)
         }
     }
 }

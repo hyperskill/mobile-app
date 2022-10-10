@@ -92,7 +92,7 @@ extension NotificationsService {
 
     private func logDailyStudyReminderClickedEvent(notificationID: Int) {
         let event = NotificationDailyStudyReminderClickedHyperskillAnalyticEvent(notificationId: Int32(notificationID))
-        analyticInteractor.logEvent(event: event, completionHandler: { _, _ in })
+        analyticInteractor.logEvent(event: event)
     }
 
     private func routeLocalNotification(with userInfo: NotificationUserInfo?) {

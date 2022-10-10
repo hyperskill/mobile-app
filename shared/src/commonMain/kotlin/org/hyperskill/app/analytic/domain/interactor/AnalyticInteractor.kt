@@ -4,6 +4,7 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
@@ -35,19 +36,23 @@ class AnalyticInteractor(
 
     private var flushEventsJob: Job? = null
 
-    override fun reportEvent(event: AnalyticEvent) {
+    override fun reportEvent(event: AnalyticEvent, forceReportEvent: Boolean) {
         MainScope().launch {
-            logEvent(event)
+            logEvent(event, forceReportEvent)
         }
     }
 
-    suspend fun logEvent(event: AnalyticEvent) {
+    override suspend fun flushEvents() {
+        launchHyperskillFlushEventsJob(withDelay = false)
+    }
+
+    suspend fun logEvent(event: AnalyticEvent, forceLogEvent: Boolean = false) {
         when (event.source) {
-            AnalyticSource.HYPERSKILL_API -> logHyperskillEvent(event)
+            AnalyticSource.HYPERSKILL_API -> logHyperskillEvent(event, forceLogEvent)
         }
     }
 
-    private suspend fun logHyperskillEvent(event: AnalyticEvent) {
+    private suspend fun logHyperskillEvent(event: AnalyticEvent, forceLogEvent: Boolean) {
         kotlin.runCatching {
             if (event !is HyperskillAnalyticEvent) {
                 return
@@ -71,14 +76,21 @@ class AnalyticInteractor(
                 return
             }
 
-            flushEventsJob = MainScope().launch {
+            launchHyperskillFlushEventsJob(withDelay = !forceLogEvent)
+        }
+    }
+
+    private suspend fun launchHyperskillFlushEventsJob(withDelay: Boolean) {
+        flushEventsJob?.cancelAndJoin()
+        flushEventsJob = MainScope().launch {
+            if (withDelay) {
                 delay(FLUSH_EVENTS_DELAY_DURATION)
-
-                val isAuthorized = authInteractor.isAuthorized()
-                    .getOrDefault(false)
-
-                hyperskillRepository.flushEvents(isAuthorized)
             }
+
+            val isAuthorized = authInteractor.isAuthorized()
+                .getOrDefault(false)
+
+            hyperskillRepository.flushEvents(isAuthorized)
         }
     }
 
