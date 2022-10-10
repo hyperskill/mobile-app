@@ -4,7 +4,7 @@ import org.hyperskill.app.analytic.injection.AnalyticComponent
 import org.hyperskill.app.auth.injection.AuthComponent
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponent
-import org.hyperskill.app.comments.injection.CommentsComponent
+import org.hyperskill.app.comments.injection.CommentsDataComponent
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.network.injection.NetworkComponent
@@ -41,5 +41,5 @@ interface AppGraph {
     fun buildOnboardingComponent(): OnboardingComponent
     fun buildPlaceholderNewUserComponent(): PlaceholderNewUserComponent
     fun buildUserStorageComponent(): UserStorageComponent
-    fun buildCommentsComponent(): CommentsComponent
+    fun buildCommentsDataComponent(): CommentsDataComponent
 }

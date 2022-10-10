@@ -2,6 +2,7 @@ package org.hyperskill.app.comments.data.repository
 
 import org.hyperskill.app.comments.data.source.CommentsRemoteDataSource
 import org.hyperskill.app.comments.domain.model.Comment
+import org.hyperskill.app.comments.domain.model.Reaction
 import org.hyperskill.app.comments.domain.repository.CommentsRepository
 
 class CommentsRepositoryImpl(
@@ -9,7 +10,13 @@ class CommentsRepositoryImpl(
 ) : CommentsRepository {
     override suspend fun getHintsIDs(stepID: Long): List<Long> =
         commentsRemoteDataSource
-            .getDiscussions("step", stepID, "hint", "popular", false)
+            .getDiscussions(
+                targetType = "step",
+                targetID = stepID,
+                thread = "hint",
+                ordering = "popular",
+                isSpam = false
+            )
             .getOrDefault(emptyList())
             .map { it.id }
 
@@ -17,10 +24,10 @@ class CommentsRepositoryImpl(
         commentsRemoteDataSource.getCommentDetails(commentID)
 
     override suspend fun abuseComment(commentID: Long) {
-        commentsRemoteDataSource.createLike("abuse", "comment", commentID, 1)
+        commentsRemoteDataSource.createLike(subject = "abuse", targetType = "comment", targetID = commentID, value = 1)
     }
 
-    override suspend fun createReaction(commentID: Long, reaction: String) {
-        commentsRemoteDataSource.createReaction(commentID, reaction)
+    override suspend fun createReaction(commentID: Long, reaction: Reaction) {
+        commentsRemoteDataSource.createReaction(commentID = commentID, shortName = reaction.rawValue)
     }
 }

@@ -7,7 +7,7 @@ import org.hyperskill.app.core.remote.Meta
 import org.hyperskill.app.core.remote.MetaResponse
 
 @Serializable
-class CommentDetailsResponse(
+class CommentsResponse(
     @SerialName("meta")
     override val meta: Meta,
 

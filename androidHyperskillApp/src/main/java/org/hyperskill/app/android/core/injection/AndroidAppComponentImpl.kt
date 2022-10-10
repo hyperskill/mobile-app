@@ -22,8 +22,8 @@ import org.hyperskill.app.auth.injection.PlatformAuthSocialComponent
 import org.hyperskill.app.auth.injection.PlatformAuthSocialComponentImpl
 import org.hyperskill.app.auth.injection.PlatformAuthSocialWebViewComponent
 import org.hyperskill.app.auth.injection.PlatformAuthSocialWebViewComponentImpl
-import org.hyperskill.app.comments.injection.CommentsComponent
-import org.hyperskill.app.comments.injection.CommentsComponentImpl
+import org.hyperskill.app.comments.injection.CommentsDataComponent
+import org.hyperskill.app.comments.injection.CommentsDataComponentImpl
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.injection.CommonComponent
 import org.hyperskill.app.core.injection.CommonComponentImpl
@@ -234,6 +234,6 @@ class AndroidAppComponentImpl(
     override fun buildUserStorageComponent(): UserStorageComponent =
         UserStorageComponentImpl(this)
 
-    override fun buildCommentsComponent(): CommentsComponent =
-        CommentsComponentImpl(this)
+    override fun buildCommentsDataComponent(): CommentsDataComponent =
+        CommentsDataComponentImpl(this)
 }

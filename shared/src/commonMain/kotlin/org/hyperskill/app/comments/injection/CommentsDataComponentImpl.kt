@@ -7,7 +7,7 @@ import org.hyperskill.app.comments.domain.repository.CommentsRepository
 import org.hyperskill.app.comments.remote.CommentsRemoteDataSourceImpl
 import org.hyperskill.app.core.injection.AppGraph
 
-class CommentsComponentImpl(appGraph: AppGraph) : CommentsComponent {
+class CommentsDataComponentImpl(appGraph: AppGraph) : CommentsDataComponent {
     private val commentsRemoteDataSource: CommentsRemoteDataSource =
         CommentsRemoteDataSourceImpl(appGraph.networkComponent.authorizedHttpClient)
 

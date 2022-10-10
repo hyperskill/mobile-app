@@ -10,7 +10,7 @@ import io.ktor.http.contentType
 import org.hyperskill.app.comments.data.source.CommentsRemoteDataSource
 import org.hyperskill.app.comments.domain.model.Comment
 import org.hyperskill.app.comments.domain.model.Discussion
-import org.hyperskill.app.comments.remote.model.CommentDetailsResponse
+import org.hyperskill.app.comments.remote.model.CommentsResponse
 import org.hyperskill.app.comments.remote.model.DiscussionsResponse
 
 class CommentsRemoteDataSourceImpl(
@@ -40,7 +40,7 @@ class CommentsRemoteDataSourceImpl(
             httpClient
                 .get("/api/comments/$commentID") {
                     contentType(ContentType.Application.Json)
-                }.body<CommentDetailsResponse>().comments.first()
+                }.body<CommentsResponse>().comments.first()
         }
 
     override suspend fun createLike(
