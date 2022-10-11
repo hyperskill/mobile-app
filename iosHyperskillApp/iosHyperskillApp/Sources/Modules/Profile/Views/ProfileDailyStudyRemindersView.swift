@@ -30,11 +30,9 @@ struct ProfileDailyStudyRemindersView: View {
 
                 HourIntervalPicker(
                     text: Strings.Profile.DailyStudyReminders.schedule,
-                    selectedInterval: $selectedHour
+                    selectedInterval: $selectedHour,
+                    onSelectedIntervalChanged: onSelectedHourChanged
                 )
-                .onChange(of: selectedHour) { value in
-                    onSelectedHourChanged(value)
-                }
                 .onTapGesture(perform: onSelectedHourTapped)
             }
         }
