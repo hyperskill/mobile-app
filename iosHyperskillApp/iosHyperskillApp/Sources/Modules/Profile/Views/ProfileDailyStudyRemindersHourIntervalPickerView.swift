@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct HourIntervalPicker: View {
+struct ProfileDailyStudyRemindersHourIntervalPickerView: View {
     private let intervals: Range<Int> = 0..<24
 
     let text: String
@@ -36,13 +36,14 @@ struct HourIntervalPicker: View {
                 }
                 .accentColor(Color(ColorPalette.primary))
                 .pickerStyle(.wheel)
+                .padding(.horizontal, LayoutInsets.smallInset)
 
                 Button(Strings.StepQuizTable.confirmButton) {
                     onSelectedIntervalChanged(selectedInterval)
                     showPickerModal = false
                 }
                 .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
-                .padding(.horizontal, LayoutInsets.smallInset)
+                .padding([.horizontal, .bottom])
             }
         }
         .environmentObject(PanModalPresenter(sourcelessRouter: SourcelessRouter()))
@@ -55,7 +56,7 @@ struct HourIntervalPicker: View {
 
 struct HourIntervalPicker_Previews: PreviewProvider {
     static var previews: some View {
-        HourIntervalPicker(
+        ProfileDailyStudyRemindersHourIntervalPickerView(
             text: Strings.Profile.DailyStudyReminders.schedule,
             selectedInterval: .constant(1),
             onSelectedIntervalChanged: { _ in },

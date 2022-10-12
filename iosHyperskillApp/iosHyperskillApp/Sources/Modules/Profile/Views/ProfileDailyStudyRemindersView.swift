@@ -28,7 +28,7 @@ struct ProfileDailyStudyRemindersView: View {
             if isActivated {
                 Divider()
 
-                HourIntervalPicker(
+                ProfileDailyStudyRemindersHourIntervalPickerView(
                     text: Strings.Profile.DailyStudyReminders.schedule,
                     selectedInterval: $selectedHour,
                     onSelectedIntervalChanged: onSelectedHourChanged,
