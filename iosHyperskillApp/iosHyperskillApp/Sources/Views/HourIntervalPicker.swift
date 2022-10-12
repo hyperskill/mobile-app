@@ -9,6 +9,8 @@ struct HourIntervalPicker: View {
 
     let onSelectedIntervalChanged: (Int) -> Void
 
+    let onSelectedIntervalTapped: () -> Void
+
     @State private var showPickerModal = false
 
     var body: some View {
@@ -20,6 +22,7 @@ struct HourIntervalPicker: View {
             Spacer()
 
             Button(makeFormattedInterval(selectedInterval)) {
+                onSelectedIntervalTapped()
                 showPickerModal = true
             }
             .accentColor(Color(ColorPalette.primary))
@@ -39,9 +42,7 @@ struct HourIntervalPicker: View {
                     showPickerModal = false
                 }
                 .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
-                .padding()
-
-                Spacer()
+                .padding(.horizontal, LayoutInsets.smallInset)
             }
         }
         .environmentObject(PanModalPresenter(sourcelessRouter: SourcelessRouter()))
@@ -57,7 +58,8 @@ struct HourIntervalPicker_Previews: PreviewProvider {
         HourIntervalPicker(
             text: Strings.Profile.DailyStudyReminders.schedule,
             selectedInterval: .constant(1),
-            onSelectedIntervalChanged: { _ in }
+            onSelectedIntervalChanged: { _ in },
+            onSelectedIntervalTapped: {}
         )
         .padding()
         .previewLayout(.sizeThatFits)
