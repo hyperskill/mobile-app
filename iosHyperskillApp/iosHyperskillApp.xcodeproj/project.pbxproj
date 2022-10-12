@@ -1135,11 +1135,10 @@
 		2C3796102876FC3E00C197E2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E9950E9428894F4700C4D962 /* ProfileDailyStudyRemindersHourIntervalPickerView.swift */,
-				E9950E9228893F1700C4D962 /* ProfileDailyStudyRemindersView.swift */,
 				2C3796112877001700C197E2 /* ProfileHeaderView.swift */,
 				2C9EB95C2861BABC007DDE44 /* ProfileView.swift */,
 				2C4FBD8F2876C95200ACA5C8 /* About */,
+				2C96E83C28F6B6CB00F8495B /* DailyStudyReminders */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1466,6 +1465,15 @@
 				2C96744128883A180091B6C9 /* StepQuizCodeViewDataMapper.swift */,
 			);
 			path = ViewData;
+			sourceTree = "<group>";
+		};
+		2C96E83C28F6B6CB00F8495B /* DailyStudyReminders */ = {
+			isa = PBXGroup;
+			children = (
+				E9950E9428894F4700C4D962 /* ProfileDailyStudyRemindersHourIntervalPickerView.swift */,
+				E9950E9228893F1700C4D962 /* ProfileDailyStudyRemindersView.swift */,
+			);
+			path = DailyStudyReminders;
 			sourceTree = "<group>";
 		};
 		2C9B66E827ECAF0200569645 /* Extensions */ = {
