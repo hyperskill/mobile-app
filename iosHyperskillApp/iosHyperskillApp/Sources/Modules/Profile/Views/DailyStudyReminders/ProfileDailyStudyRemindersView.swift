@@ -28,14 +28,12 @@ struct ProfileDailyStudyRemindersView: View {
             if isActivated {
                 Divider()
 
-                HourIntervalPicker(
+                ProfileDailyStudyRemindersHourIntervalPickerView(
                     text: Strings.Profile.DailyStudyReminders.schedule,
-                    selectedInterval: $selectedHour
+                    selectedInterval: $selectedHour,
+                    onSelectedIntervalChanged: onSelectedHourChanged,
+                    onSelectedIntervalTapped: onSelectedHourTapped
                 )
-                .onChange(of: selectedHour) { value in
-                    onSelectedHourChanged(value)
-                }
-                .onTapGesture(perform: onSelectedHourTapped)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)

@@ -298,7 +298,7 @@
 		E9886D3228ABCE5C003724F9 /* OnboardingOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9886D3128ABCE5C003724F9 /* OnboardingOutputProtocol.swift */; };
 		E993E9A928426FF2005988EC /* StepQuizSortingViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E993E9A828426FF2005988EC /* StepQuizSortingViewData.swift */; };
 		E9950E9328893F1700C4D962 /* ProfileDailyStudyRemindersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9950E9228893F1700C4D962 /* ProfileDailyStudyRemindersView.swift */; };
-		E9950E9528894F4700C4D962 /* HourIntervalPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9950E9428894F4700C4D962 /* HourIntervalPicker.swift */; };
+		E9950E9528894F4700C4D962 /* ProfileDailyStudyRemindersHourIntervalPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9950E9428894F4700C4D962 /* ProfileDailyStudyRemindersHourIntervalPickerView.swift */; };
 		E9954647288EC11000013FA6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E9954646288EC11000013FA6 /* LaunchScreen.storyboard */; };
 		E9978886282FFC6E00ADD74A /* StepQuizChoiceViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9978885282FFC6E00ADD74A /* StepQuizChoiceViewData.swift */; };
 		E99B21812887E535006A6154 /* StepQuizSkeletonViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99B21802887E535006A6154 /* StepQuizSkeletonViewFactory.swift */; };
@@ -649,7 +649,7 @@
 		E9886D3128ABCE5C003724F9 /* OnboardingOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingOutputProtocol.swift; sourceTree = "<group>"; };
 		E993E9A828426FF2005988EC /* StepQuizSortingViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSortingViewData.swift; sourceTree = "<group>"; };
 		E9950E9228893F1700C4D962 /* ProfileDailyStudyRemindersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDailyStudyRemindersView.swift; sourceTree = "<group>"; };
-		E9950E9428894F4700C4D962 /* HourIntervalPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourIntervalPicker.swift; sourceTree = "<group>"; };
+		E9950E9428894F4700C4D962 /* ProfileDailyStudyRemindersHourIntervalPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDailyStudyRemindersHourIntervalPickerView.swift; sourceTree = "<group>"; };
 		E9954646288EC11000013FA6 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E9978885282FFC6E00ADD74A /* StepQuizChoiceViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChoiceViewData.swift; sourceTree = "<group>"; };
 		E99B21802887E535006A6154 /* StepQuizSkeletonViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSkeletonViewFactory.swift; sourceTree = "<group>"; };
@@ -722,7 +722,6 @@
 			children = (
 				2C725B622809198000A49043 /* BackgroundView.swift */,
 				E91017142832975C002E70F5 /* CheckboxButton.swift */,
-				E9950E9428894F4700C4D962 /* HourIntervalPicker.swift */,
 				2CEB50D5288ACBD10044F9AB /* HSTabBar.swift */,
 				2C43CDF828B55CC600E74762 /* HyperskillLogoView.swift */,
 				2C08A938287866A200F1DCA2 /* LazyAvatarView.swift */,
@@ -1136,10 +1135,10 @@
 		2C3796102876FC3E00C197E2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E9950E9228893F1700C4D962 /* ProfileDailyStudyRemindersView.swift */,
 				2C3796112877001700C197E2 /* ProfileHeaderView.swift */,
 				2C9EB95C2861BABC007DDE44 /* ProfileView.swift */,
 				2C4FBD8F2876C95200ACA5C8 /* About */,
+				2C96E83C28F6B6CB00F8495B /* DailyStudyReminders */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1466,6 +1465,15 @@
 				2C96744128883A180091B6C9 /* StepQuizCodeViewDataMapper.swift */,
 			);
 			path = ViewData;
+			sourceTree = "<group>";
+		};
+		2C96E83C28F6B6CB00F8495B /* DailyStudyReminders */ = {
+			isa = PBXGroup;
+			children = (
+				E9950E9428894F4700C4D962 /* ProfileDailyStudyRemindersHourIntervalPickerView.swift */,
+				E9950E9228893F1700C4D962 /* ProfileDailyStudyRemindersView.swift */,
+			);
+			path = DailyStudyReminders;
 			sourceTree = "<group>";
 		};
 		2C9B66E827ECAF0200569645 /* Extensions */ = {
@@ -2425,7 +2433,7 @@
 				2C6B30A628B7C3F300609CE8 /* AuthNewUserPlaceholderViewModel.swift in Sources */,
 				2C863D932804279E0021EFED /* Require.swift in Sources */,
 				2C177EC32837B65500D841DB /* View+Frame.swift in Sources */,
-				E9950E9528894F4700C4D962 /* HourIntervalPicker.swift in Sources */,
+				E9950E9528894F4700C4D962 /* ProfileDailyStudyRemindersHourIntervalPickerView.swift in Sources */,
 				E9F923F628A2633D00C065A7 /* OnboardingView.swift in Sources */,
 				2C106D9928C1CE6E004FA584 /* SendEmailFeedbackController.swift in Sources */,
 				2C336D242865E38B00C91342 /* CodeInputAccessoryCollectionViewCell.swift in Sources */,
