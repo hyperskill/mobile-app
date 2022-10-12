@@ -23,7 +23,6 @@ import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizViewStateDelegateFactory
 import org.hyperskill.app.android.step_quiz.view.mapper.StepQuizFeedbackMapper
 import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
-import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
@@ -38,6 +37,13 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), ReduxView<StepQuizFeature.State, StepQuizFeature.Action.ViewAction> {
     companion object {
         const val KEY_STEP = "key_step"
+    }
+
+    private enum class StepQuizButtonsState {
+        SUBMIT,
+        RETRY,
+        CONTINUE,
+        RETRY_LOGO_AND_CONTINUE
     }
 
     private lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -74,10 +80,16 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
         stepQuizFormDelegate = createStepQuizFormDelegate(viewBinding)
 
         viewBinding.stepQuizButtons.stepQuizSubmitButton.setOnClickListener {
-            onActionButtonClicked()
+            onSubmitButtonClicked()
         }
         viewBinding.stepQuizButtons.stepQuizRetryButton.setOnClickListener {
             stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ClickedRetryEventMessage)
+        }
+        viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton.setOnClickListener {
+            stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ClickedRetryEventMessage)
+        }
+        viewBinding.stepQuizButtons.stepQuizContinueButton.setOnClickListener {
+            stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ContinueClicked)
         }
         viewBinding.stepQuizNetworkError.tryAgain.setOnClickListener {
             stepQuizViewModel.onNewMessage(StepQuizFeature.Message.InitWithStep(step, forceUpdate = true))
@@ -89,7 +101,7 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
 
     protected abstract fun createStepQuizFormDelegate(containerBinding: FragmentStepQuizBinding): StepQuizFormDelegate
 
-    protected fun onActionButtonClicked() {
+    protected fun onSubmitButtonClicked() {
         val reply = stepQuizFormDelegate.createReply()
         stepQuizViewModel.onNewMessage(StepQuizFeature.Message.CreateSubmissionClicked(step, reply))
     }
@@ -154,19 +166,18 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
                 val castedState = state.submissionState as StepQuizFeature.SubmissionState.Loaded
                 val submissionStatus = castedState.submission.status
 
-                if (submissionStatus == SubmissionStatus.CORRECT) {
-                    viewBinding.stepQuizButtons.stepQuizSubmitButton.visibility = View.GONE
-                    viewBinding.stepQuizButtons.stepQuizContinueButton.visibility = View.VISIBLE
-                    viewBinding.stepQuizButtons.stepQuizContinueButton.setOnClickListener {
-                        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ContinueClicked)
-                    }
-                }
-
-                if (
-                    step.block.name == BlockName.CODE &&
-                    (submissionStatus == SubmissionStatus.CORRECT || submissionStatus == SubmissionStatus.WRONG)
-                ) {
-                    viewBinding.stepQuizButtons.stepQuizRetryButton.visibility = View.VISIBLE
+                if (submissionStatus == SubmissionStatus.WRONG) {
+                    setStepQuizButtonsState(
+                        if (StepQuizResolver.isNeedRecreateAttemptForNewSubmission(step))
+                            StepQuizButtonsState.RETRY
+                        else StepQuizButtonsState.SUBMIT
+                    )
+                } else if (submissionStatus == SubmissionStatus.CORRECT) {
+                    setStepQuizButtonsState(
+                        if (StepQuizResolver.isQuizRetriable(step))
+                            StepQuizButtonsState.RETRY_LOGO_AND_CONTINUE
+                        else StepQuizButtonsState.CONTINUE
+                    )
                 }
 
                 if (castedState.replyValidation is ReplyValidationResult.Error) {
@@ -187,5 +198,35 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
      */
     protected fun logAnalyticEventMessage(message: StepQuizFeature.Message) {
         stepQuizViewModel.onNewMessage(message)
+    }
+
+    // TODO: Refactor create custom StepQuizButtons class
+    private fun setStepQuizButtonsState(state: StepQuizButtonsState) {
+        when (state) {
+            StepQuizButtonsState.SUBMIT -> {
+                viewBinding.stepQuizButtons.stepQuizSubmitButton.visibility = View.VISIBLE
+                viewBinding.stepQuizButtons.stepQuizRetryButton.visibility = View.GONE
+                viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton.visibility = View.GONE
+                viewBinding.stepQuizButtons.stepQuizContinueButton.visibility = View.GONE
+            }
+            StepQuizButtonsState.RETRY -> {
+                viewBinding.stepQuizButtons.stepQuizSubmitButton.visibility = View.GONE
+                viewBinding.stepQuizButtons.stepQuizRetryButton.visibility = View.VISIBLE
+                viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton.visibility = View.GONE
+                viewBinding.stepQuizButtons.stepQuizContinueButton.visibility = View.GONE
+            }
+            StepQuizButtonsState.CONTINUE -> {
+                viewBinding.stepQuizButtons.stepQuizSubmitButton.visibility = View.GONE
+                viewBinding.stepQuizButtons.stepQuizRetryButton.visibility = View.GONE
+                viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton.visibility = View.GONE
+                viewBinding.stepQuizButtons.stepQuizContinueButton.visibility = View.VISIBLE
+            }
+            StepQuizButtonsState.RETRY_LOGO_AND_CONTINUE -> {
+                viewBinding.stepQuizButtons.stepQuizSubmitButton.visibility = View.GONE
+                viewBinding.stepQuizButtons.stepQuizRetryButton.visibility = View.GONE
+                viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton.visibility = View.VISIBLE
+                viewBinding.stepQuizButtons.stepQuizContinueButton.visibility = View.VISIBLE
+            }
+        }
     }
 }

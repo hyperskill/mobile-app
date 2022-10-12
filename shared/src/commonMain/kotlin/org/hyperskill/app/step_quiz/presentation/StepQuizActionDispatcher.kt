@@ -52,7 +52,7 @@ class StepQuizActionDispatcher(
                     .fold(
                         onSuccess = { attempt ->
                             val message = getSubmissionState(attempt.id, action.step.id, currentProfile.id).fold(
-                                onSuccess = { Message.FetchAttemptSuccess(attempt, it, currentProfile) },
+                                onSuccess = { Message.FetchAttemptSuccess(action.step, attempt, it, currentProfile) },
                                 onFailure = {
                                     Message.FetchAttemptError
                                 }
@@ -71,7 +71,7 @@ class StepQuizActionDispatcher(
                         return
                     }
 
-                if (stepQuizInteractor.isNeedRecreateAttemptForNewSubmission(action.step)) {
+                if (StepQuizResolver.isNeedRecreateAttemptForNewSubmission(action.step)) {
                     val reply = (action.submissionState as? StepQuizFeature.SubmissionState.Loaded)
                         ?.submission
                         ?.reply
@@ -80,7 +80,12 @@ class StepQuizActionDispatcher(
                         .createAttempt(action.step.id)
                         .fold(
                             onSuccess = {
-                                Message.CreateAttemptSuccess(it, StepQuizFeature.SubmissionState.Empty(reply = reply), currentProfile)
+                                Message.CreateAttemptSuccess(
+                                    action.step,
+                                    it,
+                                    StepQuizFeature.SubmissionState.Empty(reply = reply),
+                                    currentProfile
+                                )
                             },
                             onFailure = {
                                 Message.CreateAttemptError
@@ -94,7 +99,7 @@ class StepQuizActionDispatcher(
                         ?.let { StepQuizFeature.SubmissionState.Loaded(it) }
                         ?: StepQuizFeature.SubmissionState.Empty()
 
-                    onNewMessage(Message.CreateAttemptSuccess(action.attempt, submissionState, currentProfile))
+                    onNewMessage(Message.CreateAttemptSuccess(action.step, action.attempt, submissionState, currentProfile))
                 }
             }
             is Action.CreateSubmissionValidateReply -> {

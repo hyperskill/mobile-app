@@ -32,7 +32,12 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 }
             is Message.FetchAttemptSuccess ->
                 if (state is State.Loading) {
-                    State.AttemptLoaded(message.attempt, message.submissionState, message.currentProfile) to emptySet()
+                    State.AttemptLoaded(
+                        message.step,
+                        message.attempt,
+                        message.submissionState,
+                        message.currentProfile
+                    ) to emptySet()
                 } else {
                     null
                 }
@@ -56,7 +61,12 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 }
             is Message.CreateAttemptSuccess ->
                 if (state is State.AttemptLoading) {
-                    State.AttemptLoaded(message.attempt, message.submissionState, message.currentProfile) to emptySet()
+                    State.AttemptLoaded(
+                        message.step,
+                        message.attempt,
+                        message.submissionState,
+                        message.currentProfile
+                    ) to emptySet()
                 } else {
                     null
                 }

@@ -112,7 +112,7 @@ class CodeStepQuizFragment :
     override fun onSyncCodeStateWithParent(code: String, onSubmitClicked: Boolean) {
         codeStepQuizFormDelegate.updateCodeLayoutFromDialog(code)
         if (onSubmitClicked) {
-            onActionButtonClicked()
+            onSubmitButtonClicked()
         }
     }
 

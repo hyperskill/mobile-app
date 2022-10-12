@@ -14,6 +14,7 @@ interface StepQuizFeature {
         object Loading : State
         object AttemptLoading : State
         data class AttemptLoaded(
+            val step: Step,
             val attempt: Attempt,
             val submissionState: SubmissionState,
             val currentProfile: Profile
@@ -32,6 +33,7 @@ interface StepQuizFeature {
     sealed interface Message {
         data class InitWithStep(val step: Step, val forceUpdate: Boolean = false) : Message
         data class FetchAttemptSuccess(
+            val step: Step,
             val attempt: Attempt,
             val submissionState: SubmissionState,
             val currentProfile: Profile
@@ -40,6 +42,7 @@ interface StepQuizFeature {
 
         data class CreateAttemptClicked(val step: Step) : Message
         data class CreateAttemptSuccess(
+            val step: Step,
             val attempt: Attempt,
             val submissionState: SubmissionState,
             val currentProfile: Profile

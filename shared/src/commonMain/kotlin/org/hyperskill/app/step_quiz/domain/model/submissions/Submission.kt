@@ -21,7 +21,4 @@ data class Submission(
     val attempt: Long = 0
 //    @SerialName("feedback")
 //    val feedback: Feedback? = null
-) {
-    val isSubmissionEditable: Boolean =
-        status == SubmissionStatus.LOCAL || status == SubmissionStatus.WRONG
-}
+)
