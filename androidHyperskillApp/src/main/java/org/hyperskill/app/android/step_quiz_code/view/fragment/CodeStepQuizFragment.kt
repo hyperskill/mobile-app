@@ -19,8 +19,8 @@ import org.hyperskill.app.android.step_quiz_fullscreen_code.dialog.ResetCodeDial
 import org.hyperskill.app.step.domain.model.Block
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
-import ru.nobird.app.presentation.redux.container.ReduxView
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
+import ru.nobird.app.presentation.redux.container.ReduxView
 
 class CodeStepQuizFragment :
     DefaultStepQuizFragment(),
@@ -57,14 +57,6 @@ class CodeStepQuizFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = LayoutStepQuizCodeBinding.inflate(LayoutInflater.from(requireContext()), viewBinding.root, false)
         viewBinding.root.addView(binding.root)
-
-        viewBinding.stepQuizButtons.stepQuizRetryButton.setOnClickListener {
-            logAnalyticEventMessage(StepQuizFeature.Message.ClickedRetryEventMessage)
-            val dialog = ResetCodeDialogFragment.newInstance()
-            if (!dialog.isAdded) {
-                dialog.show(childFragmentManager, null)
-            }
-        }
 
         super.onViewCreated(view, savedInstanceState)
     }
@@ -109,6 +101,14 @@ class CodeStepQuizFragment :
         return codeStepQuizFormDelegate
     }
 
+    override fun onRetryButtonClicked() {
+        logAnalyticEventMessage(StepQuizFeature.Message.ClickedRetryEventMessage)
+        val dialog = ResetCodeDialogFragment.newInstance()
+        if (!dialog.isAdded) {
+            dialog.show(childFragmentManager, null)
+        }
+    }
+
     override fun onSyncCodeStateWithParent(code: String, onSubmitClicked: Boolean) {
         codeStepQuizFormDelegate.updateCodeLayoutFromDialog(code)
         if (onSubmitClicked) {
@@ -123,7 +123,7 @@ class CodeStepQuizFragment :
                 code,
                 codeOptions.codeTemplates!!,
                 step,
-                viewBinding.stepQuizButtons.stepQuizRetryButton.isVisible
+                viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton.isVisible
             )
             .showIfNotExists(childFragmentManager, CodeStepQuizFullScreenDialogFragment.TAG)
     }

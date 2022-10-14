@@ -72,10 +72,6 @@ class StepQuizActionDispatcher(
                     }
 
                 if (StepQuizResolver.isNeedRecreateAttemptForNewSubmission(action.step)) {
-                    val reply = (action.submissionState as? StepQuizFeature.SubmissionState.Loaded)
-                        ?.submission
-                        ?.reply
-
                     val message = stepQuizInteractor
                         .createAttempt(action.step.id)
                         .fold(
@@ -83,7 +79,7 @@ class StepQuizActionDispatcher(
                                 Message.CreateAttemptSuccess(
                                     action.step,
                                     it,
-                                    StepQuizFeature.SubmissionState.Empty(reply = reply),
+                                    StepQuizFeature.SubmissionState.Empty(),
                                     currentProfile
                                 )
                             },
@@ -95,7 +91,14 @@ class StepQuizActionDispatcher(
                 } else {
                     val submissionState = (action.submissionState as? StepQuizFeature.SubmissionState.Loaded)
                         ?.submission
-                        ?.let { Submission(id = it.id + 1, attempt = action.attempt.id, reply = it.reply, status = SubmissionStatus.LOCAL) }
+                        ?.let {
+                            it.copy(
+                                id = it.id + 1,
+                                status = SubmissionStatus.LOCAL,
+                                reply = null,
+                                attempt = action.attempt.id
+                            )
+                        }
                         ?.let { StepQuizFeature.SubmissionState.Loaded(it) }
                         ?: StepQuizFeature.SubmissionState.Empty()
 

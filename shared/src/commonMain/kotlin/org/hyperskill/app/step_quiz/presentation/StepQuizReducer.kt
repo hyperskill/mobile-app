@@ -10,6 +10,7 @@ import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRunHyperskill
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedSendHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizHiddenDailyNotificationsNoticeHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizShownDailyNotificationsNoticeHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.model.permissions.StepQuizUserPermissionRequest
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
@@ -49,13 +50,17 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 }
             is Message.CreateAttemptClicked ->
                 if (state is State.AttemptLoaded) {
-                    State.AttemptLoading to setOf(
-                        Action.CreateAttempt(
-                            message.step,
-                            state.attempt,
-                            state.submissionState
+                    if (state.step.block.name == BlockName.CODE || state.step.block.name == BlockName.SQL) {
+                        state to setOf(Action.ViewAction.RequestUserPermission(StepQuizUserPermissionRequest.RESET_CODE))
+                    } else {
+                        State.AttemptLoading to setOf(
+                            Action.CreateAttempt(
+                                message.step,
+                                state.attempt,
+                                state.submissionState
+                            )
                         )
-                    )
+                    }
                 } else {
                     null
                 }
@@ -189,6 +194,24 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                         Action.NotifyUserDeclinedToEnableDailyReminders,
                         Action.LogAnalyticEvent(analyticEvent)
                     )
+                } else {
+                    null
+                }
+            is Message.RequestUserPermissionResult ->
+                if (state is State.AttemptLoaded) {
+                    when (message.userPermissionRequest) {
+                        StepQuizUserPermissionRequest.RESET_CODE -> if (message.isGranted) {
+                            State.AttemptLoading to setOf(
+                                Action.CreateAttempt(
+                                    state.step,
+                                    state.attempt,
+                                    state.submissionState
+                                )
+                            )
+                        } else {
+                            null
+                        }
+                    }
                 } else {
                     null
                 }

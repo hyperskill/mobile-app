@@ -4,6 +4,7 @@ import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
+import org.hyperskill.app.step_quiz.domain.model.permissions.StepQuizUserPermissionRequest
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
@@ -66,6 +67,11 @@ interface StepQuizFeature {
         object UserAgreedToEnableDailyReminders : Message
         object UserDeclinedToEnableDailyReminders : Message
 
+        data class RequestUserPermissionResult(
+            val userPermissionRequest: StepQuizUserPermissionRequest,
+            val isGranted: Boolean
+        ) : Message
+
         /**
          * Analytic
          */
@@ -93,6 +99,8 @@ interface StepQuizFeature {
         sealed interface ViewAction : Action {
             object ShowNetworkError : ViewAction // error
             object AskUserToEnableDailyReminders : ViewAction
+            data class RequestUserPermission(val userPermission: StepQuizUserPermissionRequest) : ViewAction
+
             sealed interface NavigateTo : ViewAction {
                 object HomeScreen : NavigateTo
             }
