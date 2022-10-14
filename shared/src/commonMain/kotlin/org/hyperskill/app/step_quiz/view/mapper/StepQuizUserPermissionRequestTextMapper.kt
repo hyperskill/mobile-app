@@ -11,11 +11,15 @@ class StepQuizUserPermissionRequestTextMapper(
         when (request) {
             StepQuizUserPermissionRequest.RESET_CODE ->
                 resourceProvider.getString(SharedResources.strings.reset_code_dialog_title)
+            StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS ->
+                resourceProvider.getString(SharedResources.strings.after_daily_step_completed_dialog_title)
         }
 
     fun getMessage(request: StepQuizUserPermissionRequest): String =
         when (request) {
             StepQuizUserPermissionRequest.RESET_CODE ->
                 resourceProvider.getString(SharedResources.strings.reset_code_dialog_explanation)
+            StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS ->
+                resourceProvider.getString(SharedResources.strings.after_daily_step_completed_dialog_text)
         }
 }

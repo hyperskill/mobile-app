@@ -11,7 +11,7 @@ import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizViewedHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
-import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
+import org.hyperskill.app.step_quiz.domain.model.permissions.StepQuizUserPermissionRequest
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.domain.validation.StepQuizReplyValidator
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Action
@@ -31,7 +31,7 @@ class StepQuizActionDispatcher(
         actionScope.launch {
             notificationInteractor.solvedStepsSharedFlow.collect {
                 if (notificationInteractor.isRequiredToAskUserToEnableDailyReminders()) {
-                    onNewMessage(Message.NeedToAskUserToEnableDailyReminders)
+                    onNewMessage(Message.RequestUserPermission(StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS))
                 }
             }
         }
@@ -72,15 +72,21 @@ class StepQuizActionDispatcher(
                     }
 
                 if (StepQuizResolver.isNeedRecreateAttemptForNewSubmission(action.step)) {
+                    val reply = (action.submissionState as? StepQuizFeature.SubmissionState.Loaded)
+                        ?.submission
+                        ?.reply
+
                     val message = stepQuizInteractor
                         .createAttempt(action.step.id)
                         .fold(
                             onSuccess = {
                                 Message.CreateAttemptSuccess(
-                                    action.step,
-                                    it,
-                                    StepQuizFeature.SubmissionState.Empty(),
-                                    currentProfile
+                                    step = action.step,
+                                    attempt = it,
+                                    submissionState = StepQuizFeature.SubmissionState.Empty(
+                                        reply = if (action.shouldResetReply) null else reply
+                                    ),
+                                    currentProfile = currentProfile
                                 )
                             },
                             onFailure = {
@@ -95,7 +101,7 @@ class StepQuizActionDispatcher(
                             it.copy(
                                 id = it.id + 1,
                                 status = SubmissionStatus.LOCAL,
-                                reply = null,
+                                reply = if (action.shouldResetReply) null else it.reply,
                                 attempt = action.attempt.id
                             )
                         }
@@ -122,14 +128,22 @@ class StepQuizActionDispatcher(
                     )
                 onNewMessage(message)
             }
-            is Action.NotifyUserAgreedToEnableDailyReminders -> {
-                notificationInteractor.setDailyStudyRemindersEnabled(true)
-                notificationInteractor.setDailyStudyRemindersIntervalStartHour(
-                    NotificationExtensions.DAILY_REMINDERS_AFTER_STEP_SOLVED_START_HOUR
-                )
-            }
-            is Action.NotifyUserDeclinedToEnableDailyReminders -> {
-                notificationInteractor.setLastTimeUserAskedToEnableDailyReminders(Clock.System.now().toEpochMilliseconds())
+            is Action.RequestUserPermissionResult -> {
+                when (action.userPermissionRequest) {
+                    StepQuizUserPermissionRequest.RESET_CODE -> {}
+                    StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS -> {
+                        if (action.isGranted) {
+                            notificationInteractor.setDailyStudyRemindersEnabled(true)
+                            notificationInteractor.setDailyStudyRemindersIntervalStartHour(
+                                NotificationExtensions.DAILY_REMINDERS_AFTER_STEP_SOLVED_START_HOUR
+                            )
+                        } else {
+                            notificationInteractor.setLastTimeUserAskedToEnableDailyReminders(
+                                Clock.System.now().toEpochMilliseconds()
+                            )
+                        }
+                    }
+                }
             }
             is Action.LogViewedEvent -> {
                 val currentProfile = profileInteractor

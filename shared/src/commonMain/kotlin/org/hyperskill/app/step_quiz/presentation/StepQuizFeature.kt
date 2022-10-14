@@ -41,7 +41,10 @@ interface StepQuizFeature {
         ) : Message
         object FetchAttemptError : Message
 
-        data class CreateAttemptClicked(val step: Step) : Message
+        /**
+         * Create/retry attempt
+         */
+        data class CreateAttemptClicked(val step: Step, val shouldResetReply: Boolean) : Message
         data class CreateAttemptSuccess(
             val step: Step,
             val attempt: Attempt,
@@ -50,23 +53,26 @@ interface StepQuizFeature {
         ) : Message
         object CreateAttemptError : Message
 
+        /**
+         * Submit submission
+         */
         data class CreateSubmissionClicked(val step: Step, val reply: Reply) : Message
+        data class CreateSubmissionSuccess(val submission: Submission) : Message
+        object CreateSubmissionNetworkError : Message
         data class CreateSubmissionReplyValidationResult(
             val step: Step,
             val reply: Reply,
             val replyValidation: ReplyValidationResult
         ) : Message
-        data class CreateSubmissionSuccess(val submission: Submission) : Message
-        object CreateSubmissionNetworkError : Message
 
         object ContinueClicked : Message
 
         data class SyncReply(val reply: Reply) : Message
 
-        object NeedToAskUserToEnableDailyReminders : Message
-        object UserAgreedToEnableDailyReminders : Message
-        object UserDeclinedToEnableDailyReminders : Message
-
+        /**
+         * Request user permission
+         */
+        data class RequestUserPermission(val userPermissionRequest: StepQuizUserPermissionRequest) : Message
         data class RequestUserPermissionResult(
             val userPermissionRequest: StepQuizUserPermissionRequest,
             val isGranted: Boolean
@@ -83,12 +89,19 @@ interface StepQuizFeature {
     sealed interface Action {
         data class FetchAttempt(val step: Step) : Action
 
-        data class CreateAttempt(val step: Step, val attempt: Attempt, val submissionState: SubmissionState) : Action
+        data class CreateAttempt(
+            val step: Step,
+            val attempt: Attempt,
+            val submissionState: SubmissionState,
+            val shouldResetReply: Boolean
+        ) : Action
         data class CreateSubmissionValidateReply(val step: Step, val reply: Reply) : Action
         data class CreateSubmission(val step: Step, val attemptId: Long, val reply: Reply) : Action
 
-        object NotifyUserAgreedToEnableDailyReminders : Action
-        object NotifyUserDeclinedToEnableDailyReminders : Action
+        data class RequestUserPermissionResult(
+            val userPermissionRequest: StepQuizUserPermissionRequest,
+            val isGranted: Boolean
+        ) : Action
 
         /**
          * Analytic
@@ -98,8 +111,8 @@ interface StepQuizFeature {
 
         sealed interface ViewAction : Action {
             object ShowNetworkError : ViewAction // error
-            object AskUserToEnableDailyReminders : ViewAction
-            data class RequestUserPermission(val userPermission: StepQuizUserPermissionRequest) : ViewAction
+
+            data class RequestUserPermission(val userPermissionRequest: StepQuizUserPermissionRequest) : ViewAction
 
             sealed interface NavigateTo : ViewAction {
                 object HomeScreen : NavigateTo

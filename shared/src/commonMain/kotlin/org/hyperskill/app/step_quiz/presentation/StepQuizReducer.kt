@@ -57,7 +57,8 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                             Action.CreateAttempt(
                                 message.step,
                                 state.attempt,
-                                state.submissionState
+                                state.submissionState,
+                                message.shouldResetReply
                             )
                         )
                     }
@@ -160,39 +161,19 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
-            is Message.NeedToAskUserToEnableDailyReminders ->
+            is Message.RequestUserPermission ->
                 if (state is State.AttemptLoaded) {
-                    val analyticEvent =
-                        StepQuizShownDailyNotificationsNoticeHyperskillAnalyticEvent(route = resolveAnalyticRoute(state))
-                    state to setOf(
-                        Action.ViewAction.AskUserToEnableDailyReminders,
-                        Action.LogAnalyticEvent(analyticEvent)
-                    )
-                } else {
-                    null
-                }
-            is Message.UserAgreedToEnableDailyReminders ->
-                if (state is State.AttemptLoaded) {
-                    val analyticEvent = StepQuizHiddenDailyNotificationsNoticeHyperskillAnalyticEvent(
-                        route = resolveAnalyticRoute(state),
-                        isAgreed = true
-                    )
-                    state to setOf(
-                        Action.NotifyUserAgreedToEnableDailyReminders,
-                        Action.LogAnalyticEvent(analyticEvent)
-                    )
-                } else {
-                    null
-                }
-            is Message.UserDeclinedToEnableDailyReminders ->
-                if (state is State.AttemptLoaded) {
-                    val analyticEvent = StepQuizHiddenDailyNotificationsNoticeHyperskillAnalyticEvent(
-                        route = resolveAnalyticRoute(state),
-                        isAgreed = false
-                    )
-                    state to setOf(
-                        Action.NotifyUserDeclinedToEnableDailyReminders,
-                        Action.LogAnalyticEvent(analyticEvent)
+                    val logAnalyticEventAction = when (message.userPermissionRequest) {
+                        StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS -> {
+                            val analyticEvent =
+                                StepQuizShownDailyNotificationsNoticeHyperskillAnalyticEvent(resolveAnalyticRoute(state))
+                            Action.LogAnalyticEvent(analyticEvent)
+                        }
+                        else -> null
+                    }
+                    state to setOfNotNull(
+                        Action.ViewAction.RequestUserPermission(message.userPermissionRequest),
+                        logAnalyticEventAction
                     )
                 } else {
                     null
@@ -205,11 +186,22 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                                 Action.CreateAttempt(
                                     state.step,
                                     state.attempt,
-                                    state.submissionState
+                                    state.submissionState,
+                                    shouldResetReply = true
                                 )
                             )
                         } else {
                             null
+                        }
+                        StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS -> {
+                            val analyticEvent = StepQuizHiddenDailyNotificationsNoticeHyperskillAnalyticEvent(
+                                route = resolveAnalyticRoute(state),
+                                isAgreed = message.isGranted
+                            )
+                            state to setOf(
+                                Action.RequestUserPermissionResult(message.userPermissionRequest, message.isGranted),
+                                Action.LogAnalyticEvent(analyticEvent)
+                            )
                         }
                     }
                 } else {

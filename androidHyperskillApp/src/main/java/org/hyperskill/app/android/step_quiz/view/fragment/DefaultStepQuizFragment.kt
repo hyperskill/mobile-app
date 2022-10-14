@@ -27,6 +27,7 @@ import org.hyperskill.app.android.step_quiz.view.mapper.StepQuizFeedbackMapper
 import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step_quiz.domain.model.permissions.StepQuizUserPermissionRequest
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
@@ -107,7 +108,12 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
 
     open fun onRetryButtonClicked() {
         stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ClickedRetryEventMessage)
-        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.CreateAttemptClicked(step))
+        stepQuizViewModel.onNewMessage(
+            StepQuizFeature.Message.CreateAttemptClicked(
+                step = step,
+                shouldResetReply = true
+            )
+        )
     }
 
     override fun onStart() {
@@ -128,55 +134,67 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
             is StepQuizFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
                 requireRouter().backTo(MainScreen)
             }
-            is StepQuizFeature.Action.ViewAction.AskUserToEnableDailyReminders -> {
-                MaterialAlertDialogBuilder(requireContext())
-                    .setTitle(R.string.after_daily_step_completed_dialog_title)
-                    .setMessage(R.string.after_daily_step_completed_dialog_text)
-                    .setPositiveButton(R.string.ok) { _, _ ->
-                        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.UserAgreedToEnableDailyReminders)
-
-                        val notificationManagerCompat = NotificationManagerCompat.from(requireContext())
-                        if (!notificationManagerCompat.areNotificationsEnabled()) {
-                            val intent: Intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
-                                .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
-                            startActivity(intent)
-                            return@setPositiveButton
-                        }
-
-                        if (!notificationManagerCompat.isChannelNotificationsEnabled(HyperskillNotificationChannel.DAILY_REMINDER.channelId)) {
-                            val intent: Intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
-                                .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
-                                .putExtra(Settings.EXTRA_CHANNEL_ID, HyperskillNotificationChannel.DAILY_REMINDER.channelId)
-                            startActivity(intent)
-                            return@setPositiveButton
-                        }
-                    }
-                    .setNegativeButton(R.string.later) { _, _ ->
-                        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.UserDeclinedToEnableDailyReminders)
-                    }
-                    .show()
-            }
             is StepQuizFeature.Action.ViewAction.RequestUserPermission -> {
-                MaterialAlertDialogBuilder(requireContext())
-                    .setTitle(userPermissionRequestTextMapper.getTitle(action.userPermission))
-                    .setMessage(userPermissionRequestTextMapper.getMessage(action.userPermission))
-                    .setPositiveButton(R.string.yes) { _, _ ->
-                        stepQuizViewModel.onNewMessage(
-                            StepQuizFeature.Message.RequestUserPermissionResult(
-                                action.userPermission,
-                                isGranted = true
-                            )
-                        )
-                    }
-                    .setNegativeButton(R.string.cancel) { _, _ ->
-                        stepQuizViewModel.onNewMessage(
-                            StepQuizFeature.Message.RequestUserPermissionResult(
-                                action.userPermission,
-                                isGranted = false
-                            )
-                        )
-                    }
-                    .show()
+                when (action.userPermissionRequest) {
+                    StepQuizUserPermissionRequest.RESET_CODE ->
+                        MaterialAlertDialogBuilder(requireContext())
+                            .setTitle(userPermissionRequestTextMapper.getTitle(action.userPermissionRequest))
+                            .setMessage(userPermissionRequestTextMapper.getMessage(action.userPermissionRequest))
+                            .setPositiveButton(R.string.yes) { _, _ ->
+                                stepQuizViewModel.onNewMessage(
+                                    StepQuizFeature.Message.RequestUserPermissionResult(
+                                        action.userPermissionRequest,
+                                        isGranted = true
+                                    )
+                                )
+                            }
+                            .setNegativeButton(R.string.cancel) { _, _ ->
+                                stepQuizViewModel.onNewMessage(
+                                    StepQuizFeature.Message.RequestUserPermissionResult(
+                                        action.userPermissionRequest,
+                                        isGranted = false
+                                    )
+                                )
+                            }
+                            .show()
+                    StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS ->
+                        MaterialAlertDialogBuilder(requireContext())
+                            .setTitle(userPermissionRequestTextMapper.getTitle(action.userPermissionRequest))
+                            .setMessage(userPermissionRequestTextMapper.getMessage(action.userPermissionRequest))
+                            .setPositiveButton(R.string.ok) { _, _ ->
+                                stepQuizViewModel.onNewMessage(
+                                    StepQuizFeature.Message.RequestUserPermissionResult(
+                                        action.userPermissionRequest,
+                                        isGranted = true
+                                    )
+                                )
+
+                                val notificationManagerCompat = NotificationManagerCompat.from(requireContext())
+                                if (!notificationManagerCompat.areNotificationsEnabled()) {
+                                    val intent: Intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                                        .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
+                                    startActivity(intent)
+                                    return@setPositiveButton
+                                }
+
+                                if (!notificationManagerCompat.isChannelNotificationsEnabled(HyperskillNotificationChannel.DAILY_REMINDER.channelId)) {
+                                    val intent: Intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
+                                        .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
+                                        .putExtra(Settings.EXTRA_CHANNEL_ID, HyperskillNotificationChannel.DAILY_REMINDER.channelId)
+                                    startActivity(intent)
+                                    return@setPositiveButton
+                                }
+                            }
+                            .setNegativeButton(R.string.later) { _, _ ->
+                                stepQuizViewModel.onNewMessage(
+                                    StepQuizFeature.Message.RequestUserPermissionResult(
+                                        action.userPermissionRequest,
+                                        isGranted = false
+                                    )
+                                )
+                            }
+                            .show()
+                }
             }
         }
     }
