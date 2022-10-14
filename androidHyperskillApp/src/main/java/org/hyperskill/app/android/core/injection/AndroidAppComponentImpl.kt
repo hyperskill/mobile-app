@@ -62,6 +62,8 @@ import org.hyperskill.app.step.injection.PlatformStepComponent
 import org.hyperskill.app.step.injection.PlatformStepComponentImpl
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step.injection.StepComponentImpl
+import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
+import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponentImpl
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponent
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
@@ -236,4 +238,7 @@ class AndroidAppComponentImpl(
 
     override fun buildCommentsDataComponent(): CommentsDataComponent =
         CommentsDataComponentImpl(this)
+
+    override fun buildStepQuizHintsComponent(): StepQuizHintsComponent =
+        StepQuizHintsComponentImpl(this)
 }

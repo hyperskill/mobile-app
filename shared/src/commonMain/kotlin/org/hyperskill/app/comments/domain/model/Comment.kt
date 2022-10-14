@@ -7,6 +7,10 @@ import kotlinx.serialization.Serializable
 data class Comment(
     @SerialName("id")
     val id: Long,
+    @SerialName("target_id")
+    val targetID: Long,
+    @SerialName("target_type")
+    val targetType: String,
     @SerialName("text")
     val text: String,
     @SerialName("localized_text")
