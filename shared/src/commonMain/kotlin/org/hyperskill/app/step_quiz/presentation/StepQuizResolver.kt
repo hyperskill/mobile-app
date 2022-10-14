@@ -22,6 +22,21 @@ object StepQuizResolver {
         return false
     }
 
+    fun isQuizLoading(state: StepQuizFeature.State): Boolean =
+        when (state) {
+            is StepQuizFeature.State.AttemptLoaded -> {
+                when (state.submissionState) {
+                    is StepQuizFeature.SubmissionState.Empty -> false
+                    is StepQuizFeature.SubmissionState.Loaded ->
+                        state.submissionState.submission.status == SubmissionStatus.EVALUATION
+                }
+            }
+            StepQuizFeature.State.AttemptLoading -> true
+            StepQuizFeature.State.Idle -> false
+            StepQuizFeature.State.Loading -> true
+            StepQuizFeature.State.NetworkError -> false
+        }
+
     fun isNeedRecreateAttemptForNewSubmission(step: Step): Boolean =
         when (step.block.name) {
             BlockName.CHOICE,

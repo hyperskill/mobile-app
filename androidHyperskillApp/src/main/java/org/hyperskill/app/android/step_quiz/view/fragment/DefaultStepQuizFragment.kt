@@ -4,7 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import android.widget.LinearLayout
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -39,14 +41,6 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), ReduxView<StepQuizFeature.State, StepQuizFeature.Action.ViewAction> {
     companion object {
         const val KEY_STEP = "key_step"
-    }
-
-    private enum class StepQuizButtonsState {
-        SUBMIT,
-        RETRY,
-        CONTINUE,
-        RETRY_LOGO_AND_SUBMIT,
-        RETRY_LOGO_AND_CONTINUE
     }
 
     private lateinit var userPermissionRequestTextMapper: StepQuizUserPermissionRequestTextMapper
@@ -189,6 +183,14 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
 
     override fun render(state: StepQuizFeature.State) {
         viewStateDelegate.switchState(state)
+
+        val stepQuizButtonsLinearLayout = view?.findViewById<LinearLayout>(R.id.stepQuizButtons)
+        if (stepQuizButtonsLinearLayout != null) {
+            for (childView in stepQuizButtonsLinearLayout.children) {
+                childView.isEnabled = !StepQuizResolver.isQuizLoading(state)
+            }
+        }
+
         if (state is StepQuizFeature.State.AttemptLoaded) {
             stepQuizFormDelegate.setState(state)
             stepQuizFeedbackBlocksDelegate.setState(stepQuizFeedbackMapper.mapToStepQuizFeedbackState(step.block.name, state))
@@ -236,6 +238,14 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
      */
     protected fun logAnalyticEventMessage(message: StepQuizFeature.Message) {
         stepQuizViewModel.onNewMessage(message)
+    }
+
+    private enum class StepQuizButtonsState {
+        SUBMIT,
+        RETRY,
+        CONTINUE,
+        RETRY_LOGO_AND_SUBMIT,
+        RETRY_LOGO_AND_CONTINUE
     }
 
     // TODO: Refactor create custom StepQuizButtons class
