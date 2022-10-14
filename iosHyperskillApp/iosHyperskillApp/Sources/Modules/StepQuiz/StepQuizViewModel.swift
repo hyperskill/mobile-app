@@ -11,6 +11,7 @@ final class StepQuizViewModel: FeatureViewModel<
     weak var childQuizModuleInput: StepQuizChildQuizInputProtocol?
 
     private let viewDataMapper: StepQuizViewDataMapper
+    private let userPermissionRequestTextMapper: StepQuizUserPermissionRequestTextMapper
 
     private let notificationService: NotificationsService
     private let notificationsRegistrationService: NotificationsRegistrationService
@@ -18,12 +19,14 @@ final class StepQuizViewModel: FeatureViewModel<
     init(
         step: Step,
         viewDataMapper: StepQuizViewDataMapper,
+        userPermissionRequestTextMapper: StepQuizUserPermissionRequestTextMapper,
         notificationService: NotificationsService,
         notificationsRegistrationService: NotificationsRegistrationService,
         feature: Presentation_reduxFeature
     ) {
         self.step = step
         self.viewDataMapper = viewDataMapper
+        self.userPermissionRequestTextMapper = userPermissionRequestTextMapper
         self.notificationService = notificationService
         self.notificationsRegistrationService = notificationsRegistrationService
         super.init(feature: feature)
@@ -46,8 +49,9 @@ final class StepQuizViewModel: FeatureViewModel<
     }
 
     func doQuizRetryAction() {
-        // TODO: Implement quiz retry
+        #warning("TODO: Implement quiz retry")
         logClickedRetryEvent()
+        onNewMessage(StepQuizFeatureMessageCreateAttemptClicked(step: step, shouldResetReply: true))
     }
 
     func doQuizContinueAction() {
@@ -58,25 +62,37 @@ final class StepQuizViewModel: FeatureViewModel<
         viewDataMapper.mapStepDataToViewData(step: step, state: state)
     }
 
+    func makeUserPermissionRequestTitle(_ userPermissionRequest: StepQuizUserPermissionRequest) -> String {
+        userPermissionRequestTextMapper.getTitle(request: userPermissionRequest)
+    }
+
+    func makeUserPermissionRequestMessage(_ userPermissionRequest: StepQuizUserPermissionRequest) -> String {
+        userPermissionRequestTextMapper.getMessage(request: userPermissionRequest)
+    }
+
     func handleDailyStudyRemindersPermissionRequestResult(isGranted: Bool) {
+        let message = StepQuizFeatureMessageRequestUserPermissionResult(
+            userPermissionRequest: StepQuizUserPermissionRequest.sendDailyStudyReminders,
+            isGranted: isGranted
+        )
+
         if isGranted {
             Task(priority: .userInitiated) {
                 let isNotificationPermissionGranted =
                   await notificationsRegistrationService.requestAuthorizationIfNeeded()
 
                 await MainActor.run {
+                    onNewMessage(message)
+
                     if isNotificationPermissionGranted {
-                        onNewMessage(StepQuizFeatureMessageUserAgreedToEnableDailyReminders())
                         notificationService.scheduleDailyStudyReminderLocalNotifications(
                             analyticRoute: HyperskillAnalyticRoute.Learn.LearnStep(stepId: step.id)
                         )
-                    } else {
-                        onNewMessage(StepQuizFeatureMessageUserDeclinedToEnableDailyReminders())
                     }
                 }
             }
         } else {
-            onNewMessage(StepQuizFeatureMessageUserDeclinedToEnableDailyReminders())
+            onNewMessage(message)
         }
     }
 

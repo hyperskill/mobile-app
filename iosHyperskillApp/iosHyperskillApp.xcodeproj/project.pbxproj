@@ -32,6 +32,7 @@
 		2C0DB912286455D8001EA35E /* CodePlaygroundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DB911286455D8001EA35E /* CodePlaygroundManager.swift */; };
 		2C0DB91C28645ADA001EA35E /* CodeCompletionKeywords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DB91B28645ADA001EA35E /* CodeCompletionKeywords.swift */; };
 		2C0DB91E2864617E001EA35E /* code-completion-keywords.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C0DB91D2864617E001EA35E /* code-completion-keywords.plist */; };
+		2C0EC2DF28F9E92D004A36B2 /* ModalRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0EC2DE28F9E92D004A36B2 /* ModalRouter.swift */; };
 		2C1061A2285C349400EBD614 /* StepQuizChildQuizAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1061A1285C349400EBD614 /* StepQuizChildQuizAssembly.swift */; };
 		2C1061A4285C34C900EBD614 /* StepQuizChildQuizOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1061A3285C34C900EBD614 /* StepQuizChildQuizOutputProtocol.swift */; };
 		2C1061A8285C3A2D00EBD614 /* StepQuizChildQuizType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1061A7285C3A2D00EBD614 /* StepQuizChildQuizType.swift */; };
@@ -375,6 +376,7 @@
 		2C0DB911286455D8001EA35E /* CodePlaygroundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePlaygroundManager.swift; sourceTree = "<group>"; };
 		2C0DB91B28645ADA001EA35E /* CodeCompletionKeywords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeCompletionKeywords.swift; sourceTree = "<group>"; };
 		2C0DB91D2864617E001EA35E /* code-completion-keywords.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "code-completion-keywords.plist"; sourceTree = "<group>"; };
+		2C0EC2DE28F9E92D004A36B2 /* ModalRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalRouter.swift; sourceTree = "<group>"; };
 		2C1061A1285C349400EBD614 /* StepQuizChildQuizAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChildQuizAssembly.swift; sourceTree = "<group>"; };
 		2C1061A3285C34C900EBD614 /* StepQuizChildQuizOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChildQuizOutputProtocol.swift; sourceTree = "<group>"; };
 		2C1061A7285C3A2D00EBD614 /* StepQuizChildQuizType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChildQuizType.swift; sourceTree = "<group>"; };
@@ -1619,6 +1621,7 @@
 			isa = PBXGroup;
 			children = (
 				2CB279AE28C72AA400EDDCC8 /* DeepLinkRouterProtocol.swift */,
+				2C0EC2DE28F9E92D004A36B2 /* ModalRouter.swift */,
 				2CDF14D528EF02740060D972 /* PushRouter.swift */,
 				2C225E47281A5B6800E8ABD2 /* SourcelessRouter.swift */,
 				2CB279AC28C72A9500EDDCC8 /* TabBarRouter.swift */,
@@ -2468,6 +2471,7 @@
 				2C1F5888280D5D6200372A37 /* SocialAuthSDKProvider.swift in Sources */,
 				2CAE8CF728052F9600E6C83D /* StepHeaderView.swift in Sources */,
 				2C96744228883A180091B6C9 /* StepQuizCodeViewDataMapper.swift in Sources */,
+				2C0EC2DF28F9E92D004A36B2 /* ModalRouter.swift in Sources */,
 				2C919E3527EEFF110022A2F2 /* Queue.swift in Sources */,
 				2C58DE292803D197002A2774 /* UIColor+DynamicColor.swift in Sources */,
 				2CAE8D092805789100E6C83D /* StepCommentsStatisticsView.swift in Sources */,

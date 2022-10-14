@@ -8,8 +8,6 @@ struct StepQuizCodeFullScreenView: View {
     @State private var code: String?
     @State private var isEditingCode = false
 
-    @State private var isPresentingResetAlert = false
-
     @Environment(\.presentationMode) private var presentationMode
 
     init(
@@ -95,32 +93,18 @@ struct StepQuizCodeFullScreenView: View {
         ToolbarItem(placement: .navigationBarTrailing) {
             Menu(
                 content: {
-                    Button(Strings.StepQuizCode.reset) {
-                        isPresentingResetAlert = true
-                    }
+                    Button(
+                        action: viewModel.doRetry,
+                        label: {
+                            Label(Strings.StepQuizCode.reset, systemImage: "gobackward")
+                        }
+                    )
                 },
                 label: {
                     Image(systemName: "ellipsis")
                 }
             )
-            .alert(isPresented: $isPresentingResetAlert) {
-                Alert(
-                    title: Text(Strings.StepQuizCode.resetCodeDialogTitle),
-                    message: Text(Strings.StepQuizCode.resetCodeDialogExplanation),
-                    primaryButton: .default(
-                        Text(Strings.General.cancel)
-                    ),
-                    secondaryButton: .destructive(
-                        Text(Strings.StepQuizCode.reset),
-                        action: resetCode
-                    )
-                )
-            }
         }
-    }
-
-    private func resetCode() {
-        code = viewModel.codeQuizViewData.codeTemplate
     }
 }
 

@@ -22,8 +22,12 @@ final class StepAssembly: UIKitAssembly {
             feature: stepComponent.stepFeature
         )
 
-        let stepView = StepView(viewModel: viewModel)
+        let modalRouter = SwiftUIModalRouter()
+        let stepView = StepView(viewModel: viewModel, modalRouter: modalRouter)
+        let hostingController = StepHostingController(rootView: stepView)
 
-        return StepHostingController(rootView: stepView)
+        modalRouter.rootViewController = hostingController
+
+        return hostingController
     }
 }

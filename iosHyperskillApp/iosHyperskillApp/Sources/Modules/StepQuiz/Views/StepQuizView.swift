@@ -1,5 +1,6 @@
 import shared
 import SwiftUI
+import UIKit
 
 extension StepQuizView {
     struct Appearance {
@@ -15,7 +16,7 @@ struct StepQuizView: View {
 
     @StateObject var viewModel: StepQuizViewModel
 
-    @State private var isPresentingDailyStudyRemindersPermissionAlert = false
+    @EnvironmentObject private var modalRouter: SwiftUIModalRouter
 
     @Environment(\.presentationMode) private var presentationMode
 
@@ -84,24 +85,6 @@ struct StepQuizView: View {
                         quizType: quizType,
                         hintText: viewData.hintText
                     )
-                    .alert(isPresented: $isPresentingDailyStudyRemindersPermissionAlert) {
-                        Alert(
-                            title: Text(Strings.StepQuiz.afterDailyStepCompletedDialogTitle),
-                            message: Text(Strings.StepQuiz.afterDailyStepCompletedDialogText),
-                            primaryButton: .default(
-                                Text(Strings.General.ok),
-                                action: {
-                                    viewModel.handleDailyStudyRemindersPermissionRequestResult(isGranted: true)
-                                }
-                            ),
-                            secondaryButton: .cancel(
-                                Text(Strings.General.later),
-                                action: {
-                                    viewModel.handleDailyStudyRemindersPermissionRequestResult(isGranted: false)
-                                }
-                            )
-                        )
-                    }
                 }
                 .padding()
             }
@@ -151,7 +134,9 @@ struct StepQuizView: View {
             let reply = submissionStateLoaded?.submission.reply ?? submissionStateEmpty?.reply
             let isDisabled: Bool = {
                 if let submissionStateLoaded = submissionStateLoaded {
-                    return !submissionStateLoaded.submission.isSubmissionEditable
+                    #warning("TODO: Handle this")
+                    //return !submissionStateLoaded.submission.isSubmissionEditable
+                    return false
                 }
                 return false
             }()
@@ -258,12 +243,71 @@ struct StepQuizView: View {
         switch viewAction {
         case is StepQuizFeatureActionViewActionShowNetworkError:
             ProgressHUD.showError(status: Strings.General.connectionError)
-        case is StepQuizFeatureActionViewActionAskUserToEnableDailyReminders:
-            isPresentingDailyStudyRemindersPermissionAlert = true
+        case let requestUserPermissionViewAction as StepQuizFeatureActionViewActionRequestUserPermission:
+            switch requestUserPermissionViewAction.userPermissionRequest {
+            case StepQuizUserPermissionRequest.resetCode:
+                presentResetCodePermissionAlert()
+            case StepQuizUserPermissionRequest.sendDailyStudyReminders:
+                presentSendDailyStudyRemindersPermissionAlert()
+            default:
+                break
+            }
         case is StepQuizFeatureActionViewActionNavigateToHomeScreen:
             presentationMode.wrappedValue.dismiss()
         default:
             print("StepQuizView :: unhandled viewAction = \(viewAction)")
         }
+    }
+}
+
+// MARK: - StepQuizView (StepQuizUserPermissionRequest Alerts) -
+
+extension StepQuizView {
+    private func presentResetCodePermissionAlert() {
+        let alert = UIAlertController(
+            title: viewModel.makeUserPermissionRequestTitle(StepQuizUserPermissionRequest.resetCode),
+            message: viewModel.makeUserPermissionRequestMessage(StepQuizUserPermissionRequest.resetCode),
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: Strings.General.cancel, style: .cancel))
+        alert.addAction(
+            UIAlertAction(
+                title: Strings.StepQuizCode.reset,
+                style: .destructive,
+                handler: { _ in
+                    #warning("TODO: Handle this")
+                }
+            )
+        )
+
+        modalRouter.presentAlert(alert)
+    }
+
+    private func presentSendDailyStudyRemindersPermissionAlert() {
+        let alert = UIAlertController(
+            title: viewModel.makeUserPermissionRequestTitle(StepQuizUserPermissionRequest.sendDailyStudyReminders),
+            message: viewModel.makeUserPermissionRequestMessage(StepQuizUserPermissionRequest.sendDailyStudyReminders),
+            preferredStyle: .alert
+        )
+        alert.addAction(
+            UIAlertAction(
+                title: Strings.General.ok,
+                style: .default,
+                handler: { _ in
+                    viewModel.handleDailyStudyRemindersPermissionRequestResult(isGranted: true)
+                }
+            )
+        )
+        alert.addAction(
+            UIAlertAction(
+                title: Strings.General.later,
+                style: .cancel,
+                handler: { _ in
+                    viewModel.handleDailyStudyRemindersPermissionRequestResult(isGranted: false)
+                }
+            )
+        )
+
+        modalRouter.presentAlert(alert)
     }
 }
