@@ -7,14 +7,14 @@ final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, A
 
     private let analytic: Analytic
 
-    private var objectWillChangeCancellable: AnyCancellable?
+    private var objectWillChangeSubscription: AnyCancellable?
 
     init(analytic: Analytic, feature: Presentation_reduxFeature) {
         self.analytic = analytic
 
         super.init(feature: feature)
 
-        self.objectWillChangeCancellable = objectWillChange.sink { [weak self] _ in
+        self.objectWillChangeSubscription = objectWillChange.sink { [weak self] _ in
             self?.mainScheduler.schedule { [weak self] in
                 guard let strongSelf = self else {
                     return

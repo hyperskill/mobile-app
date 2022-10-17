@@ -21,9 +21,9 @@ class FeatureViewModel<State, Message, ViewAction>: ObservableObject {
 
     var onViewAction: ((ViewAction) -> Void)?
 
-    init(feature: Presentation_reduxFeature, scheduler: AnySchedulerOf<RunLoop> = .main) {
+    init(feature: Presentation_reduxFeature, mainScheduler: AnySchedulerOf<RunLoop> = .main) {
         self.feature = feature
-        self.mainScheduler = scheduler
+        self.mainScheduler = mainScheduler
         self.oldState = (feature.state as? State).require()
 
         feature.addStateListener { [weak self] newState in
