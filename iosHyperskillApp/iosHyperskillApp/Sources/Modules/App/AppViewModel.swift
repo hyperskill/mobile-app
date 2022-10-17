@@ -14,18 +14,22 @@ final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, A
 
         super.init(feature: feature)
 
-        self.objectWillChangeCancellable = objectWillChange.sink { _ in
-            DispatchQueue.main.async {
-                self.viewController?.displayState(self.state)
+        self.objectWillChangeCancellable = objectWillChange.sink { [weak self] _ in
+            self?.mainScheduler.schedule { [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+
+                strongSelf.viewController?.displayState(strongSelf.state)
             }
         }
         self.onViewAction = { [weak self] viewAction in
-            guard let self else {
-                return
-            }
+            self?.mainScheduler.schedule { [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
 
-            DispatchQueue.main.async {
-                self.viewController?.displayViewAction(viewAction)
+                strongSelf.viewController?.displayViewAction(viewAction)
             }
         }
     }
