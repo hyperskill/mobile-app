@@ -101,6 +101,7 @@ class StepQuizActionDispatcher(
                             it.copy(
                                 id = it.id + 1,
                                 status = SubmissionStatus.LOCAL,
+                                hint = if (action.shouldResetReply) null else it.hint,
                                 reply = if (action.shouldResetReply) null else it.reply,
                                 attempt = action.attempt.id
                             )
