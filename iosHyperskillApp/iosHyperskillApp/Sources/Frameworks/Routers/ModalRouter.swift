@@ -65,7 +65,7 @@ class ModalRouter: ModalRouterProtocol {
         presentingViewController.present(alertController, animated: animated, completion: completion)
     }
 
-    func getViewControllerToPresentFrom() -> UIViewController? {
+    private func getViewControllerToPresentFrom() -> UIViewController? {
         guard let rootViewController else {
             return nil
         }

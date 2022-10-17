@@ -31,7 +31,7 @@ object StepQuizResolver {
                         state.submissionState.submission.status == SubmissionStatus.EVALUATION
                 }
             }
-            StepQuizFeature.State.AttemptLoading -> true
+            is StepQuizFeature.State.AttemptLoading -> true
             StepQuizFeature.State.Idle -> false
             StepQuizFeature.State.Loading -> true
             StepQuizFeature.State.NetworkError -> false

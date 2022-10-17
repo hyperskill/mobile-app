@@ -13,7 +13,7 @@ interface StepQuizFeature {
     sealed interface State {
         object Idle : State
         object Loading : State
-        object AttemptLoading : State
+        data class AttemptLoading(val oldState: AttemptLoaded) : State
         data class AttemptLoaded(
             val step: Step,
             val attempt: Attempt,

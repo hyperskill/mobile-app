@@ -49,9 +49,8 @@ final class StepQuizViewModel: FeatureViewModel<
     }
 
     func doQuizRetryAction() {
-        #warning("TODO: Implement quiz retry")
         logClickedRetryEvent()
-        onNewMessage(StepQuizFeatureMessageCreateAttemptClicked(step: step, shouldResetReply: true))
+        onNewMessage(StepQuizFeatureMessageCreateAttemptClicked(step: self.step, shouldResetReply: true))
     }
 
     func doQuizContinueAction() {
@@ -62,6 +61,8 @@ final class StepQuizViewModel: FeatureViewModel<
         viewDataMapper.mapStepDataToViewData(step: step, state: state)
     }
 
+    // MARK: StepQuizUserPermissionRequest
+
     func makeUserPermissionRequestTitle(_ userPermissionRequest: StepQuizUserPermissionRequest) -> String {
         userPermissionRequestTextMapper.getTitle(request: userPermissionRequest)
     }
@@ -70,7 +71,15 @@ final class StepQuizViewModel: FeatureViewModel<
         userPermissionRequestTextMapper.getMessage(request: userPermissionRequest)
     }
 
-    func handleDailyStudyRemindersPermissionRequestResult(isGranted: Bool) {
+    func handleResetCodePermissionRequestResult(isGranted: Bool) {
+        let message = StepQuizFeatureMessageRequestUserPermissionResult(
+            userPermissionRequest: StepQuizUserPermissionRequest.resetCode,
+            isGranted: isGranted
+        )
+        onNewMessage(message)
+    }
+
+    func handleSendDailyStudyRemindersPermissionRequestResult(isGranted: Bool) {
         let message = StepQuizFeatureMessageRequestUserPermissionResult(
             userPermissionRequest: StepQuizUserPermissionRequest.sendDailyStudyReminders,
             isGranted: isGranted

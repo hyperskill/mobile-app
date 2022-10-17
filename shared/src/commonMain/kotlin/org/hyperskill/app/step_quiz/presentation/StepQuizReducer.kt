@@ -53,7 +53,7 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                     if (state.step.block.name == BlockName.CODE || state.step.block.name == BlockName.SQL) {
                         state to setOf(Action.ViewAction.RequestUserPermission(StepQuizUserPermissionRequest.RESET_CODE))
                     } else {
-                        State.AttemptLoading to setOf(
+                        State.AttemptLoading(oldState = state) to setOf(
                             Action.CreateAttempt(
                                 message.step,
                                 state.attempt,
@@ -182,7 +182,7 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 if (state is State.AttemptLoaded) {
                     when (message.userPermissionRequest) {
                         StepQuizUserPermissionRequest.RESET_CODE -> if (message.isGranted) {
-                            State.AttemptLoading to setOf(
+                            State.AttemptLoading(oldState = state) to setOf(
                                 Action.CreateAttempt(
                                     state.step,
                                     state.attempt,
