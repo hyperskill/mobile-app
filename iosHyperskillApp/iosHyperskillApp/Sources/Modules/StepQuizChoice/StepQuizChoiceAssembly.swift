@@ -4,12 +4,12 @@ import SwiftUI
 final class StepQuizChoiceAssembly: StepQuizChildQuizAssembly {
     var moduleInput: StepQuizChildQuizInputProtocol? {
         didSet {
-            onModuleInputDidSet(moduleInput)
+            provideModuleInputCallback(moduleInput)
         }
     }
     weak var moduleOutput: StepQuizChildQuizOutputProtocol?
 
-    private let onModuleInputDidSet: (StepQuizChildQuizInputProtocol?) -> Void
+    private let provideModuleInputCallback: (StepQuizChildQuizInputProtocol?) -> Void
 
     private let step: Step
     private let dataset: Dataset
@@ -19,13 +19,13 @@ final class StepQuizChoiceAssembly: StepQuizChildQuizAssembly {
         step: Step,
         dataset: Dataset,
         reply: Reply?,
-        onModuleInputDidSet: @escaping (StepQuizChildQuizInputProtocol?) -> Void,
+        provideModuleInputCallback: @escaping (StepQuizChildQuizInputProtocol?) -> Void,
         moduleOutput: StepQuizChildQuizOutputProtocol?
     ) {
         self.step = step
         self.dataset = dataset
         self.reply = reply
-        self.onModuleInputDidSet = onModuleInputDidSet
+        self.provideModuleInputCallback = provideModuleInputCallback
         self.moduleOutput = moduleOutput
     }
 
@@ -55,7 +55,7 @@ extension StepQuizChoiceAssembly {
             step: .init(),
             dataset: dataset,
             reply: nil,
-            onModuleInputDidSet: { _ in },
+            provideModuleInputCallback: { _ in },
             moduleOutput: nil
         )
     }

@@ -1,3 +1,4 @@
+import Combine
 import shared
 import SwiftUI
 
@@ -9,6 +10,7 @@ final class StepQuizViewModel: FeatureViewModel<
     let step: Step
 
     weak var childQuizModuleInput: StepQuizChildQuizInputProtocol?
+    private var updateChildQuizSubscription: AnyCancellable?
 
     private let viewDataMapper: StepQuizViewDataMapper
     private let userPermissionRequestTextMapper: StepQuizUserPermissionRequestTextMapper
@@ -30,6 +32,23 @@ final class StepQuizViewModel: FeatureViewModel<
         self.notificationService = notificationService
         self.notificationsRegistrationService = notificationsRegistrationService
         super.init(feature: feature)
+    }
+
+    override func shouldNotifyStateDidChange(oldState: StepQuizFeatureState, newState: StepQuizFeatureState) -> Bool {
+        if oldState is StepQuizFeatureStateAttemptLoading && newState is StepQuizFeatureStateAttemptLoaded {
+            updateChildQuizSubscription = objectWillChange.sink { [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+
+                strongSelf.updateChildQuizSubscription?.cancel()
+                strongSelf.updateChildQuizSubscription = nil
+
+                strongSelf.updateChildQuiz()
+            }
+        }
+
+        return true
     }
 
     func loadAttempt(forceUpdate: Bool = false) {
@@ -59,6 +78,23 @@ final class StepQuizViewModel: FeatureViewModel<
 
     func makeViewData() -> StepQuizViewData {
         viewDataMapper.mapStepDataToViewData(step: step, state: state)
+    }
+
+    private func updateChildQuiz() {
+        mainScheduler.schedule { [weak self] in
+            guard let strongSelf = self,
+                  let attemptLoadedState = strongSelf.state as? StepQuizFeatureStateAttemptLoaded,
+                  let dataset = attemptLoadedState.attempt.dataset else {
+                return
+            }
+
+            let submissionStateEmpty = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateEmpty
+            let submissionStateLoaded = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded
+
+            let reply = submissionStateLoaded?.submission.reply ?? submissionStateEmpty?.reply
+
+            strongSelf.childQuizModuleInput?.update(step: strongSelf.step, dataset: dataset, reply: reply)
+        }
     }
 
     // MARK: StepQuizUserPermissionRequest

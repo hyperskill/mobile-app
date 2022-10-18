@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct StepQuizChoiceView: View {
-    @StateObject var viewModel: StepQuizChoiceViewModel
+    @ObservedObject var viewModel: StepQuizChoiceViewModel
 
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {

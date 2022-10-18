@@ -163,7 +163,7 @@ struct StepQuizView: View {
                 step: step,
                 dataset: dataset,
                 reply: reply,
-                onModuleInputDidSet: { viewModel.childQuizModuleInput = $0 },
+                provideModuleInputCallback: { viewModel.childQuizModuleInput = $0 },
                 moduleOutput: viewModel
             )
             .disabled(isDisabled)
