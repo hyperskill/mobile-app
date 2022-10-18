@@ -6,6 +6,8 @@ import shared
 class FeatureViewModel<State, Message, ViewAction>: ObservableObject {
     private let feature: Presentation_reduxFeature
 
+    /// Schedules state changes and view actions on the next runloop tick.
+    /// Helps to solve problem with "Publishing changes from within view updates is not allowed, this will cause undefined behavior."
     let mainScheduler: AnySchedulerOf<RunLoop>
 
     private var viewActionQueue = Queue<ViewAction>()
