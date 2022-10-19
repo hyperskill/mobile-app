@@ -14,7 +14,8 @@ jobs:
     - name: Setup Java JDK
       uses: actions/setup-java@v3.6.0
       with:
-        java-version: 11
+        java-version: '11'
+        distribution: 'corretto'
     - name: git-crypt unlock secrets
       uses: sliteteam/github-action-git-crypt-unlock@1.2.0
       env:
