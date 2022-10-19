@@ -32,7 +32,7 @@ jobs:
         java-version: '11'
         distribution: 'corretto'
     - name: Run shared unit tests
-      run: ./gradlew :shared:iosX64Test --stacktrace
+      run: ./gradlew shared:assemble
       env:
         GITHUB_USER: ${{ github.actor }}
         GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
