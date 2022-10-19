@@ -1,1 +1,26 @@
+name: iOS Beta Deployment
 
+on:
+  push:
+    branches:
+    - "feature/**" # TODO: Replace with release branch name
+
+jobs:
+  deployment:
+    runs-on: macos-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3.1.0
+    - name: Setup Java JDK
+      uses: actions/setup-java@v3.6.0
+      with:
+        java-version: 11
+    - name: git-crypt unlock secrets
+      uses: sliteteam/github-action-git-crypt-unlock@1.2.0
+      env:
+        GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
+    - name: Run shared unit tests
+      run: bash ./gradlew :shared:iosX64Test --stacktrace
+      env:
+        GITHUB_USER: ${{ github.actor }}
+        GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
