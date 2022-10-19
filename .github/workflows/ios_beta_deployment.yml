@@ -5,6 +5,10 @@ on:
     branches:
     - "feature/**" # TODO: Replace with release branch name
 
+defaults:
+  run:
+    shell: bash
+    
 jobs:
   deployment:
     runs-on: macos-latest
@@ -16,12 +20,18 @@ jobs:
       with:
         java-version: '11'
         distribution: 'corretto'
+    - name: Homebrew install git-crypt
+      run: |
+        brew update
+        brew install git-crypt
     - name: git-crypt unlock secrets
-      uses: sliteteam/github-action-git-crypt-unlock@1.2.0
-      env:
-        GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
+      run: |
+        set -eu
+        echo ${{ secrets.GIT_CRYPT_KEY }} | base64 --decode > git-crypt.key
+        git-crypt unlock git-crypt.key
+        rm git-crypt.key
     - name: Run shared unit tests
-      run: bash ./gradlew :shared:iosX64Test --stacktrace
+      run: ./gradlew :shared:iosX64Test --stacktrace
       env:
         GITHUB_USER: ${{ github.actor }}
         GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
