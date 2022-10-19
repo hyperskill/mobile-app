@@ -21,13 +21,11 @@ jobs:
         java-version: '11'
         distribution: 'corretto'
     - name: Homebrew install git-crypt
-      run: |
-        brew update
-        brew install git-crypt
+      run: brew install git-crypt
     - name: git-crypt unlock secrets
       run: |
         set -eu
-        echo ${{ secrets.GIT_CRYPT_KEY }} | base64 --decode > git-crypt.key
+        echo "${{ secrets.GIT_CRYPT_KEY }}" | base64 --decode > git-crypt.key
         git-crypt unlock git-crypt.key
         rm git-crypt.key
     - name: Run shared unit tests
