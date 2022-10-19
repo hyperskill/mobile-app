@@ -26,7 +26,7 @@ jobs:
         HOMEBREW_NO_INSTALL_CLEANUP: TRUE
     - name: git-crypt unlock secrets
       run: |
-        set -e
+        set -eu
         echo "$GIT_CRYPT_KEY" | base64 --decode > git-crypt.key
         git-crypt unlock git-crypt.key
         rm git-crypt.key
