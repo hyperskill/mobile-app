@@ -15,11 +15,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3.1.0
-    - name: Setup Java JDK
-      uses: actions/setup-java@v3.6.0
-      with:
-        java-version: '11'
-        distribution: 'corretto'
     - name: Homebrew install git-crypt
       run: brew install git-crypt
       env:
@@ -27,11 +22,16 @@ jobs:
     - name: git-crypt unlock secrets
       run: |
         set -eu
-        echo "$GIT_CRYPT_KEY" | base64 --decode > git-crypt.key
-        git-crypt unlock git-crypt.key
-        rm git-crypt.key
+        echo "$GIT_CRYPT_KEY" | base64 --decode > ./git-crypt-key
+        git-crypt unlock ./git-crypt-key
+        rm ./git-crypt-key
       env:
         GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
+    - name: Setup Java JDK
+      uses: actions/setup-java@v3.6.0
+      with:
+        java-version: '11'
+        distribution: 'corretto'
     - name: Run shared unit tests
       run: ./gradlew :shared:iosX64Test --stacktrace
       env:
