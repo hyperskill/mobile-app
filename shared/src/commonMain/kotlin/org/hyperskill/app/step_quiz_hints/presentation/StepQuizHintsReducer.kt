@@ -1,4 +1,4 @@
-package org.hyperskill.app.step_quiz_hints.domain.interactor
+package org.hyperskill.app.step_quiz_hints.presentation
 
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.Action
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.Message
@@ -10,33 +10,33 @@ class StepQuizHintsReducer : StateReducer<State, Message, Action> {
         when (message) {
             is Message.InitWithHintsIDs ->
                 if (state is State.Idle) {
-                    State.Content(message.hintsIDs, null, false) to emptySet()
+                    State.Content(message.hintsIds, null, false) to emptySet()
                 } else {
                     null
                 }
             is Message.HintReported ->
                 if (state is State.Content && state.currentHint != null) {
-                    state.copy(hintHasReaction = true) to setOf(Action.ReportHint(state.currentHint.id, state.currentHint.targetID))
+                    state.copy(hintHasReaction = true) to setOf(Action.ReportHint(state.currentHint.id, state.currentHint.targetId))
                 } else {
                     null
                 }
             is Message.ReactionButtonClicked ->
                 if (state is State.Content && state.currentHint != null) {
-                    state.copy(hintHasReaction = true) to setOf(Action.ReactHint(state.currentHint.id, state.currentHint.targetID, message.reaction))
+                    state.copy(hintHasReaction = true) to setOf(Action.ReactHint(state.currentHint.id, state.currentHint.targetId, message.reaction))
                 } else {
                     null
                 }
             is Message.NextHintButtonClicked ->
                 if (state is State.Content) {
-                    val hintsIDs = state.hintsIDs.toMutableList()
-                    val nextHintID = hintsIDs.removeLast()
-                    State.Loading to setOf(Action.FetchNextHint(nextHintID, hintsIDs))
+                    val hintsIds = state.hintsIds.toMutableList()
+                    val nextHintId = hintsIds.removeLast()
+                    State.Loading to setOf(Action.FetchNextHint(nextHintId, hintsIds))
                 } else {
                     null
                 }
             is Message.NextHintLoaded ->
                 if (state is State.Loading) {
-                    State.Content(message.remainingHintsIDs, message.nextHint, false) to emptySet()
+                    State.Content(message.remainingHintsIds, message.nextHint, false) to emptySet()
                 } else {
                     null
                 }

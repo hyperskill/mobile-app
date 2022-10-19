@@ -8,7 +8,7 @@ data class Comment(
     @SerialName("id")
     val id: Long,
     @SerialName("target_id")
-    val targetID: Long,
+    val targetId: Long,
     @SerialName("target_type")
     val targetType: String,
     @SerialName("text")

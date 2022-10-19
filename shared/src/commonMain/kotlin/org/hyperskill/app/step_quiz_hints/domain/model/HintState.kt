@@ -6,5 +6,5 @@ import org.hyperskill.app.user_storage.domain.model.UserStorageValue
 enum class HintState(val userStorageValue: UserStorageValue) {
     SEEN(JsonPrimitive("seen")),
     HELPFUL(JsonPrimitive("helpful")),
-    UNHELPFULL(JsonPrimitive("unhelpful")),
+    UNHELPFUL(JsonPrimitive("unhelpful")),
 }
