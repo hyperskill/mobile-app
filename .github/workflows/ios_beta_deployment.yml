@@ -37,11 +37,22 @@ jobs:
       with:
         java-version: '11'
         distribution: 'corretto'
-    - name: Generate build konfig
-      run: ./gradlew shared:generateBuildKonfig
-      env:
-        GITHUB_USER: ${{ github.actor }}
-        GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #- name: Generate build konfig
+    #  run: ./gradlew shared:generateBuildKonfig
+    #  env:
+    #    GITHUB_USER: ${{ github.actor }}
+    #    GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Cache Pods
+      uses: actions/cache@v3
+      with:
+        path: './iosHyperskillApp/Pods'
+        key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-pods-
+    - name: Cocoapods install dependencies
+      if: steps.cache-pods.outputs.cache-hit != 'true'
+      working-directory: './iosHyperskillApp'
+      run: bundle exec pod install --repo-update
     - name: Submit a new Beta Build to Firebase
       working-directory: './iosHyperskillApp'
-      run: bundle exec fastlane beta scheme:iosHyperskillApp target:iosHyperskillApp
+      run: bundle exec fastlane beta install_pods:steps.cache-pods.outputs.cache-hit != 'true'
