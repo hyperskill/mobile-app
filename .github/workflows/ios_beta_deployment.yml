@@ -26,13 +26,19 @@ jobs:
         rm git-crypt.key
       env:
         GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1.118.0
+      with:
+        ruby-version: '2.6.5'
+        bundler-cache: true
     - name: Setup Java JDK
       uses: actions/setup-java@v3.6.0
       with:
         java-version: '11'
         distribution: 'corretto'
-    - name: Run all tests
-      run: ./gradlew shared:generateBuildKonfig
-      env:
-        GITHUB_USER: ${{ github.actor }}
-        GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#     - name: Generate build konfig
+#       run: ./gradlew shared:generateBuildKonfig
+#       env:
+#         GITHUB_USER: ${{ github.actor }}
+#         GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
