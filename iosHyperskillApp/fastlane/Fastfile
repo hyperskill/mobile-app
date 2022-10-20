@@ -117,14 +117,14 @@ platform :ios do
   desc "This will also make sure the profile is up to date."
   desc "Options: scheme, target"
   lane :beta do |options|
-    scheme = options[:scheme]
-    target = options[:target]
-
-    UI.user_error!("Wrong scheme parameter") if scheme.nil?
-    UI.user_error!("Wrong target parameter") if target.nil?
+    scheme = options[:scheme] || "iosHyperskillApp"
+    target = options[:target] || "iosHyperskillApp"
+    install_pods = options[:install_pods] || true
 
     clear_derived_data
-    cocoapods(repo_update: true)
+    if install_pods
+      cocoapods(repo_update: true)
+    end
 
     unlock_keychain(password: keychain_password)
 
