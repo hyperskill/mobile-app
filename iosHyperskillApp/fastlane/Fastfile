@@ -119,7 +119,7 @@ platform :ios do
   lane :beta do |options|
     scheme = options[:scheme] || "iosHyperskillApp"
     target = options[:target] || "iosHyperskillApp"
-    install_pods = options[:install_pods] || true
+    install_pods = options.key?(:install_pods) ? options[:install_pods] : true
 
     clear_derived_data
     if install_pods
