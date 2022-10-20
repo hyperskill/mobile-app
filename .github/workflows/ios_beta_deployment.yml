@@ -29,11 +29,9 @@ jobs:
     - name: Setup Java JDK
       uses: actions/setup-java@v3.6.0
       with:
-        java-version: 11
-        distribution: temurin
-    - name: Setup Gradle
-      uses: gradle/gradle-build-action@v2.3.2
-    - name: Execute Gradle build
+        java-version: '11'
+        distribution: 'corretto'
+    - name: Run all tests
       run: ./gradlew shared:generateBuildKonfig shared:allTests
       env:
         GITHUB_USER: ${{ github.actor }}
