@@ -55,4 +55,4 @@ jobs:
       run: bundle exec pod install --repo-update
     - name: Submit a new Beta Build to Firebase
       working-directory: './iosHyperskillApp'
-      run: bundle exec fastlane beta install_pods:steps.cache-pods.outputs.cache-hit != 'true'
+      run: bundle exec fastlane beta install_pods:false
