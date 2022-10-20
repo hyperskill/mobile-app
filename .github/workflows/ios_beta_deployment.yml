@@ -44,6 +44,7 @@ jobs:
     #    GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Cache Pods
       uses: actions/cache@v3
+      id: cache-pods
       with:
         path: './iosHyperskillApp/Pods'
         key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
