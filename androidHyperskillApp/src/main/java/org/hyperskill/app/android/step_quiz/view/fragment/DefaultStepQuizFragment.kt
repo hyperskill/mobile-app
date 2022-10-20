@@ -4,7 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import android.widget.LinearLayout
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -25,12 +27,14 @@ import org.hyperskill.app.android.step_quiz.view.mapper.StepQuizFeedbackMapper
 import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step_quiz.domain.model.permissions.StepQuizUserPermissionRequest
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
 import org.hyperskill.app.step_quiz.presentation.StepQuizViewModel
+import org.hyperskill.app.step_quiz.view.mapper.StepQuizUserPermissionRequestTextMapper
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.app.presentation.redux.container.ReduxView
@@ -40,6 +44,7 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
         const val KEY_STEP = "key_step"
     }
 
+    private lateinit var userPermissionRequestTextMapper: StepQuizUserPermissionRequestTextMapper
     private lateinit var viewModelFactory: ViewModelProvider.Factory
 
     protected val viewBinding: FragmentStepQuizBinding by viewBinding(FragmentStepQuizBinding::bind)
@@ -64,6 +69,7 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
     private fun injectComponent() {
         val stepQuizComponent = HyperskillApp.graph().buildStepQuizComponent()
         val platformStepQuizComponent = HyperskillApp.graph().buildPlatformStepQuizComponent(stepQuizComponent)
+        userPermissionRequestTextMapper = stepQuizComponent.stepQuizUserPermissionRequestTextMapper
         viewModelFactory = platformStepQuizComponent.reduxViewModelFactory
     }
 
@@ -74,10 +80,16 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
         stepQuizFormDelegate = createStepQuizFormDelegate(viewBinding)
 
         viewBinding.stepQuizButtons.stepQuizSubmitButton.setOnClickListener {
-            onActionButtonClicked()
+            onSubmitButtonClicked()
         }
         viewBinding.stepQuizButtons.stepQuizRetryButton.setOnClickListener {
-            stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ClickedRetryEventMessage)
+            onRetryButtonClicked()
+        }
+        viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton.setOnClickListener {
+            onRetryButtonClicked()
+        }
+        viewBinding.stepQuizButtons.stepQuizContinueButton.setOnClickListener {
+            stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ContinueClicked)
         }
         viewBinding.stepQuizNetworkError.tryAgain.setOnClickListener {
             stepQuizViewModel.onNewMessage(StepQuizFeature.Message.InitWithStep(step, forceUpdate = true))
@@ -89,9 +101,19 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
 
     protected abstract fun createStepQuizFormDelegate(containerBinding: FragmentStepQuizBinding): StepQuizFormDelegate
 
-    protected fun onActionButtonClicked() {
+    protected fun onSubmitButtonClicked() {
         val reply = stepQuizFormDelegate.createReply()
         stepQuizViewModel.onNewMessage(StepQuizFeature.Message.CreateSubmissionClicked(step, reply))
+    }
+
+    open fun onRetryButtonClicked() {
+        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ClickedRetryEventMessage)
+        stepQuizViewModel.onNewMessage(
+            StepQuizFeature.Message.CreateAttemptClicked(
+                step = step,
+                shouldResetReply = true
+            )
+        )
     }
 
     override fun onStart() {
@@ -112,39 +134,81 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
             is StepQuizFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
                 requireRouter().backTo(MainScreen)
             }
-            is StepQuizFeature.Action.ViewAction.AskUserToEnableDailyReminders -> {
-                MaterialAlertDialogBuilder(requireContext())
-                    .setTitle(R.string.after_daily_step_completed_dialog_title)
-                    .setMessage(R.string.after_daily_step_completed_dialog_text)
-                    .setPositiveButton(R.string.ok) { _, _ ->
-                        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.UserAgreedToEnableDailyReminders)
+            is StepQuizFeature.Action.ViewAction.RequestUserPermission -> {
+                when (action.userPermissionRequest) {
+                    StepQuizUserPermissionRequest.RESET_CODE ->
+                        MaterialAlertDialogBuilder(requireContext())
+                            .setTitle(userPermissionRequestTextMapper.getTitle(action.userPermissionRequest))
+                            .setMessage(userPermissionRequestTextMapper.getMessage(action.userPermissionRequest))
+                            .setPositiveButton(R.string.yes) { _, _ ->
+                                stepQuizViewModel.onNewMessage(
+                                    StepQuizFeature.Message.RequestUserPermissionResult(
+                                        action.userPermissionRequest,
+                                        isGranted = true
+                                    )
+                                )
+                            }
+                            .setNegativeButton(R.string.cancel) { _, _ ->
+                                stepQuizViewModel.onNewMessage(
+                                    StepQuizFeature.Message.RequestUserPermissionResult(
+                                        action.userPermissionRequest,
+                                        isGranted = false
+                                    )
+                                )
+                            }
+                            .show()
+                    StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS ->
+                        MaterialAlertDialogBuilder(requireContext())
+                            .setTitle(userPermissionRequestTextMapper.getTitle(action.userPermissionRequest))
+                            .setMessage(userPermissionRequestTextMapper.getMessage(action.userPermissionRequest))
+                            .setPositiveButton(R.string.ok) { _, _ ->
+                                stepQuizViewModel.onNewMessage(
+                                    StepQuizFeature.Message.RequestUserPermissionResult(
+                                        action.userPermissionRequest,
+                                        isGranted = true
+                                    )
+                                )
 
-                        val notificationManagerCompat = NotificationManagerCompat.from(requireContext())
-                        if (!notificationManagerCompat.areNotificationsEnabled()) {
-                            val intent: Intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
-                                .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
-                            startActivity(intent)
-                            return@setPositiveButton
-                        }
+                                val notificationManagerCompat = NotificationManagerCompat.from(requireContext())
+                                if (!notificationManagerCompat.areNotificationsEnabled()) {
+                                    val intent: Intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                                        .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
+                                    startActivity(intent)
+                                    return@setPositiveButton
+                                }
 
-                        if (!notificationManagerCompat.isChannelNotificationsEnabled(HyperskillNotificationChannel.DAILY_REMINDER.channelId)) {
-                            val intent: Intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
-                                .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
-                                .putExtra(Settings.EXTRA_CHANNEL_ID, HyperskillNotificationChannel.DAILY_REMINDER.channelId)
-                            startActivity(intent)
-                            return@setPositiveButton
-                        }
-                    }
-                    .setNegativeButton(R.string.later) { _, _ ->
-                        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.UserDeclinedToEnableDailyReminders)
-                    }
-                    .show()
+                                if (!notificationManagerCompat.isChannelNotificationsEnabled(HyperskillNotificationChannel.DAILY_REMINDER.channelId)) {
+                                    val intent: Intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
+                                        .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
+                                        .putExtra(Settings.EXTRA_CHANNEL_ID, HyperskillNotificationChannel.DAILY_REMINDER.channelId)
+                                    startActivity(intent)
+                                    return@setPositiveButton
+                                }
+                            }
+                            .setNegativeButton(R.string.later) { _, _ ->
+                                stepQuizViewModel.onNewMessage(
+                                    StepQuizFeature.Message.RequestUserPermissionResult(
+                                        action.userPermissionRequest,
+                                        isGranted = false
+                                    )
+                                )
+                            }
+                            .show()
+                }
             }
         }
     }
 
     override fun render(state: StepQuizFeature.State) {
         viewStateDelegate.switchState(state)
+
+        val stepQuizButtonsLinearLayout = view?.findViewById<LinearLayout>(R.id.stepQuizButtons)
+        if (stepQuizButtonsLinearLayout != null) {
+            for (childView in stepQuizButtonsLinearLayout.children) {
+                childView.isEnabled = !StepQuizResolver.isQuizLoading(state)
+            }
+        }
+
         if (state is StepQuizFeature.State.AttemptLoaded) {
             stepQuizFormDelegate.setState(state)
             stepQuizFeedbackBlocksDelegate.setState(stepQuizFeedbackMapper.mapToStepQuizFeedbackState(step.block.name, state))
@@ -154,19 +218,24 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
                 val castedState = state.submissionState as StepQuizFeature.SubmissionState.Loaded
                 val submissionStatus = castedState.submission.status
 
-                if (submissionStatus == SubmissionStatus.CORRECT) {
-                    viewBinding.stepQuizButtons.stepQuizSubmitButton.visibility = View.GONE
-                    viewBinding.stepQuizButtons.stepQuizContinueButton.visibility = View.VISIBLE
-                    viewBinding.stepQuizButtons.stepQuizContinueButton.setOnClickListener {
-                        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ContinueClicked)
+                if (submissionStatus == SubmissionStatus.WRONG) {
+                    if (step.block.name == BlockName.CODE || step.block.name == BlockName.SQL) {
+                        setStepQuizButtonsState(StepQuizButtonsState.RETRY_LOGO_AND_SUBMIT)
+                    } else {
+                        setStepQuizButtonsState(
+                            if (StepQuizResolver.isNeedRecreateAttemptForNewSubmission(step))
+                                StepQuizButtonsState.RETRY
+                            else StepQuizButtonsState.SUBMIT
+                        )
                     }
-                }
-
-                if (
-                    step.block.name == BlockName.CODE &&
-                    (submissionStatus == SubmissionStatus.CORRECT || submissionStatus == SubmissionStatus.WRONG)
-                ) {
-                    viewBinding.stepQuizButtons.stepQuizRetryButton.visibility = View.VISIBLE
+                } else if (submissionStatus == SubmissionStatus.CORRECT) {
+                    setStepQuizButtonsState(
+                        if (StepQuizResolver.isQuizRetriable(step))
+                            StepQuizButtonsState.RETRY_LOGO_AND_CONTINUE
+                        else StepQuizButtonsState.CONTINUE
+                    )
+                } else {
+                    setStepQuizButtonsState(StepQuizButtonsState.SUBMIT)
                 }
 
                 if (castedState.replyValidation is ReplyValidationResult.Error) {
@@ -187,5 +256,49 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
      */
     protected fun logAnalyticEventMessage(message: StepQuizFeature.Message) {
         stepQuizViewModel.onNewMessage(message)
+    }
+
+    private enum class StepQuizButtonsState {
+        SUBMIT,
+        RETRY,
+        CONTINUE,
+        RETRY_LOGO_AND_SUBMIT,
+        RETRY_LOGO_AND_CONTINUE
+    }
+
+    // TODO: Refactor create custom StepQuizButtons class
+    private fun setStepQuizButtonsState(state: StepQuizButtonsState) {
+        when (state) {
+            StepQuizButtonsState.SUBMIT -> {
+                viewBinding.stepQuizButtons.stepQuizSubmitButton.visibility = View.VISIBLE
+                viewBinding.stepQuizButtons.stepQuizRetryButton.visibility = View.GONE
+                viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton.visibility = View.GONE
+                viewBinding.stepQuizButtons.stepQuizContinueButton.visibility = View.GONE
+            }
+            StepQuizButtonsState.RETRY -> {
+                viewBinding.stepQuizButtons.stepQuizSubmitButton.visibility = View.GONE
+                viewBinding.stepQuizButtons.stepQuizRetryButton.visibility = View.VISIBLE
+                viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton.visibility = View.GONE
+                viewBinding.stepQuizButtons.stepQuizContinueButton.visibility = View.GONE
+            }
+            StepQuizButtonsState.CONTINUE -> {
+                viewBinding.stepQuizButtons.stepQuizSubmitButton.visibility = View.GONE
+                viewBinding.stepQuizButtons.stepQuizRetryButton.visibility = View.GONE
+                viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton.visibility = View.GONE
+                viewBinding.stepQuizButtons.stepQuizContinueButton.visibility = View.VISIBLE
+            }
+            StepQuizButtonsState.RETRY_LOGO_AND_SUBMIT -> {
+                viewBinding.stepQuizButtons.stepQuizSubmitButton.visibility = View.VISIBLE
+                viewBinding.stepQuizButtons.stepQuizRetryButton.visibility = View.GONE
+                viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton.visibility = View.VISIBLE
+                viewBinding.stepQuizButtons.stepQuizContinueButton.visibility = View.GONE
+            }
+            StepQuizButtonsState.RETRY_LOGO_AND_CONTINUE -> {
+                viewBinding.stepQuizButtons.stepQuizSubmitButton.visibility = View.GONE
+                viewBinding.stepQuizButtons.stepQuizRetryButton.visibility = View.GONE
+                viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton.visibility = View.VISIBLE
+                viewBinding.stepQuizButtons.stepQuizContinueButton.visibility = View.VISIBLE
+            }
+        }
     }
 }

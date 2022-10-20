@@ -10,7 +10,7 @@ protocol StepQuizChildQuizAssembly: Assembly {
         step: Step,
         dataset: Dataset,
         reply: Reply?,
-        onModuleInputDidSet: @escaping (StepQuizChildQuizInputProtocol?) -> Void,
+        provideModuleInputCallback: @escaping (StepQuizChildQuizInputProtocol?) -> Void,
         moduleOutput: StepQuizChildQuizOutputProtocol?
     )
 }
@@ -22,7 +22,7 @@ enum StepQuizChildQuizViewFactory {
         step: Step,
         dataset: Dataset,
         reply: Reply?,
-        onModuleInputDidSet: @escaping (StepQuizChildQuizInputProtocol?) -> Void,
+        provideModuleInputCallback: @escaping (StepQuizChildQuizInputProtocol?) -> Void,
         moduleOutput: StepQuizChildQuizOutputProtocol?
     ) -> some View {
         switch quizType {
@@ -31,7 +31,7 @@ enum StepQuizChildQuizViewFactory {
                 step: step,
                 dataset: dataset,
                 reply: reply,
-                onModuleInputDidSet: onModuleInputDidSet,
+                provideModuleInputCallback: provideModuleInputCallback,
                 moduleOutput: moduleOutput
             )
             .makeModule()
@@ -40,7 +40,7 @@ enum StepQuizChildQuizViewFactory {
                 step: step,
                 dataset: dataset,
                 reply: reply,
-                onModuleInputDidSet: onModuleInputDidSet,
+                provideModuleInputCallback: provideModuleInputCallback,
                 moduleOutput: moduleOutput
             )
             .makeModule()
@@ -49,7 +49,7 @@ enum StepQuizChildQuizViewFactory {
                 step: step,
                 dataset: dataset,
                 reply: reply,
-                onModuleInputDidSet: onModuleInputDidSet,
+                provideModuleInputCallback: provideModuleInputCallback,
                 moduleOutput: moduleOutput
             )
             .makeModule()
@@ -58,7 +58,7 @@ enum StepQuizChildQuizViewFactory {
                 step: step,
                 dataset: dataset,
                 reply: reply,
-                onModuleInputDidSet: onModuleInputDidSet,
+                provideModuleInputCallback: provideModuleInputCallback,
                 moduleOutput: moduleOutput
             )
             .makeModule()
@@ -67,7 +67,7 @@ enum StepQuizChildQuizViewFactory {
                 step: step,
                 dataset: dataset,
                 reply: reply,
-                onModuleInputDidSet: onModuleInputDidSet,
+                provideModuleInputCallback: provideModuleInputCallback,
                 moduleOutput: moduleOutput
             )
             .makeModule()
@@ -77,7 +77,7 @@ enum StepQuizChildQuizViewFactory {
                 step: step,
                 dataset: dataset,
                 reply: reply,
-                onModuleInputDidSet: onModuleInputDidSet,
+                provideModuleInputCallback: provideModuleInputCallback,
                 moduleOutput: moduleOutput
             )
             .makeModule()

@@ -54,6 +54,7 @@
     <string name="step_quiz_status_correct_text">You’re absolutely correct!</string>
     <string name="step_quiz_status_wrong_text">Not correct, but keep on trying\nand never give up!</string>
     <string name="step_quiz_status_evaluation_text">Evaluation...</string>
+    <string name="step_quiz_status_loading_text">Loading...</string>
     <string name="step_quiz_stats_text">%s solved this problem. Latest completion was %s ago.</string>
     <string name="step_quiz_feedback_title">FEEDBACK:</string>
     <string name="step_quiz_hint_button_text">See hint</string>

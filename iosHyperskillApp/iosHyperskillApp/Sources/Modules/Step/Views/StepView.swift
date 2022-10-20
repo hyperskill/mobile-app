@@ -4,6 +4,8 @@ import SwiftUI
 struct StepView: View {
     @StateObject var viewModel: StepViewModel
 
+    @StateObject var modalRouter: SwiftUIModalRouter
+
     var body: some View {
         buildBody()
             .navigationBarHidden(false)
@@ -12,6 +14,7 @@ struct StepView: View {
                 viewModel.onViewAction = handleViewAction(_:)
             }
             .onDisappear(perform: viewModel.stopListening)
+            .environmentObject(modalRouter)
     }
 
     // MARK: Private API

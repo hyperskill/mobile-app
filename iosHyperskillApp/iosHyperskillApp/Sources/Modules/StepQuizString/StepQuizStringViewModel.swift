@@ -11,7 +11,7 @@ final class StepQuizStringViewModel: ObservableObject, StepQuizChildQuizInputPro
     private let dataType: StepQuizStringDataType
 
     @Published var viewData: StepQuizStringViewData
-    private var viewDataChangesCancellable: AnyCancellable?
+    private var viewDataDidChangeSubscription: AnyCancellable?
 
     init(dataType: StepQuizStringDataType, dataset: Dataset, reply: Reply?) {
         self.dataType = dataType
@@ -38,7 +38,7 @@ final class StepQuizStringViewModel: ObservableObject, StepQuizChildQuizInputPro
             isDecimalTextInput: dataType == .number
         )
 
-        self.viewDataChangesCancellable = self.$viewData.sink { [weak self] newViewData in
+        self.viewDataDidChangeSubscription = self.$viewData.sink { [weak self] newViewData in
             guard let strongSelf = self,
                   strongSelf.viewData.text != newViewData.text else {
                 return

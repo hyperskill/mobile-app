@@ -1,25 +1,13 @@
 import SwiftUI
 
 struct StepQuizCodeFullScreenView: View {
-    @StateObject private var viewModel: StepQuizCodeFullScreenViewModel
+    @StateObject var viewModel: StepQuizCodeFullScreenViewModel
 
-    @State private var selectedTab: StepQuizCodeFullScreenTab
+    @State var selectedTab: StepQuizCodeFullScreenTab
 
-    @State private var code: String?
     @State private var isEditingCode = false
 
-    @State private var isPresentingResetAlert = false
-
     @Environment(\.presentationMode) private var presentationMode
-
-    init(
-        viewModel: StepQuizCodeFullScreenViewModel,
-        initialTab: StepQuizCodeFullScreenTab = .code
-    ) {
-        self._viewModel = StateObject(wrappedValue: viewModel)
-        self._selectedTab = State(initialValue: initialTab)
-        self._code = State(initialValue: viewModel.codeQuizViewData.code)
-    }
 
     var body: some View {
         NavigationView {
@@ -48,7 +36,10 @@ struct StepQuizCodeFullScreenView: View {
                     .tag(StepQuizCodeFullScreenTab.details)
 
                     StepQuizCodeFullScreenCodeView(
-                        code: $code,
+                        code: .init(
+                            get: { viewModel.codeQuizViewData.code },
+                            set: { viewModel.codeQuizViewData.code = $0 }
+                        ),
                         codeTemplate: viewData.codeTemplate,
                         language: viewData.language,
                         isActionButtonsVisible: !isEditingCode,
@@ -65,7 +56,7 @@ struct StepQuizCodeFullScreenView: View {
                         onTapRetry: viewModel.doRetry,
                         onTapRunCode: viewModel.doRunCode
                     )
-                    .onChange(of: code, perform: viewModel.doCodeUpdate(code:))
+                    .onChange(of: viewModel.codeQuizViewData.code, perform: viewModel.doCodeUpdate(code:))
                     .tag(StepQuizCodeFullScreenTab.code)
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
@@ -76,6 +67,7 @@ struct StepQuizCodeFullScreenView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
+            viewModel.doProvideModuleInput()
             KeyboardManager.setEnabled(false)
         }
         .onDisappear {
@@ -95,32 +87,18 @@ struct StepQuizCodeFullScreenView: View {
         ToolbarItem(placement: .navigationBarTrailing) {
             Menu(
                 content: {
-                    Button(Strings.StepQuizCode.reset) {
-                        isPresentingResetAlert = true
-                    }
+                    Button(
+                        action: viewModel.doRetry,
+                        label: {
+                            Label(Strings.StepQuizCode.reset, systemImage: "gobackward")
+                        }
+                    )
                 },
                 label: {
                     Image(systemName: "ellipsis")
                 }
             )
-            .alert(isPresented: $isPresentingResetAlert) {
-                Alert(
-                    title: Text(Strings.StepQuizCode.resetCodeDialogTitle),
-                    message: Text(Strings.StepQuizCode.resetCodeDialogExplanation),
-                    primaryButton: .default(
-                        Text(Strings.General.cancel)
-                    ),
-                    secondaryButton: .destructive(
-                        Text(Strings.StepQuizCode.reset),
-                        action: resetCode
-                    )
-                )
-            }
         }
-    }
-
-    private func resetCode() {
-        code = viewModel.codeQuizViewData.codeTemplate
     }
 }
 

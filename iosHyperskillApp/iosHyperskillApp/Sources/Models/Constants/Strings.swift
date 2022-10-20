@@ -72,6 +72,7 @@ enum Strings {
         static let quizStatusCorrect = sharedStrings.step_quiz_status_correct_text.localized()
         static let quizStatusWrong = sharedStrings.step_quiz_status_wrong_text.localized()
         static let quizStatusEvaluation = sharedStrings.step_quiz_status_evaluation_text.localized()
+        static let quizStatusLoading = sharedStrings.step_quiz_status_loading_text.localized()
         static let feedbackTitle = sharedStrings.step_quiz_feedback_title.localized()
         static let hintButton = sharedStrings.step_quiz_hint_button_text.localized()
         static let continueButton = sharedStrings.step_quiz_continue_button_text.localized()
@@ -80,9 +81,6 @@ enum Strings {
         static let checkingButton = sharedStrings.step_quiz_checking_button_text.localized()
         static let discussionsButton = sharedStrings.step_quiz_discussions_button_text.localized()
         static let unsupportedText = sharedStrings.step_quiz_unsupported_quiz_text.localized()
-        static let afterDailyStepCompletedDialogTitle =
-            sharedStrings.after_daily_step_completed_dialog_title.localized()
-        static let afterDailyStepCompletedDialogText = sharedStrings.after_daily_step_completed_dialog_text.localized()
     }
 
     // MARK: - StepQuizChoice -
@@ -105,8 +103,6 @@ enum Strings {
         static let memoryLimitValueResource = sharedStrings.step_quiz_code_detail_execution_memory_limit_value
 
         static let runSolutionButton = sharedStrings.step_quiz_code_run_solution_button_text.localized()
-        static let resetCodeDialogTitle = sharedStrings.reset_code_dialog_title.localized()
-        static let resetCodeDialogExplanation = sharedStrings.reset_code_dialog_explanation.localized()
         static let fullScreenDetailsTab = sharedStrings.step_quiz_code_full_screen_details_tab.localized()
         static let fullScreenCodeTab = sharedStrings.step_quiz_code_full_screen_code_tab.localized()
         static let emptyLang = sharedStrings.step_quiz_code_empty_lang.localized()

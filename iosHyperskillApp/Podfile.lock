@@ -9,6 +9,8 @@ PODS:
   - CocoaLumberjack (3.7.4):
     - CocoaLumberjack/Core (= 3.7.4)
   - CocoaLumberjack/Core (3.7.4)
+  - CombineSchedulers (0.8.0):
+    - XCTestDynamicOverlay (= 0.1.1)
   - Gifu (3.3.1)
   - GoogleSignIn (6.1.0):
     - AppAuth (~> 1.4)
@@ -37,9 +39,11 @@ PODS:
     - CocoaLumberjack (~> 3.0)
   - SVProgressHUD (2.2.5)
   - SwiftLint (0.47.0)
+  - XCTestDynamicOverlay (0.1.1)
 
 DEPENDENCIES:
   - Atributika (= 4.10.1)
+  - CombineSchedulers (from `https://github.com/ivan-magda/combine-schedulers.git`, branch `main`)
   - GoogleSignIn (= 6.1.0)
   - Highlightr (from `https://github.com/raspu/Highlightr.git`, branch `master`)
   - IQKeyboardManagerSwift (= 6.5.9)
@@ -73,8 +77,12 @@ SPEC REPOS:
     - STRegex
     - SVProgressHUD
     - SwiftLint
+    - XCTestDynamicOverlay
 
 EXTERNAL SOURCES:
+  CombineSchedulers:
+    :branch: main
+    :git: https://github.com/ivan-magda/combine-schedulers.git
   Highlightr:
     :branch: master
     :git: https://github.com/raspu/Highlightr.git
@@ -91,6 +99,9 @@ EXTERNAL SOURCES:
     :git: https://github.com/SVGKit/SVGKit.git
 
 CHECKOUT OPTIONS:
+  CombineSchedulers:
+    :commit: 604840da5a17faaa5361d1695e1e59a2e94f112b
+    :git: https://github.com/ivan-magda/combine-schedulers.git
   Highlightr:
     :commit: 048188df13e145657554a53a24882df5461fc96a
     :git: https://github.com/raspu/Highlightr.git
@@ -108,6 +119,7 @@ SPEC CHECKSUMS:
   AppAuth: 8fca6b5563a5baef2c04bee27538025e4ceb2add
   Atributika: 47e778507cfb3cd2c996278b0285221a62e97d71
   CocoaLumberjack: 543c79c114dadc3b1aba95641d8738b06b05b646
+  CombineSchedulers: d5dd0475390e9724ccaefb5cf2cb38046efbff28
   Gifu: 416d4e38c4c2fed012f019e0a1d3ffcb58e5b842
   GoogleSignIn: c90b5bec45e780f54c6a8e1e3c182a86e3dda69d
   GTMAppAuth: 0ff230db599948a9ad7470ca667337803b3fc4dd
@@ -126,7 +138,8 @@ SPEC CHECKSUMS:
   SVGKit: 3c8468aab0026048532a3b27a0c81cdd939f0649
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
+  XCTestDynamicOverlay: 469eee57cb97323ebedcc94c9b2b3115e7448e7a
 
-PODFILE CHECKSUM: 8269000a67a2d97c8d9ec6e1223780c0e26f6064
+PODFILE CHECKSUM: 07742ebfd7b3e2a9067343e330dae49961ee1ad1
 
 COCOAPODS: 1.11.3

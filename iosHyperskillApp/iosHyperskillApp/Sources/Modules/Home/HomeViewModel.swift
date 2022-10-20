@@ -1,3 +1,4 @@
+import CombineSchedulers
 import shared
 import UIKit
 
@@ -5,8 +6,8 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
     private var applicationWasInBackground = false
     private var shouldReloadContent = false
 
-    override init(feature: Presentation_reduxFeature) {
-        super.init(feature: feature)
+    override init(feature: Presentation_reduxFeature, mainScheduler: AnySchedulerOf<RunLoop> = .main) {
+        super.init(feature: feature, mainScheduler: mainScheduler)
 
         NotificationCenter.default.addObserver(
             self,

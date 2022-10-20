@@ -1,5 +1,6 @@
 import shared
 import SwiftUI
+import UIKit
 
 extension StepQuizView {
     struct Appearance {
@@ -15,7 +16,7 @@ struct StepQuizView: View {
 
     @StateObject var viewModel: StepQuizViewModel
 
-    @State private var isPresentingDailyStudyRemindersPermissionAlert = false
+    @EnvironmentObject private var modalRouter: SwiftUIModalRouter
 
     @Environment(\.presentationMode) private var presentationMode
 
@@ -84,24 +85,6 @@ struct StepQuizView: View {
                         quizType: quizType,
                         hintText: viewData.hintText
                     )
-                    .alert(isPresented: $isPresentingDailyStudyRemindersPermissionAlert) {
-                        Alert(
-                            title: Text(Strings.StepQuiz.afterDailyStepCompletedDialogTitle),
-                            message: Text(Strings.StepQuiz.afterDailyStepCompletedDialogText),
-                            primaryButton: .default(
-                                Text(Strings.General.ok),
-                                action: {
-                                    viewModel.handleDailyStudyRemindersPermissionRequestResult(isGranted: true)
-                                }
-                            ),
-                            secondaryButton: .cancel(
-                                Text(Strings.General.later),
-                                action: {
-                                    viewModel.handleDailyStudyRemindersPermissionRequestResult(isGranted: false)
-                                }
-                            )
-                        )
-                    }
                 }
                 .padding()
             }
@@ -120,18 +103,27 @@ struct StepQuizView: View {
             StepQuizNameView(text: stepQuizName)
         }
 
-        if let attemptLoadedState = state as? StepQuizFeatureStateAttemptLoaded {
+        let attemptLoadedState: StepQuizFeatureStateAttemptLoaded? = {
+            if let attemptLoadedState = state as? StepQuizFeatureStateAttemptLoaded {
+                return attemptLoadedState
+            } else if let attemptLoadingState = state as? StepQuizFeatureStateAttemptLoading {
+                return attemptLoadingState.oldState
+            }
+            return nil
+        }()
+
+        if let attemptLoadedState {
             if case .unsupported = quizType {
                 // it's rendered before step text
             } else {
                 buildChildQuiz(quizType: quizType, step: step, attemptLoadedState: attemptLoadedState)
-                buildQuizStatusView(attemptLoadedState: attemptLoadedState)
+                buildQuizStatusView(state: state, attemptLoadedState: attemptLoadedState)
 
                 if let hintText = hintText {
                     StepQuizFeedbackView(text: hintText)
                 }
 
-                buildQuizActionButtons(quizType: quizType, attemptLoadedState: attemptLoadedState)
+                buildQuizActionButtons(quizType: quizType, state: state, attemptLoadedState: attemptLoadedState)
             }
         } else {
             StepQuizSkeletonViewFactory.makeSkeleton(for: quizType)
@@ -150,10 +142,20 @@ struct StepQuizView: View {
 
             let reply = submissionStateLoaded?.submission.reply ?? submissionStateEmpty?.reply
             let isDisabled: Bool = {
-                if let submissionStateLoaded = submissionStateLoaded {
-                    return !submissionStateLoaded.submission.isSubmissionEditable
+                guard let submissionStatus = submissionStateLoaded?.submission.status else {
+                    return false
                 }
-                return false
+
+                switch submissionStatus {
+                case SubmissionStatus.evaluation, SubmissionStatus.correct, SubmissionStatus.outdated:
+                    return true
+                case SubmissionStatus.wrong:
+                    return StepQuizResolver.shared.isNeedRecreateAttemptForNewSubmission(step: viewModel.step)
+                case SubmissionStatus.local:
+                    return false
+                default:
+                    return false
+                }
             }()
 
             StepQuizChildQuizViewFactory.make(
@@ -161,7 +163,7 @@ struct StepQuizView: View {
                 step: step,
                 dataset: dataset,
                 reply: reply,
-                onModuleInputDidSet: { viewModel.childQuizModuleInput = $0 },
+                provideModuleInputCallback: { viewModel.childQuizModuleInput = $0 },
                 moduleOutput: viewModel
             )
             .disabled(isDisabled)
@@ -169,21 +171,17 @@ struct StepQuizView: View {
     }
 
     @ViewBuilder
-    private func buildQuizStatusView(attemptLoadedState: StepQuizFeatureStateAttemptLoaded) -> some View {
-        if let submissionLoadedState = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded {
-            if let replyValidationError = submissionLoadedState.replyValidation as? ReplyValidationResultError {
+    private func buildQuizStatusView(
+        state: StepQuizFeatureState,
+        attemptLoadedState: StepQuizFeatureStateAttemptLoaded
+    ) -> some View {
+        if state is StepQuizFeatureStateAttemptLoading {
+            StepQuizStatusView(state: .loading)
+        } else if let submissionState = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded {
+            if let replyValidationError = submissionState.replyValidation as? ReplyValidationResultError {
                 StepQuizStatusView(state: .invalidReply(message: replyValidationError.message))
-            } else if let submissionStatus = submissionLoadedState.submission.status {
-                switch submissionStatus {
-                case SubmissionStatus.evaluation:
-                    StepQuizStatusView(state: .evaluation)
-                case SubmissionStatus.wrong:
-                    StepQuizStatusView(state: .wrong)
-                case SubmissionStatus.correct:
-                    StepQuizStatusView(state: .correct)
-                default:
-                    EmptyView()
-                }
+            } else if let submissionStatus = submissionState.submission.status {
+                StepQuizStatusView.build(submissionStatus: submissionStatus)
             }
         }
     }
@@ -191,6 +189,7 @@ struct StepQuizView: View {
     @ViewBuilder
     private func buildQuizActionButtons(
         quizType: StepQuizChildQuizType,
+        state: StepQuizFeatureState,
         attemptLoadedState: StepQuizFeatureStateAttemptLoaded
     ) -> some View {
         let submissionStatus: SubmissionStatus? = {
@@ -200,70 +199,121 @@ struct StepQuizView: View {
             return SubmissionStatus.local
         }()
 
-        let isCodeQuiz: Bool = {
+        if submissionStatus == SubmissionStatus.wrong {
             if case .code = quizType {
-                return true
+                StepQuizActionButtons.retryLogoAndRunSolution(
+                    retryButtonAction: viewModel.doQuizRetryAction,
+                    runSolutionButtonState: .init(submissionStatus: submissionStatus),
+                    runSolutionButtonAction: viewModel.doMainQuizAction
+                )
+                .disabled(StepQuizResolver.shared.isQuizLoading(state: state))
+            } else if StepQuizResolver.shared.isNeedRecreateAttemptForNewSubmission(step: viewModel.step) {
+                StepQuizActionButtons
+                    .retry(action: viewModel.doQuizRetryAction)
+                    .disabled(StepQuizResolver.shared.isQuizLoading(state: state))
+            } else {
+                StepQuizActionButtons
+                    .submit(state: .init(submissionStatus: submissionStatus), action: viewModel.doMainQuizAction)
+                    .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
             }
-            return false
-        }()
-
-        let retryButtonDescription: StepQuizActionButtons.RetryButton? = {
-            guard isCodeQuiz else {
-                return nil
+        } else if submissionStatus == SubmissionStatus.correct {
+            if StepQuizResolver.shared.isQuizRetriable(step: viewModel.step) {
+                StepQuizActionButtons.retryLogoAndContinue(
+                    retryButtonAction: viewModel.doQuizRetryAction,
+                    continueButtonAction: viewModel.doQuizContinueAction
+                )
+                .disabled(StepQuizResolver.shared.isQuizLoading(state: state))
+            } else {
+                StepQuizActionButtons
+                    .continue(action: viewModel.doQuizContinueAction)
+                    .disabled(StepQuizResolver.shared.isQuizLoading(state: state))
             }
-
-            return .init(appearance: .init(backgroundColor: .clear), action: viewModel.doQuizRetryAction)
-        }()
-
-        let continueButtonDescription: StepQuizActionButtons.ContinueButton? = {
-            if submissionStatus == SubmissionStatus.correct {
-                return .init(action: viewModel.doQuizContinueAction)
-            }
-            return nil
-        }()
-
-        let primaryButtonDescription: StepQuizActionButtons.PrimaryButton = {
-            let codeQuizCustomParamsForState = { (state: StepQuizActionButton.State) -> (String, String)? in
-                guard isCodeQuiz else {
-                    return nil
-                }
-
-                return StepQuizActionButtonCodeQuizDelegate.getParamsForState(state)
-            }
-
-            return StepQuizActionButtons.PrimaryButton(
+        } else {
+            StepQuizActionButtons.submit(
                 state: .init(submissionStatus: submissionStatus),
-                titleForState: { codeQuizCustomParamsForState($0)?.0 },
-                systemImageNameForState: { codeQuizCustomParamsForState($0)?.1 },
                 action: viewModel.doMainQuizAction
             )
-        }()
-
-        let isDisabled: Bool = {
-            if submissionStatus == SubmissionStatus.correct {
-                return false
-            }
-            return !StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState)
-        }()
-
-        StepQuizActionButtons(
-            retryButton: retryButtonDescription,
-            continueButton: continueButtonDescription,
-            primaryButton: primaryButtonDescription
-        )
-        .disabled(isDisabled)
+            .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
+        }
     }
 
     private func handleViewAction(_ viewAction: StepQuizFeatureActionViewAction) {
         switch viewAction {
         case is StepQuizFeatureActionViewActionShowNetworkError:
             ProgressHUD.showError(status: Strings.General.connectionError)
-        case is StepQuizFeatureActionViewActionAskUserToEnableDailyReminders:
-            isPresentingDailyStudyRemindersPermissionAlert = true
+        case let requestUserPermissionViewAction as StepQuizFeatureActionViewActionRequestUserPermission:
+            switch requestUserPermissionViewAction.userPermissionRequest {
+            case StepQuizUserPermissionRequest.resetCode:
+                presentResetCodePermissionAlert()
+            case StepQuizUserPermissionRequest.sendDailyStudyReminders:
+                presentSendDailyStudyRemindersPermissionAlert()
+            default:
+                break
+            }
         case is StepQuizFeatureActionViewActionNavigateToHomeScreen:
             presentationMode.wrappedValue.dismiss()
         default:
             print("StepQuizView :: unhandled viewAction = \(viewAction)")
         }
+    }
+}
+
+// MARK: - StepQuizView (StepQuizUserPermissionRequest Alerts) -
+
+extension StepQuizView {
+    private func presentResetCodePermissionAlert() {
+        let alert = UIAlertController(
+            title: viewModel.makeUserPermissionRequestTitle(StepQuizUserPermissionRequest.resetCode),
+            message: viewModel.makeUserPermissionRequestMessage(StepQuizUserPermissionRequest.resetCode),
+            preferredStyle: .alert
+        )
+        alert.addAction(
+            UIAlertAction(
+                title: Strings.General.cancel,
+                style: .cancel,
+                handler: { [weak viewModel] _ in
+                    viewModel?.handleResetCodePermissionRequestResult(isGranted: false)
+                }
+            )
+        )
+        alert.addAction(
+            UIAlertAction(
+                title: Strings.StepQuizCode.reset,
+                style: .destructive,
+                handler: { [weak viewModel] _ in
+                    viewModel?.handleResetCodePermissionRequestResult(isGranted: true)
+                }
+            )
+        )
+
+        modalRouter.presentAlert(alert)
+    }
+
+    private func presentSendDailyStudyRemindersPermissionAlert() {
+        let alert = UIAlertController(
+            title: viewModel.makeUserPermissionRequestTitle(StepQuizUserPermissionRequest.sendDailyStudyReminders),
+            message: viewModel.makeUserPermissionRequestMessage(StepQuizUserPermissionRequest.sendDailyStudyReminders),
+            preferredStyle: .alert
+        )
+        alert.addAction(
+            UIAlertAction(
+                title: Strings.General.ok,
+                style: .default,
+                handler: { [weak viewModel] _ in
+                    viewModel?.handleSendDailyStudyRemindersPermissionRequestResult(isGranted: true)
+                }
+            )
+        )
+        alert.addAction(
+            UIAlertAction(
+                title: Strings.General.later,
+                style: .cancel,
+                handler: { [weak viewModel] _ in
+                    viewModel?.handleSendDailyStudyRemindersPermissionRequestResult(isGranted: false)
+                }
+            )
+        )
+
+        modalRouter.presentAlert(alert)
     }
 }
