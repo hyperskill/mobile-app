@@ -34,7 +34,7 @@ jobs:
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v2.3.2
     - name: Execute Gradle build
-      run: ./gradlew build
+      run: ./gradlew shared:generateBuildKonfig shared:allTests
       env:
         GITHUB_USER: ${{ github.actor }}
         GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
