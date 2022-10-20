@@ -37,9 +37,11 @@ jobs:
       with:
         java-version: '11'
         distribution: 'corretto'
-#     - name: Generate build konfig
-#       run: ./gradlew shared:generateBuildKonfig
-#       env:
-#         GITHUB_USER: ${{ github.actor }}
-#         GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+    - name: Generate build konfig
+      run: ./gradlew shared:generateBuildKonfig
+      env:
+        GITHUB_USER: ${{ github.actor }}
+        GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Submit a new Beta Build to Firebase
+      working-directory: './iosHyperskillApp'
+      run: bundle exec fastlane beta scheme:iosHyperskillApp target:iosHyperskillApp
