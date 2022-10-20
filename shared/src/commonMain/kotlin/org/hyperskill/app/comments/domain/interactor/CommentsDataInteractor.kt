@@ -4,7 +4,7 @@ import org.hyperskill.app.comments.domain.model.Comment
 import org.hyperskill.app.comments.domain.model.ReactionType
 import org.hyperskill.app.comments.domain.repository.CommentsRepository
 
-class CommentsInteractor(
+class CommentsDataInteractor(
     private val commentsRepository: CommentsRepository
 ) {
     suspend fun getHintsIDs(stepID: Long): List<Long> =
