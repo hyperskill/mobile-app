@@ -66,14 +66,14 @@ jobs:
       run: echo "$GOOGLE_CLOUD_STORAGE_CODE_SIGNING_CERTIFICATES_KEY_CONTENT" | base64 --decode > gc_keys.json
       env:
         GOOGLE_CLOUD_STORAGE_CODE_SIGNING_CERTIFICATES_KEY_CONTENT: ${{ secrets.GOOGLE_CLOUD_STORAGE_CODE_SIGNING_CERTIFICATES_KEY_CONTENT }}
-    - name: Submit a new Beta Build to Firebase
-      working-directory: './iosHyperskillApp'
-      run: bundle exec fastlane beta
-      env:
-        KEYCHAIN_NAME: ${{ secrets.KEYCHAIN_NAME }}
-        KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
-        APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
-        APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID }}
-        APP_STORE_CONNECT_API_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
-        GITHUB_USER: ${{ github.actor }}
-        GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #- name: Submit a new Beta Build to Firebase
+      #working-directory: './iosHyperskillApp'
+      #run: bundle exec fastlane beta
+      #env:
+        #KEYCHAIN_NAME: ${{ secrets.KEYCHAIN_NAME }}
+        #KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+        #APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+        #APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID }}
+        #APP_STORE_CONNECT_API_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
+        #GITHUB_USER: ${{ github.actor }}
+        #GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
