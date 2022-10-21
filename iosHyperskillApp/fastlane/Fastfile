@@ -146,8 +146,6 @@ platform :ios do
     # Add BETA_PROFILE to SWIFT_ACTIVE_COMPILATION_CONDITIONS -> build -> remove
     update_beta_profile_compilation_condition(scheme: scheme, configurations: configurations, should_remove: false)
 
-    UI.user_error!("Test ended")
-
     begin
       gym(
         scheme: "#{scheme}",
