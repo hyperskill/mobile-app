@@ -45,11 +45,8 @@ jobs:
       with:
         java-version: '11'
         distribution: 'corretto'
-    #- name: Generate build konfig
-      #run: ./gradlew shared:generateBuildKonfig
-      #env:
-        #GITHUB_USER: ${{ github.actor }}
-        #GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Fix Cocoapods generateDummyFramework # Cocoapods not being able to access the shared framework file
+      run: ./gradlew generateDummyFramework
     - name: Cache Pods
       uses: actions/cache@v3
       id: cache-pods
