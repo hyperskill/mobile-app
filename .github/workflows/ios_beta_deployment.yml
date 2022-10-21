@@ -19,13 +19,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3.1.0
-    - name: Set Cocoapods cache directory to ENV
-      id: set-cocoapods-cache-dir
-      run: |
-        echo "cocoapods_cache_dir=$(echo "$HOME/.cocoapods")" >> $GITHUB_ENV
-    - name: Print Cocoapods cache directory
-      run: |
-        echo "${{ env.cocoapods_cache_dir }}"
     - name: Setup Xcode version
       uses: maxim-lobanov/setup-xcode@v1.5.1
       with:
@@ -60,7 +53,7 @@ jobs:
       with:
         path: |
           './iosHyperskillApp/Pods'
-          '~/.cocoapods'
+          '/Users/runner/.cocoapods'
         key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
         restore-keys: |
           ${{ runner.os }}-pods-
