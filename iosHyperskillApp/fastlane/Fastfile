@@ -259,6 +259,7 @@ platform :ios do
       app_identifier: app_identifier,
       team_id: team_id,
       team_name: team_name,
+      keychain_name: keychain_name || nil,
       force_for_new_devices: true,
     )
   end
