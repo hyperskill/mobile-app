@@ -125,8 +125,10 @@ platform :ios do
 
     setup_keychain
 
-    if !is_ci
-      clear_derived_data
+    clear_derived_data
+    if is_ci
+      cocoapods(try_repo_update_on_error: true)
+    else
       cocoapods(repo_update: true)
     end
 
@@ -324,7 +326,6 @@ platform :ios do
         timeout: 0, # no time-out
       )
     else
-      UI.message "setup_keychain if is_ci false unlock_keychain"
       unlock_keychain(password: keychain_password)
     end
   end
