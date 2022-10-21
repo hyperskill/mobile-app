@@ -260,6 +260,7 @@ platform :ios do
       team_id: team_id,
       team_name: team_name,
       keychain_name: keychain_name || nil,
+      keychain_password: keychain_password,
       force_for_new_devices: true,
     )
   end
