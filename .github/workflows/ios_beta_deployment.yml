@@ -24,8 +24,6 @@ jobs:
         echo "$GIT_CRYPT_KEY" | base64 --decode > git-crypt.key
         git-crypt unlock git-crypt.key
         rm git-crypt.key
-      env:
-        GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
     - name: Setup Ruby
       uses: ruby/setup-ruby@v1.118.0
       with:
@@ -54,8 +52,6 @@ jobs:
       if: steps.cache-pods.outputs.cache-hit != 'true'
       working-directory: './iosHyperskillApp'
       run: bundle exec pod install --repo-update
-    - name: List iosHyperskillApp directory
-      run: ls ./iosHyperskillApp
-    #- name: Submit a new Beta Build to Firebase
-    #  working-directory: './iosHyperskillApp'
-    #  run: bundle exec fastlane beta install_pods:false
+    - name: Submit a new Beta Build to Firebase
+      working-directory: './iosHyperskillApp'
+      run: bundle exec fastlane beta
