@@ -58,9 +58,17 @@ jobs:
       if: steps.cache-pods.outputs.cache-hit != 'true'
       working-directory: './iosHyperskillApp'
       run: bundle exec pod install --repo-update
+    - name: Generate Google Cloud Storage code signing certificates keys file
+      working-directory: './iosHyperskillApp'
+      run: echo "$GOOGLE_CLOUD_STORAGE_CODE_SIGNING_CERTIFICATES_KEY_CONTENT" | base64 --decode > gc_keys.json
+      env:
+        GOOGLE_CLOUD_STORAGE_CODE_SIGNING_CERTIFICATES_KEY_CONTENT: ${{ secrets.GOOGLE_CLOUD_STORAGE_CODE_SIGNING_CERTIFICATES_KEY_CONTENT }}
     - name: Submit a new Beta Build to Firebase
       working-directory: './iosHyperskillApp'
       run: bundle exec fastlane beta
       env:
         KEYCHAIN_NAME: ${{ secrets.KEYCHAIN_NAME }}
         KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+        APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+        APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID }}
+        APP_STORE_CONNECT_API_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
