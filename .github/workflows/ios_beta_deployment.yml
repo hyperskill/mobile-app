@@ -8,18 +8,21 @@ on:
 defaults:
   run:
     shell: bash
+
+env:
+  IS_CI: true
     
 jobs:
   deployment:
     runs-on: macos-latest
-    environment: ios-production
+    environment: ios_production
     steps:
     - name: Checkout
       uses: actions/checkout@v3.1.0
     - name: Homebrew install git-crypt
       run: brew install git-crypt
       env:
-        HOMEBREW_NO_INSTALL_CLEANUP: TRUE
+        HOMEBREW_NO_INSTALL_CLEANUP: true
     - name: git-crypt unlock secrets
       run: |
         echo "$GIT_CRYPT_KEY" | base64 --decode > git-crypt.key
@@ -58,3 +61,6 @@ jobs:
     - name: Submit a new Beta Build to Firebase
       working-directory: './iosHyperskillApp'
       run: bundle exec fastlane beta
+      env:
+        KEYCHAIN_NAME: ${{ secrets.KEYCHAIN_NAME }}
+        KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
