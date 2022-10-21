@@ -123,6 +123,16 @@ platform :ios do
     scheme = options[:scheme] || "iosHyperskillApp"
     target = options[:target] || "iosHyperskillApp"
 
+    UI.message "beta is_ci=#{is_ci}, scheme=#{scheme}, target=#{target}, keychain_name=#{keychain_name}"
+    
+    if is_ci
+      UI.message "if is_ci true"
+    else
+      UI.message "if is_ci false"
+    end
+
+    UI.user_error!("End of test")
+    return
     setup_keychain
 
     if !is_ci
