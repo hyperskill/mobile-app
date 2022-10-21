@@ -47,6 +47,8 @@ jobs:
         distribution: 'corretto'
     - name: Fix Cocoapods generateDummyFramework # Cocoapods not being able to access the shared framework file
       run: ./gradlew generateDummyFramework
+    - name: ls
+      run: ls -la ~/
     - name: Cache Pods
       uses: actions/cache@v3
       id: cache-pods
