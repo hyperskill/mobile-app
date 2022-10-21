@@ -9,8 +9,8 @@ defaults:
   run:
     shell: bash
 
-#env:
-#  IS_CI: true
+env:
+  IS_CI: true
     
 jobs:
   deployment:
@@ -61,6 +61,6 @@ jobs:
     - name: Submit a new Beta Build to Firebase
       working-directory: './iosHyperskillApp'
       run: bundle exec fastlane beta
-      #env:
-        #KEYCHAIN_NAME: ${{ secrets.KEYCHAIN_NAME }}
-        #KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+      env:
+        KEYCHAIN_NAME: ${{ secrets.KEYCHAIN_NAME }}
+        KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
