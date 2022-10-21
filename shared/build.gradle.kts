@@ -130,7 +130,8 @@ buildkonfig {
     }
 
     fun applyFlavorConfigsFromFile(flavor: String) {
-        if (SystemProperties.isCI()) return
+        //if (SystemProperties.isCI()) return
+        println("buildkonfig :: isCI=${SystemProperties.isCI()}")
         defaultConfigs(flavor) {
             val properties = loadProperties("${project.rootDir}/shared/keys/$flavor.properties")
             buildConfigField(STRING, "FLAVOR", flavor)
