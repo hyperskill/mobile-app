@@ -307,7 +307,7 @@ platform :ios do
     end
   end
 
-  def setup_keychain
+  private_lane :setup_keychain
     UI.message "setup_keychain"
     UI.user_error!("Missing KEYCHAIN_PASSWORD") if keychain_password.nil?
 
