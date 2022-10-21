@@ -51,7 +51,9 @@ jobs:
       uses: actions/cache@v3
       id: cache-pods
       with:
-        path: './iosHyperskillApp/Pods'
+        path: |
+          './iosHyperskillApp/Pods'
+          '~/.cocoapods'
         key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
         restore-keys: |
           ${{ runner.os }}-pods-
