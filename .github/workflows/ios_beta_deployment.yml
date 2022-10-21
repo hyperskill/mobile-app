@@ -19,14 +19,14 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3.1.0
-    - name: Homebrew install git-crypt
-      run: brew install git-crypt
-      env:
-        HOMEBREW_NO_INSTALL_CLEANUP: true
     - name: Setup Xcode version
       uses: maxim-lobanov/setup-xcode@v1.5.1
       with:
         xcode-version: '14.0.1'
+    - name: Homebrew install git-crypt
+      run: brew install git-crypt
+      env:
+        HOMEBREW_NO_INSTALL_CLEANUP: true
     - name: git-crypt unlock secrets
       run: |
         echo "$GIT_CRYPT_KEY" | base64 --decode > git-crypt.key
@@ -45,11 +45,11 @@ jobs:
       with:
         java-version: '11'
         distribution: 'corretto'
-    - name: Generate build konfig
-      run: ./gradlew shared:generateBuildKonfig
-      env:
-        GITHUB_USER: ${{ github.actor }}
-        GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #- name: Generate build konfig
+      #run: ./gradlew shared:generateBuildKonfig
+      #env:
+        #GITHUB_USER: ${{ github.actor }}
+        #GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Cache Pods
       uses: actions/cache@v3
       id: cache-pods
