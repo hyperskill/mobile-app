@@ -41,11 +41,11 @@ jobs:
       with:
         java-version: '11'
         distribution: 'corretto'
-    #- name: Generate build konfig
-    #  run: ./gradlew shared:generateBuildKonfig
-    #  env:
-    #    GITHUB_USER: ${{ github.actor }}
-    #    GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Generate build konfig
+      run: ./gradlew shared:generateBuildKonfig
+      env:
+        GITHUB_USER: ${{ github.actor }}
+        GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Cache Pods
       uses: actions/cache@v3
       id: cache-pods
@@ -72,3 +72,5 @@ jobs:
         APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
         APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID }}
         APP_STORE_CONNECT_API_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
+        GITHUB_USER: ${{ github.actor }}
+        GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
