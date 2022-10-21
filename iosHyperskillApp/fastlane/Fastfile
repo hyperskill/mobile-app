@@ -15,7 +15,10 @@ platform :ios do
   firebase_app_id = ENV["FIREBASE_APP_ID"]
   firebase_cli_token = ENV["FIREBASE_CLI_TOKEN"]
 
+  keychain_name = ENV["KEYCHAIN_NAME"]
   keychain_password = ENV["KEYCHAIN_PASSWORD"]
+
+  is_ci = ENV["IS_CI"]
 
   # Constants
 
@@ -119,14 +122,16 @@ platform :ios do
   lane :beta do |options|
     scheme = options[:scheme] || "iosHyperskillApp"
     target = options[:target] || "iosHyperskillApp"
-    install_pods = options.key?(:install_pods) ? options[:install_pods] : true
 
-    clear_derived_data
-    if install_pods
+    setup_keychain
+
+    if !is_ci
+      clear_derived_data
       cocoapods(repo_update: true)
     end
 
-    unlock_keychain(password: keychain_password)
+    UI.user_error!("End of test")
+    return
 
     sync_device_info()
     match_adhoc()
@@ -298,6 +303,24 @@ platform :ios do
         team_id: team_id,
         code_sign_identity: "iPhone Developer",
       )
+    end
+  end
+
+  def setup_keychain
+    UI.user_error!("Missing KEYCHAIN_PASSWORD") if keychain_password.nil?
+
+    if is_ci
+      UI.user_error!("Missing KEYCHAIN_NAME") if keychain_name.nil?
+
+      create_keychain(
+        name: keychain_name,
+        password: keychain_password,
+        default_keychain: true,
+        unlock: true,
+        timeout: 0, # no time-out
+      )
+    else
+      unlock_keychain(password: keychain_password)
     end
   end
 
