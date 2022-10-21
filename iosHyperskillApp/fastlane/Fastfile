@@ -123,6 +123,8 @@ platform :ios do
     scheme = options[:scheme] || "iosHyperskillApp"
     target = options[:target] || "iosHyperskillApp"
 
+    UI.message "beta is_ci=#{is_ci}, keychain_name=#{keychain_name}"
+
     setup_keychain
 
     if !is_ci
@@ -307,7 +309,7 @@ platform :ios do
     end
   end
 
-  private_lane :setup_keychain
+  private_lane :setup_keychain do |options|
     UI.message "setup_keychain"
     UI.user_error!("Missing KEYCHAIN_PASSWORD") if keychain_password.nil?
 
