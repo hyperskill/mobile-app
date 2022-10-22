@@ -63,6 +63,9 @@ jobs:
           -Pkotlin.native.cocoapods.platform=iphoneos \
           -Pkotlin.native.cocoapods.archs=arm64 \
           -Pkotlin.native.cocoapods.configuration=Release
+      env:
+        GITHUB_USER: ${{ github.actor }}
+        GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Generate Google Cloud Storage code signing certificates keys file
       working-directory: './iosHyperskillApp'
       run: |
