@@ -69,6 +69,7 @@ jobs:
       working-directory: './iosHyperskillApp'
       run: bundle exec fastlane beta install_pods:false
       env:
+        FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 60
         KEYCHAIN_NAME: ${{ secrets.KEYCHAIN_NAME }}
         KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
         APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
