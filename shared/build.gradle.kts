@@ -28,7 +28,7 @@ kotlin {
         cocoapods {
             summary = "Shared code between iOS and Android"
             homepage = "https://github.com/hyperskill/mobile-app"
-            ios.deploymentTarget = "14.1"
+            ios.deploymentTarget = "14.0"
             podfile = project.file("../iosHyperskillApp/Podfile")
             framework {
                 baseName = "shared"

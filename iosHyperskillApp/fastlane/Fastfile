@@ -177,7 +177,7 @@ platform :ios do
       app: firebase_app_id,
       firebase_cli_token: firebase_cli_token,
       release_notes_file: "fastlane/release-notes.txt",
-      groups: "all-ios-testers",
+      #groups: "all-ios-testers",
     )
 
     dsym_path = lane_context[SharedValues::DSYM_OUTPUT_PATH]
