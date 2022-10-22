@@ -48,6 +48,7 @@ jobs:
     - name: generateDummyFramework
       run: ./gradlew generateDummyFramework
     - name: Install Pods
+      working-directory: './iosHyperskillApp'
       run: bundle exec pod install
     #- name: Cache Pods
       #uses: actions/cache@v3
