@@ -44,9 +44,7 @@ jobs:
       uses: actions/setup-java@v3.6.0
       with:
         java-version: '11'
-        distribution: 'corretto'
-    - name: Fix Cocoapods generateDummyFramework # Cocoapods not being able to access the shared framework file
-      run: ./gradlew generateDummyFramework :shared:generateBuildKonfig
+        distribution: 'temurin'
     - name: Cache Pods
       uses: actions/cache@v3
       id: cache-pods
@@ -59,9 +57,16 @@ jobs:
       if: steps.cache-pods.outputs.cache-hit != 'true'
       working-directory: './iosHyperskillApp'
       run: bundle exec pod install --repo-update
+    - name: Sync shared framework
+      run: |
+        ./gradlew -p shared :shared:syncFramework \
+          -Pkotlin.native.cocoapods.platform=iphoneos \
+          -Pkotlin.native.cocoapods.archs=arm64 \
+          -Pkotlin.native.cocoapods.configuration=Release
     - name: Generate Google Cloud Storage code signing certificates keys file
       working-directory: './iosHyperskillApp'
-      run: echo "$GOOGLE_CLOUD_STORAGE_CODE_SIGNING_CERTIFICATES_KEY_CONTENT" | base64 --decode > gc_keys.json
+      run: |
+        echo "$GOOGLE_CLOUD_STORAGE_CODE_SIGNING_CERTIFICATES_KEY_CONTENT" | base64 --decode > gc_keys.json
       env:
         GOOGLE_CLOUD_STORAGE_CODE_SIGNING_CERTIFICATES_KEY_CONTENT: ${{ secrets.GOOGLE_CLOUD_STORAGE_CODE_SIGNING_CERTIFICATES_KEY_CONTENT }}
     - name: Submit a new Beta Build to Firebase
