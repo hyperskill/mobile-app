@@ -3,7 +3,8 @@ name: iOS Beta Deployment
 on:
   push:
     branches:
-    - "feature/**" # TODO: Replace with release branch name
+    - 'release/**'
+    - 'hotfix/**'
 
 defaults:
   run:
