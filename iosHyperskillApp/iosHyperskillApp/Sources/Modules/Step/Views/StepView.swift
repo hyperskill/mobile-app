@@ -5,7 +5,8 @@ struct StepView: View {
     @StateObject var viewModel: StepViewModel
 
     var body: some View {
-        buildBody()
+        //buildBody()
+        Text("")
             .navigationBarHidden(false)
             .onAppear {
                 viewModel.startListening()
@@ -16,32 +17,32 @@ struct StepView: View {
 
     // MARK: Private API
 
-    @ViewBuilder
-    private func buildBody() -> some View {
-        switch viewModel.state {
-        case is StepFeatureStateIdle:
-            ProgressView()
-                .onAppear {
-                    viewModel.loadStep()
-                }
-        case is StepFeatureStateLoading:
-            ProgressView()
-        case is StepFeatureStateError:
-            PlaceholderView(
-                configuration: .networkError(
-                    backgroundColor: .clear,
-                    action: {
-                        viewModel.loadStep(forceUpdate: true)
-                    }
-                )
-            )
-        case let data as StepFeatureStateData:
-            buildContent(data: data)
-                .navigationTitle(data.step.title)
-        default:
-            Text("Unkwown state")
-        }
-    }
+//    @ViewBuilder
+//    private func buildBody() -> some View {
+//        switch viewModel.state {
+//        case is StepFeatureStateIdle:
+//            ProgressView()
+//                .onAppear {
+//                    viewModel.loadStep()
+//                }
+//        case is StepFeatureStateLoading:
+//            ProgressView()
+//        case is StepFeatureStateError:
+//            PlaceholderView(
+//                configuration: .networkError(
+//                    backgroundColor: .clear,
+//                    action: {
+//                        viewModel.loadStep(forceUpdate: true)
+//                    }
+//                )
+//            )
+//        case let data as StepFeatureStateData:
+//            buildContent(data: data)
+//                .navigationTitle(data.step.title)
+//        default:
+//            Text("Unkwown state")
+//        }
+//    }
 
     @ViewBuilder
     private func buildContent(data: StepFeatureStateData) -> some View {
