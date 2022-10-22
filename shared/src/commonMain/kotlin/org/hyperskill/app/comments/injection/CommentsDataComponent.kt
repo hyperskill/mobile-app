@@ -1,7 +1,7 @@
 package org.hyperskill.app.comments.injection
 
-import org.hyperskill.app.comments.domain.interactor.CommentsInteractor
+import org.hyperskill.app.comments.domain.interactor.CommentsDataInteractor
 
 interface CommentsDataComponent {
-    val commentsInteractor: CommentsInteractor
+    val commentsDataInteractor: CommentsDataInteractor
 }

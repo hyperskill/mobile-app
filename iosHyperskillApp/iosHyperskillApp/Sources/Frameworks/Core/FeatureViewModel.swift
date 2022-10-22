@@ -1,14 +1,19 @@
 import Combine
+import CombineSchedulers
 import Foundation
 import shared
 
 class FeatureViewModel<State, Message, ViewAction>: ObservableObject {
     private let feature: Presentation_reduxFeature
 
-    private var viewActionQueue = Queue<ViewAction>()
+    /// Schedules state changes and view actions on the next runloop tick.
+    /// Helps to solve problem with "Publishing changes from within view updates is not allowed, this will cause undefined behavior."
+    let mainScheduler: AnySchedulerOf<RunLoop>
 
+    private var viewActionQueue = Queue<ViewAction>()
     private var isListeningForChanges = false
 
+    private var oldState: State
     var state: State {
         if let state = self.feature.state as? State {
             return state
@@ -18,8 +23,10 @@ class FeatureViewModel<State, Message, ViewAction>: ObservableObject {
 
     var onViewAction: ((ViewAction) -> Void)?
 
-    init(feature: Presentation_reduxFeature) {
+    init(feature: Presentation_reduxFeature, mainScheduler: AnySchedulerOf<RunLoop> = .main) {
         self.feature = feature
+        self.mainScheduler = mainScheduler
+        self.oldState = (feature.state as? State).require()
 
         feature.addStateListener { [weak self] newState in
             self?.handleState(newState)
@@ -30,46 +37,46 @@ class FeatureViewModel<State, Message, ViewAction>: ObservableObject {
     }
 
     deinit {
-        self.feature.cancel()
+        feature.cancel()
     }
 
     // MARK: Public API
 
     func onNewMessage(_ message: Message) {
-        assert(Thread.current.isMainThread)
-        self.feature.onNewMessage(message_: message)
+        mainScheduler.schedule { self.feature.onNewMessage(message_: message) }
     }
 
     func startListening() {
-        self.isListeningForChanges = true
+        isListeningForChanges = true
 
-        self.updateState(newState: self.state)
+        updateState(newState: state)
 
-        guard let onViewAction = self.onViewAction else {
+        guard let onViewAction else {
             return
         }
 
-        while let queuedViewAction = self.viewActionQueue.dequeue() {
-            DispatchQueue.main.async {
-                onViewAction(queuedViewAction)
-            }
+        while let queuedViewAction = viewActionQueue.dequeue() {
+            mainScheduler.schedule { onViewAction(queuedViewAction) }
         }
     }
 
     func stopListening() {
-        self.isListeningForChanges = false
+        isListeningForChanges = false
     }
+
+    func shouldNotifyStateDidChange(oldState: State, newState: State) -> Bool { true }
 
     // MARK: Private API
 
     private func updateState(newState: State) {
-        guard self.isListeningForChanges else {
+        defer { oldState = newState }
+
+        guard isListeningForChanges,
+              shouldNotifyStateDidChange(oldState: oldState, newState: newState) else {
             return
         }
 
-        DispatchQueue.main.async {
-            self.objectWillChange.send()
-        }
+        mainScheduler.schedule { self.objectWillChange.send() }
     }
 
     private func handleState(_ newState: Any?) {
@@ -77,7 +84,7 @@ class FeatureViewModel<State, Message, ViewAction>: ObservableObject {
             return
         }
 
-        self.updateState(newState: newState)
+        updateState(newState: newState)
     }
 
     private func handleViewAction(_ viewAction: Any?) {
@@ -85,13 +92,11 @@ class FeatureViewModel<State, Message, ViewAction>: ObservableObject {
             return
         }
 
-        if self.isListeningForChanges,
-           let onViewAction = self.onViewAction {
-            DispatchQueue.main.async {
-                onViewAction(viewAction)
-            }
+        if isListeningForChanges,
+           let onViewAction = onViewAction {
+            mainScheduler.schedule { onViewAction(viewAction) }
         } else {
-            self.viewActionQueue.enqueue(value: viewAction)
+            viewActionQueue.enqueue(value: viewAction)
         }
     }
 }

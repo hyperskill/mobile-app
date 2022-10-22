@@ -18,7 +18,7 @@ extension StepQuizStringView {
 struct StepQuizStringView: View {
     private(set) var appearance = Appearance()
 
-    @StateObject var viewModel: StepQuizStringViewModel
+    @ObservedObject var viewModel: StepQuizStringViewModel
 
     var body: some View {
         TextEditor(text: $viewModel.viewData.text)

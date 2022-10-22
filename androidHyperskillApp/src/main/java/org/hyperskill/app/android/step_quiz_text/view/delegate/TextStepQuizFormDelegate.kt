@@ -11,6 +11,7 @@ import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
+import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 
 class TextStepQuizFormDelegate(
@@ -74,7 +75,7 @@ class TextStepQuizFormDelegate(
                     reply?.text
             } ?: ""
 
-        quizTextField.isEnabled = submission?.isSubmissionEditable ?: true
+        quizTextField.isEnabled = StepQuizResolver.isQuizEnabled(state)
         quizTextField.setTextIfChanged(text)
     }
 }

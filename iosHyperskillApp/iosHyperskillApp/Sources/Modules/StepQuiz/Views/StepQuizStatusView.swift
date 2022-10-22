@@ -1,3 +1,4 @@
+import shared
 import SwiftUI
 
 extension StepQuizStatusView {
@@ -17,10 +18,11 @@ struct StepQuizStatusView: View {
 
     var body: some View {
         HStack(spacing: appearance.interItemSpacing) {
-            if case .evaluation = state {
+            switch state {
+            case .evaluation, .loading:
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle(tint: state.foregroundColor))
-            } else {
+            default:
                 Image(state.iconImageName)
                     .resizable()
                     .renderingMode(.template)
@@ -43,6 +45,7 @@ struct StepQuizStatusView: View {
         case correct
         case wrong
         case evaluation
+        case loading
         case unsupportedQuiz
         case invalidReply(message: String)
 
@@ -51,6 +54,7 @@ struct StepQuizStatusView: View {
                 .correct,
                 .wrong,
                 .evaluation,
+                .loading,
                 .unsupportedQuiz,
                 .invalidReply(message: "Invalid reply")
             ]
@@ -62,7 +66,7 @@ struct StepQuizStatusView: View {
                 return Images.StepQuiz.checkmark
             case .wrong, .unsupportedQuiz, .invalidReply:
                 return Images.StepQuiz.info
-            case .evaluation:
+            case .evaluation, .loading:
                 return ""
             }
         }
@@ -75,6 +79,8 @@ struct StepQuizStatusView: View {
                 return Strings.StepQuiz.quizStatusWrong
             case .evaluation:
                 return Strings.StepQuiz.quizStatusEvaluation
+            case .loading:
+                return Strings.StepQuiz.quizStatusLoading
             case .unsupportedQuiz:
                 return Strings.StepQuiz.unsupportedText
             case .invalidReply(let message):
@@ -86,7 +92,7 @@ struct StepQuizStatusView: View {
             switch self {
             case .correct:
                 return Color(ColorPalette.secondary)
-            case .wrong, .evaluation, .unsupportedQuiz, .invalidReply:
+            case .wrong, .evaluation, .loading, .unsupportedQuiz, .invalidReply:
                 return Color(ColorPalette.primary)
             }
         }
@@ -97,14 +103,14 @@ struct StepQuizStatusView: View {
                 return Color(ColorPalette.green200Alpha12)
             case .wrong:
                 return .clear
-            case .evaluation, .unsupportedQuiz, .invalidReply:
+            case .evaluation, .loading, .unsupportedQuiz, .invalidReply:
                 return Color(ColorPalette.blue200Alpha12)
             }
         }
 
         fileprivate var paddingEdgeSet: Edge.Set {
             switch self {
-            case .correct, .evaluation, .unsupportedQuiz, .invalidReply:
+            case .correct, .evaluation, .loading, .unsupportedQuiz, .invalidReply:
                 return .all
             case .wrong:
                 return .vertical
@@ -112,6 +118,26 @@ struct StepQuizStatusView: View {
         }
     }
 }
+
+// MARK: - StepQuizStatusView (SubmissionStatus) -
+
+extension StepQuizStatusView {
+    @ViewBuilder
+    static func build(appearance: Appearance = Appearance(), submissionStatus: SubmissionStatus) -> some View {
+        switch submissionStatus {
+        case SubmissionStatus.evaluation:
+            StepQuizStatusView(state: .evaluation)
+        case SubmissionStatus.wrong:
+            StepQuizStatusView(state: .wrong)
+        case SubmissionStatus.correct:
+            StepQuizStatusView(state: .correct)
+        default:
+            EmptyView()
+        }
+    }
+}
+
+// MARK: - StepQuizStatusView_Previews: PreviewProvider -
 
 struct StepQuizStatusView_Previews: PreviewProvider {
     static var previews: some View {

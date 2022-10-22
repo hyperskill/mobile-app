@@ -9,6 +9,7 @@ final class StepQuizAssembly: Assembly {
     }
 
     func makeModule() -> StepQuizView {
+        let commonComponent = AppGraphBridge.sharedAppGraph.commonComponent
         let stepQuizComponent = AppGraphBridge.sharedAppGraph.buildStepQuizComponent()
 
         let notificationComponent = AppGraphBridge.sharedAppGraph.buildNotificationComponent()
@@ -20,6 +21,9 @@ final class StepQuizAssembly: Assembly {
         let viewModel = StepQuizViewModel(
             step: self.step,
             viewDataMapper: viewDataMapper,
+            userPermissionRequestTextMapper: StepQuizUserPermissionRequestTextMapper(
+                resourceProvider: commonComponent.resourceProvider
+            ),
             notificationService: NotificationsService(
                 notificationInteractor: notificationComponent.notificationInteractor
             ),

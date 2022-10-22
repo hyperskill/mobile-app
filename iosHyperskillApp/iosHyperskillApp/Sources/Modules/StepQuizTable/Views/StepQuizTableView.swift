@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct StepQuizTableView: View {
-    @StateObject var viewModel: StepQuizTableViewModel
+    @ObservedObject var viewModel: StepQuizTableViewModel
 
     private(set) var panModalPresenter: PanModalPresenter
 

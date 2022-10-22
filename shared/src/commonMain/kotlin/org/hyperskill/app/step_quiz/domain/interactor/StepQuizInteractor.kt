@@ -1,7 +1,5 @@
 package org.hyperskill.app.step_quiz.domain.interactor
 
-import org.hyperskill.app.step.domain.model.BlockName
-import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.attempts.AttemptStatus
@@ -72,17 +70,4 @@ class StepQuizInteractor(
             }
         }
     }
-
-    fun isNeedRecreateAttemptForNewSubmission(step: Step): Boolean =
-        when (step.block.name) {
-            BlockName.CODE,
-            BlockName.MATCHING,
-            BlockName.SORTING,
-            BlockName.MATH,
-            BlockName.NUMBER,
-            BlockName.STRING ->
-                false
-            else ->
-                true
-        }
 }

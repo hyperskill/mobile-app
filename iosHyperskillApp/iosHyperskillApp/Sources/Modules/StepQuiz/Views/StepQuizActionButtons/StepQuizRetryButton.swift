@@ -16,29 +16,49 @@ extension StepQuizRetryButton {
 struct StepQuizRetryButton: View {
     private(set) var appearance = Appearance()
 
+    var style: Style
+
     var onTap: () -> Void
 
     var body: some View {
-        Button(action: onTap) {
-            Image(systemName: "gobackward")
-                .resizable()
-                .renderingMode(.template)
-                .aspectRatio(contentMode: .fit)
-                .frame(widthHeight: appearance.iconWidthHeight)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(appearance.backgroundColor)
-                .addBorder(color: appearance.borderColor)
+        switch style {
+        case .logoOnly:
+            Button(action: onTap) {
+                Image(systemName: "gobackward")
+                    .resizable()
+                    .renderingMode(.template)
+                    .aspectRatio(contentMode: .fit)
+                    .frame(widthHeight: appearance.iconWidthHeight)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(appearance.backgroundColor)
+                    .addBorder(color: appearance.borderColor)
+            }
+            .foregroundColor(appearance.tintColor)
+            .frame(widthHeight: appearance.widthHeight)
+            .buttonStyle(BounceButtonStyle())
+        case .roundedRectangle:
+            Button(
+                Strings.StepQuiz.retryButton,
+                action: onTap
+            )
+            .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
         }
-        .foregroundColor(appearance.tintColor)
-        .frame(widthHeight: appearance.widthHeight)
-        .buttonStyle(BounceButtonStyle())
+    }
+
+    enum Style {
+        case logoOnly
+        case roundedRectangle
     }
 }
 
 struct StepQuizRetryButton_Previews: PreviewProvider {
     static var previews: some View {
-        StepQuizRetryButton(onTap: {})
-            .previewLayout(.sizeThatFits)
-            .padding()
+        Group {
+            StepQuizRetryButton(style: .logoOnly, onTap: {})
+
+            StepQuizRetryButton(style: .roundedRectangle, onTap: {})
+        }
+        .previewLayout(.sizeThatFits)
+        .padding()
     }
 }
