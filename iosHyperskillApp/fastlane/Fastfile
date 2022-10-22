@@ -164,8 +164,6 @@ platform :ios do
         suppress_xcode_output: false,
       )
     ensure
-      puts File.read(File.join(Dir.home, "Library/Logs/gym/iosHyperskillApp-iosHyperskillApp.log"))
-
       set_auto_code_signing(
         provisioning_profile_mapping: lane_context[SharedValues::MATCH_PROVISIONING_PROFILE_MAPPING],
         scheme: scheme,
