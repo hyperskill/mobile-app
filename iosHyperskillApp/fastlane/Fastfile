@@ -122,14 +122,11 @@ platform :ios do
   lane :beta do |options|
     scheme = options[:scheme] || "iosHyperskillApp"
     target = options[:target] || "iosHyperskillApp"
-    clean_build = options.key?(:clean_build) ? options[:clean_build] : true
     install_pods = options.key?(:install_pods) ? options[:install_pods] : true
 
     setup_keychain
 
-    if clean_build
-      clear_derived_data
-    end
+    clear_derived_data
 
     if install_pods
       cocoapods(try_repo_update_on_error: true)
@@ -154,7 +151,7 @@ platform :ios do
     begin
       gym(
         scheme: "#{scheme}",
-        clean: clean_build,
+        clean: true,
         output_directory: "artifacts",
         output_name: "#{scheme}.ipa",
         include_bitcode: true,
