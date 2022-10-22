@@ -19,7 +19,7 @@ struct ProfileSettingsView: View {
             ZStack {
                 UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
 
-                //buildBody()
+                buildBody()
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(Strings.Settings.title)
@@ -42,28 +42,28 @@ struct ProfileSettingsView: View {
 
     // MARK: Private API
 
-//    @ViewBuilder
-//    private func buildBody() -> some View {
-//        switch viewModel.state {
-//        case is ProfileSettingsFeatureStateIdle:
-//            ProgressView()
-//                .onAppear {
-//                    viewModel.loadProfileSettings()
-//                }
-//        case is ProfileSettingsFeatureStateLoading:
-//            ProgressView()
-//        case is ProfileSettingsFeatureStateError:
-//            PlaceholderView(
-//                configuration: .networkError {
-//                    viewModel.loadProfileSettings(forceUpdate: true)
-//                }
-//            )
-//        case let content as ProfileSettingsFeatureStateContent:
-//            buildContent(profileSettings: content.profileSettings)
-//        default:
-//            Text("Unkwown state")
-//        }
-//    }
+    @ViewBuilder
+    private func buildBody() -> some View {
+        switch viewModel.state {
+        case is ProfileSettingsFeatureStateIdle:
+            ProgressView()
+                .onAppear {
+                    viewModel.loadProfileSettings()
+                }
+        case is ProfileSettingsFeatureStateLoading:
+            ProgressView()
+        case is ProfileSettingsFeatureStateError:
+            PlaceholderView(
+                configuration: .networkError {
+                    viewModel.loadProfileSettings(forceUpdate: true)
+                }
+            )
+        case let content as ProfileSettingsFeatureStateContent:
+            buildContent(profileSettings: content.profileSettings)
+        default:
+            Text("Unkwown state")
+        }
+    }
 
     @ViewBuilder
     private func buildContent(profileSettings: ProfileSettings) -> some View {

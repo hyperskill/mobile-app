@@ -27,7 +27,7 @@ struct HomeView: View {
 
             BackgroundView(color: appearance.backgroundColor)
 
-            //buildBody()
+            buildBody()
         }
         .navigationTitle(Strings.Home.title)
         .navigationBarHidden(true)
@@ -41,72 +41,72 @@ struct HomeView: View {
 
     // MARK: Private API
 
-//    @ViewBuilder
-//    private func buildBody() -> some View {
-//        switch viewModel.state {
-//        case is HomeFeatureStateIdle:
-//            ProgressView()
-//                .onAppear {
-//                    viewModel.loadContent()
-//                }
-//        case is HomeFeatureStateLoading:
-//            ProgressView()
-//        case is HomeFeatureStateNetworkError:
-//            PlaceholderView(
-//                configuration: .networkError(backgroundColor: appearance.backgroundColor) {
-//                    viewModel.loadContent(forceUpdate: true)
-//                }
-//            )
-//        case let data as HomeFeatureStateContent:
-//            ScrollView {
-//                VStack(alignment: .leading, spacing: appearance.spacingBetweenContainers) {
-//                    Text(Strings.Home.helloLetsLearn)
-//                        .font(.title)
-//                        .foregroundColor(.primaryText)
-//
-//                    Text(Strings.Home.keepPracticing)
-//                        .font(.subheadline)
-//                        .foregroundColor(.secondaryText)
-//
-//                    if let streak = data.streak {
-//                        StreakViewBuilder(streak: streak, viewType: .card).build()
-//                    }
-//
-//                    ProblemOfDayAssembly(
-//                        problemOfDayState: data.problemOfDayState,
-//                        output: viewModel
-//                    )
-//                    .makeModule()
-//
-//                    let shouldShowContinueInWebButton = data.problemOfDayState is HomeFeatureProblemOfDayStateEmpty ||
-//                      data.problemOfDayState is HomeFeatureProblemOfDayStateSolved
-//
-//                    if shouldShowContinueInWebButton {
-//                        OpenURLInsideAppButton(
-//                            text: Strings.Track.continueInWebButton,
-//                            url: HyperskillURLFactory.makeIndex().require(),
-//                            webControllerType: .custom(),
-//                            onTap: viewModel.logClickedContinueLearningOnWebEvent
-//                        )
-//                        .buttonStyle(OutlineButtonStyle())
-//                    }
-//
-//                    #if BETA_PROFILE || DEBUG
-//                    HomeDebugStepNavigationView(
-//                        onOpenStepTapped: { stepID in
-//                            pushRouter.pushViewController(StepAssembly(stepID: stepID).makeModule())
-//                        }
-//                    )
-//                    #endif
-//                }
-//                .padding()
-//            }
-//            .frame(maxWidth: .infinity)
-//            .padding(.top, 0.1)
-//        default:
-//            Text("Unkwown state")
-//        }
-//    }
+    @ViewBuilder
+    private func buildBody() -> some View {
+        switch viewModel.state {
+        case is HomeFeatureStateIdle:
+            ProgressView()
+                .onAppear {
+                    viewModel.loadContent()
+                }
+        case is HomeFeatureStateLoading:
+            ProgressView()
+        case is HomeFeatureStateNetworkError:
+            PlaceholderView(
+                configuration: .networkError(backgroundColor: appearance.backgroundColor) {
+                    viewModel.loadContent(forceUpdate: true)
+                }
+            )
+        case let data as HomeFeatureStateContent:
+            ScrollView {
+                VStack(alignment: .leading, spacing: appearance.spacingBetweenContainers) {
+                    Text(Strings.Home.helloLetsLearn)
+                        .font(.title)
+                        .foregroundColor(.primaryText)
+
+                    Text(Strings.Home.keepPracticing)
+                        .font(.subheadline)
+                        .foregroundColor(.secondaryText)
+
+                    if let streak = data.streak {
+                        StreakViewBuilder(streak: streak, viewType: .card).build()
+                    }
+
+                    ProblemOfDayAssembly(
+                        problemOfDayState: data.problemOfDayState,
+                        output: viewModel
+                    )
+                    .makeModule()
+
+                    let shouldShowContinueInWebButton = data.problemOfDayState is HomeFeatureProblemOfDayStateEmpty ||
+                      data.problemOfDayState is HomeFeatureProblemOfDayStateSolved
+
+                    if shouldShowContinueInWebButton {
+                        OpenURLInsideAppButton(
+                            text: Strings.Track.continueInWebButton,
+                            url: HyperskillURLFactory.makeIndex().require(),
+                            webControllerType: .custom(),
+                            onTap: viewModel.logClickedContinueLearningOnWebEvent
+                        )
+                        .buttonStyle(OutlineButtonStyle())
+                    }
+
+                    #if BETA_PROFILE || DEBUG
+                    HomeDebugStepNavigationView(
+                        onOpenStepTapped: { stepID in
+                            pushRouter.pushViewController(StepAssembly(stepID: stepID).makeModule())
+                        }
+                    )
+                    #endif
+                }
+                .padding()
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.top, 0.1)
+        default:
+            Text("Unkwown state")
+        }
+    }
 
     private func handleViewAction(_ viewAction: HomeFeatureActionViewAction) {
         switch viewAction {

@@ -20,7 +20,7 @@ struct ProfileView: View {
 
             BackgroundView(color: .systemGroupedBackground)
 
-            //buildBody()
+            buildBody()
         }
         .navigationTitle(Strings.Profile.title)
         .toolbar {
@@ -48,65 +48,65 @@ struct ProfileView: View {
 
     // MARK: Private API
 
-//    @ViewBuilder
-//    private func buildBody() -> some View {
-//        switch viewModel.state {
-//        case is ProfileFeatureStateIdle:
-//            ProgressView()
-//                .onAppear {
-//                    viewModel.loadProfile()
-//                }
-//        case is ProfileFeatureStateLoading:
-//            ProgressView()
-//        case is ProfileFeatureStateError:
-//            PlaceholderView(
-//                configuration: .networkError {
-//                    viewModel.loadProfile(forceUpdate: true)
-//                }
-//            )
-//        case let content as ProfileFeatureStateContent:
-//            let viewData = viewModel.makeViewData(content.profile)
-//
-//            ScrollView {
-//                VStack(spacing: appearance.spacingBetweenContainers) {
-//                    ProfileHeaderView(
-//                        avatarSource: viewData.avatarSource,
-//                        title: viewData.fullname,
-//                        subtitle: viewData.role
-//                    )
-//
-//                    if let streak = content.streak {
-//                        StreakViewBuilder(streak: streak, viewType: .plain)
-//                            .build()
-//                            .padding()
-//                            .background(Color(ColorPalette.surface))
-//                    }
-//
-//                    ProfileDailyStudyRemindersView(
-//                        isActivated: viewData.isDailyStudyRemindersEnabled,
-//                        selectedHour: viewData.dailyStudyRemindersStartHour,
-//                        onIsActivatedChanged: viewModel.setDailyStudyRemindersEnabled(_:),
-//                        onSelectedHourChanged: viewModel.setDailyStudyRemindersStartHour(startHour:),
-//                        onSelectedHourTapped: viewModel.logClickedDailyStudyRemindsTimeEvent
-//                    )
-//
-//                    ProfileAboutView(
-//                        livesInText: viewData.livesInText,
-//                        speaksText: viewData.speaksText,
-//                        bio: viewData.bio,
-//                        experience: viewData.experience,
-//                        socialAccounts: viewData.socialAccounts,
-//                        onSocialAccountTapped: viewModel.presentSocialAccount(_:),
-//                        onFullVersionButtonTapped: viewModel.presentProfileFullVersion
-//                    )
-//                }
-//                .padding(.vertical)
-//            }
-//            .frame(maxWidth: .infinity)
-//        default:
-//            Text("Unkwown state")
-//        }
-//    }
+    @ViewBuilder
+    private func buildBody() -> some View {
+        switch viewModel.state {
+        case is ProfileFeatureStateIdle:
+            ProgressView()
+                .onAppear {
+                    viewModel.loadProfile()
+                }
+        case is ProfileFeatureStateLoading:
+            ProgressView()
+        case is ProfileFeatureStateError:
+            PlaceholderView(
+                configuration: .networkError {
+                    viewModel.loadProfile(forceUpdate: true)
+                }
+            )
+        case let content as ProfileFeatureStateContent:
+            let viewData = viewModel.makeViewData(content.profile)
+
+            ScrollView {
+                VStack(spacing: appearance.spacingBetweenContainers) {
+                    ProfileHeaderView(
+                        avatarSource: viewData.avatarSource,
+                        title: viewData.fullname,
+                        subtitle: viewData.role
+                    )
+
+                    if let streak = content.streak {
+                        StreakViewBuilder(streak: streak, viewType: .plain)
+                            .build()
+                            .padding()
+                            .background(Color(ColorPalette.surface))
+                    }
+
+                    ProfileDailyStudyRemindersView(
+                        isActivated: viewData.isDailyStudyRemindersEnabled,
+                        selectedHour: viewData.dailyStudyRemindersStartHour,
+                        onIsActivatedChanged: viewModel.setDailyStudyRemindersEnabled(_:),
+                        onSelectedHourChanged: viewModel.setDailyStudyRemindersStartHour(startHour:),
+                        onSelectedHourTapped: viewModel.logClickedDailyStudyRemindsTimeEvent
+                    )
+
+                    ProfileAboutView(
+                        livesInText: viewData.livesInText,
+                        speaksText: viewData.speaksText,
+                        bio: viewData.bio,
+                        experience: viewData.experience,
+                        socialAccounts: viewData.socialAccounts,
+                        onSocialAccountTapped: viewModel.presentSocialAccount(_:),
+                        onFullVersionButtonTapped: viewModel.presentProfileFullVersion
+                    )
+                }
+                .padding(.vertical)
+            }
+            .frame(maxWidth: .infinity)
+        default:
+            Text("Unkwown state")
+        }
+    }
 
     private func handleViewAction(_ viewAction: ProfileFeatureActionViewAction) {
         print("ProfileView :: \(#function) viewAction = \(viewAction)")
