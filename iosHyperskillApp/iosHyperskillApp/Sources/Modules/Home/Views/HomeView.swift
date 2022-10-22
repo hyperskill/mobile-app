@@ -91,13 +91,13 @@ struct HomeView: View {
                         .buttonStyle(OutlineButtonStyle())
                     }
 
-                    #if BETA_PROFILE || DEBUG
-                    HomeDebugStepNavigationView(
-                        onOpenStepTapped: { stepID in
-                            pushRouter.pushViewController(StepAssembly(stepID: stepID).makeModule())
-                        }
-                    )
-                    #endif
+//                    #if BETA_PROFILE || DEBUG
+//                    HomeDebugStepNavigationView(
+//                        onOpenStepTapped: { stepID in
+//                            pushRouter.pushViewController(StepAssembly(stepID: stepID).makeModule())
+//                        }
+//                    )
+//                    #endif
                 }
                 .padding()
             }
