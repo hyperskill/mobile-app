@@ -107,7 +107,7 @@ jobs:
         path: './iosHyperskillApp/Pods'
         key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
         restore-keys: |
-          #${{ runner.os }}-pods-
+          ${{ runner.os }}-pods-
     
     # Install Pods if cache miss occurred
     - name: Install Pods
