@@ -103,6 +103,7 @@ platform :ios do
       skip_metadata: false,
       phased_release: true,
       automatic_release: true,
+      precheck_include_in_app_purchases: is_ci ? false : true,
       submission_information: {
         export_compliance_encryption_updated: false,
         add_id_info_uses_idfa: true,
