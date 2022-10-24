@@ -112,7 +112,7 @@ jobs:
     - name: Install Pods
       if: steps.cache-pods.outputs.cache-hit != 'true'
       working-directory: './iosHyperskillApp'
-      run: bundle exec pod install
+      run: bundle exec pod install --repo-update
       
     # Generate gc_keys.json file from base64 file contents for code signing APIs communication
     - name: Generate Google Cloud Storage keys file
