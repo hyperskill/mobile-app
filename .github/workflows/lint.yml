@@ -64,4 +64,4 @@ jobs:
       - name: Run SwiftLint
         working-directory: './iosHyperskillApp'
         run: |
-          bash swiftlint --config .swiftlint.yml --path iosHyperskillApp/Sources --strict
+          swiftlint --config .swiftlint.yml --path iosHyperskillApp/Sources --strict
