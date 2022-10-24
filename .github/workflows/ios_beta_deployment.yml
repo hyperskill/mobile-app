@@ -12,6 +12,7 @@ defaults:
 
 env:
   IS_CI: true
+  IS_GIT_CRYPT_UNLOCKED: true
     
 jobs:
   deployment:
