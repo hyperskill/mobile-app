@@ -118,7 +118,7 @@ platform :ios do
 
   desc "Submit a new Beta Build to Firebase."
   desc "This will also make sure the profile is up to date."
-  desc "Options: scheme, target"
+  desc "Options: scheme, target, install_pods"
   lane :beta do |options|
     scheme = options[:scheme] || "iosHyperskillApp"
     target = options[:target] || "iosHyperskillApp"
@@ -175,7 +175,7 @@ platform :ios do
       app: firebase_app_id,
       firebase_cli_token: firebase_cli_token,
       release_notes_file: "fastlane/release-notes.txt",
-      #groups: "all-ios-testers",
+      groups: "all-ios-testers",
     )
 
     dsym_path = lane_context[SharedValues::DSYM_OUTPUT_PATH]
