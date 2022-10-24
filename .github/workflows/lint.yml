@@ -54,7 +54,7 @@ jobs:
         GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
   swiftlint:
-    name: Run ktlint
+    name: Run SwiftLint
     runs-on: ubuntu-22.04
     
     steps:
