@@ -1,4 +1,4 @@
-name: Feature Branch CI
+name: Lint
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
     - 'feature/**'
 
 jobs:
-  ci:
+  ktlint:
     name: Run ktlint
     runs-on: ubuntu-22.04
 
@@ -52,3 +52,16 @@ jobs:
       env:
         GITHUB_USER: ${{ github.actor }}
         GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+  swiftlint:
+    name: Run ktlint
+    runs-on: ubuntu-22.04
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.1.0
+
+      - name: Run SwiftLint
+        uses: norio-nomura/action-swiftlint@3.2.1
+        with:
+          args: --config iosHyperskillApp/.swiftlint.yml --path iosHyperskillApp/iosHyperskillApp/Sources --strict
