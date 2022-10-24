@@ -37,11 +37,9 @@ enum FontWeightNameMapping: Int, CaseIterable {
     init?(fontFace: String) {
         let lowercasedFontFace = fontFace.lowercased()
 
-        for fontWeight in Self.allCases {
-            if lowercasedFontFace.contains(fontWeight.name.lowercased()) {
-                self = fontWeight
-                return
-            }
+        for fontWeight in Self.allCases where lowercasedFontFace.contains(fontWeight.name.lowercased()) {
+            self = fontWeight
+            return
         }
 
         return nil
