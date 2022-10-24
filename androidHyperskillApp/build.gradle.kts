@@ -73,7 +73,7 @@ android {
 
     signingConfigs {
         getByName("debug") {
-            if (SystemProperties.isCI()) return@getByName
+            if (SystemProperties.isCI() && !SystemProperties.isGitCryptUnlocked()) return@getByName
             val properties = loadProperties("${project.rootDir}/androidHyperskillApp/keys/debug_keystore.properties")
 
             storeFile = file("../buildsystem/certs/debug.keystore")
@@ -86,7 +86,7 @@ android {
         }
 
         create("release") {
-            if (SystemProperties.isCI()) return@create
+            if (SystemProperties.isCI() && !SystemProperties.isGitCryptUnlocked()) return@create
 
             val keystorePath = SystemProperties.get(project, "HYPERSKILL_KEYSTORE_PATH")
             if (keystorePath.isNullOrBlank()) return@create
@@ -103,7 +103,7 @@ android {
 
     buildTypes {
         fun applyFlavorConfigsFromFile(applicationBuildType: ApplicationBuildType) {
-            if (SystemProperties.isCI()) return
+            if (SystemProperties.isCI() && !SystemProperties.isGitCryptUnlocked()) return
             val properties = loadProperties("${project.rootDir}/androidHyperskillApp/keys/${applicationBuildType.name}.properties")
             properties.keys.forEach { name ->
                 name as String
