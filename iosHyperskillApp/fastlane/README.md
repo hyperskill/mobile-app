@@ -23,7 +23,7 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 Deploy a new version to the App Store
 
-Options: scheme, target
+Options: scheme, target, install_pods
 
 ### ios beta
 
