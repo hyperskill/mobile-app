@@ -1,0 +1,67 @@
+name: Lint
+
+on:
+  push:
+    branches:
+    - 'feature/**'
+
+jobs:
+  ktlint:
+    name: Run ktlint
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3.1.0
+    
+    - name: Setup Java JDK
+      uses: actions/setup-java@v3.6.0
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+    
+    # Cache Gradle dependencies
+    - name: Setup Gradle Dependencies Cache
+      uses: actions/cache@v3
+      with:
+        path: ~/.gradle/caches
+        key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle', '**/*.gradle.kts') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-caches-
+        
+    # Cache Gradle Wrapper
+    - name: Setup Gradle Wrapper Cache
+      uses: actions/cache@v3
+      with:
+        path: ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle*properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-wrapper-
+          
+    # Cache Kotlin/Native compiler
+    - name: Setup Kotlin/Native Compiler Cache
+      uses: actions/cache@v3
+      with:
+        path: ~/.konan
+        key: ${{ runner.os }}-kotlin-native-compiler-${{ hashFiles('gradle/libs.versions.toml') }}
+        restore-keys: |
+          ${{ runner.os }}-kotlin-native-compiler-
+
+    - name: Run ktlint
+      run: bash ./gradlew ktlintCheck --stacktrace
+      env:
+        GITHUB_USER: ${{ github.actor }}
+        GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+  swiftlint:
+    name: Run SwiftLint
+    runs-on: macos-12
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.1.0
+
+      - name: Run SwiftLint
+        working-directory: './iosHyperskillApp'
+        run: |
+          swiftlint --config .swiftlint.yml --path iosHyperskillApp/Sources --strict

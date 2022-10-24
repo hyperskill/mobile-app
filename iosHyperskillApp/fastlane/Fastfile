@@ -15,7 +15,10 @@ platform :ios do
   firebase_app_id = ENV["FIREBASE_APP_ID"]
   firebase_cli_token = ENV["FIREBASE_CLI_TOKEN"]
 
+  keychain_name = ENV["KEYCHAIN_NAME"]
   keychain_password = ENV["KEYCHAIN_PASSWORD"]
+
+  is_ci = ENV["IS_CI"]
 
   # Constants
 
@@ -115,18 +118,23 @@ platform :ios do
 
   desc "Submit a new Beta Build to Firebase."
   desc "This will also make sure the profile is up to date."
-  desc "Options: scheme, target"
+  desc "Options: scheme, target, install_pods"
   lane :beta do |options|
-    scheme = options[:scheme]
-    target = options[:target]
+    scheme = options[:scheme] || "iosHyperskillApp"
+    target = options[:target] || "iosHyperskillApp"
+    install_pods = options.key?(:install_pods) ? options[:install_pods] : true
 
-    UI.user_error!("Wrong scheme parameter") if scheme.nil?
-    UI.user_error!("Wrong target parameter") if target.nil?
+    setup_keychain
 
     clear_derived_data
-    cocoapods(repo_update: true)
 
-    unlock_keychain(password: keychain_password)
+    if install_pods
+      cocoapods(try_repo_update_on_error: true)
+    end
+
+    if is_ci
+      load_app_store_connect_api_token
+    end
 
     sync_device_info()
     match_adhoc()
@@ -153,6 +161,7 @@ platform :ios do
           # use only provisioning profiles from match
           provisioningProfiles: lane_context[SharedValues::MATCH_PROVISIONING_PROFILE_MAPPING],
         },
+        suppress_xcode_output: false,
       )
     ensure
       set_auto_code_signing(
@@ -251,6 +260,8 @@ platform :ios do
       app_identifier: app_identifier,
       team_id: team_id,
       team_name: team_name,
+      keychain_name: keychain_name || nil,
+      keychain_password: keychain_password,
       force_for_new_devices: true,
     )
   end
@@ -298,6 +309,24 @@ platform :ios do
         team_id: team_id,
         code_sign_identity: "iPhone Developer",
       )
+    end
+  end
+
+  private_lane :setup_keychain do |options|
+    UI.user_error!("Missing KEYCHAIN_PASSWORD") if keychain_password.nil?
+
+    if is_ci
+      UI.user_error!("Missing KEYCHAIN_NAME") if keychain_name.nil?
+
+      create_keychain(
+        name: keychain_name,
+        password: keychain_password,
+        default_keychain: true,
+        unlock: true,
+        timeout: 0, # no time-out
+      )
+    else
+      unlock_keychain(password: keychain_password)
     end
   end
 
@@ -427,6 +456,28 @@ platform :ios do
       team_name: team_name,
       itc_team_id: itc_team_id,
       itc_team_name: itc_team_name,
+    )
+  end
+
+  desc "Loads the App Store Connect API token to use in other fastlane tools and actions"
+  private_lane :load_app_store_connect_api_token do |options|
+    key_id = ENV["APP_STORE_CONNECT_API_KEY_ID"]
+    UI.user_error!("APP_STORE_CONNECT_API_KEY_ID required") if key_id.nil?
+
+    issuer_id = ENV["APP_STORE_CONNECT_API_KEY_ISSUER_ID"]
+    UI.user_error!("APP_STORE_CONNECT_API_KEY_ISSUER_ID required") if issuer_id.nil?
+
+    key_content = ENV["APP_STORE_CONNECT_API_KEY_CONTENT"]
+    UI.user_error!("APP_STORE_CONNECT_API_KEY_CONTENT required") if key_content.nil?
+
+    app_store_connect_api_key(
+      key_id: key_id,
+      issuer_id: issuer_id,
+      key_content: key_content,
+      is_key_content_base64: true,
+      duration: 1200,
+      in_house: false,
+      set_spaceship_token: true,
     )
   end
 end
