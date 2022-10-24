@@ -3,9 +3,7 @@ name: iOS Release Deployment
 on:
   push:
     branches:
-    - 'feature/**'
-    - 'release/**'
-    - 'hotfix/**'
+    - 'main'
 
 defaults:
   run:
