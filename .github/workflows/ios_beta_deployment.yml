@@ -3,7 +3,6 @@ name: iOS Beta Deployment
 on:
   push:
     branches:
-    - 'feature/**'
     - 'release/**'
     - 'hotfix/**'
 
@@ -123,7 +122,7 @@ jobs:
       env:
         GOOGLE_CLOUD_STORAGE_CODE_SIGNING_CERTIFICATES_KEY_CONTENT: ${{ secrets.GOOGLE_CLOUD_STORAGE_CODE_SIGNING_CERTIFICATES_KEY_CONTENT }}
     
-    # Build, archive for ad-hoc and submit to Firebase App Distribution
+    # Build, archive for ad-hoc and submit to the Firebase App Distribution
     - name: Submit a new Beta Build to Firebase
       working-directory: './iosHyperskillApp'
       run: bundle exec fastlane beta install_pods:false
