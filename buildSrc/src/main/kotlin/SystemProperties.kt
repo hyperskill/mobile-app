@@ -6,4 +6,7 @@ object SystemProperties {
 
     fun isCI(): Boolean =
         System.getenv("CI")?.toBoolean() ?: false
+
+    fun isGitCryptUnlocked(): Boolean =
+        System.getenv("IS_GIT_CRYPT_UNLOCKED")?.toBoolean() ?: false
 }
