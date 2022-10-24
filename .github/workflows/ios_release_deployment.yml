@@ -1,10 +1,9 @@
-name: iOS Beta Deployment
+name: iOS Release Deployment
 
 on:
   push:
     branches:
-    - 'release/**'
-    - 'hotfix/**'
+    - 'main'
 
 defaults:
   run:
@@ -27,7 +26,7 @@ jobs:
         uses: gradle/wrapper-validation-action@v1.0.4
         
   deployment:
-    name: iOS Beta Deployment
+    name: iOS Release Deployment
     needs: gradleWrapperValidation
     runs-on: macos-12
     environment: ios_production
@@ -122,10 +121,10 @@ jobs:
       env:
         GOOGLE_CLOUD_STORAGE_CODE_SIGNING_CERTIFICATES_KEY_CONTENT: ${{ secrets.GOOGLE_CLOUD_STORAGE_CODE_SIGNING_CERTIFICATES_KEY_CONTENT }}
     
-    # Build, archive for ad-hoc and submit to the Firebase App Distribution
-    - name: Submit a new Beta Build to Firebase
+    # Build, archive for app-store and submit to App Store Connect
+    - name: Submit a new Release Build to App Store Connect
       working-directory: './iosHyperskillApp'
-      run: bundle exec fastlane beta install_pods:false
+      run: bundle exec fastlane release install_pods:false
       env:
         FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 60
         KEYCHAIN_NAME: ${{ secrets.KEYCHAIN_NAME }}

@@ -23,7 +23,7 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 Deploy a new version to the App Store
 
-Options: scheme, target
+Options: scheme, target, install_pods
 
 ### ios beta
 
@@ -35,7 +35,7 @@ Submit a new Beta Build to Firebase.
 
 This will also make sure the profile is up to date.
 
-Options: scheme, target
+Options: scheme, target, install_pods
 
 ### ios run_unit_tests
 
