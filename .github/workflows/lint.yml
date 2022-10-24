@@ -55,13 +55,13 @@ jobs:
   
   swiftlint:
     name: Run SwiftLint
-    runs-on: ubuntu-22.04
+    runs-on: macos-12
     
     steps:
       - name: Checkout
         uses: actions/checkout@v3.1.0
 
       - name: Run SwiftLint
-        uses: norio-nomura/action-swiftlint@3.2.1
-        with:
-          args: --config iosHyperskillApp/.swiftlint.yml --path iosHyperskillApp/iosHyperskillApp/Sources --strict
+        working-directory: './iosHyperskillApp'
+        run: |
+          bash swiftlint --config .swiftlint.yml --path iosHyperskillApp/Sources --strict
