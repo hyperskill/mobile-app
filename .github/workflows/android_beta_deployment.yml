@@ -7,6 +7,11 @@ on:
       - 'feature/**'
       - 'release/**'
       - 'hotfix/**'
+  push:
+    branches:
+    - 'feature/**'
+    - 'release/**'
+    - 'hotfix/**'
 
 defaults:
   run:
