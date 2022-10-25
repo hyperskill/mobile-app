@@ -4,12 +4,10 @@ on:
   pull_request:
     types: [opened, synchronize]
     branches:
-      - 'feature/**'
       - 'release/**'
       - 'hotfix/**'
   push:
     branches:
-    - 'feature/**'
     - 'release/**'
     - 'hotfix/**'
 
