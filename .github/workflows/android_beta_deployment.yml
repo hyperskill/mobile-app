@@ -79,25 +79,26 @@ jobs:
     #     key: ${{ runner.os }}-kotlin-native-compiler-${{ hashFiles('gradle/libs.versions.toml') }}
     #     restore-keys: |
     #       ${{ runner.os }}-kotlin-native-compiler-
-      
-    # # Generate gc_keys.json file from base64 file contents for code signing APIs communication
-    # - name: Generate Google Cloud Storage keys file
-    #   working-directory: './iosHyperskillApp'
-    #   run: |
-    #     echo "$GOOGLE_CLOUD_STORAGE_CODE_SIGNING_CERTIFICATES_KEY_CONTENT" | base64 --decode > gc_keys.json
-    #   env:
-    #     GOOGLE_CLOUD_STORAGE_CODE_SIGNING_CERTIFICATES_KEY_CONTENT: ${{ secrets.GOOGLE_CLOUD_STORAGE_CODE_SIGNING_CERTIFICATES_KEY_CONTENT }}
     
-    # # Build, archive for ad-hoc and submit to the Firebase App Distribution
+    # Generate release.keystore file from base64 file contents
+    - name: Generate release.keystore file
+      run: |
+        echo "$HYPERSKILL_RELEASE_KEYSTORE_CONTENT" | base64 --decode > release.keystore
+        echo "release_keystore_path=$(echo "$(pwd)/release.keystore")" >> $GITHUB_ENV
+      env:
+        HYPERSKILL_RELEASE_KEYSTORE_CONTENT: ${{ secrets.HYPERSKILL_RELEASE_KEYSTORE_CONTENT }}
+    - name: Print release.keystore path
+      run: |
+        echo "${{ env.release_keystore_path }}"
+    
+    # # Build and submit to the Firebase App Distribution
     # - name: Submit a new Beta Build to Firebase
-    #   working-directory: './iosHyperskillApp'
-    #   run: bundle exec fastlane beta install_pods:false
+    #   run: ./gradlew assembleRelease appDistributionUploadRelease --appId=${{ secrets.FIREBASE_APP_ID }}
     #   env:
-    #     FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 60
-    #     KEYCHAIN_NAME: ${{ secrets.KEYCHAIN_NAME }}
-    #     KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
-    #     APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
-    #     APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID }}
-    #     APP_STORE_CONNECT_API_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
+    #     HYPERSKILL_KEYSTORE_PATH: ${{ env.release_keystore_path }}
+    #     HYPERSKILL_RELEASE_STORE_PASSWORD: ${{ secrets.HYPERSKILL_RELEASE_STORE_PASSWORD }}
+    #     HYPERSKILL_RELEASE_KEY_ALIAS: ${{ secrets.HYPERSKILL_RELEASE_KEY_ALIAS }}
+    #     HYPERSKILL_RELEASE_KEY_PASSWORD: ${{ secrets.HYPERSKILL_RELEASE_KEY_PASSWORD }}
+    #     FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
     #     GITHUB_USER: ${{ github.actor }}
     #     GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}

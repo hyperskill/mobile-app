@@ -137,7 +137,7 @@ android {
             firebaseAppDistribution(
                 configure = {
                     artifactType = "APK"
-                    groups = "all-android-testers"
+                    // groups = "all-android-testers"
                     releaseNotesFile = "gradle/release-notes.txt"
                 }
             )
