@@ -1,18 +1,18 @@
 name: Android Beta Deployment
 
 on:
-  push:
+  pull_request:
+    types:
+      - opened
+      - synchronize
     branches:
-    - 'feature/**'
-    - 'release/**'
-    - 'hotfix/**'
+      - 'feature/**'
+      - 'release/**'
+      - 'hotfix/**'
 
 defaults:
   run:
     shell: bash
-
-env:
-  IS_GIT_CRYPT_UNLOCKED: true
     
 jobs:
   # Run Gradle Wrapper Validation Action to verify the wrapper's checksum
@@ -92,6 +92,7 @@ jobs:
     - name: Submit a new Beta Build to Firebase
       run: ./gradlew assembleRelease appDistributionUploadRelease --appId=${{ secrets.FIREBASE_APP_ID }}
       env:
+        IS_GIT_CRYPT_UNLOCKED: true
         HYPERSKILL_KEYSTORE_PATH: ${{ env.release_keystore_path }}
         HYPERSKILL_RELEASE_STORE_PASSWORD: ${{ secrets.HYPERSKILL_RELEASE_STORE_PASSWORD }}
         HYPERSKILL_RELEASE_KEY_ALIAS: ${{ secrets.HYPERSKILL_RELEASE_KEY_ALIAS }}
