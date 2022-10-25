@@ -2,9 +2,7 @@ name: Android Beta Deployment
 
 on:
   pull_request:
-    types:
-      - opened
-      - synchronize
+    types: [opened, synchronize]
     branches:
       - 'feature/**'
       - 'release/**'
