@@ -6,3 +6,6 @@ ios:
 
 android:
   - androidHyperskillApp/**
+
+ci/cd:
+  - .github/workflows/**
