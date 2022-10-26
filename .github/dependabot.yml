@@ -1,0 +1,30 @@
+version: 2
+updates:
+  - package-ecosystem: "bundler"
+    directory: "/iosHyperskillApp"
+    schedule:
+      interval: "weekly"
+      day: "thursday"
+    allow:
+      - dependency-name: "fastlane"
+      - dependency-name: "cocoapods"
+    assignees:
+      - "ivan-magda"
+    commit-message:
+      prefix: "Bundler"
+    labels:
+      - "dependencies"
+    rebase-strategy: "disabled"
+    target-branch: "develop"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "thursday"
+    assignees:
+      - "ivan-magda"
+    commit-message:
+      prefix: "GitHub Actions"
+    labels:
+      - "dependencies"
+      - "ci/cd"
