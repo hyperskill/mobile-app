@@ -26,8 +26,6 @@ jobs:
       shared: ${{ steps.changes.outputs.shared }}
       ios: ${{ steps.changes.outputs.ios }}
     steps:
-    - name: Print ref_name
-      run: echo ${{ github.ref_name }}
     - name: Checkout
       uses: actions/checkout@v3.1.0
 

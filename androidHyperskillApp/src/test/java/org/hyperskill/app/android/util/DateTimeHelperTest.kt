@@ -17,7 +17,7 @@ class DateTimeHelperTest {
         expected.timeZone = TimeZone.getTimeZone("UTC")
         expected.set(2017, Calendar.JANUARY, 6, 15, 59, 6)
         expected.set(Calendar.MILLISECOND, 0)
-        assertEquals(2017, expected.get(Calendar.YEAR))
+        assertEquals(2016, expected.get(Calendar.YEAR))
         assertEquals(Calendar.JANUARY, expected.get(Calendar.MONTH))
         assertEquals(6, expected.get(Calendar.DATE))
         assertEquals(15, expected.get(Calendar.HOUR_OF_DAY))
