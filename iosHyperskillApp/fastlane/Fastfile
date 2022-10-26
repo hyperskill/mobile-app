@@ -18,7 +18,7 @@ platform :ios do
   keychain_name = ENV["KEYCHAIN_NAME"]
   keychain_password = ENV["KEYCHAIN_PASSWORD"]
 
-  is_ci = ENV["IS_CI"]
+  #is_ci = ENV["IS_CI"]
 
   # Constants
 
@@ -197,11 +197,16 @@ platform :ios do
 
   desc "Run all unit tests for scheme"
   lane :run_unit_tests do |options|
+    ci = ENV["CI"]
+    UI.message "CI=#{ENV["CI"]}"
+    UI.message "CI=#{ci}"
+    UI.message "CI=#{is_ci}"
+
     clear_derived_data
 
     ENV["FASTLANE_EXPLICIT_OPEN_SIMULATOR"] = "0"
 
-    cocoapods(try_repo_update_on_error: true)
+    #cocoapods(try_repo_update_on_error: true)
 
     scan()
   end
