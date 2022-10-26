@@ -20,6 +20,8 @@ jobs:
   files-changed:
     name: Detect what files changed
     runs-on: ubuntu-22.04
+    permissions:
+      pull-requests: read
     # Map a step output to a job output
     outputs:
       android: ${{ steps.changes.outputs.android }}
