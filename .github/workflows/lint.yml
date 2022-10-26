@@ -3,7 +3,7 @@ name: Lint
 on:
   pull_request:
     branches:
-    - 'feature/**'
+      - 'feature/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref_name }}
