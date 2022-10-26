@@ -76,3 +76,63 @@ jobs:
       env:
         GITHUB_USER: ${{ github.actor }}
         GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  androidUnitTesting:
+    name: Run Android unit tests
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3.1.0
+        
+    - name: Install git-crypt
+      run: sudo apt-get install git-crypt
+        
+    # Generate git-crypt.key file from base64 file contents and decrypt
+    - name: git-crypt unlock secrets
+      run: |
+        echo "$GIT_CRYPT_KEY" | base64 --decode > git-crypt.key
+        git-crypt unlock git-crypt.key
+        rm git-crypt.key
+      env:
+        GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
+        
+    - name: Setup Java JDK
+      uses: actions/setup-java@v3.6.0
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        
+    # Cache Gradle dependencies
+    - name: Setup Gradle Dependencies Cache
+      uses: actions/cache@v3
+      with:
+        path: ~/.gradle/caches
+        key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle', '**/*.gradle.kts') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-caches-
+        
+    # Cache Gradle Wrapper
+    - name: Setup Gradle Wrapper Cache
+      uses: actions/cache@v3
+      with:
+        path: ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle*properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-wrapper-
+          
+    # Cache Kotlin/Native compiler
+    - name: Setup Kotlin/Native Compiler Cache
+      uses: actions/cache@v3
+      with:
+        path: ~/.konan
+        key: ${{ runner.os }}-kotlin-native-compiler-${{ hashFiles('gradle/libs.versions.toml') }}
+        restore-keys: |
+          ${{ runner.os }}-kotlin-native-compiler-
+
+    # Run all shared unit tests
+    - name: Run unit tests
+      run: ./gradlew androidHyperskillApp:testReleaseUnitTest
+      env:
+        GITHUB_USER: ${{ github.actor }}
+        GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
