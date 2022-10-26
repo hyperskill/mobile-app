@@ -1,12 +1,50 @@
 name: Lint
 
 on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+    branches:
+      - 'feature/**'
   push:
     branches:
     - 'feature/**'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
 jobs:
+  files-changed:
+    name: Detect what files changed
+    runs-on: ubuntu-22.04
+    # Map a step output to a job output
+    outputs:
+      android: ${{ steps.changes.outputs.android }}
+      shared: ${{ steps.changes.outputs.shared }}
+      ios: ${{ steps.changes.outputs.ios }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3.1.0
+
+    - name: Detect changes
+      uses: dorny/paths-filter@v2.11.1
+      id: changes
+      with:
+        base: 'develop'
+        filters: |
+          android:
+            - 'androidHyperskillApp/**'
+          shared:
+            - 'shared/**'
+          ios:
+            - 'iosHyperskillApp/**'
+
   ktlint:
+    needs: files-changed
+    if: ${{ needs.files-changed.outputs.android == 'true' || needs.files-changed.outputs.shared == 'true' }}
     name: Run ktlint
     runs-on: ubuntu-22.04
 
@@ -54,6 +92,8 @@ jobs:
         GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
   swiftlint:
+    needs: files-changed
+    if: ${{ needs.files-changed.outputs.ios == 'true' }}
     name: Run SwiftLint
     runs-on: macos-12
     

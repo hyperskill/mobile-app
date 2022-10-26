@@ -45,6 +45,8 @@ Options: scheme, target, install_pods
 
 Run all unit tests for scheme
 
+Options: install_pods
+
 ### ios sync_device_info
 
 ```sh

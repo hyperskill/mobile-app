@@ -18,8 +18,6 @@ platform :ios do
   keychain_name = ENV["KEYCHAIN_NAME"]
   keychain_password = ENV["KEYCHAIN_PASSWORD"]
 
-  is_ci = ENV["IS_CI"]
-
   # Constants
 
   schemes = {
@@ -196,12 +194,17 @@ platform :ios do
   # Testing
 
   desc "Run all unit tests for scheme"
+  desc "Options: install_pods"
   lane :run_unit_tests do |options|
+    install_pods = options.key?(:install_pods) ? options[:install_pods] : true
+
     clear_derived_data
 
     ENV["FASTLANE_EXPLICIT_OPEN_SIMULATOR"] = "0"
 
-    cocoapods(try_repo_update_on_error: true)
+    if install_pods
+      cocoapods(try_repo_update_on_error: true)
+    end
 
     scan()
   end
