@@ -130,7 +130,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-kotlin-native-compiler-
 
-    # Run all shared unit tests
+    # Run all Android unit tests
     - name: Run unit tests
       run: ./gradlew androidHyperskillApp:testReleaseUnitTest
       env:
