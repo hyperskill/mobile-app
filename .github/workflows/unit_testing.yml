@@ -33,6 +33,7 @@ jobs:
       uses: dorny/paths-filter@v2.11.1
       id: changes
       with:
+        base: 'develop'
         filters: |
           android:
             - 'androidHyperskillApp/**'
