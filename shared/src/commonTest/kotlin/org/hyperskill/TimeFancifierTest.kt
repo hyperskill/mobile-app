@@ -9,7 +9,7 @@ class TimeFancifierTest {
     fun testMinutes() {
         assertEquals(
             TimeFancifier.formatTimeDistance(3 * TimeFancifier.ONE_MINUTE_IN_MILLIS + 17 * 1000),
-            "3 minutes"
+            "1 minutes"
         )
 
         assertEquals(
