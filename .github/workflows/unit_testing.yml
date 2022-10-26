@@ -227,7 +227,7 @@ jobs:
     # Run all iOS unit tests
     - name: Run unit tests
       working-directory: './iosHyperskillApp'
-      run: bundle exec fastlane run_unit_tests
+      run: bundle exec fastlane run_unit_tests install_pods:false
       env:
         FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 60
         GITHUB_USER: ${{ github.actor }}
