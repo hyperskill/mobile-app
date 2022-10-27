@@ -5,15 +5,14 @@ on:
     # Map the workflow outputs to job outputs
     outputs:
       android: 
-        value: ${{ jobs.files_changed.outputs.android }}
+        value: ${{ jobs.files-changed.outputs.android }}
       shared:
-        value: ${{ jobs.files_changed.outputs.shared }}
+        value: ${{ jobs.files-changed.outputs.shared }}
       ios: 
-        value: ${{ jobs.files_changed.outputs.ios }}
+        value: ${{ jobs.files-changed.outputs.ios }}
 
 jobs:
-  files_changed:
-    name: Detect what files changed and generate output
+  files-changed:
     runs-on: ubuntu-22.04
     # Map a step output to a job output
     outputs:
