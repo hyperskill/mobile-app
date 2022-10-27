@@ -47,7 +47,7 @@ jobs:
       uses: ./.github/actions/setup-android
       with:
         git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
-        release-keystore-path: ${{ secrets.HYPERSKILL_RELEASE_KEYSTORE_CONTENT }}
+        hyperskill-release-keystore-content: ${{ secrets.HYPERSKILL_RELEASE_KEYSTORE_CONTENT }}
 
     - name: Submit a new Beta Build to Firebase
       run: ./gradlew assembleRelease appDistributionUploadRelease --appId=${{ secrets.FIREBASE_APP_ID }}

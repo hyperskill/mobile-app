@@ -46,7 +46,6 @@ class AnalyticHyperskillRequestTest {
 
     @Test
     fun requestSerializationTest() {
-        println("TEST")
         val events = listOf(
             TestHyperskillAnalyticEvent(
                 userId = TEST_USER_ID,
