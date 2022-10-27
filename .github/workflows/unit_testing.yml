@@ -2,15 +2,12 @@ name: Unit testing
 
 on:
   pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
+    types: [opened, synchronize, reopened]
     branches:
       - 'feature/**'
   push:
     branches:
-    - 'feature/**'
+      - 'feature/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref_name }}
@@ -41,7 +38,6 @@ jobs:
       with:
         git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
 
-    # Run all shared unit tests
     - name: Run unit tests
       run: ./gradlew shared:testReleaseUnitTest
       env:
@@ -65,7 +61,6 @@ jobs:
       with:
         git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
 
-    # Run all Android unit tests
     - name: Run unit tests
       run: ./gradlew androidHyperskillApp:testReleaseUnitTest
       env:
@@ -89,7 +84,6 @@ jobs:
       with:
         git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
 
-    # Run all iOS unit tests
     - name: Run unit tests
       working-directory: './iosHyperskillApp'
       run: bundle exec fastlane run_unit_tests install_pods:false

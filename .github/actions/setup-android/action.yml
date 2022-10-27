@@ -5,11 +5,17 @@ inputs:
   git-crypt-key:
     description: 'git-crypt.key file base64 content'
     required: false
+  hyperskill-release-keystore-content:
+    description: 'release.keystore file base64 content'
+    required: false
 
 outputs:
   is-git-crypt-unlocked:
-    description: "Is git-crypt unlocked secrets"
+    description: 'Is git-crypt unlocked secrets'
     value: ${{ steps.git-crypt-unlock.outputs.value }}
+  release-keystore-path:
+    description: 'Path to the release.keystore file'
+    value: ${{ steps.generate-release-keystore.outputs.path }}
 
 runs:
   using: "composite"
@@ -76,3 +82,18 @@ runs:
         key: ${{ runner.os }}-kotlin-native-compiler-${{ hashFiles('gradle/libs.versions.toml') }}
         restore-keys: |
           ${{ runner.os }}-kotlin-native-compiler-
+
+    # Generate release.keystore from base64 file content and output path
+    - name: Generate release.keystore
+      id: generate-release-keystore
+      run: |
+        if [ -z "${{ inputs.hyperskill-release-keystore-content }}" ]
+        then
+          echo "Skipping generate release.keystore"
+        else
+          echo "Generating release.keystore"
+
+          echo "${{ inputs.hyperskill-release-keystore-content }}" | base64 --decode > release.keystore
+          echo "path=$(echo "$(pwd)/release.keystore")" >> $GITHUB_OUTPUT
+        fi
+      shell: bash

@@ -2,15 +2,12 @@ name: Lint
 
 on:
   pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
+    types: [opened, synchronize, reopened]
     branches:
       - 'feature/**'
   push:
     branches:
-    - 'feature/**'
+      - 'feature/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref_name }}

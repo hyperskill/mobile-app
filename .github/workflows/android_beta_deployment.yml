@@ -2,22 +2,26 @@ name: Android Beta Deployment
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened, synchronize, reopened]
     branches:
       - 'release/**'
       - 'hotfix/**'
   push:
     branches:
-    - 'release/**'
-    - 'hotfix/**'
+      - 'release/**'
+      - 'hotfix/**'
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
 
 defaults:
   run:
     shell: bash
-    
+
 jobs:
   # Run Gradle Wrapper Validation Action to verify the wrapper's checksum
-  gradleWrapperValidation:
+  gradle-wrapper-validation:
     name: Gradle Wrapper Validation
     runs-on: ubuntu-22.04
     steps:
@@ -26,75 +30,30 @@ jobs:
         
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@v1.0.5
-        
+
+  # Build and submit to the Firebase App Distribution
   deployment:
     name: Android Beta Deployment
-    needs: gradleWrapperValidation
+    needs: gradle-wrapper-validation
     runs-on: ubuntu-22.04
     environment: android_production
+
     steps:
     - name: Checkout
       uses: actions/checkout@v3.1.0
-        
-    - name: Install git-crypt
-      run: sudo apt-get install git-crypt
-        
-    # Generate git-crypt.key file from base64 file contents and decrypt
-    - name: git-crypt unlock secrets
-      run: |
-        echo "$GIT_CRYPT_KEY" | base64 --decode > git-crypt.key
-        git-crypt unlock git-crypt.key
-        rm git-crypt.key
-      env:
-        GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
-        
-    - name: Setup Java JDK
-      uses: actions/setup-java@v3.6.0
+
+    - name: Setup CI
+      id: setup
+      uses: ./.github/actions/setup-android
       with:
-        java-version: '11'
-        distribution: 'temurin'
-        
-    # Cache Gradle dependencies
-    - name: Setup Gradle Dependencies Cache
-      uses: actions/cache@v3.0.11
-      with:
-        path: ~/.gradle/caches
-        key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle', '**/*.gradle.kts') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-caches-
-        
-    # Cache Gradle Wrapper
-    - name: Setup Gradle Wrapper Cache
-      uses: actions/cache@v3.0.11
-      with:
-        path: ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle*properties') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-wrapper-
-          
-    # Cache Kotlin/Native compiler
-    - name: Setup Kotlin/Native Compiler Cache
-      uses: actions/cache@v3.0.11
-      with:
-        path: ~/.konan
-        key: ${{ runner.os }}-kotlin-native-compiler-${{ hashFiles('gradle/libs.versions.toml') }}
-        restore-keys: |
-          ${{ runner.os }}-kotlin-native-compiler-
-    
-    # Generate release.keystore from base64 file content and set path to GITHUB_ENV
-    - name: Generate release.keystore
-      run: |
-        echo "$HYPERSKILL_RELEASE_KEYSTORE_CONTENT" | base64 --decode > release.keystore
-        echo "release_keystore_path=$(echo "$(pwd)/release.keystore")" >> $GITHUB_ENV
-      env:
-        HYPERSKILL_RELEASE_KEYSTORE_CONTENT: ${{ secrets.HYPERSKILL_RELEASE_KEYSTORE_CONTENT }}
-    
-    # Build and submit to the Firebase App Distribution
+        git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
+        release-keystore-path: ${{ secrets.HYPERSKILL_RELEASE_KEYSTORE_CONTENT }}
+
     - name: Submit a new Beta Build to Firebase
       run: ./gradlew assembleRelease appDistributionUploadRelease --appId=${{ secrets.FIREBASE_APP_ID }}
       env:
-        IS_GIT_CRYPT_UNLOCKED: true
-        HYPERSKILL_KEYSTORE_PATH: ${{ env.release_keystore_path }}
+        IS_GIT_CRYPT_UNLOCKED: ${{ steps.setup.outputs.is-git-crypt-unlocked }}
+        HYPERSKILL_KEYSTORE_PATH: ${{ steps.setup.outputs.release-keystore-path }}
         HYPERSKILL_RELEASE_STORE_PASSWORD: ${{ secrets.HYPERSKILL_RELEASE_STORE_PASSWORD }}
         HYPERSKILL_RELEASE_KEY_ALIAS: ${{ secrets.HYPERSKILL_RELEASE_KEY_ALIAS }}
         HYPERSKILL_RELEASE_KEY_PASSWORD: ${{ secrets.HYPERSKILL_RELEASE_KEY_PASSWORD }}
