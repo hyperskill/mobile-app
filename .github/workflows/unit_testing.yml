@@ -26,7 +26,7 @@ env:
 jobs:
   files-changed:
     name: Detect what files changed
-    uses: ./.github/workflows/files_changed_reusable_workflow.yml
+    uses: ./.github/workflows/detect_changed_files_reusable_workflow.yml
 
   shared-unit-testing:
     needs: files-changed
