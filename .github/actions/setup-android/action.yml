@@ -1,17 +1,45 @@
 name: 'Setup CI'
 description: 'Setups CI for Android target'
 
+inputs:
+  git-crypt-key:
+    description: 'git-crypt.key file base64 content'
+    required: false
+
 runs:
   using: "composite"
   steps:
+    - name: Install git-crypt
+      run: |
+        if [ -z "${{ inputs.git-crypt-key }}" ]
+        then
+          echo "Skipping install git-crypt"
+        else
+          echo "Installing git-crypt"
+          sudo apt-get install git-crypt
+        fi
+      shell: bash
+
+    # Generate git-crypt.key file from base64 file content and decrypt
+    - name: git-crypt unlock secrets
+      run: |
+        if [ -z "${{ inputs.git-crypt-key }}" ]
+        then
+          echo "Skipping unlock secrets with git-crypt"
+        else
+          echo "Unlocking secrets with git-crypt"
+          echo "${{ inputs.git-crypt-key }}" | base64 --decode > git-crypt.key
+          git-crypt unlock git-crypt.key
+          rm git-crypt.key
+        fi
+      shell: bash
+
     - name: Setup Java JDK
       uses: actions/setup-java@v3.6.0
       with:
         java-version: '11'
         distribution: 'temurin'
 
-    - run: echo Setting up Gradle dependencies cache
-      shell: bash
     # Cache Gradle dependencies
     - name: Setup Gradle Dependencies Cache
       uses: actions/cache@v3
@@ -21,8 +49,6 @@ runs:
         restore-keys: |
           ${{ runner.os }}-gradle-caches-
 
-    - run: echo Setting up Gradle Wrapper cache
-      shell: bash
     # Cache Gradle Wrapper
     - name: Setup Gradle Wrapper Cache
       uses: actions/cache@v3
@@ -32,8 +58,6 @@ runs:
         restore-keys: |
           ${{ runner.os }}-gradle-wrapper-
 
-    - run: echo Setting up Kotlin/Native compiler cache
-      shell: bash
     # Cache Kotlin/Native compiler
     - name: Setup Kotlin/Native Compiler Cache
       uses: actions/cache@v3
