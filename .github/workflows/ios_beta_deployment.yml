@@ -2,25 +2,26 @@ name: iOS Beta Deployment
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened, synchronize, reopened]
     branches:
       - 'release/**'
       - 'hotfix/**'
   push:
     branches:
-    - 'release/**'
-    - 'hotfix/**'
+      - 'release/**'
+      - 'hotfix/**'
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
 
 defaults:
   run:
     shell: bash
-
-env:
-  IS_GIT_CRYPT_UNLOCKED: true
     
 jobs:
   # Run Gradle Wrapper Validation Action to verify the wrapper's checksum
-  gradleWrapperValidation:
+  gradle-wrapper-validation:
     name: Gradle Wrapper Validation
     runs-on: ubuntu-22.04
     steps:
@@ -29,109 +30,30 @@ jobs:
         
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@v1.0.5
-        
+
+  # Build, archive for ad-hoc and submit to Firebase App Distribution
   deployment:
     name: iOS Beta Deployment
-    needs: gradleWrapperValidation
+    needs: gradle-wrapper-validation
     runs-on: macos-12
     environment: ios_production
     steps:
     - name: Checkout
       uses: actions/checkout@v3.1.0
-      
-    - name: Setup Xcode version
-      uses: maxim-lobanov/setup-xcode@v1.5.1
+
+    - name: Setup CI
+      id: setup
+      uses: ./.github/actions/setup-ios
       with:
-        xcode-version: '14.0.1'
-        
-    - name: Homebrew install git-crypt
-      run: brew install git-crypt
-      env:
-        HOMEBREW_NO_INSTALL_CLEANUP: true
-        
-    # Generate git-crypt.key file from base64 file contents and decrypt
-    - name: git-crypt unlock secrets
-      run: |
-        echo "$GIT_CRYPT_KEY" | base64 --decode > git-crypt.key
-        git-crypt unlock git-crypt.key
-        rm git-crypt.key
-      env:
-        GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
-        
-    - name: Setup Ruby
-      uses: ruby/setup-ruby@v1.118.0
-      with:
-        ruby-version: '2.6.5'
-        bundler-cache: true
-        working-directory: './iosHyperskillApp'
-        
-    - name: Setup Java JDK
-      uses: actions/setup-java@v3.6.0
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-        
-    # Cache Gradle dependencies
-    - name: Setup Gradle Dependencies Cache
-      uses: actions/cache@v3
-      with:
-        path: ~/.gradle/caches
-        key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle', '**/*.gradle.kts') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-caches-
-        
-    # Cache Gradle Wrapper
-    - name: Setup Gradle Wrapper Cache
-      uses: actions/cache@v3
-      with:
-        path: ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle*properties') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-wrapper-
-          
-    # Cache Kotlin/Native compiler
-    - name: Setup Kotlin/Native Compiler Cache
-      uses: actions/cache@v3
-      with:
-        path: ~/.konan
-        key: ${{ runner.os }}-kotlin-native-compiler-${{ hashFiles('gradle/libs.versions.toml') }}
-        restore-keys: |
-          ${{ runner.os }}-kotlin-native-compiler-
-    
-    # Fix Cocoapods not being able to access the shared framework file
-    - name: Fix Cocoapods generateDummyFramework
-      run: ./gradlew generateDummyFramework
-    
-    # Cache Pods dependencies
-    - name: Cache Pods
-      uses: actions/cache@v3
-      id: cache-pods
-      with:
-        path: './iosHyperskillApp/Pods'
-        key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-pods-
-    
-    # Install Pods if cache miss occurred
-    - name: Install Pods
-      if: steps.cache-pods.outputs.cache-hit != 'true'
-      working-directory: './iosHyperskillApp'
-      run: bundle exec pod install --repo-update
-      
-    # Generate gc_keys.json file from base64 file contents for code signing APIs communication
-    - name: Generate Google Cloud Storage keys file
-      working-directory: './iosHyperskillApp'
-      run: |
-        echo "$GOOGLE_CLOUD_STORAGE_CODE_SIGNING_CERTIFICATES_KEY_CONTENT" | base64 --decode > gc_keys.json
-      env:
-        GOOGLE_CLOUD_STORAGE_CODE_SIGNING_CERTIFICATES_KEY_CONTENT: ${{ secrets.GOOGLE_CLOUD_STORAGE_CODE_SIGNING_CERTIFICATES_KEY_CONTENT }}
-    
-    # Build, archive for ad-hoc and submit to the Firebase App Distribution
+        git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
+        google-cloud-storage-code-signing-certificates-key: ${{ secrets.GOOGLE_CLOUD_STORAGE_CODE_SIGNING_CERTIFICATES_KEY_CONTENT }}
+
     - name: Submit a new Beta Build to Firebase
       working-directory: './iosHyperskillApp'
       run: bundle exec fastlane beta install_pods:false
       env:
         FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 60
+        IS_GIT_CRYPT_UNLOCKED: ${{ steps.setup.outputs.is-git-crypt-unlocked }}
         KEYCHAIN_NAME: ${{ secrets.KEYCHAIN_NAME }}
         KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
         APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}

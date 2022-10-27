@@ -1,0 +1,6 @@
+android:
+  - 'androidHyperskillApp/**'
+shared:
+  - 'shared/**'
+ios:
+  - 'iosHyperskillApp/**'
