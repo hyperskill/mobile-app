@@ -13,6 +13,7 @@ class DateTimeHelperTest {
 
     @Test
     fun isoToCalendar() {
+        println("TEST")
         val expected = Calendar.getInstance()
         expected.timeZone = TimeZone.getTimeZone("UTC")
         expected.set(2017, Calendar.JANUARY, 6, 15, 59, 6)

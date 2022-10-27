@@ -6,6 +6,11 @@ inputs:
     description: 'git-crypt.key file base64 content'
     required: false
 
+outputs:
+  is-git-crypt-unlocked:
+    description: "Is git-crypt unlocked secrets"
+    value: ${{ steps.git-crypt-unlock.outputs.value }}
+
 runs:
   using: "composite"
   steps:
@@ -22,15 +27,20 @@ runs:
 
     # Generate git-crypt.key file from base64 file content and decrypt
     - name: git-crypt unlock secrets
+      id: git-crypt-unlock
       run: |
         if [ -z "${{ inputs.git-crypt-key }}" ]
         then
           echo "Skipping unlock secrets with git-crypt"
+          echo "value=$(echo false)" >> $GITHUB_OUTPUT
         else
           echo "Unlocking secrets with git-crypt"
+
           echo "${{ inputs.git-crypt-key }}" | base64 --decode > git-crypt.key
           git-crypt unlock git-crypt.key
           rm git-crypt.key
+
+          echo "value=$(echo true)" >> $GITHUB_OUTPUT
         fi
       shell: bash
 
