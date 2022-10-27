@@ -16,6 +16,10 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref_name }}
   cancel-in-progress: true
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   files-changed:
     name: Detect what files changed
@@ -35,7 +39,7 @@ jobs:
       uses: ./.github/actions/setup-android
 
     - name: Run ktlint
-      run: bash ./gradlew ktlintCheck --stacktrace
+      run: ./gradlew ktlintCheck --stacktrace
       env:
         GITHUB_USER: ${{ github.actor }}
         GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
