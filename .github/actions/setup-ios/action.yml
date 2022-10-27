@@ -1,44 +1,22 @@
-name: iOS Beta Deployment
+name: 'Setup CI'
+description: 'Setups CI for iOS target'
 
-on:
-  pull_request:
-    types: [opened, synchronize]
-    branches:
-      - 'release/**'
-      - 'hotfix/**'
-  push:
-    branches:
-    - 'release/**'
-    - 'hotfix/**'
+inputs:
+  git-crypt-key:
+    description: 'git-crypt.key file base64 content'
+    required: true
+  google-cloud-storage-code-signing-certificates-key:
+    description: 'gc_keys.json file base64 content for code signing APIs communication'
+    required: false
 
-defaults:
-  run:
-    shell: bash
+outputs:
+  is-git-crypt-unlocked:
+    description: "Is git-crypt unlocked secrets"
+    value: ${{ steps.git-crypt-unlock.outputs.value }}
 
-env:
-  IS_GIT_CRYPT_UNLOCKED: true
-    
-jobs:
-  # Run Gradle Wrapper Validation Action to verify the wrapper's checksum
-  gradleWrapperValidation:
-    name: Gradle Wrapper Validation
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3.1.0
-        
-      - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v1.0.5
-        
-  deployment:
-    name: iOS Beta Deployment
-    needs: gradleWrapperValidation
-    runs-on: macos-12
-    environment: ios_production
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3.1.0
-      
+runs:
+  using: "composite"
+  steps:
     - name: Setup Xcode version
       uses: maxim-lobanov/setup-xcode@v1.5.1
       with:
@@ -46,17 +24,28 @@ jobs:
         
     - name: Homebrew install git-crypt
       run: brew install git-crypt
+      shell: bash
       env:
         HOMEBREW_NO_INSTALL_CLEANUP: true
-        
-    # Generate git-crypt.key file from base64 file contents and decrypt
+    
+    # Generate git-crypt.key file from base64 file content and decrypt
     - name: git-crypt unlock secrets
+      id: git-crypt-unlock
       run: |
-        echo "$GIT_CRYPT_KEY" | base64 --decode > git-crypt.key
-        git-crypt unlock git-crypt.key
-        rm git-crypt.key
-      env:
-        GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
+        if [ -z "${{ inputs.git-crypt-key }}" ]
+        then
+          echo "git-crypt-key is required"
+          exit 1
+        else
+          echo "Unlocking secrets with git-crypt"
+
+          echo "${{ inputs.git-crypt-key }}" | base64 --decode > git-crypt.key
+          git-crypt unlock git-crypt.key
+          rm git-crypt.key
+
+          echo "value=$(echo true)" >> $GITHUB_OUTPUT
+        fi
+      shell: bash
         
     - name: Setup Ruby
       uses: ruby/setup-ruby@v1.118.0
@@ -101,7 +90,17 @@ jobs:
     # Fix Cocoapods not being able to access the shared framework file
     - name: Fix Cocoapods generateDummyFramework
       run: ./gradlew generateDummyFramework
+      shell: bash
     
+    # Cache Cocoapods repository
+    - name: Cache Cocoapods
+      uses: actions/cache@v3.0.11
+      with:
+        path: ~/.cocoapods
+        key: ${{ runner.os }}-cocoapods-${{ hashFiles('**/Podfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-cocoapods-
+
     # Cache Pods dependencies
     - name: Cache Pods
       uses: actions/cache@v3.0.11
@@ -117,25 +116,17 @@ jobs:
       if: steps.cache-pods.outputs.cache-hit != 'true'
       working-directory: './iosHyperskillApp'
       run: bundle exec pod install --repo-update
+      shell: bash
       
     # Generate gc_keys.json file from base64 file contents for code signing APIs communication
     - name: Generate Google Cloud Storage keys file
       working-directory: './iosHyperskillApp'
       run: |
-        echo "$GOOGLE_CLOUD_STORAGE_CODE_SIGNING_CERTIFICATES_KEY_CONTENT" | base64 --decode > gc_keys.json
-      env:
-        GOOGLE_CLOUD_STORAGE_CODE_SIGNING_CERTIFICATES_KEY_CONTENT: ${{ secrets.GOOGLE_CLOUD_STORAGE_CODE_SIGNING_CERTIFICATES_KEY_CONTENT }}
-    
-    # Build, archive for ad-hoc and submit to the Firebase App Distribution
-    - name: Submit a new Beta Build to Firebase
-      working-directory: './iosHyperskillApp'
-      run: bundle exec fastlane beta install_pods:false
-      env:
-        FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 60
-        KEYCHAIN_NAME: ${{ secrets.KEYCHAIN_NAME }}
-        KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
-        APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
-        APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID }}
-        APP_STORE_CONNECT_API_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
-        GITHUB_USER: ${{ github.actor }}
-        GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if [ -z "${{ inputs.google-cloud-storage-code-signing-certificates-key }}" ]
+        then
+          echo "Skipping generate gc_keys.json file"
+        else
+          echo "Generating gc_keys.json file"
+          echo "${{ inputs.google-cloud-storage-code-signing-certificates-key }}" | base64 --decode > gc_keys.json
+        fi
+      shell: bash

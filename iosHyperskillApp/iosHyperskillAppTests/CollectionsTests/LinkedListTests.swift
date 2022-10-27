@@ -15,6 +15,7 @@ class LinkedListTest: XCTestCase {
     }
 
     func testEmptyList() {
+        print("TEST")
         let list = LinkedList<Int>()
         XCTAssertTrue(list.isEmpty)
         XCTAssertNil(list.head)
