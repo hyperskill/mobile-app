@@ -19,28 +19,7 @@ concurrency:
 jobs:
   files-changed:
     name: Detect what files changed
-    runs-on: ubuntu-22.04
-    # Map a step output to a job output
-    outputs:
-      android: ${{ steps.changes.outputs.android }}
-      shared: ${{ steps.changes.outputs.shared }}
-      ios: ${{ steps.changes.outputs.ios }}
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3.1.0
-
-    - name: Detect changes
-      uses: dorny/paths-filter@v2.11.1
-      id: changes
-      with:
-        base: 'develop'
-        filters: |
-          android:
-            - 'androidHyperskillApp/**'
-          shared:
-            - 'shared/**'
-          ios:
-            - 'iosHyperskillApp/**'
+    uses: ./.github/workflows/files_changed_reusable_workflow.yml
 
   ktlint:
     needs: files-changed
