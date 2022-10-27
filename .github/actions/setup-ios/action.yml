@@ -91,15 +91,6 @@ runs:
     - name: Fix Cocoapods generateDummyFramework
       run: ./gradlew generateDummyFramework
       shell: bash
-    
-    # Cache Cocoapods repository
-    - name: Cache Cocoapods
-      uses: actions/cache@v3.0.11
-      with:
-        path: ~/.cocoapods
-        key: ${{ runner.os }}-cocoapods-${{ hashFiles('**/Podfile.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-cocoapods-
 
     # Cache Pods dependencies
     - name: Cache Pods
@@ -110,7 +101,17 @@ runs:
         key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
         restore-keys: |
           ${{ runner.os }}-pods-
-    
+
+    # Cache Cocoapods repository
+    - name: Cache Cocoapods
+      if: steps.cache-pods.outputs.cache-hit != 'true'
+      uses: actions/cache@v3.0.11
+      with:
+        path: ~/.cocoapods
+        key: ${{ runner.os }}-cocoapods-${{ hashFiles('**/Podfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-cocoapods-
+
     # Install Pods if cache miss occurred
     - name: Install Pods
       if: steps.cache-pods.outputs.cache-hit != 'true'
