@@ -1,0 +1,44 @@
+name: 'Setup CI'
+description: 'Setups CI for Android target'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Java JDK
+      uses: actions/setup-java@v3.6.0
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+
+    - run: echo Setting up Gradle dependencies cache
+      shell: bash
+    # Cache Gradle dependencies
+    - name: Setup Gradle Dependencies Cache
+      uses: actions/cache@v3
+      with:
+        path: ~/.gradle/caches
+        key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle', '**/*.gradle.kts') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-caches-
+
+    - run: echo Setting up Gradle Wrapper cache
+      shell: bash
+    # Cache Gradle Wrapper
+    - name: Setup Gradle Wrapper Cache
+      uses: actions/cache@v3
+      with:
+        path: ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle*properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-wrapper-
+
+    - run: echo Setting up Kotlin/Native compiler cache
+      shell: bash
+    # Cache Kotlin/Native compiler
+    - name: Setup Kotlin/Native Compiler Cache
+      uses: actions/cache@v3
+      with:
+        path: ~/.konan
+        key: ${{ runner.os }}-kotlin-native-compiler-${{ hashFiles('gradle/libs.versions.toml') }}
+        restore-keys: |
+          ${{ runner.os }}-kotlin-native-compiler-
