@@ -20,7 +20,6 @@ class AuthSocialAdapterDelegate(private val onItemClick: (AuthSocialCardInfo) ->
         private val viewBinding: ItemAuthMaterialCardViewBinding by viewBinding { ItemAuthMaterialCardViewBinding.bind(root) }
 
         override fun onBind(data: AuthSocialCardInfo) {
-            println("TEST")
             viewBinding.cardText.setText(data.textId)
             viewBinding.cardIcon.setImageResource(data.iconId)
             itemView.setOnClickListener {
