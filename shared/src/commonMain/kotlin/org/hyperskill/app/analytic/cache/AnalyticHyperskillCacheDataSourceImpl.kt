@@ -7,6 +7,7 @@ class AnalyticHyperskillCacheDataSourceImpl : AnalyticHyperskillCacheDataSource 
     private val events = mutableListOf<AnalyticEvent>()
 
     override suspend fun logEvent(event: AnalyticEvent) {
+        println(foo)
         events.add(event)
     }
 
