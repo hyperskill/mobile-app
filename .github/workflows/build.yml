@@ -66,11 +66,11 @@ jobs:
         with:
           git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
 
-    - name: Build
-      working-directory: './iosHyperskillApp'
-      run: bundle exec fastlane build install_pods:false
-      env:
-        FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 60
-        IS_GIT_CRYPT_UNLOCKED: ${{ steps.setup.outputs.is-git-crypt-unlocked }}
-        GITHUB_USER: ${{ github.actor }}
-        GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build
+        working-directory: './iosHyperskillApp'
+        run: bundle exec fastlane build install_pods:false
+        env:
+          FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 60
+          IS_GIT_CRYPT_UNLOCKED: ${{ steps.setup.outputs.is-git-crypt-unlocked }}
+          GITHUB_USER: ${{ github.actor }}
+          GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
