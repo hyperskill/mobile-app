@@ -191,6 +191,34 @@ platform :ios do
     UI.success "Successfully released Hyperskill iOS BETA #{scheme} #{vs}"
   end
 
+  desc "Builds iOS App without packaging."
+  desc "Options: scheme, target, install_pods"
+  lane :build do |options|
+    scheme = options[:scheme] || "iosHyperskillApp"
+    target = options[:target] || "iosHyperskillApp"
+    install_pods = options.key?(:install_pods) ? options[:install_pods] : true
+
+    clear_derived_data
+
+    if install_pods
+      cocoapods(try_repo_update_on_error: true)
+    end
+
+    gym(
+      scheme: "#{scheme}",
+      clean: true,
+      skip_package_ipa: true,
+      skip_archive: true,
+      suppress_xcode_output: false,
+    )
+
+    vs = make_version_string(
+      version_number: get_version_number(target: target),
+      build_number: get_build_number,
+    )
+    UI.success "Successfully builded Hyperskill iOS App #{scheme} #{vs}"
+  end
+
   # Testing
 
   desc "Run all unit tests for scheme"
@@ -404,7 +432,7 @@ platform :ios do
     UI.user_error!("Wrong version parameter") if version.nil?
     UI.user_error!("Wrong build parameter") if build.nil?
 
-    "v. #{version} (#{build})"
+    "v.#{version} (#{build})"
   end
 
   # Adds or removes BETA_PROFILE to project SWIFT_ACTIVE_COMPILATION_CONDITIONS
