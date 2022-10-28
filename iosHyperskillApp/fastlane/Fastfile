@@ -198,7 +198,11 @@ platform :ios do
     target = options[:target] || "iosHyperskillApp"
     install_pods = options.key?(:install_pods) ? options[:install_pods] : true
 
-    setup_ci if is_ci
+    # setup_ci if is_ci
+    # enable_automatic_code_signing(
+    #   team_id: "",
+    #   targets: [target],
+    # )
 
     clear_derived_data
 
@@ -209,13 +213,13 @@ platform :ios do
     gym(
       scheme: "#{scheme}",
       clean: true,
+      #output_directory: "artifacts",
       skip_package_ipa: true,
-      skip_package_pkg: true,
-      export_method: "development",
-      skip_build_archive: true,
+      #export_method: "development",
       skip_archive: true,
+      skip_codesigning: true,
       suppress_xcode_output: false,
-      xcargs: "-allowProvisioningUpdates",
+      #xcargs: "-allowProvisioningUpdates",
     )
 
     vs = make_version_string(
