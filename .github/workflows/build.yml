@@ -37,16 +37,11 @@ jobs:
       uses: ./.github/actions/setup-android
       with:
         git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
-        hyperskill-release-keystore-content: ${{ secrets.HYPERSKILL_RELEASE_KEYSTORE_CONTENT }}
 
     - name: Build
-      run: ./gradlew assembleRelease
+      run: ./gradlew assembleDebug
       env:
         IS_GIT_CRYPT_UNLOCKED: ${{ steps.setup.outputs.is-git-crypt-unlocked }}
-        HYPERSKILL_KEYSTORE_PATH: ${{ steps.setup.outputs.release-keystore-path }}
-        HYPERSKILL_RELEASE_STORE_PASSWORD: ${{ secrets.HYPERSKILL_RELEASE_STORE_PASSWORD }}
-        HYPERSKILL_RELEASE_KEY_ALIAS: ${{ secrets.HYPERSKILL_RELEASE_KEY_ALIAS }}
-        HYPERSKILL_RELEASE_KEY_PASSWORD: ${{ secrets.HYPERSKILL_RELEASE_KEY_PASSWORD }}
         GITHUB_USER: ${{ github.actor }}
         GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
