@@ -17,7 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
-        print(foo)
         window = UIWindow(frame: UIScreen.main.bounds)
 
         let rootViewController = AppAssembly().makeModule()
