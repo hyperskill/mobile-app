@@ -1,0 +1,32 @@
+name: Detect what files changed
+
+on:
+  workflow_call:
+    # Map the workflow outputs to job outputs
+    outputs:
+      android: 
+        value: ${{ jobs.files-changed.outputs.android }}
+      shared:
+        value: ${{ jobs.files-changed.outputs.shared }}
+      ios: 
+        value: ${{ jobs.files-changed.outputs.ios }}
+
+jobs:
+  files-changed:
+    runs-on: ubuntu-22.04
+    # Map a step output to a job output
+    outputs:
+      android: ${{ steps.changes.outputs.android }}
+      shared: ${{ steps.changes.outputs.shared }}
+      ios: ${{ steps.changes.outputs.ios }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3.1.0
+
+    - name: Detect changes
+      uses: dorny/paths-filter@v2.11.1
+      id: changes
+      with:
+        base: 'develop'
+        filters: .github/filters.yaml

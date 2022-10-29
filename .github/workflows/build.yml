@@ -1,4 +1,4 @@
-name: Lint
+name: Build
 
 on:
   pull_request:
@@ -22,10 +22,10 @@ jobs:
     name: Detect what files changed
     uses: ./.github/workflows/detect_changed_files_reusable_workflow.yml
 
-  ktlint:
+  build-android:
     needs: files-changed
     if: ${{ needs.files-changed.outputs.android == 'true' || needs.files-changed.outputs.shared == 'true' }}
-    name: Run ktlint
+    name: Build Android
     runs-on: ubuntu-22.04
 
     steps:
@@ -33,25 +33,39 @@ jobs:
       uses: actions/checkout@v3.1.0
 
     - name: Setup CI
+      id: setup
       uses: ./.github/actions/setup-android
+      with:
+        git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
 
-    - name: Run ktlint
-      run: ./gradlew ktlintCheck --stacktrace
+    - name: Build
+      run: ./gradlew assembleDebug
       env:
+        IS_GIT_CRYPT_UNLOCKED: ${{ steps.setup.outputs.is-git-crypt-unlocked }}
         GITHUB_USER: ${{ github.actor }}
         GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
-  swiftlint:
+  build-ios:
     needs: files-changed
-    if: ${{ needs.files-changed.outputs.ios == 'true' }}
-    name: Run SwiftLint
+    if: ${{ needs.files-changed.outputs.ios == 'true' || needs.files-changed.outputs.shared == 'true' }}
+    name: Build iOS
     runs-on: macos-12
     
     steps:
       - name: Checkout
         uses: actions/checkout@v3.1.0
 
-      - name: Run SwiftLint
+      - name: Setup CI
+        id: setup
+        uses: ./.github/actions/setup-ios
+        with:
+          git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
+
+      - name: Build
         working-directory: './iosHyperskillApp'
-        run: |
-          swiftlint --config .swiftlint.yml --path iosHyperskillApp/Sources --strict
+        run: bundle exec fastlane build install_pods:false
+        env:
+          FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 60
+          IS_GIT_CRYPT_UNLOCKED: ${{ steps.setup.outputs.is-git-crypt-unlocked }}
+          GITHUB_USER: ${{ github.actor }}
+          GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
