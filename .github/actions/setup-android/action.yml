@@ -55,7 +55,7 @@ runs:
       shell: bash
 
     - name: Setup Ruby
-      if: ${{ inputs.setup-ruby }}
+      if: ${{ inputs.setup-ruby == 'true' }}
       uses: ruby/setup-ruby@v1.118.0
       with:
         ruby-version: '2.6.5'
