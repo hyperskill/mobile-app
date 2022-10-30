@@ -1,18 +1,27 @@
 default_platform(:android)
 
 platform :android do
-  desc "Runs all the tests"
-  lane :test do
-    gradle(task: "test")
-  end
+  desc "Submit a new Beta Build to Firebase App Distribution"
+  desc "Options: firebase_app_id, firebase_cli_token"
+  lane :beta do |options|
+    firebase_app_id = options[:firebase_app_id]
+    firebase_cli_token = options[:firebase_cli_token]
 
-  desc "Submit a new Beta Build to Crashlytics Beta"
-  lane :beta do
-    gradle(task: "clean assembleRelease")
-    crashlytics
+    UI.user_error!("Required firebase_app_id: app's Firebase App ID") if firebase_app_id.nil?
+    UI.user_error!("Required firebase_cli_token: a refresh token to communicate with Firebase") if firebase_cli_token.nil?
 
-    # sh "your_script.sh"
-    # You can also use other beta testing services here
+    gradle(
+      task: "assembleRelease",
+      gradle_path: "../gradlew",
+    )
+
+    firebase_app_distribution(
+      app: firebase_app_id,
+      firebase_cli_token: firebase_cli_token,
+      android_artifact_type: "APK",
+      release_notes_file: "fastlane/release-notes.txt",
+      #groups: "all-android-testers",
+    )
   end
 
   desc "Deploy a new version to the Google Play"

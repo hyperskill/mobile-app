@@ -98,7 +98,7 @@ runs:
       id: cache-pods
       with:
         path: './iosHyperskillApp/Pods'
-        key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+        key: ${{ runner.os }}-pods-${{ hashFiles('iosHyperskillApp/Podfile.lock') }}
         restore-keys: |
           ${{ runner.os }}-pods-
 
@@ -108,7 +108,7 @@ runs:
       uses: actions/cache@v3.0.11
       with:
         path: ~/.cocoapods
-        key: ${{ runner.os }}-cocoapods-${{ hashFiles('**/Podfile.lock') }}
+        key: ${{ runner.os }}-cocoapods-${{ hashFiles('iosHyperskillApp/Podfile.lock') }}
         restore-keys: |
           ${{ runner.os }}-cocoapods-
 

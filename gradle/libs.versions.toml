@@ -92,4 +92,3 @@ android-test = ['android-test-junit', 'android-test-runner', 'android-test-robol
 
 [plugins]
 sentry-androidGradle = { id = "io.sentry.android.gradle", version = "3.0.1" }
-firebase-appdistribution-gradle = { id = "com.google.firebase.appdistribution", version = "3.0.3" }

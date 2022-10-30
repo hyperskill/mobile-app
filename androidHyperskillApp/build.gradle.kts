@@ -8,7 +8,6 @@ plugins {
     kotlin("kapt")
     kotlin("plugin.serialization")
     alias(libs.plugins.sentry.androidGradle)
-    alias(libs.plugins.firebase.appdistribution.gradle)
 }
 
 dependencies {
@@ -118,13 +117,6 @@ android {
         getByName("debug") {
             signingConfig = signingConfigs.getByName("debug")
             applyFlavorConfigsFromFile(this)
-            firebaseAppDistribution(
-                configure = {
-                    artifactType = "APK"
-                    groups = "all-android-testers"
-                    releaseNotesFile = "gradle/release-notes.txt"
-                }
-            )
         }
         getByName("release") {
             signingConfig = signingConfigs.getByName("release")
@@ -133,14 +125,6 @@ android {
 
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             applyFlavorConfigsFromFile(this)
-
-            firebaseAppDistribution(
-                configure = {
-                    artifactType = "APK"
-                    groups = "all-android-testers"
-                    releaseNotesFile = "gradle/release-notes.txt"
-                }
-            )
         }
     }
 

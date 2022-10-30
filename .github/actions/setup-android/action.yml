@@ -5,9 +5,13 @@ inputs:
   git-crypt-key:
     description: 'git-crypt.key file base64 content'
     required: false
-  hyperskill-release-keystore-content:
+  release-keystore-content:
     description: 'release.keystore file base64 content'
     required: false
+  setup-ruby:
+    description: 'Should setup Ruby'
+    required: false
+    default: false
 
 outputs:
   is-git-crypt-unlocked:
@@ -50,6 +54,14 @@ runs:
         fi
       shell: bash
 
+    - name: Setup Ruby
+      if: ${{ inputs.setup-ruby }}
+      uses: ruby/setup-ruby@v1.118.0
+      with:
+        ruby-version: '2.6.5'
+        bundler-cache: true
+        working-directory: './androidHyperskillApp'
+
     - name: Setup Java JDK
       uses: actions/setup-java@v3.6.0
       with:
@@ -87,13 +99,13 @@ runs:
     - name: Generate release.keystore
       id: generate-release-keystore
       run: |
-        if [ -z "${{ inputs.hyperskill-release-keystore-content }}" ]
+        if [ -z "${{ inputs.release-keystore-content }}" ]
         then
           echo "Skipping generate release.keystore"
         else
           echo "Generating release.keystore"
 
-          echo "${{ inputs.hyperskill-release-keystore-content }}" | base64 --decode > release.keystore
+          echo "${{ inputs.release-keystore-content }}" | base64 --decode > release.keystore
           echo "path=$(echo "$(pwd)/release.keystore")" >> $GITHUB_OUTPUT
         fi
       shell: bash
