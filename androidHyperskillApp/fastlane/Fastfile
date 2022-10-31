@@ -1,0 +1,68 @@
+default_platform(:android)
+
+platform :android do
+  after_all do |lane, options|
+    clean
+  end
+
+  error do |lane, exception|
+    clean
+  end
+
+  # Constants
+
+  gradle_path = "../gradlew"
+
+  # Building and Releasing
+
+  desc "Submit a new Beta Build to Firebase App Distribution"
+  desc "Options: firebase_app_id, firebase_cli_token"
+  lane :beta do |options|
+    firebase_app_id = options[:firebase_app_id]
+    firebase_cli_token = options[:firebase_cli_token]
+
+    UI.user_error!("Required firebase_app_id: app's Firebase App ID") if firebase_app_id.nil?
+    UI.user_error!("Required firebase_cli_token: a refresh token to communicate with Firebase") if firebase_cli_token.nil?
+
+    gradle(
+      task: "clean assembleRelease",
+      gradle_path: gradle_path,
+    )
+
+    firebase_app_distribution(
+      app: firebase_app_id,
+      firebase_cli_token: firebase_cli_token,
+      android_artifact_type: "APK",
+      release_notes_file: "fastlane/release-notes.txt",
+      groups: "all-android-testers",
+    )
+  end
+
+  desc "Deploy a new version to the Google Play"
+  desc "Options: json_key"
+  lane :release do |options|
+    json_key = options[:json_key]
+    UI.user_error!("Required json_key: The path to a file containing service account JSON") if json_key.nil?
+
+    gradle(
+      task: "clean bundleRelease",
+      gradle_path: gradle_path,
+    )
+
+    upload_to_play_store(
+      release_status: "completed",
+      track: "alpha",
+      json_key: json_key,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+    )
+  end
+
+  desc "Delete the build directory"
+  lane :clean do
+    gradle(
+      task: "clean",
+      gradle_path: gradle_path,
+    )
+  end
+end

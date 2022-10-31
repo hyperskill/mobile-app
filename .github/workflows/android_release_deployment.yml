@@ -1,15 +1,9 @@
-name: Android Beta Deployment
+name: Android Release Deployment
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    branches:
-      - 'release/**'
-      - 'hotfix/**'
   push:
-    branches:
-      - 'release/**'
-      - 'hotfix/**'
+    tags:
+      - v**
 
 concurrency:
   group: ${{ github.workflow }}
@@ -31,9 +25,9 @@ jobs:
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@v1.0.5
 
-  # Build and submit to the Firebase App Distribution
+  # Build and submit to the Google Play
   deployment:
-    name: Android Beta Deployment
+    name: Android Release Deployment
     needs: gradle-wrapper-validation
     runs-on: ubuntu-22.04
     environment: android_production
@@ -47,16 +41,16 @@ jobs:
       id: setup
       uses: ./.github/actions/setup-android
       with:
+        setup-ruby: true
         git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
         release-keystore-content: ${{ secrets.HYPERSKILL_RELEASE_KEYSTORE_CONTENT }}
-        setup-ruby: true
+        service-account-content: ${{ secrets.SERVICE_ACCOUNT_CONTENT }}
 
-    - name: Submit a new Beta Build to Firebase App Distribution
+    - name: Submit a new Release Build to the Google Play
       working-directory: './androidHyperskillApp'
       run: |
-        bundle exec fastlane beta \
-          firebase_app_id:"${{ secrets.FIREBASE_APP_ID }}" \
-          firebase_cli_token:"${{ secrets.FIREBASE_TOKEN }}"
+        bundle exec fastlane release \
+          json_key:"${{ steps.setup.outputs.service-account-path }}"
       env:
         IS_GIT_CRYPT_UNLOCKED: ${{ steps.setup.outputs.is-git-crypt-unlocked }}
         HYPERSKILL_KEYSTORE_PATH: ${{ steps.setup.outputs.release-keystore-path }}

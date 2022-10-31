@@ -31,6 +31,8 @@ jobs:
     needs: gradle-wrapper-validation
     runs-on: macos-12
     environment: ios_production
+    timeout-minutes: 60
+
     steps:
     - name: Checkout
       uses: actions/checkout@v3.1.0
@@ -39,6 +41,7 @@ jobs:
       id: setup
       uses: ./.github/actions/setup-ios
       with:
+        cache-cocoapods-on-pods-cache-miss: true
         git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
         google-cloud-storage-code-signing-certificates-key: ${{ secrets.GOOGLE_CLOUD_STORAGE_CODE_SIGNING_CERTIFICATES_KEY_CONTENT }}
 

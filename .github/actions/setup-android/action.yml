@@ -5,8 +5,15 @@ inputs:
   git-crypt-key:
     description: 'git-crypt.key file base64 content'
     required: false
-  hyperskill-release-keystore-content:
+  release-keystore-content:
     description: 'release.keystore file base64 content'
+    required: false
+  setup-ruby:
+    description: 'Should setup Ruby'
+    required: false
+    default: false
+  service-account-content:
+    description: 'Service account JSON base64 encoded data used to authenticate with Google'
     required: false
 
 outputs:
@@ -16,6 +23,9 @@ outputs:
   release-keystore-path:
     description: 'Path to the release.keystore file'
     value: ${{ steps.generate-release-keystore.outputs.path }}
+  service-account-path:
+    description: 'Path to the service-account.json file'
+    value: ${{ steps.generate-service-account.outputs.path }}
 
 runs:
   using: "composite"
@@ -49,6 +59,14 @@ runs:
           echo "value=$(echo true)" >> $GITHUB_OUTPUT
         fi
       shell: bash
+
+    - name: Setup Ruby
+      if: ${{ inputs.setup-ruby == 'true' }}
+      uses: ruby/setup-ruby@v1.118.0
+      with:
+        ruby-version: '2.6.5'
+        bundler-cache: true
+        working-directory: './androidHyperskillApp'
 
     - name: Setup Java JDK
       uses: actions/setup-java@v3.6.0
@@ -87,13 +105,28 @@ runs:
     - name: Generate release.keystore
       id: generate-release-keystore
       run: |
-        if [ -z "${{ inputs.hyperskill-release-keystore-content }}" ]
+        if [ -z "${{ inputs.release-keystore-content }}" ]
         then
           echo "Skipping generate release.keystore"
         else
           echo "Generating release.keystore"
 
-          echo "${{ inputs.hyperskill-release-keystore-content }}" | base64 --decode > release.keystore
+          echo "${{ inputs.release-keystore-content }}" | base64 --decode > release.keystore
           echo "path=$(echo "$(pwd)/release.keystore")" >> $GITHUB_OUTPUT
+        fi
+      shell: bash
+
+    # Generate service account JSON file from base64 content and output path
+    - name: Generate service-account.json
+      id: generate-service-account
+      run: |
+        if [ -z "${{ inputs.service-account-content }}" ]
+        then
+          echo "Skipping generate service-account.json"
+        else
+          echo "Generating service-account.json"
+
+          echo "${{ inputs.service-account-content }}" | base64 --decode > service-account.json
+          echo "path=$(echo "$(pwd)/service-account.json")" >> $GITHUB_OUTPUT
         fi
       shell: bash
