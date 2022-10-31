@@ -20,7 +20,7 @@ platform :android do
       firebase_cli_token: firebase_cli_token,
       android_artifact_type: "APK",
       release_notes_file: "fastlane/release-notes.txt",
-      #groups: "all-android-testers",
+      groups: "all-android-testers",
     )
   end
 

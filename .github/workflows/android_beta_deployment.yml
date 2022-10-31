@@ -10,7 +10,6 @@ on:
     branches:
       - 'release/**'
       - 'hotfix/**'
-      - 'feature/ALTAPPS_361/ci_cd_android_release_deployment'
 
 concurrency:
   group: ${{ github.workflow }}
