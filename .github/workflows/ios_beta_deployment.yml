@@ -37,6 +37,8 @@ jobs:
     needs: gradle-wrapper-validation
     runs-on: macos-12
     environment: ios_production
+    timeout-minutes: 60
+
     steps:
     - name: Checkout
       uses: actions/checkout@v3.1.0

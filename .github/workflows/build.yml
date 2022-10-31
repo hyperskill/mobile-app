@@ -27,6 +27,7 @@ jobs:
     if: ${{ needs.files-changed.outputs.android == 'true' || needs.files-changed.outputs.shared == 'true' }}
     name: Build Android
     runs-on: ubuntu-22.04
+    timeout-minutes: 60
 
     steps:
     - name: Checkout
@@ -50,6 +51,7 @@ jobs:
     if: ${{ needs.files-changed.outputs.ios == 'true' || needs.files-changed.outputs.shared == 'true' }}
     name: Build iOS
     runs-on: macos-12
+    timeout-minutes: 60
     
     steps:
       - name: Checkout

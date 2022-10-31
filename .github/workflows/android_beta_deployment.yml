@@ -37,6 +37,7 @@ jobs:
     needs: gradle-wrapper-validation
     runs-on: ubuntu-22.04
     environment: android_production
+    timeout-minutes: 60
 
     steps:
     - name: Checkout
