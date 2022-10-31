@@ -25,7 +25,7 @@ jobs:
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@v1.0.5
 
-  # Build and submit to the Firebase App Distribution
+  # Build and submit to the Google Play
   deployment:
     name: Android Release Deployment
     needs: gradle-wrapper-validation
