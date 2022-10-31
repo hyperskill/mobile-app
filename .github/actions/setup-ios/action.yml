@@ -8,6 +8,10 @@ inputs:
   google-cloud-storage-code-signing-certificates-key:
     description: 'gc_keys.json file base64 content for code signing APIs communication'
     required: false
+  cache-cocoapods-on-pods-cache-miss:
+    description: 'Should cache cocoapods on Pods cache miss'
+    required: false
+    default: false
 
 outputs:
   is-git-crypt-unlocked:
@@ -104,7 +108,9 @@ runs:
 
     # Cache Cocoapods repository
     - name: Cache Cocoapods
-      if: steps.cache-pods.outputs.cache-hit != 'true'
+      if: |
+        ${{ inputs.cache-cocoapods-on-pods-cache-miss == 'true' }} && 
+        steps.cache-pods.outputs.cache-hit != 'true'
       uses: actions/cache@v3.0.11
       with:
         path: ~/.cocoapods
