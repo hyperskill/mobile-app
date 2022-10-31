@@ -25,13 +25,23 @@ Submit a new Beta Build to Firebase App Distribution
 
 Options: firebase_app_id, firebase_cli_token
 
-### android deploy
+### android release
 
 ```sh
-[bundle exec] fastlane android deploy
+[bundle exec] fastlane android release
 ```
 
 Deploy a new version to the Google Play
+
+Options: json_key
+
+### android clean
+
+```sh
+[bundle exec] fastlane android clean
+```
+
+Delete the build directory
 
 ----
 

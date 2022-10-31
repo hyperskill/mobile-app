@@ -12,6 +12,9 @@ inputs:
     description: 'Should setup Ruby'
     required: false
     default: false
+  service-account-content:
+    description: 'Service account JSON base64 encoded data used to authenticate with Google'
+    required: false
 
 outputs:
   is-git-crypt-unlocked:
@@ -20,6 +23,9 @@ outputs:
   release-keystore-path:
     description: 'Path to the release.keystore file'
     value: ${{ steps.generate-release-keystore.outputs.path }}
+  service-account-path:
+    description: 'Path to the service-account.json file'
+    value: ${{ steps.generate-service-account.outputs.path }}
 
 runs:
   using: "composite"
@@ -107,5 +113,20 @@ runs:
 
           echo "${{ inputs.release-keystore-content }}" | base64 --decode > release.keystore
           echo "path=$(echo "$(pwd)/release.keystore")" >> $GITHUB_OUTPUT
+        fi
+      shell: bash
+
+    # Generate service account JSON file from base64 content and output path
+    - name: Generate service-account.json
+      id: generate-service-account
+      run: |
+        if [ -z "${{ inputs.service-account-content }}" ]
+        then
+          echo "Skipping generate service-account.json"
+        else
+          echo "Generating service-account.json"
+
+          echo "${{ inputs.service-account-content }}" | base64 --decode > service-account.json
+          echo "path=$(echo "$(pwd)/service-account.json")" >> $GITHUB_OUTPUT
         fi
       shell: bash

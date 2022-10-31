@@ -1,0 +1,67 @@
+name: Android Release Deployment
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - 'release/**'
+      - 'hotfix/**'
+  push:
+    branches:
+      - 'release/**'
+      - 'hotfix/**'
+      - 'feature/ALTAPPS_361/ci_cd_android_release_deployment'
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  # Run Gradle Wrapper Validation Action to verify the wrapper's checksum
+  gradle-wrapper-validation:
+    name: Gradle Wrapper Validation
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.1.0
+        
+      - name: Gradle Wrapper Validation
+        uses: gradle/wrapper-validation-action@v1.0.5
+
+  # Build and submit to the Firebase App Distribution
+  deployment:
+    name: Android Release Deployment
+    needs: gradle-wrapper-validation
+    runs-on: ubuntu-22.04
+    environment: android_production
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3.1.0
+
+    - name: Setup CI
+      id: setup
+      uses: ./.github/actions/setup-android
+      with:
+        setup-ruby: true
+        git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
+        release-keystore-content: ${{ secrets.HYPERSKILL_RELEASE_KEYSTORE_CONTENT }}
+        service-account-content: ${{ secrets.SERVICE_ACCOUNT_CONTENT }}
+
+    - name: Submit a new Release Build to the Google Play
+      working-directory: './androidHyperskillApp'
+      run: |
+        bundle exec fastlane release \
+          json_key:"${{ steps.setup.outputs.service-account-path }}"
+      env:
+        IS_GIT_CRYPT_UNLOCKED: ${{ steps.setup.outputs.is-git-crypt-unlocked }}
+        HYPERSKILL_KEYSTORE_PATH: ${{ steps.setup.outputs.release-keystore-path }}
+        HYPERSKILL_RELEASE_STORE_PASSWORD: ${{ secrets.HYPERSKILL_RELEASE_STORE_PASSWORD }}
+        HYPERSKILL_RELEASE_KEY_ALIAS: ${{ secrets.HYPERSKILL_RELEASE_KEY_ALIAS }}
+        HYPERSKILL_RELEASE_KEY_PASSWORD: ${{ secrets.HYPERSKILL_RELEASE_KEY_PASSWORD }}
+        GITHUB_USER: ${{ github.actor }}
+        GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
