@@ -108,9 +108,7 @@ runs:
 
     # Cache Cocoapods repository
     - name: Cache Cocoapods
-      if: |
-        ${{ inputs.cache-cocoapods-on-pods-cache-miss == 'true' }} && 
-        steps.cache-pods.outputs.cache-hit != 'true'
+      if: ${{ inputs.cache-cocoapods-on-pods-cache-miss == 'true' && steps.cache-pods.outputs.cache-hit != 'true' }}
       uses: actions/cache@v3.0.11
       with:
         path: ~/.cocoapods
