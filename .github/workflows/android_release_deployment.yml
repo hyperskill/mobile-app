@@ -1,16 +1,9 @@
 name: Android Release Deployment
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    branches:
-      - 'release/**'
-      - 'hotfix/**'
   push:
-    branches:
-      - 'release/**'
-      - 'hotfix/**'
-      - 'feature/ALTAPPS_361/ci_cd_android_release_deployment'
+    tags:
+      - v**
 
 concurrency:
   group: ${{ github.workflow }}
