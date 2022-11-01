@@ -16,6 +16,21 @@ updates:
       - "dependencies"
     rebase-strategy: "disabled"
     target-branch: "develop"
+  - package-ecosystem: "bundler"
+    directory: "/androidHyperskillApp"
+    schedule:
+      interval: "weekly"
+      day: "thursday"
+    allow:
+      - dependency-name: "fastlane"
+    assignees:
+      - "ivan-magda"
+    commit-message:
+      prefix: "Bundler"
+    labels:
+      - "dependencies"
+    rebase-strategy: "disabled"
+    target-branch: "develop"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
