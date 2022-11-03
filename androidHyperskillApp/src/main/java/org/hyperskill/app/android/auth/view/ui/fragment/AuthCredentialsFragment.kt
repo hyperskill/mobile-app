@@ -27,8 +27,8 @@ import org.hyperskill.app.android.sentry.domain.model.SentryBreadcrumbKeyValues
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature
 import org.hyperskill.app.auth.presentation.AuthCredentialsViewModel
 import org.hyperskill.app.auth.view.mapper.AuthCredentialsErrorMapper
-import org.hyperskill.app.open_url_in_web.domain.builder.HyperskillUrlBuilder
-import org.hyperskill.app.open_url_in_web.domain.model.HyperskillUrlPath
+import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.addKeyboardVisibilityListener
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged

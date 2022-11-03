@@ -3,8 +3,8 @@ package org.hyperskill
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import org.hyperskill.app.config.BuildKonfig
-import org.hyperskill.app.open_url_in_web.domain.builder.HyperskillUrlBuilder
-import org.hyperskill.app.open_url_in_web.domain.model.HyperskillUrlPath
+import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 
 class HyperskillUrlBuilderTest {
 
@@ -16,7 +16,8 @@ class HyperskillUrlBuilderTest {
             HyperskillUrlPath.Register(),
             HyperskillUrlPath.ResetPassword(),
             HyperskillUrlPath.StudyPlan(),
-            HyperskillUrlPath.Track(1)
+            HyperskillUrlPath.Track(1),
+            HyperskillUrlPath.DeleteAccount()
         )
 
         for (path in paths) {

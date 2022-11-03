@@ -17,8 +17,8 @@ import kotlin.math.roundToInt
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentTrackBinding
-import org.hyperskill.app.open_url_in_web.domain.builder.HyperskillUrlBuilder
-import org.hyperskill.app.open_url_in_web.domain.model.HyperskillUrlPath
+import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.track.domain.model.StudyPlan
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.domain.model.TrackProgress

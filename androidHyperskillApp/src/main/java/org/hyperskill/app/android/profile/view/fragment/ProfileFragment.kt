@@ -25,8 +25,8 @@ import org.hyperskill.app.android.notification.model.HyperskillNotificationChann
 import org.hyperskill.app.android.profile_settings.view.dialog.ProfileSettingsDialogFragment
 import org.hyperskill.app.android.streak.view.delegate.StreakCardFormDelegate
 import org.hyperskill.app.android.view.base.ui.extension.redirectToUsernamePage
-import org.hyperskill.app.open_url_in_web.domain.builder.HyperskillUrlBuilder
-import org.hyperskill.app.open_url_in_web.domain.model.HyperskillUrlPath
+import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.presentation.ProfileFeature
 import org.hyperskill.app.profile.presentation.ProfileViewModel

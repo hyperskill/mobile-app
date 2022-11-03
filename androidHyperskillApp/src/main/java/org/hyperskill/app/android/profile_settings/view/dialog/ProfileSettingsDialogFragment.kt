@@ -16,8 +16,8 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.representation
 import org.hyperskill.app.android.databinding.FragmentProfileSettingsBinding
 import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper
-import org.hyperskill.app.open_url_in_web.domain.builder.HyperskillUrlBuilder
-import org.hyperskill.app.open_url_in_web.domain.model.HyperskillUrlPath
+import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.profile.presentation.ProfileSettingsViewModel
 import org.hyperskill.app.profile_settings.domain.model.FeedbackEmailData
 import org.hyperskill.app.profile_settings.domain.model.Theme

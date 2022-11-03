@@ -1,4 +1,4 @@
-package org.hyperskill.app.open_url_in_web.domain.model
+package org.hyperskill.app.core.domain.url
 
 sealed class HyperskillUrlPath {
     abstract val path: String
