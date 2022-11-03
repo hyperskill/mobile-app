@@ -5,7 +5,6 @@ struct ProfileSettingsView: View {
     private static let termsOfServiceURL = URL(string: Strings.Settings.termsOfServiceURL).require()
     private static let privacyPolicyURL = URL(string: Strings.Settings.privacyPolicyURL).require()
     private static let reportProblemURL = URL(string: Strings.Settings.reportProblemURL).require()
-    private static let accountDeletionURL = URL(string: Strings.Settings.accountDeletionURL).require()
 
     @StateObject var viewModel: ProfileSettingsViewModel
 
@@ -91,16 +90,16 @@ struct ProfileSettingsView: View {
             Section(header: Text(Strings.Settings.about)) {
                 OpenURLInsideAppButton(
                     text: Strings.Settings.termsOfService,
-                    url: Self.termsOfServiceURL,
-                    webControllerType: .safari,
+                    urlType: .url(Self.termsOfServiceURL),
+                    webControllerType: .inAppSafari,
                     onTap: viewModel.logClickedTermsOfServiceEvent
                 )
                 .foregroundColor(.primaryText)
 
                 OpenURLInsideAppButton(
                     text: Strings.Settings.privacyPolicy,
-                    url: Self.privacyPolicyURL,
-                    webControllerType: .safari,
+                    urlType: .url(Self.privacyPolicyURL),
+                    webControllerType: .inAppSafari,
                     onTap: viewModel.logClickedPrivacyPolicyEvent
                 )
                 .foregroundColor(.primaryText)
@@ -129,8 +128,8 @@ struct ProfileSettingsView: View {
 
                 OpenURLInsideAppButton(
                     text: Strings.Settings.reportProblem,
-                    url: Self.reportProblemURL,
-                    webControllerType: .safari,
+                    urlType: .url(Self.reportProblemURL),
+                    webControllerType: .inAppSafari,
                     onTap: viewModel.logClickedReportProblemEvent
                 )
                 .foregroundColor(.primaryText)
@@ -188,10 +187,11 @@ struct ProfileSettingsView: View {
                             Text(Strings.Settings.deleteAccountAlertDeleteButton),
                             action: {
                                 viewModel.logDeleteAccountNoticeHiddenEvent(isConfirmed: true)
-                                WebControllerManager.shared.presentWebControllerWithURL(
-                                    Self.accountDeletionURL,
+
+                                WebControllerManager.shared.presentWebControllerWithNextURLPath(
+                                    HyperskillUrlPath.DeleteAccount(),
                                     withKey: .externalLink,
-                                    controllerType: .custom()
+                                    controllerType: .inAppCustom()
                                 )
                             }
                         )

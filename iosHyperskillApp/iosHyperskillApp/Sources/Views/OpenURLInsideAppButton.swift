@@ -1,9 +1,10 @@
+import shared
 import SwiftUI
 
 struct OpenURLInsideAppButton: View {
     private let text: String
 
-    private let url: URL
+    private let urlType: URLType
 
     private let webControllerManager: WebControllerManager
     private let webControllerKey: WebControllerManager.WebControllerKey
@@ -14,7 +15,7 @@ struct OpenURLInsideAppButton: View {
 
     init(
         text: String,
-        url: URL,
+        urlType: URLType,
         webControllerManager: WebControllerManager = .shared,
         webControllerKey: WebControllerManager.WebControllerKey = .externalLink,
         webControllerType: WebControllerManager.WebControllerType,
@@ -22,7 +23,7 @@ struct OpenURLInsideAppButton: View {
         onTap: (() -> Void)? = nil
     ) {
         self.text = text
-        self.url = url
+        self.urlType = urlType
         self.webControllerManager = webControllerManager
         self.webControllerKey = webControllerKey
         self.webControllerType = webControllerType
@@ -33,20 +34,38 @@ struct OpenURLInsideAppButton: View {
     var body: some View {
         Button(text) {
             onTap?()
-            webControllerManager.presentWebControllerWithURL(
-                url,
-                withKey: webControllerKey,
-                controllerType: webControllerType,
-                backButtonStyle: webControllerBackButtonStyle
-            )
+
+            switch urlType {
+            case .url(let url):
+                webControllerManager.presentWebControllerWithURL(
+                    url,
+                    withKey: webControllerKey,
+                    controllerType: webControllerType,
+                    backButtonStyle: webControllerBackButtonStyle
+                )
+            case .nextURLPath(let nextURLPath):
+                webControllerManager.presentWebControllerWithNextURLPath(
+                    nextURLPath,
+                    withKey: webControllerKey,
+                    controllerType: webControllerType,
+                    backButtonStyle: webControllerBackButtonStyle
+                )
+            }
         }
+    }
+
+    enum URLType {
+        case url(URL)
+        case nextURLPath(HyperskillUrlPath)
     }
 }
 
 struct URLButton_Previews: PreviewProvider {
     static var previews: some View {
-        if let url = HyperskillURLFactory.makeRegister() {
-            OpenURLInsideAppButton(text: "URL button", url: url, webControllerType: .safari)
-        }
+        OpenURLInsideAppButton(
+            text: "URL button",
+            urlType: .url(URL(string: "https://www.google.com/").require()),
+            webControllerType: .inAppSafari
+        )
     }
 }

@@ -20,16 +20,9 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
     func doStudyPlanInWebPresentation() {
         logClickedContinueInWebEvent()
 
-        guard state is TrackFeatureStateContent,
-              let url = HyperskillURLFactory.makeStudyPlan() else {
-            return
-        }
-
-        WebControllerManager.shared.presentWebControllerWithURL(
-            url,
-            withKey: .externalLink,
-            controllerType: .custom(),
-            backButtonStyle: .done
+        WebControllerManager.shared.presentWebControllerWithNextURLPath(
+            HyperskillUrlPath.StudyPlan(),
+            controllerType: .safari
         )
     }
 
