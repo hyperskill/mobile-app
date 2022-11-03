@@ -1,7 +1,7 @@
 package org.hyperskill.app.profile_settings.presentation
 
 import kotlinx.coroutines.flow.MutableSharedFlow
-import org.hyperskill.app.Platform
+import org.hyperskill.app.core.domain.Platform
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.config.BuildKonfig

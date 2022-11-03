@@ -1,4 +1,4 @@
-package org.hyperskill.app
+package org.hyperskill.app.core.domain
 
 expect class Platform() {
     val platform: String

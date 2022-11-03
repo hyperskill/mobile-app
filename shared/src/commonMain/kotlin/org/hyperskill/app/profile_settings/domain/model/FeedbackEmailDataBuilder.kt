@@ -1,6 +1,6 @@
 package org.hyperskill.app.profile_settings.domain.model
 
-import org.hyperskill.app.Platform
+import org.hyperskill.app.core.domain.Platform
 import org.hyperskill.app.config.BuildKonfig
 
 object FeedbackEmailDataBuilder {
