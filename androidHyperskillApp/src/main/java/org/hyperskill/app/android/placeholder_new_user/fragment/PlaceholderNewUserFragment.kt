@@ -13,6 +13,8 @@ import org.hyperskill.app.android.auth.view.ui.navigation.AuthScreen
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentPlaceholderNewUserScreenBinding
 import org.hyperskill.app.config.BuildKonfig
+import org.hyperskill.app.open_url_in_web.domain.builder.HyperskillUrlBuilder
+import org.hyperskill.app.open_url_in_web.domain.model.HyperskillUrlPath
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserViewModel
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -53,7 +55,9 @@ class PlaceholderNewUserFragment :
             placeholderNewUserViewModel.onNewMessage(PlaceholderNewUserFeature.Message.ClickedContinueEventMessage)
 
             val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(BuildKonfig.BASE_URL)
+            val url = HyperskillUrlBuilder.build(HyperskillUrlPath.Index())
+            intent.data = Uri.parse(url.toString())
+
             startActivity(intent)
         }
 

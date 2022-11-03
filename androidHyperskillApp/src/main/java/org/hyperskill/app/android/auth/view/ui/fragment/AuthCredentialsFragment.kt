@@ -27,7 +27,8 @@ import org.hyperskill.app.android.sentry.domain.model.SentryBreadcrumbKeyValues
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature
 import org.hyperskill.app.auth.presentation.AuthCredentialsViewModel
 import org.hyperskill.app.auth.view.mapper.AuthCredentialsErrorMapper
-import org.hyperskill.app.config.BuildKonfig
+import org.hyperskill.app.open_url_in_web.domain.builder.HyperskillUrlBuilder
+import org.hyperskill.app.open_url_in_web.domain.model.HyperskillUrlPath
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.addKeyboardVisibilityListener
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
@@ -103,7 +104,9 @@ class AuthCredentialsFragment :
 
         viewBinding.signInWithEmailResetPasswordTextButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(BuildKonfig.BASE_URL + "accounts/password/reset/")
+            val url = HyperskillUrlBuilder.build(HyperskillUrlPath.ResetPassword())
+            intent.data = Uri.parse(url.toString())
+
             startActivity(intent)
         }
 

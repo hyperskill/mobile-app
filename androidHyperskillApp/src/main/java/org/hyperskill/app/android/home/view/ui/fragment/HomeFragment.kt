@@ -19,6 +19,8 @@ import org.hyperskill.app.android.streak.view.delegate.StreakCardFormDelegate
 import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeViewModel
+import org.hyperskill.app.open_url_in_web.domain.builder.HyperskillUrlBuilder
+import org.hyperskill.app.open_url_in_web.domain.model.HyperskillUrlPath
 import org.hyperskill.app.streak.domain.model.Streak
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -67,7 +69,9 @@ class HomeFragment :
             homeViewModel.onNewMessage(HomeFeature.Message.ClickedContinueLearningOnWebEventMessage)
 
             val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(BuildKonfig.BASE_URL)
+            val url = HyperskillUrlBuilder.build(HyperskillUrlPath.Index())
+            intent.data = Uri.parse(url.toString())
+
             startActivity(intent)
         }
 

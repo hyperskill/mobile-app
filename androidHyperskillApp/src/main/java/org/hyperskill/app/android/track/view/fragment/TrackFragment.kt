@@ -17,12 +17,13 @@ import kotlin.math.roundToInt
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentTrackBinding
+import org.hyperskill.app.open_url_in_web.domain.builder.HyperskillUrlBuilder
+import org.hyperskill.app.open_url_in_web.domain.model.HyperskillUrlPath
 import org.hyperskill.app.track.domain.model.StudyPlan
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.domain.model.TrackProgress
 import org.hyperskill.app.track.presentation.TrackFeature
 import org.hyperskill.app.track.presentation.TrackViewModel
-import org.hyperskill.app.track.routing.TrackRedirectLinkBuilder
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
@@ -188,7 +189,9 @@ class TrackFragment :
                 trackViewModel.onNewMessage(TrackFeature.Message.ClickedContinueInWebEventMessage)
 
                 val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = Uri.parse(TrackRedirectLinkBuilder.getStudyPlanLink())
+                val url = HyperskillUrlBuilder.build(HyperskillUrlPath.StudyPlan())
+                intent.data = Uri.parse(url.toString())
+
                 startActivity(intent)
             }
         }
