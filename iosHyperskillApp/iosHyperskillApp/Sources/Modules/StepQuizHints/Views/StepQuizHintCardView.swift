@@ -35,7 +35,7 @@ struct StepQuizHintCardView: View {
 
                 Text(authorName)
                     .font(.caption)
-                    .foregroundColor(Color(ColorPalette.black900Alpha38))
+                    .foregroundColor(.disabledText)
 
                 Spacer()
 
@@ -60,13 +60,13 @@ struct StepQuizHintCardView: View {
                 } else {
                     Text(Strings.StepQuiz.Hints.lastHint)
                         .font(.caption)
-                        .foregroundColor(Color(ColorPalette.black900Alpha60))
+                        .foregroundColor(.secondaryText)
                 }
             } else {
                 HStack(spacing: LayoutInsets.smallInset) {
                     Text(Strings.StepQuiz.Hints.helpfulQuestion)
                         .font(.caption)
-                        .foregroundColor(Color(ColorPalette.black900Alpha60))
+                        .foregroundColor(.secondaryText)
 
                     Spacer()
 
@@ -85,7 +85,7 @@ struct StepQuizHintCardView: View {
             }
         }
         .padding()
-        .background(Color(ColorPalette.background))
+        .background(Color.background)
         .addBorder(color: Color(ColorPalette.onSurfaceAlpha9))
         .alert(isPresented: $isPresentingReportAlert) {
             Alert(

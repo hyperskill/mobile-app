@@ -19,6 +19,7 @@ struct StepQuizHintsView: View {
                 viewModel.startListening()
                 viewModel.onViewAction = handleViewAction(_:)
             }
+            .onDisappear(perform: viewModel.stopListening)
     }
 
     // MARK: Private API

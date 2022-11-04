@@ -36,6 +36,7 @@ struct StepQuizHintReactionButtonView: View {
                 .padding(.vertical, appearance.buttonVerticalPadding)
             }
         )
+        .buttonStyle(BounceButtonStyle(bounceScale: 0.75))
     }
 }
 

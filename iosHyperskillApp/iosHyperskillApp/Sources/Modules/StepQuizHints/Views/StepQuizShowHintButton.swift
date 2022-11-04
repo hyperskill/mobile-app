@@ -8,7 +8,7 @@ extension StepQuizShowHintButton {
 
         let insets = LayoutInsets(top: 8, leading: 12, bottom: 8, trailing: 12)
 
-        let buttonHeight: CGFloat = 34
+        let buttonMinHeight: CGFloat = 34
     }
 }
 
@@ -43,7 +43,7 @@ struct StepQuizShowHintButton: View {
         .buttonStyle(
             OutlineButtonStyle(
                 font: .subheadline,
-                minHeight: appearance.buttonHeight,
+                minHeight: appearance.buttonMinHeight,
                 maxWidth: nil
             )
         )

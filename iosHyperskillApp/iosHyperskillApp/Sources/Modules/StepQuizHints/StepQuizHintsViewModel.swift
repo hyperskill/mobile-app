@@ -2,9 +2,9 @@ import Foundation
 import shared
 
 final class StepQuizHintsViewModel: FeatureViewModel<
-    StepQuizHintsFeatureState,
-    StepQuizHintsFeatureMessage,
-    StepQuizHintsFeatureActionViewAction
+  StepQuizHintsFeatureState,
+  StepQuizHintsFeatureMessage,
+  StepQuizHintsFeatureActionViewAction
 > {
     let stepID: Int64
 
