@@ -1,4 +1,4 @@
-package org.hyperskill.app
+package org.hyperskill.app.core.domain
 
 import platform.UIKit.UIDevice
 

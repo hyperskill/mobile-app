@@ -175,7 +175,6 @@
     <string name="settings_terms_of_service_url">https://www.jetbrains.com/legal/terms/jetbrains-academy.html</string>
     <string name="settings_privacy_policy_url">https://hi.hyperskill.org/terms</string>
     <string name="settings_report_problem_url">https://support.hyperskill.org/hc/en-us/requests/new</string>
-    <string name="settings_account_deletion_url">https://hyperskill.org/delete-account</string>
     <string name="choose_notification_time_interval">Change notification interval</string>
 
     <!-- Placeholder -->

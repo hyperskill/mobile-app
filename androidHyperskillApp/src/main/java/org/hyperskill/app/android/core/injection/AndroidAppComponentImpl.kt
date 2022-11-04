@@ -32,6 +32,8 @@ import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.HomeComponentImpl
 import org.hyperskill.app.home.injection.PlatformHomeComponent
 import org.hyperskill.app.home.injection.PlatformHomeComponentImpl
+import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
+import org.hyperskill.app.magic_links.injection.MagicLinksDataComponentImpl
 import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainComponentImpl
 import org.hyperskill.app.main.injection.PlatformMainComponent
@@ -62,14 +64,14 @@ import org.hyperskill.app.step.injection.PlatformStepComponent
 import org.hyperskill.app.step.injection.PlatformStepComponentImpl
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step.injection.StepComponentImpl
-import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
-import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponentImpl
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponent
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponentImpl
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponentImpl
+import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
+import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponentImpl
 import org.hyperskill.app.track.injection.PlatformTrackComponent
 import org.hyperskill.app.track.injection.PlatformTrackComponentImpl
 import org.hyperskill.app.track.injection.TrackComponent
@@ -241,4 +243,7 @@ class AndroidAppComponentImpl(
 
     override fun buildStepQuizHintsComponent(): StepQuizHintsComponent =
         StepQuizHintsComponentImpl(this)
+
+    override fun buildMagicLinksDataComponent(): MagicLinksDataComponent =
+        MagicLinksDataComponentImpl(this)
 }

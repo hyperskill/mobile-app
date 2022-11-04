@@ -1,4 +1,4 @@
-package org.hyperskill.app
+package org.hyperskill.app.core.domain
 
 actual class Platform actual constructor() {
     actual val platform: String = "Android ${android.os.Build.VERSION.SDK_INT}"

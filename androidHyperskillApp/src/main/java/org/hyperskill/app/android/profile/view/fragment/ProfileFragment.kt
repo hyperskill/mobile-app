@@ -25,10 +25,11 @@ import org.hyperskill.app.android.notification.model.HyperskillNotificationChann
 import org.hyperskill.app.android.profile_settings.view.dialog.ProfileSettingsDialogFragment
 import org.hyperskill.app.android.streak.view.delegate.StreakCardFormDelegate
 import org.hyperskill.app.android.view.base.ui.extension.redirectToUsernamePage
+import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.presentation.ProfileFeature
 import org.hyperskill.app.profile.presentation.ProfileViewModel
-import org.hyperskill.app.profile.routing.ProfileRedirectLinkBuilder
 import org.hyperskill.app.profile.view.social_redirect.SocialNetworksRedirect
 import org.hyperskill.app.streak.domain.model.Streak
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
@@ -282,8 +283,11 @@ class ProfileFragment :
         viewBinding.profileViewFullVersionTextView.paintFlags = viewBinding.profileViewFullVersionTextView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         viewBinding.profileViewFullVersionTextView.setOnClickListener {
             profileViewModel.onNewMessage(ProfileFeature.Message.ClickedViewFullProfileEventMessage)
+
             val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(ProfileRedirectLinkBuilder.getProfileLink(profile.id))
+            val url = HyperskillUrlBuilder.build(HyperskillUrlPath.Profile(profile.id))
+            intent.data = Uri.parse(url.toString())
+
             startActivity(intent)
         }
     }

@@ -13,8 +13,6 @@ extension AuthNewUserPlaceholderView {
 }
 
 struct AuthNewUserPlaceholderView: View {
-    private static let registerURL = HyperskillURLFactory.makeRegister()
-
     private(set) var appearance = Appearance()
 
     @StateObject var viewModel: AuthNewUserPlaceholderViewModel
@@ -65,8 +63,8 @@ struct AuthNewUserPlaceholderView: View {
             VStack(spacing: appearance.spacingSmall) {
                 OpenURLInsideAppButton(
                     text: Strings.Auth.NewUserPlaceholder.continueButton,
-                    url: Self.registerURL.require(),
-                    webControllerType: .custom(),
+                    urlType: .nextURLPath(HyperskillUrlPath.Index()),
+                    webControllerType: .safari,
                     onTap: viewModel.logClickedContinueEvent
                 )
                 .buttonStyle(RoundedRectangleButtonStyle(style: .violet))

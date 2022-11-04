@@ -112,7 +112,6 @@
 		2C42EFB327F2EA7B00B4648B /* ResourcesStringResource+Localized.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C42EFB227F2EA7B00B4648B /* ResourcesStringResource+Localized.swift */; };
 		2C42EFB527F2EAB300B4648B /* GraphicsColor+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C42EFB427F2EAB300B4648B /* GraphicsColor+UIColor.swift */; };
 		2C42EFB727F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C42EFB627F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift */; };
-		2C43B59928731B1E002A66F8 /* HyperskillURLFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C43B59828731B1E002A66F8 /* HyperskillURLFactory.swift */; };
 		2C43CDF928B55CC600E74762 /* HyperskillLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C43CDF828B55CC600E74762 /* HyperskillLogoView.swift */; };
 		2C43CDFB28B56AE600E74762 /* AuthPreviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C43CDFA28B56AE600E74762 /* AuthPreviews.swift */; };
 		2C46D0632807E4C100B3636E /* TextFieldWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */; };
@@ -459,7 +458,6 @@
 		2C42EFB227F2EA7B00B4648B /* ResourcesStringResource+Localized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResourcesStringResource+Localized.swift"; sourceTree = "<group>"; };
 		2C42EFB427F2EAB300B4648B /* GraphicsColor+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GraphicsColor+UIColor.swift"; sourceTree = "<group>"; };
 		2C42EFB627F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResourcesColorResourceThemed+UIColor.swift"; sourceTree = "<group>"; };
-		2C43B59828731B1E002A66F8 /* HyperskillURLFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyperskillURLFactory.swift; sourceTree = "<group>"; };
 		2C43CDF828B55CC600E74762 /* HyperskillLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyperskillLogoView.swift; sourceTree = "<group>"; };
 		2C43CDFA28B56AE600E74762 /* AuthPreviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPreviews.swift; sourceTree = "<group>"; };
 		2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWrapper.swift; sourceTree = "<group>"; };
@@ -1846,7 +1844,6 @@
 			isa = PBXGroup;
 			children = (
 				2C20FBAD284F1D05006D879E /* FontWeightNameMapping.swift */,
-				2C43B59828731B1E002A66F8 /* HyperskillURLFactory.swift */,
 				2CF2DA3C27EC5BA00055426D /* Constants */,
 			);
 			path = Models;
@@ -2418,7 +2415,6 @@
 				E9B2CF5D2822975400B2DC6F /* StepQuizStatsView.swift in Sources */,
 				2CA7B89428932EB100A789EF /* UIWindowExtensions.swift in Sources */,
 				2C5B2A1F286595AF0097B270 /* CodeCompletionTableViewController.swift in Sources */,
-				2C43B59928731B1E002A66F8 /* HyperskillURLFactory.swift in Sources */,
 				2C8E4FB12848C9050011ADFA /* StepQuizTableSelectColumnsView.swift in Sources */,
 				2CCCA3A12862E62F00D98089 /* StepQuizStringViewData.swift in Sources */,
 				2C1061A2285C349400EBD614 /* StepQuizChildQuizAssembly.swift in Sources */,

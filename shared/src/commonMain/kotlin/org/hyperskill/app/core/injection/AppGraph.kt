@@ -6,6 +6,7 @@ import org.hyperskill.app.auth.injection.AuthCredentialsComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.comments.injection.CommentsDataComponent
 import org.hyperskill.app.home.injection.HomeComponent
+import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
 import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.notification.injection.NotificationComponent
@@ -44,4 +45,5 @@ interface AppGraph {
     fun buildUserStorageComponent(): UserStorageComponent
     fun buildCommentsDataComponent(): CommentsDataComponent
     fun buildStepQuizHintsComponent(): StepQuizHintsComponent
+    fun buildMagicLinksDataComponent(): MagicLinksDataComponent
 }

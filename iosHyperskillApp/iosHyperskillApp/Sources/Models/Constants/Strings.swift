@@ -199,7 +199,6 @@ enum Strings {
         static let termsOfServiceURL = sharedStrings.settings_terms_of_service_url.localized()
         static let privacyPolicyURL = sharedStrings.settings_privacy_policy_url.localized()
         static let reportProblemURL = sharedStrings.settings_report_problem_url.localized()
-        static let accountDeletionURL = sharedStrings.settings_account_deletion_url.localized()
 
         enum Theme {
             static let title = sharedStrings.settings_theme.localized()
