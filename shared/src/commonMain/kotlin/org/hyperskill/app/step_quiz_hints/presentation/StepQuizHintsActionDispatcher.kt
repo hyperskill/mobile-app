@@ -3,6 +3,7 @@ package org.hyperskill.app.step_quiz_hints.presentation
 import org.hyperskill.app.comments.domain.interactor.CommentsDataInteractor
 import org.hyperskill.app.comments.domain.model.ReactionType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.step_quiz_hints.domain.interactor.StepQuizHintsInteractor
 import org.hyperskill.app.step_quiz_hints.domain.model.HintState
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.Action
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.Message
@@ -13,10 +14,14 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 class StepQuizHintsActionDispatcher(
     config: ActionDispatcherOptions,
     private val commentsDataInteractor: CommentsDataInteractor,
-    private val userStorageInteractor: UserStorageInteractor
+    private val userStorageInteractor: UserStorageInteractor,
+    private val stepQuizHintsInteractor: StepQuizHintsInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
+            is Action.FetchHintsIds -> {
+                onNewMessage(Message.HintsIdsLoaded(stepQuizHintsInteractor.getNotSeenHintsIds(action.stepId)))
+            }
             is Action.ReportHint -> {
                 commentsDataInteractor.abuseComment(action.hintId)
 
@@ -31,8 +36,8 @@ class StepQuizHintsActionDispatcher(
                 userStorageInteractor.updateUserStorage(
                     UserStoragePathBuilder.buildSeenHint(action.stepId, action.hintId),
                     when (action.reaction) {
-                        ReactionType.HELPFULL -> HintState.HELPFUL.userStorageValue
-                        ReactionType.UNHELPFULL -> HintState.UNHELPFUL.userStorageValue
+                        ReactionType.HELPFUL -> HintState.HELPFUL.userStorageValue
+                        ReactionType.UNHELPFUL -> HintState.UNHELPFUL.userStorageValue
                     }
                 )
             }
@@ -46,6 +51,9 @@ class StepQuizHintsActionDispatcher(
                             UserStoragePathBuilder.buildSeenHint(it.targetId, it.id),
                             HintState.SEEN.userStorageValue
                         )
+                    }
+                    .onFailure {
+                        onNewMessage(Message.NextHintLoadingError(action.nextHintId, action.remainingHintsIds))
                     }
             }
         }

@@ -57,13 +57,21 @@
     <string name="step_quiz_status_loading_text">Loading...</string>
     <string name="step_quiz_stats_text">%s solved this problem. Latest completion was %s ago.</string>
     <string name="step_quiz_feedback_title">FEEDBACK:</string>
-    <string name="step_quiz_hint_button_text">See hint</string>
     <string name="step_quiz_continue_button_text">Continue</string>
     <string name="step_quiz_retry_button_text">Retry</string>
     <string name="step_quiz_send_button_text">Send</string>
     <string name="step_quiz_checking_button_text">Checking</string>
     <string name="step_quiz_discussions_button_text">Show discussions</string>
     <string name="step_quiz_unsupported_quiz_text">Current quiz type is not supported in mobile app yet</string>
+
+    <!-- Step quiz hint -->
+    <string name="step_quiz_hints_show_button_text">See hint</string>
+    <string name="step_quiz_hints_report_button_text">Report</string>
+    <string name="step_quiz_hints_helpful_question_text">Was this hint helpful?</string>
+    <string name="step_quiz_hints_see_next_hint">See next hint</string>
+    <string name="step_quiz_hints_last_hint_text">This is the last hint available for this problem!</string>
+    <string name="step_quiz_hints_report_alert_title">Thank you for being active Hyperskill citizen!</string>
+    <string name="step_quiz_hints_report_alert_text">Are you sure you want to report this hint for spoilers, abuse or spam?</string>
 
     <!-- Step quiz choice -->
     <string name="step_quiz_choice_single_choice_title">Select one option from the list</string>

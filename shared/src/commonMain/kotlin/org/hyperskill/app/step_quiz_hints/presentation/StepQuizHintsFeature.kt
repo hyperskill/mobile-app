@@ -7,26 +7,35 @@ interface StepQuizHintsFeature {
     sealed interface State {
         object Idle : State
         object Loading : State
+
         data class Content(
             val hintsIds: List<Long>,
             val currentHint: Comment?,
             val hintHasReaction: Boolean
         ) : State
 
-        object NetworkError : State
+        data class NetworkError(
+            val nextHintId: Long,
+            val hintsIds: List<Long>
+        ) : State
     }
 
     sealed interface Message {
-        data class InitWithHintsIDs(val hintsIds: List<Long>) : Message
+        data class InitWithStepId(val stepId: Long) : Message
+        data class HintsIdsLoaded(val hintsIds: List<Long>) : Message
 
         data class ReactionButtonClicked(
             val reaction: ReactionType
         ) : Message
         object HintReported : Message
 
-        object NextHintButtonClicked : Message
+        object LoadHintButtonClicked : Message
         data class NextHintLoaded(
             val nextHint: Comment,
+            val remainingHintsIds: List<Long>
+        ) : Message
+        data class NextHintLoadingError(
+            val nextHintId: Long,
             val remainingHintsIds: List<Long>
         ) : Message
 
@@ -40,12 +49,14 @@ interface StepQuizHintsFeature {
         data class ReportHint(val hintId: Long, val stepId: Long) : Action
         data class ReactHint(val hintId: Long, val stepId: Long, val reaction: ReactionType) : Action
 
+        data class FetchHintsIds(val stepId: Long) : Action
+
         data class FetchNextHint(
             val nextHintId: Long,
             val remainingHintsIds: List<Long>
         ) : Action
 
-        sealed interface ViewAction : Action
+        sealed class ViewAction : Action
 
         /**
          * Analytic
