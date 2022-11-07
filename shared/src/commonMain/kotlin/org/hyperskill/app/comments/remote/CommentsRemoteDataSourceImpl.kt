@@ -9,32 +9,11 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import org.hyperskill.app.comments.data.source.CommentsRemoteDataSource
 import org.hyperskill.app.comments.domain.model.Comment
-import org.hyperskill.app.comments.domain.model.Discussion
 import org.hyperskill.app.comments.remote.model.CommentsResponse
-import org.hyperskill.app.comments.remote.model.DiscussionsResponse
 
 class CommentsRemoteDataSourceImpl(
     private val httpClient: HttpClient
 ) : CommentsRemoteDataSource {
-    override suspend fun getDiscussions(
-        targetType: String,
-        targetID: Long,
-        thread: String,
-        ordering: String,
-        isSpam: Boolean
-    ): Result<List<Discussion>> =
-        kotlin.runCatching {
-            httpClient
-                .get("/api/discussions") {
-                    contentType(ContentType.Application.Json)
-                    parameter("target_type", targetType)
-                    parameter("target_id", targetID)
-                    parameter("thread", thread)
-                    parameter("ordering", ordering)
-                    parameter("is_spam", isSpam)
-                }.body<DiscussionsResponse>().discussions
-        }
-
     override suspend fun getCommentDetails(commentID: Long): Result<Comment> =
         kotlin.runCatching {
             httpClient

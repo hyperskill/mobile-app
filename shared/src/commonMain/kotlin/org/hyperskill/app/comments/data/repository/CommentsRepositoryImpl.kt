@@ -8,18 +8,6 @@ import org.hyperskill.app.comments.domain.repository.CommentsRepository
 class CommentsRepositoryImpl(
     private val commentsRemoteDataSource: CommentsRemoteDataSource
 ) : CommentsRepository {
-    override suspend fun getHintsIDs(stepID: Long): List<Long> =
-        commentsRemoteDataSource
-            .getDiscussions(
-                targetType = "step",
-                targetID = stepID,
-                thread = "hint",
-                ordering = "popular",
-                isSpam = false
-            )
-            .getOrDefault(emptyList())
-            .map { it.id }
-
     override suspend fun getCommentDetails(commentID: Long): Result<Comment> =
         commentsRemoteDataSource.getCommentDetails(commentID)
 

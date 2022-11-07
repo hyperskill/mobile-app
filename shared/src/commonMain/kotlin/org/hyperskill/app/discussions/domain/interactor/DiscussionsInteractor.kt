@@ -17,4 +17,7 @@ class DiscussionsInteractor(
      */
     suspend fun getDiscussions(request: DiscussionsRequest): Result<DiscussionsResponse> =
         discussionsRepository.getDiscussions(request)
+
+    suspend fun getStepHints(stepId: Long, page: Int = 1): Result<DiscussionsResponse> =
+        discussionsRepository.getStepHints(stepId, page)
 }

@@ -10,4 +10,17 @@ class DiscussionsRepositoryImpl(
 ) : DiscussionsRepository {
     override suspend fun getDiscussions(request: DiscussionsRequest): Result<DiscussionsResponse> =
         discussionsRemoteDataSource.getDiscussions(request)
+
+    override suspend fun getStepHints(stepId: Long, page: Int): Result<DiscussionsResponse> =
+        discussionsRemoteDataSource
+            .getDiscussions(
+                DiscussionsRequest(
+                    target = DiscussionsRequest.TargetType.STEP,
+                    targetId = stepId,
+                    thread = DiscussionsRequest.ThreadType.HINT,
+                    order = DiscussionsRequest.OrderType.MOST_POPULAR,
+                    isSpam = false,
+                    page = page
+                )
+            )
 }

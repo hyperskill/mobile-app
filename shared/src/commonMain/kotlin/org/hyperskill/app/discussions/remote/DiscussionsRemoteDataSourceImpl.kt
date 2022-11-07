@@ -18,7 +18,7 @@ class DiscussionsRemoteDataSourceImpl(
             httpClient
                 .get("/api/discussions") {
                     contentType(ContentType.Application.Json)
-                    request.parameters.forEach { parameter(it.first, it.second) }
+                    request.parameters.forEach { parameter(it.key, it.value.toString()) }
                 }.body()
         }
 }
