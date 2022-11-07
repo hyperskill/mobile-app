@@ -7,7 +7,7 @@ import org.hyperskill.app.magic_links.domain.interactor.MagicLinksInteractor
 import org.hyperskill.app.magic_links.domain.repository.MagicLinksRepository
 import org.hyperskill.app.magic_links.remote.MagicLinksRemoteDataSourceImpl
 
-class MagicLinksDataComponentImpl(private val appGraph: AppGraph) : MagicLinksDataComponent {
+class MagicLinksDataComponentImpl(appGraph: AppGraph) : MagicLinksDataComponent {
     private val magicLinksRemoteDataSource: MagicLinksRemoteDataSource = MagicLinksRemoteDataSourceImpl(
         appGraph.networkComponent.authorizedHttpClient
     )

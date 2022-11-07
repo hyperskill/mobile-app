@@ -28,6 +28,8 @@ import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.injection.CommonComponent
 import org.hyperskill.app.core.injection.CommonComponentImpl
 import org.hyperskill.app.core.remote.UserAgentInfo
+import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
+import org.hyperskill.app.discussions.injection.DiscussionsDataComponentImpl
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.HomeComponentImpl
 import org.hyperskill.app.home.injection.PlatformHomeComponent
@@ -246,4 +248,7 @@ class AndroidAppComponentImpl(
 
     override fun buildMagicLinksDataComponent(): MagicLinksDataComponent =
         MagicLinksDataComponentImpl(this)
+
+    override fun buildDiscussionsDataComponent(): DiscussionsDataComponent =
+        DiscussionsDataComponentImpl(this)
 }
