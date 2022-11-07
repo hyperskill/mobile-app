@@ -8,8 +8,4 @@ class CommentsInteractor(
 ) {
     suspend fun getCommentDetails(commentId: Long): Result<Comment> =
         commentsRepository.getCommentDetails(commentId)
-
-    suspend fun abuseComment(commentId: Long) {
-        commentsRepository.abuseComment(commentId)
-    }
 }

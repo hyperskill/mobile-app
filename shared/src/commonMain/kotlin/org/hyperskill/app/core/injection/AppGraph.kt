@@ -7,6 +7,7 @@ import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.comments.injection.CommentsDataComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
 import org.hyperskill.app.home.injection.HomeComponent
+import org.hyperskill.app.likes.injection.LikesDataComponent
 import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
 import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.network.injection.NetworkComponent
@@ -50,4 +51,5 @@ interface AppGraph {
     fun buildMagicLinksDataComponent(): MagicLinksDataComponent
     fun buildDiscussionsDataComponent(): DiscussionsDataComponent
     fun buildReactionsDataComponent(): ReactionsDataComponent
+    fun buildLikesDataComponent(): LikesDataComponent
 }

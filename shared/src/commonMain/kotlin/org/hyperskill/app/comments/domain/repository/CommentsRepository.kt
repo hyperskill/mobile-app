@@ -4,5 +4,4 @@ import org.hyperskill.app.comments.domain.model.Comment
 
 interface CommentsRepository {
     suspend fun getCommentDetails(commentID: Long): Result<Comment>
-    suspend fun abuseComment(commentID: Long)
 }

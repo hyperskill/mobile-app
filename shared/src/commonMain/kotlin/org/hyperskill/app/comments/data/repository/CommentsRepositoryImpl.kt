@@ -9,8 +9,4 @@ class CommentsRepositoryImpl(
 ) : CommentsRepository {
     override suspend fun getCommentDetails(commentID: Long): Result<Comment> =
         commentsRemoteDataSource.getCommentDetails(commentID)
-
-    override suspend fun abuseComment(commentID: Long) {
-        commentsRemoteDataSource.createLike(subject = "abuse", targetType = "comment", targetID = commentID, value = 1)
-    }
 }
