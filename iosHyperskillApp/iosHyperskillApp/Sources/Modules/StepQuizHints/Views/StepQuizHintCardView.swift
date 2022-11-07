@@ -11,6 +11,8 @@ extension StepQuizHintCardView {
 struct StepQuizHintCardView: View {
     private(set) var appearance = Appearance()
 
+    private static let shortHintTextLength = 48
+
     let authorAvatarSource: String?
 
     let authorName: String
@@ -23,9 +25,21 @@ struct StepQuizHintCardView: View {
 
     let onHintReportButtonTap: () -> Void
 
+    let onHintReportModalAppear: () -> Void
+
+    let onHintReportConfirmationButtonTap: () -> Void
+
+    let onHintReportCancelingButtonTap: () -> Void
+
     let onNextHintButtonTap: (() -> Void)?
 
     @State private var isPresentingReportAlert = false
+
+    @State private var showingMore = false
+
+    private var displaingShortHintText: Bool {
+        !showingMore && hintText.count > Self.shortHintTextLength
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
@@ -42,19 +56,34 @@ struct StepQuizHintCardView: View {
                 if !hintHasReaction {
                     Button(Strings.StepQuiz.Hints.reportButton) {
                         isPresentingReportAlert = true
+                        onHintReportButtonTap()
+                        onHintReportModalAppear()
                     }
                     .font(.subheadline)
                     .foregroundColor(Color(ColorPalette.primaryAlpha60))
                 }
             }
 
-            Text(hintText)
+            Text(
+                displaingShortHintText
+                ? "\(hintText.prefix(Self.shortHintTextLength))..."
+                : hintText
+            )
+            .font(.subheadline)
+            .foregroundColor(.primary)
+
+            if displaingShortHintText {
+                Button(Strings.StepQuiz.Hints.showMore) {
+                    showingMore = true
+                }
                 .font(.subheadline)
-                .foregroundColor(.primary)
+                .foregroundColor(Color(ColorPalette.primary))
+            }
 
             if hintHasReaction {
                 if let onNextHintButtonTap = onNextHintButtonTap {
                     StepQuizShowHintButton(text: Strings.StepQuiz.Hints.seeNextHint) {
+                        showingMore = false
                         onNextHintButtonTap()
                     }
                 } else {
@@ -93,13 +122,11 @@ struct StepQuizHintCardView: View {
                 message: Text(Strings.StepQuiz.Hints.reportAlertText),
                 primaryButton: .default(
                     Text(Strings.General.no),
-                    action: {}
+                    action: onHintReportCancelingButtonTap
                 ),
                 secondaryButton: .default(
                     Text(Strings.General.yes),
-                    action: {
-                        onHintReportButtonTap()
-                    }
+                    action: onHintReportConfirmationButtonTap
                 )
             )
         }
@@ -116,6 +143,9 @@ struct StepQuizHintCardView_Previews: PreviewProvider {
                 hintHasReaction: true,
                 onHintReactionButtonTap: { _ in },
                 onHintReportButtonTap: {},
+                onHintReportModalAppear: {},
+                onHintReportConfirmationButtonTap: {},
+                onHintReportCancelingButtonTap: {},
                 onNextHintButtonTap: {}
             )
 
@@ -126,6 +156,9 @@ struct StepQuizHintCardView_Previews: PreviewProvider {
                 hintHasReaction: false,
                 onHintReactionButtonTap: { _ in },
                 onHintReportButtonTap: {},
+                onHintReportModalAppear: {},
+                onHintReportConfirmationButtonTap: {},
+                onHintReportCancelingButtonTap: {},
                 onNextHintButtonTap: {}
             )
         }

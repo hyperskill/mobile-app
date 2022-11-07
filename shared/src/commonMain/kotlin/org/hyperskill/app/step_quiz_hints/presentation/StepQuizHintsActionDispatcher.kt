@@ -1,8 +1,10 @@
 package org.hyperskill.app.step_quiz_hints.presentation
 
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.comments.domain.interactor.CommentsDataInteractor
 import org.hyperskill.app.comments.domain.model.ReactionType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.step_quiz_hints.domain.interactor.StepQuizHintsInteractor
 import org.hyperskill.app.step_quiz_hints.domain.model.HintState
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.Action
@@ -15,12 +17,21 @@ class StepQuizHintsActionDispatcher(
     config: ActionDispatcherOptions,
     private val commentsDataInteractor: CommentsDataInteractor,
     private val userStorageInteractor: UserStorageInteractor,
-    private val stepQuizHintsInteractor: StepQuizHintsInteractor
+    private val stepQuizHintsInteractor: StepQuizHintsInteractor,
+    private val analyticInteractor: AnalyticInteractor,
+    private val profileInteractor: ProfileInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchHintsIds -> {
-                onNewMessage(Message.HintsIdsLoaded(stepQuizHintsInteractor.getNotSeenHintsIds(action.stepId)))
+                val hintsIds = stepQuizHintsInteractor.getNotSeenHintsIds(action.stepId)
+                val dailyStepId = profileInteractor
+                    .getCurrentProfile()
+                    .fold(
+                        onSuccess = { it.dailyStep },
+                        onFailure = { null }
+                    )
+                onNewMessage(Message.HintsIdsLoaded(hintsIds, dailyStepId))
             }
             is Action.ReportHint -> {
                 commentsDataInteractor.abuseComment(action.hintId)
@@ -45,7 +56,7 @@ class StepQuizHintsActionDispatcher(
                 commentsDataInteractor
                     .getCommentDetails(action.nextHintId)
                     .onSuccess {
-                        onNewMessage(Message.NextHintLoaded(it, action.remainingHintsIds))
+                        onNewMessage(Message.NextHintLoaded(it, action.remainingHintsIds, action.dailyStepId))
 
                         userStorageInteractor.updateUserStorage(
                             UserStoragePathBuilder.buildSeenHint(it.targetId, it.id),
@@ -53,9 +64,11 @@ class StepQuizHintsActionDispatcher(
                         )
                     }
                     .onFailure {
-                        onNewMessage(Message.NextHintLoadingError(action.nextHintId, action.remainingHintsIds))
+                        onNewMessage(Message.NextHintLoadingError(action.nextHintId, action.remainingHintsIds, action.dailyStepId))
                     }
             }
+            is Action.LogAnalyticEvent ->
+                analyticInteractor.logEvent(action.analyticEvent)
         }
     }
 }

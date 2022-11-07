@@ -45,5 +45,8 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     CONTINUE_WITH_EMAIL("continue_with_email"),
     LOG_IN("log_in"),
     RESET_PASSWORD("reset_password"),
-    CONTINUE_WITH_SOCIAL_NETWORKS("continue_with_social_networks")
+    CONTINUE_WITH_SOCIAL_NETWORKS("continue_with_social_networks"),
+    SEE_HINT("see_hint"),
+    REPORT("report"),
+    REPORT_HINT_NOTICE("report_hint_notice"),
 }

@@ -89,6 +89,7 @@ enum Strings {
             static let lastHint = sharedStrings.step_quiz_hints_last_hint_text.localized()
             static let reportAlertTitle = sharedStrings.step_quiz_hints_report_alert_title.localized()
             static let reportAlertText = sharedStrings.step_quiz_hints_report_alert_text.localized()
+            static let showMore = sharedStrings.step_quiz_hints_show_more_text.localized()
         }
     }
 

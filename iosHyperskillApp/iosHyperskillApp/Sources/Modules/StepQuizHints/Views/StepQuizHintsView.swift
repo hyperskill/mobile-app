@@ -60,11 +60,14 @@ struct StepQuizHintsView: View {
                 hintHasReaction: state.hintHasReaction,
                 onHintReactionButtonTap: viewModel.onHintReactionButtonTap(reaction:),
                 onHintReportButtonTap: viewModel.onHintReportButtonTap,
+                onHintReportModalAppear: viewModel.onHintReportModalAppear,
+                onHintReportConfirmationButtonTap: viewModel.onHintReportConfirmationButtonTap,
+                onHintReportCancelingButtonTap: viewModel.onHintReportCancelingButtonTap,
                 onNextHintButtonTap: state.hintsIds.isEmpty ? nil : viewModel.onLoadHintButtonTap
             )
         } else if !state.hintsIds.isEmpty {
             StepQuizShowHintButton(text: Strings.StepQuiz.Hints.showButton) {
-                viewModel.onLoadHintButtonTap()
+                viewModel.onSeeHintButtonTap()
             }
         }
     }

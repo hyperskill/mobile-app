@@ -21,11 +21,28 @@ final class StepQuizHintsViewModel: FeatureViewModel<
         onNewMessage(StepQuizHintsFeatureMessageReactionButtonClicked(reaction: reaction))
     }
 
+    func onHintReportModalAppear() {
+        onNewMessage(StepQuizHintsFeatureMessageReportHintReportShownEventMessage())
+    }
+
     func onHintReportButtonTap() {
+        onNewMessage(StepQuizHintsFeatureMessageReportHintReportClickedEventMessage())
+    }
+
+    func onHintReportConfirmationButtonTap() {
         onNewMessage(StepQuizHintsFeatureMessageHintReported())
+    }
+
+    func onHintReportCancelingButtonTap() {
+        onNewMessage(StepQuizHintsFeatureMessageReportHintNoticeHiddenEventMessage())
     }
 
     func onLoadHintButtonTap() {
         onNewMessage(StepQuizHintsFeatureMessageLoadHintButtonClicked())
+    }
+
+    func onSeeHintButtonTap() {
+        onLoadHintButtonTap()
+        onNewMessage(StepQuizHintsFeatureMessageReportSeeHintClickedEventMessage())
     }
 }

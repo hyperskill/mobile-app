@@ -72,6 +72,7 @@
     <string name="step_quiz_hints_last_hint_text">This is the last hint available for this problem!</string>
     <string name="step_quiz_hints_report_alert_title">Thank you for being active Hyperskill citizen!</string>
     <string name="step_quiz_hints_report_alert_text">Are you sure you want to report this hint for spoilers, abuse or spam?</string>
+    <string name="step_quiz_hints_show_more_text">Show more</string>
 
     <!-- Step quiz choice -->
     <string name="step_quiz_choice_single_choice_title">Select one option from the list</string>

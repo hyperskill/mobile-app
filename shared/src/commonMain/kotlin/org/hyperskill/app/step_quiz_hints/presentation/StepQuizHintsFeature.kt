@@ -1,5 +1,6 @@
 package org.hyperskill.app.step_quiz_hints.presentation
 
+import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.comments.domain.model.Comment
 import org.hyperskill.app.comments.domain.model.ReactionType
 
@@ -11,18 +12,20 @@ interface StepQuizHintsFeature {
         data class Content(
             val hintsIds: List<Long>,
             val currentHint: Comment?,
-            val hintHasReaction: Boolean
+            val hintHasReaction: Boolean,
+            val dailyStepId: Long?
         ) : State
 
         data class NetworkError(
             val nextHintId: Long,
-            val hintsIds: List<Long>
+            val hintsIds: List<Long>,
+            val dailyStepId: Long?
         ) : State
     }
 
     sealed interface Message {
         data class InitWithStepId(val stepId: Long) : Message
-        data class HintsIdsLoaded(val hintsIds: List<Long>) : Message
+        data class HintsIdsLoaded(val hintsIds: List<Long>, val dailyStepId: Long?) : Message
 
         data class ReactionButtonClicked(
             val reaction: ReactionType
@@ -32,17 +35,22 @@ interface StepQuizHintsFeature {
         object LoadHintButtonClicked : Message
         data class NextHintLoaded(
             val nextHint: Comment,
-            val remainingHintsIds: List<Long>
+            val remainingHintsIds: List<Long>,
+            val dailyStepId: Long?
         ) : Message
         data class NextHintLoadingError(
             val nextHintId: Long,
-            val remainingHintsIds: List<Long>
+            val remainingHintsIds: List<Long>,
+            val dailyStepId: Long?
         ) : Message
 
         /**
          * Analytic
          */
-        // TODO: decide what should we send to analytic
+        object ReportSeeHintClickedEventMessage : Message
+        object ReportHintReportClickedEventMessage : Message
+        object ReportHintReportShownEventMessage : Message
+        object ReportHintNoticeHiddenEventMessage : Message
     }
 
     sealed interface Action {
@@ -53,14 +61,12 @@ interface StepQuizHintsFeature {
 
         data class FetchNextHint(
             val nextHintId: Long,
-            val remainingHintsIds: List<Long>
+            val remainingHintsIds: List<Long>,
+            val dailyStepId: Long?
         ) : Action
 
-        sealed class ViewAction : Action
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
-        /**
-         * Analytic
-         */
-        // TODO: decide what should we send to analytic
+        sealed class ViewAction : Action
     }
 }
