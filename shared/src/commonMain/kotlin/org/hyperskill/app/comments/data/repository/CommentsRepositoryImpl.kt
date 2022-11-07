@@ -2,7 +2,6 @@ package org.hyperskill.app.comments.data.repository
 
 import org.hyperskill.app.comments.data.source.CommentsRemoteDataSource
 import org.hyperskill.app.comments.domain.model.Comment
-import org.hyperskill.app.comments.domain.model.ReactionType
 import org.hyperskill.app.comments.domain.repository.CommentsRepository
 
 class CommentsRepositoryImpl(
@@ -13,9 +12,5 @@ class CommentsRepositoryImpl(
 
     override suspend fun abuseComment(commentID: Long) {
         commentsRemoteDataSource.createLike(subject = "abuse", targetType = "comment", targetID = commentID, value = 1)
-    }
-
-    override suspend fun createReaction(commentID: Long, reaction: ReactionType) {
-        commentsRemoteDataSource.createReaction(commentID = commentID, shortName = reaction.shortName)
     }
 }

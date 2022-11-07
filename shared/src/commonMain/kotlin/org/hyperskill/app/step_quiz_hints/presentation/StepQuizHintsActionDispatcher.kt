@@ -1,8 +1,9 @@
 package org.hyperskill.app.step_quiz_hints.presentation
 
 import org.hyperskill.app.comments.domain.interactor.CommentsInteractor
-import org.hyperskill.app.comments.domain.model.ReactionType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.reactions.domain.interactor.ReactionsInteractor
+import org.hyperskill.app.reactions.domain.model.ReactionType
 import org.hyperskill.app.step_quiz_hints.domain.model.HintState
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.Action
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.Message
@@ -13,6 +14,7 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 class StepQuizHintsActionDispatcher(
     config: ActionDispatcherOptions,
     private val commentsInteractor: CommentsInteractor,
+    private val reactionsInteractor: ReactionsInteractor,
     private val userStorageInteractor: UserStorageInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
@@ -26,13 +28,13 @@ class StepQuizHintsActionDispatcher(
                 )
             }
             is Action.ReactHint -> {
-                commentsInteractor.createReaction(action.hintId, action.reaction)
+                reactionsInteractor.createReaction(action.hintId, action.reaction)
 
                 userStorageInteractor.updateUserStorage(
                     UserStoragePathBuilder.buildSeenHint(action.stepId, action.hintId),
                     when (action.reaction) {
-                        ReactionType.HELPFULL -> HintState.HELPFUL.userStorageValue
-                        ReactionType.UNHELPFULL -> HintState.UNHELPFUL.userStorageValue
+                        ReactionType.HELPFUL -> HintState.HELPFUL.userStorageValue
+                        ReactionType.UNHELPFUL -> HintState.UNHELPFUL.userStorageValue
                     }
                 )
             }

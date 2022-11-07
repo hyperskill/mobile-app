@@ -1,7 +1,6 @@
 package org.hyperskill.app.comments.domain.interactor
 
 import org.hyperskill.app.comments.domain.model.Comment
-import org.hyperskill.app.comments.domain.model.ReactionType
 import org.hyperskill.app.comments.domain.repository.CommentsRepository
 
 class CommentsInteractor(
@@ -12,9 +11,5 @@ class CommentsInteractor(
 
     suspend fun abuseComment(commentId: Long) {
         commentsRepository.abuseComment(commentId)
-    }
-
-    suspend fun createReaction(commentId: Long, reaction: ReactionType) {
-        commentsRepository.createReaction(commentId, reaction)
     }
 }

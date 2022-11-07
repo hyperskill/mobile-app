@@ -39,15 +39,4 @@ class CommentsRemoteDataSourceImpl(
                 }
         }
     }
-
-    override suspend fun createReaction(commentID: Long, shortName: String) {
-        kotlin.runCatching {
-            httpClient
-                .get("/api/reactions") {
-                    contentType(ContentType.Application.Json)
-                    parameter("comment", commentID)
-                    parameter("short_name", shortName)
-                }
-        }
-    }
 }

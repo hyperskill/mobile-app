@@ -34,6 +34,8 @@ import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponentImpl
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponentImpl
+import org.hyperskill.app.reactions.injection.ReactionsDataComponent
+import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step.injection.StepComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
@@ -129,4 +131,7 @@ class AppGraphImpl(
 
     override fun buildDiscussionsDataComponent(): DiscussionsDataComponent =
         DiscussionsDataComponentImpl(this)
+
+    override fun buildReactionsDataComponent(): ReactionsDataComponent =
+        ReactionsDataComponentImpl(this)
 }
