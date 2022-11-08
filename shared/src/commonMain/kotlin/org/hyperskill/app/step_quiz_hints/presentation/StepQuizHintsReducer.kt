@@ -4,8 +4,8 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 import org.hyperskill.app.comments.domain.model.ReactionType
 import org.hyperskill.app.step_quiz_hints.domain.analytic.StepQuizHintsClickedHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz_hints.domain.analytic.StepQuizHintsHiddenHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz_hints.domain.analytic.StepQuizHintsShownHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz_hints.domain.analytic.StepQuizHintsHiddenReportHintNoticeHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz_hints.domain.analytic.StepQuizHintsShownReportHintNoticeHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.Action
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.Message
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.State
@@ -32,12 +32,6 @@ class StepQuizHintsReducer : StateReducer<State, Message, Action> {
                         Action.ReportHint(
                             hintId = state.currentHint.id,
                             stepId = state.currentHint.targetId
-                        ),
-                        Action.LogAnalyticEvent(
-                            StepQuizHintsHiddenHyperskillAnalyticEvent(
-                                resolveAnalyticRoute(state.currentHint.targetId, state.dailyStepId),
-                                isReported = true
-                            )
                         )
                     )
                 } else {
@@ -101,9 +95,9 @@ class StepQuizHintsReducer : StateReducer<State, Message, Action> {
                 if (state is State.Content && state.currentHint != null) {
                     state to setOf(
                         Action.LogAnalyticEvent(
-                            StepQuizHintsHiddenHyperskillAnalyticEvent(
+                            StepQuizHintsHiddenReportHintNoticeHyperskillAnalyticEvent(
                                 resolveAnalyticRoute(state.currentHint.targetId, state.dailyStepId),
-                                isReported = false
+                                isReported = message.isReported
                             )
                         )
                     )
@@ -123,7 +117,7 @@ class StepQuizHintsReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
-            is Message.ReportHintReportClickedEventMessage ->
+            is Message.ClickedReportEventMessage ->
                 if (state is State.Content && state.currentHint != null) {
                     state to setOf(
                         Action.LogAnalyticEvent(
@@ -137,11 +131,11 @@ class StepQuizHintsReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
-            is Message.ReportHintReportShownEventMessage ->
+            is Message.ReportHintNoticeShownEventMessage ->
                 if (state is State.Content && state.currentHint != null) {
                     state to setOf(
                         Action.LogAnalyticEvent(
-                            StepQuizHintsShownHyperskillAnalyticEvent(
+                            StepQuizHintsShownReportHintNoticeHyperskillAnalyticEvent(
                                 resolveAnalyticRoute(state.currentHint.targetId, state.dailyStepId)
                             )
                         )
@@ -152,7 +146,6 @@ class StepQuizHintsReducer : StateReducer<State, Message, Action> {
         } ?: (state to emptySet())
 
     private fun resolveAnalyticRoute(currentStepId: Long, dailyStepId: Long?): HyperskillAnalyticRoute =
-        if (currentStepId == dailyStepId)
-            HyperskillAnalyticRoute.Learn.Daily(currentStepId)
+        if (currentStepId == dailyStepId) HyperskillAnalyticRoute.Learn.Daily(currentStepId)
         else HyperskillAnalyticRoute.Learn.Step(currentStepId)
 }

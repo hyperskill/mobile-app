@@ -6,12 +6,12 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
-class StepQuizHintsHiddenHyperskillAnalyticEvent(
+class StepQuizHintsHiddenReportHintNoticeHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute,
     isReported: Boolean
 ) : HyperskillAnalyticEvent(
     route,
-    HyperskillAnalyticAction.SHOWN,
+    HyperskillAnalyticAction.HIDDEN,
     HyperskillAnalyticPart.REPORT_HINT_NOTICE,
     target = if (isReported) HyperskillAnalyticTarget.YES else HyperskillAnalyticTarget.NO
 )

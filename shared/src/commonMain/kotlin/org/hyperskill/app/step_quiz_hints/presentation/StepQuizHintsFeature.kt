@@ -48,9 +48,9 @@ interface StepQuizHintsFeature {
          * Analytic
          */
         object ReportSeeHintClickedEventMessage : Message
-        object ReportHintReportClickedEventMessage : Message
-        object ReportHintReportShownEventMessage : Message
-        object ReportHintNoticeHiddenEventMessage : Message
+        object ClickedReportEventMessage : Message
+        object ReportHintNoticeShownEventMessage : Message
+        data class ReportHintNoticeHiddenEventMessage(val isReported: Boolean) : Message
     }
 
     sealed interface Action {

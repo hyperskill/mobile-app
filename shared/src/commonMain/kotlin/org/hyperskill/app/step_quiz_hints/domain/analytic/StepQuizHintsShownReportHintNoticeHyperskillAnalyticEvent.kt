@@ -6,7 +6,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
-class StepQuizHintsShownHyperskillAnalyticEvent(
+class StepQuizHintsShownReportHintNoticeHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute,
 ) : HyperskillAnalyticEvent(
     route,

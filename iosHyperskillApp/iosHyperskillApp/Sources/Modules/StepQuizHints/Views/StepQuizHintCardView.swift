@@ -5,13 +5,12 @@ extension StepQuizHintCardView {
     struct Appearance {
         let authorAvatarWidthHeight: CGFloat = 20
         let reactionImageWidthHeight: CGFloat = 16
+        let shortHintTextLength = 48
     }
 }
 
 struct StepQuizHintCardView: View {
     private(set) var appearance = Appearance()
-
-    private static let shortHintTextLength = 48
 
     let authorAvatarSource: String?
 
@@ -21,24 +20,26 @@ struct StepQuizHintCardView: View {
 
     let hintHasReaction: Bool
 
-    let onHintReactionButtonTap: (ReactionType) -> Void
+    let onReactionTapped: (ReactionType) -> Void
 
-    let onHintReportButtonTap: () -> Void
+    let onReportTapped: () -> Void
 
-    let onHintReportModalAppear: () -> Void
+    let onReportAlertAppeared: () -> Void
 
-    let onHintReportConfirmationButtonTap: () -> Void
+    let onReportAlertConfirmed: () -> Void
 
-    let onHintReportCancelingButtonTap: () -> Void
+    let onReportAlertCanceled: () -> Void
 
-    let onNextHintButtonTap: (() -> Void)?
+    let hasNextHints: Bool
+
+    let onNextHintTapped: (() -> Void)
 
     @State private var isPresentingReportAlert = false
 
-    @State private var showingMore = false
+    @State private var isShowingMore = false
 
-    private var displaingShortHintText: Bool {
-        !showingMore && hintText.count > Self.shortHintTextLength
+    private var isDisplaingShortHintText: Bool {
+        !isShowingMore && hintText.count > appearance.shortHintTextLength
     }
 
     var body: some View {
@@ -56,8 +57,7 @@ struct StepQuizHintCardView: View {
                 if !hintHasReaction {
                     Button(Strings.StepQuiz.Hints.reportButton) {
                         isPresentingReportAlert = true
-                        onHintReportButtonTap()
-                        onHintReportModalAppear()
+                        onReportTapped()
                     }
                     .font(.subheadline)
                     .foregroundColor(Color(ColorPalette.primaryAlpha60))
@@ -65,26 +65,26 @@ struct StepQuizHintCardView: View {
             }
 
             Text(
-                displaingShortHintText
-                ? "\(hintText.prefix(Self.shortHintTextLength))..."
-                : hintText
+                isDisplaingShortHintText
+                    ? "\(hintText.prefix(appearance.shortHintTextLength))..."
+                    : hintText
             )
             .font(.subheadline)
             .foregroundColor(.primary)
 
-            if displaingShortHintText {
+            if isDisplaingShortHintText {
                 Button(Strings.StepQuiz.Hints.showMore) {
-                    showingMore = true
+                    isShowingMore = true
                 }
                 .font(.subheadline)
                 .foregroundColor(Color(ColorPalette.primary))
             }
 
             if hintHasReaction {
-                if let onNextHintButtonTap = onNextHintButtonTap {
+                if hasNextHints {
                     StepQuizShowHintButton(text: Strings.StepQuiz.Hints.seeNextHint) {
-                        showingMore = false
-                        onNextHintButtonTap()
+                        isShowingMore = false
+                        onNextHintTapped()
                     }
                 } else {
                     Text(Strings.StepQuiz.Hints.lastHint)
@@ -102,13 +102,13 @@ struct StepQuizHintCardView: View {
                     StepQuizHintReactionButtonView(
                         reactionImage: Images.StepQuiz.Hints.unhelpfulReaction,
                         reactionText: Strings.General.no,
-                        onReactionButtonTap: { onHintReactionButtonTap(ReactionType.unhelpful) }
+                        onReactionButtonTap: { onReactionTapped(ReactionType.unhelpful) }
                     )
 
                     StepQuizHintReactionButtonView(
                         reactionImage: Images.StepQuiz.Hints.helpfulReaction,
                         reactionText: Strings.General.yes,
-                        onReactionButtonTap: { onHintReactionButtonTap(ReactionType.helpful) }
+                        onReactionButtonTap: { onReactionTapped(ReactionType.helpful) }
                     )
                 }
             }
@@ -122,13 +122,18 @@ struct StepQuizHintCardView: View {
                 message: Text(Strings.StepQuiz.Hints.reportAlertText),
                 primaryButton: .default(
                     Text(Strings.General.no),
-                    action: onHintReportCancelingButtonTap
+                    action: onReportAlertCanceled
                 ),
                 secondaryButton: .default(
                     Text(Strings.General.yes),
-                    action: onHintReportConfirmationButtonTap
+                    action: onReportAlertConfirmed
                 )
             )
+        }
+        .onChange(of: isPresentingReportAlert) { newValue in
+            if newValue {
+                onReportAlertAppeared()
+            }
         }
     }
 }
@@ -141,12 +146,13 @@ struct StepQuizHintCardView_Previews: PreviewProvider {
                 authorName: "Name Surname",
                 hintText: "Python is used for almost everything in programming.",
                 hintHasReaction: true,
-                onHintReactionButtonTap: { _ in },
-                onHintReportButtonTap: {},
-                onHintReportModalAppear: {},
-                onHintReportConfirmationButtonTap: {},
-                onHintReportCancelingButtonTap: {},
-                onNextHintButtonTap: {}
+                onReactionTapped: { _ in },
+                onReportTapped: {},
+                onReportAlertAppeared: {},
+                onReportAlertConfirmed: {},
+                onReportAlertCanceled: {},
+                hasNextHints: true,
+                onNextHintTapped: {}
             )
 
             StepQuizHintCardView(
@@ -154,12 +160,13 @@ struct StepQuizHintCardView_Previews: PreviewProvider {
                 authorName: "Name Surname",
                 hintText: "Python is used for almost everything in programming.",
                 hintHasReaction: false,
-                onHintReactionButtonTap: { _ in },
-                onHintReportButtonTap: {},
-                onHintReportModalAppear: {},
-                onHintReportConfirmationButtonTap: {},
-                onHintReportCancelingButtonTap: {},
-                onNextHintButtonTap: {}
+                onReactionTapped: { _ in },
+                onReportTapped: {},
+                onReportAlertAppeared: {},
+                onReportAlertConfirmed: {},
+                onReportAlertCanceled: {},
+                hasNextHints: true,
+                onNextHintTapped: {}
             )
         }
         .previewLayout(.sizeThatFits)

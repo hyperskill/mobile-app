@@ -58,12 +58,16 @@ struct StepQuizHintsView: View {
                 authorName: hint.user.fullName,
                 hintText: hint.localizedText,
                 hintHasReaction: state.hintHasReaction,
-                onHintReactionButtonTap: viewModel.onHintReactionButtonTap(reaction:),
-                onHintReportButtonTap: viewModel.onHintReportButtonTap,
-                onHintReportModalAppear: viewModel.onHintReportModalAppear,
-                onHintReportConfirmationButtonTap: viewModel.onHintReportConfirmationButtonTap,
-                onHintReportCancelingButtonTap: viewModel.onHintReportCancelingButtonTap,
-                onNextHintButtonTap: state.hintsIds.isEmpty ? nil : viewModel.onLoadHintButtonTap
+                onReactionTapped: viewModel.onHintReactionButtonTap(reaction:),
+                onReportTapped: viewModel.logClickedReportEvent,
+                onReportAlertAppeared: viewModel.logHintNoticeShownEvent,
+                onReportAlertConfirmed: {
+                    viewModel.onHintReportConfirmationButtonTap()
+                    viewModel.logHintNoticeHiddenEvent(isReported: true)
+                },
+                onReportAlertCanceled: { viewModel.logHintNoticeHiddenEvent(isReported: false) },
+                hasNextHints: state.hintsIds.isEmpty,
+                onNextHintTapped: viewModel.onLoadHintButtonTap
             )
         } else if !state.hintsIds.isEmpty {
             StepQuizShowHintButton(text: Strings.StepQuiz.Hints.showButton) {

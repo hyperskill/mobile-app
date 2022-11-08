@@ -21,20 +21,8 @@ final class StepQuizHintsViewModel: FeatureViewModel<
         onNewMessage(StepQuizHintsFeatureMessageReactionButtonClicked(reaction: reaction))
     }
 
-    func onHintReportModalAppear() {
-        onNewMessage(StepQuizHintsFeatureMessageReportHintReportShownEventMessage())
-    }
-
-    func onHintReportButtonTap() {
-        onNewMessage(StepQuizHintsFeatureMessageReportHintReportClickedEventMessage())
-    }
-
     func onHintReportConfirmationButtonTap() {
         onNewMessage(StepQuizHintsFeatureMessageHintReported())
-    }
-
-    func onHintReportCancelingButtonTap() {
-        onNewMessage(StepQuizHintsFeatureMessageReportHintNoticeHiddenEventMessage())
     }
 
     func onLoadHintButtonTap() {
@@ -43,6 +31,24 @@ final class StepQuizHintsViewModel: FeatureViewModel<
 
     func onSeeHintButtonTap() {
         onLoadHintButtonTap()
+        logSeeHintClickedEvent()
+    }
+
+    // MARK: Analytic
+
+    func logHintNoticeShownEvent() {
+        onNewMessage(StepQuizHintsFeatureMessageReportHintNoticeShownEventMessage())
+    }
+
+    func logClickedReportEvent() {
+        onNewMessage(StepQuizHintsFeatureMessageClickedReportEventMessage())
+    }
+
+    func logHintNoticeHiddenEvent(isReported: Bool) {
+        onNewMessage(StepQuizHintsFeatureMessageReportHintNoticeHiddenEventMessage(isReported: isReported))
+    }
+
+    func logSeeHintClickedEvent() {
         onNewMessage(StepQuizHintsFeatureMessageReportSeeHintClickedEventMessage())
     }
 }
