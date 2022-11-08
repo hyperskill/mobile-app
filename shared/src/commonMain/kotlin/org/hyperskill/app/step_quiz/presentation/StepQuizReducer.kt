@@ -241,7 +241,6 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
     }
 
     private fun resolveAnalyticRoute(state: State.AttemptLoaded): HyperskillAnalyticRoute =
-        if (state.attempt.step == state.currentProfile.dailyStep)
-            HyperskillAnalyticRoute.Learn.Daily(state.attempt.step)
+        if (state.attempt.step == state.currentProfile.dailyStep) HyperskillAnalyticRoute.Learn.Daily(state.attempt.step)
         else HyperskillAnalyticRoute.Learn.Step(state.attempt.step)
 }

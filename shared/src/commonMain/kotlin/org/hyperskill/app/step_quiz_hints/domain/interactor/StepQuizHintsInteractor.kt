@@ -36,6 +36,6 @@ class StepQuizHintsInteractor(
             .getOrDefault(emptyList())
             .map { it.id }
 
-        return hintsIds.filter { seenHintsIds?.contains(it) ?: true }
+        return hintsIds.filter { seenHintsIds?.contains(it)?.not() ?: true }
     }
 }

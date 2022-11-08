@@ -78,12 +78,16 @@ struct StepQuizView: View {
                         )
                     )
 
+                    if viewData.stepHasHints {
+                        StepQuizHintsAssembly(stepID: viewModel.step.id).makeModule()
+                    }
+
                     buildQuizContent(
                         state: viewModel.state,
                         step: viewModel.step,
                         stepQuizName: viewData.quizName,
                         quizType: quizType,
-                        hintText: viewData.hintText
+                        feedbackHintText: viewData.feedbackHintText
                     )
                 }
                 .padding()
@@ -97,7 +101,7 @@ struct StepQuizView: View {
         step: Step,
         stepQuizName: String?,
         quizType: StepQuizChildQuizType,
-        hintText: String?
+        feedbackHintText: String?
     ) -> some View {
         if let stepQuizName = stepQuizName {
             StepQuizNameView(text: stepQuizName)
@@ -119,8 +123,8 @@ struct StepQuizView: View {
                 buildChildQuiz(quizType: quizType, step: step, attemptLoadedState: attemptLoadedState)
                 buildQuizStatusView(state: state, attemptLoadedState: attemptLoadedState)
 
-                if let hintText = hintText {
-                    StepQuizFeedbackView(text: hintText)
+                if let feedbackHintText = feedbackHintText {
+                    StepQuizFeedbackView(text: feedbackHintText)
                 }
 
                 buildQuizActionButtons(quizType: quizType, state: state, attemptLoadedState: attemptLoadedState)
