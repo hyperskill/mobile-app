@@ -6,7 +6,6 @@ import org.hyperskill.app.core.remote.Meta
 import org.hyperskill.app.core.remote.MetaResponse
 import org.hyperskill.app.discussions.domain.model.Discussion
 
-
 @Serializable
 class DiscussionsResponse(
     @SerialName("meta")

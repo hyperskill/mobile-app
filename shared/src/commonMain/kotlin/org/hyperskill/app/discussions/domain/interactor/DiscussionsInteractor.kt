@@ -1,5 +1,6 @@
 package org.hyperskill.app.discussions.domain.interactor
 
+import org.hyperskill.app.comments.domain.model.Comment
 import org.hyperskill.app.comments.domain.repository.CommentsRepository
 import org.hyperskill.app.discussions.domain.model.Discussion
 import org.hyperskill.app.discussions.domain.model.DiscussionCommentsTreeItem
@@ -21,9 +22,27 @@ class DiscussionsInteractor(
     suspend fun getDiscussions(request: DiscussionsRequest): Result<DiscussionsResponse> =
         discussionsRepository.getDiscussions(request)
 
+    /**
+     * Returns discussions for the specified step by id.
+     *
+     * @param stepId Id of the step to get hints for.
+     * @param page Current pagination page.
+     * @return On success returns a value of [DiscussionsResponse] with step hints discussions
+     * or a failure with an arbitrary Throwable exception.
+     * @see Discussion
+     */
     suspend fun getStepHints(stepId: Long, page: Int = 1): Result<DiscussionsResponse> =
         discussionsRepository.getStepHints(stepId, page)
 
+    /**
+     * Loads all comments for the specified discussions and assembles tree structure.
+     *
+     * @param discussions List of the discussions to fetch comments.
+     * @return On success returns a list with item value of [DiscussionCommentsTreeItem] or a failure with an arbitrary Throwable exception.
+     * @see Discussion
+     * @see Comment
+     * @see DiscussionCommentsTreeItem
+     */
     suspend fun getDiscussionsCommentsTree(discussions: List<Discussion>): Result<List<DiscussionCommentsTreeItem>> =
         kotlin.runCatching {
             val commentsIds = discussions
