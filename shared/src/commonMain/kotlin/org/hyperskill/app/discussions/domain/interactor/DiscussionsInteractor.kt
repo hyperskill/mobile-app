@@ -1,12 +1,15 @@
 package org.hyperskill.app.discussions.domain.interactor
 
+import org.hyperskill.app.comments.domain.repository.CommentsRepository
 import org.hyperskill.app.discussions.domain.model.Discussion
+import org.hyperskill.app.discussions.domain.model.DiscussionCommentsTreeItem
 import org.hyperskill.app.discussions.domain.repository.DiscussionsRepository
 import org.hyperskill.app.discussions.remote.model.DiscussionsRequest
 import org.hyperskill.app.discussions.remote.model.DiscussionsResponse
 
 class DiscussionsInteractor(
-    private val discussionsRepository: DiscussionsRepository
+    private val discussionsRepository: DiscussionsRepository,
+    private val commentsRepository: CommentsRepository
 ) {
     /**
      * Executes a GET discussions request, with the specified **DiscussionsRequest**.
@@ -21,14 +24,39 @@ class DiscussionsInteractor(
     suspend fun getStepHints(stepId: Long, page: Int = 1): Result<DiscussionsResponse> =
         discussionsRepository.getStepHints(stepId, page)
 
-    suspend fun getDiscussionsCommentsTree(discussions: List<Discussion>) {
-        val commentsIds = discussions
-            .map { it.comments }
-            .flatten()
-            .distinct()
+    suspend fun getDiscussionsCommentsTree(discussions: List<Discussion>): Result<List<DiscussionCommentsTreeItem>> =
+        kotlin.runCatching {
+            val commentsIds = discussions
+                .map { it.commentsIds }
+                .flatten()
+                .distinct()
 
-        if (commentsIds.isEmpty()) {
-            return
+            if (commentsIds.isEmpty()) {
+                return Result.success(emptyList())
+            }
+
+            val comments = commentsRepository
+                .getComments(commentsIds)
+                .getOrThrow()
+            val commentsMap = comments.associateBy { it.id }
+
+            val resultTree: MutableList<DiscussionCommentsTreeItem> = mutableListOf()
+
+            for (discussion in discussions) {
+                val discussionComment = commentsMap[discussion.id] ?: continue
+                val discussionReplies = discussion.commentsIds
+                    .filter { it != discussion.id }
+                    .mapNotNull { commentsMap[it] }
+
+                val treeItem = DiscussionCommentsTreeItem(
+                    discussion,
+                    discussionComment,
+                    discussionReplies
+                )
+
+                resultTree.add(treeItem)
+            }
+
+            return Result.success(resultTree)
         }
-    }
 }

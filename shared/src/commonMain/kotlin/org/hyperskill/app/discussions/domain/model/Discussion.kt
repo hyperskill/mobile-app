@@ -7,12 +7,12 @@ import kotlinx.serialization.Serializable
  * Represents a Discussion.
  *
  * @property id Unique identifier.
- * @property comments An list of comments ids.
+ * @property commentsIds An list of comments ids.
  */
 @Serializable
 data class Discussion(
     @SerialName("id")
     val id: Long,
     @SerialName("comments")
-    val comments: List<Long>
+    val commentsIds: List<Long>
 )

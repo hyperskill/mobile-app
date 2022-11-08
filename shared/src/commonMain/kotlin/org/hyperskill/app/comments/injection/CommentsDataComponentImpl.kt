@@ -10,7 +10,8 @@ import org.hyperskill.app.core.injection.AppGraph
 class CommentsDataComponentImpl(appGraph: AppGraph) : CommentsDataComponent {
     private val commentsRemoteDataSource: CommentsRemoteDataSource =
         CommentsRemoteDataSourceImpl(appGraph.networkComponent.authorizedHttpClient)
-    private val commentsRepository: CommentsRepository =
+
+    override val commentsRepository: CommentsRepository =
         CommentsRepositoryImpl(commentsRemoteDataSource)
 
     override val commentsInteractor: CommentsInteractor
