@@ -20,4 +20,15 @@ class DiscussionsInteractor(
 
     suspend fun getStepHints(stepId: Long, page: Int = 1): Result<DiscussionsResponse> =
         discussionsRepository.getStepHints(stepId, page)
+
+    suspend fun getDiscussionsCommentsTree(discussions: List<Discussion>) {
+        val commentsIds = discussions
+            .map { it.comments }
+            .flatten()
+            .distinct()
+
+        if (commentsIds.isEmpty()) {
+            return
+        }
+    }
 }
