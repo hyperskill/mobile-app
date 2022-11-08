@@ -66,12 +66,12 @@ struct StepQuizHintsView: View {
                     viewModel.logHintNoticeHiddenEvent(isReported: true)
                 },
                 onReportAlertCanceled: { viewModel.logHintNoticeHiddenEvent(isReported: false) },
-                hasNextHints: state.hintsIds.isEmpty,
+                hasNextHints: !state.hintsIds.isEmpty,
                 onNextHintTapped: viewModel.onLoadHintButtonTap
             )
         } else if !state.hintsIds.isEmpty {
             StepQuizShowHintButton(text: Strings.StepQuiz.Hints.showButton) {
-                viewModel.onSeeHintButtonTap()
+                viewModel.onLoadHintButtonTap()
             }
         }
     }

@@ -29,11 +29,6 @@ final class StepQuizHintsViewModel: FeatureViewModel<
         onNewMessage(StepQuizHintsFeatureMessageLoadHintButtonClicked())
     }
 
-    func onSeeHintButtonTap() {
-        onLoadHintButtonTap()
-        logSeeHintClickedEvent()
-    }
-
     // MARK: Analytic
 
     func logHintNoticeShownEvent() {
@@ -46,9 +41,5 @@ final class StepQuizHintsViewModel: FeatureViewModel<
 
     func logHintNoticeHiddenEvent(isReported: Bool) {
         onNewMessage(StepQuizHintsFeatureMessageReportHintNoticeHiddenEventMessage(isReported: isReported))
-    }
-
-    func logSeeHintClickedEvent() {
-        onNewMessage(StepQuizHintsFeatureMessageReportSeeHintClickedEventMessage())
     }
 }
