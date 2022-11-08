@@ -30,6 +30,8 @@ class StepQuizHintsInteractor(
             .getUserStorageValue(key = UserStoragePathBuilder.buildSeenHints(stepId), DataSourceType.REMOTE)
             .getOrNull()?.jsonObject?.keys?.map { it.toLong() }
 
-        return commentsDataInteractor.getHintsIDs(stepId).filter { seenHintsIds?.contains(it) ?: true }
+        return commentsDataInteractor
+            .getHintsIDs(stepId)
+            .filter { seenHintsIds?.contains(it)?.not() ?: true }
     }
 }

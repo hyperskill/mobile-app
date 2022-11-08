@@ -50,6 +50,11 @@ enum Images {
         static let discussions = "step-quiz-discussions"
         static let info = "step-quiz-info"
         static let lightning = "step-quiz-lightning"
+
+        enum Hints {
+            static let helpfulReaction = "step_quiz_hints_helpful_reaction"
+            static let unhelpfulReaction = "step_quiz_hints_unhelpful_reaction"
+        }
     }
 
     // MARK: - Track -
