@@ -23,6 +23,7 @@ class CommentsRemoteDataSourceImpl(
                 .getOrThrow()
         }
 
+    // TODO: ALTAPPS-399/Shared-Implement-generic-GET-request-for-objects-by-ids-with-chunks
     override suspend fun getComments(commentsIds: List<Long>): Result<List<Comment>> =
         kotlin.runCatching {
             if (commentsIds.isEmpty()) {
