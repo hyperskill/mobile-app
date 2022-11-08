@@ -42,7 +42,7 @@ class StepQuizHintsActionDispatcher(
             }
             is Action.FetchNextHint -> {
                 commentsInteractor
-                    .getCommentDetails(action.nextHintId)
+                    .getComment(action.nextHintId)
                     .onSuccess {
                         onNewMessage(Message.NextHintLoaded(it, action.remainingHintsIds))
 
