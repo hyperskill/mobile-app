@@ -24,7 +24,7 @@ class StepQuizHintsReducer : StateReducer<State, Message, Action> {
                 if (state is State.Loading) {
                     State.Content(
                         hintsIds = message.hintsIds,
-                        currentHint = null,
+                        currentHint = message.lastSeenHint,
                         hintHasReaction = false,
                         isDailyStep = message.isDailyStep,
                         stepId = message.stepId
