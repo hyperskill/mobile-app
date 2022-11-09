@@ -15,7 +15,7 @@ class StepQuizHintsInteractor(
         val seenHintsIds = getSeenHintsIds(stepId)
 
         return commentsDataInteractor
-            .getHintsIDs(stepId)
+            .getHintsIds(stepId)
             .filter { seenHintsIds?.contains(it)?.not() ?: true }
     }
 
@@ -28,7 +28,7 @@ class StepQuizHintsInteractor(
         // first is used because elements from hintsIds
         // in StepQuizHintsFeature are removed like from stack
         val lastHintId = commentsDataInteractor
-            .getHintsIDs(stepId)
+            .getHintsIds(stepId)
             .first { seenHintsIds.contains(it) }
 
         return commentsDataInteractor.getCommentDetails(lastHintId).getOrNull()
