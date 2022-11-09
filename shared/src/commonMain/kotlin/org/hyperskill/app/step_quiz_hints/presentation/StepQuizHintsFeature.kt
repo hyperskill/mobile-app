@@ -72,6 +72,16 @@ interface StepQuizHintsFeature {
         data class ReactionButtonClicked(val reaction: ReactionType) : Message
 
         /**
+         * Indicates that react hint succeed
+         */
+        object ReactHintSuccess : Message
+
+        /**
+         * Indicates that react hint failed
+         */
+        object ReactHintFailure : Message
+
+        /**
          * Creates report for current hint, assumes that user confirmed that action
          */
         object ReportHint : Message
@@ -80,6 +90,7 @@ interface StepQuizHintsFeature {
          * Indicates that report hint succeed
          */
         object ReportHintSuccess : Message
+
         /**
          * Indicates that report hint failed
          */

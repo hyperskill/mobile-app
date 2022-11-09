@@ -38,7 +38,7 @@ class StepQuizHintsActionDispatcher(
                     Message.HintsIdsLoaded(
                         hintsIds = hintsIds,
                         lastSeenHint = lastSeenHint,
-                        isDailyStep =  dailyStepId == action.stepId,
+                        isDailyStep = dailyStepId == action.stepId,
                         stepId = action.stepId
                     )
                 )
@@ -56,24 +56,40 @@ class StepQuizHintsActionDispatcher(
                         },
                         onFailure = { Message.ReportHintFailure }
                     )
+
                 onNewMessage(message)
             }
             is Action.ReactHint -> {
-                commentsDataInteractor.createReaction(action.hintId, action.reaction)
+                val message = commentsDataInteractor
+                    .createReaction(action.hintId, action.reaction)
+                    .fold(
+                        onSuccess = {
+                            userStorageInteractor.updateUserStorage(
+                                UserStoragePathBuilder.buildSeenHint(action.stepId, action.hintId),
+                                when (action.reaction) {
+                                    ReactionType.HELPFUL -> HintState.HELPFUL.userStorageValue
+                                    ReactionType.UNHELPFUL -> HintState.UNHELPFUL.userStorageValue
+                                }
+                            )
+                            Message.ReactHintSuccess
+                        },
+                        onFailure = { Message.ReactHintFailure }
+                    )
 
-                userStorageInteractor.updateUserStorage(
-                    UserStoragePathBuilder.buildSeenHint(action.stepId, action.hintId),
-                    when (action.reaction) {
-                        ReactionType.HELPFUL -> HintState.HELPFUL.userStorageValue
-                        ReactionType.UNHELPFUL -> HintState.UNHELPFUL.userStorageValue
-                    }
-                )
+                onNewMessage(message)
             }
             is Action.FetchNextHint -> {
                 commentsDataInteractor
                     .getCommentDetails(action.nextHintId)
                     .onSuccess {
-                        onNewMessage(Message.NextHintLoaded(it, action.remainingHintsIds, action.isDailyStep, action.stepId))
+                        onNewMessage(
+                            Message.NextHintLoaded(
+                                it,
+                                action.remainingHintsIds,
+                                action.isDailyStep,
+                                action.stepId
+                            )
+                        )
 
                         userStorageInteractor.updateUserStorage(
                             UserStoragePathBuilder.buildSeenHint(it.targetId, it.id),
@@ -81,7 +97,14 @@ class StepQuizHintsActionDispatcher(
                         )
                     }
                     .onFailure {
-                        onNewMessage(Message.NextHintLoadingError(action.nextHintId, action.remainingHintsIds, action.isDailyStep, action.stepId))
+                        onNewMessage(
+                            Message.NextHintLoadingError(
+                                action.nextHintId,
+                                action.remainingHintsIds,
+                                action.isDailyStep,
+                                action.stepId
+                            )
+                        )
                     }
             }
             is Action.LogAnalyticEvent ->

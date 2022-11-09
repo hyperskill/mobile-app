@@ -2,22 +2,22 @@ package org.hyperskill.app.comments.domain.interactor
 
 import org.hyperskill.app.comments.domain.model.Comment
 import org.hyperskill.app.comments.domain.model.Like
+import org.hyperskill.app.comments.domain.model.Reaction
 import org.hyperskill.app.comments.domain.model.ReactionType
 import org.hyperskill.app.comments.domain.repository.CommentsRepository
 
 class CommentsDataInteractor(
     private val commentsRepository: CommentsRepository
 ) {
-    suspend fun getHintsIDs(stepID: Long): List<Long> =
-        commentsRepository.getHintsIDs(stepID)
+    suspend fun getHintsIds(stepId: Long): List<Long> =
+        commentsRepository.getHintsIDs(stepId)
 
-    suspend fun getCommentDetails(commentID: Long): Result<Comment> =
-        commentsRepository.getCommentDetails(commentID)
+    suspend fun getCommentDetails(commentId: Long): Result<Comment> =
+        commentsRepository.getCommentDetails(commentId)
 
-    suspend fun abuseComment(commentID: Long): Result<Like> =
-        commentsRepository.abuseComment(commentID)
+    suspend fun abuseComment(commentId: Long): Result<Like> =
+        commentsRepository.abuseComment(commentId)
 
-    suspend fun createReaction(commentID: Long, reaction: ReactionType) {
-        commentsRepository.createReaction(commentID, reaction)
-    }
+    suspend fun createReaction(commentId: Long, reaction: ReactionType): Result<Reaction> =
+        commentsRepository.createReaction(commentId, reaction)
 }
