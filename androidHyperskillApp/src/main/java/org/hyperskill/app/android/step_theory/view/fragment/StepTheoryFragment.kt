@@ -93,17 +93,19 @@ class StepTheoryFragment : Fragment(R.layout.fragment_step_theory) {
             )
         }
 
-        viewBinding.stepTheoryReactionTitle.text = buildSpannedString {
-            append(resources.getString(R.string.step_rating_text_part_1))
-            append(" ")
-            bold {
-                append(resources.getString(R.string.step_rating_text_part_2))
-            }
-        }
+        // ALTAPPS-397: Hidden
+//        viewBinding.stepTheoryReactionTitle.text = buildSpannedString {
+//            append(resources.getString(R.string.step_rating_text_part_1))
+//            append(" ")
+//            bold {
+//                append(resources.getString(R.string.step_rating_text_part_2))
+//            }
+//        }
         initStepTheoryFragment(step)
         setupCommentStatisticsAdapterDelegate()
-        setupStepRatingRecyclerView()
-        setupCommentStatisticsRecyclerView()
+        // ALTAPPS-397: Hidden
+        //setupStepRatingRecyclerView()
+        //setupCommentStatisticsRecyclerView()
     }
 
     private fun initStepTheoryFragment(step: Step) {
