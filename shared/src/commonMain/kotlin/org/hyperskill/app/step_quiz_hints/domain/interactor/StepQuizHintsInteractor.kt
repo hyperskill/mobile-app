@@ -37,23 +37,23 @@ class StepQuizHintsInteractor(
     /**
      * Returns seen hints IDs from user storage
      *
+     * Seen hints user storage JSON example:
+     * ```
+     * {
+     *     "seenHints": {
+     *         "7364": {
+     *             "1346367": "seen",
+     *             "1425492": "helpful"
+     *         },
+     *         "9901": {
+     *             "708139": "seen"
+     *         }
+     *     }
+     * }
+     * ```
      * @param stepId step ID to get seen hints IDs for this step
      * @return list of seen hints IDs or null if there is no step ID key in user storage
      */
-    /*
-       Seen hints user storage JSON example:
-       {
-           "seenHints": {
-               "7364": {
-                   "1346367": "seen",
-                   "1425492": "helpful"
-               },
-               "9901": {
-                   "708139": "seen"
-               }
-           }
-       }
-        */
     private suspend fun getSeenHintsIds(stepId: Long): List<Long>? =
         userStorageInteractor
             .getUserStorageValue(
