@@ -32,9 +32,9 @@ class StepQuizHintsReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
-            is Message.HintReported ->
+            is Message.ReportHint ->
                 if (state is State.Content && state.currentHint != null) {
-                    state.copy(hintHasReaction = true) to setOf(
+                    state to setOf(
                         Action.ReportHint(
                             hintId = state.currentHint.id,
                             stepId = state.currentHint.targetId
@@ -43,9 +43,21 @@ class StepQuizHintsReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
+            is Message.ReportHintSuccess ->
+                if (state is State.Content && state.currentHint != null) {
+                    state.copy(hintHasReaction = true) to emptySet()
+                } else {
+                    null
+                }
+            is Message.ReportHintFailure ->
+                if (state is State.Content) {
+                    state to setOf(Action.ViewAction.ShowNetworkError)
+                } else {
+                    null
+                }
             is Message.ReactionButtonClicked ->
                 if (state is State.Content && state.currentHint != null) {
-                    state.copy(hintHasReaction = true) to setOf(
+                    state to setOf(
                         Action.ReactHint(
                             hintId = state.currentHint.id,
                             stepId = state.currentHint.targetId,
@@ -62,6 +74,18 @@ class StepQuizHintsReducer : StateReducer<State, Message, Action> {
                             )
                         )
                     )
+                } else {
+                    null
+                }
+            is Message.ReactHintSuccess ->
+                if (state is State.Content) {
+                    state.copy(hintHasReaction = true) to emptySet()
+                } else {
+                    null
+                }
+            is Message.ReactHintFailure ->
+                if (state is State.Content) {
+                    state to setOf(Action.ViewAction.ShowNetworkError)
                 } else {
                     null
                 }

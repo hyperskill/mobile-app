@@ -72,9 +72,29 @@ interface StepQuizHintsFeature {
         data class ReactionButtonClicked(val reaction: ReactionType) : Message
 
         /**
-         * Creating report for current hint
+         * Indicates that react hint succeed
          */
-        object HintReported : Message
+        object ReactHintSuccess : Message
+
+        /**
+         * Indicates that react hint failed
+         */
+        object ReactHintFailure : Message
+
+        /**
+         * Creates report for current hint, assumes that user confirmed that action
+         */
+        object ReportHint : Message
+
+        /**
+         * Indicates that report hint succeed
+         */
+        object ReportHintSuccess : Message
+
+        /**
+         * Indicates that report hint failed
+         */
+        object ReportHintFailure : Message
 
         /**
          * Initiate loading next hint
@@ -166,6 +186,11 @@ interface StepQuizHintsFeature {
          */
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
-        sealed class ViewAction : Action
+        sealed interface ViewAction : Action {
+            /**
+             * Shows snackbar with error message
+             */
+            object ShowNetworkError : ViewAction
+        }
     }
 }
