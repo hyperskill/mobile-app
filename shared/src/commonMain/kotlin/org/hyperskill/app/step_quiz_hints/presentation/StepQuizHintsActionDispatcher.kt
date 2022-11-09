@@ -31,7 +31,17 @@ class StepQuizHintsActionDispatcher(
                         onSuccess = { it.dailyStep },
                         onFailure = { null }
                     )
-                onNewMessage(Message.HintsIdsLoaded(hintsIds, dailyStepId == action.stepId, action.stepId))
+
+                val lastSeenHint = stepQuizHintsInteractor.getLastSeenHint(action.stepId)
+
+                onNewMessage(
+                    Message.HintsIdsLoaded(
+                        hintsIds = hintsIds,
+                        lastSeenHint = lastSeenHint,
+                        isDailyStep =  dailyStepId == action.stepId,
+                        stepId = action.stepId
+                    )
+                )
             }
             is Action.ReportHint -> {
                 commentsDataInteractor.abuseComment(action.hintId)
