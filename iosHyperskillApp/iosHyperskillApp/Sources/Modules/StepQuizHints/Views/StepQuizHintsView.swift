@@ -1,4 +1,5 @@
 import shared
+import SVProgressHUD
 import SwiftUI
 
 extension StepQuizHintsView {
@@ -77,7 +78,12 @@ struct StepQuizHintsView: View {
     }
 
     private func handleViewAction(_ viewAction: StepQuizHintsFeatureActionViewAction) {
-        print("StepQuizHintsViewView :: \(#function) viewAction = \(viewAction)")
+        switch viewAction {
+        case is StepQuizHintsFeatureActionViewActionShowNetworkError:
+            ProgressHUD.showError(status: Strings.General.connectionError)
+        default:
+            print("StepQuizHintsViewView :: \(#function) viewAction = \(viewAction)")
+        }
     }
 }
 

@@ -22,7 +22,7 @@ final class StepQuizHintsViewModel: FeatureViewModel<
     }
 
     func onHintReportConfirmationButtonTap() {
-        onNewMessage(StepQuizHintsFeatureMessageHintReported())
+        onNewMessage(StepQuizHintsFeatureMessageReportHint())
     }
 
     func onLoadHintButtonTap() {

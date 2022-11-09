@@ -44,12 +44,19 @@ class StepQuizHintsActionDispatcher(
                 )
             }
             is Action.ReportHint -> {
-                commentsDataInteractor.abuseComment(action.hintId)
-
-                userStorageInteractor.updateUserStorage(
-                    UserStoragePathBuilder.buildSeenHint(action.stepId, action.hintId),
-                    HintState.UNHELPFUL.userStorageValue
-                )
+                val message = commentsDataInteractor
+                    .abuseComment(action.hintId)
+                    .fold(
+                        onSuccess = {
+                            userStorageInteractor.updateUserStorage(
+                                UserStoragePathBuilder.buildSeenHint(action.stepId, action.hintId),
+                                HintState.UNHELPFUL.userStorageValue
+                            )
+                            Message.ReportHintSuccess
+                        },
+                        onFailure = { Message.ReportHintFailure }
+                    )
+                onNewMessage(message)
             }
             is Action.ReactHint -> {
                 commentsDataInteractor.createReaction(action.hintId, action.reaction)

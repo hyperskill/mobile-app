@@ -3,15 +3,19 @@ package org.hyperskill.app.comments.remote
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
-import io.ktor.client.request.post
 import io.ktor.client.request.parameter
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import org.hyperskill.app.comments.data.source.CommentsRemoteDataSource
 import org.hyperskill.app.comments.domain.model.Comment
 import org.hyperskill.app.comments.domain.model.Discussion
+import org.hyperskill.app.comments.domain.model.Like
 import org.hyperskill.app.comments.remote.model.CommentsResponse
 import org.hyperskill.app.comments.remote.model.DiscussionsResponse
+import org.hyperskill.app.comments.remote.model.LikesRequest
+import org.hyperskill.app.comments.remote.model.LikesResponse
 
 class CommentsRemoteDataSourceImpl(
     private val httpClient: HttpClient
@@ -47,19 +51,15 @@ class CommentsRemoteDataSourceImpl(
         subject: String,
         targetType: String,
         targetID: Long,
-        value: Long
-    ) {
+        value: Int
+    ): Result<Like> =
         kotlin.runCatching {
             httpClient
                 .post("/api/likes") {
                     contentType(ContentType.Application.Json)
-                    parameter("subject", subject)
-                    parameter("target_type", targetType)
-                    parameter("target_id", targetID)
-                    parameter("value", value)
-                }
+                    setBody(LikesRequest(targetType, targetID, subject, value))
+                }.body<LikesResponse>().likes.first()
         }
-    }
 
     override suspend fun createReaction(commentID: Long, shortName: String) {
         kotlin.runCatching {

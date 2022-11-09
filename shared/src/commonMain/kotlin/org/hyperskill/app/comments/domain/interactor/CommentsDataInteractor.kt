@@ -1,6 +1,7 @@
 package org.hyperskill.app.comments.domain.interactor
 
 import org.hyperskill.app.comments.domain.model.Comment
+import org.hyperskill.app.comments.domain.model.Like
 import org.hyperskill.app.comments.domain.model.ReactionType
 import org.hyperskill.app.comments.domain.repository.CommentsRepository
 
@@ -13,9 +14,8 @@ class CommentsDataInteractor(
     suspend fun getCommentDetails(commentID: Long): Result<Comment> =
         commentsRepository.getCommentDetails(commentID)
 
-    suspend fun abuseComment(commentID: Long) {
+    suspend fun abuseComment(commentID: Long): Result<Like> =
         commentsRepository.abuseComment(commentID)
-    }
 
     suspend fun createReaction(commentID: Long, reaction: ReactionType) {
         commentsRepository.createReaction(commentID, reaction)
