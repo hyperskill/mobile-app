@@ -12,24 +12,7 @@ class StepQuizHintsInteractor(
     private val userStorageInteractor: UserStorageInteractor,
 ) {
     suspend fun getNotSeenHintsIds(stepId: Long): List<Long> {
-        /*
-        Seen hints JSON example:
-        {
-            "seenHints": {
-                "7364": {
-                    "1346367": "seen",
-                    "1425492": "helpful"
-                },
-                "9901": {
-                    "708139": "seen"
-                }
-            }
-        }
-        * */
-
-        val seenHintsIds = userStorageInteractor
-            .getUserStorageValue(key = UserStoragePathBuilder.buildSeenHints(stepId), DataSourceType.REMOTE)
-            .getOrNull()?.jsonObject?.keys?.map { it.toLong() }
+        val seenHintsIds = getSeenHintsIds(stepId)
 
         return commentsDataInteractor
             .getHintsIDs(stepId)
@@ -37,11 +20,9 @@ class StepQuizHintsInteractor(
     }
 
     suspend fun getLastSeenHint(stepId: Long): Comment? {
-        val seenHintsIds = userStorageInteractor
-            .getUserStorageValue(key = UserStoragePathBuilder.buildSeenHints(stepId), DataSourceType.REMOTE)
-            .getOrNull()?.jsonObject?.keys?.map { it.toLong() }
+        val seenHintsIds = getSeenHintsIds(stepId) ?: return null
 
-        if (seenHintsIds?.isEmpty() != false) {
+        if (seenHintsIds.isEmpty()) {
             return null
         }
         // first is used because elements from hintsIds
@@ -52,4 +33,32 @@ class StepQuizHintsInteractor(
 
         return commentsDataInteractor.getCommentDetails(lastHintId).getOrNull()
     }
+
+    /**
+     * Returns seen hints IDs from user storage
+     *
+     * @param stepId step ID to get seen hints IDs for this step
+     * @return list of seen hints IDs or null if there is no step ID key in user storage
+     */
+    /*
+       Seen hints user storage JSON example:
+       {
+           "seenHints": {
+               "7364": {
+                   "1346367": "seen",
+                   "1425492": "helpful"
+               },
+               "9901": {
+                   "708139": "seen"
+               }
+           }
+       }
+        */
+    private suspend fun getSeenHintsIds(stepId: Long): List<Long>? =
+        userStorageInteractor
+            .getUserStorageValue(
+                key = UserStoragePathBuilder.buildSeenHints(stepId),
+                DataSourceType.REMOTE
+            )
+            .getOrNull()?.jsonObject?.keys?.map { it.toLong() }
 }
