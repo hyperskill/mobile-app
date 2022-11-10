@@ -22,12 +22,13 @@ struct StepTheoryContentView: View {
                     timeToComplete: viewData.formattedTimeToComplete
                 )
 
-                StepActionButton(
-                    title: Strings.Step.startPracticing,
-                    style: .greenOutline
-                ) {
-                    print("Start practicing tapped")
-                }
+                // ALTAPPS-397: Hidden
+//                StepActionButton(
+//                    title: Strings.Step.startPracticing,
+//                    style: .greenOutline
+//                ) {
+//                    print("Start practicing tapped")
+//                }
 
                 LatexView(
                     text: $viewData.text,
@@ -43,15 +44,16 @@ struct StepTheoryContentView: View {
                     )
                 )
 
-                StepBottomControlsView(
-                    commentStatisticsViewData: viewData.commentsStatistics,
-                    onStartPracticingClick: {
-                        print("Start practicing tapped")
-                    },
-                    onCommentStatisticClick: { commentStatistic in
-                        print("Comment statistic clicked = \(commentStatistic)")
-                    }
-                )
+                // ALTAPPS-397: Hidden
+//                StepBottomControlsView(
+//                    commentStatisticsViewData: viewData.commentsStatistics,
+//                    onStartPracticingClick: {
+//                        print("Start practicing tapped")
+//                    },
+//                    onCommentStatisticClick: { commentStatistic in
+//                        print("Comment statistic clicked = \(commentStatistic)")
+//                    }
+//                )
             }
             .padding()
         }
