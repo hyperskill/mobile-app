@@ -14,11 +14,14 @@ class StepQuizHintsInteractor(
     private val commentsRepository: CommentsRepository
 ) {
     suspend fun getNotSeenHintsIds(stepId: Long): List<Long> {
-        val seenHintsIds = getSeenHintsIds(stepId).toSet()
-
         val hintsIds = getStepHintsIds(stepId)
         if (hintsIds.isEmpty()) {
             return emptyList()
+        }
+
+        val seenHintsIds = getSeenHintsIds(stepId).toSet()
+        if (seenHintsIds.isEmpty()) {
+            return hintsIds
         }
 
         return hintsIds.filter { !seenHintsIds.contains(it) }
@@ -41,7 +44,7 @@ class StepQuizHintsInteractor(
 
     private suspend fun getStepHintsIds(stepId: Long): List<Long> =
         discussionsRepository
-            .getStepHints(stepId)
+            .getStepHintDiscussions(stepId)
             .getOrNull()
             ?.discussions?.map { it.id }
             ?: emptyList()
