@@ -1,4 +1,4 @@
-package org.hyperskill.app.comments.domain.model
+package org.hyperskill.app.reactions.domain.model
 
 enum class ReactionType(val shortName: String) {
     HELPFUL(":helpful:"),

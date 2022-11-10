@@ -23,4 +23,8 @@ data class Comment(
     val userRole: String,
     @SerialName("reactions")
     val reactions: List<CommentReaction>,
+    @SerialName("parent")
+    val parentId: Long? = null,
+    @SerialName("replies")
+    val repliesIds: List<Long> = emptyList()
 )

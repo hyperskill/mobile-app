@@ -4,72 +4,49 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
-import io.ktor.client.request.post
-import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import org.hyperskill.app.comments.data.source.CommentsRemoteDataSource
 import org.hyperskill.app.comments.domain.model.Comment
-import org.hyperskill.app.comments.domain.model.Discussion
-import org.hyperskill.app.comments.domain.model.Like
-import org.hyperskill.app.comments.domain.model.Reaction
 import org.hyperskill.app.comments.remote.model.CommentsResponse
-import org.hyperskill.app.comments.remote.model.DiscussionsResponse
-import org.hyperskill.app.comments.remote.model.LikesRequest
-import org.hyperskill.app.comments.remote.model.LikesResponse
-import org.hyperskill.app.comments.remote.model.ReactionsRequest
-import org.hyperskill.app.comments.remote.model.ReactionsResponse
 
 class CommentsRemoteDataSourceImpl(
     private val httpClient: HttpClient
 ) : CommentsRemoteDataSource {
-    override suspend fun getDiscussions(
-        targetType: String,
-        targetId: Long,
-        thread: String,
-        ordering: String,
-        isSpam: Boolean
-    ): Result<List<Discussion>> =
+    override suspend fun getComment(commentId: Long): Result<Comment> =
         kotlin.runCatching {
-            httpClient
-                .get("/api/discussions") {
-                    contentType(ContentType.Application.Json)
-                    parameter("target_type", targetType)
-                    parameter("target_id", targetId)
-                    parameter("thread", thread)
-                    parameter("ordering", ordering)
-                    parameter("is_spam", isSpam)
-                }.body<DiscussionsResponse>().discussions
+            getComments(listOf(commentId))
+                .map { it.first() }
+                .getOrThrow()
         }
 
-    override suspend fun getCommentDetails(commentId: Long): Result<Comment> =
+    // TODO: ALTAPPS-399/Shared-Implement-generic-GET-request-for-objects-by-ids-with-chunks
+    override suspend fun getComments(commentsIds: List<Long>): Result<List<Comment>> =
         kotlin.runCatching {
-            httpClient
-                .get("/api/comments/$commentId") {
-                    contentType(ContentType.Application.Json)
-                }.body<CommentsResponse>().comments.first()
-        }
+            if (commentsIds.isEmpty()) {
+                return Result.success(emptyList())
+            }
 
-    override suspend fun createLike(
-        subject: String,
-        targetType: String,
-        targetId: Long,
-        value: Int
-    ): Result<Like> =
-        kotlin.runCatching {
-            httpClient
-                .post("/api/likes") {
-                    contentType(ContentType.Application.Json)
-                    setBody(LikesRequest(targetType, targetId, subject, value))
-                }.body<LikesResponse>().likes.first()
-        }
+            val chunkSize = 100
+            val chunks = commentsIds.chunked(chunkSize)
 
-    override suspend fun createReaction(commentId: Long, shortName: String): Result<Reaction> =
-        kotlin.runCatching {
-            httpClient
-                .post("/api/reactions") {
-                    contentType(ContentType.Application.Json)
-                    setBody(ReactionsRequest(commentId, shortName))
-                }.body<ReactionsResponse>().reactions.first()
+            val requests: MutableList<Deferred<List<Comment>>> = mutableListOf()
+
+            for (chunkIds in chunks) {
+                val futureResult = httpClient.async {
+                    httpClient.get("/api/comments") {
+                        contentType(ContentType.Application.Json)
+                        parameter("ids", chunkIds.joinToString(separator = ","))
+                    }.body<CommentsResponse>().comments
+                }
+                requests.add(futureResult)
+            }
+
+            val responses = requests.awaitAll()
+
+            return Result.success(responses.flatten())
         }
 }

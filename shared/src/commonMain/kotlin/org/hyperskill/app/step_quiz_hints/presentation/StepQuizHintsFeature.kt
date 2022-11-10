@@ -2,7 +2,7 @@ package org.hyperskill.app.step_quiz_hints.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.comments.domain.model.Comment
-import org.hyperskill.app.comments.domain.model.ReactionType
+import org.hyperskill.app.reactions.domain.model.ReactionType
 
 interface StepQuizHintsFeature {
     sealed interface State {
