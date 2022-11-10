@@ -31,12 +31,12 @@ class DiscussionsInteractor(
      * or a failure with an arbitrary Throwable exception.
      * @see Discussion
      */
-    suspend fun getStepHintDiscussions(
+    suspend fun getStepHintsDiscussions(
         stepId: Long,
         order: DiscussionsRequest.OrderType = DiscussionsRequest.OrderType.MOST_POPULAR,
         page: Int = 1
     ): Result<DiscussionsResponse> =
-        discussionsRepository.getStepHintDiscussions(stepId, order, page)
+        discussionsRepository.getStepHintsDiscussions(stepId, order, page)
 
     /**
      * Loads all comments for the specified discussions and assembles tree structure.

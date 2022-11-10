@@ -11,7 +11,7 @@ class DiscussionsRepositoryImpl(
     override suspend fun getDiscussions(request: DiscussionsRequest): Result<DiscussionsResponse> =
         discussionsRemoteDataSource.getDiscussions(request)
 
-    override suspend fun getStepHintDiscussions(
+    override suspend fun getStepHintsDiscussions(
         stepId: Long,
         order: DiscussionsRequest.OrderType,
         page: Int

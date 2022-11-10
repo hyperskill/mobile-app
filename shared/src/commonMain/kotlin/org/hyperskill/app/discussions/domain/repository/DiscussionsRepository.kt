@@ -5,7 +5,7 @@ import org.hyperskill.app.discussions.remote.model.DiscussionsResponse
 
 interface DiscussionsRepository {
     suspend fun getDiscussions(request: DiscussionsRequest): Result<DiscussionsResponse>
-    suspend fun getStepHintDiscussions(
+    suspend fun getStepHintsDiscussions(
         stepId: Long,
         order: DiscussionsRequest.OrderType = DiscussionsRequest.OrderType.MOST_POPULAR,
         page: Int = 1
