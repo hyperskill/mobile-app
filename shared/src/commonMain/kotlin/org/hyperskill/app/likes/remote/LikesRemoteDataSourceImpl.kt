@@ -7,6 +7,7 @@ import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import org.hyperskill.app.likes.data.source.LikesRemoteDataSource
+import org.hyperskill.app.likes.domain.model.Like
 import org.hyperskill.app.likes.domain.model.LikeSubject
 import org.hyperskill.app.likes.domain.model.LikeValue
 import org.hyperskill.app.likes.remote.model.LikesRequest
@@ -20,12 +21,12 @@ class LikesRemoteDataSourceImpl(
         targetId: Long,
         subject: LikeSubject,
         value: LikeValue
-    ): Result<LikesResponse> =
+    ): Result<Like> =
         kotlin.runCatching {
             httpClient
                 .post("/api/likes") {
                     contentType(ContentType.Application.Json)
                     setBody(LikesRequest(targetType, targetId, subject, value.value))
-                }.body()
+                }.body<LikesResponse>().likes.first()
         }
 }

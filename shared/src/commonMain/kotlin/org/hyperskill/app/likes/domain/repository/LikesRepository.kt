@@ -1,8 +1,8 @@
 package org.hyperskill.app.likes.domain.repository
 
+import org.hyperskill.app.likes.domain.model.Like
 import org.hyperskill.app.likes.domain.model.LikeSubject
 import org.hyperskill.app.likes.domain.model.LikeValue
-import org.hyperskill.app.likes.remote.model.LikesResponse
 
 interface LikesRepository {
     suspend fun createLike(
@@ -10,7 +10,7 @@ interface LikesRepository {
         targetId: Long,
         subject: LikeSubject,
         value: LikeValue
-    ): Result<LikesResponse>
+    ): Result<Like>
 
-    suspend fun abuseComment(commentId: Long): Result<LikesResponse>
+    suspend fun abuseComment(commentId: Long): Result<Like>
 }

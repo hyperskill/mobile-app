@@ -35,26 +35,52 @@ class StepQuizHintsActionDispatcher(
                         onSuccess = { it.dailyStep },
                         onFailure = { null }
                     )
-                onNewMessage(Message.HintsIdsLoaded(hintsIds, dailyStepId == action.stepId, action.stepId))
+
+                val lastSeenHint = stepQuizHintsInteractor.getLastSeenHint(action.stepId)
+
+                onNewMessage(
+                    Message.HintsIdsLoaded(
+                        hintsIds = hintsIds,
+                        lastSeenHint = lastSeenHint,
+                        isDailyStep = dailyStepId == action.stepId,
+                        stepId = action.stepId
+                    )
+                )
             }
             is Action.ReportHint -> {
-                likesInteractor.abuseComment(action.hintId)
+                val message = likesInteractor
+                    .abuseComment(action.hintId)
+                    .fold(
+                        onSuccess = {
+                            userStorageInteractor.updateUserStorage(
+                                UserStoragePathBuilder.buildSeenHint(action.stepId, action.hintId),
+                                HintState.UNHELPFUL.userStorageValue
+                            )
+                            Message.ReportHintSuccess
+                        },
+                        onFailure = { Message.ReportHintFailure }
+                    )
 
-                userStorageInteractor.updateUserStorage(
-                    UserStoragePathBuilder.buildSeenHint(action.stepId, action.hintId),
-                    HintState.UNHELPFUL.userStorageValue
-                )
+                onNewMessage(message)
             }
             is Action.ReactHint -> {
-                reactionsInteractor.createReaction(action.hintId, action.reaction)
+                val message = reactionsInteractor
+                    .createCommentReaction(action.hintId, action.reaction)
+                    .fold(
+                        onSuccess = {
+                            userStorageInteractor.updateUserStorage(
+                                UserStoragePathBuilder.buildSeenHint(action.stepId, action.hintId),
+                                when (action.reaction) {
+                                    ReactionType.HELPFUL -> HintState.HELPFUL.userStorageValue
+                                    ReactionType.UNHELPFUL -> HintState.UNHELPFUL.userStorageValue
+                                }
+                            )
+                            Message.ReactHintSuccess
+                        },
+                        onFailure = { Message.ReactHintFailure }
+                    )
 
-                userStorageInteractor.updateUserStorage(
-                    UserStoragePathBuilder.buildSeenHint(action.stepId, action.hintId),
-                    when (action.reaction) {
-                        ReactionType.HELPFUL -> HintState.HELPFUL.userStorageValue
-                        ReactionType.UNHELPFUL -> HintState.UNHELPFUL.userStorageValue
-                    }
-                )
+                onNewMessage(message)
             }
             is Action.FetchNextHint -> {
                 commentsInteractor

@@ -10,7 +10,8 @@ import org.hyperskill.app.discussions.remote.DiscussionsRemoteDataSourceImpl
 class DiscussionsDataComponentImpl(private val appGraph: AppGraph) : DiscussionsDataComponent {
     private val discussionsRemoteDataSource: DiscussionsRemoteDataSource =
         DiscussionsRemoteDataSourceImpl(appGraph.networkComponent.authorizedHttpClient)
-    private val discussionsRepository: DiscussionsRepository =
+
+    override val discussionsRepository: DiscussionsRepository =
         DiscussionsRepositoryImpl(discussionsRemoteDataSource)
 
     override val discussionsInteractor: DiscussionsInteractor
