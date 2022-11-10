@@ -1,8 +1,8 @@
 import UIKit
 
 class UIKitBounceButton: UIButton {
-    private var bounceDuration: TimeInterval
-    private var bounceScale: CGFloat
+    private let bounceDuration: TimeInterval
+    private let bounceScale: CGFloat
 
     override var isHighlighted: Bool {
         didSet {
