@@ -1,4 +1,4 @@
-package org.hyperskill.app.comments.domain.model
+package org.hyperskill.app.likes.domain.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -8,7 +8,7 @@ data class Like(
     @SerialName("id")
     val id: Long,
     @SerialName("subject")
-    val subject: String,
+    val subject: LikeSubject,
     @SerialName("target_id")
     val targetId: Long,
     @SerialName("target_type")

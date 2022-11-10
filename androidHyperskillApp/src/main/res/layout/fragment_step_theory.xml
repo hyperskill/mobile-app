@@ -43,6 +43,7 @@
                 tools:drawableStart="@drawable/ic_time"
                 tools:text="3 minutes reading" />
 
+            <!-- ALTAPPS-397: Hidden -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/stepTheoryPracticeActionBeginning"
                 style="@style/Widget.AppTheme.Button.OutlinedButton"
@@ -51,6 +52,7 @@
                 android:layout_marginTop="@dimen/step_theory_elements_margin"
                 android:text="@string/step_start_practicing_text"
                 android:theme="@style/ThemeOverlay.Green"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/stepTheoryTimeToComplete" />
@@ -64,25 +66,28 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/stepTheoryPracticeActionBeginning"/>
 
-
+            <!-- ALTAPPS-397: Hidden -->
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/stepTheoryReactionTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/step_theory_elements_margin"
                 android:textAppearance="?textAppearanceBody1"
+                android:visibility="gone"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/stepTheoryContent"
                 tools:text="How did you like the theory?" />
 
+            <!-- ALTAPPS-397: Hidden -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/stepTheoryRatingRecycler"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/step_theory_elements_margin"
                 android:background="@drawable/bg_shape_rounded"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/stepTheoryReactionTitle"
@@ -91,6 +96,7 @@
                 tools:listitem="@layout/item_step_theory_rating"
                 tools:orientation="horizontal" />
 
+            <!-- ALTAPPS-397: Hidden -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/stepTheoryPracticeActionEnd"
                 android:layout_width="0dp"
@@ -98,16 +104,19 @@
                 android:layout_marginTop="@dimen/step_theory_elements_margin"
                 android:text="@string/step_start_practicing_text"
                 android:theme="@style/ThemeOverlay.Green"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/stepTheoryRatingRecycler" />
 
+            <!-- ALTAPPS-397: Hidden -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/stepTheoryCommentStatisticsRecycler"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/step_theory_comments_statistics_recycler_top_margin"
                 android:nestedScrollingEnabled="false"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/stepTheoryPracticeActionEnd"

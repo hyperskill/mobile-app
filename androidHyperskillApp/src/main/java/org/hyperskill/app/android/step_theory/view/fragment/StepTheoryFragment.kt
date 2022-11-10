@@ -3,8 +3,6 @@ package org.hyperskill.app.android.step_theory.view.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.text.bold
-import androidx.core.text.buildSpannedString
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -13,23 +11,23 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.chrynan.parcelable.core.getParcelable
 import com.chrynan.parcelable.core.putParcelable
 import com.google.android.material.appbar.AppBarLayout
+import kotlin.math.abs
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.HorizontalMarginItemDecoration
-import org.hyperskill.app.android.databinding.FragmentStepTheoryBinding
-import org.hyperskill.app.android.databinding.ItemStepTheoryRatingBinding
-import org.hyperskill.app.android.step_theory.view.model.StepTheoryRating
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.VerticalMarginItemDecoration
+import org.hyperskill.app.android.databinding.FragmentStepTheoryBinding
 import org.hyperskill.app.android.databinding.ItemStepCommentActionBinding
+import org.hyperskill.app.android.databinding.ItemStepTheoryRatingBinding
 import org.hyperskill.app.android.step_content_text.view.fragment.TextStepContentFragment
+import org.hyperskill.app.android.step_theory.view.model.StepTheoryRating
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.step.domain.model.CommentStatisticsEntry
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.view.mapper.CommentThreadTitleMapper
 import ru.nobird.android.ui.adapterdelegates.dsl.adapterDelegate
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
-import kotlin.math.abs
 
 class StepTheoryFragment : Fragment(R.layout.fragment_step_theory) {
     companion object {
@@ -93,17 +91,19 @@ class StepTheoryFragment : Fragment(R.layout.fragment_step_theory) {
             )
         }
 
-        viewBinding.stepTheoryReactionTitle.text = buildSpannedString {
-            append(resources.getString(R.string.step_rating_text_part_1))
-            append(" ")
-            bold {
-                append(resources.getString(R.string.step_rating_text_part_2))
-            }
-        }
+        // ALTAPPS-397: Hidden
+//        viewBinding.stepTheoryReactionTitle.text = buildSpannedString {
+//            append(resources.getString(R.string.step_rating_text_part_1))
+//            append(" ")
+//            bold {
+//                append(resources.getString(R.string.step_rating_text_part_2))
+//            }
+//        }
         initStepTheoryFragment(step)
         setupCommentStatisticsAdapterDelegate()
-        setupStepRatingRecyclerView()
-        setupCommentStatisticsRecyclerView()
+        // ALTAPPS-397: Hidden
+        // setupStepRatingRecyclerView()
+        // setupCommentStatisticsRecyclerView()
     }
 
     private fun initStepTheoryFragment(step: Step) {
