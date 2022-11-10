@@ -49,6 +49,8 @@ class PanModalPresentableViewController: UIViewController, PanModalPresentable {
 
     var currentPresentationState: PanModalPresentationController.PresentationState?
 
+    var onDisappear: (() -> Void)?
+
     init() {
         super.init(nibName: nil, bundle: nil)
     }
@@ -61,6 +63,11 @@ class PanModalPresentableViewController: UIViewController, PanModalPresentable {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.updateAdditionalSafeAreaInsets()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        onDisappear?()
     }
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
