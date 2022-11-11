@@ -1,1 +1,8 @@
+In the new version of My Hyperskill:
+• Added a retry button for problems
+• Updated appearance of the daily study reminders time picker on the Profile screen
+• Authorization session forwarding on continuing in the Web-Version
+• Meet hints for problems. On the Problem screen, you will see "See hint" button, tap on it to see hints.
+• Bug fixes and improvements using your feedback
+
 We are working hard to bring even more Hyperskill features to your mobile phone. Currently, My Hyperskill app is in beta, so we would love to hear any feedback from you. Feel free to contact us at hello@hyperskill.org and share your thoughts!
