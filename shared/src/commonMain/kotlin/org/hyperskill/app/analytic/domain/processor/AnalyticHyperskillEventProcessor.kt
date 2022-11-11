@@ -1,6 +1,6 @@
 package org.hyperskill.app.analytic.domain.processor
 
-import org.hyperskill.app.Platform
+import org.hyperskill.app.core.domain.Platform
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillProcessedAnalyticEvent
 import ru.nobird.app.core.model.mapOfNotNull

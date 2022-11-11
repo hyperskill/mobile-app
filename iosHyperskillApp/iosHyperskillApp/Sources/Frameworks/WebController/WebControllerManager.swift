@@ -1,4 +1,6 @@
 import SafariServices
+import shared
+import SVProgressHUD
 import UIKit
 import WebKit
 
@@ -43,6 +45,53 @@ final class WebControllerManager: NSObject {
         error?("Could not dismiss web controller with key \(key)")
     }
 
+    func presentWebControllerWithNextURLPath(
+        _ nextURLPath: HyperskillUrlPath,
+        inController controller: UIViewController? = nil,
+        withKey key: WebControllerKey = .externalLink,
+        controllerType: WebControllerType = .safari,
+        backButtonStyle: BackButtonStyle = .done,
+        animated: Bool = true
+    ) {
+        let magicLinksInteractor = AppGraphBridge.sharedAppGraph.buildMagicLinksDataComponent().magicLinksInteractor
+
+        if magicLinksInteractor.shouldCreateMagicLink(nextUrlPath: nextURLPath) {
+            SVProgressHUD.show()
+
+            magicLinksInteractor.createMagicLink(
+                nextUrl: nextURLPath.path,
+                completionHandler_: { (magicLink: MagicLink?, error: Error?) in
+                    if error != nil {
+                        SVProgressHUD.showError(withStatus: nil)
+                    } else if let magicLink,
+                              let url = URL(string: magicLink.url) {
+                        SVProgressHUD.showSuccess(withStatus: nil)
+                        self.presentWebControllerWithURL(
+                            url,
+                            inController: controller,
+                            withKey: key,
+                            controllerType: controllerType,
+                            backButtonStyle: backButtonStyle,
+                            animated: animated
+                        )
+                    } else {
+                        SVProgressHUD.showError(withStatus: nil)
+                    }
+                }
+            )
+        } else {
+            let url = HyperskillUrlBuilder.shared.build(path: nextURLPath)
+            presentWebControllerWithURL(
+                url.toNSURL(),
+                inController: controller,
+                withKey: key,
+                controllerType: controllerType,
+                backButtonStyle: backButtonStyle,
+                animated: animated
+            )
+        }
+    }
+
     func presentWebControllerWithURL(
         _ url: URL,
         inController controller: UIViewController? = nil,
@@ -58,6 +107,8 @@ final class WebControllerManager: NSObject {
         func present(url: URL) {
             switch controllerType {
             case .safari:
+                UIApplication.shared.open(url)
+            case .inAppSafari:
                 let safariViewController = SFSafariViewController(url: url)
                 safariViewController.modalPresentationStyle = .fullScreen
 
@@ -65,7 +116,7 @@ final class WebControllerManager: NSObject {
                 self.currentWebController = safariViewController
 
                 controller.present(safariViewController, animated: true)
-            case .custom(let allowsOpenInSafari):
+            case .inAppCustom(let allowsOpenInSafari):
                 self.currentWebControllerKey = key
                 self.presentCustomWebController(
                     url,
@@ -78,12 +129,7 @@ final class WebControllerManager: NSObject {
         }
 
         guard ["http", "https"].contains(url.scheme?.lowercased() ?? "") else {
-            UIApplication.shared.open(
-                url,
-                options: [:],
-                completionHandler: nil
-            )
-            return
+            return UIApplication.shared.open(url)
         }
 
         if key == .socialAuth {
@@ -176,7 +222,8 @@ final class WebControllerManager: NSObject {
 
     enum WebControllerType {
         case safari
-        case custom(allowsOpenInSafari: Bool = true)
+        case inAppSafari
+        case inAppCustom(allowsOpenInSafari: Bool = true)
     }
 
     enum BackButtonStyle {

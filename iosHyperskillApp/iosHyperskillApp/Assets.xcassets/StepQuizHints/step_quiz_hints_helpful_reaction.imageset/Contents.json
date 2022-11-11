@@ -1,0 +1,15 @@
+{
+  "images" : [
+    {
+      "filename" : "step_quiz_hints_helpful_reaction.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
+  }
+}

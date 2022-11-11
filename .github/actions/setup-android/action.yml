@@ -1,0 +1,132 @@
+name: 'Setup CI'
+description: 'Setups CI for Android target'
+
+inputs:
+  git-crypt-key:
+    description: 'git-crypt.key file base64 content'
+    required: false
+  release-keystore-content:
+    description: 'release.keystore file base64 content'
+    required: false
+  setup-ruby:
+    description: 'Should setup Ruby'
+    required: false
+    default: false
+  service-account-content:
+    description: 'Service account JSON base64 encoded data used to authenticate with Google'
+    required: false
+
+outputs:
+  is-git-crypt-unlocked:
+    description: 'Is git-crypt unlocked secrets'
+    value: ${{ steps.git-crypt-unlock.outputs.value }}
+  release-keystore-path:
+    description: 'Path to the release.keystore file'
+    value: ${{ steps.generate-release-keystore.outputs.path }}
+  service-account-path:
+    description: 'Path to the service-account.json file'
+    value: ${{ steps.generate-service-account.outputs.path }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install git-crypt
+      run: |
+        if [ -z "${{ inputs.git-crypt-key }}" ]
+        then
+          echo "Skipping install git-crypt"
+        else
+          echo "Installing git-crypt"
+          sudo apt-get install git-crypt
+        fi
+      shell: bash
+
+    # Generate git-crypt.key file from base64 file content and decrypt
+    - name: git-crypt unlock secrets
+      id: git-crypt-unlock
+      run: |
+        if [ -z "${{ inputs.git-crypt-key }}" ]
+        then
+          echo "Skipping unlock secrets with git-crypt"
+          echo "value=$(echo false)" >> $GITHUB_OUTPUT
+        else
+          echo "Unlocking secrets with git-crypt"
+
+          echo "${{ inputs.git-crypt-key }}" | base64 --decode > git-crypt.key
+          git-crypt unlock git-crypt.key
+          rm git-crypt.key
+
+          echo "value=$(echo true)" >> $GITHUB_OUTPUT
+        fi
+      shell: bash
+
+    - name: Setup Ruby
+      if: ${{ inputs.setup-ruby == 'true' }}
+      uses: ruby/setup-ruby@v1.118.0
+      with:
+        ruby-version: '2.6.5'
+        bundler-cache: true
+        working-directory: './androidHyperskillApp'
+
+    - name: Setup Java JDK
+      uses: actions/setup-java@v3.6.0
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+
+    # Cache Gradle dependencies
+    - name: Setup Gradle Dependencies Cache
+      uses: actions/cache@v3.0.11
+      with:
+        path: ~/.gradle/caches
+        key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle', '**/*.gradle.kts') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-caches-
+
+    # Cache Gradle Wrapper
+    - name: Setup Gradle Wrapper Cache
+      uses: actions/cache@v3.0.11
+      with:
+        path: ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle*properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-wrapper-
+
+    # Cache Kotlin/Native compiler
+    - name: Setup Kotlin/Native Compiler Cache
+      uses: actions/cache@v3.0.11
+      with:
+        path: ~/.konan
+        key: ${{ runner.os }}-kotlin-native-compiler-${{ hashFiles('gradle/libs.versions.toml') }}
+        restore-keys: |
+          ${{ runner.os }}-kotlin-native-compiler-
+
+    # Generate release.keystore from base64 file content and output path
+    - name: Generate release.keystore
+      id: generate-release-keystore
+      run: |
+        if [ -z "${{ inputs.release-keystore-content }}" ]
+        then
+          echo "Skipping generate release.keystore"
+        else
+          echo "Generating release.keystore"
+
+          echo "${{ inputs.release-keystore-content }}" | base64 --decode > release.keystore
+          echo "path=$(echo "$(pwd)/release.keystore")" >> $GITHUB_OUTPUT
+        fi
+      shell: bash
+
+    # Generate service account JSON file from base64 content and output path
+    - name: Generate service-account.json
+      id: generate-service-account
+      run: |
+        if [ -z "${{ inputs.service-account-content }}" ]
+        then
+          echo "Skipping generate service-account.json"
+        else
+          echo "Generating service-account.json"
+
+          echo "${{ inputs.service-account-content }}" | base64 --decode > service-account.json
+          echo "path=$(echo "$(pwd)/service-account.json")" >> $GITHUB_OUTPUT
+        fi
+      shell: bash

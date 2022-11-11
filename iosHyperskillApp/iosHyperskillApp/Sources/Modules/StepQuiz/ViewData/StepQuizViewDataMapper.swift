@@ -36,7 +36,7 @@ final class StepQuizViewDataMapper {
             )
         }()
 
-        let hintText: String? = {
+        let feedbackHintText: String? = {
             guard let submissionLoaded = attemptLoadedState?.submissionState as? StepQuizFeatureSubmissionStateLoaded,
                   let hint = submissionLoaded.submission.hint else {
                 return nil
@@ -44,12 +44,20 @@ final class StepQuizViewDataMapper {
             return hint.isEmpty ? nil : hint
         }()
 
+        let stepHasHints: Bool = {
+            guard let hintsStatistic = step.commentsStatistics.first(where: { $0.thread == CommentThread.hint }) else {
+                return false
+            }
+            return hintsStatistic.totalCount > 0
+        }()
+
         return StepQuizViewData(
             formattedStats: formattedStats,
             stepText: step.block.text,
             stepBlockName: step.block.name,
             quizName: quizName,
-            hintText: hintText
+            feedbackHintText: feedbackHintText,
+            stepHasHints: stepHasHints
         )
     }
 }

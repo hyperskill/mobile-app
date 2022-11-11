@@ -1,16 +1,32 @@
+import CombineSchedulers
 import Foundation
 
 final class StepQuizCodeFullScreenViewModel: ObservableObject {
     weak var moduleOutput: StepQuizCodeFullScreenOutputProtocol?
+    private let provideModuleInputCallback: (StepQuizCodeFullScreenInputProtocol?) -> Void
 
-    let codeQuizViewData: StepQuizCodeViewData
+    @Published var codeQuizViewData: StepQuizCodeViewData
 
-    init(codeQuizViewData: StepQuizCodeViewData) {
+    private let mainScheduler: AnySchedulerOf<RunLoop>
+
+    init(
+        codeQuizViewData: StepQuizCodeViewData,
+        provideModuleInputCallback: @escaping (StepQuizCodeFullScreenInputProtocol?) -> Void,
+        mainScheduler: AnySchedulerOf<RunLoop> = .main
+    ) {
         self.codeQuizViewData = codeQuizViewData
+        self.provideModuleInputCallback = provideModuleInputCallback
+        self.mainScheduler = mainScheduler
     }
 
     func doCodeUpdate(code: String?) {
-        moduleOutput?.handleStepQuizCodeFullScreenUpdatedCode(code)
+        mainScheduler.schedule { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.moduleOutput?.handleStepQuizCodeFullScreenUpdatedCode(code)
+        }
     }
 
     func doRetry() {
@@ -19,5 +35,23 @@ final class StepQuizCodeFullScreenViewModel: ObservableObject {
 
     func doRunCode() {
         moduleOutput?.handleStepQuizCodeFullScreenSubmitRequested()
+    }
+
+    func doProvideModuleInput() {
+        provideModuleInputCallback(self)
+    }
+}
+
+// MARK: - StepQuizCodeFullScreenViewModel: StepQuizCodeFullScreenInputProtocol -
+
+extension StepQuizCodeFullScreenViewModel: StepQuizCodeFullScreenInputProtocol {
+    func update(codeQuizViewData: StepQuizCodeViewData) {
+        mainScheduler.schedule { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.codeQuizViewData = codeQuizViewData
+        }
     }
 }

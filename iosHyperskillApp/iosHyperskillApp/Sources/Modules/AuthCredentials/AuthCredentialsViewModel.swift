@@ -37,14 +37,9 @@ final class AuthCredentialsViewModel: FeatureViewModel<
     func doResetPassword() {
         logClickedResetPasswordEvent()
 
-        guard let url = HyperskillURLFactory.makeResetPassword() else {
-            return
-        }
-
-        WebControllerManager.shared.presentWebControllerWithURL(
-            url,
-            withKey: .externalLink,
-            controllerType: .custom()
+        WebControllerManager.shared.presentWebControllerWithNextURLPath(
+            HyperskillUrlPath.ResetPassword(),
+            controllerType: .inAppCustom()
         )
     }
 

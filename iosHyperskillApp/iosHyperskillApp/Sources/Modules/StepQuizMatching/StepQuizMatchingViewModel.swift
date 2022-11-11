@@ -21,7 +21,7 @@ final class StepQuizMatchingViewModel: ObservableObject, StepQuizChildQuizInputP
                 items = ordering.enumerated().map { index, order in
                     .init(
                         title: .init(id: index, text: pairs[index].first ?? ""),
-                        option: .init(id: order.intValue, text: pairs[index].second ?? "")
+                        option: .init(id: order.intValue, text: pairs[order.intValue].second ?? "")
                     )
                 }
             } else {

@@ -54,15 +54,25 @@
     <string name="step_quiz_status_correct_text">You’re absolutely correct!</string>
     <string name="step_quiz_status_wrong_text">Not correct, but keep on trying\nand never give up!</string>
     <string name="step_quiz_status_evaluation_text">Evaluation...</string>
+    <string name="step_quiz_status_loading_text">Loading...</string>
     <string name="step_quiz_stats_text">%s solved this problem. Latest completion was %s ago.</string>
     <string name="step_quiz_feedback_title">FEEDBACK:</string>
-    <string name="step_quiz_hint_button_text">See hint</string>
     <string name="step_quiz_continue_button_text">Continue</string>
     <string name="step_quiz_retry_button_text">Retry</string>
     <string name="step_quiz_send_button_text">Send</string>
     <string name="step_quiz_checking_button_text">Checking</string>
     <string name="step_quiz_discussions_button_text">Show discussions</string>
     <string name="step_quiz_unsupported_quiz_text">Current quiz type is not supported in mobile app yet</string>
+
+    <!-- Step quiz hint -->
+    <string name="step_quiz_hints_show_button_text">See hint</string>
+    <string name="step_quiz_hints_report_button_text">Report</string>
+    <string name="step_quiz_hints_helpful_question_text">Was this hint helpful?</string>
+    <string name="step_quiz_hints_see_next_hint">See next hint</string>
+    <string name="step_quiz_hints_last_hint_text">This is the last hint available for this problem!</string>
+    <string name="step_quiz_hints_report_alert_title">Thank you for being active Hyperskill citizen!</string>
+    <string name="step_quiz_hints_report_alert_text">Are you sure you want to report this hint for spoilers, abuse or spam?</string>
+    <string name="step_quiz_hints_show_more_text">Show more</string>
 
     <!-- Step quiz choice -->
     <string name="step_quiz_choice_single_choice_title">Select one option from the list</string>
@@ -174,7 +184,6 @@
     <string name="settings_terms_of_service_url">https://www.jetbrains.com/legal/terms/jetbrains-academy.html</string>
     <string name="settings_privacy_policy_url">https://hi.hyperskill.org/terms</string>
     <string name="settings_report_problem_url">https://support.hyperskill.org/hc/en-us/requests/new</string>
-    <string name="settings_account_deletion_url">https://hyperskill.org/delete-account</string>
     <string name="choose_notification_time_interval">Change notification interval</string>
 
     <!-- Placeholder -->

@@ -25,14 +25,14 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.code.util.CodeToolbarUtil
 import org.hyperskill.app.android.code.view.adapter.CodeToolbarAdapter
 import org.hyperskill.app.android.code.view.widget.CodeEditorLayout
-import org.hyperskill.app.android.databinding.DialogStepQuizCodeFullscreenBinding
-import org.hyperskill.app.android.step_quiz.view.fragment.DefaultStepQuizFragment
-import org.hyperskill.app.android.step_quiz_fullscreen_code.adapter.CodeStepQuizFullScreenPagerAdapter
 import org.hyperskill.app.android.core.extensions.setTintList
+import org.hyperskill.app.android.databinding.DialogStepQuizCodeFullscreenBinding
 import org.hyperskill.app.android.latex.view.widget.LatexView
 import org.hyperskill.app.android.latex.view.widget.LatexWebView
+import org.hyperskill.app.android.step_quiz.view.fragment.DefaultStepQuizFragment
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeLayoutDelegate
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeQuizInstructionDelegate
+import org.hyperskill.app.android.step_quiz_fullscreen_code.adapter.CodeStepQuizFullScreenPagerAdapter
 import org.hyperskill.app.android.view.base.ui.extension.setOnKeyboardOpenListener
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.extension.TimeFancifier
@@ -210,7 +210,7 @@ class CodeStepQuizFullScreenDialogFragment :
             requireContext().resources.getDimensionPixelSize(R.dimen.step_quiz_fullscreen_code_layout_action_button_icon_padding)
         codeSubmitButton.setOnClickListener { submitCodeActionClick() }
 
-        retryButton = playgroundLayout.findViewById(R.id.stepQuizRetryButton)
+        retryButton = playgroundLayout.findViewById(R.id.stepQuizRetryLogoOnlyButton)
         retryButton.setOnClickListener {
             val dialog = ResetCodeDialogFragment.newInstance()
             if (!dialog.isAdded) {

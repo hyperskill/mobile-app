@@ -1,0 +1,97 @@
+name: Unit testing
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - 'feature/**'
+  push:
+    branches:
+      - 'feature/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  files-changed:
+    name: Detect what files changed
+    uses: ./.github/workflows/detect_changed_files_reusable_workflow.yml
+
+  shared-unit-testing:
+    needs: files-changed
+    if: ${{ needs.files-changed.outputs.shared == 'true' }}
+    name: Run shared unit tests
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3.1.0
+
+    - name: Setup CI
+      id: setup
+      uses: ./.github/actions/setup-android
+      with:
+        git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
+
+    - name: Run unit tests
+      run: ./gradlew shared:testReleaseUnitTest
+      env:
+        IS_GIT_CRYPT_UNLOCKED: ${{ steps.setup.outputs.is-git-crypt-unlocked }}
+        GITHUB_USER: ${{ github.actor }}
+        GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  android-unit-testing:
+    needs: files-changed
+    if: ${{ needs.files-changed.outputs.android == 'true' || needs.files-changed.outputs.shared == 'true' }}
+    name: Run Android unit tests
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3.1.0
+
+    - name: Setup CI
+      id: setup
+      uses: ./.github/actions/setup-android
+      with:
+        git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
+
+    - name: Run unit tests
+      run: ./gradlew androidHyperskillApp:testReleaseUnitTest
+      env:
+        IS_GIT_CRYPT_UNLOCKED: ${{ steps.setup.outputs.is-git-crypt-unlocked }}
+        GITHUB_USER: ${{ github.actor }}
+        GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  ios-unit-testing:
+    needs: files-changed
+    if: ${{ needs.files-changed.outputs.ios == 'true' || needs.files-changed.outputs.shared == 'true' }}
+    name: Run iOS unit tests
+    runs-on: macos-12
+    timeout-minutes: 60
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3.1.0
+      
+    - name: Setup CI
+      id: setup
+      uses: ./.github/actions/setup-ios
+      with:
+        git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
+
+    - name: Run unit tests
+      working-directory: './iosHyperskillApp'
+      run: bundle exec fastlane run_unit_tests install_pods:false
+      env:
+        FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 60
+        IS_GIT_CRYPT_UNLOCKED: ${{ steps.setup.outputs.is-git-crypt-unlocked }}
+        GITHUB_USER: ${{ github.actor }}
+        GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}

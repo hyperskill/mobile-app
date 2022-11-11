@@ -47,10 +47,12 @@ struct StepQuizCodeView: View {
         .fullScreenCover(isPresented: $viewModel.navigationState.presentingFullScreen) {
             StepQuizCodeFullScreenAssembly(
                 codeQuizViewData: viewModel.viewData,
+                provideModuleInputCallback: { viewModel.fullScreenModuleInput = $0 },
                 output: viewModel
             )
             .makeModule()
         }
+        .onAppear(perform: viewModel.doProvideModuleInput)
     }
 }
 

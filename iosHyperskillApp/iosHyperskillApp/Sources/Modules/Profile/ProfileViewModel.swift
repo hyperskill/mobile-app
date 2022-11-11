@@ -77,7 +77,7 @@ final class ProfileViewModel: FeatureViewModel<
                 WebControllerManager.shared.presentWebControllerWithURL(
                     profileURL,
                     withKey: .externalLink,
-                    controllerType: .safari,
+                    controllerType: .inAppSafari,
                     backButtonStyle: .done
                 )
             }
@@ -87,16 +87,13 @@ final class ProfileViewModel: FeatureViewModel<
     func presentProfileFullVersion() {
         logClickedViewFullProfileEvent()
 
-        guard let contentState = state as? ProfileFeatureStateContent,
-              let url = HyperskillURLFactory.makeProfile(id: Int(contentState.profile.id)) else {
+        guard let contentState = state as? ProfileFeatureStateContent else {
             return
         }
 
-        WebControllerManager.shared.presentWebControllerWithURL(
-            url,
-            withKey: .externalLink,
-            controllerType: .custom(),
-            backButtonStyle: .done
+        WebControllerManager.shared.presentWebControllerWithNextURLPath(
+            HyperskillUrlPath.Profile(profileId: contentState.profile.id),
+            controllerType: .safari
         )
     }
 

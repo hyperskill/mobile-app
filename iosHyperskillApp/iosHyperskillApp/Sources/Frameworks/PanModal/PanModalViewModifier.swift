@@ -22,6 +22,12 @@ private struct PanModalViewControllerModifier: ViewModifier {
     }
 
     private func updatePresentation(_ isPresented: Bool) {
+        defer {
+            panModalViewController?.onDisappear = {
+                self.isPresented = false
+            }
+        }
+
         if isPresented {
             panModalViewController = panModalViewControllerFactory()
             panModalPresenter.presentPanModal(panModalViewController.require())

@@ -28,7 +28,7 @@ kotlin {
         cocoapods {
             summary = "Shared code between iOS and Android"
             homepage = "https://github.com/hyperskill/mobile-app"
-            ios.deploymentTarget = "14.1"
+            ios.deploymentTarget = "14.0"
             podfile = project.file("../iosHyperskillApp/Podfile")
             framework {
                 baseName = "shared"
@@ -130,7 +130,7 @@ buildkonfig {
     }
 
     fun applyFlavorConfigsFromFile(flavor: String) {
-        if (SystemProperties.isCI()) return
+        if (SystemProperties.isCI() && !SystemProperties.isGitCryptUnlocked()) return
         defaultConfigs(flavor) {
             val properties = loadProperties("${project.rootDir}/shared/keys/$flavor.properties")
             buildConfigField(STRING, "FLAVOR", flavor)

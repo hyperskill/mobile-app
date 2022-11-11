@@ -1,8 +1,8 @@
 buildscript {
     repositories {
+        mavenCentral()
         gradlePluginPortal()
         google()
-        mavenCentral()
         maven("https://plugins.gradle.org/m2/")
         gradlePluginPortal()
         mavenLocal()

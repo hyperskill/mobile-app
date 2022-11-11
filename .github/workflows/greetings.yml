@@ -1,0 +1,16 @@
+name: Greetings
+
+on: [pull_request_target, issues]
+
+jobs:
+  greeting:
+    runs-on: ubuntu-22.04
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+    - uses: actions/first-interaction@v1.1.1
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        issue-message: 'Thanks for submitting your first issue, we will have a look as quickly as possible.'
+        pr-message: 'Thanks so much for your contribution, we are really appreciated this! We will have a look and merge it if everything checks out!'

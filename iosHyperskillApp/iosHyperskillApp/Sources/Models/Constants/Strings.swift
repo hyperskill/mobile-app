@@ -72,17 +72,25 @@ enum Strings {
         static let quizStatusCorrect = sharedStrings.step_quiz_status_correct_text.localized()
         static let quizStatusWrong = sharedStrings.step_quiz_status_wrong_text.localized()
         static let quizStatusEvaluation = sharedStrings.step_quiz_status_evaluation_text.localized()
+        static let quizStatusLoading = sharedStrings.step_quiz_status_loading_text.localized()
         static let feedbackTitle = sharedStrings.step_quiz_feedback_title.localized()
-        static let hintButton = sharedStrings.step_quiz_hint_button_text.localized()
         static let continueButton = sharedStrings.step_quiz_continue_button_text.localized()
         static let retryButton = sharedStrings.step_quiz_retry_button_text.localized()
         static let sendButton = sharedStrings.step_quiz_send_button_text.localized()
         static let checkingButton = sharedStrings.step_quiz_checking_button_text.localized()
         static let discussionsButton = sharedStrings.step_quiz_discussions_button_text.localized()
         static let unsupportedText = sharedStrings.step_quiz_unsupported_quiz_text.localized()
-        static let afterDailyStepCompletedDialogTitle =
-            sharedStrings.after_daily_step_completed_dialog_title.localized()
-        static let afterDailyStepCompletedDialogText = sharedStrings.after_daily_step_completed_dialog_text.localized()
+
+        enum Hints {
+            static let showButton = sharedStrings.step_quiz_hints_show_button_text.localized()
+            static let reportButton = sharedStrings.step_quiz_hints_report_button_text.localized()
+            static let helpfulQuestion = sharedStrings.step_quiz_hints_helpful_question_text.localized()
+            static let seeNextHint = sharedStrings.step_quiz_hints_see_next_hint.localized()
+            static let lastHint = sharedStrings.step_quiz_hints_last_hint_text.localized()
+            static let reportAlertTitle = sharedStrings.step_quiz_hints_report_alert_title.localized()
+            static let reportAlertText = sharedStrings.step_quiz_hints_report_alert_text.localized()
+            static let showMore = sharedStrings.step_quiz_hints_show_more_text.localized()
+        }
     }
 
     // MARK: - StepQuizChoice -
@@ -105,8 +113,6 @@ enum Strings {
         static let memoryLimitValueResource = sharedStrings.step_quiz_code_detail_execution_memory_limit_value
 
         static let runSolutionButton = sharedStrings.step_quiz_code_run_solution_button_text.localized()
-        static let resetCodeDialogTitle = sharedStrings.reset_code_dialog_title.localized()
-        static let resetCodeDialogExplanation = sharedStrings.reset_code_dialog_explanation.localized()
         static let fullScreenDetailsTab = sharedStrings.step_quiz_code_full_screen_details_tab.localized()
         static let fullScreenCodeTab = sharedStrings.step_quiz_code_full_screen_code_tab.localized()
         static let emptyLang = sharedStrings.step_quiz_code_empty_lang.localized()
@@ -203,7 +209,6 @@ enum Strings {
         static let termsOfServiceURL = sharedStrings.settings_terms_of_service_url.localized()
         static let privacyPolicyURL = sharedStrings.settings_privacy_policy_url.localized()
         static let reportProblemURL = sharedStrings.settings_report_problem_url.localized()
-        static let accountDeletionURL = sharedStrings.settings_account_deletion_url.localized()
 
         enum Theme {
             static let title = sharedStrings.settings_theme.localized()

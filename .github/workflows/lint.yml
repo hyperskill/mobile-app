@@ -1,0 +1,59 @@
+name: Lint
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - 'feature/**'
+  push:
+    branches:
+      - 'feature/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  files-changed:
+    name: Detect what files changed
+    uses: ./.github/workflows/detect_changed_files_reusable_workflow.yml
+
+  ktlint:
+    needs: files-changed
+    if: ${{ needs.files-changed.outputs.android == 'true' || needs.files-changed.outputs.shared == 'true' }}
+    name: Run ktlint
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3.1.0
+
+    - name: Setup CI
+      uses: ./.github/actions/setup-android
+
+    - name: Run ktlint
+      run: ./gradlew ktlintCheck --stacktrace
+      env:
+        GITHUB_USER: ${{ github.actor }}
+        GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+  swiftlint:
+    needs: files-changed
+    if: ${{ needs.files-changed.outputs.ios == 'true' }}
+    name: Run SwiftLint
+    runs-on: macos-12
+    timeout-minutes: 10
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.1.0
+
+      - name: Run SwiftLint
+        working-directory: './iosHyperskillApp'
+        run: |
+          swiftlint --config .swiftlint.yml --path iosHyperskillApp/Sources --strict

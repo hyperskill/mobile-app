@@ -10,6 +10,7 @@ import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRunHyperskill
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedSendHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizHiddenDailyNotificationsNoticeHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizShownDailyNotificationsNoticeHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.model.permissions.StepQuizUserPermissionRequest
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
@@ -32,7 +33,12 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 }
             is Message.FetchAttemptSuccess ->
                 if (state is State.Loading) {
-                    State.AttemptLoaded(message.attempt, message.submissionState, message.currentProfile) to emptySet()
+                    State.AttemptLoaded(
+                        message.step,
+                        message.attempt,
+                        message.submissionState,
+                        message.currentProfile
+                    ) to emptySet()
                 } else {
                     null
                 }
@@ -44,19 +50,29 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 }
             is Message.CreateAttemptClicked ->
                 if (state is State.AttemptLoaded) {
-                    State.AttemptLoading to setOf(
-                        Action.CreateAttempt(
-                            message.step,
-                            state.attempt,
-                            state.submissionState
+                    if (state.step.block.name == BlockName.CODE || state.step.block.name == BlockName.SQL) {
+                        state to setOf(Action.ViewAction.RequestUserPermission(StepQuizUserPermissionRequest.RESET_CODE))
+                    } else {
+                        State.AttemptLoading(oldState = state) to setOf(
+                            Action.CreateAttempt(
+                                message.step,
+                                state.attempt,
+                                state.submissionState,
+                                message.shouldResetReply
+                            )
                         )
-                    )
+                    }
                 } else {
                     null
                 }
             is Message.CreateAttemptSuccess ->
                 if (state is State.AttemptLoading) {
-                    State.AttemptLoaded(message.attempt, message.submissionState, message.currentProfile) to emptySet()
+                    State.AttemptLoaded(
+                        message.step,
+                        message.attempt,
+                        message.submissionState,
+                        message.currentProfile
+                    ) to emptySet()
                 } else {
                     null
                 }
@@ -145,40 +161,49 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
-            is Message.NeedToAskUserToEnableDailyReminders ->
+            is Message.RequestUserPermission ->
                 if (state is State.AttemptLoaded) {
-                    val analyticEvent =
-                        StepQuizShownDailyNotificationsNoticeHyperskillAnalyticEvent(route = resolveAnalyticRoute(state))
-                    state to setOf(
-                        Action.ViewAction.AskUserToEnableDailyReminders,
-                        Action.LogAnalyticEvent(analyticEvent)
+                    val logAnalyticEventAction = when (message.userPermissionRequest) {
+                        StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS -> {
+                            val analyticEvent =
+                                StepQuizShownDailyNotificationsNoticeHyperskillAnalyticEvent(resolveAnalyticRoute(state))
+                            Action.LogAnalyticEvent(analyticEvent)
+                        }
+                        else -> null
+                    }
+                    state to setOfNotNull(
+                        Action.ViewAction.RequestUserPermission(message.userPermissionRequest),
+                        logAnalyticEventAction
                     )
                 } else {
                     null
                 }
-            is Message.UserAgreedToEnableDailyReminders ->
+            is Message.RequestUserPermissionResult ->
                 if (state is State.AttemptLoaded) {
-                    val analyticEvent = StepQuizHiddenDailyNotificationsNoticeHyperskillAnalyticEvent(
-                        route = resolveAnalyticRoute(state),
-                        isAgreed = true
-                    )
-                    state to setOf(
-                        Action.NotifyUserAgreedToEnableDailyReminders,
-                        Action.LogAnalyticEvent(analyticEvent)
-                    )
-                } else {
-                    null
-                }
-            is Message.UserDeclinedToEnableDailyReminders ->
-                if (state is State.AttemptLoaded) {
-                    val analyticEvent = StepQuizHiddenDailyNotificationsNoticeHyperskillAnalyticEvent(
-                        route = resolveAnalyticRoute(state),
-                        isAgreed = false
-                    )
-                    state to setOf(
-                        Action.NotifyUserDeclinedToEnableDailyReminders,
-                        Action.LogAnalyticEvent(analyticEvent)
-                    )
+                    when (message.userPermissionRequest) {
+                        StepQuizUserPermissionRequest.RESET_CODE -> if (message.isGranted) {
+                            State.AttemptLoading(oldState = state) to setOf(
+                                Action.CreateAttempt(
+                                    state.step,
+                                    state.attempt,
+                                    state.submissionState,
+                                    shouldResetReply = true
+                                )
+                            )
+                        } else {
+                            null
+                        }
+                        StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS -> {
+                            val analyticEvent = StepQuizHiddenDailyNotificationsNoticeHyperskillAnalyticEvent(
+                                route = resolveAnalyticRoute(state),
+                                isAgreed = message.isGranted
+                            )
+                            state to setOf(
+                                Action.RequestUserPermissionResult(message.userPermissionRequest, message.isGranted),
+                                Action.LogAnalyticEvent(analyticEvent)
+                            )
+                        }
+                    }
                 } else {
                     null
                 }
@@ -216,7 +241,6 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
     }
 
     private fun resolveAnalyticRoute(state: State.AttemptLoaded): HyperskillAnalyticRoute =
-        if (state.attempt.step == state.currentProfile.dailyStep)
-            HyperskillAnalyticRoute.Learn.Daily(state.attempt.step)
+        if (state.attempt.step == state.currentProfile.dailyStep) HyperskillAnalyticRoute.Learn.Daily(state.attempt.step)
         else HyperskillAnalyticRoute.Learn.Step(state.attempt.step)
 }

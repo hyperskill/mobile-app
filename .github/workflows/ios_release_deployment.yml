@@ -1,0 +1,60 @@
+name: iOS Release Deployment
+
+on:
+  push:
+    tags:
+      - v**
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+    
+jobs:
+  # Run Gradle Wrapper Validation Action to verify the wrapper's checksum
+  gradle-wrapper-validation:
+    name: Gradle Wrapper Validation
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.1.0
+        
+      - name: Gradle Wrapper Validation
+        uses: gradle/wrapper-validation-action@v1.0.5
+
+  # Build, archive for app-store and submit to App Store Connect
+  deployment:
+    name: iOS Release Deployment
+    needs: gradle-wrapper-validation
+    runs-on: macos-12
+    environment: ios_production
+    timeout-minutes: 60
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3.1.0
+
+    - name: Setup CI
+      id: setup
+      uses: ./.github/actions/setup-ios
+      with:
+        cache-cocoapods-on-pods-cache-miss: true
+        git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
+        google-cloud-storage-code-signing-certificates-key: ${{ secrets.GOOGLE_CLOUD_STORAGE_CODE_SIGNING_CERTIFICATES_KEY_CONTENT }}
+
+    - name: Submit a new Release Build to App Store Connect
+      working-directory: './iosHyperskillApp'
+      run: bundle exec fastlane release install_pods:false
+      env:
+        FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 60
+        IS_GIT_CRYPT_UNLOCKED: ${{ steps.setup.outputs.is-git-crypt-unlocked }}
+        KEYCHAIN_NAME: ${{ secrets.KEYCHAIN_NAME }}
+        KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+        APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+        APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID }}
+        APP_STORE_CONNECT_API_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
+        GITHUB_USER: ${{ github.actor }}
+        GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}

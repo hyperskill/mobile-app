@@ -16,7 +16,8 @@ import org.hyperskill.app.android.databinding.FragmentHomeBinding
 import org.hyperskill.app.android.problem_of_day.view.delegate.ProblemOfDayCardFormDelegate
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.streak.view.delegate.StreakCardFormDelegate
-import org.hyperskill.app.config.BuildKonfig
+import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeViewModel
 import org.hyperskill.app.streak.domain.model.Streak
@@ -67,7 +68,9 @@ class HomeFragment :
             homeViewModel.onNewMessage(HomeFeature.Message.ClickedContinueLearningOnWebEventMessage)
 
             val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(BuildKonfig.BASE_URL)
+            val url = HyperskillUrlBuilder.build(HyperskillUrlPath.Index())
+            intent.data = Uri.parse(url.toString())
+
             startActivity(intent)
         }
 

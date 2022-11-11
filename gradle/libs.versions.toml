@@ -1,9 +1,9 @@
 [versions]
-androidGradlePlugin = '7.2.0'
-kotlin = '1.6.0'
+androidGradlePlugin = '7.2.2'
+kotlin = '1.6.21'
 kotlinCoroutines = { strictly = '1.6.0-native-mt' }
 ktor = '2.0.0'
-mokoResources = "0.19.0"
+mokoResources = "0.20.1"
 ktlintRules = '1.0.0'
 adapters = '1.1.1'
 sentry = '5.7.3'
@@ -18,7 +18,7 @@ plugin-kotlinSerialization = { module = "org.jetbrains.kotlin:kotlin-serializati
 plugin-android = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
 plugin-ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version = "10.2.0" }
 plugin-gradleVersionUpdates = { module = "com.github.ben-manes:gradle-versions-plugin", version = "0.39.0" }
-plugin-buildKonfig = { module = "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin", version = "0.11.0" }
+plugin-buildKonfig = { module = "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin", version = "0.13.3" }
 plugin-mokoResources = { module = "dev.icerock.moko:resources-generator", version.ref = "mokoResources" }
 
 kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version = "0.3.2" }
@@ -92,4 +92,3 @@ android-test = ['android-test-junit', 'android-test-runner', 'android-test-robol
 
 [plugins]
 sentry-androidGradle = { id = "io.sentry.android.gradle", version = "3.0.1" }
-firebase-appdistribution-gradle = { id = "com.google.firebase.appdistribution", version = "3.0.3" }
