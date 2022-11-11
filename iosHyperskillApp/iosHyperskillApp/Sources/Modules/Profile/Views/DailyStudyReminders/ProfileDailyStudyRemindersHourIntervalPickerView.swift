@@ -28,25 +28,17 @@ struct ProfileDailyStudyRemindersHourIntervalPickerView: View {
             .accentColor(Color(ColorPalette.primary))
         }
         .panModal(isPresented: $showPickerModal) {
-            VStack(spacing: 0) {
-                Picker("", selection: $selectedInterval) {
-                    ForEach(intervals, id: \.self) { interval in
-                        Text(makeFormattedInterval(interval))
-                    }
-                }
-                .accentColor(Color(ColorPalette.primary))
-                .pickerStyle(.wheel)
-                .padding(.horizontal, LayoutInsets.smallInset)
-
-                Button(Strings.StepQuizTable.confirmButton) {
+            ProfileDailyStudyRemindersPickerViewController(
+                rows: intervals.map(makeFormattedInterval(_:)),
+                initialRowIndex: selectedInterval,
+                onDidConfirmRow: { selectedIntervalIndex in
+                    selectedInterval = selectedIntervalIndex
                     onSelectedIntervalChanged(selectedInterval)
+
                     showPickerModal = false
                 }
-                .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
-                .padding([.horizontal, .bottom])
-            }
+            )
         }
-        .environmentObject(PanModalPresenter(sourcelessRouter: SourcelessRouter()))
     }
 
     private func makeFormattedInterval(_ interval: Int) -> String {
