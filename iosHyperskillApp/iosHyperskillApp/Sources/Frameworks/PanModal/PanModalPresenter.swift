@@ -3,7 +3,7 @@ import Foundation
 final class PanModalPresenter: ObservableObject {
     private let sourcelessRouter: SourcelessRouter
 
-    init(sourcelessRouter: SourcelessRouter) {
+    init(sourcelessRouter: SourcelessRouter = SourcelessRouter()) {
         self.sourcelessRouter = sourcelessRouter
     }
 

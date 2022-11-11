@@ -44,6 +44,7 @@ struct ProfileView: View {
         }
         .onDisappear(perform: viewModel.stopListening)
         .navigationViewStyle(StackNavigationViewStyle())
+        .environmentObject(PanModalPresenter())
     }
 
     // MARK: Private API
