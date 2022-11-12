@@ -2,6 +2,7 @@ package org.hyperskill.app.home.presentation
 
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
@@ -73,18 +74,23 @@ class HomeActionDispatcher(
                         return
                     }
 
-                val problemOfDayState = getProblemOfDayState(currentProfile.dailyStep)
-                    .getOrElse {
-                        onNewMessage(Message.HomeFailure)
-                        return
-                    }
+                val problemOfDayStateResult = actionScope.async {
+                    getProblemOfDayState(currentProfile.dailyStep)
+                }
+                val currentProfileStreaksResult = actionScope.async {
+                    streakInteractor.getStreaks(currentProfile.id)
+                }
 
-                val message = streakInteractor
-                    .getStreaks(currentProfile.id)
-                    .map { Message.HomeSuccess(it.firstOrNull(), problemOfDayState) }
-                    .getOrElse { Message.HomeFailure }
+                val problemOfDayState = problemOfDayStateResult.await().getOrElse {
+                    onNewMessage(Message.HomeFailure)
+                    return
+                }
+                val currentProfileStreaks = currentProfileStreaksResult.await().getOrElse {
+                    onNewMessage(Message.HomeFailure)
+                    return
+                }
 
-                onNewMessage(message)
+                onNewMessage(Message.HomeSuccess(currentProfileStreaks.firstOrNull(), problemOfDayState))
                 onNewMessage(Message.ReadyToLaunchNextProblemInTimer)
             }
             is Action.LaunchTimer -> {
