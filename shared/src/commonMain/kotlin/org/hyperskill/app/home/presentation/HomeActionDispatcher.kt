@@ -41,7 +41,8 @@ class HomeActionDispatcher(
             val tzNewYork = TimeZone.of("America/New_York")
             val nowInNewYork = Clock.System.now().toLocalDateTime(tzNewYork).toInstant(tzNewYork)
             val tomorrowInNewYork = nowInNewYork.plus(1, DateTimeUnit.DAY, tzNewYork).toLocalDateTime(tzNewYork)
-            val startOfTomorrow = LocalDateTime(tomorrowInNewYork.year, tomorrowInNewYork.month, tomorrowInNewYork.dayOfMonth, 0, 0, 0, 0)
+            val startOfTomorrow =
+                LocalDateTime(tomorrowInNewYork.year, tomorrowInNewYork.month, tomorrowInNewYork.dayOfMonth, 0, 0, 0, 0)
             return (startOfTomorrow.toInstant(tzNewYork) - nowInNewYork).inWholeSeconds
         }
     }

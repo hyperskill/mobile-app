@@ -27,7 +27,7 @@ interface StepQuizHintsFeature {
         ) : State
 
         /**
-         * State of netword error
+         * State of network error
          *
          * @property nextHintId next hint to be loaded
          * @property hintsIds remaining hints to be displayed
