@@ -1,6 +1,7 @@
 package org.hyperskill.app.track.presentation
 
 import org.hyperskill.app.track.domain.analytic.TrackClickedContinueInWebHyperskillAnalyticEvent
+import org.hyperskill.app.track.domain.analytic.TrackClickedPullToRefreshHyperskillAnalyticEvent
 import org.hyperskill.app.track.domain.analytic.TrackViewedHyperskillAnalyticEvent
 import org.hyperskill.app.track.presentation.TrackFeature.Action
 import org.hyperskill.app.track.presentation.TrackFeature.Message
@@ -20,8 +21,17 @@ class TrackReducer : StateReducer<State, Message, Action> {
                 }
             is Message.TrackSuccess ->
                 State.Content(message.track, message.trackProgress, message.studyPlan) to emptySet()
-            is Message.TrackError ->
+            is Message.TrackFailure ->
                 State.NetworkError to emptySet()
+            is Message.PullToRefresh ->
+                if (state is State.Content && !state.isRefreshing) {
+                    state.copy(isRefreshing = true) to setOf(
+                        Action.FetchTrack,
+                        Action.LogAnalyticEvent(TrackClickedPullToRefreshHyperskillAnalyticEvent())
+                    )
+                } else {
+                    null
+                }
             is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(TrackViewedHyperskillAnalyticEvent()))
             is Message.ClickedContinueInWebEventMessage ->

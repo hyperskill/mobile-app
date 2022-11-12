@@ -9,12 +9,12 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
         super.init(feature: feature)
     }
 
-    func loadTrack(forceUpdate: Bool = false) {
+    func doLoadTrack(forceUpdate: Bool = false) {
         onNewMessage(TrackFeatureMessageInit(forceUpdate: forceUpdate))
     }
 
-    func makeViewData(track: Track, trackProgress: TrackProgress, studyPlan: StudyPlan?) -> TrackViewData {
-        viewDataMapper.mapTrackDataToViewData(track: track, trackProgress: trackProgress, studyPlan: studyPlan)
+    func doPullToRefresh() {
+        onNewMessage(TrackFeatureMessagePullToRefresh())
     }
 
     func doStudyPlanInWebPresentation() {
@@ -24,6 +24,10 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
             HyperskillUrlPath.StudyPlan(),
             controllerType: .safari
         )
+    }
+
+    func makeViewData(track: Track, trackProgress: TrackProgress, studyPlan: StudyPlan?) -> TrackViewData {
+        viewDataMapper.mapTrackDataToViewData(track: track, trackProgress: trackProgress, studyPlan: studyPlan)
     }
 
     // MARK: Analytic

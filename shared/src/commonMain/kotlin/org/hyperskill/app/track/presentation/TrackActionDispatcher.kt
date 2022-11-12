@@ -23,12 +23,12 @@ class TrackActionDispatcher(
                     .getCurrentProfile(sourceType = DataSourceType.CACHE)
                     .map { profile -> profile.trackId }
                     .getOrElse {
-                        Message.TrackError(message = it.message ?: "")
+                        Message.TrackFailure
                         return
                     }
 
                 if (trackId == null) {
-                    Message.TrackError("")
+                    Message.TrackFailure
                     return
                 }
 
@@ -43,22 +43,16 @@ class TrackActionDispatcher(
                 }
 
                 val track = trackResult.await().getOrElse {
-                    onNewMessage(
-                        Message.TrackError(message = it.message ?: "")
-                    )
+                    onNewMessage(Message.TrackFailure)
                     return
                 }
                 val trackProgress = trackProgressResult.await().getOrElse {
-                    onNewMessage(
-                        Message.TrackError(message = it.message ?: "")
-                    )
+                    onNewMessage(Message.TrackFailure)
                     return
                 }
                 val studyPlan = studyPlanResult.await().getOrNull()
 
-                onNewMessage(
-                    Message.TrackSuccess(track, trackProgress, studyPlan)
-                )
+                onNewMessage(Message.TrackSuccess(track, trackProgress, studyPlan))
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)

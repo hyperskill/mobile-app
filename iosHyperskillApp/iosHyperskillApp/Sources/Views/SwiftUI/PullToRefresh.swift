@@ -23,6 +23,11 @@ private struct PullToRefresh: UIViewRepresentable {
 
     func updateUIView(_ uiView: UIView, context: Context) {
         context.coordinator.mainScheduler.schedule {
+            // View disappeared -> endRefreshing
+            if uiView.superview == nil {
+                context.coordinator.refreshControl?.endRefreshing()
+            }
+
             guard let scrollView = uiView.findAncestor(ofType: UIScrollView.self) else {
                 return
             }
@@ -33,6 +38,8 @@ private struct PullToRefresh: UIViewRepresentable {
                 } else {
                     refreshControl.endRefreshing()
                 }
+
+                context.coordinator.refreshControl = refreshControl
             } else {
                 let refreshControl = UIRefreshControl()
                 refreshControl.addTarget(
@@ -40,7 +47,9 @@ private struct PullToRefresh: UIViewRepresentable {
                     action: #selector(Coordinator.refreshControlValueChanged),
                     for: .valueChanged
                 )
+
                 scrollView.refreshControl = refreshControl
+                context.coordinator.refreshControl = refreshControl
             }
         }
     }
@@ -55,6 +64,8 @@ extension PullToRefresh {
         let onRefresh: () -> Void
 
         let mainScheduler: AnySchedulerOf<RunLoop>
+
+        weak var refreshControl: UIRefreshControl?
 
         init(
             isShowing: Binding<Bool>,
