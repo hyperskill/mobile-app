@@ -42,7 +42,7 @@ final class ProfileViewModel: FeatureViewModel<
         NotificationCenter.default.removeObserver(self)
     }
 
-    func loadProfile(forceUpdate: Bool = false) {
+    func doLoadProfile(forceUpdate: Bool = false) {
         switch presentationDescription.profileType {
         case .currentUser:
             onNewMessage(ProfileFeatureMessageInit(isInitCurrent: true, profileId: nil, forceUpdate: forceUpdate))
@@ -52,6 +52,20 @@ final class ProfileViewModel: FeatureViewModel<
                     isInitCurrent: false,
                     profileId: KotlinLong(value: Int64(profileUserID)),
                     forceUpdate: forceUpdate
+                )
+            )
+        }
+    }
+
+    func doPullToRefresh() {
+        switch presentationDescription.profileType {
+        case .currentUser:
+            onNewMessage(ProfileFeatureMessagePullToRefresh(isRefreshCurrent: true, profileId: nil))
+        case .otherUser(let profileUserID):
+            onNewMessage(
+                ProfileFeatureMessagePullToRefresh(
+                    isRefreshCurrent: false,
+                    profileId: KotlinLong(value: Int64(profileUserID))
                 )
             )
         }

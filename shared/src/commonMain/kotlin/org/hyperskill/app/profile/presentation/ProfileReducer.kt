@@ -2,6 +2,7 @@ package org.hyperskill.app.profile.presentation
 
 import org.hyperskill.app.profile.domain.analytic.ProfileClickedDailyStudyRemindsHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.ProfileClickedDailyStudyRemindsTimeHyperskillAnalyticEvent
+import org.hyperskill.app.profile.domain.analytic.ProfileClickedPullToRefreshHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.ProfileClickedSettingsHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.ProfileClickedViewFullProfileHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.ProfileViewedHyperskillAnalyticEvent
@@ -30,6 +31,15 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                 State.Content(message.profile, message.streak) to emptySet()
             is Message.ProfileLoaded.Error ->
                 State.Error to emptySet()
+            is Message.PullToRefresh ->
+                if (state is State.Content && !state.isRefreshing) {
+                    state.copy(isRefreshing = true) to setOf(
+                        if (message.isRefreshCurrent) Action.FetchCurrentProfile else Action.FetchProfile(message.profileId!!),
+                        Action.LogAnalyticEvent(ProfileClickedPullToRefreshHyperskillAnalyticEvent())
+                    )
+                } else {
+                    null
+                }
             is Message.StepSolved -> {
                 if (state is State.Content) {
                     state to setOf(Action.UpdateStreakInfo(state.streak))
