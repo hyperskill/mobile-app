@@ -64,7 +64,7 @@ struct AuthNewUserPlaceholderView: View {
                 OpenURLInsideAppButton(
                     text: Strings.Auth.NewUserPlaceholder.continueButton,
                     urlType: .nextURLPath(HyperskillUrlPath.Index()),
-                    webControllerType: .safari,
+                    webControllerType: .inAppSafari,
                     onTap: viewModel.logClickedContinueEvent
                 )
                 .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
