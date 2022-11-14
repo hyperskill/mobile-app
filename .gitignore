@@ -32,6 +32,9 @@ iosHyperskillApp/.build/
 
 iosHyperskillApp/.idea/
 
+## moko-kswift
+iosHyperskillApp/iosHyperskillApp/Sources/Frameworks/sharedSwift/Hyperskill-Mobile_shared.swift
+
 ## CocoaPods
 iosHyperskillApp/Pods/
 

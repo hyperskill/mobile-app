@@ -10,7 +10,7 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
     }
 
     func doLoadTrack(forceUpdate: Bool = false) {
-        onNewMessage(TrackFeatureMessageInit(forceUpdate: forceUpdate))
+        onNewMessage(TrackFeatureMessageInitialize(forceUpdate: forceUpdate))
     }
 
     func doPullToRefresh() {

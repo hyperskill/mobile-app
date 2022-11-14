@@ -11,7 +11,7 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 class OnboardingReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
-            is Message.Init ->
+            is Message.Initialize ->
                 state to setOf(Action.FetchOnboarding)
             is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(OnboardingViewedHyperskillAnalyticEvent()))

@@ -11,7 +11,7 @@ interface StepFeature {
     }
 
     sealed interface Message {
-        data class Init(
+        data class Initialize(
             val stepId: Long,
             val forceUpdate: Boolean = false
         ) : Message

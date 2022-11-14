@@ -4,6 +4,7 @@ kotlin = '1.6.21'
 kotlinCoroutines = { strictly = '1.6.0-native-mt' }
 ktor = '2.0.0'
 mokoResources = "0.20.1"
+mokoKswift = "0.6.1"
 ktlintRules = '1.0.0'
 adapters = '1.1.1'
 sentry = '5.7.3'
@@ -20,6 +21,7 @@ plugin-ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version = "10
 plugin-gradleVersionUpdates = { module = "com.github.ben-manes:gradle-versions-plugin", version = "0.39.0" }
 plugin-buildKonfig = { module = "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin", version = "0.13.3" }
 plugin-mokoResources = { module = "dev.icerock.moko:resources-generator", version.ref = "mokoResources" }
+plugin-mokoKswift = { module = "dev.icerock.moko:kswift-gradle-plugin", version.ref = "mokoKswift" }
 
 kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version = "0.3.2" }
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinCoroutines" }
@@ -64,6 +66,8 @@ viewbinding = { module = "com.github.kirich1409:viewbindingpropertydelegate", ve
 
 mokoResources-main = { module = "dev.icerock.moko:resources", version.ref = "mokoResources" }
 mokoResources-test = { module = "dev.icerock.moko:resources-test", version.ref = "mokoResources" }
+
+mokoKswiftRuntime-main = { module = "dev.icerock.moko:kswift-runtime", version.ref = "mokoKswift" }
 
 ktlintRules = { module = "ru.nobird.android.ktlint:rules", version.ref = "ktlintRules" }
 

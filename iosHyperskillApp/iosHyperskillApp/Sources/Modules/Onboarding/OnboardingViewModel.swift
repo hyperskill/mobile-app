@@ -9,7 +9,7 @@ final class OnboardingViewModel: FeatureViewModel<
     weak var moduleOutput: OnboardingOutputProtocol?
 
     func loadOnboarding() {
-        onNewMessage(OnboardingFeatureMessageInit())
+        onNewMessage(OnboardingFeatureMessageInitialize())
     }
 
     func doSignPresentation() {

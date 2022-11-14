@@ -45,10 +45,10 @@ final class ProfileViewModel: FeatureViewModel<
     func doLoadProfile(forceUpdate: Bool = false) {
         switch presentationDescription.profileType {
         case .currentUser:
-            onNewMessage(ProfileFeatureMessageInit(isInitCurrent: true, profileId: nil, forceUpdate: forceUpdate))
+            onNewMessage(ProfileFeatureMessageInitialize(isInitCurrent: true, profileId: nil, forceUpdate: forceUpdate))
         case .otherUser(let profileUserID):
             onNewMessage(
-                ProfileFeatureMessageInit(
+                ProfileFeatureMessageInitialize(
                     isInitCurrent: false,
                     profileId: KotlinLong(value: Int64(profileUserID)),
                     forceUpdate: forceUpdate

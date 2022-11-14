@@ -24,7 +24,7 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
     }
 
     func doLoadContent(forceUpdate: Bool = false) {
-        onNewMessage(HomeFeatureMessageInit(forceUpdate: forceUpdate || shouldReloadContent))
+        onNewMessage(HomeFeatureMessageInitialize(forceUpdate: forceUpdate || shouldReloadContent))
 
         if shouldReloadContent {
             shouldReloadContent = false

@@ -46,7 +46,7 @@ class HomeFragment :
         object : DefaultLifecycleObserver {
             override fun onResume(owner: LifecycleOwner) {
                 super.onResume(owner)
-                homeViewModel.onNewMessage(HomeFeature.Message.Init(forceUpdate = true))
+                homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = true))
             }
         }
 
@@ -61,7 +61,7 @@ class HomeFragment :
         initViewStateDelegate()
 
         viewBinding.homeScreenError.tryAgain.setOnClickListener {
-            homeViewModel.onNewMessage(HomeFeature.Message.Init(forceUpdate = false))
+            homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = false))
         }
 
         viewBinding.homeScreenKeepLearningInWebButton.setOnClickListener {
@@ -83,7 +83,7 @@ class HomeFragment :
 //            }
 //        }
 
-        homeViewModel.onNewMessage(HomeFeature.Message.Init(forceUpdate = false))
+        homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = false))
         homeViewModel.onNewMessage(HomeFeature.Message.ViewedEventMessage)
     }
 

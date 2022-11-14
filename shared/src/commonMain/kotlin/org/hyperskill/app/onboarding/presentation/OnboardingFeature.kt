@@ -8,7 +8,7 @@ interface OnboardingFeature {
     }
 
     sealed interface Message {
-        object Init : Message
+        object Initialize : Message
 
         /**
          * Analytic

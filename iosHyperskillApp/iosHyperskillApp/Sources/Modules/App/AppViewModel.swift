@@ -35,7 +35,7 @@ final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, A
     }
 
     func loadApp(forceUpdate: Bool = false) {
-        onNewMessage(AppFeatureMessageInit(forceUpdate: forceUpdate))
+        onNewMessage(AppFeatureMessageInitialize(forceUpdate: forceUpdate))
     }
 
     // MARK: Private API
