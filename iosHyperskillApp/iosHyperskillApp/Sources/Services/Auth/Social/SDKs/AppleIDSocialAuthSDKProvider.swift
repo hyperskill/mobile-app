@@ -18,14 +18,23 @@ final class AppleIDSocialAuthSDKProvider: NSObject, SocialAuthSDKProvider {
     private var completionHandler: CompletionHandler?
 
     func signIn() async throws -> SocialAuthSDKResponse {
-        try await withCheckedThrowingContinuation { continuation in
-            self.signIn { result in
+        let lock = NSLock()
+
+        return try await withCheckedThrowingContinuation { continuation in
+            var optionalContinuation: CheckedContinuation<SocialAuthSDKResponse, Error>? = continuation
+
+            signIn { result in
+                lock.lock()
+                defer { lock.unlock() }
+
                 switch result {
                 case .success(let response):
-                    continuation.resume(returning: response)
+                    optionalContinuation?.resume(returning: response)
                 case .failure(let error):
-                    continuation.resume(throwing: error)
+                    optionalContinuation?.resume(throwing: error)
                 }
+
+                optionalContinuation = nil
             }
         }
     }
