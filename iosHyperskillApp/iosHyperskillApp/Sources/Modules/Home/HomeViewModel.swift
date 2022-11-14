@@ -23,12 +23,16 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
         )
     }
 
-    func loadContent(forceUpdate: Bool = false) {
+    func doLoadContent(forceUpdate: Bool = false) {
         onNewMessage(HomeFeatureMessageInit(forceUpdate: forceUpdate || shouldReloadContent))
 
         if shouldReloadContent {
             shouldReloadContent = false
         }
+    }
+
+    func doPullToRefresh() {
+        onNewMessage(HomeFeatureMessagePullToRefresh())
     }
 
     // MARK: Analytic
@@ -67,7 +71,7 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
 
 extension HomeViewModel: ProblemOfDayOutputProtocol {
     func handleProblemOfDayReloadRequested() {
-        loadContent(forceUpdate: true)
+        doLoadContent(forceUpdate: true)
     }
 
     func handleProblemOfDayOpenStepRequested(stepID: Int) {

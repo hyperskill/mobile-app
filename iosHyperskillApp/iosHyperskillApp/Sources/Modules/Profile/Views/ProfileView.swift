@@ -4,6 +4,8 @@ import SwiftUI
 extension ProfileView {
     struct Appearance {
         let spacingBetweenContainers: CGFloat = 20
+
+        let backgroundColor = Color.systemGroupedBackground
     }
 }
 
@@ -18,7 +20,7 @@ struct ProfileView: View {
         ZStack {
             UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
 
-            BackgroundView(color: .systemGroupedBackground)
+            BackgroundView(color: appearance.backgroundColor)
 
             buildBody()
         }
@@ -55,18 +57,18 @@ struct ProfileView: View {
         case is ProfileFeatureStateIdle:
             ProgressView()
                 .onAppear {
-                    viewModel.loadProfile()
+                    viewModel.doLoadProfile()
                 }
         case is ProfileFeatureStateLoading:
             ProgressView()
         case is ProfileFeatureStateError:
             PlaceholderView(
-                configuration: .networkError {
-                    viewModel.loadProfile(forceUpdate: true)
+                configuration: .networkError(backgroundColor: appearance.backgroundColor) {
+                    viewModel.doLoadProfile(forceUpdate: true)
                 }
             )
-        case let content as ProfileFeatureStateContent:
-            let viewData = viewModel.makeViewData(content.profile)
+        case let state as ProfileFeatureStateContent:
+            let viewData = viewModel.makeViewData(state.profile)
 
             ScrollView {
                 VStack(spacing: appearance.spacingBetweenContainers) {
@@ -76,7 +78,7 @@ struct ProfileView: View {
                         subtitle: viewData.role
                     )
 
-                    if let streak = content.streak {
+                    if let streak = state.streak {
                         StreakViewBuilder(streak: streak, viewType: .plain)
                             .build()
                             .padding()
@@ -102,6 +104,13 @@ struct ProfileView: View {
                     )
                 }
                 .padding(.vertical)
+                .pullToRefresh(
+                    isShowing: Binding(
+                        get: { state.isRefreshing },
+                        set: { _ in }
+                    ),
+                    onRefresh: viewModel.doPullToRefresh
+                )
             }
             .frame(maxWidth: .infinity)
         default:

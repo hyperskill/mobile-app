@@ -7,13 +7,37 @@ import org.hyperskill.app.track.domain.model.TrackProgress
 
 interface TrackFeature {
     sealed interface State {
+        /**
+         * Represents initial state.
+         */
         object Idle : State
+
+        /**
+         * Represents a state when loading track screen data.
+         */
         object Loading : State
+
+        /**
+         * Represents a state when track screen data successfully loaded.
+         *
+         * @property track Current user profile selected track.
+         * @property trackProgress Current user profile selected track progress.
+         * @property studyPlan Current user profile study plan.
+         * @property isRefreshing A boolean flag that indicates about is pull-to-refresh is ongoing.
+         * @see Track
+         * @see TrackProgress
+         * @see StudyPlan
+         */
         data class Content(
             val track: Track,
             val trackProgress: TrackProgress,
-            val studyPlan: StudyPlan? = null
+            val studyPlan: StudyPlan? = null,
+            val isRefreshing: Boolean = false
         ) : State
+
+        /**
+         * Represents a state when track screen data failed to load.
+         */
         object NetworkError : State
     }
 
@@ -25,7 +49,10 @@ interface TrackFeature {
             val trackProgress: TrackProgress,
             val studyPlan: StudyPlan? = null
         ) : Message
-        data class TrackError(val message: String) : Message
+
+        object TrackFailure : Message
+
+        object PullToRefresh : Message
 
         /**
          * Analytic
