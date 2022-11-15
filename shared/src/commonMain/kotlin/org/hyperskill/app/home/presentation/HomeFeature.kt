@@ -43,6 +43,7 @@ interface HomeFeature {
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
                 data class StepScreen(val stepId: Long) : NavigateTo
+                object TopicsRepetitions: NavigateTo
             }
         }
     }

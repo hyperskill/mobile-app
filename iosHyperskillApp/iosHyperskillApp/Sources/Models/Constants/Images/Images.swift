@@ -116,4 +116,10 @@ enum Images {
     enum Onboarding {
         static let problemOfDayCard = "onboarding-problem-of-day-card"
     }
+
+    // MARK: - TopicsRepetitions -
+
+    enum TopicsRepetitions {
+        static let bookImage = "topics-repetitions-book-image"
+    }
 }

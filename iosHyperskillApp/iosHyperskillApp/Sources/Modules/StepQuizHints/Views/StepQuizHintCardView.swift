@@ -73,11 +73,9 @@ struct StepQuizHintCardView: View {
             .foregroundColor(.primary)
 
             if isDisplaingShortHintText {
-                Button(Strings.StepQuiz.Hints.showMore) {
+                ShowMoreButton {
                     isShowingMore = true
                 }
-                .font(.subheadline)
-                .foregroundColor(Color(ColorPalette.primary))
             }
 
             if hintHasReaction {

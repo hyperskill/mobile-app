@@ -78,6 +78,8 @@ struct HomeView: View {
                     )
                     .makeModule()
 
+                    TopicsRepetitionsCardView(topicsToRepeatCount: 4, onTap: viewModel.handleTopicsRepetitionsRequested)
+
                     let shouldShowContinueInWebButton = data.problemOfDayState is HomeFeatureProblemOfDayStateEmpty ||
                       data.problemOfDayState is HomeFeatureProblemOfDayStateSolved
 
@@ -113,6 +115,10 @@ struct HomeView: View {
         case let navigateToStepScreenViewAction as HomeFeatureActionViewActionNavigateToStepScreen:
             let assembly = StepAssembly(stepID: Int(navigateToStepScreenViewAction.stepId))
             pushRouter.pushViewController(assembly.makeModule())
+        case is HomeFeatureActionViewActionNavigateToTopicsRepetitions:
+            pushRouter.pushViewController(
+                TopicsRepetitionsHostingController(rootView: TopicsRepetitionsView(topicsToRepeatCount: 4))
+            )
         default:
             print("HomeView :: unhandled viewAction = \(viewAction)")
         }

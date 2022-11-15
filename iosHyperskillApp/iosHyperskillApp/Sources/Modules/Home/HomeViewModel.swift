@@ -31,6 +31,12 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
         }
     }
 
+    func handleTopicsRepetitionsRequested() {
+        DispatchQueue.main.async {
+            self.onViewAction?(HomeFeatureActionViewActionNavigateToTopicsRepetitions())
+        }
+    }
+
     // MARK: Analytic
 
     func logViewedEvent() {

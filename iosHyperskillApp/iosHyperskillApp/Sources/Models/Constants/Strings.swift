@@ -239,6 +239,25 @@ enum Strings {
         static let nextProblemIn = sharedStrings.problem_of_day_next_problem_in.localized()
     }
 
+    // MARK: - TopicsRepetitions -
+    enum TopicsRepetitions {
+        static let cardTitleUncompleted = sharedStrings.topics_repetitions_card_title_uncompleted.localized()
+        static let cardTextUncompleted = sharedStrings.topics_repetitions_card_text_uncompleted.localized()
+        static let cardTitleCompleted = sharedStrings.topics_repetitions_card_title_completed.localized()
+        static let cardTextCompleted = sharedStrings.topics_repetitions_card_text_completed.localized()
+        static let tryToRecallText = sharedStrings.topics_repetitions_try_to_recall_text.localized()
+        static let repeatedTopics = sharedStrings.topics_repetitions_repeated_topics.localized()
+        static let youHaveRepeated = sharedStrings.topics_repetitions_you_have_repeated.localized()
+
+        static let allTopicsToRepeat = sharedStrings.topics_repetitions_all_topics_to_repeat.localized()
+        static let topicsFromTrack = sharedStrings.topics_repetitions_topics_from_track.localized()
+        static let explanationTitle = sharedStrings.topics_repetitions_explanation_title.localized()
+        static let explanationText1 = sharedStrings.topics_repetitions_explanation_text1.localized()
+        static let explanationText2 = sharedStrings.topics_repetitions_explanation_text2.localized()
+        static let explanationText3 = sharedStrings.topics_repetitions_explanation_text3.localized()
+        static let explanationText4 = sharedStrings.topics_repetitions_explanation_text4.localized()
+    }
+
     // MARK: - Onboarding -
 
     enum Onboarding {
