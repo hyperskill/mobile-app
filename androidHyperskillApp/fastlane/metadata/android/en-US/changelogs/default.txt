@@ -1,1 +1,5 @@
+In the new version of My Hyperskill:
+• Added a retry button for problems
+• Bug fixes and improvements using your feedback
+
 We are working hard to bring even more Hyperskill features to your mobile phone. Currently, My Hyperskill app is in beta, so we would love to hear any feedback from you. Feel free to contact us at hello@hyperskill.org and share your thoughts!

@@ -2,6 +2,7 @@ package org.hyperskill.app.home.presentation
 
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
@@ -41,7 +42,8 @@ class HomeActionDispatcher(
             val tzNewYork = TimeZone.of("America/New_York")
             val nowInNewYork = Clock.System.now().toLocalDateTime(tzNewYork).toInstant(tzNewYork)
             val tomorrowInNewYork = nowInNewYork.plus(1, DateTimeUnit.DAY, tzNewYork).toLocalDateTime(tzNewYork)
-            val startOfTomorrow = LocalDateTime(tomorrowInNewYork.year, tomorrowInNewYork.month, tomorrowInNewYork.dayOfMonth, 0, 0, 0, 0)
+            val startOfTomorrow =
+                LocalDateTime(tomorrowInNewYork.year, tomorrowInNewYork.month, tomorrowInNewYork.dayOfMonth, 0, 0, 0, 0)
             return (startOfTomorrow.toInstant(tzNewYork) - nowInNewYork).inWholeSeconds
         }
     }
@@ -72,18 +74,23 @@ class HomeActionDispatcher(
                         return
                     }
 
-                val problemOfDayState = getProblemOfDayState(currentProfile.dailyStep)
-                    .getOrElse {
-                        onNewMessage(Message.HomeFailure)
-                        return
-                    }
+                val problemOfDayStateResult = actionScope.async {
+                    getProblemOfDayState(currentProfile.dailyStep)
+                }
+                val currentProfileStreaksResult = actionScope.async {
+                    streakInteractor.getStreaks(currentProfile.id)
+                }
 
-                val message = streakInteractor
-                    .getStreaks(currentProfile.id)
-                    .map { Message.HomeSuccess(it.firstOrNull(), problemOfDayState) }
-                    .getOrElse { Message.HomeFailure }
+                val problemOfDayState = problemOfDayStateResult.await().getOrElse {
+                    onNewMessage(Message.HomeFailure)
+                    return
+                }
+                val currentProfileStreaks = currentProfileStreaksResult.await().getOrElse {
+                    onNewMessage(Message.HomeFailure)
+                    return
+                }
 
-                onNewMessage(message)
+                onNewMessage(Message.HomeSuccess(currentProfileStreaks.firstOrNull(), problemOfDayState))
                 onNewMessage(Message.ReadyToLaunchNextProblemInTimer)
             }
             is Action.LaunchTimer -> {

@@ -2,7 +2,7 @@ package org.hyperskill.app.step_quiz_hints.presentation
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
-import org.hyperskill.app.comments.domain.model.ReactionType
+import org.hyperskill.app.reactions.domain.model.ReactionType
 import org.hyperskill.app.step_quiz_hints.domain.analytic.StepQuizHintsClickedHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_hints.domain.analytic.StepQuizHintsHiddenReportHintNoticeHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_hints.domain.analytic.StepQuizHintsShownReportHintNoticeHyperskillAnalyticEvent

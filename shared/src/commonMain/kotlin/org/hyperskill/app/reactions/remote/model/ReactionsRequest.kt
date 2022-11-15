@@ -1,14 +1,10 @@
-package org.hyperskill.app.comments.domain.model
+package org.hyperskill.app.reactions.remote.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Reaction(
-    @SerialName("id")
-    val id: Long,
-    @SerialName("user")
-    val userId: Long,
+data class ReactionsRequest(
     @SerialName("comment")
     val commentId: Long,
     @SerialName("short_name")

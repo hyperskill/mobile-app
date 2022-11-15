@@ -74,7 +74,9 @@ struct StepQuizHintCardView: View {
 
             if isDisplaingShortHintText {
                 ShowMoreButton {
-                    isShowingMore = true
+                    withAnimation {
+                        isShowingMore = true
+                    }
                 }
             }
 

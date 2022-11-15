@@ -21,7 +21,7 @@ struct HomeView: View {
             UIViewControllerEventsWrapper(
                 onViewDidAppear: {
                     viewModel.logViewedEvent()
-                    viewModel.loadContent()
+                    viewModel.doLoadContent()
                 }
             )
 
@@ -47,17 +47,17 @@ struct HomeView: View {
         case is HomeFeatureStateIdle:
             ProgressView()
                 .onAppear {
-                    viewModel.loadContent()
+                    viewModel.doLoadContent()
                 }
         case is HomeFeatureStateLoading:
             ProgressView()
         case is HomeFeatureStateNetworkError:
             PlaceholderView(
                 configuration: .networkError(backgroundColor: appearance.backgroundColor) {
-                    viewModel.loadContent(forceUpdate: true)
+                    viewModel.doLoadContent(forceUpdate: true)
                 }
             )
-        case let data as HomeFeatureStateContent:
+        case let state as HomeFeatureStateContent:
             ScrollView {
                 VStack(alignment: .leading, spacing: appearance.spacingBetweenContainers) {
                     Text(Strings.Home.helloLetsLearn)
@@ -68,20 +68,20 @@ struct HomeView: View {
                         .font(.subheadline)
                         .foregroundColor(.secondaryText)
 
-                    if let streak = data.streak {
+                    if let streak = state.streak {
                         StreakViewBuilder(streak: streak, viewType: .card).build()
                     }
 
                     ProblemOfDayAssembly(
-                        problemOfDayState: data.problemOfDayState,
+                        problemOfDayState: state.problemOfDayState,
                         output: viewModel
                     )
                     .makeModule()
 
                     TopicsRepetitionsCardView(topicsToRepeatCount: 4, onTap: viewModel.handleTopicsRepetitionsRequested)
 
-                    let shouldShowContinueInWebButton = data.problemOfDayState is HomeFeatureProblemOfDayStateEmpty ||
-                      data.problemOfDayState is HomeFeatureProblemOfDayStateSolved
+                    let shouldShowContinueInWebButton = state.problemOfDayState is HomeFeatureProblemOfDayStateEmpty ||
+                      state.problemOfDayState is HomeFeatureProblemOfDayStateSolved
 
                     if shouldShowContinueInWebButton {
                         OpenURLInsideAppButton(
@@ -102,6 +102,13 @@ struct HomeView: View {
                     #endif
                 }
                 .padding()
+                .pullToRefresh(
+                    isShowing: Binding(
+                        get: { state.isRefreshing },
+                        set: { _ in }
+                    ),
+                    onRefresh: viewModel.doPullToRefresh
+                )
             }
             .frame(maxWidth: .infinity)
             .padding(.top, 0.1)

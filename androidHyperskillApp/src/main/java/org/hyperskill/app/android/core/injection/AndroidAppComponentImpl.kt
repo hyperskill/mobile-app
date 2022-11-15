@@ -28,10 +28,14 @@ import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.injection.CommonComponent
 import org.hyperskill.app.core.injection.CommonComponentImpl
 import org.hyperskill.app.core.remote.UserAgentInfo
+import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
+import org.hyperskill.app.discussions.injection.DiscussionsDataComponentImpl
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.HomeComponentImpl
 import org.hyperskill.app.home.injection.PlatformHomeComponent
 import org.hyperskill.app.home.injection.PlatformHomeComponentImpl
+import org.hyperskill.app.likes.injection.LikesDataComponent
+import org.hyperskill.app.likes.injection.LikesDataComponentImpl
 import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
 import org.hyperskill.app.magic_links.injection.MagicLinksDataComponentImpl
 import org.hyperskill.app.main.injection.MainComponent
@@ -60,6 +64,8 @@ import org.hyperskill.app.profile.injection.ProfileDataComponentImpl
 import org.hyperskill.app.profile_settings.injection.PlatformProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponentImpl
+import org.hyperskill.app.reactions.injection.ReactionsDataComponent
+import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
 import org.hyperskill.app.step.injection.PlatformStepComponent
 import org.hyperskill.app.step.injection.PlatformStepComponentImpl
 import org.hyperskill.app.step.injection.StepComponent
@@ -246,4 +252,13 @@ class AndroidAppComponentImpl(
 
     override fun buildMagicLinksDataComponent(): MagicLinksDataComponent =
         MagicLinksDataComponentImpl(this)
+
+    override fun buildDiscussionsDataComponent(): DiscussionsDataComponent =
+        DiscussionsDataComponentImpl(this)
+
+    override fun buildReactionsDataComponent(): ReactionsDataComponent =
+        ReactionsDataComponentImpl(this)
+
+    override fun buildLikesDataComponent(): LikesDataComponent =
+        LikesDataComponentImpl(this)
 }

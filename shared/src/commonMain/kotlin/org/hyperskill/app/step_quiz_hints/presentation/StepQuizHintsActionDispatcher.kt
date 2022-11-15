@@ -1,10 +1,12 @@
 package org.hyperskill.app.step_quiz_hints.presentation
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
-import org.hyperskill.app.comments.domain.interactor.CommentsDataInteractor
-import org.hyperskill.app.comments.domain.model.ReactionType
+import org.hyperskill.app.comments.domain.interactor.CommentsInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.likes.domain.interactor.LikesInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.reactions.domain.interactor.ReactionsInteractor
+import org.hyperskill.app.reactions.domain.model.ReactionType
 import org.hyperskill.app.step_quiz_hints.domain.interactor.StepQuizHintsInteractor
 import org.hyperskill.app.step_quiz_hints.domain.model.HintState
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.Action
@@ -15,11 +17,13 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class StepQuizHintsActionDispatcher(
     config: ActionDispatcherOptions,
-    private val commentsDataInteractor: CommentsDataInteractor,
-    private val userStorageInteractor: UserStorageInteractor,
     private val stepQuizHintsInteractor: StepQuizHintsInteractor,
-    private val analyticInteractor: AnalyticInteractor,
-    private val profileInteractor: ProfileInteractor
+    private val profileInteractor: ProfileInteractor,
+    private val likesInteractor: LikesInteractor,
+    private val commentsInteractor: CommentsInteractor,
+    private val reactionsInteractor: ReactionsInteractor,
+    private val userStorageInteractor: UserStorageInteractor,
+    private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
@@ -44,7 +48,7 @@ class StepQuizHintsActionDispatcher(
                 )
             }
             is Action.ReportHint -> {
-                val message = commentsDataInteractor
+                val message = likesInteractor
                     .abuseComment(action.hintId)
                     .fold(
                         onSuccess = {
@@ -60,8 +64,8 @@ class StepQuizHintsActionDispatcher(
                 onNewMessage(message)
             }
             is Action.ReactHint -> {
-                val message = commentsDataInteractor
-                    .createReaction(action.hintId, action.reaction)
+                val message = reactionsInteractor
+                    .createCommentReaction(action.hintId, action.reaction)
                     .fold(
                         onSuccess = {
                             userStorageInteractor.updateUserStorage(
@@ -79,8 +83,8 @@ class StepQuizHintsActionDispatcher(
                 onNewMessage(message)
             }
             is Action.FetchNextHint -> {
-                commentsDataInteractor
-                    .getCommentDetails(action.nextHintId)
+                commentsInteractor
+                    .getComment(action.nextHintId)
                     .onSuccess {
                         onNewMessage(
                             Message.NextHintLoaded(

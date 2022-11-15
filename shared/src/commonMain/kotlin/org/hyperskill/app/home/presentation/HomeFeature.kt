@@ -6,9 +6,34 @@ import org.hyperskill.app.streak.domain.model.Streak
 
 interface HomeFeature {
     sealed interface State {
+        /**
+         * Represents initial state.
+         */
         object Idle : State
+
+        /**
+         * Represents a state when loading home screen data.
+         */
         object Loading : State
-        data class Content(val streak: Streak?, val problemOfDayState: ProblemOfDayState) : State
+
+        /**
+         * Represents a state when home screen data successfully loaded.
+         *
+         * @property streak Current user profile streak.
+         * @property problemOfDayState Problem of the day state.
+         * @property isRefreshing A boolean flag that indicates about is pull-to-refresh is ongoing.
+         * @see Streak
+         * @see ProblemOfDayState
+         */
+        data class Content(
+            val streak: Streak?,
+            val problemOfDayState: ProblemOfDayState,
+            val isRefreshing: Boolean = false
+        ) : State
+
+        /**
+         * Represents a state when home screen data failed to load.
+         */
         object NetworkError : State
     }
 
@@ -21,9 +46,12 @@ interface HomeFeature {
     sealed interface Message {
         data class Init(val forceUpdate: Boolean) : Message
         data class HomeSuccess(val streak: Streak?, val problemOfDayState: ProblemOfDayState) : Message
-        data class HomeNextProblemInUpdate(val seconds: Long) : Message
-        object ReadyToLaunchNextProblemInTimer : Message
         object HomeFailure : Message
+        object PullToRefresh : Message
+
+        object ReadyToLaunchNextProblemInTimer : Message
+        data class HomeNextProblemInUpdate(val seconds: Long) : Message
+
         data class ProblemOfDaySolved(val stepId: Long) : Message
 
         /**

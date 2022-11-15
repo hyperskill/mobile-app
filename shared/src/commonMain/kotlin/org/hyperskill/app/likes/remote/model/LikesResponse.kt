@@ -1,16 +1,16 @@
-package org.hyperskill.app.comments.remote.model
+package org.hyperskill.app.likes.remote.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import org.hyperskill.app.comments.domain.model.Discussion
 import org.hyperskill.app.core.remote.Meta
 import org.hyperskill.app.core.remote.MetaResponse
+import org.hyperskill.app.likes.domain.model.Like
 
 @Serializable
-class DiscussionsResponse(
+class LikesResponse(
     @SerialName("meta")
     override val meta: Meta,
 
-    @SerialName("discussions")
-    val discussions: List<Discussion>
+    @SerialName("likes")
+    val likes: List<Like>
 ) : MetaResponse

@@ -19,7 +19,7 @@ class UserStorageComponentImpl(appGraph: AppGraph) : UserStorageComponent {
             appGraph.commonComponent.settings
         )
 
-    private val userStorageRepository: UserStorageRepository =
+    override val userStorageRepository: UserStorageRepository =
         UserStorageRepositoryImpl(userStorageRemoteDataSource, userStorageCacheDataSource)
 
     override val userStorageInteractor: UserStorageInteractor

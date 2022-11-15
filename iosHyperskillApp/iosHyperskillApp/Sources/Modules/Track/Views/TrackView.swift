@@ -5,6 +5,8 @@ extension TrackView {
     struct Appearance {
         let spacingBetweenContainers = LayoutInsets.largeInset
         let spacingBetweenRelativeItems = LayoutInsets.smallInset
+
+        let backgroundColor = Color.systemGroupedBackground
     }
 }
 
@@ -17,7 +19,7 @@ struct TrackView: View {
         ZStack {
             UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
 
-            BackgroundView(color: .systemGroupedBackground)
+            BackgroundView(color: appearance.backgroundColor)
 
             buildBody()
         }
@@ -38,21 +40,21 @@ struct TrackView: View {
         case is TrackFeatureStateIdle:
             ProgressView()
                 .onAppear {
-                    viewModel.loadTrack()
+                    viewModel.doLoadTrack()
                 }
         case is TrackFeatureStateLoading:
             ProgressView()
         case is TrackFeatureStateNetworkError:
             PlaceholderView(
-                configuration: .networkError {
-                    viewModel.loadTrack(forceUpdate: true)
+                configuration: .networkError(backgroundColor: appearance.backgroundColor) {
+                    viewModel.doLoadTrack(forceUpdate: true)
                 }
             )
-        case let content as TrackFeatureStateContent:
+        case let state as TrackFeatureStateContent:
             let viewData = viewModel.makeViewData(
-                track: content.track,
-                trackProgress: content.trackProgress,
-                studyPlan: content.studyPlan
+                track: state.track,
+                trackProgress: state.trackProgress,
+                studyPlan: state.studyPlan
             )
 
             ScrollView {
@@ -84,6 +86,13 @@ struct TrackView: View {
                     )
                 }
                 .padding(.vertical)
+                .pullToRefresh(
+                    isShowing: Binding(
+                        get: { state.isRefreshing },
+                        set: { _ in }
+                    ),
+                    onRefresh: viewModel.doPullToRefresh
+                )
             }
             .frame(maxWidth: .infinity)
         default:

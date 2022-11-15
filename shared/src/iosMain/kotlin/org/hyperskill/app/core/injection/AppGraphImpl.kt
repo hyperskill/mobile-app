@@ -12,8 +12,12 @@ import org.hyperskill.app.comments.injection.CommentsDataComponent
 import org.hyperskill.app.comments.injection.CommentsDataComponentImpl
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.remote.UserAgentInfo
+import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
+import org.hyperskill.app.discussions.injection.DiscussionsDataComponentImpl
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.HomeComponentImpl
+import org.hyperskill.app.likes.injection.LikesDataComponent
+import org.hyperskill.app.likes.injection.LikesDataComponentImpl
 import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
 import org.hyperskill.app.magic_links.injection.MagicLinksDataComponentImpl
 import org.hyperskill.app.main.injection.MainComponent
@@ -32,6 +36,8 @@ import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponentImpl
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponentImpl
+import org.hyperskill.app.reactions.injection.ReactionsDataComponent
+import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step.injection.StepComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
@@ -124,4 +130,13 @@ class AppGraphImpl(
 
     override fun buildMagicLinksDataComponent(): MagicLinksDataComponent =
         MagicLinksDataComponentImpl(this)
+
+    override fun buildDiscussionsDataComponent(): DiscussionsDataComponent =
+        DiscussionsDataComponentImpl(this)
+
+    override fun buildReactionsDataComponent(): ReactionsDataComponent =
+        ReactionsDataComponentImpl(this)
+
+    override fun buildLikesDataComponent(): LikesDataComponent =
+        LikesDataComponentImpl(this)
 }
