@@ -768,7 +768,6 @@
 			children = (
 				2CBD191B291D3A2500F5FB0B /* SwiftUI */,
 				2CBD191A291D3A0C00F5FB0B /* UIKit */,
-				E996D41129221F6200A47498 /* ShowMoreButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1697,6 +1696,7 @@
 				E9C3506E2886D0600080D277 /* OpenURLInsideAppButton.swift */,
 				2C5215A9291E5B63006C2427 /* PullToRefresh.swift */,
 				E9101712283296F3002E70F5 /* RadioButton.swift */,
+				E996D41129221F6200A47498 /* ShowMoreButton.swift */,
 				2C8E66D8287896CF00D3928D /* TabNavigationLazyView.swift */,
 				2C58DE2A2803DEE2002A2774 /* VerticalCenteredScrollView.swift */,
 				2C82BA302844AFED004C9013 /* PlaceholderView */,
