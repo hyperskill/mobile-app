@@ -25,14 +25,6 @@ runs:
       uses: maxim-lobanov/setup-xcode@v1.5.1
       with:
         xcode-version: '14.0.1'
-    
-    - name: Generate Hyperskill-Mobile_shared.swift
-      run: |
-        echo "$(pwd)"
-        ls iosHyperskillApp/iosHyperskillApp/Sources/Frameworks/sharedSwift
-        touch iosHyperskillApp/iosHyperskillApp/Sources/Frameworks/sharedSwift/Hyperskill-Mobile_shared.swift
-        ls iosHyperskillApp/iosHyperskillApp/Sources/Frameworks/sharedSwift
-      shell: bash
 
     - name: Homebrew install git-crypt
       run: brew install git-crypt
@@ -98,7 +90,12 @@ runs:
         key: ${{ runner.os }}-kotlin-native-compiler-${{ hashFiles('gradle/libs.versions.toml') }}
         restore-keys: |
           ${{ runner.os }}-kotlin-native-compiler-
-    
+
+    - name: Generate Hyperskill-Mobile_shared.swift
+      run: |
+        touch iosHyperskillApp/iosHyperskillApp/Sources/Frameworks/sharedSwift/Hyperskill-Mobile_shared.swift
+      shell: bash
+
     # Fix Cocoapods not being able to access the shared framework file
     - name: Fix Cocoapods generateDummyFramework
       run: ./gradlew generateDummyFramework
