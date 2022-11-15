@@ -181,12 +181,20 @@ tasks.withType<KotlinNativeLink>()
             val kSwiftGeneratedDir = destinationDirectory.get()
                 .dir("${binary.baseName}Swift")
                 .asFile
+            println("kSwiftGeneratedDir=$kSwiftGeneratedDir")
             val kSwiftSharedGeneratedSwiftFile = kSwiftGeneratedDir
                 .resolve("Hyperskill-Mobile_shared.swift")
+            println("kSwiftSharedGeneratedSwiftFile=$kSwiftSharedGeneratedSwiftFile")
 
             val iosHyperskillAppSharedSwiftFile = rootDir
                 .resolve("iosHyperskillApp/iosHyperskillApp/Sources/Frameworks/sharedSwift/Hyperskill-Mobile_shared.swift")
+            println("iosHyperskillAppSharedSwiftFile=$iosHyperskillAppSharedSwiftFile")
+            if (!iosHyperskillAppSharedSwiftFile.exists()) {
+                iosHyperskillAppSharedSwiftFile.createNewFile()
+                println("created iosHyperskillAppSharedSwiftFile")
+            }
 
             kSwiftSharedGeneratedSwiftFile.copyTo(iosHyperskillAppSharedSwiftFile, overwrite = true)
+            println("copied $kSwiftSharedGeneratedSwiftFile -> $iosHyperskillAppSharedSwiftFile")
         }
     }

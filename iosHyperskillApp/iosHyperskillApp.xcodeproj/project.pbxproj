@@ -33,6 +33,7 @@
 		2C0DB912286455D8001EA35E /* CodePlaygroundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DB911286455D8001EA35E /* CodePlaygroundManager.swift */; };
 		2C0DB91C28645ADA001EA35E /* CodeCompletionKeywords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DB91B28645ADA001EA35E /* CodeCompletionKeywords.swift */; };
 		2C0DB91E2864617E001EA35E /* code-completion-keywords.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C0DB91D2864617E001EA35E /* code-completion-keywords.plist */; };
+		2C0DFB9A2923BB4300D30921 /* ProfileFeatureStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DFB992923BB4300D30921 /* ProfileFeatureStateKsExtensions.swift */; };
 		2C0EC2DF28F9E92D004A36B2 /* ModalRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0EC2DE28F9E92D004A36B2 /* ModalRouter.swift */; };
 		2C1061A2285C349400EBD614 /* StepQuizChildQuizAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1061A1285C349400EBD614 /* StepQuizChildQuizAssembly.swift */; };
 		2C1061A4285C34C900EBD614 /* StepQuizChildQuizOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1061A3285C34C900EBD614 /* StepQuizChildQuizOutputProtocol.swift */; };
@@ -389,6 +390,7 @@
 		2C0DB911286455D8001EA35E /* CodePlaygroundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePlaygroundManager.swift; sourceTree = "<group>"; };
 		2C0DB91B28645ADA001EA35E /* CodeCompletionKeywords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeCompletionKeywords.swift; sourceTree = "<group>"; };
 		2C0DB91D2864617E001EA35E /* code-completion-keywords.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "code-completion-keywords.plist"; sourceTree = "<group>"; };
+		2C0DFB992923BB4300D30921 /* ProfileFeatureStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFeatureStateKsExtensions.swift; sourceTree = "<group>"; };
 		2C0EC2DE28F9E92D004A36B2 /* ModalRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalRouter.swift; sourceTree = "<group>"; };
 		2C1061A1285C349400EBD614 /* StepQuizChildQuizAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChildQuizAssembly.swift; sourceTree = "<group>"; };
 		2C1061A3285C34C900EBD614 /* StepQuizChildQuizOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChildQuizOutputProtocol.swift; sourceTree = "<group>"; };
@@ -1365,6 +1367,7 @@
 			isa = PBXGroup;
 			children = (
 				2C7A1B1E2922EB070018D72C /* Hyperskill-Mobile_shared.swift */,
+				2C0DFB992923BB4300D30921 /* ProfileFeatureStateKsExtensions.swift */,
 			);
 			path = sharedSwift;
 			sourceTree = "<group>";
@@ -2472,6 +2475,7 @@
 				2C9EB9552861BA02007DDE44 /* AppTabItem.swift in Sources */,
 				2C336D282865E53800C91342 /* CodeInputAccessoryBuilder.swift in Sources */,
 				E900D10128434D0400A77BBC /* StepQuizSortingView.swift in Sources */,
+				2C0DFB9A2923BB4300D30921 /* ProfileFeatureStateKsExtensions.swift in Sources */,
 				E9C3506F2886D0600080D277 /* OpenURLInsideAppButton.swift in Sources */,
 				2C23C0062879EA7D0083709F /* StreakDayState.swift in Sources */,
 				2C963BC72812D1BF0036DD53 /* HomeAssembly.swift in Sources */,
