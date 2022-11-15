@@ -36,25 +36,25 @@ struct TrackView: View {
 
     @ViewBuilder
     private func buildBody() -> some View {
-        switch viewModel.state {
-        case is TrackFeatureStateIdle:
+        switch viewModel.stateKs {
+        case .idle:
             ProgressView()
                 .onAppear {
                     viewModel.doLoadTrack()
                 }
-        case is TrackFeatureStateLoading:
+        case .loading:
             ProgressView()
-        case is TrackFeatureStateNetworkError:
+        case .networkError:
             PlaceholderView(
                 configuration: .networkError(backgroundColor: appearance.backgroundColor) {
                     viewModel.doLoadTrack(forceUpdate: true)
                 }
             )
-        case let state as TrackFeatureStateContent:
+        case .content(let data):
             let viewData = viewModel.makeViewData(
-                track: state.track,
-                trackProgress: state.trackProgress,
-                studyPlan: state.studyPlan
+                track: data.track,
+                trackProgress: data.trackProgress,
+                studyPlan: data.studyPlan
             )
 
             ScrollView {
@@ -88,15 +88,13 @@ struct TrackView: View {
                 .padding(.vertical)
                 .pullToRefresh(
                     isShowing: Binding(
-                        get: { state.isRefreshing },
+                        get: { data.isRefreshing },
                         set: { _ in }
                     ),
                     onRefresh: viewModel.doPullToRefresh
                 )
             }
             .frame(maxWidth: .infinity)
-        default:
-            Text("Unkwown state")
         }
     }
 

@@ -1,41 +1,42 @@
 import Foundation
 import shared
 
+#warning("TODO: Replce with source code generator Sourcery")
 extension ProfileFeatureStateKs: Equatable {
     public static func == (lhs: ProfileFeatureStateKs, rhs: ProfileFeatureStateKs) -> Bool {
         switch (lhs, rhs) {
         case (.idle, .idle):
-            return false
+            return true
         case (.loading, .loading):
-            return false
-        case (.content(let oldContent), .content(let newContent)):
-            return !oldContent.isEqual(newContent)
+            return true
+        case (.content(let lhsData), .content(let rhsData)):
+            return lhsData.isEqual(rhsData)
         case (.error, .error):
-            return false
+            return true
         case (.error, .idle):
-            return true
+            return false
         case (.error, .loading):
-            return true
+            return false
         case (.error, .content):
-            return true
+            return false
         case (.content, .idle):
-            return true
+            return false
         case (.content, .loading):
-            return true
+            return false
         case (.content, .error):
-            return true
+            return false
         case (.loading, .idle):
-            return true
+            return false
         case (.loading, .content):
-            return true
+            return false
         case (.loading, .error):
-            return true
+            return false
         case (.idle, .loading):
-            return true
+            return false
         case (.idle, .content):
-            return true
+            return false
         case (.idle, .error):
-            return true
+            return false
         }
     }
 }

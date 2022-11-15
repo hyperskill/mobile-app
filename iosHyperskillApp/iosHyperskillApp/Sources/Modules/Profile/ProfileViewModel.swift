@@ -14,6 +14,8 @@ final class ProfileViewModel: FeatureViewModel<
     private let notificationsRegistrationService: NotificationsRegistrationService
     private let notificationInteractor: NotificationInteractor
 
+    var stateKs: ProfileFeatureStateKs { .init(state) }
+
     init(
         presentationDescription: ProfilePresentationDescription,
         viewDataMapper: ProfileViewDataMapper,
@@ -40,6 +42,10 @@ final class ProfileViewModel: FeatureViewModel<
 
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+
+    override func shouldNotifyStateDidChange(oldState: ProfileFeatureState, newState: ProfileFeatureState) -> Bool {
+        ProfileFeatureStateKs(oldState) != ProfileFeatureStateKs(newState)
     }
 
     func doLoadProfile(forceUpdate: Bool = false) {
