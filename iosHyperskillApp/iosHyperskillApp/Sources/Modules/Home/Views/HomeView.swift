@@ -121,7 +121,7 @@ struct HomeView: View {
             let assembly = StepAssembly(stepID: Int(navigateToStepScreenViewAction.stepId))
             pushRouter.pushViewController(assembly.makeModule())
         default:
-            print("HomeView :: unhandled viewAction = \(viewAction)")
+            print("HomeView :: unhandled viewAction = \(viewAction) ")
         }
     }
 }
