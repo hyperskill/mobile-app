@@ -120,6 +120,12 @@ struct HomeView: View {
             case .stepScreen(let data):
                 let assembly = StepAssembly(stepID: Int(data.stepId))
                 pushRouter.pushViewController(assembly.makeModule())
+            case .topicsRepetitionsScreen:
+                pushRouter.pushViewController(
+                    TopicsRepetitionsHostingController(
+                        rootView: TopicsRepetitionsView(topicsToRepeatCount: 4)
+                    )
+                )
             }
         }
     }
