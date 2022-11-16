@@ -1,20 +1,29 @@
 import SwiftUI
 
+extension TopicsRepetitionsView {
+    struct Appearance {
+        let padding = LayoutInsets.largeInset
+    }
+}
+
 struct TopicsRepetitionsView: View {
+    private(set) var appearance = Appearance()
+
     let topicsToRepeatCount: Int
 
     var body: some View {
         ScrollView {
-            VStack(spacing: LayoutInsets.largeInset) {
+            VStack(spacing: appearance.padding) {
                 TopicsRepetitionsChartBlock(topicsToRepeatCount: topicsToRepeatCount)
+                    .padding(.top, appearance.padding)
 
                 TopicsRepetitionsRepeatBlock(topicsToRepeatCount: topicsToRepeatCount)
 
                 TopicsRepetitionsInfoBlock()
-                    .padding(.bottom)
+                    .padding(.bottom, appearance.padding)
             }
         }
-        .background(Color(ColorPalette.background))
+        .background(Color.systemGroupedBackground)
         .navigationBarHidden(false)
         .navigationTitle(Strings.TopicsRepetitions.Card.titleUncompleted)
         .navigationBarTitleDisplayMode(.inline)

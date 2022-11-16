@@ -24,7 +24,7 @@ struct TopicsRepetitionsCountView: View {
                 .background(Color(ColorPalette.overlayBlueAlpha12))
                 .cornerRadius(LayoutInsets.smallInset)
 
-            Text(formatter.topicsToRepeatCount(topicsToRepeatCount))
+            Text(formatter.topicsToRepeatTodayCount(topicsToRepeatCount))
                 .font(.subheadline)
                 .foregroundColor(.secondaryText)
         }

@@ -24,7 +24,7 @@ struct TopicsRepetitionsInfoBlock: View {
                 .font(.subheadline)
                 .foregroundColor(.secondaryText)
         }
-        .padding(LayoutInsets.largeInset)
+        .padding()
         .background(Color(ColorPalette.surface))
     }
 }

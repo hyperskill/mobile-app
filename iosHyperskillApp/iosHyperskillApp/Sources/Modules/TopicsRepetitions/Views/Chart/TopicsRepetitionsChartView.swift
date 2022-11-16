@@ -49,7 +49,7 @@ struct TopicsRepetitionsChartView: View {
             Text(Strings.TopicsRepetitions.Chart.description)
                 .font(.subheadline)
                 .foregroundColor(.primaryText)
-                .padding(.top, LayoutInsets.smallInset)
+                .padding(.top, LayoutInsets.defaultInset)
         }
         .padding()
         .addBorder()
