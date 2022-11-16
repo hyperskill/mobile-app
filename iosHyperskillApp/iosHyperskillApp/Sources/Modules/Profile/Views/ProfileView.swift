@@ -53,22 +53,22 @@ struct ProfileView: View {
 
     @ViewBuilder
     private func buildBody() -> some View {
-        switch viewModel.state {
-        case is ProfileFeatureStateIdle:
+        switch viewModel.stateKs {
+        case .idle:
             ProgressView()
                 .onAppear {
                     viewModel.doLoadProfile()
                 }
-        case is ProfileFeatureStateLoading:
+        case .loading:
             ProgressView()
-        case is ProfileFeatureStateError:
+        case .error:
             PlaceholderView(
                 configuration: .networkError(backgroundColor: appearance.backgroundColor) {
                     viewModel.doLoadProfile(forceUpdate: true)
                 }
             )
-        case let state as ProfileFeatureStateContent:
-            let viewData = viewModel.makeViewData(state.profile)
+        case .content(let data):
+            let viewData = viewModel.makeViewData(data.profile)
 
             ScrollView {
                 VStack(spacing: appearance.spacingBetweenContainers) {
@@ -78,7 +78,7 @@ struct ProfileView: View {
                         subtitle: viewData.role
                     )
 
-                    if let streak = state.streak {
+                    if let streak = data.streak {
                         StreakViewBuilder(streak: streak, viewType: .plain)
                             .build()
                             .padding()
@@ -106,15 +106,13 @@ struct ProfileView: View {
                 .padding(.vertical)
                 .pullToRefresh(
                     isShowing: Binding(
-                        get: { state.isRefreshing },
+                        get: { data.isRefreshing },
                         set: { _ in }
                     ),
                     onRefresh: viewModel.doPullToRefresh
                 )
             }
             .frame(maxWidth: .infinity)
-        default:
-            Text("Unkwown state")
         }
     }
 

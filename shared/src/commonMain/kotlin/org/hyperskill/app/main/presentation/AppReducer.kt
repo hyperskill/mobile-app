@@ -12,7 +12,7 @@ class AppReducer : StateReducer<State, Message, Action> {
         message: Message
     ): Pair<State, Set<Action>> =
         when (message) {
-            is Message.Init -> {
+            is Message.Initialize -> {
                 if (state is State.Idle || (state is State.NetworkError && message.forceUpdate)) {
                     State.Loading to setOf(Action.DetermineUserAccountStatus)
                 } else {

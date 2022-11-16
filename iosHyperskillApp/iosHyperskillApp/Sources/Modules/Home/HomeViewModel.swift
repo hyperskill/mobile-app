@@ -6,6 +6,8 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
     private var applicationWasInBackground = false
     private var shouldReloadContent = false
 
+    var stateKs: HomeFeatureStateKs { .init(state) }
+
     override init(feature: Presentation_reduxFeature, mainScheduler: AnySchedulerOf<RunLoop> = .main) {
         super.init(feature: feature, mainScheduler: mainScheduler)
 
@@ -23,8 +25,12 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
         )
     }
 
+    override func shouldNotifyStateDidChange(oldState: HomeFeatureState, newState: HomeFeatureState) -> Bool {
+        HomeFeatureStateKs(oldState) != HomeFeatureStateKs(newState)
+    }
+
     func doLoadContent(forceUpdate: Bool = false) {
-        onNewMessage(HomeFeatureMessageInit(forceUpdate: forceUpdate || shouldReloadContent))
+        onNewMessage(HomeFeatureMessageInitialize(forceUpdate: forceUpdate || shouldReloadContent))
 
         if shouldReloadContent {
             shouldReloadContent = false

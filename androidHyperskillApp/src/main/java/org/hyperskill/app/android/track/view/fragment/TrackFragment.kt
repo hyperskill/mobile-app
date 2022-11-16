@@ -55,10 +55,10 @@ class TrackFragment :
         super.onViewCreated(view, savedInstanceState)
         initViewStateDelegate()
         viewBinding.trackError.tryAgain.setOnClickListener {
-            trackViewModel.onNewMessage(TrackFeature.Message.Init(forceUpdate = true))
+            trackViewModel.onNewMessage(TrackFeature.Message.Initialize(forceUpdate = true))
         }
 
-        trackViewModel.onNewMessage(TrackFeature.Message.Init())
+        trackViewModel.onNewMessage(TrackFeature.Message.Initialize())
         trackViewModel.onNewMessage(TrackFeature.Message.ViewedEventMessage)
     }
 

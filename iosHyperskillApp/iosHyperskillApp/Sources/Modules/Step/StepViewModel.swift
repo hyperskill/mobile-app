@@ -13,7 +13,7 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
     }
 
     func loadStep(forceUpdate: Bool = false) {
-        self.onNewMessage(StepFeatureMessageInit(stepId: Int64(stepID), forceUpdate: forceUpdate))
+        self.onNewMessage(StepFeatureMessageInitialize(stepId: Int64(stepID), forceUpdate: forceUpdate))
     }
 
     func makeViewData(_ step: Step) -> StepViewData {

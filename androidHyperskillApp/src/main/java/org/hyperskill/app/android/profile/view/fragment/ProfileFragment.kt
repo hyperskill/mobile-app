@@ -76,7 +76,7 @@ class ProfileFragment :
         super.onViewCreated(view, savedInstanceState)
         initViewStateDelegate()
         viewBinding.profileError.tryAgain.setOnClickListener {
-            profileViewModel.onNewMessage(ProfileFeature.Message.Init(profileId = profileId, forceUpdate = true, isInitCurrent = isInitCurrent))
+            profileViewModel.onNewMessage(ProfileFeature.Message.Initialize(profileId = profileId, forceUpdate = true, isInitCurrent = isInitCurrent))
         }
 
         viewBinding.profileSettingsButton.setOnClickListener {
@@ -86,7 +86,7 @@ class ProfileFragment :
                 .showIfNotExists(childFragmentManager, ProfileSettingsDialogFragment.TAG)
         }
 
-        profileViewModel.onNewMessage(ProfileFeature.Message.Init(profileId = profileId, isInitCurrent = isInitCurrent))
+        profileViewModel.onNewMessage(ProfileFeature.Message.Initialize(profileId = profileId, isInitCurrent = isInitCurrent))
         profileViewModel.onNewMessage(ProfileFeature.Message.ViewedEventMessage)
     }
 
