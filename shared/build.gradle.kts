@@ -1,7 +1,9 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+import org.gradle.internal.os.OperatingSystem
+import org.jetbrains.kotlin.gradle.plugin.mpp.Framework
+import org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink
 import org.jetbrains.kotlin.konan.properties.loadProperties
 import org.jetbrains.kotlin.konan.properties.propertyString
-import org.gradle.internal.os.OperatingSystem
 
 plugins {
     kotlin("multiplatform")
@@ -10,6 +12,7 @@ plugins {
     id("com.android.library")
     id("com.codingfeline.buildkonfig")
     id("dev.icerock.mobile.multiplatform-resources")
+    id("dev.icerock.moko.kswift")
 }
 
 dependencies {
@@ -48,6 +51,7 @@ kotlin {
 
                 api(libs.kit.presentation.redux)
                 api(libs.mokoResources.main)
+                api(libs.mokoKswiftRuntime.main)
                 api(libs.multiplatform.settings)
             }
         }
@@ -162,3 +166,30 @@ ktlint {
         exclude { element -> element.file.path.contains("build/") }
     }
 }
+
+kswift {
+    install(dev.icerock.moko.kswift.plugin.feature.SealedToSwiftEnumFeature)
+
+    iosDeploymentTarget.set("14.0")
+}
+
+// Copies generated shared Swift file by moko-kswift to iosHyperskillApp
+tasks.withType<KotlinNativeLink>()
+    .matching { it.binary is Framework }
+    .configureEach {
+        doLast {
+            val kSwiftGeneratedDir = destinationDirectory.get()
+                .dir("${binary.baseName}Swift")
+                .asFile
+            val kSwiftSharedGeneratedSwiftFile = kSwiftGeneratedDir
+                .resolve("Hyperskill-Mobile_shared.swift")
+
+            val iosHyperskillAppSharedSwiftFile = rootDir
+                .resolve("iosHyperskillApp/iosHyperskillApp/Sources/Frameworks/sharedSwift/Hyperskill-Mobile_shared.swift")
+            if (!iosHyperskillAppSharedSwiftFile.exists()) {
+                iosHyperskillAppSharedSwiftFile.createNewFile()
+            }
+
+            kSwiftSharedGeneratedSwiftFile.copyTo(iosHyperskillAppSharedSwiftFile, overwrite = true)
+        }
+    }

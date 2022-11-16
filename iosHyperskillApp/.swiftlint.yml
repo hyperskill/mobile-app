@@ -2,6 +2,9 @@ warning_threshold: 15
 
 indentation: 4
 
+excluded: 
+  - iosHyperskillApp/Sources/Frameworks/sharedSwift/Hyperskill-Mobile_shared.swift
+
 analyzer_rules:
   - explicit_self
   - unused_declaration

@@ -44,7 +44,7 @@ interface HomeFeature {
     }
 
     sealed interface Message {
-        data class Init(val forceUpdate: Boolean) : Message
+        data class Initialize(val forceUpdate: Boolean) : Message
         data class HomeSuccess(val streak: Streak?, val problemOfDayState: ProblemOfDayState) : Message
         object HomeFailure : Message
         object PullToRefresh : Message

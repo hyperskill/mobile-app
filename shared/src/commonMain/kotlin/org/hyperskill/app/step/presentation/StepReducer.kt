@@ -8,7 +8,7 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 class StepReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
-            is Message.Init ->
+            is Message.Initialize ->
                 if (state is State.Idle ||
                     (message.forceUpdate && (state is State.Data || state is State.Error))
                 ) {

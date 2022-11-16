@@ -53,21 +53,19 @@ final class AppView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func renderState(_ state: AppFeatureState) {
+    func renderState(_ state: AppFeatureStateKs) {
         switch state {
-        case is AppFeatureStateIdle, is AppFeatureStateLoading:
+        case .idle, .loading:
             loadingIndicator.isHidden = false
             loadingIndicator.startAnimating()
 
             setPlaceholderHidden(true)
-        case is AppFeatureStateNetworkError:
+        case .networkError:
             loadingIndicator.stopAnimating()
             setPlaceholderHidden(false)
-        case is AppFeatureStateReady:
+        case .ready:
             loadingIndicator.stopAnimating()
             setPlaceholderHidden(true)
-        default:
-            break
         }
     }
 

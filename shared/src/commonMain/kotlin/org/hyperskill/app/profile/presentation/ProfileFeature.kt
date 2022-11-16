@@ -38,7 +38,7 @@ interface ProfileFeature {
     }
 
     sealed interface Message {
-        data class Init(
+        data class Initialize(
             val isInitCurrent: Boolean = true,
             val profileId: Long? = null,
             val forceUpdate: Boolean = false
