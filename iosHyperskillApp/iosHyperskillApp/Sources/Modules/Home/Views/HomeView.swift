@@ -43,21 +43,21 @@ struct HomeView: View {
 
     @ViewBuilder
     private func buildBody() -> some View {
-        switch viewModel.state {
-        case is HomeFeatureStateIdle:
+        switch viewModel.stateKs {
+        case .idle:
             ProgressView()
                 .onAppear {
                     viewModel.doLoadContent()
                 }
-        case is HomeFeatureStateLoading:
+        case .loading:
             ProgressView()
-        case is HomeFeatureStateNetworkError:
+        case .networkError:
             PlaceholderView(
                 configuration: .networkError(backgroundColor: appearance.backgroundColor) {
                     viewModel.doLoadContent(forceUpdate: true)
                 }
             )
-        case let state as HomeFeatureStateContent:
+        case .content(let data):
             ScrollView {
                 VStack(alignment: .leading, spacing: appearance.spacingBetweenContainers) {
                     Text(Strings.Home.helloLetsLearn)
@@ -68,22 +68,18 @@ struct HomeView: View {
                         .font(.subheadline)
                         .foregroundColor(.secondaryText)
 
-                    if let streak = state.streak {
+                    if let streak = data.streak {
                         StreakViewBuilder(streak: streak, viewType: .card).build()
                     }
 
                     ProblemOfDayAssembly(
-                        problemOfDayState: state.problemOfDayState,
+                        problemOfDayState: data.problemOfDayState,
                         output: viewModel
                     )
                     .makeModule()
 
-                    #if DEBUG
-                    TopicsRepetitionsCardView(topicsToRepeatCount: 4, onTap: viewModel.handleTopicsRepetitionsRequested)
-                    #endif
-
-                    let shouldShowContinueInWebButton = state.problemOfDayState is HomeFeatureProblemOfDayStateEmpty ||
-                      state.problemOfDayState is HomeFeatureProblemOfDayStateSolved
+                    let shouldShowContinueInWebButton = data.problemOfDayState is HomeFeatureProblemOfDayStateEmpty ||
+                      data.problemOfDayState is HomeFeatureProblemOfDayStateSolved
 
                     if shouldShowContinueInWebButton {
                         OpenURLInsideAppButton(
@@ -106,7 +102,7 @@ struct HomeView: View {
                 .padding()
                 .pullToRefresh(
                     isShowing: Binding(
-                        get: { state.isRefreshing },
+                        get: { data.isRefreshing },
                         set: { _ in }
                     ),
                     onRefresh: viewModel.doPullToRefresh
@@ -114,22 +110,17 @@ struct HomeView: View {
             }
             .frame(maxWidth: .infinity)
             .padding(.top, 0.1)
-        default:
-            Text("Unkwown state")
         }
     }
 
     private func handleViewAction(_ viewAction: HomeFeatureActionViewAction) {
-        switch viewAction {
-        case let navigateToStepScreenViewAction as HomeFeatureActionViewActionNavigateToStepScreen:
-            let assembly = StepAssembly(stepID: Int(navigateToStepScreenViewAction.stepId))
-            pushRouter.pushViewController(assembly.makeModule())
-        case is HomeFeatureActionViewActionNavigateToTopicsRepetitionsScreen:
-            pushRouter.pushViewController(
-                TopicsRepetitionsHostingController(rootView: TopicsRepetitionsView(topicsToRepeatCount: 4))
-            )
-        default:
-            print("HomeView :: unhandled viewAction = \(viewAction)")
+        switch HomeFeatureActionViewActionKs(viewAction) {
+        case .navigateTo(let navigateToViewAction):
+            switch HomeFeatureActionViewActionNavigateToKs(navigateToViewAction) {
+            case .stepScreen(let data):
+                let assembly = StepAssembly(stepID: Int(data.stepId))
+                pushRouter.pushViewController(assembly.makeModule())
+            }
         }
     }
 }

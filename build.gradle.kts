@@ -15,6 +15,7 @@ buildscript {
         classpath(libs.plugin.gradleVersionUpdates)
         classpath(libs.plugin.buildKonfig)
         classpath(libs.plugin.mokoResources)
+        classpath(libs.plugin.mokoKswift)
     }
 }
 

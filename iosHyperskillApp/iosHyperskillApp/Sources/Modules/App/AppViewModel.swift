@@ -20,7 +20,7 @@ final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, A
                     return
                 }
 
-                strongSelf.viewController?.displayState(strongSelf.state)
+                strongSelf.viewController?.displayState(AppFeatureStateKs(strongSelf.state))
             }
         }
         self.onViewAction = { [weak self] viewAction in
@@ -29,13 +29,17 @@ final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, A
                     return
                 }
 
-                strongSelf.viewController?.displayViewAction(viewAction)
+                strongSelf.viewController?.displayViewAction(AppFeatureActionViewActionKs(viewAction))
             }
         }
     }
 
+    override func shouldNotifyStateDidChange(oldState: AppFeatureState, newState: AppFeatureState) -> Bool {
+        AppFeatureStateKs(oldState) != AppFeatureStateKs(newState)
+    }
+
     func loadApp(forceUpdate: Bool = false) {
-        onNewMessage(AppFeatureMessageInit(forceUpdate: forceUpdate))
+        onNewMessage(AppFeatureMessageInitialize(forceUpdate: forceUpdate))
     }
 
     // MARK: Private API

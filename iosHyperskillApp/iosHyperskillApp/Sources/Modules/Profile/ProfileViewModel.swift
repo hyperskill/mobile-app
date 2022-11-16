@@ -14,6 +14,8 @@ final class ProfileViewModel: FeatureViewModel<
     private let notificationsRegistrationService: NotificationsRegistrationService
     private let notificationInteractor: NotificationInteractor
 
+    var stateKs: ProfileFeatureStateKs { .init(state) }
+
     init(
         presentationDescription: ProfilePresentationDescription,
         viewDataMapper: ProfileViewDataMapper,
@@ -42,13 +44,17 @@ final class ProfileViewModel: FeatureViewModel<
         NotificationCenter.default.removeObserver(self)
     }
 
+    override func shouldNotifyStateDidChange(oldState: ProfileFeatureState, newState: ProfileFeatureState) -> Bool {
+        ProfileFeatureStateKs(oldState) != ProfileFeatureStateKs(newState)
+    }
+
     func doLoadProfile(forceUpdate: Bool = false) {
         switch presentationDescription.profileType {
         case .currentUser:
-            onNewMessage(ProfileFeatureMessageInit(isInitCurrent: true, profileId: nil, forceUpdate: forceUpdate))
+            onNewMessage(ProfileFeatureMessageInitialize(isInitCurrent: true, profileId: nil, forceUpdate: forceUpdate))
         case .otherUser(let profileUserID):
             onNewMessage(
-                ProfileFeatureMessageInit(
+                ProfileFeatureMessageInitialize(
                     isInitCurrent: false,
                     profileId: KotlinLong(value: Int64(profileUserID)),
                     forceUpdate: forceUpdate

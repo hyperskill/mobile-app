@@ -4,8 +4,8 @@ import SwiftUI
 import UIKit
 
 protocol AppViewControllerProtocol: AnyObject {
-    func displayState(_ state: AppFeatureState)
-    func displayViewAction(_ viewAction: AppFeatureActionViewAction)
+    func displayState(_ state: AppFeatureStateKs)
+    func displayViewAction(_ viewAction: AppFeatureActionViewActionKs)
 }
 
 extension AppViewController {
@@ -61,26 +61,27 @@ final class AppViewController: UIViewController {
 // MARK: - AppViewController: AppViewControllerProtocol -
 
 extension AppViewController: AppViewControllerProtocol {
-    func displayState(_ state: AppFeatureState) {
+    func displayState(_ state: AppFeatureStateKs) {
         appView?.renderState(state)
     }
 
-    func displayViewAction(_ viewAction: AppFeatureActionViewAction) {
+    func displayViewAction(_ viewAction: AppFeatureActionViewActionKs) {
         let viewControllerToPresent: UIViewController? = {
-            switch viewAction {
-            case is AppFeatureActionViewActionNavigateToOnboardingScreen:
+            guard case .navigateTo(let navigateToViewAction) = viewAction else {
+                return nil
+            }
+
+            switch AppFeatureActionViewActionNavigateToKs(navigateToViewAction) {
+            case .onboardingScreen:
                 return UIHostingController(rootView: OnboardingAssembly(output: viewModel).makeModule())
-            case is AppFeatureActionViewActionNavigateToHomeScreen:
+            case .homeScreen:
                 let controller = AppTabBarController()
                 controller.appTabBarControllerDelegate = viewModel
                 return controller
-            case is AppFeatureActionViewActionNavigateToAuthScreen:
+            case .authScreen:
                 return UIHostingController(rootView: AuthSocialAssembly(output: viewModel).makeModule())
-            case is AppFeatureActionViewActionNavigateToNewUserScreen:
+            case .newUserScreen:
                 return UIHostingController(rootView: AuthNewUserPlaceholderAssembly(output: viewModel).makeModule())
-            default:
-                print("AppView :: unhandled viewAction = \(viewAction)")
-                return nil
             }
         }()
 
