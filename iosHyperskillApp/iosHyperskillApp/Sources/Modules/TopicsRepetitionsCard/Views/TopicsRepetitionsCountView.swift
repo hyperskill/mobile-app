@@ -3,25 +3,28 @@ import SwiftUI
 extension TopicsRepetitionsCountView {
     struct Appearance {
         let topicsCountHorizontalPadding: CGFloat = 12
+        let countMinWidthHeight: CGFloat = 32
     }
 }
 
 struct TopicsRepetitionsCountView: View {
     private(set) var appearance = Appearance()
 
+    private let formatter = Formatter.default
+
     let topicsToRepeatCount: Int
 
     var body: some View {
         HStack(spacing: LayoutInsets.smallInset) {
             Text(String(topicsToRepeatCount))
+                .padding(LayoutInsets.smallInset)
+                .frame(minWidth: appearance.countMinWidthHeight, minHeight: appearance.countMinWidthHeight)
                 .font(.subheadline)
                 .foregroundColor(.primaryText)
-                .padding(.horizontal, appearance.topicsCountHorizontalPadding)
-                .padding(.vertical, LayoutInsets.smallInset)
                 .background(Color(ColorPalette.overlayBlueAlpha12))
                 .cornerRadius(LayoutInsets.smallInset)
 
-            Text(Strings.TopicsRepetitions.cardTextUncompleted)
+            Text(formatter.topicsToRepeatCount(topicsToRepeatCount))
                 .font(.subheadline)
                 .foregroundColor(.secondaryText)
         }

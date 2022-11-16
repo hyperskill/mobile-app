@@ -1,7 +1,7 @@
 import SwiftUI
 
-struct TopicsToRepeatView: View {
-    // TODO: create necessary structure in shared module
+struct TopicsRepetitionsRepeatBlock: View {
+    #warning("create necessary structure in shared module")
     private let data: [(String, [String])] = [
         ("Python Core",
         [
@@ -12,7 +12,7 @@ struct TopicsToRepeatView: View {
         ("other tracks",
         [
             "Variables",
-            "Variables",
+            "Classes",
             "Basic data types"
         ])
     ]
@@ -21,14 +21,15 @@ struct TopicsToRepeatView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.largeInset) {
-            // TODO: Implement formatting in shared module
-            Text("\(Strings.TopicsRepetitions.allTopicsToRepeat) \(topicsToRepeatCount)")
+            #warning("Implement formatting in shared module")
+            Text("\(Strings.TopicsRepetitions.RepeatBlock.title) \(topicsToRepeatCount)")
                 .font(.title3)
                 .foregroundColor(.primaryText)
+                .bold()
 
             ForEach(data, id: \.0) { (track, topics) in
-                // TODO: Implement formatting in shared module
-                Text("\(Strings.TopicsRepetitions.topicsFromTrack) \(track)")
+                #warning("Implement formatting in shared module")
+                Text("\(Strings.TopicsRepetitions.RepeatBlock.currentTrack) \(track)")
                     .font(.subheadline)
                     .foregroundColor(.secondaryText)
 
@@ -36,7 +37,7 @@ struct TopicsToRepeatView: View {
                     ForEach(topics, id: \.self) { topic in
                         Button(
                             action: {
-                                // TODO: implement navigation to step quiz
+                                #warning("implement navigation to step quiz")
                             },
                             label: {
                                 Text(topic)
@@ -44,9 +45,7 @@ struct TopicsToRepeatView: View {
                                     .foregroundColor(.primaryText)
                             }
                         )
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding()
-                        .addBorder()
+                        .buttonStyle(OutlineButtonStyle(borderColor: .border, alignment: .leading))
                     }
                 }
 
@@ -54,13 +53,13 @@ struct TopicsToRepeatView: View {
             }
         }
         .padding()
-        .background(Color.white)
+        .background(Color(ColorPalette.surface))
     }
 }
 
-struct TopicsToRepeatView_Previews: PreviewProvider {
+struct TopicsRepetitionsRepeatBlock_Previews: PreviewProvider {
     static var previews: some View {
-        TopicsToRepeatView(topicsToRepeatCount: 4)
-        .previewLayout(.sizeThatFits)
+        TopicsRepetitionsRepeatBlock(topicsToRepeatCount: 4)
+            .previewLayout(.sizeThatFits)
     }
 }

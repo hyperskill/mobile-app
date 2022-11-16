@@ -1,9 +1,9 @@
 import SwiftUI
 
-extension RepetitionsChartBar {
+extension TopicsRepetitionsChartBar {
     struct Appearance {
         let labelWidth: CGFloat = 44
-        let barWidthModifier = 0.8
+        let paddingWidth: CGFloat = LayoutInsets.largeInset + LayoutInsets.defaultInset
         let minBarWidth = 20.0
         let barCornerRadius: CGFloat = 4
         let barHeight: CGFloat = 24
@@ -11,7 +11,7 @@ extension RepetitionsChartBar {
     }
 }
 
-struct RepetitionsChartBar: View {
+struct TopicsRepetitionsChartBar: View {
     private(set) var appearance = Appearance()
 
     let label: String
@@ -22,7 +22,7 @@ struct RepetitionsChartBar: View {
 
     var body: some View {
         GeometryReader { geometry in
-            let fullBarWidth = (geometry.size.width - appearance.labelWidth) * appearance.barWidthModifier
+            let fullBarWidth = geometry.size.width - appearance.labelWidth - appearance.paddingWidth
 
             let barWidth = max((Double(fullBarWidth) / maxValue) * Double(value), appearance.minBarWidth)
 
@@ -48,8 +48,8 @@ struct RepetitionsChartBar: View {
     }
 }
 
-struct RepetitionsChartBar_Previews: PreviewProvider {
+struct TopicsRepetitionsChartBar_Previews: PreviewProvider {
     static var previews: some View {
-        RepetitionsChartBar(label: "1 time", value: 15, maxValue: 20)
+        TopicsRepetitionsChartBar(label: "1 time", value: 15, maxValue: 20)
     }
 }

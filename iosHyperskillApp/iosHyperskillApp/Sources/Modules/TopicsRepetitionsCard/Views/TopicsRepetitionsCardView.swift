@@ -2,11 +2,13 @@ import SwiftUI
 
 extension TopicsRepetitionsCardView {
     struct Appearance {
-        let spacing: CGFloat = 12
-
+        let spacing = LayoutInsets.defaultInset
         let backgroundImageMaxHeight: Double = 116
-
         let arrowIconSize: CGFloat = 32
+        let shadowColor = Color.black.opacity(0.05)
+        let shadowRadius: CGFloat = 8
+        let shadowX: CGFloat = 0
+        let shadowY: CGFloat = 2
     }
 }
 
@@ -18,14 +20,14 @@ struct TopicsRepetitionsCardView: View {
     let onTap: () -> Void
 
     var body: some View {
-        let state: Self.State = topicsToRepeatCount > 0 ? .uncompleted : .completed
+        let state: State = topicsToRepeatCount > 0 ? .uncompleted : .completed
 
         Button(
             action: onTap,
             label: {
                 VStack(alignment: .leading, spacing: appearance.spacing) {
                     HStack(spacing: LayoutInsets.smallInset) {
-                        Text(state.buildTitleText())
+                        Text(state.titleText)
                             .font(.title3)
                             .foregroundColor(.primaryText)
 
@@ -55,6 +57,12 @@ struct TopicsRepetitionsCardView: View {
         )
         .buttonStyle(BounceButtonStyle())
         .disabled(state == .completed)
+        .shadow(
+            color: appearance.shadowColor,
+            radius: appearance.shadowRadius,
+            x: appearance.shadowX,
+            y: appearance.shadowY
+        )
     }
 
     // MARK: - Inner Types -
@@ -81,12 +89,12 @@ struct TopicsRepetitionsCardView: View {
             }
         }
 
-        func buildTitleText() -> String {
+        fileprivate var titleText: String {
             switch self {
             case .completed:
-                return Strings.TopicsRepetitions.cardTitleCompleted
+                return Strings.TopicsRepetitions.Card.titleCompleted
             case .uncompleted:
-                return Strings.TopicsRepetitions.cardTitleUncompleted
+                return Strings.TopicsRepetitions.Card.titleUncompleted
             }
         }
 
@@ -94,7 +102,7 @@ struct TopicsRepetitionsCardView: View {
         func buildFooter(topicsToRepeatCount: Int) -> some View {
             switch self {
             case .completed:
-                Text(Strings.TopicsRepetitions.cardTextCompleted)
+                Text(Strings.TopicsRepetitions.Card.textCompleted)
                     .font(.subheadline)
                     .foregroundColor(.secondaryText)
             case .uncompleted:
@@ -111,6 +119,7 @@ struct TopicsRepetitionsCardView_Previews: PreviewProvider {
 
             TopicsRepetitionsCardView(topicsToRepeatCount: 0, onTap: {})
         }
+        .padding()
         .previewLayout(.sizeThatFits)
     }
 }

@@ -1,13 +1,13 @@
 import SwiftUI
 
-struct TopicsRepetitionsStatisticView: View {
+struct TopicsRepetitionsChartBlock: View {
     let topicsToRepeatCount: Int
 
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.largeInset) {
-            Text(Strings.TopicsRepetitions.tryToRecallText)
+            Text(Strings.TopicsRepetitions.Chart.tryToRecallText)
                 .font(.subheadline)
-                .foregroundColor(.secondaryText)
+                .foregroundColor(.primaryText)
 
             TopicsRepetitionsCountView(topicsToRepeatCount: topicsToRepeatCount)
 
@@ -15,15 +15,15 @@ struct TopicsRepetitionsStatisticView: View {
             }
             .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
 
-            RepetitionsChartView()
+            TopicsRepetitionsChartView()
         }
         .padding()
-        .background(Color.white)
+        .background(Color(ColorPalette.surface))
     }
 }
 
-struct TopicsRepetitionsStatisticView_Previews: PreviewProvider {
+struct TopicsRepetitionsChartBlock_Previews: PreviewProvider {
     static var previews: some View {
-        TopicsRepetitionsStatisticView(topicsToRepeatCount: 4)
+        TopicsRepetitionsChartBlock(topicsToRepeatCount: 4)
     }
 }

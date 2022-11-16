@@ -28,6 +28,10 @@
         <item quantity="one">%d topic</item>
         <item quantity="other">%d topics</item>
     </plural>
+    <plural name="topics_to_repeat">
+        <item quantity="one">topic to repeat today</item>
+        <item quantity="other">topics to repeat today</item>
+    </plural>
     <plural name="times">
         <item quantity="one">%d time</item>
         <item quantity="other">%d times</item>

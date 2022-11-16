@@ -2,22 +2,21 @@ import SwiftUI
 
 struct TopicsRepetitionsView: View {
     let topicsToRepeatCount: Int
+
     var body: some View {
         ScrollView {
-            BackgroundView()
-
             VStack(spacing: LayoutInsets.largeInset) {
-                TopicsRepetitionsStatisticView(topicsToRepeatCount: topicsToRepeatCount)
+                TopicsRepetitionsChartBlock(topicsToRepeatCount: topicsToRepeatCount)
 
-                TopicsToRepeatView(topicsToRepeatCount: topicsToRepeatCount)
+                TopicsRepetitionsRepeatBlock(topicsToRepeatCount: topicsToRepeatCount)
 
-                RepetitionsExplanationView()
+                TopicsRepetitionsInfoBlock()
+                    .padding(.bottom)
             }
         }
-        .padding()
         .background(Color(ColorPalette.background))
         .navigationBarHidden(false)
-        .navigationTitle(Strings.TopicsRepetitions.cardTitleUncompleted)
+        .navigationTitle(Strings.TopicsRepetitions.Card.titleUncompleted)
         .navigationBarTitleDisplayMode(.inline)
     }
 }

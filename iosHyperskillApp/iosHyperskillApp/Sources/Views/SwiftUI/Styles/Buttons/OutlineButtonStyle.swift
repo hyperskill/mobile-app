@@ -14,11 +14,14 @@ struct OutlineButtonStyle: ButtonStyle {
     var bounceScale: CGFloat = 0.95
     var bounceDuration: TimeInterval = 0.15
 
+    var alignment: Alignment = .center
+
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .foregroundColor(foregroundColor)
             .font(font)
-            .frame(maxWidth: maxWidth, minHeight: minHeight, alignment: .center)
+            .frame(maxWidth: maxWidth, minHeight: minHeight, alignment: alignment)
+            .padding(.horizontal)
             .overlay(RoundedRectangle(cornerRadius: cornerRadius).stroke(borderColor, lineWidth: borderWidth))
             .scaleEffect(configuration.isPressed ? bounceScale : 1)
             .animation(.easeOut(duration: bounceDuration), value: configuration.isPressed)

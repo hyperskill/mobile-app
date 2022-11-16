@@ -36,8 +36,8 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
     }
 
     func handleTopicsRepetitionsRequested() {
-        DispatchQueue.main.async {
-            self.onViewAction?(HomeFeatureActionViewActionNavigateToTopicsRepetitions())
+        mainScheduler.schedule {
+            self.onViewAction?(HomeFeatureActionViewActionNavigateToTopicsRepetitionsScreen())
         }
     }
 

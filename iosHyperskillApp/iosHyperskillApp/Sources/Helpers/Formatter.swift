@@ -48,10 +48,22 @@ final class Formatter {
         )
     }
 
-    /// Format projects count with localized and pluralized suffix; 1 -> "1 time", 5 -> "5 times"
+    /// Format topics to repeat count with localized and pluralized suffix; 1 -> "topic to repeat", 5 -> "topics to repeat"
+    func topicsToRepeatCount(_ count: Int) -> String { topicsToRepeatCount(Int32(count)) }
+
+    /// Format topics to repeat count with localized and pluralized suffix; 1 -> "topic to repeat", 5 -> "topics to repeat"
+    func topicsToRepeatCount(_ count: Int32) -> String {
+        resourceProvider.getQuantityString(
+            pluralsResource: pluralsResources.topics_to_repeat,
+            quantity: count
+//            args: KotlinArray(size: 1, init: { _ in NSNumber(value: count) })
+        )
+    }
+
+    /// Format times count with localized and pluralized suffix; 1 -> "1 time", 5 -> "5 times"
     func timesCount(_ count: Int) -> String { timesCount(Int32(count)) }
 
-    /// Format projects count with localized and pluralized suffix; 1 -> "1 time", 5 -> "5 times"
+    /// Format times count with localized and pluralized suffix; 1 -> "1 time", 5 -> "5 times"
     func timesCount(_ count: Int32) -> String {
         resourceProvider.getQuantityString(
             pluralsResource: pluralsResources.times,

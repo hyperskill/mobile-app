@@ -241,21 +241,27 @@ enum Strings {
 
     // MARK: - TopicsRepetitions -
     enum TopicsRepetitions {
-        static let cardTitleUncompleted = sharedStrings.topics_repetitions_card_title_uncompleted.localized()
-        static let cardTextUncompleted = sharedStrings.topics_repetitions_card_text_uncompleted.localized()
-        static let cardTitleCompleted = sharedStrings.topics_repetitions_card_title_completed.localized()
-        static let cardTextCompleted = sharedStrings.topics_repetitions_card_text_completed.localized()
-        static let tryToRecallText = sharedStrings.topics_repetitions_try_to_recall_text.localized()
-        static let repeatedTopics = sharedStrings.topics_repetitions_repeated_topics.localized()
-        static let youHaveRepeated = sharedStrings.topics_repetitions_you_have_repeated.localized()
+        enum Card {
+            static let titleUncompleted = sharedStrings.topics_repetitions_card_title_uncompleted.localized()
+            static let titleCompleted = sharedStrings.topics_repetitions_card_title_completed.localized()
+            static let textCompleted = sharedStrings.topics_repetitions_card_text_completed.localized()
+        }
 
-        static let allTopicsToRepeat = sharedStrings.topics_repetitions_all_topics_to_repeat.localized()
-        static let topicsFromTrack = sharedStrings.topics_repetitions_topics_from_track.localized()
-        static let explanationTitle = sharedStrings.topics_repetitions_explanation_title.localized()
-        static let explanationText1 = sharedStrings.topics_repetitions_explanation_text1.localized()
-        static let explanationText2 = sharedStrings.topics_repetitions_explanation_text2.localized()
-        static let explanationText3 = sharedStrings.topics_repetitions_explanation_text3.localized()
-        static let explanationText4 = sharedStrings.topics_repetitions_explanation_text4.localized()
+        enum Chart {
+            static let tryToRecallText = sharedStrings.topics_repetitions_try_to_recall_text.localized()
+            static let title = sharedStrings.topics_repetitions_chart_title.localized()
+            static let description = sharedStrings.topics_repetitions_chart_description.localized()
+        }
+
+        enum RepeatBlock {
+            static let title = sharedStrings.topics_repetitions_repeat_block_title.localized()
+            static let currentTrack = sharedStrings.topics_repetitions_repeat_block_current_track.localized()
+        }
+
+        enum InfoBlock {
+            static let title = sharedStrings.topics_repetitions_info_block_title.localized()
+            static let description = sharedStrings.topics_repetitions_info_block_description.localized()
+        }
     }
 
     // MARK: - Onboarding -
