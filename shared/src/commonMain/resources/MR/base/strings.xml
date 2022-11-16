@@ -207,6 +207,22 @@
     <string name="problem_of_day_hours_and_minutes">%d hrs %d mins</string>
     <string name="problem_of_day_minutes">%d minutes</string>
 
+    <!--  Topics repetitions  -->
+    <string name="topics_repetitions_card_title_uncompleted">Repeat what you\'ve learned</string>
+    <string name="topics_repetitions_card_title_completed">Good job!</string>
+    <string name="topics_repetitions_card_text_completed">For now, you\'ve repeated all recommended topics</string>
+    <string name="topics_repetitions_try_to_recall_text">Try to recall what you\'ve learned by solving one problem for each topic. Return to theory if you experience any difficulties.</string>
+    <string name="topics_repetitions_chart_title">Repeated topics</string>
+    <string name="topics_repetitions_chart_description">You have repeated %s altogether</string>
+    <string name="topics_repetitions_repeat_block_title">All %s to repeat</string>
+    <string name="topics_repetitions_repeat_block_current_track">Topics from track %s</string>
+    <string name="topics_repetitions_info_block_title">I\'ve learned these topics! Why repeating them?</string>
+    <string name="topics_repetitions_info_block_description">You retain more knowledge and build up your skill.\n\nSome
+        skills and concepts take time to master. Coming back to them increases your chance to successfully apply them to
+        the real world problems.\n\nHow does it work? We rely on the spaced repetition technique and recommend that you
+        repeat each topic three times within a month after you first complete it.
+    </string>
+
     <!-- Placeholder for new users -->
     <string name="placeholder_register_text">Sign up and select a track</string>
     <string name="placeholder_instruction_text">To get access to the content you should register at our website and select a learning track.</string>

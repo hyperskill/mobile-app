@@ -239,6 +239,31 @@ enum Strings {
         static let nextProblemIn = sharedStrings.problem_of_day_next_problem_in.localized()
     }
 
+    // MARK: - TopicsRepetitions -
+    enum TopicsRepetitions {
+        enum Card {
+            static let titleUncompleted = sharedStrings.topics_repetitions_card_title_uncompleted.localized()
+            static let titleCompleted = sharedStrings.topics_repetitions_card_title_completed.localized()
+            static let textCompleted = sharedStrings.topics_repetitions_card_text_completed.localized()
+        }
+
+        enum Chart {
+            static let tryToRecallText = sharedStrings.topics_repetitions_try_to_recall_text.localized()
+            static let title = sharedStrings.topics_repetitions_chart_title.localized()
+            static let description = sharedStrings.topics_repetitions_chart_description.localized()
+        }
+
+        enum RepeatBlock {
+            static let title = sharedStrings.topics_repetitions_repeat_block_title.localized()
+            static let currentTrack = sharedStrings.topics_repetitions_repeat_block_current_track.localized()
+        }
+
+        enum InfoBlock {
+            static let title = sharedStrings.topics_repetitions_info_block_title.localized()
+            static let description = sharedStrings.topics_repetitions_info_block_description.localized()
+        }
+    }
+
     // MARK: - Onboarding -
 
     enum Onboarding {
