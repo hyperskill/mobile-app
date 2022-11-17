@@ -1,3 +1,15 @@
+@media screen and (prefers-color-scheme: light) {
+    pre code {
+        border-color: var(--black07);
+    }
+}
+
+@media screen and (prefers-color-scheme: dark) {
+    pre code {
+        border-color: #FFFFFF1F;
+    }
+}
+
 pre code {
   display: block;
   padding: 0.5rem 0.75rem;
@@ -5,7 +17,6 @@ pre code {
   color: var(--black100);
   word-wrap: normal;
   background: #fafafa;
-  border-color: var(--black07);
   border-style: solid;
   border-width: 1px;
   border-radius: 0.375rem;
