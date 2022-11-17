@@ -4,6 +4,7 @@
     }
 
     code {
+        color: #3f1888;
         background: #f7f9fa;
         border-color: var(--black07);
     }
@@ -15,7 +16,8 @@
     }
 
     code {
-        background: #ebebf599;
+        color: #f97a12;
+        background: #1e1e1e;
         border-color: #ffffff1f;
     }
 }
@@ -57,7 +59,6 @@ pre code::-webkit-scrollbar-thumb-track {
 
 code {
     padding: 0.15rem 0.25rem;
-    color: #3f1888;
     word-break: initial;
     border-style: solid;
     border-width: 1px;
