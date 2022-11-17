@@ -1,3 +1,52 @@
+@media screen and (prefers-color-scheme: light) {
+    .alert-primary {
+        background-color: #5d72e91f;
+        border-color: #5d72e961;
+        color: #000000de;
+    }
+
+    .alert-warning {
+        background-color: #fcba431f;
+        border-color: #fcba4361;
+        color: #000000de;
+    }
+
+    .alert-danger {
+        background-color: #f97a121f;
+        border-color: #f97a1261;
+        color: #000000de;
+    }
+}
+
+@media screen and (prefers-color-scheme: dark) {
+    .alert-primary {
+        background-color: #a4aef21f;
+        border-color: #a4aef261;
+        color: #ffffffde;
+    }
+
+    .alert-warning {
+        background-color: #fdcf7a1f;
+        border-color: #fdcf7a61;
+        color: #ffffffde;
+    }
+
+    .alert-danger {
+        background-color: #ffaa651f;
+        border-color: #ffaa6561;
+        color: #ffffffde;
+    }
+}
+
+.alert {
+    position: relative;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border-radius: 0.375rem;
+    border-width: 1px;
+    border-style: solid;
+}
+
 .type-report {
   opacity: 0.25;
   -webkit-transition: opacity 0.25s ease-in-out;
