@@ -19,9 +19,7 @@ struct LatexView: View {
             configuration: configuration,
             onContentLoaded: onContentLoaded,
             onHeightUpdated: { newHeight in
-                DispatchQueue.main.async {
-                    height = CGFloat(newHeight)
-                }
+                height = CGFloat(newHeight)
             },
             onOpenImageURL: onOpenImageURL ?? openURLInTheWeb(_:),
             onOpenLink: onOpenLink ?? openURLInTheWeb(_:)
