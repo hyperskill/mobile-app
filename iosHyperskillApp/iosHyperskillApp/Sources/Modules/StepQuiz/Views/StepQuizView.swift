@@ -123,7 +123,7 @@ struct StepQuizView: View {
                 buildChildQuiz(quizType: quizType, step: step, attemptLoadedState: attemptLoadedState)
                 buildQuizStatusView(state: state, attemptLoadedState: attemptLoadedState)
 
-                if let feedbackHintText = feedbackHintText {
+                if let feedbackHintText {
                     StepQuizFeedbackView(text: feedbackHintText)
                 }
 
