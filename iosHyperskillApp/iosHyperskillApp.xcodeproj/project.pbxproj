@@ -287,6 +287,8 @@
 		2CF72AA828477E0600E1C192 /* StepQuizTableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF72AA728477E0600E1C192 /* StepQuizTableRowView.swift */; };
 		2CFCACF4287C4CAC0098EA0B /* TrackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFCACF3287C4CAB0098EA0B /* TrackViewModel.swift */; };
 		2CFCACF6287C5D510098EA0B /* TrackViewDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFCACF5287C5D510098EA0B /* TrackViewDataMapper.swift */; };
+		2CFD7C68292542FB00902748 /* StepFeatureStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFD7C67292542FB00902748 /* StepFeatureStateKsExtensions.swift */; };
+		2CFD7C6A2925447600902748 /* StepQuizFeatureStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFD7C692925447600902748 /* StepQuizFeatureStateKsExtensions.swift */; };
 		40D8E6EFE44EB7A6092C171B /* Pods_iosHyperskillApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C0F8A86D62CB915A1E49CAA /* Pods_iosHyperskillApp.framework */; };
 		E900D10128434D0400A77BBC /* StepQuizSortingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E900D10028434D0400A77BBC /* StepQuizSortingView.swift */; };
 		E900D10328434E0D00A77BBC /* StepQuizSortingItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E900D10228434E0D00A77BBC /* StepQuizSortingItemView.swift */; };
@@ -651,6 +653,8 @@
 		2CF72AA728477E0600E1C192 /* StepQuizTableRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableRowView.swift; sourceTree = "<group>"; };
 		2CFCACF3287C4CAB0098EA0B /* TrackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewModel.swift; sourceTree = "<group>"; };
 		2CFCACF5287C5D510098EA0B /* TrackViewDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewDataMapper.swift; sourceTree = "<group>"; };
+		2CFD7C67292542FB00902748 /* StepFeatureStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepFeatureStateKsExtensions.swift; sourceTree = "<group>"; };
+		2CFD7C692925447600902748 /* StepQuizFeatureStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizFeatureStateKsExtensions.swift; sourceTree = "<group>"; };
 		2D7F5C51275BBB18DCE9ACE9 /* Pods-iosHyperskillApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosHyperskillApp.debug.xcconfig"; path = "Target Support Files/Pods-iosHyperskillApp/Pods-iosHyperskillApp.debug.xcconfig"; sourceTree = "<group>"; };
 		515FEBC2A5D8EFBA7FB80795 /* Pods-iosHyperskillApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosHyperskillApp.release.xcconfig"; path = "Target Support Files/Pods-iosHyperskillApp/Pods-iosHyperskillApp.release.xcconfig"; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* iosHyperskillApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosHyperskillApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -897,7 +901,9 @@
 				2C1860FB2923C540007D4EBF /* AppFeatureStateKsExtensions.swift */,
 				2C1860FE2923CAAD007D4EBF /* HomeFeatureStateKsExtensions.swift */,
 				2C0DFB992923BB4300D30921 /* ProfileFeatureStateKsExtensions.swift */,
+				2CFD7C67292542FB00902748 /* StepFeatureStateKsExtensions.swift */,
 				2C1860F92923BE7E007D4EBF /* TrackFeatureStateKsExtensions.swift */,
+				2CFD7C692925447600902748 /* StepQuizFeatureStateKsExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2503,6 +2509,7 @@
 				2C336D132865C47900C91342 /* ApplicationTheme.swift in Sources */,
 				2C0CD583282BEB6600D5659D /* View+RemoveBackButtonTitle.swift in Sources */,
 				E99B21812887E535006A6154 /* StepQuizSkeletonViewFactory.swift in Sources */,
+				2CFD7C6A2925447600902748 /* StepQuizFeatureStateKsExtensions.swift in Sources */,
 				2C80D4FD288C4D0D00B2CD1E /* StepQuizCodeFullScreenViewModel.swift in Sources */,
 				E9FB89A32893CCAF0011EFFB /* LocalNotificationProtocol.swift in Sources */,
 				E99D4CED2826A37400B49D52 /* AppAppearance.swift in Sources */,
@@ -2663,6 +2670,7 @@
 				E9978886282FFC6E00ADD74A /* StepQuizChoiceViewData.swift in Sources */,
 				2C9CC1BF28092E06006604D7 /* AuthAdaptiveContentView.swift in Sources */,
 				2C2FD61E28191EC0004E7AF6 /* SentryManager.swift in Sources */,
+				2CFD7C68292542FB00902748 /* StepFeatureStateKsExtensions.swift in Sources */,
 				2C8E4F982848961C0011ADFA /* UIViewController+PresentPanModal.swift in Sources */,
 				2C8E66D9287896CF00D3928D /* TabNavigationLazyView.swift in Sources */,
 				2CA8E095281039EB00154088 /* BounceButtonStyle.swift in Sources */,
