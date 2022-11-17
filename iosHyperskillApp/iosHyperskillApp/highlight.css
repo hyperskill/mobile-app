@@ -2,10 +2,20 @@
     pre code {
         border-color: var(--black07);
     }
+
+    code {
+        background: #F7F9FA;
+        border-color: var(--black07);
+    }
 }
 
 @media screen and (prefers-color-scheme: dark) {
     pre code {
+        border-color: #FFFFFF1F;
+    }
+
+    code {
+        background: #EBEBF599;
         border-color: #FFFFFF1F;
     }
 }
@@ -49,8 +59,6 @@ code {
   padding: 0.15rem 0.25rem;
   color: #3f1888;
   word-break: initial;
-  background: #f9f9f9;
-  border-color: var(--black07);
   border-style: solid;
   border-width: 1px;
   border-radius: 2px;
