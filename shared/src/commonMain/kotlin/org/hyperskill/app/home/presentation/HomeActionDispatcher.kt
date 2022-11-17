@@ -50,10 +50,10 @@ class HomeActionDispatcher(
             return (startOfTomorrow.toInstant(tzNewYork) - nowInNewYork).inWholeSeconds
         }
 
-        private fun getRecommendedRepetitionsCount (repetitionsCount: Int, repeatedTodayCount: Int): Int {
+        private fun getRecommendedRepetitionsCount(repetitionsCount: Int, repeatedTodayCount: Int): Int {
             val repetitionsLeft = RECOMMENDED_REPETITIONS_PER_DAY - repeatedTodayCount
 
-            return if(repetitionsLeft > 0) min(repetitionsLeft, repetitionsCount) else 0
+            return if (repetitionsLeft > 0) min(repetitionsLeft, repetitionsCount) else 0
         }
     }
 

@@ -36,5 +36,5 @@ data class Gamification(
 //    @SerialName("seconds_to_reach_stage")
 //    val secondsToReachStage: Long,
     @SerialName("topics_repetitions")
-    val topicsRepetitions: TopicsRepetitions
+    val topicsRepetitions: GamificationTopicsRepetitions
 )

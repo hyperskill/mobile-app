@@ -1,6 +1,10 @@
 package org.hyperskill.app.home.presentation
 
-import org.hyperskill.app.home.domain.analytic.*
+import org.hyperskill.app.home.domain.analytic.HomeClickedProblemOfDayCardHyperskillAnalyticEvent
+import org.hyperskill.app.home.domain.analytic.HomeClickedPullToRefreshHyperskillAnalyticEvent
+import org.hyperskill.app.home.domain.analytic.HomeClickedContinueLearningOnWebHyperskillAnalyticEvent
+import org.hyperskill.app.home.domain.analytic.HomeClickedTopicsRepetitionsCardHyperskillAnalyticEvent
+import org.hyperskill.app.home.domain.analytic.HomeViewedHyperskillAnalyticEvent
 import org.hyperskill.app.home.presentation.HomeFeature.Action
 import org.hyperskill.app.home.presentation.HomeFeature.Message
 import org.hyperskill.app.home.presentation.HomeFeature.State

@@ -22,6 +22,8 @@ import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
+import org.hyperskill.app.topics.injection.TopicsDataComponent
+import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponent
 import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 
@@ -52,4 +54,6 @@ interface AppGraph {
     fun buildDiscussionsDataComponent(): DiscussionsDataComponent
     fun buildReactionsDataComponent(): ReactionsDataComponent
     fun buildLikesDataComponent(): LikesDataComponent
+    fun buildTopicsDataComponent(): TopicsDataComponent
+    fun buildTopicsRepetitionsComponent(): TopicsRepetitionsComponent
 }
