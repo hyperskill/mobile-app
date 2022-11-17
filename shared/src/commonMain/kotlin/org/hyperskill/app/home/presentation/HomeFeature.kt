@@ -28,6 +28,7 @@ interface HomeFeature {
         data class Content(
             val streak: Streak?,
             val problemOfDayState: ProblemOfDayState,
+            val recommendedRepetitionsCount: Int,
             val isRefreshing: Boolean = false
         ) : State
 
@@ -45,7 +46,11 @@ interface HomeFeature {
 
     sealed interface Message {
         data class Initialize(val forceUpdate: Boolean) : Message
-        data class HomeSuccess(val streak: Streak?, val problemOfDayState: ProblemOfDayState) : Message
+        data class HomeSuccess(
+            val streak: Streak?,
+            val problemOfDayState: ProblemOfDayState,
+            val recommendedRepetitionsCount: Int
+        ) : Message
         object HomeFailure : Message
         object PullToRefresh : Message
 
@@ -59,6 +64,7 @@ interface HomeFeature {
          */
         object ViewedEventMessage : Message
         object ClickedProblemOfDayCardEventMessage : Message
+        object ClickedTopicsRepetitionsCardEventMessage : Message
         object ClickedContinueLearningOnWebEventMessage : Message
     }
 

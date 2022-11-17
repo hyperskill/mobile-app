@@ -15,8 +15,8 @@ data class Profile(
     val bio: String,
     @SerialName("fullname")
     val fullname: String,
-//    @SerialName("gamification")
-//    val gamification: Gamification,
+    @SerialName("gamification")
+    val gamification: Gamification,
     @SerialName("invitation_code")
     val invitationCode: String?,
     @SerialName("comments_posted")

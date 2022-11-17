@@ -78,6 +78,11 @@ struct HomeView: View {
                     )
                     .makeModule()
 
+                    TopicsRepetitionsCardView(
+                        topicsToRepeatCount: Int(data.recommendedRepetitionsCount),
+                        onTap: viewModel.handleTopicsRepetitionsRequested
+                    )
+
                     let shouldShowContinueInWebButton = data.problemOfDayState is HomeFeatureProblemOfDayStateEmpty ||
                       data.problemOfDayState is HomeFeatureProblemOfDayStateSolved
 
@@ -121,11 +126,15 @@ struct HomeView: View {
                 let assembly = StepAssembly(stepID: Int(data.stepId))
                 pushRouter.pushViewController(assembly.makeModule())
             case .topicsRepetitionsScreen:
-                pushRouter.pushViewController(
-                    TopicsRepetitionsHostingController(
-                        rootView: TopicsRepetitionsView(topicsToRepeatCount: 4)
+                if case .content(let data) = viewModel.stateKs {
+                    pushRouter.pushViewController(
+                        TopicsRepetitionsHostingController(
+                            rootView: TopicsRepetitionsView(
+                                topicsToRepeatCount: Int(data.recommendedRepetitionsCount)
+                            )
+                        )
                     )
-                )
+                }
             }
         }
     }

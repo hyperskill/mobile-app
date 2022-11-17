@@ -25,6 +25,7 @@ import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.streak.domain.interactor.StreakInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
+import kotlin.math.min
 
 class HomeActionDispatcher(
     config: ActionDispatcherOptions,
@@ -36,7 +37,9 @@ class HomeActionDispatcher(
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     companion object {
-        val DELAY_ONE_MINUTE = 1.toDuration(DurationUnit.MINUTES)
+        private val DELAY_ONE_MINUTE = 1.toDuration(DurationUnit.MINUTES)
+
+        private const val RECOMMENDED_REPETITIONS_PER_DAY = 5
 
         fun calculateNextProblemIn(): Long {
             val tzNewYork = TimeZone.of("America/New_York")
@@ -45,6 +48,12 @@ class HomeActionDispatcher(
             val startOfTomorrow =
                 LocalDateTime(tomorrowInNewYork.year, tomorrowInNewYork.month, tomorrowInNewYork.dayOfMonth, 0, 0, 0, 0)
             return (startOfTomorrow.toInstant(tzNewYork) - nowInNewYork).inWholeSeconds
+        }
+
+        private fun getRecommendedRepetitionsCount (repetitionsCount: Int, repeatedTodayCount: Int): Int {
+            val repetitionsLeft = RECOMMENDED_REPETITIONS_PER_DAY - repeatedTodayCount
+
+            return if(repetitionsLeft > 0) min(repetitionsLeft, repetitionsCount) else 0
         }
     }
 
@@ -90,7 +99,18 @@ class HomeActionDispatcher(
                     return
                 }
 
-                onNewMessage(Message.HomeSuccess(currentProfileStreaks.firstOrNull(), problemOfDayState))
+                val recommendedRepetitionsCount = getRecommendedRepetitionsCount(
+                    currentProfile.gamification.topicsRepetitions.repetitionsCount ?: 0,
+                    currentProfile.gamification.topicsRepetitions.repeatedTodayCount ?: 0
+                )
+
+                onNewMessage(
+                    Message.HomeSuccess(
+                        streak = currentProfileStreaks.firstOrNull(),
+                        problemOfDayState = problemOfDayState,
+                        recommendedRepetitionsCount = recommendedRepetitionsCount
+                    )
+                )
                 onNewMessage(Message.ReadyToLaunchNextProblemInTimer)
             }
             is Action.LaunchTimer -> {
