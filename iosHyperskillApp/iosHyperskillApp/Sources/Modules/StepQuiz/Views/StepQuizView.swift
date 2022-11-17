@@ -64,17 +64,11 @@ struct StepQuizView: View {
                         StepQuizStatusView(state: .unsupportedQuiz)
                     }
 
-                    LatexView(
-                        text: .constant(viewData.stepText),
-                        configuration: .init(
-                            appearance: .init(labelFont: appearance.stepTextFont),
-                            contentProcessor: ContentProcessor(
-                                injections: ContentProcessor.defaultInjections + [
-                                    StepStylesInjection(),
-                                    FontInjection(font: appearance.stepTextFont),
-                                    TextColorInjection(dynamicColor: appearance.stepTextColor)
-                                ]
-                            )
+                    StepTextView(
+                        text: viewData.stepText,
+                        appearance: .init(
+                            textFont: appearance.stepTextFont,
+                            textColor: appearance.stepTextColor
                         )
                     )
 
