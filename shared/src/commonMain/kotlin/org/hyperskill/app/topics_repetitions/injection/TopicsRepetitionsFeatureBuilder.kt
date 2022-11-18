@@ -2,6 +2,7 @@ package org.hyperskill.app.topics_repetitions.injection
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Action
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Message
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.State
@@ -17,6 +18,7 @@ object TopicsRepetitionsFeatureBuilder {
     fun build(
         topicsRepetitionsInteractor: TopicsRepetitionsInteractor,
         topicsInteractor: TopicsInteractor,
+        profileInteractor: ProfileInteractor,
         analyticInteractor: AnalyticInteractor
     ): Feature<State, Message, Action> {
         val topicsRepetitionsReducer = TopicsRepetitionsReducer()
@@ -25,6 +27,7 @@ object TopicsRepetitionsFeatureBuilder {
             ActionDispatcherOptions(),
             topicsRepetitionsInteractor,
             topicsInteractor,
+            profileInteractor,
             analyticInteractor
         )
 

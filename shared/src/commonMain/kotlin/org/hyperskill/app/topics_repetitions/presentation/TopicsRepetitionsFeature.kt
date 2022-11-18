@@ -1,6 +1,7 @@
 package org.hyperskill.app.topics_repetitions.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.topics_repetitions.domain.model.TopicToRepeat
 import org.hyperskill.app.topics_repetitions.domain.model.TopicsRepetitions
 
 interface TopicsRepetitionsFeature {
@@ -9,7 +10,11 @@ interface TopicsRepetitionsFeature {
         object Loading : State
 
         data class Content(
-            val topicsRepetitions: TopicsRepetitions
+            val topicsRepetitions: TopicsRepetitions,
+            val topicsToRepeat: List<TopicToRepeat>,
+            val recommendedTopicsToRepeatCount: Int,
+            val trackTitle: String,
+            val nextTopicsLoading: Boolean = false
         ) : State
 
         object NetworkError : State
@@ -17,7 +22,36 @@ interface TopicsRepetitionsFeature {
 
     sealed interface Message {
 
-        data class Initialize(val forceUpdate: Boolean) : Message
+        data class Initialize(
+            val recommendedTopicsToRepeatCount: Int,
+            val forceUpdate: Boolean
+        ) : Message
+
+        sealed interface TopicsRepetitionsLoaded : Message {
+            data class Success(
+                val topicsRepetitions: TopicsRepetitions,
+                val topicsToRepeat: List<TopicToRepeat>,
+                val recommendedTopicsToRepeatCount: Int,
+                val trackTitle: String,
+            ) : TopicsRepetitionsLoaded
+
+            object Error : TopicsRepetitionsLoaded
+        }
+
+
+        object ShowMoreButtonClicked : Message
+
+        sealed interface NextTopicsLoaded : Message {
+            data class Success(
+                val remainingTopicsRepetitions: TopicsRepetitions,
+                val nextTopicsToRepeat: List<TopicToRepeat>
+            ) : NextTopicsLoaded
+
+            object Error : NextTopicsLoaded
+        }
+
+        data class TopicRepeated(val topicId: Long) : Message
+
 
         /**
          * Analytic
@@ -26,9 +60,9 @@ interface TopicsRepetitionsFeature {
 
     sealed interface Action {
 
-        object Initialize : Action
+        data class Initialize(val recommendedTopicsToRepeatCount: Int) : Action
 
-        object FetchNextTopics : Action
+        data class FetchNextTopics(val topicsRepetitions: TopicsRepetitions) : Action
 
         /**
          * Logging analytic event action
