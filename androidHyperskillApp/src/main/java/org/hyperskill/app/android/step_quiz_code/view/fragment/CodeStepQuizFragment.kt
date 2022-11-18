@@ -15,7 +15,6 @@ import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeLayoutDelegat
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeQuizInstructionDelegate
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeStepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz_fullscreen_code.dialog.CodeStepQuizFullScreenDialogFragment
-import org.hyperskill.app.android.step_quiz_fullscreen_code.dialog.ResetCodeDialogFragment
 import org.hyperskill.app.step.domain.model.Block
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
@@ -25,8 +24,7 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 class CodeStepQuizFragment :
     DefaultStepQuizFragment(),
     ReduxView<StepQuizFeature.State, StepQuizFeature.Action.ViewAction>,
-    CodeStepQuizFullScreenDialogFragment.Callback,
-    ResetCodeDialogFragment.Callback {
+    CodeStepQuizFullScreenDialogFragment.Callback {
     companion object {
         fun newInstance(step: Step): Fragment {
             val arguments = Bundle().apply {
@@ -92,21 +90,13 @@ class CodeStepQuizFragment :
             containerBinding = containerBinding,
             codeLayout = binding.codeStepLayout,
             lang = lang,
-            code = codeOptions.codeTemplates?.get(lang) ?: "",
+            initialCode = codeOptions.codeTemplates?.get(lang) ?: "",
             codeLayoutDelegate = codeLayoutDelegate,
             onFullscreenClicked = ::onFullScreenClicked,
             onQuizChanged = ::syncReplyState
         )
 
         return codeStepQuizFormDelegate
-    }
-
-    override fun onRetryButtonClicked() {
-        logAnalyticEventMessage(StepQuizFeature.Message.ClickedRetryEventMessage)
-        val dialog = ResetCodeDialogFragment.newInstance()
-        if (!dialog.isAdded) {
-            dialog.show(childFragmentManager, null)
-        }
     }
 
     override fun onSyncCodeStateWithParent(code: String, onSubmitClicked: Boolean) {
@@ -116,19 +106,15 @@ class CodeStepQuizFragment :
         }
     }
 
-    private fun onFullScreenClicked(lang: String, code: String) {
+    private fun onFullScreenClicked(lang: String, code: String?) {
         CodeStepQuizFullScreenDialogFragment
             .newInstance(
                 lang,
-                code,
+                code = code ?: codeOptions.codeTemplates?.get(lang) ?: "",
                 codeOptions.codeTemplates!!,
                 step,
                 viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton.isVisible
             )
             .showIfNotExists(childFragmentManager, CodeStepQuizFullScreenDialogFragment.TAG)
-    }
-
-    override fun onReset() {
-        codeStepQuizFormDelegate.updateCodeLayoutFromDialog(codeOptions.codeTemplates?.get(lang) ?: "")
     }
 }

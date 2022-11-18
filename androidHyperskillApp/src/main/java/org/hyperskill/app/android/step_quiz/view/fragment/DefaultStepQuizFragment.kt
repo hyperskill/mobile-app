@@ -106,7 +106,7 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
         stepQuizViewModel.onNewMessage(StepQuizFeature.Message.CreateSubmissionClicked(step, reply))
     }
 
-    open fun onRetryButtonClicked() {
+    private fun onRetryButtonClicked() {
         stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ClickedRetryEventMessage)
         stepQuizViewModel.onNewMessage(
             StepQuizFeature.Message.CreateAttemptClicked(

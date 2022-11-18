@@ -10,7 +10,7 @@ class CodeLayoutDelegate(
     private val step: Step,
     private val codeTemplates: Map<String, String>,
     private val codeQuizInstructionDelegate: CodeQuizInstructionDelegate,
-    private var codeToolbarAdapter: CodeToolbarAdapter?,
+    private var codeToolbarAdapter: CodeToolbarAdapter?
 ) {
 
     /**
