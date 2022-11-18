@@ -16,6 +16,8 @@ import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponentImpl
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.HomeComponentImpl
+import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponent
+import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponentImpl
 import org.hyperskill.app.likes.injection.LikesDataComponent
 import org.hyperskill.app.likes.injection.LikesDataComponentImpl
 import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
@@ -139,4 +141,7 @@ class AppGraphImpl(
 
     override fun buildLikesDataComponent(): LikesDataComponent =
         LikesDataComponentImpl(this)
+
+    override fun buildLearningActivitiesDataComponent(): LearningActivitiesDataComponent =
+        LearningActivitiesDataComponentImpl(this)
 }

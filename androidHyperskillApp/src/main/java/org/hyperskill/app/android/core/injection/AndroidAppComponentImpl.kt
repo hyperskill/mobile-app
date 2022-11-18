@@ -34,6 +34,8 @@ import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.HomeComponentImpl
 import org.hyperskill.app.home.injection.PlatformHomeComponent
 import org.hyperskill.app.home.injection.PlatformHomeComponentImpl
+import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponent
+import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponentImpl
 import org.hyperskill.app.likes.injection.LikesDataComponent
 import org.hyperskill.app.likes.injection.LikesDataComponentImpl
 import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
@@ -261,4 +263,7 @@ class AndroidAppComponentImpl(
 
     override fun buildLikesDataComponent(): LikesDataComponent =
         LikesDataComponentImpl(this)
+
+    override fun buildLearningActivitiesDataComponent(): LearningActivitiesDataComponent =
+        LearningActivitiesDataComponentImpl(this)
 }
