@@ -66,6 +66,8 @@ import org.hyperskill.app.profile.injection.ProfileDataComponentImpl
 import org.hyperskill.app.profile_settings.injection.PlatformProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponentImpl
+import org.hyperskill.app.progresses.injection.ProgressesDataComponent
+import org.hyperskill.app.progresses.injection.ProgressesDataComponentImpl
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
 import org.hyperskill.app.step.injection.PlatformStepComponent
@@ -271,4 +273,7 @@ class AndroidAppComponentImpl(
 
     override fun buildTopicsDataComponent(): TopicsDataComponent =
         TopicsDataComponentImpl(this)
+
+    override fun buildProgressesDataComponent(): ProgressesDataComponent =
+        ProgressesDataComponentImpl(this)
 }

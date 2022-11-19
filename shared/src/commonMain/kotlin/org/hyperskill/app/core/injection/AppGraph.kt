@@ -18,6 +18,7 @@ import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserCompo
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
+import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
@@ -56,4 +57,5 @@ interface AppGraph {
     fun buildLikesDataComponent(): LikesDataComponent
     fun buildLearningActivitiesDataComponent(): LearningActivitiesDataComponent
     fun buildTopicsDataComponent(): TopicsDataComponent
+    fun buildProgressesDataComponent(): ProgressesDataComponent
 }

@@ -1,16 +1,16 @@
-package org.hyperskill.app.track.remote.model
+package org.hyperskill.app.progresses.remote.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.hyperskill.app.core.remote.Meta
 import org.hyperskill.app.core.remote.MetaResponse
-import org.hyperskill.app.track.domain.model.TrackProgress
+import org.hyperskill.app.topics.domain.model.TopicProgress
 
 @Serializable
-class TrackProgressResponse(
+class TopicProgressesResponse(
     @SerialName("meta")
     override val meta: Meta,
 
     @SerialName("progresses")
-    val progresses: List<TrackProgress>
+    val progresses: List<TopicProgress>
 ) : MetaResponse
