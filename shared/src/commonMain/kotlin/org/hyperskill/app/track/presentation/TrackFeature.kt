@@ -1,6 +1,7 @@
 package org.hyperskill.app.track.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.track.domain.model.StudyPlan
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.domain.model.TrackProgress
@@ -23,15 +24,18 @@ interface TrackFeature {
          * @property track Current user profile selected track.
          * @property trackProgress Current user profile selected track progress.
          * @property studyPlan Current user profile study plan.
+         * @property topicsToLearn Current user profile uncompleted topics (theory to discover next) for current stage.
          * @property isRefreshing A boolean flag that indicates about is pull-to-refresh is ongoing.
          * @see Track
          * @see TrackProgress
          * @see StudyPlan
+         * @see Topic
          */
         data class Content(
             val track: Track,
             val trackProgress: TrackProgress,
             val studyPlan: StudyPlan? = null,
+            val topicsToLearn: List<Topic>,
             val isRefreshing: Boolean = false
         ) : State
 
@@ -47,7 +51,8 @@ interface TrackFeature {
         data class TrackSuccess(
             val track: Track,
             val trackProgress: TrackProgress,
-            val studyPlan: StudyPlan? = null
+            val studyPlan: StudyPlan? = null,
+            val topicsToLearn: List<Topic>
         ) : Message
 
         object TrackFailure : Message

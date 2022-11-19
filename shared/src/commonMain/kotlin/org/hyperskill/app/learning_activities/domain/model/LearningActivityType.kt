@@ -22,7 +22,7 @@ enum class LearningActivityType(val value: Int) {
     JOIN_STUDY_GROUP(110);
 
     companion object {
-        private val VALUES: Array<LearningActivityType> = LearningActivityType.values()
+        private val VALUES: Array<LearningActivityType> = values()
 
         fun getByValue(value: Int): LearningActivityType? =
             VALUES.firstOrNull { it.value == value }

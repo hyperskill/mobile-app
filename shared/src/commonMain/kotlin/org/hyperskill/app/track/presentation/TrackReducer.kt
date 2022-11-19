@@ -20,7 +20,12 @@ class TrackReducer : StateReducer<State, Message, Action> {
                     null
                 }
             is Message.TrackSuccess ->
-                State.Content(message.track, message.trackProgress, message.studyPlan) to emptySet()
+                State.Content(
+                    message.track,
+                    message.trackProgress,
+                    message.studyPlan,
+                    message.topicsToLearn
+                ) to emptySet()
             is Message.TrackFailure ->
                 State.NetworkError to emptySet()
             is Message.PullToRefresh ->
