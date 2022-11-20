@@ -6,8 +6,8 @@ extension TrackView {
         let spacingBetweenContainers = LayoutInsets.largeInset
         let spacingBetweenRelativeItems = LayoutInsets.defaultInset
 
-        let progressSpacingBetweenRelativeItems = LayoutInsets.smallInset
-        var progressTitleInsets = LayoutInsets(bottom: LayoutInsets.smallInset)
+        let progressBlockSpacing = LayoutInsets.smallInset
+        let progressBlockTitleInsets = LayoutInsets(bottom: LayoutInsets.smallInset)
 
         let backgroundColor = Color.systemGroupedBackground
     }
@@ -81,8 +81,8 @@ struct TrackView: View {
 
                     TrackProgressBlockView(
                         appearance: .init(
-                            titleInsets: appearance.progressTitleInsets,
-                            spacing: appearance.progressSpacingBetweenRelativeItems
+                            titleInsets: appearance.progressBlockTitleInsets,
+                            spacing: appearance.progressBlockSpacing
                         ),
                         timeToComplete: viewData.currentTimeToCompleteText,
                         completedGraduateProjects: viewData.completedGraduateProjectsCountText,

@@ -25,7 +25,7 @@ class TrackReducer : StateReducer<State, Message, Action> {
                     message.track,
                     message.trackProgress,
                     message.studyPlan,
-                    message.topicsToLearn
+                    message.topicsToDiscoverNext
                 ) to emptySet()
             is Message.TrackFailure ->
                 State.NetworkError to emptySet()

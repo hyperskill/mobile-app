@@ -65,7 +65,7 @@ interface TrackFeature {
             val track: Track,
             val trackProgress: TrackProgress,
             val studyPlan: StudyPlan? = null,
-            val topicsToLearn: List<Topic>
+            val topicsToDiscoverNext: List<Topic>
         ) : Message
 
         /**
