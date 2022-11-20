@@ -46,8 +46,21 @@ interface TrackFeature {
     }
 
     sealed interface Message {
+        /**
+         * A message that triggers the process of loading all of the necessary data for module.
+         *
+         * Use cases:
+         * 1. Initial module data loading
+         * 2. Reload data when failed to load them previously
+         * 3. Refresh data on pull-to-refresh
+         *
+         * @property forceUpdate A boolean flag that indicates should force to load data without additional checks.
+         */
         data class Initialize(val forceUpdate: Boolean = false) : Message
 
+        /**
+         * A message that indicates about success module data loading.
+         */
         data class TrackSuccess(
             val track: Track,
             val trackProgress: TrackProgress,
@@ -55,8 +68,17 @@ interface TrackFeature {
             val topicsToLearn: List<Topic>
         ) : Message
 
+        /**
+         * A message that indicates about failure module data loading.
+         */
         object TrackFailure : Message
 
+        /**
+         * A message that indicates about click on topic.
+         * Triggers navigation to step screen and logs that event to the analytics.
+         *
+         * @property topicId A topic id that triggered that event.
+         */
         data class TopicToDiscoverNextClicked(val topicId: Long) : Message
 
         object PullToRefresh : Message
