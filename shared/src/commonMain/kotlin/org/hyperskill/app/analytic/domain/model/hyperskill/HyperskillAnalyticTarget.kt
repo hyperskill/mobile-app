@@ -50,5 +50,6 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     SEE_NEXT_HINT("see_next_hint"),
     REPORT("report"),
     REPORT_HINT_NOTICE("report_hint_notice"),
-    REFRESH("refresh")
+    REFRESH("refresh"),
+    TOPIC("topic"),
 }

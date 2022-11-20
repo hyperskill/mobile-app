@@ -24,7 +24,7 @@ interface TrackFeature {
          * @property track Current user profile selected track.
          * @property trackProgress Current user profile selected track progress.
          * @property studyPlan Current user profile study plan.
-         * @property topicsToLearn Current user profile uncompleted topics (theory to discover next) for current stage.
+         * @property topicsToLearnNext Current user profile uncompleted topics (theory to discover next) for current stage.
          * @property isRefreshing A boolean flag that indicates about is pull-to-refresh is ongoing.
          * @see Track
          * @see TrackProgress
@@ -35,7 +35,7 @@ interface TrackFeature {
             val track: Track,
             val trackProgress: TrackProgress,
             val studyPlan: StudyPlan? = null,
-            val topicsToLearn: List<Topic>,
+            val topicsToLearnNext: List<Topic>,
             val isRefreshing: Boolean = false
         ) : State
 
@@ -57,6 +57,8 @@ interface TrackFeature {
 
         object TrackFailure : Message
 
+        data class TopicToLearnNextClicked(val topicId: Long) : Message
+
         object PullToRefresh : Message
 
         /**
@@ -71,6 +73,10 @@ interface TrackFeature {
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
-        sealed interface ViewAction : Action
+        sealed interface ViewAction : Action {
+            sealed interface NavigateTo : ViewAction {
+                data class StepScreen(val stepId: Long) : NavigateTo
+            }
+        }
     }
 }

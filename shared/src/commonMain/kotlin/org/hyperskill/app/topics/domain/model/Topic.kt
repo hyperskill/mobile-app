@@ -10,6 +10,8 @@ data class Topic(
     val id: Long,
     @SerialName("progress_id")
     val progressId: String,
+    @SerialName("theory")
+    val theoryId: Long? = null,
     @SerialName("title")
     val title: String,
     @Transient

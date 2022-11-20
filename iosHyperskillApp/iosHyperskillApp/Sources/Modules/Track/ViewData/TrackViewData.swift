@@ -22,4 +22,12 @@ struct TrackViewData {
     let topicsCountText: String?
     let description: String
     let webActionButtonText: String
+
+    // Theory to discover next
+    let topicsToLearnNext: [TheoryTopic]
+
+    struct TheoryTopic: Identifiable {
+        let id: Int64
+        let title: String
+    }
 }

@@ -1,12 +1,12 @@
 import SwiftUI
 
-extension TrackCardView {
+extension TrackProgressCardView {
     struct Appearance {
         let imageWidthHeight: CGFloat = 16
     }
 }
 
-struct TrackCardView: View {
+struct TrackProgressCardView: View {
     private(set) var appearance = Appearance()
 
     let title: String
@@ -51,17 +51,17 @@ struct TrackCardView: View {
     }
 }
 
-struct TrackCardView_Previews: PreviewProvider {
+struct TrackProgressCardView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            TrackCardView(
+            TrackProgressCardView(
                 title: "~ 56 h",
                 imageName: Images.Step.clock,
                 progress: nil,
                 subtitle: "Time to complete the track"
             )
 
-            TrackCardView(
+            TrackProgressCardView(
                 title: "48 / 149",
                 imageName: Images.Track.About.topic,
                 progress: 0.322_147_651,

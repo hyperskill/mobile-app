@@ -1,14 +1,14 @@
 import SwiftUI
 
-extension TrackAboutView {
+extension TrackAboutBlockView {
     struct Appearance {
         let insets = LayoutInsets(horizontal: LayoutInsets.defaultInset, vertical: LayoutInsets.largeInset)
 
-        let spacing = LayoutInsets.defaultInset
+        var spacing = LayoutInsets.defaultInset
     }
 }
 
-struct TrackAboutView: View {
+struct TrackAboutBlockView: View {
     private(set) var appearance = Appearance()
 
     let rating: String?
@@ -23,9 +23,10 @@ struct TrackAboutView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: appearance.spacing) {
-            Text(Strings.Track.about)
+            Text(Strings.Track.About.title)
                 .font(.title3)
                 .foregroundColor(.primaryText)
+                .bold()
 
             TrackAboutStatsView(
                 rating: rating,
@@ -48,9 +49,9 @@ struct TrackAboutView: View {
     }
 }
 
-struct TrackAboutView_Previews: PreviewProvider {
+struct TrackAboutBlockView_Previews: PreviewProvider {
     static var previews: some View {
-        TrackAboutView(
+        TrackAboutBlockView(
             rating: "4.7",
             timeToComplete: "104 hours",
             projectsCount: "20 projects",

@@ -1,7 +1,7 @@
 import SwiftUI
 
-final class TrackAssembly: Assembly {
-    func makeModule() -> TrackView {
+final class TrackAssembly: UIKitAssembly {
+    func makeModule() -> UIViewController {
         let commonComponent = AppGraphBridge.sharedAppGraph.commonComponent
         let trackComponent = AppGraphBridge.sharedAppGraph.buildTrackComponent()
 
@@ -12,6 +12,12 @@ final class TrackAssembly: Assembly {
             feature: trackComponent.trackFeature
         )
 
-        return TrackView(viewModel: viewModel)
+        let pushRouter = SwiftUIPushRouter()
+        let trackView = TrackView(viewModel: viewModel, pushRouter: pushRouter)
+        let hostingController = UIHostingController(rootView: trackView)
+
+        pushRouter.rootViewController = hostingController
+
+        return hostingController
     }
 }

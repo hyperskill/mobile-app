@@ -83,7 +83,7 @@ struct HomeView: View {
 
                     if shouldShowContinueInWebButton {
                         OpenURLInsideAppButton(
-                            text: Strings.Track.continueInWebButton,
+                            text: Strings.Track.About.continueInWebButton,
                             urlType: .nextURLPath(HyperskillUrlPath.Index()),
                             webControllerType: .safari,
                             onTap: viewModel.logClickedContinueLearningOnWebEvent
