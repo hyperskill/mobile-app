@@ -12,7 +12,7 @@ final class TrackViewDataMapper {
         track: Track,
         trackProgress: TrackProgress,
         studyPlan: StudyPlan?,
-        topicsToLearnNext: [Topic]
+        topicsToDiscoverNext: [Topic]
     ) -> TrackViewData {
         let currentTimeToCompleteText: String? = {
             guard let studyPlan = studyPlan else {
@@ -74,14 +74,14 @@ final class TrackViewDataMapper {
             return formatter.topicsCount(track.topicsCount)
         }()
 
-        let theoryToDiscoverNext = topicsToLearnNext.map { topic in
+        let theoryTopicsToDiscoverNext = topicsToDiscoverNext.map { topic in
             TrackViewData.TheoryTopic(id: topic.id, title: topic.title)
         }
 
         return TrackViewData(
             coverSource: track.cover?.trimmedNonEmptyOrNil(),
             name: track.title,
-            learningRole: Strings.Track.learningNow,
+            learningRole: Strings.Track.Header.learningNow,
             currentTimeToCompleteText: currentTimeToCompleteText,
             completedGraduateProjectsCountText: completedGraduateProjectsCountText,
             completedTopicsText: completedTopicsText,
@@ -94,7 +94,7 @@ final class TrackViewDataMapper {
             topicsCountText: topicsCountText,
             description: track.description_.trimmed(),
             webActionButtonText: Strings.Track.About.continueInWebButton,
-            topicsToLearnNext: theoryToDiscoverNext
+            topicsToDiscoverNext: theoryTopicsToDiscoverNext
         )
     }
 }

@@ -218,7 +218,7 @@
 		2CA8E093281039EB00154088 /* OutlineButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA8E090281039EB00154088 /* OutlineButtonStyle.swift */; };
 		2CA8E094281039EB00154088 /* RoundedRectangleButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA8E091281039EB00154088 /* RoundedRectangleButtonStyle.swift */; };
 		2CA8E095281039EB00154088 /* BounceButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA8E092281039EB00154088 /* BounceButtonStyle.swift */; };
-		2CAB0612292A17C300D30DB1 /* TrackTopicsBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAB0611292A17C300D30DB1 /* TrackTopicsBlockView.swift */; };
+		2CAB0612292A17C300D30DB1 /* TrackTopicsToDiscoverNextBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAB0611292A17C300D30DB1 /* TrackTopicsToDiscoverNextBlockView.swift */; };
 		2CAE8CF0280525BE00E6C83D /* StepViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAE8CEF280525BE00E6C83D /* StepViewModel.swift */; };
 		2CAE8CF2280525C900E6C83D /* StepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAE8CF1280525C900E6C83D /* StepView.swift */; };
 		2CAE8CF4280525D400E6C83D /* StepAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAE8CF3280525D400E6C83D /* StepAssembly.swift */; };
@@ -597,7 +597,7 @@
 		2CA8E090281039EB00154088 /* OutlineButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutlineButtonStyle.swift; sourceTree = "<group>"; };
 		2CA8E091281039EB00154088 /* RoundedRectangleButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedRectangleButtonStyle.swift; sourceTree = "<group>"; };
 		2CA8E092281039EB00154088 /* BounceButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BounceButtonStyle.swift; sourceTree = "<group>"; };
-		2CAB0611292A17C300D30DB1 /* TrackTopicsBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTopicsBlockView.swift; sourceTree = "<group>"; };
+		2CAB0611292A17C300D30DB1 /* TrackTopicsToDiscoverNextBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTopicsToDiscoverNextBlockView.swift; sourceTree = "<group>"; };
 		2CAE8CEF280525BE00E6C83D /* StepViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepViewModel.swift; sourceTree = "<group>"; };
 		2CAE8CF1280525C900E6C83D /* StepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepView.swift; sourceTree = "<group>"; };
 		2CAE8CF3280525D400E6C83D /* StepAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepAssembly.swift; sourceTree = "<group>"; };
@@ -1345,7 +1345,7 @@
 			isa = PBXGroup;
 			children = (
 				2C65637928744DDA006AAD77 /* TrackHeaderView.swift */,
-				2CAB0611292A17C300D30DB1 /* TrackTopicsBlockView.swift */,
+				2CAB0611292A17C300D30DB1 /* TrackTopicsToDiscoverNextBlockView.swift */,
 				2C9EB9572861BA57007DDE44 /* TrackView.swift */,
 				2C65637428743F32006AAD77 /* About */,
 				2CBDC648287ECAB2002FB6F6 /* TrackProgressBlock */,
@@ -2853,7 +2853,7 @@
 				2C023C8D285DCA4300D2D5A9 /* DatasetExtensions.swift in Sources */,
 				E91017152832975C002E70F5 /* CheckboxButton.swift in Sources */,
 				2C42EFB727F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift in Sources */,
-				2CAB0612292A17C300D30DB1 /* TrackTopicsBlockView.swift in Sources */,
+				2CAB0612292A17C300D30DB1 /* TrackTopicsToDiscoverNextBlockView.swift in Sources */,
 				2C967432288824370091B6C9 /* StepQuizCodeViewModel.swift in Sources */,
 				2CF72AA5284775BF00E1C192 /* StepQuizTableView.swift in Sources */,
 			);

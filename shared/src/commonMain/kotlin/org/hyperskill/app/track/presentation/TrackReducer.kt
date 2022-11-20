@@ -2,7 +2,7 @@ package org.hyperskill.app.track.presentation
 
 import org.hyperskill.app.track.domain.analytic.TrackClickedContinueInWebHyperskillAnalyticEvent
 import org.hyperskill.app.track.domain.analytic.TrackClickedPullToRefreshHyperskillAnalyticEvent
-import org.hyperskill.app.track.domain.analytic.TrackClickedTopicToLearnNextHyperskillAnalyticEvent
+import org.hyperskill.app.track.domain.analytic.TrackClickedTopicToDiscoverNextHyperskillAnalyticEvent
 import org.hyperskill.app.track.domain.analytic.TrackViewedHyperskillAnalyticEvent
 import org.hyperskill.app.track.presentation.TrackFeature.Action
 import org.hyperskill.app.track.presentation.TrackFeature.Message
@@ -29,16 +29,16 @@ class TrackReducer : StateReducer<State, Message, Action> {
                 ) to emptySet()
             is Message.TrackFailure ->
                 State.NetworkError to emptySet()
-            is Message.TopicToLearnNextClicked -> {
+            is Message.TopicToDiscoverNextClicked -> {
                 val targetTheoryId = (state as? State.Content)
-                    ?.topicsToLearnNext?.firstOrNull { it.id == message.topicId }
+                    ?.topicsToDiscoverNext?.firstOrNull { it.id == message.topicId }
                     ?.theoryId
 
                 if (targetTheoryId != null) {
                     state to setOf(
                         Action.ViewAction.NavigateTo.StepScreen(targetTheoryId),
                         Action.LogAnalyticEvent(
-                            TrackClickedTopicToLearnNextHyperskillAnalyticEvent(
+                            TrackClickedTopicToDiscoverNextHyperskillAnalyticEvent(
                                 topicId = message.topicId,
                                 theoryId = targetTheoryId
                             )

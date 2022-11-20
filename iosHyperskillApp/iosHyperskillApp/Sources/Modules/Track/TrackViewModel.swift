@@ -24,7 +24,7 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
     }
 
     func doTheoryTopicPresentation(topic: TrackViewData.TheoryTopic) {
-        onNewMessage(TrackFeatureMessageTopicToLearnNextClicked(topicId: topic.id))
+        onNewMessage(TrackFeatureMessageTopicToDiscoverNextClicked(topicId: topic.id))
     }
 
     func doStudyPlanInWebPresentation() {
@@ -40,13 +40,13 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
         track: Track,
         trackProgress: TrackProgress,
         studyPlan: StudyPlan?,
-        topicsToLearnNext: [Topic]
+        topicsToDiscoverNext: [Topic]
     ) -> TrackViewData {
         viewDataMapper.mapTrackDataToViewData(
             track: track,
             trackProgress: trackProgress,
             studyPlan: studyPlan,
-            topicsToLearnNext: topicsToLearnNext
+            topicsToDiscoverNext: topicsToDiscoverNext
         )
     }
 

@@ -158,7 +158,10 @@ enum Strings {
 
     enum Track {
         static let title = sharedStrings.track_title.localized()
-        static let learningNow = sharedStrings.track_learning_now_text.localized()
+
+        enum Header {
+            static let learningNow = sharedStrings.track_learning_now_text.localized()
+        }
 
         enum Progress {
             static let title = sharedStrings.track_progress_block_title.localized()
@@ -168,8 +171,8 @@ enum Strings {
             static let appliedCoreTopics = sharedStrings.track_applied_core_topics_text.localized()
         }
 
-        enum TopicsList {
-            static let title = sharedStrings.track_topics_list_block_title.localized()
+        enum TopicsToDiscoverNext {
+            static let title = sharedStrings.track_topics_to_discover_next_block_title.localized()
         }
 
         enum About {

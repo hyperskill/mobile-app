@@ -25,7 +25,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * ```
  * @see HyperskillAnalyticEvent
  */
-class TrackClickedTopicToLearnNextHyperskillAnalyticEvent(
+class TrackClickedTopicToDiscoverNextHyperskillAnalyticEvent(
     private val topicId: Long,
     private val theoryId: Long
 ) : HyperskillAnalyticEvent(

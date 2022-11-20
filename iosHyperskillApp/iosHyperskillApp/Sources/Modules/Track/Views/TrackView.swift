@@ -60,7 +60,7 @@ struct TrackView: View {
                 track: data.track,
                 trackProgress: data.trackProgress,
                 studyPlan: data.studyPlan,
-                topicsToLearnNext: data.topicsToLearnNext
+                topicsToDiscoverNext: data.topicsToDiscoverNext
             )
 
             ScrollView {
@@ -71,10 +71,10 @@ struct TrackView: View {
                         subtitle: viewData.learningRole
                     )
 
-                    if !viewData.topicsToLearnNext.isEmpty {
-                        TrackTopicsBlockView(
+                    if !viewData.topicsToDiscoverNext.isEmpty {
+                        TrackTopicsToDiscoverNextBlockView(
                             appearance: .init(spacing: appearance.spacingBetweenRelativeItems),
-                            topics: viewData.topicsToLearnNext,
+                            topics: viewData.topicsToDiscoverNext,
                             onTopicTapped: viewModel.doTheoryTopicPresentation(topic:)
                         )
                     }

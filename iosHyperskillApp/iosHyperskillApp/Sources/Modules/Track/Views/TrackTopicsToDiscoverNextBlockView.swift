@@ -1,6 +1,6 @@
 import SwiftUI
 
-extension TrackTopicsBlockView {
+extension TrackTopicsToDiscoverNextBlockView {
     struct Appearance {
         let insets = LayoutInsets(horizontal: LayoutInsets.defaultInset, vertical: LayoutInsets.largeInset)
 
@@ -8,7 +8,7 @@ extension TrackTopicsBlockView {
     }
 }
 
-struct TrackTopicsBlockView: View {
+struct TrackTopicsToDiscoverNextBlockView: View {
     private(set) var appearance = Appearance()
 
     var topics: [TrackViewData.TheoryTopic]
@@ -17,7 +17,7 @@ struct TrackTopicsBlockView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: appearance.spacing) {
-            Text(Strings.Track.TopicsList.title)
+            Text(Strings.Track.TopicsToDiscoverNext.title)
                 .font(.title3)
                 .foregroundColor(.primaryText)
                 .bold()
@@ -48,9 +48,9 @@ struct TrackTopicsBlockView: View {
     }
 }
 
-struct TrackTopicsBlockView_Previews: PreviewProvider {
+struct TrackTopicsToDiscoverNextBlockView_Previews: PreviewProvider {
     static var previews: some View {
-        TrackTopicsBlockView(
+        TrackTopicsToDiscoverNextBlockView(
             topics: [
                 .init(id: 1, title: "Basic data types"),
                 .init(id: 2, title: "Variables"),

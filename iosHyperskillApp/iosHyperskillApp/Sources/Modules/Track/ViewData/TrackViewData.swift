@@ -1,9 +1,13 @@
 import Foundation
 
 struct TrackViewData {
+    // MARK: Header
+
     let coverSource: String?
     let name: String
     let learningRole: String
+
+    // MARK: Progress
 
     let currentTimeToCompleteText: String?
 
@@ -15,7 +19,8 @@ struct TrackViewData {
     let capstoneTopicsText: String?
     let capstoneTopicsProgress: Float
 
-    // About
+    // MARK: About
+
     let ratingText: String?
     let allTimeToCompleteText: String?
     let projectsCountText: String?
@@ -23,8 +28,9 @@ struct TrackViewData {
     let description: String
     let webActionButtonText: String
 
-    // Theory to discover next
-    let topicsToLearnNext: [TheoryTopic]
+    // MARK: Theory to discover next
+
+    let topicsToDiscoverNext: [TheoryTopic]
 
     struct TheoryTopic: Identifiable {
         let id: Int64

@@ -25,8 +25,8 @@ class TrackActionDispatcher(
     private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     companion object {
-        private const val TOPICS_TO_LEARN_NEXT_LEARNING_ACTIVITIES_PAGE_SIZE = 20
-        private const val TOPICS_TO_LEARN_NEXT_PREFIX_COUNT = 10
+        private const val TOPICS_TO_DISCOVER_NEXT_LEARNING_ACTIVITIES_PAGE_SIZE = 20
+        private const val TOPICS_TO_DISCOVER_NEXT_PREFIX_COUNT = 10
     }
 
     override suspend fun doSuspendableAction(action: Action) {
@@ -45,20 +45,20 @@ class TrackActionDispatcher(
                 val track = trackResult.await().getOrElse {
                     return onNewMessage(Message.TrackFailure)
                 }
-                val topicsToLearnNext = getTopicsToLearnNext(track)
+                val topicsToDiscoverNext = getTopicsToDiscoverNext(track)
                     .getOrElse { return onNewMessage(Message.TrackFailure) }
                 val trackProgress = trackProgressResult.await().getOrNull()
                     ?: return onNewMessage(Message.TrackFailure)
                 val studyPlan = studyPlanResult.await().getOrNull()
 
-                onNewMessage(Message.TrackSuccess(track, trackProgress, studyPlan, topicsToLearnNext))
+                onNewMessage(Message.TrackSuccess(track, trackProgress, studyPlan, topicsToDiscoverNext))
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
         }
     }
 
-    private suspend fun getTopicsToLearnNext(track: Track): Result<List<Topic>> =
+    private suspend fun getTopicsToDiscoverNext(track: Track): Result<List<Topic>> =
         kotlin.runCatching {
             if (track.isCompleted) {
                 return Result.success(emptyList())
@@ -66,7 +66,7 @@ class TrackActionDispatcher(
 
             val learningActivities = learningActivitiesInteractor
                 .getUncompletedTopicsLearningActivities(
-                    pageSize = TOPICS_TO_LEARN_NEXT_LEARNING_ACTIVITIES_PAGE_SIZE
+                    pageSize = TOPICS_TO_DISCOVER_NEXT_LEARNING_ACTIVITIES_PAGE_SIZE
                 )
                 .map { it.learningActivities }
                 .getOrThrow()
@@ -82,7 +82,7 @@ class TrackActionDispatcher(
 
             val isTrackWithoutProjects = track.projects.isEmpty()
             if (isTrackWithoutProjects) {
-                return Result.success(topics.take(TOPICS_TO_LEARN_NEXT_PREFIX_COUNT))
+                return Result.success(topics.take(TOPICS_TO_DISCOVER_NEXT_PREFIX_COUNT))
             } else {
                 val progresses = progressesInteractor
                     .getTopicsProgresses(topicsIds)
@@ -99,10 +99,10 @@ class TrackActionDispatcher(
                     Result.success(
                         topicsByStagePosition
                             .getValue(minStagePositionKey)
-                            .take(TOPICS_TO_LEARN_NEXT_PREFIX_COUNT)
+                            .take(TOPICS_TO_DISCOVER_NEXT_PREFIX_COUNT)
                     )
                 } else {
-                    Result.success(topics.take(TOPICS_TO_LEARN_NEXT_PREFIX_COUNT))
+                    Result.success(topics.take(TOPICS_TO_DISCOVER_NEXT_PREFIX_COUNT))
                 }
             }
         }
