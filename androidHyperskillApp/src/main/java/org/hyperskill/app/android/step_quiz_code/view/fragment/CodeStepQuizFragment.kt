@@ -25,6 +25,7 @@ class CodeStepQuizFragment :
     DefaultStepQuizFragment(),
     ReduxView<StepQuizFeature.State, StepQuizFeature.Action.ViewAction>,
     CodeStepQuizFullScreenDialogFragment.Callback {
+
     companion object {
         fun newInstance(step: Step): Fragment {
             val arguments = Bundle().apply {
@@ -99,11 +100,26 @@ class CodeStepQuizFragment :
         return codeStepQuizFormDelegate
     }
 
+    override fun onNewState(state: StepQuizFeature.State) {
+        if (state is StepQuizFeature.State.AttemptLoaded) {
+            val submission = (state.submissionState as? StepQuizFeature.SubmissionState.Loaded)
+                ?.submission
+            val replyCode = submission?.reply?.code
+            val fullScreenFragment = childFragmentManager
+                .findFragmentByTag(CodeStepQuizFullScreenDialogFragment.TAG) as? CodeStepQuizFullScreenDialogFragment
+            fullScreenFragment?.onNewCode(replyCode)
+        }
+    }
+
     override fun onSyncCodeStateWithParent(code: String, onSubmitClicked: Boolean) {
         codeStepQuizFormDelegate.updateCodeLayoutFromDialog(code)
         if (onSubmitClicked) {
             onSubmitButtonClicked()
         }
+    }
+
+    override fun onResetCodeClick() {
+        onRetryButtonClicked()
     }
 
     private fun onFullScreenClicked(lang: String, code: String?) {
