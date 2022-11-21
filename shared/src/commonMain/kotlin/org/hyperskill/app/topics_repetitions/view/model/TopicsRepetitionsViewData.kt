@@ -1,11 +1,9 @@
 package org.hyperskill.app.topics_repetitions.view.model
 
-import org.hyperskill.app.topics_repetitions.domain.model.TopicToRepeat
-import org.hyperskill.app.topics_repetitions.view.model.ShowMoreButtonState
-
 data class TopicsRepetitionsViewData(
     val recommendedTopicsToRepeatCount: String,
     val recommendedTopicsToRepeatText: String,
+    val repeatButtonText: String?,
     val chartData: Map<String, Int>,
     val chartDescription: String,
     val repeatBlockTitle: String,

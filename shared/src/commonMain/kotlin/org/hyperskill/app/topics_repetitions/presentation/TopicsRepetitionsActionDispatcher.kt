@@ -8,8 +8,7 @@ import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeatu
 import org.hyperskill.app.topics.domain.interactor.TopicsInteractor
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import org.hyperskill.app.topics_repetitions.domain.model.Repetition
-import org.hyperskill.app.topics_repetitions.domain.model.TopicToRepeat
-import org.hyperskill.app.topics_repetitions.domain.model.TopicsRepetitions
+import org.hyperskill.app.topics_repetitions.view.model.TopicToRepeat
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class TopicsRepetitionsActionDispatcher(
@@ -39,20 +38,19 @@ class TopicsRepetitionsActionDispatcher(
                         return
                     }
 
-                val trackTitle = profileInteractor
+                val profile = profileInteractor
                     .getCurrentProfile()
                     .getOrElse {
                         onNewMessage(Message.TopicsRepetitionsLoaded.Error)
                         return
                     }
-                    .trackTitle ?: ""
 
                 onNewMessage(
                     Message.TopicsRepetitionsLoaded.Success(
-                        topicsRepetitions.copy(repetitions = remainingRepetitions),
-                        topicsToRepeat,
-                        action.recommendedTopicsToRepeatCount,
-                        trackTitle
+                        topicsRepetitions = topicsRepetitions.copy(repetitions = remainingRepetitions),
+                        topicsToRepeat = topicsToRepeat,
+                        recommendedTopicsToRepeatCount = profile.gamification.topicsRepetitions.repetitionsCount ?: 0,
+                        trackTitle = profile.trackTitle ?: ""
                     )
                 )
             }

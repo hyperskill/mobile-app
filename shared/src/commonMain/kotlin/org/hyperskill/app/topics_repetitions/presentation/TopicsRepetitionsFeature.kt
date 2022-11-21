@@ -1,7 +1,7 @@
 package org.hyperskill.app.topics_repetitions.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
-import org.hyperskill.app.topics_repetitions.domain.model.TopicToRepeat
+import org.hyperskill.app.topics_repetitions.view.model.TopicToRepeat
 import org.hyperskill.app.topics_repetitions.domain.model.TopicsRepetitions
 
 interface TopicsRepetitionsFeature {
@@ -22,10 +22,7 @@ interface TopicsRepetitionsFeature {
 
     sealed interface Message {
 
-        data class Initialize(
-            val recommendedTopicsToRepeatCount: Int,
-            val forceUpdate: Boolean
-        ) : Message
+        data class Initialize(val forceUpdate: Boolean) : Message
 
         sealed interface TopicsRepetitionsLoaded : Message {
             data class Success(
@@ -60,7 +57,7 @@ interface TopicsRepetitionsFeature {
 
     sealed interface Action {
 
-        data class Initialize(val recommendedTopicsToRepeatCount: Int) : Action
+        object Initialize : Action
 
         data class FetchNextTopics(val topicsRepetitions: TopicsRepetitions) : Action
 

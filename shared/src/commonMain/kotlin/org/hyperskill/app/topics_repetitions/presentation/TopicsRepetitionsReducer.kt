@@ -13,7 +13,7 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                 if (state is State.Idle ||
                     (message.forceUpdate && (state is State.Content || state is State.NetworkError))
                 ) {
-                    State.Loading to setOf(Action.Initialize(message.recommendedTopicsToRepeatCount))
+                    State.Loading to setOf(Action.Initialize)
                 } else {
                     null
                 }

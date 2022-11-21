@@ -16,6 +16,12 @@ class TopicsRepetitionsViewDataMapper(
                 SharedResources.plurals.topics_to_repeat_today,
                 state.recommendedTopicsToRepeatCount
             ),
+            repeatButtonText = if (state.topicsToRepeat.isNotEmpty()) {
+                resourceProvider.getString(
+                    SharedResources.strings.topics_repetitions_repeat_button_text,
+                    state.topicsToRepeat.first().title
+                )
+            } else null,
             chartData = state.topicsRepetitions.repetitionsByCount.mapKeys {
                 resourceProvider.getQuantityString(SharedResources.plurals.times, it.key.toInt())
             },

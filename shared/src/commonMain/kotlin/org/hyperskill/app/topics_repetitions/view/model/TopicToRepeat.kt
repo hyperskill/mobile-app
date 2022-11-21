@@ -1,4 +1,4 @@
-package org.hyperskill.app.topics_repetitions.domain.model
+package org.hyperskill.app.topics_repetitions.view.model
 
 data class TopicToRepeat(
     val topicId: Long,
