@@ -17,10 +17,9 @@ extension StreakView {
 struct StreakView: View {
     private(set) var appearance = Appearance()
 
-    let currentStreak: Int
+    let isNewStreakRecord: Bool
     let currentStreakCountString: String
 
-    let maxStreak: Int
     let daysStates: [StreakDayState]
 
     var body: some View {
@@ -36,7 +35,7 @@ struct StreakView: View {
                         .font(.title)
                         .foregroundColor(.primaryText)
 
-                    if currentStreak > maxStreak {
+                    if isNewStreakRecord {
                         Image(Images.Home.Streak.crown)
                             .renderingMode(.original)
                             .resizable()
@@ -91,16 +90,14 @@ struct StreakView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             StreakView(
-                currentStreak: 3,
+                isNewStreakRecord: true,
                 currentStreakCountString: "3 days",
-                maxStreak: 3,
                 daysStates: [.passive, .passive, .active, .active, .frozen]
             )
 
             StreakView(
-                currentStreak: 0,
+                isNewStreakRecord: false,
                 currentStreakCountString: "0 days",
-                maxStreak: 3,
                 daysStates: [.passive, .passive, .active, .passive, .passive]
             )
         }
