@@ -146,6 +146,8 @@
     <string name="track_applied_core_topics_text">Applied core topics by completing project stages</string>
     <string name="track_about_text">About</string>
     <string name="track_continue_in_web_text">Continue learning on the web</string>
+    <string name="track_topics_to_discover_next_block_title">Theory to discover next</string>
+    <string name="track_progress_block_title">Progress</string>
 
     <!-- Profile -->
     <string name="profile_title">Profile</string>

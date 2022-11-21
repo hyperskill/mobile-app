@@ -17,7 +17,7 @@ protocol AppViewDelegate: AnyObject {
 
 extension AppView {
     struct Appearance {
-        let backgroundColor = ColorPalette.surface
+        let backgroundColor = UIColor.systemGroupedBackground
     }
 }
 
@@ -84,7 +84,7 @@ extension AppView: ProgrammaticallyInitializableViewProtocol {
         addSubview(loadingIndicator)
 
         let placeholderView = PlaceholderView(
-            configuration: .networkError { [weak self] in
+            configuration: .networkError(backgroundColor: Color(appearance.backgroundColor)) { [weak self] in
                 guard let self else {
                     return
                 }
@@ -93,6 +93,7 @@ extension AppView: ProgrammaticallyInitializableViewProtocol {
             }
         )
         let placeholderHostingController = UIHostingController(rootView: placeholderView)
+        placeholderHostingController.view.backgroundColor = appearance.backgroundColor
         delegate?.appView(self, didRequestAddPlaceholderHostingController: placeholderHostingController)
         addSubview(placeholderHostingController.view)
         self.placeholderHostingController = placeholderHostingController
