@@ -9,6 +9,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.google.android.material.snackbar.Snackbar
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
@@ -16,6 +17,7 @@ import org.hyperskill.app.android.databinding.FragmentHomeBinding
 import org.hyperskill.app.android.problem_of_day.view.delegate.ProblemOfDayCardFormDelegate
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.streak.view.delegate.StreakCardFormDelegate
+import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.home.presentation.HomeFeature
@@ -74,14 +76,14 @@ class HomeFragment :
             startActivity(intent)
         }
 
-//        viewBinding.homeOpenStepButton.setOnClickListener {
-//            val stepId = viewBinding.homeOpenStepInputEditText.text.toString().toLongOrNull()
-//            if (stepId == null) {
-//                view.snackbar("Insert a valid number", Snackbar.LENGTH_SHORT)
-//            } else {
-//                requireRouter().navigateTo(StepScreen(stepId))
-//            }
-//        }
+        viewBinding.homeOpenStepButton.setOnClickListener {
+            val stepId = viewBinding.homeOpenStepInputEditText.text.toString().toLongOrNull()
+            if (stepId == null) {
+                view.snackbar("Insert a valid number", Snackbar.LENGTH_SHORT)
+            } else {
+                requireRouter().navigateTo(StepScreen(stepId))
+            }
+        }
 
         homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = false))
         homeViewModel.onNewMessage(HomeFeature.Message.ViewedEventMessage)
