@@ -2,6 +2,7 @@ package org.hyperskill.app.profile_settings.presentation
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPart
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsClickedHyperskillAnalyticEvent
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsDeleteAccountNoticeHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsDeleteAccountNoticeShownHyperskillAnalyticEvent
@@ -113,13 +114,25 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                 )
             is Message.DeleteAccountNoticeShownEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(ProfileSettingsDeleteAccountNoticeShownHyperskillAnalyticEvent()))
-            is Message.DeleteAccountNoticeHiddenEventMessage ->
-                state to setOf(
-                    Action.LogAnalyticEvent(
-                        ProfileSettingsDeleteAccountNoticeHiddenHyperskillAnalyticEvent(
-                            message.isConfirmed
+            is Message.DeleteAccountNoticeHiddenEventMessage -> {
+                state to buildSet {
+                    if (message.isConfirmed) {
+                        add(Action.GetLink(HyperskillUrlPath.DeleteAccount()))
+                    }
+                    add(
+                        Action.LogAnalyticEvent(
+                            ProfileSettingsDeleteAccountNoticeHiddenHyperskillAnalyticEvent(
+                                message.isConfirmed
+                            )
                         )
                     )
-                )
+                }
+            }
+            is Message.LinkReceived ->
+                state to setOf(Action.ViewAction.FollowLink(message.url))
+            is Message.LinkReceiveFailed -> {
+                //TODO: implement error showing
+                state to emptySet()
+            }
         } ?: (state to emptySet())
 }

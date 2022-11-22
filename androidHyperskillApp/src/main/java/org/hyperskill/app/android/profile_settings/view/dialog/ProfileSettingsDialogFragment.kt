@@ -6,13 +6,13 @@ import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.extensions.launchUrl
 import org.hyperskill.app.android.core.extensions.representation
 import org.hyperskill.app.android.databinding.FragmentProfileSettingsBinding
 import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper
@@ -146,19 +146,12 @@ class ProfileSettingsDialogFragment :
                 .setMessage(R.string.settings_account_deletion_dialog_explanation)
                 .setPositiveButton(R.string.settings_account_deletion_dialog_delete_button_text) { _, _ ->
                     profileSettingsViewModel.onNewMessage(
-                        ProfileSettingsFeature.Message.DeleteAccountNoticeHiddenEventMessage(
-                            true
-                        )
+                        ProfileSettingsFeature.Message.DeleteAccountNoticeHiddenEventMessage(true)
                     )
-
-                    val url = HyperskillUrlBuilder.build(HyperskillUrlPath.DeleteAccount())
-                    openLinkInBrowser(url.toString())
                 }
                 .setNegativeButton(R.string.cancel) { dialog, _ ->
                     profileSettingsViewModel.onNewMessage(
-                        ProfileSettingsFeature.Message.DeleteAccountNoticeHiddenEventMessage(
-                            false
-                        )
+                        ProfileSettingsFeature.Message.DeleteAccountNoticeHiddenEventMessage(false)
                     )
                     dialog.dismiss()
                 }
@@ -172,15 +165,15 @@ class ProfileSettingsDialogFragment :
     }
 
     private fun openLinkInBrowser(link: String) {
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.data = Uri.parse(link)
-        ContextCompat.startActivity(requireContext(), intent, null)
+        requireContext().launchUrl(link)
     }
 
     override fun onAction(action: ProfileSettingsFeature.Action.ViewAction) {
         when (action) {
             is ProfileSettingsFeature.Action.ViewAction.SendFeedback ->
                 sendEmailFeedback(action.feedbackEmailData)
+            is ProfileSettingsFeature.Action.ViewAction.FollowLink ->
+                openLinkInBrowser(action.url)
         }
     }
 

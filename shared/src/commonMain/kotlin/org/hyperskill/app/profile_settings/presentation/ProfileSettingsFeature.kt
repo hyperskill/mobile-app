@@ -1,6 +1,7 @@
 package org.hyperskill.app.profile_settings.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.profile_settings.domain.model.FeedbackEmailData
 import org.hyperskill.app.profile_settings.domain.model.ProfileSettings
 import org.hyperskill.app.profile_settings.domain.model.Theme
@@ -23,6 +24,9 @@ interface ProfileSettingsFeature {
 
         object ClickedSendFeedback : Message
         data class FeedbackEmailDataPrepared(val feedbackEmailData: FeedbackEmailData) : Message
+
+        data class LinkReceived(val url: String) : Message
+        object LinkReceiveFailed : Message
 
         /**
          * Analytic
@@ -52,8 +56,12 @@ interface ProfileSettingsFeature {
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
+        data class GetLink(val path: HyperskillUrlPath) : Action
+
         sealed interface ViewAction : Action {
             data class SendFeedback(val feedbackEmailData: FeedbackEmailData) : ViewAction
+
+            data class FollowLink(val url: String) : ViewAction
 
             sealed interface NavigateTo : ViewAction {
                 object ParentScreen : NavigateTo
