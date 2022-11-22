@@ -1,6 +1,5 @@
 package org.hyperskill.app.home.presentation
 
-import io.ktor.http.fullPath
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 import kotlinx.coroutines.async
@@ -9,22 +8,15 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
-import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.plus
-import kotlinx.datetime.toInstant
-import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.*
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
-import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeFeature.Action
 import org.hyperskill.app.home.presentation.HomeFeature.Message
-import org.hyperskill.app.magic_links.domain.interactor.MagicLinksInteractor
+import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.streak.domain.interactor.StreakInteractor
@@ -37,7 +29,7 @@ class HomeActionDispatcher(
     private val profileInteractor: ProfileInteractor,
     private val stepInteractor: StepInteractor,
     private val analyticInteractor: AnalyticInteractor,
-    private val magicLinksInteractor: MagicLinksInteractor
+    private val urlPathProcessor: UrlPathProcessor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     companion object {
@@ -140,19 +132,14 @@ class HomeActionDispatcher(
         path: HyperskillUrlPath,
         onNewMessage: (Message) -> Unit
     ) {
-        if (magicLinksInteractor.shouldCreateMagicLink(path)) {
-            val redirectUrl = HyperskillUrlBuilder.build(path).fullPath
-            magicLinksInteractor.createMagicLink(redirectUrl)
-                .fold(
-                    onSuccess = { magicLink ->
-                        onNewMessage(Message.LinkReceived(magicLink.url))
-                    },
-                    onFailure = {
-                        onNewMessage(Message.LinkReceiveFailed)
-                    }
-                )
-        } else {
-            onNewMessage(Message.LinkReceived(HyperskillUrlBuilder.build(path).toString()))
-        }
+        urlPathProcessor.processUrlPath(path)
+            .fold(
+                onSuccess = { url ->
+                    onNewMessage(Message.LinkReceived(url))
+                },
+                onFailure = {
+                    onNewMessage(Message.LinkReceiveFailed)
+                }
+            )
     }
 }

@@ -1,30 +1,11 @@
 package org.hyperskill.app.magic_links.domain.interactor
 
-import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.magic_links.domain.model.MagicLink
 import org.hyperskill.app.magic_links.domain.repository.MagicLinksRepository
 
 class MagicLinksInteractor(
     private val magicLinksRepository: MagicLinksRepository
 ) {
-    /**
-     * Checks that **MagicLink** should be created.
-     *
-     * @param nextUrlPath Next redirect url.
-     * @return Returns true if **MagicLink** should be created.
-     * @see MagicLinksInteractor.createMagicLink
-     */
-    fun shouldCreateMagicLink(nextUrlPath: HyperskillUrlPath): Boolean =
-        when (nextUrlPath) {
-            is HyperskillUrlPath.DeleteAccount -> true
-            is HyperskillUrlPath.Index -> true
-            is HyperskillUrlPath.Profile -> true
-            is HyperskillUrlPath.Register -> false
-            is HyperskillUrlPath.ResetPassword -> false
-            is HyperskillUrlPath.StudyPlan -> true
-            is HyperskillUrlPath.Track -> true
-        }
-
     /**
      * Creates authorization link.
      *
