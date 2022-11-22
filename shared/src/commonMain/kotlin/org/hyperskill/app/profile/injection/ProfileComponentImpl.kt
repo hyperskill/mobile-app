@@ -1,6 +1,7 @@
 package org.hyperskill.app.profile.injection
 
 import org.hyperskill.app.core.injection.AppGraph
+import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile.cache.ProfileCacheDataSourceImpl
 import org.hyperskill.app.profile.data.repository.ProfileRepositoryImpl
 import org.hyperskill.app.profile.data.source.ProfileCacheDataSource
@@ -35,10 +36,14 @@ class ProfileComponentImpl(private val appGraph: AppGraph) : ProfileComponent {
     private val streakRepository: StreakRepository = StreakRepositoryImpl(streakRemoteDataSource)
     private val streakInteractor: StreakInteractor = StreakInteractor(streakRepository)
 
+    private val urlPathProcessor: UrlPathProcessor =
+        UrlPathProcessor(appGraph.buildMagicLinksDataComponent().magicLinksInteractor)
+
     override val profileFeature: Feature<ProfileFeature.State, ProfileFeature.Message, ProfileFeature.Action>
         get() = ProfileFeatureBuilder.build(
             profileInteractor,
             streakInteractor,
-            appGraph.analyticComponent.analyticInteractor
+            appGraph.analyticComponent.analyticInteractor,
+            urlPathProcessor
         )
 }

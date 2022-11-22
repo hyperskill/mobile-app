@@ -1,6 +1,8 @@
 package org.hyperskill.app.profile.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
+import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.streak.domain.model.Streak
 
@@ -56,6 +58,11 @@ interface ProfileFeature {
 
         data class StepSolved(val id: Long) : Message
 
+        object ClickedViewFullProfile : Message
+
+        data class LinkReceived(val url: String) : Message
+        object LinkReceiveFailed : Message
+
         /**
          * Analytic
          */
@@ -73,6 +80,10 @@ interface ProfileFeature {
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
-        sealed class ViewAction : Action
+        data class GetLink(val path: HyperskillUrlPath) : Action
+
+        sealed interface ViewAction : Action {
+            data class FollowLink(val url: String) : ViewAction
+        }
     }
 }

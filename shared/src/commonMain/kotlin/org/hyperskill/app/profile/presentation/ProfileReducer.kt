@@ -1,5 +1,6 @@
 package org.hyperskill.app.profile.presentation
 
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.profile.domain.analytic.ProfileClickedDailyStudyRemindsHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.ProfileClickedDailyStudyRemindsTimeHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.ProfileClickedPullToRefreshHyperskillAnalyticEvent
@@ -47,6 +48,18 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
+            is Message.ClickedViewFullProfile -> {
+                if (state is State.Content) {
+                    state to setOf(Action.GetLink(HyperskillUrlPath.Profile(state.profile.id)))
+                } else {
+                    null
+                }
+            }
+            is Message.LinkReceived ->
+                state to setOf(Action.ViewAction.FollowLink(message.url))
+            Message.LinkReceiveFailed ->
+                //TODO: implement error showing
+                state to setOf()
             is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(ProfileViewedHyperskillAnalyticEvent()))
             is Message.ClickedSettingsEventMessage ->

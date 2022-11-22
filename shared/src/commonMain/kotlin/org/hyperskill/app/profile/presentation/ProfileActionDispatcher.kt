@@ -3,7 +3,9 @@ package org.hyperskill.app.profile.presentation
 import kotlinx.coroutines.launch
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.profile.presentation.ProfileFeature.Action
 import org.hyperskill.app.profile.presentation.ProfileFeature.Message
@@ -14,7 +16,8 @@ class ProfileActionDispatcher(
     config: ActionDispatcherOptions,
     private val profileInteractor: ProfileInteractor,
     private val streakInteractor: StreakInteractor,
-    private val analyticInteractor: AnalyticInteractor
+    private val analyticInteractor: AnalyticInteractor,
+    private val urlPathProcessor: UrlPathProcessor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
@@ -57,6 +60,19 @@ class ProfileActionDispatcher(
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
+            is Action.GetLink ->
+                getLink(action.path, ::onNewMessage)
         }
     }
+
+    private suspend fun getLink(path: HyperskillUrlPath, onNewMessage: (Message) -> Unit): Unit =
+        urlPathProcessor.processUrlPath(path)
+            .fold(
+                onSuccess = { url ->
+                    onNewMessage(Message.LinkReceived(url))
+                },
+                onFailure = {
+                    onNewMessage(Message.LinkReceiveFailed)
+                }
+            )
 }

@@ -19,6 +19,7 @@ import java.util.Locale
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.isChannelNotificationsEnabled
+import org.hyperskill.app.android.core.extensions.launchUrl
 import org.hyperskill.app.android.databinding.FragmentProfileBinding
 import org.hyperskill.app.android.notification.injection.PlatformNotificationComponent
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
@@ -106,7 +107,10 @@ class ProfileFragment :
     }
 
     override fun onAction(action: ProfileFeature.Action.ViewAction) {
-        // no op
+        when (action) {
+            is ProfileFeature.Action.ViewAction.FollowLink ->
+                requireContext().launchUrl(action.url)
+        }
     }
 
     override fun render(state: ProfileFeature.State) {
@@ -282,13 +286,10 @@ class ProfileFragment :
     private fun setupProfileBrowserRedirect() {
         viewBinding.profileViewFullVersionTextView.paintFlags = viewBinding.profileViewFullVersionTextView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         viewBinding.profileViewFullVersionTextView.setOnClickListener {
-            profileViewModel.onNewMessage(ProfileFeature.Message.ClickedViewFullProfileEventMessage)
-
-            val intent = Intent(Intent.ACTION_VIEW)
-            val url = HyperskillUrlBuilder.build(HyperskillUrlPath.Profile(profile.id))
-            intent.data = Uri.parse(url.toString())
-
-            startActivity(intent)
+            with(profileViewModel) {
+                onNewMessage(ProfileFeature.Message.ClickedViewFullProfileEventMessage)
+                onNewMessage(ProfileFeature.Message.ClickedViewFullProfile)
+            }
         }
     }
 
