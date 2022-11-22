@@ -267,6 +267,7 @@
 		2CDF14D828EF1E080060D972 /* UINavigationControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDF14D728EF1E080060D972 /* UINavigationControllerExtensions.swift */; };
 		2CDF14DA28EF1EB70060D972 /* StepHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDF14D928EF1EB70060D972 /* StepHostingController.swift */; };
 		2CE1C4DF27EDFB3800220041 /* FeatureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE1C4DE27EDFB3800220041 /* FeatureViewModel.swift */; };
+		2CE1E189292CCB450041FE14 /* UIKitIntrospectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE1E188292CCB450041FE14 /* UIKitIntrospectionView.swift */; };
 		2CE2817927E8EF1E00641E22 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2CE2817827E8EF1E00641E22 /* GoogleService-Info.plist */; };
 		2CE31F4827F1BB79008EEE66 /* AuthSocialAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4727F1BB79008EEE66 /* AuthSocialAssembly.swift */; };
 		2CE31F4B27F1E070008EEE66 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4A27F1E070008EEE66 /* AppViewModel.swift */; };
@@ -646,6 +647,7 @@
 		2CDF14D728EF1E080060D972 /* UINavigationControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationControllerExtensions.swift; sourceTree = "<group>"; };
 		2CDF14D928EF1EB70060D972 /* StepHostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepHostingController.swift; sourceTree = "<group>"; };
 		2CE1C4DE27EDFB3800220041 /* FeatureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureViewModel.swift; sourceTree = "<group>"; };
+		2CE1E188292CCB450041FE14 /* UIKitIntrospectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitIntrospectionView.swift; sourceTree = "<group>"; };
 		2CE2817827E8EF1E00641E22 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2CE31F4727F1BB79008EEE66 /* AuthSocialAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialAssembly.swift; sourceTree = "<group>"; };
 		2CE31F4A27F1E070008EEE66 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
@@ -1722,6 +1724,7 @@
 			isa = PBXGroup;
 			children = (
 				2CBD1918291D399500F5FB0B /* UIKitBounceButton.swift */,
+				2CE1E188292CCB450041FE14 /* UIKitIntrospectionView.swift */,
 				2CBD191C291D3BF400F5FB0B /* UIKitRoundedRectangleButton.swift */,
 			);
 			path = UIKit;
@@ -2596,6 +2599,7 @@
 				2C80D4FD288C4D0D00B2CD1E /* StepQuizCodeFullScreenViewModel.swift in Sources */,
 				E9FB89A32893CCAF0011EFFB /* LocalNotificationProtocol.swift in Sources */,
 				E99D4CED2826A37400B49D52 /* AppAppearance.swift in Sources */,
+				2CE1E189292CCB450041FE14 /* UIKitIntrospectionView.swift in Sources */,
 				2C80D4FF288C4D4400B2CD1E /* StepQuizCodeFullScreenOutputProtocol.swift in Sources */,
 				2C0DB90E286452D9001EA35E /* CodeLanguage.swift in Sources */,
 				2C84094F2805B28B009C6BE9 /* StepRatingControl.swift in Sources */,
