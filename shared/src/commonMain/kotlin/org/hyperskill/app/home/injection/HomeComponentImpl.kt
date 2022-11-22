@@ -4,6 +4,7 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeFeature
+import org.hyperskill.app.magic_links.domain.interactor.MagicLinksInteractor
 import org.hyperskill.app.profile.cache.ProfileCacheDataSourceImpl
 import org.hyperskill.app.profile.data.repository.ProfileRepositoryImpl
 import org.hyperskill.app.profile.data.source.ProfileCacheDataSource
@@ -23,7 +24,7 @@ import org.hyperskill.app.streak.domain.repository.StreakRepository
 import org.hyperskill.app.streak.remote.StreakRemoteDataSourceImpl
 import ru.nobird.app.presentation.redux.feature.Feature
 
-class HomeComponentImpl(appGraph: AppGraph) : HomeComponent {
+class HomeComponentImpl(private val appGraph: AppGraph) : HomeComponent {
     private val streakRemoteDataSource: StreakRemoteDataSource = StreakRemoteDataSourceImpl(
         appGraph.networkComponent.authorizedHttpClient
     )
@@ -52,12 +53,16 @@ class HomeComponentImpl(appGraph: AppGraph) : HomeComponent {
     private val analyticInteractor: AnalyticInteractor =
         appGraph.analyticComponent.analyticInteractor
 
+    private val magicLinksInteractor: MagicLinksInteractor =
+        appGraph.buildMagicLinksDataComponent().magicLinksInteractor
+
     override val homeFeature: Feature<HomeFeature.State, HomeFeature.Message, HomeFeature.Action>
         get() = HomeFeatureBuilder.build(
             analyticInteractor,
             homeInteractor,
             streakInteractor,
             profileInteractor,
-            stepInteractor
+            stepInteractor,
+            magicLinksInteractor
         )
 }

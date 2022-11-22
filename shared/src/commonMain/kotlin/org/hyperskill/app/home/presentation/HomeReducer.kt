@@ -1,5 +1,6 @@
 package org.hyperskill.app.home.presentation
 
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.home.domain.analytic.HomeClickedContinueLearningOnWebHyperskillAnalyticEvent
 import org.hyperskill.app.home.domain.analytic.HomeClickedProblemOfDayCardHyperskillAnalyticEvent
 import org.hyperskill.app.home.domain.analytic.HomeClickedPullToRefreshHyperskillAnalyticEvent
@@ -118,5 +119,17 @@ class HomeReducer : StateReducer<State, Message, Action> {
             }
             is Message.ClickedContinueLearningOnWebEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(HomeClickedContinueLearningOnWebHyperskillAnalyticEvent()))
+            Message.ClickedContinueLearningOnWeb -> {
+                state to setOf(
+                    Action.GetLink(HyperskillUrlPath.Index())
+                )
+            }
+            is Message.LinkReceived -> {
+                state to setOf(Action.ViewAction.FollowUrl(message.url))
+            }
+            is Message.LinkReceiveFailed -> {
+                //TODO: add error showing
+                state to emptySet()
+            }
         } ?: (state to emptySet())
 }

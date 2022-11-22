@@ -1,6 +1,7 @@
 package org.hyperskill.app.home.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.streak.domain.model.Streak
 
@@ -54,6 +55,11 @@ interface HomeFeature {
 
         data class ProblemOfDaySolved(val stepId: Long) : Message
 
+        object ClickedContinueLearningOnWeb : Message
+
+        data class LinkReceived(val url: String) : Message
+        object LinkReceiveFailed : Message
+
         /**
          * Analytic
          */
@@ -66,6 +72,8 @@ interface HomeFeature {
         object FetchHomeScreenData : Action
         object LaunchTimer : Action
 
+        data class GetLink(val path: HyperskillUrlPath) : Action
+
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
         sealed interface ViewAction : Action {
@@ -73,6 +81,7 @@ interface HomeFeature {
                 data class StepScreen(val stepId: Long) : NavigateTo
                 object TopicsRepetitionsScreen : NavigateTo
             }
+            data class FollowUrl(val url: String) : ViewAction
         }
     }
 }
