@@ -1,6 +1,7 @@
 package org.hyperskill.app.track.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.track.domain.model.StudyPlan
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.domain.model.TrackProgress
@@ -54,6 +55,11 @@ interface TrackFeature {
 
         object PullToRefresh : Message
 
+        object ClickedContinueInWeb : Message
+
+        data class LinkReceived(val url: String) : Message
+        object LinkReceiveFailed : Message
+
         /**
          * Analytic
          */
@@ -66,6 +72,10 @@ interface TrackFeature {
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
-        sealed interface ViewAction : Action
+        data class GetLink(val path: HyperskillUrlPath) : Action
+
+        sealed interface ViewAction : Action {
+            data class FollowLink(val url: String) : ViewAction
+        }
     }
 }

@@ -1,6 +1,7 @@
 package org.hyperskill.app.track.injection
 
 import org.hyperskill.app.core.injection.AppGraph
+import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.track.data.repository.TrackRepositoryImpl
 import org.hyperskill.app.track.data.source.TrackRemoteDataSource
 import org.hyperskill.app.track.domain.interactor.TrackInteractor
@@ -16,10 +17,14 @@ class TrackComponentImpl(private val appGraph: AppGraph) : TrackComponent {
     private val trackRepository: TrackRepository = TrackRepositoryImpl(trackRemoteDataSource)
     private val trackInteractor: TrackInteractor = TrackInteractor(trackRepository)
 
+    private val urlPathProcessor: UrlPathProcessor =
+        UrlPathProcessor(appGraph.buildMagicLinksDataComponent().magicLinksInteractor)
+
     override val trackFeature: Feature<TrackFeature.State, TrackFeature.Message, TrackFeature.Action>
         get() = TrackFeatureBuilder.build(
             trackInteractor,
             appGraph.buildProfileDataComponent().profileInteractor,
-            appGraph.analyticComponent.analyticInteractor
+            appGraph.analyticComponent.analyticInteractor,
+            urlPathProcessor
         )
 }

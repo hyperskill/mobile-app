@@ -1,8 +1,6 @@
 package org.hyperskill.app.android.track.view.fragment
 
-import android.content.Intent
 import android.graphics.Paint
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -13,12 +11,10 @@ import coil.ImageLoader
 import coil.decode.SvgDecoder
 import coil.load
 import coil.size.Scale
-import kotlin.math.roundToInt
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.extensions.launchUrl
 import org.hyperskill.app.android.databinding.FragmentTrackBinding
-import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
-import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.track.domain.model.StudyPlan
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.domain.model.TrackProgress
@@ -27,6 +23,7 @@ import org.hyperskill.app.track.presentation.TrackViewModel
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
+import kotlin.math.roundToInt
 
 class TrackFragment :
     Fragment(R.layout.fragment_track),
@@ -78,7 +75,10 @@ class TrackFragment :
     }
 
     override fun onAction(action: TrackFeature.Action.ViewAction) {
-        // no op
+        when (action) {
+            is TrackFeature.Action.ViewAction.FollowLink ->
+                requireContext().launchUrl(action.url)
+        }
     }
 
     override fun render(state: TrackFeature.State) {
@@ -186,13 +186,10 @@ class TrackFragment :
 
             trackAboutKeepYourProgressInWebTextView.paintFlags = trackAboutKeepYourProgressInWebTextView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
             trackAboutKeepYourProgressInWebTextView.setOnClickListener {
-                trackViewModel.onNewMessage(TrackFeature.Message.ClickedContinueInWebEventMessage)
-
-                val intent = Intent(Intent.ACTION_VIEW)
-                val url = HyperskillUrlBuilder.build(HyperskillUrlPath.StudyPlan())
-                intent.data = Uri.parse(url.toString())
-
-                startActivity(intent)
+                with(trackViewModel) {
+                    onNewMessage(TrackFeature.Message.ClickedContinueInWebEventMessage)
+                    onNewMessage(TrackFeature.Message.ClickedContinueInWeb)
+                }
             }
         }
     }

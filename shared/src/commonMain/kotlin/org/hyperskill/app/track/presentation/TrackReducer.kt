@@ -1,5 +1,6 @@
 package org.hyperskill.app.track.presentation
 
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.track.domain.analytic.TrackClickedContinueInWebHyperskillAnalyticEvent
 import org.hyperskill.app.track.domain.analytic.TrackClickedPullToRefreshHyperskillAnalyticEvent
 import org.hyperskill.app.track.domain.analytic.TrackViewedHyperskillAnalyticEvent
@@ -36,5 +37,12 @@ class TrackReducer : StateReducer<State, Message, Action> {
                 state to setOf(Action.LogAnalyticEvent(TrackViewedHyperskillAnalyticEvent()))
             is Message.ClickedContinueInWebEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(TrackClickedContinueInWebHyperskillAnalyticEvent()))
+            Message.ClickedContinueInWeb ->
+                state to setOf(Action.GetLink(HyperskillUrlPath.StudyPlan()))
+            is Message.LinkReceived ->
+                state to setOf(Action.ViewAction.FollowLink(message.url))
+            Message.LinkReceiveFailed ->
+                //TODO: implement error showing
+                state to emptySet()
         } ?: (state to emptySet())
 }
