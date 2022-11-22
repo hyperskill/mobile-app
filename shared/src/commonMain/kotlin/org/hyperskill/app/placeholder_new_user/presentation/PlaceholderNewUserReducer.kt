@@ -1,5 +1,6 @@
 package org.hyperskill.app.placeholder_new_user.presentation
 
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.placeholder_new_user.domain.analytic.PlaceholderNewUserClickedContinueHyperskillAnalyticEvent
 import org.hyperskill.app.placeholder_new_user.domain.analytic.PlaceholderNewUserClickedSignInHyperskillAnalyticEvent
 import org.hyperskill.app.placeholder_new_user.domain.analytic.PlaceholderNewUserViewedHyperskillAnalyticEvent
@@ -22,5 +23,12 @@ class PlaceholderNewUserReducer : StateReducer<State, Message, Action> {
                 state to setOf(Action.LogAnalyticEvent(PlaceholderNewUserViewedHyperskillAnalyticEvent()))
             is Message.ClickedContinueEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(PlaceholderNewUserClickedContinueHyperskillAnalyticEvent()))
+            Message.ClickedContinueOnWeb ->
+                state to setOf(Action.GetLink(HyperskillUrlPath.Index()))
+            is Message.LinkReceived ->
+                state to setOf(Action.ViewAction.FollowUrl(message.url))
+            Message.LinkReceiveFailed ->
+                //TODO: implement error showing
+                state to setOf()
         }
 }

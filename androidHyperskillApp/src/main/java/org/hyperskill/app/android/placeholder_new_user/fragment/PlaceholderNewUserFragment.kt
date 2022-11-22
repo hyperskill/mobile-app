@@ -1,7 +1,5 @@
 package org.hyperskill.app.android.placeholder_new_user.fragment
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -10,10 +8,9 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthScreen
+import org.hyperskill.app.android.core.extensions.launchUrl
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentPlaceholderNewUserScreenBinding
-import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
-import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserViewModel
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -51,13 +48,10 @@ class PlaceholderNewUserFragment :
         super.onViewCreated(view, savedInstanceState)
 
         viewBinding.placeholderContinueToHyperskillButton.setOnClickListener {
-            placeholderNewUserViewModel.onNewMessage(PlaceholderNewUserFeature.Message.ClickedContinueEventMessage)
-
-            val intent = Intent(Intent.ACTION_VIEW)
-            val url = HyperskillUrlBuilder.build(HyperskillUrlPath.Index())
-            intent.data = Uri.parse(url.toString())
-
-            startActivity(intent)
+            with(placeholderNewUserViewModel) {
+                onNewMessage(PlaceholderNewUserFeature.Message.ClickedContinueEventMessage)
+                onNewMessage(PlaceholderNewUserFeature.Message.ClickedContinueOnWeb)
+            }
         }
 
         viewBinding.placeholderSignInButton.setOnClickListener {
@@ -71,6 +65,8 @@ class PlaceholderNewUserFragment :
         when (action) {
             PlaceholderNewUserFeature.Action.ViewAction.NavigateTo.AuthScreen ->
                 requireRouter().newRootScreen(AuthScreen)
+            is PlaceholderNewUserFeature.Action.ViewAction.FollowUrl ->
+                requireContext().launchUrl(action.url)
         }
     }
 
