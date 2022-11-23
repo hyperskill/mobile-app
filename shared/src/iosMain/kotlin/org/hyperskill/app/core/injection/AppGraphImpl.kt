@@ -86,7 +86,8 @@ class AppGraphImpl(
             commonComponent,
             authComponent,
             buildProfileDataComponent(),
-            analyticComponent
+            analyticComponent,
+            buildMagicLinksDataComponent()
         )
 
     override fun buildStepComponent(): StepComponent =

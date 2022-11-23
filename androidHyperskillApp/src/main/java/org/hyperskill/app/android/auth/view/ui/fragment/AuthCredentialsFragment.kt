@@ -1,7 +1,5 @@
 package org.hyperskill.app.android.auth.view.ui.fragment
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
@@ -15,10 +13,12 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import io.sentry.Breadcrumb
 import io.sentry.Sentry
 import io.sentry.SentryLevel
+import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthFlow
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthSocialScreen
+import org.hyperskill.app.android.core.extensions.launchUrl
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
@@ -27,12 +27,11 @@ import org.hyperskill.app.android.sentry.domain.model.SentryBreadcrumbKeyValues
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature
 import org.hyperskill.app.auth.presentation.AuthCredentialsViewModel
 import org.hyperskill.app.auth.view.mapper.AuthCredentialsErrorMapper
-import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
-import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.addKeyboardVisibilityListener
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
+import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -95,19 +94,14 @@ class AuthCredentialsFragment :
             authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.SubmitFormClicked)
         }
         viewBinding.signInWithEmailResetPasswordTextButton.setOnClickListener {
-            authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.ClickedResetPasswordEventMessage)
+            with(authCredentialsViewModel) {
+                onNewMessage(AuthCredentialsFeature.Message.ClickedResetPasswordEventMessage)
+                onNewMessage(AuthCredentialsFeature.Message.ClickedResetPassword)
+            }
         }
         viewBinding.signInWithSocialMaterialButton.setOnClickListener {
             authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.ClickedContinueWithSocialEventMessage)
             requireRouter().backTo(AuthSocialScreen)
-        }
-
-        viewBinding.signInWithEmailResetPasswordTextButton.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW)
-            val url = HyperskillUrlBuilder.build(HyperskillUrlPath.ResetPassword())
-            intent.data = Uri.parse(url.toString())
-
-            startActivity(intent)
         }
 
         viewBinding.root.addKeyboardVisibilityListener { isVisible ->
@@ -148,19 +142,24 @@ class AuthCredentialsFragment :
 
                 Sentry.captureMessage("AuthCredentials: ${action.error}", SentryLevel.ERROR)
             }
+            is AuthCredentialsFeature.Action.ViewAction.FollowLink ->
+                requireContext().launchUrl(action.url)
+            AuthCredentialsFeature.Action.ViewAction.ShowFollowLinkError ->
+                viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
         }
     }
 
     override fun render(state: AuthCredentialsFeature.State) {
         viewStateDelegate.switchState(state.formState)
-        renderFormState(state.formState)
+        renderFormState(state)
         viewBinding.emailEditText.setTextIfChanged(state.email)
         viewBinding.passwordEditText.setTextIfChanged(state.password)
     }
 
-    private fun renderFormState(formState: AuthCredentialsFeature.FormState) {
+    private fun renderFormState(state: AuthCredentialsFeature.State) {
+        val formState = state.formState
         viewStateDelegate.switchState(formState)
-        if (formState is AuthCredentialsFeature.FormState.Loading) {
+        if (formState is AuthCredentialsFeature.FormState.Loading || state.isLinkLoadingShown) {
             loadingProgressDialogFragment.showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
         } else {
             loadingProgressDialogFragment.dismissIfExists(childFragmentManager, LoadingProgressDialogFragment.TAG)

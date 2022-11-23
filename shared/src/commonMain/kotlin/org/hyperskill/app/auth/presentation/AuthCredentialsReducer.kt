@@ -8,6 +8,7 @@ import org.hyperskill.app.auth.domain.model.AuthCredentialsError
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.Action
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.Message
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.State
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 class AuthCredentialsReducer : StateReducer<State, Message, Action> {
@@ -48,6 +49,15 @@ class AuthCredentialsReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
+            }
+            is Message.ClickedResetPassword -> {
+                state.copy(isLinkLoadingShown = true) to setOf(Action.GetLink(HyperskillUrlPath.ResetPassword()))
+            }
+            is Message.LinkReceived -> {
+                state.copy(isLinkLoadingShown = false) to setOf(Action.ViewAction.FollowLink(message.url))
+            }
+            is Message.LinkReceiveFailed -> {
+                state.copy(isLinkLoadingShown = false) to setOf(Action.ViewAction.ShowFollowLinkError)
             }
             is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(AuthCredentialsViewedHyperskillAnalyticEvent()))

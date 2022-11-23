@@ -142,7 +142,8 @@ class AndroidAppComponentImpl(
             commonComponent,
             authComponent,
             buildProfileDataComponent(),
-            analyticComponent
+            analyticComponent,
+            buildMagicLinksDataComponent()
         )
 
     override fun buildPlatformAuthCredentialsComponent(authCredentialsComponent: AuthCredentialsComponent): PlatformAuthCredentialsComponent =
