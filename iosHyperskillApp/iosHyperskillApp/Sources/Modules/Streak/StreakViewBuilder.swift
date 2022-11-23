@@ -29,16 +29,14 @@ final class StreakViewBuilder {
         switch viewType {
         case .plain:
             StreakView(
-                currentStreak: Int(streak.currentStreak),
+                isNewStreakRecord: streak.isNewRecord,
                 currentStreakCountString: currentStreakCountString,
-                maxStreak: Int(streak.maxStreak),
                 daysStates: daysStates
             )
         case .card:
             StreakCardView(
-                currentStreak: Int(streak.currentStreak),
+                isNewStreakRecord: streak.isNewRecord,
                 currentStreakCountString: currentStreakCountString,
-                maxStreak: Int(streak.maxStreak),
                 daysStates: daysStates
             )
         }

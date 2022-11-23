@@ -21,6 +21,7 @@ struct OutlineButtonStyle: ButtonStyle {
             .foregroundColor(foregroundColor)
             .font(font)
             .frame(maxWidth: maxWidth, minHeight: minHeight, alignment: alignment)
+            .contentShape(RoundedRectangle(cornerRadius: cornerRadius)) // Increase tap area for user interaction
             .padding(.horizontal)
             .overlay(RoundedRectangle(cornerRadius: cornerRadius).stroke(borderColor, lineWidth: borderWidth))
             .scaleEffect(configuration.isPressed ? bounceScale : 1)

@@ -1,3 +1,4 @@
+import CombineSchedulers
 import SwiftUI
 import UIKit
 
@@ -56,12 +57,16 @@ extension SwiftUIProcessedContentView {
 
         var onOpenLink: ((URL) -> Void)?
 
+        let mainScheduler: AnySchedulerOf<RunLoop> = .main
+
         func processedContentViewDidLoadContent(_ view: ProcessedContentView) {
             self.onContentLoaded?()
         }
 
         func processedContentView(_ view: ProcessedContentView, didReportNewHeight height: Int) {
-            self.onHeightUpdated?(height)
+            mainScheduler.schedule {
+                self.onHeightUpdated?(height)
+            }
         }
 
         func processedContentView(_ view: ProcessedContentView, didOpenImageURL url: URL) {

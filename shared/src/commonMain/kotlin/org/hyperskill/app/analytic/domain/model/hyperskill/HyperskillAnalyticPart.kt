@@ -16,4 +16,5 @@ enum class HyperskillAnalyticPart(val partName: String) {
     TOPICS_REPETITIONS_CARD("topics_repetitions_card"),
     DAILY_NOTIFICATIONS_NOTICE("daily_notifications_notice"),
     STEP_HINTS("step_hints"),
+    THEORY_TO_DISCOVER_NEXT("theory_to_discover_next"),
 }
