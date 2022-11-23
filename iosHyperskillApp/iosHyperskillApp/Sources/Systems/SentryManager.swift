@@ -16,6 +16,7 @@ final class SentryManager: shared.SentryManager {
 
             options.enableAutoPerformanceTracking = true
             options.enableUIViewControllerTracking = true
+            options.enableOutOfMemoryTracking = false
 
             #if DEBUG
             options.debug = true
