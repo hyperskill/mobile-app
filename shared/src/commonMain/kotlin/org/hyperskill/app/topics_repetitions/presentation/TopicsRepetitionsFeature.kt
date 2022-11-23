@@ -1,6 +1,7 @@
 package org.hyperskill.app.topics_repetitions.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.topics_repetitions.view.model.TopicToRepeat
 import org.hyperskill.app.topics_repetitions.domain.model.TopicsRepetitions
 
@@ -61,6 +62,7 @@ interface TopicsRepetitionsFeature {
 
         data class FetchNextTopics(val topicsRepetitions: TopicsRepetitions) : Action
 
+        object UpdateCurrentProfile : Action
         /**
          * Logging analytic event action
          *
@@ -73,6 +75,10 @@ interface TopicsRepetitionsFeature {
              * Shows snackbar with error message
              */
             object ShowNetworkError : ViewAction
+
+            sealed interface NavigateTo : ViewAction {
+                data class StepScreen(val stepId: Long, val topicId: Long) : NavigateTo
+            }
         }
     }
 }

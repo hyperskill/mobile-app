@@ -7,6 +7,7 @@ import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitions
 import org.hyperskill.app.topics_repetitions.domain.repository.TopicsRepetitionsRepository
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature
 import org.hyperskill.app.topics_repetitions.remote.TopicsRepetitionsRemoteDataSourceImpl
+import org.hyperskill.app.topics_repetitions.view.mapper.TopicsRepetitionsViewDataMapper
 import ru.nobird.app.presentation.redux.feature.Feature
 
 class TopicsRepetitionsComponentImpl(private val appGraph: AppGraph) : TopicsRepetitionsComponent {
@@ -26,4 +27,6 @@ class TopicsRepetitionsComponentImpl(private val appGraph: AppGraph) : TopicsRep
             appGraph.buildProfileDataComponent().profileInteractor,
             appGraph.analyticComponent.analyticInteractor
         )
+    override val topicsRepetitionsViewDataMapper: TopicsRepetitionsViewDataMapper
+        get() = TopicsRepetitionsViewDataMapper(appGraph.commonComponent.resourceProvider)
 }

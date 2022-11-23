@@ -1,55 +1,55 @@
+import shared
 import SwiftUI
 
 struct TopicsRepetitionsRepeatBlock: View {
-    #warning("create necessary structure in shared module")
-    private let data: [(String, [String])] = [
-        ("Python Core",
-        [
-            "Variables",
-            "Quotes and multi-line strings",
-            "Basic data types"
-        ]),
-        ("other tracks",
-        [
-            "Variables",
-            "Classes",
-            "Basic data types"
-        ])
-    ]
+    let repeatBlockTitle: String
 
-    let topicsToRepeatCount: Int
+    let trackTopicsTitle: String
+
+    let topicsToRepeat: [(Int, String, () -> Void)]
+
+    let showMoreButtonState: ShowMoreButtonState
+
+    let onShowMoreButtonTap: () -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.largeInset) {
-            #warning("Implement formatting in shared module")
-            Text("\(Strings.TopicsRepetitions.RepeatBlock.title) \(topicsToRepeatCount)")
+            Text(repeatBlockTitle)
                 .font(.title3)
                 .foregroundColor(.primaryText)
                 .bold()
 
-            ForEach(data, id: \.0) { (track, topics) in
-                #warning("Implement formatting in shared module")
-                Text("\(Strings.TopicsRepetitions.RepeatBlock.currentTrack) \(track)")
-                    .font(.subheadline)
-                    .foregroundColor(.secondaryText)
+            Text(trackTopicsTitle)
+                .font(.subheadline)
+                .foregroundColor(.secondaryText)
 
-                VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
-                    ForEach(topics, id: \.self) { topic in
-                        Button(
-                            action: {
-                                #warning("implement navigation to step quiz")
-                            },
-                            label: {
-                                Text(topic)
-                                    .font(.body)
-                                    .foregroundColor(.primaryText)
-                            }
-                        )
-                        .buttonStyle(OutlineButtonStyle(borderColor: .border, alignment: .leading))
-                    }
+            VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
+                ForEach(topicsToRepeat, id: \.0) { (_, topic, onTap) in
+                    Button(
+                        action: {
+                            onTap()
+                        },
+                        label: {
+                            Text(topic)
+                                .font(.body)
+                                .foregroundColor(.primaryText)
+                        }
+                    )
+                    .buttonStyle(OutlineButtonStyle(borderColor: .border, alignment: .leading))
                 }
+            }
 
-                ShowMoreButton {}
+            switch showMoreButtonState {
+            case ShowMoreButtonState.available:
+                ShowMoreButton {
+                    onShowMoreButtonTap()
+                }
+            case ShowMoreButtonState.loading:
+                ProgressView()
+            case ShowMoreButtonState.empty:
+                EmptyView()
+            default:
+                Text("Unkwown state")
             }
         }
         .padding()
@@ -59,7 +59,17 @@ struct TopicsRepetitionsRepeatBlock: View {
 
 struct TopicsRepetitionsRepeatBlock_Previews: PreviewProvider {
     static var previews: some View {
-        TopicsRepetitionsRepeatBlock(topicsToRepeatCount: 4)
-            .previewLayout(.sizeThatFits)
+        TopicsRepetitionsRepeatBlock(
+            repeatBlockTitle: "All 8 topics to repeat",
+            trackTopicsTitle: "Topics from track Python Core",
+            topicsToRepeat: [
+                (1, "Variables", {}),
+                (2, "Quotes and multi-line strings", {}),
+                (3, "Basic data types", {})
+            ],
+            showMoreButtonState: ShowMoreButtonState.available,
+            onShowMoreButtonTap: {}
+        )
+        .previewLayout(.sizeThatFits)
     }
 }

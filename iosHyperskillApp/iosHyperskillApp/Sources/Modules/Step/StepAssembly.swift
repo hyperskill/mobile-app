@@ -4,8 +4,11 @@ import SwiftUI
 final class StepAssembly: UIKitAssembly {
     private let stepID: Int
 
-    init(stepID: Int) {
+    private let onQuizCompleted: (() -> Void)?
+
+    init(stepID: Int, onQuizCompleted: (() -> Void)? = nil) {
         self.stepID = stepID
+        self.onQuizCompleted = onQuizCompleted
     }
 
     func makeModule() -> UIViewController {
@@ -23,7 +26,11 @@ final class StepAssembly: UIKitAssembly {
         )
 
         let modalRouter = SwiftUIModalRouter()
-        let stepView = StepView(viewModel: viewModel, modalRouter: modalRouter)
+        let stepView = StepView(
+            viewModel: viewModel,
+            modalRouter: modalRouter,
+            onQuizCompleted: onQuizCompleted
+        )
         let hostingController = StepHostingController(rootView: stepView)
 
         modalRouter.rootViewController = hostingController

@@ -126,15 +126,9 @@ struct HomeView: View {
                 let assembly = StepAssembly(stepID: Int(data.stepId))
                 pushRouter.pushViewController(assembly.makeModule())
             case .topicsRepetitionsScreen:
-                if case .content(let data) = viewModel.stateKs {
-                    pushRouter.pushViewController(
-                        TopicsRepetitionsHostingController(
-                            rootView: TopicsRepetitionsView(
-                                topicsToRepeatCount: Int(data.recommendedRepetitionsCount)
-                            )
-                        )
-                    )
-                }
+                pushRouter.pushViewController(
+                    TopicsRepetitionsAssembly(pushRouter: pushRouter).makeModule()
+                )
             }
         }
     }

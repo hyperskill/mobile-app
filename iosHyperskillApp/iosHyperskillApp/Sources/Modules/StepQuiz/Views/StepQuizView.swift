@@ -20,6 +20,8 @@ struct StepQuizView: View {
 
     @Environment(\.presentationMode) private var presentationMode
 
+    let onQuizCompleted: (() -> Void)?
+
     var body: some View {
         ZStack {
             UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
@@ -254,7 +256,9 @@ struct StepQuizView: View {
             default:
                 break
             }
-        case is StepQuizFeatureActionViewActionNavigateToHomeScreen:
+        case is StepQuizFeatureActionViewActionProcessCorrectSubmission:
+            onQuizCompleted?()
+        case is StepQuizFeatureActionViewActionNavigateToBack:
             presentationMode.wrappedValue.dismiss()
         default:
             print("StepQuizView :: unhandled viewAction = \(viewAction)")

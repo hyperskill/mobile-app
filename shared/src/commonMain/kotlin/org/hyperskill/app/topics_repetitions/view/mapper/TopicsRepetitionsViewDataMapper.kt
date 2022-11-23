@@ -11,11 +11,7 @@ class TopicsRepetitionsViewDataMapper(
 ) {
     fun mapStateToViewData(state: TopicsRepetitionsFeature.State.Content): TopicsRepetitionsViewData =
         TopicsRepetitionsViewData(
-            recommendedTopicsToRepeatCount = state.recommendedTopicsToRepeatCount.toString(),
-            recommendedTopicsToRepeatText = resourceProvider.getQuantityString(
-                SharedResources.plurals.topics_to_repeat_today,
-                state.recommendedTopicsToRepeatCount
-            ),
+            recommendedTopicsToRepeatCount = state.recommendedTopicsToRepeatCount,
             repeatButtonText = if (state.topicsToRepeat.isNotEmpty()) {
                 resourceProvider.getString(
                     SharedResources.strings.topics_repetitions_repeat_button_text,
@@ -23,12 +19,13 @@ class TopicsRepetitionsViewDataMapper(
                 )
             } else null,
             chartData = state.topicsRepetitions.repetitionsByCount.mapKeys {
-                resourceProvider.getQuantityString(SharedResources.plurals.times, it.key.toInt())
-            },
+                resourceProvider.getQuantityString(SharedResources.plurals.times, it.key.toInt(), it.key.toInt())
+            }.toList(),
             chartDescription = resourceProvider.getString(
                 SharedResources.strings.topics_repetitions_chart_description,
                 resourceProvider.getQuantityString(
                     SharedResources.plurals.topics,
+                    state.topicsRepetitions.repetitionsByCount.values.sum(),
                     state.topicsRepetitions.repetitionsByCount.values.sum()
                 )
             ),
@@ -36,6 +33,7 @@ class TopicsRepetitionsViewDataMapper(
                 SharedResources.strings.topics_repetitions_repeat_block_title,
                 resourceProvider.getQuantityString(
                     SharedResources.plurals.topics,
+                    state.topicsRepetitions.repetitions.count() + state.topicsToRepeat.count(),
                     state.topicsRepetitions.repetitions.count() + state.topicsToRepeat.count()
                 )
             ),

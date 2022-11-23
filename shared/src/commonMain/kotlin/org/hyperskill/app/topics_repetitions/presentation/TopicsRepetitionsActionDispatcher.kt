@@ -1,6 +1,7 @@
 package org.hyperskill.app.topics_repetitions.presentation
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Action
@@ -38,19 +39,20 @@ class TopicsRepetitionsActionDispatcher(
                         return
                     }
 
-                val profile = profileInteractor
+                val currentProfile = profileInteractor
                     .getCurrentProfile()
                     .getOrElse {
                         onNewMessage(Message.TopicsRepetitionsLoaded.Error)
                         return
                     }
 
+
                 onNewMessage(
                     Message.TopicsRepetitionsLoaded.Success(
                         topicsRepetitions = topicsRepetitions.copy(repetitions = remainingRepetitions),
                         topicsToRepeat = topicsToRepeat,
-                        recommendedTopicsToRepeatCount = profile.gamification.topicsRepetitions.repetitionsCount ?: 0,
-                        trackTitle = profile.trackTitle ?: ""
+                        recommendedTopicsToRepeatCount = currentProfile.recommendedRepetitionsCount,
+                        trackTitle = currentProfile.trackTitle ?: ""
                     )
                 )
             }
@@ -68,6 +70,8 @@ class TopicsRepetitionsActionDispatcher(
                     )
                 )
             }
+            is Action.UpdateCurrentProfile ->
+                profileInteractor.getCurrentProfile(DataSourceType.REMOTE)
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
         }

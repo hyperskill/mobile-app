@@ -135,7 +135,7 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 if (state is State.AttemptLoaded) {
                     state.copy(
                         submissionState = StepQuizFeature.SubmissionState.Loaded(message.submission)
-                    ) to emptySet()
+                    ) to if (message.submission.status == SubmissionStatus.CORRECT) setOf() else emptySet()
                 } else {
                     null
                 }
@@ -150,7 +150,7 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
             is Message.ContinueClicked ->
                 if (state is State.AttemptLoaded) {
                     val analyticEvent = StepQuizClickedContinueHyperskillAnalyticEvent(resolveAnalyticRoute(state))
-                    state to setOf(Action.LogAnalyticEvent(analyticEvent), Action.ViewAction.NavigateTo.HomeScreen)
+                    state to setOf(Action.LogAnalyticEvent(analyticEvent), Action.ViewAction.NavigateTo.Back)
                 } else {
                     null
                 }

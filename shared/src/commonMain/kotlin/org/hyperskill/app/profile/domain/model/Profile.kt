@@ -1,7 +1,10 @@
 package org.hyperskill.app.profile.domain.model
 
+import kotlinx.datetime.Clock
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import org.hyperskill.app.home.presentation.HomeActionDispatcher
+import kotlin.math.min
 
 @Serializable
 data class Profile(
@@ -99,4 +102,13 @@ data class Profile(
     val isicName: String,
     @SerialName("isic_status")
     val isicStatus: Long
-)
+) {
+    val recommendedRepetitionsCount: Int
+        get() {
+            val recommendedRepetitionsPerDay = 5
+            val repetitionsCount = gamification.topicsRepetitions.repetitionsCount ?: 0
+            val repeatedTodayCount = gamification.topicsRepetitions.repeatedTodayCount ?: 0
+            val repetitionsLeft = recommendedRepetitionsPerDay - repeatedTodayCount
+            return if (repetitionsLeft > 0) min(repetitionsLeft, repetitionsCount) else 0
+        }
+}

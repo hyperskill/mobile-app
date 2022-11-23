@@ -61,7 +61,7 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                     state.copy(
                         topicsToRepeat = state.topicsToRepeat.filter { it.topicId != message.topicId },
                         recommendedTopicsToRepeatCount = max(state.recommendedTopicsToRepeatCount.dec(), 0)
-                    ) to emptySet()
+                    ) to setOf(Action.UpdateCurrentProfile)
                 } else {
                     null
                 }

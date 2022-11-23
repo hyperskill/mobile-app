@@ -39,8 +39,6 @@ class HomeActionDispatcher(
     companion object {
         private val DELAY_ONE_MINUTE = 1.toDuration(DurationUnit.MINUTES)
 
-        private const val RECOMMENDED_REPETITIONS_PER_DAY = 5
-
         fun calculateNextProblemIn(): Long {
             val tzNewYork = TimeZone.of("America/New_York")
             val nowInNewYork = Clock.System.now().toLocalDateTime(tzNewYork).toInstant(tzNewYork)
@@ -48,12 +46,6 @@ class HomeActionDispatcher(
             val startOfTomorrow =
                 LocalDateTime(tomorrowInNewYork.year, tomorrowInNewYork.month, tomorrowInNewYork.dayOfMonth, 0, 0, 0, 0)
             return (startOfTomorrow.toInstant(tzNewYork) - nowInNewYork).inWholeSeconds
-        }
-
-        private fun getRecommendedRepetitionsCount(repetitionsCount: Int, repeatedTodayCount: Int): Int {
-            val repetitionsLeft = RECOMMENDED_REPETITIONS_PER_DAY - repeatedTodayCount
-
-            return if (repetitionsLeft > 0) min(repetitionsLeft, repetitionsCount) else 0
         }
     }
 
@@ -99,16 +91,11 @@ class HomeActionDispatcher(
                     return
                 }
 
-                val recommendedRepetitionsCount = getRecommendedRepetitionsCount(
-                    currentProfile.gamification.topicsRepetitions.repetitionsCount ?: 0,
-                    currentProfile.gamification.topicsRepetitions.repeatedTodayCount ?: 0
-                )
-
                 onNewMessage(
                     Message.HomeSuccess(
                         streak = currentProfileStreaks.firstOrNull(),
                         problemOfDayState = problemOfDayState,
-                        recommendedRepetitionsCount = recommendedRepetitionsCount
+                        recommendedRepetitionsCount = currentProfile.recommendedRepetitionsCount
                     )
                 )
                 onNewMessage(Message.ReadyToLaunchNextProblemInTimer)
