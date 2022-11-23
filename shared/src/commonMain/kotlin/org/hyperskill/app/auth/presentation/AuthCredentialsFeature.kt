@@ -2,6 +2,7 @@ package org.hyperskill.app.auth.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.auth.domain.model.AuthCredentialsError
+import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcrumb
 
 interface AuthCredentialsFeature {
     data class State(
@@ -37,9 +38,14 @@ interface AuthCredentialsFeature {
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
+        /**
+         * Sentry
+         */
+        data class AddSentryBreadcrumb(val breadcrumb: HyperskillSentryBreadcrumb) : Action
+        data class CaptureSentryException(val throwable: Throwable) : Action
+
         sealed interface ViewAction : Action {
             data class CompleteAuthFlow(val isNewUser: Boolean) : ViewAction
-            data class CaptureError(val error: Throwable) : ViewAction
         }
     }
 }

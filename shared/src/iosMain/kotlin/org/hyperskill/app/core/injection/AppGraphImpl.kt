@@ -42,6 +42,9 @@ import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponentImpl
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
+import org.hyperskill.app.sentry.domain.model.manager.SentryManager
+import org.hyperskill.app.sentry.injection.SentryComponent
+import org.hyperskill.app.sentry.injection.SentryComponentImpl
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step.injection.StepComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
@@ -59,10 +62,11 @@ import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
 
 class AppGraphImpl(
     userAgentInfo: UserAgentInfo,
-    buildVariant: BuildVariant
+    buildVariant: BuildVariant,
+    sentryManager: SentryManager
 ) : iOSAppComponent {
     override val commonComponent: CommonComponent =
-        CommonComponentImpl(userAgentInfo, buildVariant)
+        CommonComponentImpl(userAgentInfo, buildVariant, sentryManager)
 
     override val networkComponent: NetworkComponent =
         NetworkComponentImpl(this)
@@ -75,6 +79,9 @@ class AppGraphImpl(
 
     override val analyticComponent: AnalyticComponent =
         AnalyticComponentImpl(this)
+
+    override val sentryComponent: SentryComponent =
+        SentryComponentImpl(this)
 
     override val mainComponent: MainComponent =
         MainComponentImpl(this)
@@ -92,7 +99,8 @@ class AppGraphImpl(
             commonComponent,
             authComponent,
             buildProfileDataComponent(),
-            analyticComponent
+            analyticComponent,
+            sentryComponent
         )
 
     override fun buildStepComponent(): StepComponent =

@@ -47,10 +47,6 @@ final class AuthCredentialsViewModel: FeatureViewModel<
         moduleOutput?.handleUserAuthorized(isNewUser: isNewUser)
     }
 
-    func logAuthErrorToSentry(_ error: KotlinThrowable) {
-        SentryManager.captureErrorMessage("AuthCredentials: \(String(describing: error))")
-    }
-
     // MARK: Analytic
 
     func logViewedEvent() {

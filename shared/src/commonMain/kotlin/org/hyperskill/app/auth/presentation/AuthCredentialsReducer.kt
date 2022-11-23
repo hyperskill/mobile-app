@@ -8,6 +8,7 @@ import org.hyperskill.app.auth.domain.model.AuthCredentialsError
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.Action
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.Message
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.State
+import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcrumbBuilder
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 class AuthCredentialsReducer : StateReducer<State, Message, Action> {
@@ -24,11 +25,26 @@ class AuthCredentialsReducer : StateReducer<State, Message, Action> {
                 if (state.formState is AuthCredentialsFeature.FormState.Editing || state.formState is AuthCredentialsFeature.FormState.Error) {
                     when {
                         state.email.isBlank() ->
-                            state.copy(formState = AuthCredentialsFeature.FormState.Error(AuthCredentialsError.ERROR_EMAIL_EMPTY)) to emptySet()
+                            state.copy(formState = AuthCredentialsFeature.FormState.Error(AuthCredentialsError.ERROR_EMAIL_EMPTY)) to setOf(
+                                Action.AddSentryBreadcrumb(
+                                    HyperskillSentryBreadcrumbBuilder.buildAuthCredentialsSignInFailed(
+                                        preconditionCheckFormStateError = AuthCredentialsError.ERROR_EMAIL_EMPTY
+                                    )
+                                )
+                            )
                         state.password.isBlank() ->
-                            state.copy(formState = AuthCredentialsFeature.FormState.Error(AuthCredentialsError.ERROR_PASSWORD_EMPTY)) to emptySet()
+                            state.copy(formState = AuthCredentialsFeature.FormState.Error(AuthCredentialsError.ERROR_PASSWORD_EMPTY)) to setOf(
+                                Action.AddSentryBreadcrumb(
+                                    HyperskillSentryBreadcrumbBuilder.buildAuthCredentialsSignInFailed(
+                                        preconditionCheckFormStateError = AuthCredentialsError.ERROR_PASSWORD_EMPTY
+                                    )
+                                )
+                            )
                         else ->
-                            state.copy(formState = AuthCredentialsFeature.FormState.Loading) to setOf(Action.AuthWithEmail(state.email, state.password))
+                            state.copy(formState = AuthCredentialsFeature.FormState.Loading) to setOf(
+                                Action.AddSentryBreadcrumb(HyperskillSentryBreadcrumbBuilder.buildAuthCredentialsSigningIn()),
+                                Action.AuthWithEmail(state.email, state.password)
+                            )
                     }
                 } else {
                     null
@@ -36,15 +52,20 @@ class AuthCredentialsReducer : StateReducer<State, Message, Action> {
             }
             is Message.AuthSuccess -> {
                 if (state.formState is AuthCredentialsFeature.FormState.Loading) {
-                    state.copy(formState = AuthCredentialsFeature.FormState.Authenticated) to setOf(Action.ViewAction.CompleteAuthFlow(message.isNewUser))
+                    state.copy(formState = AuthCredentialsFeature.FormState.Authenticated) to setOf(
+                        Action.AddSentryBreadcrumb(HyperskillSentryBreadcrumbBuilder.buildAuthCredentialsSignedInSuccessfully()),
+                        Action.ViewAction.CompleteAuthFlow(message.isNewUser)
+                    )
                 } else {
                     null
                 }
             }
             is Message.AuthFailure -> {
                 if (state.formState is AuthCredentialsFeature.FormState.Loading) {
-                    state.copy(formState = AuthCredentialsFeature.FormState.Error(message.credentialsError)) to
-                        setOf(Action.ViewAction.CaptureError(message.originalError))
+                    state.copy(formState = AuthCredentialsFeature.FormState.Error(message.credentialsError)) to setOf(
+                        Action.AddSentryBreadcrumb(HyperskillSentryBreadcrumbBuilder.buildAuthCredentialsSignInFailed()),
+                        Action.CaptureSentryException(message.originalError)
+                    )
                 } else {
                     null
                 }
