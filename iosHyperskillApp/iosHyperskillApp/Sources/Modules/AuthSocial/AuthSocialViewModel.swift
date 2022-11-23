@@ -24,6 +24,13 @@ final class AuthSocialViewModel: FeatureViewModel<
         super.init(feature: feature)
     }
 
+    override func shouldNotifyStateDidChange(
+        oldState: AuthSocialFeatureState,
+        newState: AuthSocialFeatureState
+    ) -> Bool {
+        AuthSocialFeatureStateKs(oldState) != AuthSocialFeatureStateKs(newState)
+    }
+
     func signIn(with provider: SocialAuthProvider) {
         logClickedSignInWithSocialEvent(provider: provider)
 

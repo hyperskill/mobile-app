@@ -25,6 +25,13 @@ final class AuthCredentialsViewModel: FeatureViewModel<
         super.init(feature: feature)
     }
 
+    override func shouldNotifyStateDidChange(
+        oldState: AuthCredentialsFeatureState,
+        newState: AuthCredentialsFeatureState
+    ) -> Bool {
+        !oldState.isEqual(newState)
+    }
+
     func doFormInputChange(email: String, password: String) {
         onNewMessage(AuthCredentialsFeatureMessageAuthEditing(email: email, password: password))
     }

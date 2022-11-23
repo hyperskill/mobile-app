@@ -78,12 +78,10 @@ struct AuthCredentialsView: View {
     // MARK: Private API
 
     private func handleViewAction(_ viewAction: AuthCredentialsFeatureActionViewAction) {
-        switch viewAction {
-        case let completeAuthFlowViewAction as AuthCredentialsFeatureActionViewActionCompleteAuthFlow:
+        switch AuthCredentialsFeatureActionViewActionKs(viewAction) {
+        case .completeAuthFlow(let data):
             ProgressHUD.showSuccess()
-            viewModel.doCompleteAuthFlow(isNewUser: completeAuthFlowViewAction.isNewUser)
-        default:
-            print("AuthEmailView :: unhandled viewAction = \(viewAction)")
+            viewModel.doCompleteAuthFlow(isNewUser: data.isNewUser)
         }
     }
 }
