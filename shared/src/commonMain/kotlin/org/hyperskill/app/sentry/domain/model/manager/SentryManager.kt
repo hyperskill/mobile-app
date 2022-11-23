@@ -34,6 +34,7 @@ interface SentryManager {
      *
      * @param message The message to send.
      */
-    fun captureErrorMessage(message: String) =
+    fun captureErrorMessage(message: String) {
         captureMessage(message, HyperskillSentryLevel.ERROR)
+    }
 }

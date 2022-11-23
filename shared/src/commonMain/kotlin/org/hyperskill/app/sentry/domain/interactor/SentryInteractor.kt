@@ -14,12 +14,15 @@ import org.hyperskill.app.sentry.domain.model.manager.SentryManager
 class SentryInteractor(
     private val sentryManager: SentryManager
 ) {
-    fun addBreadcrumb(breadcrumb: HyperskillSentryBreadcrumb) =
+    fun addBreadcrumb(breadcrumb: HyperskillSentryBreadcrumb) {
         sentryManager.addBreadcrumb(breadcrumb)
+    }
 
-    fun captureMessage(message: String, level: HyperskillSentryLevel) =
+    fun captureMessage(message: String, level: HyperskillSentryLevel) {
         sentryManager.captureMessage(message, level)
+    }
 
-    fun captureErrorMessage(message: String) =
+    fun captureErrorMessage(message: String) {
         sentryManager.captureErrorMessage(message)
+    }
 }
