@@ -141,7 +141,8 @@ class AndroidAppComponentImpl(
             commonComponent,
             authComponent,
             buildProfileDataComponent(),
-            analyticComponent
+            analyticComponent,
+            sentryComponent
         )
 
     override fun buildPlatformAuthSocialComponent(authSocialComponent: AuthSocialComponent): PlatformAuthSocialComponent =

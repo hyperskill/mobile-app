@@ -42,7 +42,6 @@ class SentryManagerImpl : SentryManager {
 
     override fun addBreadcrumb(breadcrumb: HyperskillSentryBreadcrumb) {
         val sentryBreadcrumb = Breadcrumb(hyperskillSentryBreadcrumb = breadcrumb)
-        println(sentryBreadcrumb)
         Sentry.addBreadcrumb(sentryBreadcrumb)
     }
 

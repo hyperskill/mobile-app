@@ -50,11 +50,32 @@ final class AuthSocialViewModel: FeatureViewModel<
                 }
 
                 await MainActor.run {
-                    let message = AuthSocialFeatureActionViewActionShowAuthError(
-                        socialError: .connectionProblem,
-                        originalError: KotlinThrowable(message: String(describing: error))
+                    let originalError: KotlinThrowable = {
+                        let defaultError = KotlinThrowable(message: String(describing: error))
+
+                        guard let sdkError = error as? SocialAuthSDKError else {
+                            return defaultError
+                        }
+
+                        switch sdkError {
+                        case .canceled, .noPresentingViewController:
+                            return defaultError
+                        case .accessDenied(let originalError):
+                            return KotlinThrowable(message: String(describing: originalError))
+                        case .connectionError(let originalError):
+                            return KotlinThrowable(message: String(describing: originalError))
+                        }
+                    }()
+
+                    let message = AuthSocialFeatureMessageSocialAuthProviderAuthFailureEventMessage(
+                        data: AuthSocialFeatureMessageAuthFailureData(
+                            socialAuthProvider: provider.sharedType,
+                            socialAuthError: .connectionProblem,
+                            originalError: originalError
+                        )
                     )
-                    self.onViewAction?(message)
+
+                    self.onNewMessage(message)
                 }
             }
         }
@@ -66,11 +87,6 @@ final class AuthSocialViewModel: FeatureViewModel<
 
     func doCompleteAuthFlow(isNewUser: Bool) {
         moduleOutput?.handleUserAuthorized(isNewUser: isNewUser)
-    }
-
-    func logAuthErrorToSentry(socialError: AuthSocialError, originalError: KotlinThrowable) {
-        let message = "AuthSocial: \(socialError), \(String(describing: originalError))"
-        SentryManager.captureErrorMessage(message)
     }
 
     // MARK: Analytic

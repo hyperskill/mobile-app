@@ -5,6 +5,8 @@ import shared
 final class SentryManager: shared.SentryManager {
     static let shared = SentryManager()
 
+    // MARK: - Protocol Conforming -
+
     func setup() {
         SentrySDK.start { options in
             options.dsn = SentryInfo.dsn
@@ -29,21 +31,11 @@ final class SentryManager: shared.SentryManager {
         }
     }
 
+    // MARK: Breadcrumbs
+
     func addBreadcrumb(breadcrumb: HyperskillSentryBreadcrumb) {
         let crumb = breadcrumb.sentryBreadcrumb
-        print(crumb)
         SentrySDK.addBreadcrumb(crumb: crumb)
-    }
-
-    static func updateUserID(_ userID: String) {
-        let user = Sentry.User()
-        user.userId = userID
-
-        SentrySDK.setUser(user)
-    }
-
-    static func clearCurrentUser() {
-        SentrySDK.setUser(nil)
     }
 
     // MARK: Capture
@@ -58,20 +50,16 @@ final class SentryManager: shared.SentryManager {
         captureMessage(message: message, level: HyperskillSentryLevel.error)
     }
 
-    #warning("DELETE")
-    static func capture(error: KotlinThrowable) {
-        SentrySDK.capture(error: error.asError())
+    #warning("TODO")
+    static func updateUserID(_ userID: String) {
+        let user = Sentry.User()
+        user.userId = userID
+
+        SentrySDK.setUser(user)
     }
 
-    #warning("DELETE")
-    static func captureErrorMessage(error: KotlinThrowable) {
-        captureErrorMessage(String(describing: error.asError()))
-    }
-
-    #warning("DELETE")
-    static func captureErrorMessage(_ message: String) {
-        SentrySDK.capture(message: message) { scope in
-            scope.setLevel(.error)
-        }
+    #warning("TODO")
+    static func clearCurrentUser() {
+        SentrySDK.setUser(nil)
     }
 }

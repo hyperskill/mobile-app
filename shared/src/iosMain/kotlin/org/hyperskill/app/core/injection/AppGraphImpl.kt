@@ -91,7 +91,8 @@ class AppGraphImpl(
             commonComponent,
             authComponent,
             buildProfileDataComponent(),
-            analyticComponent
+            analyticComponent,
+            sentryComponent
         )
 
     override fun buildAuthCredentialsComponent(): AuthCredentialsComponent =

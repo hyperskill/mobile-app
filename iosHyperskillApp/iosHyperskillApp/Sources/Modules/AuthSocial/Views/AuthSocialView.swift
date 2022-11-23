@@ -57,16 +57,12 @@ struct AuthSocialView: View {
     // MARK: Private API
 
     private func handleViewAction(_ viewAction: AuthSocialFeatureActionViewAction) {
-        switch viewAction {
-        case let completeAuthFlowViewAction as AuthSocialFeatureActionViewActionCompleteAuthFlow:
-            viewModel.doCompleteAuthFlow(isNewUser: completeAuthFlowViewAction.isNewUser)
-        case let authError as AuthSocialFeatureActionViewActionShowAuthError:
-            viewModel.logAuthErrorToSentry(socialError: authError.socialError, originalError: authError.originalError)
-
-            let errorText = viewModel.getAuthSocialErrorText(authSocialError: authError.socialError)
+        switch AuthSocialFeatureActionViewActionKs(viewAction) {
+        case .completeAuthFlow(let data):
+            viewModel.doCompleteAuthFlow(isNewUser: data.isNewUser)
+        case .showAuthError(let data):
+            let errorText = viewModel.getAuthSocialErrorText(authSocialError: data.socialAuthError)
             ProgressHUD.showError(status: errorText)
-        default:
-            print("AuthSocialView :: unhandled viewAction = \(viewAction)")
         }
     }
 }

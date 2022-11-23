@@ -7,6 +7,6 @@ package org.hyperskill.app.sentry.domain.model.breadcrumb
  * @property stringValue The raw string value.
  */
 enum class HyperskillSentryBreadcrumbCategory(val stringValue: String) {
-    CATEGORY_AUTH_SOCIAL("auth_social"),
-    CATEGORY_AUTH_CREDENTIALS("auth_social_credentials")
+    AUTH_SOCIAL("auth_social"),
+    AUTH_CREDENTIALS("auth_social_credentials")
 }
