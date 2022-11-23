@@ -37,6 +37,7 @@ struct HomeView: View {
         }
         .onDisappear(perform: viewModel.stopListening)
         .navigationViewStyle(StackNavigationViewStyle())
+        .environmentObject(pushRouter)
     }
 
     // MARK: Private API
@@ -126,9 +127,8 @@ struct HomeView: View {
                 let assembly = StepAssembly(stepID: Int(data.stepId))
                 pushRouter.pushViewController(assembly.makeModule())
             case .topicsRepetitionsScreen:
-                pushRouter.pushViewController(
-                    TopicsRepetitionsAssembly(pushRouter: pushRouter).makeModule()
-                )
+                let assembly = TopicsRepetitionsAssembly()
+                pushRouter.pushViewController(assembly.makeModule())
             }
         }
     }

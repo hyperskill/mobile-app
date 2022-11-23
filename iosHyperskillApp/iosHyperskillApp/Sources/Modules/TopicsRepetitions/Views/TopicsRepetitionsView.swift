@@ -12,7 +12,7 @@ struct TopicsRepetitionsView: View {
     private(set) var appearance = Appearance()
 
     @StateObject var viewModel: TopicsRepetitionsViewModel
-
+    
     @StateObject var pushRouter: SwiftUIPushRouter
 
     let dataMapper: TopicsRepetitionsViewDataMapper
@@ -107,7 +107,7 @@ struct TopicsRepetitionsView: View {
 struct TopicsRepetitionsView_Previews: PreviewProvider {
     static var previews: some View {
         UIKitViewControllerPreview {
-            TopicsRepetitionsAssembly(pushRouter: SwiftUIPushRouter()).makeModule()
+            TopicsRepetitionsAssembly().makeModule()
         }
     }
 }

@@ -58,7 +58,14 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                 }
             is Message.TopicRepeated ->
                 if(state is State.Content) {
+                    val repetitionsCount = state.topicsToRepeat
+                        .firstOrNull { it.topicId == message.topicId }
+                        ?.repeatedCount
+
                     state.copy(
+                        topicsRepetitions = state.topicsRepetitions.copy(
+                            repetitionsByCount = getNewChartData(state.topicsRepetitions.repetitionsByCount.toMutableMap(), repetitionsCount)
+                        ),
                         topicsToRepeat = state.topicsToRepeat.filter { it.topicId != message.topicId },
                         recommendedTopicsToRepeatCount = max(state.recommendedTopicsToRepeatCount.dec(), 0)
                     ) to setOf(Action.UpdateCurrentProfile)
@@ -66,4 +73,26 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                     null
                 }
         } ?: (state to emptySet())
+
+    private fun getNewChartData(
+        oldChartData: MutableMap<String, Int>,
+        repetitionsCount: Int?
+    ): Map<String, Int> {
+        val newCount = repetitionsCount?.inc()
+        val (oldCountKey, newCountKey) = Pair(repetitionsCount.toString(), newCount.toString())
+
+        if (oldChartData.containsKey(oldCountKey)) {
+            oldChartData.set(
+                oldCountKey,
+                max(oldChartData[oldCountKey]?.dec() ?: 0, 0)
+            )
+        }
+        if (oldChartData.containsKey(newCountKey)) {
+            oldChartData.set(
+                newCountKey,
+                oldChartData[newCountKey]?.inc() ?: 0
+            )
+        }
+        return oldChartData
+    }
 }

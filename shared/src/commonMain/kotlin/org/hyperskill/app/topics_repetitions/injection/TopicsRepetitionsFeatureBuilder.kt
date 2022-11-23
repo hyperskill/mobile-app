@@ -3,6 +3,7 @@ package org.hyperskill.app.topics_repetitions.injection
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Action
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Message
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.State
@@ -18,6 +19,7 @@ object TopicsRepetitionsFeatureBuilder {
     fun build(
         topicsRepetitionsInteractor: TopicsRepetitionsInteractor,
         topicsInteractor: TopicsInteractor,
+        progressesInteractor: ProgressesInteractor,
         profileInteractor: ProfileInteractor,
         analyticInteractor: AnalyticInteractor
     ): Feature<State, Message, Action> {
@@ -27,6 +29,7 @@ object TopicsRepetitionsFeatureBuilder {
             ActionDispatcherOptions(),
             topicsRepetitionsInteractor,
             topicsInteractor,
+            progressesInteractor,
             profileInteractor,
             analyticInteractor
         )

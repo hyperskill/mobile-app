@@ -4,5 +4,6 @@ data class TopicToRepeat(
     val topicId: Long,
     val title: String,
     val stepId: Long,
-    val theory: Long
+    val theoryId: Long?,
+    val repeatedCount: Int
 )

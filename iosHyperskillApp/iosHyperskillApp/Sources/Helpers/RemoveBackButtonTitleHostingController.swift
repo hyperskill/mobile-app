@@ -1,7 +1,7 @@
 import SwiftUI
 import UIKit
 
-final class TopicsRepetitionsHostingController: UIHostingController<TopicsRepetitionsView> {
+final class RemoveBackButtonTitleHostingController: UIHostingController<AnyView> {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.removeBackButtonTitleForTopController()

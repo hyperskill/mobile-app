@@ -18,6 +18,8 @@ struct StepQuizView: View {
 
     @EnvironmentObject private var modalRouter: SwiftUIModalRouter
 
+    @EnvironmentObject var pushRouter: SwiftUIPushRouter
+
     @Environment(\.presentationMode) private var presentationMode
 
     let onQuizCompleted: (() -> Void)?
@@ -38,6 +40,16 @@ struct StepQuizView: View {
             }
         }
         .onDisappear(perform: viewModel.stopListening)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                if let theoryID = viewModel.step.topicTheory {
+                    Button(Strings.Step.theory) {
+                        let assembly = StepAssembly(stepID: Int(truncating: theoryID))
+                        pushRouter.pushViewController(assembly.makeModule())
+                    }
+                }
+            }
+        }
     }
 
     // MARK: Private API

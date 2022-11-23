@@ -20,7 +20,7 @@ class TopicsRepetitionsViewDataMapper(
             } else null,
             chartData = state.topicsRepetitions.repetitionsByCount.mapKeys {
                 resourceProvider.getQuantityString(SharedResources.plurals.times, it.key.toInt(), it.key.toInt())
-            }.toList(),
+            }.toList().sortedBy { it.first },
             chartDescription = resourceProvider.getString(
                 SharedResources.strings.topics_repetitions_chart_description,
                 resourceProvider.getQuantityString(

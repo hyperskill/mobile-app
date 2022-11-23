@@ -4,6 +4,8 @@ import SwiftUI
 struct StepView: View {
     @StateObject var viewModel: StepViewModel
 
+    @StateObject var pushRouter: SwiftUIPushRouter
+
     @StateObject var modalRouter: SwiftUIModalRouter
 
     let onQuizCompleted: (() -> Void)?
@@ -16,6 +18,7 @@ struct StepView: View {
                 viewModel.onViewAction = handleViewAction(_:)
             }
             .onDisappear(perform: viewModel.stopListening)
+            .environmentObject(pushRouter)
             .environmentObject(modalRouter)
     }
 

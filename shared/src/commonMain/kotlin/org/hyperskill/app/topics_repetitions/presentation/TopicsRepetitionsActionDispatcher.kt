@@ -4,6 +4,7 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Action
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Message
 import org.hyperskill.app.topics.domain.interactor.TopicsInteractor
@@ -16,6 +17,7 @@ class TopicsRepetitionsActionDispatcher(
     config: ActionDispatcherOptions,
     private val topicsRepetitionsInteractor: TopicsRepetitionsInteractor,
     private val topicsInteractor: TopicsInteractor,
+    private val progressesInteractor: ProgressesInteractor,
     private val profileInteractor: ProfileInteractor,
     private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
@@ -45,7 +47,6 @@ class TopicsRepetitionsActionDispatcher(
                         onNewMessage(Message.TopicsRepetitionsLoaded.Error)
                         return
                     }
-
 
                 onNewMessage(
                     Message.TopicsRepetitionsLoaded.Success(
@@ -84,17 +85,31 @@ class TopicsRepetitionsActionDispatcher(
      * @param repetitions repetitions to load next topics
      * @return
      */
-    private suspend fun loadNextTopics(repetitions: List<Repetition>): Result<Pair<List<Repetition>, List<TopicToRepeat>>> {
-        val firstRepetitions = repetitions.take(TOPICS_PAGINATION_SIZE)
-        val topicsToRepeat = topicsInteractor
-            .getTopicsByIds(firstRepetitions.map { it.topicId })
-            .getOrElse {
-                return Result.failure(it)
-            }
-            .zip(firstRepetitions)
-            .map { (topic, repetition) ->
-                TopicToRepeat(topic.id, topic.title, repetition.steps.first(), topic.theory)
-            }
-        return Result.success(Pair(repetitions.drop(TOPICS_PAGINATION_SIZE), topicsToRepeat))
-    }
+    private suspend fun loadNextTopics(repetitions: List<Repetition>): Result<Pair<List<Repetition>, List<TopicToRepeat>>> =
+        kotlin.runCatching {
+            val firstRepetitions = repetitions.take(TOPICS_PAGINATION_SIZE).sortedBy { it.topicId }
+
+            val topicsIds = firstRepetitions.map { it.topicId }
+
+            val progresses = progressesInteractor
+                .getTopicsProgresses(topicsIds)
+                .getOrThrow()
+                .associateBy { it.id }
+
+            val topicsToRepeat = topicsInteractor
+                .getTopics(topicsIds)
+                .getOrThrow()
+                .sortedBy { it.id }
+                .zip(firstRepetitions)
+                .map { (topic, repetition) ->
+                    TopicToRepeat(
+                        topicId = topic.id,
+                        title = topic.title,
+                        stepId = repetition.steps.first(),
+                        theoryId = topic.theoryId,
+                        repeatedCount = progresses[topic.progressId]?.repeatedCount ?: 0
+                    )
+                }
+            return Result.success(Pair(repetitions.drop(TOPICS_PAGINATION_SIZE), topicsToRepeat))
+        }
 }

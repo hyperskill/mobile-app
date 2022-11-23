@@ -1,23 +1,24 @@
 import shared
+import SwiftUI
 
 class TopicsRepetitionsAssembly: UIKitAssembly {
-    private let pushRouter: SwiftUIPushRouter
-
-    init(pushRouter: SwiftUIPushRouter) {
-        self.pushRouter = pushRouter
-    }
-
     func makeModule() -> UIViewController {
         let topicsRepetitionsComponent = AppGraphBridge.sharedAppGraph.buildTopicsRepetitionsComponent()
 
         let viewModel = TopicsRepetitionsViewModel(feature: topicsRepetitionsComponent.topicsRepetitionsFeature)
 
+        let pushRouter = SwiftUIPushRouter()
+
         let topicsRepetitionsView = TopicsRepetitionsView(
             viewModel: viewModel,
-            pushRouter: self.pushRouter,
+            pushRouter: pushRouter,
             dataMapper: topicsRepetitionsComponent.topicsRepetitionsViewDataMapper
         )
 
-        return TopicsRepetitionsHostingController(rootView: topicsRepetitionsView)
+        let viewController = RemoveBackButtonTitleHostingController(rootView: AnyView(topicsRepetitionsView))
+
+        pushRouter.rootViewController = viewController
+
+        return viewController
     }
 }

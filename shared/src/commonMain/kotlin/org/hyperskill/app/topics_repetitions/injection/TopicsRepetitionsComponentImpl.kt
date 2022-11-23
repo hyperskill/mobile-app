@@ -24,6 +24,7 @@ class TopicsRepetitionsComponentImpl(private val appGraph: AppGraph) : TopicsRep
         get() = TopicsRepetitionsFeatureBuilder.build(
             topicsRepetitionsInteractor,
             appGraph.buildTopicsDataComponent().topicsInteractor,
+            appGraph.buildProgressesDataComponent().progressesInteractor,
             appGraph.buildProfileDataComponent().profileInteractor,
             appGraph.analyticComponent.analyticInteractor
         )
