@@ -115,11 +115,10 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
             is Message.DeleteAccountNoticeShownEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(ProfileSettingsDeleteAccountNoticeShownHyperskillAnalyticEvent()))
             is Message.DeleteAccountNoticeHiddenEventMessage -> {
-                state to buildSet {
-                    if (message.isConfirmed) {
-                        add(Action.GetLink(HyperskillUrlPath.DeleteAccount()))
-                    }
-                    add(
+                if (message.isConfirmed && state is State.Content) {
+                    state.copy(isLinkLoadingShown = true) to setOf(Action.GetLink(HyperskillUrlPath.DeleteAccount()))
+                } else {
+                    state to setOf(
                         Action.LogAnalyticEvent(
                             ProfileSettingsDeleteAccountNoticeHiddenHyperskillAnalyticEvent(
                                 message.isConfirmed
@@ -128,11 +127,20 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                     )
                 }
             }
-            is Message.LinkReceived ->
-                state to setOf(Action.ViewAction.FollowLink(message.url))
+            is Message.LinkReceived -> {
+                if (state is State.Content) {
+                    state.copy(isLinkLoadingShown = false) to setOf(Action.ViewAction.FollowLink(message.url))
+                } else {
+                    null
+                }
+            }
             is Message.LinkReceiveFailed -> {
-                //TODO: implement error showing
-                state to emptySet()
+                if (state is State.Content) {
+                    //TODO: implement error showing
+                    state.copy(isLinkLoadingShown = false) to emptySet()
+                } else {
+                    null
+                }
             }
         } ?: (state to emptySet())
 }

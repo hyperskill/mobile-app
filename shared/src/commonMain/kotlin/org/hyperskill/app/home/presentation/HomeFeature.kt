@@ -23,13 +23,15 @@ interface HomeFeature {
          * @property streak Current user profile streak.
          * @property problemOfDayState Problem of the day state.
          * @property isRefreshing A boolean flag that indicates about is pull-to-refresh is ongoing.
+         * @property isLinkLoadingShown A boolean flag that indicates about magic link loading.
          * @see Streak
          * @see ProblemOfDayState
          */
         data class Content(
             val streak: Streak?,
             val problemOfDayState: ProblemOfDayState,
-            val isRefreshing: Boolean = false
+            val isRefreshing: Boolean = false,
+            val isLinkLoadingShown: Boolean = false
         ) : State
 
         /**

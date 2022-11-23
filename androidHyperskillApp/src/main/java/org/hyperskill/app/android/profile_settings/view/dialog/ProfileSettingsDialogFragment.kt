@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -16,8 +17,6 @@ import org.hyperskill.app.android.core.extensions.launchUrl
 import org.hyperskill.app.android.core.extensions.representation
 import org.hyperskill.app.android.databinding.FragmentProfileSettingsBinding
 import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper
-import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
-import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.profile.presentation.ProfileSettingsViewModel
 import org.hyperskill.app.profile_settings.domain.model.FeedbackEmailData
 import org.hyperskill.app.profile_settings.domain.model.Theme
@@ -181,6 +180,7 @@ class ProfileSettingsDialogFragment :
         viewStateDelegate.switchState(state)
 
         if (state is ProfileSettingsFeature.State.Content) {
+            viewBinding.settingsProgress.isVisible = state.isLinkLoadingShown
             viewBinding.settingsThemeChosenTextView.text = state.profileSettings.theme.representation
             currentThemePosition = state.profileSettings.theme.ordinal
         }

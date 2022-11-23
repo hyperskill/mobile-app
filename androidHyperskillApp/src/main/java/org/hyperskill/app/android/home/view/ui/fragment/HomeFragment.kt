@@ -2,6 +2,7 @@ package org.hyperskill.app.android.home.view.ui.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -145,11 +146,10 @@ class HomeFragment :
 
     override fun render(state: HomeFeature.State) {
         viewStateDelegate.switchState(state)
-        when (state) {
-            is HomeFeature.State.Content -> {
-                setupStreakCardDelegate(state.streak)
-                setupProblemOfDayCardDelegate(state.problemOfDayState)
-            }
+        if (state is HomeFeature.State.Content) {
+            viewBinding.homeScreenProgress.isVisible = state.isLinkLoadingShown
+            setupStreakCardDelegate(state.streak)
+            setupProblemOfDayCardDelegate(state.problemOfDayState)
         }
     }
 }

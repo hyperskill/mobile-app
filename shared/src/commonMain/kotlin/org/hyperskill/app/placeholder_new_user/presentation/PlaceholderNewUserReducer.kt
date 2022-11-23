@@ -23,12 +23,27 @@ class PlaceholderNewUserReducer : StateReducer<State, Message, Action> {
                 state to setOf(Action.LogAnalyticEvent(PlaceholderNewUserViewedHyperskillAnalyticEvent()))
             is Message.ClickedContinueEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(PlaceholderNewUserClickedContinueHyperskillAnalyticEvent()))
-            Message.ClickedContinueOnWeb ->
-                state to setOf(Action.GetLink(HyperskillUrlPath.Index()))
-            is Message.LinkReceived ->
-                state to setOf(Action.ViewAction.FollowUrl(message.url))
-            Message.LinkReceiveFailed ->
-                //TODO: implement error showing
-                state to setOf()
-        }
+            Message.ClickedContinueOnWeb -> {
+                if (state is State.Content) {
+                    state.copy(isLinkLoadingShown = true) to setOf(Action.GetLink(HyperskillUrlPath.Index()))
+                } else {
+                    null
+                }
+            }
+            is Message.LinkReceived -> {
+                if (state is State.Content) {
+                    state.copy(isLinkLoadingShown = false) to setOf(Action.ViewAction.FollowUrl(message.url))
+                } else {
+                    null
+                }
+            }
+            Message.LinkReceiveFailed -> {
+                if (state is State.Content) {
+                    //TODO: implement error showing
+                    state.copy(isLinkLoadingShown = false) to emptySet()
+                } else {
+                    null
+                }
+            }
+        } ?: ( state to emptySet() )
 }

@@ -31,7 +31,7 @@ object PlaceholderNewUserFeatureBuilder {
             urlPathProcessor
         )
 
-        return ReduxFeature(State.Content, placeholderNewUserReducer)
+        return ReduxFeature(State.Content(), placeholderNewUserReducer)
             .wrapWithActionDispatcher(placeholderNewUserActionDispatcher)
     }
 }

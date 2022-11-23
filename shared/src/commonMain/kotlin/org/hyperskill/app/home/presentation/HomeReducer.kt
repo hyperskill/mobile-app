@@ -120,16 +120,26 @@ class HomeReducer : StateReducer<State, Message, Action> {
             is Message.ClickedContinueLearningOnWebEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(HomeClickedContinueLearningOnWebHyperskillAnalyticEvent()))
             Message.ClickedContinueLearningOnWeb -> {
-                state to setOf(
-                    Action.GetLink(HyperskillUrlPath.Index())
-                )
+                if (state is State.Content) {
+                    state.copy(isLinkLoadingShown = true) to setOf(Action.GetLink(HyperskillUrlPath.Index()))
+                } else {
+                    null
+                }
             }
             is Message.LinkReceived -> {
-                state to setOf(Action.ViewAction.FollowUrl(message.url))
+                if (state is State.Content) {
+                    state.copy(isLinkLoadingShown = false) to setOf(Action.ViewAction.FollowUrl(message.url))
+                } else {
+                    null
+                }
             }
             is Message.LinkReceiveFailed -> {
-                //TODO: add error showing
-                state to emptySet()
+                if (state is State.Content) {
+                    //TODO: implement error showing
+                    state.copy(isLinkLoadingShown = false) to emptySet()
+                } else {
+                    null
+                }
             }
         } ?: (state to emptySet())
 }

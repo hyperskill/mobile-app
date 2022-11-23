@@ -25,6 +25,7 @@ interface TrackFeature {
          * @property trackProgress Current user profile selected track progress.
          * @property studyPlan Current user profile study plan.
          * @property isRefreshing A boolean flag that indicates about is pull-to-refresh is ongoing.
+         * @property isLinkLoadingShown A boolean flag that indicates about magic link loading.
          * @see Track
          * @see TrackProgress
          * @see StudyPlan
@@ -33,7 +34,8 @@ interface TrackFeature {
             val track: Track,
             val trackProgress: TrackProgress,
             val studyPlan: StudyPlan? = null,
-            val isRefreshing: Boolean = false
+            val isRefreshing: Boolean = false,
+            val isLinkLoadingShown: Boolean = false
         ) : State
 
         /**

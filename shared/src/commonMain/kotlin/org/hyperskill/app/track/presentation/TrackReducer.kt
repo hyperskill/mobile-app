@@ -38,11 +38,23 @@ class TrackReducer : StateReducer<State, Message, Action> {
             is Message.ClickedContinueInWebEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(TrackClickedContinueInWebHyperskillAnalyticEvent()))
             Message.ClickedContinueInWeb ->
-                state to setOf(Action.GetLink(HyperskillUrlPath.StudyPlan()))
+                if (state is State.Content) {
+                    state.copy(isLinkLoadingShown = true) to setOf(Action.GetLink(HyperskillUrlPath.StudyPlan()))
+                } else {
+                    null
+                }
             is Message.LinkReceived ->
-                state to setOf(Action.ViewAction.FollowLink(message.url))
+                if (state is State.Content) {
+                    state.copy(isLinkLoadingShown = false) to setOf(Action.ViewAction.FollowLink(message.url))
+                } else {
+                    null
+                }
             Message.LinkReceiveFailed ->
-                //TODO: implement error showing
-                state to emptySet()
+                if (state is State.Content) {
+                    //TODO: implement error showing
+                    state.copy(isLinkLoadingShown = false) to emptySet()
+                } else {
+                    null
+                }
         } ?: (state to emptySet())
 }

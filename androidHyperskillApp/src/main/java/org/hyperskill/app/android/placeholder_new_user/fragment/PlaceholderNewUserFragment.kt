@@ -2,6 +2,7 @@ package org.hyperskill.app.android.placeholder_new_user.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -71,6 +72,10 @@ class PlaceholderNewUserFragment :
     }
 
     override fun render(state: PlaceholderNewUserFeature.State) {
-        // no op
+        when (state) {
+            is PlaceholderNewUserFeature.State.Content -> {
+                viewBinding.placeholderProgress.isVisible = state.isLinkLoadingShown
+            }
+        }
     }
 }

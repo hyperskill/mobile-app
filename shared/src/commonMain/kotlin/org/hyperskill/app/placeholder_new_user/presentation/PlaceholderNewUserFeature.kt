@@ -5,7 +5,13 @@ import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 
 interface PlaceholderNewUserFeature {
     sealed interface State {
-        object Content : State
+
+        /**
+         * @property isLinkLoadingShown A boolean flag that indicates about magic link loading.
+         * */
+        data class Content(
+            val isLinkLoadingShown: Boolean = false
+        ) : State
     }
 
     sealed interface Message {

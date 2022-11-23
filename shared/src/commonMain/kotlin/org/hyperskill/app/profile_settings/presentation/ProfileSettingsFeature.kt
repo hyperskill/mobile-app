@@ -10,7 +10,15 @@ interface ProfileSettingsFeature {
     sealed interface State {
         object Idle : State
         object Loading : State
-        data class Content(val profileSettings: ProfileSettings) : State
+
+        /**
+         * @property isLinkLoadingShown A boolean flag that indicates about magic link loading.
+         */
+        data class Content(
+            val profileSettings: ProfileSettings,
+            val isLinkLoadingShown: Boolean = false
+        ) : State
+
         object Error : State
     }
 

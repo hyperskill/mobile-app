@@ -24,13 +24,15 @@ interface ProfileFeature {
          * @property profile User profile model.
          * @property streak User profile streak.
          * @property isRefreshing A boolean flag that indicates about is pull-to-refresh is ongoing.
+         * @property isLinkLoadingShown A boolean flag that indicates about magic link loading.
          * @see Profile
          * @see Streak
          */
         data class Content(
             val profile: Profile,
             val streak: Streak?,
-            val isRefreshing: Boolean = false
+            val isRefreshing: Boolean = false,
+            val isLinkLoadingShown: Boolean = false
         ) : State
 
         /**

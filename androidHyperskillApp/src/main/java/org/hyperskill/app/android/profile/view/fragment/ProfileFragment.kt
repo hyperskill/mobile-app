@@ -131,6 +131,8 @@ class ProfileFragment :
         renderBioSection(content.profile)
         renderExperienceSection(content.profile)
         renderSocialButtons(content.profile)
+
+        viewBinding.profileProgress.isVisible = content.isLinkLoadingShown
     }
 
     private fun renderNameProfileBadge(profile: Profile) {
