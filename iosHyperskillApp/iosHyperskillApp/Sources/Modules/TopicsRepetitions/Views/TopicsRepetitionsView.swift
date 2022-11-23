@@ -12,7 +12,7 @@ struct TopicsRepetitionsView: View {
     private(set) var appearance = Appearance()
 
     @StateObject var viewModel: TopicsRepetitionsViewModel
-    
+
     @StateObject var pushRouter: SwiftUIPushRouter
 
     let dataMapper: TopicsRepetitionsViewDataMapper
@@ -72,8 +72,17 @@ struct TopicsRepetitionsView: View {
                 TopicsRepetitionsRepeatBlock(
                     repeatBlockTitle: viewData.repeatBlockTitle,
                     trackTopicsTitle: viewData.trackTopicsTitle,
-                    topicsToRepeat: viewData.topicsToRepeat.map { topic in
-                        (Int(topic.topicId), topic.title, { viewModel.handleOpenStepRequested(stepID: topic.stepId, topicID: topic.topicId) })
+                    repeatButtons: viewData.topicsToRepeat.map { topic in
+                        RepeatButtonInfo(
+                            topicID: Int(topic.topicId),
+                            title: topic.title,
+                            onTap: {
+                                viewModel.handleOpenStepRequested(
+                                    stepID: topic.stepId,
+                                    topicID: topic.topicId
+                                )
+                            }
+                        )
                     },
                     showMoreButtonState: viewData.showMoreButtonState,
                     onShowMoreButtonTap: viewModel.doLoadNextTopics

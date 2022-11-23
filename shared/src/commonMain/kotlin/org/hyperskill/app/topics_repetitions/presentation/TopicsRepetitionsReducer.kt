@@ -41,7 +41,7 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                     null
                 }
             is Message.NextTopicsLoaded.Success ->
-                if(state is State.Content) {
+                if (state is State.Content) {
                     state.copy(
                         topicsRepetitions = message.remainingTopicsRepetitions,
                         topicsToRepeat = state.topicsToRepeat + message.nextTopicsToRepeat,
@@ -51,20 +51,20 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                     null
                 }
             is Message.NextTopicsLoaded.Error ->
-                if(state is State.Content) {
+                if (state is State.Content) {
                     state.copy(nextTopicsLoading = false) to setOf(Action.ViewAction.ShowNetworkError)
                 } else {
                     null
                 }
             is Message.TopicRepeated ->
-                if(state is State.Content) {
-                    val repetitionsCount = state.topicsToRepeat
+                if (state is State.Content) {
+                    val repeatedCount = state.topicsToRepeat
                         .firstOrNull { it.topicId == message.topicId }
                         ?.repeatedCount
 
                     state.copy(
                         topicsRepetitions = state.topicsRepetitions.copy(
-                            repetitionsByCount = getNewChartData(state.topicsRepetitions.repetitionsByCount.toMutableMap(), repetitionsCount)
+                            repetitionsByCount = getNewChartData(state.topicsRepetitions.repetitionsByCount.toMutableMap(), repeatedCount)
                         ),
                         topicsToRepeat = state.topicsToRepeat.filter { it.topicId != message.topicId },
                         recommendedTopicsToRepeatCount = max(state.recommendedTopicsToRepeatCount.dec(), 0)
@@ -76,10 +76,10 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
 
     private fun getNewChartData(
         oldChartData: MutableMap<String, Int>,
-        repetitionsCount: Int?
+        repeatedCount: Int?
     ): Map<String, Int> {
-        val newCount = repetitionsCount?.inc()
-        val (oldCountKey, newCountKey) = Pair(repetitionsCount.toString(), newCount.toString())
+        val oldCount = repeatedCount?.dec()
+        val (oldCountKey, newCountKey) = Pair(oldCount.toString(), repeatedCount.toString())
 
         if (oldChartData.containsKey(oldCountKey)) {
             oldChartData.set(

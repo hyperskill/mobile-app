@@ -6,7 +6,7 @@ struct TopicsRepetitionsRepeatBlock: View {
 
     let trackTopicsTitle: String
 
-    let topicsToRepeat: [(Int, String, () -> Void)]
+    let repeatButtons: [RepeatButtonInfo]
 
     let showMoreButtonState: ShowMoreButtonState
 
@@ -24,13 +24,13 @@ struct TopicsRepetitionsRepeatBlock: View {
                 .foregroundColor(.secondaryText)
 
             VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
-                ForEach(topicsToRepeat, id: \.0) { (_, topic, onTap) in
+                ForEach(repeatButtons, id: \.topicID) { buttonInfo in
                     Button(
                         action: {
-                            onTap()
+                            buttonInfo.onTap()
                         },
                         label: {
-                            Text(topic)
+                            Text(buttonInfo.title)
                                 .font(.body)
                                 .foregroundColor(.primaryText)
                         }
@@ -62,10 +62,10 @@ struct TopicsRepetitionsRepeatBlock_Previews: PreviewProvider {
         TopicsRepetitionsRepeatBlock(
             repeatBlockTitle: "All 8 topics to repeat",
             trackTopicsTitle: "Topics from track Python Core",
-            topicsToRepeat: [
-                (1, "Variables", {}),
-                (2, "Quotes and multi-line strings", {}),
-                (3, "Basic data types", {})
+            repeatButtons: [
+                RepeatButtonInfo(topicID: 1, title: "Variables", onTap: {}),
+                RepeatButtonInfo(topicID: 2, title: "Quotes and multi-line strings", onTap: {}),
+                RepeatButtonInfo(topicID: 3, title: "Basic data types", onTap: {})
             ],
             showMoreButtonState: ShowMoreButtonState.available,
             onShowMoreButtonTap: {}

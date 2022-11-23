@@ -25,7 +25,6 @@ import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.streak.domain.interactor.StreakInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
-import kotlin.math.min
 
 class HomeActionDispatcher(
     config: ActionDispatcherOptions,

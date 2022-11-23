@@ -87,27 +87,28 @@ class TopicsRepetitionsActionDispatcher(
      */
     private suspend fun loadNextTopics(repetitions: List<Repetition>): Result<Pair<List<Repetition>, List<TopicToRepeat>>> =
         kotlin.runCatching {
-            val firstRepetitions = repetitions.take(TOPICS_PAGINATION_SIZE).sortedBy { it.topicId }
+            val firstRepetitions = repetitions.take(TOPICS_PAGINATION_SIZE)
 
             val topicsIds = firstRepetitions.map { it.topicId }
 
-            val progresses = progressesInteractor
+            val progressById = progressesInteractor
                 .getTopicsProgresses(topicsIds)
                 .getOrThrow()
                 .associateBy { it.id }
 
-            val topicsToRepeat = topicsInteractor
+            val topicsById = topicsInteractor
                 .getTopics(topicsIds)
                 .getOrThrow()
-                .sortedBy { it.id }
-                .zip(firstRepetitions)
-                .map { (topic, repetition) ->
+                .associateBy { it.id }
+
+            val topicsToRepeat = firstRepetitions
+                .map { repetition ->
+                    val topic = topicsById[repetition.topicId]
                     TopicToRepeat(
-                        topicId = topic.id,
-                        title = topic.title,
+                        topicId = repetition.topicId,
+                        title = topic?.title ?: "",
                         stepId = repetition.steps.first(),
-                        theoryId = topic.theoryId,
-                        repeatedCount = progresses[topic.progressId]?.repeatedCount ?: 0
+                        repeatedCount = progressById[topic?.progressId]?.repeatedCount ?: 0
                     )
                 }
             return Result.success(Pair(repetitions.drop(TOPICS_PAGINATION_SIZE), topicsToRepeat))

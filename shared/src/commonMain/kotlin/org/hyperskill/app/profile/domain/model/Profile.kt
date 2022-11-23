@@ -1,9 +1,7 @@
 package org.hyperskill.app.profile.domain.model
 
-import kotlinx.datetime.Clock
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import org.hyperskill.app.home.presentation.HomeActionDispatcher
 import kotlin.math.min
 
 @Serializable
