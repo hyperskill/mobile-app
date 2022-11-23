@@ -40,6 +40,7 @@ interface PlaceholderNewUserFeature {
                 object AuthScreen : NavigateTo
             }
             data class FollowUrl(val url: String) : ViewAction
+            object ShowFollowLinkError : ViewAction
         }
 
         /**

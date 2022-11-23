@@ -71,6 +71,8 @@ interface ProfileSettingsFeature {
 
             data class FollowLink(val url: String) : ViewAction
 
+            object ShowFollowLinkError : ViewAction
+
             sealed interface NavigateTo : ViewAction {
                 object ParentScreen : NavigateTo
             }

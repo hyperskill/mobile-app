@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
+import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthScreen
@@ -14,6 +15,7 @@ import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentPlaceholderNewUserScreenBinding
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserViewModel
+import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -68,6 +70,8 @@ class PlaceholderNewUserFragment :
                 requireRouter().newRootScreen(AuthScreen)
             is PlaceholderNewUserFeature.Action.ViewAction.FollowUrl ->
                 requireContext().launchUrl(action.url)
+            PlaceholderNewUserFeature.Action.ViewAction.ShowFollowLinkError ->
+                viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
         }
     }
 

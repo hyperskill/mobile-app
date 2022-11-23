@@ -14,6 +14,7 @@ import coil.ImageLoader
 import coil.decode.SvgDecoder
 import coil.load
 import coil.transform.CircleCropTransformation
+import org.hyperskill.app.SharedResources
 import java.util.Locale
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
@@ -32,6 +33,7 @@ import org.hyperskill.app.profile.view.social_redirect.SocialNetworksRedirect
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
+import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -105,6 +107,8 @@ class ProfileFragment :
         when (action) {
             is ProfileFeature.Action.ViewAction.FollowLink ->
                 requireContext().launchUrl(action.url)
+            is ProfileFeature.Action.ViewAction.ShowFollowLinkError ->
+                viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
         }
     }
 

@@ -84,6 +84,7 @@ interface HomeFeature {
                 object TopicsRepetitionsScreen : NavigateTo
             }
             data class FollowUrl(val url: String) : ViewAction
+            object ShowFollowLinkError : ViewAction
         }
     }
 }

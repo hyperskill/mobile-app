@@ -11,6 +11,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.launchUrl
@@ -22,6 +23,7 @@ import org.hyperskill.app.profile_settings.domain.model.FeedbackEmailData
 import org.hyperskill.app.profile_settings.domain.model.Theme
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
+import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -173,6 +175,8 @@ class ProfileSettingsDialogFragment :
                 sendEmailFeedback(action.feedbackEmailData)
             is ProfileSettingsFeature.Action.ViewAction.FollowLink ->
                 openLinkInBrowser(action.url)
+            is ProfileSettingsFeature.Action.ViewAction.ShowFollowLinkError ->
+                viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
         }
     }
 

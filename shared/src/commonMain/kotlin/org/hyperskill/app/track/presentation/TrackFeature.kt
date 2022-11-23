@@ -78,6 +78,7 @@ interface TrackFeature {
 
         sealed interface ViewAction : Action {
             data class FollowLink(val url: String) : ViewAction
+            object ShowFollowLinkError : ViewAction
         }
     }
 }

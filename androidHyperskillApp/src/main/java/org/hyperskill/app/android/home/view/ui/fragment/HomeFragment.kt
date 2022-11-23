@@ -8,6 +8,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
+import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.launchUrl
@@ -20,6 +21,7 @@ import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeViewModel
 import org.hyperskill.app.streak.domain.model.Streak
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
+import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -137,6 +139,9 @@ class HomeFragment :
         when (action) {
             is HomeFeature.Action.ViewAction.FollowUrl -> {
                 requireContext().launchUrl(action.url)
+            }
+            is HomeFeature.Action.ViewAction.ShowFollowLinkError -> {
+                viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
             }
             else -> {
                 // just do nothing

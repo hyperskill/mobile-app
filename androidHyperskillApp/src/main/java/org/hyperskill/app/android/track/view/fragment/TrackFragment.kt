@@ -12,6 +12,7 @@ import coil.ImageLoader
 import coil.decode.SvgDecoder
 import coil.load
 import coil.size.Scale
+import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.launchUrl
@@ -20,6 +21,7 @@ import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.presentation.TrackFeature
 import org.hyperskill.app.track.presentation.TrackViewModel
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
+import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 import kotlin.math.roundToInt
@@ -73,6 +75,8 @@ class TrackFragment :
         when (action) {
             is TrackFeature.Action.ViewAction.FollowLink ->
                 requireContext().launchUrl(action.url)
+            TrackFeature.Action.ViewAction.ShowFollowLinkError ->
+                viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
         }
     }
 

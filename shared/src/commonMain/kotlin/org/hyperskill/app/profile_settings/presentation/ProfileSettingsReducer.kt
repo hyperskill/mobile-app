@@ -136,8 +136,7 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
             }
             is Message.LinkReceiveFailed -> {
                 if (state is State.Content) {
-                    //TODO: implement error showing
-                    state.copy(isLinkLoadingShown = false) to emptySet()
+                    state.copy(isLinkLoadingShown = false) to setOf(Action.ViewAction.ShowFollowLinkError)
                 } else {
                     null
                 }
