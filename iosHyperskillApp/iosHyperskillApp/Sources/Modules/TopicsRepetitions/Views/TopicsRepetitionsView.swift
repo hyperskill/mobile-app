@@ -103,7 +103,7 @@ struct TopicsRepetitionsView: View {
     private func buildSkeletons() -> some View {
         VStack(spacing: appearance.padding) {
             ForEach(0..<3) { _ in
-                SkeletonRoundedView()
+                SkeletonRoundedView(appearance: SkeletonRoundedView.Appearance(cornerRadius: 0))
                     .frame(height: appearance.skeletonHeight)
             }
         }

@@ -34,11 +34,12 @@ class TopicsRepetitionsActionDispatcher(
                         return
                     }
 
-                val (remainingRepetitions, topicsToRepeat) = loadNextTopics(topicsRepetitions.repetitions)
-                    .getOrElse {
-                        onNewMessage(Message.TopicsRepetitionsLoaded.Error)
-                        return
-                    }
+                val (remainingRepetitions, topicsToRepeat) = loadNextTopics(
+                    topicsRepetitions.repetitions.sortedBy { it.nextRepeatAt }
+                ).getOrElse {
+                    onNewMessage(Message.TopicsRepetitionsLoaded.Error)
+                    return
+                }
 
                 val currentProfile = profileInteractor
                     .getCurrentProfile()
