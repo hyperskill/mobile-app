@@ -8,5 +8,6 @@ data class TopicsRepetitionsViewData(
     val repeatBlockTitle: String,
     val trackTopicsTitle: String,
     val topicsToRepeat: List<TopicToRepeat>,
-    val showMoreButtonState: ShowMoreButtonState
+    val showMoreButtonState: ShowMoreButtonState,
+    val topicsToRepeatWillLoadedCount: Int
 )

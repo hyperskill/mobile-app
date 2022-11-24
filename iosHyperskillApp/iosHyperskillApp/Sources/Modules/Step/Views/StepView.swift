@@ -8,8 +8,6 @@ struct StepView: View {
 
     @StateObject var modalRouter: SwiftUIModalRouter
 
-    let onQuizCompleted: (() -> Void)?
-
     var body: some View {
         buildBody()
             .navigationBarHidden(false)
@@ -59,11 +57,7 @@ struct StepView: View {
                 viewData: viewModel.makeViewData(data.step)
             )
         case Step.Type_.practice:
-            StepQuizAssembly(
-                step: data.step,
-                onQuizCompleted: onQuizCompleted
-            )
-            .makeModule()
+            StepQuizAssembly(step: data.step).makeModule()
         default:
             Text("Unkwown state")
         }

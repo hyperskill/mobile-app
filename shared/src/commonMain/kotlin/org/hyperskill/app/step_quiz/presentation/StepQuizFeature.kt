@@ -114,8 +114,6 @@ interface StepQuizFeature {
 
             data class RequestUserPermission(val userPermissionRequest: StepQuizUserPermissionRequest) : ViewAction
 
-            object ProcessCorrectSubmission : ViewAction
-
             sealed interface NavigateTo : ViewAction {
                 object Back : NavigateTo
             }

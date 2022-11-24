@@ -16,19 +16,12 @@ final class TopicsRepetitionsViewModel: FeatureViewModel<
         onNewMessage(TopicsRepetitionsFeatureMessageShowMoreButtonClicked())
     }
 
-    func handleOpenStepRequested(stepID: Int64, topicID: Int64) {
+    func doTopicStepQuizPresentation(stepID: Int64) {
         DispatchQueue.main.async {
             self.onViewAction?(
-                TopicsRepetitionsFeatureActionViewActionNavigateToStepScreen(
-                    stepId: stepID,
-                    topicId: topicID
-                )
+                TopicsRepetitionsFeatureActionViewActionNavigateToStepScreen(stepId: stepID)
             )
         }
-    }
-
-    func onTopicRepeated(topicID: Int64) {
-        onNewMessage(TopicsRepetitionsFeatureMessageTopicRepeated(topicId: topicID))
     }
 
     // MARK: Analytic

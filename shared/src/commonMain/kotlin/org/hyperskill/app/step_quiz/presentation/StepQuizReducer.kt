@@ -135,9 +135,7 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 if (state is State.AttemptLoaded) {
                     state.copy(
                         submissionState = StepQuizFeature.SubmissionState.Loaded(message.submission)
-                    ) to if (message.submission.status == SubmissionStatus.CORRECT) {
-                        setOf(Action.ViewAction.ProcessCorrectSubmission)
-                    } else emptySet()
+                    ) to emptySet()
                 } else {
                     null
                 }

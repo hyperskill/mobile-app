@@ -46,7 +46,7 @@ interface TopicsRepetitionsFeature {
             object Error : NextTopicsLoaded
         }
 
-        data class TopicRepeated(val topicId: Long) : Message
+        data class StepCompleted(val stepId: Long) : Message
 
         /**
          * Analytic
@@ -75,7 +75,7 @@ interface TopicsRepetitionsFeature {
             object ShowNetworkError : ViewAction
 
             sealed interface NavigateTo : ViewAction {
-                data class StepScreen(val stepId: Long, val topicId: Long) : NavigateTo
+                data class StepScreen(val stepId: Long) : NavigateTo
             }
         }
     }

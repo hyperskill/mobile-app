@@ -62,7 +62,7 @@ struct TopicsRepetitionsView: View {
                         viewModel.logClickedRepeatNextTopicEvent()
 
                         if let firstTopic = viewData.topicsToRepeat.first {
-                            viewModel.handleOpenStepRequested(stepID: firstTopic.stepId, topicID: firstTopic.topicId)
+                            viewModel.doTopicStepQuizPresentation(stepID: firstTopic.stepId)
                         }
                     },
                     chartData: viewData.chartData.map { pair in
@@ -82,15 +82,13 @@ struct TopicsRepetitionsView: View {
                             onTap: {
                                 viewModel.logClickedRepeatTopicEvent()
 
-                                viewModel.handleOpenStepRequested(
-                                    stepID: topic.stepId,
-                                    topicID: topic.topicId
-                                )
+                                viewModel.doTopicStepQuizPresentation(stepID: topic.stepId)
                             }
                         )
                     },
                     showMoreButtonState: viewData.showMoreButtonState,
-                    onShowMoreButtonTap: viewModel.doLoadNextTopics
+                    onShowMoreButtonTap: viewModel.doLoadNextTopics,
+                    topicsToRepeatWillLoadedCount: Int(viewData.topicsToRepeatWillLoadedCount)
                 )
 
                 TopicsRepetitionsInfoBlock()
@@ -117,12 +115,7 @@ struct TopicsRepetitionsView: View {
         case .navigateTo(let navigateToViewAction):
             switch TopicsRepetitionsFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .stepScreen(let data):
-                let assembly = StepAssembly(
-                    stepID: Int(data.stepId),
-                    onQuizCompleted: {
-                        viewModel.onTopicRepeated(topicID: data.topicId)
-                    }
-                )
+                let assembly = StepAssembly(stepID: Int(data.stepId))
                 pushRouter.pushViewController(assembly.makeModule())
             }
         }

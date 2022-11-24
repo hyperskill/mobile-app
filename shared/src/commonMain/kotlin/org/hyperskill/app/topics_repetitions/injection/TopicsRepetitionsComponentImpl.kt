@@ -18,7 +18,10 @@ class TopicsRepetitionsComponentImpl(private val appGraph: AppGraph) : TopicsRep
         TopicsRepetitionsRepositoryImpl(topicsRepetitionsRemoteDataSource)
 
     private val topicsRepetitionsInteractor: TopicsRepetitionsInteractor =
-        TopicsRepetitionsInteractor(topicsRepetitionsRepository)
+        TopicsRepetitionsInteractor(
+            topicsRepetitionsRepository,
+            appGraph.submissionDataComponent.submissionRepository.solvedStepsMutableSharedFlow
+        )
 
     override val topicsRepetitionsFeature: Feature<TopicsRepetitionsFeature.State, TopicsRepetitionsFeature.Message, TopicsRepetitionsFeature.Action>
         get() = TopicsRepetitionsFeatureBuilder.build(

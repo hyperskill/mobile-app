@@ -2,9 +2,11 @@ package org.hyperskill.app.topics_repetitions.view.mapper
 
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsActionDispatcher
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature
 import org.hyperskill.app.topics_repetitions.view.model.ShowMoreButtonState
 import org.hyperskill.app.topics_repetitions.view.model.TopicsRepetitionsViewData
+import kotlin.math.min
 
 class TopicsRepetitionsViewDataMapper(
     private val resourceProvider: ResourceProvider
@@ -48,6 +50,10 @@ class TopicsRepetitionsViewDataMapper(
                 ShowMoreButtonState.AVAILABLE
             } else {
                 ShowMoreButtonState.EMPTY
-            }
+            },
+            topicsToRepeatWillLoadedCount = min(
+                state.topicsRepetitions.repetitions.count(),
+                TopicsRepetitionsActionDispatcher.TOPICS_PAGINATION_SIZE
+            )
         )
 }

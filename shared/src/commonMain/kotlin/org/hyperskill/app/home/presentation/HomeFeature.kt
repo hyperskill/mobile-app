@@ -21,6 +21,7 @@ interface HomeFeature {
          *
          * @property streak Current user profile streak.
          * @property problemOfDayState Problem of the day state.
+         * @property recommendedRepetitionsCount Recommended topics repetitions count.
          * @property isRefreshing A boolean flag that indicates about is pull-to-refresh is ongoing.
          * @see Streak
          * @see ProblemOfDayState

@@ -4,11 +4,8 @@ import SwiftUI
 final class StepQuizAssembly: Assembly {
     private let step: Step
 
-    private let onQuizCompleted: (() -> Void)?
-
-    init(step: Step, onQuizCompleted: (() -> Void)?) {
+    init(step: Step) {
         self.step = step
-        self.onQuizCompleted = onQuizCompleted
     }
 
     func makeModule() -> StepQuizView {
@@ -34,6 +31,6 @@ final class StepQuizAssembly: Assembly {
             feature: stepQuizComponent.stepQuizFeature
         )
 
-        return StepQuizView(viewModel: viewModel, onQuizCompleted: onQuizCompleted)
+        return StepQuizView(viewModel: viewModel)
     }
 }

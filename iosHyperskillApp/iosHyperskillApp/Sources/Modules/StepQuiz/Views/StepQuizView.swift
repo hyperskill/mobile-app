@@ -22,8 +22,6 @@ struct StepQuizView: View {
 
     @Environment(\.presentationMode) private var presentationMode
 
-    let onQuizCompleted: (() -> Void)?
-
     var body: some View {
         ZStack {
             UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
@@ -44,7 +42,7 @@ struct StepQuizView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 if let theoryID = viewModel.step.topicTheory {
                     Button(Strings.Step.theory) {
-                        let assembly = StepAssembly(stepID: Int(truncating: theoryID))
+                        let assembly = StepAssembly(stepID: theoryID.intValue)
                         pushRouter.pushViewController(assembly.makeModule())
                     }
                 }
@@ -262,8 +260,6 @@ struct StepQuizView: View {
             default:
                 break
             }
-        case is StepQuizFeatureActionViewActionProcessCorrectSubmission:
-            onQuizCompleted?()
         case is StepQuizFeatureActionViewActionNavigateToBack:
             presentationMode.wrappedValue.dismiss()
         default:

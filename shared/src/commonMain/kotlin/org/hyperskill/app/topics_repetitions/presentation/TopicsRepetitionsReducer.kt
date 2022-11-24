@@ -58,19 +58,21 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
-            is Message.TopicRepeated ->
+            is Message.StepCompleted ->
                 if (state is State.Content) {
-                    val repeatedCount = state.topicsToRepeat
-                        .firstOrNull { it.topicId == message.topicId }
-                        ?.repeatedCount
+                    state.topicsToRepeat.firstOrNull { it.stepId == message.stepId }?.topicId?.let { topicId ->
+                        val repeatedCount = state.topicsToRepeat
+                            .firstOrNull { it.topicId == topicId }
+                            ?.repeatedCount
 
-                    state.copy(
-                        topicsRepetitions = state.topicsRepetitions.copy(
-                            repetitionsByCount = getNewChartData(state.topicsRepetitions.repetitionsByCount.toMutableMap(), repeatedCount)
-                        ),
-                        topicsToRepeat = state.topicsToRepeat.filter { it.topicId != message.topicId },
-                        recommendedTopicsToRepeatCount = max(state.recommendedTopicsToRepeatCount.dec(), 0)
-                    ) to emptySet()
+                        state.copy(
+                            topicsRepetitions = state.topicsRepetitions.copy(
+                                repetitionsByCount = getNewChartData(state.topicsRepetitions.repetitionsByCount.toMutableMap(), repeatedCount)
+                            ),
+                            topicsToRepeat = state.topicsToRepeat.filter { it.topicId != topicId },
+                            recommendedTopicsToRepeatCount = max(state.recommendedTopicsToRepeatCount.dec(), 0)
+                        ) to emptySet()
+                    }
                 } else {
                     null
                 }

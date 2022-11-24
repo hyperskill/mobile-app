@@ -12,6 +12,8 @@ struct TopicsRepetitionsRepeatBlock: View {
 
     let onShowMoreButtonTap: () -> Void
 
+    let topicsToRepeatWillLoadedCount: Int
+
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.largeInset) {
             Text(repeatBlockTitle)
@@ -37,19 +39,23 @@ struct TopicsRepetitionsRepeatBlock: View {
                     )
                     .buttonStyle(OutlineButtonStyle(borderColor: .border, alignment: .leading))
                 }
-            }
 
-            switch showMoreButtonState {
-            case ShowMoreButtonState.available:
-                ShowMoreButton {
-                    onShowMoreButtonTap()
+                switch showMoreButtonState {
+                case ShowMoreButtonState.available:
+                    ShowMoreButton {
+                        onShowMoreButtonTap()
+                    }
+                    .padding(.top, LayoutInsets.largeInset - LayoutInsets.smallInset)
+                case ShowMoreButtonState.loading:
+                    ForEach(0..<topicsToRepeatWillLoadedCount, id: \.self) { _ in
+                        SkeletonRoundedView()
+                            .frame(height: OutlineButtonStyle().minHeight)
+                    }
+                case ShowMoreButtonState.empty:
+                    EmptyView()
+                default:
+                    Text("Unkwown state")
                 }
-            case ShowMoreButtonState.loading:
-                ProgressView()
-            case ShowMoreButtonState.empty:
-                EmptyView()
-            default:
-                Text("Unkwown state")
             }
         }
         .padding()
@@ -68,7 +74,8 @@ struct TopicsRepetitionsRepeatBlock_Previews: PreviewProvider {
                 RepeatButtonInfo(topicID: 3, title: "Basic data types", onTap: {})
             ],
             showMoreButtonState: ShowMoreButtonState.available,
-            onShowMoreButtonTap: {}
+            onShowMoreButtonTap: {},
+            topicsToRepeatWillLoadedCount: 5
         )
         .previewLayout(.sizeThatFits)
     }

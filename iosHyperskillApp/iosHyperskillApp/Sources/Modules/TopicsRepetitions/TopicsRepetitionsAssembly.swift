@@ -15,7 +15,7 @@ class TopicsRepetitionsAssembly: UIKitAssembly {
             dataMapper: topicsRepetitionsComponent.topicsRepetitionsViewDataMapper
         )
 
-        let viewController = RemoveBackButtonTitleHostingController(rootView: AnyView(topicsRepetitionsView))
+        let viewController = RemoveBackButtonTitleHostingController(rootView: topicsRepetitionsView)
 
         pushRouter.rootViewController = viewController
 

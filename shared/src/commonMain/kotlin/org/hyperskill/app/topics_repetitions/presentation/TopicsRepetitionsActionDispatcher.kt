@@ -1,5 +1,6 @@
 package org.hyperskill.app.topics_repetitions.presentation
 
+import kotlinx.coroutines.launch
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
@@ -22,6 +23,14 @@ class TopicsRepetitionsActionDispatcher(
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     companion object {
         const val TOPICS_PAGINATION_SIZE = 5
+    }
+
+    init {
+        actionScope.launch {
+            topicsRepetitionsInteractor.solvedStepsSharedFlow.collect { id ->
+                onNewMessage(Message.StepCompleted(id))
+            }
+        }
     }
 
     override suspend fun doSuspendableAction(action: Action) {
