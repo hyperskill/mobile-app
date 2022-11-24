@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -16,6 +15,8 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.launchUrl
 import org.hyperskill.app.android.core.extensions.representation
+import org.hyperskill.app.android.core.view.ui.dialog.CreateMagicLinkLoadingProgressDialogFragment
+import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.databinding.FragmentProfileSettingsBinding
 import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper
 import org.hyperskill.app.profile.presentation.ProfileSettingsViewModel
@@ -23,6 +24,7 @@ import org.hyperskill.app.profile_settings.domain.model.FeedbackEmailData
 import org.hyperskill.app.profile_settings.domain.model.Theme
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
+import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
@@ -184,7 +186,12 @@ class ProfileSettingsDialogFragment :
         viewStateDelegate.switchState(state)
 
         if (state is ProfileSettingsFeature.State.Content) {
-            viewBinding.settingsProgress.isVisible = state.isLoadingMagicLink
+            if (state.isLoadingMagicLink) {
+                CreateMagicLinkLoadingProgressDialogFragment.newInstance()
+                    .showIfNotExists(childFragmentManager, CreateMagicLinkLoadingProgressDialogFragment.TAG)
+            } else {
+                childFragmentManager.dismissDialogFragmentIfExists(CreateMagicLinkLoadingProgressDialogFragment.TAG)
+            }
             viewBinding.settingsThemeChosenTextView.text = state.profileSettings.theme.representation
             currentThemePosition = state.profileSettings.theme.ordinal
         }

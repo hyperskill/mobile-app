@@ -20,6 +20,8 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.isChannelNotificationsEnabled
 import org.hyperskill.app.android.core.extensions.launchUrl
+import org.hyperskill.app.android.core.view.ui.dialog.CreateMagicLinkLoadingProgressDialogFragment
+import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.databinding.FragmentProfileBinding
 import org.hyperskill.app.android.notification.injection.PlatformNotificationComponent
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
@@ -136,7 +138,12 @@ class ProfileFragment :
         renderExperienceSection(content.profile)
         renderSocialButtons(content.profile)
 
-        viewBinding.profileProgress.isVisible = content.isLoadingMagicLink
+        if (content.isLoadingMagicLink) {
+            CreateMagicLinkLoadingProgressDialogFragment.newInstance()
+                .showIfNotExists(childFragmentManager, CreateMagicLinkLoadingProgressDialogFragment.TAG)
+        } else {
+            childFragmentManager.dismissDialogFragmentIfExists(CreateMagicLinkLoadingProgressDialogFragment.TAG)
+        }
     }
 
     private fun renderNameProfileBadge(profile: Profile) {

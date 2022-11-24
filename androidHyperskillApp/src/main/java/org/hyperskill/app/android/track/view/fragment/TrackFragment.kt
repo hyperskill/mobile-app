@@ -4,7 +4,6 @@ import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -16,11 +15,14 @@ import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.launchUrl
+import org.hyperskill.app.android.core.view.ui.dialog.CreateMagicLinkLoadingProgressDialogFragment
+import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.databinding.FragmentTrackBinding
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.presentation.TrackFeature
 import org.hyperskill.app.track.presentation.TrackViewModel
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
+import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
@@ -89,7 +91,12 @@ class TrackFragment :
     }
 
     private fun renderContent(content: TrackFeature.State.Content) {
-        viewBinding.trackProgressBar.isVisible = content.isLoadingMagicLink
+        if (content.isLoadingMagicLink) {
+            CreateMagicLinkLoadingProgressDialogFragment.newInstance()
+                .showIfNotExists(childFragmentManager, CreateMagicLinkLoadingProgressDialogFragment.TAG)
+        } else {
+            childFragmentManager.dismissDialogFragmentIfExists(CreateMagicLinkLoadingProgressDialogFragment.TAG)
+        }
         renderTrackCoverAndName(content.track)
         renderCards(content)
         renderAboutSection(content)

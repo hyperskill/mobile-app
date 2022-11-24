@@ -2,7 +2,6 @@ package org.hyperskill.app.android.home.view.ui.fragment
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -12,6 +11,8 @@ import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.launchUrl
+import org.hyperskill.app.android.core.view.ui.dialog.CreateMagicLinkLoadingProgressDialogFragment
+import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentHomeBinding
 import org.hyperskill.app.android.problem_of_day.view.delegate.ProblemOfDayCardFormDelegate
@@ -21,6 +22,7 @@ import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeViewModel
 import org.hyperskill.app.streak.domain.model.Streak
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
+import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
@@ -151,7 +153,12 @@ class HomeFragment :
     override fun render(state: HomeFeature.State) {
         viewStateDelegate.switchState(state)
         if (state is HomeFeature.State.Content) {
-            viewBinding.homeScreenProgress.isVisible = state.isLoadingMagicLink
+            if (state.isLoadingMagicLink) {
+                CreateMagicLinkLoadingProgressDialogFragment.newInstance()
+                    .showIfNotExists(childFragmentManager, CreateMagicLinkLoadingProgressDialogFragment.TAG)
+            } else {
+                childFragmentManager.dismissDialogFragmentIfExists(CreateMagicLinkLoadingProgressDialogFragment.TAG)
+            }
             setupStreakCardDelegate(state.streak)
             setupProblemOfDayCardDelegate(state.problemOfDayState)
         }

@@ -18,6 +18,7 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthFlow
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthSocialScreen
 import org.hyperskill.app.android.core.extensions.launchUrl
+import org.hyperskill.app.android.core.view.ui.dialog.CreateMagicLinkLoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
@@ -146,17 +147,20 @@ class AuthCredentialsFragment :
 
     override fun render(state: AuthCredentialsFeature.State) {
         viewStateDelegate.switchState(state.formState)
-        renderFormState(state.formState, state.isLoadingMagicLink)
+        renderFormState(state.formState)
+        if (state.isLoadingMagicLink) {
+            CreateMagicLinkLoadingProgressDialogFragment.newInstance()
+                .showIfNotExists(childFragmentManager, CreateMagicLinkLoadingProgressDialogFragment.TAG)
+        } else {
+            childFragmentManager.dismissDialogFragmentIfExists(CreateMagicLinkLoadingProgressDialogFragment.TAG)
+        }
         viewBinding.emailEditText.setTextIfChanged(state.email)
         viewBinding.passwordEditText.setTextIfChanged(state.password)
     }
 
-    private fun renderFormState(
-        formState: AuthCredentialsFeature.FormState,
-        isLoadingMagicLink: Boolean
-    ) {
+    private fun renderFormState(formState: AuthCredentialsFeature.FormState) {
         viewStateDelegate.switchState(formState)
-        if (formState is AuthCredentialsFeature.FormState.Loading || isLoadingMagicLink) {
+        if (formState is AuthCredentialsFeature.FormState.Loading) {
             LoadingProgressDialogFragment.newInstance()
                 .showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
         } else {
