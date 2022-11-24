@@ -1,15 +1,16 @@
 package org.hyperskill.app.home.presentation
 
+import kotlin.math.max
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
+import org.hyperskill.app.home.domain.analytic.HomeClickedContinueLearningOnWebHyperskillAnalyticEvent
 import org.hyperskill.app.home.domain.analytic.HomeClickedProblemOfDayCardHyperskillAnalyticEvent
 import org.hyperskill.app.home.domain.analytic.HomeClickedPullToRefreshHyperskillAnalyticEvent
-import org.hyperskill.app.home.domain.analytic.HomeClickedContinueLearningOnWebHyperskillAnalyticEvent
 import org.hyperskill.app.home.domain.analytic.HomeClickedTopicsRepetitionsCardHyperskillAnalyticEvent
 import org.hyperskill.app.home.domain.analytic.HomeViewedHyperskillAnalyticEvent
 import org.hyperskill.app.home.presentation.HomeFeature.Action
 import org.hyperskill.app.home.presentation.HomeFeature.Message
 import org.hyperskill.app.home.presentation.HomeFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
-import kotlin.math.max
 
 class HomeReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
@@ -23,7 +24,11 @@ class HomeReducer : StateReducer<State, Message, Action> {
                     null
                 }
             is Message.HomeSuccess ->
-                State.Content(message.streak, message.problemOfDayState, message.recommendedRepetitionsCount) to emptySet()
+                State.Content(
+                    message.streak,
+                    message.problemOfDayState,
+                    message.recommendedRepetitionsCount
+                ) to emptySet()
             is Message.HomeFailure ->
                 State.NetworkError to emptySet()
             is Message.PullToRefresh ->
@@ -114,6 +119,30 @@ class HomeReducer : StateReducer<State, Message, Action> {
                             null
                         }
                     }
+                } else {
+                    null
+                }
+            }
+            is Message.ClickedContinueLearningOnWeb -> {
+                if (state is State.Content) {
+                    state.copy(isLoadingMagicLink = true) to setOf(
+                        Action.GetMagicLink(HyperskillUrlPath.Index()),
+                        Action.LogAnalyticEvent(HomeClickedContinueLearningOnWebHyperskillAnalyticEvent())
+                    )
+                } else {
+                    null
+                }
+            }
+            is Message.GetMagicLinkReceiveSuccess -> {
+                if (state is State.Content) {
+                    state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.OpenUrl(message.url))
+                } else {
+                    null
+                }
+            }
+            is Message.GetMagicLinkReceiveFailure -> {
+                if (state is State.Content) {
+                    state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.ShowGetMagicLinkError)
                 } else {
                     null
                 }

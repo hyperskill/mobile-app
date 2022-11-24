@@ -1,6 +1,7 @@
 package org.hyperskill.app.profile_settings.injection
 
 import org.hyperskill.app.core.injection.AppGraph
+import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile_settings.cache.ProfileSettingsCacheDataSourceImpl
 import org.hyperskill.app.profile_settings.data.repository.ProfileSettingsRepositoryImpl
 import org.hyperskill.app.profile_settings.data.source.ProfileSettingsCacheDataSource
@@ -20,6 +21,9 @@ class ProfileSettingsComponentImpl(private val appGraph: AppGraph) : ProfileSett
     override val profileSettingsInteractor: ProfileSettingsInteractor =
         ProfileSettingsInteractor(profileSettingsRepository)
 
+    private val urlPathProcessor: UrlPathProcessor =
+        appGraph.buildMagicLinksDataComponent().urlPathProcessor
+
     override val profileSettingsFeature: Feature<ProfileSettingsFeature.State, ProfileSettingsFeature.Message, ProfileSettingsFeature.Action>
         get() = ProfileSettingsFeatureBuilder.build(
             profileSettingsInteractor,
@@ -27,6 +31,7 @@ class ProfileSettingsComponentImpl(private val appGraph: AppGraph) : ProfileSett
             appGraph.analyticComponent.analyticInteractor,
             appGraph.networkComponent.authorizationFlow,
             appGraph.commonComponent.platform,
-            appGraph.commonComponent.userAgentInfo
+            appGraph.commonComponent.userAgentInfo,
+            urlPathProcessor
         )
 }

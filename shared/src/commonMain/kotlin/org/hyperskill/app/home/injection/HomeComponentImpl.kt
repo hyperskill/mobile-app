@@ -4,6 +4,7 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeFeature
+import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile.cache.ProfileCacheDataSourceImpl
 import org.hyperskill.app.profile.data.repository.ProfileRepositoryImpl
 import org.hyperskill.app.profile.data.source.ProfileCacheDataSource
@@ -35,7 +36,8 @@ class HomeComponentImpl(appGraph: AppGraph) : HomeComponent {
         appGraph.networkComponent.authorizedHttpClient
     )
     private val profileCacheDataSource: ProfileCacheDataSource = ProfileCacheDataSourceImpl(
-        appGraph.commonComponent.json, appGraph.commonComponent.settings
+        appGraph.commonComponent.json,
+        appGraph.commonComponent.settings
     )
     private val profileRepository: ProfileRepository =
         ProfileRepositoryImpl(profileRemoteDataSource, profileCacheDataSource)
@@ -53,6 +55,9 @@ class HomeComponentImpl(appGraph: AppGraph) : HomeComponent {
     private val analyticInteractor: AnalyticInteractor =
         appGraph.analyticComponent.analyticInteractor
 
+    private val urlPathProcessor: UrlPathProcessor =
+        appGraph.buildMagicLinksDataComponent().urlPathProcessor
+
     private val topicsRepetitionsInteractor: TopicsRepetitionsInteractor =
         appGraph.topicsRepetitionsDataComponent.topicsRepetitionsInteractor
 
@@ -63,6 +68,7 @@ class HomeComponentImpl(appGraph: AppGraph) : HomeComponent {
             streakInteractor,
             profileInteractor,
             stepInteractor,
+            urlPathProcessor,
             topicsRepetitionsInteractor.topicRepeatedMutableSharedFlow
         )
 }

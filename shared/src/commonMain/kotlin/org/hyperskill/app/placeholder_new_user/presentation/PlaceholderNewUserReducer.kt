@@ -1,5 +1,6 @@
 package org.hyperskill.app.placeholder_new_user.presentation
 
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.placeholder_new_user.domain.analytic.PlaceholderNewUserClickedContinueHyperskillAnalyticEvent
 import org.hyperskill.app.placeholder_new_user.domain.analytic.PlaceholderNewUserClickedSignInHyperskillAnalyticEvent
 import org.hyperskill.app.placeholder_new_user.domain.analytic.PlaceholderNewUserViewedHyperskillAnalyticEvent
@@ -20,7 +21,29 @@ class PlaceholderNewUserReducer : StateReducer<State, Message, Action> {
                 state to setOf(Action.ViewAction.NavigateTo.AuthScreen)
             is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(PlaceholderNewUserViewedHyperskillAnalyticEvent()))
-            is Message.ClickedContinueEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(PlaceholderNewUserClickedContinueHyperskillAnalyticEvent()))
-        }
+            is Message.ClickedContinueOnWeb -> {
+                if (state is State.Content) {
+                    state.copy(isLoadingMagicLink = true) to setOf(
+                        Action.GetMagicLink(HyperskillUrlPath.Index()),
+                        Action.LogAnalyticEvent(PlaceholderNewUserClickedContinueHyperskillAnalyticEvent())
+                    )
+                } else {
+                    null
+                }
+            }
+            is Message.GetMagicLinkReceiveSuccess -> {
+                if (state is State.Content) {
+                    state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.OpenUrl(message.url))
+                } else {
+                    null
+                }
+            }
+            is Message.GetMagicLinkReceiveFailure -> {
+                if (state is State.Content) {
+                    state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.ShowGetMagicLinkError)
+                } else {
+                    null
+                }
+            }
+        } ?: (state to emptySet())
 }

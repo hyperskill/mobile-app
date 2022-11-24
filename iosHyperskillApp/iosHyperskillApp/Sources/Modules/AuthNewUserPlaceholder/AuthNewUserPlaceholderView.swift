@@ -20,7 +20,11 @@ struct AuthNewUserPlaceholderView: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     var body: some View {
-        ZStack {
+        if case .content(let data) = viewModel.stateKs, data.isLoadingMagicLink {
+            ProgressHUD.show()
+        }
+
+        return ZStack {
             UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
 
             BackgroundView()
@@ -61,11 +65,9 @@ struct AuthNewUserPlaceholderView: View {
                 .foregroundColor(.primaryText)
 
             VStack(spacing: appearance.spacingSmall) {
-                OpenURLInsideAppButton(
-                    text: Strings.Auth.NewUserPlaceholder.continueButton,
-                    urlType: .nextURLPath(HyperskillUrlPath.Index()),
-                    webControllerType: .inAppSafari,
-                    onTap: viewModel.logClickedContinueEvent
+                Button(
+                    Strings.Auth.NewUserPlaceholder.continueButton,
+                    action: viewModel.doContinueOnWebPresentation
                 )
                 .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
 
@@ -85,11 +87,17 @@ struct AuthNewUserPlaceholderView: View {
     // MARK: Private API
 
     private func handleViewAction(_ viewAction: PlaceholderNewUserFeatureActionViewAction) {
-        switch viewAction {
-        case is PlaceholderNewUserFeatureActionViewActionNavigateToAuthScreen:
-            viewModel.doAuthScreenPresentation()
-        default:
-            break
+        switch PlaceholderNewUserFeatureActionViewActionKs(viewAction) {
+        case .navigateTo(let navigateToViewAction):
+            switch PlaceholderNewUserFeatureActionViewActionNavigateToKs(navigateToViewAction) {
+            case .authScreen:
+                viewModel.doAuthScreenPresentation()
+            }
+        case .openUrl(let data):
+            ProgressHUD.showSuccess()
+            WebControllerManager.shared.presentWebControllerWithURLString(data.url, controllerType: .inAppSafari)
+        case .showGetMagicLinkError:
+            ProgressHUD.showError()
         }
     }
 }

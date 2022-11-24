@@ -1,8 +1,6 @@
 package org.hyperskill.app.android.track.view.fragment
 
-import android.content.Intent
 import android.graphics.Paint
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -13,18 +11,22 @@ import coil.ImageLoader
 import coil.decode.SvgDecoder
 import coil.load
 import coil.size.Scale
-import kotlin.math.roundToInt
+import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.extensions.launchUrl
+import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
+import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.databinding.FragmentTrackBinding
-import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
-import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.presentation.TrackFeature
 import org.hyperskill.app.track.presentation.TrackViewModel
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
+import ru.nobird.android.view.base.ui.extension.showIfNotExists
+import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
+import kotlin.math.roundToInt
 
 class TrackFragment :
     Fragment(R.layout.fragment_track),
@@ -72,7 +74,12 @@ class TrackFragment :
     }
 
     override fun onAction(action: TrackFeature.Action.ViewAction) {
-        // no op
+        when (action) {
+            is TrackFeature.Action.ViewAction.OpenUrl ->
+                requireContext().launchUrl(action.url)
+            TrackFeature.Action.ViewAction.ShowGetMagicLinkError ->
+                viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
+        }
     }
 
     override fun render(state: TrackFeature.State) {
@@ -84,6 +91,12 @@ class TrackFragment :
     }
 
     private fun renderContent(content: TrackFeature.State.Content) {
+        if (content.isLoadingMagicLink) {
+            LoadingProgressDialogFragment.newInstance()
+                .showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
+        } else {
+            childFragmentManager.dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
+        }
         renderTrackCoverAndName(content.track)
         renderCards(content)
         renderAboutSection(content)
@@ -179,13 +192,7 @@ class TrackFragment :
             trackAboutKeepYourProgressInWebTextView.paintFlags =
                 trackAboutKeepYourProgressInWebTextView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
             trackAboutKeepYourProgressInWebTextView.setOnClickListener {
-                trackViewModel.onNewMessage(TrackFeature.Message.ClickedContinueInWebEventMessage)
-
-                val intent = Intent(Intent.ACTION_VIEW)
-                val url = HyperskillUrlBuilder.build(HyperskillUrlPath.StudyPlan())
-                intent.data = Uri.parse(url.toString())
-
-                startActivity(intent)
+                trackViewModel.onNewMessage(TrackFeature.Message.ClickedContinueInWeb)
             }
         }
     }

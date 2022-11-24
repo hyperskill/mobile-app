@@ -18,10 +18,12 @@ import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeFeature.Action
 import org.hyperskill.app.home.presentation.HomeFeature.Message
+import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.streak.domain.interactor.StreakInteractor
@@ -34,6 +36,7 @@ class HomeActionDispatcher(
     private val profileInteractor: ProfileInteractor,
     private val stepInteractor: StepInteractor,
     private val analyticInteractor: AnalyticInteractor,
+    private val urlPathProcessor: UrlPathProcessor,
     private val topicRepeatedSharedFlow: SharedFlow<Unit>
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
@@ -122,6 +125,10 @@ class HomeActionDispatcher(
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
+            is Action.GetMagicLink -> getLink(action.path, ::onNewMessage)
+            else -> {
+                // no op
+            }
         }
     }
 
@@ -140,4 +147,19 @@ class HomeActionDispatcher(
                     }
                 }
         }
+
+    private suspend fun getLink(
+        path: HyperskillUrlPath,
+        onNewMessage: (Message) -> Unit
+    ) {
+        urlPathProcessor.processUrlPath(path)
+            .fold(
+                onSuccess = { url ->
+                    onNewMessage(Message.GetMagicLinkReceiveSuccess(url))
+                },
+                onFailure = {
+                    onNewMessage(Message.GetMagicLinkReceiveFailure)
+                }
+            )
+    }
 }

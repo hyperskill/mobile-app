@@ -1,38 +1,37 @@
 package org.hyperskill.app.android.auth.view.ui.fragment
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import io.sentry.Breadcrumb
 import io.sentry.Sentry
 import io.sentry.SentryLevel
+import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthFlow
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthSocialScreen
+import org.hyperskill.app.android.core.extensions.launchUrl
+import org.hyperskill.app.android.core.view.ui.dialog.CreateMagicLinkLoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
-import org.hyperskill.app.android.core.view.ui.dialog.dismissIfExists
+import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentAuthEmailBinding
 import org.hyperskill.app.android.sentry.domain.model.SentryBreadcrumbKeyValues
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature
 import org.hyperskill.app.auth.presentation.AuthCredentialsViewModel
 import org.hyperskill.app.auth.view.mapper.AuthCredentialsErrorMapper
-import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
-import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.addKeyboardVisibilityListener
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
+import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -51,9 +50,6 @@ class AuthCredentialsFragment :
     private val viewStateDelegate: ViewStateDelegate<AuthCredentialsFeature.FormState> = ViewStateDelegate()
     private val authCredentialsViewModel: AuthCredentialsViewModel by reduxViewModel(this) { viewModelFactory }
     private val viewBinding by viewBinding(FragmentAuthEmailBinding::bind)
-
-    private val loadingProgressDialogFragment: DialogFragment =
-        LoadingProgressDialogFragment.newInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,19 +91,13 @@ class AuthCredentialsFragment :
             authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.SubmitFormClicked)
         }
         viewBinding.signInWithEmailResetPasswordTextButton.setOnClickListener {
-            authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.ClickedResetPasswordEventMessage)
+            with(authCredentialsViewModel) {
+                onNewMessage(AuthCredentialsFeature.Message.ClickedResetPassword)
+            }
         }
         viewBinding.signInWithSocialMaterialButton.setOnClickListener {
             authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.ClickedContinueWithSocialEventMessage)
             requireRouter().backTo(AuthSocialScreen)
-        }
-
-        viewBinding.signInWithEmailResetPasswordTextButton.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW)
-            val url = HyperskillUrlBuilder.build(HyperskillUrlPath.ResetPassword())
-            intent.data = Uri.parse(url.toString())
-
-            startActivity(intent)
         }
 
         viewBinding.root.addKeyboardVisibilityListener { isVisible ->
@@ -148,12 +138,22 @@ class AuthCredentialsFragment :
 
                 Sentry.captureMessage("AuthCredentials: ${action.error}", SentryLevel.ERROR)
             }
+            is AuthCredentialsFeature.Action.ViewAction.OpenUrl ->
+                requireContext().launchUrl(action.url)
+            AuthCredentialsFeature.Action.ViewAction.ShowGetMagicLinkError ->
+                viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
         }
     }
 
     override fun render(state: AuthCredentialsFeature.State) {
         viewStateDelegate.switchState(state.formState)
         renderFormState(state.formState)
+        if (state.isLoadingMagicLink) {
+            CreateMagicLinkLoadingProgressDialogFragment.newInstance()
+                .showIfNotExists(childFragmentManager, CreateMagicLinkLoadingProgressDialogFragment.TAG)
+        } else {
+            childFragmentManager.dismissDialogFragmentIfExists(CreateMagicLinkLoadingProgressDialogFragment.TAG)
+        }
         viewBinding.emailEditText.setTextIfChanged(state.email)
         viewBinding.passwordEditText.setTextIfChanged(state.password)
     }
@@ -161,9 +161,10 @@ class AuthCredentialsFragment :
     private fun renderFormState(formState: AuthCredentialsFeature.FormState) {
         viewStateDelegate.switchState(formState)
         if (formState is AuthCredentialsFeature.FormState.Loading) {
-            loadingProgressDialogFragment.showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
+            LoadingProgressDialogFragment.newInstance()
+                .showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
         } else {
-            loadingProgressDialogFragment.dismissIfExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
+            childFragmentManager.dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
         }
 
         if (formState is AuthCredentialsFeature.FormState.Error) {
