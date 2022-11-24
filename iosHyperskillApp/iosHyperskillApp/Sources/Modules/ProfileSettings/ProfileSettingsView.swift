@@ -92,7 +92,7 @@ struct ProfileSettingsView: View {
             Section(header: Text(Strings.Settings.about)) {
                 OpenURLInsideAppButton(
                     text: Strings.Settings.termsOfService,
-                    urlType: .url(Self.termsOfServiceURL),
+                    url: Self.termsOfServiceURL,
                     webControllerType: .inAppSafari,
                     onTap: viewModel.logClickedTermsOfServiceEvent
                 )
@@ -100,7 +100,7 @@ struct ProfileSettingsView: View {
 
                 OpenURLInsideAppButton(
                     text: Strings.Settings.privacyPolicy,
-                    urlType: .url(Self.privacyPolicyURL),
+                    url: Self.privacyPolicyURL,
                     webControllerType: .inAppSafari,
                     onTap: viewModel.logClickedPrivacyPolicyEvent
                 )
@@ -130,7 +130,7 @@ struct ProfileSettingsView: View {
 
                 OpenURLInsideAppButton(
                     text: Strings.Settings.reportProblem,
-                    urlType: .url(Self.reportProblemURL),
+                    url: Self.reportProblemURL,
                     webControllerType: .inAppSafari,
                     onTap: viewModel.logClickedReportProblemEvent
                 )

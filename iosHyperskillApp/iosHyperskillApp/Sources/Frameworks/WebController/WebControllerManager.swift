@@ -45,53 +45,6 @@ final class WebControllerManager: NSObject {
         error?("Could not dismiss web controller with key \(key)")
     }
 
-    func presentWebControllerWithNextURLPath(
-        _ nextURLPath: HyperskillUrlPath,
-        inController controller: UIViewController? = nil,
-        withKey key: WebControllerKey = .externalLink,
-        controllerType: WebControllerType = .safari,
-        backButtonStyle: BackButtonStyle = .done,
-        animated: Bool = true
-    ) {
-//        let urlPathProcessor = AppGraphBridge.sharedAppGraph.buildMagicLinksDataComponent().urlPathProcessor
-//
-//        if urlPathProcessor.shouldCreateMagicLink(path: nextURLPath) {
-//            SVProgressHUD.show()
-//
-//            magicLinksInteractor.createMagicLink(
-//                nextUrl: nextURLPath.path,
-//                completionHandler_: { (magicLink: MagicLink?, error: Error?) in
-//                    if error != nil {
-//                        SVProgressHUD.showError(withStatus: nil)
-//                    } else if let magicLink,
-//                              let url = URL(string: magicLink.url) {
-//                        SVProgressHUD.showSuccess(withStatus: nil)
-//                        self.presentWebControllerWithURL(
-//                            url,
-//                            inController: controller,
-//                            withKey: key,
-//                            controllerType: controllerType,
-//                            backButtonStyle: backButtonStyle,
-//                            animated: animated
-//                        )
-//                    } else {
-//                        SVProgressHUD.showError(withStatus: nil)
-//                    }
-//                }
-//            )
-//        } else {
-//            let url = HyperskillUrlBuilder.shared.build(path: nextURLPath)
-//            presentWebControllerWithURL(
-//                url.toNSURL(),
-//                inController: controller,
-//                withKey: key,
-//                controllerType: controllerType,
-//                backButtonStyle: backButtonStyle,
-//                animated: animated
-//            )
-//        }
-    }
-
     func presentWebControllerWithURL(
         _ url: URL,
         inController controller: UIViewController? = nil,
