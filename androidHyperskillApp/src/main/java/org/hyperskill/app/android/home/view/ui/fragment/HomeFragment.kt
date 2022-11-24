@@ -138,7 +138,7 @@ class HomeFragment :
 
     override fun onAction(action: HomeFeature.Action.ViewAction) {
         when (action) {
-            is HomeFeature.Action.ViewAction.FollowUrl -> {
+            is HomeFeature.Action.ViewAction.OpenUrl -> {
                 requireContext().launchUrl(action.url)
             }
             is HomeFeature.Action.ViewAction.ShowGetMagicLinkError -> {

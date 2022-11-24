@@ -65,7 +65,7 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
-            Message.GetMagicLinkReceiveFailure -> {
+            is Message.GetMagicLinkReceiveFailure -> {
                 if (state is State.Content) {
                     state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.ShowGetMagicLinkError)
                 } else {

@@ -24,12 +24,7 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
     }
 
     func doStudyPlanInWebPresentation() {
-        logClickedContinueInWebEvent()
-
-        WebControllerManager.shared.presentWebControllerWithNextURLPath(
-            HyperskillUrlPath.StudyPlan(),
-            controllerType: .safari
-        )
+        onNewMessage(TrackFeatureMessageClickedContinueInWeb())
     }
 
     func makeViewData(track: Track, trackProgress: TrackProgress, studyPlan: StudyPlan?) -> TrackViewData {
@@ -40,9 +35,5 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
 
     func logViewedEvent() {
         onNewMessage(TrackFeatureMessageViewedEventMessage())
-    }
-
-    private func logClickedContinueInWebEvent() {
-        onNewMessage(TrackFeatureMessageClickedContinueInWebEventMessage())
     }
 }

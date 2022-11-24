@@ -68,6 +68,10 @@ struct ProfileView: View {
                 }
             )
         case .content(let data):
+            if data.isLoadingMagicLink {
+                let _ = ProgressHUD.show()
+            }
+
             let viewData = viewModel.makeViewData(data.profile)
 
             ScrollView {
@@ -99,8 +103,8 @@ struct ProfileView: View {
                         bio: viewData.bio,
                         experience: viewData.experience,
                         socialAccounts: viewData.socialAccounts,
-                        onSocialAccountTapped: viewModel.presentSocialAccount(_:),
-                        onFullVersionButtonTapped: viewModel.presentProfileFullVersion
+                        onSocialAccountTapped: viewModel.doSocialAccountPresentation(_:),
+                        onFullVersionButtonTapped: viewModel.doProfileFullVersionPresentation
                     )
                 }
                 .padding(.vertical)
@@ -117,7 +121,13 @@ struct ProfileView: View {
     }
 
     private func handleViewAction(_ viewAction: ProfileFeatureActionViewAction) {
-        print("ProfileView :: \(#function) viewAction = \(viewAction)")
+        switch ProfileFeatureActionViewActionKs(viewAction) {
+        case .openUrl(let data):
+            ProgressHUD.showSuccess()
+            WebControllerManager.shared.presentWebControllerWithURLString(data.url)
+        case .showGetMagicLinkError:
+            ProgressHUD.showError()
+        }
     }
 }
 

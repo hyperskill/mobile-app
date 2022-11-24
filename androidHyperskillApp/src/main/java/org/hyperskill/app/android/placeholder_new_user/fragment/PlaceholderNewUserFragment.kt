@@ -67,7 +67,7 @@ class PlaceholderNewUserFragment :
         when (action) {
             PlaceholderNewUserFeature.Action.ViewAction.NavigateTo.AuthScreen ->
                 requireRouter().newRootScreen(AuthScreen)
-            is PlaceholderNewUserFeature.Action.ViewAction.FollowUrl ->
+            is PlaceholderNewUserFeature.Action.ViewAction.OpenUrl ->
                 requireContext().launchUrl(action.url)
             PlaceholderNewUserFeature.Action.ViewAction.ShowGetMagicLinkError ->
                 viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)

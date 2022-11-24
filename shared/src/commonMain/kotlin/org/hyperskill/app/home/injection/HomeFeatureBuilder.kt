@@ -23,7 +23,7 @@ object HomeFeatureBuilder {
         streakInteractor: StreakInteractor,
         profileInteractor: ProfileInteractor,
         stepInteractor: StepInteractor,
-        pathProcessor: UrlPathProcessor
+        urlPathProcessor: UrlPathProcessor
     ): Feature<State, Message, Action> {
         val homeReducer = HomeReducer()
         val homeActionDispatcher = HomeActionDispatcher(
@@ -33,7 +33,7 @@ object HomeFeatureBuilder {
             profileInteractor,
             stepInteractor,
             analyticInteractor,
-            pathProcessor
+            urlPathProcessor
         )
 
         return ReduxFeature(State.Idle, homeReducer)

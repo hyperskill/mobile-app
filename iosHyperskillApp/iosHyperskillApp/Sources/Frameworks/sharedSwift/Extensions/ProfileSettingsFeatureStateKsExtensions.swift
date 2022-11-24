@@ -2,14 +2,14 @@ import Foundation
 import shared
 
 #warning("TODO: Replce with source code generator Sourcery")
-extension HomeFeatureStateKs: Equatable {
-    public static func == (lhs: HomeFeatureStateKs, rhs: HomeFeatureStateKs) -> Bool {
+extension ProfileSettingsFeatureStateKs: Equatable {
+    public static func == (lhs: ProfileSettingsFeatureStateKs, rhs: ProfileSettingsFeatureStateKs) -> Bool {
         switch (lhs, rhs) {
         case (.idle, .idle):
             return true
         case (.loading, .loading):
             return true
-        case (.networkError, .networkError):
+        case (.error, .error):
             return true
         case (.content(let lhsData), .content(let rhsData)):
             return lhsData.isEqual(rhsData)
@@ -17,25 +17,25 @@ extension HomeFeatureStateKs: Equatable {
             return false
         case (.content, .loading):
             return false
-        case (.content, .networkError):
+        case (.content, .error):
             return false
-        case (.networkError, .idle):
+        case (.error, .idle):
             return false
-        case (.networkError, .loading):
+        case (.error, .loading):
             return false
-        case (.networkError, .content):
+        case (.error, .content):
             return false
         case (.loading, .idle):
             return false
         case (.loading, .content):
             return false
-        case (.loading, .networkError):
+        case (.loading, .error):
             return false
         case (.idle, .loading):
             return false
         case (.idle, .content):
             return false
-        case (.idle, .networkError):
+        case (.idle, .error):
             return false
         }
     }

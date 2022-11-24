@@ -21,7 +21,7 @@ class PlaceholderNewUserReducer : StateReducer<State, Message, Action> {
                 state to setOf(Action.ViewAction.NavigateTo.AuthScreen)
             is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(PlaceholderNewUserViewedHyperskillAnalyticEvent()))
-            Message.ClickedContinueOnWeb -> {
+            is Message.ClickedContinueOnWeb -> {
                 if (state is State.Content) {
                     state.copy(isLoadingMagicLink = true) to setOf(
                         Action.GetMagicLink(HyperskillUrlPath.Index()),
@@ -33,12 +33,12 @@ class PlaceholderNewUserReducer : StateReducer<State, Message, Action> {
             }
             is Message.GetMagicLinkReceiveSuccess -> {
                 if (state is State.Content) {
-                    state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.FollowUrl(message.url))
+                    state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.OpenUrl(message.url))
                 } else {
                     null
                 }
             }
-            Message.GetMagicLinkReceiveFailure -> {
+            is Message.GetMagicLinkReceiveFailure -> {
                 if (state is State.Content) {
                     state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.ShowGetMagicLinkError)
                 } else {

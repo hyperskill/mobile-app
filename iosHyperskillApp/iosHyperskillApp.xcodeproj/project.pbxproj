@@ -35,6 +35,8 @@
 		2C0DB91E2864617E001EA35E /* code-completion-keywords.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C0DB91D2864617E001EA35E /* code-completion-keywords.plist */; };
 		2C0DFB9A2923BB4300D30921 /* ProfileFeatureStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DFB992923BB4300D30921 /* ProfileFeatureStateKsExtensions.swift */; };
 		2C0EC2DF28F9E92D004A36B2 /* ModalRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0EC2DE28F9E92D004A36B2 /* ModalRouter.swift */; };
+		2C0FA877292FC9BF00A37636 /* PlaceholderNewUserFeatureStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0FA876292FC9BF00A37636 /* PlaceholderNewUserFeatureStateKsExtensions.swift */; };
+		2C0FA879292FD73400A37636 /* ProfileSettingsFeatureStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0FA878292FD73400A37636 /* ProfileSettingsFeatureStateKsExtensions.swift */; };
 		2C1061A2285C349400EBD614 /* StepQuizChildQuizAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1061A1285C349400EBD614 /* StepQuizChildQuizAssembly.swift */; };
 		2C1061A4285C34C900EBD614 /* StepQuizChildQuizOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1061A3285C34C900EBD614 /* StepQuizChildQuizOutputProtocol.swift */; };
 		2C1061A8285C3A2D00EBD614 /* StepQuizChildQuizType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1061A7285C3A2D00EBD614 /* StepQuizChildQuizType.swift */; };
@@ -409,6 +411,8 @@
 		2C0DB91D2864617E001EA35E /* code-completion-keywords.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "code-completion-keywords.plist"; sourceTree = "<group>"; };
 		2C0DFB992923BB4300D30921 /* ProfileFeatureStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFeatureStateKsExtensions.swift; sourceTree = "<group>"; };
 		2C0EC2DE28F9E92D004A36B2 /* ModalRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalRouter.swift; sourceTree = "<group>"; };
+		2C0FA876292FC9BF00A37636 /* PlaceholderNewUserFeatureStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderNewUserFeatureStateKsExtensions.swift; sourceTree = "<group>"; };
+		2C0FA878292FD73400A37636 /* ProfileSettingsFeatureStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsFeatureStateKsExtensions.swift; sourceTree = "<group>"; };
 		2C1061A1285C349400EBD614 /* StepQuizChildQuizAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChildQuizAssembly.swift; sourceTree = "<group>"; };
 		2C1061A3285C34C900EBD614 /* StepQuizChildQuizOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChildQuizOutputProtocol.swift; sourceTree = "<group>"; };
 		2C1061A7285C3A2D00EBD614 /* StepQuizChildQuizType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChildQuizType.swift; sourceTree = "<group>"; };
@@ -924,7 +928,9 @@
 			children = (
 				2C1860FB2923C540007D4EBF /* AppFeatureStateKsExtensions.swift */,
 				2C1860FE2923CAAD007D4EBF /* HomeFeatureStateKsExtensions.swift */,
+				2C0FA876292FC9BF00A37636 /* PlaceholderNewUserFeatureStateKsExtensions.swift */,
 				2C0DFB992923BB4300D30921 /* ProfileFeatureStateKsExtensions.swift */,
+				2C0FA878292FD73400A37636 /* ProfileSettingsFeatureStateKsExtensions.swift */,
 				2CFD7C67292542FB00902748 /* StepFeatureStateKsExtensions.swift */,
 				2CFD7C692925447600902748 /* StepQuizFeatureStateKsExtensions.swift */,
 				2C1860F92923BE7E007D4EBF /* TrackFeatureStateKsExtensions.swift */,
@@ -2787,6 +2793,7 @@
 				2C1061A4285C34C900EBD614 /* StepQuizChildQuizOutputProtocol.swift in Sources */,
 				2C20FBA4284F165A006D879E /* ProcessedContent.swift in Sources */,
 				E99CCB0B287E945300898BBF /* HomeViewModel.swift in Sources */,
+				2C0FA879292FD73400A37636 /* ProfileSettingsFeatureStateKsExtensions.swift in Sources */,
 				2C1061AA285C3C3300EBD614 /* StepQuizChoiceAssembly.swift in Sources */,
 				2CF72AA828477E0600E1C192 /* StepQuizTableRowView.swift in Sources */,
 				2C80D503288C5EBB00B2CD1E /* StepQuizCodeNavigationState.swift in Sources */,
@@ -2843,6 +2850,7 @@
 				2C069EB128F03782009A3DA1 /* AnalyticExtensions.swift in Sources */,
 				2CD3652528796C4300D61855 /* ProfileViewDataMapper.swift in Sources */,
 				2CE1C4DF27EDFB3800220041 /* FeatureViewModel.swift in Sources */,
+				2C0FA877292FC9BF00A37636 /* PlaceholderNewUserFeatureStateKsExtensions.swift in Sources */,
 				E9B2CF5B2822960D00B2DC6F /* StepQuizBottomControls.swift in Sources */,
 				2C656378287440D5006AAD77 /* TrackAboutStatItemView.swift in Sources */,
 				2C82BA322844B01D004C9013 /* PlaceholderView+Configurations.swift in Sources */,

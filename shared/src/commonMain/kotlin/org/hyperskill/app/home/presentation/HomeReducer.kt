@@ -117,7 +117,7 @@ class HomeReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
-            Message.ClickedContinueLearningOnWeb -> {
+            is Message.ClickedContinueLearningOnWeb -> {
                 if (state is State.Content) {
                     state.copy(isLoadingMagicLink = true) to setOf(
                         Action.GetMagicLink(HyperskillUrlPath.Index()),
@@ -129,7 +129,7 @@ class HomeReducer : StateReducer<State, Message, Action> {
             }
             is Message.GetMagicLinkReceiveSuccess -> {
                 if (state is State.Content) {
-                    state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.FollowUrl(message.url))
+                    state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.OpenUrl(message.url))
                 } else {
                     null
                 }

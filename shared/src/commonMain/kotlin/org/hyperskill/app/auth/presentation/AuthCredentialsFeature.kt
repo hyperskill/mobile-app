@@ -24,6 +24,7 @@ interface AuthCredentialsFeature {
         object SubmitFormClicked : Message
         data class AuthSuccess(val isNewUser: Boolean) : Message
         data class AuthFailure(val credentialsError: AuthCredentialsError, val originalError: Throwable) : Message
+
         object ClickedResetPassword : Message
 
         data class GetMagicLinkReceiveSuccess(val url: String) : Message

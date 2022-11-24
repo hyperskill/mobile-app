@@ -82,7 +82,7 @@ interface HomeFeature {
                 data class StepScreen(val stepId: Long) : NavigateTo
                 object TopicsRepetitionsScreen : NavigateTo
             }
-            data class FollowUrl(val url: String) : ViewAction
+            data class OpenUrl(val url: String) : ViewAction
             object ShowGetMagicLinkError : ViewAction
         }
     }

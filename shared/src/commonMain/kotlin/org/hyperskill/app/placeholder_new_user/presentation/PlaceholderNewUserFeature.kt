@@ -5,7 +5,6 @@ import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 
 interface PlaceholderNewUserFeature {
     sealed interface State {
-
         /**
          * @property isLoadingMagicLink A boolean flag that indicates about magic link loading.
          * */
@@ -38,7 +37,7 @@ interface PlaceholderNewUserFeature {
             sealed interface NavigateTo : ViewAction {
                 object AuthScreen : NavigateTo
             }
-            data class FollowUrl(val url: String) : ViewAction
+            data class OpenUrl(val url: String) : ViewAction
             object ShowGetMagicLinkError : ViewAction
         }
 
