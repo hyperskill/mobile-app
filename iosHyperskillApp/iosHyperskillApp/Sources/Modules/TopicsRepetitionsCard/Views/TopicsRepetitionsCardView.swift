@@ -56,7 +56,6 @@ struct TopicsRepetitionsCardView: View {
             }
         )
         .buttonStyle(BounceButtonStyle())
-        .disabled(state == .completed)
         .shadow(
             color: appearance.shadowColor,
             radius: appearance.shadowRadius,

@@ -38,6 +38,10 @@ sealed class HyperskillAnalyticRoute {
         override val path: String = "/home"
     }
 
+    class Repeat : HyperskillAnalyticRoute() {
+        override val path: String = "/repeat"
+    }
+
     class Track : HyperskillAnalyticRoute() {
         override val path: String = "/track"
     }
