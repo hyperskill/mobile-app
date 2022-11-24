@@ -4,7 +4,10 @@ import SwiftUI
 extension TrackView {
     struct Appearance {
         let spacingBetweenContainers = LayoutInsets.largeInset
-        let spacingBetweenRelativeItems = LayoutInsets.smallInset
+        let spacingBetweenRelativeItems = LayoutInsets.defaultInset
+
+        let progressBlockSpacing = LayoutInsets.smallInset
+        let progressBlockTitleInsets = LayoutInsets(bottom: LayoutInsets.smallInset)
 
         let backgroundColor = Color.systemGroupedBackground
     }
@@ -14,6 +17,8 @@ struct TrackView: View {
     private(set) var appearance = Appearance()
 
     @StateObject var viewModel: TrackViewModel
+
+    @StateObject var pushRouter: SwiftUIPushRouter
 
     var body: some View {
         ZStack {
@@ -58,7 +63,8 @@ struct TrackView: View {
             let viewData = viewModel.makeViewData(
                 track: data.track,
                 trackProgress: data.trackProgress,
-                studyPlan: data.studyPlan
+                studyPlan: data.studyPlan,
+                topicsToDiscoverNext: data.topicsToDiscoverNext
             )
 
             ScrollView {
@@ -69,8 +75,19 @@ struct TrackView: View {
                         subtitle: viewData.learningRole
                     )
 
-                    TrackCardsView(
-                        appearance: .init(spacing: appearance.spacingBetweenRelativeItems),
+                    if !viewData.topicsToDiscoverNext.isEmpty {
+                        TrackTopicsToDiscoverNextBlockView(
+                            appearance: .init(spacing: appearance.spacingBetweenRelativeItems),
+                            topics: viewData.topicsToDiscoverNext,
+                            onTopicTapped: viewModel.doTheoryTopicPresentation(topic:)
+                        )
+                    }
+
+                    TrackProgressBlockView(
+                        appearance: .init(
+                            titleInsets: appearance.progressBlockTitleInsets,
+                            spacing: appearance.progressBlockSpacing
+                        ),
                         timeToComplete: viewData.currentTimeToCompleteText,
                         completedGraduateProjects: viewData.completedGraduateProjectsCountText,
                         completedTopics: viewData.completedTopicsText,
@@ -79,7 +96,8 @@ struct TrackView: View {
                         capstoneTopicsProgress: viewData.capstoneTopicsProgress
                     )
 
-                    TrackAboutView(
+                    TrackAboutBlockView(
+                        appearance: .init(spacing: appearance.spacingBetweenRelativeItems),
                         rating: viewData.ratingText,
                         timeToComplete: viewData.allTimeToCompleteText,
                         projectsCount: viewData.projectsCountText,
@@ -109,18 +127,20 @@ struct TrackView: View {
             WebControllerManager.shared.presentWebControllerWithURLString(data.url)
         case .showGetMagicLinkError:
             ProgressHUD.showError()
+        case .navigateTo(let navigateToViewAction):
+            switch TrackFeatureActionViewActionNavigateToKs(navigateToViewAction) {
+            case .stepScreen(let data):
+                let assembly = StepAssembly(stepID: Int(data.stepId))
+                pushRouter.pushViewController(assembly.makeModule())
+            }
         }
     }
 }
 
 struct TrackView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
+        UIKitViewControllerPreview {
             TrackAssembly().makeModule()
-
-            TrackAssembly()
-                .makeModule()
-                .preferredColorScheme(.dark)
         }
     }
 }

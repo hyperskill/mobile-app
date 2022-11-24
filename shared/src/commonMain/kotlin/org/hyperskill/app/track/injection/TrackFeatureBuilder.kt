@@ -2,8 +2,11 @@ package org.hyperskill.app.track.injection
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.learning_activities.domain.interactor.LearningActivitiesInteractor
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
+import org.hyperskill.app.topics.domain.interactor.TopicsInteractor
 import org.hyperskill.app.track.domain.interactor.TrackInteractor
 import org.hyperskill.app.track.presentation.TrackActionDispatcher
 import org.hyperskill.app.track.presentation.TrackFeature.Action
@@ -18,6 +21,9 @@ object TrackFeatureBuilder {
     fun build(
         trackInteractor: TrackInteractor,
         profileInteractor: ProfileInteractor,
+        progressesInteractor: ProgressesInteractor,
+        learningActivitiesInteractor: LearningActivitiesInteractor,
+        topicsInteractor: TopicsInteractor,
         analyticInteractor: AnalyticInteractor,
         urlPathProcessor: UrlPathProcessor
     ): Feature<State, Message, Action> {
@@ -26,6 +32,9 @@ object TrackFeatureBuilder {
             ActionDispatcherOptions(),
             trackInteractor,
             profileInteractor,
+            progressesInteractor,
+            learningActivitiesInteractor,
+            topicsInteractor,
             analyticInteractor,
             urlPathProcessor
         )

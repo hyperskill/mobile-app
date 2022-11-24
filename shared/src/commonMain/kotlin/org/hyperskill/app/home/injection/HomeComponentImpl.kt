@@ -22,6 +22,7 @@ import org.hyperskill.app.streak.data.source.StreakRemoteDataSource
 import org.hyperskill.app.streak.domain.interactor.StreakInteractor
 import org.hyperskill.app.streak.domain.repository.StreakRepository
 import org.hyperskill.app.streak.remote.StreakRemoteDataSourceImpl
+import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import ru.nobird.app.presentation.redux.feature.Feature
 
 class HomeComponentImpl(appGraph: AppGraph) : HomeComponent {
@@ -57,6 +58,9 @@ class HomeComponentImpl(appGraph: AppGraph) : HomeComponent {
     private val urlPathProcessor: UrlPathProcessor =
         appGraph.buildMagicLinksDataComponent().urlPathProcessor
 
+    private val topicsRepetitionsInteractor: TopicsRepetitionsInteractor =
+        appGraph.topicsRepetitionsDataComponent.topicsRepetitionsInteractor
+
     override val homeFeature: Feature<HomeFeature.State, HomeFeature.Message, HomeFeature.Action>
         get() = HomeFeatureBuilder.build(
             analyticInteractor,
@@ -64,6 +68,7 @@ class HomeComponentImpl(appGraph: AppGraph) : HomeComponent {
             streakInteractor,
             profileInteractor,
             stepInteractor,
-            urlPathProcessor
+            urlPathProcessor,
+            topicsRepetitionsInteractor.topicRepeatedMutableSharedFlow
         )
 }

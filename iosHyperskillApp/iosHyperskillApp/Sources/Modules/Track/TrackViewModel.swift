@@ -23,12 +23,26 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
         onNewMessage(TrackFeatureMessagePullToRefresh())
     }
 
+    func doTheoryTopicPresentation(topic: TrackViewData.TheoryTopic) {
+        onNewMessage(TrackFeatureMessageTopicToDiscoverNextClicked(topicId: topic.id))
+    }
+
     func doStudyPlanInWebPresentation() {
         onNewMessage(TrackFeatureMessageClickedContinueInWeb())
     }
 
-    func makeViewData(track: Track, trackProgress: TrackProgress, studyPlan: StudyPlan?) -> TrackViewData {
-        viewDataMapper.mapTrackDataToViewData(track: track, trackProgress: trackProgress, studyPlan: studyPlan)
+    func makeViewData(
+        track: Track,
+        trackProgress: TrackProgress,
+        studyPlan: StudyPlan?,
+        topicsToDiscoverNext: [Topic]
+    ) -> TrackViewData {
+        viewDataMapper.mapTrackDataToViewData(
+            track: track,
+            trackProgress: trackProgress,
+            studyPlan: studyPlan,
+            topicsToDiscoverNext: topicsToDiscoverNext
+        )
     }
 
     // MARK: Analytic

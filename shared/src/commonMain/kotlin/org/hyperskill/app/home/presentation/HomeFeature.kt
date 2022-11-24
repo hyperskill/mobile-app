@@ -22,6 +22,7 @@ interface HomeFeature {
          *
          * @property streak Current user profile streak.
          * @property problemOfDayState Problem of the day state.
+         * @property recommendedRepetitionsCount Recommended topics repetitions count.
          * @property isRefreshing A boolean flag that indicates about is pull-to-refresh is ongoing.
          * @property isLoadingMagicLink A boolean flag that indicates about magic link loading.
          * @see Streak
@@ -30,6 +31,7 @@ interface HomeFeature {
         data class Content(
             val streak: Streak?,
             val problemOfDayState: ProblemOfDayState,
+            val recommendedRepetitionsCount: Int,
             val isRefreshing: Boolean = false,
             val isLoadingMagicLink: Boolean = false
         ) : State
@@ -48,7 +50,11 @@ interface HomeFeature {
 
     sealed interface Message {
         data class Initialize(val forceUpdate: Boolean) : Message
-        data class HomeSuccess(val streak: Streak?, val problemOfDayState: ProblemOfDayState) : Message
+        data class HomeSuccess(
+            val streak: Streak?,
+            val problemOfDayState: ProblemOfDayState,
+            val recommendedRepetitionsCount: Int
+        ) : Message
         object HomeFailure : Message
         object PullToRefresh : Message
 
@@ -56,6 +62,7 @@ interface HomeFeature {
         data class HomeNextProblemInUpdate(val seconds: Long) : Message
 
         data class ProblemOfDaySolved(val stepId: Long) : Message
+        object TopicRepeated : Message
 
         object ClickedContinueLearningOnWeb : Message
 
@@ -67,6 +74,8 @@ interface HomeFeature {
          */
         object ViewedEventMessage : Message
         object ClickedProblemOfDayCardEventMessage : Message
+        object ClickedTopicsRepetitionsCardEventMessage : Message
+        object ClickedContinueLearningOnWebEventMessage : Message
     }
 
     sealed interface Action {

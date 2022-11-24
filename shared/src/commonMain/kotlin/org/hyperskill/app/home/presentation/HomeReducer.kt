@@ -1,9 +1,11 @@
 package org.hyperskill.app.home.presentation
 
+import kotlin.math.max
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.home.domain.analytic.HomeClickedContinueLearningOnWebHyperskillAnalyticEvent
 import org.hyperskill.app.home.domain.analytic.HomeClickedProblemOfDayCardHyperskillAnalyticEvent
 import org.hyperskill.app.home.domain.analytic.HomeClickedPullToRefreshHyperskillAnalyticEvent
+import org.hyperskill.app.home.domain.analytic.HomeClickedTopicsRepetitionsCardHyperskillAnalyticEvent
 import org.hyperskill.app.home.domain.analytic.HomeViewedHyperskillAnalyticEvent
 import org.hyperskill.app.home.presentation.HomeFeature.Action
 import org.hyperskill.app.home.presentation.HomeFeature.Message
@@ -22,7 +24,11 @@ class HomeReducer : StateReducer<State, Message, Action> {
                     null
                 }
             is Message.HomeSuccess ->
-                State.Content(message.streak, message.problemOfDayState) to emptySet()
+                State.Content(
+                    message.streak,
+                    message.problemOfDayState,
+                    message.recommendedRepetitionsCount
+                ) to emptySet()
             is Message.HomeFailure ->
                 State.NetworkError to emptySet()
             is Message.PullToRefresh ->
@@ -141,5 +147,27 @@ class HomeReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
+            is Message.ClickedTopicsRepetitionsCardEventMessage ->
+                if (state is State.Content) {
+                    state to setOf(
+                        Action.LogAnalyticEvent(
+                            HomeClickedTopicsRepetitionsCardHyperskillAnalyticEvent(
+                                isCompleted = state.recommendedRepetitionsCount == 0
+                            )
+                        )
+                    )
+                } else {
+                    null
+                }
+            is Message.ClickedContinueLearningOnWebEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(HomeClickedContinueLearningOnWebHyperskillAnalyticEvent()))
+            is Message.TopicRepeated ->
+                if (state is State.Content) {
+                    state.copy(
+                        recommendedRepetitionsCount = max(state.recommendedRepetitionsCount.dec(), 0)
+                    ) to emptySet()
+                } else {
+                    null
+                }
         } ?: (state to emptySet())
 }

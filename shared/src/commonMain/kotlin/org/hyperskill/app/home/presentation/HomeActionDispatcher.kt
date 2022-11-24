@@ -1,7 +1,10 @@
 package org.hyperskill.app.home.presentation
 
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -25,8 +28,6 @@ import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.streak.domain.interactor.StreakInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
-import kotlin.time.DurationUnit
-import kotlin.time.toDuration
 
 class HomeActionDispatcher(
     config: ActionDispatcherOptions,
@@ -35,11 +36,12 @@ class HomeActionDispatcher(
     private val profileInteractor: ProfileInteractor,
     private val stepInteractor: StepInteractor,
     private val analyticInteractor: AnalyticInteractor,
-    private val urlPathProcessor: UrlPathProcessor
+    private val urlPathProcessor: UrlPathProcessor,
+    private val topicRepeatedSharedFlow: SharedFlow<Unit>
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     companion object {
-        val DELAY_ONE_MINUTE = 1.toDuration(DurationUnit.MINUTES)
+        private val DELAY_ONE_MINUTE = 1.toDuration(DurationUnit.MINUTES)
 
         fun calculateNextProblemIn(): Long {
             val tzNewYork = TimeZone.of("America/New_York")
@@ -63,6 +65,12 @@ class HomeActionDispatcher(
                 if (id == currentProfile.dailyStep) {
                     onNewMessage(Message.ProblemOfDaySolved(id))
                 }
+            }
+        }
+
+        actionScope.launch {
+            topicRepeatedSharedFlow.collect {
+                onNewMessage(Message.TopicRepeated)
             }
         }
     }
@@ -93,7 +101,13 @@ class HomeActionDispatcher(
                     return
                 }
 
-                onNewMessage(Message.HomeSuccess(currentProfileStreaks.firstOrNull(), problemOfDayState))
+                onNewMessage(
+                    Message.HomeSuccess(
+                        streak = currentProfileStreaks.firstOrNull(),
+                        problemOfDayState = problemOfDayState,
+                        recommendedRepetitionsCount = currentProfile.recommendedRepetitionsCount
+                    )
+                )
                 onNewMessage(Message.ReadyToLaunchNextProblemInTimer)
             }
             is Action.LaunchTimer -> {

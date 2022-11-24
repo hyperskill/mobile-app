@@ -150,7 +150,7 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
             is Message.ContinueClicked ->
                 if (state is State.AttemptLoaded) {
                     val analyticEvent = StepQuizClickedContinueHyperskillAnalyticEvent(resolveAnalyticRoute(state))
-                    state to setOf(Action.LogAnalyticEvent(analyticEvent), Action.ViewAction.NavigateTo.HomeScreen)
+                    state to setOf(Action.LogAnalyticEvent(analyticEvent), Action.ViewAction.NavigateTo.Back)
                 } else {
                     null
                 }

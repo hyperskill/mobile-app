@@ -40,9 +40,8 @@ import org.hyperskill.app.step.domain.model.Step
 import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.base.ui.extension.hideKeyboard
 
-class CodeStepQuizFullScreenDialogFragment :
-    DialogFragment(),
-    ResetCodeDialogFragment.Callback {
+class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
+
     companion object {
         const val TAG = "CodeStepQuizFullScreenDialogFragment"
 
@@ -58,7 +57,7 @@ class CodeStepQuizFullScreenDialogFragment :
             codeTemplates: Map<String, String>,
             step: Step,
             isShowRetryButton: Boolean
-        ): DialogFragment {
+        ): CodeStepQuizFullScreenDialogFragment {
             val arguments = Bundle().apply {
                 putParcelable(DefaultStepQuizFragment.KEY_STEP, step)
             }
@@ -150,10 +149,7 @@ class CodeStepQuizFullScreenDialogFragment :
             }
             centeredToolbar.setOnMenuItemClickListener { item ->
                 if (item?.itemId == R.id.action_reset_code) {
-                    val dialog = ResetCodeDialogFragment.newInstance()
-                    if (!dialog.isAdded) {
-                        dialog.show(childFragmentManager, null)
-                    }
+                    onResetClick()
                     true
                 } else {
                     false
@@ -212,10 +208,7 @@ class CodeStepQuizFullScreenDialogFragment :
 
         retryButton = playgroundLayout.findViewById(R.id.stepQuizRetryLogoOnlyButton)
         retryButton.setOnClickListener {
-            val dialog = ResetCodeDialogFragment.newInstance()
-            if (!dialog.isAdded) {
-                dialog.show(childFragmentManager, null)
-            }
+            onResetClick()
         }
         if (isShowRetryButton) {
             retryButton.visibility = View.VISIBLE
@@ -245,6 +238,10 @@ class CodeStepQuizFullScreenDialogFragment :
         super.onSaveInstanceState(outState)
         outState.putString(ARG_LANG, lang)
         outState.putString(ARG_CODE, codeLayout.text.toString())
+    }
+
+    private fun onResetClick() {
+        (parentFragment as? Callback)?.onResetCodeClick()
     }
 
     private fun initViewPager() {
@@ -287,8 +284,9 @@ class CodeStepQuizFullScreenDialogFragment :
         super.onPause()
     }
 
-    override fun onReset() {
-        codeLayoutDelegate.setLanguage(lang)
+    fun onNewCode(code: String?) {
+        this.code = code ?: codeTemplates[lang] ?: ""
+        codeLayoutDelegate.setLanguage(lang, code)
     }
 
     private fun setupCodeToolbarAdapter() {
@@ -382,5 +380,6 @@ class CodeStepQuizFullScreenDialogFragment :
 
     interface Callback {
         fun onSyncCodeStateWithParent(code: String, onSubmitClicked: Boolean = false)
+        fun onResetCodeClick()
     }
 }

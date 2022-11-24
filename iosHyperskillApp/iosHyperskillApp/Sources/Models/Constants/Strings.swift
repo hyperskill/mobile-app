@@ -64,6 +64,7 @@ enum Strings {
 
     enum Step {
         static let startPracticing = sharedStrings.step_start_practicing_text.localized()
+        static let theory = sharedStrings.step_theory_text.localized()
     }
 
     // MARK: - StepQuiz -
@@ -158,13 +159,27 @@ enum Strings {
 
     enum Track {
         static let title = sharedStrings.track_title.localized()
-        static let learningNow = sharedStrings.track_learning_now_text.localized()
-        static let timeToComplete = sharedStrings.track_time_to_complete_text.localized()
-        static let completedGraduateProject = sharedStrings.track_completed_graduate_project_text.localized()
-        static let completedTopics = sharedStrings.track_completed_topics_text.localized()
-        static let appliedCoreTopics = sharedStrings.track_applied_core_topics_text.localized()
-        static let about = sharedStrings.track_about_text.localized()
-        static let continueInWebButton = sharedStrings.track_continue_in_web_text.localized()
+
+        enum Header {
+            static let learningNow = sharedStrings.track_learning_now_text.localized()
+        }
+
+        enum Progress {
+            static let title = sharedStrings.track_progress_block_title.localized()
+            static let timeToComplete = sharedStrings.track_time_to_complete_text.localized()
+            static let completedGraduateProject = sharedStrings.track_completed_graduate_project_text.localized()
+            static let completedTopics = sharedStrings.track_completed_topics_text.localized()
+            static let appliedCoreTopics = sharedStrings.track_applied_core_topics_text.localized()
+        }
+
+        enum TopicsToDiscoverNext {
+            static let title = sharedStrings.track_topics_to_discover_next_block_title.localized()
+        }
+
+        enum About {
+            static let title = sharedStrings.track_about_text.localized()
+            static let continueInWebButton = sharedStrings.track_continue_in_web_text.localized()
+        }
     }
 
     // MARK: - Profile -
@@ -240,6 +255,7 @@ enum Strings {
     }
 
     // MARK: - TopicsRepetitions -
+
     enum TopicsRepetitions {
         enum Card {
             static let titleUncompleted = sharedStrings.topics_repetitions_card_title_uncompleted.localized()
