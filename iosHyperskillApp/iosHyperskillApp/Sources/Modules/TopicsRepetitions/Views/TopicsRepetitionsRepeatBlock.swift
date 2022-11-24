@@ -1,7 +1,17 @@
 import shared
 import SwiftUI
 
+extension TopicsRepetitionsRepeatBlock {
+    struct Appearance {
+        let buttonStyle = OutlineButtonStyle(borderColor: .border, alignment: .leading)
+        let largePadding = LayoutInsets.largeInset
+        let smallPadding = LayoutInsets.smallInset
+    }
+}
+
 struct TopicsRepetitionsRepeatBlock: View {
+    private(set) var appearance = Appearance()
+
     let repeatBlockTitle: String
 
     let trackTopicsTitle: String
@@ -15,7 +25,7 @@ struct TopicsRepetitionsRepeatBlock: View {
     let topicsToRepeatWillLoadedCount: Int
 
     var body: some View {
-        VStack(alignment: .leading, spacing: LayoutInsets.largeInset) {
+        VStack(alignment: .leading, spacing: appearance.largePadding) {
             Text(repeatBlockTitle)
                 .font(.title3)
                 .foregroundColor(.primaryText)
@@ -25,7 +35,7 @@ struct TopicsRepetitionsRepeatBlock: View {
                 .font(.subheadline)
                 .foregroundColor(.secondaryText)
 
-            VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
+            VStack(alignment: .leading, spacing: appearance.smallPadding) {
                 ForEach(repeatButtons, id: \.topicID) { buttonInfo in
                     Button(
                         action: {
@@ -37,7 +47,7 @@ struct TopicsRepetitionsRepeatBlock: View {
                                 .foregroundColor(.primaryText)
                         }
                     )
-                    .buttonStyle(OutlineButtonStyle(borderColor: .border, alignment: .leading))
+                    .buttonStyle(appearance.buttonStyle)
                 }
 
                 switch showMoreButtonState {
@@ -45,11 +55,11 @@ struct TopicsRepetitionsRepeatBlock: View {
                     ShowMoreButton {
                         onShowMoreButtonTap()
                     }
-                    .padding(.top, LayoutInsets.largeInset - LayoutInsets.smallInset)
+                    .padding(.top, appearance.largePadding - appearance.smallPadding)
                 case ShowMoreButtonState.loading:
                     ForEach(0..<topicsToRepeatWillLoadedCount, id: \.self) { _ in
                         SkeletonRoundedView()
-                            .frame(height: OutlineButtonStyle().minHeight)
+                            .frame(height: appearance.buttonStyle.minHeight)
                     }
                 case ShowMoreButtonState.empty:
                     EmptyView()

@@ -54,6 +54,8 @@ import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponentImpl
+import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponent
+import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponentImpl
 import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.track.injection.TrackComponentImpl
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
@@ -80,6 +82,9 @@ class AppGraphImpl(
 
     override val mainComponent: MainComponent =
         MainComponentImpl(this)
+
+    override val topicsRepetitionsDataComponent: TopicsRepetitionsDataComponent =
+        TopicsRepetitionsDataComponentImpl(this)
 
     override fun buildAuthSocialComponent(): AuthSocialComponent =
         AuthSocialComponentImpl(

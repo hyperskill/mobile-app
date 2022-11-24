@@ -71,7 +71,7 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                             ),
                             topicsToRepeat = state.topicsToRepeat.filter { it.topicId != topicId },
                             recommendedTopicsToRepeatCount = max(state.recommendedTopicsToRepeatCount.dec(), 0)
-                        ) to emptySet()
+                        ) to setOf(Action.NotifyRepeatedTopic)
                     }
                 } else {
                     null

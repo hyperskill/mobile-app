@@ -24,6 +24,7 @@ import org.hyperskill.app.home.presentation.HomeFeature.Message
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.streak.domain.interactor.StreakInteractor
+import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class HomeActionDispatcher(
@@ -32,6 +33,7 @@ class HomeActionDispatcher(
     private val streakInteractor: StreakInteractor,
     private val profileInteractor: ProfileInteractor,
     private val stepInteractor: StepInteractor,
+    private val topicsRepetitionsInteractor: TopicsRepetitionsInteractor,
     private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
@@ -60,6 +62,12 @@ class HomeActionDispatcher(
                 if (id == currentProfile.dailyStep) {
                     onNewMessage(Message.ProblemOfDaySolved(id))
                 }
+            }
+        }
+
+        actionScope.launch {
+            topicsRepetitionsInteractor.repeatedTopicMutableSharedFlow.collect {
+                onNewMessage(Message.TopicRepeated)
             }
         }
     }

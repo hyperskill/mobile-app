@@ -7,10 +7,10 @@ import org.hyperskill.app.topics_repetitions.domain.repository.TopicsRepetitions
 
 class TopicsRepetitionsInteractor(
     private val topicsRepetitionsRepository: TopicsRepetitionsRepository,
-    solvedStepsMutableSharedFlow: MutableSharedFlow<Long>
+    val solvedStepsSharedFlow: SharedFlow<Long>
 ) {
     suspend fun getCurrentTrackTopicsRepetitions(): Result<TopicsRepetitions> =
         topicsRepetitionsRepository.getCurrentTrackTopicsRepetitions()
 
-    val solvedStepsSharedFlow: SharedFlow<Long> = solvedStepsMutableSharedFlow
+    val repeatedTopicMutableSharedFlow: MutableSharedFlow<Unit> = MutableSharedFlow()
 }

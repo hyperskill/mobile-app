@@ -26,6 +26,7 @@ import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponent
+import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponent
 import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 
@@ -36,6 +37,7 @@ interface AppGraph {
     val mainComponent: MainComponent
     val analyticComponent: AnalyticComponent
     val submissionDataComponent: SubmissionDataComponent
+    val topicsRepetitionsDataComponent: TopicsRepetitionsDataComponent
 
     fun buildAuthSocialComponent(): AuthSocialComponent
     fun buildAuthCredentialsComponent(): AuthCredentialsComponent

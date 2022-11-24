@@ -9,6 +9,7 @@ import org.hyperskill.app.home.presentation.HomeFeature.Action
 import org.hyperskill.app.home.presentation.HomeFeature.Message
 import org.hyperskill.app.home.presentation.HomeFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
+import kotlin.math.max
 
 class HomeReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
@@ -131,5 +132,13 @@ class HomeReducer : StateReducer<State, Message, Action> {
                 }
             is Message.ClickedContinueLearningOnWebEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(HomeClickedContinueLearningOnWebHyperskillAnalyticEvent()))
+            is Message.TopicRepeated ->
+                if (state is State.Content) {
+                    state.copy(
+                        recommendedRepetitionsCount = max(state.recommendedRepetitionsCount.dec(), 0)
+                    ) to emptySet()
+                } else {
+                    null
+                }
         } ?: (state to emptySet())
 }

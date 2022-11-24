@@ -61,6 +61,8 @@ interface TopicsRepetitionsFeature {
 
         data class FetchNextTopics(val topicsRepetitions: TopicsRepetitions) : Action
 
+        object NotifyRepeatedTopic : Action
+
         /**
          * Logging analytic event action
          *
