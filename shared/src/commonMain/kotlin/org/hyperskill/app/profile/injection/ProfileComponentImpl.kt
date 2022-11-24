@@ -37,7 +37,7 @@ class ProfileComponentImpl(private val appGraph: AppGraph) : ProfileComponent {
     private val streakInteractor: StreakInteractor = StreakInteractor(streakRepository)
 
     private val urlPathProcessor: UrlPathProcessor =
-        UrlPathProcessor(appGraph.buildMagicLinksDataComponent().magicLinksInteractor)
+        appGraph.buildMagicLinksDataComponent().urlPathProcessor
 
     override val profileFeature: Feature<ProfileFeature.State, ProfileFeature.Message, ProfileFeature.Action>
         get() = ProfileFeatureBuilder.build(

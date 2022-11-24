@@ -35,7 +35,8 @@ class HomeComponentImpl(appGraph: AppGraph) : HomeComponent {
         appGraph.networkComponent.authorizedHttpClient
     )
     private val profileCacheDataSource: ProfileCacheDataSource = ProfileCacheDataSourceImpl(
-        appGraph.commonComponent.json, appGraph.commonComponent.settings
+        appGraph.commonComponent.json,
+        appGraph.commonComponent.settings
     )
     private val profileRepository: ProfileRepository =
         ProfileRepositoryImpl(profileRemoteDataSource, profileCacheDataSource)
@@ -54,7 +55,7 @@ class HomeComponentImpl(appGraph: AppGraph) : HomeComponent {
         appGraph.analyticComponent.analyticInteractor
 
     private val urlPathProcessor: UrlPathProcessor =
-        UrlPathProcessor(appGraph.buildMagicLinksDataComponent().magicLinksInteractor)
+        appGraph.buildMagicLinksDataComponent().urlPathProcessor
 
     override val homeFeature: Feature<HomeFeature.State, HomeFeature.Message, HomeFeature.Action>
         get() = HomeFeatureBuilder.build(

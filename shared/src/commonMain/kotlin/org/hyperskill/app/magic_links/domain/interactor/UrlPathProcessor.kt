@@ -17,7 +17,7 @@ class UrlPathProcessor(private val magicLinksInteractor: MagicLinksInteractor) {
      * @see MagicLinksInteractor
      * */
     suspend fun processUrlPath(
-        path: HyperskillUrlPath,
+        path: HyperskillUrlPath
     ): Result<String> =
         if (shouldCreateMagicLink(path)) {
             val redirectUrl = HyperskillUrlBuilder.build(path).fullPath

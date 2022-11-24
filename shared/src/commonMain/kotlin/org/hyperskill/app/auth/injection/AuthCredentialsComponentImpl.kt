@@ -4,7 +4,6 @@ import org.hyperskill.app.analytic.injection.AnalyticComponent
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature
 import org.hyperskill.app.auth.view.mapper.AuthCredentialsErrorMapper
 import org.hyperskill.app.core.injection.CommonComponent
-import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponent
 import ru.nobird.app.presentation.redux.feature.Feature
@@ -21,7 +20,7 @@ class AuthCredentialsComponentImpl(
             authComponent.authInteractor,
             profileDataComponent.profileInteractor,
             analyticComponent.analyticInteractor,
-            UrlPathProcessor(magicLinkComponent.magicLinksInteractor)
+            magicLinkComponent.urlPathProcessor
         )
 
     override val authCredentialsErrorMapper: AuthCredentialsErrorMapper

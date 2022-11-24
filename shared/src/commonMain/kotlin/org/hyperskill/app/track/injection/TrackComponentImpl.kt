@@ -18,7 +18,7 @@ class TrackComponentImpl(private val appGraph: AppGraph) : TrackComponent {
     private val trackInteractor: TrackInteractor = TrackInteractor(trackRepository)
 
     private val urlPathProcessor: UrlPathProcessor =
-        UrlPathProcessor(appGraph.buildMagicLinksDataComponent().magicLinksInteractor)
+        appGraph.buildMagicLinksDataComponent().urlPathProcessor
 
     override val trackFeature: Feature<TrackFeature.State, TrackFeature.Message, TrackFeature.Action>
         get() = TrackFeatureBuilder.build(
