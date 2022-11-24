@@ -7,10 +7,10 @@ interface PlaceholderNewUserFeature {
     sealed interface State {
 
         /**
-         * @property isLinkLoadingShown A boolean flag that indicates about magic link loading.
+         * @property isLoadingMagicLink A boolean flag that indicates about magic link loading.
          * */
         data class Content(
-            val isLinkLoadingShown: Boolean = false
+            val isLoadingMagicLink: Boolean = false
         ) : State
     }
 
@@ -20,8 +20,8 @@ interface PlaceholderNewUserFeature {
 
         object ClickedContinueOnWeb : Message
 
-        data class LinkReceived(val url: String) : Message
-        object LinkReceiveFailed : Message
+        data class GetMagicLinkReceiveSuccess(val url: String) : Message
+        object GetMagicLinkReceiveFailure : Message
 
         /**
          * Analytic
@@ -33,14 +33,14 @@ interface PlaceholderNewUserFeature {
     sealed interface Action {
         object Logout : Action
 
-        data class GetLink(val path: HyperskillUrlPath) : Action
+        data class GetMagicLink(val path: HyperskillUrlPath) : Action
 
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
                 object AuthScreen : NavigateTo
             }
             data class FollowUrl(val url: String) : ViewAction
-            object ShowFollowLinkError : ViewAction
+            object ShowGetMagicLinkError : ViewAction
         }
 
         /**

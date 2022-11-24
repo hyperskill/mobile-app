@@ -12,11 +12,11 @@ interface ProfileSettingsFeature {
         object Loading : State
 
         /**
-         * @property isLinkLoadingShown A boolean flag that indicates about magic link loading.
+         * @property isLoadingMagicLink A boolean flag that indicates about magic link loading.
          */
         data class Content(
             val profileSettings: ProfileSettings,
-            val isLinkLoadingShown: Boolean = false
+            val isLoadingMagicLink: Boolean = false
         ) : State
 
         object Error : State
@@ -33,8 +33,8 @@ interface ProfileSettingsFeature {
         object ClickedSendFeedback : Message
         data class FeedbackEmailDataPrepared(val feedbackEmailData: FeedbackEmailData) : Message
 
-        data class LinkReceived(val url: String) : Message
-        object LinkReceiveFailed : Message
+        data class GetMagicLinkReceiveSuccess(val url: String) : Message
+        object GetMagicLinkReceiveFailure : Message
 
         /**
          * Analytic
@@ -64,14 +64,14 @@ interface ProfileSettingsFeature {
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
-        data class GetLink(val path: HyperskillUrlPath) : Action
+        data class GetMagicLink(val path: HyperskillUrlPath) : Action
 
         sealed interface ViewAction : Action {
             data class SendFeedback(val feedbackEmailData: FeedbackEmailData) : ViewAction
 
-            data class FollowLink(val url: String) : ViewAction
+            data class OpenUrl(val url: String) : ViewAction
 
-            object ShowFollowLinkError : ViewAction
+            object ShowGetMagicLinkError : ViewAction
 
             sealed interface NavigateTo : ViewAction {
                 object ParentScreen : NavigateTo

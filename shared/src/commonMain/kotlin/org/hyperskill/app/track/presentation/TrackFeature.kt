@@ -25,7 +25,7 @@ interface TrackFeature {
          * @property trackProgress Current user profile selected track progress.
          * @property studyPlan Current user profile study plan.
          * @property isRefreshing A boolean flag that indicates about is pull-to-refresh is ongoing.
-         * @property isLinkLoadingShown A boolean flag that indicates about magic link loading.
+         * @property isLoadingMagicLink A boolean flag that indicates about magic link loading.
          * @see Track
          * @see TrackProgress
          * @see StudyPlan
@@ -35,7 +35,7 @@ interface TrackFeature {
             val trackProgress: TrackProgress,
             val studyPlan: StudyPlan? = null,
             val isRefreshing: Boolean = false,
-            val isLinkLoadingShown: Boolean = false
+            val isLoadingMagicLink: Boolean = false
         ) : State
 
         /**
@@ -59,8 +59,8 @@ interface TrackFeature {
 
         object ClickedContinueInWeb : Message
 
-        data class LinkReceived(val url: String) : Message
-        object LinkReceiveFailed : Message
+        data class GetMagicLinkReceiveSuccess(val url: String) : Message
+        object GetMagicLinkReceiveFailure : Message
 
         /**
          * Analytic
@@ -74,11 +74,11 @@ interface TrackFeature {
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
-        data class GetLink(val path: HyperskillUrlPath) : Action
+        data class GetMagicLink(val path: HyperskillUrlPath) : Action
 
         sealed interface ViewAction : Action {
-            data class FollowLink(val url: String) : ViewAction
-            object ShowFollowLinkError : ViewAction
+            data class OpenUrl(val url: String) : ViewAction
+            object ShowGetMagicLinkError : ViewAction
         }
     }
 }

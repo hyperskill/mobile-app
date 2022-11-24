@@ -173,9 +173,9 @@ class ProfileSettingsDialogFragment :
         when (action) {
             is ProfileSettingsFeature.Action.ViewAction.SendFeedback ->
                 sendEmailFeedback(action.feedbackEmailData)
-            is ProfileSettingsFeature.Action.ViewAction.FollowLink ->
+            is ProfileSettingsFeature.Action.ViewAction.OpenUrl ->
                 openLinkInBrowser(action.url)
-            is ProfileSettingsFeature.Action.ViewAction.ShowFollowLinkError ->
+            is ProfileSettingsFeature.Action.ViewAction.ShowGetMagicLinkError ->
                 viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
         }
     }
@@ -184,7 +184,7 @@ class ProfileSettingsDialogFragment :
         viewStateDelegate.switchState(state)
 
         if (state is ProfileSettingsFeature.State.Content) {
-            viewBinding.settingsProgress.isVisible = state.isLinkLoadingShown
+            viewBinding.settingsProgress.isVisible = state.isLoadingMagicLink
             viewBinding.settingsThemeChosenTextView.text = state.profileSettings.theme.representation
             currentThemePosition = state.profileSettings.theme.ordinal
         }

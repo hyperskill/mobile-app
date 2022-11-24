@@ -14,8 +14,8 @@ import coil.ImageLoader
 import coil.decode.SvgDecoder
 import coil.load
 import coil.transform.CircleCropTransformation
-import org.hyperskill.app.SharedResources
 import java.util.Locale
+import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.isChannelNotificationsEnabled
@@ -105,9 +105,9 @@ class ProfileFragment :
 
     override fun onAction(action: ProfileFeature.Action.ViewAction) {
         when (action) {
-            is ProfileFeature.Action.ViewAction.FollowLink ->
+            is ProfileFeature.Action.ViewAction.OpenUrl ->
                 requireContext().launchUrl(action.url)
-            is ProfileFeature.Action.ViewAction.ShowFollowLinkError ->
+            is ProfileFeature.Action.ViewAction.ShowGetMagicLinkError ->
                 viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
         }
     }
@@ -136,7 +136,7 @@ class ProfileFragment :
         renderExperienceSection(content.profile)
         renderSocialButtons(content.profile)
 
-        viewBinding.profileProgress.isVisible = content.isLinkLoadingShown
+        viewBinding.profileProgress.isVisible = content.isLoadingMagicLink
     }
 
     private fun renderNameProfileBadge(profile: Profile) {

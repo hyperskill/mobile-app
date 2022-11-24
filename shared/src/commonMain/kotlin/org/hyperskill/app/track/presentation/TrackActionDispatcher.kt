@@ -59,7 +59,7 @@ class TrackActionDispatcher(
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
-            is Action.GetLink ->
+            is Action.GetMagicLink ->
                 getLink(action.path, ::onNewMessage)
         }
     }
@@ -68,10 +68,10 @@ class TrackActionDispatcher(
         urlPathProcessor.processUrlPath(path)
             .fold(
                 onSuccess = { url ->
-                    onNewMessage(Message.LinkReceived(url))
+                    onNewMessage(Message.GetMagicLinkReceiveSuccess(url))
                 },
                 onFailure = {
-                    onNewMessage(Message.LinkReceiveFailed)
+                    onNewMessage(Message.GetMagicLinkReceiveFailure)
                 }
             )
 }

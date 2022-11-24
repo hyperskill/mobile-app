@@ -111,9 +111,9 @@ class HomeActionDispatcher(
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
-            is Action.GetLink -> getLink(action.path, ::onNewMessage)
+            is Action.GetMagicLink -> getLink(action.path, ::onNewMessage)
             else -> {
-                // just do nothing
+                // no op
             }
         }
     }
@@ -141,10 +141,10 @@ class HomeActionDispatcher(
         urlPathProcessor.processUrlPath(path)
             .fold(
                 onSuccess = { url ->
-                    onNewMessage(Message.LinkReceived(url))
+                    onNewMessage(Message.GetMagicLinkReceiveSuccess(url))
                 },
                 onFailure = {
-                    onNewMessage(Message.LinkReceiveFailed)
+                    onNewMessage(Message.GetMagicLinkReceiveFailure)
                 }
             )
     }

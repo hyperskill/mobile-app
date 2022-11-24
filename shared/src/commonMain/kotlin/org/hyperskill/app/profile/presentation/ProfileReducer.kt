@@ -50,21 +50,21 @@ class ProfileReducer : StateReducer<State, Message, Action> {
             }
             is Message.ClickedViewFullProfile -> {
                 if (state is State.Content) {
-                    state.copy(isLinkLoadingShown = true) to setOf(Action.GetLink(HyperskillUrlPath.Profile(state.profile.id)))
+                    state.copy(isLoadingMagicLink = true) to setOf(Action.GetMagicLink(HyperskillUrlPath.Profile(state.profile.id)))
                 } else {
                     null
                 }
             }
-            is Message.LinkReceived -> {
+            is Message.GetMagicLinkReceiveSuccess -> {
                 if (state is State.Content) {
-                    state.copy(isLinkLoadingShown = false) to setOf(Action.ViewAction.FollowLink(message.url))
+                    state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.OpenUrl(message.url))
                 } else {
                     null
                 }
             }
-            Message.LinkReceiveFailed -> {
+            Message.GetMagicLinkReceiveFailure -> {
                 if (state is State.Content) {
-                    state.copy(isLinkLoadingShown = false) to setOf(Action.ViewAction.ShowFollowLinkError)
+                    state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.ShowGetMagicLinkError)
                 } else {
                     null
                 }

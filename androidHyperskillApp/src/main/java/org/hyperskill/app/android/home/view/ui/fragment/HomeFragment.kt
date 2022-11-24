@@ -140,11 +140,11 @@ class HomeFragment :
             is HomeFeature.Action.ViewAction.FollowUrl -> {
                 requireContext().launchUrl(action.url)
             }
-            is HomeFeature.Action.ViewAction.ShowFollowLinkError -> {
+            is HomeFeature.Action.ViewAction.ShowGetMagicLinkError -> {
                 viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
             }
             else -> {
-                // just do nothing
+                // no op
             }
         }
     }
@@ -152,7 +152,7 @@ class HomeFragment :
     override fun render(state: HomeFeature.State) {
         viewStateDelegate.switchState(state)
         if (state is HomeFeature.State.Content) {
-            viewBinding.homeScreenProgress.isVisible = state.isLinkLoadingShown
+            viewBinding.homeScreenProgress.isVisible = state.isLoadingMagicLink
             setupStreakCardDelegate(state.streak)
             setupProblemOfDayCardDelegate(state.problemOfDayState)
         }

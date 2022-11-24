@@ -50,7 +50,7 @@ class AuthCredentialsActionDispatcher(
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
-            is Action.GetLink -> getLink(action.path, ::onNewMessage)
+            is Action.GetMagicLink -> getLink(action.path, ::onNewMessage)
         }
     }
 
@@ -61,10 +61,10 @@ class AuthCredentialsActionDispatcher(
         urlPathProcessor.processUrlPath(path)
             .fold(
                 onSuccess = { url ->
-                    onNewMessage(Message.LinkReceived(url))
+                    onNewMessage(Message.GetMagicLinkReceiveSuccess(url))
                 },
                 onFailure = {
-                    onNewMessage(Message.LinkReceiveFailed)
+                    onNewMessage(Message.GetMagicLinkReceiveFailure)
                 }
             )
     }

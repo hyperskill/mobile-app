@@ -23,7 +23,7 @@ interface HomeFeature {
          * @property streak Current user profile streak.
          * @property problemOfDayState Problem of the day state.
          * @property isRefreshing A boolean flag that indicates about is pull-to-refresh is ongoing.
-         * @property isLinkLoadingShown A boolean flag that indicates about magic link loading.
+         * @property isLoadingMagicLink A boolean flag that indicates about magic link loading.
          * @see Streak
          * @see ProblemOfDayState
          */
@@ -31,7 +31,7 @@ interface HomeFeature {
             val streak: Streak?,
             val problemOfDayState: ProblemOfDayState,
             val isRefreshing: Boolean = false,
-            val isLinkLoadingShown: Boolean = false
+            val isLoadingMagicLink: Boolean = false
         ) : State
 
         /**
@@ -59,8 +59,8 @@ interface HomeFeature {
 
         object ClickedContinueLearningOnWeb : Message
 
-        data class LinkReceived(val url: String) : Message
-        object LinkReceiveFailed : Message
+        data class GetMagicLinkReceiveSuccess(val url: String) : Message
+        object GetMagicLinkReceiveFailure : Message
 
         /**
          * Analytic
@@ -74,7 +74,7 @@ interface HomeFeature {
         object FetchHomeScreenData : Action
         object LaunchTimer : Action
 
-        data class GetLink(val path: HyperskillUrlPath) : Action
+        data class GetMagicLink(val path: HyperskillUrlPath) : Action
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
@@ -84,7 +84,7 @@ interface HomeFeature {
                 object TopicsRepetitionsScreen : NavigateTo
             }
             data class FollowUrl(val url: String) : ViewAction
-            object ShowFollowLinkError : ViewAction
+            object ShowGetMagicLinkError : ViewAction
         }
     }
 }

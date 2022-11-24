@@ -142,9 +142,9 @@ class AuthCredentialsFragment :
 
                 Sentry.captureMessage("AuthCredentials: ${action.error}", SentryLevel.ERROR)
             }
-            is AuthCredentialsFeature.Action.ViewAction.FollowLink ->
+            is AuthCredentialsFeature.Action.ViewAction.OpenUrl ->
                 requireContext().launchUrl(action.url)
-            AuthCredentialsFeature.Action.ViewAction.ShowFollowLinkError ->
+            AuthCredentialsFeature.Action.ViewAction.ShowGetMagicLinkError ->
                 viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
         }
     }
@@ -159,7 +159,7 @@ class AuthCredentialsFragment :
     private fun renderFormState(state: AuthCredentialsFeature.State) {
         val formState = state.formState
         viewStateDelegate.switchState(formState)
-        if (formState is AuthCredentialsFeature.FormState.Loading || state.isLinkLoadingShown) {
+        if (formState is AuthCredentialsFeature.FormState.Loading || state.isLoadingMagicLink) {
             loadingProgressDialogFragment.showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
         } else {
             loadingProgressDialogFragment.dismissIfExists(childFragmentManager, LoadingProgressDialogFragment.TAG)

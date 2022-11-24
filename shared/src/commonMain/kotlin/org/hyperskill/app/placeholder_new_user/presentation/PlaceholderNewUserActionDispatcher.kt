@@ -32,17 +32,17 @@ class PlaceholderNewUserActionDispatcher(
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
-            is Action.GetLink -> getLink(action.path, ::onNewMessage)
+            is Action.GetMagicLink -> getLink(action.path, ::onNewMessage)
         }
     }
 
     private suspend fun getLink(path: HyperskillUrlPath, onNewMessage: (Message) -> Unit): Unit =
         urlPathProcessor.processUrlPath(path).fold(
             onSuccess = { url ->
-                onNewMessage(Message.LinkReceived(url))
+                onNewMessage(Message.GetMagicLinkReceiveSuccess(url))
             },
             onFailure = {
-                onNewMessage(Message.LinkReceiveFailed)
+                onNewMessage(Message.GetMagicLinkReceiveFailure)
             }
         )
 }

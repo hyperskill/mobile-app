@@ -9,7 +9,7 @@ interface AuthCredentialsFeature {
         val email: String,
         val password: String,
         val formState: FormState,
-        val isLinkLoadingShown: Boolean = false
+        val isLoadingMagicLink: Boolean = false
     )
 
     sealed interface FormState {
@@ -26,8 +26,8 @@ interface AuthCredentialsFeature {
         data class AuthFailure(val credentialsError: AuthCredentialsError, val originalError: Throwable) : Message
         object ClickedResetPassword : Message
 
-        data class LinkReceived(val url: String) : Message
-        object LinkReceiveFailed : Message
+        data class GetMagicLinkReceiveSuccess(val url: String) : Message
+        object GetMagicLinkReceiveFailure : Message
 
         /**
          * Analytic
@@ -43,13 +43,13 @@ interface AuthCredentialsFeature {
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
-        data class GetLink(val path: HyperskillUrlPath) : Action
+        data class GetMagicLink(val path: HyperskillUrlPath) : Action
 
         sealed interface ViewAction : Action {
             data class CompleteAuthFlow(val isNewUser: Boolean) : ViewAction
             data class CaptureError(val error: Throwable) : ViewAction
-            data class FollowLink(val url: String) : ViewAction
-            object ShowFollowLinkError : ViewAction
+            data class OpenUrl(val url: String) : ViewAction
+            object ShowGetMagicLinkError : ViewAction
         }
     }
 }

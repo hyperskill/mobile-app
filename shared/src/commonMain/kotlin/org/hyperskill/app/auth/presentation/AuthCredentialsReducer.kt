@@ -51,13 +51,13 @@ class AuthCredentialsReducer : StateReducer<State, Message, Action> {
                 }
             }
             is Message.ClickedResetPassword -> {
-                state.copy(isLinkLoadingShown = true) to setOf(Action.GetLink(HyperskillUrlPath.ResetPassword()))
+                state.copy(isLoadingMagicLink = true) to setOf(Action.GetMagicLink(HyperskillUrlPath.ResetPassword()))
             }
-            is Message.LinkReceived -> {
-                state.copy(isLinkLoadingShown = false) to setOf(Action.ViewAction.FollowLink(message.url))
+            is Message.GetMagicLinkReceiveSuccess -> {
+                state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.OpenUrl(message.url))
             }
-            is Message.LinkReceiveFailed -> {
-                state.copy(isLinkLoadingShown = false) to setOf(Action.ViewAction.ShowFollowLinkError)
+            is Message.GetMagicLinkReceiveFailure -> {
+                state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.ShowGetMagicLinkError)
             }
             is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(AuthCredentialsViewedHyperskillAnalyticEvent()))

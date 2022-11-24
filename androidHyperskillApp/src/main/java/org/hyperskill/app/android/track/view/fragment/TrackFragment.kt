@@ -73,9 +73,9 @@ class TrackFragment :
 
     override fun onAction(action: TrackFeature.Action.ViewAction) {
         when (action) {
-            is TrackFeature.Action.ViewAction.FollowLink ->
+            is TrackFeature.Action.ViewAction.OpenUrl ->
                 requireContext().launchUrl(action.url)
-            TrackFeature.Action.ViewAction.ShowFollowLinkError ->
+            TrackFeature.Action.ViewAction.ShowGetMagicLinkError ->
                 viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
         }
     }
@@ -89,7 +89,7 @@ class TrackFragment :
     }
 
     private fun renderContent(content: TrackFeature.State.Content) {
-        viewBinding.trackProgressBar.isVisible = content.isLinkLoadingShown
+        viewBinding.trackProgressBar.isVisible = content.isLoadingMagicLink
         renderTrackCoverAndName(content.track)
         renderCards(content)
         renderAboutSection(content)

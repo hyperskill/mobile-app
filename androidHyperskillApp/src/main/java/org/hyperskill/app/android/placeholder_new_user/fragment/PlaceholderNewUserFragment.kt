@@ -70,7 +70,7 @@ class PlaceholderNewUserFragment :
                 requireRouter().newRootScreen(AuthScreen)
             is PlaceholderNewUserFeature.Action.ViewAction.FollowUrl ->
                 requireContext().launchUrl(action.url)
-            PlaceholderNewUserFeature.Action.ViewAction.ShowFollowLinkError ->
+            PlaceholderNewUserFeature.Action.ViewAction.ShowGetMagicLinkError ->
                 viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
         }
     }
@@ -78,7 +78,7 @@ class PlaceholderNewUserFragment :
     override fun render(state: PlaceholderNewUserFeature.State) {
         when (state) {
             is PlaceholderNewUserFeature.State.Content -> {
-                viewBinding.placeholderProgress.isVisible = state.isLinkLoadingShown
+                viewBinding.placeholderProgress.isVisible = state.isLoadingMagicLink
             }
         }
     }

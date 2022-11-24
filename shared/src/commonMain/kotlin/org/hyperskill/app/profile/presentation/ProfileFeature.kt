@@ -23,7 +23,7 @@ interface ProfileFeature {
          * @property profile User profile model.
          * @property streak User profile streak.
          * @property isRefreshing A boolean flag that indicates about is pull-to-refresh is ongoing.
-         * @property isLinkLoadingShown A boolean flag that indicates about magic link loading.
+         * @property isLoadingMagicLink A boolean flag that indicates about magic link loading.
          * @see Profile
          * @see Streak
          */
@@ -31,7 +31,7 @@ interface ProfileFeature {
             val profile: Profile,
             val streak: Streak?,
             val isRefreshing: Boolean = false,
-            val isLinkLoadingShown: Boolean = false
+            val isLoadingMagicLink: Boolean = false
         ) : State
 
         /**
@@ -61,8 +61,8 @@ interface ProfileFeature {
 
         object ClickedViewFullProfile : Message
 
-        data class LinkReceived(val url: String) : Message
-        object LinkReceiveFailed : Message
+        data class GetMagicLinkReceiveSuccess(val url: String) : Message
+        object GetMagicLinkReceiveFailure : Message
 
         /**
          * Analytic
@@ -81,11 +81,11 @@ interface ProfileFeature {
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
-        data class GetLink(val path: HyperskillUrlPath) : Action
+        data class GetMagicLink(val path: HyperskillUrlPath) : Action
 
         sealed interface ViewAction : Action {
-            data class FollowLink(val url: String) : ViewAction
-            object ShowFollowLinkError : ViewAction
+            data class OpenUrl(val url: String) : ViewAction
+            object ShowGetMagicLinkError : ViewAction
         }
     }
 }
