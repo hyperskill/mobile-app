@@ -1,5 +1,7 @@
 package org.hyperskill.app.topics_repetitions.presentation
 
+import org.hyperskill.app.topics_repetitions.domain.analytic.TopicsRepetitionsClickedRepeatNextTopicHyperskillAnalyticEvent
+import org.hyperskill.app.topics_repetitions.domain.analytic.TopicsRepetitionsClickedRepeatTopicHyperskillAnalyticEvent
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.State
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Message
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Action
@@ -72,6 +74,10 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
+            is Message.ClickedRepeatNextTopicEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(TopicsRepetitionsClickedRepeatNextTopicHyperskillAnalyticEvent()))
+            is Message.ClickedRepeatTopicEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(TopicsRepetitionsClickedRepeatTopicHyperskillAnalyticEvent()))
         } ?: (state to emptySet())
 
     private fun getNewChartData(

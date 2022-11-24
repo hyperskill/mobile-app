@@ -1,8 +1,8 @@
 package org.hyperskill.app.topics_repetitions.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
-import org.hyperskill.app.topics_repetitions.view.model.TopicToRepeat
 import org.hyperskill.app.topics_repetitions.domain.model.TopicsRepetitions
+import org.hyperskill.app.topics_repetitions.view.model.TopicToRepeat
 
 interface TopicsRepetitionsFeature {
     sealed interface State {
@@ -51,6 +51,8 @@ interface TopicsRepetitionsFeature {
         /**
          * Analytic
          */
+        object ClickedRepeatNextTopicEventMessage : Message
+        object ClickedRepeatTopicEventMessage : Message
     }
 
     sealed interface Action {

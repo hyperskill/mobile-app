@@ -58,6 +58,8 @@ struct TopicsRepetitionsView: View {
                     topicsToRepeatCount: Int(viewData.recommendedTopicsToRepeatCount),
                     repeatNextTopicText: viewData.repeatButtonText,
                     onRepeatNextTopicTap: {
+                        viewModel.logClickedRepeatNextTopicEvent()
+
                         if let firstTopic = viewData.topicsToRepeat.first {
                             viewModel.handleOpenStepRequested(stepID: firstTopic.stepId, topicID: firstTopic.topicId)
                         }
@@ -77,6 +79,8 @@ struct TopicsRepetitionsView: View {
                             topicID: Int(topic.topicId),
                             title: topic.title,
                             onTap: {
+                                viewModel.logClickedRepeatTopicEvent()
+
                                 viewModel.handleOpenStepRequested(
                                     stepID: topic.stepId,
                                     topicID: topic.topicId
