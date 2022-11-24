@@ -82,8 +82,8 @@ class TopicsRepetitionsActionDispatcher(
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
-            is Action.NotifyRepeatedTopic ->
-                topicsRepetitionsInteractor.repeatedTopicMutableSharedFlow.emit(Unit)
+            is Action.NotifyTopicRepeated ->
+                topicsRepetitionsInteractor.topicRepeatedMutableSharedFlow.emit(Unit)
         }
     }
 

@@ -33,8 +33,8 @@ class HomeActionDispatcher(
     private val streakInteractor: StreakInteractor,
     private val profileInteractor: ProfileInteractor,
     private val stepInteractor: StepInteractor,
-    private val repeatedTopicSharedFlow: SharedFlow<Unit>,
-    private val analyticInteractor: AnalyticInteractor
+    private val analyticInteractor: AnalyticInteractor,
+    private val topicRepeatedSharedFlow: SharedFlow<Unit>
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     companion object {
@@ -66,7 +66,7 @@ class HomeActionDispatcher(
         }
 
         actionScope.launch {
-            repeatedTopicSharedFlow.collect {
+            topicRepeatedSharedFlow.collect {
                 onNewMessage(Message.TopicRepeated)
             }
         }

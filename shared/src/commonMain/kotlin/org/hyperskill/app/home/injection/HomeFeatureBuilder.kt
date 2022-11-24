@@ -23,7 +23,7 @@ object HomeFeatureBuilder {
         streakInteractor: StreakInteractor,
         profileInteractor: ProfileInteractor,
         stepInteractor: StepInteractor,
-        repeatedTopicSharedFlow: SharedFlow<Unit>
+        topicRepeatedSharedFlow: SharedFlow<Unit>
     ): Feature<State, Message, Action> {
         val homeReducer = HomeReducer()
         val homeActionDispatcher = HomeActionDispatcher(
@@ -32,8 +32,8 @@ object HomeFeatureBuilder {
             streakInteractor,
             profileInteractor,
             stepInteractor,
-            repeatedTopicSharedFlow,
-            analyticInteractor
+            analyticInteractor,
+            topicRepeatedSharedFlow
         )
 
         return ReduxFeature(State.Idle, homeReducer)

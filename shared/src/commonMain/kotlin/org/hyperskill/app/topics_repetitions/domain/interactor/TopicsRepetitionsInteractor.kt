@@ -9,8 +9,8 @@ class TopicsRepetitionsInteractor(
     private val topicsRepetitionsRepository: TopicsRepetitionsRepository,
     val solvedStepsSharedFlow: SharedFlow<Long>
 ) {
+    val topicRepeatedMutableSharedFlow: MutableSharedFlow<Unit> = MutableSharedFlow()
+
     suspend fun getCurrentTrackTopicsRepetitions(): Result<TopicsRepetitions> =
         topicsRepetitionsRepository.getCurrentTrackTopicsRepetitions()
-
-    val repeatedTopicMutableSharedFlow: MutableSharedFlow<Unit> = MutableSharedFlow()
 }

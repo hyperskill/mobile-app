@@ -8,7 +8,7 @@ import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
 
 class ProfileInteractor(
     private val profileRepository: ProfileRepository,
-    private val submissionRepository: SubmissionRepository
+    submissionRepository: SubmissionRepository
 ) {
     val solvedStepsSharedFlow: SharedFlow<Long> = submissionRepository.solvedStepsMutableSharedFlow
 

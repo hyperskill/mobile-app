@@ -21,7 +21,6 @@ interface TopicsRepetitionsFeature {
     }
 
     sealed interface Message {
-
         data class Initialize(val forceUpdate: Boolean) : Message
 
         sealed interface TopicsRepetitionsLoaded : Message {
@@ -61,7 +60,7 @@ interface TopicsRepetitionsFeature {
 
         data class FetchNextTopics(val topicsRepetitions: TopicsRepetitions) : Action
 
-        object NotifyRepeatedTopic : Action
+        object NotifyTopicRepeated : Action
 
         /**
          * Logging analytic event action

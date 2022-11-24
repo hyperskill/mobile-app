@@ -14,6 +14,7 @@ class TopicsRepetitionsComponentImpl(private val appGraph: AppGraph) : TopicsRep
             appGraph.buildProfileDataComponent().profileInteractor,
             appGraph.analyticComponent.analyticInteractor
         )
+
     override val topicsRepetitionsViewDataMapper: TopicsRepetitionsViewDataMapper
         get() = TopicsRepetitionsViewDataMapper(appGraph.commonComponent.resourceProvider)
 }

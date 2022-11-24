@@ -1,12 +1,12 @@
 package org.hyperskill.app.topics_repetitions.presentation
 
+import kotlin.math.max
 import org.hyperskill.app.topics_repetitions.domain.analytic.TopicsRepetitionsClickedRepeatNextTopicHyperskillAnalyticEvent
 import org.hyperskill.app.topics_repetitions.domain.analytic.TopicsRepetitionsClickedRepeatTopicHyperskillAnalyticEvent
-import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.State
-import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Message
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Action
+import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Message
+import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
-import kotlin.math.max
 
 class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
@@ -67,11 +67,14 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
 
                         state.copy(
                             topicsRepetitions = state.topicsRepetitions.copy(
-                                repetitionsByCount = getNewChartData(state.topicsRepetitions.repetitionsByCount.toMutableMap(), repeatedCount)
+                                repetitionsByCount = getNewChartData(
+                                    oldChartData = state.topicsRepetitions.repetitionsByCount.toMutableMap(),
+                                    repeatedCount = repeatedCount
+                                )
                             ),
                             topicsToRepeat = state.topicsToRepeat.filter { it.topicId != topicId },
                             recommendedTopicsToRepeatCount = max(state.recommendedTopicsToRepeatCount.dec(), 0)
-                        ) to setOf(Action.NotifyRepeatedTopic)
+                        ) to setOf(Action.NotifyTopicRepeated)
                     }
                 } else {
                     null

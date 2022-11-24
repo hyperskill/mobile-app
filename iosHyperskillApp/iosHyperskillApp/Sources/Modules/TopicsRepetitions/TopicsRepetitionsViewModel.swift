@@ -24,10 +24,8 @@ final class TopicsRepetitionsViewModel: FeatureViewModel<
     }
 
     func doTopicStepQuizPresentation(stepID: Int64) {
-        DispatchQueue.main.async {
-            self.onViewAction?(
-                TopicsRepetitionsFeatureActionViewActionNavigateToStepScreen(stepId: stepID)
-            )
+        mainScheduler.schedule {
+            self.onViewAction?(TopicsRepetitionsFeatureActionViewActionNavigateToStepScreen(stepId: stepID))
         }
     }
 
