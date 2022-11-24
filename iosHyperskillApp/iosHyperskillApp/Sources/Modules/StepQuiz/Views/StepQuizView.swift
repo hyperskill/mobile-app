@@ -18,6 +18,8 @@ struct StepQuizView: View {
 
     @EnvironmentObject private var modalRouter: SwiftUIModalRouter
 
+    @EnvironmentObject var pushRouter: SwiftUIPushRouter
+
     @Environment(\.presentationMode) private var presentationMode
 
     var body: some View {
@@ -36,6 +38,16 @@ struct StepQuizView: View {
             }
         }
         .onDisappear(perform: viewModel.stopListening)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                if let theoryID = viewModel.step.topicTheory {
+                    Button(Strings.Step.theory) {
+                        let assembly = StepAssembly(stepID: theoryID.intValue)
+                        pushRouter.pushViewController(assembly.makeModule())
+                    }
+                }
+            }
+        }
     }
 
     // MARK: Private API
@@ -248,7 +260,7 @@ struct StepQuizView: View {
             default:
                 break
             }
-        case is StepQuizFeatureActionViewActionNavigateToHomeScreen:
+        case is StepQuizFeatureActionViewActionNavigateToBack:
             presentationMode.wrappedValue.dismiss()
         default:
             print("StepQuizView :: unhandled viewAction = \(viewAction)")

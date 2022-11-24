@@ -84,10 +84,10 @@ class TrackActionDispatcher(
             if (isTrackWithoutProjects) {
                 return Result.success(topics.take(TOPICS_TO_DISCOVER_NEXT_PREFIX_COUNT))
             } else {
-                val progresses = progressesInteractor
+                val progressById = progressesInteractor
                     .getTopicsProgresses(topicsIds)
                     .getOrThrow()
-                val progressById = progresses.associateBy { it.id }
+                    .associateBy { it.id }
 
                 val topicsByStagePosition = topics
                     .map { it.copy(progress = progressById[it.progressId]) }

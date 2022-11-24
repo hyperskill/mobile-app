@@ -1,5 +1,6 @@
 package org.hyperskill.app.home.injection
 
+import kotlinx.coroutines.flow.SharedFlow
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.home.domain.interactor.HomeInteractor
@@ -21,7 +22,8 @@ object HomeFeatureBuilder {
         homeInteractor: HomeInteractor,
         streakInteractor: StreakInteractor,
         profileInteractor: ProfileInteractor,
-        stepInteractor: StepInteractor
+        stepInteractor: StepInteractor,
+        topicRepeatedSharedFlow: SharedFlow<Unit>
     ): Feature<State, Message, Action> {
         val homeReducer = HomeReducer()
         val homeActionDispatcher = HomeActionDispatcher(
@@ -30,7 +32,8 @@ object HomeFeatureBuilder {
             streakInteractor,
             profileInteractor,
             stepInteractor,
-            analyticInteractor
+            analyticInteractor,
+            topicRepeatedSharedFlow
         )
 
         return ReduxFeature(State.Idle, homeReducer)

@@ -84,6 +84,10 @@ import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponentImpl
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponentImpl
+import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponent
+import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponentImpl
+import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponent
+import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponentImpl
 import org.hyperskill.app.track.injection.PlatformTrackComponent
 import org.hyperskill.app.track.injection.PlatformTrackComponentImpl
 import org.hyperskill.app.track.injection.TrackComponent
@@ -122,6 +126,9 @@ class AndroidAppComponentImpl(
 
     override val platformNotificationComponent: PlatformNotificationComponent =
         PlatformNotificationComponentImpl(application, this)
+
+    override val topicsRepetitionsDataComponent: TopicsRepetitionsDataComponent =
+        TopicsRepetitionsDataComponentImpl(this)
 
     override fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent =
         PlatformAuthSocialWebViewComponentImpl()
@@ -267,6 +274,9 @@ class AndroidAppComponentImpl(
 
     override fun buildLikesDataComponent(): LikesDataComponent =
         LikesDataComponentImpl(this)
+
+    override fun buildTopicsRepetitionsComponent(): TopicsRepetitionsComponent =
+        TopicsRepetitionsComponentImpl(this)
 
     override fun buildLearningActivitiesDataComponent(): LearningActivitiesDataComponent =
         LearningActivitiesDataComponentImpl(this)
