@@ -4,6 +4,7 @@ import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -24,7 +25,6 @@ import org.hyperskill.app.home.presentation.HomeFeature.Message
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.streak.domain.interactor.StreakInteractor
-import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class HomeActionDispatcher(
@@ -33,7 +33,7 @@ class HomeActionDispatcher(
     private val streakInteractor: StreakInteractor,
     private val profileInteractor: ProfileInteractor,
     private val stepInteractor: StepInteractor,
-    private val topicsRepetitionsInteractor: TopicsRepetitionsInteractor,
+    private val repeatedTopicSharedFlow: SharedFlow<Unit>,
     private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
@@ -66,7 +66,7 @@ class HomeActionDispatcher(
         }
 
         actionScope.launch {
-            topicsRepetitionsInteractor.repeatedTopicMutableSharedFlow.collect {
+            repeatedTopicSharedFlow.collect {
                 onNewMessage(Message.TopicRepeated)
             }
         }

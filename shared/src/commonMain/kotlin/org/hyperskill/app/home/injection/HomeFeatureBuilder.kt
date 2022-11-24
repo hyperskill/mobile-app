@@ -1,5 +1,6 @@
 package org.hyperskill.app.home.injection
 
+import kotlinx.coroutines.flow.SharedFlow
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.home.domain.interactor.HomeInteractor
@@ -11,7 +12,6 @@ import org.hyperskill.app.home.presentation.HomeReducer
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.streak.domain.interactor.StreakInteractor
-import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
@@ -23,7 +23,7 @@ object HomeFeatureBuilder {
         streakInteractor: StreakInteractor,
         profileInteractor: ProfileInteractor,
         stepInteractor: StepInteractor,
-        topicsRepetitionsInteractor: TopicsRepetitionsInteractor
+        repeatedTopicSharedFlow: SharedFlow<Unit>
     ): Feature<State, Message, Action> {
         val homeReducer = HomeReducer()
         val homeActionDispatcher = HomeActionDispatcher(
@@ -32,7 +32,7 @@ object HomeFeatureBuilder {
             streakInteractor,
             profileInteractor,
             stepInteractor,
-            topicsRepetitionsInteractor,
+            repeatedTopicSharedFlow,
             analyticInteractor
         )
 

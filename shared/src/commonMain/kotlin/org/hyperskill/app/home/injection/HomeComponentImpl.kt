@@ -63,6 +63,6 @@ class HomeComponentImpl(appGraph: AppGraph) : HomeComponent {
             streakInteractor,
             profileInteractor,
             stepInteractor,
-            topicsRepetitionsInteractor
+            topicsRepetitionsInteractor.repeatedTopicMutableSharedFlow
         )
 }
