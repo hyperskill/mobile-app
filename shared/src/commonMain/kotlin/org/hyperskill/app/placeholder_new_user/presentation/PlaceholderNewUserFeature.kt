@@ -27,7 +27,6 @@ interface PlaceholderNewUserFeature {
          * Analytic
          */
         object ViewedEventMessage : Message
-        object ClickedContinueEventMessage : Message
     }
 
     sealed interface Action {

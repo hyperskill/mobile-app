@@ -71,7 +71,6 @@ interface ProfileFeature {
         object ClickedSettingsEventMessage : Message
         data class ClickedDailyStudyRemindsEventMessage(val isEnabled: Boolean) : Message
         object ClickedDailyStudyRemindsTimeEventMessage : Message
-        object ClickedViewFullProfileEventMessage : Message
     }
 
     sealed interface Action {

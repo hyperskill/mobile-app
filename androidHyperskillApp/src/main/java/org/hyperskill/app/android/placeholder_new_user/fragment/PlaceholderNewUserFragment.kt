@@ -51,10 +51,7 @@ class PlaceholderNewUserFragment :
         super.onViewCreated(view, savedInstanceState)
 
         viewBinding.placeholderContinueToHyperskillButton.setOnClickListener {
-            with(placeholderNewUserViewModel) {
-                onNewMessage(PlaceholderNewUserFeature.Message.ClickedContinueEventMessage)
-                onNewMessage(PlaceholderNewUserFeature.Message.ClickedContinueOnWeb)
-            }
+            placeholderNewUserViewModel.onNewMessage(PlaceholderNewUserFeature.Message.ClickedContinueOnWeb)
         }
 
         viewBinding.placeholderSignInButton.setOnClickListener {

@@ -147,12 +147,12 @@ class ProfileSettingsDialogFragment :
                 .setMessage(R.string.settings_account_deletion_dialog_explanation)
                 .setPositiveButton(R.string.settings_account_deletion_dialog_delete_button_text) { _, _ ->
                     profileSettingsViewModel.onNewMessage(
-                        ProfileSettingsFeature.Message.DeleteAccountNoticeHiddenEventMessage(true)
+                        ProfileSettingsFeature.Message.DeleteAccountNoticeHidden(true)
                     )
                 }
                 .setNegativeButton(R.string.cancel) { dialog, _ ->
                     profileSettingsViewModel.onNewMessage(
-                        ProfileSettingsFeature.Message.DeleteAccountNoticeHiddenEventMessage(false)
+                        ProfileSettingsFeature.Message.DeleteAccountNoticeHidden(false)
                     )
                     dialog.dismiss()
                 }

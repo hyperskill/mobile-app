@@ -185,10 +185,7 @@ class TrackFragment :
             trackAboutKeepYourProgressInWebTextView.paintFlags =
                 trackAboutKeepYourProgressInWebTextView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
             trackAboutKeepYourProgressInWebTextView.setOnClickListener {
-                with(trackViewModel) {
-                    onNewMessage(TrackFeature.Message.ClickedContinueInWebEventMessage)
-                    onNewMessage(TrackFeature.Message.ClickedContinueInWeb)
-                }
+                trackViewModel.onNewMessage(TrackFeature.Message.ClickedContinueInWeb)
             }
         }
     }

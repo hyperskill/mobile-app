@@ -50,7 +50,10 @@ class ProfileReducer : StateReducer<State, Message, Action> {
             }
             is Message.ClickedViewFullProfile -> {
                 if (state is State.Content) {
-                    state.copy(isLoadingMagicLink = true) to setOf(Action.GetMagicLink(HyperskillUrlPath.Profile(state.profile.id)))
+                    state.copy(isLoadingMagicLink = true) to setOf(
+                        Action.GetMagicLink(HyperskillUrlPath.Profile(state.profile.id)),
+                        Action.LogAnalyticEvent(ProfileClickedViewFullProfileHyperskillAnalyticEvent())
+                    )
                 } else {
                     null
                 }
@@ -77,7 +80,5 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                 state to setOf(Action.LogAnalyticEvent(ProfileClickedDailyStudyRemindsHyperskillAnalyticEvent(message.isEnabled)))
             is Message.ClickedDailyStudyRemindsTimeEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(ProfileClickedDailyStudyRemindsTimeHyperskillAnalyticEvent()))
-            is Message.ClickedViewFullProfileEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(ProfileClickedViewFullProfileHyperskillAnalyticEvent()))
         } ?: (state to emptySet())
 }

@@ -114,17 +114,19 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                 )
             is Message.DeleteAccountNoticeShownEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(ProfileSettingsDeleteAccountNoticeShownHyperskillAnalyticEvent()))
-            is Message.DeleteAccountNoticeHiddenEventMessage -> {
-                if (message.isConfirmed && state is State.Content) {
-                    state.copy(isLoadingMagicLink = true) to setOf(Action.GetMagicLink(HyperskillUrlPath.DeleteAccount()))
-                } else {
-                    state to setOf(
-                        Action.LogAnalyticEvent(
-                            ProfileSettingsDeleteAccountNoticeHiddenHyperskillAnalyticEvent(
-                                message.isConfirmed
-                            )
-                        )
+            is Message.DeleteAccountNoticeHidden -> {
+                val analyticsAction = Action.LogAnalyticEvent(
+                    ProfileSettingsDeleteAccountNoticeHiddenHyperskillAnalyticEvent(
+                        message.isConfirmed
                     )
+                )
+                if (message.isConfirmed && state is State.Content) {
+                    state.copy(isLoadingMagicLink = true) to setOf(
+                        Action.GetMagicLink(HyperskillUrlPath.DeleteAccount()),
+                        analyticsAction
+                    )
+                } else {
+                    state to setOf(analyticsAction)
                 }
             }
             is Message.GetMagicLinkReceiveSuccess -> {

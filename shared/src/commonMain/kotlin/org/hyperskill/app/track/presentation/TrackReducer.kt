@@ -35,11 +35,12 @@ class TrackReducer : StateReducer<State, Message, Action> {
                 }
             is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(TrackViewedHyperskillAnalyticEvent()))
-            is Message.ClickedContinueInWebEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(TrackClickedContinueInWebHyperskillAnalyticEvent()))
             Message.ClickedContinueInWeb ->
                 if (state is State.Content) {
-                    state.copy(isLoadingMagicLink = true) to setOf(Action.GetMagicLink(HyperskillUrlPath.StudyPlan()))
+                    state.copy(isLoadingMagicLink = true) to setOf(
+                        Action.GetMagicLink(HyperskillUrlPath.StudyPlan()),
+                        Action.LogAnalyticEvent(TrackClickedContinueInWebHyperskillAnalyticEvent())
+                    )
                 } else {
                     null
                 }

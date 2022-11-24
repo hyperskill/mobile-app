@@ -34,7 +34,6 @@ interface AuthCredentialsFeature {
          */
         object ViewedEventMessage : Message
         object ClickedSignInEventMessage : Message
-        object ClickedResetPasswordEventMessage : Message
         object ClickedContinueWithSocialEventMessage : Message
     }
 

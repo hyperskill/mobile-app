@@ -67,7 +67,6 @@ interface HomeFeature {
          */
         object ViewedEventMessage : Message
         object ClickedProblemOfDayCardEventMessage : Message
-        object ClickedContinueLearningOnWebEventMessage : Message
     }
 
     sealed interface Action {

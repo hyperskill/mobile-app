@@ -117,11 +117,12 @@ class HomeReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
-            is Message.ClickedContinueLearningOnWebEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(HomeClickedContinueLearningOnWebHyperskillAnalyticEvent()))
             Message.ClickedContinueLearningOnWeb -> {
                 if (state is State.Content) {
-                    state.copy(isLoadingMagicLink = true) to setOf(Action.GetMagicLink(HyperskillUrlPath.Index()))
+                    state.copy(isLoadingMagicLink = true) to setOf(
+                        Action.GetMagicLink(HyperskillUrlPath.Index()),
+                        Action.LogAnalyticEvent(HomeClickedContinueLearningOnWebHyperskillAnalyticEvent())
+                    )
                 } else {
                     null
                 }

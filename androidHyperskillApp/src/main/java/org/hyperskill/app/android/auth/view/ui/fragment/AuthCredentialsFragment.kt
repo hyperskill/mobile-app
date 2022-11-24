@@ -95,7 +95,6 @@ class AuthCredentialsFragment :
         }
         viewBinding.signInWithEmailResetPasswordTextButton.setOnClickListener {
             with(authCredentialsViewModel) {
-                onNewMessage(AuthCredentialsFeature.Message.ClickedResetPasswordEventMessage)
                 onNewMessage(AuthCredentialsFeature.Message.ClickedResetPassword)
             }
         }

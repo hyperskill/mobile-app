@@ -65,7 +65,6 @@ class HomeFragment :
         }
 
         viewBinding.homeScreenKeepLearningInWebButton.setOnClickListener {
-            homeViewModel.onNewMessage(HomeFeature.Message.ClickedContinueLearningOnWebEventMessage)
             homeViewModel.onNewMessage(HomeFeature.Message.ClickedContinueLearningOnWeb)
         }
 

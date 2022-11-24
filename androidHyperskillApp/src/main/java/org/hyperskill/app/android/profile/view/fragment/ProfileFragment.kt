@@ -284,10 +284,7 @@ class ProfileFragment :
     private fun setupProfileViewFullVersionTextView() {
         viewBinding.profileViewFullVersionTextView.paintFlags = viewBinding.profileViewFullVersionTextView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         viewBinding.profileViewFullVersionTextView.setOnClickListener {
-            with(profileViewModel) {
-                onNewMessage(ProfileFeature.Message.ClickedViewFullProfileEventMessage)
-                onNewMessage(ProfileFeature.Message.ClickedViewFullProfile)
-            }
+            profileViewModel.onNewMessage(ProfileFeature.Message.ClickedViewFullProfile)
         }
     }
 

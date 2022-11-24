@@ -36,24 +36,24 @@ interface ProfileSettingsFeature {
         data class GetMagicLinkReceiveSuccess(val url: String) : Message
         object GetMagicLinkReceiveFailure : Message
 
+        data class DeleteAccountNoticeHidden(val isConfirmed: Boolean) : Message
+
         /**
          * Analytic
          */
         object ViewedEventMessage : Message
-
         object ClickedDoneEventMessage : Message
         object ClickedThemeEventMessage : Message
         object ClickedTermsOfServiceEventMessage : Message
         object ClickedPrivacyPolicyEventMessage : Message
-        object ClickedReportProblemEventMessage : Message
 
+        object ClickedReportProblemEventMessage : Message
         object ClickedSignOutEventMessage : Message
         object SignOutNoticeShownEventMessage : Message
-        data class SignOutNoticeHiddenEventMessage(val isConfirmed: Boolean) : Message
 
+        data class SignOutNoticeHiddenEventMessage(val isConfirmed: Boolean) : Message
         object ClickedDeleteAccountEventMessage : Message
         object DeleteAccountNoticeShownEventMessage : Message
-        data class DeleteAccountNoticeHiddenEventMessage(val isConfirmed: Boolean) : Message
     }
 
     sealed interface Action {
