@@ -5,11 +5,11 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
-import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Action
-import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Message
 import org.hyperskill.app.topics.domain.interactor.TopicsInteractor
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import org.hyperskill.app.topics_repetitions.domain.model.Repetition
+import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Action
+import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Message
 import org.hyperskill.app.topics_repetitions.view.model.TopicToRepeat
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -96,6 +96,10 @@ class TopicsRepetitionsActionDispatcher(
      */
     private suspend fun loadNextTopics(repetitions: List<Repetition>): Result<Pair<List<Repetition>, List<TopicToRepeat>>> =
         kotlin.runCatching {
+            if (repetitions.isEmpty()) {
+                return Result.success(Pair(emptyList(), emptyList()))
+            }
+
             val firstRepetitions = repetitions.take(TOPICS_PAGINATION_SIZE)
 
             val topicsIds = firstRepetitions.map { it.topicId }
