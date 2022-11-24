@@ -2,6 +2,7 @@ package org.hyperskill.app.android.profile.view.fragment
 
 import android.content.Intent
 import android.graphics.Paint
+import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
@@ -24,6 +25,8 @@ import org.hyperskill.app.android.notification.model.HyperskillNotificationChann
 import org.hyperskill.app.android.profile_settings.view.dialog.ProfileSettingsDialogFragment
 import org.hyperskill.app.android.streak.view.delegate.StreakCardFormDelegate
 import org.hyperskill.app.android.view.base.ui.extension.redirectToUsernamePage
+import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.presentation.ProfileFeature
 import org.hyperskill.app.profile.presentation.ProfileViewModel
@@ -277,7 +280,7 @@ class ProfileFragment :
             profileViewModel.onNewMessage(ProfileFeature.Message.ClickedViewFullProfileEventMessage)
 
             val intent = Intent(Intent.ACTION_VIEW)
-            val url = HyperskillUrlBuilder.build(HyperskillUrlPath.Profile(profile.id))
+            val url = HyperskillUrlBuilder.build(HyperskillUrlPath.Profile(profileId))
             intent.data = Uri.parse(url.toString())
 
             startActivity(intent)
