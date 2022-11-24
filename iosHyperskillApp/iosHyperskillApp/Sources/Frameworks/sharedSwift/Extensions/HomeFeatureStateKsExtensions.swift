@@ -16,6 +16,10 @@ extension HomeFeatureStateKs: Equatable {
                 return false
             }
 
+            guard lhsData.recommendedRepetitionsCount == rhsData.recommendedRepetitionsCount else {
+                return false
+            }
+
             guard let lhsStreak = lhsData.streak,
                   let rhsStreak = rhsData.streak,
                   lhsStreak.isEqual(rhsStreak) else {

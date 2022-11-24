@@ -8,6 +8,13 @@ final class TopicsRepetitionsViewModel: FeatureViewModel<
 > {
     var stateKs: TopicsRepetitionsFeatureStateKs { .init(state) }
 
+    override func shouldNotifyStateDidChange(
+        oldState: TopicsRepetitionsFeatureState,
+        newState: TopicsRepetitionsFeatureState
+    ) -> Bool {
+        TopicsRepetitionsFeatureStateKs(oldState) != TopicsRepetitionsFeatureStateKs(newState)
+    }
+
     func doLoadContent(forceUpdate: Bool = false) {
         onNewMessage(TopicsRepetitionsFeatureMessageInitialize(forceUpdate: forceUpdate))
     }
