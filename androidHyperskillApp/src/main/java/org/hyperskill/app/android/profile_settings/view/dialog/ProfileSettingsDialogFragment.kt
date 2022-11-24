@@ -15,7 +15,7 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.launchUrl
 import org.hyperskill.app.android.core.extensions.representation
-import org.hyperskill.app.android.core.view.ui.dialog.CreateMagicLinkLoadingProgressDialogFragment
+import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.databinding.FragmentProfileSettingsBinding
 import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper
@@ -187,10 +187,10 @@ class ProfileSettingsDialogFragment :
 
         if (state is ProfileSettingsFeature.State.Content) {
             if (state.isLoadingMagicLink) {
-                CreateMagicLinkLoadingProgressDialogFragment.newInstance()
-                    .showIfNotExists(childFragmentManager, CreateMagicLinkLoadingProgressDialogFragment.TAG)
+                LoadingProgressDialogFragment.newInstance()
+                    .showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
             } else {
-                childFragmentManager.dismissDialogFragmentIfExists(CreateMagicLinkLoadingProgressDialogFragment.TAG)
+                childFragmentManager.dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
             }
             viewBinding.settingsThemeChosenTextView.text = state.profileSettings.theme.representation
             currentThemePosition = state.profileSettings.theme.ordinal

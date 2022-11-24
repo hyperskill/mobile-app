@@ -10,7 +10,7 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthScreen
 import org.hyperskill.app.android.core.extensions.launchUrl
-import org.hyperskill.app.android.core.view.ui.dialog.CreateMagicLinkLoadingProgressDialogFragment
+import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentPlaceholderNewUserScreenBinding
@@ -78,10 +78,10 @@ class PlaceholderNewUserFragment :
         when (state) {
             is PlaceholderNewUserFeature.State.Content -> {
                 if (state.isLoadingMagicLink) {
-                    CreateMagicLinkLoadingProgressDialogFragment.newInstance()
-                        .showIfNotExists(childFragmentManager, CreateMagicLinkLoadingProgressDialogFragment.TAG)
+                    LoadingProgressDialogFragment.newInstance()
+                        .showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
                 } else {
-                    childFragmentManager.dismissDialogFragmentIfExists(CreateMagicLinkLoadingProgressDialogFragment.TAG)
+                    childFragmentManager.dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
                 }
             }
         }

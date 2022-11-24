@@ -15,7 +15,7 @@ import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.launchUrl
-import org.hyperskill.app.android.core.view.ui.dialog.CreateMagicLinkLoadingProgressDialogFragment
+import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.databinding.FragmentTrackBinding
 import org.hyperskill.app.track.domain.model.Track
@@ -92,10 +92,10 @@ class TrackFragment :
 
     private fun renderContent(content: TrackFeature.State.Content) {
         if (content.isLoadingMagicLink) {
-            CreateMagicLinkLoadingProgressDialogFragment.newInstance()
-                .showIfNotExists(childFragmentManager, CreateMagicLinkLoadingProgressDialogFragment.TAG)
+            LoadingProgressDialogFragment.newInstance()
+                .showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
         } else {
-            childFragmentManager.dismissDialogFragmentIfExists(CreateMagicLinkLoadingProgressDialogFragment.TAG)
+            childFragmentManager.dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
         }
         renderTrackCoverAndName(content.track)
         renderCards(content)
