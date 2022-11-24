@@ -151,15 +151,17 @@ class AuthCredentialsFragment :
 
     override fun render(state: AuthCredentialsFeature.State) {
         viewStateDelegate.switchState(state.formState)
-        renderFormState(state)
+        renderFormState(state.formState, state.isLoadingMagicLink)
         viewBinding.emailEditText.setTextIfChanged(state.email)
         viewBinding.passwordEditText.setTextIfChanged(state.password)
     }
 
-    private fun renderFormState(state: AuthCredentialsFeature.State) {
-        val formState = state.formState
+    private fun renderFormState(
+        formState: AuthCredentialsFeature.FormState,
+        isLoadingMagicLink: Boolean
+    ) {
         viewStateDelegate.switchState(formState)
-        if (formState is AuthCredentialsFeature.FormState.Loading || state.isLoadingMagicLink) {
+        if (formState is AuthCredentialsFeature.FormState.Loading || isLoadingMagicLink) {
             loadingProgressDialogFragment.showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
         } else {
             loadingProgressDialogFragment.dismissIfExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
