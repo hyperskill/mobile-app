@@ -5,6 +5,7 @@ extension TopicsRepetitionsView {
     struct Appearance {
         let padding = LayoutInsets.largeInset
         let backgroundColor = Color.systemGroupedBackground
+        let skeletonHeight: CGFloat = 450
     }
 }
 
@@ -38,12 +39,12 @@ struct TopicsRepetitionsView: View {
     private func buildBody() -> some View {
         switch viewModel.stateKs {
         case .idle:
-            ProgressView()
+            buildSkeletons()
                 .onAppear {
                     viewModel.doLoadContent()
                 }
         case .loading:
-            ProgressView()
+            buildSkeletons()
         case .networkError:
             PlaceholderView(
                 configuration: .networkError(backgroundColor: appearance.backgroundColor) {
@@ -96,6 +97,17 @@ struct TopicsRepetitionsView: View {
                     .padding(.bottom, appearance.padding)
             }
         }
+    }
+
+    @ViewBuilder
+    private func buildSkeletons() -> some View {
+        VStack(spacing: appearance.padding) {
+            ForEach(0..<3) { _ in
+                SkeletonRoundedView()
+                    .frame(height: appearance.skeletonHeight)
+            }
+        }
+        .padding(.vertical, appearance.padding)
     }
 
     private func handleViewAction(_ viewAction: TopicsRepetitionsFeatureActionViewAction) {

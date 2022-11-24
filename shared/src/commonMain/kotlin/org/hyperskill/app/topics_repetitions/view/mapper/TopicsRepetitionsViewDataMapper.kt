@@ -49,6 +49,5 @@ class TopicsRepetitionsViewDataMapper(
             } else {
                 ShowMoreButtonState.EMPTY
             }
-
         )
 }

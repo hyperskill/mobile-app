@@ -37,7 +37,6 @@ struct HomeView: View {
         }
         .onDisappear(perform: viewModel.stopListening)
         .navigationViewStyle(StackNavigationViewStyle())
-        .environmentObject(pushRouter)
     }
 
     // MARK: Private API
