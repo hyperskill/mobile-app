@@ -44,5 +44,5 @@ class PlaceholderNewUserReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
-        } ?: ( state to emptySet() )
+        } ?: (state to emptySet())
 }

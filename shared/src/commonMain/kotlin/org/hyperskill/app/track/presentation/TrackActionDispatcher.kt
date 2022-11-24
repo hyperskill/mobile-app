@@ -61,7 +61,6 @@ class TrackActionDispatcher(
                 analyticInteractor.logEvent(action.analyticEvent)
             is Action.GetLink ->
                 getLink(action.path, ::onNewMessage)
-
         }
     }
 
