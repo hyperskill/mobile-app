@@ -2,7 +2,6 @@ package org.hyperskill.app.android.profile.view.fragment
 
 import android.content.Intent
 import android.graphics.Paint
-import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
@@ -16,17 +15,19 @@ import coil.decode.SvgDecoder
 import coil.load
 import coil.transform.CircleCropTransformation
 import java.util.Locale
+import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.isChannelNotificationsEnabled
+import org.hyperskill.app.android.core.extensions.launchUrl
+import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
+import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.databinding.FragmentProfileBinding
 import org.hyperskill.app.android.notification.injection.PlatformNotificationComponent
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
 import org.hyperskill.app.android.profile_settings.view.dialog.ProfileSettingsDialogFragment
 import org.hyperskill.app.android.streak.view.delegate.StreakCardFormDelegate
 import org.hyperskill.app.android.view.base.ui.extension.redirectToUsernamePage
-import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
-import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.presentation.ProfileFeature
 import org.hyperskill.app.profile.presentation.ProfileViewModel
@@ -34,6 +35,7 @@ import org.hyperskill.app.profile.view.social_redirect.SocialNetworksRedirect
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
+import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -104,7 +106,12 @@ class ProfileFragment :
     }
 
     override fun onAction(action: ProfileFeature.Action.ViewAction) {
-        // no op
+        when (action) {
+            is ProfileFeature.Action.ViewAction.OpenUrl ->
+                requireContext().launchUrl(action.url)
+            is ProfileFeature.Action.ViewAction.ShowGetMagicLinkError ->
+                viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
+        }
     }
 
     override fun render(state: ProfileFeature.State) {
@@ -130,6 +137,13 @@ class ProfileFragment :
         renderBioSection(content.profile)
         renderExperienceSection(content.profile)
         renderSocialButtons(content.profile)
+
+        if (content.isLoadingMagicLink) {
+            LoadingProgressDialogFragment.newInstance()
+                .showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
+        } else {
+            childFragmentManager.dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
+        }
     }
 
     private fun renderNameProfileBadge(profile: Profile) {
@@ -277,13 +291,7 @@ class ProfileFragment :
     private fun setupProfileViewFullVersionTextView() {
         viewBinding.profileViewFullVersionTextView.paintFlags = viewBinding.profileViewFullVersionTextView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         viewBinding.profileViewFullVersionTextView.setOnClickListener {
-            profileViewModel.onNewMessage(ProfileFeature.Message.ClickedViewFullProfileEventMessage)
-
-            val intent = Intent(Intent.ACTION_VIEW)
-            val url = HyperskillUrlBuilder.build(HyperskillUrlPath.Profile(profileId))
-            intent.data = Uri.parse(url.toString())
-
-            startActivity(intent)
+            profileViewModel.onNewMessage(ProfileFeature.Message.ClickedViewFullProfile)
         }
     }
 

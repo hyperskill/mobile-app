@@ -7,7 +7,9 @@ import org.hyperskill.app.auth.domain.model.AuthCredentialsError
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.Action
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.Message
 import org.hyperskill.app.core.domain.DataSourceType
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -15,7 +17,8 @@ class AuthCredentialsActionDispatcher(
     config: ActionDispatcherOptions,
     private val authInteractor: AuthInteractor,
     private val profileInteractor: ProfileInteractor,
-    private val analyticInteractor: AnalyticInteractor
+    private val analyticInteractor: AnalyticInteractor,
+    private val urlPathProcessor: UrlPathProcessor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
@@ -47,6 +50,22 @@ class AuthCredentialsActionDispatcher(
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
+            is Action.GetMagicLink -> getLink(action.path, ::onNewMessage)
         }
+    }
+
+    private suspend fun getLink(
+        path: HyperskillUrlPath,
+        onNewMessage: (Message) -> Unit
+    ) {
+        urlPathProcessor.processUrlPath(path)
+            .fold(
+                onSuccess = { url ->
+                    onNewMessage(Message.GetMagicLinkReceiveSuccess(url))
+                },
+                onFailure = {
+                    onNewMessage(Message.GetMagicLinkReceiveFailure)
+                }
+            )
     }
 }

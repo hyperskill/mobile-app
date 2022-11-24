@@ -1,6 +1,7 @@
 package org.hyperskill.app.home.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.streak.domain.model.Streak
 
@@ -23,6 +24,7 @@ interface HomeFeature {
          * @property problemOfDayState Problem of the day state.
          * @property recommendedRepetitionsCount Recommended topics repetitions count.
          * @property isRefreshing A boolean flag that indicates about is pull-to-refresh is ongoing.
+         * @property isLoadingMagicLink A boolean flag that indicates about magic link loading.
          * @see Streak
          * @see ProblemOfDayState
          */
@@ -30,7 +32,8 @@ interface HomeFeature {
             val streak: Streak?,
             val problemOfDayState: ProblemOfDayState,
             val recommendedRepetitionsCount: Int,
-            val isRefreshing: Boolean = false
+            val isRefreshing: Boolean = false,
+            val isLoadingMagicLink: Boolean = false
         ) : State
 
         /**
@@ -61,6 +64,11 @@ interface HomeFeature {
         data class ProblemOfDaySolved(val stepId: Long) : Message
         object TopicRepeated : Message
 
+        object ClickedContinueLearningOnWeb : Message
+
+        data class GetMagicLinkReceiveSuccess(val url: String) : Message
+        object GetMagicLinkReceiveFailure : Message
+
         /**
          * Analytic
          */
@@ -74,6 +82,8 @@ interface HomeFeature {
         object FetchHomeScreenData : Action
         object LaunchTimer : Action
 
+        data class GetMagicLink(val path: HyperskillUrlPath) : Action
+
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
         sealed interface ViewAction : Action {
@@ -81,6 +91,8 @@ interface HomeFeature {
                 data class StepScreen(val stepId: Long) : NavigateTo
                 object TopicsRepetitionsScreen : NavigateTo
             }
+            data class OpenUrl(val url: String) : ViewAction
+            object ShowGetMagicLinkError : ViewAction
         }
     }
 }

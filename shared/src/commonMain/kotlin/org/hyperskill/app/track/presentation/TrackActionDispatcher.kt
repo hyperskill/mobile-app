@@ -3,8 +3,10 @@ package org.hyperskill.app.track.presentation
 import kotlinx.coroutines.async
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.learning_activities.domain.interactor.LearningActivitiesInteractor
+import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.topics.domain.interactor.TopicsInteractor
@@ -22,7 +24,8 @@ class TrackActionDispatcher(
     private val progressesInteractor: ProgressesInteractor,
     private val learningActivitiesInteractor: LearningActivitiesInteractor,
     private val topicsInteractor: TopicsInteractor,
-    private val analyticInteractor: AnalyticInteractor
+    private val analyticInteractor: AnalyticInteractor,
+    private val urlPathProcessor: UrlPathProcessor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     companion object {
         private const val TOPICS_TO_DISCOVER_NEXT_LEARNING_ACTIVITIES_PAGE_SIZE = 20
@@ -55,6 +58,8 @@ class TrackActionDispatcher(
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
+            is Action.GetMagicLink ->
+                getLink(action.path, ::onNewMessage)
         }
     }
 
@@ -106,4 +111,15 @@ class TrackActionDispatcher(
                 }
             }
         }
+
+    private suspend fun getLink(path: HyperskillUrlPath, onNewMessage: (Message) -> Unit): Unit =
+        urlPathProcessor.processUrlPath(path)
+            .fold(
+                onSuccess = { url ->
+                    onNewMessage(Message.GetMagicLinkReceiveSuccess(url))
+                },
+                onFailure = {
+                    onNewMessage(Message.GetMagicLinkReceiveFailure)
+                }
+            )
 }

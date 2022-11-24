@@ -56,6 +56,10 @@ struct TrackView: View {
                 }
             )
         case .content(let data):
+            if data.isLoadingMagicLink {
+                let _ = ProgressHUD.show()
+            }
+
             let viewData = viewModel.makeViewData(
                 track: data.track,
                 trackProgress: data.trackProgress,
@@ -118,6 +122,11 @@ struct TrackView: View {
 
     private func handleViewAction(_ viewAction: TrackFeatureActionViewAction) {
         switch TrackFeatureActionViewActionKs(viewAction) {
+        case .openUrl(let data):
+            ProgressHUD.showSuccess()
+            WebControllerManager.shared.presentWebControllerWithURLString(data.url)
+        case .showGetMagicLinkError:
+            ProgressHUD.showError()
         case .navigateTo(let navigateToViewAction):
             switch TrackFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .stepScreen(let data):

@@ -87,7 +87,7 @@ final class ProfileViewModel: FeatureViewModel<
 
     // MARK: Presentation
 
-    func presentSocialAccount(_ profileSocialAccount: ProfileSocialAccount) {
+    func doSocialAccountPresentation(_ profileSocialAccount: ProfileSocialAccount) {
         guard let profileURL = profileSocialAccount.profileURL else {
             return
         }
@@ -104,17 +104,8 @@ final class ProfileViewModel: FeatureViewModel<
         }
     }
 
-    func presentProfileFullVersion() {
-        logClickedViewFullProfileEvent()
-
-        guard let contentState = state as? ProfileFeatureStateContent else {
-            return
-        }
-
-        WebControllerManager.shared.presentWebControllerWithNextURLPath(
-            HyperskillUrlPath.Profile(profileId: contentState.profile.id),
-            controllerType: .safari
-        )
+    func doProfileFullVersionPresentation() {
+        onNewMessage(ProfileFeatureMessageClickedViewFullProfile())
     }
 
     // MARK: Daily study reminders
@@ -208,9 +199,5 @@ final class ProfileViewModel: FeatureViewModel<
 
     func logClickedDailyStudyRemindsTimeEvent() {
         onNewMessage(ProfileFeatureMessageClickedDailyStudyRemindsTimeEventMessage())
-    }
-
-    private func logClickedViewFullProfileEvent() {
-        onNewMessage(ProfileFeatureMessageClickedViewFullProfileEventMessage())
     }
 }

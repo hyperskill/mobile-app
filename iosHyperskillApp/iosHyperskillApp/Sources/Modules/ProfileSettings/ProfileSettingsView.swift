@@ -43,24 +43,26 @@ struct ProfileSettingsView: View {
 
     @ViewBuilder
     private func buildBody() -> some View {
-        switch viewModel.state {
-        case is ProfileSettingsFeatureStateIdle:
+        switch viewModel.stateKs {
+        case .idle:
             ProgressView()
                 .onAppear {
                     viewModel.loadProfileSettings()
                 }
-        case is ProfileSettingsFeatureStateLoading:
+        case .loading:
             ProgressView()
-        case is ProfileSettingsFeatureStateError:
+        case .error:
             PlaceholderView(
                 configuration: .networkError {
                     viewModel.loadProfileSettings(forceUpdate: true)
                 }
             )
-        case let content as ProfileSettingsFeatureStateContent:
+        case .content(let content):
+            if content.isLoadingMagicLink {
+                let _ = ProgressHUD.show()
+            }
+
             buildContent(profileSettings: content.profileSettings)
-        default:
-            Text("Unkwown state")
         }
     }
 
@@ -90,7 +92,7 @@ struct ProfileSettingsView: View {
             Section(header: Text(Strings.Settings.about)) {
                 OpenURLInsideAppButton(
                     text: Strings.Settings.termsOfService,
-                    urlType: .url(Self.termsOfServiceURL),
+                    url: Self.termsOfServiceURL,
                     webControllerType: .inAppSafari,
                     onTap: viewModel.logClickedTermsOfServiceEvent
                 )
@@ -98,7 +100,7 @@ struct ProfileSettingsView: View {
 
                 OpenURLInsideAppButton(
                     text: Strings.Settings.privacyPolicy,
-                    urlType: .url(Self.privacyPolicyURL),
+                    url: Self.privacyPolicyURL,
                     webControllerType: .inAppSafari,
                     onTap: viewModel.logClickedPrivacyPolicyEvent
                 )
@@ -128,7 +130,7 @@ struct ProfileSettingsView: View {
 
                 OpenURLInsideAppButton(
                     text: Strings.Settings.reportProblem,
-                    urlType: .url(Self.reportProblemURL),
+                    url: Self.reportProblemURL,
                     webControllerType: .inAppSafari,
                     onTap: viewModel.logClickedReportProblemEvent
                 )
@@ -180,19 +182,13 @@ struct ProfileSettingsView: View {
                         primaryButton: .default(
                             Text(Strings.General.cancel),
                             action: {
-                                viewModel.logDeleteAccountNoticeHiddenEvent(isConfirmed: false)
+                                viewModel.doDeleteAccount(isConfirmed: false)
                             }
                         ),
                         secondaryButton: .destructive(
                             Text(Strings.Settings.deleteAccountAlertDeleteButton),
                             action: {
-                                viewModel.logDeleteAccountNoticeHiddenEvent(isConfirmed: true)
-
-                                WebControllerManager.shared.presentWebControllerWithNextURLPath(
-                                    HyperskillUrlPath.DeleteAccount(),
-                                    withKey: .externalLink,
-                                    controllerType: .inAppCustom()
-                                )
+                                viewModel.doDeleteAccount(isConfirmed: true)
                             }
                         )
                     )
@@ -207,13 +203,19 @@ struct ProfileSettingsView: View {
     }
 
     private func handleViewAction(_ viewAction: ProfileSettingsFeatureActionViewAction) {
-        switch viewAction {
-        case is ProfileSettingsFeatureActionViewActionNavigateToParentScreen:
-            presentationMode.wrappedValue.dismiss()
-        case let sendFeedbackViewAction as ProfileSettingsFeatureActionViewActionSendFeedback:
+        switch ProfileSettingsFeatureActionViewActionKs(viewAction) {
+        case .sendFeedback(let sendFeedbackViewAction):
             viewModel.doSendFeedbackPresentation(feedbackEmailData: sendFeedbackViewAction.feedbackEmailData)
-        default:
-            print("ProfileSettingsView :: unhandled viewAction = \(viewAction)")
+        case .openUrl(let data):
+            ProgressHUD.showSuccess()
+            WebControllerManager.shared.presentWebControllerWithURLString(data.url, controllerType: .inAppCustom())
+        case .showGetMagicLinkError:
+            ProgressHUD.showError()
+        case .navigateTo(let navigateToViewAction):
+            switch ProfileSettingsFeatureActionViewActionNavigateToKs(navigateToViewAction) {
+            case .parentScreen:
+                presentationMode.wrappedValue.dismiss()
+            }
         }
     }
 }

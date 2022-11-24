@@ -4,7 +4,7 @@ import SwiftUI
 struct OpenURLInsideAppButton: View {
     private let text: String
 
-    private let urlType: URLType
+    private let url: URL
 
     private let webControllerManager: WebControllerManager
     private let webControllerKey: WebControllerManager.WebControllerKey
@@ -15,7 +15,7 @@ struct OpenURLInsideAppButton: View {
 
     init(
         text: String,
-        urlType: URLType,
+        url: URL,
         webControllerManager: WebControllerManager = .shared,
         webControllerKey: WebControllerManager.WebControllerKey = .externalLink,
         webControllerType: WebControllerManager.WebControllerType,
@@ -23,7 +23,7 @@ struct OpenURLInsideAppButton: View {
         onTap: (() -> Void)? = nil
     ) {
         self.text = text
-        self.urlType = urlType
+        self.url = url
         self.webControllerManager = webControllerManager
         self.webControllerKey = webControllerKey
         self.webControllerType = webControllerType
@@ -35,28 +35,13 @@ struct OpenURLInsideAppButton: View {
         Button(text) {
             onTap?()
 
-            switch urlType {
-            case .url(let url):
-                webControllerManager.presentWebControllerWithURL(
-                    url,
-                    withKey: webControllerKey,
-                    controllerType: webControllerType,
-                    backButtonStyle: webControllerBackButtonStyle
-                )
-            case .nextURLPath(let nextURLPath):
-                webControllerManager.presentWebControllerWithNextURLPath(
-                    nextURLPath,
-                    withKey: webControllerKey,
-                    controllerType: webControllerType,
-                    backButtonStyle: webControllerBackButtonStyle
-                )
-            }
+            webControllerManager.presentWebControllerWithURL(
+                url,
+                withKey: webControllerKey,
+                controllerType: webControllerType,
+                backButtonStyle: webControllerBackButtonStyle
+            )
         }
-    }
-
-    enum URLType {
-        case url(URL)
-        case nextURLPath(HyperskillUrlPath)
     }
 }
 
@@ -64,7 +49,7 @@ struct URLButton_Previews: PreviewProvider {
     static var previews: some View {
         OpenURLInsideAppButton(
             text: "URL button",
-            urlType: .url(URL(string: "https://www.google.com/").require()),
+            url: URL(string: "https://www.google.com/").require(),
             webControllerType: .inAppSafari
         )
     }
