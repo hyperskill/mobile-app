@@ -41,6 +41,10 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
         onNewMessage(HomeFeatureMessagePullToRefresh())
     }
 
+    func doContinueLearningOnWebPresentation() {
+        onNewMessage(HomeFeatureMessageClickedContinueLearningOnWeb())
+    }
+
     func handleTopicsRepetitionsRequested() {
         mainScheduler.schedule {
             self.onViewAction?(HomeFeatureActionViewActionNavigateToTopicsRepetitionsScreen())
@@ -55,10 +59,6 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
 
     private func logClickedProblemOfDayCardEvent() {
         onNewMessage(HomeFeatureMessageClickedProblemOfDayCardEventMessage())
-    }
-
-    func logClickedContinueLearningOnWebEvent() {
-        onNewMessage(HomeFeatureMessageClickedContinueLearningOnWebEventMessage())
     }
 
     // MARK: Private API

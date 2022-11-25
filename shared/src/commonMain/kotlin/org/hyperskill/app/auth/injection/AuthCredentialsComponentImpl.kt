@@ -4,6 +4,7 @@ import org.hyperskill.app.analytic.injection.AnalyticComponent
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature
 import org.hyperskill.app.auth.view.mapper.AuthCredentialsErrorMapper
 import org.hyperskill.app.core.injection.CommonComponent
+import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.sentry.injection.SentryComponent
 import ru.nobird.app.presentation.redux.feature.Feature
@@ -12,6 +13,7 @@ class AuthCredentialsComponentImpl(
     private val commonComponent: CommonComponent,
     private val authComponent: AuthComponent,
     private val profileDataComponent: ProfileDataComponent,
+    private val magicLinkComponent: MagicLinksDataComponent,
     private val analyticComponent: AnalyticComponent,
     private val sentryComponent: SentryComponent
 ) : AuthCredentialsComponent {
@@ -19,6 +21,7 @@ class AuthCredentialsComponentImpl(
         get() = AuthCredentialsFeatureBuilder.build(
             authComponent.authInteractor,
             profileDataComponent.profileInteractor,
+            magicLinkComponent.urlPathProcessor,
             analyticComponent.analyticInteractor,
             sentryComponent.sentryInteractor
         )

@@ -22,10 +22,16 @@ final class StepAssembly: UIKitAssembly {
             feature: stepComponent.stepFeature
         )
 
+        let pushRouter = SwiftUIPushRouter()
         let modalRouter = SwiftUIModalRouter()
-        let stepView = StepView(viewModel: viewModel, modalRouter: modalRouter)
-        let hostingController = StepHostingController(rootView: stepView)
+        let stepView = StepView(
+            viewModel: viewModel,
+            pushRouter: pushRouter,
+            modalRouter: modalRouter
+        )
+        let hostingController = RemoveBackButtonTitleHostingController(rootView: stepView)
 
+        pushRouter.rootViewController = hostingController
         modalRouter.rootViewController = hostingController
 
         return hostingController

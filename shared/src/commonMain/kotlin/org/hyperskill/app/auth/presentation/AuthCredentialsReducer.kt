@@ -8,6 +8,7 @@ import org.hyperskill.app.auth.domain.model.AuthCredentialsError
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.Action
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.Message
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.State
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcrumbBuilder
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
@@ -70,12 +71,22 @@ class AuthCredentialsReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
+            is Message.ClickedResetPassword -> {
+                state.copy(isLoadingMagicLink = true) to setOf(
+                    Action.GetMagicLink(HyperskillUrlPath.ResetPassword()),
+                    Action.LogAnalyticEvent(AuthCredentialsClickedResetPasswordHyperskillAnalyticEvent())
+                )
+            }
+            is Message.GetMagicLinkReceiveSuccess -> {
+                state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.OpenUrl(message.url))
+            }
+            is Message.GetMagicLinkReceiveFailure -> {
+                state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.ShowGetMagicLinkError)
+            }
             is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(AuthCredentialsViewedHyperskillAnalyticEvent()))
             is Message.ClickedSignInEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(AuthCredentialsClickedSignInHyperskillAnalyticEvent()))
-            is Message.ClickedResetPasswordEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(AuthCredentialsClickedResetPasswordHyperskillAnalyticEvent()))
             is Message.ClickedContinueWithSocialEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(AuthCredentialsClickedContinueWithSocialHyperskillAnalyticEvent()))
         } ?: (state to emptySet())

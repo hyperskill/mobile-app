@@ -26,11 +26,9 @@ struct AuthCredentialsView: View {
     var body: some View {
         let formState = viewModel.state.formState
 
-        if formState is AuthCredentialsFeatureFormStateEditing {
-            ProgressHUD.dismiss()
-        } else if formState is AuthCredentialsFeatureFormStateLoading {
+        if (formState is AuthCredentialsFeatureFormStateLoading) || viewModel.state.isLoadingMagicLink {
             ProgressHUD.show()
-        } else if formState is AuthCredentialsFeatureFormStateError {
+        } else {
             ProgressHUD.dismiss()
         }
 
@@ -82,6 +80,11 @@ struct AuthCredentialsView: View {
         case .completeAuthFlow(let data):
             ProgressHUD.showSuccess()
             viewModel.doCompleteAuthFlow(isNewUser: data.isNewUser)
+        case .openUrl(let data):
+            ProgressHUD.showSuccess()
+            WebControllerManager.shared.presentWebControllerWithURLString(data.url)
+        case .showGetMagicLinkError:
+            ProgressHUD.showError()
         }
     }
 }

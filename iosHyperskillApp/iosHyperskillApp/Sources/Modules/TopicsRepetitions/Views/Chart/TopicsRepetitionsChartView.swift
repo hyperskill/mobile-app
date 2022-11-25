@@ -9,9 +9,9 @@ extension TopicsRepetitionsChartView {
 struct TopicsRepetitionsChartView: View {
     private(set) var appearance = Appearance()
 
-    let formatter = Formatter.default
+    let data: [(String, Int)]
 
-    private let data: [(Int, Int)] = [(1, 39), (2, 20), (3, 0)]
+    let chartDescription: String
 
     var body: some View {
         VStack(alignment: .center, spacing: LayoutInsets.defaultInset) {
@@ -24,9 +24,9 @@ struct TopicsRepetitionsChartView: View {
             let roundedMaxCount = Double(maxCount + (10 - maxCount % 10))
 
             VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
-                ForEach(data, id: \.0) { (times, count) in
+                ForEach(data, id: \.0) { (label, count) in
                     TopicsRepetitionsChartBar(
-                        label: formatter.timesCount(times),
+                        label: label,
                         value: count,
                         maxValue: roundedMaxCount
                     )
@@ -46,7 +46,7 @@ struct TopicsRepetitionsChartView: View {
                 .padding(.top)
             )
 
-            Text(Strings.TopicsRepetitions.Chart.description)
+            Text(chartDescription)
                 .font(.subheadline)
                 .foregroundColor(.primaryText)
                 .padding(.top, LayoutInsets.defaultInset)
@@ -58,14 +58,23 @@ struct TopicsRepetitionsChartView: View {
 
 struct TopicsRepetitionsChartView_Previews: PreviewProvider {
     static var previews: some View {
-        TopicsRepetitionsChartView()
-            .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro"))
+        TopicsRepetitionsChartView(
+            data: [("1 time", 39), ("2 times", 20), ("3 times", 0)],
+            chartDescription: Strings.TopicsRepetitions.Chart.description
+        )
+        .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro"))
 
-        TopicsRepetitionsChartView()
-            .previewDevice(PreviewDevice(rawValue: "iPhone SE (3rd generation)"))
-            .preferredColorScheme(.dark)
+        TopicsRepetitionsChartView(
+            data: [("1 time", 39), ("2 times", 20), ("3 times", 0)],
+            chartDescription: Strings.TopicsRepetitions.Chart.description
+        )
+        .previewDevice(PreviewDevice(rawValue: "iPhone SE (3rd generation)"))
+        .preferredColorScheme(.dark)
 
-        TopicsRepetitionsChartView()
-            .previewDevice(PreviewDevice(rawValue: "iPad (9th generation)"))
+        TopicsRepetitionsChartView(
+            data: [("1 time", 39), ("2 times", 20), ("3 times", 0)],
+            chartDescription: Strings.TopicsRepetitions.Chart.description
+        )
+        .previewDevice(PreviewDevice(rawValue: "iPad (9th generation)"))
     }
 }

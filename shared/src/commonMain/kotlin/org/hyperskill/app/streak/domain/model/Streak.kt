@@ -20,18 +20,20 @@ data class Streak(
     val history: List<HistoricalStreak>
 ) {
     fun getStreakWithTodaySolved(): Streak =
-        this.copy(
-            history = this.history.mapIndexed { index, historicalStreak ->
-                if (index == 0) {
-                    historicalStreak.copy(
-                        state = StreakState.COMPLETED
-                    )
-                } else {
-                    historicalStreak
-                }
-            },
-            currentStreak = this.currentStreak + 1,
-            maxStreak = max(this.maxStreak, this.currentStreak + 1),
-            isNewRecord = this.maxStreak <= this.currentStreak + 1
-        )
+        if (this.history.firstOrNull()?.state == StreakState.NOTHING) {
+            this.copy(
+                history = this.history.mapIndexed { index, historicalStreak ->
+                    if (index == 0) {
+                        historicalStreak.copy(
+                            state = StreakState.COMPLETED
+                        )
+                    } else {
+                        historicalStreak
+                    }
+                },
+                currentStreak = this.currentStreak + 1,
+                maxStreak = max(this.maxStreak, this.currentStreak + 1),
+                isNewRecord = this.maxStreak <= this.currentStreak + 1
+            )
+        } else this
 }

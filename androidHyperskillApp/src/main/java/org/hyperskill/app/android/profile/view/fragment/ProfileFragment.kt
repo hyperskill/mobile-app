@@ -2,7 +2,6 @@ package org.hyperskill.app.android.profile.view.fragment
 
 import android.content.Intent
 import android.graphics.Paint
-import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
@@ -16,25 +15,27 @@ import coil.decode.SvgDecoder
 import coil.load
 import coil.transform.CircleCropTransformation
 import java.util.Locale
+import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.isChannelNotificationsEnabled
+import org.hyperskill.app.android.core.extensions.launchUrl
+import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
+import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.databinding.FragmentProfileBinding
 import org.hyperskill.app.android.notification.injection.PlatformNotificationComponent
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
 import org.hyperskill.app.android.profile_settings.view.dialog.ProfileSettingsDialogFragment
 import org.hyperskill.app.android.streak.view.delegate.StreakCardFormDelegate
 import org.hyperskill.app.android.view.base.ui.extension.redirectToUsernamePage
-import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
-import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.presentation.ProfileFeature
 import org.hyperskill.app.profile.presentation.ProfileViewModel
 import org.hyperskill.app.profile.view.social_redirect.SocialNetworksRedirect
-import org.hyperskill.app.streak.domain.model.Streak
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
+import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -62,9 +63,6 @@ class ProfileFragment :
 
     private lateinit var streakFormDelegate: StreakCardFormDelegate
 
-    private lateinit var profile: Profile
-    private var streak: Streak? = null
-
     private val platformNotificationComponent: PlatformNotificationComponent = HyperskillApp.graph().platformNotificationComponent
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,6 +84,8 @@ class ProfileFragment :
                 .showIfNotExists(childFragmentManager, ProfileSettingsDialogFragment.TAG)
         }
 
+        setupProfileViewFullVersionTextView()
+
         profileViewModel.onNewMessage(ProfileFeature.Message.Initialize(profileId = profileId, isInitCurrent = isInitCurrent))
         profileViewModel.onNewMessage(ProfileFeature.Message.ViewedEventMessage)
     }
@@ -106,7 +106,12 @@ class ProfileFragment :
     }
 
     override fun onAction(action: ProfileFeature.Action.ViewAction) {
-        // no op
+        when (action) {
+            is ProfileFeature.Action.ViewAction.OpenUrl ->
+                requireContext().launchUrl(action.url)
+            is ProfileFeature.Action.ViewAction.ShowGetMagicLinkError ->
+                viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
+        }
     }
 
     override fun render(state: ProfileFeature.State) {
@@ -114,30 +119,34 @@ class ProfileFragment :
         when (state) {
             is ProfileFeature.State.Content -> {
                 profileId = state.profile.id
-                profile = state.profile
-                streak = state.streak
-                setupProfile()
+                renderContent(state)
             }
         }
     }
 
-    private fun setupProfile() {
-        if (streak != null) {
-            streakFormDelegate = StreakCardFormDelegate(requireContext(), viewBinding.profileStreakLayout, streak!!)
+    private fun renderContent(content: ProfileFeature.State.Content) {
+        if (content.streak != null) {
+            streakFormDelegate = StreakCardFormDelegate(requireContext(), viewBinding.profileStreakLayout, content.streak!!)
         } else {
             viewBinding.profileStreakLayout.root.visibility = View.GONE
         }
 
-        setupNameProfileBadge()
+        renderNameProfileBadge(content.profile)
         setupRemindersSchedule()
-        setupAboutMeSection()
-        setupBioSection()
-        setupExperienceSection()
-        setupSocialButtons()
-        setupProfileBrowserRedirect()
+        renderAboutMeSection(content.profile)
+        renderBioSection(content.profile)
+        renderExperienceSection(content.profile)
+        renderSocialButtons(content.profile)
+
+        if (content.isLoadingMagicLink) {
+            LoadingProgressDialogFragment.newInstance()
+                .showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
+        } else {
+            childFragmentManager.dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
+        }
     }
 
-    private fun setupNameProfileBadge() {
+    private fun renderNameProfileBadge(profile: Profile) {
         val svgImageLoader = ImageLoader.Builder(requireContext())
             .components {
                 add(SvgDecoder.Factory())
@@ -201,10 +210,10 @@ class ProfileFragment :
         }
     }
 
-    private fun setupAboutMeSection() {
+    private fun renderAboutMeSection(profile: Profile) {
         if (profile.country != null) {
             viewBinding.profileAboutLivesTextView.text =
-                "${resources.getString(R.string.profile_lives_in_text)} ${ Locale(Locale.ENGLISH.language, profile.country).displayCountry }"
+                "${resources.getString(R.string.profile_lives_in_text)} ${ Locale(Locale.ENGLISH.language, profile.country!!).displayCountry }"
         } else {
             viewBinding.profileAboutLivesTextView.visibility = View.GONE
         }
@@ -217,7 +226,7 @@ class ProfileFragment :
         }
     }
 
-    private fun setupBioSection() {
+    private fun renderBioSection(profile: Profile) {
         if (profile.bio != "") {
             viewBinding.profileAboutBioTextTextView.text = profile.bio
         } else {
@@ -226,7 +235,7 @@ class ProfileFragment :
         }
     }
 
-    private fun setupExperienceSection() {
+    private fun renderExperienceSection(profile: Profile) {
         if (profile.experience != "") {
             viewBinding.profileAboutExperienceTextTextView.text = profile.experience
         } else {
@@ -235,7 +244,7 @@ class ProfileFragment :
         }
     }
 
-    private fun setupSocialButtons() {
+    private fun renderSocialButtons(profile: Profile) {
         with(viewBinding) {
             if (profile.facebookUsername != "") {
                 profileFacebookButton.setOnClickListener {
@@ -279,16 +288,10 @@ class ProfileFragment :
         }
     }
 
-    private fun setupProfileBrowserRedirect() {
+    private fun setupProfileViewFullVersionTextView() {
         viewBinding.profileViewFullVersionTextView.paintFlags = viewBinding.profileViewFullVersionTextView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         viewBinding.profileViewFullVersionTextView.setOnClickListener {
-            profileViewModel.onNewMessage(ProfileFeature.Message.ClickedViewFullProfileEventMessage)
-
-            val intent = Intent(Intent.ACTION_VIEW)
-            val url = HyperskillUrlBuilder.build(HyperskillUrlPath.Profile(profile.id))
-            intent.data = Uri.parse(url.toString())
-
-            startActivity(intent)
+            profileViewModel.onNewMessage(ProfileFeature.Message.ClickedViewFullProfile)
         }
     }
 

@@ -2,6 +2,7 @@ package org.hyperskill.app.profile.injection
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.profile.presentation.ProfileActionDispatcher
 import org.hyperskill.app.profile.presentation.ProfileFeature.Action
@@ -17,14 +18,16 @@ object ProfileFeatureBuilder {
     fun build(
         profileInteractor: ProfileInteractor,
         streakInteractor: StreakInteractor,
-        analyticInteractor: AnalyticInteractor
+        analyticInteractor: AnalyticInteractor,
+        urlPathProcessor: UrlPathProcessor
     ): Feature<State, Message, Action> {
         val profileReducer = ProfileReducer()
         val profileActionDispatcher = ProfileActionDispatcher(
             ActionDispatcherOptions(),
             profileInteractor,
             streakInteractor,
-            analyticInteractor
+            analyticInteractor,
+            urlPathProcessor
         )
 
         return ReduxFeature(State.Idle, profileReducer)

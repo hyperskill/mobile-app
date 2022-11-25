@@ -1,5 +1,6 @@
 package org.hyperskill.app.profile.presentation
 
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.profile.domain.analytic.ProfileClickedDailyStudyRemindsHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.ProfileClickedDailyStudyRemindsTimeHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.ProfileClickedPullToRefreshHyperskillAnalyticEvent
@@ -40,9 +41,33 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
-            is Message.StepSolved -> {
+            is Message.StepQuizSolved -> {
                 if (state is State.Content) {
-                    state to setOf(Action.UpdateStreakInfo(state.streak))
+                    state.copy(streak = state.streak?.getStreakWithTodaySolved()) to emptySet()
+                } else {
+                    null
+                }
+            }
+            is Message.ClickedViewFullProfile -> {
+                if (state is State.Content) {
+                    state.copy(isLoadingMagicLink = true) to setOf(
+                        Action.GetMagicLink(HyperskillUrlPath.Profile(state.profile.id)),
+                        Action.LogAnalyticEvent(ProfileClickedViewFullProfileHyperskillAnalyticEvent())
+                    )
+                } else {
+                    null
+                }
+            }
+            is Message.GetMagicLinkReceiveSuccess -> {
+                if (state is State.Content) {
+                    state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.OpenUrl(message.url))
+                } else {
+                    null
+                }
+            }
+            is Message.GetMagicLinkReceiveFailure -> {
+                if (state is State.Content) {
+                    state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.ShowGetMagicLinkError)
                 } else {
                     null
                 }
@@ -55,7 +80,5 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                 state to setOf(Action.LogAnalyticEvent(ProfileClickedDailyStudyRemindsHyperskillAnalyticEvent(message.isEnabled)))
             is Message.ClickedDailyStudyRemindsTimeEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(ProfileClickedDailyStudyRemindsTimeHyperskillAnalyticEvent()))
-            is Message.ClickedViewFullProfileEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(ProfileClickedViewFullProfileHyperskillAnalyticEvent()))
         } ?: (state to emptySet())
 }

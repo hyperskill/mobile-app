@@ -45,58 +45,11 @@ final class WebControllerManager: NSObject {
         error?("Could not dismiss web controller with key \(key)")
     }
 
-    func presentWebControllerWithNextURLPath(
-        _ nextURLPath: HyperskillUrlPath,
-        inController controller: UIViewController? = nil,
-        withKey key: WebControllerKey = .externalLink,
-        controllerType: WebControllerType = .safari,
-        backButtonStyle: BackButtonStyle = .done,
-        animated: Bool = true
-    ) {
-        let magicLinksInteractor = AppGraphBridge.sharedAppGraph.buildMagicLinksDataComponent().magicLinksInteractor
-
-        if magicLinksInteractor.shouldCreateMagicLink(nextUrlPath: nextURLPath) {
-            SVProgressHUD.show()
-
-            magicLinksInteractor.createMagicLink(
-                nextUrl: nextURLPath.path,
-                completionHandler_: { (magicLink: MagicLink?, error: Error?) in
-                    if error != nil {
-                        SVProgressHUD.showError(withStatus: nil)
-                    } else if let magicLink,
-                              let url = URL(string: magicLink.url) {
-                        SVProgressHUD.showSuccess(withStatus: nil)
-                        self.presentWebControllerWithURL(
-                            url,
-                            inController: controller,
-                            withKey: key,
-                            controllerType: controllerType,
-                            backButtonStyle: backButtonStyle,
-                            animated: animated
-                        )
-                    } else {
-                        SVProgressHUD.showError(withStatus: nil)
-                    }
-                }
-            )
-        } else {
-            let url = HyperskillUrlBuilder.shared.build(path: nextURLPath)
-            presentWebControllerWithURL(
-                url.toNSURL(),
-                inController: controller,
-                withKey: key,
-                controllerType: controllerType,
-                backButtonStyle: backButtonStyle,
-                animated: animated
-            )
-        }
-    }
-
     func presentWebControllerWithURL(
         _ url: URL,
         inController controller: UIViewController? = nil,
-        withKey key: WebControllerKey,
-        controllerType: WebControllerType,
+        withKey key: WebControllerKey = .externalLink,
+        controllerType: WebControllerType = .safari,
         backButtonStyle: BackButtonStyle = .done,
         animated: Bool = true
     ) {
@@ -148,13 +101,22 @@ final class WebControllerManager: NSObject {
     func presentWebControllerWithURLString(
         _ urlString: String,
         inController controller: UIViewController? = nil,
-        withKey key: WebControllerKey,
-        controllerType: WebControllerType,
+        withKey key: WebControllerKey = .externalLink,
+        controllerType: WebControllerType = .safari,
         backButtonStyle: BackButtonStyle = .done,
         animated: Bool = true
     ) {
-        guard let urlEncodedString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-              let url = URL(string: urlEncodedString) else {
+        let urlOrNil: URL? = {
+            if let url = URL(string: urlString) {
+                return url
+            } else if let urlEncodedString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+                      let url = URL(string: urlEncodedString) {
+                return url
+            }
+            return nil
+        }()
+
+        guard let url = urlOrNil else {
             return print("Invalid url = \(urlString)")
         }
 

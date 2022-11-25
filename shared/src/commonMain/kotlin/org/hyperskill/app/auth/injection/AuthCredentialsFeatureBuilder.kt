@@ -9,6 +9,7 @@ import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.Message
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.State
 import org.hyperskill.app.auth.presentation.AuthCredentialsReducer
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
@@ -19,6 +20,7 @@ object AuthCredentialsFeatureBuilder {
     fun build(
         authInteractor: AuthInteractor,
         profileInteractor: ProfileInteractor,
+        urlPathProcessor: UrlPathProcessor,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor
     ): Feature<State, Message, Action> {
@@ -27,6 +29,7 @@ object AuthCredentialsFeatureBuilder {
             ActionDispatcherOptions(),
             authInteractor,
             profileInteractor,
+            urlPathProcessor,
             analyticInteractor,
             sentryInteractor
         )

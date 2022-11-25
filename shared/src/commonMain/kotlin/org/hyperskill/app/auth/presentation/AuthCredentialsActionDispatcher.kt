@@ -7,7 +7,9 @@ import org.hyperskill.app.auth.domain.model.AuthCredentialsError
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.Action
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.Message
 import org.hyperskill.app.core.domain.DataSourceType
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
@@ -16,6 +18,7 @@ class AuthCredentialsActionDispatcher(
     config: ActionDispatcherOptions,
     private val authInteractor: AuthInteractor,
     private val profileInteractor: ProfileInteractor,
+    private val urlPathProcessor: UrlPathProcessor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
@@ -47,6 +50,8 @@ class AuthCredentialsActionDispatcher(
                         )
                 onNewMessage(message)
             }
+            is Action.GetMagicLink ->
+                getLink(action.path, ::onNewMessage)
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
             is Action.AddSentryBreadcrumb ->
@@ -54,5 +59,20 @@ class AuthCredentialsActionDispatcher(
             is Action.CaptureSentryException ->
                 sentryInteractor.captureErrorMessage("AuthCredentials: ${action.throwable}")
         }
+    }
+
+    private suspend fun getLink(
+        path: HyperskillUrlPath,
+        onNewMessage: (Message) -> Unit
+    ) {
+        urlPathProcessor.processUrlPath(path)
+            .fold(
+                onSuccess = { url ->
+                    onNewMessage(Message.GetMagicLinkReceiveSuccess(url))
+                },
+                onFailure = {
+                    onNewMessage(Message.GetMagicLinkReceiveFailure)
+                }
+            )
     }
 }

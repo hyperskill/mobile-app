@@ -42,12 +42,7 @@ final class AuthCredentialsViewModel: FeatureViewModel<
     }
 
     func doResetPassword() {
-        logClickedResetPasswordEvent()
-
-        WebControllerManager.shared.presentWebControllerWithNextURLPath(
-            HyperskillUrlPath.ResetPassword(),
-            controllerType: .inAppCustom()
-        )
+        onNewMessage(AuthCredentialsFeatureMessageClickedResetPassword())
     }
 
     func doCompleteAuthFlow(isNewUser: Bool) {
@@ -62,10 +57,6 @@ final class AuthCredentialsViewModel: FeatureViewModel<
 
     private func logClickedSignInEvent() {
         onNewMessage(AuthCredentialsFeatureMessageClickedSignInEventMessage())
-    }
-
-    private func logClickedResetPasswordEvent() {
-        onNewMessage(AuthCredentialsFeatureMessageClickedResetPasswordEventMessage())
     }
 
     func logClickedContinueWithSocialEvent() {
