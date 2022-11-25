@@ -22,7 +22,7 @@ class ProfileActionDispatcher(
 
     init {
         actionScope.launch {
-            profileInteractor.solvedStepsSharedFlow.collect { id ->
+            profileInteractor.solvedStepsSharedFlow.collect {
                 onNewMessage(Message.StepQuizSolved)
             }
         }
