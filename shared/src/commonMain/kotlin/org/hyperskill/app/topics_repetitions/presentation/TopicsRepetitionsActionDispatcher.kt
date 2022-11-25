@@ -2,6 +2,7 @@ package org.hyperskill.app.topics_repetitions.presentation
 
 import kotlinx.coroutines.launch
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
@@ -51,7 +52,7 @@ class TopicsRepetitionsActionDispatcher(
                 }
 
                 val currentProfile = profileInteractor
-                    .getCurrentProfile()
+                    .getCurrentProfile(DataSourceType.REMOTE)
                     .getOrElse {
                         onNewMessage(Message.TopicsRepetitionsLoaded.Error)
                         return
