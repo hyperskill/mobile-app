@@ -72,21 +72,23 @@ class HomeReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
-            is Message.ProblemOfDaySolved -> {
-                if (
-                    state is State.Content &&
-                    state.problemOfDayState is HomeFeature.ProblemOfDayState.NeedToSolve &&
-                    state.problemOfDayState.step.id == message.stepId
-                ) {
-                    val completedStep = state.problemOfDayState.step.copy(isCompleted = true)
-                    val updatedStreak = state.streak?.getStreakWithTodaySolved()
-
-                    state.copy(
-                        streak = updatedStreak,
-                        problemOfDayState = HomeFeature.ProblemOfDayState.Solved(
-                            completedStep,
+            is Message.StepQuizSolved -> {
+                if (state is State.Content) {
+                    val problemOfDayState = if (
+                        state.problemOfDayState is HomeFeature.ProblemOfDayState.NeedToSolve &&
+                        state.problemOfDayState.step.id == message.stepId
+                    ) {
+                        HomeFeature.ProblemOfDayState.Solved(
+                            state.problemOfDayState.step.copy(isCompleted = true),
                             HomeActionDispatcher.calculateNextProblemIn()
                         )
+                    } else {
+                        state.problemOfDayState
+                    }
+
+                    state.copy(
+                        streak = state.streak?.getStreakWithTodaySolved(),
+                        problemOfDayState = problemOfDayState
                     ) to setOf()
                 } else {
                     null

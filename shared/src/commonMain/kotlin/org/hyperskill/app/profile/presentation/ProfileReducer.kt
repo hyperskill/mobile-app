@@ -41,9 +41,9 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
-            is Message.StepSolved -> {
+            is Message.StepQuizSolved -> {
                 if (state is State.Content) {
-                    state to setOf(Action.UpdateStreakInfo(state.streak))
+                    state.copy(streak = state.streak?.getStreakWithTodaySolved()) to emptySet()
                 } else {
                     null
                 }

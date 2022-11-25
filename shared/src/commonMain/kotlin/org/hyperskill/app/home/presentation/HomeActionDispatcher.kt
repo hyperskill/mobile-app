@@ -55,16 +55,8 @@ class HomeActionDispatcher(
 
     init {
         actionScope.launch {
-            val currentProfile = profileInteractor
-                .getCurrentProfile()
-                .getOrElse {
-                    onNewMessage(Message.HomeFailure)
-                    return@launch
-                }
             homeInteractor.solvedStepsSharedFlow.collect { id ->
-                if (id == currentProfile.dailyStep) {
-                    onNewMessage(Message.ProblemOfDaySolved(id))
-                }
+                onNewMessage(Message.StepQuizSolved(id))
             }
         }
 
