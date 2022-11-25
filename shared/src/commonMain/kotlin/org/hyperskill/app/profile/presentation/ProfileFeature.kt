@@ -57,7 +57,7 @@ interface ProfileFeature {
             val profileId: Long? = null
         ) : Message
 
-        data class StepSolved(val id: Long) : Message
+        object DailyStepSolved : Message
 
         object ClickedViewFullProfile : Message
 

@@ -41,7 +41,7 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
-            is Message.StepSolved -> {
+            is Message.DailyStepSolved -> {
                 if (state is State.Content) {
                     state to setOf(Action.UpdateStreakInfo(state.streak))
                 } else {

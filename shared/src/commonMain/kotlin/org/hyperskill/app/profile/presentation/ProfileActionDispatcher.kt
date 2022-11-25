@@ -29,7 +29,7 @@ class ProfileActionDispatcher(
                 }
             profileInteractor.solvedStepsSharedFlow.collect { id ->
                 if (id == currentProfile.dailyStep) {
-                    onNewMessage(Message.StepSolved(id))
+                    onNewMessage(Message.DailyStepSolved)
                 }
             }
         }
