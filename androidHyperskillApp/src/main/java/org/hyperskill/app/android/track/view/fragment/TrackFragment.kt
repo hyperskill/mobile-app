@@ -6,8 +6,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.ImageLoader
 import coil.decode.SvgDecoder
@@ -16,12 +19,19 @@ import coil.size.Scale
 import kotlin.math.roundToInt
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.view.ui.adapter.decoration.HorizontalMarginItemDecoration
+import org.hyperskill.app.android.core.view.ui.adapter.decoration.VerticalMarginItemDecoration
+import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentTrackBinding
+import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
+import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.presentation.TrackFeature
 import org.hyperskill.app.track.presentation.TrackViewModel
+import ru.nobird.android.ui.adapterdelegates.dsl.adapterDelegate
+import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
@@ -40,6 +50,12 @@ class TrackFragment :
     private val trackViewModel: TrackViewModel by reduxViewModel(this) { viewModelFactory }
     private val viewStateDelegate: ViewStateDelegate<TrackFeature.State> = ViewStateDelegate()
 
+    private val nextTopicsAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        DefaultDelegateAdapter<Topic>().apply {
+            addDelegate(nextTopicAdapterDelegate())
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponents()
@@ -51,7 +67,7 @@ class TrackFragment :
         viewBinding.trackError.tryAgain.setOnClickListener {
             trackViewModel.onNewMessage(TrackFeature.Message.Initialize(forceUpdate = true))
         }
-
+        setupTopicsRecycler()
         trackViewModel.onNewMessage(TrackFeature.Message.Initialize())
         trackViewModel.onNewMessage(TrackFeature.Message.ViewedEventMessage)
     }
@@ -72,7 +88,31 @@ class TrackFragment :
     }
 
     override fun onAction(action: TrackFeature.Action.ViewAction) {
-        // no op
+        when (action) {
+            is TrackFeature.Action.ViewAction.NavigateTo.StepScreen ->
+                requireRouter().navigateTo(StepScreen(action.stepId))
+        }
+    }
+
+    private fun setupTopicsRecycler() {
+        with(viewBinding.trackNextTopicsRecyclerView) {
+            adapter = nextTopicsAdapter
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            isNestedScrollingEnabled = false
+            val verticalMargin = resources.getDimensionPixelSize(R.dimen.track_next_topic_vertical_item_margin)
+            addItemDecoration(
+                VerticalMarginItemDecoration(
+                    verticalMargin = verticalMargin,
+                    firstItemTopMargin = verticalMargin,
+                    lastItemMargin = verticalMargin
+                )
+            )
+            addItemDecoration(
+                HorizontalMarginItemDecoration(
+                    resources.getDimensionPixelSize(R.dimen.track_next_topic_horizontal_item_margin)
+                )
+            )
+        }
     }
 
     override fun render(state: TrackFeature.State) {
@@ -87,6 +127,7 @@ class TrackFragment :
         renderTrackCoverAndName(content.track)
         renderCards(content)
         renderAboutSection(content)
+        renderNextTopics(content.topicsToDiscoverNext)
     }
 
     private fun renderTrackCoverAndName(track: Track) {
@@ -122,10 +163,11 @@ class TrackFragment :
 
             trackCompletedTopicsTextView.text = "${content.trackProgress.completedTopics} / ${content.track.topicsCount}"
             trackCompletedTopicsProgressIndicator.progress =
-                if (content.track.topicsCount == 0)
+                if (content.track.topicsCount == 0) {
                     0
-                else
+                } else {
                     content.trackProgress.completedTopics * 100 / content.track.topicsCount
+                }
 
             if (content.track.capstoneProjects.isEmpty()) {
                 trackProgressCompletedGraduateProjectsCardView.visibility = View.GONE
@@ -189,4 +231,29 @@ class TrackFragment :
             }
         }
     }
+
+    private fun renderNextTopics(topics: List<Topic>) {
+        viewBinding.trackTopicsLinearLayout.isVisible = topics.isNotEmpty()
+        if (topics.isNotEmpty()) {
+            nextTopicsAdapter.items = topics
+        }
+    }
+
+    private fun nextTopicAdapterDelegate() =
+        adapterDelegate<Topic, Topic>(
+            R.layout.item_track_next_topic
+        ) {
+            val title = itemView.findViewById<TextView>(R.id.nextTopicTitle)
+            itemView.setOnClickListener {
+                item?.let { topic ->
+                    trackViewModel.onNewMessage(
+                        TrackFeature.Message.TopicToDiscoverNextClicked(topicId = topic.id)
+                    )
+                }
+            }
+
+            onBind { topic ->
+                title.text = topic.title
+            }
+        }
 }
