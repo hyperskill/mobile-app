@@ -17,12 +17,21 @@ final class ProfileSettingsViewModel: FeatureViewModel<
     // It's impossible to handle onTap on `Picker`, so using `onAppear` callback with debouncer.
     private let analyticLogClickedThemeEventDebouncer: DebouncerProtocol = Debouncer()
 
+    var stateKs: ProfileSettingsFeatureStateKs { .init(state) }
+
     init(
         applicationThemeService: ApplicationThemeServiceProtocol,
         feature: Presentation_reduxFeature
     ) {
         self.applicationThemeService = applicationThemeService
         super.init(feature: feature)
+    }
+
+    override func shouldNotifyStateDidChange(
+        oldState: ProfileSettingsFeatureState,
+        newState: ProfileSettingsFeatureState
+    ) -> Bool {
+        ProfileSettingsFeatureStateKs(oldState) != ProfileSettingsFeatureStateKs(newState)
     }
 
     func loadProfileSettings(forceUpdate: Bool = false) {
@@ -59,6 +68,10 @@ final class ProfileSettingsViewModel: FeatureViewModel<
             feedbackEmailData: feedbackEmailData,
             presentationController: currentPresentedViewController
         )
+    }
+
+    func doDeleteAccount(isConfirmed: Bool) {
+        onNewMessage(ProfileSettingsFeatureMessageDeleteAccountNoticeHidden(isConfirmed: isConfirmed))
     }
 
     // MARK: Analytic
@@ -111,11 +124,5 @@ final class ProfileSettingsViewModel: FeatureViewModel<
 
     func logDeleteAccountNoticeShownEvent() {
         onNewMessage(ProfileSettingsFeatureMessageDeleteAccountNoticeShownEventMessage())
-    }
-
-    func logDeleteAccountNoticeHiddenEvent(isConfirmed: Bool) {
-        onNewMessage(
-            ProfileSettingsFeatureMessageDeleteAccountNoticeHiddenEventMessage(isConfirmed: isConfirmed)
-        )
     }
 }

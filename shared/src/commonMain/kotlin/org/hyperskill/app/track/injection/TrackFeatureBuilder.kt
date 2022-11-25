@@ -3,6 +3,7 @@ package org.hyperskill.app.track.injection
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.learning_activities.domain.interactor.LearningActivitiesInteractor
+import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.topics.domain.interactor.TopicsInteractor
@@ -23,7 +24,8 @@ object TrackFeatureBuilder {
         progressesInteractor: ProgressesInteractor,
         learningActivitiesInteractor: LearningActivitiesInteractor,
         topicsInteractor: TopicsInteractor,
-        analyticInteractor: AnalyticInteractor
+        analyticInteractor: AnalyticInteractor,
+        urlPathProcessor: UrlPathProcessor
     ): Feature<State, Message, Action> {
         val trackReducer = TrackReducer()
         val trackActionDispatcher = TrackActionDispatcher(
@@ -33,7 +35,8 @@ object TrackFeatureBuilder {
             progressesInteractor,
             learningActivitiesInteractor,
             topicsInteractor,
-            analyticInteractor
+            analyticInteractor,
+            urlPathProcessor
         )
 
         return ReduxFeature(State.Idle, trackReducer)

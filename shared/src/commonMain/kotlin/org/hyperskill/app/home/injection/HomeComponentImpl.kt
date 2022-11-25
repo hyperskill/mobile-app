@@ -4,6 +4,7 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeFeature
+import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile.cache.ProfileCacheDataSourceImpl
 import org.hyperskill.app.profile.data.repository.ProfileRepositoryImpl
 import org.hyperskill.app.profile.data.source.ProfileCacheDataSource
@@ -21,6 +22,7 @@ import org.hyperskill.app.streak.data.source.StreakRemoteDataSource
 import org.hyperskill.app.streak.domain.interactor.StreakInteractor
 import org.hyperskill.app.streak.domain.repository.StreakRepository
 import org.hyperskill.app.streak.remote.StreakRemoteDataSourceImpl
+import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import ru.nobird.app.presentation.redux.feature.Feature
 
 class HomeComponentImpl(appGraph: AppGraph) : HomeComponent {
@@ -34,7 +36,8 @@ class HomeComponentImpl(appGraph: AppGraph) : HomeComponent {
         appGraph.networkComponent.authorizedHttpClient
     )
     private val profileCacheDataSource: ProfileCacheDataSource = ProfileCacheDataSourceImpl(
-        appGraph.commonComponent.json, appGraph.commonComponent.settings
+        appGraph.commonComponent.json,
+        appGraph.commonComponent.settings
     )
     private val profileRepository: ProfileRepository =
         ProfileRepositoryImpl(profileRemoteDataSource, profileCacheDataSource)
@@ -52,12 +55,20 @@ class HomeComponentImpl(appGraph: AppGraph) : HomeComponent {
     private val analyticInteractor: AnalyticInteractor =
         appGraph.analyticComponent.analyticInteractor
 
+    private val urlPathProcessor: UrlPathProcessor =
+        appGraph.buildMagicLinksDataComponent().urlPathProcessor
+
+    private val topicsRepetitionsInteractor: TopicsRepetitionsInteractor =
+        appGraph.topicsRepetitionsDataComponent.topicsRepetitionsInteractor
+
     override val homeFeature: Feature<HomeFeature.State, HomeFeature.Message, HomeFeature.Action>
         get() = HomeFeatureBuilder.build(
             analyticInteractor,
             homeInteractor,
             streakInteractor,
             profileInteractor,
-            stepInteractor
+            stepInteractor,
+            urlPathProcessor,
+            topicsRepetitionsInteractor.topicRepeatedMutableSharedFlow
         )
 }

@@ -1,6 +1,7 @@
 package org.hyperskill.app.track.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.track.domain.model.StudyPlan
 import org.hyperskill.app.track.domain.model.Track
@@ -26,6 +27,7 @@ interface TrackFeature {
          * @property studyPlan Current user profile study plan.
          * @property topicsToDiscoverNext Current user profile uncompleted topics (theory to discover next) for current stage.
          * @property isRefreshing A boolean flag that indicates about is pull-to-refresh is ongoing.
+         * @property isLoadingMagicLink A boolean flag that indicates about magic link loading.
          * @see Track
          * @see TrackProgress
          * @see StudyPlan
@@ -36,7 +38,8 @@ interface TrackFeature {
             val trackProgress: TrackProgress,
             val studyPlan: StudyPlan? = null,
             val topicsToDiscoverNext: List<Topic>,
-            val isRefreshing: Boolean = false
+            val isRefreshing: Boolean = false,
+            val isLoadingMagicLink: Boolean = false
         ) : State
 
         /**
@@ -83,11 +86,15 @@ interface TrackFeature {
 
         object PullToRefresh : Message
 
+        object ClickedContinueInWeb : Message
+
+        data class GetMagicLinkReceiveSuccess(val url: String) : Message
+        object GetMagicLinkReceiveFailure : Message
+
         /**
          * Analytic
          */
         object ViewedEventMessage : Message
-        object ClickedContinueInWebEventMessage : Message
     }
 
     sealed interface Action {
@@ -95,7 +102,12 @@ interface TrackFeature {
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
+        data class GetMagicLink(val path: HyperskillUrlPath) : Action
+
         sealed interface ViewAction : Action {
+            data class OpenUrl(val url: String) : ViewAction
+            object ShowGetMagicLinkError : ViewAction
+
             sealed interface NavigateTo : ViewAction {
                 data class StepScreen(val stepId: Long) : NavigateTo
             }

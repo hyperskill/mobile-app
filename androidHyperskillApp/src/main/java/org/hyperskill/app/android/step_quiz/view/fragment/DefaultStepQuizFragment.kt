@@ -134,7 +134,7 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
             is StepQuizFeature.Action.ViewAction.ShowNetworkError -> {
                 view?.snackbar(messageRes = R.string.connection_error)
             }
-            is StepQuizFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
+            is StepQuizFeature.Action.ViewAction.NavigateTo.Back -> {
                 requireRouter().backTo(MainScreen)
             }
             is StepQuizFeature.Action.ViewAction.RequestUserPermission -> {

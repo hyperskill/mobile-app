@@ -58,6 +58,10 @@ struct HomeView: View {
                 }
             )
         case .content(let data):
+            if data.isLoadingMagicLink {
+                let _ = ProgressHUD.show()
+            }
+
             ScrollView {
                 VStack(alignment: .leading, spacing: appearance.spacingBetweenContainers) {
                     Text(Strings.Home.helloLetsLearn)
@@ -78,15 +82,18 @@ struct HomeView: View {
                     )
                     .makeModule()
 
+                    TopicsRepetitionsCardView(
+                        topicsToRepeatCount: Int(data.recommendedRepetitionsCount),
+                        onTap: viewModel.handleTopicsRepetitionsRequested
+                    )
+
                     let shouldShowContinueInWebButton = data.problemOfDayState is HomeFeatureProblemOfDayStateEmpty ||
                       data.problemOfDayState is HomeFeatureProblemOfDayStateSolved
 
                     if shouldShowContinueInWebButton {
-                        OpenURLInsideAppButton(
-                            text: Strings.Track.About.continueInWebButton,
-                            urlType: .nextURLPath(HyperskillUrlPath.Index()),
-                            webControllerType: .safari,
-                            onTap: viewModel.logClickedContinueLearningOnWebEvent
+                        Button(
+                            Strings.Track.About.continueInWebButton,
+                            action: viewModel.doContinueLearningOnWebPresentation
                         )
                         .buttonStyle(OutlineButtonStyle())
                     }
@@ -121,12 +128,14 @@ struct HomeView: View {
                 let assembly = StepAssembly(stepID: Int(data.stepId))
                 pushRouter.pushViewController(assembly.makeModule())
             case .topicsRepetitionsScreen:
-                pushRouter.pushViewController(
-                    TopicsRepetitionsHostingController(
-                        rootView: TopicsRepetitionsView(topicsToRepeatCount: 4)
-                    )
-                )
+                let assembly = TopicsRepetitionsAssembly()
+                pushRouter.pushViewController(assembly.makeModule())
             }
+        case .openUrl(let data):
+            ProgressHUD.showSuccess()
+            WebControllerManager.shared.presentWebControllerWithURLString(data.url)
+        case .showGetMagicLinkError:
+            ProgressHUD.showError()
         }
     }
 }

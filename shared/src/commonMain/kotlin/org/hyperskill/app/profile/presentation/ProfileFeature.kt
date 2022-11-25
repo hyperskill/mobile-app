@@ -1,6 +1,7 @@
 package org.hyperskill.app.profile.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.streak.domain.model.Streak
 
@@ -22,13 +23,15 @@ interface ProfileFeature {
          * @property profile User profile model.
          * @property streak User profile streak.
          * @property isRefreshing A boolean flag that indicates about is pull-to-refresh is ongoing.
+         * @property isLoadingMagicLink A boolean flag that indicates about magic link loading.
          * @see Profile
          * @see Streak
          */
         data class Content(
             val profile: Profile,
             val streak: Streak?,
-            val isRefreshing: Boolean = false
+            val isRefreshing: Boolean = false,
+            val isLoadingMagicLink: Boolean = false
         ) : State
 
         /**
@@ -56,6 +59,11 @@ interface ProfileFeature {
 
         data class StepSolved(val id: Long) : Message
 
+        object ClickedViewFullProfile : Message
+
+        data class GetMagicLinkReceiveSuccess(val url: String) : Message
+        object GetMagicLinkReceiveFailure : Message
+
         /**
          * Analytic
          */
@@ -63,7 +71,6 @@ interface ProfileFeature {
         object ClickedSettingsEventMessage : Message
         data class ClickedDailyStudyRemindsEventMessage(val isEnabled: Boolean) : Message
         object ClickedDailyStudyRemindsTimeEventMessage : Message
-        object ClickedViewFullProfileEventMessage : Message
     }
 
     sealed interface Action {
@@ -73,6 +80,11 @@ interface ProfileFeature {
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
-        sealed class ViewAction : Action
+        data class GetMagicLink(val path: HyperskillUrlPath) : Action
+
+        sealed interface ViewAction : Action {
+            data class OpenUrl(val url: String) : ViewAction
+            object ShowGetMagicLinkError : ViewAction
+        }
     }
 }

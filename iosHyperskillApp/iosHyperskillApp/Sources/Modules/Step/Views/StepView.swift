@@ -4,6 +4,8 @@ import SwiftUI
 struct StepView: View {
     @StateObject var viewModel: StepViewModel
 
+    @StateObject var pushRouter: SwiftUIPushRouter
+
     @StateObject var modalRouter: SwiftUIModalRouter
 
     var body: some View {
@@ -14,6 +16,7 @@ struct StepView: View {
                 viewModel.onViewAction = handleViewAction(_:)
             }
             .onDisappear(perform: viewModel.stopListening)
+            .environmentObject(pushRouter)
             .environmentObject(modalRouter)
     }
 
@@ -54,8 +57,7 @@ struct StepView: View {
                 viewData: viewModel.makeViewData(data.step)
             )
         case Step.Type_.practice:
-            StepQuizAssembly(step: data.step)
-                .makeModule()
+            StepQuizAssembly(step: data.step).makeModule()
         default:
             Text("Unkwown state")
         }

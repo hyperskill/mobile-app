@@ -8,5 +8,7 @@ data class TopicProgress(
     @SerialName("id")
     val id: String,
     @SerialName("stage_position")
-    val stagePosition: Int? = null
+    val stagePosition: Int? = null,
+    @SerialName("repeated_count")
+    val repeatedCount: Int? = null
 )

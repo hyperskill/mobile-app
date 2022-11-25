@@ -1,5 +1,6 @@
 package org.hyperskill.app.track.presentation
 
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.track.domain.analytic.TrackClickedContinueInWebHyperskillAnalyticEvent
 import org.hyperskill.app.track.domain.analytic.TrackClickedPullToRefreshHyperskillAnalyticEvent
 import org.hyperskill.app.track.domain.analytic.TrackClickedTopicToDiscoverNextHyperskillAnalyticEvent
@@ -59,7 +60,26 @@ class TrackReducer : StateReducer<State, Message, Action> {
                 }
             is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(TrackViewedHyperskillAnalyticEvent()))
-            is Message.ClickedContinueInWebEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(TrackClickedContinueInWebHyperskillAnalyticEvent()))
+            is Message.ClickedContinueInWeb ->
+                if (state is State.Content) {
+                    state.copy(isLoadingMagicLink = true) to setOf(
+                        Action.GetMagicLink(HyperskillUrlPath.StudyPlan()),
+                        Action.LogAnalyticEvent(TrackClickedContinueInWebHyperskillAnalyticEvent())
+                    )
+                } else {
+                    null
+                }
+            is Message.GetMagicLinkReceiveSuccess ->
+                if (state is State.Content) {
+                    state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.OpenUrl(message.url))
+                } else {
+                    null
+                }
+            is Message.GetMagicLinkReceiveFailure ->
+                if (state is State.Content) {
+                    state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.ShowGetMagicLinkError)
+                } else {
+                    null
+                }
         } ?: (state to emptySet())
 }
