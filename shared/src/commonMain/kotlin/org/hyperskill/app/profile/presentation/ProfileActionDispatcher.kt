@@ -22,15 +22,8 @@ class ProfileActionDispatcher(
 
     init {
         actionScope.launch {
-            val currentProfile = profileInteractor
-                .getCurrentProfile()
-                .getOrElse {
-                    return@launch
-                }
             profileInteractor.solvedStepsSharedFlow.collect { id ->
-                if (id == currentProfile.dailyStep) {
-                    onNewMessage(Message.DailyStepSolved)
-                }
+                onNewMessage(Message.StepQuizSolved)
             }
         }
     }
@@ -54,16 +47,6 @@ class ProfileActionDispatcher(
             }
             is Action.FetchProfile -> {
                 // TODO add code when GET on any profile is implemented
-            }
-            is Action.UpdateStreakInfo -> {
-                val currentProfile = profileInteractor
-                    .getCurrentProfile()
-                    .getOrElse { return }
-
-                val updatedStreak = action.streak?.getStreakWithTodaySolved()
-
-                val message = Message.ProfileLoaded.Success(currentProfile, updatedStreak)
-                onNewMessage(message)
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)

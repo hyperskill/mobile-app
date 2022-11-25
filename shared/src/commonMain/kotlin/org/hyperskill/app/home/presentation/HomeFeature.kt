@@ -61,7 +61,7 @@ interface HomeFeature {
         object ReadyToLaunchNextProblemInTimer : Message
         data class HomeNextProblemInUpdate(val seconds: Long) : Message
 
-        data class ProblemOfDaySolved(val stepId: Long) : Message
+        data class StepQuizSolved(val stepId: Long) : Message
         object TopicRepeated : Message
 
         object ClickedContinueLearningOnWeb : Message

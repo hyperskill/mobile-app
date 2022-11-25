@@ -57,7 +57,7 @@ interface ProfileFeature {
             val profileId: Long? = null
         ) : Message
 
-        object DailyStepSolved : Message
+        object StepQuizSolved : Message
 
         object ClickedViewFullProfile : Message
 
@@ -76,7 +76,6 @@ interface ProfileFeature {
     sealed interface Action {
         data class FetchProfile(val profileId: Long) : Action
         object FetchCurrentProfile : Action
-        data class UpdateStreakInfo(val streak: Streak?) : Action
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
