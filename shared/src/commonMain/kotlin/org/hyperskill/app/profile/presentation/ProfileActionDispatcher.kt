@@ -22,8 +22,15 @@ class ProfileActionDispatcher(
 
     init {
         actionScope.launch {
-            profileInteractor.solvedStepsSharedFlow.collect {
-                onNewMessage(Message.StepSolved(it))
+            val currentProfile = profileInteractor
+                .getCurrentProfile()
+                .getOrElse {
+                    return@launch
+                }
+            profileInteractor.solvedStepsSharedFlow.collect { id ->
+                if (id == currentProfile.dailyStep) {
+                    onNewMessage(Message.StepSolved(id))
+                }
             }
         }
     }
