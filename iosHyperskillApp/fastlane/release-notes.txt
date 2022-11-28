@@ -1,5 +1,11 @@
 What to Test:
-1. Forward session on continue in the Web ALTAPPS-335
-2. Step quiz reset button ALTAPPS-336
-3. Step hints ALTAPPS-370
-4. Fix matching problem move up/down not working ALTAPPS-387
+1. Add pull down to refresh to Home, Track and Profile screens ALTAPPS-311
+2. CSS styles improvements ALTAPPS-337
+3. Fix feedback with HTML-text not fitting bounds and overlaps title ALTAPPS-340
+4. Theory ALTAPPS-369
+5. Technical discovery of more friendly use of the Kotlin from Swift ALTAPPS-392
+6. Fix hint view overlays other content ALTAPPS-400
+7. Fix Streak Card new record crown not visible ALTAPPS-405
+8. Load the following 10 topics from the track ALTAPPS-411
+9. Topics repetitions ALTAPPS-412
+10. Fix streak on Profile view increases with number of solved problems ALTAPPS-425

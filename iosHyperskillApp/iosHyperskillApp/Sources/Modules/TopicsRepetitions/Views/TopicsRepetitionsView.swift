@@ -1,11 +1,12 @@
 import shared
 import SwiftUI
+import UIKit
 
 extension TopicsRepetitionsView {
     struct Appearance {
         let padding = LayoutInsets.largeInset
         let backgroundColor = Color.systemGroupedBackground
-        let skeletonHeight: CGFloat = 450
+        let skeletonHeight: CGFloat = UIScreen.main.bounds.height / 3
     }
 }
 
@@ -19,7 +20,7 @@ struct TopicsRepetitionsView: View {
     let dataMapper: TopicsRepetitionsViewDataMapper
 
     var body: some View {
-        ScrollView {
+        ZStack {
             buildBody()
         }
         .background(appearance.backgroundColor)
@@ -39,12 +40,16 @@ struct TopicsRepetitionsView: View {
     private func buildBody() -> some View {
         switch viewModel.stateKs {
         case .idle:
-            buildSkeletons()
-                .onAppear {
-                    viewModel.doLoadContent()
-                }
+            ScrollView {
+                buildSkeletons()
+                    .onAppear {
+                        viewModel.doLoadContent()
+                    }
+            }
         case .loading:
-            buildSkeletons()
+            ScrollView {
+                buildSkeletons()
+            }
         case .networkError:
             PlaceholderView(
                 configuration: .networkError(backgroundColor: appearance.backgroundColor) {
@@ -52,47 +57,8 @@ struct TopicsRepetitionsView: View {
                 }
             )
         case .content(let state):
-            let viewData = dataMapper.mapStateToViewData(state: state)
-
-            VStack(spacing: appearance.padding) {
-                TopicsRepetitionsChartBlock(
-                    topicsToRepeatCount: Int(viewData.recommendedTopicsToRepeatCount),
-                    repeatNextTopicText: viewData.repeatButtonText,
-                    onRepeatNextTopicTap: {
-                        viewModel.logClickedRepeatNextTopicEvent()
-
-                        if let firstTopic = viewData.topicsToRepeat.first {
-                            viewModel.doTopicStepQuizPresentation(stepID: firstTopic.stepId)
-                        }
-                    },
-                    chartData: viewData.chartData.map { pair in
-                        (String(pair.first ?? ""), Int(truncating: pair.second ?? 0))
-                    },
-                    chartDescription: viewData.chartDescription
-                )
-                .padding(.top, appearance.padding)
-
-                TopicsRepetitionsRepeatBlock(
-                    repeatBlockTitle: viewData.repeatBlockTitle,
-                    trackTopicsTitle: viewData.trackTopicsTitle,
-                    repeatButtons: viewData.topicsToRepeat.map { topic in
-                        RepeatButtonInfo(
-                            topicID: Int(topic.topicId),
-                            title: topic.title,
-                            onTap: {
-                                viewModel.logClickedRepeatTopicEvent()
-
-                                viewModel.doTopicStepQuizPresentation(stepID: topic.stepId)
-                            }
-                        )
-                    },
-                    showMoreButtonState: viewData.showMoreButtonState,
-                    onShowMoreButtonTap: viewModel.doLoadNextTopics,
-                    topicsToRepeatWillLoadedCount: Int(viewData.topicsToRepeatWillLoadedCount)
-                )
-
-                TopicsRepetitionsInfoBlock()
-                    .padding(.bottom, appearance.padding)
+            ScrollView {
+                buildContent(viewData: dataMapper.mapStateToViewData(state: state))
             }
         }
     }
@@ -106,6 +72,50 @@ struct TopicsRepetitionsView: View {
             }
         }
         .padding(.vertical, appearance.padding)
+    }
+
+    @ViewBuilder
+    private func buildContent(viewData: TopicsRepetitionsViewData) -> some View {
+        VStack(spacing: appearance.padding) {
+            TopicsRepetitionsChartBlock(
+                topicsToRepeatCount: Int(viewData.recommendedTopicsToRepeatCount),
+                repeatNextTopicText: viewData.repeatButtonText,
+                onRepeatNextTopicTap: {
+                    viewModel.logClickedRepeatNextTopicEvent()
+
+                    if let firstTopic = viewData.topicsToRepeat.first {
+                        viewModel.doTopicStepQuizPresentation(stepID: firstTopic.stepId)
+                    }
+                },
+                chartData: viewData.chartData.map { pair in
+                    (String(pair.first ?? ""), Int(truncating: pair.second ?? 0))
+                },
+                chartDescription: viewData.chartDescription
+            )
+            .padding(.top, appearance.padding)
+
+            TopicsRepetitionsRepeatBlock(
+                repeatBlockTitle: viewData.repeatBlockTitle,
+                trackTopicsTitle: viewData.trackTopicsTitle,
+                repeatButtons: viewData.topicsToRepeat.map { topic in
+                    RepeatButtonInfo(
+                        topicID: Int(topic.topicId),
+                        title: topic.title,
+                        onTap: {
+                            viewModel.logClickedRepeatTopicEvent()
+
+                            viewModel.doTopicStepQuizPresentation(stepID: topic.stepId)
+                        }
+                    )
+                },
+                showMoreButtonState: viewData.showMoreButtonState,
+                onShowMoreButtonTap: viewModel.doLoadNextTopics,
+                topicsToRepeatWillLoadedCount: Int(viewData.topicsToRepeatWillLoadedCount)
+            )
+
+            TopicsRepetitionsInfoBlock()
+                .padding(.bottom, appearance.padding)
+        }
     }
 
     private func handleViewAction(_ viewAction: TopicsRepetitionsFeatureActionViewAction) {
