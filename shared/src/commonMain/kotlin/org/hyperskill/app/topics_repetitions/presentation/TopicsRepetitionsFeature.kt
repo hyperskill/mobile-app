@@ -21,13 +21,16 @@ interface TopicsRepetitionsFeature {
     }
 
     sealed interface Message {
-        data class Initialize(val forceUpdate: Boolean) : Message
+        data class Initialize(
+            val recommendedRepetitionsCount: Int,
+            val forceUpdate: Boolean
+        ) : Message
 
         sealed interface TopicsRepetitionsLoaded : Message {
             data class Success(
                 val topicsRepetitions: TopicsRepetitions,
                 val topicsToRepeat: List<TopicToRepeat>,
-                val recommendedTopicsToRepeatCount: Int,
+                val recommendedRepetitionsCount: Int,
                 val trackTitle: String,
             ) : TopicsRepetitionsLoaded
 
@@ -56,7 +59,7 @@ interface TopicsRepetitionsFeature {
 
     sealed interface Action {
 
-        object Initialize : Action
+        data class Initialize(val recommendedRepetitionsCount: Int) : Action
 
         data class FetchNextTopics(val topicsRepetitions: TopicsRepetitions) : Action
 

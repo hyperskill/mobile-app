@@ -15,8 +15,13 @@ final class TopicsRepetitionsViewModel: FeatureViewModel<
         TopicsRepetitionsFeatureStateKs(oldState) != TopicsRepetitionsFeatureStateKs(newState)
     }
 
-    func doLoadContent(forceUpdate: Bool = false) {
-        onNewMessage(TopicsRepetitionsFeatureMessageInitialize(forceUpdate: forceUpdate))
+    func doLoadContent(recommendedRepetitionsCount: Int32, forceUpdate: Bool = false) {
+        onNewMessage(
+            TopicsRepetitionsFeatureMessageInitialize(
+                recommendedRepetitionsCount: recommendedRepetitionsCount,
+                forceUpdate: forceUpdate
+            )
+        )
     }
 
     func doLoadNextTopics() {

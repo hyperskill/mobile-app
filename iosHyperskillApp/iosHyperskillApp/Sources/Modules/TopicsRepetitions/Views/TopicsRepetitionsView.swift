@@ -12,6 +12,8 @@ extension TopicsRepetitionsView {
 struct TopicsRepetitionsView: View {
     private(set) var appearance = Appearance()
 
+    let recommendedRepetitionsCount: Int32
+
     @StateObject var viewModel: TopicsRepetitionsViewModel
 
     @StateObject var pushRouter: SwiftUIPushRouter
@@ -41,14 +43,17 @@ struct TopicsRepetitionsView: View {
         case .idle:
             buildSkeletons()
                 .onAppear {
-                    viewModel.doLoadContent()
+                    viewModel.doLoadContent(recommendedRepetitionsCount: recommendedRepetitionsCount)
                 }
         case .loading:
             buildSkeletons()
         case .networkError:
             PlaceholderView(
                 configuration: .networkError(backgroundColor: appearance.backgroundColor) {
-                    viewModel.doLoadContent(forceUpdate: true)
+                    viewModel.doLoadContent(
+                        recommendedRepetitionsCount: recommendedRepetitionsCount,
+                        forceUpdate: true
+                    )
                 }
             )
         case .content(let state):
@@ -56,7 +61,7 @@ struct TopicsRepetitionsView: View {
 
             VStack(spacing: appearance.padding) {
                 TopicsRepetitionsChartBlock(
-                    topicsToRepeatCount: Int(viewData.recommendedTopicsToRepeatCount),
+                    topicsToRepeatCount: Int(viewData.recommendedRepetitionsCount),
                     repeatNextTopicText: viewData.repeatButtonText,
                     onRepeatNextTopicTap: {
                         viewModel.logClickedRepeatNextTopicEvent()
@@ -125,7 +130,7 @@ struct TopicsRepetitionsView: View {
 struct TopicsRepetitionsView_Previews: PreviewProvider {
     static var previews: some View {
         UIKitViewControllerPreview {
-            TopicsRepetitionsAssembly().makeModule()
+            TopicsRepetitionsAssembly(recommendedRepetitionsCount: 5).makeModule()
         }
     }
 }

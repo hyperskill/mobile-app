@@ -2,6 +2,12 @@ import shared
 import SwiftUI
 
 class TopicsRepetitionsAssembly: UIKitAssembly {
+    private let recommendedRepetitionsCount: Int32
+
+    init(recommendedRepetitionsCount: Int32) {
+        self.recommendedRepetitionsCount = recommendedRepetitionsCount
+    }
+
     func makeModule() -> UIViewController {
         let topicsRepetitionsComponent = AppGraphBridge.sharedAppGraph.buildTopicsRepetitionsComponent()
 
@@ -10,6 +16,7 @@ class TopicsRepetitionsAssembly: UIKitAssembly {
         let pushRouter = SwiftUIPushRouter()
 
         let topicsRepetitionsView = TopicsRepetitionsView(
+            recommendedRepetitionsCount: recommendedRepetitionsCount,
             viewModel: viewModel,
             pushRouter: pushRouter,
             dataMapper: topicsRepetitionsComponent.topicsRepetitionsViewDataMapper
