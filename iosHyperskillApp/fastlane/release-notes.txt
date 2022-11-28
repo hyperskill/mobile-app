@@ -8,3 +8,4 @@ What to Test:
 7. Fix Streak Card new record crown not visible ALTAPPS-405
 8. Load the following 10 topics from the track ALTAPPS-411
 9. Topics repetitions ALTAPPS-412
+10. Fix streak on Profile view increases with number of solved problems ALTAPPS-425

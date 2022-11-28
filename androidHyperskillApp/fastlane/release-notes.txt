@@ -2,3 +2,4 @@ What to Test:
 1. Theory ALTAPPS-369
 2. Fix reset code ALTAPPS-371
 3. Forward session on continue in the Web ALTAPPS-390
+4. Fix streak on Profile view increases with number of solved problems ALTAPPS-425
