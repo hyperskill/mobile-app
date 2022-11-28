@@ -4,102 +4,106 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/homeScreenContainer"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/color_background"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="20dp">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/homeScreenHelloLetsLearnTextView"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/homeScreenContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/home_hello_lets_learn_text"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent"
+            android:background="@color/color_background"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="20dp">
 
-        <TextView
-            android:id="@+id/homeScreenKeepPracticingTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/home_keep_practicing_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/homeScreenHelloLetsLearnTextView" />
-
-        <include
-            android:id="@+id/homeScreenStreakCard"
-            layout="@layout/layout_streak_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/homeScreenKeepPracticingTextView" />
-
-        <include
-            android:id="@+id/homeScreenProblemOfDayCard"
-            layout="@layout/layout_problem_of_the_day_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/homeScreenStreakCard" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/homeOpenStepInputLayout"
-            style="@style/Widget.AppTheme.TextInputLayouts.InputText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:hint="Enter step ID"
-            android:visibility="gone"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/homeScreenProblemOfDayCard">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/homeOpenStepInputEditText"
+            <TextView
+                android:id="@+id/homeScreenHelloLetsLearnTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:text="@string/home_hello_lets_learn_text"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/homeOpenStepButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Open step"
-            android:visibility="gone"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/homeOpenStepInputLayout" />
+            <TextView
+                android:id="@+id/homeScreenKeepPracticingTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/home_keep_practicing_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/homeScreenHelloLetsLearnTextView" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/homeScreenKeepLearningInWebButton"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/auth_button_height"
-            android:layout_marginTop="24dp"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:text="@string/track_continue_in_web_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/homeOpenStepButton"
-            app:layout_constraintVertical_bias="0"
-            app:layout_constraintWidth_max="@dimen/auth_button_max_width"
-            app:strokeColor="?colorPrimary" />
+            <include
+                android:id="@+id/homeScreenStreakCard"
+                layout="@layout/layout_streak_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/homeScreenKeepPracticingTextView" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <include
+                android:id="@+id/homeScreenProblemOfDayCard"
+                layout="@layout/layout_problem_of_the_day_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/homeScreenStreakCard" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/homeOpenStepInputLayout"
+                style="@style/Widget.AppTheme.TextInputLayouts.InputText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:hint="Enter step ID"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/homeScreenProblemOfDayCard">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/homeOpenStepInputEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/homeOpenStepButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Open step"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/homeOpenStepInputLayout" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/homeScreenKeepLearningInWebButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/auth_button_height"
+                android:layout_marginTop="24dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/track_continue_in_web_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/homeOpenStepButton"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintWidth_max="@dimen/auth_button_max_width"
+                app:strokeColor="?colorPrimary" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
     <me.zhanghai.android.materialprogressbar.MaterialProgressBar
         android:id="@+id/homeScreenProgress"
