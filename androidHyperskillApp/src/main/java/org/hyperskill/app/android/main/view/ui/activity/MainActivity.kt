@@ -71,10 +71,10 @@ class MainActivity :
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
         initViewStateDelegate()
-        mainViewModelProvider.onNewMessage(AppFeature.Message.Init(forceUpdate = false))
+        mainViewModelProvider.onNewMessage(AppFeature.Message.Initialize(forceUpdate = false))
 
         viewBinding.mainError.tryAgain.setOnClickListener {
-            mainViewModelProvider.onNewMessage(AppFeature.Message.Init(forceUpdate = true))
+            mainViewModelProvider.onNewMessage(AppFeature.Message.Initialize(forceUpdate = true))
         }
 
         lifecycleScope.launch {

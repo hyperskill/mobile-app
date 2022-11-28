@@ -3,9 +3,6 @@ import SwiftUI
 extension StepTheoryContentView {
     struct Appearance {
         let interItemSpacing: CGFloat = 24
-
-        let stepTextFont = UIFont.preferredFont(forTextStyle: .body)
-        let stepTextColor = UIColor.primaryText
     }
 }
 
@@ -30,19 +27,7 @@ struct StepTheoryContentView: View {
 //                    print("Start practicing tapped")
 //                }
 
-                LatexView(
-                    text: $viewData.text,
-                    configuration: .init(
-                        appearance: .init(labelFont: appearance.stepTextFont),
-                        contentProcessor: ContentProcessor(
-                            injections: ContentProcessor.defaultInjections + [
-                                StepStylesInjection(),
-                                FontInjection(font: appearance.stepTextFont),
-                                TextColorInjection(dynamicColor: appearance.stepTextColor)
-                            ]
-                        )
-                    )
-                )
+                StepTextView(text: viewData.text)
 
                 // ALTAPPS-397: Hidden
 //                StepBottomControlsView(

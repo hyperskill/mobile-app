@@ -13,7 +13,10 @@ class FeatureViewModel<State, Message, ViewAction>: ObservableObject {
     private var viewActionQueue = Queue<ViewAction>()
     private var isListeningForChanges = false
 
+    /// Represents the last feature state that was rendered.
+    /// See `updateState(newState:)` logic for more info.
     private var oldState: State
+    /// Represents the current feature state.
     var state: State {
         if let state = self.feature.state as? State {
             return state
@@ -69,7 +72,11 @@ class FeatureViewModel<State, Message, ViewAction>: ObservableObject {
     // MARK: Private API
 
     private func updateState(newState: State) {
-        defer { oldState = newState }
+        defer {
+            if isListeningForChanges {
+                oldState = newState
+            }
+        }
 
         guard isListeningForChanges,
               shouldNotifyStateDidChange(oldState: oldState, newState: newState) else {

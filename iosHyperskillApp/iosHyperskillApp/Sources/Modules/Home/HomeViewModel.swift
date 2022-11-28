@@ -6,6 +6,8 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
     private var applicationWasInBackground = false
     private var shouldReloadContent = false
 
+    var stateKs: HomeFeatureStateKs { .init(state) }
+
     override init(feature: Presentation_reduxFeature, mainScheduler: AnySchedulerOf<RunLoop> = .main) {
         super.init(feature: feature, mainScheduler: mainScheduler)
 
@@ -23,11 +25,29 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
         )
     }
 
-    func loadContent(forceUpdate: Bool = false) {
-        onNewMessage(HomeFeatureMessageInit(forceUpdate: forceUpdate || shouldReloadContent))
+    override func shouldNotifyStateDidChange(oldState: HomeFeatureState, newState: HomeFeatureState) -> Bool {
+        HomeFeatureStateKs(oldState) != HomeFeatureStateKs(newState)
+    }
+
+    func doLoadContent(forceUpdate: Bool = false) {
+        onNewMessage(HomeFeatureMessageInitialize(forceUpdate: forceUpdate || shouldReloadContent))
 
         if shouldReloadContent {
             shouldReloadContent = false
+        }
+    }
+
+    func doPullToRefresh() {
+        onNewMessage(HomeFeatureMessagePullToRefresh())
+    }
+
+    func doContinueLearningOnWebPresentation() {
+        onNewMessage(HomeFeatureMessageClickedContinueLearningOnWeb())
+    }
+
+    func handleTopicsRepetitionsRequested() {
+        mainScheduler.schedule {
+            self.onViewAction?(HomeFeatureActionViewActionNavigateToTopicsRepetitionsScreen())
         }
     }
 
@@ -39,10 +59,6 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
 
     private func logClickedProblemOfDayCardEvent() {
         onNewMessage(HomeFeatureMessageClickedProblemOfDayCardEventMessage())
-    }
-
-    func logClickedContinueLearningOnWebEvent() {
-        onNewMessage(HomeFeatureMessageClickedContinueLearningOnWebEventMessage())
     }
 
     // MARK: Private API
@@ -67,7 +83,7 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
 
 extension HomeViewModel: ProblemOfDayOutputProtocol {
     func handleProblemOfDayReloadRequested() {
-        loadContent(forceUpdate: true)
+        doLoadContent(forceUpdate: true)
     }
 
     func handleProblemOfDayOpenStepRequested(stepID: Int) {

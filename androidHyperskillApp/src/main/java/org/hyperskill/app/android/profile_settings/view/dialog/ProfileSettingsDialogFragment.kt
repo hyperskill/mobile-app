@@ -6,23 +6,26 @@ import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.extensions.launchUrl
 import org.hyperskill.app.android.core.extensions.representation
+import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
+import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.databinding.FragmentProfileSettingsBinding
 import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper
-import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
-import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.profile.presentation.ProfileSettingsViewModel
 import org.hyperskill.app.profile_settings.domain.model.FeedbackEmailData
 import org.hyperskill.app.profile_settings.domain.model.Theme
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
+import ru.nobird.android.view.base.ui.extension.showIfNotExists
+import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -146,19 +149,12 @@ class ProfileSettingsDialogFragment :
                 .setMessage(R.string.settings_account_deletion_dialog_explanation)
                 .setPositiveButton(R.string.settings_account_deletion_dialog_delete_button_text) { _, _ ->
                     profileSettingsViewModel.onNewMessage(
-                        ProfileSettingsFeature.Message.DeleteAccountNoticeHiddenEventMessage(
-                            true
-                        )
+                        ProfileSettingsFeature.Message.DeleteAccountNoticeHidden(true)
                     )
-
-                    val url = HyperskillUrlBuilder.build(HyperskillUrlPath.DeleteAccount())
-                    openLinkInBrowser(url.toString())
                 }
                 .setNegativeButton(R.string.cancel) { dialog, _ ->
                     profileSettingsViewModel.onNewMessage(
-                        ProfileSettingsFeature.Message.DeleteAccountNoticeHiddenEventMessage(
-                            false
-                        )
+                        ProfileSettingsFeature.Message.DeleteAccountNoticeHidden(false)
                     )
                     dialog.dismiss()
                 }
@@ -172,15 +168,17 @@ class ProfileSettingsDialogFragment :
     }
 
     private fun openLinkInBrowser(link: String) {
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.data = Uri.parse(link)
-        ContextCompat.startActivity(requireContext(), intent, null)
+        requireContext().launchUrl(link)
     }
 
     override fun onAction(action: ProfileSettingsFeature.Action.ViewAction) {
         when (action) {
             is ProfileSettingsFeature.Action.ViewAction.SendFeedback ->
                 sendEmailFeedback(action.feedbackEmailData)
+            is ProfileSettingsFeature.Action.ViewAction.OpenUrl ->
+                openLinkInBrowser(action.url)
+            is ProfileSettingsFeature.Action.ViewAction.ShowGetMagicLinkError ->
+                viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
         }
     }
 
@@ -188,6 +186,12 @@ class ProfileSettingsDialogFragment :
         viewStateDelegate.switchState(state)
 
         if (state is ProfileSettingsFeature.State.Content) {
+            if (state.isLoadingMagicLink) {
+                LoadingProgressDialogFragment.newInstance()
+                    .showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
+            } else {
+                childFragmentManager.dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
+            }
             viewBinding.settingsThemeChosenTextView.text = state.profileSettings.theme.representation
             currentThemePosition = state.profileSettings.theme.ordinal
         }

@@ -1,8 +1,6 @@
 package org.hyperskill.app.android.track.view.fragment
 
-import android.content.Intent
 import android.graphics.Paint
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -13,20 +11,22 @@ import coil.ImageLoader
 import coil.decode.SvgDecoder
 import coil.load
 import coil.size.Scale
-import kotlin.math.roundToInt
+import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.extensions.launchUrl
+import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
+import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.databinding.FragmentTrackBinding
-import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
-import org.hyperskill.app.core.domain.url.HyperskillUrlPath
-import org.hyperskill.app.track.domain.model.StudyPlan
 import org.hyperskill.app.track.domain.model.Track
-import org.hyperskill.app.track.domain.model.TrackProgress
 import org.hyperskill.app.track.presentation.TrackFeature
 import org.hyperskill.app.track.presentation.TrackViewModel
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
+import ru.nobird.android.view.base.ui.extension.showIfNotExists
+import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
+import kotlin.math.roundToInt
 
 class TrackFragment :
     Fragment(R.layout.fragment_track),
@@ -42,10 +42,6 @@ class TrackFragment :
     private val trackViewModel: TrackViewModel by reduxViewModel(this) { viewModelFactory }
     private val viewStateDelegate: ViewStateDelegate<TrackFeature.State> = ViewStateDelegate()
 
-    private lateinit var track: Track
-    private lateinit var trackProgress: TrackProgress
-    private var studyPlan: StudyPlan? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponents()
@@ -55,10 +51,10 @@ class TrackFragment :
         super.onViewCreated(view, savedInstanceState)
         initViewStateDelegate()
         viewBinding.trackError.tryAgain.setOnClickListener {
-            trackViewModel.onNewMessage(TrackFeature.Message.Init(forceUpdate = true))
+            trackViewModel.onNewMessage(TrackFeature.Message.Initialize(forceUpdate = true))
         }
 
-        trackViewModel.onNewMessage(TrackFeature.Message.Init())
+        trackViewModel.onNewMessage(TrackFeature.Message.Initialize())
         trackViewModel.onNewMessage(TrackFeature.Message.ViewedEventMessage)
     }
 
@@ -78,28 +74,35 @@ class TrackFragment :
     }
 
     override fun onAction(action: TrackFeature.Action.ViewAction) {
-        // no op
+        when (action) {
+            is TrackFeature.Action.ViewAction.OpenUrl ->
+                requireContext().launchUrl(action.url)
+            TrackFeature.Action.ViewAction.ShowGetMagicLinkError ->
+                viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
+        }
     }
 
     override fun render(state: TrackFeature.State) {
         viewStateDelegate.switchState(state)
 
         if (state is TrackFeature.State.Content) {
-            track = state.track
-            trackProgress = state.trackProgress
-            studyPlan = state.studyPlan
-
-            setupTrack()
+            renderContent(state)
         }
     }
 
-    private fun setupTrack() {
-        setupTrackCoverAndName()
-        setupCards()
-        setupAboutSection()
+    private fun renderContent(content: TrackFeature.State.Content) {
+        if (content.isLoadingMagicLink) {
+            LoadingProgressDialogFragment.newInstance()
+                .showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
+        } else {
+            childFragmentManager.dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
+        }
+        renderTrackCoverAndName(content.track)
+        renderCards(content)
+        renderAboutSection(content)
     }
 
-    private fun setupTrackCoverAndName() {
+    private fun renderTrackCoverAndName(track: Track) {
         val svgImageLoader = ImageLoader.Builder(requireContext())
             .components {
                 add(SvgDecoder.Factory())
@@ -115,14 +118,14 @@ class TrackFragment :
         viewBinding.trackNameTextView.text = track.title
     }
 
-    private fun setupCards() {
+    private fun renderCards(content: TrackFeature.State.Content) {
         with(viewBinding) {
-            if (studyPlan != null) {
+            if (content.studyPlan != null) {
                 trackTimeToCompleteTextView.text =
-                    if (studyPlan!!.hoursToReachTrack != 0) {
-                        "~ ${studyPlan!!.hoursToReachTrack} h"
+                    if (content.studyPlan!!.hoursToReachTrack != 0) {
+                        "~ ${content.studyPlan!!.hoursToReachTrack} h"
                     } else {
-                        "~ ${studyPlan!!.minutesToReachTrack} m"
+                        "~ ${content.studyPlan!!.minutesToReachTrack} m"
                     }
             } else {
                 trackProgressTimeCardView.visibility = View.GONE
@@ -130,69 +133,66 @@ class TrackFragment :
                     .setMargins(0, 0, 0, 0)
             }
 
-            trackCompletedTopicsTextView.text = "${trackProgress.completedTopics} / ${track.topicsCount}"
+            trackCompletedTopicsTextView.text = "${content.trackProgress.completedTopics} / ${content.track.topicsCount}"
             trackCompletedTopicsProgressIndicator.progress =
-                if (track.topicsCount == 0)
+                if (content.track.topicsCount == 0)
                     0
                 else
-                    trackProgress.completedTopics * 100 / track.topicsCount
+                    content.trackProgress.completedTopics * 100 / content.track.topicsCount
 
-            if (track.capstoneProjects.isEmpty()) {
+            if (content.track.capstoneProjects.isEmpty()) {
                 trackProgressCompletedGraduateProjectsCardView.visibility = View.GONE
             } else {
-                trackCompletedGraduateProjectsTextView.text = "${trackProgress.completedCapstoneProjects.size}"
+                trackCompletedGraduateProjectsTextView.text = "${content.trackProgress.completedCapstoneProjects.size}"
             }
 
-            if (track.capstoneTopicsCount == 0) {
+            if (content.track.capstoneTopicsCount == 0) {
                 trackAppliedCoreTopicsCardView.visibility = View.GONE
             } else {
-                trackAppliedCoreTopicsTextView.text = "${trackProgress.appliedCapstoneTopicsCount} / ${track.capstoneTopicsCount}"
-                trackAppliedCoreTopicsProgressIndicator.progress = trackProgress.appliedCapstoneTopicsCount * 100 / track.capstoneTopicsCount
+                trackAppliedCoreTopicsTextView.text =
+                    "${content.trackProgress.appliedCapstoneTopicsCount} / ${content.track.capstoneTopicsCount}"
+                trackAppliedCoreTopicsProgressIndicator.progress =
+                    content.trackProgress.appliedCapstoneTopicsCount * 100 / content.track.capstoneTopicsCount
             }
         }
     }
 
-    private fun setupAboutSection() {
+    private fun renderAboutSection(content: TrackFeature.State.Content) {
         with(viewBinding) {
-            trackAboutUsefulnessTextView.text = "${trackProgress.averageRating}"
-            val hoursToComplete = (track.secondsToComplete / 3600).roundToInt()
+            trackAboutUsefulnessTextView.text = "${content.trackProgress.averageRating}"
+            val hoursToComplete = (content.track.secondsToComplete / 3600).roundToInt()
             trackAboutAllPerformTimeTextView.text = resources.getQuantityString(
                 R.plurals.hours,
                 hoursToComplete,
                 hoursToComplete
             )
 
-            if (track.projects.isEmpty()) {
+            if (content.track.projects.isEmpty()) {
                 trackAboutProjectsCountTextView.visibility = View.GONE
             } else {
                 trackAboutProjectsCountTextView.text = resources.getQuantityString(
                     R.plurals.projects,
-                    track.projects.size,
-                    track.projects.size
+                    content.track.projects.size,
+                    content.track.projects.size
                 )
             }
 
-            if (track.topicsCount == 0) {
+            if (content.track.topicsCount == 0) {
                 trackAboutTopicsCountTextView.visibility = View.GONE
             } else {
                 trackAboutTopicsCountTextView.text = resources.getQuantityString(
                     R.plurals.topics,
-                    track.topicsCount,
-                    track.topicsCount
+                    content.track.topicsCount,
+                    content.track.topicsCount
                 )
             }
 
-            trackAboutDescriptionTextView.text = track.description
+            trackAboutDescriptionTextView.text = content.track.description
 
-            trackAboutKeepYourProgressInWebTextView.paintFlags = trackAboutKeepYourProgressInWebTextView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+            trackAboutKeepYourProgressInWebTextView.paintFlags =
+                trackAboutKeepYourProgressInWebTextView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
             trackAboutKeepYourProgressInWebTextView.setOnClickListener {
-                trackViewModel.onNewMessage(TrackFeature.Message.ClickedContinueInWebEventMessage)
-
-                val intent = Intent(Intent.ACTION_VIEW)
-                val url = HyperskillUrlBuilder.build(HyperskillUrlPath.StudyPlan())
-                intent.data = Uri.parse(url.toString())
-
-                startActivity(intent)
+                trackViewModel.onNewMessage(TrackFeature.Message.ClickedContinueInWeb)
             }
         }
     }

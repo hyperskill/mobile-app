@@ -3,7 +3,6 @@ package org.hyperskill.app.android.auth.view.ui.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,7 +26,7 @@ import org.hyperskill.app.android.auth.view.ui.model.AuthSocialCardInfo
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthEmailScreen
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthFlow
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
-import org.hyperskill.app.android.core.view.ui.dialog.dismissIfExists
+import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentAuthSocialBinding
 import org.hyperskill.app.android.sentry.domain.model.SentryBreadcrumbKeyValues
@@ -65,9 +64,6 @@ class AuthSocialFragment :
     private val authMaterialCardViewsAdapter: DefaultDelegateAdapter<AuthSocialCardInfo> = DefaultDelegateAdapter()
 
     private var currentSocialAuthProvider: SocialAuthProvider? = null
-
-    private val loadingProgressDialogFragment: DialogFragment =
-        LoadingProgressDialogFragment.newInstance()
 
     private val signInWithGoogleCallback = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { res ->
         val task = GoogleSignIn.getSignedInAccountFromIntent(res.data)
@@ -164,9 +160,10 @@ class AuthSocialFragment :
 
     override fun render(state: AuthSocialFeature.State) {
         if (state is AuthSocialFeature.State.Loading) {
-            loadingProgressDialogFragment.showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
+            LoadingProgressDialogFragment.newInstance()
+                .showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
         } else {
-            loadingProgressDialogFragment.dismissIfExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
+            childFragmentManager.dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
         }
     }
 

@@ -27,7 +27,7 @@ final class AppTabBarController: UITabBarController {
                 case .home:
                     return HomeAssembly().makeModule()
                 case .track:
-                    return UIHostingController(rootView: TrackAssembly().makeModule())
+                    return TrackAssembly().makeModule()
                 case .profile:
                     return UIHostingController(rootView: ProfileAssembly.currentUser().makeModule())
                 }

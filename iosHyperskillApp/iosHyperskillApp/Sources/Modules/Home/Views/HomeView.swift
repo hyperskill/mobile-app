@@ -21,7 +21,7 @@ struct HomeView: View {
             UIViewControllerEventsWrapper(
                 onViewDidAppear: {
                     viewModel.logViewedEvent()
-                    viewModel.loadContent()
+                    viewModel.doLoadContent()
                 }
             )
 
@@ -43,21 +43,25 @@ struct HomeView: View {
 
     @ViewBuilder
     private func buildBody() -> some View {
-        switch viewModel.state {
-        case is HomeFeatureStateIdle:
+        switch viewModel.stateKs {
+        case .idle:
             ProgressView()
                 .onAppear {
-                    viewModel.loadContent()
+                    viewModel.doLoadContent()
                 }
-        case is HomeFeatureStateLoading:
+        case .loading:
             ProgressView()
-        case is HomeFeatureStateNetworkError:
+        case .networkError:
             PlaceholderView(
                 configuration: .networkError(backgroundColor: appearance.backgroundColor) {
-                    viewModel.loadContent(forceUpdate: true)
+                    viewModel.doLoadContent(forceUpdate: true)
                 }
             )
-        case let data as HomeFeatureStateContent:
+        case .content(let data):
+            if data.isLoadingMagicLink {
+                let _ = ProgressHUD.show()
+            }
+
             ScrollView {
                 VStack(alignment: .leading, spacing: appearance.spacingBetweenContainers) {
                     Text(Strings.Home.helloLetsLearn)
@@ -78,15 +82,18 @@ struct HomeView: View {
                     )
                     .makeModule()
 
+                    TopicsRepetitionsCardView(
+                        topicsToRepeatCount: Int(data.recommendedRepetitionsCount),
+                        onTap: viewModel.handleTopicsRepetitionsRequested
+                    )
+
                     let shouldShowContinueInWebButton = data.problemOfDayState is HomeFeatureProblemOfDayStateEmpty ||
                       data.problemOfDayState is HomeFeatureProblemOfDayStateSolved
 
                     if shouldShowContinueInWebButton {
-                        OpenURLInsideAppButton(
-                            text: Strings.Track.continueInWebButton,
-                            urlType: .nextURLPath(HyperskillUrlPath.Index()),
-                            webControllerType: .safari,
-                            onTap: viewModel.logClickedContinueLearningOnWebEvent
+                        Button(
+                            Strings.Track.About.continueInWebButton,
+                            action: viewModel.doContinueLearningOnWebPresentation
                         )
                         .buttonStyle(OutlineButtonStyle())
                     }
@@ -100,21 +107,35 @@ struct HomeView: View {
                     #endif
                 }
                 .padding()
+                .pullToRefresh(
+                    isShowing: Binding(
+                        get: { data.isRefreshing },
+                        set: { _ in }
+                    ),
+                    onRefresh: viewModel.doPullToRefresh
+                )
             }
             .frame(maxWidth: .infinity)
             .padding(.top, 0.1)
-        default:
-            Text("Unkwown state")
         }
     }
 
     private func handleViewAction(_ viewAction: HomeFeatureActionViewAction) {
-        switch viewAction {
-        case let navigateToStepScreenViewAction as HomeFeatureActionViewActionNavigateToStepScreen:
-            let assembly = StepAssembly(stepID: Int(navigateToStepScreenViewAction.stepId))
-            pushRouter.pushViewController(assembly.makeModule())
-        default:
-            print("HomeView :: unhandled viewAction = \(viewAction)")
+        switch HomeFeatureActionViewActionKs(viewAction) {
+        case .navigateTo(let navigateToViewAction):
+            switch HomeFeatureActionViewActionNavigateToKs(navigateToViewAction) {
+            case .stepScreen(let data):
+                let assembly = StepAssembly(stepID: Int(data.stepId))
+                pushRouter.pushViewController(assembly.makeModule())
+            case .topicsRepetitionsScreen:
+                let assembly = TopicsRepetitionsAssembly()
+                pushRouter.pushViewController(assembly.makeModule())
+            }
+        case .openUrl(let data):
+            ProgressHUD.showSuccess()
+            WebControllerManager.shared.presentWebControllerWithURLString(data.url)
+        case .showGetMagicLinkError:
+            ProgressHUD.showError()
         }
     }
 }

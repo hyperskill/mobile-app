@@ -16,6 +16,8 @@ import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponentImpl
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.HomeComponentImpl
+import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponent
+import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponentImpl
 import org.hyperskill.app.likes.injection.LikesDataComponent
 import org.hyperskill.app.likes.injection.LikesDataComponentImpl
 import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
@@ -36,6 +38,8 @@ import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponentImpl
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponentImpl
+import org.hyperskill.app.progresses.injection.ProgressesDataComponent
+import org.hyperskill.app.progresses.injection.ProgressesDataComponentImpl
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
 import org.hyperskill.app.step.injection.StepComponent
@@ -46,6 +50,12 @@ import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponentImpl
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponentImpl
+import org.hyperskill.app.topics.injection.TopicsDataComponent
+import org.hyperskill.app.topics.injection.TopicsDataComponentImpl
+import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponent
+import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponentImpl
+import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponent
+import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponentImpl
 import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.track.injection.TrackComponentImpl
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
@@ -73,6 +83,9 @@ class AppGraphImpl(
     override val mainComponent: MainComponent =
         MainComponentImpl(this)
 
+    override val topicsRepetitionsDataComponent: TopicsRepetitionsDataComponent =
+        TopicsRepetitionsDataComponentImpl(this)
+
     override fun buildAuthSocialComponent(): AuthSocialComponent =
         AuthSocialComponentImpl(
             commonComponent,
@@ -86,7 +99,8 @@ class AppGraphImpl(
             commonComponent,
             authComponent,
             buildProfileDataComponent(),
-            analyticComponent
+            analyticComponent,
+            buildMagicLinksDataComponent()
         )
 
     override fun buildStepComponent(): StepComponent =
@@ -139,4 +153,16 @@ class AppGraphImpl(
 
     override fun buildLikesDataComponent(): LikesDataComponent =
         LikesDataComponentImpl(this)
+
+    override fun buildTopicsRepetitionsComponent(): TopicsRepetitionsComponent =
+        TopicsRepetitionsComponentImpl(this)
+
+    override fun buildLearningActivitiesDataComponent(): LearningActivitiesDataComponent =
+        LearningActivitiesDataComponentImpl(this)
+
+    override fun buildTopicsDataComponent(): TopicsDataComponent =
+        TopicsDataComponentImpl(this)
+
+    override fun buildProgressesDataComponent(): ProgressesDataComponent =
+        ProgressesDataComponentImpl(this)
 }

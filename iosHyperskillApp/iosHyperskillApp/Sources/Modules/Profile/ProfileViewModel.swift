@@ -14,6 +14,8 @@ final class ProfileViewModel: FeatureViewModel<
     private let notificationsRegistrationService: NotificationsRegistrationService
     private let notificationInteractor: NotificationInteractor
 
+    var stateKs: ProfileFeatureStateKs { .init(state) }
+
     init(
         presentationDescription: ProfilePresentationDescription,
         viewDataMapper: ProfileViewDataMapper,
@@ -42,16 +44,34 @@ final class ProfileViewModel: FeatureViewModel<
         NotificationCenter.default.removeObserver(self)
     }
 
-    func loadProfile(forceUpdate: Bool = false) {
+    override func shouldNotifyStateDidChange(oldState: ProfileFeatureState, newState: ProfileFeatureState) -> Bool {
+        ProfileFeatureStateKs(oldState) != ProfileFeatureStateKs(newState)
+    }
+
+    func doLoadProfile(forceUpdate: Bool = false) {
         switch presentationDescription.profileType {
         case .currentUser:
-            onNewMessage(ProfileFeatureMessageInit(isInitCurrent: true, profileId: nil, forceUpdate: forceUpdate))
+            onNewMessage(ProfileFeatureMessageInitialize(isInitCurrent: true, profileId: nil, forceUpdate: forceUpdate))
         case .otherUser(let profileUserID):
             onNewMessage(
-                ProfileFeatureMessageInit(
+                ProfileFeatureMessageInitialize(
                     isInitCurrent: false,
                     profileId: KotlinLong(value: Int64(profileUserID)),
                     forceUpdate: forceUpdate
+                )
+            )
+        }
+    }
+
+    func doPullToRefresh() {
+        switch presentationDescription.profileType {
+        case .currentUser:
+            onNewMessage(ProfileFeatureMessagePullToRefresh(isRefreshCurrent: true, profileId: nil))
+        case .otherUser(let profileUserID):
+            onNewMessage(
+                ProfileFeatureMessagePullToRefresh(
+                    isRefreshCurrent: false,
+                    profileId: KotlinLong(value: Int64(profileUserID))
                 )
             )
         }
@@ -67,7 +87,7 @@ final class ProfileViewModel: FeatureViewModel<
 
     // MARK: Presentation
 
-    func presentSocialAccount(_ profileSocialAccount: ProfileSocialAccount) {
+    func doSocialAccountPresentation(_ profileSocialAccount: ProfileSocialAccount) {
         guard let profileURL = profileSocialAccount.profileURL else {
             return
         }
@@ -84,17 +104,8 @@ final class ProfileViewModel: FeatureViewModel<
         }
     }
 
-    func presentProfileFullVersion() {
-        logClickedViewFullProfileEvent()
-
-        guard let contentState = state as? ProfileFeatureStateContent else {
-            return
-        }
-
-        WebControllerManager.shared.presentWebControllerWithNextURLPath(
-            HyperskillUrlPath.Profile(profileId: contentState.profile.id),
-            controllerType: .safari
-        )
+    func doProfileFullVersionPresentation() {
+        onNewMessage(ProfileFeatureMessageClickedViewFullProfile())
     }
 
     // MARK: Daily study reminders
@@ -188,9 +199,5 @@ final class ProfileViewModel: FeatureViewModel<
 
     func logClickedDailyStudyRemindsTimeEvent() {
         onNewMessage(ProfileFeatureMessageClickedDailyStudyRemindsTimeEventMessage())
-    }
-
-    private func logClickedViewFullProfileEvent() {
-        onNewMessage(ProfileFeatureMessageClickedViewFullProfileEventMessage())
     }
 }

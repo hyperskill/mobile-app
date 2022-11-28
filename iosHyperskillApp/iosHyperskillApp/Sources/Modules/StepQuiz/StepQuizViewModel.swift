@@ -18,6 +18,8 @@ final class StepQuizViewModel: FeatureViewModel<
     private let notificationService: NotificationsService
     private let notificationsRegistrationService: NotificationsRegistrationService
 
+    var stateKs: StepQuizFeatureStateKs { .init(state) }
+
     init(
         step: Step,
         viewDataMapper: StepQuizViewDataMapper,
@@ -48,7 +50,7 @@ final class StepQuizViewModel: FeatureViewModel<
             }
         }
 
-        return true
+        return StepQuizFeatureStateKs(oldState) != StepQuizFeatureStateKs(newState)
     }
 
     func loadAttempt(forceUpdate: Bool = false) {

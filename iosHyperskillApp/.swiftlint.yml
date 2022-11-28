@@ -2,6 +2,9 @@ warning_threshold: 15
 
 indentation: 4
 
+excluded: 
+  - iosHyperskillApp/Sources/Frameworks/sharedSwift/Hyperskill-Mobile_shared.swift
+
 analyzer_rules:
   - explicit_self
   - unused_declaration
@@ -111,7 +114,7 @@ only_rules:
   - quick_discouraged_pending_test
   - reduce_boolean
   - reduce_into
-  - redundant_discardable_let
+  # - redundant_discardable_let
   - redundant_nil_coalescing
   - redundant_objc_attribute
   - redundant_optional_initialization

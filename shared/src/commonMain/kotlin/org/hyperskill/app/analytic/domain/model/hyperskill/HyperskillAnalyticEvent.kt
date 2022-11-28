@@ -5,6 +5,19 @@ import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.analytic.domain.model.AnalyticSource
 import ru.nobird.app.core.model.mapOfNotNull
 
+/**
+ * Represents a Hyperskill analytic event.
+ *
+ * @property route Event route path, for example: `/home`, `/onboarding`.
+ * @property action Event action, for example: `click`, `view`.
+ * @property part Event part where action occurred, for example: `main`, `step_hints`.
+ * @property target Target that triggered event, for example: `send`, `refresh`.
+ * @see AnalyticEvent
+ * @see HyperskillAnalyticRoute
+ * @see HyperskillAnalyticAction
+ * @see HyperskillAnalyticPart
+ * @see HyperskillAnalyticTarget
+ */
 open class HyperskillAnalyticEvent(
     val route: HyperskillAnalyticRoute,
     val action: HyperskillAnalyticAction,

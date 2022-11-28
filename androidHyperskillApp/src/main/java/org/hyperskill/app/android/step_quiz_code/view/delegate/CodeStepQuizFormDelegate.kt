@@ -14,12 +14,14 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
 class CodeStepQuizFormDelegate(
     containerBinding: FragmentStepQuizBinding,
     codeLayout: CodeEditorLayout,
+    initialCode: String,
     private val lang: String,
-    private var code: String,
     private val codeLayoutDelegate: CodeLayoutDelegate,
-    private val onFullscreenClicked: (lang: String, code: String) -> Unit,
+    private val onFullscreenClicked: (lang: String, code: String?) -> Unit,
     private val onQuizChanged: (Reply) -> Unit
 ) : StepQuizFormDelegate {
+
+    private var code: String? = initialCode
 
     init {
         (
@@ -49,15 +51,24 @@ class CodeStepQuizFormDelegate(
 
         codeLayoutDelegate.setEnabled(true)
 
-        updateCodeLayoutFromDialog(code)
+        codeLayoutDelegate.setLanguage(lang, code)
+        codeLayoutDelegate.setDetailsContentData(lang)
     }
 
     override fun createReply(): Reply =
         Reply(code = code, language = lang)
 
     override fun setState(state: StepQuizFeature.State.AttemptLoaded) {
+        val submission = (state.submissionState as? StepQuizFeature.SubmissionState.Loaded)
+            ?.submission
+        val replyCode = submission?.reply?.code
+        code = replyCode
+
         val isEnabled = StepQuizResolver.isQuizEnabled(state)
         codeLayoutDelegate.setEnabled(isEnabled)
+
+        codeLayoutDelegate.setLanguage(lang, replyCode)
+        codeLayoutDelegate.setDetailsContentData(lang)
     }
 
     fun updateCodeLayoutFromDialog(newCode: String) {

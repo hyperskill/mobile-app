@@ -17,7 +17,7 @@ protocol AppViewDelegate: AnyObject {
 
 extension AppView {
     struct Appearance {
-        let backgroundColor = ColorPalette.surface
+        let backgroundColor = UIColor.systemGroupedBackground
     }
 }
 
@@ -53,21 +53,19 @@ final class AppView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func renderState(_ state: AppFeatureState) {
+    func renderState(_ state: AppFeatureStateKs) {
         switch state {
-        case is AppFeatureStateIdle, is AppFeatureStateLoading:
+        case .idle, .loading:
             loadingIndicator.isHidden = false
             loadingIndicator.startAnimating()
 
             setPlaceholderHidden(true)
-        case is AppFeatureStateNetworkError:
+        case .networkError:
             loadingIndicator.stopAnimating()
             setPlaceholderHidden(false)
-        case is AppFeatureStateReady:
+        case .ready:
             loadingIndicator.stopAnimating()
             setPlaceholderHidden(true)
-        default:
-            break
         }
     }
 
@@ -86,7 +84,7 @@ extension AppView: ProgrammaticallyInitializableViewProtocol {
         addSubview(loadingIndicator)
 
         let placeholderView = PlaceholderView(
-            configuration: .networkError { [weak self] in
+            configuration: .networkError(backgroundColor: Color(appearance.backgroundColor)) { [weak self] in
                 guard let self else {
                     return
                 }
@@ -95,6 +93,7 @@ extension AppView: ProgrammaticallyInitializableViewProtocol {
             }
         )
         let placeholderHostingController = UIHostingController(rootView: placeholderView)
+        placeholderHostingController.view.backgroundColor = appearance.backgroundColor
         delegate?.appView(self, didRequestAddPlaceholderHostingController: placeholderHostingController)
         addSubview(placeholderHostingController.view)
         self.placeholderHostingController = placeholderHostingController

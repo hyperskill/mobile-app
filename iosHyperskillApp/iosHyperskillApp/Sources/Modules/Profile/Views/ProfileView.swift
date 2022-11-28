@@ -4,6 +4,8 @@ import SwiftUI
 extension ProfileView {
     struct Appearance {
         let spacingBetweenContainers: CGFloat = 20
+
+        let backgroundColor = Color.systemGroupedBackground
     }
 }
 
@@ -18,7 +20,7 @@ struct ProfileView: View {
         ZStack {
             UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
 
-            BackgroundView(color: .systemGroupedBackground)
+            BackgroundView(color: appearance.backgroundColor)
 
             buildBody()
         }
@@ -51,22 +53,26 @@ struct ProfileView: View {
 
     @ViewBuilder
     private func buildBody() -> some View {
-        switch viewModel.state {
-        case is ProfileFeatureStateIdle:
+        switch viewModel.stateKs {
+        case .idle:
             ProgressView()
                 .onAppear {
-                    viewModel.loadProfile()
+                    viewModel.doLoadProfile()
                 }
-        case is ProfileFeatureStateLoading:
+        case .loading:
             ProgressView()
-        case is ProfileFeatureStateError:
+        case .error:
             PlaceholderView(
-                configuration: .networkError {
-                    viewModel.loadProfile(forceUpdate: true)
+                configuration: .networkError(backgroundColor: appearance.backgroundColor) {
+                    viewModel.doLoadProfile(forceUpdate: true)
                 }
             )
-        case let content as ProfileFeatureStateContent:
-            let viewData = viewModel.makeViewData(content.profile)
+        case .content(let data):
+            if data.isLoadingMagicLink {
+                let _ = ProgressHUD.show()
+            }
+
+            let viewData = viewModel.makeViewData(data.profile)
 
             ScrollView {
                 VStack(spacing: appearance.spacingBetweenContainers) {
@@ -76,7 +82,7 @@ struct ProfileView: View {
                         subtitle: viewData.role
                     )
 
-                    if let streak = content.streak {
+                    if let streak = data.streak {
                         StreakViewBuilder(streak: streak, viewType: .plain)
                             .build()
                             .padding()
@@ -97,20 +103,31 @@ struct ProfileView: View {
                         bio: viewData.bio,
                         experience: viewData.experience,
                         socialAccounts: viewData.socialAccounts,
-                        onSocialAccountTapped: viewModel.presentSocialAccount(_:),
-                        onFullVersionButtonTapped: viewModel.presentProfileFullVersion
+                        onSocialAccountTapped: viewModel.doSocialAccountPresentation(_:),
+                        onFullVersionButtonTapped: viewModel.doProfileFullVersionPresentation
                     )
                 }
                 .padding(.vertical)
+                .pullToRefresh(
+                    isShowing: Binding(
+                        get: { data.isRefreshing },
+                        set: { _ in }
+                    ),
+                    onRefresh: viewModel.doPullToRefresh
+                )
             }
             .frame(maxWidth: .infinity)
-        default:
-            Text("Unkwown state")
         }
     }
 
     private func handleViewAction(_ viewAction: ProfileFeatureActionViewAction) {
-        print("ProfileView :: \(#function) viewAction = \(viewAction)")
+        switch ProfileFeatureActionViewActionKs(viewAction) {
+        case .openUrl(let data):
+            ProgressHUD.showSuccess()
+            WebControllerManager.shared.presentWebControllerWithURLString(data.url)
+        case .showGetMagicLinkError:
+            ProgressHUD.showError()
+        }
     }
 }
 

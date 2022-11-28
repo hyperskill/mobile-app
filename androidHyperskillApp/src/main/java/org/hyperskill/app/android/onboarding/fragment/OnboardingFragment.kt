@@ -54,7 +54,7 @@ class OnboardingFragment :
             requireRouter().navigateTo(PlaceholderNewUserScreen)
         }
 
-        onboardingViewModel.onNewMessage(OnboardingFeature.Message.Init)
+        onboardingViewModel.onNewMessage(OnboardingFeature.Message.Initialize)
         onboardingViewModel.onNewMessage(OnboardingFeature.Message.ViewedEventMessage)
     }
 

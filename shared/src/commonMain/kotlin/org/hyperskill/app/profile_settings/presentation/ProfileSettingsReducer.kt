@@ -2,6 +2,7 @@ package org.hyperskill.app.profile_settings.presentation
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPart
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsClickedHyperskillAnalyticEvent
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsDeleteAccountNoticeHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsDeleteAccountNoticeShownHyperskillAnalyticEvent
@@ -113,13 +114,34 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                 )
             is Message.DeleteAccountNoticeShownEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(ProfileSettingsDeleteAccountNoticeShownHyperskillAnalyticEvent()))
-            is Message.DeleteAccountNoticeHiddenEventMessage ->
-                state to setOf(
-                    Action.LogAnalyticEvent(
-                        ProfileSettingsDeleteAccountNoticeHiddenHyperskillAnalyticEvent(
-                            message.isConfirmed
-                        )
+            is Message.DeleteAccountNoticeHidden -> {
+                val analyticsAction = Action.LogAnalyticEvent(
+                    ProfileSettingsDeleteAccountNoticeHiddenHyperskillAnalyticEvent(
+                        message.isConfirmed
                     )
                 )
+                if (message.isConfirmed && state is State.Content) {
+                    state.copy(isLoadingMagicLink = true) to setOf(
+                        Action.GetMagicLink(HyperskillUrlPath.DeleteAccount()),
+                        analyticsAction
+                    )
+                } else {
+                    state to setOf(analyticsAction)
+                }
+            }
+            is Message.GetMagicLinkReceiveSuccess -> {
+                if (state is State.Content) {
+                    state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.OpenUrl(message.url))
+                } else {
+                    null
+                }
+            }
+            is Message.GetMagicLinkReceiveFailure -> {
+                if (state is State.Content) {
+                    state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.ShowGetMagicLinkError)
+                } else {
+                    null
+                }
+            }
         } ?: (state to emptySet())
 }

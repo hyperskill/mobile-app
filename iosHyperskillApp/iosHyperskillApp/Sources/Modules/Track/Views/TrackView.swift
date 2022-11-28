@@ -4,7 +4,12 @@ import SwiftUI
 extension TrackView {
     struct Appearance {
         let spacingBetweenContainers = LayoutInsets.largeInset
-        let spacingBetweenRelativeItems = LayoutInsets.smallInset
+        let spacingBetweenRelativeItems = LayoutInsets.defaultInset
+
+        let progressBlockSpacing = LayoutInsets.smallInset
+        let progressBlockTitleInsets = LayoutInsets(bottom: LayoutInsets.smallInset)
+
+        let backgroundColor = Color.systemGroupedBackground
     }
 }
 
@@ -13,11 +18,13 @@ struct TrackView: View {
 
     @StateObject var viewModel: TrackViewModel
 
+    @StateObject var pushRouter: SwiftUIPushRouter
+
     var body: some View {
         ZStack {
             UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
 
-            BackgroundView(color: .systemGroupedBackground)
+            BackgroundView(color: appearance.backgroundColor)
 
             buildBody()
         }
@@ -34,25 +41,30 @@ struct TrackView: View {
 
     @ViewBuilder
     private func buildBody() -> some View {
-        switch viewModel.state {
-        case is TrackFeatureStateIdle:
+        switch viewModel.stateKs {
+        case .idle:
             ProgressView()
                 .onAppear {
-                    viewModel.loadTrack()
+                    viewModel.doLoadTrack()
                 }
-        case is TrackFeatureStateLoading:
+        case .loading:
             ProgressView()
-        case is TrackFeatureStateNetworkError:
+        case .networkError:
             PlaceholderView(
-                configuration: .networkError {
-                    viewModel.loadTrack(forceUpdate: true)
+                configuration: .networkError(backgroundColor: appearance.backgroundColor) {
+                    viewModel.doLoadTrack(forceUpdate: true)
                 }
             )
-        case let content as TrackFeatureStateContent:
+        case .content(let data):
+            if data.isLoadingMagicLink {
+                let _ = ProgressHUD.show()
+            }
+
             let viewData = viewModel.makeViewData(
-                track: content.track,
-                trackProgress: content.trackProgress,
-                studyPlan: content.studyPlan
+                track: data.track,
+                trackProgress: data.trackProgress,
+                studyPlan: data.studyPlan,
+                topicsToDiscoverNext: data.topicsToDiscoverNext
             )
 
             ScrollView {
@@ -63,8 +75,19 @@ struct TrackView: View {
                         subtitle: viewData.learningRole
                     )
 
-                    TrackCardsView(
-                        appearance: .init(spacing: appearance.spacingBetweenRelativeItems),
+                    if !viewData.topicsToDiscoverNext.isEmpty {
+                        TrackTopicsToDiscoverNextBlockView(
+                            appearance: .init(spacing: appearance.spacingBetweenRelativeItems),
+                            topics: viewData.topicsToDiscoverNext,
+                            onTopicTapped: viewModel.doTheoryTopicPresentation(topic:)
+                        )
+                    }
+
+                    TrackProgressBlockView(
+                        appearance: .init(
+                            titleInsets: appearance.progressBlockTitleInsets,
+                            spacing: appearance.progressBlockSpacing
+                        ),
                         timeToComplete: viewData.currentTimeToCompleteText,
                         completedGraduateProjects: viewData.completedGraduateProjectsCountText,
                         completedTopics: viewData.completedTopicsText,
@@ -73,7 +96,8 @@ struct TrackView: View {
                         capstoneTopicsProgress: viewData.capstoneTopicsProgress
                     )
 
-                    TrackAboutView(
+                    TrackAboutBlockView(
+                        appearance: .init(spacing: appearance.spacingBetweenRelativeItems),
                         rating: viewData.ratingText,
                         timeToComplete: viewData.allTimeToCompleteText,
                         projectsCount: viewData.projectsCountText,
@@ -84,26 +108,39 @@ struct TrackView: View {
                     )
                 }
                 .padding(.vertical)
+                .pullToRefresh(
+                    isShowing: Binding(
+                        get: { data.isRefreshing },
+                        set: { _ in }
+                    ),
+                    onRefresh: viewModel.doPullToRefresh
+                )
             }
             .frame(maxWidth: .infinity)
-        default:
-            Text("Unkwown state")
         }
     }
 
     private func handleViewAction(_ viewAction: TrackFeatureActionViewAction) {
-        print("TrackView :: \(#function) viewAction = \(viewAction)")
+        switch TrackFeatureActionViewActionKs(viewAction) {
+        case .openUrl(let data):
+            ProgressHUD.showSuccess()
+            WebControllerManager.shared.presentWebControllerWithURLString(data.url)
+        case .showGetMagicLinkError:
+            ProgressHUD.showError()
+        case .navigateTo(let navigateToViewAction):
+            switch TrackFeatureActionViewActionNavigateToKs(navigateToViewAction) {
+            case .stepScreen(let data):
+                let assembly = StepAssembly(stepID: Int(data.stepId))
+                pushRouter.pushViewController(assembly.makeModule())
+            }
+        }
     }
 }
 
 struct TrackView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
+        UIKitViewControllerPreview {
             TrackAssembly().makeModule()
-
-            TrackAssembly()
-                .makeModule()
-                .preferredColorScheme(.dark)
         }
     }
 }

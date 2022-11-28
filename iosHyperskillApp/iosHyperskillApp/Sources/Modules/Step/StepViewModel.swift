@@ -6,18 +6,24 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
 
     private let viewDataMapper: StepViewDataMapper
 
+    var stateKs: StepFeatureStateKs { .init(state) }
+
     init(stepID: Int, viewDataMapper: StepViewDataMapper, feature: Presentation_reduxFeature) {
         self.stepID = stepID
         self.viewDataMapper = viewDataMapper
         super.init(feature: feature)
     }
 
+    override func shouldNotifyStateDidChange(oldState: StepFeatureState, newState: StepFeatureState) -> Bool {
+        StepFeatureStateKs(oldState) != StepFeatureStateKs(newState)
+    }
+
     func loadStep(forceUpdate: Bool = false) {
-        self.onNewMessage(StepFeatureMessageInit(stepId: Int64(stepID), forceUpdate: forceUpdate))
+        onNewMessage(StepFeatureMessageInitialize(stepId: Int64(stepID), forceUpdate: forceUpdate))
     }
 
     func makeViewData(_ step: Step) -> StepViewData {
-        self.viewDataMapper.mapStepToViewData(step)
+        viewDataMapper.mapStepToViewData(step)
     }
 
     // MARK: Analytic

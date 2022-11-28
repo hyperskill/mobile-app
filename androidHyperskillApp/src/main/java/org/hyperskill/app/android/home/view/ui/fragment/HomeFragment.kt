@@ -1,7 +1,5 @@
 package org.hyperskill.app.android.home.view.ui.fragment
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -9,19 +7,23 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
+import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.extensions.launchUrl
+import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
+import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentHomeBinding
 import org.hyperskill.app.android.problem_of_day.view.delegate.ProblemOfDayCardFormDelegate
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.streak.view.delegate.StreakCardFormDelegate
-import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
-import org.hyperskill.app.core.domain.url.HyperskillUrlPath
+import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeViewModel
 import org.hyperskill.app.streak.domain.model.Streak
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
+import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -46,7 +48,7 @@ class HomeFragment :
         object : DefaultLifecycleObserver {
             override fun onResume(owner: LifecycleOwner) {
                 super.onResume(owner)
-                homeViewModel.onNewMessage(HomeFeature.Message.Init(forceUpdate = true))
+                homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = true))
             }
         }
 
@@ -61,17 +63,11 @@ class HomeFragment :
         initViewStateDelegate()
 
         viewBinding.homeScreenError.tryAgain.setOnClickListener {
-            homeViewModel.onNewMessage(HomeFeature.Message.Init(forceUpdate = false))
+            homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = false))
         }
 
         viewBinding.homeScreenKeepLearningInWebButton.setOnClickListener {
-            homeViewModel.onNewMessage(HomeFeature.Message.ClickedContinueLearningOnWebEventMessage)
-
-            val intent = Intent(Intent.ACTION_VIEW)
-            val url = HyperskillUrlBuilder.build(HyperskillUrlPath.Index())
-            intent.data = Uri.parse(url.toString())
-
-            startActivity(intent)
+            homeViewModel.onNewMessage(HomeFeature.Message.ClickedContinueLearningOnWeb)
         }
 
 //        viewBinding.homeOpenStepButton.setOnClickListener {
@@ -83,7 +79,7 @@ class HomeFragment :
 //            }
 //        }
 
-        homeViewModel.onNewMessage(HomeFeature.Message.Init(forceUpdate = false))
+        homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = false))
         homeViewModel.onNewMessage(HomeFeature.Message.ViewedEventMessage)
     }
 
@@ -141,15 +137,30 @@ class HomeFragment :
     }
 
     override fun onAction(action: HomeFeature.Action.ViewAction) {
+        when (action) {
+            is HomeFeature.Action.ViewAction.OpenUrl -> {
+                requireContext().launchUrl(action.url)
+            }
+            is HomeFeature.Action.ViewAction.ShowGetMagicLinkError -> {
+                viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
+            }
+            else -> {
+                // no op
+            }
+        }
     }
 
     override fun render(state: HomeFeature.State) {
         viewStateDelegate.switchState(state)
-        when (state) {
-            is HomeFeature.State.Content -> {
-                setupStreakCardDelegate(state.streak)
-                setupProblemOfDayCardDelegate(state.problemOfDayState)
+        if (state is HomeFeature.State.Content) {
+            if (state.isLoadingMagicLink) {
+                LoadingProgressDialogFragment.newInstance()
+                    .showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
+            } else {
+                childFragmentManager.dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
             }
+            setupStreakCardDelegate(state.streak)
+            setupProblemOfDayCardDelegate(state.problemOfDayState)
         }
     }
 }
