@@ -89,7 +89,7 @@ interface HomeFeature {
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
                 data class StepScreen(val stepId: Long) : NavigateTo
-                object TopicsRepetitionsScreen : NavigateTo
+                data class TopicsRepetitionsScreen(val recommendedRepetitionsCount: Int) : NavigateTo
             }
             data class OpenUrl(val url: String) : ViewAction
             object ShowGetMagicLinkError : ViewAction

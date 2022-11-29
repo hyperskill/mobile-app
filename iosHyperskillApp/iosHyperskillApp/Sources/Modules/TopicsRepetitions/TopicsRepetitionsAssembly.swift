@@ -11,12 +11,14 @@ class TopicsRepetitionsAssembly: UIKitAssembly {
     func makeModule() -> UIViewController {
         let topicsRepetitionsComponent = AppGraphBridge.sharedAppGraph.buildTopicsRepetitionsComponent()
 
-        let viewModel = TopicsRepetitionsViewModel(feature: topicsRepetitionsComponent.topicsRepetitionsFeature)
+        let viewModel = TopicsRepetitionsViewModel(
+            recommendedRepetitionsCount: recommendedRepetitionsCount,
+            feature: topicsRepetitionsComponent.topicsRepetitionsFeature
+        )
 
         let pushRouter = SwiftUIPushRouter()
 
         let topicsRepetitionsView = TopicsRepetitionsView(
-            recommendedRepetitionsCount: recommendedRepetitionsCount,
             viewModel: viewModel,
             pushRouter: pushRouter,
             dataMapper: topicsRepetitionsComponent.topicsRepetitionsViewDataMapper

@@ -12,8 +12,6 @@ extension TopicsRepetitionsView {
 struct TopicsRepetitionsView: View {
     private(set) var appearance = Appearance()
 
-    let recommendedRepetitionsCount: Int32
-
     @StateObject var viewModel: TopicsRepetitionsViewModel
 
     @StateObject var pushRouter: SwiftUIPushRouter
@@ -43,17 +41,14 @@ struct TopicsRepetitionsView: View {
         case .idle:
             buildSkeletons()
                 .onAppear {
-                    viewModel.doLoadContent(recommendedRepetitionsCount: recommendedRepetitionsCount)
+                    viewModel.doLoadContent()
                 }
         case .loading:
             buildSkeletons()
         case .networkError:
             PlaceholderView(
                 configuration: .networkError(backgroundColor: appearance.backgroundColor) {
-                    viewModel.doLoadContent(
-                        recommendedRepetitionsCount: recommendedRepetitionsCount,
-                        forceUpdate: true
-                    )
+                    viewModel.doLoadContent(forceUpdate: true)
                 }
             )
         case .content(let state):

@@ -127,13 +127,11 @@ struct HomeView: View {
             case .stepScreen(let data):
                 let assembly = StepAssembly(stepID: Int(data.stepId))
                 pushRouter.pushViewController(assembly.makeModule())
-            case .topicsRepetitionsScreen:
-                if case .content(let data) = viewModel.stateKs {
-                    let assembly = TopicsRepetitionsAssembly(
-                        recommendedRepetitionsCount: data.recommendedRepetitionsCount
-                    )
-                    pushRouter.pushViewController(assembly.makeModule())
-                }
+            case .topicsRepetitionsScreen(let data):
+                let assembly = TopicsRepetitionsAssembly(
+                    recommendedRepetitionsCount: data.recommendedRepetitionsCount
+                )
+                pushRouter.pushViewController(assembly.makeModule())
             }
         case .openUrl(let data):
             ProgressHUD.showSuccess()

@@ -6,6 +6,16 @@ final class TopicsRepetitionsViewModel: FeatureViewModel<
   TopicsRepetitionsFeatureMessage,
   TopicsRepetitionsFeatureActionViewAction
 > {
+    let recommendedRepetitionsCount: Int32
+
+    init(
+        recommendedRepetitionsCount: Int32,
+        feature: Presentation_reduxFeature
+    ) {
+        self.recommendedRepetitionsCount = recommendedRepetitionsCount
+        super.init(feature: feature)
+    }
+
     var stateKs: TopicsRepetitionsFeatureStateKs { .init(state) }
 
     override func shouldNotifyStateDidChange(
@@ -15,7 +25,7 @@ final class TopicsRepetitionsViewModel: FeatureViewModel<
         TopicsRepetitionsFeatureStateKs(oldState) != TopicsRepetitionsFeatureStateKs(newState)
     }
 
-    func doLoadContent(recommendedRepetitionsCount: Int32, forceUpdate: Bool = false) {
+    func doLoadContent(forceUpdate: Bool = false) {
         onNewMessage(
             TopicsRepetitionsFeatureMessageInitialize(
                 recommendedRepetitionsCount: recommendedRepetitionsCount,

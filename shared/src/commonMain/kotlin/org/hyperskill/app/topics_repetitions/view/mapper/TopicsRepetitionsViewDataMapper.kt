@@ -22,7 +22,7 @@ class TopicsRepetitionsViewDataMapper(
             } else null,
             chartData = state.topicsRepetitions.repetitionsByCount.toList().sortedBy { it.first }.map {
                 Pair(
-                    resourceProvider.getQuantityString(SharedResources.plurals.times, it.first.toInt(), it.first.toInt()),
+                    resourceProvider.getQuantityString(SharedResources.plurals.times_repetitions_chart, it.first.toInt(), it.first.toInt()),
                     it.second
                 )
             },
