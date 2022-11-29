@@ -1,6 +1,6 @@
 @media screen and (prefers-color-scheme: light) {
     pre code {
-        border-color: var(--black07);
+        border-color: #0000001f;
     }
 
     code {

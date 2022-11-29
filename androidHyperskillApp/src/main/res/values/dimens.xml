@@ -79,4 +79,8 @@
     <dimen name="onboarding_splash_icon_width">48dp</dimen>
     <dimen name="onboarding_splash_icon_height">45dp</dimen>
 
+    <!-- Track screen -->
+    <dimen name="track_next_topic_vertical_item_margin">16dp</dimen>
+    <dimen name="track_next_topic_horizontal_item_margin">20dp</dimen>
+
 </resources>

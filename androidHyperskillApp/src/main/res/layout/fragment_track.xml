@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -34,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:gravity="center_horizontal"
-                android:text="Python for Beginners"
+                tools:text="Python for Beginners"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -54,15 +55,59 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/trackNameTextView" />
 
+            <LinearLayout
+                android:id="@+id/trackTopicsLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/color_surface"
+                android:paddingTop="20dp"
+                app:layout_constraintTop_toBottomOf="@+id/trackLearningTextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/track_topics_to_discover_next_block_title"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textSize="18sp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/trackNextTopicsRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_surface"
+                    tools:listitem="@layout/item_track_next_topic"
+                    tools:itemCount="3"
+                    />
+
+            </LinearLayout>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/trackCardsLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="20dp"
-                android:paddingBottom="20dp"
+                android:paddingVertical="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/trackLearningTextView">
+                app:layout_constraintTop_toBottomOf="@+id/trackTopicsLinearLayout"
+                >
+
+                <TextView
+                    android:id="@+id/trackProgressTitleTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/track_progress_block_title"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/trackProgressTimeCardView"
@@ -70,10 +115,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:contentPadding="20dp"
+                    android:layout_marginTop="20dp"
                     app:layout_constraintBottom_toBottomOf="@+id/trackProgressCompletedGraduateProjectsCardView"
                     app:layout_constraintEnd_toStartOf="@+id/trackProgressCompletedGraduateProjectsCardView"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toBottomOf="@+id/trackProgressTitleTextView">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -84,7 +130,7 @@
                             android:id="@+id/trackTimeToCompleteTextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="~ 56 h"
+                            tools:text="~ 56 h"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                             app:drawableEndCompat="@drawable/ic_track_time" />
 
@@ -104,10 +150,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     app:contentPadding="20dp"
+                    android:layout_marginTop="20dp"
                     app:layout_constraintBottom_toBottomOf="@+id/trackProgressTimeCardView"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/trackProgressTimeCardView"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toBottomOf="@+id/trackProgressTitleTextView">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -118,7 +165,7 @@
                             android:id="@+id/trackCompletedGraduateProjectsTextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="1"
+                            tools:text="1"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                             app:drawableEndCompat="@drawable/ic_project_graduate" />
 
@@ -151,7 +198,7 @@
                             android:id="@+id/trackCompletedTopicsTextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="48 / 149"
+                            tools:text="48 / 149"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                             app:drawableEndCompat="@drawable/ic_topic" />
 
@@ -195,7 +242,7 @@
                             android:id="@+id/trackAppliedCoreTopicsTextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="0 / 138"
+                            tools:text="0 / 138"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                             app:drawableEndCompat="@drawable/ic_hammer" />
 
@@ -248,7 +295,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:drawablePadding="4dp"
-                    android:text="4.7"
+                    tools:text="4.7"
                     android:textSize="12sp"
                     app:drawableStartCompat="@drawable/ic_star"
                     app:layout_constraintStart_toStartOf="parent"
@@ -261,7 +308,7 @@
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="16dp"
                     android:drawablePadding="4dp"
-                    android:text="104 hours"
+                    tools:text="104 hours"
                     android:textSize="12sp"
                     app:drawableStartCompat="@drawable/ic_track_about_time"
                     app:layout_constraintStart_toEndOf="@+id/trackAboutUsefulnessTextView"
@@ -274,7 +321,7 @@
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="16dp"
                     android:drawablePadding="4dp"
-                    android:text="20 projects"
+                    tools:text="20 projects"
                     android:textSize="12sp"
                     app:drawableStartCompat="@drawable/ic_track_about_project"
                     app:layout_constraintStart_toEndOf="@+id/trackAboutAllPerformTimeTextView"
@@ -287,7 +334,7 @@
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="16dp"
                     android:drawablePadding="4dp"
-                    android:text="120 topics"
+                    tools:text="120 topics"
                     android:textSize="12sp"
                     app:drawableStartCompat="@drawable/ic_track_about_book"
                     app:layout_constraintStart_toEndOf="@+id/trackAboutProjectsCountTextView"
@@ -298,7 +345,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="You've never tried programming and you would like to build a solid foundation?"
+                    tools:text="You've never tried programming and you would like to build a solid foundation?"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

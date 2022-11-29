@@ -1,8 +1,8 @@
-import CombineSchedulers
 import SwiftUI
+import UIKit
 
 private struct PullToRefresh: UIViewRepresentable {
-    typealias UIViewType = UIView
+    typealias UIViewType = UIKitIntrospectionView
 
     @Binding var isShowing: Bool
 
@@ -14,43 +14,55 @@ private struct PullToRefresh: UIViewRepresentable {
         Coordinator(isShowing: $isShowing, onRefresh: onRefresh)
     }
 
-    func makeUIView(context: Context) -> UIView {
-        let view = UIView()
-        view.isHidden = true
-        view.isUserInteractionEnabled = false
-        return view
+    func makeUIView(context: Context) -> UIKitIntrospectionView {
+        UIKitIntrospectionView()
     }
 
-    func updateUIView(_ uiView: UIView, context: Context) {
-        context.coordinator.mainScheduler.schedule {
-            // View disappeared -> endRefreshing
-            if uiView.superview == nil {
-                context.coordinator.refreshControl?.endRefreshing()
-            }
-
-            guard let scrollView = uiView.findAncestor(ofType: UIScrollView.self) else {
-                return
-            }
-
-            if let refreshControl = scrollView.refreshControl {
-                if isShowing {
-                    refreshControl.beginRefreshing()
-                } else {
-                    refreshControl.endRefreshing()
+    func updateUIView(_ uiView: UIKitIntrospectionView, context: Context) {
+        /// When `updateUiView` is called after creating the Introspection view, it is not yet in the UIKit hierarchy.
+        /// At this point, `introspectionView.superview.superview` is nil and we can't access the target UIKit view.
+        /// To workaround this, we wait until the runloop is done inserting the introspection view in the hierarchy, then run the selector.
+        /// Finding the target view fails silently if the selector yield no result. This happens when `updateUIView`
+        /// gets called when the introspection view gets removed from the hierarchy.
+        if context.coordinator.refreshControl == nil {
+            uiView.moveToWindowHandler = {
+                DispatchQueue.main.async {
+                    updateRefreshControl(uiView, context: context)
                 }
-
-                context.coordinator.refreshControl = refreshControl
-            } else {
-                let refreshControl = UIRefreshControl()
-                refreshControl.addTarget(
-                    context.coordinator,
-                    action: #selector(Coordinator.refreshControlValueChanged),
-                    for: .valueChanged
-                )
-
-                scrollView.refreshControl = refreshControl
-                context.coordinator.refreshControl = refreshControl
             }
+        } else {
+            updateRefreshControl(uiView, context: context)
+        }
+    }
+
+    private func updateRefreshControl(_ uiView: UIKitIntrospectionView, context: Context) {
+        // View disappeared -> endRefreshing
+        if uiView.superview == nil {
+            context.coordinator.refreshControl?.endRefreshing()
+        }
+
+        guard let scrollView = uiView.findAncestor(ofType: UIScrollView.self) else {
+            return
+        }
+
+        if let refreshControl = scrollView.refreshControl {
+            if isShowing {
+                refreshControl.beginRefreshing()
+            } else {
+                refreshControl.endRefreshing()
+            }
+
+            context.coordinator.refreshControl = refreshControl
+        } else {
+            let refreshControl = UIRefreshControl()
+            refreshControl.addTarget(
+                context.coordinator,
+                action: #selector(Coordinator.refreshControlValueChanged),
+                for: .valueChanged
+            )
+
+            scrollView.refreshControl = refreshControl
+            context.coordinator.refreshControl = refreshControl
         }
     }
 }
@@ -63,18 +75,11 @@ extension PullToRefresh {
 
         let onRefresh: () -> Void
 
-        let mainScheduler: AnySchedulerOf<RunLoop>
-
         weak var refreshControl: UIRefreshControl?
 
-        init(
-            isShowing: Binding<Bool>,
-            onRefresh: @escaping () -> Void,
-            mainScheduler: AnySchedulerOf<RunLoop> = .main
-        ) {
+        init(isShowing: Binding<Bool>, onRefresh: @escaping () -> Void) {
             self.onRefresh = onRefresh
             self.isShowing = isShowing
-            self.mainScheduler = mainScheduler
         }
 
         @objc

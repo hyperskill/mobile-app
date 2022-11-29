@@ -1,12 +1,12 @@
 package org.hyperskill.app.topics_repetitions.view.mapper
 
+import kotlin.math.min
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsActionDispatcher
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature
 import org.hyperskill.app.topics_repetitions.view.model.ShowMoreButtonState
 import org.hyperskill.app.topics_repetitions.view.model.TopicsRepetitionsViewData
-import kotlin.math.min
 
 class TopicsRepetitionsViewDataMapper(
     private val resourceProvider: ResourceProvider
@@ -34,18 +34,8 @@ class TopicsRepetitionsViewDataMapper(
                     state.topicsRepetitions.repetitionsByCount.values.sum()
                 )
             ),
-            repeatBlockTitle = resourceProvider.getString(
-                SharedResources.strings.topics_repetitions_repeat_block_title,
-                resourceProvider.getQuantityString(
-                    SharedResources.plurals.topics,
-                    state.topicsRepetitions.repetitions.count() + state.topicsToRepeat.count(),
-                    state.topicsRepetitions.repetitions.count() + state.topicsToRepeat.count()
-                )
-            ),
-            trackTopicsTitle = resourceProvider.getString(
-                SharedResources.strings.topics_repetitions_repeat_block_current_track,
-                state.trackTitle
-            ),
+            repeatBlockTitle = mapStateToRepeatBlockTitle(state),
+            trackTopicsTitle = mapStateToTrackTopicsTitle(state),
             topicsToRepeat = state.topicsToRepeat,
             showMoreButtonState = if (state.nextTopicsLoading) {
                 ShowMoreButtonState.LOADING
@@ -59,4 +49,37 @@ class TopicsRepetitionsViewDataMapper(
                 TopicsRepetitionsActionDispatcher.TOPICS_PAGINATION_SIZE
             )
         )
+
+    private fun mapStateToRepeatBlockTitle(state: TopicsRepetitionsFeature.State.Content): String {
+        val count = state.topicsRepetitions.repetitions.count() + state.topicsToRepeat.count()
+
+        return if (count == 0) {
+            resourceProvider.getString(SharedResources.strings.topics_repetitions_repeat_block_empty_title)
+        } else {
+            resourceProvider.getString(
+                SharedResources.strings.topics_repetitions_repeat_block_title,
+                resourceProvider.getQuantityString(
+                    SharedResources.plurals.topics,
+                    count,
+                    count
+                )
+            )
+        }
+    }
+
+    private fun mapStateToTrackTopicsTitle(state: TopicsRepetitionsFeature.State.Content): String {
+        val count = state.topicsRepetitions.repetitions.count() + state.topicsToRepeat.count()
+
+        return if (count == 0) {
+            resourceProvider.getString(
+                SharedResources.strings.topics_repetitions_repeat_block_empty_current_track,
+                state.trackTitle
+            )
+        } else {
+            resourceProvider.getString(
+                SharedResources.strings.topics_repetitions_repeat_block_current_track,
+                state.trackTitle
+            )
+        }
+    }
 }
