@@ -55,7 +55,7 @@
             app:layout_constraintTop_toBottomOf="@id/homeScreenStreakCard" />
 
         <include
-            android:id="@+id/homeScreenTopicsRepetition"
+            android:id="@+id/homeScreenTopicsRepetitionCard"
             layout="@layout/layout_topics_repetition"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
             android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/homeScreenTopicsRepetition"
+            app:layout_constraintTop_toBottomOf="@id/homeScreenTopicsRepetitionCard"
             tools:ignore="HardcodedText">
 
             <com.google.android.material.textfield.TextInputEditText
