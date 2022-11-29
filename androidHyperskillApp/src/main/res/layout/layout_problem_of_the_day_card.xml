@@ -12,10 +12,10 @@
 
     <ImageView
         android:id="@+id/problemOfDayHexogens"
-        android:layout_gravity="end"
-        android:src="@drawable/bg_hexogens_static"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:src="@drawable/bg_hexogens_static" />
 
     <LinearLayout
         android:id="@+id/problemOfDayLayout"
@@ -39,17 +39,14 @@
                 android:textSize="18sp"
                 app:drawableStartCompat="@drawable/ic_task_day" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/problemOfDayActionButton"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+            <ImageView
+                android:id="@+id/topicsRepetitionArrowImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_home_screen_success_arrow_button"
                 android:layout_alignParentEnd="true"
-                android:background="@drawable/bg_gradient_blue"
-                app:backgroundTint="@null"
-                app:icon="@drawable/ic_right_arrow_problem_day"
-                app:iconGravity="textStart"
-                android:clickable="false"
-                app:iconPadding="0dp" />
+                tools:ignore="ContentDescription" />
+
         </RelativeLayout>
 
         <TextView
@@ -60,19 +57,19 @@
             android:text="@string/problem_of_day_solve_a_random_problem" />
 
         <TextView
-            android:gravity="center_vertical"
-            app:drawableEndCompat="@drawable/ic_gembox"
             android:id="@+id/problemOfDayTimeToSolveTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            app:drawableEndCompat="@drawable/ic_gembox"
             tools:text="5 minutes" />
 
         <FrameLayout
             android:id="@+id/problemOfDayNextProblemInLinearLayout"
-            android:layout_marginTop="12dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp">
 
             <include
                 android:id="@+id/problemOfDayNextProblemDivider"
@@ -82,11 +79,11 @@
 
             <TextView
                 android:id="@+id/problemOfDayNextProblemInTextView"
-                android:textColor="@color/color_on_surface_alpha_38"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="@string/problem_of_day_next_problem_in" />
+                android:text="@string/problem_of_day_next_problem_in"
+                android:textColor="@color/color_on_surface_alpha_38" />
         </FrameLayout>
 
     </LinearLayout>

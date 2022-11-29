@@ -244,4 +244,10 @@
         <light>@color/color_red_500_alpha_7</light>
         <dark>@color/color_red_300_alpha_7</dark>
     </color>
+
+    <!--Home screen-->
+    <color name="home_screen_dark_arrow_color">
+        <light>@color/color_black_900_alpha_60</light>
+        <dark>@color/color_black_900</dark>
+    </color>
 </resources>
