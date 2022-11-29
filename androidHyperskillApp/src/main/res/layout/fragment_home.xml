@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -53,6 +54,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/homeScreenStreakCard" />
 
+        <include
+            android:id="@+id/homeScreenTopicsRepetition"
+            layout="@layout/layout_topics_repetition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/homeScreenProblemOfDayCard"
+            />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/homeOpenStepInputLayout"
             style="@style/Widget.AppTheme.TextInputLayouts.InputText"
@@ -63,7 +75,8 @@
             android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/homeScreenProblemOfDayCard">
+            app:layout_constraintTop_toBottomOf="@id/homeScreenTopicsRepetition"
+            tools:ignore="HardcodedText">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/homeOpenStepInputEditText"
@@ -81,7 +94,8 @@
             android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/homeOpenStepInputLayout" />
+            app:layout_constraintTop_toBottomOf="@id/homeOpenStepInputLayout"
+            tools:ignore="HardcodedText" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/homeScreenKeepLearningInWebButton"

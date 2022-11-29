@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/StreakStatCard"
+    app:cardCornerRadius="@dimen/corner_radius"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <ImageView
+            android:id="@+id/topicsRepetitionBackgroundImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bg_hexogens_static"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="ContentDescription"
+            />
+
+        <TextView
+            android:id="@+id/topicsRepetitionTitleTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/topics_repetitions_card_title_uncompleted"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="18sp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="20dp"
+            app:layout_constraintTop_toTopOf="@+id/topicsRepetitionArrowImageView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/topicsRepetitionArrowImageView"
+            app:layout_constraintEnd_toStartOf="@+id/topicsRepetitionArrowImageView"
+            />
+
+        <ImageView
+            android:id="@+id/topicsRepetitionArrowImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_home_screen_arrow_button"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="ContentDescription"
+            />
+
+        <TextView
+            android:id="@+id/topicsRepetitionCountTextView"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="14sp"
+            android:background="@drawable/bg_topics_to_repeat"
+            android:gravity="center"
+            android:layout_marginTop="17dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/topicsRepetitionTitleTextView"
+            tools:text="4"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintStart_toEndOf="@+id/topicsRepetitionCountTextView"
+            app:layout_constraintTop_toTopOf="@+id/topicsRepetitionCountTextView"
+            app:layout_constraintBottom_toBottomOf="@+id/topicsRepetitionCountTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="topics to repeat today"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
