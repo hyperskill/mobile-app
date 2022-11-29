@@ -32,8 +32,8 @@
         <item quantity="one">topic to repeat today</item>
         <item quantity="other">topics to repeat today</item>
     </plural>
-    <plural name="times">
-        <item quantity="one">%d time</item>
+    <plural name="times_repetitions_chart">
+        <item quantity="one">once</item>
         <item quantity="other">%d times</item>
     </plural>
 </resources>

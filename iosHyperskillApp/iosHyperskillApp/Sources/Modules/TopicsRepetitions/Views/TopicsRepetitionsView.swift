@@ -78,7 +78,7 @@ struct TopicsRepetitionsView: View {
     private func buildContent(viewData: TopicsRepetitionsViewData) -> some View {
         VStack(spacing: appearance.padding) {
             TopicsRepetitionsChartBlock(
-                topicsToRepeatCount: Int(viewData.recommendedTopicsToRepeatCount),
+                topicsToRepeatCount: Int(viewData.recommendedRepetitionsCount),
                 repeatNextTopicText: viewData.repeatButtonText,
                 onRepeatNextTopicTap: {
                     viewModel.logClickedRepeatNextTopicEvent()
@@ -135,7 +135,7 @@ struct TopicsRepetitionsView: View {
 struct TopicsRepetitionsView_Previews: PreviewProvider {
     static var previews: some View {
         UIKitViewControllerPreview {
-            TopicsRepetitionsAssembly().makeModule()
+            TopicsRepetitionsAssembly(recommendedRepetitionsCount: 5).makeModule()
         }
     }
 }

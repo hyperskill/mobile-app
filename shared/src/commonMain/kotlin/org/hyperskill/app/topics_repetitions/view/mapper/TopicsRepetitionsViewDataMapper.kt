@@ -13,16 +13,19 @@ class TopicsRepetitionsViewDataMapper(
 ) {
     fun mapStateToViewData(state: TopicsRepetitionsFeature.State.Content): TopicsRepetitionsViewData =
         TopicsRepetitionsViewData(
-            recommendedTopicsToRepeatCount = state.recommendedTopicsToRepeatCount,
+            recommendedRepetitionsCount = state.recommendedTopicsToRepeatCount,
             repeatButtonText = if (state.topicsToRepeat.isNotEmpty()) {
                 resourceProvider.getString(
                     SharedResources.strings.topics_repetitions_repeat_button_text,
                     state.topicsToRepeat.first().title
                 )
             } else null,
-            chartData = state.topicsRepetitions.repetitionsByCount.mapKeys {
-                resourceProvider.getQuantityString(SharedResources.plurals.times, it.key.toInt(), it.key.toInt())
-            }.toList().sortedBy { it.first },
+            chartData = state.topicsRepetitions.repetitionsByCount.toList().sortedBy { it.first }.map {
+                Pair(
+                    resourceProvider.getQuantityString(SharedResources.plurals.times_repetitions_chart, it.first.toInt(), it.first.toInt()),
+                    it.second
+                )
+            },
             chartDescription = resourceProvider.getString(
                 SharedResources.strings.topics_repetitions_chart_description,
                 resourceProvider.getQuantityString(
