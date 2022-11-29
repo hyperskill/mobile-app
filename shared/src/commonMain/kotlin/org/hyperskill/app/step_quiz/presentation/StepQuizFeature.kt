@@ -57,7 +57,7 @@ interface StepQuizFeature {
          * Submit submission
          */
         data class CreateSubmissionClicked(val step: Step, val reply: Reply) : Message
-        data class CreateSubmissionSuccess(val submission: Submission) : Message
+        data class CreateSubmissionSuccess(val submission: Submission, val isDailyProblem: Boolean) : Message
         object CreateSubmissionNetworkError : Message
         data class CreateSubmissionReplyValidationResult(
             val step: Step,
@@ -77,6 +77,13 @@ interface StepQuizFeature {
             val userPermissionRequest: StepQuizUserPermissionRequest,
             val isGranted: Boolean
         ) : Message
+
+        /**
+         * Show actual gems
+         */
+
+        data class FetchActualGemsCountSuccess(val gemsCount: Long) : Message
+        object FetchActualGemsCountNetworkError : Message
 
         /**
          * Analytic
@@ -103,6 +110,8 @@ interface StepQuizFeature {
             val isGranted: Boolean
         ) : Action
 
+        object FetchActualGemsCount : Action
+
         /**
          * Analytic
          */
@@ -113,6 +122,8 @@ interface StepQuizFeature {
             object ShowNetworkError : ViewAction // error
 
             data class RequestUserPermission(val userPermissionRequest: StepQuizUserPermissionRequest) : ViewAction
+
+            data class ShowGemsCount(val gemsCount: Long) : ViewAction
 
             sealed interface NavigateTo : ViewAction {
                 object Back : NavigateTo

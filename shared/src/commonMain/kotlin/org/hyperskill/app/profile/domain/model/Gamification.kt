@@ -6,5 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Gamification(
     @SerialName("topics_repetitions")
-    val topicsRepetitions: GamificationTopicsRepetitions
+    val topicsRepetitions: GamificationTopicsRepetitions,
+    @SerialName("hypercoins")
+    val hypercoins: Long,
 )
