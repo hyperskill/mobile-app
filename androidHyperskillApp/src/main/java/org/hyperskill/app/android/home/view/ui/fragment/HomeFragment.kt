@@ -174,7 +174,7 @@ class HomeFragment :
 
     private fun renderTopicsRepetition(topicsToRepeatCount: Int) {
         viewBinding.homeScreenTopicsRepetitionCard.root.setOnClickListener {
-            homeViewModel.onNewMessage(HomeFeature.Message.ClickedTopicsRepetitionsCardEventMessage)
+            homeViewModel.onNewMessage(HomeFeature.Message.ClickedTopicsRepetitionsCard)
         }
         topicsRepetitionDelegate.render(
             requireContext(),
