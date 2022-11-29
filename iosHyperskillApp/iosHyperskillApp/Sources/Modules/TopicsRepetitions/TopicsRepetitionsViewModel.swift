@@ -6,7 +6,7 @@ final class TopicsRepetitionsViewModel: FeatureViewModel<
   TopicsRepetitionsFeatureMessage,
   TopicsRepetitionsFeatureActionViewAction
 > {
-    let recommendedRepetitionsCount: Int32
+    private let recommendedRepetitionsCount: Int32
 
     init(
         recommendedRepetitionsCount: Int32,

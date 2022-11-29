@@ -69,12 +69,13 @@ interface HomeFeature {
         data class GetMagicLinkReceiveSuccess(val url: String) : Message
         object GetMagicLinkReceiveFailure : Message
 
+        object ClickedTopicsRepetitionsCard : Message
+
         /**
          * Analytic
          */
         object ViewedEventMessage : Message
         object ClickedProblemOfDayCardEventMessage : Message
-        object ClickedTopicsRepetitionsCardEventMessage : Message
         object ClickedContinueLearningOnWebEventMessage : Message
     }
 
