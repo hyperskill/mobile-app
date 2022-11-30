@@ -52,4 +52,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     REPORT_HINT_NOTICE("report_hint_notice"),
     REFRESH("refresh"),
     TOPIC("topic"),
+    GO_BACK("go_back"),
+    DAILY_STEP_COMPLETED_MODAL("daily_step_completed_modal"),
+    CLOSE("close"),
 }

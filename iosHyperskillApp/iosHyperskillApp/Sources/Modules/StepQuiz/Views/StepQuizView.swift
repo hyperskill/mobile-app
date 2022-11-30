@@ -55,10 +55,18 @@ struct StepQuizView: View {
             ProblemOfDaySolvedModalViewController(
                 gemsCount: gemsCount,
                 onGoBackButtonTap: {
+                    viewModel.logClickedGoBackEvent()
                     showProblemOfDaySolvedModal = false
                     viewModel.doQuizContinueAction()
                 }
             )
+        }
+        .onChange(of: showProblemOfDaySolvedModal) { newValue in
+            if newValue {
+                viewModel.logDailyStepCompletedModalShownEvent()
+            } else {
+                viewModel.logDailyStepCompletedModalHiddenEvent()
+            }
         }
     }
 
