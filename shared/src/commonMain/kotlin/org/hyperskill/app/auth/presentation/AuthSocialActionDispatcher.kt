@@ -34,7 +34,7 @@ class AuthSocialActionDispatcher(
                                         onSuccess = {
                                             Message.AuthSuccess(
                                                 socialAuthProvider = action.socialAuthProvider,
-                                                isNewUser = it.trackId == null
+                                                profile = it
                                             )
                                         },
                                         onFailure = {

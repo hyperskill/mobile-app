@@ -50,16 +50,16 @@ final class SentryManager: shared.SentryManager {
         captureMessage(message: message, level: HyperskillSentryLevel.error)
     }
 
-    #warning("TODO")
-    static func updateUserID(_ userID: String) {
+    // MARK: Identify Users
+
+    func setUsedId(userId: String) {
         let user = Sentry.User()
-        user.userId = userID
+        user.userId = userId
 
         SentrySDK.setUser(user)
     }
 
-    #warning("TODO")
-    static func clearCurrentUser() {
+    func clearCurrentUser() {
         SentrySDK.setUser(nil)
     }
 }

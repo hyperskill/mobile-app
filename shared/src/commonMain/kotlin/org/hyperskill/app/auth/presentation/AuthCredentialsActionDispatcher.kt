@@ -34,7 +34,7 @@ class AuthCredentialsActionDispatcher(
                                 profileInteractor
                                     .getCurrentProfile(DataSourceType.REMOTE)
                                     .fold(
-                                        onSuccess = { Message.AuthSuccess(isNewUser = it.trackId == null) },
+                                        onSuccess = { Message.AuthSuccess(it) },
                                         onFailure = { Message.AuthFailure(AuthCredentialsError.CONNECTION_PROBLEM, it) }
                                     )
                             },

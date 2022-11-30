@@ -55,7 +55,7 @@ class AuthCredentialsReducer : StateReducer<State, Message, Action> {
                 if (state.formState is AuthCredentialsFeature.FormState.Loading) {
                     state.copy(formState = AuthCredentialsFeature.FormState.Authenticated) to setOf(
                         Action.AddSentryBreadcrumb(HyperskillSentryBreadcrumbBuilder.buildAuthCredentialsSignedInSuccessfully()),
-                        Action.ViewAction.CompleteAuthFlow(message.isNewUser)
+                        Action.ViewAction.CompleteAuthFlow(message.profile)
                     )
                 } else {
                     null

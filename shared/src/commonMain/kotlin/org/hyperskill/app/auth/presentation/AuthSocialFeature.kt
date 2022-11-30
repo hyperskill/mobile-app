@@ -3,6 +3,7 @@ package org.hyperskill.app.auth.presentation
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.auth.domain.model.AuthSocialError
 import org.hyperskill.app.auth.domain.model.SocialAuthProvider
+import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcrumb
 
 interface AuthSocialFeature {
@@ -20,7 +21,7 @@ interface AuthSocialFeature {
             val socialAuthProvider: SocialAuthProvider
         ) : Message
 
-        data class AuthSuccess(val socialAuthProvider: SocialAuthProvider, val isNewUser: Boolean) : Message
+        data class AuthSuccess(val socialAuthProvider: SocialAuthProvider, val profile: Profile) : Message
         data class AuthFailure(val data: AuthFailureData) : Message
 
         /**
@@ -72,7 +73,7 @@ interface AuthSocialFeature {
         data class CaptureSentryAuthError(val socialAuthError: AuthSocialError?, val originalError: Throwable) : Action
 
         sealed interface ViewAction : Action {
-            data class CompleteAuthFlow(val isNewUser: Boolean) : ViewAction
+            data class CompleteAuthFlow(val profile: Profile) : ViewAction
             data class ShowAuthError(val socialAuthError: AuthSocialError, val originalError: Throwable) : ViewAction
         }
     }

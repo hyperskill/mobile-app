@@ -59,7 +59,7 @@ struct AuthSocialView: View {
     private func handleViewAction(_ viewAction: AuthSocialFeatureActionViewAction) {
         switch AuthSocialFeatureActionViewActionKs(viewAction) {
         case .completeAuthFlow(let data):
-            viewModel.doCompleteAuthFlow(isNewUser: data.isNewUser)
+            viewModel.doCompleteAuthFlow(profile: data.profile)
         case .showAuthError(let data):
             let errorText = viewModel.getAuthSocialErrorText(authSocialError: data.socialAuthError)
             ProgressHUD.showError(status: errorText)

@@ -92,8 +92,8 @@ final class AuthSocialViewModel: FeatureViewModel<
         self.authSocialErrorMapper.getAuthSocialErrorText(authSocialError: authSocialError)
     }
 
-    func doCompleteAuthFlow(isNewUser: Bool) {
-        moduleOutput?.handleUserAuthorized(isNewUser: isNewUser)
+    func doCompleteAuthFlow(profile: Profile) {
+        moduleOutput?.handleUserAuthorized(profile: profile)
     }
 
     // MARK: Analytic

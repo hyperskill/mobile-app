@@ -4,6 +4,7 @@ import io.sentry.Sentry
 import io.sentry.SentryLevel
 import io.sentry.android.core.SentryAndroid
 import io.sentry.android.fragment.FragmentLifecycleIntegration
+import io.sentry.protocol.User
 import org.hyperskill.app.android.BuildConfig
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.sentry.extensions.Breadcrumb
@@ -47,5 +48,18 @@ class SentryManagerImpl : SentryManager {
 
     override fun captureMessage(message: String, level: HyperskillSentryLevel) {
         Sentry.captureMessage(message, level.toSentryLevel())
+    }
+
+    override fun setUsedId(userId: String) {
+        val user = User().apply {
+            id = userId
+        }
+        Sentry.setUser(user)
+    }
+
+    override fun clearCurrentUser() {
+        Sentry.configureScope { scope ->
+            scope.user = null
+        }
     }
 }

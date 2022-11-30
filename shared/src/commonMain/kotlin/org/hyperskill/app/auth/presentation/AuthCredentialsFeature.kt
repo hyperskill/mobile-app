@@ -3,6 +3,7 @@ package org.hyperskill.app.auth.presentation
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.auth.domain.model.AuthCredentialsError
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
+import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcrumb
 
 interface AuthCredentialsFeature {
@@ -23,7 +24,7 @@ interface AuthCredentialsFeature {
     sealed interface Message {
         data class AuthEditing(val email: String, val password: String) : Message
         object SubmitFormClicked : Message
-        data class AuthSuccess(val isNewUser: Boolean) : Message
+        data class AuthSuccess(val profile: Profile) : Message
         data class AuthFailure(val credentialsError: AuthCredentialsError, val originalError: Throwable) : Message
 
         object ClickedResetPassword : Message
@@ -53,7 +54,7 @@ interface AuthCredentialsFeature {
         data class CaptureSentryException(val throwable: Throwable) : Action
 
         sealed interface ViewAction : Action {
-            data class CompleteAuthFlow(val isNewUser: Boolean) : ViewAction
+            data class CompleteAuthFlow(val profile: Profile) : ViewAction
             data class OpenUrl(val url: String) : ViewAction
             object ShowGetMagicLinkError : ViewAction
         }

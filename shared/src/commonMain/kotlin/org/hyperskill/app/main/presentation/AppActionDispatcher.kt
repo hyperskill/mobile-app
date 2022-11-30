@@ -10,13 +10,15 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.main.presentation.AppFeature.Action
 import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class AppActionDispatcher(
     config: ActionDispatcherOptions,
     private val authInteractor: AuthInteractor,
     private val profileInteractor: ProfileInteractor,
-    private val analyticInteractor: AnalyticInteractor
+    private val analyticInteractor: AnalyticInteractor,
+    private val sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
         authInteractor
@@ -51,6 +53,10 @@ class AppActionDispatcher(
 
                 onNewMessage(message)
             }
+            is Action.IdentifyUserInSentry ->
+                sentryInteractor.setUsedId(action.userId)
+            is Action.ClearUserInSentry ->
+                sentryInteractor.clearCurrentUser()
         }
     }
 }

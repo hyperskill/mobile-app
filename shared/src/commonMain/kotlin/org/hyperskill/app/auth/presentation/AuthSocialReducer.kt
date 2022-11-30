@@ -34,7 +34,7 @@ class AuthSocialReducer : StateReducer<State, Message, Action> {
                                 message.socialAuthProvider
                             )
                         ),
-                        Action.ViewAction.CompleteAuthFlow(message.isNewUser)
+                        Action.ViewAction.CompleteAuthFlow(message.profile)
                     )
                 } else {
                     null

@@ -115,7 +115,7 @@ class AuthCredentialsFragment :
     override fun onAction(action: AuthCredentialsFeature.Action.ViewAction) {
         when (action) {
             is AuthCredentialsFeature.Action.ViewAction.CompleteAuthFlow ->
-                (parentFragment as? AuthFlow)?.onAuthSuccess(action.isNewUser)
+                (parentFragment as? AuthFlow)?.onAuthSuccess(action.profile)
             is AuthCredentialsFeature.Action.ViewAction.OpenUrl ->
                 requireContext().launchUrl(action.url)
             is AuthCredentialsFeature.Action.ViewAction.ShowGetMagicLinkError ->

@@ -37,4 +37,16 @@ interface SentryManager {
     fun captureErrorMessage(message: String) {
         captureMessage(message, HyperskillSentryLevel.ERROR)
     }
+
+    /**
+     * Sets the id of the user.
+     *
+     * @param userId the user id.
+     */
+    fun setUsedId(userId: String)
+
+    /**
+     *  Clears the currently set user.
+     */
+    fun clearCurrentUser()
 }
