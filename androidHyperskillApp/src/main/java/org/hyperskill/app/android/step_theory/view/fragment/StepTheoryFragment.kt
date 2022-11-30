@@ -17,6 +17,7 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.HorizontalMarginItemDecoration
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.VerticalMarginItemDecoration
+import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepTheoryBinding
 import org.hyperskill.app.android.databinding.ItemStepCommentActionBinding
 import org.hyperskill.app.android.databinding.ItemStepTheoryRatingBinding
@@ -67,7 +68,7 @@ class StepTheoryFragment : Fragment(R.layout.fragment_step_theory) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewBinding.stepTheoryAppBar.stepToolbar.root.setNavigationOnClickListener {
-            activity?.onBackPressed()
+            requireRouter().exit()
         }
         viewBinding.stepTheoryAppBar.stepToolbar.stepToolbarTitle.text = step.title
         viewBinding.stepTheoryAppBar.root.addOnOffsetChangedListener(
