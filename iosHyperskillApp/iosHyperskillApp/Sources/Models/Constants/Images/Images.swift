@@ -57,6 +57,13 @@ enum Images {
         }
     }
 
+    // MARK: - ProblemOfDaySolvedModal -
+
+    enum ProblemOfDaySolvedModal {
+        static let book = "problem-of-day-solved-modal-book"
+        static let gemsBadge = "problem-of-day-solved-modal-gems-badge"
+    }
+
     // MARK: - Track -
 
     enum Track {

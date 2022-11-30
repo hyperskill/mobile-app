@@ -22,6 +22,9 @@ struct StepQuizView: View {
 
     @Environment(\.presentationMode) private var presentationMode
 
+    @State private var showProblemOfDaySolvedModal = false
+    @State private var gemsCount = 0
+
     var body: some View {
         ZStack {
             UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
@@ -47,6 +50,15 @@ struct StepQuizView: View {
                     }
                 }
             }
+        }
+        .panModal(isPresented: $showProblemOfDaySolvedModal) {
+            ProblemOfDaySolvedModalViewController(
+                gemsCount: gemsCount,
+                onGoBackButtonTap: {
+                    showProblemOfDaySolvedModal = false
+                    viewModel.doQuizContinueAction()
+                }
+            )
         }
     }
 
@@ -260,6 +272,9 @@ struct StepQuizView: View {
             default:
                 break
             }
+        case let showProblemOfDaySolvedModalViewAction as StepQuizFeatureActionViewActionShowProblemOfDaySolvedModal:
+            gemsCount = Int(showProblemOfDaySolvedModalViewAction.gemsCount)
+            showProblemOfDaySolvedModal = true
         case is StepQuizFeatureActionViewActionNavigateToBack:
             presentationMode.wrappedValue.dismiss()
         default:

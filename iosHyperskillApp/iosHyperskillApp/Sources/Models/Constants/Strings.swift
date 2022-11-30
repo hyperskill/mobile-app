@@ -94,6 +94,15 @@ enum Strings {
         }
     }
 
+    // MARK: - ProblemOfDaySolvedModal -
+
+    enum ProblemOfDaySolvedModal {
+        static let title = sharedStrings.problem_of_day_solved_modal_title.localized()
+        static let text = sharedStrings.problem_of_day_solved_modal_text.localized()
+        static let totalGems = sharedStrings.problem_of_day_solved_modal_total_gems.localized()
+        static let goButtonText = sharedStrings.problem_of_day_solved_modal_go_back_button_text.localized()
+    }
+
     // MARK: - StepQuizChoice -
 
     enum StepQuizChoice {

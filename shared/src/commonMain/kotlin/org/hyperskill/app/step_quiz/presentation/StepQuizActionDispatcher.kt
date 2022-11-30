@@ -154,15 +154,15 @@ class StepQuizActionDispatcher(
                     }
                 }
             }
-            is Action.FetchActualGemsCount -> {
+            is Action.FetchGemsCount -> {
                 val currentProfile = profileInteractor
                     .getCurrentProfile(DataSourceType.REMOTE)
                     .getOrElse {
-                        onNewMessage(Message.FetchActualGemsCountNetworkError)
+                        onNewMessage(Message.FetchGemsCountNetworkError)
                         return
                     }
 
-                onNewMessage(Message.FetchActualGemsCountSuccess(currentProfile.gamification.hypercoins))
+                onNewMessage(Message.FetchGemsCountSuccess(currentProfile.gamification.hypercoins))
             }
             is Action.LogViewedEvent -> {
                 val currentProfile = profileInteractor

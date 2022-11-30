@@ -82,8 +82,8 @@ interface StepQuizFeature {
          * Show actual gems
          */
 
-        data class FetchActualGemsCountSuccess(val gemsCount: Long) : Message
-        object FetchActualGemsCountNetworkError : Message
+        data class FetchGemsCountSuccess(val gemsCount: Long) : Message
+        object FetchGemsCountNetworkError : Message
 
         /**
          * Analytic
@@ -110,7 +110,7 @@ interface StepQuizFeature {
             val isGranted: Boolean
         ) : Action
 
-        object FetchActualGemsCount : Action
+        object FetchGemsCount : Action
 
         /**
          * Analytic
@@ -123,7 +123,7 @@ interface StepQuizFeature {
 
             data class RequestUserPermission(val userPermissionRequest: StepQuizUserPermissionRequest) : ViewAction
 
-            data class ShowGemsCount(val gemsCount: Long) : ViewAction
+            data class ShowProblemOfDaySolvedModal(val gemsCount: Long) : ViewAction
 
             sealed interface NavigateTo : ViewAction {
                 object Back : NavigateTo

@@ -135,7 +135,7 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 if (state is State.AttemptLoaded) {
                     state.copy(
                         submissionState = StepQuizFeature.SubmissionState.Loaded(message.submission)
-                    ) to if (message.isDailyProblem) setOf(Action.FetchActualGemsCount) else emptySet()
+                    ) to if (message.isDailyProblem) setOf(Action.FetchGemsCount) else emptySet()
                 } else {
                     null
                 }
@@ -207,9 +207,9 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
-            is Message.FetchActualGemsCountSuccess ->
-                state to setOf(Action.ViewAction.ShowGemsCount(message.gemsCount))
-            is Message.FetchActualGemsCountNetworkError ->
+            is Message.FetchGemsCountSuccess ->
+                state to setOf(Action.ViewAction.ShowProblemOfDaySolvedModal(message.gemsCount))
+            is Message.FetchGemsCountNetworkError ->
                 state to setOf(Action.ViewAction.ShowNetworkError)
             is Message.ViewedEventMessage ->
                 state to setOf(Action.LogViewedEvent(message.stepId))
