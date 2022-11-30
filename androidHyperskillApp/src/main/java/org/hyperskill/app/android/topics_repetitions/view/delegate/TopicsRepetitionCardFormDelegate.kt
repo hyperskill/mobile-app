@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.topics_repetition.view.delegate
+package org.hyperskill.app.android.topics_repetitions.view.delegate
 
 import android.content.Context
 import androidx.core.view.isVisible

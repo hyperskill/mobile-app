@@ -18,7 +18,8 @@ import org.hyperskill.app.android.databinding.FragmentHomeBinding
 import org.hyperskill.app.android.problem_of_day.view.delegate.ProblemOfDayCardFormDelegate
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.streak.view.delegate.StreakCardFormDelegate
-import org.hyperskill.app.android.topics_repetition.view.delegate.TopicsRepetitionCardFormDelegate
+import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionCardFormDelegate
+import org.hyperskill.app.android.topics_repetitions.view.screen.TopicsRepetitionScreen
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeViewModel
 import org.hyperskill.app.streak.domain.model.Streak
@@ -121,7 +122,7 @@ class HomeFragment :
                 viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
             }
             is HomeFeature.Action.ViewAction.NavigateTo.TopicsRepetitionsScreen -> {
-                TODO("Not implemented yet")
+                requireRouter().navigateTo(TopicsRepetitionScreen)
             }
             else -> {
                 // no op
