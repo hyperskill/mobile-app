@@ -263,8 +263,13 @@ enum Strings {
             static let textCompleted = sharedStrings.topics_repetitions_card_text_completed.localized()
         }
 
-        enum Chart {
+        enum StatusBlock {
             static let tryToRecallText = sharedStrings.topics_repetitions_try_to_recall_text.localized()
+            static let goodJobText = sharedStrings.topics_repetitions_good_job_text.localized()
+            static let allTopicsRepeated = sharedStrings.topics_repetitions_all_topics_repeated_text.localized()
+        }
+
+        enum Chart {
             static let title = sharedStrings.topics_repetitions_chart_title.localized()
             static let description = sharedStrings.topics_repetitions_chart_description.localized()
         }
