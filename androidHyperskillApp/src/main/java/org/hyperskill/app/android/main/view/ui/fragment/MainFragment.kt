@@ -64,7 +64,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null && childFragmentManager.fragments.isEmpty()) {
             router.switch(HomeScreen)
         }
 

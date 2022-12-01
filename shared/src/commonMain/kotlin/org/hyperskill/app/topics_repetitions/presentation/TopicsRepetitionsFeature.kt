@@ -12,7 +12,7 @@ interface TopicsRepetitionsFeature {
         data class Content(
             val topicsRepetitions: TopicsRepetitions,
             val topicsToRepeat: List<TopicToRepeat>,
-            val recommendedTopicsToRepeatCount: Int,
+            val recommendedRepetitionsCount: Int,
             val trackTitle: String,
             val nextTopicsLoading: Boolean = false
         ) : State

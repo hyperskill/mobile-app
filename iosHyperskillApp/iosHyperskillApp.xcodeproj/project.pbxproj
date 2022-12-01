@@ -268,6 +268,7 @@
 		2CDF14D628EF02740060D972 /* PushRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDF14D528EF02740060D972 /* PushRouter.swift */; };
 		2CDF14D828EF1E080060D972 /* UINavigationControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDF14D728EF1E080060D972 /* UINavigationControllerExtensions.swift */; };
 		2CE1C4DF27EDFB3800220041 /* FeatureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE1C4DE27EDFB3800220041 /* FeatureViewModel.swift */; };
+		2CE1E189292CCB450041FE14 /* UIKitIntrospectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE1E188292CCB450041FE14 /* UIKitIntrospectionView.swift */; };
 		2CE2817927E8EF1E00641E22 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2CE2817827E8EF1E00641E22 /* GoogleService-Info.plist */; };
 		2CE31F4827F1BB79008EEE66 /* AuthSocialAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4727F1BB79008EEE66 /* AuthSocialAssembly.swift */; };
 		2CE31F4B27F1E070008EEE66 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4A27F1E070008EEE66 /* AppViewModel.swift */; };
@@ -315,6 +316,7 @@
 		E94D238F280585110003273F /* AuthCredentialsFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D238E280585110003273F /* AuthCredentialsFormView.swift */; };
 		E94F4C152923B46200DE0F7F /* TopicsRepetitionsChartAxis.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94F4C142923B46200DE0F7F /* TopicsRepetitionsChartAxis.swift */; };
 		E951757927E61ACD00995008 /* AuthSocialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E951757827E61ACD00995008 /* AuthSocialView.swift */; };
+		E95BE4042938A30900992DDE /* TopicsRepetitionsStatusBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95BE4032938A30900992DDE /* TopicsRepetitionsStatusBlock.swift */; };
 		E96E80F627EF57BA00AA6683 /* AuthSocialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */; };
 		E9802D07281BB5CC00CF3AC1 /* StepQuizChoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9802D06281BB5CC00CF3AC1 /* StepQuizChoiceView.swift */; };
 		E9859B91292E414300857679 /* RepeatButtonInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9859B90292E414300857679 /* RepeatButtonInfo.swift */; };
@@ -326,7 +328,6 @@
 		E996D41029221F0E00A47498 /* TopicsRepetitionsRepeatBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E996D40F29221F0E00A47498 /* TopicsRepetitionsRepeatBlock.swift */; };
 		E996D41229221F6200A47498 /* ShowMoreButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E996D41129221F6200A47498 /* ShowMoreButton.swift */; };
 		E996D414292228A700A47498 /* TopicsRepetitionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E996D413292228A700A47498 /* TopicsRepetitionsView.swift */; };
-		E996D41629222F8E00A47498 /* TopicsRepetitionsChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E996D41529222F8E00A47498 /* TopicsRepetitionsChartView.swift */; };
 		E9978886282FFC6E00ADD74A /* StepQuizChoiceViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9978885282FFC6E00ADD74A /* StepQuizChoiceViewData.swift */; };
 		E99B21812887E535006A6154 /* StepQuizSkeletonViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99B21802887E535006A6154 /* StepQuizSkeletonViewFactory.swift */; };
 		E99B21832887E996006A6154 /* StepQuizChoiceSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99B21822887E996006A6154 /* StepQuizChoiceSkeletonView.swift */; };
@@ -652,6 +653,7 @@
 		2CDF14D528EF02740060D972 /* PushRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushRouter.swift; sourceTree = "<group>"; };
 		2CDF14D728EF1E080060D972 /* UINavigationControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationControllerExtensions.swift; sourceTree = "<group>"; };
 		2CE1C4DE27EDFB3800220041 /* FeatureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureViewModel.swift; sourceTree = "<group>"; };
+		2CE1E188292CCB450041FE14 /* UIKitIntrospectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitIntrospectionView.swift; sourceTree = "<group>"; };
 		2CE2817827E8EF1E00641E22 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2CE31F4727F1BB79008EEE66 /* AuthSocialAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialAssembly.swift; sourceTree = "<group>"; };
 		2CE31F4A27F1E070008EEE66 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
@@ -703,6 +705,7 @@
 		E94D238E280585110003273F /* AuthCredentialsFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsFormView.swift; sourceTree = "<group>"; };
 		E94F4C142923B46200DE0F7F /* TopicsRepetitionsChartAxis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsRepetitionsChartAxis.swift; sourceTree = "<group>"; };
 		E951757827E61ACD00995008 /* AuthSocialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialView.swift; sourceTree = "<group>"; };
+		E95BE4032938A30900992DDE /* TopicsRepetitionsStatusBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsRepetitionsStatusBlock.swift; sourceTree = "<group>"; };
 		E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialViewModel.swift; sourceTree = "<group>"; };
 		E9802D06281BB5CC00CF3AC1 /* StepQuizChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChoiceView.swift; sourceTree = "<group>"; };
 		E9859B90292E414300857679 /* RepeatButtonInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatButtonInfo.swift; sourceTree = "<group>"; };
@@ -714,7 +717,6 @@
 		E996D40F29221F0E00A47498 /* TopicsRepetitionsRepeatBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsRepetitionsRepeatBlock.swift; sourceTree = "<group>"; };
 		E996D41129221F6200A47498 /* ShowMoreButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowMoreButton.swift; sourceTree = "<group>"; };
 		E996D413292228A700A47498 /* TopicsRepetitionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsRepetitionsView.swift; sourceTree = "<group>"; };
-		E996D41529222F8E00A47498 /* TopicsRepetitionsChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsRepetitionsChartView.swift; sourceTree = "<group>"; };
 		E9978885282FFC6E00ADD74A /* StepQuizChoiceViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChoiceViewData.swift; sourceTree = "<group>"; };
 		E99B21802887E535006A6154 /* StepQuizSkeletonViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSkeletonViewFactory.swift; sourceTree = "<group>"; };
 		E99B21822887E996006A6154 /* StepQuizChoiceSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChoiceSkeletonView.swift; sourceTree = "<group>"; };
@@ -1734,6 +1736,7 @@
 			isa = PBXGroup;
 			children = (
 				2CBD1918291D399500F5FB0B /* UIKitBounceButton.swift */,
+				2CE1E188292CCB450041FE14 /* UIKitIntrospectionView.swift */,
 				2CBD191C291D3BF400F5FB0B /* UIKitRoundedRectangleButton.swift */,
 			);
 			path = UIKit;
@@ -2182,6 +2185,7 @@
 			children = (
 				E94BC943291E8BF5000B18D3 /* TopicsRepetitionsInfoBlock.swift */,
 				E996D40F29221F0E00A47498 /* TopicsRepetitionsRepeatBlock.swift */,
+				E95BE4032938A30900992DDE /* TopicsRepetitionsStatusBlock.swift */,
 				E996D413292228A700A47498 /* TopicsRepetitionsView.swift */,
 				E9A5B98C2924FB1F00EF0F39 /* Chart */,
 			);
@@ -2222,7 +2226,6 @@
 				E94F4C142923B46200DE0F7F /* TopicsRepetitionsChartAxis.swift */,
 				E9F2CC542922694F00691540 /* TopicsRepetitionsChartBar.swift */,
 				E94BC945291E8F40000B18D3 /* TopicsRepetitionsChartBlock.swift */,
-				E996D41529222F8E00A47498 /* TopicsRepetitionsChartView.swift */,
 			);
 			path = Chart;
 			sourceTree = "<group>";
@@ -2602,6 +2605,7 @@
 				2C963BC72812D1BF0036DD53 /* HomeAssembly.swift in Sources */,
 				2C1860FC2923C540007D4EBF /* AppFeatureStateKsExtensions.swift in Sources */,
 				2C4FBD8E2876C94800ACA5C8 /* ProfileAboutSocialAccountsView.swift in Sources */,
+				E95BE4042938A30900992DDE /* TopicsRepetitionsStatusBlock.swift in Sources */,
 				2CBFB94A28897DBB0044D1BA /* StepQuizCodeFullScreenView.swift in Sources */,
 				2C0DB90A2864515B001EA35E /* CodeEditorViewDelegate.swift in Sources */,
 				2C336D132865C47900C91342 /* ApplicationTheme.swift in Sources */,
@@ -2611,6 +2615,7 @@
 				2C80D4FD288C4D0D00B2CD1E /* StepQuizCodeFullScreenViewModel.swift in Sources */,
 				E9FB89A32893CCAF0011EFFB /* LocalNotificationProtocol.swift in Sources */,
 				E99D4CED2826A37400B49D52 /* AppAppearance.swift in Sources */,
+				2CE1E189292CCB450041FE14 /* UIKitIntrospectionView.swift in Sources */,
 				2C80D4FF288C4D4400B2CD1E /* StepQuizCodeFullScreenOutputProtocol.swift in Sources */,
 				2C0DB90E286452D9001EA35E /* CodeLanguage.swift in Sources */,
 				2C84094F2805B28B009C6BE9 /* StepRatingControl.swift in Sources */,
@@ -2736,7 +2741,6 @@
 				2CAE8D0528055D8300E6C83D /* StepActionButton.swift in Sources */,
 				2C37960F2876F36F00C197E2 /* ProfileViewData.swift in Sources */,
 				2C2D4930281151EB00753F16 /* AuthCredentialsViewModel.swift in Sources */,
-				E996D41629222F8E00A47498 /* TopicsRepetitionsChartView.swift in Sources */,
 				E94BC944291E8BF5000B18D3 /* TopicsRepetitionsInfoBlock.swift in Sources */,
 				2C5B2A1B286595810097B270 /* CodeCompletionCellView.swift in Sources */,
 				E9D69A4028084FF7000E114E /* AuthCredentialsErrorView.swift in Sources */,
@@ -2907,7 +2911,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 43;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 3DWS674B2M;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -2928,7 +2932,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 43;
 				DEVELOPMENT_TEAM = 3DWS674B2M;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.4;

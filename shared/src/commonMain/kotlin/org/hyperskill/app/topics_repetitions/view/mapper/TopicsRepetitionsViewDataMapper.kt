@@ -1,31 +1,47 @@
 package org.hyperskill.app.topics_repetitions.view.mapper
 
+import kotlin.math.min
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsActionDispatcher
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature
+import org.hyperskill.app.topics_repetitions.view.model.RepetitionsStatus
 import org.hyperskill.app.topics_repetitions.view.model.ShowMoreButtonState
 import org.hyperskill.app.topics_repetitions.view.model.TopicsRepetitionsViewData
-import kotlin.math.min
 
 class TopicsRepetitionsViewDataMapper(
     private val resourceProvider: ResourceProvider
 ) {
-    fun mapStateToViewData(state: TopicsRepetitionsFeature.State.Content): TopicsRepetitionsViewData =
-        TopicsRepetitionsViewData(
-            recommendedRepetitionsCount = state.recommendedTopicsToRepeatCount,
-            repeatButtonText = if (state.topicsToRepeat.isNotEmpty()) {
-                resourceProvider.getString(
-                    SharedResources.strings.topics_repetitions_repeat_button_text,
-                    state.topicsToRepeat.first().title
+    fun mapStateToViewData(state: TopicsRepetitionsFeature.State.Content): TopicsRepetitionsViewData {
+        val allRepetitionsCount = state.topicsRepetitions.repetitions.count() + state.topicsToRepeat.count()
+
+        return TopicsRepetitionsViewData(
+            repetitionsStatus = if (state.recommendedRepetitionsCount > 0) {
+                RepetitionsStatus.RecommendedTopicsAvailable(
+                    recommendedRepetitionsCount = state.recommendedRepetitionsCount,
+                    repeatButtonText = if (state.topicsToRepeat.isNotEmpty())
+                        resourceProvider.getString(
+                            SharedResources.strings.topics_repetitions_repeat_button_text,
+                            state.topicsToRepeat.first().title
+                        )
+                    else null
                 )
-            } else null,
-            chartData = state.topicsRepetitions.repetitionsByCount.toList().sortedBy { it.first }.map {
-                Pair(
-                    resourceProvider.getQuantityString(SharedResources.plurals.times_repetitions_chart, it.first.toInt(), it.first.toInt()),
-                    it.second
-                )
+            } else if (allRepetitionsCount > 0) {
+                RepetitionsStatus.RecommendedTopicsRepeated
+            } else {
+                RepetitionsStatus.AllTopicsRepeated
             },
+            chartData = state.topicsRepetitions.repetitionsByCount.toList().sortedBy { it.first }
+                .map {
+                    Pair(
+                        resourceProvider.getQuantityString(
+                            SharedResources.plurals.times_repetitions_chart,
+                            it.first.toInt(),
+                            it.first.toInt()
+                        ),
+                        it.second
+                    )
+                },
             chartDescription = resourceProvider.getString(
                 SharedResources.strings.topics_repetitions_chart_description,
                 resourceProvider.getQuantityString(
@@ -34,18 +50,8 @@ class TopicsRepetitionsViewDataMapper(
                     state.topicsRepetitions.repetitionsByCount.values.sum()
                 )
             ),
-            repeatBlockTitle = resourceProvider.getString(
-                SharedResources.strings.topics_repetitions_repeat_block_title,
-                resourceProvider.getQuantityString(
-                    SharedResources.plurals.topics,
-                    state.topicsRepetitions.repetitions.count() + state.topicsToRepeat.count(),
-                    state.topicsRepetitions.repetitions.count() + state.topicsToRepeat.count()
-                )
-            ),
-            trackTopicsTitle = resourceProvider.getString(
-                SharedResources.strings.topics_repetitions_repeat_block_current_track,
-                state.trackTitle
-            ),
+            repeatBlockTitle = mapRepetitionsCountToRepeatBlockTitle(allRepetitionsCount),
+            trackTopicsTitle = mapStateToTrackTopicsTitle(state),
             topicsToRepeat = state.topicsToRepeat,
             showMoreButtonState = if (state.nextTopicsLoading) {
                 ShowMoreButtonState.LOADING
@@ -59,4 +65,35 @@ class TopicsRepetitionsViewDataMapper(
                 TopicsRepetitionsActionDispatcher.TOPICS_PAGINATION_SIZE
             )
         )
+    }
+
+    private fun mapRepetitionsCountToRepeatBlockTitle(repetitionsCount: Int): String =
+        if (repetitionsCount == 0) {
+            resourceProvider.getString(SharedResources.strings.topics_repetitions_repeat_block_empty_title)
+        } else {
+            resourceProvider.getString(
+                SharedResources.strings.topics_repetitions_repeat_block_title,
+                resourceProvider.getQuantityString(
+                    SharedResources.plurals.topics,
+                    repetitionsCount,
+                    repetitionsCount
+                )
+            )
+        }
+
+    private fun mapStateToTrackTopicsTitle(state: TopicsRepetitionsFeature.State.Content): String {
+        val count = state.topicsRepetitions.repetitions.count() + state.topicsToRepeat.count()
+
+        return if (count == 0) {
+            resourceProvider.getString(
+                SharedResources.strings.topics_repetitions_repeat_block_empty_current_track,
+                state.trackTitle
+            )
+        } else {
+            resourceProvider.getString(
+                SharedResources.strings.topics_repetitions_repeat_block_current_track,
+                state.trackTitle
+            )
+        }
+    }
 }
