@@ -11,6 +11,7 @@
     >
 
     <TextView
+        android:id="@+id/topicRepetitionsTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/topics_repetitions_try_to_recall_text"
@@ -18,6 +19,7 @@
         />
 
     <LinearLayout
+        android:id="@+id/topicRepetitionsCountLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

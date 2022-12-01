@@ -4,10 +4,15 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentTopicsRepetitionBinding
+import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionHeaderDelegate
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionViewModel
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature
 import org.hyperskill.app.topics_repetitions.view.mapper.TopicsRepetitionsViewDataMapper
@@ -88,5 +93,18 @@ class TopicsRepetitionFragment :
 
     override fun render(state: TopicsRepetitionsFeature.State) {
         viewStateDelegate?.switchState(state)
+        val mapper = viewDataMapper
+        if (mapper != null && state is TopicsRepetitionsFeature.State.Content) {
+            viewLifecycleOwner.lifecycleScope.launch {
+                val viewState = withContext(Dispatchers.Default) {
+                    mapper.mapStateToViewData(state)
+                }
+                TopicsRepetitionHeaderDelegate.render(
+                    requireContext(),
+                    viewBinding.topicsRepetitionHeader,
+                    viewState.repetitionsStatus
+                )
+            }
+        }
     }
 }

@@ -40,7 +40,7 @@
             >
 
             <include
-                android:id="@+id/topicsRepetitionMainInfoCard"
+                android:id="@+id/topics_repetition_header"
                 layout="@layout/layout_topics_repetition_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
