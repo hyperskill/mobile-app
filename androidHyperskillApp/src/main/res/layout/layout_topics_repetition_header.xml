@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/color_surface"
+    android:padding="20dp"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/topics_repetitions_try_to_recall_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        >
+
+        <TextView
+            android:id="@+id/topicsRepetitionCountTextView"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="14sp"
+            android:background="@drawable/bg_topics_to_repeat"
+            android:gravity="center"
+            app:layout_constraintEnd_toStartOf="@+id/topicsRepetitionCountDescriptionTextView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/topicsRepetitionTitleTextView"
+            tools:text="4"
+            />
+
+        <TextView
+            android:id="@+id/topicsRepetitionCountDescriptionTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="20dp"
+            tools:text="topics to repeat today"
+            />
+
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/topicsRepetitionRepeatButton"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_button_height"
+        android:theme="@style/ThemeOverlay.Blue"
+        android:layout_marginTop="20dp"
+        tools:text="Repeat Quotes and multi-line s..."
+        />
+
+</LinearLayout>

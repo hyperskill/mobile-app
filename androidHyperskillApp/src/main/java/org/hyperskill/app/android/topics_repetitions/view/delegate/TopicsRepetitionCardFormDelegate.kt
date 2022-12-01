@@ -3,12 +3,12 @@ package org.hyperskill.app.android.topics_repetitions.view.delegate
 import android.content.Context
 import androidx.core.view.isVisible
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.databinding.LayoutTopicsRepetitionBinding
+import org.hyperskill.app.android.databinding.LayoutTopicsRepetitionCardBinding
 
 class TopicsRepetitionCardFormDelegate {
     fun render(
         context: Context,
-        binding: LayoutTopicsRepetitionBinding,
+        binding: LayoutTopicsRepetitionCardBinding,
         recommendedRepetitionsCount: Int
     ) {
         with(binding) {

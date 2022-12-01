@@ -5,7 +5,9 @@ import androidx.fragment.app.FragmentFactory
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import org.hyperskill.app.android.topics_repetitions.view.fragment.TopicsRepetitionFragment
 
-object TopicsRepetitionScreen : FragmentScreen {
+class TopicsRepetitionScreen(
+    private val recommendedRepetitionsCount: Int
+) : FragmentScreen {
     override fun createFragment(factory: FragmentFactory): Fragment =
-        TopicsRepetitionFragment.newInstance()
+        TopicsRepetitionFragment.newInstance(recommendedRepetitionsCount)
 }

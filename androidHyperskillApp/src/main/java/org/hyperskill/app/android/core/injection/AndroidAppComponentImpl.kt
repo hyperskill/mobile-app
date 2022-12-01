@@ -290,6 +290,6 @@ class AndroidAppComponentImpl(
     override fun buildProgressesDataComponent(): ProgressesDataComponent =
         ProgressesDataComponentImpl(this)
 
-    override fun buildPlatformTopicsRepetitionsComponent(): PlatformTopicsRepetitionComponent =
-        PlatformTopicsRepetitionComponentImpl(this)
+    override fun buildPlatformTopicsRepetitionsComponent(recommendedRepetitionsCount: Int): PlatformTopicsRepetitionComponent =
+        PlatformTopicsRepetitionComponentImpl(this, recommendedRepetitionsCount)
 }
