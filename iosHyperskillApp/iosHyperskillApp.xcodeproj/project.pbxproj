@@ -2172,10 +2172,10 @@
 		E9A022AB291D0E1C004317DB /* TopicsRepetitions */ = {
 			isa = PBXGroup;
 			children = (
+				E9859B90292E414300857679 /* RepeatButtonInfo.swift */,
 				E99CD0B9292B982400620259 /* TopicsRepetitionsAssembly.swift */,
 				E99CD0BB292B9A2D00620259 /* TopicsRepetitionsViewModel.swift */,
 				E9A022AC291D0E2D004317DB /* Views */,
-				E9859B90292E414300857679 /* RepeatButtonInfo.swift */,
 			);
 			path = TopicsRepetitions;
 			sourceTree = "<group>";

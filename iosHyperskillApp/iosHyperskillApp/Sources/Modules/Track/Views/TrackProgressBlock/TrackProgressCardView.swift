@@ -64,7 +64,7 @@ struct TrackProgressCardView_Previews: PreviewProvider {
             TrackProgressCardView(
                 title: "48 / 149",
                 imageName: Images.Track.About.topic,
-                progress: 0.322147651,
+                progress: 0.322_147_651,
                 subtitle: "Completed topics"
             )
         }
