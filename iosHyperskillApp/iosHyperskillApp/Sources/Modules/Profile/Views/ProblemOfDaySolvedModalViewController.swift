@@ -104,7 +104,8 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
         titleView.text = Strings.StepQuiz.ProblemOfDaySolvedModal.title
         titleView.font = .preferredFont(forTextStyle: .largeTitle, compatibleWith: .init(legibilityWeight: .bold))
         titleView.textColor = .primaryText
-        titleView.numberOfLines = 2
+        titleView.lineBreakMode = .byWordWrapping
+        titleView.numberOfLines = 0
 
         titleView.translatesAutoresizingMaskIntoConstraints = false
         contentStackView?.addArrangedSubview(titleView)
