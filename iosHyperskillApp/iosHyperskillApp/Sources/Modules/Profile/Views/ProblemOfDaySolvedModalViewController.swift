@@ -176,6 +176,9 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
 
         goBackButton.addTarget(self, action: #selector(goBackButtonTapped), for: .touchUpInside)
 
+        goBackButton.snp.makeConstraints { make in
+            make.height.equalTo(appearance.goBackButtonHeight)
+        }
         goBackButton.translatesAutoresizingMaskIntoConstraints = false
         contentStackView?.addArrangedSubview(goBackButton)
     }
