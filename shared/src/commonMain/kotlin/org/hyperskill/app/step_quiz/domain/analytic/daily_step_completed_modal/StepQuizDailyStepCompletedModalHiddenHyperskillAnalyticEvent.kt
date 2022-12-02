@@ -1,4 +1,4 @@
-package org.hyperskill.app.step_quiz.domain.analytic
+package org.hyperskill.app.step_quiz.domain.analytic.daily_step_completed_modal
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -6,11 +6,11 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
-class StepQuizClickedGoBackHyperskillAnalyticEvent(
+class StepQuizDailyStepCompletedModalHiddenHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute
 ) : HyperskillAnalyticEvent(
     route,
-    HyperskillAnalyticAction.CLICK,
+    HyperskillAnalyticAction.HIDDEN,
     HyperskillAnalyticPart.DAILY_STEP_COMPLETED_MODAL,
-    HyperskillAnalyticTarget.GO_BACK
+    HyperskillAnalyticTarget.CLOSE
 )

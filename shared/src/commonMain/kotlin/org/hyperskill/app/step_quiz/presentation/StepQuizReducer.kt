@@ -10,9 +10,9 @@ import org.hyperskill.app.step_quiz.domain.analytic.StepQuizShownDailyNotificati
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedSendHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRunHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRetryHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedGoBackHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.StepQuizDailyStepCompletedModalHiddenHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.StepQuizDailyStepCompletedModalShownHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.daily_step_completed_modal.StepQuizDailyStepCompletedModalClickedGoBackHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.daily_step_completed_modal.StepQuizDailyStepCompletedModalHiddenHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.daily_step_completed_modal.StepQuizDailyStepCompletedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.model.permissions.StepQuizUserPermissionRequest
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
@@ -138,7 +138,7 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 if (state is State.AttemptLoaded) {
                     state.copy(
                         submissionState = StepQuizFeature.SubmissionState.Loaded(message.submission)
-                    ) to if (message.isDailyProblem) setOf(Action.FetchGemsCount) else emptySet()
+                    ) to if (state.currentProfile.dailyStep == state.step.id) setOf(Action.FetchGemsCountAfterProblemOfDaySolved) else emptySet()
                 } else {
                     null
                 }
@@ -210,10 +210,8 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
-            is Message.FetchGemsCountSuccess ->
+            is Message.FetchedGemsCountAfterProblemOfDaySolved ->
                 state to setOf(Action.ViewAction.ShowProblemOfDaySolvedModal(message.gemsCount))
-            is Message.FetchGemsCountNetworkError ->
-                state to setOf(Action.ViewAction.ShowNetworkError)
             is Message.ViewedEventMessage ->
                 state to setOf(Action.LogViewedEvent(message.stepId))
             is Message.ClickedCodeDetailsEventMessage ->
@@ -230,9 +228,9 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
-            is Message.ClickedGoBackEventMessage ->
+            is Message.DailyStepCompletedModalClickedGoBackEventMessage ->
                 if (state is State.AttemptLoaded) {
-                    val event = StepQuizClickedGoBackHyperskillAnalyticEvent(route = resolveAnalyticRoute(state))
+                    val event = StepQuizDailyStepCompletedModalClickedGoBackHyperskillAnalyticEvent(route = resolveAnalyticRoute(state))
                     state to setOf(Action.LogAnalyticEvent(event))
                 } else {
                     null

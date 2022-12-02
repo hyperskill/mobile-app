@@ -978,7 +978,6 @@
 				2C963BC32812D16C0036DD53 /* Home */,
 				E9F923F428A2632800C065A7 /* Onboarding */,
 				E9F655CF2875B31B00291143 /* ProblemOfDay */,
-				E9ACD33F293733F80005E05B /* ProblemOfDaySolvedModal */,
 				2C9EB95B2861BAAE007DDE44 /* Profile */,
 				2C963BC82812D3410036DD53 /* ProfileSettings */,
 				2CAE8CEE280525A100E6C83D /* Step */,
@@ -1230,6 +1229,7 @@
 		2C3796102876FC3E00C197E2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E9ACD3402937342F0005E05B /* ProblemOfDaySolvedModalViewController.swift */,
 				2C3796112877001700C197E2 /* ProfileHeaderView.swift */,
 				2C9EB95C2861BABC007DDE44 /* ProfileView.swift */,
 				2C4FBD8F2876C95200ACA5C8 /* About */,
@@ -2231,14 +2231,6 @@
 				E996D41529222F8E00A47498 /* TopicsRepetitionsChartView.swift */,
 			);
 			path = Chart;
-			sourceTree = "<group>";
-		};
-		E9ACD33F293733F80005E05B /* ProblemOfDaySolvedModal */ = {
-			isa = PBXGroup;
-			children = (
-				E9ACD3402937342F0005E05B /* ProblemOfDaySolvedModalViewController.swift */,
-			);
-			path = ProblemOfDaySolvedModal;
 			sourceTree = "<group>";
 		};
 		E9D2D66E284E0A5D000757AC /* StepQuizMatching */ = {

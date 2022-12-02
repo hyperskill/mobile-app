@@ -153,8 +153,8 @@ final class StepQuizViewModel: FeatureViewModel<
         onNewMessage(StepQuizFeatureMessageClickedRetryEventMessage())
     }
 
-    func logClickedGoBackEvent() {
-        onNewMessage(StepQuizFeatureMessageClickedGoBackEventMessage())
+    func logDailyStepCompletedModalClickedGoBackEvent() {
+        onNewMessage(StepQuizFeatureMessageDailyStepCompletedModalClickedGoBackEventMessage())
     }
 
     func logDailyStepCompletedModalShownEvent() {

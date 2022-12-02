@@ -117,19 +117,11 @@ class StepQuizActionDispatcher(
                 onNewMessage(Message.CreateSubmissionReplyValidationResult(action.step, action.reply, validationResult))
             }
             is Action.CreateSubmission -> {
-                val isDailyProblem = profileInteractor
-                    .getCurrentProfile()
-                    .getOrElse {
-                        onNewMessage(Message.CreateSubmissionNetworkError)
-                        return
-                    }
-                    .dailyStep == action.step.id
-
                 val message = stepQuizInteractor
                     .createSubmission(action.step.id, action.attemptId, action.reply)
                     .fold(
                         onSuccess = { newSubmission ->
-                            Message.CreateSubmissionSuccess(newSubmission, isDailyProblem)
+                            Message.CreateSubmissionSuccess(newSubmission)
                         },
                         onFailure = {
                             Message.CreateSubmissionNetworkError
@@ -154,15 +146,14 @@ class StepQuizActionDispatcher(
                     }
                 }
             }
-            is Action.FetchGemsCount -> {
+            is Action.FetchGemsCountAfterProblemOfDaySolved -> {
                 val currentProfile = profileInteractor
                     .getCurrentProfile(DataSourceType.REMOTE)
                     .getOrElse {
-                        onNewMessage(Message.FetchGemsCountNetworkError)
                         return
                     }
 
-                onNewMessage(Message.FetchGemsCountSuccess(currentProfile.gamification.hypercoins))
+                onNewMessage(Message.FetchedGemsCountAfterProblemOfDaySolved(currentProfile.gamification.hypercoins))
             }
             is Action.LogViewedEvent -> {
                 val currentProfile = profileInteractor

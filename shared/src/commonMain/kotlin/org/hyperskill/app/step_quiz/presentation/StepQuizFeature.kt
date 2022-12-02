@@ -57,7 +57,7 @@ interface StepQuizFeature {
          * Submit submission
          */
         data class CreateSubmissionClicked(val step: Step, val reply: Reply) : Message
-        data class CreateSubmissionSuccess(val submission: Submission, val isDailyProblem: Boolean) : Message
+        data class CreateSubmissionSuccess(val submission: Submission) : Message
         object CreateSubmissionNetworkError : Message
         data class CreateSubmissionReplyValidationResult(
             val step: Step,
@@ -82,8 +82,7 @@ interface StepQuizFeature {
          * Show actual gems
          */
 
-        data class FetchGemsCountSuccess(val gemsCount: Long) : Message
-        object FetchGemsCountNetworkError : Message
+        data class FetchedGemsCountAfterProblemOfDaySolved(val gemsCount: Long) : Message
 
         /**
          * Analytic
@@ -91,7 +90,7 @@ interface StepQuizFeature {
         data class ViewedEventMessage(val stepId: Long) : Message
         object ClickedCodeDetailsEventMessage : Message
         object ClickedRetryEventMessage : Message
-        object ClickedGoBackEventMessage : Message
+        object DailyStepCompletedModalClickedGoBackEventMessage : Message
         object DailyStepCompletedModalShownEventMessage : Message
         object DailyStepCompletedModalHiddenEventMessage : Message
     }
@@ -113,7 +112,7 @@ interface StepQuizFeature {
             val isGranted: Boolean
         ) : Action
 
-        object FetchGemsCount : Action
+        object FetchGemsCountAfterProblemOfDaySolved : Action
 
         /**
          * Analytic
