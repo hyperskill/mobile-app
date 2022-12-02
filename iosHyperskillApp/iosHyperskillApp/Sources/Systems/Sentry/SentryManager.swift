@@ -5,6 +5,8 @@ import shared
 final class SentryManager: shared.SentryManager {
     static let shared = SentryManager()
 
+    private var currentTransactionsDict = [UInt: PlatformHyperskillSentryTransaction]()
+
     // MARK: - Protocol Conforming -
 
     func setup() {
@@ -61,5 +63,34 @@ final class SentryManager: shared.SentryManager {
 
     func clearCurrentUser() {
         SentrySDK.setUser(nil)
+    }
+
+    // MARK: Transactions
+
+    func containsOngoingTransaction(transaction: HyperskillSentryTransaction) -> Bool {
+        currentTransactionsDict[mapTransactionToKey(transaction)] != nil
+    }
+
+    func startTransaction(transaction: HyperskillSentryTransaction) {
+        let span = SentrySDK.startTransaction(name: transaction.name, operation: transaction.operation)
+        let platformTransaction = PlatformHyperskillSentryTransaction(
+            span: span,
+            name: transaction.name,
+            operation_: transaction.operation
+        )
+        currentTransactionsDict[mapTransactionToKey(platformTransaction)] = platformTransaction
+    }
+
+    func finishTransaction(transaction: HyperskillSentryTransaction, throwable: KotlinThrowable?) {
+        guard let platformTransaction = currentTransactionsDict[mapTransactionToKey(transaction)] else {
+            return
+        }
+
+        platformTransaction.span.finish(status: throwable != nil ? .unknownError : .ok)
+        currentTransactionsDict.removeValue(forKey: mapTransactionToKey(platformTransaction))
+    }
+
+    private func mapTransactionToKey(_ transaction: HyperskillSentryTransaction) -> UInt {
+        transaction.hash()
     }
 }

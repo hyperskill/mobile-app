@@ -100,6 +100,7 @@
 		2C2FF9C928506FDE0069C092 /* LatexView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2FF9C828506FDE0069C092 /* LatexView.swift */; };
 		2C32374D2837F7190062CAF6 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C32374C2837F7190062CAF6 /* Images.swift */; };
 		2C32375328380C340062CAF6 /* NavigationToolbarInfoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C32375228380C340062CAF6 /* NavigationToolbarInfoItem.swift */; };
+		2C334D112939E24C008593F1 /* PlatformHyperskillSentryTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C334D102939E24C008593F1 /* PlatformHyperskillSentryTransaction.swift */; };
 		2C336D102865BF4200C91342 /* CodeEditorThemeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C336D0F2865BF4200C91342 /* CodeEditorThemeService.swift */; };
 		2C336D132865C47900C91342 /* ApplicationTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C336D122865C47900C91342 /* ApplicationTheme.swift */; };
 		2C336D152865C49D00C91342 /* ApplicationThemeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C336D142865C49D00C91342 /* ApplicationThemeService.swift */; };
@@ -485,6 +486,7 @@
 		2C2FF9C828506FDE0069C092 /* LatexView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatexView.swift; sourceTree = "<group>"; };
 		2C32374C2837F7190062CAF6 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		2C32375228380C340062CAF6 /* NavigationToolbarInfoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationToolbarInfoItem.swift; sourceTree = "<group>"; };
+		2C334D102939E24C008593F1 /* PlatformHyperskillSentryTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformHyperskillSentryTransaction.swift; sourceTree = "<group>"; };
 		2C336D0F2865BF4200C91342 /* CodeEditorThemeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeEditorThemeService.swift; sourceTree = "<group>"; };
 		2C336D122865C47900C91342 /* ApplicationTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationTheme.swift; sourceTree = "<group>"; };
 		2C336D142865C49D00C91342 /* ApplicationThemeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationThemeService.swift; sourceTree = "<group>"; };
@@ -1180,6 +1182,15 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		2C334D0F2939E0FC008593F1 /* Sentry */ = {
+			isa = PBXGroup;
+			children = (
+				2C334D102939E24C008593F1 /* PlatformHyperskillSentryTransaction.swift */,
+				2C2FD61D28191EC0004E7AF6 /* SentryManager.swift */,
+			);
+			path = Sentry;
+			sourceTree = "<group>";
+		};
 		2C336D0E2865BF3200C91342 /* CodeEditorTheme */ = {
 			isa = PBXGroup;
 			children = (
@@ -1487,7 +1498,7 @@
 				2C9CC1BC280920B5006604D7 /* KeyboardManager.swift */,
 				2C27C77D28773042006A641A /* NukeManager.swift */,
 				2C906CBD280E5D9C0079C594 /* ProgressHUD.swift */,
-				2C2FD61D28191EC0004E7AF6 /* SentryManager.swift */,
+				2C334D0F2939E0FC008593F1 /* Sentry */,
 			);
 			path = Systems;
 			sourceTree = "<group>";
@@ -2876,6 +2887,7 @@
 				2C7802C5285C93F900082547 /* StepQuizActionButtonState+SubmissionStatus.swift in Sources */,
 				2CF43414281281DB002893CD /* AuthTextField.swift in Sources */,
 				2CD48D852858638A00CFCC4A /* StepQuizAssembly.swift in Sources */,
+				2C334D112939E24C008593F1 /* PlatformHyperskillSentryTransaction.swift in Sources */,
 				2C079685285CFFEE00EE0487 /* StepQuizSortingViewModel.swift in Sources */,
 				E94A6D0B28748C3E005F9ACC /* StreakIcon.swift in Sources */,
 				2CD3652C287987FA00D61855 /* ProfileSocialAccount.swift in Sources */,

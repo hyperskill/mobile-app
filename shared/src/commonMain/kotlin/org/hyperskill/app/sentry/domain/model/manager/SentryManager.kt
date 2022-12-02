@@ -2,6 +2,7 @@ package org.hyperskill.app.sentry.domain.model.manager
 
 import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcrumb
 import org.hyperskill.app.sentry.domain.model.level.HyperskillSentryLevel
+import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransaction
 
 /**
  * Represents a protocol that both platforms should implement.
@@ -49,4 +50,30 @@ interface SentryManager {
      *  Clears the currently set user.
      */
     fun clearCurrentUser()
+
+    /**
+     * Checks for the specified transaction.
+     *
+     * @param transaction The transaction to search for.
+     * @return Returns true if contains the specified transaction.
+     * @see HyperskillSentryTransaction
+     */
+    fun containsOngoingTransaction(transaction: HyperskillSentryTransaction): Boolean
+
+    /**
+     * Creates a transaction, started transaction is set on the scope.
+     *
+     * @param transaction The transaction info used to create platform Sentry transaction.
+     * @see HyperskillSentryTransaction
+     */
+    fun startTransaction(transaction: HyperskillSentryTransaction)
+
+    /**
+     * Finishes the transaction by setting the end time and status.
+     *
+     * @param transaction The transaction info.
+     * @param throwable The throwable that was thrown during the execution of the transaction.
+     * @see HyperskillSentryTransaction
+     */
+    fun finishTransaction(transaction: HyperskillSentryTransaction, throwable: Throwable? = null)
 }

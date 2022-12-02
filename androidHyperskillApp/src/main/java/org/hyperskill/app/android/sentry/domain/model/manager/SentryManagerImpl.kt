@@ -2,19 +2,24 @@ package org.hyperskill.app.android.sentry.domain.model.manager
 
 import io.sentry.Sentry
 import io.sentry.SentryLevel
+import io.sentry.SpanStatus
 import io.sentry.android.core.SentryAndroid
 import io.sentry.android.fragment.FragmentLifecycleIntegration
 import io.sentry.protocol.User
 import org.hyperskill.app.android.BuildConfig
 import org.hyperskill.app.android.HyperskillApp
+import org.hyperskill.app.android.sentry.domain.model.transaction.PlatformHyperskillSentryTransaction
 import org.hyperskill.app.android.sentry.extensions.Breadcrumb
 import org.hyperskill.app.android.sentry.extensions.toSentryLevel
 import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcrumb
 import org.hyperskill.app.sentry.domain.model.level.HyperskillSentryLevel
 import org.hyperskill.app.sentry.domain.model.manager.SentryManager
+import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransaction
 
 class SentryManagerImpl : SentryManager {
+    private val currentTransactionsMap = mutableMapOf<Int, PlatformHyperskillSentryTransaction>()
+
     override fun setup() {
         SentryAndroid.init(HyperskillApp.application) { options ->
             options.dsn = BuildConfig.SENTRY_DSN
@@ -62,4 +67,30 @@ class SentryManagerImpl : SentryManager {
             scope.user = null
         }
     }
+
+    override fun containsOngoingTransaction(transaction: HyperskillSentryTransaction): Boolean =
+        currentTransactionsMap.containsKey(mapTransactionInfoToKey(transaction))
+
+    override fun startTransaction(transaction: HyperskillSentryTransaction) {
+        val sentryTransaction = Sentry.startTransaction(transaction.name, transaction.operation)
+        val platformTransaction = PlatformHyperskillSentryTransaction(sentryTransaction)
+        currentTransactionsMap[mapTransactionInfoToKey(platformTransaction)] = platformTransaction
+    }
+
+    override fun finishTransaction(transaction: HyperskillSentryTransaction, throwable: Throwable?) {
+        val platformTransaction = currentTransactionsMap[mapTransactionInfoToKey(transaction)] ?: return
+
+        if (throwable != null) {
+            platformTransaction.transaction.throwable = throwable
+            platformTransaction.transaction.status = SpanStatus.UNKNOWN_ERROR
+        } else {
+            platformTransaction.transaction.status = SpanStatus.OK
+        }
+
+        platformTransaction.transaction.finish()
+        currentTransactionsMap.remove(mapTransactionInfoToKey(platformTransaction))
+    }
+
+    private fun mapTransactionInfoToKey(transactionInfo: HyperskillSentryTransaction): Int =
+        transactionInfo.hashCode()
 }
