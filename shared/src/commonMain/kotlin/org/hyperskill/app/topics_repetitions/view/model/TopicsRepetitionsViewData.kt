@@ -1,8 +1,7 @@
 package org.hyperskill.app.topics_repetitions.view.model
 
 data class TopicsRepetitionsViewData(
-    val recommendedRepetitionsCount: Int,
-    val repeatButtonText: String?,
+    val repetitionsStatus: RepetitionsStatus,
     val chartData: List<Pair<String, Int>>,
     val chartDescription: String,
     val repeatBlockTitle: String,
