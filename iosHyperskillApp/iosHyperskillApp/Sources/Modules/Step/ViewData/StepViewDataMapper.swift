@@ -33,7 +33,7 @@ final class StepViewDataMapper {
     // MARK: Private API
 
     private func mapTimeToComplete(seconds: Double) -> String {
-        let minutesQuantityString = formatter.minutesOrSecondsCount(seconds: seconds)
+        let minutesQuantityString = formatter.minutesOrSecondsCount(seconds: seconds, roundingRule: .down)
 
         return self.resourceProvider.getString(
             stringResource: SharedResources.strings.shared.step_theory_reading_text,
