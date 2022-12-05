@@ -71,7 +71,7 @@ class TopicsRepetitionFragment :
             onNewMessage = topicsRepetitionViewModel::onNewMessage
         )
         with(viewBinding) {
-            homeScreenError.tryAgain.setOnClickListener {
+            topicsRepetitionError.tryAgain.setOnClickListener {
                 topicsRepetitionViewModel.onNewMessage(
                     TopicsRepetitionsFeature.Message.Initialize(
                         recommendedRepetitionsCount = recommendedRepetitionsCount,
@@ -84,9 +84,9 @@ class TopicsRepetitionFragment :
 
     private fun initViewStateDelegate() {
         viewStateDelegate = ViewStateDelegate<TopicsRepetitionsFeature.State>().apply {
-            addState<TopicsRepetitionsFeature.State.Idle>()
-            addState<TopicsRepetitionsFeature.State.Loading>(viewBinding.topicsRepetitionProgress)
-            addState<TopicsRepetitionsFeature.State.NetworkError>(viewBinding.homeScreenError.root)
+            addState<TopicsRepetitionsFeature.State.Idle>(viewBinding.topicsRepetitionSkeleton.root)
+            addState<TopicsRepetitionsFeature.State.Loading>(viewBinding.topicsRepetitionSkeleton.root)
+            addState<TopicsRepetitionsFeature.State.NetworkError>(viewBinding.topicsRepetitionError.root)
             addState<TopicsRepetitionsFeature.State.Content>(
                 viewBinding.topicsRepetitionAppBar,
                 viewBinding.topicsRepetitionContentNestedScroll
