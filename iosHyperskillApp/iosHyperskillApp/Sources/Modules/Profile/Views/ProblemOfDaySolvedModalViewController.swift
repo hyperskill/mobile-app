@@ -57,11 +57,6 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
         super.viewDidLoad()
 
         setup()
-
-        DispatchQueue.main.async {
-            self.panModalSetNeedsLayoutUpdate()
-            self.panModalTransition(to: .shortForm)
-        }
     }
 
     // MARK: Private API
