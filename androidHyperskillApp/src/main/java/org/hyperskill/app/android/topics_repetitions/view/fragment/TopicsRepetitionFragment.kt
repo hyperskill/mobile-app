@@ -16,6 +16,7 @@ import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetit
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionHeaderDelegate
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionListDelegate
 import org.hyperskill.app.android.topics_repetitions.view.model.TopicsRepetitionChartState
+import org.hyperskill.app.android.topics_repetitions.view.model.TopicsRepetitionListState
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionViewModel
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature
 import org.hyperskill.app.topics_repetitions.view.mapper.TopicsRepetitionsViewDataMapper
@@ -125,11 +126,22 @@ class TopicsRepetitionFragment :
                     state = viewState.repetitionsStatus
                 )
                 topicsRepetitionListDelegate?.render(
-                    repeatBlockTitle = viewState.repeatBlockTitle,
-                    trackTopicsTitle = viewState.trackTopicsTitle,
-                    topicsToRepeat = viewState.topicsToRepeat,
-                    topicsToRepeatWillLoadedCount = viewState.topicsToRepeatWillLoadedCount,
-                    showMoreButtonState = viewState.showMoreButtonState
+                    previousState = this@TopicsRepetitionFragment.viewState?.let {
+                        TopicsRepetitionListState(
+                            repeatBlockTitle = it.repeatBlockTitle,
+                            trackTopicsTitle = it.trackTopicsTitle,
+                            topicsToRepeat = it.topicsToRepeat,
+                            topicsToRepeatWillLoadedCount = it.topicsToRepeatWillLoadedCount,
+                            showMoreButtonState = it.showMoreButtonState
+                        )
+                    },
+                    state = TopicsRepetitionListState(
+                        repeatBlockTitle = viewState.repeatBlockTitle,
+                        trackTopicsTitle = viewState.trackTopicsTitle,
+                        topicsToRepeat = viewState.topicsToRepeat,
+                        topicsToRepeatWillLoadedCount = viewState.topicsToRepeatWillLoadedCount,
+                        showMoreButtonState = viewState.showMoreButtonState
+                    )
                 )
                 TopicsRepetitionChartCardDelegate.render(
                     binding = viewBinding.topicsRepetitionHeader.topicsRepetitionChart,

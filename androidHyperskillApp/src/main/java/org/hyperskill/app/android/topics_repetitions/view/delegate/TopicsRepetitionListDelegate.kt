@@ -8,9 +8,9 @@ import org.hyperskill.app.android.core.view.ui.adapter.decoration.HorizontalMarg
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.VerticalMarginItemDecoration
 import org.hyperskill.app.android.databinding.LayoutTopicsRepetitionTopicsListBinding
 import org.hyperskill.app.android.topics_repetitions.view.model.TopicsRepetitionListItem
+import org.hyperskill.app.android.topics_repetitions.view.model.TopicsRepetitionListState
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature
 import org.hyperskill.app.topics_repetitions.view.model.ShowMoreButtonState
-import org.hyperskill.app.topics_repetitions.view.model.TopicToRepeat
 import ru.nobird.android.ui.adapterdelegates.dsl.adapterDelegate
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
@@ -58,25 +58,24 @@ class TopicsRepetitionListDelegate(
         }
     }
 
-    fun render(
-        repeatBlockTitle: String,
-        trackTopicsTitle: String,
-        topicsToRepeat: List<TopicToRepeat>,
-        showMoreButtonState: ShowMoreButtonState,
-        topicsToRepeatWillLoadedCount: Int
-    ) {
+    fun render(previousState: TopicsRepetitionListState?, state: TopicsRepetitionListState) {
+        if (previousState == state) return
         with(binding) {
-            root.isVisible = topicsToRepeat.isNotEmpty()
-            topicsListTitleTextView.setTextIfChanged(repeatBlockTitle)
-            topicsListTrackTitleTextView.setTextIfChanged(trackTopicsTitle)
-            topicsListsShowMoreButton.isVisible = showMoreButtonState == ShowMoreButtonState.AVAILABLE
-            topicsListRecyclerView.isVisible = topicsToRepeat.isNotEmpty()
-            if (topicsToRepeat.isNotEmpty()) {
+            root.isVisible = state.topicsToRepeat.isNotEmpty()
+            topicsListTitleTextView.setTextIfChanged(state.repeatBlockTitle)
+            topicsListTrackTitleTextView.setTextIfChanged(state.trackTopicsTitle)
+
+            if (previousState?.showMoreButtonState != state.showMoreButtonState) {
+                topicsListsShowMoreButton.isVisible =
+                    state.showMoreButtonState == ShowMoreButtonState.AVAILABLE
+            }
+            topicsListRecyclerView.isVisible = state.topicsToRepeat.isNotEmpty()
+            if (state.topicsToRepeat.isNotEmpty() && (previousState?.topicsToRepeat != state.topicsToRepeat || previousState.showMoreButtonState != state.showMoreButtonState)) {
                 topicsDelegate.items = buildList {
-                    addAll(topicsToRepeat.map(TopicsRepetitionListItem::Topic))
-                    if (showMoreButtonState == ShowMoreButtonState.LOADING) {
+                    addAll(state.topicsToRepeat.map(TopicsRepetitionListItem::Topic))
+                    if (state.showMoreButtonState == ShowMoreButtonState.LOADING) {
                         addAll(
-                            List(topicsToRepeatWillLoadedCount) {
+                            List(state.topicsToRepeatWillLoadedCount) {
                                 TopicsRepetitionListItem.LoadingStub
                             }
                         )
