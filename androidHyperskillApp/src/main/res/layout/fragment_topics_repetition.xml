@@ -40,10 +40,18 @@
             >
 
             <include
-                android:id="@+id/topics_repetition_header"
+                android:id="@+id/topicsRepetitionHeader"
                 layout="@layout/layout_topics_repetition_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                />
+
+            <include
+                android:id="@+id/topicsList"
+                layout="@layout/layout_topics_repetition_topics_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 />
 
             <include

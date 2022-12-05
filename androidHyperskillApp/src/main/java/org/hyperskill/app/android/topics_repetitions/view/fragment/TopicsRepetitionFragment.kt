@@ -13,6 +13,7 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentTopicsRepetitionBinding
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionHeaderDelegate
+import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionListDelegate
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionViewModel
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature
 import org.hyperskill.app.topics_repetitions.view.mapper.TopicsRepetitionsViewDataMapper
@@ -43,6 +44,8 @@ class TopicsRepetitionFragment :
 
     private var viewDataMapper: TopicsRepetitionsViewDataMapper? = null
 
+    private var topicsRepetitionListDelegate: TopicsRepetitionListDelegate? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponent()
@@ -58,6 +61,10 @@ class TopicsRepetitionFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewStateDelegate()
+        topicsRepetitionListDelegate = TopicsRepetitionListDelegate(
+            viewBinding.topicsList,
+            onNewMessage = topicsRepetitionViewModel::onNewMessage
+        )
         with(viewBinding) {
             homeScreenError.tryAgain.setOnClickListener {
                 topicsRepetitionViewModel.onNewMessage(
@@ -85,6 +92,7 @@ class TopicsRepetitionFragment :
     override fun onDestroyView() {
         super.onDestroyView()
         viewStateDelegate = null
+        topicsRepetitionListDelegate = null
     }
 
     override fun onAction(action: TopicsRepetitionsFeature.Action.ViewAction) {
@@ -103,6 +111,13 @@ class TopicsRepetitionFragment :
                     requireContext(),
                     viewBinding.topicsRepetitionHeader,
                     viewState.repetitionsStatus
+                )
+                topicsRepetitionListDelegate?.render(
+                    repeatBlockTitle = viewState.repeatBlockTitle,
+                    trackTopicsTitle = viewState.trackTopicsTitle,
+                    topicsToRepeat = viewState.topicsToRepeat,
+                    topicsToRepeatWillLoadedCount = viewState.topicsToRepeatWillLoadedCount,
+                    showMoreButtonState = viewState.showMoreButtonState
                 )
             }
         }

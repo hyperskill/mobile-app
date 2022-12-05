@@ -54,6 +54,5 @@ object TopicsRepetitionHeaderDelegate {
                 topicsRepetitionRepeatButton.text = buttonText
             }
         }
-
     }
 }
