@@ -4,14 +4,26 @@ import android.content.Context
 import androidx.core.view.isVisible
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.LayoutTopicsRepetitionHeaderBinding
+import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature
 import org.hyperskill.app.topics_repetitions.view.model.RepetitionsStatus
 
-object TopicsRepetitionHeaderDelegate {
+class TopicsRepetitionHeaderDelegate(
+    private val binding: LayoutTopicsRepetitionHeaderBinding,
+    private val onNewMessage: (TopicsRepetitionsFeature.Message) -> Unit
+) {
+
+    init {
+        binding.topicsRepetitionRepeatButton.setOnClickListener {
+            onNewMessage(TopicsRepetitionsFeature.Message.RepeatNextTopicClicked)
+        }
+    }
+
     fun render(
         context: Context,
-        binding: LayoutTopicsRepetitionHeaderBinding,
+        previousState: RepetitionsStatus?,
         state: RepetitionsStatus
     ) {
+        if (previousState == state) return
         with(binding) {
             with(topicRepetitionsTitle) {
                 setText(

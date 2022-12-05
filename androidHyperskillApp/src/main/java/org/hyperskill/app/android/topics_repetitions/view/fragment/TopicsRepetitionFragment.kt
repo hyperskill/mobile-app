@@ -48,6 +48,7 @@ class TopicsRepetitionFragment :
     private var viewDataMapper: TopicsRepetitionsViewDataMapper? = null
 
     private var topicsRepetitionListDelegate: TopicsRepetitionListDelegate? = null
+    private var topicsRepetitionHeaderDelegate: TopicsRepetitionHeaderDelegate? = null
 
     private var viewState: TopicsRepetitionsViewData? = null
 
@@ -68,6 +69,10 @@ class TopicsRepetitionFragment :
         initViewStateDelegate()
         topicsRepetitionListDelegate = TopicsRepetitionListDelegate(
             viewBinding.topicsList,
+            onNewMessage = topicsRepetitionViewModel::onNewMessage
+        )
+        topicsRepetitionHeaderDelegate = TopicsRepetitionHeaderDelegate(
+            viewBinding.topicsRepetitionHeader,
             onNewMessage = topicsRepetitionViewModel::onNewMessage
         )
         with(viewBinding) {
@@ -98,6 +103,7 @@ class TopicsRepetitionFragment :
         super.onDestroyView()
         viewStateDelegate = null
         topicsRepetitionListDelegate = null
+        topicsRepetitionHeaderDelegate = null
         viewState = null
     }
 
@@ -113,11 +119,10 @@ class TopicsRepetitionFragment :
                 val viewState = withContext(Dispatchers.Default) {
                     mapper.mapStateToViewData(state)
                 }
-                TopicsRepetitionHeaderDelegate.render(
-                    requireContext(),
-                    viewBinding.topicsRepetitionHeader,
-                    this@TopicsRepetitionFragment.viewState?.repetitionsStatus,
-                    viewState.repetitionsStatus
+                topicsRepetitionHeaderDelegate?.render(
+                    context = requireContext(),
+                    previousState = this@TopicsRepetitionFragment.viewState?.repetitionsStatus,
+                    state = viewState.repetitionsStatus
                 )
                 topicsRepetitionListDelegate?.render(
                     repeatBlockTitle = viewState.repeatBlockTitle,
@@ -127,7 +132,7 @@ class TopicsRepetitionFragment :
                     showMoreButtonState = viewState.showMoreButtonState
                 )
                 TopicsRepetitionChartCardDelegate.render(
-                    viewBinding.topicsRepetitionHeader.topicsRepetitionChart,
+                    binding = viewBinding.topicsRepetitionHeader.topicsRepetitionChart,
                     previousState = this@TopicsRepetitionFragment.viewState?.let {
                         TopicsRepetitionChartState(it.chartData, it.chartDescription)
                     },

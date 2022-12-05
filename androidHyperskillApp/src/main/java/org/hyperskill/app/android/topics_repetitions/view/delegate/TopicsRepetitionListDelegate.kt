@@ -66,6 +66,7 @@ class TopicsRepetitionListDelegate(
         topicsToRepeatWillLoadedCount: Int
     ) {
         with(binding) {
+            root.isVisible = topicsToRepeat.isNotEmpty()
             topicsListTitleTextView.setTextIfChanged(repeatBlockTitle)
             topicsListTrackTitleTextView.setTextIfChanged(trackTopicsTitle)
             topicsListsShowMoreButton.isVisible = showMoreButtonState == ShowMoreButtonState.AVAILABLE
@@ -91,7 +92,9 @@ class TopicsRepetitionListDelegate(
         ) {
             val title = itemView.findViewById<TextView>(R.id.topicTitle)
             itemView.setOnClickListener {
-                TODO("Not implemented")
+                item?.let {
+                    onNewMessage(TopicsRepetitionsFeature.Message.RepeatTopicClicked(stepId = it.topic.stepId))
+                }
             }
 
             onBind { item ->
