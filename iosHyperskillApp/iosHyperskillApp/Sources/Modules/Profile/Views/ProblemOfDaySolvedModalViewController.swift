@@ -38,9 +38,7 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
 
     override var shortFormHeight: PanModalHeight {
         let contentStackViewSize = contentStackView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
-        let height = appearance.contentStackViewInsets.top +
-            contentStackViewSize.height +
-            appearance.contentStackViewInsets.bottom
+        let height = appearance.contentStackViewInsets.top + contentStackViewSize.height
         return .contentHeight(height)
     }
 
@@ -57,6 +55,15 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
         super.viewDidLoad()
 
         setup()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        DispatchQueue.main.async {
+            self.panModalSetNeedsLayoutUpdate()
+            self.panModalTransition(to: .shortForm)
+        }
     }
 
     // MARK: Private API
