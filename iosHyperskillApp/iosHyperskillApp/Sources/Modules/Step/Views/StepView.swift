@@ -57,7 +57,9 @@ struct StepView: View {
                 viewData: viewModel.makeViewData(data.step)
             )
         case Step.Type_.practice:
-            StepQuizAssembly(step: data.step).makeModule()
+            StepQuizAssembly(step: data.step)
+                .makeModule()
+                .environmentObject(PanModalPresenter())
         default:
             Text("Unkwown state")
         }

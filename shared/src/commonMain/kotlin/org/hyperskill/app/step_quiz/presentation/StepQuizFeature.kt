@@ -79,11 +79,20 @@ interface StepQuizFeature {
         ) : Message
 
         /**
+         * Show problem of day solve modal
+         */
+
+        data class ShowProblemOfDaySolvedModal(val gemsCount: Int) : Message
+
+        /**
          * Analytic
          */
         data class ViewedEventMessage(val stepId: Long) : Message
         object ClickedCodeDetailsEventMessage : Message
         object ClickedRetryEventMessage : Message
+        object DailyStepCompletedModalClickedGoBackEventMessage : Message
+        object DailyStepCompletedModalShownEventMessage : Message
+        object DailyStepCompletedModalHiddenEventMessage : Message
     }
 
     sealed interface Action {
@@ -113,6 +122,8 @@ interface StepQuizFeature {
             object ShowNetworkError : ViewAction // error
 
             data class RequestUserPermission(val userPermissionRequest: StepQuizUserPermissionRequest) : ViewAction
+
+            data class ShowProblemOfDaySolvedModal(val gemsCount: Int) : ViewAction
 
             sealed interface NavigateTo : ViewAction {
                 object Back : NavigateTo

@@ -32,6 +32,25 @@ class StepQuizActionDispatcher(
             notificationInteractor.solvedStepsSharedFlow.collect {
                 if (notificationInteractor.isRequiredToAskUserToEnableDailyReminders()) {
                     onNewMessage(Message.RequestUserPermission(StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS))
+                } else {
+                    val currentProfile = profileInteractor
+                        .getCurrentProfile(sourceType = DataSourceType.CACHE)
+                        .getOrElse {
+                            return@collect
+                        }
+
+                    if (currentProfile.dailyStep == it) {
+                        onNewMessage(
+                            Message.ShowProblemOfDaySolvedModal(
+                                profileInteractor
+                                    .getCurrentProfile(sourceType = DataSourceType.REMOTE)
+                                    .getOrElse {
+                                        return@collect
+                                    }
+                                    .gamification.hypercoins
+                            )
+                        )
+                    }
                 }
             }
         }

@@ -92,6 +92,14 @@ enum Strings {
             static let reportAlertText = sharedStrings.step_quiz_hints_report_alert_text.localized()
             static let showMore = sharedStrings.step_quiz_hints_show_more_text.localized()
         }
+
+        enum ProblemOfDaySolvedModal {
+            static let title = sharedStrings.step_quiz_problem_of_day_solved_modal_title.localized()
+            static let text = sharedStrings.step_quiz_problem_of_day_solved_modal_text.localized()
+            static let totalGems = sharedStrings.step_quiz_problem_of_day_solved_modal_total_gems.localized()
+            static let goButtonText =
+                sharedStrings.step_quiz_problem_of_day_solved_modal_go_back_button_text.localized()
+        }
     }
 
     // MARK: - StepQuizChoice -

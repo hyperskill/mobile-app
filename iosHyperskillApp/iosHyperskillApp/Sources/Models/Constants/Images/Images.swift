@@ -55,6 +55,11 @@ enum Images {
             static let helpfulReaction = "step_quiz_hints_helpful_reaction"
             static let unhelpfulReaction = "step_quiz_hints_unhelpful_reaction"
         }
+
+        enum ProblemOfDaySolvedModal {
+            static let book = "problem-of-day-solved-modal-book"
+            static let gemsBadge = "problem-of-day-solved-modal-gems-badge"
+        }
     }
 
     // MARK: - Track -

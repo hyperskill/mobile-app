@@ -19,4 +19,6 @@ enum class HyperskillAnalyticPart(val partName: String) {
     DAILY_NOTIFICATIONS_NOTICE("daily_notifications_notice"),
     STEP_HINTS("step_hints"),
     THEORY_TO_DISCOVER_NEXT("theory_to_discover_next"),
+    DAILY_STEP_COMPLETED_MODAL("daily_step_completed_modal"),
+    MODAL("modal"),
 }

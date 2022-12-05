@@ -38,19 +38,11 @@ final class TopicsRepetitionsViewModel: FeatureViewModel<
         onNewMessage(TopicsRepetitionsFeatureMessageShowMoreButtonClicked())
     }
 
-    func doTopicStepQuizPresentation(stepID: Int64) {
-        mainScheduler.schedule {
-            self.onViewAction?(TopicsRepetitionsFeatureActionViewActionNavigateToStepScreen(stepId: stepID))
-        }
+    func repeatTopicClicked(stepID: Int64) {
+        onNewMessage(TopicsRepetitionsFeatureMessageRepeatTopicClicked())
     }
 
-    // MARK: Analytic
-
-    func logClickedRepeatNextTopicEvent() {
-        onNewMessage(TopicsRepetitionsFeatureMessageClickedRepeatNextTopicEventMessage())
-    }
-
-    func logClickedRepeatTopicEvent() {
-        onNewMessage(TopicsRepetitionsFeatureMessageClickedRepeatTopicEventMessage())
+    func repeatNextTopicClicked() {
+        onNewMessage(TopicsRepetitionsFeatureMessageRepeatNextTopicClicked())
     }
 }

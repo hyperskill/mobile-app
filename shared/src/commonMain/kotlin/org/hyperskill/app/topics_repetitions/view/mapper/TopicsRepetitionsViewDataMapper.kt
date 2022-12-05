@@ -7,6 +7,7 @@ import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsActio
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature
 import org.hyperskill.app.topics_repetitions.view.model.RepetitionsStatus
 import org.hyperskill.app.topics_repetitions.view.model.ShowMoreButtonState
+import org.hyperskill.app.topics_repetitions.view.model.TopicToRepeat
 import org.hyperskill.app.topics_repetitions.view.model.TopicsRepetitionsViewData
 
 class TopicsRepetitionsViewDataMapper(
@@ -16,21 +17,11 @@ class TopicsRepetitionsViewDataMapper(
         val allRepetitionsCount = state.topicsRepetitions.repetitions.count() + state.topicsToRepeat.count()
 
         return TopicsRepetitionsViewData(
-            repetitionsStatus = if (state.recommendedRepetitionsCount > 0) {
-                RepetitionsStatus.RecommendedTopicsAvailable(
-                    recommendedRepetitionsCount = state.recommendedRepetitionsCount,
-                    repeatButtonText = if (state.topicsToRepeat.isNotEmpty())
-                        resourceProvider.getString(
-                            SharedResources.strings.topics_repetitions_repeat_button_text,
-                            state.topicsToRepeat.first().title
-                        )
-                    else null
-                )
-            } else if (allRepetitionsCount > 0) {
-                RepetitionsStatus.RecommendedTopicsRepeated
-            } else {
-                RepetitionsStatus.AllTopicsRepeated
-            },
+            repetitionsStatus = getRepetitionsStatus(
+                state.recommendedRepetitionsCount,
+                allRepetitionsCount,
+                state.topicsToRepeat.firstOrNull()
+            ),
             chartData = state.topicsRepetitions.repetitionsByCount.toList().sortedBy { it.first }
                 .map {
                     Pair(
@@ -96,4 +87,25 @@ class TopicsRepetitionsViewDataMapper(
             )
         }
     }
+
+    private fun getRepetitionsStatus(
+        recommendedRepetitionsCount: Int,
+        allRepetitionsCount: Int,
+        firstTopicToRepeat: TopicToRepeat?
+    ): RepetitionsStatus =
+        if (recommendedRepetitionsCount > 0) {
+            RepetitionsStatus.RecommendedTopicsAvailable(
+                recommendedRepetitionsCount = recommendedRepetitionsCount,
+                repeatButtonText = if (firstTopicToRepeat != null)
+                    resourceProvider.getString(
+                        SharedResources.strings.topics_repetitions_repeat_button_text,
+                        firstTopicToRepeat.title
+                    )
+                else null
+            )
+        } else if (allRepetitionsCount > 0) {
+            RepetitionsStatus.RecommendedTopicsRepeated
+        } else {
+            RepetitionsStatus.AllTopicsRepeated
+        }
 }
