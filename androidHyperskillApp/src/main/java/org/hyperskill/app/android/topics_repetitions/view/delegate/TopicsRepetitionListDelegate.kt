@@ -7,6 +7,7 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.HorizontalMarginItemDecoration
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.VerticalMarginItemDecoration
 import org.hyperskill.app.android.databinding.LayoutTopicsRepetitionTopicsListBinding
+import org.hyperskill.app.android.topics_repetitions.view.model.TopicsRepetitionListItem
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature
 import org.hyperskill.app.topics_repetitions.view.model.ShowMoreButtonState
 import org.hyperskill.app.topics_repetitions.view.model.TopicToRepeat
@@ -20,8 +21,9 @@ class TopicsRepetitionListDelegate(
 ) {
 
     private val topicsDelegate by lazy(LazyThreadSafetyMode.NONE) {
-        DefaultDelegateAdapter<TopicToRepeat>().apply {
+        DefaultDelegateAdapter<TopicsRepetitionListItem>().apply {
             addDelegate(topicsAdapterDelegate())
+            addDelegate(topicsSkeletonAdapterDelegate())
         }
     }
 
@@ -69,13 +71,22 @@ class TopicsRepetitionListDelegate(
             topicsListsShowMoreButton.isVisible = showMoreButtonState == ShowMoreButtonState.AVAILABLE
             topicsListRecyclerView.isVisible = topicsToRepeat.isNotEmpty()
             if (topicsToRepeat.isNotEmpty()) {
-                topicsDelegate.items = topicsToRepeat
+                topicsDelegate.items = buildList {
+                    addAll(topicsToRepeat.map(TopicsRepetitionListItem::Topic))
+                    if (showMoreButtonState == ShowMoreButtonState.LOADING) {
+                        addAll(
+                            List(topicsToRepeatWillLoadedCount) {
+                                TopicsRepetitionListItem.LoadingStub
+                            }
+                        )
+                    }
+                }
             }
         }
     }
 
     private fun topicsAdapterDelegate() =
-        adapterDelegate<TopicToRepeat, TopicToRepeat>(
+        adapterDelegate<TopicsRepetitionListItem, TopicsRepetitionListItem.Topic>(
             R.layout.item_topic_to_repeat
         ) {
             val title = itemView.findViewById<TextView>(R.id.topicTitle)
@@ -83,8 +94,13 @@ class TopicsRepetitionListDelegate(
                 TODO("Not implemented")
             }
 
-            onBind { topic ->
-                title.setTextIfChanged(topic.title)
+            onBind { item ->
+                title.setTextIfChanged(item.topic.title)
             }
         }
+
+    private fun topicsSkeletonAdapterDelegate() =
+        adapterDelegate<TopicsRepetitionListItem, TopicsRepetitionListItem.LoadingStub>(
+            R.layout.item_topics_to_repeat_skeleton
+        )
 }
