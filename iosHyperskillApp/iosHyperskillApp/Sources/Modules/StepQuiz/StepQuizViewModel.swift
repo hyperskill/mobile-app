@@ -152,6 +152,18 @@ final class StepQuizViewModel: FeatureViewModel<
     private func logClickedRetryEvent() {
         onNewMessage(StepQuizFeatureMessageClickedRetryEventMessage())
     }
+
+    func logDailyStepCompletedModalClickedGoBackEvent() {
+        onNewMessage(StepQuizFeatureMessageDailyStepCompletedModalClickedGoBackEventMessage())
+    }
+
+    func logDailyStepCompletedModalShownEvent() {
+        onNewMessage(StepQuizFeatureMessageDailyStepCompletedModalShownEventMessage())
+    }
+
+    func logDailyStepCompletedModalHiddenEvent() {
+        onNewMessage(StepQuizFeatureMessageDailyStepCompletedModalHiddenEventMessage())
+    }
 }
 
 // MARK: - StepQuizViewModel: StepQuizChildQuizDelegate -

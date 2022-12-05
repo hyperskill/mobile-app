@@ -20,6 +20,8 @@ struct StepQuizView: View {
 
     @EnvironmentObject var pushRouter: SwiftUIPushRouter
 
+    @EnvironmentObject var panModalPresenter: PanModalPresenter
+
     @Environment(\.presentationMode) private var presentationMode
 
     var body: some View {
@@ -248,10 +250,10 @@ struct StepQuizView: View {
     }
 
     private func handleViewAction(_ viewAction: StepQuizFeatureActionViewAction) {
-        switch viewAction {
-        case is StepQuizFeatureActionViewActionShowNetworkError:
+        switch StepQuizFeatureActionViewActionKs(viewAction) {
+        case .showNetworkError:
             ProgressHUD.showError(status: Strings.General.connectionError)
-        case let requestUserPermissionViewAction as StepQuizFeatureActionViewActionRequestUserPermission:
+        case .requestUserPermission(let requestUserPermissionViewAction):
             switch requestUserPermissionViewAction.userPermissionRequest {
             case StepQuizUserPermissionRequest.resetCode:
                 presentResetCodePermissionAlert()
@@ -260,10 +262,13 @@ struct StepQuizView: View {
             default:
                 break
             }
-        case is StepQuizFeatureActionViewActionNavigateToBack:
-            presentationMode.wrappedValue.dismiss()
-        default:
-            print("StepQuizView :: unhandled viewAction = \(viewAction)")
+        case .showProblemOfDaySolvedModal(let showProblemOfDaySolvedModalViewAction):
+            presentDailyStepCompletedModal(gemsCount: Int(showProblemOfDaySolvedModalViewAction.gemsCount))
+        case .navigateTo(let viewActionNavigateTo):
+            switch StepQuizFeatureActionViewActionNavigateToKs(viewActionNavigateTo) {
+            case .back:
+                presentationMode.wrappedValue.dismiss()
+            }
         }
     }
 }
@@ -325,5 +330,21 @@ extension StepQuizView {
         )
 
         modalRouter.presentAlert(alert)
+    }
+
+    private func presentDailyStepCompletedModal(gemsCount: Int) {
+        viewModel.logDailyStepCompletedModalShownEvent()
+
+        let panModal = ProblemOfDaySolvedModalViewController(
+            gemsCount: gemsCount,
+            onGoBackButtonTap: {
+                viewModel.logDailyStepCompletedModalClickedGoBackEvent()
+                viewModel.doQuizContinueAction()
+            }
+        )
+
+        panModal.onDisappear = viewModel.logDailyStepCompletedModalHiddenEvent
+
+        panModalPresenter.presentPanModal(panModal)
     }
 }
