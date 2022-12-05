@@ -6,36 +6,40 @@ extension ProblemOfDaySolvedModalViewController {
     struct Appearance {
         let backgroundColor = UIColor.systemBackground
 
-        let defaultPadding = LayoutInsets.largeInset
-        let largePadding: CGFloat = 32
+        let contentStackViewSpacing: CGFloat = 32
+        let contentStackViewInsets = LayoutInsets(
+            horizontal: LayoutInsets.defaultInset,
+            vertical: LayoutInsets.largeInset
+        )
 
-        let bookImageWidthMultiplier: CGFloat = 0.63
-        let bookImageHeightMultiplier: CGFloat = 0.22
+        let bookImageViewSizeRatio = CGSize(width: 0.63, height: 0.22)
 
         let gemsBadgeImageWidthHeight: CGFloat = 36
         let gemsBadgeSpacing: CGFloat = LayoutInsets.smallInset
 
         let goBackButtonHeight: CGFloat = 44
-
-        let contentHeight: CGFloat = 510
     }
 }
 
 final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewController {
     private(set) var appearance = Appearance()
 
-    private weak var contentStackView: UIStackView?
+    private lazy var contentStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = appearance.contentStackViewSpacing
+        stackView.alignment = .leading
+        stackView.distribution = .fill
+        return stackView
+    }()
 
     private let gemsCount: Int
     private let onGoBackButtonTap: () -> Void
 
     override var shortFormHeight: PanModalHeight {
-//        if let contentStackHeight = contentStackView?
-//            .systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
-//            .height {
-//            return .contentHeight(contentStackHeight)
-//        }
-        return .contentHeight(appearance.contentHeight)
+        let contentStackViewSize = contentStackView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+        let height = appearance.contentStackViewInsets.top + contentStackViewSize.height
+        return .contentHeight(height)
     }
 
     override var longFormHeight: PanModalHeight { shortFormHeight }
@@ -49,8 +53,15 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         setup()
+
+        DispatchQueue.main.async {
+            self.panModalSetNeedsLayoutUpdate()
+            self.panModalTransition(to: .shortForm)
+        }
     }
+
     // MARK: Private API
 
     private func setup() {
@@ -65,123 +76,111 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
     }
 
     private func setupContentStackView() {
-        let contentStackView = UIStackView()
-        contentStackView.axis = .vertical
-        contentStackView.spacing = appearance.largePadding
-        contentStackView.alignment = .leading
-
-        contentStackView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(contentStackView)
 
+        contentStackView.translatesAutoresizingMaskIntoConstraints = false
         contentStackView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(appearance.defaultPadding)
-            make.leading.equalTo(view.safeAreaLayoutGuide).offset(appearance.defaultPadding)
-            make.trailing.equalTo(view.safeAreaLayoutGuide).offset(-appearance.defaultPadding)
-            make.bottom.lessThanOrEqualToSuperview().offset(-appearance.defaultPadding)
+            make.top.equalToSuperview().offset(appearance.contentStackViewInsets.top)
+            make.leading.equalTo(view.safeAreaLayoutGuide).offset(appearance.contentStackViewInsets.leading)
+            make.bottom.lessThanOrEqualToSuperview().offset(-appearance.contentStackViewInsets.bottom)
+            make.trailing.equalTo(view.safeAreaLayoutGuide).offset(-appearance.contentStackViewInsets.trailing)
         }
-
-        self.contentStackView = contentStackView
     }
 
     private func setupBookImageView() {
-        let bookImageView = UIImageView(
-            image: UIImage(
-                named: Images.StepQuiz.ProblemOfDaySolvedModal.book
-            )?.withRenderingMode(.alwaysOriginal)
-        )
+        let image = UIImage(named: Images.StepQuiz.ProblemOfDaySolvedModal.book)?.withRenderingMode(.alwaysOriginal)
+        let imageView = UIImageView(image: image)
 
-        bookImageView.translatesAutoresizingMaskIntoConstraints = false
-        contentStackView?.addArrangedSubview(bookImageView)
+        contentStackView.addArrangedSubview(imageView)
 
-        bookImageView.snp.makeConstraints { make in
-            make.width.equalToSuperview().multipliedBy(appearance.bookImageWidthMultiplier)
-            make.height.equalToSuperview().multipliedBy(appearance.bookImageHeightMultiplier)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.snp.makeConstraints { make in
+            make.width.equalTo(view).multipliedBy(appearance.bookImageViewSizeRatio.width)
+            make.height.equalTo(view).multipliedBy(appearance.bookImageViewSizeRatio.height)
         }
     }
 
     private func setupTitleView() {
-        let titleView = UILabel()
-        titleView.text = Strings.StepQuiz.ProblemOfDaySolvedModal.title
-        titleView.font = .preferredFont(forTextStyle: .largeTitle, compatibleWith: .init(legibilityWeight: .bold))
-        titleView.textColor = .primaryText
-        titleView.lineBreakMode = .byWordWrapping
-        titleView.numberOfLines = 0
+        let label = UILabel()
+        label.text = Strings.StepQuiz.ProblemOfDaySolvedModal.title
+        label.font = .preferredFont(forTextStyle: .largeTitle, compatibleWith: .init(legibilityWeight: .bold))
+        label.textColor = .primaryText
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
 
-        titleView.translatesAutoresizingMaskIntoConstraints = false
-        contentStackView?.addArrangedSubview(titleView)
+        contentStackView.addArrangedSubview(label)
     }
 
     private func setupTextView() {
-        let textView = UILabel()
-        textView.text = Strings.StepQuiz.ProblemOfDaySolvedModal.text
-        textView.font = .preferredFont(forTextStyle: .headline)
-        textView.textColor = .primaryText
+        let label = UILabel()
+        label.text = Strings.StepQuiz.ProblemOfDaySolvedModal.text
+        label.font = .preferredFont(forTextStyle: .headline)
+        label.textColor = .primaryText
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
 
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        contentStackView?.addArrangedSubview(textView)
+        contentStackView.addArrangedSubview(label)
     }
 
     private func setupGemsView() {
-        let gemsView = UIStackView()
-        gemsView.axis = .horizontal
+        let containerStackView = UIStackView()
+        containerStackView.axis = .horizontal
+        containerStackView.distribution = .equalSpacing
 
-        gemsView.addArrangedSubview(buildGemsBadge())
+        contentStackView.addArrangedSubview(containerStackView)
+        containerStackView.translatesAutoresizingMaskIntoConstraints = false
+        containerStackView.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+        }
 
-        let totalGemsLabelView = UILabel()
-        totalGemsLabelView.font = .preferredFont(forTextStyle: .subheadline)
-        totalGemsLabelView.textColor = .secondaryText
-        totalGemsLabelView.translatesAutoresizingMaskIntoConstraints = false
-        totalGemsLabelView.textAlignment = .right
+        containerStackView.addArrangedSubview(makeGemsBadgeView())
 
-        totalGemsLabelView.text = Strings.StepQuiz.ProblemOfDaySolvedModal.totalGems
-
-        totalGemsLabelView.translatesAutoresizingMaskIntoConstraints = false
-        gemsView.addArrangedSubview(totalGemsLabelView)
-
-        gemsView.translatesAutoresizingMaskIntoConstraints = false
-        contentStackView?.addArrangedSubview(gemsView)
+        let totalGemsLabel = UILabel()
+        totalGemsLabel.font = .preferredFont(forTextStyle: .subheadline)
+        totalGemsLabel.textColor = .secondaryText
+        totalGemsLabel.text = Strings.StepQuiz.ProblemOfDaySolvedModal.totalGems
+        containerStackView.addArrangedSubview(totalGemsLabel)
     }
 
-    private func buildGemsBadge() -> UIStackView {
-        let gemsBadgeView = UIStackView()
-        gemsBadgeView.axis = .horizontal
-        gemsBadgeView.spacing = appearance.gemsBadgeSpacing
-        gemsBadgeView.translatesAutoresizingMaskIntoConstraints = false
+    private func makeGemsBadgeView() -> UIStackView {
+        let containerStackView = UIStackView()
+        containerStackView.axis = .horizontal
+        containerStackView.spacing = appearance.gemsBadgeSpacing
 
-        let badgeImageView = UIImageView(
-            image: UIImage(named: Images.StepQuiz.ProblemOfDaySolvedModal.gemsBadge)?
-                .withRenderingMode(.alwaysOriginal)
-        )
+        let image = UIImage(
+            named: Images.StepQuiz.ProblemOfDaySolvedModal.gemsBadge
+        )?.withRenderingMode(.alwaysOriginal)
+        let imageView = UIImageView(image: image)
 
-        badgeImageView.snp.makeConstraints { make in
+        containerStackView.addArrangedSubview(imageView)
+
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.snp.makeConstraints { make in
             make.height.equalTo(appearance.gemsBadgeImageWidthHeight)
             make.width.equalTo(appearance.gemsBadgeImageWidthHeight)
         }
-        badgeImageView.translatesAutoresizingMaskIntoConstraints = false
-        gemsBadgeView.addArrangedSubview(badgeImageView)
 
-        let gemsCountTextView = UILabel()
-        gemsCountTextView.text = String(self.gemsCount)
-        gemsCountTextView.font = .preferredFont(forTextStyle: .title3)
-        gemsCountTextView.textColor = .primaryText
+        let label = UILabel()
+        label.text = String(gemsCount)
+        label.font = .preferredFont(forTextStyle: .title3)
+        label.textColor = .primaryText
+        containerStackView.addArrangedSubview(label)
 
-        gemsCountTextView.translatesAutoresizingMaskIntoConstraints = false
-        gemsBadgeView.addArrangedSubview(gemsCountTextView)
-
-        return gemsBadgeView
+        return containerStackView
     }
 
     private func setupGoBackButton() {
-        let goBackButton = UIKitRoundedRectangleButton(style: .violet)
-        goBackButton.setTitle(Strings.StepQuiz.ProblemOfDaySolvedModal.goButtonText, for: .normal)
+        let button = UIKitRoundedRectangleButton(style: .violet)
+        button.setTitle(Strings.StepQuiz.ProblemOfDaySolvedModal.goButtonText, for: .normal)
+        button.addTarget(self, action: #selector(goBackButtonTapped), for: .touchUpInside)
 
-        goBackButton.addTarget(self, action: #selector(goBackButtonTapped), for: .touchUpInside)
+        contentStackView.addArrangedSubview(button)
 
-        goBackButton.snp.makeConstraints { make in
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.snp.makeConstraints { make in
+            make.width.equalToSuperview()
             make.height.equalTo(appearance.goBackButtonHeight)
         }
-        goBackButton.translatesAutoresizingMaskIntoConstraints = false
-        contentStackView?.addArrangedSubview(goBackButton)
     }
 
     @objc
