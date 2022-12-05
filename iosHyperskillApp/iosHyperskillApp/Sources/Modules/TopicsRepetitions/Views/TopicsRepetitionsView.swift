@@ -80,10 +80,7 @@ struct TopicsRepetitionsView: View {
             TopicsRepetitionsStatusBlock(
                 repetitionsStatus: viewData.repetitionsStatus,
                 onRepeatNextTopicTap: {
-                    viewModel.logClickedRepeatNextTopicEvent()
-                    if let firstTopic = viewData.topicsToRepeat.first {
-                        viewModel.doTopicStepQuizPresentation(stepID: firstTopic.stepId)
-                    }
+                    viewModel.repeatNextTopicClicked()
                 }
             )
             .padding(.top, appearance.padding)
@@ -104,9 +101,7 @@ struct TopicsRepetitionsView: View {
                             topicID: Int(topic.topicId),
                             title: topic.title,
                             onTap: {
-                                viewModel.logClickedRepeatTopicEvent()
-
-                                viewModel.doTopicStepQuizPresentation(stepID: topic.stepId)
+                                viewModel.repeatTopicClicked()
                             }
                         )
                     },
