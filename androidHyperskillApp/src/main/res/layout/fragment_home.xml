@@ -79,7 +79,9 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/homeScreenTopicsRepetitionCard"
-                tools:ignore="HardcodedText">
+                tools:ignore="HardcodedText"
+                android:visibility="gone"
+                >
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/homeOpenStepInputEditText"
@@ -97,7 +99,9 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/homeOpenStepInputLayout"
-                tools:ignore="HardcodedText" />
+                tools:ignore="HardcodedText"
+                android:visibility="gone"
+                />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/homeScreenKeepLearningInWebButton"
@@ -113,7 +117,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/homeOpenStepButton"
                 app:layout_constraintVertical_bias="0"
                 app:layout_constraintWidth_max="@dimen/auth_button_max_width"
-                app:strokeColor="?colorPrimary" />
+                app:strokeColor="?colorPrimary"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
