@@ -79,10 +79,10 @@ interface StepQuizFeature {
         ) : Message
 
         /**
-         * Show actual gems
+         * Show problem of day solve modal
          */
 
-        data class FetchedGemsCountAfterProblemOfDaySolved(val gemsCount: Long) : Message
+        data class ShowProblemOfDaySolvedModal(val gemsCount: Int) : Message
 
         /**
          * Analytic
@@ -112,8 +112,6 @@ interface StepQuizFeature {
             val isGranted: Boolean
         ) : Action
 
-        object FetchGemsCountAfterProblemOfDaySolved : Action
-
         /**
          * Analytic
          */
@@ -125,7 +123,7 @@ interface StepQuizFeature {
 
             data class RequestUserPermission(val userPermissionRequest: StepQuizUserPermissionRequest) : ViewAction
 
-            data class ShowProblemOfDaySolvedModal(val gemsCount: Long) : ViewAction
+            data class ShowProblemOfDaySolvedModal(val gemsCount: Int) : ViewAction
 
             sealed interface NavigateTo : ViewAction {
                 object Back : NavigateTo

@@ -136,9 +136,7 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 }
             is Message.CreateSubmissionSuccess ->
                 if (state is State.AttemptLoaded) {
-                    state.copy(
-                        submissionState = StepQuizFeature.SubmissionState.Loaded(message.submission)
-                    ) to if (state.currentProfile.dailyStep == state.step.id) setOf(Action.FetchGemsCountAfterProblemOfDaySolved) else emptySet()
+                    state.copy(submissionState = StepQuizFeature.SubmissionState.Loaded(message.submission)) to emptySet()
                 } else {
                     null
                 }
@@ -210,7 +208,7 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
-            is Message.FetchedGemsCountAfterProblemOfDaySolved ->
+            is Message.ShowProblemOfDaySolvedModal ->
                 state to setOf(Action.ViewAction.ShowProblemOfDaySolvedModal(message.gemsCount))
             is Message.ViewedEventMessage ->
                 state to setOf(Action.LogViewedEvent(message.stepId))

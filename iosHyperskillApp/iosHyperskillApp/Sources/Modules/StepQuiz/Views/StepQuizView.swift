@@ -44,9 +44,8 @@ struct StepQuizView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 if let theoryID = viewModel.step.topicTheory {
                     Button(Strings.Step.theory) {
-                        presentDailyStepCompletedModal(gemsCount: 300)
-                        //let assembly = StepAssembly(stepID: theoryID.intValue)
-                        //pushRouter.pushViewController(assembly.makeModule())
+                        let assembly = StepAssembly(stepID: theoryID.intValue)
+                        pushRouter.pushViewController(assembly.makeModule())
                     }
                 }
             }

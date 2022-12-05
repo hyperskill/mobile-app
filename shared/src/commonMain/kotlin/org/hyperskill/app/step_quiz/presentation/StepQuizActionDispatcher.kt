@@ -32,6 +32,16 @@ class StepQuizActionDispatcher(
             notificationInteractor.solvedStepsSharedFlow.collect {
                 if (notificationInteractor.isRequiredToAskUserToEnableDailyReminders()) {
                     onNewMessage(Message.RequestUserPermission(StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS))
+                } else {
+                    val currentProfile = profileInteractor
+                        .getCurrentProfile(sourceType = DataSourceType.REMOTE)
+                        .getOrElse {
+                            return@collect
+                        }
+
+                    if (currentProfile.dailyStep == it) {
+                        onNewMessage(Message.ShowProblemOfDaySolvedModal(currentProfile.gamification.hypercoins))
+                    }
                 }
             }
         }
@@ -145,15 +155,6 @@ class StepQuizActionDispatcher(
                         }
                     }
                 }
-            }
-            is Action.FetchGemsCountAfterProblemOfDaySolved -> {
-                val currentProfile = profileInteractor
-                    .getCurrentProfile(DataSourceType.REMOTE)
-                    .getOrElse {
-                        return
-                    }
-
-                onNewMessage(Message.FetchedGemsCountAfterProblemOfDaySolved(currentProfile.gamification.hypercoins))
             }
             is Action.LogViewedEvent -> {
                 val currentProfile = profileInteractor

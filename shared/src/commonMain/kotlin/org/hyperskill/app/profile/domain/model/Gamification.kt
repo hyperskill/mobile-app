@@ -8,5 +8,5 @@ data class Gamification(
     @SerialName("topics_repetitions")
     val topicsRepetitions: GamificationTopicsRepetitions,
     @SerialName("hypercoins")
-    val hypercoins: Long,
+    val hypercoins: Int,
 )
