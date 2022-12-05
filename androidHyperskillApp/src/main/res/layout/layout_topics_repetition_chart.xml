@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/TrackCardViewStyle"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="20dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="11dp"
+        android:background="@color/color_surface"
+        >
+
+        <TextView
+            android:id="@+id/topicsRepetitionChartTitleTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/topics_repetitions_chart_title"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="18sp"
+            android:paddingBottom="11dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/topicsRepetitionChartTitleBarrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="topicsRepetitionChartTitleTextView"
+            />
+
+        <TextView
+            android:id="@+id/topicsRepetition1TimeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@+id/topicsRepetitionChartTitleBarrier"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="1 time"
+            />
+
+        <TextView
+            android:id="@+id/topicsRepetition2TimesTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@+id/topicsRepetition1TimeTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="2 times"
+            android:layout_marginTop="25dp"
+            />
+
+        <TextView
+            android:id="@+id/topicsRepetition3TimesTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@+id/topicsRepetition2TimesTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="3 times"
+            android:layout_marginTop="25dp"
+            />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/topicsRepetitionChartStartBarrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="end"
+            app:constraint_referenced_ids="topicsRepetition1TimeTextView,topicsRepetition2TimesTextView,topicsRepetition3TimesTextView"
+            />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/topicsRepetitionChartBottomBarrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="topicsRepetition3TimesTextView"
+            />
+
+        <org.hyperskill.app.android.topics_repetitions.view.widget.VerticalDashLineView
+            android:id="@+id/topicsRepetitionChart1Line"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintTop_toBottomOf="@+id/topicsRepetitionChartTitleBarrier"
+            app:layout_constraintBottom_toTopOf="@+id/topicsRepetitionChart1LineNumberTextView"
+            app:layout_constraintStart_toStartOf="@+id/topicsRepetitionChart1LineNumberTextView"
+            app:layout_constraintEnd_toEndOf="@+id/topicsRepetitionChart1LineNumberTextView"
+            />
+
+        <TextView
+            android:id="@+id/topicsRepetitionChart1LineNumberTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            app:drawableTopCompat="@drawable/bg_divider_vertical"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@+id/topicsRepetitionChartBottomBarrier"
+            app:layout_constraintStart_toEndOf="@+id/topicsRepetitionChartStartBarrier"
+            tools:text="0"
+            />
+
+        <org.hyperskill.app.android.topics_repetitions.view.widget.VerticalDashLineView
+            android:id="@+id/topicsRepetitionChart3Line"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintTop_toBottomOf="@+id/topicsRepetitionChartTitleBarrier"
+            app:layout_constraintBottom_toTopOf="@+id/topicsRepetitionChart3LineNumberTextView"
+            app:layout_constraintStart_toStartOf="@+id/topicsRepetitionChart3LineNumberTextView"
+            app:layout_constraintEnd_toEndOf="@+id/topicsRepetitionChart3LineNumberTextView"
+            />
+
+        <TextView
+            android:id="@+id/topicsRepetitionChart3LineNumberTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            app:drawableTopCompat="@drawable/bg_divider_vertical"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@+id/topicsRepetitionChartBottomBarrier"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="30"
+            />
+
+        <org.hyperskill.app.android.topics_repetitions.view.widget.VerticalDashLineView
+            android:id="@+id/topicsRepetitionChart2Line"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintTop_toBottomOf="@+id/topicsRepetitionChartTitleBarrier"
+            app:layout_constraintBottom_toTopOf="@+id/topicsRepetitionChart2LineNumberTextView"
+            app:layout_constraintStart_toStartOf="@+id/topicsRepetitionChart2LineNumberTextView"
+            app:layout_constraintEnd_toEndOf="@+id/topicsRepetitionChart2LineNumberTextView"
+            />
+
+        <TextView
+            android:id="@+id/topicsRepetitionChart2LineNumberTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            app:drawableTopCompat="@drawable/bg_divider_vertical"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@+id/topicsRepetitionChartBottomBarrier"
+            app:layout_constraintStart_toEndOf="@+id/topicsRepetitionChart1LineNumberTextView"
+            app:layout_constraintEnd_toStartOf="@+id/topicsRepetitionChart3LineNumberTextView"
+            tools:text="20"
+            />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/topicsRepetitionChartCountBottomBarrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="topicsRepetitionChart1LineNumberTextView,topicsRepetitionChart3LineNumberTextView"
+            />
+
+        <TextView
+            android:id="@+id/topicsRepetition1RowTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/color_secondary"
+            android:background="@drawable/bg_topics_repetition_chart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:gravity="end"
+            android:paddingVertical="5dp"
+            android:paddingHorizontal="4dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="-1dp"
+            app:layout_constraintTop_toTopOf="@+id/topicsRepetition1TimeTextView"
+            app:layout_constraintStart_toStartOf="@+id/topicsRepetitionChartStartBarrier"
+            app:layout_constraintEnd_toEndOf="@+id/topicsRepetitionChart3Line"
+            app:layout_constraintHorizontal_bias="0"
+            tools:text="40"
+            />
+
+        <TextView
+            android:id="@+id/topicsRepetition2RowTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/color_secondary"
+            android:background="@drawable/bg_topics_repetition_chart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:gravity="end"
+            android:paddingVertical="5dp"
+            android:paddingHorizontal="4dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="-1dp"
+            app:layout_constraintTop_toTopOf="@+id/topicsRepetition2TimesTextView"
+            app:layout_constraintStart_toStartOf="@+id/topicsRepetitionChartStartBarrier"
+            app:layout_constraintEnd_toEndOf="@+id/topicsRepetitionChart3Line"
+            app:layout_constraintHorizontal_bias="0"
+            tools:text="16"
+            tools:layout_constraintWidth_percent="0.3"
+            />
+
+        <TextView
+            android:id="@+id/topicsRepetition3RowTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/color_secondary"
+            android:background="@drawable/bg_topics_repetition_chart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:gravity="end"
+            android:paddingVertical="5dp"
+            android:paddingHorizontal="4dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="-1dp"
+            app:layout_constraintTop_toTopOf="@+id/topicsRepetition3TimesTextView"
+            app:layout_constraintStart_toStartOf="@+id/topicsRepetitionChartStartBarrier"
+            app:layout_constraintEnd_toEndOf="@+id/topicsRepetitionChart3Line"
+            app:layout_constraintHorizontal_bias="0"
+            tools:text="2"
+            />
+
+        <TextView
+            android:id="@+id/topicsRepetitionChartDescriptionTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppTheme.Body2"
+            android:gravity="center"
+            android:layout_marginTop="9dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/topicsRepetitionChartCountBottomBarrier"
+            tools:text="You have repeated 6 topics altogether"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

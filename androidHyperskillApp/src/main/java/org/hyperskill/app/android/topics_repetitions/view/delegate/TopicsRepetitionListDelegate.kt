@@ -74,16 +74,17 @@ class TopicsRepetitionListDelegate(
         }
     }
 
-    private fun topicsAdapterDelegate() = adapterDelegate<TopicToRepeat, TopicToRepeat>(
-        R.layout.item_topic_to_repeat
-    ) {
-        val title = itemView.findViewById<TextView>(R.id.topicTitle)
-        itemView.setOnClickListener {
-            TODO("Not implemented")
-        }
+    private fun topicsAdapterDelegate() =
+        adapterDelegate<TopicToRepeat, TopicToRepeat>(
+            R.layout.item_topic_to_repeat
+        ) {
+            val title = itemView.findViewById<TextView>(R.id.topicTitle)
+            itemView.setOnClickListener {
+                TODO("Not implemented")
+            }
 
-        onBind { topic ->
-            title.setTextIfChanged(topic.title)
+            onBind { topic ->
+                title.setTextIfChanged(topic.title)
+            }
         }
-    }
 }

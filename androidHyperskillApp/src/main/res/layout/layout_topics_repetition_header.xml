@@ -62,4 +62,12 @@
         tools:text="Repeat Quotes and multi-line s..."
         />
 
+    <include
+        android:id="@+id/topicsRepetitionChart"
+        layout="@layout/layout_topics_repetition_chart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        />
+
 </LinearLayout>

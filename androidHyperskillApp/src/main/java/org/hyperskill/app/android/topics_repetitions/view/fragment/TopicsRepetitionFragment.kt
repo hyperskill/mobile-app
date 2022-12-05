@@ -12,11 +12,14 @@ import kotlinx.coroutines.withContext
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentTopicsRepetitionBinding
+import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionChartCardDelegate
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionHeaderDelegate
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionListDelegate
+import org.hyperskill.app.android.topics_repetitions.view.model.TopicsRepetitionChartState
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionViewModel
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature
 import org.hyperskill.app.topics_repetitions.view.mapper.TopicsRepetitionsViewDataMapper
+import org.hyperskill.app.topics_repetitions.view.model.TopicsRepetitionsViewData
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -45,6 +48,8 @@ class TopicsRepetitionFragment :
     private var viewDataMapper: TopicsRepetitionsViewDataMapper? = null
 
     private var topicsRepetitionListDelegate: TopicsRepetitionListDelegate? = null
+
+    private var viewState: TopicsRepetitionsViewData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,6 +98,7 @@ class TopicsRepetitionFragment :
         super.onDestroyView()
         viewStateDelegate = null
         topicsRepetitionListDelegate = null
+        viewState = null
     }
 
     override fun onAction(action: TopicsRepetitionsFeature.Action.ViewAction) {
@@ -110,6 +116,7 @@ class TopicsRepetitionFragment :
                 TopicsRepetitionHeaderDelegate.render(
                     requireContext(),
                     viewBinding.topicsRepetitionHeader,
+                    this@TopicsRepetitionFragment.viewState?.repetitionsStatus,
                     viewState.repetitionsStatus
                 )
                 topicsRepetitionListDelegate?.render(
@@ -119,6 +126,14 @@ class TopicsRepetitionFragment :
                     topicsToRepeatWillLoadedCount = viewState.topicsToRepeatWillLoadedCount,
                     showMoreButtonState = viewState.showMoreButtonState
                 )
+                TopicsRepetitionChartCardDelegate.render(
+                    viewBinding.topicsRepetitionHeader.topicsRepetitionChart,
+                    previousState = this@TopicsRepetitionFragment.viewState?.let {
+                        TopicsRepetitionChartState(it.chartData, it.chartDescription)
+                    },
+                    state = TopicsRepetitionChartState(viewState.chartData, viewState.chartDescription)
+                )
+                this@TopicsRepetitionFragment.viewState = viewState
             }
         }
     }
