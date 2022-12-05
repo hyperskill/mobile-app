@@ -29,6 +29,7 @@ import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.view.mapper.CommentThreadTitleMapper
 import ru.nobird.android.ui.adapterdelegates.dsl.adapterDelegate
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
+import kotlin.math.floor
 
 class StepTheoryFragment : Fragment(R.layout.fragment_step_theory) {
     companion object {
@@ -86,9 +87,10 @@ class StepTheoryFragment : Fragment(R.layout.fragment_step_theory) {
 
         viewBinding.stepTheoryTimeToComplete.isVisible = step.secondsToComplete != null
         step.secondsToComplete?.let { secondsToComplete ->
+            val minutesToComplete = floor(secondsToComplete / 60).toInt()
             viewBinding.stepTheoryTimeToComplete.text = resourceProvider.getString(
                 SharedResources.strings.step_theory_reading_text,
-                resourceProvider.getQuantityString(SharedResources.plurals.minutes, secondsToComplete.toInt(), secondsToComplete.toInt())
+                resourceProvider.getQuantityString(SharedResources.plurals.minutes, minutesToComplete, minutesToComplete)
             )
         }
 

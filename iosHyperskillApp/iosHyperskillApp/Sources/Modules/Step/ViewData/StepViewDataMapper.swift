@@ -17,7 +17,7 @@ final class StepViewDataMapper {
     }
 
     func mapStepToViewData(_ step: Step) -> StepViewData {
-        let formattedTimeToComplete = self.mapTimeToComplete(minutes: 1)
+        let formattedTimeToComplete = self.mapTimeToComplete(seconds: step.secondsToComplete?.doubleValue ?? 60)
 
         let commentsStatistics = step.commentsStatistics.map(self.mapCommentStatisticsEntryToViewData(_:))
 
@@ -32,8 +32,8 @@ final class StepViewDataMapper {
 
     // MARK: Private API
 
-    private func mapTimeToComplete(minutes: Int32) -> String {
-        let minutesQuantityString = formatter.minutesCount(minutes)
+    private func mapTimeToComplete(seconds: Double) -> String {
+        let minutesQuantityString = formatter.minutesOrSecondsCount(seconds: seconds, roundingRule: .down)
 
         return self.resourceProvider.getString(
             stringResource: SharedResources.strings.shared.step_theory_reading_text,
