@@ -127,6 +127,7 @@ class TopicsRepetitionFragment :
         viewStateDelegate?.switchState(state)
         val mapper = viewDataMapper
         if (mapper != null && state is TopicsRepetitionsFeature.State.Content) {
+            recommendedRepetitionsCount = state.recommendedRepetitionsCount
             viewLifecycleOwner.lifecycleScope.launch {
                 val viewState = withContext(Dispatchers.Default) {
                     mapper.mapStateToViewData(state)
