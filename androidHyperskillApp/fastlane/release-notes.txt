@@ -4,3 +4,4 @@ What to Test:
 3. Topics repetitions ALTAPPS-433
 4. Fix Home screen is not scrollable ALTAPPS-435
 5. Fix infinity progress indicator on the Profile Settings screen ALTAPPS-447
+6. Fix Topics repetitions / Step quiz / Continue button navigates to the Home screen ALTAPPS-448
