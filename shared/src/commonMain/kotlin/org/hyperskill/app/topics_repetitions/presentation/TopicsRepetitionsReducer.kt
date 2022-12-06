@@ -79,10 +79,24 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
-            is Message.ClickedRepeatNextTopicEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(TopicsRepetitionsClickedRepeatNextTopicHyperskillAnalyticEvent()))
-            is Message.ClickedRepeatTopicEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(TopicsRepetitionsClickedRepeatTopicHyperskillAnalyticEvent()))
+            is Message.RepeatNextTopicClicked -> {
+                if (state is State.Content) {
+                    state to buildSet {
+                        state.topicsToRepeat.firstOrNull()?.let { topicToRepeat ->
+                            add(Action.ViewAction.NavigateTo.StepScreen(topicToRepeat.stepId))
+                        }
+                        add(Action.LogAnalyticEvent(TopicsRepetitionsClickedRepeatNextTopicHyperskillAnalyticEvent()))
+                    }
+                } else {
+                    state to emptySet()
+                }
+            }
+            is Message.RepeatTopicClicked -> {
+                state to setOf(
+                    Action.ViewAction.NavigateTo.StepScreen(message.stepId),
+                    Action.LogAnalyticEvent(TopicsRepetitionsClickedRepeatTopicHyperskillAnalyticEvent())
+                )
+            }
         } ?: (state to emptySet())
 
     private fun getNewChartData(

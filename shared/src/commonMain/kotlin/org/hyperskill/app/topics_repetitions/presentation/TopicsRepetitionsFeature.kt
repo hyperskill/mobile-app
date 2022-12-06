@@ -31,7 +31,7 @@ interface TopicsRepetitionsFeature {
                 val topicsRepetitions: TopicsRepetitions,
                 val topicsToRepeat: List<TopicToRepeat>,
                 val recommendedRepetitionsCount: Int,
-                val trackTitle: String,
+                val trackTitle: String
             ) : TopicsRepetitionsLoaded
 
             object Error : TopicsRepetitionsLoaded
@@ -50,15 +50,12 @@ interface TopicsRepetitionsFeature {
 
         data class StepCompleted(val stepId: Long) : Message
 
-        /**
-         * Analytic
-         */
-        object ClickedRepeatNextTopicEventMessage : Message
-        object ClickedRepeatTopicEventMessage : Message
+        data class RepeatTopicClicked(val stepId: Long) : Message
+
+        object RepeatNextTopicClicked : Message
     }
 
     sealed interface Action {
-
         data class Initialize(val recommendedRepetitionsCount: Int) : Action
 
         data class FetchNextTopics(val topicsRepetitions: TopicsRepetitions) : Action
