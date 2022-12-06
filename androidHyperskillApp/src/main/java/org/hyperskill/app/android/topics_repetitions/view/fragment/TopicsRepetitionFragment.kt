@@ -70,6 +70,9 @@ class TopicsRepetitionFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewBinding.topicsRepetitionToolbar.setNavigationOnClickListener {
+            requireRouter().exit()
+        }
         initViewStateDelegate()
         topicsRepetitionListDelegate = TopicsRepetitionListDelegate(
             viewBinding.topicsList,

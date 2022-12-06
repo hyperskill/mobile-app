@@ -15,6 +15,7 @@
         >
 
         <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topicsRepetitionToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:title="@string/topics_repetitions_card_title_uncompleted"
