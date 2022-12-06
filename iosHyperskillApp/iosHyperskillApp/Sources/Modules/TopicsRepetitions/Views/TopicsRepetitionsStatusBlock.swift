@@ -32,18 +32,29 @@ struct TopicsRepetitionsStatusBlock: View {
                     .foregroundColor(.primaryText)
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
         .background(Color(ColorPalette.surface))
     }
 }
 
-struct TopicsRepetitionsStatusBLock_Previews: PreviewProvider {
+struct TopicsRepetitionsStatusBlock_Previews: PreviewProvider {
     static var previews: some View {
         TopicsRepetitionsStatusBlock(
             repetitionsStatus: RepetitionsStatusRecommendedTopicsAvailable(
                 recommendedRepetitionsCount: 5,
                 repeatButtonText: "Repeat Strings"
             ),
+            onRepeatNextTopicTap: {}
+        )
+
+        TopicsRepetitionsStatusBlock(
+            repetitionsStatus: RepetitionsStatusRecommendedTopicsRepeated(),
+            onRepeatNextTopicTap: {}
+        )
+
+        TopicsRepetitionsStatusBlock(
+            repetitionsStatus: RepetitionsStatusAllTopicsRepeated(),
             onRepeatNextTopicTap: {}
         )
     }

@@ -2217,8 +2217,8 @@
 		E9A5B98B2924FADB00EF0F39 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E94BC941291E89D6000B18D3 /* TopicsRepetitionsCountView.swift */,
 				E9A022AD291D0E3F004317DB /* TopicsRepetitionsCardView.swift */,
+				E94BC941291E89D6000B18D3 /* TopicsRepetitionsCountView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
