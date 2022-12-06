@@ -21,22 +21,27 @@ class AppReducer : StateReducer<State, Message, Action> {
             }
             is Message.UserAuthorized ->
                 if (state is State.Ready && !state.isAuthorized) {
-                    val action = if (message.isNewUser) {
+                    val navigateToViewAction = if (message.profile.isNewUser) {
                         Action.ViewAction.NavigateTo.NewUserScreen
                     } else {
                         Action.ViewAction.NavigateTo.HomeScreen
                     }
-                    State.Ready(isAuthorized = true) to setOf(action)
+
+                    State.Ready(isAuthorized = true) to setOf(
+                        Action.IdentifyUserInSentry(message.profile.id),
+                        navigateToViewAction
+                    )
                 } else {
                     null
                 }
             is Message.UserDeauthorized ->
                 if (state is State.Ready && state.isAuthorized) {
-                    val action = when (message.reason) {
+                    val navigateToViewAction = when (message.reason) {
                         UserDeauthorized.Reason.TOKEN_REFRESH_FAILURE -> Action.ViewAction.NavigateTo.OnboardingScreen
                         UserDeauthorized.Reason.SIGN_OUT -> Action.ViewAction.NavigateTo.AuthScreen
                     }
-                    State.Ready(isAuthorized = false) to setOf(action)
+
+                    State.Ready(isAuthorized = false) to setOf(Action.ClearUserInSentry, navigateToViewAction)
                 } else {
                     null
                 }
@@ -44,9 +49,14 @@ class AppReducer : StateReducer<State, Message, Action> {
                 if (state is State.Loading) {
                     val isAuthorized = !message.profile.isGuest
 
-                    val action =
+                    val sentryAction = if (isAuthorized) {
+                        Action.IdentifyUserInSentry(message.profile.id)
+                    } else {
+                        Action.ClearUserInSentry
+                    }
+                    val navigateToViewAction =
                         if (isAuthorized) {
-                            if (message.profile.trackId == null) {
+                            if (message.profile.isNewUser) {
                                 Action.ViewAction.NavigateTo.NewUserScreen
                             } else {
                                 Action.ViewAction.NavigateTo.HomeScreen
@@ -55,7 +65,7 @@ class AppReducer : StateReducer<State, Message, Action> {
                             Action.ViewAction.NavigateTo.OnboardingScreen
                         }
 
-                    State.Ready(isAuthorized) to setOf(action)
+                    State.Ready(isAuthorized) to setOf(sentryAction, navigateToViewAction)
                 } else {
                     null
                 }

@@ -11,14 +11,16 @@ import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class AuthCredentialsActionDispatcher(
     config: ActionDispatcherOptions,
     private val authInteractor: AuthInteractor,
     private val profileInteractor: ProfileInteractor,
+    private val urlPathProcessor: UrlPathProcessor,
     private val analyticInteractor: AnalyticInteractor,
-    private val urlPathProcessor: UrlPathProcessor
+    private val sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
@@ -32,7 +34,7 @@ class AuthCredentialsActionDispatcher(
                                 profileInteractor
                                     .getCurrentProfile(DataSourceType.REMOTE)
                                     .fold(
-                                        onSuccess = { Message.AuthSuccess(isNewUser = it.trackId == null) },
+                                        onSuccess = { Message.AuthSuccess(it) },
                                         onFailure = { Message.AuthFailure(AuthCredentialsError.CONNECTION_PROBLEM, it) }
                                     )
                             },
@@ -48,9 +50,14 @@ class AuthCredentialsActionDispatcher(
                         )
                 onNewMessage(message)
             }
+            is Action.GetMagicLink ->
+                getLink(action.path, ::onNewMessage)
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
-            is Action.GetMagicLink -> getLink(action.path, ::onNewMessage)
+            is Action.AddSentryBreadcrumb ->
+                sentryInteractor.addBreadcrumb(action.breadcrumb)
+            is Action.CaptureSentryException ->
+                sentryInteractor.captureErrorMessage("AuthCredentials: ${action.throwable}")
         }
     }
 

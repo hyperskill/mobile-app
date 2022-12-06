@@ -13,7 +13,7 @@ interface AppFeature {
 
     sealed interface Message {
         data class Initialize(val forceUpdate: Boolean = false) : Message
-        data class UserAuthorized(val isNewUser: Boolean) : Message
+        data class UserAuthorized(val profile: Profile) : Message
         data class UserDeauthorized(val reason: Reason) : Message
         data class UserAccountStatus(val profile: Profile) : Message
         object UserAccountStatusError : Message
@@ -23,6 +23,13 @@ interface AppFeature {
 
     sealed interface Action {
         object DetermineUserAccountStatus : Action
+
+        /**
+         * Sentry
+         */
+        data class IdentifyUserInSentry(val userId: Long) : Action
+        object ClearUserInSentry : Action
+
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
                 object HomeScreen : NavigateTo

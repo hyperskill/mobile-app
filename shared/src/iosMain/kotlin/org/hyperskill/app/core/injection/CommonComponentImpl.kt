@@ -3,17 +3,19 @@ package org.hyperskill.app.core.injection
 import com.russhwolf.settings.AppleSettings
 import com.russhwolf.settings.Settings
 import kotlinx.serialization.json.Json
-import org.hyperskill.app.core.domain.Platform
 import org.hyperskill.app.core.domain.BuildVariant
+import org.hyperskill.app.core.domain.Platform
 import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.ResourceProviderImpl
 import org.hyperskill.app.network.injection.NetworkModule
+import org.hyperskill.app.sentry.domain.model.manager.SentryManager
 import platform.Foundation.NSUserDefaults
 
 class CommonComponentImpl(
     override val userAgentInfo: UserAgentInfo,
-    override val buildVariant: BuildVariant
+    override val buildVariant: BuildVariant,
+    override val sentryManager: SentryManager
 ) : CommonComponent {
 
     override val json: Json =

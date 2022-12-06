@@ -20,12 +20,13 @@ import org.hyperskill.app.android.auth.view.ui.fragment.AuthFragment
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthScreen
 import org.hyperskill.app.android.core.view.ui.navigation.AppNavigationContainer
 import org.hyperskill.app.android.databinding.ActivityMainBinding
-import org.hyperskill.app.android.placeholder_new_user.navigation.PlaceholderNewUserScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.onboarding.navigation.OnboardingScreen
+import org.hyperskill.app.android.placeholder_new_user.navigation.PlaceholderNewUserScreen
 import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.main.presentation.MainViewModel
+import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile_settings.domain.model.ProfileSettings
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.resolveColorAttribute
@@ -82,8 +83,8 @@ class MainActivity :
                 .observeResult(AuthFragment.AUTH_SUCCESS)
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collectLatest {
-                    val isNewUser = (it as? Boolean) ?: true
-                    mainViewModelProvider.onNewMessage(AppFeature.Message.UserAuthorized(isNewUser))
+                    val profile = (it as? Profile) ?: return@collectLatest
+                    mainViewModelProvider.onNewMessage(AppFeature.Message.UserAuthorized(profile))
                 }
         }
 
