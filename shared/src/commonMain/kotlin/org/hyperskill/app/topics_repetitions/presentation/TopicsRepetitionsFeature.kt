@@ -56,7 +56,6 @@ interface TopicsRepetitionsFeature {
     }
 
     sealed interface Action {
-
         data class Initialize(val recommendedRepetitionsCount: Int) : Action
 
         data class FetchNextTopics(val topicsRepetitions: TopicsRepetitions) : Action
