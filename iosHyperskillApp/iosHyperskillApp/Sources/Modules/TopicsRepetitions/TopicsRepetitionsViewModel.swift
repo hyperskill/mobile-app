@@ -38,11 +38,11 @@ final class TopicsRepetitionsViewModel: FeatureViewModel<
         onNewMessage(TopicsRepetitionsFeatureMessageShowMoreButtonClicked())
     }
 
-    func repeatTopicClicked(stepID: Int64) {
-        onNewMessage(TopicsRepetitionsFeatureMessageRepeatTopicClicked())
+    func doRepeatTopic(stepID: Int64) {
+        onNewMessage(TopicsRepetitionsFeatureMessageRepeatTopicClicked(stepId: stepID))
     }
 
-    func repeatNextTopicClicked() {
+    func doRepeatNextTopic() {
         onNewMessage(TopicsRepetitionsFeatureMessageRepeatNextTopicClicked())
     }
 }

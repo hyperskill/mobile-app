@@ -80,7 +80,7 @@ struct TopicsRepetitionsView: View {
             TopicsRepetitionsStatusBlock(
                 repetitionsStatus: viewData.repetitionsStatus,
                 onRepeatNextTopicTap: {
-                    viewModel.repeatNextTopicClicked()
+                    viewModel.doRepeatNextTopic()
                 }
             )
             .padding(.top, appearance.padding)
@@ -101,7 +101,7 @@ struct TopicsRepetitionsView: View {
                             topicID: Int(topic.topicId),
                             title: topic.title,
                             onTap: {
-                                viewModel.repeatTopicClicked()
+                                viewModel.doRepeatTopic(stepID: topic.stepId)
                             }
                         )
                     },
