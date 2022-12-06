@@ -11,7 +11,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentTopicsRepetitionBinding
+import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionChartCardDelegate
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionHeaderDelegate
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionListDelegate
@@ -23,6 +25,7 @@ import org.hyperskill.app.topics_repetitions.view.mapper.TopicsRepetitionsViewDa
 import org.hyperskill.app.topics_repetitions.view.model.TopicsRepetitionsViewData
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.argument
+import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -109,7 +112,12 @@ class TopicsRepetitionFragment :
     }
 
     override fun onAction(action: TopicsRepetitionsFeature.Action.ViewAction) {
-        // no op
+        when (action) {
+            is TopicsRepetitionsFeature.Action.ViewAction.NavigateTo.StepScreen ->
+                requireRouter().navigateTo(StepScreen(action.stepId))
+            TopicsRepetitionsFeature.Action.ViewAction.ShowNetworkError ->
+                view?.snackbar(messageRes = R.string.connection_error)
+        }
     }
 
     override fun render(state: TopicsRepetitionsFeature.State) {
