@@ -24,6 +24,7 @@ struct TopicsRepetitionsInfoBlock: View {
                 .font(.subheadline)
                 .foregroundColor(.secondaryText)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
         .background(Color(ColorPalette.surface))
     }
