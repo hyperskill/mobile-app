@@ -56,8 +56,7 @@ class ProblemOfDayCardFormDelegate(
 
                     problemOfDayDescriptionTextView.setText(R.string.problem_of_day_no_problems_to_solve)
 
-                    problemOfDayActionButton.setBackgroundResource(R.drawable.bg_gradient_blue)
-                    problemOfDayActionButton.setIconTintResource(R.color.color_surface)
+                    topicsRepetitionArrowImageView.setImageResource(R.drawable.ic_home_screen_arrow_button)
 
                     problemOfDayHexogens.setImageResource(R.drawable.bg_hexogens_static)
 
@@ -80,8 +79,7 @@ class ProblemOfDayCardFormDelegate(
 
                     problemOfDayDescriptionTextView.setText(R.string.problem_of_day_get_back)
 
-                    problemOfDayActionButton.setBackgroundResource(R.drawable.bg_gradient_yellow_green)
-                    problemOfDayActionButton.setIconTintResource(R.color.color_on_surface_alpha_60)
+                    topicsRepetitionArrowImageView.setImageResource(R.drawable.ic_home_screen_success_arrow_button)
 
                     problemOfDayHexogens.setImageResource(R.drawable.bg_hexogens_static_solved)
 
@@ -118,8 +116,7 @@ class ProblemOfDayCardFormDelegate(
 
                     problemOfDayDescriptionTextView.setText(R.string.problem_of_day_solve_a_random_problem)
 
-                    problemOfDayActionButton.setBackgroundResource(R.drawable.bg_gradient_blue)
-                    problemOfDayActionButton.setIconTintResource(R.color.color_surface)
+                    topicsRepetitionArrowImageView.setImageResource(R.drawable.ic_home_screen_arrow_button)
 
                     problemOfDayHexogens.setImageResource(R.drawable.bg_hexogens_static)
 
