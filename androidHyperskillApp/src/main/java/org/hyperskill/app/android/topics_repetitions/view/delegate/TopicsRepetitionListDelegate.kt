@@ -43,11 +43,7 @@ class TopicsRepetitionListDelegate(
                 isNestedScrollingEnabled = false
                 val verticalMargin = resources.getDimensionPixelSize(R.dimen.track_next_topic_vertical_item_margin)
                 addItemDecoration(
-                    VerticalMarginItemDecoration(
-                        verticalMargin = verticalMargin,
-                        firstItemTopMargin = verticalMargin,
-                        lastItemMargin = verticalMargin
-                    )
+                    VerticalMarginItemDecoration(verticalMargin = verticalMargin)
                 )
                 addItemDecoration(
                     HorizontalMarginItemDecoration(

@@ -22,7 +22,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="18sp"
         android:text="@string/topics_repetitions_info_block_title"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         />
 
     <TextView
