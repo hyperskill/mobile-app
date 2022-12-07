@@ -18,7 +18,7 @@ final class AuthNewUserPlaceholderViewModel: FeatureViewModel<
     }
 
     func doSignIn() {
-        onNewMessage(PlaceholderNewUserFeatureMessagePlaceholderSignInTappedMessage())
+        //onNewMessage(PlaceholderNewUserFeatureMessagePlaceholderSignInTappedMessage())
     }
 
     func doAuthScreenPresentation() {
@@ -26,7 +26,7 @@ final class AuthNewUserPlaceholderViewModel: FeatureViewModel<
     }
 
     func doContinueOnWebPresentation() {
-        onNewMessage(PlaceholderNewUserFeatureMessageClickedContinueOnWeb())
+        //onNewMessage(PlaceholderNewUserFeatureMessageClickedContinueOnWeb())
     }
 
     // MARK: Analytic

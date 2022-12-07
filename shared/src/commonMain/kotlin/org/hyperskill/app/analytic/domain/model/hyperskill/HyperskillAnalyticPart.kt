@@ -21,4 +21,5 @@ enum class HyperskillAnalyticPart(val partName: String) {
     THEORY_TO_DISCOVER_NEXT("theory_to_discover_next"),
     DAILY_STEP_COMPLETED_MODAL("daily_step_completed_modal"),
     MODAL("modal"),
+    TRACK_MODAL("track_modal"),
 }

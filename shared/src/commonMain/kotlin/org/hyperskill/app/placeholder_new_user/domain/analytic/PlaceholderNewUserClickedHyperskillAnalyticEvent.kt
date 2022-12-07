@@ -6,9 +6,21 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
-class PlaceholderNewUserClickedSignInHyperskillAnalyticEvent : HyperskillAnalyticEvent(
+class PlaceholderNewUserClickedHyperskillAnalyticEvent(
+    part: HyperskillAnalyticPart,
+    target: HyperskillAnalyticTarget,
+    val trackId: Long
+) : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Register(),
     HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.MAIN,
-    HyperskillAnalyticTarget.SIGN_IN
-)
+    part,
+    target
+) {
+    companion object {
+        private const val PARAM_TRACK_ID = "track_id"
+    }
+
+    override val params: Map<String, Any>
+        get() = super.params +
+            mapOf(PARAM_CONTEXT to mapOf(PARAM_TRACK_ID to trackId))
+}

@@ -15,10 +15,12 @@ class TrackComponentImpl(private val appGraph: AppGraph) : TrackComponent {
         appGraph.networkComponent.authorizedHttpClient
     )
     private val trackRepository: TrackRepository = TrackRepositoryImpl(trackRemoteDataSource)
-    private val trackInteractor: TrackInteractor = TrackInteractor(trackRepository)
 
     private val urlPathProcessor: UrlPathProcessor =
         appGraph.buildMagicLinksDataComponent().urlPathProcessor
+
+    override val trackInteractor: TrackInteractor
+        get() = TrackInteractor(trackRepository)
 
     override val trackFeature: Feature<TrackFeature.State, TrackFeature.Message, TrackFeature.Action>
         get() = TrackFeatureBuilder.build(

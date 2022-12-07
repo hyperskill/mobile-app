@@ -15,12 +15,14 @@ import org.hyperskill.app.track.remote.model.TrackResponse
 class TrackRemoteDataSourceImpl(
     private val httpClient: HttpClient
 ) : TrackRemoteDataSource {
-    override suspend fun getTracks(trackIds: List<Long>): Result<List<Track>> =
+    override suspend fun getTracks(trackIds: List<Long>?): Result<List<Track>> =
         kotlin.runCatching {
             httpClient
                 .get("/api/tracks") {
                     contentType(ContentType.Application.Json)
-                    parameter("ids", trackIds.joinToString(separator = ","))
+                    if (trackIds != null) {
+                        parameter("ids", trackIds.joinToString(separator = ","))
+                    }
                 }.body<TrackResponse>().tracks
         }
 

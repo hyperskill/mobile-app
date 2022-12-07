@@ -1,48 +1,59 @@
 package org.hyperskill.app.placeholder_new_user.presentation
 
-import kotlinx.coroutines.flow.MutableSharedFlow
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
-import org.hyperskill.app.auth.domain.interactor.AuthInteractor
-import org.hyperskill.app.auth.domain.model.UserDeauthorized
-import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature.Action
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature.Message
+import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.track.domain.interactor.TrackInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class PlaceholderNewUserActionDispatcher(
     config: ActionDispatcherOptions,
     private val analyticInteractor: AnalyticInteractor,
-    private val authInteractor: AuthInteractor,
-    private val authorizationFlow: MutableSharedFlow<UserDeauthorized>,
-    private val urlPathProcessor: UrlPathProcessor
+    private val trackInteractor: TrackInteractor,
+    private val profileInteractor: ProfileInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
+    companion object {
+        private const val DEFAULT_PROJECT_ID: Long = 8
+    }
+
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            is Action.Logout -> {
-                val isAuthorized = authInteractor.isAuthorized()
-                    .getOrDefault(false)
+            is Action.Initialize -> {
+                val tracks = trackInteractor
+                    .getAllTracks()
+                    .getOrElse {
+                        onNewMessage(Message.TracksLoaded.Error)
+                        return
+                    }
+                    .filter { it.isBeta.not() }
 
-                if (isAuthorized) {
-                    authorizationFlow.tryEmit(UserDeauthorized(reason = UserDeauthorized.Reason.SIGN_OUT))
-                } else {
-                    onNewMessage(Message.OpenAuthScreen)
-                }
+                onNewMessage(Message.TracksLoaded.Success(tracks))
+            }
+            is Action.SelectTrack -> {
+                val currentProfile = profileInteractor
+                    .getCurrentProfile()
+                    .getOrElse {
+                        onNewMessage(Message.TrackSelected.Error)
+                        return
+                    }
+
+                profileInteractor
+                    .selectTrackWithProject(
+                        profileId = currentProfile.id,
+                        trackId = action.track.id,
+                        projectId = action.track.projectsByLevel.easy?.firstOrNull() ?: DEFAULT_PROJECT_ID
+                    )
+                    .getOrElse {
+                        onNewMessage(Message.TrackSelected.Error)
+                        return
+                    }
+
+                onNewMessage(Message.TrackSelected.Success)
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
-            is Action.GetMagicLink -> getLink(action.path, ::onNewMessage)
         }
     }
-
-    private suspend fun getLink(path: HyperskillUrlPath, onNewMessage: (Message) -> Unit): Unit =
-        urlPathProcessor.processUrlPath(path).fold(
-            onSuccess = { url ->
-                onNewMessage(Message.GetMagicLinkReceiveSuccess(url))
-            },
-            onFailure = {
-                onNewMessage(Message.GetMagicLinkReceiveFailure)
-            }
-        )
 }

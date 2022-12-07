@@ -20,9 +20,9 @@ struct AuthNewUserPlaceholderView: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     var body: some View {
-        if case .content(let data) = viewModel.stateKs, data.isLoadingMagicLink {
-            ProgressHUD.show()
-        }
+//        if case .content(let data) = viewModel.stateKs, data.isLoadingMagicLink {
+//            ProgressHUD.show()
+//        }
 
         return ZStack {
             UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
@@ -87,18 +87,18 @@ struct AuthNewUserPlaceholderView: View {
     // MARK: Private API
 
     private func handleViewAction(_ viewAction: PlaceholderNewUserFeatureActionViewAction) {
-        switch PlaceholderNewUserFeatureActionViewActionKs(viewAction) {
-        case .navigateTo(let navigateToViewAction):
-            switch PlaceholderNewUserFeatureActionViewActionNavigateToKs(navigateToViewAction) {
-            case .authScreen:
-                viewModel.doAuthScreenPresentation()
-            }
-        case .openUrl(let data):
-            ProgressHUD.showSuccess()
-            WebControllerManager.shared.presentWebControllerWithURLString(data.url, controllerType: .inAppSafari)
-        case .showGetMagicLinkError:
-            ProgressHUD.showError()
-        }
+//        switch PlaceholderNewUserFeatureActionViewActionKs(viewAction) {
+//        case .navigateTo(let navigateToViewAction):
+//            switch PlaceholderNewUserFeatureActionViewActionNavigateToKs(navigateToViewAction) {
+//            case .authScreen:
+//                viewModel.doAuthScreenPresentation()
+//            }
+//        case .openUrl(let data):
+//            ProgressHUD.showSuccess()
+//            WebControllerManager.shared.presentWebControllerWithURLString(data.url, controllerType: .inAppSafari)
+//        case .showGetMagicLinkError:
+//            ProgressHUD.showError()
+//        }
     }
 }
 

@@ -4,4 +4,6 @@ import org.hyperskill.app.profile.domain.model.Profile
 
 interface ProfileRemoteDataSource {
     suspend fun getCurrentProfile(): Result<Profile>
+
+    suspend fun selectTrackWithProject(profileId: Long, trackId: Long, projectId: Long): Result<Profile>
 }

@@ -15,6 +15,9 @@ class ProfileInteractor(
     suspend fun getCurrentProfile(sourceType: DataSourceType = DataSourceType.CACHE): Result<Profile> =
         profileRepository.getCurrentProfile(sourceType)
 
+    suspend fun selectTrackWithProject(profileId: Long, trackId: Long, projectId: Long): Result<Profile> =
+        profileRepository.selectTrackWithProject(profileId, trackId, projectId)
+
     suspend fun clearCache() {
         profileRepository.clearCache()
     }
