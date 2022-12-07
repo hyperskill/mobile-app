@@ -110,7 +110,7 @@ class AndroidAppComponentImpl(
         get() = application
 
     override val commonComponent: CommonComponent =
-        CommonComponentImpl(application, userAgentInfo, buildVariant, sentryManager)
+        CommonComponentImpl(application, userAgentInfo, buildVariant)
 
     override val mainComponent: MainComponent =
         MainComponentImpl(this)
@@ -131,7 +131,7 @@ class AndroidAppComponentImpl(
         AnalyticComponentImpl(this)
 
     override val sentryComponent: SentryComponent =
-        SentryComponentImpl(this)
+        SentryComponentImpl(sentryManager)
 
     override val platformNotificationComponent: PlatformNotificationComponent =
         PlatformNotificationComponentImpl(application, this)

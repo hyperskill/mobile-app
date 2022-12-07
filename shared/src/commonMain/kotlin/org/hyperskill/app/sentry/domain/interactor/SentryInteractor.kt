@@ -19,6 +19,10 @@ class SentryInteractor(
 ) {
     private val transactionsMutex = Mutex()
 
+    fun setup() {
+        sentryManager.setup()
+    }
+
     fun addBreadcrumb(breadcrumb: HyperskillSentryBreadcrumb) {
         sentryManager.addBreadcrumb(breadcrumb)
     }

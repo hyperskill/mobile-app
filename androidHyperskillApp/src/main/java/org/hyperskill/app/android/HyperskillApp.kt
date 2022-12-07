@@ -47,7 +47,7 @@ class HyperskillApp : Application() {
     }
 
     private fun initSentry() {
-        appGraph.commonComponent.sentryManager.setup()
+        appGraph.sentryComponent.sentryInteractor.setup()
     }
 
     private fun buildUserAgentInfo() =
