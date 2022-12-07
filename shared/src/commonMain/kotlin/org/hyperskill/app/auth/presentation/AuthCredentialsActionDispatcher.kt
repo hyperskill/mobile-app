@@ -12,6 +12,7 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class AuthCredentialsActionDispatcher(
@@ -25,6 +26,9 @@ class AuthCredentialsActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.AuthWithEmail -> {
+                val sentryTransaction = HyperskillSentryTransactionBuilder.buildAuthCredentialsAuth()
+                sentryInteractor.startTransaction(sentryTransaction)
+
                 val result = authInteractor.authWithEmail(action.email, action.password)
 
                 val message =
@@ -48,6 +52,12 @@ class AuthCredentialsActionDispatcher(
                                 Message.AuthFailure(error, it)
                             }
                         )
+
+                sentryInteractor.finishTransaction(
+                    transaction = sentryTransaction,
+                    throwable = (message as? Message.AuthFailure)?.originalError
+                )
+
                 onNewMessage(message)
             }
             is Action.GetMagicLink ->
@@ -58,6 +68,7 @@ class AuthCredentialsActionDispatcher(
                 sentryInteractor.addBreadcrumb(action.breadcrumb)
             is Action.CaptureSentryException ->
                 sentryInteractor.captureErrorMessage("AuthCredentials: ${action.throwable}")
+            else -> {}
         }
     }
 

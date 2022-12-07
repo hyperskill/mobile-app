@@ -70,7 +70,7 @@ class AppGraphImpl(
     sentryManager: SentryManager
 ) : iOSAppComponent {
     override val commonComponent: CommonComponent =
-        CommonComponentImpl(userAgentInfo, buildVariant, sentryManager)
+        CommonComponentImpl(userAgentInfo, buildVariant)
 
     override val networkComponent: NetworkComponent =
         NetworkComponentImpl(this)
@@ -85,7 +85,7 @@ class AppGraphImpl(
         AnalyticComponentImpl(this)
 
     override val sentryComponent: SentryComponent =
-        SentryComponentImpl(this)
+        SentryComponentImpl(sentryManager)
 
     override val mainComponent: MainComponent =
         MainComponentImpl(this)

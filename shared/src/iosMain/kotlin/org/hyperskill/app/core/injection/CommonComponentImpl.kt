@@ -9,13 +9,11 @@ import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.ResourceProviderImpl
 import org.hyperskill.app.network.injection.NetworkModule
-import org.hyperskill.app.sentry.domain.model.manager.SentryManager
 import platform.Foundation.NSUserDefaults
 
 class CommonComponentImpl(
     override val userAgentInfo: UserAgentInfo,
-    override val buildVariant: BuildVariant,
-    override val sentryManager: SentryManager
+    override val buildVariant: BuildVariant
 ) : CommonComponent {
 
     override val json: Json =

@@ -9,6 +9,7 @@ import org.hyperskill.app.profile.presentation.ProfileFeature.Action
 import org.hyperskill.app.profile.presentation.ProfileFeature.Message
 import org.hyperskill.app.profile.presentation.ProfileFeature.State
 import org.hyperskill.app.profile.presentation.ProfileReducer
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.streak.domain.interactor.StreakInteractor
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
@@ -19,6 +20,7 @@ object ProfileFeatureBuilder {
         profileInteractor: ProfileInteractor,
         streakInteractor: StreakInteractor,
         analyticInteractor: AnalyticInteractor,
+        sentryInteractor: SentryInteractor,
         urlPathProcessor: UrlPathProcessor
     ): Feature<State, Message, Action> {
         val profileReducer = ProfileReducer()
@@ -27,6 +29,7 @@ object ProfileFeatureBuilder {
             profileInteractor,
             streakInteractor,
             analyticInteractor,
+            sentryInteractor,
             urlPathProcessor
         )
 

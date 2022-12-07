@@ -52,7 +52,8 @@ class StepQuizComponentImpl(private val appGraph: AppGraph) : StepQuizComponent 
                 stepQuizReplyValidator,
                 appGraph.buildProfileDataComponent().profileInteractor,
                 appGraph.buildNotificationComponent().notificationInteractor,
-                appGraph.analyticComponent.analyticInteractor
+                appGraph.analyticComponent.analyticInteractor,
+                appGraph.sentryComponent.sentryInteractor
             )
 
             return ReduxFeature(StepQuizFeature.State.Idle, stepQuizReducer)

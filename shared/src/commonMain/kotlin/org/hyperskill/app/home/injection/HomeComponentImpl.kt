@@ -12,6 +12,7 @@ import org.hyperskill.app.profile.data.source.ProfileRemoteDataSource
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.profile.domain.repository.ProfileRepository
 import org.hyperskill.app.profile.remote.ProfileRemoteDataSourceImpl
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step.data.repository.StepRepositoryImpl
 import org.hyperskill.app.step.data.source.StepRemoteDataSource
 import org.hyperskill.app.step.domain.interactor.StepInteractor
@@ -55,6 +56,9 @@ class HomeComponentImpl(appGraph: AppGraph) : HomeComponent {
     private val analyticInteractor: AnalyticInteractor =
         appGraph.analyticComponent.analyticInteractor
 
+    private val sentryInteractor: SentryInteractor =
+        appGraph.sentryComponent.sentryInteractor
+
     private val urlPathProcessor: UrlPathProcessor =
         appGraph.buildMagicLinksDataComponent().urlPathProcessor
 
@@ -63,11 +67,12 @@ class HomeComponentImpl(appGraph: AppGraph) : HomeComponent {
 
     override val homeFeature: Feature<HomeFeature.State, HomeFeature.Message, HomeFeature.Action>
         get() = HomeFeatureBuilder.build(
-            analyticInteractor,
             homeInteractor,
             streakInteractor,
             profileInteractor,
             stepInteractor,
+            analyticInteractor,
+            sentryInteractor,
             urlPathProcessor,
             topicsRepetitionsInteractor.topicRepeatedMutableSharedFlow
         )
