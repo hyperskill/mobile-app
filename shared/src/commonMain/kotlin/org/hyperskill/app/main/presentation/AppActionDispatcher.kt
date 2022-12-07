@@ -45,7 +45,7 @@ class AppActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.DetermineUserAccountStatus -> {
-                val transaction = HyperskillSentryTransactionBuilder.buildAppFeatureRemoteLoading()
+                val transaction = HyperskillSentryTransactionBuilder.buildAppScreenRemoteDataLoading()
                 sentryInteractor.startTransaction(transaction)
 
                 profileInteractor

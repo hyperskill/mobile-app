@@ -10,6 +10,7 @@ import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class AuthSocialActionDispatcher(
@@ -22,6 +23,9 @@ class AuthSocialActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.AuthWithSocial -> {
+                val sentryTransaction = HyperskillSentryTransactionBuilder.buildAuthSocialAuth()
+                sentryInteractor.startTransaction(sentryTransaction)
+
                 val result = authInteractor.authWithSocial(action.authCode, action.idToken, action.socialAuthProvider)
 
                 val message =
@@ -65,6 +69,11 @@ class AuthSocialActionDispatcher(
                             }
                         )
 
+                sentryInteractor.finishTransaction(
+                    transaction = sentryTransaction,
+                    throwable = (message as? Message.AuthFailure)?.data?.originalError
+                )
+
                 onNewMessage(message)
             }
             is Action.LogAnalyticEvent ->
@@ -78,6 +87,7 @@ class AuthSocialActionDispatcher(
                     sentryInteractor.captureErrorMessage("AuthSocial: ${action.originalError}")
                 }
             }
+            else -> {}
         }
     }
 }

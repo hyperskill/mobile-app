@@ -73,7 +73,7 @@ class HomeActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchHomeScreenData -> {
-                val sentryTransaction = HyperskillSentryTransactionBuilder.buildHomeFeatureRemoteLoading()
+                val sentryTransaction = HyperskillSentryTransactionBuilder.buildHomeScreenRemoteDataLoading()
                 sentryInteractor.startTransaction(sentryTransaction)
 
                 val currentProfile = profileInteractor

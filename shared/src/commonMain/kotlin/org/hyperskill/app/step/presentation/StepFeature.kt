@@ -18,7 +18,7 @@ interface StepFeature {
 
         sealed interface StepLoaded : Message {
             data class Success(val step: Step) : StepLoaded
-            data class Error(val errorMsg: String) : StepLoaded
+            object Error : StepLoaded
         }
 
         data class ClickedBackEventMessage(val stepId: Long) : Message

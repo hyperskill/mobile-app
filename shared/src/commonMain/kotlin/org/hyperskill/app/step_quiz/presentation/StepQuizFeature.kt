@@ -39,7 +39,7 @@ interface StepQuizFeature {
             val submissionState: SubmissionState,
             val currentProfile: Profile
         ) : Message
-        object FetchAttemptError : Message
+        data class FetchAttemptError(val throwable: Throwable) : Message
 
         /**
          * Create/retry attempt
