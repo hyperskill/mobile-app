@@ -9,4 +9,13 @@ object HyperskillSentryTransactionBuilder {
             name = "app-feature-remote-data-loading",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
+
+    /**
+     * HomeFeature
+     */
+    fun buildHomeFeatureRemoteLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "home-feature-remote-data-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
 }

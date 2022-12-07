@@ -25,6 +25,8 @@ import org.hyperskill.app.home.presentation.HomeFeature.Action
 import org.hyperskill.app.home.presentation.HomeFeature.Message
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.streak.domain.interactor.StreakInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
@@ -36,6 +38,7 @@ class HomeActionDispatcher(
     private val profileInteractor: ProfileInteractor,
     private val stepInteractor: StepInteractor,
     private val analyticInteractor: AnalyticInteractor,
+    private val sentryInteractor: SentryInteractor,
     private val urlPathProcessor: UrlPathProcessor,
     private val topicRepeatedSharedFlow: SharedFlow<Unit>
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
@@ -70,9 +73,13 @@ class HomeActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchHomeScreenData -> {
+                val sentryTransaction = HyperskillSentryTransactionBuilder.buildHomeFeatureRemoteLoading()
+                sentryInteractor.startTransaction(sentryTransaction)
+
                 val currentProfile = profileInteractor
                     .getCurrentProfile(DataSourceType.REMOTE) // ALTAPPS-303: Get from remote to get relevant problem of the day
                     .getOrElse {
+                        sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                         onNewMessage(Message.HomeFailure)
                         return
                     }
@@ -85,13 +92,17 @@ class HomeActionDispatcher(
                 }
 
                 val problemOfDayState = problemOfDayStateResult.await().getOrElse {
+                    sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                     onNewMessage(Message.HomeFailure)
                     return
                 }
                 val currentProfileStreaks = currentProfileStreaksResult.await().getOrElse {
+                    sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                     onNewMessage(Message.HomeFailure)
                     return
                 }
+
+                sentryInteractor.finishTransaction(sentryTransaction)
 
                 onNewMessage(
                     Message.HomeSuccess(
