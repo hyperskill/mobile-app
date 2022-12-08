@@ -19,15 +19,21 @@ class TrackRemoteDataSourceImpl(
         private const val TRACKS_PAGE_MAX_SIZE = 100
     }
 
+    override suspend fun getAllTracks(): Result<List<Track>> =
+        kotlin.runCatching {
+            httpClient
+                .get("/api/tracks") {
+                    contentType(ContentType.Application.Json)
+                    parameter("page_size", TRACKS_PAGE_MAX_SIZE)
+                }.body<TrackResponse>().tracks
+        }
+
     override suspend fun getTracks(trackIds: List<Long>): Result<List<Track>> =
         kotlin.runCatching {
             httpClient
                 .get("/api/tracks") {
                     contentType(ContentType.Application.Json)
-                    if (trackIds.isNotEmpty()) {
-                        parameter("ids", trackIds.joinToString(separator = ","))
-                    }
-                    parameter("page_size", TRACKS_PAGE_MAX_SIZE)
+                    parameter("ids", trackIds.joinToString(separator = ","))
                 }.body<TrackResponse>().tracks
         }
 
