@@ -62,7 +62,7 @@ class CompletedStepOfTheDayDialogFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Hack to apply AppTheme to content
-        // Without it contextThemeWrapper it is not applied
+        // Without contextThemeWrapper AppTheme is not applied
         val contextThemeWrapper = ContextThemeWrapper(activity, R.style.AppTheme)
         return inflater.cloneInContext(contextThemeWrapper).inflate(R.layout.fragment_completed_daily_step, container, false)
     }
@@ -73,7 +73,7 @@ class CompletedStepOfTheDayDialogFragment : BottomSheetDialogFragment() {
             completedDailyStepGemsCountTextView.text = gemsCount.toString()
             completedDailyStepGoBackButton.setOnClickListener {
                 stepQuizViewModel.onNewMessage(
-                    StepQuizFeature.Message.DailyStepCompletedModalClickedGoBackEventMessage
+                    StepQuizFeature.Message.ProblemOfDaySolvedModalGoBackClicked
                 )
                 dismiss()
             }

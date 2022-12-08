@@ -210,6 +210,15 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 }
             is Message.ShowProblemOfDaySolvedModal ->
                 state to setOf(Action.ViewAction.ShowProblemOfDaySolvedModal(message.gemsCount))
+            is Message.ProblemOfDaySolvedModalGoBackClicked ->
+                if (state is State.AttemptLoaded) {
+                    val event = StepQuizDailyStepCompletedModalClickedGoBackHyperskillAnalyticEvent(
+                        route = resolveAnalyticRoute(state)
+                    )
+                    state to setOf(Action.LogAnalyticEvent(event), Action.ViewAction.NavigateTo.Back)
+                } else {
+                    null
+                }
             is Message.ViewedEventMessage ->
                 state to setOf(Action.LogViewedEvent(message.stepId))
             is Message.ClickedCodeDetailsEventMessage ->
@@ -222,13 +231,6 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
             is Message.ClickedRetryEventMessage ->
                 if (state is State.AttemptLoaded) {
                     val event = StepQuizClickedRetryHyperskillAnalyticEvent(route = resolveAnalyticRoute(state))
-                    state to setOf(Action.LogAnalyticEvent(event))
-                } else {
-                    null
-                }
-            is Message.DailyStepCompletedModalClickedGoBackEventMessage ->
-                if (state is State.AttemptLoaded) {
-                    val event = StepQuizDailyStepCompletedModalClickedGoBackHyperskillAnalyticEvent(route = resolveAnalyticRoute(state))
                     state to setOf(Action.LogAnalyticEvent(event))
                 } else {
                     null
