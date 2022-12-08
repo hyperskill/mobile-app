@@ -26,5 +26,4 @@ class PlaceholderNewUserViewDataMapper(
 
         return resourceProvider.getQuantityString(SharedResources.plurals.hours, hours, hours)
     }
-
 }
