@@ -84,13 +84,14 @@ interface StepQuizFeature {
 
         data class ShowProblemOfDaySolvedModal(val gemsCount: Int) : Message
 
+        object ProblemOfDaySolvedModalGoBackClicked : Message
+
         /**
          * Analytic
          */
         data class ViewedEventMessage(val stepId: Long) : Message
         object ClickedCodeDetailsEventMessage : Message
         object ClickedRetryEventMessage : Message
-        object DailyStepCompletedModalClickedGoBackEventMessage : Message
         object DailyStepCompletedModalShownEventMessage : Message
         object DailyStepCompletedModalHiddenEventMessage : Message
     }

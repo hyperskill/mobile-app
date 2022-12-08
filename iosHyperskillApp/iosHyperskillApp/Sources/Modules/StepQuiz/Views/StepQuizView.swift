@@ -338,8 +338,7 @@ extension StepQuizView {
         let panModal = ProblemOfDaySolvedModalViewController(
             gemsCount: gemsCount,
             onGoBackButtonTap: {
-                viewModel.logDailyStepCompletedModalClickedGoBackEvent()
-                viewModel.doQuizContinueAction()
+                viewModel.doGoBackAction()
             }
         )
 

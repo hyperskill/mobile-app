@@ -6,5 +6,11 @@ import ru.nobird.app.presentation.redux.container.wrapWithViewContainer
 
 class PlatformStepQuizComponentImpl(private val stepQuizComponent: StepQuizComponent) : PlatformStepQuizComponent {
     override val reduxViewModelFactory: ReduxViewModelFactory
-        get() = ReduxViewModelFactory(mapOf(StepQuizViewModel::class.java to { StepQuizViewModel(stepQuizComponent.stepQuizFeature.wrapWithViewContainer()) }))
+        get() = ReduxViewModelFactory(
+            mapOf(
+                StepQuizViewModel::class.java to {
+                    StepQuizViewModel(stepQuizComponent.stepQuizFeature.wrapWithViewContainer())
+                }
+            )
+        )
 }
