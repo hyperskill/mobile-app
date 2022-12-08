@@ -8,7 +8,9 @@ class TrackInteractor(
     private val trackRepository: TrackRepository
 ) {
     suspend fun getTrack(trackId: Long): Result<Track> =
-        trackRepository.getTrack(trackId)
+        kotlin.runCatching {
+            return trackRepository.getTrack(trackId)
+        }
 
     suspend fun getAllTracks(): Result<List<Track>> =
         trackRepository.getAllTracks()
@@ -17,5 +19,7 @@ class TrackInteractor(
         trackRepository.getStudyPlans()
 
     suspend fun getStudyPlanByTrackId(trackId: Long): Result<StudyPlan> =
-        trackRepository.getStudyPlanByTrackId(trackId)
+        kotlin.runCatching {
+            return trackRepository.getStudyPlanByTrackId(trackId)
+        }
 }
