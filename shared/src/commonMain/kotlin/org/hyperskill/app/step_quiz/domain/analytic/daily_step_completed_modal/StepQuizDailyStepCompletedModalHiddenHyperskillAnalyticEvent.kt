@@ -6,6 +6,20 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
+/**
+ * Represents a hidden analytic event of the daily step completed modal.
+ *
+ * JSON payload:
+ * ```
+ * {
+ *     "route": "/learn/step/1",
+ *     "action": "hidden",
+ *     "part": "daily_step_completed_modal",
+ *     "target": "close"
+ * }
+ * ```
+ * @see HyperskillAnalyticEvent
+ */
 class StepQuizDailyStepCompletedModalHiddenHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute
 ) : HyperskillAnalyticEvent(

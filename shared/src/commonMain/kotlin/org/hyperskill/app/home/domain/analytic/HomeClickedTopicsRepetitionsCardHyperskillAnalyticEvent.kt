@@ -6,6 +6,24 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
+/**
+ * Represents click on the topics repetitions card analytic event.
+ *
+ * JSON payload:
+ * ```
+ * {
+ *     "route": "/home",
+ *     "action": "click",
+ *     "part": "topics_repetitions_card",
+ *     "target": "continue",
+ *     "context":
+ *     {
+ *         "is_completed": false
+ *     }
+ * }
+ * ```
+ * @see HyperskillAnalyticEvent
+ */
 class HomeClickedTopicsRepetitionsCardHyperskillAnalyticEvent(
     val isCompleted: Boolean
 ) : HyperskillAnalyticEvent(

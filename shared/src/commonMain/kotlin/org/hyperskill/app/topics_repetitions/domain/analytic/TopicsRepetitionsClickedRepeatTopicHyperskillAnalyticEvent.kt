@@ -6,6 +6,20 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
+/**
+ * Represents click on the repeat topic button (All topics to repeat block) analytic event.
+ *
+ * JSON payload:
+ * ```
+ * {
+ *     "route": "/repeat",
+ *     "action": "click",
+ *     "part": "repeat_topic",
+ *     "target": "continue"
+ * }
+ * ```
+ * @see HyperskillAnalyticEvent
+ */
 class TopicsRepetitionsClickedRepeatTopicHyperskillAnalyticEvent : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Repeat(),
     HyperskillAnalyticAction.CLICK,

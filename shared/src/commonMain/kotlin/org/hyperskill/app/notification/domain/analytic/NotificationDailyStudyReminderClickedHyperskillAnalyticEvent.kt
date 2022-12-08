@@ -6,6 +6,26 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
+/**
+ * Represents click on the local daily study notification analytic event.
+ *
+ * When the user interacts with local notifications through the notification center or pop-up.
+ *
+ * JSON payload:
+ * ```
+ * {
+ *     "route": "/home",
+ *     "action": "click",
+ *     "part": "notification",
+ *     "target": "daily_notification",
+ *     "context":
+ *     {
+ *         "key": 10
+ *     }
+ * }
+ * ```
+ * @see HyperskillAnalyticEvent
+ */
 class NotificationDailyStudyReminderClickedHyperskillAnalyticEvent(
     private val notificationId: Int
 ) : HyperskillAnalyticEvent(
