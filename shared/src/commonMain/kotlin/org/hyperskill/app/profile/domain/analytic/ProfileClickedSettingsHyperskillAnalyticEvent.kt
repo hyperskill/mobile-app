@@ -6,6 +6,20 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
+/**
+ * Represents click on the settings button analytic event.
+ *
+ * JSON payload:
+ * ```
+ * {
+ *     "route": "/profile",
+ *     "action": "click",
+ *     "part": "head",
+ *     "target": "settings"
+ * }
+ * ```
+ * @see HyperskillAnalyticEvent
+ */
 class ProfileClickedSettingsHyperskillAnalyticEvent : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Profile(),
     HyperskillAnalyticAction.CLICK,

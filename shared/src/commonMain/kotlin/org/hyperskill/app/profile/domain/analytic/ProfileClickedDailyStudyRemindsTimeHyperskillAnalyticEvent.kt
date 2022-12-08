@@ -6,6 +6,20 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
+/**
+ * Represents click on the daily study reminds formatted time button analytic event.
+ *
+ * JSON payload:
+ * ```
+ * {
+ *     "route": "/profile",
+ *     "action": "click",
+ *     "part": "main",
+ *     "target": "daily_study_reminds_time"
+ * }
+ * ```
+ * @see HyperskillAnalyticEvent
+ */
 class ProfileClickedDailyStudyRemindsTimeHyperskillAnalyticEvent : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Profile(),
     HyperskillAnalyticAction.CLICK,
