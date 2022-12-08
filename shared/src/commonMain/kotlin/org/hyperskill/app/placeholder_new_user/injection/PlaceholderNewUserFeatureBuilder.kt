@@ -8,6 +8,7 @@ import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFe
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature.Action
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserReducer
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.track.domain.interactor.TrackInteractor
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
@@ -17,6 +18,7 @@ object PlaceholderNewUserFeatureBuilder {
     fun build(
         analyticInteractor: AnalyticInteractor,
         trackInteractor: TrackInteractor,
+        progressesInteractor: ProgressesInteractor,
         profileInteractor: ProfileInteractor
     ): Feature<State, Message, Action> {
         val placeholderNewUserReducer = PlaceholderNewUserReducer()
@@ -24,6 +26,7 @@ object PlaceholderNewUserFeatureBuilder {
             ActionDispatcherOptions(),
             analyticInteractor,
             trackInteractor,
+            progressesInteractor,
             profileInteractor
         )
 

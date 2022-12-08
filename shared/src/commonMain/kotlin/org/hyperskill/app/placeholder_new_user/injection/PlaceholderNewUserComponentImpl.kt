@@ -2,6 +2,7 @@ package org.hyperskill.app.placeholder_new_user.injection
 
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature
+import org.hyperskill.app.placeholder_new_user.view.mapper.PlaceholderNewUserViewDataMapper
 import ru.nobird.app.presentation.redux.feature.Feature
 
 class PlaceholderNewUserComponentImpl(
@@ -11,6 +12,9 @@ class PlaceholderNewUserComponentImpl(
         get() = PlaceholderNewUserFeatureBuilder.build(
             appGraph.analyticComponent.analyticInteractor,
             appGraph.buildTrackDataComponent().trackInteractor,
+            appGraph.buildProgressesDataComponent().progressesInteractor,
             appGraph.buildProfileDataComponent().profileInteractor
         )
+    override val placeHolderNewUserViewDataMapper: PlaceholderNewUserViewDataMapper
+        get() = PlaceholderNewUserViewDataMapper(appGraph.commonComponent.resourceProvider)
 }

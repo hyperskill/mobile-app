@@ -24,7 +24,7 @@ class PlaceholderNewUserReducer : StateReducer<State, Message, Action> {
                 }
             is Message.TracksLoaded.Success ->
                 if (state is State.Loading) {
-                    State.Content(message.tracks) to emptySet()
+                    State.Content(message.tracks, message.tracksProgresses) to emptySet()
                 } else {
                     null
                 }
@@ -36,17 +36,23 @@ class PlaceholderNewUserReducer : StateReducer<State, Message, Action> {
                 }
             is Message.StartLearningButtonClicked ->
                 if (state is State.Content) {
-                    state to setOf(
-                        Action.SelectTrack(message.track),
-                        Action.LogAnalyticEvent(
-                            PlaceholderNewUserClickedHyperskillAnalyticEvent(
-                                HyperskillAnalyticPart.TRACK_MODAL,
-                                HyperskillAnalyticTarget.START_LEARNING,
-                                message.track.id
-                            )
-                        ),
-                        Action.ViewAction.ShowTrackSelectionStatus.Loading
-                    )
+                    val track = state.tracks.firstOrNull { it.id == message.trackId }
+
+                    if (track != null) {
+                        state to setOf(
+                            Action.SelectTrack(track),
+                            Action.LogAnalyticEvent(
+                                PlaceholderNewUserClickedHyperskillAnalyticEvent(
+                                    HyperskillAnalyticPart.TRACK_MODAL,
+                                    HyperskillAnalyticTarget.START_LEARNING,
+                                    track.id
+                                )
+                            ),
+                            Action.ViewAction.ShowTrackSelectionStatus.Loading
+                        )
+                    } else {
+                        null
+                    }
                 } else {
                     null
                 }
