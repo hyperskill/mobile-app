@@ -78,7 +78,7 @@ final class StepQuizViewModel: FeatureViewModel<
         onNewMessage(StepQuizFeatureMessageContinueClicked())
     }
 
-    func doGoBackAction()
+    func doGoBackAction() {
         onNewMessage(StepQuizFeatureMessageProblemOfDaySolvedModalGoBackClicked())
     }
 
