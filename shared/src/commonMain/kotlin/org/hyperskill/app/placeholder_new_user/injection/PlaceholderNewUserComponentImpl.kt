@@ -10,7 +10,7 @@ class PlaceholderNewUserComponentImpl(
     override val placeholderNewUserFeature: Feature<PlaceholderNewUserFeature.State, PlaceholderNewUserFeature.Message, PlaceholderNewUserFeature.Action>
         get() = PlaceholderNewUserFeatureBuilder.build(
             appGraph.analyticComponent.analyticInteractor,
-            appGraph.buildTrackComponent().trackInteractor,
+            appGraph.buildTrackDataComponent().trackInteractor,
             appGraph.buildProfileDataComponent().profileInteractor
         )
 }

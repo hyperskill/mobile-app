@@ -44,7 +44,11 @@ interface PlaceholderNewUserFeature {
                 object HomeScreen : NavigateTo
             }
 
-            object ShowNetworkError : ViewAction
+            sealed interface ShowTrackSelectionStatus : Action {
+                object Loading : ShowTrackSelectionStatus
+                object Error : ShowTrackSelectionStatus
+                object Success : ShowTrackSelectionStatus
+            }
         }
 
         /**

@@ -44,16 +44,20 @@ class PlaceholderNewUserReducer : StateReducer<State, Message, Action> {
                                 HyperskillAnalyticTarget.START_LEARNING,
                                 message.track.id
                             )
-                        )
+                        ),
+                        Action.ViewAction.ShowTrackSelectionStatus.Loading
                     )
                 } else {
                     null
                 }
             is Message.TrackSelected.Success -> {
-                state to setOf(Action.ViewAction.NavigateTo.HomeScreen)
+                state to setOf(
+                    Action.ViewAction.NavigateTo.HomeScreen,
+                    Action.ViewAction.ShowTrackSelectionStatus.Success,
+                )
             }
             is Message.TrackSelected.Error -> {
-                state to setOf(Action.ViewAction.ShowNetworkError)
+                state to setOf(Action.ViewAction.ShowTrackSelectionStatus.Error)
             }
             is Message.ViewedEventMessage ->
                 state to setOf(

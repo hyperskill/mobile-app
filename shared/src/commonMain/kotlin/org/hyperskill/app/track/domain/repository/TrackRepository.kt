@@ -7,7 +7,7 @@ interface TrackRepository {
     suspend fun getTrack(trackId: Long): Result<Track> =
         getTracks(listOf(trackId)).map { it.first() }
 
-    suspend fun getTracks(trackIds: List<Long>?): Result<List<Track>>
+    suspend fun getTracks(trackIds: List<Long>): Result<List<Track>>
 
     suspend fun getStudyPlans(): Result<List<StudyPlan>>
 

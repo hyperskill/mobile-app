@@ -14,10 +14,6 @@ class PlaceholderNewUserActionDispatcher(
     private val trackInteractor: TrackInteractor,
     private val profileInteractor: ProfileInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
-    companion object {
-        private const val DEFAULT_PROJECT_ID: Long = 8
-    }
-
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.Initialize -> {
@@ -39,11 +35,23 @@ class PlaceholderNewUserActionDispatcher(
                         return
                     }
 
+                val projectByLevel = action.track.projectsByLevel
+
+                val projectId = projectByLevel.easy?.firstOrNull()
+                    ?: projectByLevel.medium?.firstOrNull()
+                    ?: projectByLevel.hard?.firstOrNull()
+                    ?: projectByLevel.nightmare?.firstOrNull()
+
+                if (projectId == null) {
+                    onNewMessage(Message.TrackSelected.Error)
+                    return
+                }
+
                 profileInteractor
                     .selectTrackWithProject(
                         profileId = currentProfile.id,
                         trackId = action.track.id,
-                        projectId = action.track.projectsByLevel.easy?.firstOrNull() ?: DEFAULT_PROJECT_ID
+                        projectId = projectId
                     )
                     .getOrElse {
                         onNewMessage(Message.TrackSelected.Error)

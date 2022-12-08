@@ -14,7 +14,7 @@ class TrackInteractor(
 
     suspend fun getAllTracks(): Result<List<Track>> =
         kotlin.runCatching {
-            return trackRepository.getTracks(null)
+            return trackRepository.getTracks(emptyList())
         }
 
     suspend fun getStudyPlans(): Result<List<StudyPlan>> =
