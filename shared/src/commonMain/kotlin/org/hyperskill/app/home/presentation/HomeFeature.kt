@@ -21,6 +21,7 @@ interface HomeFeature {
          * Represents a state when home screen data successfully loaded.
          *
          * @property streak Current user profile streak.
+         * @property hypercoinsBalance Current user profile balance of the hypercoins.
          * @property problemOfDayState Problem of the day state.
          * @property recommendedRepetitionsCount Recommended topics repetitions count.
          * @property isRefreshing A boolean flag that indicates about is pull-to-refresh is ongoing.
@@ -30,6 +31,7 @@ interface HomeFeature {
          */
         data class Content(
             val streak: Streak?,
+            val hypercoinsBalance: Int,
             val problemOfDayState: ProblemOfDayState,
             val recommendedRepetitionsCount: Int,
             val isRefreshing: Boolean = false,
@@ -52,6 +54,7 @@ interface HomeFeature {
         data class Initialize(val forceUpdate: Boolean) : Message
         data class HomeSuccess(
             val streak: Streak?,
+            val hypercoinsBalance: Int,
             val problemOfDayState: ProblemOfDayState,
             val recommendedRepetitionsCount: Int
         ) : Message
@@ -60,6 +63,8 @@ interface HomeFeature {
 
         object ReadyToLaunchNextProblemInTimer : Message
         data class HomeNextProblemInUpdate(val seconds: Long) : Message
+
+        data class HypercoinsBalanceRefreshed(val hypercoinsBalance: Int) : Message
 
         data class StepQuizSolved(val stepId: Long) : Message
         object TopicRepeated : Message
@@ -83,6 +88,8 @@ interface HomeFeature {
     sealed interface Action {
         object FetchHomeScreenData : Action
         object LaunchTimer : Action
+
+        object RefreshHypercoinsBalance : Action
 
         data class GetMagicLink(val path: HyperskillUrlPath) : Action
 

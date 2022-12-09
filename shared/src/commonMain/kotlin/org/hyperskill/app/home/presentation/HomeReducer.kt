@@ -28,6 +28,7 @@ class HomeReducer : StateReducer<State, Message, Action> {
             is Message.HomeSuccess ->
                 State.Content(
                     message.streak,
+                    message.hypercoinsBalance,
                     message.problemOfDayState,
                     message.recommendedRepetitionsCount
                 ) to emptySet()
@@ -39,6 +40,12 @@ class HomeReducer : StateReducer<State, Message, Action> {
                         Action.FetchHomeScreenData,
                         Action.LogAnalyticEvent(HomeClickedPullToRefreshHyperskillAnalyticEvent())
                     )
+                } else {
+                    null
+                }
+            is Message.HypercoinsBalanceRefreshed ->
+                if (state is State.Content) {
+                    state.copy(hypercoinsBalance = message.hypercoinsBalance) to emptySet()
                 } else {
                     null
                 }
@@ -93,7 +100,7 @@ class HomeReducer : StateReducer<State, Message, Action> {
                     state.copy(
                         streak = state.streak?.getStreakWithTodaySolved(),
                         problemOfDayState = problemOfDayState
-                    ) to setOf()
+                    ) to setOf(Action.RefreshHypercoinsBalance)
                 } else {
                     null
                 }

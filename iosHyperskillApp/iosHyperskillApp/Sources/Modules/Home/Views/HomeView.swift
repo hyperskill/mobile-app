@@ -5,6 +5,8 @@ extension HomeView {
     struct Appearance {
         let spacingBetweenContainers = LayoutInsets.largeInset
 
+        let toolbarSkeletonSize = CGSize(width: 56, height: 28)
+
         let backgroundColor = Color.systemGroupedBackground
     }
 }
@@ -40,16 +42,32 @@ struct HomeView: View {
 
     // MARK: Private API
 
+    private var skeletons: some View {
+        VStack(spacing: appearance.spacingBetweenContainers) {
+            ProblemOfDaySkeletonView()
+            TopicsRepetitionsCardSkeletonView()
+
+            Spacer()
+        }
+        .toolbar {
+            ToolbarItemGroup(placement: .primaryAction) {
+                SkeletonRoundedView(appearance: .init(size: appearance.toolbarSkeletonSize))
+                SkeletonRoundedView(appearance: .init(size: appearance.toolbarSkeletonSize))
+            }
+        }
+        .padding()
+    }
+
     @ViewBuilder
     private func buildBody() -> some View {
         switch viewModel.stateKs {
         case .idle:
-            ProgressView()
+            skeletons
                 .onAppear {
                     viewModel.doLoadContent()
                 }
         case .loading:
-            ProgressView()
+            skeletons
         case .networkError:
             PlaceholderView(
                 configuration: .networkError(backgroundColor: appearance.backgroundColor) {
@@ -66,10 +84,6 @@ struct HomeView: View {
                     Text(Strings.Home.keepPracticing)
                         .font(.subheadline)
                         .foregroundColor(.secondaryText)
-
-                    if let streak = data.streak {
-                        StreakViewBuilder(streak: streak, viewType: .card).build()
-                    }
 
                     ProblemOfDayAssembly(
                         problemOfDayState: data.problemOfDayState,
@@ -113,13 +127,15 @@ struct HomeView: View {
             .frame(maxWidth: .infinity)
             .toolbar {
                 ToolbarItemGroup(placement: .primaryAction) {
-                    StreakBarButtonItem(
-                        currentStreak: 3,
-                        onTap: viewModel.doStreakBarButtonItemAction
-                    )
+                    if let streak = data.streak {
+                        StreakBarButtonItem(
+                            currentStreak: Int(streak.currentStreak),
+                            onTap: viewModel.doStreakBarButtonItemAction
+                        )
+                    }
 
                     GemsBarButtonItem(
-                        hypercoinsCount: 3,
+                        hypercoinsBalance: Int(data.hypercoinsBalance),
                         onTap: viewModel.doGemsBarButtonItemAction
                     )
                 }

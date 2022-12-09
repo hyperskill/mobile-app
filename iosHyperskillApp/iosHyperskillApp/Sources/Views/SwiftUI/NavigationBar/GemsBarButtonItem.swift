@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct GemsBarButtonItem: View {
-    let hypercoinsCount: Int
+    let hypercoinsBalance: Int
 
     let onTap: () -> Void
 
@@ -15,7 +15,7 @@ struct GemsBarButtonItem: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
 
-                    Text("\(hypercoinsCount)")
+                    Text("\(hypercoinsBalance)")
                         .foregroundColor(.primaryText)
                 }
             }
@@ -30,7 +30,7 @@ struct GemsBarButtonItem_Previews: PreviewProvider {
                 .navigationTitle("Navigation")
                 .toolbar {
                     ToolbarItem(placement: .primaryAction) {
-                        GemsBarButtonItem(hypercoinsCount: 3, onTap: {})
+                        GemsBarButtonItem(hypercoinsBalance: 3, onTap: {})
                     }
                 }
         }

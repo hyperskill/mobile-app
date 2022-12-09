@@ -107,6 +107,7 @@ class HomeActionDispatcher(
                 onNewMessage(
                     Message.HomeSuccess(
                         streak = currentProfileStreaks.firstOrNull(),
+                        hypercoinsBalance = currentProfile.gamification.hypercoins,
                         problemOfDayState = problemOfDayState,
                         recommendedRepetitionsCount = currentProfile.recommendedRepetitionsCount
                     )
@@ -126,9 +127,17 @@ class HomeActionDispatcher(
                     .onEach { seconds -> onNewMessage(Message.HomeNextProblemInUpdate(seconds)) }
                     .launchIn(actionScope)
             }
+            is Action.RefreshHypercoinsBalance -> {
+                val currentProfile = profileInteractor
+                    .getCurrentProfile(DataSourceType.REMOTE)
+                    .getOrNull() ?: return
+
+                onNewMessage(Message.HypercoinsBalanceRefreshed(currentProfile.gamification.hypercoins))
+            }
+            is Action.GetMagicLink ->
+                getLink(action.path, ::onNewMessage)
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
-            is Action.GetMagicLink -> getLink(action.path, ::onNewMessage)
             else -> {
                 // no op
             }
