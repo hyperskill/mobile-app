@@ -9,6 +9,8 @@ import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.profile.presentation.ProfileFeature.Action
 import org.hyperskill.app.profile.presentation.ProfileFeature.Message
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.streak.domain.interactor.StreakInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -17,6 +19,7 @@ class ProfileActionDispatcher(
     private val profileInteractor: ProfileInteractor,
     private val streakInteractor: StreakInteractor,
     private val analyticInteractor: AnalyticInteractor,
+    private val sentryInteractor: SentryInteractor,
     private val urlPathProcessor: UrlPathProcessor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
@@ -31,19 +34,34 @@ class ProfileActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchCurrentProfile -> {
+                val sentryTransaction = HyperskillSentryTransactionBuilder.buildProfileScreenRemoteDataLoading()
+                sentryInteractor.startTransaction(sentryTransaction)
+
                 val currentProfile = profileInteractor
                     .getCurrentProfile(sourceType = DataSourceType.REMOTE)
                     .getOrElse {
-                        onNewMessage(Message.ProfileLoaded.Error(it.message ?: ""))
+                        sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
+                        onNewMessage(Message.ProfileLoaded.Error)
                         return
                     }
 
-                val message = streakInteractor
+                streakInteractor
                     .getStreaks(currentProfile.id)
-                    .map { Message.ProfileLoaded.Success(currentProfile, it.firstOrNull()) }
-                    .getOrElse { Message.ProfileLoaded.Error(it.message ?: "") }
-
-                onNewMessage(message)
+                    .fold(
+                        onSuccess = {
+                            sentryInteractor.finishTransaction(sentryTransaction)
+                            onNewMessage(
+                                Message.ProfileLoaded.Success(
+                                    profile = currentProfile,
+                                    streak = it.firstOrNull()
+                                )
+                            )
+                        },
+                        onFailure = {
+                            sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
+                            onNewMessage(Message.ProfileLoaded.Error)
+                        }
+                    )
             }
             is Action.FetchProfile -> {
                 // TODO add code when GET on any profile is implemented
@@ -52,6 +70,7 @@ class ProfileActionDispatcher(
                 analyticInteractor.logEvent(action.analyticEvent)
             is Action.GetMagicLink ->
                 getLink(action.path, ::onNewMessage)
+            else -> {}
         }
     }
 

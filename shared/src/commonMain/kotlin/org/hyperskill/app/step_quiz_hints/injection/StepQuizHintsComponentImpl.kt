@@ -21,6 +21,7 @@ class StepQuizHintsComponentImpl(private val appGraph: AppGraph) : StepQuizHints
             appGraph.buildCommentsDataComponent().commentsInteractor,
             appGraph.buildReactionsDataComponent().reactionsInteractor,
             appGraph.buildUserStorageComponent().userStorageInteractor,
-            appGraph.analyticComponent.analyticInteractor
+            appGraph.analyticComponent.analyticInteractor,
+            appGraph.sentryComponent.sentryInteractor
         )
 }

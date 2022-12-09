@@ -24,6 +24,7 @@ class StepComponentImpl(private val appGraph: AppGraph) : StepComponent {
         get() = StepFeatureBuilder.build(
             stepInteractor,
             appGraph.buildProfileDataComponent().profileInteractor,
-            appGraph.analyticComponent.analyticInteractor
+            appGraph.analyticComponent.analyticInteractor,
+            appGraph.sentryComponent.sentryInteractor
         )
 }

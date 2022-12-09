@@ -9,6 +9,7 @@ import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.main.presentation.AppFeature.State
 import org.hyperskill.app.main.presentation.AppReducer
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
@@ -17,14 +18,16 @@ object AppFeatureBuilder {
     fun build(
         authInteractor: AuthInteractor,
         profileInteractor: ProfileInteractor,
-        analyticInteractor: AnalyticInteractor
+        analyticInteractor: AnalyticInteractor,
+        sentryInteractor: SentryInteractor
     ): Feature<State, Message, Action> {
         val appReducer = AppReducer()
         val appActionDispatcher = AppActionDispatcher(
             ActionDispatcherOptions(),
             authInteractor,
             profileInteractor,
-            analyticInteractor
+            analyticInteractor,
+            sentryInteractor
         )
 
         return ReduxFeature(State.Idle, appReducer)

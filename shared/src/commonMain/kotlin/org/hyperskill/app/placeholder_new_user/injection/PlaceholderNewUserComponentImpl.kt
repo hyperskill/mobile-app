@@ -11,10 +11,12 @@ class PlaceholderNewUserComponentImpl(
     override val placeholderNewUserFeature: Feature<PlaceholderNewUserFeature.State, PlaceholderNewUserFeature.Message, PlaceholderNewUserFeature.Action>
         get() = PlaceholderNewUserFeatureBuilder.build(
             appGraph.analyticComponent.analyticInteractor,
+            appGraph.sentryComponent.sentryInteractor,
             appGraph.buildTrackDataComponent().trackInteractor,
             appGraph.buildProgressesDataComponent().progressesInteractor,
             appGraph.buildProfileDataComponent().profileInteractor
         )
+
     override val placeHolderNewUserViewDataMapper: PlaceholderNewUserViewDataMapper
         get() = PlaceholderNewUserViewDataMapper(appGraph.commonComponent.resourceProvider)
 }

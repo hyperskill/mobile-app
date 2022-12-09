@@ -78,6 +78,10 @@ final class StepQuizViewModel: FeatureViewModel<
         onNewMessage(StepQuizFeatureMessageContinueClicked())
     }
 
+    func doGoBackAction() {
+        onNewMessage(StepQuizFeatureMessageProblemOfDaySolvedModalGoBackClicked())
+    }
+
     func makeViewData() -> StepQuizViewData {
         viewDataMapper.mapStepDataToViewData(step: step, state: state)
     }
@@ -151,10 +155,6 @@ final class StepQuizViewModel: FeatureViewModel<
 
     private func logClickedRetryEvent() {
         onNewMessage(StepQuizFeatureMessageClickedRetryEventMessage())
-    }
-
-    func logDailyStepCompletedModalClickedGoBackEvent() {
-        onNewMessage(StepQuizFeatureMessageDailyStepCompletedModalClickedGoBackEventMessage())
     }
 
     func logDailyStepCompletedModalShownEvent() {

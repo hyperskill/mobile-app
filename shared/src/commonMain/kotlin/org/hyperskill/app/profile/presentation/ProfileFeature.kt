@@ -49,7 +49,7 @@ interface ProfileFeature {
 
         sealed interface ProfileLoaded : Message {
             data class Success(val profile: Profile, val streak: Streak?) : ProfileLoaded
-            data class Error(val errorMsg: String) : ProfileLoaded
+            object Error : ProfileLoaded
         }
 
         data class PullToRefresh(

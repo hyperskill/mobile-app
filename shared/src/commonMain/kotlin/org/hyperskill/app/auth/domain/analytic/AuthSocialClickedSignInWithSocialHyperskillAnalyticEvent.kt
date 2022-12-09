@@ -15,6 +15,20 @@ private fun SocialAuthProvider.getAnalyticTarget(): HyperskillAnalyticTarget =
         SocialAuthProvider.APPLE -> HyperskillAnalyticTarget.APPLE
     }
 
+/**
+ * Represents a click on sign in with social auth provider button analytic event.
+ *
+ * JSON payload:
+ * ```
+ * {
+ *     "route": "/login",
+ *     "action": "click",
+ *     "part": "main",
+ *     "target": "jetbrains_account / google / github / apple"
+ * }
+ * ```
+ * @see HyperskillAnalyticEvent
+ */
 class AuthSocialClickedSignInWithSocialHyperskillAnalyticEvent(
     socialAuthProvider: SocialAuthProvider
 ) : HyperskillAnalyticEvent(

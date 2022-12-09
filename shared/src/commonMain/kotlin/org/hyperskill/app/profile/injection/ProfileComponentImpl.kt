@@ -44,6 +44,7 @@ class ProfileComponentImpl(private val appGraph: AppGraph) : ProfileComponent {
             profileInteractor,
             streakInteractor,
             appGraph.analyticComponent.analyticInteractor,
+            appGraph.sentryComponent.sentryInteractor,
             urlPathProcessor
         )
 }

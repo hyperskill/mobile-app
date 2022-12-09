@@ -20,6 +20,7 @@ import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
+import org.hyperskill.app.sentry.injection.SentryComponent
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
@@ -37,6 +38,7 @@ interface AppGraph {
     val authComponent: AuthComponent
     val mainComponent: MainComponent
     val analyticComponent: AnalyticComponent
+    val sentryComponent: SentryComponent
     val submissionDataComponent: SubmissionDataComponent
     val topicsRepetitionsDataComponent: TopicsRepetitionsDataComponent
 

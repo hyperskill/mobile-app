@@ -6,6 +6,72 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
+/**
+ * Represents a common click analytic event for the StepQuizHintsFeature.
+ *
+ * Click on the reaction "Yes" button:
+ * ```
+ * {
+ *     "route": "/learn/step/1",
+ *     "action": "click",
+ *     "part": "step_hints",
+ *     "target": "yes",
+ *     "context":
+ *     {
+ *         "comment_id": 1
+ *     }
+ * }
+ * ```
+ *
+ * Click on the reaction "No" button:
+ * ```
+ * {
+ *     "route": "/learn/step/1",
+ *     "action": "click",
+ *     "part": "step_hints",
+ *     "target": "no",
+ *     "context":
+ *     {
+ *         "comment_id": 1
+ *     }
+ * }
+ * ```
+ *
+ * Click on the "See hint" button:
+ * ```
+ * {
+ *     "route": "/learn/step/1",
+ *     "action": "click",
+ *     "part": "step_hints",
+ *     "target": "see_hint"
+ * }
+ * ```
+ *
+ * Click on the "See next hint" button:
+ * ```
+ * {
+ *     "route": "/learn/step/1",
+ *     "action": "click",
+ *     "part": "step_hints",
+ *     "target": "see_next_hint"
+ * }
+ * ```
+ *
+ * Click on the "Report" button:
+ * ```
+ * {
+ *     "route": "/learn/step/1",
+ *     "action": "click",
+ *     "part": "step_hints",
+ *     "target": "report",
+ *     "context":
+ *     {
+ *         "comment_id": 1
+ *     }
+ * }
+ * ```
+ * @see HyperskillAnalyticEvent
+ */
 class StepQuizHintsClickedHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute,
     target: HyperskillAnalyticTarget,

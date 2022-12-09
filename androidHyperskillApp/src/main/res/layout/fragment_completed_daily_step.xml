@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <ImageView
+        android:id="@+id/completedDailyStepSwipeIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_bottom_sheet_swipe_indicator"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        tools:ignore="ContentDescription"
+        />
+
+    <ImageView
+        android:id="@+id/completedDailyStepImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_complete_daily_step"
+        android:layout_marginTop="40dp"
+        app:layout_constraintTop_toBottomOf="@+id/completedDailyStepSwipeIndicator"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="ContentDescription"
+        />
+
+    <TextView
+        android:id="@+id/completedDailyStepTitleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/step_quiz_problem_of_day_solved_modal_title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:fontFamily="@font/roboto_bold"
+        android:textSize="34sp"
+        android:layout_marginTop="24dp"
+        android:layout_marginHorizontal="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/completedDailyStepImage"
+        />
+
+    <TextView
+        android:id="@+id/completedDailyStepDescriptionTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:text="@string/step_quiz_problem_of_day_solved_modal_text"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/completedDailyStepTitleTextView"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/completedDailyStepGemsCountTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="18sp"
+        android:fontFamily="@font/roboto_bold"
+        android:drawablePadding="6dp"
+        android:drawableStart="@drawable/ic_gems_count"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/completedDailyStepDescriptionTextView"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="20dp"
+        tools:text="300"
+        />
+
+    <TextView
+        android:id="@+id/completedDailyStepGemsCountDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/step_quiz_problem_of_day_solved_modal_total_gems"
+        app:layout_constraintTop_toTopOf="@+id/completedDailyStepGemsCountTextView"
+        app:layout_constraintBottom_toBottomOf="@+id/completedDailyStepGemsCountTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="20dp"
+        />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/completedDailyStepButtonBarrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="completedDailyStepGemsCountTextView,completedDailyStepGemsCountDescription"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/completedDailyStepGoBackButton"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_button_height"
+        style="@style/ThemeOverlay.Blue"
+        android:text="@string/step_quiz_problem_of_day_solved_modal_go_back_button_text"
+        android:layout_marginTop="32dp"
+        android:layout_marginHorizontal="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/completedDailyStepButtonBarrier"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

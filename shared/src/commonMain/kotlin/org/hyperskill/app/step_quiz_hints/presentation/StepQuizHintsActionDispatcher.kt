@@ -7,6 +7,8 @@ import org.hyperskill.app.likes.domain.interactor.LikesInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.reactions.domain.interactor.ReactionsInteractor
 import org.hyperskill.app.reactions.domain.model.ReactionType
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.step_quiz_hints.domain.interactor.StepQuizHintsInteractor
 import org.hyperskill.app.step_quiz_hints.domain.model.HintState
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.Action
@@ -23,11 +25,15 @@ class StepQuizHintsActionDispatcher(
     private val commentsInteractor: CommentsInteractor,
     private val reactionsInteractor: ReactionsInteractor,
     private val userStorageInteractor: UserStorageInteractor,
-    private val analyticInteractor: AnalyticInteractor
+    private val analyticInteractor: AnalyticInteractor,
+    private val sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchHintsIds -> {
+                val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepQuizHintsScreenRemoteDataLoading()
+                sentryInteractor.startTransaction(sentryTransaction)
+
                 val hintsIds = stepQuizHintsInteractor.getNotSeenHintsIds(action.stepId)
                 val dailyStepId = profileInteractor
                     .getCurrentProfile()
@@ -37,6 +43,8 @@ class StepQuizHintsActionDispatcher(
                     )
 
                 val lastSeenHint = stepQuizHintsInteractor.getLastSeenHint(action.stepId)
+
+                sentryInteractor.finishTransaction(sentryTransaction)
 
                 onNewMessage(
                     Message.HintsIdsLoaded(
@@ -48,7 +56,10 @@ class StepQuizHintsActionDispatcher(
                 )
             }
             is Action.ReportHint -> {
-                val message = likesInteractor
+                val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepQuizHintsReportHint()
+                sentryInteractor.startTransaction(sentryTransaction)
+
+                likesInteractor
                     .abuseComment(action.hintId)
                     .fold(
                         onSuccess = {
@@ -56,15 +67,21 @@ class StepQuizHintsActionDispatcher(
                                 UserStoragePathBuilder.buildSeenHint(action.stepId, action.hintId),
                                 HintState.UNHELPFUL.userStorageValue
                             )
-                            Message.ReportHintSuccess
-                        },
-                        onFailure = { Message.ReportHintFailure }
-                    )
+                            sentryInteractor.finishTransaction(sentryTransaction)
 
-                onNewMessage(message)
+                            onNewMessage(Message.ReportHintSuccess)
+                        },
+                        onFailure = {
+                            sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
+                            onNewMessage(Message.ReportHintFailure)
+                        }
+                    )
             }
             is Action.ReactHint -> {
-                val message = reactionsInteractor
+                val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepQuizHintsReactHint()
+                sentryInteractor.startTransaction(sentryTransaction)
+
+                reactionsInteractor
                     .createCommentReaction(action.hintId, action.reaction)
                     .fold(
                         onSuccess = {
@@ -75,14 +92,20 @@ class StepQuizHintsActionDispatcher(
                                     ReactionType.UNHELPFUL -> HintState.UNHELPFUL.userStorageValue
                                 }
                             )
-                            Message.ReactHintSuccess
-                        },
-                        onFailure = { Message.ReactHintFailure }
-                    )
+                            sentryInteractor.finishTransaction(sentryTransaction)
 
-                onNewMessage(message)
+                            onNewMessage(Message.ReactHintSuccess)
+                        },
+                        onFailure = {
+                            sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
+                            onNewMessage(Message.ReactHintFailure)
+                        }
+                    )
             }
             is Action.FetchNextHint -> {
+                val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepQuizHintsFetchNextHint()
+                sentryInteractor.startTransaction(sentryTransaction)
+
                 commentsInteractor
                     .getComment(action.nextHintId)
                     .onSuccess {
@@ -99,8 +122,10 @@ class StepQuizHintsActionDispatcher(
                             UserStoragePathBuilder.buildSeenHint(it.targetId, it.id),
                             HintState.SEEN.userStorageValue
                         )
+                        sentryInteractor.finishTransaction(sentryTransaction)
                     }
                     .onFailure {
+                        sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                         onNewMessage(
                             Message.NextHintLoadingError(
                                 action.nextHintId,
@@ -113,6 +138,7 @@ class StepQuizHintsActionDispatcher(
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
+            else -> {}
         }
     }
 }

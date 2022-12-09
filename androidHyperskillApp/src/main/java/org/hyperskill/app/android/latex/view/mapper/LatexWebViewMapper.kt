@@ -6,13 +6,8 @@ import org.hyperskill.app.android.latex.view.model.TextAttributes
 import org.hyperskill.app.android.latex.view.model.block.BaseStyleBlock
 import org.hyperskill.app.android.latex.view.model.block.ContentBlock
 import org.hyperskill.app.android.latex.view.model.block.SelectionColorStyleBlock
-import javax.inject.Inject
 
-class LatexWebViewMapper
-@Inject
-constructor(
-    private val context: Context
-) {
+class LatexWebViewMapper(private val context: Context) {
     companion object {
         private const val ASSETS = "file:///android_asset/"
         private const val FONTS = "fonts/"
@@ -24,7 +19,7 @@ constructor(
 
         val blocks =
             listOf(
-                BaseStyleBlock(attributes.isNightMode, fontPath, attributes.textColor),
+                BaseStyleBlock(fontPath, attributes.textColor),
                 SelectionColorStyleBlock(attributes.textColorHighlight)
             )
 

@@ -6,6 +6,20 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
+/**
+ * Represents click on the "Run solution" button analytic event.
+ *
+ * JSON payload:
+ * ```
+ * {
+ *     "route": "/learn/step/1",
+ *     "action": "click",
+ *     "part": "actions",
+ *     "target": "run"
+ * }
+ * ```
+ * @see HyperskillAnalyticEvent
+ */
 class StepQuizClickedRunHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute
 ) : HyperskillAnalyticEvent(

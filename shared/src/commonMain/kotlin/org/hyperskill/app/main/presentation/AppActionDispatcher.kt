@@ -10,13 +10,16 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.main.presentation.AppFeature.Action
 import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class AppActionDispatcher(
     config: ActionDispatcherOptions,
     private val authInteractor: AuthInteractor,
     private val profileInteractor: ProfileInteractor,
-    private val analyticInteractor: AnalyticInteractor
+    private val analyticInteractor: AnalyticInteractor,
+    private val sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
         authInteractor
@@ -42,15 +45,27 @@ class AppActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.DetermineUserAccountStatus -> {
-                val profileResult = profileInteractor.getCurrentProfile(sourceType = DataSourceType.REMOTE)
+                val transaction = HyperskillSentryTransactionBuilder.buildAppScreenRemoteDataLoading()
+                sentryInteractor.startTransaction(transaction)
 
-                val message =
-                    profileResult
-                        .map { profile -> Message.UserAccountStatus(profile) }
-                        .getOrElse { Message.UserAccountStatusError }
-
-                onNewMessage(message)
+                profileInteractor
+                    .getCurrentProfile(sourceType = DataSourceType.REMOTE)
+                    .fold(
+                        onSuccess = { profile ->
+                            sentryInteractor.finishTransaction(transaction)
+                            onNewMessage(Message.UserAccountStatus(profile))
+                        },
+                        onFailure = { exception ->
+                            sentryInteractor.finishTransaction(transaction, exception)
+                            onNewMessage(Message.UserAccountStatusError)
+                        }
+                    )
             }
+            is Action.IdentifyUserInSentry ->
+                sentryInteractor.setUsedId(action.userId)
+            is Action.ClearUserInSentry ->
+                sentryInteractor.clearCurrentUser()
+            else -> {}
         }
     }
 }

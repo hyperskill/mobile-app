@@ -6,6 +6,20 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
+/**
+ * Represents a hidden analytic event of the prompt to delete account.
+ *
+ * JSON payload:
+ * ```
+ * {
+ *     "route": "/profile/settings",
+ *     "action": "hidden",
+ *     "part": "delete_account_notice",
+ *     "target": "delete / cancel"
+ * }
+ * ```
+ * @see HyperskillAnalyticEvent
+ */
 class ProfileSettingsDeleteAccountNoticeHiddenHyperskillAnalyticEvent(
     isDeleteConfirmed: Boolean
 ) : HyperskillAnalyticEvent(
