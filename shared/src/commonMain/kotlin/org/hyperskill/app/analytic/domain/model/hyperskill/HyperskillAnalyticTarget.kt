@@ -55,4 +55,6 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     GO_BACK("go_back"),
     DAILY_STEP_COMPLETED_MODAL("daily_step_completed_modal"),
     CLOSE("close"),
+    STREAK("streak"),
+    GEMS("gems")
 }

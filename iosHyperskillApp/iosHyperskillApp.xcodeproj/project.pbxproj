@@ -152,6 +152,8 @@
 		2C725B632809198000A49043 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B622809198000A49043 /* BackgroundView.swift */; };
 		2C772E7D28ABB4E500A58758 /* AppleIDSocialAuthSDKProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C772E7C28ABB4E500A58758 /* AppleIDSocialAuthSDKProvider.swift */; };
 		2C7802C5285C93F900082547 /* StepQuizActionButtonState+SubmissionStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7802C4285C93F900082547 /* StepQuizActionButtonState+SubmissionStatus.swift */; };
+		2C7822612942F9CF0067200F /* StreakBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7822602942F9CF0067200F /* StreakBarButtonItem.swift */; };
+		2C7822632943037D0067200F /* GemsBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7822622943037C0067200F /* GemsBarButtonItem.swift */; };
 		2C792324287B759500A3F61D /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C792323287B759500A3F61D /* StringExtensions.swift */; };
 		2C7A1B1F2922EB070018D72C /* Hyperskill-Mobile_shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7A1B1E2922EB070018D72C /* Hyperskill-Mobile_shared.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		2C80D4FD288C4D0D00B2CD1E /* StepQuizCodeFullScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C80D4FC288C4D0D00B2CD1E /* StepQuizCodeFullScreenViewModel.swift */; };
@@ -541,6 +543,8 @@
 		2C725B622809198000A49043 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
 		2C772E7C28ABB4E500A58758 /* AppleIDSocialAuthSDKProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleIDSocialAuthSDKProvider.swift; sourceTree = "<group>"; };
 		2C7802C4285C93F900082547 /* StepQuizActionButtonState+SubmissionStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StepQuizActionButtonState+SubmissionStatus.swift"; sourceTree = "<group>"; };
+		2C7822602942F9CF0067200F /* StreakBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakBarButtonItem.swift; sourceTree = "<group>"; };
+		2C7822622943037C0067200F /* GemsBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GemsBarButtonItem.swift; sourceTree = "<group>"; };
 		2C792323287B759500A3F61D /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		2C7A1B1E2922EB070018D72C /* Hyperskill-Mobile_shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Hyperskill-Mobile_shared.swift"; sourceTree = "<group>"; };
 		2C80D4FC288C4D0D00B2CD1E /* StepQuizCodeFullScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeFullScreenViewModel.swift; sourceTree = "<group>"; };
@@ -1448,6 +1452,15 @@
 			path = StepQuizActionButtons;
 			sourceTree = "<group>";
 		};
+		2C78225F2942F98D0067200F /* NavigationBar */ = {
+			isa = PBXGroup;
+			children = (
+				2C7822622943037C0067200F /* GemsBarButtonItem.swift */,
+				2C7822602942F9CF0067200F /* StreakBarButtonItem.swift */,
+			);
+			path = NavigationBar;
+			sourceTree = "<group>";
+		};
 		2C7A1B1D2922EADC0018D72C /* sharedSwift */ = {
 			isa = PBXGroup;
 			children = (
@@ -1804,6 +1817,7 @@
 				E996D41129221F6200A47498 /* ShowMoreButton.swift */,
 				2C8E66D8287896CF00D3928D /* TabNavigationLazyView.swift */,
 				2C58DE2A2803DEE2002A2774 /* VerticalCenteredScrollView.swift */,
+				2C78225F2942F98D0067200F /* NavigationBar */,
 				2C82BA302844AFED004C9013 /* PlaceholderView */,
 				2C60F1B428880AA600B66C78 /* Skeletons */,
 				2CA8E08E281039EB00154088 /* Styles */,
@@ -2816,6 +2830,7 @@
 				2C1F5882280D5BAA00372A37 /* SocialAuthService.swift in Sources */,
 				E927EC372876BFF30000B898 /* ProblemOfDayTitle.swift in Sources */,
 				E900D10328434E0D00A77BBC /* StepQuizSortingItemView.swift in Sources */,
+				2C7822632943037D0067200F /* GemsBarButtonItem.swift in Sources */,
 				E996D41029221F0E00A47498 /* TopicsRepetitionsRepeatBlock.swift in Sources */,
 				E96E80F627EF57BA00AA6683 /* AuthSocialViewModel.swift in Sources */,
 				2CBD1917291D392400F5FB0B /* UIView+Animations.swift in Sources */,
@@ -2892,6 +2907,7 @@
 				2CC78D0E28C75A3D0006EF91 /* UIViewControllerExtensions.swift in Sources */,
 				E9F7A5E028AFC2000063913F /* NotificationDescriptionPlainObject.swift in Sources */,
 				2C336D222865E37800C91342 /* CodeInputAccessoryButtonData.swift in Sources */,
+				2C7822612942F9CF0067200F /* StreakBarButtonItem.swift in Sources */,
 				2C7802C5285C93F900082547 /* StepQuizActionButtonState+SubmissionStatus.swift in Sources */,
 				2CF43414281281DB002893CD /* AuthTextField.swift in Sources */,
 				2CD48D852858638A00CFCC4A /* StepQuizAssembly.swift in Sources */,

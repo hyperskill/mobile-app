@@ -79,7 +79,7 @@ struct HomeView: View {
 
                     TopicsRepetitionsCardView(
                         topicsToRepeatCount: Int(data.recommendedRepetitionsCount),
-                        onTap: viewModel.handleTopicsRepetitionsRequested
+                        onTap: viewModel.doTopicsRepetitionsPresentation
                     )
 
                     let shouldShowContinueInWebButton = data.problemOfDayState is HomeFeatureProblemOfDayStateEmpty ||
@@ -111,7 +111,19 @@ struct HomeView: View {
                 )
             }
             .frame(maxWidth: .infinity)
-            .padding(.top, 0.1)
+            .toolbar {
+                ToolbarItemGroup(placement: .primaryAction) {
+                    StreakBarButtonItem(
+                        currentStreak: 3,
+                        onTap: viewModel.doStreakBarButtonItemAction
+                    )
+
+                    GemsBarButtonItem(
+                        hypercoinsCount: 3,
+                        onTap: viewModel.doGemsBarButtonItemAction
+                    )
+                }
+            }
         }
     }
 
@@ -127,6 +139,8 @@ struct HomeView: View {
                     recommendedRepetitionsCount: data.recommendedRepetitionsCount
                 )
                 pushRouter.pushViewController(assembly.makeModule())
+            case .profile:
+                TabBarRouter(tab: .profile).route()
             }
         case .openUrl(let data):
             ProgressHUD.showSuccess()

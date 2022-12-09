@@ -64,12 +64,13 @@ interface HomeFeature {
         data class StepQuizSolved(val stepId: Long) : Message
         object TopicRepeated : Message
 
+        object ClickedStreakBarButtonItem : Message
+        object ClickedGemsBarButtonItem : Message
         object ClickedContinueLearningOnWeb : Message
+        object ClickedTopicsRepetitionsCard : Message
 
         data class GetMagicLinkReceiveSuccess(val url: String) : Message
         object GetMagicLinkReceiveFailure : Message
-
-        object ClickedTopicsRepetitionsCard : Message
 
         /**
          * Analytic
@@ -89,9 +90,11 @@ interface HomeFeature {
 
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
+                object Profile : NavigateTo
                 data class StepScreen(val stepId: Long) : NavigateTo
                 data class TopicsRepetitionsScreen(val recommendedRepetitionsCount: Int) : NavigateTo
             }
+
             data class OpenUrl(val url: String) : ViewAction
             object ShowGetMagicLinkError : ViewAction
         }

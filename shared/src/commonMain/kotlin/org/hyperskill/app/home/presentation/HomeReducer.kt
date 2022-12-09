@@ -3,8 +3,10 @@ package org.hyperskill.app.home.presentation
 import kotlin.math.max
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.home.domain.analytic.HomeClickedContinueLearningOnWebHyperskillAnalyticEvent
+import org.hyperskill.app.home.domain.analytic.HomeClickedGemsBarButtonItemHyperskillAnalyticEvent
 import org.hyperskill.app.home.domain.analytic.HomeClickedProblemOfDayCardHyperskillAnalyticEvent
 import org.hyperskill.app.home.domain.analytic.HomeClickedPullToRefreshHyperskillAnalyticEvent
+import org.hyperskill.app.home.domain.analytic.HomeClickedStreakBarButtonItemHyperskillAnalyticEvent
 import org.hyperskill.app.home.domain.analytic.HomeClickedTopicsRepetitionsCardHyperskillAnalyticEvent
 import org.hyperskill.app.home.domain.analytic.HomeViewedHyperskillAnalyticEvent
 import org.hyperskill.app.home.presentation.HomeFeature.Action
@@ -40,6 +42,13 @@ class HomeReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
+            // Timer Messages
+            is Message.ReadyToLaunchNextProblemInTimer ->
+                if (state is State.Content) {
+                    state to setOf(Action.LaunchTimer)
+                } else {
+                    null
+                }
             is Message.HomeNextProblemInUpdate ->
                 if (state is State.Content) {
                     when (state.problemOfDayState) {
@@ -66,12 +75,7 @@ class HomeReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
-            is Message.ReadyToLaunchNextProblemInTimer ->
-                if (state is State.Content) {
-                    state to setOf(Action.LaunchTimer)
-                } else {
-                    null
-                }
+            // Flow Messages
             is Message.StepQuizSolved -> {
                 if (state is State.Content) {
                     val problemOfDayState = if (
@@ -94,8 +98,76 @@ class HomeReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
+            is Message.TopicRepeated ->
+                if (state is State.Content) {
+                    state.copy(
+                        recommendedRepetitionsCount = max(state.recommendedRepetitionsCount.dec(), 0)
+                    ) to emptySet()
+                } else {
+                    null
+                }
+            // Click Messages
+            is Message.ClickedContinueLearningOnWeb -> {
+                if (state is State.Content) {
+                    state.copy(isLoadingMagicLink = true) to setOf(
+                        Action.GetMagicLink(HyperskillUrlPath.Index()),
+                        Action.LogAnalyticEvent(HomeClickedContinueLearningOnWebHyperskillAnalyticEvent())
+                    )
+                } else {
+                    null
+                }
+            }
+            is Message.ClickedTopicsRepetitionsCard ->
+                if (state is State.Content) {
+                    state to setOf(
+                        Action.ViewAction.NavigateTo.TopicsRepetitionsScreen(state.recommendedRepetitionsCount),
+                        Action.LogAnalyticEvent(
+                            HomeClickedTopicsRepetitionsCardHyperskillAnalyticEvent(
+                                isCompleted = state.recommendedRepetitionsCount == 0
+                            )
+                        )
+                    )
+                } else {
+                    null
+                }
+            Message.ClickedGemsBarButtonItem ->
+                if (state is State.Content) {
+                    state to setOf(
+                        Action.ViewAction.NavigateTo.Profile,
+                        Action.LogAnalyticEvent(HomeClickedGemsBarButtonItemHyperskillAnalyticEvent())
+                    )
+                } else {
+                    null
+                }
+            Message.ClickedStreakBarButtonItem ->
+                if (state is State.Content) {
+                    state to setOf(
+                        Action.ViewAction.NavigateTo.Profile,
+                        Action.LogAnalyticEvent(HomeClickedStreakBarButtonItemHyperskillAnalyticEvent())
+                    )
+                } else {
+                    null
+                }
+            // MagicLinks Messages
+            is Message.GetMagicLinkReceiveSuccess -> {
+                if (state is State.Content) {
+                    state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.OpenUrl(message.url))
+                } else {
+                    null
+                }
+            }
+            is Message.GetMagicLinkReceiveFailure -> {
+                if (state is State.Content) {
+                    state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.ShowGetMagicLinkError)
+                } else {
+                    null
+                }
+            }
+            // Analytic Messages
             is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(HomeViewedHyperskillAnalyticEvent()))
+            is Message.ClickedContinueLearningOnWebEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(HomeClickedContinueLearningOnWebHyperskillAnalyticEvent()))
             is Message.ClickedProblemOfDayCardEventMessage -> {
                 if (state is State.Content) {
                     when (state.problemOfDayState) {
@@ -125,52 +197,5 @@ class HomeReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
-            is Message.ClickedContinueLearningOnWeb -> {
-                if (state is State.Content) {
-                    state.copy(isLoadingMagicLink = true) to setOf(
-                        Action.GetMagicLink(HyperskillUrlPath.Index()),
-                        Action.LogAnalyticEvent(HomeClickedContinueLearningOnWebHyperskillAnalyticEvent())
-                    )
-                } else {
-                    null
-                }
-            }
-            is Message.GetMagicLinkReceiveSuccess -> {
-                if (state is State.Content) {
-                    state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.OpenUrl(message.url))
-                } else {
-                    null
-                }
-            }
-            is Message.GetMagicLinkReceiveFailure -> {
-                if (state is State.Content) {
-                    state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.ShowGetMagicLinkError)
-                } else {
-                    null
-                }
-            }
-            is Message.ClickedTopicsRepetitionsCard ->
-                if (state is State.Content) {
-                    state to setOf(
-                        Action.ViewAction.NavigateTo.TopicsRepetitionsScreen(state.recommendedRepetitionsCount),
-                        Action.LogAnalyticEvent(
-                            HomeClickedTopicsRepetitionsCardHyperskillAnalyticEvent(
-                                isCompleted = state.recommendedRepetitionsCount == 0
-                            )
-                        )
-                    )
-                } else {
-                    null
-                }
-            is Message.ClickedContinueLearningOnWebEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(HomeClickedContinueLearningOnWebHyperskillAnalyticEvent()))
-            is Message.TopicRepeated ->
-                if (state is State.Content) {
-                    state.copy(
-                        recommendedRepetitionsCount = max(state.recommendedRepetitionsCount.dec(), 0)
-                    ) to emptySet()
-                } else {
-                    null
-                }
         } ?: (state to emptySet())
 }
