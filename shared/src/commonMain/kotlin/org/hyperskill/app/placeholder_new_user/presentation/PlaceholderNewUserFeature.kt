@@ -2,16 +2,12 @@ package org.hyperskill.app.placeholder_new_user.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.track.domain.model.Track
-import org.hyperskill.app.track.domain.model.TrackProgress
 
 interface PlaceholderNewUserFeature {
     sealed interface State {
         object Idle : State
         object Loading : State
-        data class Content(
-            val tracks: List<Track>,
-            val tracksProgresses: Map<Long, TrackProgress>
-        ) : State
+        data class Content(val tracks: List<Track>) : State
         object NetworkError : State
     }
 
@@ -19,11 +15,7 @@ interface PlaceholderNewUserFeature {
         data class Initialize(val forceUpdate: Boolean) : Message
 
         sealed interface TracksLoaded : Message {
-            data class Success(
-                val tracks: List<Track>,
-                val tracksProgresses: Map<Long, TrackProgress>
-            ) : TracksLoaded
-
+            data class Success(val tracks: List<Track>) : TracksLoaded
             object Error : TracksLoaded
         }
 

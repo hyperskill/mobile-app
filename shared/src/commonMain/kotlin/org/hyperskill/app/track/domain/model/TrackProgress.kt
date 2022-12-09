@@ -8,8 +8,6 @@ import kotlinx.serialization.Serializable
 data class TrackProgress(
     @SerialName("id")
     val id: String,
-    @SerialName("vid")
-    val vid: String,
     @SerialName("clarity")
     val clarity: Float?,
     @SerialName("fun")
