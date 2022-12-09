@@ -137,7 +137,8 @@
     <string name="tab_bar_profile_title">Profile</string>
 
     <!-- Home -->
-    <string name="home_title">Home</string>
+    <string name="home_title">Hello!</string>
+    <!-- TODO: ALTAPPS-440 Delete this resource -->
     <string name="home_hello_lets_learn_text">Hello!\nLet’s learn something</string>
     <string name="home_keep_practicing_text">Keep practicing to achieve your learning goal</string>
 

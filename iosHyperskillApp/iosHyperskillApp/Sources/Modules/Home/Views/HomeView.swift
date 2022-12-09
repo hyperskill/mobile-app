@@ -30,13 +30,12 @@ struct HomeView: View {
             buildBody()
         }
         .navigationTitle(Strings.Home.title)
-        .navigationBarHidden(true)
+        .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
         }
         .onDisappear(perform: viewModel.stopListening)
-        .navigationViewStyle(StackNavigationViewStyle())
     }
 
     // MARK: Private API
@@ -64,10 +63,6 @@ struct HomeView: View {
 
             ScrollView {
                 VStack(alignment: .leading, spacing: appearance.spacingBetweenContainers) {
-                    Text(Strings.Home.helloLetsLearn)
-                        .font(.title)
-                        .foregroundColor(.primaryText)
-
                     Text(Strings.Home.keepPracticing)
                         .font(.subheadline)
                         .foregroundColor(.secondaryText)
