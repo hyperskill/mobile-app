@@ -16,8 +16,13 @@ import kotlinx.coroutines.withContext
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.VerticalMarginItemDecoration
+import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
+import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
+import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentPlaceholderNewUserScreenBinding
 import org.hyperskill.app.android.databinding.ItemNewUserTrackBinding
+import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
+import org.hyperskill.app.android.placeholder_new_user.dialog.NewUserTrackDetailsBottomSheet
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserViewModel
 import org.hyperskill.app.placeholder_new_user.view.mapper.PlaceholderNewUserViewDataMapper
@@ -26,6 +31,8 @@ import ru.nobird.android.ui.adapterdelegates.dsl.adapterDelegate
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
+import ru.nobird.android.view.base.ui.extension.showIfNotExists
+import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -79,7 +86,9 @@ class PlaceholderNewUserFragment :
         setupViewStateDelegate()
         setupRecyclerView()
         viewBinding.placeholderError.tryAgain.setOnClickListener {
-            placeholderNewUserViewModel.onNewMessage(PlaceholderNewUserFeature.Message.Initialize(forceUpdate = true))
+            placeholderNewUserViewModel.onNewMessage(
+                PlaceholderNewUserFeature.Message.Initialize(forceUpdate = true)
+            )
         }
         placeholderNewUserViewModel.onNewMessage(PlaceholderNewUserFeature.Message.ViewedEventMessage)
     }
@@ -112,14 +121,27 @@ class PlaceholderNewUserFragment :
     }
 
     override fun onAction(action: PlaceholderNewUserFeature.Action.ViewAction) {
-        /*when (action) {
-            PlaceholderNewUserFeature.Action.ViewAction.NavigateTo.AuthScreen ->
-                requireRouter().newRootScreen(AuthScreen)
-            is PlaceholderNewUserFeature.Action.ViewAction.OpenUrl ->
-                requireContext().launchUrl(action.url)
-            PlaceholderNewUserFeature.Action.ViewAction.ShowGetMagicLinkError ->
-                viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
-        }*/
+        when (action) {
+            PlaceholderNewUserFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
+                childFragmentManager
+                    .dismissDialogFragmentIfExists(NewUserTrackDetailsBottomSheet.TAG)
+                requireRouter().newRootScreen(MainScreen)
+            }
+            PlaceholderNewUserFeature.Action.ViewAction.ShowTrackSelectionStatus.Loading -> {
+                LoadingProgressDialogFragment.newInstance()
+                    .showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
+            }
+            PlaceholderNewUserFeature.Action.ViewAction.ShowTrackSelectionStatus.Error -> {
+                childFragmentManager
+                    .dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
+                viewBinding.root.snackbar(R.string.placeholder_start_track_error_message)
+            }
+            PlaceholderNewUserFeature.Action.ViewAction.ShowTrackSelectionStatus.Success -> {
+                childFragmentManager
+                    .dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
+                viewBinding.root.snackbar(R.string.placeholder_start_track_success_message)
+            }
+        }
     }
 
     override fun render(state: PlaceholderNewUserFeature.State) {
@@ -145,6 +167,8 @@ class PlaceholderNewUserFragment :
                     placeholderNewUserViewModel.onNewMessage(
                         PlaceholderNewUserFeature.Message.TrackTappedEventMessage(track.id)
                     )
+                    NewUserTrackDetailsBottomSheet.newInstance(track)
+                        .showIfNotExists(childFragmentManager, NewUserTrackDetailsBottomSheet.TAG)
                 }
             }
             val viewBinding = ItemNewUserTrackBinding.bind(itemView)
