@@ -81,6 +81,12 @@ enum Images {
         static let networkError = "placeholder-network-error"
     }
 
+    // MARK: - Placeholder -
+
+    enum AuthNewUserPlaceholder {
+        static let star = "auth-new-user-placeholder-star"
+    }
+
     // MARK: - Home -
 
     enum Home {

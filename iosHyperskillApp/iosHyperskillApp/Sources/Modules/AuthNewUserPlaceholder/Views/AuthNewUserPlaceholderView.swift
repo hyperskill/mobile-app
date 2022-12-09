@@ -19,12 +19,10 @@ struct AuthNewUserPlaceholderView: View {
 
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
-    var body: some View {
-//        if case .content(let data) = viewModel.stateKs, data.isLoadingMagicLink {
-//            ProgressHUD.show()
-//        }
+    let dataMapper: PlaceholderNewUserViewDataMapper
 
-        return ZStack {
+    var body: some View {
+         ZStack {
             UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
 
             BackgroundView()
