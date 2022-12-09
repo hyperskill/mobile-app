@@ -1,90 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginHorizontal="20dp">
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/placeholderIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:src="@drawable/branded_logo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/placeholderRegisterTextView"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/placeholderContentConstraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center_horizontal"
-        android:text="@string/placeholder_register_text"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/placeholderIcon" />
+        android:layout_height="match_parent"
+        android:paddingHorizontal="20dp">
 
-    <TextView
-        android:id="@+id/placeholderInstructionTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="@string/placeholder_instruction_text"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/placeholderRegisterTextView" />
+        <ImageView
+            android:id="@+id/placeholderIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/branded_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription"
+            />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/placeholderContinueToHyperskillButton"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/auth_button_height"
-        android:layout_marginTop="48dp"
-        android:text="@string/placeholder_continue_button_text"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/placeholderInstructionTextView"
-        app:layout_constraintWidth_max="@dimen/auth_button_max_width" />
+        <TextView
+            android:id="@+id/placeholderRegisterTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:text="@string/placeholder_register_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/placeholderIcon" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/placeholderSignInButton"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/auth_button_height"
-        android:layout_marginTop="20dp"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:text="@string/onboarding_sign_in"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/placeholderContinueToHyperskillButton"
-        app:layout_constraintVertical_bias="0"
-        app:layout_constraintWidth_max="@dimen/auth_button_max_width"
-        app:strokeColor="?colorPrimary" />
+        <TextView
+            android:id="@+id/placeholderInstructionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/placeholder_instruction_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/placeholderRegisterTextView" />
 
-    <TextView
-        android:id="@+id/placeholderFirstDescriptionTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="@string/placeholder_first_description_text"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/placeholderSignInButton" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/placeholderRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="32dp"
+            android:paddingBottom="42dp"
+            android:clipToPadding="false"
+            app:layout_constraintTop_toBottomOf="@+id/placeholderInstructionTextView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <me.zhanghai.android.materialprogressbar.MaterialProgressBar
         android:id="@+id/placeholderProgress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        android:layout_gravity="center"
+        />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <include
+        android:id="@+id/placeholderError"
+        layout="@layout/error_no_connection_with_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        />
+
+</FrameLayout>
