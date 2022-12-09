@@ -22,6 +22,7 @@ import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFeedbackBlocksDelegate
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
+import org.hyperskill.app.android.step_quiz.view.dialog.CompletedStepOfTheDayDialogFragment
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizViewStateDelegateFactory
 import org.hyperskill.app.android.step_quiz.view.mapper.StepQuizFeedbackMapper
 import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
@@ -36,6 +37,7 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
 import org.hyperskill.app.step_quiz.presentation.StepQuizViewModel
 import org.hyperskill.app.step_quiz.view.mapper.StepQuizUserPermissionRequestTextMapper
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
+import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -146,6 +148,11 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
                         requestSendDailyStudyRemindersPermission(action)
                     }
                 }
+            }
+            is StepQuizFeature.Action.ViewAction.ShowProblemOfDaySolvedModal -> {
+                CompletedStepOfTheDayDialogFragment
+                    .newInstance(gemsCount = action.gemsCount)
+                    .showIfNotExists(childFragmentManager, CompletedStepOfTheDayDialogFragment.TAG)
             }
         }
     }

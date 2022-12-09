@@ -6,6 +6,20 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
+/**
+ * Represents a hidden analytic event of the prompt to sign out.
+ *
+ * JSON payload:
+ * ```
+ * {
+ *     "route": "/profile/settings",
+ *     "action": "hidden",
+ *     "part": "sign_out_notice",
+ *     "target": "yes / no"
+ * }
+ * ```
+ * @see HyperskillAnalyticEvent
+ */
 class ProfileSettingsSignOutNoticeHiddenHyperskillAnalyticEvent(
     isLogoutConfirmed: Boolean
 ) : HyperskillAnalyticEvent(

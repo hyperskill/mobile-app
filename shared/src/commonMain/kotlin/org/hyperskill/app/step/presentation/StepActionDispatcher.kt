@@ -4,6 +4,8 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.step.domain.analytic.StepClickedBackHyperskillAnalyticEvent
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.step.presentation.StepFeature.Action
@@ -14,21 +16,27 @@ class StepActionDispatcher(
     config: ActionDispatcherOptions,
     private val stepInteractor: StepInteractor,
     private val profileInteractor: ProfileInteractor,
-    private val analyticInteractor: AnalyticInteractor
+    private val analyticInteractor: AnalyticInteractor,
+    private val sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchStep -> {
-                val result = stepInteractor.getStep(action.stepId)
+                val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepScreenRemoteDataLoading()
+                sentryInteractor.startTransaction(sentryTransaction)
 
-                val message =
-                    result
-                        .map { Message.StepLoaded.Success(it) }
-                        .getOrElse {
-                            Message.StepLoaded.Error(errorMsg = it.message ?: "")
+                stepInteractor
+                    .getStep(action.stepId)
+                    .fold(
+                        onSuccess = {
+                            sentryInteractor.finishTransaction(sentryTransaction)
+                            onNewMessage(Message.StepLoaded.Success(it))
+                        },
+                        onFailure = {
+                            sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
+                            onNewMessage(Message.StepLoaded.Error)
                         }
-
-                onNewMessage(message)
+                    )
             }
             is Action.LogClickedBackEvent -> {
                 val currentProfile = profileInteractor

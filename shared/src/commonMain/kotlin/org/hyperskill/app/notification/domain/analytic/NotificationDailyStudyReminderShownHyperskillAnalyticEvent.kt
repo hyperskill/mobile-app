@@ -7,6 +7,26 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 import ru.nobird.app.core.model.mapOfNotNull
 
+/**
+ * Represents show of the local daily study notification analytic event.
+ * When the local notifications scheduled.
+ *
+ * JSON payload:
+ * ```
+ * {
+ *     "route": "/home",
+ *     "action": "shown",
+ *     "part": "notification",
+ *     "target": "daily_notification",
+ *     "context":
+ *     {
+ *         "key": 10,
+ *         "planned_at": "2022-12-09T09:00:00Z"
+ *     }
+ * }
+ * ```
+ * @see HyperskillAnalyticEvent
+ */
 class NotificationDailyStudyReminderShownHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute,
     private val notificationId: Int,

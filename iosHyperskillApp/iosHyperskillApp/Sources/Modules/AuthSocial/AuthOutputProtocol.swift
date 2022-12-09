@@ -1,5 +1,6 @@
 import Foundation
+import shared
 
 protocol AuthOutputProtocol: AnyObject {
-    func handleUserAuthorized(isNewUser: Bool)
+    func handleUserAuthorized(profile: Profile)
 }

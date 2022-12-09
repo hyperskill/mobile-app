@@ -6,6 +6,20 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
+/**
+ * Represents a click on "Sign in" button analytic event.
+ *
+ * JSON payload:
+ * ```
+ * {
+ *     "route": "/login/password",
+ *     "action": "click",
+ *     "part": "main",
+ *     "target": "log_in"
+ * }
+ * ```
+ * @see HyperskillAnalyticEvent
+ */
 class AuthCredentialsClickedSignInHyperskillAnalyticEvent : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Login.Password(),
     HyperskillAnalyticAction.CLICK,

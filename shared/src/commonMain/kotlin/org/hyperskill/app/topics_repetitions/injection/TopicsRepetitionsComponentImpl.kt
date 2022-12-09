@@ -12,7 +12,8 @@ class TopicsRepetitionsComponentImpl(private val appGraph: AppGraph) : TopicsRep
             appGraph.buildTopicsDataComponent().topicsInteractor,
             appGraph.buildProgressesDataComponent().progressesInteractor,
             appGraph.buildProfileDataComponent().profileInteractor,
-            appGraph.analyticComponent.analyticInteractor
+            appGraph.analyticComponent.analyticInteractor,
+            appGraph.sentryComponent.sentryInteractor
         )
 
     override val topicsRepetitionsViewDataMapper: TopicsRepetitionsViewDataMapper

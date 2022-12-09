@@ -10,6 +10,7 @@ class MainComponentImpl(private val appGraph: AppGraph) : MainComponent {
         get() = AppFeatureBuilder.build(
             appGraph.authComponent.authInteractor,
             appGraph.buildProfileDataComponent().profileInteractor,
-            appGraph.analyticComponent.analyticInteractor
+            appGraph.analyticComponent.analyticInteractor,
+            appGraph.sentryComponent.sentryInteractor
         )
 }

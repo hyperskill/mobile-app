@@ -25,6 +25,13 @@ final class AuthCredentialsViewModel: FeatureViewModel<
         super.init(feature: feature)
     }
 
+    override func shouldNotifyStateDidChange(
+        oldState: AuthCredentialsFeatureState,
+        newState: AuthCredentialsFeatureState
+    ) -> Bool {
+        !oldState.isEqual(newState)
+    }
+
     func doFormInputChange(email: String, password: String) {
         onNewMessage(AuthCredentialsFeatureMessageAuthEditing(email: email, password: password))
     }
@@ -38,12 +45,8 @@ final class AuthCredentialsViewModel: FeatureViewModel<
         onNewMessage(AuthCredentialsFeatureMessageClickedResetPassword())
     }
 
-    func doCompleteAuthFlow(isNewUser: Bool) {
-        moduleOutput?.handleUserAuthorized(isNewUser: isNewUser)
-    }
-
-    func logAuthErrorToSentry(_ error: KotlinThrowable) {
-        SentryManager.captureErrorMessage("AuthCredentials: \(String(describing: error))")
+    func doCompleteAuthFlow(profile: Profile) {
+        moduleOutput?.handleUserAuthorized(profile: profile)
     }
 
     // MARK: Analytic

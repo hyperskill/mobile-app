@@ -6,6 +6,20 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
+/**
+ * Represents click on the "Sign up" button analytic event.
+ *
+ * JSON payload:
+ * ```
+ * {
+ *     "route": "/onboarding",
+ *     "action": "click",
+ *     "part": "main",
+ *     "target": "sign_up"
+ * }
+ * ```
+ * @see HyperskillAnalyticEvent
+ */
 class OnboardingClickedSignUnHyperskillAnalyticEvent : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Onboarding(),
     HyperskillAnalyticAction.CLICK,

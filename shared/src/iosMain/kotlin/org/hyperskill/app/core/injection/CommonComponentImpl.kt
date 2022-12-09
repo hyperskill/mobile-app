@@ -3,8 +3,8 @@ package org.hyperskill.app.core.injection
 import com.russhwolf.settings.AppleSettings
 import com.russhwolf.settings.Settings
 import kotlinx.serialization.json.Json
-import org.hyperskill.app.core.domain.Platform
 import org.hyperskill.app.core.domain.BuildVariant
+import org.hyperskill.app.core.domain.Platform
 import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.ResourceProviderImpl

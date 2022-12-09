@@ -9,6 +9,8 @@ import org.hyperskill.app.learning_activities.domain.interactor.LearningActiviti
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.topics.domain.interactor.TopicsInteractor
 import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.track.domain.interactor.TrackInteractor
@@ -25,6 +27,7 @@ class TrackActionDispatcher(
     private val learningActivitiesInteractor: LearningActivitiesInteractor,
     private val topicsInteractor: TopicsInteractor,
     private val analyticInteractor: AnalyticInteractor,
+    private val sentryInteractor: SentryInteractor,
     private val urlPathProcessor: UrlPathProcessor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     companion object {
@@ -35,24 +38,40 @@ class TrackActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchTrack -> {
+                val sentryTransaction = HyperskillSentryTransactionBuilder.buildTrackScreenRemoteDataLoading()
+                sentryInteractor.startTransaction(sentryTransaction)
+
                 val trackId = profileInteractor
                     .getCurrentProfile(sourceType = DataSourceType.CACHE)
                     .map { it.trackId }
-                    .getOrNull()
-                    ?: return onNewMessage(Message.TrackFailure)
+                    .getOrElse {
+                        sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
+                        onNewMessage(Message.TrackFailure)
+                        return
+                    } ?: return
 
                 val trackResult = actionScope.async { trackInteractor.getTrack(trackId) }
                 val trackProgressResult = actionScope.async { progressesInteractor.getTrackProgress(trackId) }
                 val studyPlanResult = actionScope.async { trackInteractor.getStudyPlanByTrackId(trackId) }
 
                 val track = trackResult.await().getOrElse {
-                    return onNewMessage(Message.TrackFailure)
+                    sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
+                    onNewMessage(Message.TrackFailure)
+                    return
                 }
-                val topicsToDiscoverNext = getTopicsToDiscoverNext(track)
-                    .getOrElse { return onNewMessage(Message.TrackFailure) }
-                val trackProgress = trackProgressResult.await().getOrNull()
-                    ?: return onNewMessage(Message.TrackFailure)
+                val topicsToDiscoverNext = getTopicsToDiscoverNext(track).getOrElse {
+                    sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
+                    onNewMessage(Message.TrackFailure)
+                    return
+                }
+                val trackProgress = trackProgressResult.await().getOrElse {
+                    sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
+                    onNewMessage(Message.TrackFailure)
+                    return
+                } ?: return
                 val studyPlan = studyPlanResult.await().getOrNull()
+
+                sentryInteractor.finishTransaction(sentryTransaction)
 
                 onNewMessage(Message.TrackSuccess(track, trackProgress, studyPlan, topicsToDiscoverNext))
             }
@@ -60,6 +79,7 @@ class TrackActionDispatcher(
                 analyticInteractor.logEvent(action.analyticEvent)
             is Action.GetMagicLink ->
                 getLink(action.path, ::onNewMessage)
+            else -> {}
         }
     }
 

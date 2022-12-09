@@ -9,7 +9,7 @@ target "iosHyperskillApp" do
 
   pod "shared", :path => "../shared"
 
-  pod "SwiftLint", "0.47.0"
+  pod "SwiftLint", "0.50.1"
   pod "Sentry", "7.13.0"
 
   # Social SDKs

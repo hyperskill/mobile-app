@@ -70,6 +70,9 @@ import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponentImpl
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
+import org.hyperskill.app.sentry.domain.model.manager.SentryManager
+import org.hyperskill.app.sentry.injection.SentryComponent
+import org.hyperskill.app.sentry.injection.SentryComponentImpl
 import org.hyperskill.app.step.injection.PlatformStepComponent
 import org.hyperskill.app.step.injection.PlatformStepComponentImpl
 import org.hyperskill.app.step.injection.StepComponent
@@ -102,7 +105,8 @@ import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
 class AndroidAppComponentImpl(
     private val application: Application,
     userAgentInfo: UserAgentInfo,
-    buildVariant: BuildVariant
+    buildVariant: BuildVariant,
+    sentryManager: SentryManager
 ) : AndroidAppComponent {
     override val context: Context
         get() = application
@@ -128,6 +132,9 @@ class AndroidAppComponentImpl(
     override val analyticComponent: AnalyticComponent =
         AnalyticComponentImpl(this)
 
+    override val sentryComponent: SentryComponent =
+        SentryComponentImpl(sentryManager)
+
     override val platformNotificationComponent: PlatformNotificationComponent =
         PlatformNotificationComponentImpl(application, this)
 
@@ -145,7 +152,8 @@ class AndroidAppComponentImpl(
             commonComponent,
             authComponent,
             buildProfileDataComponent(),
-            analyticComponent
+            analyticComponent,
+            sentryComponent
         )
 
     override fun buildPlatformAuthSocialComponent(authSocialComponent: AuthSocialComponent): PlatformAuthSocialComponent =
@@ -159,8 +167,9 @@ class AndroidAppComponentImpl(
             commonComponent,
             authComponent,
             buildProfileDataComponent(),
+            buildMagicLinksDataComponent(),
             analyticComponent,
-            buildMagicLinksDataComponent()
+            sentryComponent
         )
 
     override fun buildPlatformAuthCredentialsComponent(authCredentialsComponent: AuthCredentialsComponent): PlatformAuthCredentialsComponent =

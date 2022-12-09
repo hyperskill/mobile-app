@@ -6,6 +6,24 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
+/**
+ * Represents click on the problem of the day card analytic event.
+ *
+ * JSON payload:
+ * ```
+ * {
+ *     "route": "/home",
+ *     "action": "click",
+ *     "part": "problem_of_the_day_card",
+ *     "target": "continue",
+ *     "context":
+ *     {
+ *         "is_completed": false
+ *     }
+ * }
+ * ```
+ * @see HyperskillAnalyticEvent
+ */
 class HomeClickedProblemOfDayCardHyperskillAnalyticEvent(
     val isCompleted: Boolean
 ) : HyperskillAnalyticEvent(
