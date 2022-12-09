@@ -92,6 +92,14 @@ enum Strings {
             static let reportAlertText = sharedStrings.step_quiz_hints_report_alert_text.localized()
             static let showMore = sharedStrings.step_quiz_hints_show_more_text.localized()
         }
+
+        enum ProblemOfDaySolvedModal {
+            static let title = sharedStrings.step_quiz_problem_of_day_solved_modal_title.localized()
+            static let text = sharedStrings.step_quiz_problem_of_day_solved_modal_text.localized()
+            static let totalGems = sharedStrings.step_quiz_problem_of_day_solved_modal_total_gems.localized()
+            static let goButtonText =
+                sharedStrings.step_quiz_problem_of_day_solved_modal_go_back_button_text.localized()
+        }
     }
 
     // MARK: - StepQuizChoice -
@@ -263,8 +271,13 @@ enum Strings {
             static let textCompleted = sharedStrings.topics_repetitions_card_text_completed.localized()
         }
 
-        enum Chart {
+        enum StatusBlock {
             static let tryToRecallText = sharedStrings.topics_repetitions_try_to_recall_text.localized()
+            static let goodJobText = sharedStrings.topics_repetitions_good_job_text.localized()
+            static let allTopicsRepeated = sharedStrings.topics_repetitions_all_topics_repeated_text.localized()
+        }
+
+        enum Chart {
             static let title = sharedStrings.topics_repetitions_chart_title.localized()
             static let description = sharedStrings.topics_repetitions_chart_description.localized()
         }

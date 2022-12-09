@@ -46,9 +46,7 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
     }
 
     func handleTopicsRepetitionsRequested() {
-        mainScheduler.schedule {
-            self.onViewAction?(HomeFeatureActionViewActionNavigateToTopicsRepetitionsScreen())
-        }
+        onNewMessage(HomeFeatureMessageClickedTopicsRepetitionsCard())
     }
 
     // MARK: Analytic

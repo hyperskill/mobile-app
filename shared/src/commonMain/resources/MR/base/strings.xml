@@ -63,6 +63,10 @@
     <string name="step_quiz_checking_button_text">Checking</string>
     <string name="step_quiz_discussions_button_text">Show discussions</string>
     <string name="step_quiz_unsupported_quiz_text">Current quiz type is not supported in mobile app yet</string>
+    <string name="step_quiz_problem_of_day_solved_modal_title">Problem of the day solved!</string>
+    <string name="step_quiz_problem_of_day_solved_modal_text">Solve another one tomorrow to get more</string>
+    <string name="step_quiz_problem_of_day_solved_modal_total_gems">Total gems</string>
+    <string name="step_quiz_problem_of_day_solved_modal_go_back_button_text">Go back</string>
 
     <!-- Step quiz hint -->
     <string name="step_quiz_hints_show_button_text">See hint</string>
@@ -214,6 +218,8 @@
     <string name="topics_repetitions_card_title_completed">Good job!</string>
     <string name="topics_repetitions_card_text_completed">For now, you\'ve repeated all recommended topics</string>
     <string name="topics_repetitions_try_to_recall_text">Try to recall what you\'ve learned by solving one problem for each topic. Return to theory if you experience any difficulties.</string>
+    <string name="topics_repetitions_good_job_text">Good job! Keep repeating the topics – it helps you learn better.</string>
+    <string name="topics_repetitions_all_topics_repeated_text">For now, you have repeated all available topics</string>
     <string name="topics_repetitions_repeat_button_text">Repeat %s</string>
     <string name="topics_repetitions_chart_title">Repeated topics</string>
     <string name="topics_repetitions_chart_description">You have repeated %s altogether</string>
@@ -227,6 +233,7 @@
         the real world problems.\n\nHow does it work? We rely on the spaced repetition technique and recommend that you
         repeat each topic three times within a month after you first complete it.
     </string>
+
 
     <!-- Placeholder for new users -->
     <string name="placeholder_register_text">Sign up and select a track</string>

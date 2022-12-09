@@ -18,7 +18,6 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.isChannelNotificationsEnabled
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
-import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFeedbackBlocksDelegate
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
@@ -135,7 +134,7 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
                 view?.snackbar(messageRes = R.string.connection_error)
             }
             is StepQuizFeature.Action.ViewAction.NavigateTo.Back -> {
-                requireRouter().backTo(MainScreen)
+                requireRouter().exit()
             }
             is StepQuizFeature.Action.ViewAction.RequestUserPermission -> {
                 when (action.userPermissionRequest) {
@@ -236,16 +235,16 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
                         setStepQuizButtonsState(StepQuizButtonsState.RETRY_LOGO_AND_SUBMIT)
                     } else {
                         setStepQuizButtonsState(
-                            if (StepQuizResolver.isNeedRecreateAttemptForNewSubmission(step))
+                            if (StepQuizResolver.isNeedRecreateAttemptForNewSubmission(step)) {
                                 StepQuizButtonsState.RETRY
-                            else StepQuizButtonsState.SUBMIT
+                            } else StepQuizButtonsState.SUBMIT
                         )
                     }
                 } else if (submissionStatus == SubmissionStatus.CORRECT) {
                     setStepQuizButtonsState(
-                        if (StepQuizResolver.isQuizRetriable(step))
+                        if (StepQuizResolver.isQuizRetriable(step)) {
                             StepQuizButtonsState.RETRY_LOGO_AND_CONTINUE
-                        else StepQuizButtonsState.CONTINUE
+                        } else StepQuizButtonsState.CONTINUE
                     )
                 } else {
                     setStepQuizButtonsState(StepQuizButtonsState.SUBMIT)

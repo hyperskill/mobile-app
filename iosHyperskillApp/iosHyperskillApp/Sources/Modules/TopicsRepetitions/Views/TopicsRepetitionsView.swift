@@ -77,41 +77,39 @@ struct TopicsRepetitionsView: View {
     @ViewBuilder
     private func buildContent(viewData: TopicsRepetitionsViewData) -> some View {
         VStack(spacing: appearance.padding) {
-            TopicsRepetitionsChartBlock(
-                topicsToRepeatCount: Int(viewData.recommendedTopicsToRepeatCount),
-                repeatNextTopicText: viewData.repeatButtonText,
+            TopicsRepetitionsStatusBlock(
+                repetitionsStatus: viewData.repetitionsStatus,
                 onRepeatNextTopicTap: {
-                    viewModel.logClickedRepeatNextTopicEvent()
+                    viewModel.doRepeatNextTopic()
+                }
+            )
+            .padding(.top, appearance.padding)
 
-                    if let firstTopic = viewData.topicsToRepeat.first {
-                        viewModel.doTopicStepQuizPresentation(stepID: firstTopic.stepId)
-                    }
-                },
+            TopicsRepetitionsChartBlock(
                 chartData: viewData.chartData.map { pair in
                     (String(pair.first ?? ""), Int(truncating: pair.second ?? 0))
                 },
                 chartDescription: viewData.chartDescription
             )
-            .padding(.top, appearance.padding)
 
-            TopicsRepetitionsRepeatBlock(
-                repeatBlockTitle: viewData.repeatBlockTitle,
-                trackTopicsTitle: viewData.trackTopicsTitle,
-                repeatButtons: viewData.topicsToRepeat.map { topic in
-                    RepeatButtonInfo(
-                        topicID: Int(topic.topicId),
-                        title: topic.title,
-                        onTap: {
-                            viewModel.logClickedRepeatTopicEvent()
-
-                            viewModel.doTopicStepQuizPresentation(stepID: topic.stepId)
-                        }
-                    )
-                },
-                showMoreButtonState: viewData.showMoreButtonState,
-                onShowMoreButtonTap: viewModel.doLoadNextTopics,
-                topicsToRepeatWillLoadedCount: Int(viewData.topicsToRepeatWillLoadedCount)
-            )
+            if !(viewData.repetitionsStatus is RepetitionsStatusAllTopicsRepeated) {
+                TopicsRepetitionsRepeatBlock(
+                    repeatBlockTitle: viewData.repeatBlockTitle,
+                    trackTopicsTitle: viewData.trackTopicsTitle,
+                    repeatButtons: viewData.topicsToRepeat.map { topic in
+                        RepeatButtonInfo(
+                            topicID: Int(topic.topicId),
+                            title: topic.title,
+                            onTap: {
+                                viewModel.doRepeatTopic(stepID: topic.stepId)
+                            }
+                        )
+                    },
+                    showMoreButtonState: viewData.showMoreButtonState,
+                    onShowMoreButtonTap: viewModel.doLoadNextTopics,
+                    topicsToRepeatWillLoadedCount: Int(viewData.topicsToRepeatWillLoadedCount)
+                )
+            }
 
             TopicsRepetitionsInfoBlock()
                 .padding(.bottom, appearance.padding)
@@ -135,7 +133,7 @@ struct TopicsRepetitionsView: View {
 struct TopicsRepetitionsView_Previews: PreviewProvider {
     static var previews: some View {
         UIKitViewControllerPreview {
-            TopicsRepetitionsAssembly().makeModule()
+            TopicsRepetitionsAssembly(recommendedRepetitionsCount: 5).makeModule()
         }
     }
 }

@@ -69,12 +69,13 @@ interface HomeFeature {
         data class GetMagicLinkReceiveSuccess(val url: String) : Message
         object GetMagicLinkReceiveFailure : Message
 
+        object ClickedTopicsRepetitionsCard : Message
+
         /**
          * Analytic
          */
         object ViewedEventMessage : Message
         object ClickedProblemOfDayCardEventMessage : Message
-        object ClickedTopicsRepetitionsCardEventMessage : Message
         object ClickedContinueLearningOnWebEventMessage : Message
     }
 
@@ -89,7 +90,7 @@ interface HomeFeature {
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
                 data class StepScreen(val stepId: Long) : NavigateTo
-                object TopicsRepetitionsScreen : NavigateTo
+                data class TopicsRepetitionsScreen(val recommendedRepetitionsCount: Int) : NavigateTo
             }
             data class OpenUrl(val url: String) : ViewAction
             object ShowGetMagicLinkError : ViewAction

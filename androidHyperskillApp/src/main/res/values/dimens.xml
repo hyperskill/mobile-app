@@ -10,7 +10,7 @@
     <dimen name="code_text_size_default">14sp</dimen>
     <dimen name="code_toolbar_height">48dp</dimen>
     <dimen name="half_padding">8dp</dimen>
-
+    <dimen name="action_button_height">48dp</dimen>
 
     <!-- Auth screen -->
 
@@ -78,5 +78,9 @@
     <!-- Onboarding -->
     <dimen name="onboarding_splash_icon_width">48dp</dimen>
     <dimen name="onboarding_splash_icon_height">45dp</dimen>
+
+    <!-- Track screen -->
+    <dimen name="track_next_topic_vertical_item_margin">16dp</dimen>
+    <dimen name="track_next_topic_horizontal_item_margin">20dp</dimen>
 
 </resources>

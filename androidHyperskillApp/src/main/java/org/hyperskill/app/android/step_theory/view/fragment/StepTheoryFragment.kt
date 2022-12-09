@@ -17,6 +17,7 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.HorizontalMarginItemDecoration
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.VerticalMarginItemDecoration
+import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepTheoryBinding
 import org.hyperskill.app.android.databinding.ItemStepCommentActionBinding
 import org.hyperskill.app.android.databinding.ItemStepTheoryRatingBinding
@@ -28,6 +29,7 @@ import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.view.mapper.CommentThreadTitleMapper
 import ru.nobird.android.ui.adapterdelegates.dsl.adapterDelegate
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
+import kotlin.math.floor
 
 class StepTheoryFragment : Fragment(R.layout.fragment_step_theory) {
     companion object {
@@ -67,7 +69,7 @@ class StepTheoryFragment : Fragment(R.layout.fragment_step_theory) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewBinding.stepTheoryAppBar.stepToolbar.root.setNavigationOnClickListener {
-            activity?.onBackPressed()
+            requireRouter().exit()
         }
         viewBinding.stepTheoryAppBar.stepToolbar.stepToolbarTitle.text = step.title
         viewBinding.stepTheoryAppBar.root.addOnOffsetChangedListener(
@@ -85,9 +87,10 @@ class StepTheoryFragment : Fragment(R.layout.fragment_step_theory) {
 
         viewBinding.stepTheoryTimeToComplete.isVisible = step.secondsToComplete != null
         step.secondsToComplete?.let { secondsToComplete ->
+            val minutesToComplete = floor(secondsToComplete / 60).toInt()
             viewBinding.stepTheoryTimeToComplete.text = resourceProvider.getString(
                 SharedResources.strings.step_theory_reading_text,
-                resourceProvider.getQuantityString(SharedResources.plurals.minutes, secondsToComplete.toInt(), secondsToComplete.toInt())
+                resourceProvider.getQuantityString(SharedResources.plurals.minutes, minutesToComplete, minutesToComplete)
             )
         }
 

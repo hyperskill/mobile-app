@@ -18,6 +18,8 @@ import org.hyperskill.app.android.databinding.FragmentHomeBinding
 import org.hyperskill.app.android.problem_of_day.view.delegate.ProblemOfDayCardFormDelegate
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.streak.view.delegate.StreakCardFormDelegate
+import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionCardFormDelegate
+import org.hyperskill.app.android.topics_repetitions.view.screen.TopicsRepetitionScreen
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeViewModel
@@ -43,6 +45,9 @@ class HomeFragment :
 
     private lateinit var problemOfDayCardFormDelegate: ProblemOfDayCardFormDelegate
     private lateinit var streakCardFormDelegate: StreakCardFormDelegate
+    private val topicsRepetitionDelegate: TopicsRepetitionCardFormDelegate by lazy(LazyThreadSafetyMode.NONE) {
+        TopicsRepetitionCardFormDelegate()
+    }
 
     private val onForegroundObserver =
         object : DefaultLifecycleObserver {
@@ -108,34 +113,6 @@ class HomeFragment :
         }
     }
 
-    private fun setupStreakCardDelegate(streak: Streak?) {
-        if (streak == null) {
-            viewBinding.homeScreenStreakCard.root.visibility = View.GONE
-            return
-        }
-
-        streakCardFormDelegate = StreakCardFormDelegate(
-            requireContext(),
-            viewBinding.homeScreenStreakCard,
-            streak
-        )
-    }
-
-    private fun setupProblemOfDayCardDelegate(state: HomeFeature.ProblemOfDayState) {
-        problemOfDayCardFormDelegate = ProblemOfDayCardFormDelegate(
-            requireContext(),
-            viewBinding.homeScreenProblemOfDayCard,
-            state,
-            ::onProblemOfDayCardActionButtonClicked
-        )
-
-        if (state is HomeFeature.ProblemOfDayState.Solved || state is HomeFeature.ProblemOfDayState.Empty) {
-            viewBinding.homeScreenKeepLearningInWebButton.visibility = View.VISIBLE
-        } else {
-            viewBinding.homeScreenKeepLearningInWebButton.visibility = View.GONE
-        }
-    }
-
     override fun onAction(action: HomeFeature.Action.ViewAction) {
         when (action) {
             is HomeFeature.Action.ViewAction.OpenUrl -> {
@@ -143,6 +120,9 @@ class HomeFragment :
             }
             is HomeFeature.Action.ViewAction.ShowGetMagicLinkError -> {
                 viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
+            }
+            is HomeFeature.Action.ViewAction.NavigateTo.TopicsRepetitionsScreen -> {
+                requireRouter().navigateTo(TopicsRepetitionScreen(action.recommendedRepetitionsCount))
             }
             else -> {
                 // no op
@@ -159,8 +139,48 @@ class HomeFragment :
             } else {
                 childFragmentManager.dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
             }
-            setupStreakCardDelegate(state.streak)
-            setupProblemOfDayCardDelegate(state.problemOfDayState)
+            renderStreakCardDelegate(state.streak)
+            renderProblemOfDayCardDelegate(state.problemOfDayState)
+            renderTopicsRepetition(state.recommendedRepetitionsCount)
         }
+    }
+
+    private fun renderStreakCardDelegate(streak: Streak?) {
+        if (streak == null) {
+            viewBinding.homeScreenStreakCard.root.visibility = View.GONE
+            return
+        }
+
+        streakCardFormDelegate = StreakCardFormDelegate(
+            requireContext(),
+            viewBinding.homeScreenStreakCard,
+            streak
+        )
+    }
+
+    private fun renderProblemOfDayCardDelegate(state: HomeFeature.ProblemOfDayState) {
+        problemOfDayCardFormDelegate = ProblemOfDayCardFormDelegate(
+            requireContext(),
+            viewBinding.homeScreenProblemOfDayCard,
+            state,
+            ::onProblemOfDayCardActionButtonClicked
+        )
+
+        if (state is HomeFeature.ProblemOfDayState.Solved || state is HomeFeature.ProblemOfDayState.Empty) {
+            viewBinding.homeScreenKeepLearningInWebButton.visibility = View.VISIBLE
+        } else {
+            viewBinding.homeScreenKeepLearningInWebButton.visibility = View.GONE
+        }
+    }
+
+    private fun renderTopicsRepetition(topicsToRepeatCount: Int) {
+        viewBinding.homeScreenTopicsRepetitionCard.root.setOnClickListener {
+            homeViewModel.onNewMessage(HomeFeature.Message.ClickedTopicsRepetitionsCard)
+        }
+        topicsRepetitionDelegate.render(
+            requireContext(),
+            viewBinding.homeScreenTopicsRepetitionCard,
+            topicsToRepeatCount
+        )
     }
 }

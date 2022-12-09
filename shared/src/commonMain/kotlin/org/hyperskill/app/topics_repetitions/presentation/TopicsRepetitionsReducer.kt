@@ -15,7 +15,7 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                 if (state is State.Idle ||
                     (message.forceUpdate && (state is State.Content || state is State.NetworkError))
                 ) {
-                    State.Loading to setOf(Action.Initialize)
+                    State.Loading to setOf(Action.Initialize(message.recommendedRepetitionsCount))
                 } else {
                     null
                 }
@@ -24,7 +24,7 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                     State.Content(
                         message.topicsRepetitions,
                         message.topicsToRepeat,
-                        message.recommendedTopicsToRepeatCount,
+                        message.recommendedRepetitionsCount,
                         message.trackTitle
                     ) to emptySet()
                 } else {
@@ -73,16 +73,30 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                                 )
                             ),
                             topicsToRepeat = state.topicsToRepeat.filter { it.topicId != topicId },
-                            recommendedTopicsToRepeatCount = max(state.recommendedTopicsToRepeatCount.dec(), 0)
+                            recommendedRepetitionsCount = max(state.recommendedRepetitionsCount.dec(), 0)
                         ) to setOf(Action.NotifyTopicRepeated)
                     }
                 } else {
                     null
                 }
-            is Message.ClickedRepeatNextTopicEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(TopicsRepetitionsClickedRepeatNextTopicHyperskillAnalyticEvent()))
-            is Message.ClickedRepeatTopicEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(TopicsRepetitionsClickedRepeatTopicHyperskillAnalyticEvent()))
+            is Message.RepeatNextTopicClicked -> {
+                if (state is State.Content) {
+                    state to buildSet {
+                        state.topicsToRepeat.firstOrNull()?.let { topicToRepeat ->
+                            add(Action.ViewAction.NavigateTo.StepScreen(topicToRepeat.stepId))
+                        }
+                        add(Action.LogAnalyticEvent(TopicsRepetitionsClickedRepeatNextTopicHyperskillAnalyticEvent()))
+                    }
+                } else {
+                    state to emptySet()
+                }
+            }
+            is Message.RepeatTopicClicked -> {
+                state to setOf(
+                    Action.ViewAction.NavigateTo.StepScreen(message.stepId),
+                    Action.LogAnalyticEvent(TopicsRepetitionsClickedRepeatTopicHyperskillAnalyticEvent())
+                )
+            }
         } ?: (state to emptySet())
 
     private fun getNewChartData(
