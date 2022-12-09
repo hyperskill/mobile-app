@@ -5,6 +5,8 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.topics.domain.interactor.TopicsInteractor
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import org.hyperskill.app.topics_repetitions.domain.model.Repetition
@@ -19,7 +21,8 @@ class TopicsRepetitionsActionDispatcher(
     private val topicsInteractor: TopicsInteractor,
     private val progressesInteractor: ProgressesInteractor,
     private val profileInteractor: ProfileInteractor,
-    private val analyticInteractor: AnalyticInteractor
+    private val analyticInteractor: AnalyticInteractor,
+    private val sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     companion object {
         const val TOPICS_PAGINATION_SIZE = 5
@@ -36,9 +39,14 @@ class TopicsRepetitionsActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.Initialize -> {
+                val sentryTransaction =
+                    HyperskillSentryTransactionBuilder.buildTopicsRepetitionsScreenRemoteDataLoading()
+                sentryInteractor.startTransaction(sentryTransaction)
+
                 val topicsRepetitions = topicsRepetitionsInteractor
                     .getCurrentTrackTopicsRepetitions()
                     .getOrElse {
+                        sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                         onNewMessage(Message.TopicsRepetitionsLoaded.Error)
                         return
                     }
@@ -46,6 +54,7 @@ class TopicsRepetitionsActionDispatcher(
                 val (remainingRepetitions, topicsToRepeat) = loadNextTopics(
                     topicsRepetitions.repetitions.sortedBy { it.nextRepeatAt }
                 ).getOrElse {
+                    sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                     onNewMessage(Message.TopicsRepetitionsLoaded.Error)
                     return
                 }
@@ -53,9 +62,12 @@ class TopicsRepetitionsActionDispatcher(
                 val currentProfile = profileInteractor
                     .getCurrentProfile()
                     .getOrElse {
+                        sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                         onNewMessage(Message.TopicsRepetitionsLoaded.Error)
                         return
                     }
+
+                sentryInteractor.finishTransaction(sentryTransaction)
 
                 onNewMessage(
                     Message.TopicsRepetitionsLoaded.Success(
@@ -67,11 +79,17 @@ class TopicsRepetitionsActionDispatcher(
                 )
             }
             is Action.FetchNextTopics -> {
+                val sentryTransaction = HyperskillSentryTransactionBuilder.buildTopicsRepetitionsFetchNextTopics()
+                sentryInteractor.startTransaction(sentryTransaction)
+
                 val (remainingRepetitions, topicsToRepeat) = loadNextTopics(action.topicsRepetitions.repetitions)
                     .getOrElse {
+                        sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                         onNewMessage(Message.NextTopicsLoaded.Error)
                         return
                     }
+
+                sentryInteractor.finishTransaction(sentryTransaction)
 
                 onNewMessage(
                     Message.NextTopicsLoaded.Success(
@@ -84,6 +102,7 @@ class TopicsRepetitionsActionDispatcher(
                 analyticInteractor.logEvent(action.analyticEvent)
             is Action.NotifyTopicRepeated ->
                 topicsRepetitionsInteractor.topicRepeatedMutableSharedFlow.emit(Unit)
+            else -> {}
         }
     }
 

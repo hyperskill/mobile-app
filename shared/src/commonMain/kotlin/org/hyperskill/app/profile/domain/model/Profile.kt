@@ -1,8 +1,8 @@
 package org.hyperskill.app.profile.domain.model
 
+import kotlin.math.min
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlin.math.min
 
 @Serializable
 data class Profile(
@@ -101,6 +101,9 @@ data class Profile(
     @SerialName("isic_status")
     val isicStatus: Long
 ) {
+    val isNewUser: Boolean
+        get() = trackId == null
+
     val recommendedRepetitionsCount: Int
         get() {
             val recommendedRepetitionsPerDay = 5

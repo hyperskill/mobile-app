@@ -3,6 +3,7 @@ package org.hyperskill.app.step.injection
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.step.presentation.StepActionDispatcher
 import org.hyperskill.app.step.presentation.StepFeature.Action
@@ -17,14 +18,16 @@ object StepFeatureBuilder {
     fun build(
         stepInteractor: StepInteractor,
         profileInteractor: ProfileInteractor,
-        analyticInteractor: AnalyticInteractor
+        analyticInteractor: AnalyticInteractor,
+        sentryInteractor: SentryInteractor
     ): Feature<State, Message, Action> {
         val stepReducer = StepReducer()
         val stepActionDispatcher = StepActionDispatcher(
             ActionDispatcherOptions(),
             stepInteractor,
             profileInteractor,
-            analyticInteractor
+            analyticInteractor,
+            sentryInteractor
         )
 
         return ReduxFeature(State.Idle, stepReducer)

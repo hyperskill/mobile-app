@@ -6,12 +6,14 @@ import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFe
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature.Message
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.track.domain.interactor.TrackInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class PlaceholderNewUserActionDispatcher(
     config: ActionDispatcherOptions,
     private val analyticInteractor: AnalyticInteractor,
+    private val sentryInteractor: SentryInteractor,
     private val trackInteractor: TrackInteractor,
     private val progressesInteractor: ProgressesInteractor,
     private val profileInteractor: ProfileInteractor
@@ -22,27 +24,30 @@ class PlaceholderNewUserActionDispatcher(
                 val tracks = trackInteractor
                     .getAllTracks()
                     .getOrElse {
-                        onNewMessage(Message.TracksLoaded.Error)
-                        return
+                        return onNewMessage(Message.TracksLoaded.Error)
                     }
                     .filter { it.isBeta.not() }
 
-                val tracksProgresses = progressesInteractor
+                val trackProgressById = progressesInteractor
                     .getTracksProgresses(tracks.map { it.id })
                     .getOrElse {
-                        onNewMessage(Message.TracksLoaded.Error)
-                        return
+                        return onNewMessage(Message.TracksLoaded.Error)
                     }
-                    .associateBy { it.vid.split('-').last().toLongOrNull() ?: 0 }
+                    .associateBy { it.id }
 
-                onNewMessage(Message.TracksLoaded.Success(tracks, tracksProgresses))
+                if (tracks.size != trackProgressById.size) {
+                    sentryInteractor.captureErrorMessage("PlaceholderNewUser: tracks.size != tracksProgresses.size")
+                }
+
+                val tracksWithProgresses = tracks.map { it.copy(progress = trackProgressById[it.progressId]) }
+
+                onNewMessage(Message.TracksLoaded.Success(tracksWithProgresses))
             }
             is Action.SelectTrack -> {
                 val currentProfile = profileInteractor
                     .getCurrentProfile()
                     .getOrElse {
-                        onNewMessage(Message.TrackSelected.Error)
-                        return
+                        return onNewMessage(Message.TrackSelected.Error)
                     }
 
                 val projectByLevel = action.track.projectsByLevel
@@ -51,11 +56,7 @@ class PlaceholderNewUserActionDispatcher(
                     ?: projectByLevel.medium?.firstOrNull()
                     ?: projectByLevel.hard?.firstOrNull()
                     ?: projectByLevel.nightmare?.firstOrNull()
-
-                if (projectId == null) {
-                    onNewMessage(Message.TrackSelected.Error)
-                    return
-                }
+                    ?: return onNewMessage(Message.TrackSelected.Error)
 
                 profileInteractor
                     .selectTrackWithProject(
@@ -64,8 +65,7 @@ class PlaceholderNewUserActionDispatcher(
                         projectId = projectId
                     )
                     .getOrElse {
-                        onNewMessage(Message.TrackSelected.Error)
-                        return
+                        return onNewMessage(Message.TrackSelected.Error)
                     }
 
                 onNewMessage(Message.TrackSelected.Success)

@@ -6,6 +6,20 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
+/**
+ * Represents a click on "Continue learning on the web" button analytic event.
+ *
+ * JSON payload:
+ * ```
+ * {
+ *     "route": "/home",
+ *     "action": "click",
+ *     "part": "main",
+ *     "target": "continue_to_hyperskill"
+ * }
+ * ```
+ * @see HyperskillAnalyticEvent
+ */
 class HomeClickedContinueLearningOnWebHyperskillAnalyticEvent : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Home(),
     HyperskillAnalyticAction.CLICK,

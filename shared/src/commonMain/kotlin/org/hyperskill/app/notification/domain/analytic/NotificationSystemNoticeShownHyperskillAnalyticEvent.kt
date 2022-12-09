@@ -6,6 +6,21 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
+/**
+ * Represents a shown analytic event of the system prompt to authorize the requested interactions with the local
+ * and remote notifications for the app.
+ *
+ * JSON payload:
+ * ```
+ * {
+ *     "route": "/home",
+ *     "action": "shown",
+ *     "part": "notice",
+ *     "target": "notifications_system_notice"
+ * }
+ * ```
+ * @see HyperskillAnalyticEvent
+ */
 class NotificationSystemNoticeShownHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute
 ) : HyperskillAnalyticEvent(

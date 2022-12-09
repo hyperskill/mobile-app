@@ -6,6 +6,20 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
+/**
+ * Represents a hidden analytic event of the prompt to report hint.
+ *
+ * JSON payload:
+ * ```
+ * {
+ *     "route": "/learn/step/1",
+ *     "action": "hidden",
+ *     "part": "report_hint_notice",
+ *     "target": "yes / no"
+ * }
+ * ```
+ * @see HyperskillAnalyticEvent
+ */
 class StepQuizHintsHiddenReportHintNoticeHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute,
     isReported: Boolean

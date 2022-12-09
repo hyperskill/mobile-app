@@ -9,17 +9,23 @@ import org.hyperskill.app.auth.presentation.AuthSocialFeature.Message
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class AuthSocialActionDispatcher(
     config: ActionDispatcherOptions,
     private val authInteractor: AuthInteractor,
     private val profileInteractor: ProfileInteractor,
-    private val analyticInteractor: AnalyticInteractor
+    private val analyticInteractor: AnalyticInteractor,
+    private var sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.AuthWithSocial -> {
+                val sentryTransaction = HyperskillSentryTransactionBuilder.buildAuthSocialAuth()
+                sentryInteractor.startTransaction(sentryTransaction)
+
                 val result = authInteractor.authWithSocial(action.authCode, action.idToken, action.socialAuthProvider)
 
                 val message =
@@ -29,8 +35,21 @@ class AuthSocialActionDispatcher(
                                 profileInteractor
                                     .getCurrentProfile(DataSourceType.REMOTE)
                                     .fold(
-                                        onSuccess = { Message.AuthSuccess(isNewUser = it.trackId == null) },
-                                        onFailure = { Message.AuthFailure(AuthSocialError.CONNECTION_PROBLEM, it) }
+                                        onSuccess = {
+                                            Message.AuthSuccess(
+                                                socialAuthProvider = action.socialAuthProvider,
+                                                profile = it
+                                            )
+                                        },
+                                        onFailure = {
+                                            Message.AuthFailure(
+                                                Message.AuthFailureData(
+                                                    socialAuthProvider = action.socialAuthProvider,
+                                                    socialAuthError = AuthSocialError.CONNECTION_PROBLEM,
+                                                    originalError = it
+                                                )
+                                            )
+                                        }
                                     )
                             },
                             onFailure = {
@@ -40,14 +59,35 @@ class AuthSocialActionDispatcher(
                                     } else {
                                         AuthSocialError.CONNECTION_PROBLEM
                                     }
-                                Message.AuthFailure(error, it)
+                                Message.AuthFailure(
+                                    Message.AuthFailureData(
+                                        socialAuthProvider = action.socialAuthProvider,
+                                        socialAuthError = error,
+                                        originalError = it
+                                    )
+                                )
                             }
                         )
+
+                sentryInteractor.finishTransaction(
+                    transaction = sentryTransaction,
+                    throwable = (message as? Message.AuthFailure)?.data?.originalError
+                )
 
                 onNewMessage(message)
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
+            is Action.AddSentryBreadcrumb ->
+                sentryInteractor.addBreadcrumb(action.breadcrumb)
+            is Action.CaptureSentryAuthError -> {
+                if (action.socialAuthError != null) {
+                    sentryInteractor.captureErrorMessage("AuthSocial: ${action.socialAuthError}, ${action.originalError}")
+                } else {
+                    sentryInteractor.captureErrorMessage("AuthSocial: ${action.originalError}")
+                }
+            }
+            else -> {}
         }
     }
 }

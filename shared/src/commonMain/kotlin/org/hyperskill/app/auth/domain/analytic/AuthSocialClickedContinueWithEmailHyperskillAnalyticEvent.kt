@@ -6,6 +6,20 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
+/**
+ * Represents a click on "Continue with email" button analytic event.
+ *
+ * JSON payload:
+ * ```
+ * {
+ *     "route": "/login",
+ *     "action": "click",
+ *     "part": "main",
+ *     "target": "continue_with_email"
+ * }
+ * ```
+ * @see HyperskillAnalyticEvent
+ */
 class AuthSocialClickedContinueWithEmailHyperskillAnalyticEvent : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Login(),
     HyperskillAnalyticAction.CLICK,

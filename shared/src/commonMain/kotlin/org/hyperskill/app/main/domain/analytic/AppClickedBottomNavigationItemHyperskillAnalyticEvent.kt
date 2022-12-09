@@ -6,6 +6,20 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
+/**
+ * Represents click on the tab bar item analytic event.
+ *
+ * JSON payload:
+ * ```
+ * {
+ *     "route": "/home",
+ *     "action": "click",
+ *     "part": "tabs",
+ *     "target": "profile"
+ * }
+ * ```
+ * @see HyperskillAnalyticEvent
+ */
 class AppClickedBottomNavigationItemHyperskillAnalyticEvent(
     oldNavigationItem: NavigationItem,
     newNavigationItem: NavigationItem

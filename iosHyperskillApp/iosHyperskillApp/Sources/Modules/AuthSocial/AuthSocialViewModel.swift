@@ -24,6 +24,13 @@ final class AuthSocialViewModel: FeatureViewModel<
         super.init(feature: feature)
     }
 
+    override func shouldNotifyStateDidChange(
+        oldState: AuthSocialFeatureState,
+        newState: AuthSocialFeatureState
+    ) -> Bool {
+        AuthSocialFeatureStateKs(oldState) != AuthSocialFeatureStateKs(newState)
+    }
+
     func signIn(with provider: SocialAuthProvider) {
         logClickedSignInWithSocialEvent(provider: provider)
 
@@ -50,11 +57,32 @@ final class AuthSocialViewModel: FeatureViewModel<
                 }
 
                 await MainActor.run {
-                    let message = AuthSocialFeatureActionViewActionShowAuthError(
-                        socialError: .connectionProblem,
-                        originalError: KotlinThrowable(message: String(describing: error))
+                    let originalError: KotlinThrowable = {
+                        let defaultError = KotlinThrowable(message: String(describing: error))
+
+                        guard let sdkError = error as? SocialAuthSDKError else {
+                            return defaultError
+                        }
+
+                        switch sdkError {
+                        case .canceled, .noPresentingViewController:
+                            return defaultError
+                        case .accessDenied(let originalError):
+                            return KotlinThrowable(message: String(describing: originalError))
+                        case .connectionError(let originalError):
+                            return KotlinThrowable(message: String(describing: originalError))
+                        }
+                    }()
+
+                    let message = AuthSocialFeatureMessageSocialAuthProviderAuthFailureEventMessage(
+                        data: AuthSocialFeatureMessageAuthFailureData(
+                            socialAuthProvider: provider.sharedType,
+                            socialAuthError: .connectionProblem,
+                            originalError: originalError
+                        )
                     )
-                    self.onViewAction?(message)
+
+                    self.onNewMessage(message)
                 }
             }
         }
@@ -64,13 +92,8 @@ final class AuthSocialViewModel: FeatureViewModel<
         self.authSocialErrorMapper.getAuthSocialErrorText(authSocialError: authSocialError)
     }
 
-    func doCompleteAuthFlow(isNewUser: Bool) {
-        moduleOutput?.handleUserAuthorized(isNewUser: isNewUser)
-    }
-
-    func logAuthErrorToSentry(socialError: AuthSocialError, originalError: KotlinThrowable) {
-        let message = "AuthSocial: \(socialError), \(String(describing: originalError))"
-        SentryManager.captureErrorMessage(message)
+    func doCompleteAuthFlow(profile: Profile) {
+        moduleOutput?.handleUserAuthorized(profile: profile)
     }
 
     // MARK: Analytic

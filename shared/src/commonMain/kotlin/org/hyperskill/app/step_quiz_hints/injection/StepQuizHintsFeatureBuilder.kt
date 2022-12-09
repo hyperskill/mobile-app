@@ -6,6 +6,7 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.likes.domain.interactor.LikesInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.reactions.domain.interactor.ReactionsInteractor
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step_quiz_hints.domain.interactor.StepQuizHintsInteractor
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsActionDispatcher
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.Action
@@ -25,7 +26,8 @@ object StepQuizHintsFeatureBuilder {
         commentsInteractor: CommentsInteractor,
         reactionsInteractor: ReactionsInteractor,
         userStorageInteractor: UserStorageInteractor,
-        analyticInteractor: AnalyticInteractor
+        analyticInteractor: AnalyticInteractor,
+        sentryInteractor: SentryInteractor
     ): Feature<State, Message, Action> {
         val stepQuizHintsReducer = StepQuizHintsReducer()
 
@@ -37,7 +39,8 @@ object StepQuizHintsFeatureBuilder {
             commentsInteractor,
             reactionsInteractor,
             userStorageInteractor,
-            analyticInteractor
+            analyticInteractor,
+            sentryInteractor
         )
 
         return ReduxFeature(State.Idle, stepQuizHintsReducer)
