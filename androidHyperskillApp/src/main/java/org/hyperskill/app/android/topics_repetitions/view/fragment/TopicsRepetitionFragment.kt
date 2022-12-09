@@ -92,6 +92,8 @@ class TopicsRepetitionFragment :
                 )
             }
         }
+
+        topicsRepetitionViewModel.onNewMessage(TopicsRepetitionsFeature.Message.ViewedEventMessage)
     }
 
     private fun initViewStateDelegate() {

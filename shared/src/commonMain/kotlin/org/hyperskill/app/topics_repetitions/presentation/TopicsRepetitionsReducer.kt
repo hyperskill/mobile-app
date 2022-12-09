@@ -3,6 +3,7 @@ package org.hyperskill.app.topics_repetitions.presentation
 import kotlin.math.max
 import org.hyperskill.app.topics_repetitions.domain.analytic.TopicsRepetitionsClickedRepeatNextTopicHyperskillAnalyticEvent
 import org.hyperskill.app.topics_repetitions.domain.analytic.TopicsRepetitionsClickedRepeatTopicHyperskillAnalyticEvent
+import org.hyperskill.app.topics_repetitions.domain.analytic.TopicsRepetitionsViewedHyperskillAnalyticEvent
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Action
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Message
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.State
@@ -97,6 +98,8 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                     Action.LogAnalyticEvent(TopicsRepetitionsClickedRepeatTopicHyperskillAnalyticEvent())
                 )
             }
+            is Message.ViewedEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(TopicsRepetitionsViewedHyperskillAnalyticEvent()))
         } ?: (state to emptySet())
 
     private fun getNewChartData(

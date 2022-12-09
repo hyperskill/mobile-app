@@ -45,4 +45,10 @@ final class TopicsRepetitionsViewModel: FeatureViewModel<
     func doRepeatNextTopic() {
         onNewMessage(TopicsRepetitionsFeatureMessageRepeatNextTopicClicked())
     }
+
+    // MARK: Analytic
+
+    func logViewedEvent() {
+        onNewMessage(TopicsRepetitionsFeatureMessageViewedEventMessage())
+    }
 }
