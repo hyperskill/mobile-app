@@ -21,7 +21,7 @@ import org.hyperskill.app.android.databinding.ItemNewUserTrackBinding
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserViewModel
 import org.hyperskill.app.placeholder_new_user.view.mapper.PlaceholderNewUserViewDataMapper
-import org.hyperskill.app.placeholder_new_user.view.model.PlaceholderNewUserTrack
+import org.hyperskill.app.placeholder_new_user.view.model.PlaceholderNewUserViewData
 import ru.nobird.android.ui.adapterdelegates.dsl.adapterDelegate
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
@@ -55,7 +55,7 @@ class PlaceholderNewUserFragment :
     }
 
     private val trackAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        DefaultDelegateAdapter<PlaceholderNewUserTrack>().apply {
+        DefaultDelegateAdapter<PlaceholderNewUserViewData.Track>().apply {
             addDelegate(trackAdapterDelegate(svgImageLoader))
         }
     }
@@ -127,17 +127,17 @@ class PlaceholderNewUserFragment :
         if (state is PlaceholderNewUserFeature.State.Content) {
             viewDataMapper?.let { mapper ->
                 viewLifecycleOwner.lifecycleScope.launch {
-                    val tracks = withContext(Dispatchers.Default) {
-                        mapper.mapStateToTracks(state)
+                    val viewData = withContext(Dispatchers.Default) {
+                        mapper.mapStateToViewData(state)
                     }
-                    trackAdapter.items = tracks
+                    trackAdapter.items = viewData.tracks
                 }
             }
         }
     }
 
     private fun trackAdapterDelegate(imageLoader: ImageLoader) =
-        adapterDelegate<PlaceholderNewUserTrack, PlaceholderNewUserTrack>(
+        adapterDelegate<PlaceholderNewUserViewData.Track, PlaceholderNewUserViewData.Track>(
             R.layout.item_new_user_track
         ) {
             itemView.setOnClickListener {
