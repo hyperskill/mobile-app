@@ -141,6 +141,12 @@ class PlaceholderNewUserFragment :
                     .dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
                 viewBinding.root.snackbar(R.string.placeholder_start_track_success_message)
             }
+            is PlaceholderNewUserFeature.Action.ViewAction.ShowTrackModal -> {
+                viewDataMapper?.let { mapper ->
+                    NewUserTrackDetailsBottomSheet.newInstance(mapper.mapTrackToViewDataTrack(action.track))
+                        .showIfNotExists(childFragmentManager, NewUserTrackDetailsBottomSheet.TAG)
+                }
+            }
         }
     }
 
@@ -165,10 +171,8 @@ class PlaceholderNewUserFragment :
             itemView.setOnClickListener {
                 item?.let { track ->
                     placeholderNewUserViewModel.onNewMessage(
-                        PlaceholderNewUserFeature.Message.TrackTappedEventMessage(track.id)
+                        PlaceholderNewUserFeature.Message.TrackTapped(track.id)
                     )
-                    NewUserTrackDetailsBottomSheet.newInstance(track)
-                        .showIfNotExists(childFragmentManager, NewUserTrackDetailsBottomSheet.TAG)
                 }
             }
             val viewBinding = ItemNewUserTrackBinding.bind(itemView)
