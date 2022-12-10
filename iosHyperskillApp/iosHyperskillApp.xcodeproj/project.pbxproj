@@ -271,6 +271,11 @@
 		2CD48D892858657100CFCC4A /* StepQuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD48D882858657100CFCC4A /* StepQuizView.swift */; };
 		2CD48D8B2858684100CFCC4A /* StepQuizViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD48D8A2858684100CFCC4A /* StepQuizViewData.swift */; };
 		2CD48D8E28586B6F00CFCC4A /* StepQuizViewDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD48D8D28586B6F00CFCC4A /* StepQuizViewDataMapper.swift */; };
+		2CDA98362944325300ADE539 /* TrackHeaderSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA98352944325300ADE539 /* TrackHeaderSkeletonView.swift */; };
+		2CDA9838294432C900ADE539 /* SkeletonCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA9837294432C900ADE539 /* SkeletonCircleView.swift */; };
+		2CDA983A2944377300ADE539 /* TrackSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA98392944377300ADE539 /* TrackSkeletonView.swift */; };
+		2CDA983D294438BB00ADE539 /* TrackTopicsToDiscoverNextSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA983C294438BB00ADE539 /* TrackTopicsToDiscoverNextSkeletonView.swift */; };
+		2CDA983F29443A1F00ADE539 /* TrackProgressSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA983E29443A1F00ADE539 /* TrackProgressSkeletonView.swift */; };
 		2CDBE6F528C10DCE00033679 /* NotificationPermissionStatusSettingsObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDBE6F428C10DCE00033679 /* NotificationPermissionStatusSettingsObserver.swift */; };
 		2CDF14D228EEF9690060D972 /* AppTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDF14D128EEF9690060D972 /* AppTabBarController.swift */; };
 		2CDF14D628EF02740060D972 /* PushRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDF14D528EF02740060D972 /* PushRouter.swift */; };
@@ -665,6 +670,11 @@
 		2CD48D882858657100CFCC4A /* StepQuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizView.swift; sourceTree = "<group>"; };
 		2CD48D8A2858684100CFCC4A /* StepQuizViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizViewData.swift; sourceTree = "<group>"; };
 		2CD48D8D28586B6F00CFCC4A /* StepQuizViewDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizViewDataMapper.swift; sourceTree = "<group>"; };
+		2CDA98352944325300ADE539 /* TrackHeaderSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackHeaderSkeletonView.swift; sourceTree = "<group>"; };
+		2CDA9837294432C900ADE539 /* SkeletonCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonCircleView.swift; sourceTree = "<group>"; };
+		2CDA98392944377300ADE539 /* TrackSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSkeletonView.swift; sourceTree = "<group>"; };
+		2CDA983C294438BB00ADE539 /* TrackTopicsToDiscoverNextSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTopicsToDiscoverNextSkeletonView.swift; sourceTree = "<group>"; };
+		2CDA983E29443A1F00ADE539 /* TrackProgressSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackProgressSkeletonView.swift; sourceTree = "<group>"; };
 		2CDBE6F428C10DCE00033679 /* NotificationPermissionStatusSettingsObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPermissionStatusSettingsObserver.swift; sourceTree = "<group>"; };
 		2CDF14D128EEF9690060D972 /* AppTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabBarController.swift; sourceTree = "<group>"; };
 		2CDF14D528EF02740060D972 /* PushRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushRouter.swift; sourceTree = "<group>"; };
@@ -1376,6 +1386,7 @@
 		2C60F1B428880AA600B66C78 /* Skeletons */ = {
 			isa = PBXGroup;
 			children = (
+				2CDA9837294432C900ADE539 /* SkeletonCircleView.swift */,
 				2C97F50928880B6F00DE77B7 /* SkeletonRoundedButton.swift */,
 				E99B218D2887EA9B006A6154 /* SkeletonRoundedView.swift */,
 			);
@@ -1385,11 +1396,12 @@
 		2C65636D28742963006AAD77 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2C65637928744DDA006AAD77 /* TrackHeaderView.swift */,
-				2CAB0611292A17C300D30DB1 /* TrackTopicsToDiscoverNextBlockView.swift */,
+				2CDA98392944377300ADE539 /* TrackSkeletonView.swift */,
 				2C9EB9572861BA57007DDE44 /* TrackView.swift */,
 				2C65637428743F32006AAD77 /* About */,
-				2CBDC648287ECAB2002FB6F6 /* TrackProgressBlock */,
+				2CDA983B2944389300ADE539 /* DiscoverNext */,
+				2CDA98342944323F00ADE539 /* Header */,
+				2CBDC648287ECAB2002FB6F6 /* Progress */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1830,13 +1842,14 @@
 			path = SwiftUI;
 			sourceTree = "<group>";
 		};
-		2CBDC648287ECAB2002FB6F6 /* TrackProgressBlock */ = {
+		2CBDC648287ECAB2002FB6F6 /* Progress */ = {
 			isa = PBXGroup;
 			children = (
 				2CBDC646287ECAAB002FB6F6 /* TrackProgressBlockView.swift */,
 				2C88C71E28745DD0005B7311 /* TrackProgressCardView.swift */,
+				2CDA983E29443A1F00ADE539 /* TrackProgressSkeletonView.swift */,
 			);
-			path = TrackProgressBlock;
+			path = Progress;
 			sourceTree = "<group>";
 		};
 		2CBFB94828897D970044D1BA /* StepQuizCodeFullScreen */ = {
@@ -1935,6 +1948,24 @@
 				2CD48D8D28586B6F00CFCC4A /* StepQuizViewDataMapper.swift */,
 			);
 			path = ViewData;
+			sourceTree = "<group>";
+		};
+		2CDA98342944323F00ADE539 /* Header */ = {
+			isa = PBXGroup;
+			children = (
+				2CDA98352944325300ADE539 /* TrackHeaderSkeletonView.swift */,
+				2C65637928744DDA006AAD77 /* TrackHeaderView.swift */,
+			);
+			path = Header;
+			sourceTree = "<group>";
+		};
+		2CDA983B2944389300ADE539 /* DiscoverNext */ = {
+			isa = PBXGroup;
+			children = (
+				2CAB0611292A17C300D30DB1 /* TrackTopicsToDiscoverNextBlockView.swift */,
+				2CDA983C294438BB00ADE539 /* TrackTopicsToDiscoverNextSkeletonView.swift */,
+			);
+			path = DiscoverNext;
 			sourceTree = "<group>";
 		};
 		2CDF14D328EEFA850060D972 /* ViewControllers */ = {
@@ -2649,6 +2680,7 @@
 				2CA7B892289329C600A789EF /* UIView+FindViewController.swift in Sources */,
 				2CEB50D6288ACBD10044F9AB /* HSTabBar.swift in Sources */,
 				2C97F50A28880B6F00DE77B7 /* SkeletonRoundedButton.swift in Sources */,
+				2CDA983A2944377300ADE539 /* TrackSkeletonView.swift in Sources */,
 				2CB279AD28C72A9500EDDCC8 /* TabBarRouter.swift in Sources */,
 				E9A3435029113FA400E0C0A4 /* StepQuizHintReactionButtonView.swift in Sources */,
 				2CAE8CF0280525BE00E6C83D /* StepViewModel.swift in Sources */,
@@ -2710,6 +2742,7 @@
 				2CEEE03728917F1100282849 /* TimeIntervalExtensions.swift in Sources */,
 				2CE31F4827F1BB79008EEE66 /* AuthSocialAssembly.swift in Sources */,
 				2C0DB9012864332B001EA35E /* CodeTextViewLayoutManager.swift in Sources */,
+				2CDA98362944325300ADE539 /* TrackHeaderSkeletonView.swift in Sources */,
 				2C0DB90728644F2C001EA35E /* CodeEditorView.swift in Sources */,
 				2CC4AAF1280DB513002276A0 /* WebOAuthService.swift in Sources */,
 				2CF2DA3A27EC5B2D0055426D /* Assembly.swift in Sources */,
@@ -2756,6 +2789,7 @@
 				2C336D102865BF4200C91342 /* CodeEditorThemeService.swift in Sources */,
 				2C46D0632807E4C100B3636E /* TextFieldWrapper.swift in Sources */,
 				2C08A939287866A200F1DCA2 /* LazyAvatarView.swift in Sources */,
+				2CDA983F29443A1F00ADE539 /* TrackProgressSkeletonView.swift in Sources */,
 				2CAFD38F27FC517D00F88B0B /* ColorPalette.swift in Sources */,
 				2C20FBAA284F1951006D879E /* ContentProcessor.swift in Sources */,
 				2C20B28F286C4515000F458A /* CodeLanguageSamples.swift in Sources */,
@@ -2812,6 +2846,7 @@
 				2C2FF9C928506FDE0069C092 /* LatexView.swift in Sources */,
 				2C96743728882A0C0091B6C9 /* StepQuizCodeDetailsView.swift in Sources */,
 				2C20FBC7284F6928006D879E /* ProgrammaticallyInitializableViewProtocol.swift in Sources */,
+				2CDA983D294438BB00ADE539 /* TrackTopicsToDiscoverNextSkeletonView.swift in Sources */,
 				2C9F59A729267A530008ADC5 /* StepTextView.swift in Sources */,
 				E951757927E61ACD00995008 /* AuthSocialView.swift in Sources */,
 				2C9EB9582861BA57007DDE44 /* TrackView.swift in Sources */,
@@ -2934,6 +2969,7 @@
 				2CBD1915291D2AF800F5FB0B /* ProfileDailyStudyRemindersPickerViewController.swift in Sources */,
 				2C5B2A23286596400097B270 /* UITableView+RegisterReusable.swift in Sources */,
 				2C069EB128F03782009A3DA1 /* AnalyticExtensions.swift in Sources */,
+				2CDA9838294432C900ADE539 /* SkeletonCircleView.swift in Sources */,
 				E99CD0BA292B982400620259 /* TopicsRepetitionsAssembly.swift in Sources */,
 				2CD3652528796C4300D61855 /* ProfileViewDataMapper.swift in Sources */,
 				2CE1C4DF27EDFB3800220041 /* FeatureViewModel.swift in Sources */,
