@@ -107,7 +107,7 @@ class HomeActionDispatcher(
                 onNewMessage(
                     Message.HomeSuccess(
                         streak = currentProfileStreaks.firstOrNull(),
-                        hypercoinsBalance = currentProfile.gamification.hypercoins,
+                        hypercoinsBalance = currentProfile.gamification.hypercoinsBalance,
                         problemOfDayState = problemOfDayState,
                         recommendedRepetitionsCount = currentProfile.recommendedRepetitionsCount
                     )
@@ -132,7 +132,7 @@ class HomeActionDispatcher(
                     .getCurrentProfile(DataSourceType.REMOTE)
                     .getOrNull() ?: return
 
-                onNewMessage(Message.HypercoinsBalanceRefreshed(currentProfile.gamification.hypercoins))
+                onNewMessage(Message.HypercoinsBalanceRefreshed(currentProfile.gamification.hypercoinsBalance))
             }
             is Action.GetMagicLink ->
                 getLink(action.path, ::onNewMessage)

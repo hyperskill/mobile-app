@@ -1,11 +1,9 @@
 import SwiftUI
 
 struct TrackSkeletonView: View {
-    private static let trackViewAppearance = TrackView.Appearance()
-
     var body: some View {
         ScrollView([], showsIndicators: false) {
-            VStack(spacing: Self.trackViewAppearance.spacingBetweenContainers) {
+            VStack(spacing: TrackView.Appearance().spacingBetweenContainers) {
                 TrackHeaderSkeletonView()
                 TrackTopicsToDiscoverNextSkeletonView()
                 TrackProgressSkeletonView()

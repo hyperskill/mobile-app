@@ -3,6 +3,7 @@ import SwiftUI
 extension ProfileHeaderView {
     struct Appearance {
         let avatarImageWidthHeight: CGFloat = 64
+        var cornerRadius: CGFloat = 8
     }
 }
 
@@ -35,6 +36,7 @@ struct ProfileHeaderView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
         .background(BackgroundView(color: Color(ColorPalette.surface)))
+        .cornerRadius(appearance.cornerRadius)
     }
 }
 

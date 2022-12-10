@@ -5,8 +5,6 @@ extension HomeView {
     struct Appearance {
         let spacingBetweenContainers = LayoutInsets.largeInset
 
-        let toolbarSkeletonSize = CGSize(width: 56, height: 28)
-
         let backgroundColor = Color.systemGroupedBackground
     }
 }
@@ -42,32 +40,16 @@ struct HomeView: View {
 
     // MARK: Private API
 
-    private var skeletons: some View {
-        VStack(spacing: appearance.spacingBetweenContainers) {
-            ProblemOfDaySkeletonView()
-            TopicsRepetitionsCardSkeletonView()
-
-            Spacer()
-        }
-        .toolbar {
-            ToolbarItemGroup(placement: .primaryAction) {
-                SkeletonRoundedView(appearance: .init(size: appearance.toolbarSkeletonSize))
-                SkeletonRoundedView(appearance: .init(size: appearance.toolbarSkeletonSize))
-            }
-        }
-        .padding()
-    }
-
     @ViewBuilder
     private func buildBody() -> some View {
         switch viewModel.stateKs {
         case .idle:
-            skeletons
+            HomeSkeletonView()
                 .onAppear {
                     viewModel.doLoadContent()
                 }
         case .loading:
-            skeletons
+            HomeSkeletonView()
         case .networkError:
             PlaceholderView(
                 configuration: .networkError(backgroundColor: appearance.backgroundColor) {

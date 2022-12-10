@@ -45,7 +45,7 @@ class StepQuizActionDispatcher(
                         val currentRemoteProfile = profileInteractor
                             .getCurrentProfile(sourceType = DataSourceType.REMOTE)
                             .getOrElse { return@collect }
-                        onNewMessage(Message.ShowProblemOfDaySolvedModal(currentRemoteProfile.gamification.hypercoins))
+                        onNewMessage(Message.ShowProblemOfDaySolvedModal(currentRemoteProfile.gamification.hypercoinsBalance))
                     }
                 }
             }

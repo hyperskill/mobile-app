@@ -5,6 +5,8 @@ extension ProfileView {
     struct Appearance {
         let spacingBetweenContainers: CGFloat = 20
 
+        let cornerRadius: CGFloat = 8
+
         let backgroundColor = Color.systemGroupedBackground
     }
 }
@@ -55,12 +57,12 @@ struct ProfileView: View {
     private func buildBody() -> some View {
         switch viewModel.stateKs {
         case .idle:
-            ProgressView()
+            ProfileSkeletonView()
                 .onAppear {
                     viewModel.doLoadProfile()
                 }
         case .loading:
-            ProgressView()
+            ProfileSkeletonView()
         case .error:
             PlaceholderView(
                 configuration: .networkError(backgroundColor: appearance.backgroundColor) {
@@ -77,6 +79,7 @@ struct ProfileView: View {
             ScrollView {
                 VStack(spacing: appearance.spacingBetweenContainers) {
                     ProfileHeaderView(
+                        appearance: .init(cornerRadius: appearance.cornerRadius),
                         avatarSource: viewData.avatarSource,
                         title: viewData.fullname,
                         subtitle: viewData.role
@@ -87,9 +90,18 @@ struct ProfileView: View {
                             .build()
                             .padding()
                             .background(Color(ColorPalette.surface))
+                            .cornerRadius(appearance.cornerRadius)
                     }
 
+                    ProfileStatisticsView(
+                        appearance: .init(cornerRadius: appearance.cornerRadius),
+                        passedProjectsCount: Int(data.profile.gamification.passedProjectsCount),
+                        passedTracksCount: Int(data.profile.gamification.passedTracksCount),
+                        hypercoinsBalance: Int(data.profile.gamification.hypercoinsBalance)
+                    )
+
                     ProfileDailyStudyRemindersView(
+                        appearance: .init(cornerRadius: appearance.cornerRadius),
                         isActivated: viewData.isDailyStudyRemindersEnabled,
                         selectedHour: viewData.dailyStudyRemindersStartHour,
                         onIsActivatedChanged: viewModel.setDailyStudyRemindersEnabled(_:),
@@ -98,6 +110,7 @@ struct ProfileView: View {
                     )
 
                     ProfileAboutView(
+                        appearance: .init(cornerRadius: appearance.cornerRadius),
                         livesInText: viewData.livesInText,
                         speaksText: viewData.speaksText,
                         bio: viewData.bio,
@@ -107,7 +120,7 @@ struct ProfileView: View {
                         onFullVersionButtonTapped: viewModel.doProfileFullVersionPresentation
                     )
                 }
-                .padding(.vertical)
+                .padding()
                 .pullToRefresh(
                     isShowing: Binding(
                         get: { data.isRefreshing },

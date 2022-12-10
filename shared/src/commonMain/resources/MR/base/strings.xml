@@ -166,6 +166,9 @@
     <string name="profile_role_learner_text">Learner</string>
     <string name="profile_daily_study_reminders_text">Daily study reminders</string>
     <string name="profile_daily_study_reminders_schedule_text">Schedule:</string>
+    <string name="profile_statistics_block_passed_projects_title">Projects</string>
+    <string name="profile_statistics_block_passed_tracks_title">Tracks</string>
+    <string name="profile_statistics_block_hypercoins_balance_title">Gems</string>
 
     <!-- Settings -->
     <string name="settings_title">Settings</string>

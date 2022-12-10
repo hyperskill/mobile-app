@@ -202,6 +202,12 @@ enum Strings {
         static let roleStaff = sharedStrings.profile_role_staff_text.localized()
         static let roleLearner = sharedStrings.profile_role_learner_text.localized()
 
+        enum Statistics {
+            static let passedProjects = sharedStrings.profile_statistics_block_passed_projects_title.localized()
+            static let passedTracks = sharedStrings.profile_statistics_block_passed_tracks_title.localized()
+            static let hypercoinsBalance = sharedStrings.profile_statistics_block_hypercoins_balance_title.localized()
+        }
+
         enum DailyStudyReminders {
             static let title = sharedStrings.profile_daily_study_reminders_text.localized()
             static let schedule = sharedStrings.profile_daily_study_reminders_schedule_text.localized()
