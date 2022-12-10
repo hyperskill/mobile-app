@@ -4,11 +4,9 @@ import SwiftUI
 extension AuthNewUserPlaceholderView {
     struct Appearance {
         let logoWidthHeight: CGFloat = 48
-
-        let spacingLarge: CGFloat = 48
-        let spacingSmall: CGFloat = 20
-
-        let contentMaxWidth: CGFloat = 400
+        let verticalContentPadding: CGFloat = 40
+        let largePadding: CGFloat = 32
+        let backgroundColor = Color.background
     }
 }
 
@@ -17,27 +15,15 @@ struct AuthNewUserPlaceholderView: View {
 
     @StateObject var viewModel: AuthNewUserPlaceholderViewModel
 
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-
     let dataMapper: PlaceholderNewUserViewDataMapper
 
     var body: some View {
-         ZStack {
+        ZStack {
             UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
 
-            BackgroundView()
+            BackgroundView(color: appearance.backgroundColor)
 
-            VStack(spacing: 0) {
-                if horizontalSizeClass == .regular {
-                    Spacer()
-                }
-
-                content
-
-                Spacer()
-            }
-            .frame(maxWidth: appearance.contentMaxWidth)
-            .padding()
+            buildBody()
         }
         .onAppear {
             viewModel.startListening()
@@ -46,57 +32,79 @@ struct AuthNewUserPlaceholderView: View {
         .onDisappear(perform: viewModel.stopListening)
     }
 
-    private var content: some View {
-        VStack(alignment: .leading, spacing: appearance.spacingLarge) {
-            VStack(alignment: .center, spacing: appearance.spacingSmall) {
-                HyperskillLogoView(logoWidthHeight: appearance.logoWidthHeight)
+    @ViewBuilder
+    private func buildBody() -> some View {
+        switch viewModel.stateKs {
+        case .idle:
+            ProgressView()
+                .onAppear {
+                    viewModel.doLoadContent()
+                }
+        case .loading:
+            ProgressView()
+        case .networkError:
+            PlaceholderView(
+                configuration: .networkError(backgroundColor: appearance.backgroundColor) {
+                    viewModel.doLoadContent(forceUpdate: true)
+                }
+            )
+        case .content(let contentState):
+            buildContent(contentState: contentState)
+        }
+    }
 
-                Text(Strings.Auth.NewUserPlaceholder.title)
-                    .font(.title2)
+    @ViewBuilder
+    private func buildContent(contentState: PlaceholderNewUserFeatureStateContent) -> some View {
+        let viewData = dataMapper.mapStateToViewData(state: contentState)
+
+        ScrollView {
+            VStack(alignment: .leading, spacing: appearance.largePadding) {
+                VStack(spacing: LayoutInsets.largeInset) {
+                    HyperskillLogoView(logoWidthHeight: appearance.logoWidthHeight)
+
+                    Text(Strings.Auth.NewUserPlaceholder.title)
+                        .font(.title2)
+                        .foregroundColor(.primaryText)
+                        .bold()
+                        .multilineTextAlignment(.center)
+                }
+                .frame(maxWidth: .infinity)
+
+                Text(Strings.Auth.NewUserPlaceholder.text)
+                    .font(.body)
                     .foregroundColor(.primaryText)
-                    .multilineTextAlignment(.center)
+
+                VStack(spacing: LayoutInsets.smallInset) {
+                    ForEach(viewData.tracks, id: \.id) { track in
+                        AuthNewUserPlaceholderTrackCardView(
+                            imageSource: track.imageSource,
+                            title: track.title,
+                            timeToComplete: track.timeToComplete,
+                            rating: track.rating
+                        )
+                    }
+                }
             }
-            .frame(maxWidth: .infinity)
-
-            Text(Strings.Auth.NewUserPlaceholder.introText)
-                .font(.body)
-                .foregroundColor(.primaryText)
-
-            VStack(spacing: appearance.spacingSmall) {
-                Button(
-                    Strings.Auth.NewUserPlaceholder.continueButton,
-                    action: viewModel.doContinueOnWebPresentation
-                )
-                .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
-
-                Button(
-                    Strings.Auth.NewUserPlaceholder.signInButton,
-                    action: viewModel.doSignIn
-                )
-                .buttonStyle(OutlineButtonStyle())
-            }
-
-            Text(Strings.Auth.NewUserPlaceholder.possibilityText)
-                .font(.body)
-                .foregroundColor(.primaryText)
+            .padding(.horizontal)
+            .padding(.vertical, appearance.verticalContentPadding)
         }
     }
 
     // MARK: Private API
 
     private func handleViewAction(_ viewAction: PlaceholderNewUserFeatureActionViewAction) {
-//        switch PlaceholderNewUserFeatureActionViewActionKs(viewAction) {
-//        case .navigateTo(let navigateToViewAction):
-//            switch PlaceholderNewUserFeatureActionViewActionNavigateToKs(navigateToViewAction) {
-//            case .authScreen:
-//                viewModel.doAuthScreenPresentation()
-//            }
-//        case .openUrl(let data):
-//            ProgressHUD.showSuccess()
-//            WebControllerManager.shared.presentWebControllerWithURLString(data.url, controllerType: .inAppSafari)
-//        case .showGetMagicLinkError:
-//            ProgressHUD.showError()
-//        }
+        //        switch PlaceholderNewUserFeatureActionViewActionKs(viewAction) {
+        //        case .navigateTo(let navigateToViewAction):
+        //            switch PlaceholderNewUserFeatureActionViewActionNavigateToKs(navigateToViewAction) {
+        //            case .authScreen:
+        //                viewModel.doAuthScreenPresentation()
+        //            }
+        //        case .openUrl(let data):
+        //            ProgressHUD.showSuccess()
+        //            WebControllerManager.shared.presentWebControllerWithURLString(data.url, controllerType: .inAppSafari)
+        //        case .showGetMagicLinkError:
+        //            ProgressHUD.showError()
+        //        }
     }
 }
 

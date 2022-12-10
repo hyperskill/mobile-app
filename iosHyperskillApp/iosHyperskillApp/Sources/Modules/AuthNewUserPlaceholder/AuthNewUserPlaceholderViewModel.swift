@@ -17,6 +17,10 @@ final class AuthNewUserPlaceholderViewModel: FeatureViewModel<
         PlaceholderNewUserFeatureStateKs(oldState) != PlaceholderNewUserFeatureStateKs(newState)
     }
 
+    func doLoadContent(forceUpdate: Bool = false) {
+        onNewMessage(PlaceholderNewUserFeatureMessageInitialize(forceUpdate: forceUpdate))
+    }
+
     func doSignIn() {
         //onNewMessage(PlaceholderNewUserFeatureMessagePlaceholderSignInTappedMessage())
     }
