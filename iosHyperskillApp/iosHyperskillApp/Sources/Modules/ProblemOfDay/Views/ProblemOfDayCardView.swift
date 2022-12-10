@@ -15,11 +15,6 @@ extension ProblemOfDayCardView {
         let opacityNormal: Double = 1
 
         let backgroundImageMaxHeight: Double = 116
-
-        let shadowColor = Color.black.opacity(0.05)
-        let shadowRadius: CGFloat = 8
-        let shadowX: CGFloat = 0
-        let shadowY: CGFloat = 2
     }
 }
 
@@ -75,12 +70,6 @@ struct ProblemOfDayCardView: View {
                 )
                 .background(Color(ColorPalette.surface))
                 .addBorder()
-                .shadow(
-                    color: appearance.shadowColor,
-                    radius: appearance.shadowRadius,
-                    x: appearance.shadowX,
-                    y: appearance.shadowY
-                )
             }
         )
         .buttonStyle(BounceButtonStyle())
