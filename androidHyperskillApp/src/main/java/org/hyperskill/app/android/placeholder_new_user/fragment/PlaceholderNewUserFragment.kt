@@ -171,7 +171,7 @@ class PlaceholderNewUserFragment :
             itemView.setOnClickListener {
                 item?.let { track ->
                     placeholderNewUserViewModel.onNewMessage(
-                        PlaceholderNewUserFeature.Message.TrackTapped(track.id)
+                        PlaceholderNewUserFeature.Message.TrackClicked(track.id)
                     )
                 }
             }
