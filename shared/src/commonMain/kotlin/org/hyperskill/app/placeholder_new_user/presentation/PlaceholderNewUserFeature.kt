@@ -25,7 +25,7 @@ interface PlaceholderNewUserFeature {
             object Error : TrackSelected
         }
 
-        data class TrackTapped(val trackId: Long) : Message
+        data class TrackClicked(val trackId: Long) : Message
 
         /**
          * Analytic

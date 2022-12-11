@@ -59,13 +59,7 @@ class PlaceholderNewUserReducer : StateReducer<State, Message, Action> {
             is Message.TrackSelected.Error -> {
                 state to setOf(Action.ViewAction.ShowTrackSelectionStatus.Error)
             }
-            is Message.ViewedEventMessage ->
-                state to setOf(
-                    Action.LogAnalyticEvent(
-                        PlaceholderNewUserViewedHyperskillAnalyticEvent()
-                    )
-                )
-            is Message.TrackTapped -> {
+            is Message.TrackClicked -> {
                 getTrackById(message.trackId, state)?.let { track ->
                     state to setOf(
                         Action.ViewAction.ShowTrackModal(track),
@@ -79,6 +73,12 @@ class PlaceholderNewUserReducer : StateReducer<State, Message, Action> {
                     )
                 }
             }
+            is Message.ViewedEventMessage ->
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        PlaceholderNewUserViewedHyperskillAnalyticEvent()
+                    )
+                )
             is Message.TrackModalShownEventMessage ->
                 state to setOf(
                     Action.LogAnalyticEvent(
