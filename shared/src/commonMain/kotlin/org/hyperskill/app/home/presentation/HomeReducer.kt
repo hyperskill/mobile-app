@@ -43,12 +43,6 @@ class HomeReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
-            is Message.HypercoinsBalanceRefreshed ->
-                if (state is State.Content) {
-                    state.copy(hypercoinsBalance = message.hypercoinsBalance) to emptySet()
-                } else {
-                    null
-                }
             // Timer Messages
             is Message.ReadyToLaunchNextProblemInTimer ->
                 if (state is State.Content) {
@@ -100,7 +94,7 @@ class HomeReducer : StateReducer<State, Message, Action> {
                     state.copy(
                         streak = state.streak?.getStreakWithTodaySolved(),
                         problemOfDayState = problemOfDayState
-                    ) to setOf(Action.RefreshHypercoinsBalance)
+                    ) to emptySet()
                 } else {
                     null
                 }
@@ -110,6 +104,12 @@ class HomeReducer : StateReducer<State, Message, Action> {
                     state.copy(
                         recommendedRepetitionsCount = max(state.recommendedRepetitionsCount.dec(), 0)
                     ) to emptySet()
+                } else {
+                    null
+                }
+            is Message.HypercoinsBalanceChanged ->
+                if (state is State.Content) {
+                    state.copy(hypercoinsBalance = message.hypercoinsBalance) to emptySet()
                 } else {
                     null
                 }

@@ -64,10 +64,9 @@ interface HomeFeature {
         object ReadyToLaunchNextProblemInTimer : Message
         data class HomeNextProblemInUpdate(val seconds: Long) : Message
 
-        data class HypercoinsBalanceRefreshed(val hypercoinsBalance: Int) : Message
-
         data class StepQuizSolved(val stepId: Long) : Message
         object TopicRepeated : Message
+        data class HypercoinsBalanceChanged(val hypercoinsBalance: Int) : Message
 
         object ClickedStreakBarButtonItem : Message
         object ClickedGemsBarButtonItem : Message
@@ -88,8 +87,6 @@ interface HomeFeature {
     sealed interface Action {
         object FetchHomeScreenData : Action
         object LaunchTimer : Action
-
-        object RefreshHypercoinsBalance : Action
 
         data class GetMagicLink(val path: HyperskillUrlPath) : Action
 

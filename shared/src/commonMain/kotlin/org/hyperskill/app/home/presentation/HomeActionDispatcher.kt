@@ -68,6 +68,12 @@ class HomeActionDispatcher(
                 onNewMessage(Message.TopicRepeated)
             }
         }
+
+        actionScope.launch {
+            profileInteractor.observeHypercoinsBalance().collect {
+                onNewMessage(Message.HypercoinsBalanceChanged(it))
+            }
+        }
     }
 
     override suspend fun doSuspendableAction(action: Action) {
@@ -126,13 +132,6 @@ class HomeActionDispatcher(
                 }
                     .onEach { seconds -> onNewMessage(Message.HomeNextProblemInUpdate(seconds)) }
                     .launchIn(actionScope)
-            }
-            is Action.RefreshHypercoinsBalance -> {
-                val currentProfile = profileInteractor
-                    .getCurrentProfile(DataSourceType.REMOTE)
-                    .getOrNull() ?: return
-
-                onNewMessage(Message.HypercoinsBalanceRefreshed(currentProfile.gamification.hypercoinsBalance))
             }
             is Action.GetMagicLink ->
                 getLink(action.path, ::onNewMessage)

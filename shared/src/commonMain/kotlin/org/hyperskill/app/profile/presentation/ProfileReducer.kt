@@ -48,6 +48,19 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
+            is Message.HypercoinsBalanceChanged -> {
+                if (state is State.Content) {
+                    state.copy(
+                        profile = state.profile.copy(
+                            gamification = state.profile.gamification.copy(
+                                hypercoinsBalance = message.hypercoinsBalance
+                            )
+                        )
+                    ) to emptySet()
+                } else {
+                    null
+                }
+            }
             is Message.ClickedViewFullProfile -> {
                 if (state is State.Content) {
                     state.copy(isLoadingMagicLink = true) to setOf(

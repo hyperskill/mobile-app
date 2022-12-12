@@ -42,10 +42,13 @@ class StepQuizActionDispatcher(
                         .getOrDefault(false)
 
                     if (isSolvedStepDailyStep) {
-                        val currentRemoteProfile = profileInteractor
+                        val currentProfileHypercoinsBalance = profileInteractor
                             .getCurrentProfile(sourceType = DataSourceType.REMOTE)
+                            .map { it.gamification.hypercoinsBalance }
                             .getOrElse { return@collect }
-                        onNewMessage(Message.ShowProblemOfDaySolvedModal(currentRemoteProfile.gamification.hypercoinsBalance))
+
+                        profileInteractor.notifyHypercoinsBalanceChanged(currentProfileHypercoinsBalance)
+                        onNewMessage(Message.ShowProblemOfDaySolvedModal(currentProfileHypercoinsBalance))
                     }
                 }
             }
