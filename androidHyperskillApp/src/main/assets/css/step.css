@@ -73,6 +73,10 @@ img {
   height: auto;
 }
 
+video {
+    display: none;
+}
+
 li > pre,
 li + pre {
   margin-top: 0.5rem;
