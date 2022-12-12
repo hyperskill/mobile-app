@@ -83,4 +83,7 @@
     <dimen name="track_next_topic_vertical_item_margin">16dp</dimen>
     <dimen name="track_next_topic_horizontal_item_margin">20dp</dimen>
 
+    <!--New user screen-->
+    <dimen name="track_items_vertical_margin">8dp</dimen>
+
 </resources>
