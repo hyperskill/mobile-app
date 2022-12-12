@@ -16,66 +16,66 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/placeholderRegisterTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center_horizontal"
-        android:text="@string/placeholder_register_text"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/placeholderIcon" />
+<!--    <TextView-->
+<!--        android:id="@+id/placeholderRegisterTextView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:gravity="center_horizontal"-->
+<!--        android:text="@string/placeholder_register_text"-->
+<!--        android:textAppearance="@style/TextAppearance.AppCompat.Body2"-->
+<!--        android:textSize="24sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/placeholderIcon" />-->
 
-    <TextView
-        android:id="@+id/placeholderInstructionTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="@string/placeholder_instruction_text"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/placeholderRegisterTextView" />
+<!--    <TextView-->
+<!--        android:id="@+id/placeholderInstructionTextView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="48dp"-->
+<!--        android:text="@string/placeholder_instruction_text"-->
+<!--        android:textAppearance="@style/TextAppearance.AppCompat.Body1"-->
+<!--        android:textSize="16sp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/placeholderRegisterTextView" />-->
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/placeholderContinueToHyperskillButton"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/auth_button_height"
-        android:layout_marginTop="48dp"
-        android:text="@string/placeholder_continue_button_text"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/placeholderInstructionTextView" />
+<!--    <com.google.android.material.button.MaterialButton-->
+<!--        android:id="@+id/placeholderContinueToHyperskillButton"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="@dimen/auth_button_height"-->
+<!--        android:layout_marginTop="48dp"-->
+<!--        android:text="@string/placeholder_continue_button_text"-->
+<!--        android:textSize="16sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/placeholderInstructionTextView" />-->
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/placeholderSignInButton"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/auth_button_height"
-        android:layout_marginTop="20dp"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:text="@string/onboarding_sign_in"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/placeholderContinueToHyperskillButton"
-        app:layout_constraintVertical_bias="0"
-        app:strokeColor="?colorPrimary" />
+<!--    <com.google.android.material.button.MaterialButton-->
+<!--        android:id="@+id/placeholderSignInButton"-->
+<!--        style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="@dimen/auth_button_height"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:insetTop="0dp"-->
+<!--        android:insetBottom="0dp"-->
+<!--        android:text="@string/onboarding_sign_in"-->
+<!--        android:textSize="16sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/placeholderContinueToHyperskillButton"-->
+<!--        app:layout_constraintVertical_bias="0"-->
+<!--        app:strokeColor="?colorPrimary" />-->
 
-    <TextView
-        android:id="@+id/placeholderFirstDescriptionTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="@string/placeholder_first_description_text"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/placeholderSignInButton" />
+<!--    <TextView-->
+<!--        android:id="@+id/placeholderFirstDescriptionTextView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="48dp"-->
+<!--        android:text="@string/placeholder_first_description_text"-->
+<!--        android:textAppearance="@style/TextAppearance.AppCompat.Body1"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/placeholderSignInButton" />-->
 
     <me.zhanghai.android.materialprogressbar.MaterialProgressBar
         android:id="@+id/placeholderProgress"

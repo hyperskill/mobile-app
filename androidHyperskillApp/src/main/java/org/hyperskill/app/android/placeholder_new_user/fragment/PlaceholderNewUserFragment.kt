@@ -44,13 +44,13 @@ class PlaceholderNewUserFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewBinding.placeholderContinueToHyperskillButton.setOnClickListener {
+//        viewBinding.placeholderContinueToHyperskillButton.setOnClickListener {
             // placeholderNewUserViewModel.onNewMessage(PlaceholderNewUserFeature.Message.ClickedContinueOnWeb)
-        }
+//        }
 
-        viewBinding.placeholderSignInButton.setOnClickListener {
+//        viewBinding.placeholderSignInButton.setOnClickListener {
             // placeholderNewUserViewModel.onNewMessage(PlaceholderNewUserFeature.Message.PlaceholderSignInTappedMessage)
-        }
+//        }
 
         placeholderNewUserViewModel.onNewMessage(PlaceholderNewUserFeature.Message.ViewedEventMessage)
     }
