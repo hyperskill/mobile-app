@@ -96,9 +96,15 @@ class PlaceholderNewUserFragment :
     private fun setupViewStateDelegate() {
         viewStateDelegate = ViewStateDelegate<PlaceholderNewUserFeature.State>().apply {
             addState<PlaceholderNewUserFeature.State.Idle>()
-            addState<PlaceholderNewUserFeature.State.Loading>(viewBinding.placeholderProgress)
+            addState<PlaceholderNewUserFeature.State.Loading>(
+                viewBinding.placeholderContentConstraintLayout,
+                viewBinding.placeholderLoadingView
+            )
             addState<PlaceholderNewUserFeature.State.NetworkError>(viewBinding.placeholderError.root)
-            addState<PlaceholderNewUserFeature.State.Content>(viewBinding.placeholderContentConstraintLayout)
+            addState<PlaceholderNewUserFeature.State.Content>(
+                viewBinding.placeholderContentConstraintLayout,
+                viewBinding.placeholderRecyclerView
+            )
         }
     }
 
