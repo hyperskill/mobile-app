@@ -3,12 +3,10 @@ import SwiftUI
 extension TopicsRepetitionsCardView {
     struct Appearance {
         let spacing = LayoutInsets.defaultInset
+
         let backgroundImageMaxHeight: Double = 116
+
         let arrowIconSize: CGFloat = 32
-        let shadowColor = Color.black.opacity(0.05)
-        let shadowRadius: CGFloat = 8
-        let shadowX: CGFloat = 0
-        let shadowY: CGFloat = 2
     }
 }
 
@@ -56,12 +54,6 @@ struct TopicsRepetitionsCardView: View {
             }
         )
         .buttonStyle(BounceButtonStyle())
-        .shadow(
-            color: appearance.shadowColor,
-            radius: appearance.shadowRadius,
-            x: appearance.shadowX,
-            y: appearance.shadowY
-        )
     }
 
     // MARK: - Inner Types -

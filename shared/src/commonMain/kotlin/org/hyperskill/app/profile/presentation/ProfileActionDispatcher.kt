@@ -29,6 +29,12 @@ class ProfileActionDispatcher(
                 onNewMessage(Message.StepQuizSolved)
             }
         }
+
+        actionScope.launch {
+            profileInteractor.observeHypercoinsBalance().collect {
+                onNewMessage(Message.HypercoinsBalanceChanged(it))
+            }
+        }
     }
 
     override suspend fun doSuspendableAction(action: Action) {

@@ -1,17 +1,6 @@
 import SwiftUI
 
-extension StreakCardView {
-    struct Appearance {
-        let shadowColor = Color.black.opacity(0.05)
-        let shadowRadius: CGFloat = 8
-        let shadowX: CGFloat = 0
-        let shadowY: CGFloat = 2
-    }
-}
-
 struct StreakCardView: View {
-    private(set) var appearance = Appearance()
-
     let isNewStreakRecord: Bool
     let currentStreakCountString: String
 
@@ -26,12 +15,6 @@ struct StreakCardView: View {
         .padding()
         .background(Color(ColorPalette.surface))
         .addBorder()
-        .shadow(
-            color: appearance.shadowColor,
-            radius: appearance.shadowRadius,
-            x: appearance.shadowX,
-            y: appearance.shadowY
-        )
     }
 }
 

@@ -159,7 +159,6 @@ enum Strings {
 
     enum Home {
         static let title = sharedStrings.home_title.localized()
-        static let helloLetsLearn = sharedStrings.home_hello_lets_learn_text.localized()
         static let keepPracticing = sharedStrings.home_keep_practicing_text.localized()
     }
 
@@ -202,6 +201,12 @@ enum Strings {
         static let viewFullVersionButton = sharedStrings.profile_view_full_version_button_text.localized()
         static let roleStaff = sharedStrings.profile_role_staff_text.localized()
         static let roleLearner = sharedStrings.profile_role_learner_text.localized()
+
+        enum Statistics {
+            static let passedProjects = sharedStrings.profile_statistics_block_passed_projects_title.localized()
+            static let passedTracks = sharedStrings.profile_statistics_block_passed_tracks_title.localized()
+            static let hypercoinsBalance = sharedStrings.profile_statistics_block_hypercoins_balance_title.localized()
+        }
 
         enum DailyStudyReminders {
             static let title = sharedStrings.profile_daily_study_reminders_text.localized()

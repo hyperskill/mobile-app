@@ -58,6 +58,7 @@ interface ProfileFeature {
         ) : Message
 
         object StepQuizSolved : Message
+        data class HypercoinsBalanceChanged(val hypercoinsBalance: Int) : Message
 
         object ClickedViewFullProfile : Message
 
