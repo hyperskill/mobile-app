@@ -7,19 +7,17 @@ import org.hyperskill.app.android.R
 private fun getImportanceCompat(): Int =
     NotificationManager.IMPORTANCE_HIGH
 
-private val dailyReminderId = "dailyReminderChannel"
-private val otherId = "otherChannel"
+private const val dailyReminderId = "dailyReminderChannel"
+private const val otherId = "otherChannel"
 
 enum class HyperskillNotificationChannel(
     val channelId: String,
-    @StringRes
-    val visibleChannelNameRes: Int,
-    @StringRes
-    val visibleChannelDescriptionRes: Int,
+    @StringRes val visibleChannelNameRes: Int,
+    @StringRes val visibleChannelDescriptionRes: Int,
     val importance: Int = getImportanceCompat()
 ) {
     // order is important!
 
-    DAILY_REMINDER(dailyReminderId, R.string.daily_reminder_channel_name, R.string.daily_reminder_channel_name),
-    other(otherId, R.string.other_channel_name, R.string.other_channel_name),
+    DailyReminder(dailyReminderId, R.string.daily_reminder_channel_name, R.string.daily_reminder_channel_name),
+    Other(otherId, R.string.other_channel_name, R.string.other_channel_name),
 }

@@ -2,11 +2,11 @@ package org.hyperskill.app.android.notification.injection
 
 import android.content.Context
 import org.hyperskill.app.android.HyperskillApp
+import org.hyperskill.app.android.notification.DailyStudyReminderNotificationDelegate
 import org.hyperskill.app.android.notification.HyperskillNotificationManager
 import org.hyperskill.app.android.notification.HyperskillNotificationManagerImpl
 import org.hyperskill.app.android.notification.NotificationPublisher
 import org.hyperskill.app.android.notification.NotificationPublisherImpl
-import org.hyperskill.app.android.notification.DailyStudyReminderNotificationDelegate
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
 
@@ -24,5 +24,5 @@ class PlatformNotificationComponentImpl(
         get() = NotificationPublisherImpl(HyperskillApp.graph().platformNotificationComponent.getNotificationDelegates())
 
     override val dailyStudyReminderNotificationDelegate: DailyStudyReminderNotificationDelegate
-        get() = DailyStudyReminderNotificationDelegate(context, notificationManager, notificationInteractor)
+        get() = DailyStudyReminderNotificationDelegate(notificationManager, context, notificationInteractor)
 }
