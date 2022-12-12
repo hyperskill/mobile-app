@@ -167,7 +167,7 @@ final class WebControllerManager: NSObject {
             strongSelf.currentWebControllerKey = nil
         }
 
-        let navigationController = UINavigationController(rootViewController: controller)
+        let navigationController = WebViewNavigationController(rootViewController: controller)
         navigationController.modalPresentationStyle = .fullScreen
 
         self.currentWebController = navigationController
