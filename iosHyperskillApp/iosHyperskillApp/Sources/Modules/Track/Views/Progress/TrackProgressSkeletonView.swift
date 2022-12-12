@@ -3,12 +3,10 @@ import SwiftUI
 struct TrackProgressSkeletonView: View {
     var body: some View {
         VStack {
-            Group {
+            ForEach(0..<3) { _ in
                 SkeletonRoundedView()
-                SkeletonRoundedView()
-                SkeletonRoundedView()
+                    .frame(height: 88)
             }
-            .frame(height: 88)
         }
         .padding(.horizontal)
     }
