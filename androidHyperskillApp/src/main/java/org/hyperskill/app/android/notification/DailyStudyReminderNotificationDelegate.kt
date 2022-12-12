@@ -2,7 +2,7 @@ package org.hyperskill.app.android.notification
 
 import android.content.Context
 import androidx.core.app.NotificationCompat
-import java.util.*
+import java.util.Calendar
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.DateTimeHelper
 import org.hyperskill.app.android.notification.model.ClickedNotificationData
