@@ -25,7 +25,9 @@ data class TrackProgress(
     @SerialName("learned_topics_count")
     val learnedTopicsCount: Int,
     @SerialName("skipped_topics_count")
-    val skippedTopicsCount: Int
+    val skippedTopicsCount: Int,
+    @SerialName("rank")
+    val rank: Int = 0
 ) {
     val averageRating: Double
         get() {

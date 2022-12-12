@@ -12,7 +12,7 @@ class PlaceholderNewUserViewDataMapper(
 ) {
     fun mapStateToViewData(state: PlaceholderNewUserFeature.State.Content): PlaceholderNewUserViewData =
         PlaceholderNewUserViewData(
-            tracks = state.tracks.map(::mapTrackToViewDataTrack)
+            tracks = state.tracks.sortedBy { it.progress?.rank }.map(::mapTrackToViewDataTrack)
         )
 
     fun mapTrackToViewDataTrack(track: Track): PlaceholderNewUserViewData.Track =
