@@ -45,11 +45,11 @@ class PlaceholderNewUserFragment :
         super.onViewCreated(view, savedInstanceState)
 
 //        viewBinding.placeholderContinueToHyperskillButton.setOnClickListener {
-            // placeholderNewUserViewModel.onNewMessage(PlaceholderNewUserFeature.Message.ClickedContinueOnWeb)
+//            placeholderNewUserViewModel.onNewMessage(PlaceholderNewUserFeature.Message.ClickedContinueOnWeb)
 //        }
 
 //        viewBinding.placeholderSignInButton.setOnClickListener {
-            // placeholderNewUserViewModel.onNewMessage(PlaceholderNewUserFeature.Message.PlaceholderSignInTappedMessage)
+//            placeholderNewUserViewModel.onNewMessage(PlaceholderNewUserFeature.Message.PlaceholderSignInTappedMessage)
 //        }
 
         placeholderNewUserViewModel.onNewMessage(PlaceholderNewUserFeature.Message.ViewedEventMessage)
