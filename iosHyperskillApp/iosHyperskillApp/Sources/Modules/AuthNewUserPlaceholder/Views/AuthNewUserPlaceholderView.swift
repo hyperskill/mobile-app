@@ -15,6 +15,8 @@ struct AuthNewUserPlaceholderView: View {
 
     @StateObject var viewModel: AuthNewUserPlaceholderViewModel
 
+    @StateObject var panModalPresenter = PanModalPresenter()
+
     let dataMapper: PlaceholderNewUserViewDataMapper
 
     var body: some View {
@@ -76,11 +78,18 @@ struct AuthNewUserPlaceholderView: View {
 
                 VStack(spacing: LayoutInsets.smallInset) {
                     ForEach(viewData.tracks, id: \.id) { track in
-                        AuthNewUserPlaceholderTrackCardView(
-                            imageSource: track.imageSource,
-                            title: track.title,
-                            timeToComplete: track.timeToComplete,
-                            rating: track.rating
+                        Button(
+                            action: {
+                                viewModel.doTrackCardClicked(trackID: track.id)
+                            },
+                            label: {
+                                AuthNewUserPlaceholderTrackCardView(
+                                    imageSource: track.imageSource,
+                                    title: track.title,
+                                    timeToComplete: track.timeToComplete,
+                                    rating: track.rating
+                                )
+                            }
                         )
                     }
                 }
@@ -93,18 +102,40 @@ struct AuthNewUserPlaceholderView: View {
     // MARK: Private API
 
     private func handleViewAction(_ viewAction: PlaceholderNewUserFeatureActionViewAction) {
-        //        switch PlaceholderNewUserFeatureActionViewActionKs(viewAction) {
-        //        case .navigateTo(let navigateToViewAction):
-        //            switch PlaceholderNewUserFeatureActionViewActionNavigateToKs(navigateToViewAction) {
-        //            case .authScreen:
-        //                viewModel.doAuthScreenPresentation()
-        //            }
-        //        case .openUrl(let data):
-        //            ProgressHUD.showSuccess()
-        //            WebControllerManager.shared.presentWebControllerWithURLString(data.url, controllerType: .inAppSafari)
-        //        case .showGetMagicLinkError:
-        //            ProgressHUD.showError()
-        //        }
+        switch PlaceholderNewUserFeatureActionViewActionKs(viewAction) {
+        case .showTrackModal(let showTrackModalAction):
+            let viewDataTrack = dataMapper.mapTrackToViewDataTrack(track: showTrackModalAction.track)
+            presentTrackModal(track: viewDataTrack)
+        case .showTrackSelectionStatus(let trackSelectionStatus):
+            switch PlaceholderNewUserFeatureActionViewActionShowTrackSelectionStatusKs(trackSelectionStatus) {
+            case .loading:
+                ProgressHUD.show()
+            case .error:
+                ProgressHUD.showError(status: Strings.Auth.NewUserPlaceholder.trackSelectionErrorMessage)
+            case .success:
+                ProgressHUD.showSuccess(status: Strings.Auth.NewUserPlaceholder.trackSelectionSuccessMessage)
+            }
+        case .navigateTo(let navigateToViewAction):
+            switch PlaceholderNewUserFeatureActionViewActionNavigateToKs(navigateToViewAction) {
+            case .homeScreen:
+                viewModel.doHomeScreenPresentation()
+            }
+        }
+    }
+
+    private func presentTrackModal(track: PlaceholderNewUserViewData.Track) {
+        viewModel.logTrackModalShownEvent(trackID: track.id)
+
+        let panModal = AuthNewUserTrackModalViewController(
+            track: track,
+            onStartLearningButtonTap: {
+                viewModel.doStartLearningClicked(trackID: track.id)
+            }
+        )
+
+        panModal.onDisappear = { viewModel.logTrackModalHiddenEvent(trackID: track.id) }
+
+        panModalPresenter.presentPanModal(panModal)
     }
 }
 

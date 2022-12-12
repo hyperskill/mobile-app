@@ -323,6 +323,7 @@
 		E95BE4042938A30900992DDE /* TopicsRepetitionsStatusBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95BE4032938A30900992DDE /* TopicsRepetitionsStatusBlock.swift */; };
 		E95D0F302941DF000074C9F3 /* AuthNewUserPlaceholderTrackCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95D0F2F2941DF000074C9F3 /* AuthNewUserPlaceholderTrackCardView.swift */; };
 		E96E80F627EF57BA00AA6683 /* AuthSocialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */; };
+		E97704782946F47000ACD7E7 /* AuthNewUserTrackModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97704772946F47000ACD7E7 /* AuthNewUserTrackModalViewController.swift */; };
 		E9802D07281BB5CC00CF3AC1 /* StepQuizChoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9802D06281BB5CC00CF3AC1 /* StepQuizChoiceView.swift */; };
 		E9859B91292E414300857679 /* RepeatButtonInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9859B90292E414300857679 /* RepeatButtonInfo.swift */; };
 		E9886D3228ABCE5C003724F9 /* OnboardingOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9886D3128ABCE5C003724F9 /* OnboardingOutputProtocol.swift */; };
@@ -718,6 +719,7 @@
 		E95BE4032938A30900992DDE /* TopicsRepetitionsStatusBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsRepetitionsStatusBlock.swift; sourceTree = "<group>"; };
 		E95D0F2F2941DF000074C9F3 /* AuthNewUserPlaceholderTrackCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNewUserPlaceholderTrackCardView.swift; sourceTree = "<group>"; };
 		E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialViewModel.swift; sourceTree = "<group>"; };
+		E97704772946F47000ACD7E7 /* AuthNewUserTrackModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNewUserTrackModalViewController.swift; sourceTree = "<group>"; };
 		E9802D06281BB5CC00CF3AC1 /* StepQuizChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChoiceView.swift; sourceTree = "<group>"; };
 		E9859B90292E414300857679 /* RepeatButtonInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatButtonInfo.swift; sourceTree = "<group>"; };
 		E9886D3128ABCE5C003724F9 /* OnboardingOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingOutputProtocol.swift; sourceTree = "<group>"; };
@@ -1401,10 +1403,10 @@
 		2C6B30A428B7C3BB00609CE8 /* AuthNewUserPlaceholder */ = {
 			isa = PBXGroup;
 			children = (
-				E95D0F2E2941DED20074C9F3 /* Views */,
 				2C6B30A728B7C47800609CE8 /* AuthNewUserPlaceholderAssembly.swift */,
 				2C02961F28BEA000001BAFB3 /* AuthNewUserPlaceholderOutputProtocol.swift */,
 				2C6B30A528B7C3F300609CE8 /* AuthNewUserPlaceholderViewModel.swift */,
+				E95D0F2E2941DED20074C9F3 /* Views */,
 			);
 			path = AuthNewUserPlaceholder;
 			sourceTree = "<group>";
@@ -2169,8 +2171,9 @@
 		E95D0F2E2941DED20074C9F3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E9380ED9286B48A400CBF221 /* AuthNewUserPlaceholderView.swift */,
 				E95D0F2F2941DF000074C9F3 /* AuthNewUserPlaceholderTrackCardView.swift */,
+				E9380ED9286B48A400CBF221 /* AuthNewUserPlaceholderView.swift */,
+				E97704772946F47000ACD7E7 /* AuthNewUserTrackModalViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2691,6 +2694,7 @@
 				2C1061A2285C349400EBD614 /* StepQuizChildQuizAssembly.swift in Sources */,
 				2CB279AF28C72AA400EDDCC8 /* DeepLinkRouterProtocol.swift in Sources */,
 				2C023C86285D927A00D2D5A9 /* StepQuizTableAssembly.swift in Sources */,
+				E97704782946F47000ACD7E7 /* AuthNewUserTrackModalViewController.swift in Sources */,
 				2C20FBC4284F67F3006D879E /* ProcessedContentWebView.swift in Sources */,
 				2C005DCC27EF5B0300DC6503 /* GoogleServiceInfo.swift in Sources */,
 				2CBD191D291D3BF400F5FB0B /* UIKitRoundedRectangleButton.swift in Sources */,

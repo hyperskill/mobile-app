@@ -21,21 +21,29 @@ final class AuthNewUserPlaceholderViewModel: FeatureViewModel<
         onNewMessage(PlaceholderNewUserFeatureMessageInitialize(forceUpdate: forceUpdate))
     }
 
-    func doSignIn() {
-        //onNewMessage(PlaceholderNewUserFeatureMessagePlaceholderSignInTappedMessage())
+    func doTrackCardClicked(trackID: Int64) {
+        onNewMessage(PlaceholderNewUserFeatureMessageTrackClicked(trackId: trackID))
     }
 
-    func doAuthScreenPresentation() {
-        moduleOutput?.handleAuthNewUserPlaceholderSignInRequested()
+    func doStartLearningClicked(trackID: Int64) {
+        onNewMessage(PlaceholderNewUserFeatureMessageStartLearningButtonClicked(trackId: trackID))
     }
 
-    func doContinueOnWebPresentation() {
-        //onNewMessage(PlaceholderNewUserFeatureMessageClickedContinueOnWeb())
+    func doHomeScreenPresentation() {
+        moduleOutput?.handleAuthNewUserPlaceholderHomeRequested()
     }
 
     // MARK: Analytic
 
     func logViewedEvent() {
         onNewMessage(PlaceholderNewUserFeatureMessageViewedEventMessage())
+    }
+
+    func logTrackModalShownEvent(trackID: Int64) {
+        onNewMessage(PlaceholderNewUserFeatureMessageTrackModalShownEventMessage(trackId: trackID))
+    }
+
+    func logTrackModalHiddenEvent(trackID: Int64) {
+        onNewMessage(PlaceholderNewUserFeatureMessageTrackModalHiddenEventMessage(trackId: trackID))
     }
 }
