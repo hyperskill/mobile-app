@@ -140,7 +140,7 @@ class HomeReducer : StateReducer<State, Message, Action> {
             Message.ClickedGemsBarButtonItem ->
                 if (state is State.Content) {
                     state to setOf(
-                        Action.ViewAction.NavigateTo.Profile,
+                        Action.ViewAction.NavigateTo.ProfileTab,
                         Action.LogAnalyticEvent(HomeClickedGemsBarButtonItemHyperskillAnalyticEvent())
                     )
                 } else {
@@ -149,7 +149,7 @@ class HomeReducer : StateReducer<State, Message, Action> {
             Message.ClickedStreakBarButtonItem ->
                 if (state is State.Content) {
                     state to setOf(
-                        Action.ViewAction.NavigateTo.Profile,
+                        Action.ViewAction.NavigateTo.ProfileTab,
                         Action.LogAnalyticEvent(HomeClickedStreakBarButtonItemHyperskillAnalyticEvent())
                     )
                 } else {

@@ -137,7 +137,7 @@ struct HomeView: View {
                     recommendedRepetitionsCount: data.recommendedRepetitionsCount
                 )
                 pushRouter.pushViewController(assembly.makeModule())
-            case .profile:
+            case .profileTab:
                 TabBarRouter(tab: .profile).route()
             }
         case .openUrl(let data):
