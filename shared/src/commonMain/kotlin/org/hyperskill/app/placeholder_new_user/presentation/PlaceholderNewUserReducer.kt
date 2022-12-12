@@ -9,6 +9,7 @@ import org.hyperskill.app.placeholder_new_user.domain.analytic.PlaceholderNewUse
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature.Action
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature.Message
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature.State
+import org.hyperskill.app.track.domain.model.Track
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 class PlaceholderNewUserReducer : StateReducer<State, Message, Action> {
@@ -35,10 +36,7 @@ class PlaceholderNewUserReducer : StateReducer<State, Message, Action> {
                     null
                 }
             is Message.StartLearningButtonClicked -> {
-                val track = (state as? State.Content)
-                    ?.tracks?.firstOrNull { it.id == message.trackId }
-
-                if (track != null) {
+                getTrackById(message.trackId, state)?.let { track ->
                     state to setOf(
                         Action.SelectTrack(track),
                         Action.LogAnalyticEvent(
@@ -50,8 +48,6 @@ class PlaceholderNewUserReducer : StateReducer<State, Message, Action> {
                         ),
                         Action.ViewAction.ShowTrackSelectionStatus.Loading
                     )
-                } else {
-                    null
                 }
             }
             is Message.TrackSelected.Success -> {
@@ -63,20 +59,24 @@ class PlaceholderNewUserReducer : StateReducer<State, Message, Action> {
             is Message.TrackSelected.Error -> {
                 state to setOf(Action.ViewAction.ShowTrackSelectionStatus.Error)
             }
+            is Message.TrackClicked -> {
+                getTrackById(message.trackId, state)?.let { track ->
+                    state to setOf(
+                        Action.ViewAction.ShowTrackModal(track),
+                        Action.LogAnalyticEvent(
+                            PlaceholderNewUserClickedHyperskillAnalyticEvent(
+                                HyperskillAnalyticPart.MAIN,
+                                HyperskillAnalyticTarget.TRACK,
+                                message.trackId
+                            )
+                        )
+                    )
+                }
+            }
             is Message.ViewedEventMessage ->
                 state to setOf(
                     Action.LogAnalyticEvent(
                         PlaceholderNewUserViewedHyperskillAnalyticEvent()
-                    )
-                )
-            is Message.TrackTappedEventMessage ->
-                state to setOf(
-                    Action.LogAnalyticEvent(
-                        PlaceholderNewUserClickedHyperskillAnalyticEvent(
-                            HyperskillAnalyticPart.MAIN,
-                            HyperskillAnalyticTarget.TRACK,
-                            message.trackId
-                        )
                     )
                 )
             is Message.TrackModalShownEventMessage ->
@@ -97,3 +97,6 @@ class PlaceholderNewUserReducer : StateReducer<State, Message, Action> {
                 )
         } ?: (state to emptySet())
 }
+
+private fun getTrackById(trackId: Long, state: State): Track? =
+    (state as? State.Content)?.tracks?.firstOrNull { it.id == trackId }

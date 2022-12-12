@@ -25,11 +25,12 @@ interface PlaceholderNewUserFeature {
             object Error : TrackSelected
         }
 
+        data class TrackClicked(val trackId: Long) : Message
+
         /**
          * Analytic
          */
         object ViewedEventMessage : Message
-        data class TrackTappedEventMessage(val trackId: Long) : Message
         data class TrackModalShownEventMessage(val trackId: Long) : Message
         data class TrackModalHiddenEventMessage(val trackId: Long) : Message
     }
@@ -43,6 +44,8 @@ interface PlaceholderNewUserFeature {
             sealed interface NavigateTo : ViewAction {
                 object HomeScreen : NavigateTo
             }
+
+            data class ShowTrackModal(val track: Track) : ViewAction
 
             sealed interface ShowTrackSelectionStatus : ViewAction {
                 object Loading : ShowTrackSelectionStatus
