@@ -1,4 +1,3 @@
 What to Test:
-1. Show earned gems after completing Problem of the day ALTAPPS-430
-2. Fix Theory step has incorrect reading time representation ALTAPPS-431
-3. Improve topics repetitions screen states ALTAPPS-436
+1. Header and Home screen improvements, user statistics on Profile screen ALTAPPS-394
+2. Track selection for new users ALTAPPS-437
