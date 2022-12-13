@@ -51,8 +51,9 @@ interface TopicsRepetitionsFeature {
         data class StepCompleted(val stepId: Long) : Message
 
         data class RepeatTopicClicked(val stepId: Long) : Message
-
         object RepeatNextTopicClicked : Message
+
+        object ViewedEventMessage : Message
     }
 
     sealed interface Action {

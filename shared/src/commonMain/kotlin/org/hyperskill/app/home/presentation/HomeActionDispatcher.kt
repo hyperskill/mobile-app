@@ -68,6 +68,12 @@ class HomeActionDispatcher(
                 onNewMessage(Message.TopicRepeated)
             }
         }
+
+        actionScope.launch {
+            profileInteractor.observeHypercoinsBalance().collect {
+                onNewMessage(Message.HypercoinsBalanceChanged(it))
+            }
+        }
     }
 
     override suspend fun doSuspendableAction(action: Action) {
@@ -107,6 +113,7 @@ class HomeActionDispatcher(
                 onNewMessage(
                     Message.HomeSuccess(
                         streak = currentProfileStreaks.firstOrNull(),
+                        hypercoinsBalance = currentProfile.gamification.hypercoinsBalance,
                         problemOfDayState = problemOfDayState,
                         recommendedRepetitionsCount = currentProfile.recommendedRepetitionsCount
                     )
@@ -126,9 +133,10 @@ class HomeActionDispatcher(
                     .onEach { seconds -> onNewMessage(Message.HomeNextProblemInUpdate(seconds)) }
                     .launchIn(actionScope)
             }
+            is Action.GetMagicLink ->
+                getLink(action.path, ::onNewMessage)
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
-            is Action.GetMagicLink -> getLink(action.path, ::onNewMessage)
             else -> {
                 // no op
             }

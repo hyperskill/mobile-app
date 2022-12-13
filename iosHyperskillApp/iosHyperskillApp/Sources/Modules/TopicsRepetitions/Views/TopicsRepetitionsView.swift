@@ -21,6 +21,8 @@ struct TopicsRepetitionsView: View {
 
     var body: some View {
         ZStack {
+            UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
+
             buildBody()
         }
         .background(appearance.backgroundColor)

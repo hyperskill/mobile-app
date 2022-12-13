@@ -36,6 +36,8 @@ import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile.injection.ProfileComponentImpl
 import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponentImpl
+import org.hyperskill.app.profile.injection.ProfileHypercoinsDataComponent
+import org.hyperskill.app.profile.injection.ProfileHypercoinsDataComponentImpl
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponentImpl
 import org.hyperskill.app.progresses.injection.ProgressesDataComponent
@@ -82,6 +84,9 @@ class AppGraphImpl(
 
     override val authComponent: AuthComponent =
         AuthComponentImpl(this)
+
+    override val profileHypercoinsDataComponent: ProfileHypercoinsDataComponent =
+        ProfileHypercoinsDataComponentImpl()
 
     override val analyticComponent: AnalyticComponent =
         AnalyticComponentImpl(this)

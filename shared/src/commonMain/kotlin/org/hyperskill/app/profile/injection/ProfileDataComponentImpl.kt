@@ -22,5 +22,9 @@ class ProfileDataComponentImpl(private val appGraph: AppGraph) : ProfileDataComp
         profileCacheDataSource
     )
     override val profileInteractor: ProfileInteractor
-        get() = ProfileInteractor(profileRepository, appGraph.submissionDataComponent.submissionRepository)
+        get() = ProfileInteractor(
+            profileRepository,
+            appGraph.profileHypercoinsDataComponent.hypercoinsBalanceMutableSharedFlow,
+            appGraph.submissionDataComponent.submissionRepository
+        )
 }

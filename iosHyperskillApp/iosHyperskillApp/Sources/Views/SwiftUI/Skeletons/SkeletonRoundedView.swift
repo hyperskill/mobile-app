@@ -3,6 +3,7 @@ import SwiftUI
 
 extension SkeletonRoundedView {
     struct Appearance {
+        var size: CGSize?
         var cornerRadius: CGFloat = 8
     }
 }
@@ -12,7 +13,7 @@ struct SkeletonRoundedView: View {
 
     var body: some View {
         EmptyView()
-            .skeleton(with: true)
+            .skeleton(with: true, size: appearance.size)
             .shape(type: .rounded(.radius(appearance.cornerRadius)))
     }
 }

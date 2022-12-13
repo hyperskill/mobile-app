@@ -20,6 +20,13 @@ enum Images {
         static let profileFilled = "tab-bar-profile-filled"
     }
 
+    // MARK: - NavigationBar -
+
+    enum NavigationBar {
+        static let streak = "navigation-bar-streak"
+        static let gems = "navigation-bar-gems"
+    }
+
     // MARK: - AuthSocial -
 
     enum AuthSocial {

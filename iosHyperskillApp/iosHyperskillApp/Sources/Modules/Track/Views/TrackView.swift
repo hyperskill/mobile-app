@@ -43,12 +43,12 @@ struct TrackView: View {
     private func buildBody() -> some View {
         switch viewModel.stateKs {
         case .idle:
-            ProgressView()
+            TrackSkeletonView()
                 .onAppear {
                     viewModel.doLoadTrack()
                 }
         case .loading:
-            ProgressView()
+            TrackSkeletonView()
         case .networkError:
             PlaceholderView(
                 configuration: .networkError(backgroundColor: appearance.backgroundColor) {
