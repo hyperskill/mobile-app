@@ -20,6 +20,7 @@ import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.streak.view.delegate.StreakCardFormDelegate
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionCardFormDelegate
 import org.hyperskill.app.android.topics_repetitions.view.screen.TopicsRepetitionScreen
+import org.hyperskill.app.android.view.base.ui.extension.setElevationOnCollapsed
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeViewModel
@@ -67,12 +68,16 @@ class HomeFragment :
         super.onViewCreated(view, savedInstanceState)
         initViewStateDelegate()
 
-        viewBinding.homeScreenError.tryAgain.setOnClickListener {
-            homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = false))
-        }
+        with(viewBinding) {
+            homeScreenAppBar.setElevationOnCollapsed(viewLifecycleOwner.lifecycle)
+            homeScreenAppBar.setExpanded(true)
 
-        viewBinding.homeScreenKeepLearningInWebButton.setOnClickListener {
-            homeViewModel.onNewMessage(HomeFeature.Message.ClickedContinueLearningOnWeb)
+            homeScreenError.tryAgain.setOnClickListener {
+                homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = false))
+            }
+            homeScreenKeepLearningInWebButton.setOnClickListener {
+                homeViewModel.onNewMessage(HomeFeature.Message.ClickedContinueLearningOnWeb)
+            }
         }
 
 //        viewBinding.homeOpenStepButton.setOnClickListener {
