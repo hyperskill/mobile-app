@@ -27,6 +27,9 @@ class ProfileRepositoryImpl(
                 throw IllegalArgumentException("Unsupported source type = $primarySourceType")
         }
 
+    override suspend fun selectTrackWithProject(profileId: Long, trackId: Long, projectId: Long): Result<Profile> =
+        profileRemoteDataSource.selectTrackWithProject(profileId, trackId, projectId)
+
     override suspend fun clearCache() {
         profileCacheDataSource.clearCache()
     }

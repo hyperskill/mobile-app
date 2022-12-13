@@ -95,10 +95,12 @@ import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponen
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponentImpl
-import org.hyperskill.app.track.injection.PlatformTrackComponent
-import org.hyperskill.app.track.injection.PlatformTrackComponentImpl
+import org.hyperskill.app.track.injection.TrackDataComponentImpl
+import org.hyperskill.app.track.injection.TrackDataComponent
 import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.track.injection.TrackComponentImpl
+import org.hyperskill.app.track.injection.PlatformTrackComponent
+import org.hyperskill.app.track.injection.PlatformTrackComponentImpl
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
 
@@ -213,6 +215,9 @@ class AndroidAppComponentImpl(
      */
     override fun buildTrackComponent(): TrackComponent =
         TrackComponentImpl(this)
+
+    override fun buildTrackDataComponent(): TrackDataComponent =
+        TrackDataComponentImpl(this)
 
     override fun buildPlatformTrackComponent(trackComponent: TrackComponent): PlatformTrackComponent =
         PlatformTrackComponentImpl(trackComponent)
