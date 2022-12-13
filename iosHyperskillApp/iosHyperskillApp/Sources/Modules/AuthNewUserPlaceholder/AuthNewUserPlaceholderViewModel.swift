@@ -17,21 +17,33 @@ final class AuthNewUserPlaceholderViewModel: FeatureViewModel<
         PlaceholderNewUserFeatureStateKs(oldState) != PlaceholderNewUserFeatureStateKs(newState)
     }
 
-    func doSignIn() {
-        //onNewMessage(PlaceholderNewUserFeatureMessagePlaceholderSignInTappedMessage())
+    func doLoadContent(forceUpdate: Bool = false) {
+        onNewMessage(PlaceholderNewUserFeatureMessageInitialize(forceUpdate: forceUpdate))
     }
 
-    func doAuthScreenPresentation() {
-        moduleOutput?.handleAuthNewUserPlaceholderSignInRequested()
+    func doTrackCardClicked(trackID: Int64) {
+        onNewMessage(PlaceholderNewUserFeatureMessageTrackClicked(trackId: trackID))
     }
 
-    func doContinueOnWebPresentation() {
-        //onNewMessage(PlaceholderNewUserFeatureMessageClickedContinueOnWeb())
+    func doStartLearningClicked(trackID: Int64) {
+        onNewMessage(PlaceholderNewUserFeatureMessageStartLearningButtonClicked(trackId: trackID))
+    }
+
+    func doHomeScreenPresentation() {
+        moduleOutput?.handleAuthNewUserPlaceholderHomeRequested()
     }
 
     // MARK: Analytic
 
     func logViewedEvent() {
         onNewMessage(PlaceholderNewUserFeatureMessageViewedEventMessage())
+    }
+
+    func logTrackModalShownEvent(trackID: Int64) {
+        onNewMessage(PlaceholderNewUserFeatureMessageTrackModalShownEventMessage(trackId: trackID))
+    }
+
+    func logTrackModalHiddenEvent(trackID: Int64) {
+        onNewMessage(PlaceholderNewUserFeatureMessageTrackModalHiddenEventMessage(trackId: trackID))
     }
 }

@@ -52,11 +52,14 @@ enum Strings {
         // MARK: NewUserPlaceholder
 
         enum NewUserPlaceholder {
-            static let title = sharedStrings.placeholder_register_text.localized()
-            static let introText = sharedStrings.placeholder_instruction_text.localized()
-            static let continueButton = sharedStrings.placeholder_continue_button_text_ios.localized()
-            static let signInButton = Onboarding.signIn
-            static let possibilityText = sharedStrings.placeholder_first_description_text.localized()
+            static let title = sharedStrings.placeholder_new_user_title.localized()
+            static let text = sharedStrings.placeholder_new_user_text.localized()
+            static let startLearningButtonText =
+                sharedStrings.placeholder_track_details_start_button_text.localized()
+            static let trackSelectionSuccessMessage
+                = sharedStrings.placeholder_start_track_success_message.localized()
+            static let trackSelectionErrorMessage
+                = sharedStrings.placeholder_start_track_error_message.localized()
         }
     }
 
