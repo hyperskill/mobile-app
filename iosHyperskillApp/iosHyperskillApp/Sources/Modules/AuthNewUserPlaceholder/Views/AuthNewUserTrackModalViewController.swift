@@ -126,9 +126,10 @@ final class AuthNewUserTrackModalViewController: PanModalPresentableViewControll
         containerStackView.spacing = appearance.smallContainerSpacing
 
         let image = UIImage(
-            named: Images.AuthNewUserPlaceholder.star
-        )?.withRenderingMode(.alwaysOriginal)
+            systemName: "star.fill"
+        )?.withRenderingMode(.alwaysTemplate)
         let imageView = UIImageView(image: image)
+        imageView.tintColor = ColorPalette.overlayYellow
 
         containerStackView.addArrangedSubview(imageView)
 
@@ -198,6 +199,5 @@ final class AuthNewUserTrackModalViewController: PanModalPresentableViewControll
     @objc
     private func startLearningButtonTapped() {
         onStartLearningButtonTap()
-        dismiss(animated: true)
     }
 }

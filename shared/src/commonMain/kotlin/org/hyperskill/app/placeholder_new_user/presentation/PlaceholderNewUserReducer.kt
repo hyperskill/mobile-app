@@ -96,7 +96,7 @@ class PlaceholderNewUserReducer : StateReducer<State, Message, Action> {
                     )
                 )
         } ?: (state to emptySet())
-}
 
-private fun getTrackById(trackId: Long, state: State): Track? =
-    (state as? State.Content)?.tracks?.firstOrNull { it.id == trackId }
+    private fun getTrackById(trackId: Long, state: State): Track? =
+        (state as? State.Content)?.tracks?.firstOrNull { it.id == trackId }
+}

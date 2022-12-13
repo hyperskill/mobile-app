@@ -40,9 +40,10 @@ struct AuthNewUserPlaceholderTrackCardView: View {
             Spacer()
 
             HStack(spacing: LayoutInsets.smallInset) {
-                Image(Images.AuthNewUserPlaceholder.star)
-                    .renderingMode(.original)
+                Image(systemName: "star.fill")
+                    .renderingMode(.template)
                     .resizable()
+                    .foregroundColor(Color(ColorPalette.overlayYellow))
                     .frame(widthHeight: appearance.starImageWidthHeight)
 
                 Text(rating)
@@ -50,8 +51,7 @@ struct AuthNewUserPlaceholderTrackCardView: View {
                     .foregroundColor(.primaryText)
             }
         }
-        .padding(.vertical, LayoutInsets.largeInset)
-        .padding(.horizontal, LayoutInsets.defaultInset)
+        .padding()
         .background(Color(ColorPalette.surface))
         .addBorder()
     }

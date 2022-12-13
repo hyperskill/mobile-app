@@ -4,7 +4,6 @@ import SwiftUI
 extension AuthNewUserPlaceholderView {
     struct Appearance {
         let logoWidthHeight: CGFloat = 48
-        let verticalContentPadding: CGFloat = 40
         let largePadding: CGFloat = 32
         let backgroundColor = Color.background
     }
@@ -60,7 +59,7 @@ struct AuthNewUserPlaceholderView: View {
         let viewData = dataMapper.mapStateToViewData(state: contentState)
 
         ScrollView {
-            VStack(alignment: .leading, spacing: appearance.largePadding) {
+            VStack(spacing: appearance.largePadding) {
                 VStack(spacing: LayoutInsets.largeInset) {
                     HyperskillLogoView(logoWidthHeight: appearance.logoWidthHeight)
 
@@ -75,6 +74,7 @@ struct AuthNewUserPlaceholderView: View {
                 Text(Strings.Auth.NewUserPlaceholder.text)
                     .font(.body)
                     .foregroundColor(.primaryText)
+                    .multilineTextAlignment(.center)
 
                 VStack(spacing: LayoutInsets.smallInset) {
                     ForEach(viewData.tracks, id: \.id) { track in
@@ -91,11 +91,11 @@ struct AuthNewUserPlaceholderView: View {
                                 )
                             }
                         )
+                        .buttonStyle(BounceButtonStyle())
                     }
                 }
             }
-            .padding(.horizontal)
-            .padding(.vertical, appearance.verticalContentPadding)
+            .padding()
         }
     }
 
@@ -113,6 +113,7 @@ struct AuthNewUserPlaceholderView: View {
             case .error:
                 ProgressHUD.showError(status: Strings.Auth.NewUserPlaceholder.trackSelectionErrorMessage)
             case .success:
+                panModalPresenter.dismissPanModal(animated: true)
                 ProgressHUD.showSuccess(status: Strings.Auth.NewUserPlaceholder.trackSelectionSuccessMessage)
             }
         case .navigateTo(let navigateToViewAction):

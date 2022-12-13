@@ -14,4 +14,12 @@ final class PanModalPresenter: ObservableObject {
 
         currentPresentedViewController.presentIfPanModalWithCustomModalPresentationStyle(panModal)
     }
+
+    func dismissPanModal(animated: Bool) {
+        guard let currentPresentedViewController = sourcelessRouter.currentPresentedViewController() else {
+            return
+        }
+
+        currentPresentedViewController.dismiss(animated: animated)
+    }
 }
