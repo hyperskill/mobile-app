@@ -24,17 +24,11 @@ struct StepQuizCodeFullScreenDetailsView: View {
             VStack(alignment: .leading, spacing: appearance.spacing) {
                 StepQuizStatsView(text: stepStats)
 
-                LatexView(
-                    text: .constant(stepText),
-                    configuration: .init(
-                        appearance: .init(labelFont: appearance.stepTextFont),
-                        contentProcessor: ContentProcessor(
-                            injections: ContentProcessor.defaultInjections + [
-                                StepStylesInjection(),
-                                FontInjection(font: appearance.stepTextFont),
-                                TextColorInjection(dynamicColor: appearance.stepTextColor)
-                            ]
-                        )
+                StepTextView(
+                    text: stepText,
+                    appearance: .init(
+                        textFont: appearance.stepTextFont,
+                        textColor: appearance.stepTextColor
                     )
                 )
 
