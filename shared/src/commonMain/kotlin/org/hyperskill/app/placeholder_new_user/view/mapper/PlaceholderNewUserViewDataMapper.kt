@@ -1,11 +1,11 @@
 package org.hyperskill.app.placeholder_new_user.view.mapper
 
+import kotlin.math.floor
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature
 import org.hyperskill.app.placeholder_new_user.view.model.PlaceholderNewUserViewData
 import org.hyperskill.app.track.domain.model.Track
-import kotlin.math.floor
 
 class PlaceholderNewUserViewDataMapper(
     private val resourceProvider: ResourceProvider

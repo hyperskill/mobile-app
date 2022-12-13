@@ -53,13 +53,14 @@ enum Strings {
 
         enum NewUserPlaceholder {
             static let title = sharedStrings.placeholder_new_user_title.localized()
-            static let text = sharedStrings.placeholder_new_user_text.localized()
-            static let startLearningButtonText =
-                sharedStrings.placeholder_track_details_start_button_text.localized()
-            static let trackSelectionSuccessMessage
-                = sharedStrings.placeholder_start_track_success_message.localized()
-            static let trackSelectionErrorMessage
-                = sharedStrings.placeholder_start_track_error_message.localized()
+            static let subtitle = sharedStrings.placeholder_new_user_text.localized()
+
+            static let startLearningButton = sharedStrings.placeholder_new_user_start_track_button_text.localized()
+
+            enum TrackSelectionStatus {
+                static let error = sharedStrings.placeholder_new_user_start_track_error_message.localized()
+                static let success = sharedStrings.placeholder_new_user_start_track_success_message.localized()
+            }
         }
     }
 

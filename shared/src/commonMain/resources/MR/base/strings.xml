@@ -237,10 +237,12 @@
 
     <!-- Placeholder for new users -->
     <string name="placeholder_new_user_title">What is your learning goal?</string>
-    <string name="placeholder_new_user_text">Explore all tracks and find the right one by choosing a specific area of knowledge</string>
-    <string name="placeholder_track_details_start_button_text">Start learning</string>
-    <string name="placeholder_start_track_success_message">Track successfully selected</string>
-    <string name="placeholder_start_track_error_message">Failed to select track</string>
+    <string name="placeholder_new_user_text">
+        Explore all tracks and find the right one by choosing a specific area of knowledge
+    </string>
+    <string name="placeholder_new_user_start_track_button_text">Start learning</string>
+    <string name="placeholder_new_user_start_track_success_message">Track successfully selected</string>
+    <string name="placeholder_new_user_start_track_error_message">Failed to select track</string>
 
     <!--  Notifications titles & descriptions  -->
     <string name="notification1_title">Keep it up</string>

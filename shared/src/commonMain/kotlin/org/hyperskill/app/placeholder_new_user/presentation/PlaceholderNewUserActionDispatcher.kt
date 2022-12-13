@@ -7,6 +7,7 @@ import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFe
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.track.domain.interactor.TrackInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -21,9 +22,14 @@ class PlaceholderNewUserActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.Initialize -> {
+                val sentryTransaction =
+                    HyperskillSentryTransactionBuilder.buildPlaceholderNewUserScreenRemoteDataLoading()
+                sentryInteractor.startTransaction(sentryTransaction)
+
                 val tracks = trackInteractor
                     .getAllTracks()
                     .getOrElse {
+                        sentryInteractor.finishTransaction(sentryTransaction, it)
                         return onNewMessage(Message.TracksLoaded.Error)
                     }
                     .filter { it.isBeta.not() }
@@ -31,6 +37,7 @@ class PlaceholderNewUserActionDispatcher(
                 val trackProgressById = progressesInteractor
                     .getTracksProgresses(tracks.map { it.id })
                     .getOrElse {
+                        sentryInteractor.finishTransaction(sentryTransaction, it)
                         return onNewMessage(Message.TracksLoaded.Error)
                     }
                     .associateBy { it.id }
@@ -40,6 +47,7 @@ class PlaceholderNewUserActionDispatcher(
                 }
 
                 val tracksWithProgresses = tracks.map { it.copy(progress = trackProgressById[it.progressId]) }
+                sentryInteractor.finishTransaction(sentryTransaction)
 
                 onNewMessage(Message.TracksLoaded.Success(tracksWithProgresses))
             }
@@ -72,6 +80,7 @@ class PlaceholderNewUserActionDispatcher(
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
+            else -> {}
         }
     }
 }

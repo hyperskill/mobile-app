@@ -3,8 +3,8 @@ import SwiftUI
 
 extension AuthNewUserPlaceholderView {
     struct Appearance {
-        let logoWidthHeight: CGFloat = 48
-        let largePadding: CGFloat = 32
+        let spacing: CGFloat = 32
+
         let backgroundColor = Color.background
     }
 }
@@ -16,7 +16,7 @@ struct AuthNewUserPlaceholderView: View {
 
     @StateObject var panModalPresenter = PanModalPresenter()
 
-    let dataMapper: PlaceholderNewUserViewDataMapper
+    let viewDataMapper: PlaceholderNewUserViewDataMapper
 
     var body: some View {
         ZStack {
@@ -56,31 +56,17 @@ struct AuthNewUserPlaceholderView: View {
 
     @ViewBuilder
     private func buildContent(contentState: PlaceholderNewUserFeatureStateContent) -> some View {
-        let viewData = dataMapper.mapStateToViewData(state: contentState)
+        let viewData = viewDataMapper.mapStateToViewData(state: contentState)
 
         ScrollView {
-            VStack(spacing: appearance.largePadding) {
-                VStack(spacing: LayoutInsets.largeInset) {
-                    HyperskillLogoView(logoWidthHeight: appearance.logoWidthHeight)
-
-                    Text(Strings.Auth.NewUserPlaceholder.title)
-                        .font(.title2)
-                        .foregroundColor(.primaryText)
-                        .bold()
-                        .multilineTextAlignment(.center)
-                }
-                .frame(maxWidth: .infinity)
-
-                Text(Strings.Auth.NewUserPlaceholder.text)
-                    .font(.body)
-                    .foregroundColor(.primaryText)
-                    .multilineTextAlignment(.center)
+            VStack(spacing: appearance.spacing) {
+                AuthNewUserPlaceholderHeaderView(appearance: .init(spacing: appearance.spacing))
 
                 VStack(spacing: LayoutInsets.smallInset) {
                     ForEach(viewData.tracks, id: \.id) { track in
                         Button(
                             action: {
-                                viewModel.doTrackCardClicked(trackID: track.id)
+                                viewModel.doTrackModalPresentation(trackID: track.id)
                             },
                             label: {
                                 AuthNewUserPlaceholderTrackCardView(
@@ -103,38 +89,39 @@ struct AuthNewUserPlaceholderView: View {
 
     private func handleViewAction(_ viewAction: PlaceholderNewUserFeatureActionViewAction) {
         switch PlaceholderNewUserFeatureActionViewActionKs(viewAction) {
-        case .showTrackModal(let showTrackModalAction):
-            let viewDataTrack = dataMapper.mapTrackToViewDataTrack(track: showTrackModalAction.track)
-            presentTrackModal(track: viewDataTrack)
-        case .showTrackSelectionStatus(let trackSelectionStatus):
-            switch PlaceholderNewUserFeatureActionViewActionShowTrackSelectionStatusKs(trackSelectionStatus) {
+        case .showTrackModal(let data):
+            let trackViewData = viewDataMapper.mapTrackToViewDataTrack(track: data.track)
+            displayTrackModal(track: trackViewData)
+        case .showTrackSelectionStatus(let status):
+            switch PlaceholderNewUserFeatureActionViewActionShowTrackSelectionStatusKs(status) {
             case .loading:
                 ProgressHUD.show()
             case .error:
-                ProgressHUD.showError(status: Strings.Auth.NewUserPlaceholder.trackSelectionErrorMessage)
+                ProgressHUD.showError(status: Strings.Auth.NewUserPlaceholder.TrackSelectionStatus.error)
             case .success:
-                panModalPresenter.dismissPanModal(animated: true)
-                ProgressHUD.showSuccess(status: Strings.Auth.NewUserPlaceholder.trackSelectionSuccessMessage)
+                ProgressHUD.showSuccess(status: Strings.Auth.NewUserPlaceholder.TrackSelectionStatus.success)
             }
         case .navigateTo(let navigateToViewAction):
             switch PlaceholderNewUserFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .homeScreen:
+                panModalPresenter.dismissPanModal()
                 viewModel.doHomeScreenPresentation()
             }
         }
     }
 
-    private func presentTrackModal(track: PlaceholderNewUserViewData.Track) {
+    private func displayTrackModal(track: PlaceholderNewUserViewData.Track) {
         viewModel.logTrackModalShownEvent(trackID: track.id)
 
         let panModal = AuthNewUserTrackModalViewController(
             track: track,
-            onStartLearningButtonTap: {
-                viewModel.doStartLearningClicked(trackID: track.id)
+            onStartLearningButtonTap: { [weak viewModel] in
+                viewModel?.doTrackStartLearningAction(trackID: track.id)
             }
         )
-
-        panModal.onDisappear = { viewModel.logTrackModalHiddenEvent(trackID: track.id) }
+        panModal.onDisappear = { [weak viewModel] in
+            viewModel?.logTrackModalHiddenEvent(trackID: track.id)
+        }
 
         panModalPresenter.presentPanModal(panModal)
     }

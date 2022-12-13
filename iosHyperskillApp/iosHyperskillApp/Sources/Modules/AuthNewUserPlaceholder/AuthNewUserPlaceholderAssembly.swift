@@ -18,7 +18,7 @@ final class AuthNewUserPlaceholderAssembly: Assembly {
 
         return AuthNewUserPlaceholderView(
             viewModel: viewModel,
-            dataMapper: placeholderNewUserComponent.placeHolderNewUserViewDataMapper
+            viewDataMapper: placeholderNewUserComponent.placeHolderNewUserViewDataMapper
         )
     }
 }

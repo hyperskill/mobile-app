@@ -21,16 +21,16 @@ final class AuthNewUserPlaceholderViewModel: FeatureViewModel<
         onNewMessage(PlaceholderNewUserFeatureMessageInitialize(forceUpdate: forceUpdate))
     }
 
-    func doTrackCardClicked(trackID: Int64) {
+    func doTrackModalPresentation(trackID: Int64) {
         onNewMessage(PlaceholderNewUserFeatureMessageTrackClicked(trackId: trackID))
     }
 
-    func doStartLearningClicked(trackID: Int64) {
+    func doTrackStartLearningAction(trackID: Int64) {
         onNewMessage(PlaceholderNewUserFeatureMessageStartLearningButtonClicked(trackId: trackID))
     }
 
     func doHomeScreenPresentation() {
-        moduleOutput?.handleAuthNewUserPlaceholderHomeRequested()
+        moduleOutput?.handleAuthNewUserPlaceholderDidRequestNavigateToHome()
     }
 
     // MARK: Analytic

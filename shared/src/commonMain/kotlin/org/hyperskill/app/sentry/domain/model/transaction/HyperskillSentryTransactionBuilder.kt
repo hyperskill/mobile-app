@@ -41,6 +41,15 @@ object HyperskillSentryTransactionBuilder {
         )
 
     /**
+     * PlaceholderNewUserFeature
+     */
+    fun buildPlaceholderNewUserScreenRemoteDataLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "placeholder-new-user-feature-screen-remote-data-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    /**
      * ProfileFeature
      */
     fun buildProfileScreenRemoteDataLoading(): HyperskillSentryTransaction =

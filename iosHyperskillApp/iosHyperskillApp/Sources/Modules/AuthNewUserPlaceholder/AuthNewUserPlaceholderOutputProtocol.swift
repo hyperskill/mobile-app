@@ -1,5 +1,5 @@
 import Foundation
 
 protocol AuthNewUserPlaceholderOutputProtocol: AnyObject {
-    func handleAuthNewUserPlaceholderHomeRequested()
+    func handleAuthNewUserPlaceholderDidRequestNavigateToHome()
 }

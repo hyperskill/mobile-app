@@ -3,12 +3,8 @@ import SwiftUI
 struct AuthNewUserPlaceholderSkeletonView: View {
     var body: some View {
         ScrollView {
-            VStack(spacing: AuthNewUserPlaceholderView.Appearance().largePadding) {
-                SkeletonRoundedView()
-                    .frame(height: 114)
-
-                SkeletonRoundedView()
-                    .frame(height: 40)
+            VStack(spacing: AuthNewUserPlaceholderView.Appearance().spacing) {
+                AuthNewUserPlaceholderHeaderView()
 
                 VStack(spacing: LayoutInsets.smallInset) {
                     ForEach(1..<10) { _ in

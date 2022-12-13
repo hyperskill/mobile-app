@@ -4,16 +4,12 @@ import shared
 import SnapKit
 import UIKit
 
-
 extension AuthNewUserTrackModalViewController {
     struct Appearance {
         let backgroundColor = UIColor.systemBackground
 
-        let contentStackViewSpacing: CGFloat = LayoutInsets.defaultInset
-        let contentStackViewInsets = LayoutInsets(
-            horizontal: LayoutInsets.largeInset,
-            vertical: LayoutInsets.largeInset
-        )
+        let contentStackViewSpacing = LayoutInsets.defaultInset
+        let contentStackViewInsets = LayoutInsets.large
 
         let trackImageWidthHeight: CGFloat = 48
 
@@ -57,7 +53,6 @@ final class AuthNewUserTrackModalViewController: PanModalPresentableViewControll
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setup()
     }
 
@@ -125,9 +120,7 @@ final class AuthNewUserTrackModalViewController: PanModalPresentableViewControll
         containerStackView.axis = .horizontal
         containerStackView.spacing = appearance.smallContainerSpacing
 
-        let image = UIImage(
-            systemName: "star.fill"
-        )?.withRenderingMode(.alwaysTemplate)
+        let image = UIImage(systemName: "star.fill")?.withRenderingMode(.alwaysTemplate)
         let imageView = UIImageView(image: image)
         imageView.tintColor = ColorPalette.overlayYellow
 
@@ -184,7 +177,7 @@ final class AuthNewUserTrackModalViewController: PanModalPresentableViewControll
 
     private func setupStartLearningButton() {
         let button = UIKitRoundedRectangleButton(style: .violet)
-        button.setTitle(Strings.Auth.NewUserPlaceholder.startLearningButtonText, for: .normal)
+        button.setTitle(Strings.Auth.NewUserPlaceholder.startLearningButton, for: .normal)
         button.addTarget(self, action: #selector(startLearningButtonTapped), for: .touchUpInside)
 
         contentStackView.addArrangedSubview(button)

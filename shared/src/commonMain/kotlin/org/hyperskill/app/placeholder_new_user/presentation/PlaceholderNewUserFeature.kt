@@ -13,19 +13,18 @@ interface PlaceholderNewUserFeature {
 
     sealed interface Message {
         data class Initialize(val forceUpdate: Boolean) : Message
-
         sealed interface TracksLoaded : Message {
             data class Success(val tracks: List<Track>) : TracksLoaded
             object Error : TracksLoaded
         }
+
+        data class TrackClicked(val trackId: Long) : Message
 
         data class StartLearningButtonClicked(val trackId: Long) : Message
         sealed interface TrackSelected : Message {
             object Success : TrackSelected
             object Error : TrackSelected
         }
-
-        data class TrackClicked(val trackId: Long) : Message
 
         /**
          * Analytic
