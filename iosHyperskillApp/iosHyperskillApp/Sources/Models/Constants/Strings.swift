@@ -55,11 +55,11 @@ enum Strings {
             static let title = sharedStrings.placeholder_new_user_title.localized()
             static let text = sharedStrings.placeholder_new_user_text.localized()
             static let startLearningButtonText =
-                sharedStrings.placeholder_new_user_start_learning_button_text.localized()
+                sharedStrings.placeholder_track_details_start_button_text.localized()
             static let trackSelectionSuccessMessage
-                = sharedStrings.placeholder_new_user_track_selection_success_message.localized()
+                = sharedStrings.placeholder_start_track_success_message.localized()
             static let trackSelectionErrorMessage
-                = sharedStrings.placeholder_new_user_track_selection_error_message.localized()
+                = sharedStrings.placeholder_start_track_error_message.localized()
         }
     }
 

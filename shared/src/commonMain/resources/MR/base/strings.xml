@@ -236,6 +236,8 @@
 
 
     <!-- Placeholder for new users -->
+    <string name="placeholder_register_text">Sign up and select a track</string>
+    <string name="placeholder_instruction_text">To get access to the content you should register at our website and select a learning track.</string>
     <string name="placeholder_new_user_title">What is your learning goal?</string>
     <string name="placeholder_new_user_text">Explore all tracks and find the right one by choosing a specific area of knowledge</string>
     <string name="placeholder_track_details_start_button_text">Start learning</string>
