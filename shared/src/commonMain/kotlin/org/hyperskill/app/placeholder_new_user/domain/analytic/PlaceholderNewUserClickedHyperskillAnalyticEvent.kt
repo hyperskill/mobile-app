@@ -6,6 +6,38 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
+/**
+ * Represents a common click analytic event for the PlaceholderNewUserFeature.
+ *
+ * Click on the "Start learning" button:
+ * ```
+ * {
+ *     "route": "/register",
+ *     "action": "click",
+ *     "part": "track_modal",
+ *     "target": "start_learning",
+ *     "context":
+ *     {
+ *         "track_id": 1234
+ *     }
+ * }
+ * ```
+ *
+ * Click on the Track widget:
+ * ```
+ * {
+ *     "route": "/register",
+ *     "action": "click",
+ *     "part": "main",
+ *     "target": "track",
+ *     "context":
+ *     {
+ *         "track_id": 1234
+ *     }
+ * }
+ * ```
+ * @see HyperskillAnalyticEvent
+ */
 class PlaceholderNewUserClickedHyperskillAnalyticEvent(
     part: HyperskillAnalyticPart,
     target: HyperskillAnalyticTarget,
