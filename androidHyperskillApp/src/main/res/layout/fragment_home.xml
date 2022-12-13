@@ -36,22 +36,65 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 android:background="@color/color_background"
-                />
+                android:paddingEnd="16dp"
+                tools:ignore="RtlSymmetry"
+                >
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/homeScreenStreakDurationTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:textSize="14sp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:drawableStartCompat="@drawable/ic_menu_streak"
+                    android:drawablePadding="6dp"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center"
+                    android:paddingHorizontal="4dp"
+                    android:visibility="gone"
+                    tools:text="3"
+                    tools:visibility="visible"
+                    />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/homeScreenGemsCountTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:textSize="14sp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:drawableStartCompat="@drawable/ic_menu_gems_count"
+                    android:drawablePadding="6dp"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center"
+                    android:paddingHorizontal="4dp"
+                    tools:text="3"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    />
+
+            </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/homeScreenContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         >
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/homeScreenContainer"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             android:paddingHorizontal="20dp"
             android:paddingTop="16dp"
             android:paddingBottom="20dp">
@@ -61,19 +104,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/home_keep_practicing_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                />
 
-            <include
-                android:id="@+id/homeScreenStreakCard"
-                layout="@layout/layout_streak_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/homeScreenKeepPracticingTextView" />
 
             <include
                 android:id="@+id/homeScreenProblemOfDayCard"
@@ -81,9 +113,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/homeScreenStreakCard" />
+                />
 
             <include
                 android:id="@+id/homeScreenTopicsRepetitionCard"
@@ -91,9 +121,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/homeScreenProblemOfDayCard"
                 />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -103,9 +130,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:hint="Enter step ID"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/homeScreenTopicsRepetitionCard"
                 tools:ignore="HardcodedText"
                 android:visibility="gone"
                 >
@@ -133,22 +157,17 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/homeScreenKeepLearningInWebButton"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/auth_button_height"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                app:strokeColor="?colorPrimary"
                 android:layout_marginTop="24dp"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
                 android:text="@string/track_continue_in_web_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/homeOpenStepButton"
-                app:layout_constraintVertical_bias="0"
-                app:layout_constraintWidth_max="@dimen/auth_button_max_width"
-                app:strokeColor="?colorPrimary"
                 />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
 
