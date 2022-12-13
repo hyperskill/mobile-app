@@ -2,17 +2,22 @@ package org.hyperskill.app.android.notification
 
 import android.content.Context
 import androidx.core.app.NotificationCompat
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.DateTimeHelper
 import org.hyperskill.app.android.notification.model.ClickedNotificationData
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
+import org.hyperskill.app.notification.domain.analytic.NotificationDailyStudyReminderShownHyperskillAnalyticEvent
 import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
 
 class DailyStudyReminderNotificationDelegate(
     hyperskillNotificationManager: HyperskillNotificationManager,
     private val context: Context,
-    private val notificationInteractor: NotificationInteractor
+    private val notificationInteractor: NotificationInteractor,
+    private val analyticInteractor: AnalyticInteractor
 ) : NotificationDelegate(KEY, hyperskillNotificationManager) {
     companion object {
         const val KEY = "daily_study_reminder_notification"
@@ -49,6 +54,14 @@ class DailyStudyReminderNotificationDelegate(
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
 
         showNotification(NotificationId, notification.build())
+
+        val event = NotificationDailyStudyReminderShownHyperskillAnalyticEvent(
+            route = HyperskillAnalyticRoute.Home(),
+            notificationId = NotificationId.toInt(),
+            plannedAtISO8601 = SimpleDateFormat(DateTimeHelper.ISO_PATTERN).format(Calendar.getInstance().time)
+        )
+
+        analyticInteractor.reportEvent(event)
     }
 
     fun scheduleDailyNotification() {

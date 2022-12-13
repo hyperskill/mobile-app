@@ -1,7 +1,6 @@
 package org.hyperskill.app.android.notification.injection
 
 import android.content.Context
-import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.notification.DailyStudyReminderNotificationDelegate
 import org.hyperskill.app.android.notification.HyperskillNotificationManager
 import org.hyperskill.app.android.notification.HyperskillNotificationManagerImpl
@@ -21,8 +20,13 @@ class PlatformNotificationComponentImpl(
         get() = HyperskillNotificationManagerImpl(context, notificationInteractor)
 
     override val notificationPublisher: NotificationPublisher
-        get() = NotificationPublisherImpl(HyperskillApp.graph().platformNotificationComponent.getNotificationDelegates())
+        get() = NotificationPublisherImpl(getNotificationDelegates())
 
     override val dailyStudyReminderNotificationDelegate: DailyStudyReminderNotificationDelegate
-        get() = DailyStudyReminderNotificationDelegate(notificationManager, context, notificationInteractor)
+        get() = DailyStudyReminderNotificationDelegate(
+            hyperskillNotificationManager = notificationManager,
+            context = context,
+            notificationInteractor = notificationInteractor,
+            analyticInteractor = appGraph.analyticComponent.analyticInteractor
+        )
 }
