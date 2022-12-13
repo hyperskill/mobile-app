@@ -37,12 +37,12 @@ struct AuthNewUserPlaceholderView: View {
     private func buildBody() -> some View {
         switch viewModel.stateKs {
         case .idle:
-            ProgressView()
+            AuthNewUserPlaceholderSkeletonView()
                 .onAppear {
                     viewModel.doLoadContent()
                 }
         case .loading:
-            ProgressView()
+            AuthNewUserPlaceholderSkeletonView()
         case .networkError:
             PlaceholderView(
                 configuration: .networkError(backgroundColor: appearance.backgroundColor) {
