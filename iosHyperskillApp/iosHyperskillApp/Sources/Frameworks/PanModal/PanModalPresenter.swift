@@ -1,4 +1,5 @@
 import Foundation
+import PanModal
 
 final class PanModalPresenter: ObservableObject {
     private let sourcelessRouter: SourcelessRouter
@@ -16,10 +17,11 @@ final class PanModalPresenter: ObservableObject {
     }
 
     func dismissPanModal(animated: Bool) {
-        guard let currentPresentedViewController = sourcelessRouter.currentPresentedViewController() else {
+        guard let currentPresentedViewController = sourcelessRouter.currentPresentedViewController(),
+              let panModal = currentPresentedViewController as? UIViewController & PanModalPresentable else {
             return
         }
 
-        currentPresentedViewController.dismiss(animated: animated)
+        panModal.dismiss(animated: animated)
     }
 }
