@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/streakMaterialCardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:background="@color/color_surface"
+        >
+
+        <ImageView
+            android:id="@+id/streakStatFire"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_fire_disabled"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription"
+            />
+
+        <TextView
+            android:id="@+id/streakDaysCountTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@+id/streakStatFire"
+            app:layout_constraintTop_toTopOf="@+id/streakStatFire"
+            app:layout_constraintBottom_toBottomOf="@+id/streakStatFire"
+            tools:text="0 days"
+            />
+
+        <ImageView
+            android:id="@+id/streakNewRecordCrown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:src="@drawable/ic_crown"
+            android:layout_marginStart="5dp"
+            app:layout_constraintStart_toEndOf="@+id/streakDaysCountTextView"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible"
+            tools:ignore="ContentDescription"
+            />
+
+        <TextView
+            android:id="@+id/streakSolvingProblemsTextView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="end|center_vertical"
+            android:text="@string/streak_solving_problem_text"
+            android:textColor="@color/color_on_surface_alpha_60"
+            android:layout_marginStart="33dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/streakNewRecordCrown"
+            app:layout_constraintTop_toTopOf="@+id/streakStatFire"
+            app:layout_constraintBottom_toBottomOf="@+id/streakStatFire"
+            />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/headerBarrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="streakSolvingProblemsTextView,streakNewRecordCrown,streakDaysCountTextView,streakStatFire"
+            app:barrierDirection="bottom"
+            />
+
+        <include
+            android:id="@+id/streakFirstDayIncludedFire"
+            layout="@layout/item_streak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            app:layout_constraintTop_toBottomOf="@+id/headerBarrier"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/streakSecondDayIncludedFire"
+            />
+
+        <include
+            android:id="@+id/streakSecondDayIncludedFire"
+            layout="@layout/item_streak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            app:layout_constraintTop_toBottomOf="@+id/headerBarrier"
+            app:layout_constraintEnd_toStartOf="@+id/streakFirstDayIncludedFire"
+            app:layout_constraintStart_toEndOf="@+id/streakThirdDayIncludedFire"
+            />
+
+        <include
+            android:id="@+id/streakThirdDayIncludedFire"
+            layout="@layout/item_streak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            app:layout_constraintTop_toBottomOf="@+id/headerBarrier"
+            app:layout_constraintEnd_toStartOf="@+id/streakSecondDayIncludedFire"
+            app:layout_constraintStart_toEndOf="@+id/streakFourthDayIncludedFire"
+            />
+
+        <include
+            android:id="@+id/streakFourthDayIncludedFire"
+            layout="@layout/item_streak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            app:layout_constraintTop_toBottomOf="@+id/headerBarrier"
+            app:layout_constraintEnd_toStartOf="@+id/streakThirdDayIncludedFire"
+            app:layout_constraintStart_toEndOf="@+id/streakFifthDayIncludedFire"
+            />
+
+        <include
+            android:id="@+id/streakFifthDayIncludedFire"
+            layout="@layout/item_streak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            app:layout_constraintTop_toBottomOf="@+id/headerBarrier"
+            app:layout_constraintEnd_toStartOf="@+id/streakFourthDayIncludedFire"
+            app:layout_constraintStart_toEndOf="@+id/streakTodayIncludedFire"
+            />
+
+        <include
+            android:id="@+id/streakTodayIncludedFire"
+            layout="@layout/item_streak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            app:layout_constraintTop_toBottomOf="@+id/headerBarrier"
+            app:layout_constraintEnd_toStartOf="@+id/streakFifthDayIncludedFire"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/firesBarrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="streakTodayIncludedFire,streakFifthDayIncludedFire,streakFourthDayIncludedFire,streakThirdDayIncludedFire,streakSecondDayIncludedFire,streakFirstDayIncludedFire"
+            app:barrierDirection="bottom"
+            />
+
+        <TextView
+            android:id="@+id/streakPreviousFiveDaysTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/streak_previous_five_days_text"
+            android:textColor="@color/color_on_surface_alpha_60"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/firesBarrier"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/streakTodayTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/streak_today_text"
+            android:textColor="@color/color_on_surface_alpha_60"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/firesBarrier"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</com.google.android.material.card.MaterialCardView>

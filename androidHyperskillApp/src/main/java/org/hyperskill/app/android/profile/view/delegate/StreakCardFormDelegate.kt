@@ -1,16 +1,16 @@
-package org.hyperskill.app.android.streak.view.delegate
+package org.hyperskill.app.android.profile.view.delegate
 
 import android.content.Context
 import android.view.View
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.databinding.LayoutStreakCardBinding
+import org.hyperskill.app.android.databinding.LayoutProfileStatisticsCardBinding
 import org.hyperskill.app.streak.domain.model.Streak
 import org.hyperskill.app.streak.domain.model.StreakState
 import kotlin.collections.zip
 
 class StreakCardFormDelegate(
     context: Context,
-    binding: LayoutStreakCardBinding,
+    binding: LayoutProfileStatisticsCardBinding,
     streak: Streak
 ) {
     init {

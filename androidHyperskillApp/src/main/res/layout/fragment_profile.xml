@@ -79,8 +79,8 @@
                 />
 
             <include
-                android:id="@+id/profileStreakLayout"
-                layout="@layout/layout_streak_card"
+                android:id="@+id/profileStatisticsLayout"
+                layout="@layout/layout_profile_statistics_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"

@@ -25,7 +25,7 @@ import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExi
 import org.hyperskill.app.android.databinding.FragmentProfileBinding
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
 import org.hyperskill.app.android.profile_settings.view.dialog.ProfileSettingsDialogFragment
-import org.hyperskill.app.android.streak.view.delegate.StreakCardFormDelegate
+import org.hyperskill.app.android.profile.view.delegate.StreakCardFormDelegate
 import org.hyperskill.app.android.view.base.ui.extension.redirectToUsernamePage
 import org.hyperskill.app.android.view.base.ui.extension.setElevationOnCollapsed
 import org.hyperskill.app.profile.domain.model.Profile
@@ -236,9 +236,9 @@ class ProfileFragment :
     private fun renderContent(content: ProfileFeature.State.Content) {
         if (content.streak != null) {
             streakFormDelegate =
-                StreakCardFormDelegate(requireContext(), viewBinding.profileStreakLayout, content.streak!!)
+                StreakCardFormDelegate(requireContext(), viewBinding.profileStatisticsLayout, content.streak!!)
         } else {
-            viewBinding.profileStreakLayout.root.visibility = View.GONE
+            viewBinding.profileStatisticsLayout.root.visibility = View.GONE
         }
 
         renderNameProfileBadge(content.profile)
