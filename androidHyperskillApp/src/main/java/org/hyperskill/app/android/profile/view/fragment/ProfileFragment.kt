@@ -94,7 +94,7 @@ class ProfileFragment :
         initProfileViewFullVersionTextView()
 
         streakFormDelegate =
-            StreakCardFormDelegate(requireContext(), viewBinding.profileStatisticsLayout)
+            StreakCardFormDelegate(requireContext(), viewBinding.profileStreakLayout)
 
         viewBinding.profileError.tryAgain.setOnClickListener {
             profileViewModel.onNewMessage(
@@ -242,6 +242,7 @@ class ProfileFragment :
     private fun renderContent(content: ProfileFeature.State.Content) {
         streakFormDelegate?.render(content.streak)
 
+        renderStatistics(content.profile)
         renderNameProfileBadge(content.profile)
         renderAboutMeSection(content.profile)
         renderBioSection(content.profile)
@@ -269,6 +270,14 @@ class ProfileFragment :
                     resources.getString(R.string.profile_role_learner_text)
                 }
             )
+        }
+    }
+
+    private fun renderStatistics(profile: Profile) {
+        with(viewBinding.profileStatisticsLayout) {
+            profileGemsCountTextView.setTextIfChanged(profile.gamification.hypercoinsBalance.toString())
+            profileTracksCountTextView.setTextIfChanged(profile.gamification.passedTracksCount.toString())
+            profileProjectsCountTextView.setTextIfChanged(profile.gamification.passedProjectsCount.toString())
         }
     }
 
