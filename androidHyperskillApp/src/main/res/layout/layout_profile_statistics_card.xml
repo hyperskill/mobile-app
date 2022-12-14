@@ -19,7 +19,7 @@
             android:id="@+id/streakStatFire"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:src="@drawable/ic_fire_disabled"
+            tools:src="@drawable/ic_enabled_streak"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription"

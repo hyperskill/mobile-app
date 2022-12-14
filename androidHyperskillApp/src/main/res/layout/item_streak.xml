@@ -15,7 +15,7 @@
         android:id="@+id/itemStreakImageView"
         android:layout_width="@dimen/streak_recycler_fire_width"
         android:layout_height="@dimen/streak_recycler_fire_height"
-        tools:src="@drawable/ic_fire_disabled"
+        tools:src="@drawable/ic_disabled_streak"
         tools:ignore="ContentDescription"
         />
 

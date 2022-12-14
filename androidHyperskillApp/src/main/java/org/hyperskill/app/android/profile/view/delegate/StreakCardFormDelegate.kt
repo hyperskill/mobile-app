@@ -54,8 +54,8 @@ class StreakCardFormDelegate(
     }
 
     private fun getFireDrawable(historicalStreak: HistoricalStreak?): Int = when {
-        historicalStreak?.state == StreakState.FROZEN -> R.drawable.ic_fire_freeze
-        historicalStreak?.isCompleted == true -> R.drawable.ic_fire_enabled
-        else -> R.drawable.ic_fire_disabled
+        historicalStreak?.state == StreakState.FROZEN -> R.drawable.ic_frozen_streak
+        historicalStreak?.isCompleted == true -> R.drawable.ic_enabled_streak
+        else -> R.drawable.ic_disabled_streak
     }
 }
