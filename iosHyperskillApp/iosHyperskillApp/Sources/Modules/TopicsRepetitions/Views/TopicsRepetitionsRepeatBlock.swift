@@ -37,7 +37,10 @@ struct TopicsRepetitionsRepeatBlock: View {
                     .font(.subheadline)
                     .foregroundColor(.secondaryText)
 
-                buildRepeatList(repeatButtons: repeatButtonsCurrentTrack)
+                buildRepeatList(
+                    repeatButtons: repeatButtonsCurrentTrack,
+                    isShowingSkeletons: repeatButtonsOtherTracks.isEmpty
+                )
             }
 
             if !repeatButtonsOtherTracks.isEmpty {
@@ -45,7 +48,10 @@ struct TopicsRepetitionsRepeatBlock: View {
                     .font(.subheadline)
                     .foregroundColor(.secondaryText)
 
-                buildRepeatList(repeatButtons: repeatButtonsOtherTracks)
+                buildRepeatList(
+                    repeatButtons: repeatButtonsOtherTracks,
+                    isShowingSkeletons: true
+                )
             }
 
             if case ShowMoreButtonState.available = showMoreButtonState {
@@ -58,7 +64,7 @@ struct TopicsRepetitionsRepeatBlock: View {
         .background(Color(ColorPalette.surface))
     }
 
-    private func buildRepeatList(repeatButtons: [RepeatButtonInfo]) -> some View {
+    private func buildRepeatList(repeatButtons: [RepeatButtonInfo], isShowingSkeletons: Bool) -> some View {
         VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
             ForEach(repeatButtons, id: \.topicID) { buttonInfo in
                 Button(
@@ -74,7 +80,7 @@ struct TopicsRepetitionsRepeatBlock: View {
                 .buttonStyle(appearance.buttonStyle)
             }
 
-            if case ShowMoreButtonState.loading = showMoreButtonState {
+            if case ShowMoreButtonState.loading = showMoreButtonState, isShowingSkeletons {
                 ForEach(0..<topicsToRepeatWillLoadedCount, id: \.self) { _ in
                     SkeletonRoundedView()
                         .frame(height: appearance.buttonStyle.minHeight)
