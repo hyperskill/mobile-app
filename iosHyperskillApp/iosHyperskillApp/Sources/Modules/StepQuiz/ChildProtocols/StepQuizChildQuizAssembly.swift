@@ -44,6 +44,15 @@ enum StepQuizChildQuizViewFactory {
                 moduleOutput: moduleOutput
             )
             .makeModule()
+        case .sql:
+            StepQuizSQLAssembly(
+                step: step,
+                dataset: dataset,
+                reply: reply,
+                provideModuleInputCallback: provideModuleInputCallback,
+                moduleOutput: moduleOutput
+            )
+            .makeModule()
         case .matching:
             StepQuizMatchingAssembly(
                 step: step,

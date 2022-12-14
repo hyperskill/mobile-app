@@ -1,7 +1,7 @@
 import Foundation
 import shared
 
-final class StepQuizCodeViewDataMapper {
+class StepQuizCodeViewDataMapper {
     private let formatter: Formatter
     private let resourceProvider: ResourceProvider
 
@@ -69,11 +69,6 @@ final class StepQuizCodeViewDataMapper {
             )
         }()
 
-        let stepStats = stepQuizStatsTextMapper.getFormattedStepQuizStats(
-            users: step.solvedBy,
-            millisSinceLastCompleted: step.millisSinceLastCompleted
-        )
-
         return StepQuizCodeViewData(
             language: language,
             languageStringValue: languageStringValue,
@@ -83,7 +78,14 @@ final class StepQuizCodeViewDataMapper {
             executionTimeLimit: executionTimeLimit,
             executionMemoryLimit: executionMemoryLimit,
             stepText: step.block.text,
-            stepStats: stepStats
+            stepStats: mapStepToStepStats(step)
+        )
+    }
+
+    func mapStepToStepStats(_ step: Step) -> String {
+        stepQuizStatsTextMapper.getFormattedStepQuizStats(
+            users: step.solvedBy,
+            millisSinceLastCompleted: step.millisSinceLastCompleted
         )
     }
 

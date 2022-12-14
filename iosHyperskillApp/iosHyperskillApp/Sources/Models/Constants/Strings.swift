@@ -132,6 +132,12 @@ enum Strings {
         static let reset = sharedStrings.step_quiz_code_reset.localized()
     }
 
+    // MARK: - StepQuizSQL -
+
+    enum StepQuizSQL {
+        static let title = sharedStrings.step_quiz_sql_title.localized()
+    }
+
     // MARK: - StepQuizTable -
 
     enum StepQuizTable {

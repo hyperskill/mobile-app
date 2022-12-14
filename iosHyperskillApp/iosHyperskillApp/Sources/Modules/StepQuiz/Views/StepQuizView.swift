@@ -153,22 +153,6 @@ struct StepQuizView: View {
             let submissionStateLoaded = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded
 
             let reply = submissionStateLoaded?.submission.reply ?? submissionStateEmpty?.reply
-            let isDisabled: Bool = {
-                guard let submissionStatus = submissionStateLoaded?.submission.status else {
-                    return false
-                }
-
-                switch submissionStatus {
-                case SubmissionStatus.evaluation, SubmissionStatus.correct, SubmissionStatus.outdated:
-                    return true
-                case SubmissionStatus.wrong:
-                    return StepQuizResolver.shared.isNeedRecreateAttemptForNewSubmission(step: viewModel.step)
-                case SubmissionStatus.local:
-                    return false
-                default:
-                    return false
-                }
-            }()
 
             StepQuizChildQuizViewFactory.make(
                 quizType: quizType,
@@ -178,7 +162,7 @@ struct StepQuizView: View {
                 provideModuleInputCallback: { viewModel.childQuizModuleInput = $0 },
                 moduleOutput: viewModel
             )
-            .disabled(isDisabled)
+            .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
         }
     }
 
@@ -212,7 +196,7 @@ struct StepQuizView: View {
         }()
 
         if submissionStatus == SubmissionStatus.wrong {
-            if case .code = quizType {
+            if quizType.isCodeOrSQL {
                 StepQuizActionButtons.retryLogoAndRunSolution(
                     retryButtonAction: viewModel.doQuizRetryAction,
                     runSolutionButtonState: .init(submissionStatus: submissionStatus),
@@ -241,11 +225,19 @@ struct StepQuizView: View {
                     .disabled(StepQuizResolver.shared.isQuizLoading(state: state))
             }
         } else {
-            StepQuizActionButtons.submit(
-                state: .init(submissionStatus: submissionStatus),
-                action: viewModel.doMainQuizAction
-            )
-            .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
+            if quizType.isCodeOrSQL {
+                StepQuizActionButtons.runSolution(
+                    state: .init(submissionStatus: submissionStatus),
+                    action: viewModel.doMainQuizAction
+                )
+                .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
+            } else {
+                StepQuizActionButtons.submit(
+                    state: .init(submissionStatus: submissionStatus),
+                    action: viewModel.doMainQuizAction
+                )
+                .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
+            }
         }
     }
 

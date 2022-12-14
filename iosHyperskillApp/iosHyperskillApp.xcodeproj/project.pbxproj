@@ -140,6 +140,10 @@
 		2C5B2A23286596400097B270 /* UITableView+RegisterReusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B2A22286596400097B270 /* UITableView+RegisterReusable.swift */; };
 		2C5B2A25286596A80097B270 /* UICollectionView+RegisterReusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B2A24286596A80097B270 /* UICollectionView+RegisterReusable.swift */; };
 		2C5B2A2828659AD80097B270 /* CodeElementSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B2A2728659AD80097B270 /* CodeElementSize.swift */; };
+		2C5CBBE12948EBEA00113007 /* StepQuizSQLViewDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5CBBE02948EBEA00113007 /* StepQuizSQLViewDataMapper.swift */; };
+		2C5CBBE32948F4B600113007 /* StepQuizSQLViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5CBBE22948F4B600113007 /* StepQuizSQLViewModel.swift */; };
+		2C5CBBE52948FA7400113007 /* StepQuizSQLAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5CBBE42948FA7400113007 /* StepQuizSQLAssembly.swift */; };
+		2C5CBBE72948FC7A00113007 /* StepQuizSQLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5CBBE62948FC7A00113007 /* StepQuizSQLView.swift */; };
 		2C65637128743796006AAD77 /* TrackViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65637028743796006AAD77 /* TrackViewData.swift */; };
 		2C65637328743910006AAD77 /* TrackAboutBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65637228743910006AAD77 /* TrackAboutBlockView.swift */; };
 		2C65637628743F5B006AAD77 /* TrackAboutStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65637528743F5B006AAD77 /* TrackAboutStatsView.swift */; };
@@ -292,6 +296,7 @@
 		2CE31F4827F1BB79008EEE66 /* AuthSocialAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4727F1BB79008EEE66 /* AuthSocialAssembly.swift */; };
 		2CE31F4B27F1E070008EEE66 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4A27F1E070008EEE66 /* AppViewModel.swift */; };
 		2CE31F4D27F1E0C8008EEE66 /* AppAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4C27F1E0C8008EEE66 /* AppAssembly.swift */; };
+		2CEB33772949930B00B9E437 /* StepQuizSQLSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB33762949930B00B9E437 /* StepQuizSQLSkeletonView.swift */; };
 		2CEB50C6288A92820044F9AB /* StepExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB50C5288A92820044F9AB /* StepExtensions.swift */; };
 		2CEB50C8288A94050044F9AB /* BlockExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB50C7288A94050044F9AB /* BlockExtensions.swift */; };
 		2CEB50CB288A95D70044F9AB /* KotlinxDatetimeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB50CA288A95D70044F9AB /* KotlinxDatetimeExtensions.swift */; };
@@ -547,6 +552,10 @@
 		2C5B2A22286596400097B270 /* UITableView+RegisterReusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+RegisterReusable.swift"; sourceTree = "<group>"; };
 		2C5B2A24286596A80097B270 /* UICollectionView+RegisterReusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+RegisterReusable.swift"; sourceTree = "<group>"; };
 		2C5B2A2728659AD80097B270 /* CodeElementSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeElementSize.swift; sourceTree = "<group>"; };
+		2C5CBBE02948EBEA00113007 /* StepQuizSQLViewDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSQLViewDataMapper.swift; sourceTree = "<group>"; };
+		2C5CBBE22948F4B600113007 /* StepQuizSQLViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSQLViewModel.swift; sourceTree = "<group>"; };
+		2C5CBBE42948FA7400113007 /* StepQuizSQLAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSQLAssembly.swift; sourceTree = "<group>"; };
+		2C5CBBE62948FC7A00113007 /* StepQuizSQLView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSQLView.swift; sourceTree = "<group>"; };
 		2C65637028743796006AAD77 /* TrackViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewData.swift; sourceTree = "<group>"; };
 		2C65637228743910006AAD77 /* TrackAboutBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackAboutBlockView.swift; sourceTree = "<group>"; };
 		2C65637528743F5B006AAD77 /* TrackAboutStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackAboutStatsView.swift; sourceTree = "<group>"; };
@@ -700,6 +709,7 @@
 		2CE31F4727F1BB79008EEE66 /* AuthSocialAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialAssembly.swift; sourceTree = "<group>"; };
 		2CE31F4A27F1E070008EEE66 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		2CE31F4C27F1E0C8008EEE66 /* AppAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAssembly.swift; sourceTree = "<group>"; };
+		2CEB33762949930B00B9E437 /* StepQuizSQLSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSQLSkeletonView.swift; sourceTree = "<group>"; };
 		2CEB50C5288A92820044F9AB /* StepExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepExtensions.swift; sourceTree = "<group>"; };
 		2CEB50C7288A94050044F9AB /* BlockExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockExtensions.swift; sourceTree = "<group>"; };
 		2CEB50CA288A95D70044F9AB /* KotlinxDatetimeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KotlinxDatetimeExtensions.swift; sourceTree = "<group>"; };
@@ -1030,6 +1040,7 @@
 				E9F27D7629064456007F16D7 /* StepQuizHints */,
 				E9D2D66E284E0A5D000757AC /* StepQuizMatching */,
 				E993E9A728426FD5005988EC /* StepQuizSorting */,
+				2C5CBBDE2948EB9400113007 /* StepQuizSQL */,
 				2CCCA3972862D57100D98089 /* StepQuizString */,
 				2CF72AA12847755100E1C192 /* StepQuizTable */,
 				2C8E4F9D2848BE420011ADFA /* StepQuizTableSelectColumns */,
@@ -1402,6 +1413,17 @@
 				2C0DB9002864332B001EA35E /* CodeTextViewLayoutManager.swift */,
 			);
 			path = CodeTextView;
+			sourceTree = "<group>";
+		};
+		2C5CBBDE2948EB9400113007 /* StepQuizSQL */ = {
+			isa = PBXGroup;
+			children = (
+				2C5CBBE42948FA7400113007 /* StepQuizSQLAssembly.swift */,
+				2C5CBBE02948EBEA00113007 /* StepQuizSQLViewDataMapper.swift */,
+				2C5CBBE22948F4B600113007 /* StepQuizSQLViewModel.swift */,
+				2CEB33782949933A00B9E437 /* Views */,
+			);
+			path = StepQuizSQL;
 			sourceTree = "<group>";
 		};
 		2C60F1B428880AA600B66C78 /* Skeletons */ = {
@@ -2056,6 +2078,15 @@
 			path = App;
 			sourceTree = "<group>";
 		};
+		2CEB33782949933A00B9E437 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2CEB33762949930B00B9E437 /* StepQuizSQLSkeletonView.swift */,
+				2C5CBBE62948FC7A00113007 /* StepQuizSQLView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		2CEB50C9288A95BF0044F9AB /* Kotlinx_datetime */ = {
 			isa = PBXGroup;
 			children = (
@@ -2680,6 +2711,7 @@
 				2C5B2A2828659AD80097B270 /* CodeElementSize.swift in Sources */,
 				2CAFD39127FC5D5D00F88B0B /* Color+DesignSystem.swift in Sources */,
 				E9886D3228ABCE5C003724F9 /* OnboardingOutputProtocol.swift in Sources */,
+				2C5CBBE12948EBEA00113007 /* StepQuizSQLViewDataMapper.swift in Sources */,
 				2CF4341228126C79002893CD /* View+EndEditing.swift in Sources */,
 				E9F2CC5329223C0200691540 /* RemoveBackButtonTitleHostingController.swift in Sources */,
 				E94F4C152923B46200DE0F7F /* TopicsRepetitionsChartAxis.swift in Sources */,
@@ -2695,6 +2727,7 @@
 				E9F59B90289FE053001CEA02 /* ProfileSettingsViewModel.swift in Sources */,
 				2C967434288824450091B6C9 /* StepQuizCodeView.swift in Sources */,
 				E94D238F280585110003273F /* AuthCredentialsFormView.swift in Sources */,
+				2C5CBBE52948FA7400113007 /* StepQuizSQLAssembly.swift in Sources */,
 				2CEEE03528916A6800282849 /* ProblemOfDayOutputProtocol.swift in Sources */,
 				E9380EDA286B48A400CBF221 /* AuthNewUserPlaceholderView.swift in Sources */,
 				E94BC946291E8F40000B18D3 /* TopicsRepetitionsChartBlock.swift in Sources */,
@@ -2796,6 +2829,7 @@
 				2CEB50D0288AADA40044F9AB /* StepQuizCodeFullScreenDetailsView.swift in Sources */,
 				2C65637A28744DDA006AAD77 /* TrackHeaderView.swift in Sources */,
 				2C8E4FB42848CB980011ADFA /* StepQuizTableSelectColumnsColumnView.swift in Sources */,
+				2CEB33772949930B00B9E437 /* StepQuizSQLSkeletonView.swift in Sources */,
 				2CB45762288EC29D007C2D77 /* StepQuizActionButtons.swift in Sources */,
 				E9859B91292E414300857679 /* RepeatButtonInfo.swift in Sources */,
 				2C6B30A628B7C3F300609CE8 /* AuthNewUserPlaceholderViewModel.swift in Sources */,
@@ -2803,6 +2837,7 @@
 				2C177EC32837B65500D841DB /* View+Frame.swift in Sources */,
 				E9950E9528894F4700C4D962 /* ProfileDailyStudyRemindersHourIntervalPickerView.swift in Sources */,
 				E9A022AE291D0E3F004317DB /* TopicsRepetitionsCardView.swift in Sources */,
+				2C5CBBE32948F4B600113007 /* StepQuizSQLViewModel.swift in Sources */,
 				E9F923F628A2633D00C065A7 /* OnboardingView.swift in Sources */,
 				2C106D9928C1CE6E004FA584 /* SendEmailFeedbackController.swift in Sources */,
 				2C2B7DD22946EF2800FAB55D /* WebViewNavigationController.swift in Sources */,
@@ -2851,6 +2886,7 @@
 				2C58DE292803D197002A2774 /* UIColor+DynamicColor.swift in Sources */,
 				E996D414292228A700A47498 /* TopicsRepetitionsView.swift in Sources */,
 				2CAE8D092805789100E6C83D /* StepCommentsStatisticsView.swift in Sources */,
+				2C5CBBE72948FC7A00113007 /* StepQuizSQLView.swift in Sources */,
 				2C20FBA8284F193A006D879E /* ContentProcessingRule.swift in Sources */,
 				2C20FBC9284F6F97006D879E /* UnitConverters.swift in Sources */,
 				2C336D152865C49D00C91342 /* ApplicationThemeService.swift in Sources */,
