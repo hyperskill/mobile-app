@@ -62,7 +62,7 @@ class ProfileFragment :
     private val profileViewModel: ProfileViewModel by reduxViewModel(this) { viewModelFactory }
     private val viewStateDelegate: ViewStateDelegate<ProfileFeature.State> = ViewStateDelegate()
 
-    private lateinit var streakFormDelegate: StreakCardFormDelegate
+    private var streakFormDelegate: StreakCardFormDelegate? = null
 
     private val platformNotificationComponent =
         HyperskillApp.graph().platformNotificationComponent
@@ -89,6 +89,13 @@ class ProfileFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewStateDelegate()
+        initToolbar()
+        initRemindersSchedule()
+        initProfileViewFullVersionTextView()
+
+        streakFormDelegate =
+            StreakCardFormDelegate(requireContext(), viewBinding.profileStatisticsLayout)
+
         viewBinding.profileError.tryAgain.setOnClickListener {
             profileViewModel.onNewMessage(
                 ProfileFeature.Message.Initialize(
@@ -98,11 +105,6 @@ class ProfileFragment :
                 )
             )
         }
-
-        initToolbar()
-
-        initRemindersSchedule()
-        initProfileViewFullVersionTextView()
 
         profileViewModel.onNewMessage(
             ProfileFeature.Message.Initialize(
@@ -203,6 +205,11 @@ class ProfileFragment :
 
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        streakFormDelegate = null
+    }
+
     override fun onTimeIntervalPicked(chosenInterval: Int) {
         platformNotificationComponent.notificationInteractor.setDailyStudyRemindersIntervalStartHour(chosenInterval)
         platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification()
@@ -226,7 +233,6 @@ class ProfileFragment :
                 profileId = state.profile.id
                 renderContent(state)
             }
-
             else -> {
                 // no op
             }
@@ -234,12 +240,7 @@ class ProfileFragment :
     }
 
     private fun renderContent(content: ProfileFeature.State.Content) {
-        if (content.streak != null) {
-            streakFormDelegate =
-                StreakCardFormDelegate(requireContext(), viewBinding.profileStatisticsLayout, content.streak!!)
-        } else {
-            viewBinding.profileStatisticsLayout.root.visibility = View.GONE
-        }
+        streakFormDelegate?.render(content.streak)
 
         renderNameProfileBadge(content.profile)
         renderAboutMeSection(content.profile)

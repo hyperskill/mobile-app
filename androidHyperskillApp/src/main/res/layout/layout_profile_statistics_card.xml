@@ -80,8 +80,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
             app:layout_constraintTop_toBottomOf="@+id/headerBarrier"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/streakSecondDayIncludedFire"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/streakSecondDayIncludedFire"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
             />
 
         <include
@@ -91,8 +92,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
             app:layout_constraintTop_toBottomOf="@+id/headerBarrier"
-            app:layout_constraintEnd_toStartOf="@+id/streakFirstDayIncludedFire"
-            app:layout_constraintStart_toEndOf="@+id/streakThirdDayIncludedFire"
+            app:layout_constraintStart_toEndOf="@+id/streakFirstDayIncludedFire"
+            app:layout_constraintEnd_toStartOf="@+id/streakThirdDayIncludedFire"
             />
 
         <include
@@ -102,8 +103,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
             app:layout_constraintTop_toBottomOf="@+id/headerBarrier"
-            app:layout_constraintEnd_toStartOf="@+id/streakSecondDayIncludedFire"
-            app:layout_constraintStart_toEndOf="@+id/streakFourthDayIncludedFire"
+            app:layout_constraintStart_toEndOf="@+id/streakSecondDayIncludedFire"
+            app:layout_constraintEnd_toStartOf="@+id/streakFourthDayIncludedFire"
             />
 
         <include
@@ -113,8 +114,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
             app:layout_constraintTop_toBottomOf="@+id/headerBarrier"
-            app:layout_constraintEnd_toStartOf="@+id/streakThirdDayIncludedFire"
-            app:layout_constraintStart_toEndOf="@+id/streakFifthDayIncludedFire"
+            app:layout_constraintStart_toEndOf="@+id/streakThirdDayIncludedFire"
+            app:layout_constraintEnd_toStartOf="@+id/streakFifthDayIncludedFire"
             />
 
         <include
@@ -124,8 +125,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
             app:layout_constraintTop_toBottomOf="@+id/headerBarrier"
-            app:layout_constraintEnd_toStartOf="@+id/streakFourthDayIncludedFire"
-            app:layout_constraintStart_toEndOf="@+id/streakTodayIncludedFire"
+            app:layout_constraintStart_toEndOf="@+id/streakFourthDayIncludedFire"
+            app:layout_constraintEnd_toStartOf="@+id/streakTodayIncludedFire"
             />
 
         <include
@@ -135,9 +136,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
             app:layout_constraintTop_toBottomOf="@+id/headerBarrier"
-            app:layout_constraintEnd_toStartOf="@+id/streakFifthDayIncludedFire"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/streakFifthDayIncludedFire"
             />
 
         <androidx.constraintlayout.widget.Barrier

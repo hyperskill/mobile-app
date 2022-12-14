@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/itemStreak"
     style="@style/StreakStatCard"
     android:layout_width="wrap_content"
@@ -13,6 +15,8 @@
         android:id="@+id/itemStreakImageView"
         android:layout_width="@dimen/streak_recycler_fire_width"
         android:layout_height="@dimen/streak_recycler_fire_height"
-        android:src="@drawable/ic_fire_disabled" />
+        tools:src="@drawable/ic_fire_disabled"
+        tools:ignore="ContentDescription"
+        />
 
 </com.google.android.material.card.MaterialCardView>

@@ -1,54 +1,61 @@
 package org.hyperskill.app.android.profile.view.delegate
 
 import android.content.Context
-import android.view.View
+import androidx.core.view.isVisible
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.LayoutProfileStatisticsCardBinding
+import org.hyperskill.app.streak.domain.model.HistoricalStreak
 import org.hyperskill.app.streak.domain.model.Streak
 import org.hyperskill.app.streak.domain.model.StreakState
-import kotlin.collections.zip
+import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 
 class StreakCardFormDelegate(
-    context: Context,
-    binding: LayoutProfileStatisticsCardBinding,
-    streak: Streak
+    private val context: Context,
+    private val binding: LayoutProfileStatisticsCardBinding
 ) {
     init {
-        val streakDaysFires = listOf(
+        with(binding.streakTodayIncludedFire.itemStreak) {
+            strokeWidth =
+                context.resources.getDimensionPixelSize(R.dimen.streak_today_streak_card_stroke_width)
+            strokeColor =
+                context.getColor(R.color.color_primary)
+        }
+    }
+
+    fun render(streak: Streak?) {
+        binding.root.isVisible = streak != null
+        if (streak == null) return
+
+        val historicalStreaks = streak.history.reversed()
+        listOf(
             binding.streakFirstDayIncludedFire,
             binding.streakSecondDayIncludedFire,
             binding.streakThirdDayIncludedFire,
             binding.streakFourthDayIncludedFire,
             binding.streakFifthDayIncludedFire
+        ).forEachIndexed { index, fireItemBinding ->
+            val historicalStreak = historicalStreaks.getOrNull(index)
+            fireItemBinding.itemStreakImageView.setImageResource(getFireDrawable(historicalStreak))
+        }
+
+        val todayFireDrawable = getFireDrawable(streak.history.firstOrNull())
+        binding.streakStatFire.setImageResource(todayFireDrawable)
+        binding.streakTodayIncludedFire.itemStreakImageView.setImageResource(todayFireDrawable)
+
+        binding.streakNewRecordCrown.isVisible = streak.isNewRecord
+
+        binding.streakDaysCountTextView.setTextIfChanged(
+            context.resources.getQuantityString(
+                R.plurals.days,
+                streak.currentStreak,
+                streak.currentStreak
+            )
         )
+    }
 
-        for (pair in streakDaysFires zip streak.history.reversed()) {
-            if (pair.second.state == StreakState.FROZEN) {
-                pair.first.itemStreakImageView.setImageResource(R.drawable.ic_fire_freeze)
-            } else if (pair.second.isCompleted) {
-                pair.first.itemStreakImageView.setImageResource(R.drawable.ic_fire_enabled)
-            }
-        }
-
-        if (streak.history.first().isCompleted) {
-            binding.streakStatFire.setImageResource(R.drawable.ic_fire_enabled)
-            binding.streakTodayIncludedFire.itemStreakImageView.setImageResource(R.drawable.ic_fire_enabled)
-        }
-
-        if (streak.isNewRecord) {
-            binding.streakNewRecordCrown.visibility = View.VISIBLE
-        }
-
-        binding.streakDaysCountTextView.text = context.resources.getQuantityString(
-            R.plurals.days,
-            streak.currentStreak,
-            streak.currentStreak
-        )
-
-        binding.streakTodayIncludedFire.itemStreak.strokeWidth =
-            context.resources.getDimensionPixelSize(R.dimen.streak_today_streak_card_stroke_width)
-
-        binding.streakTodayIncludedFire.itemStreak.strokeColor =
-            context.getColor(R.color.color_primary)
+    private fun getFireDrawable(historicalStreak: HistoricalStreak?): Int = when {
+        historicalStreak?.state == StreakState.FROZEN -> R.drawable.ic_fire_freeze
+        historicalStreak?.isCompleted == true -> R.drawable.ic_fire_enabled
+        else -> R.drawable.ic_fire_disabled
     }
 }
