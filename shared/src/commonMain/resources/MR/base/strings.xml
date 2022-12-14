@@ -131,6 +131,9 @@
     <string name="step_quiz_code_empty_lang">No lang</string>
     <string name="step_quiz_code_reset">Reset</string>
 
+    <!-- Step quiz code -->
+    <string name="step_quiz_sql_title">Write an SQL statement</string>
+
     <!-- Tab bar -->
     <string name="tab_bar_home_title">Home</string>
     <string name="tab_bar_track_title">Track</string>
