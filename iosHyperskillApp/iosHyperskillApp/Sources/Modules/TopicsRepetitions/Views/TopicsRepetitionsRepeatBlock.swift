@@ -4,8 +4,6 @@ import SwiftUI
 extension TopicsRepetitionsRepeatBlock {
     struct Appearance {
         let buttonStyle = OutlineButtonStyle(borderColor: .border, alignment: .leading)
-        let largePadding = LayoutInsets.largeInset
-        let smallPadding = LayoutInsets.smallInset
     }
 }
 
@@ -16,7 +14,9 @@ struct TopicsRepetitionsRepeatBlock: View {
 
     let trackTopicsTitle: String
 
-    let repeatButtons: [RepeatButtonInfo]
+    let repeatButtonsCurrentTrack: [RepeatButtonInfo]
+
+    let repeatButtonsOtherTracks: [RepeatButtonInfo]
 
     let showMoreButtonState: ShowMoreButtonState
 
@@ -25,27 +25,41 @@ struct TopicsRepetitionsRepeatBlock: View {
     let topicsToRepeatWillLoadedCount: Int
 
     var body: some View {
-        VStack(alignment: .leading, spacing: appearance.largePadding) {
+        VStack(alignment: .leading, spacing: LayoutInsets.largeInset) {
             Text(repeatBlockTitle)
                 .font(.title3)
                 .foregroundColor(.primaryText)
                 .bold()
                 .frame(maxWidth: .infinity, alignment: .leading)
 
-            Text(trackTopicsTitle)
-                .font(.subheadline)
-                .foregroundColor(.secondaryText)
+            if !repeatButtonsCurrentTrack.isEmpty {
+                Text(trackTopicsTitle)
+                    .font(.subheadline)
+                    .foregroundColor(.secondaryText)
 
-            if !repeatButtons.isEmpty {
-                topicsToRepeatList
+                buildRepeatList(repeatButtons: repeatButtonsCurrentTrack)
+            }
+
+            if !repeatButtonsOtherTracks.isEmpty {
+                Text(Strings.TopicsRepetitions.RepeatBlock.otherTracks)
+                    .font(.subheadline)
+                    .foregroundColor(.secondaryText)
+
+                buildRepeatList(repeatButtons: repeatButtonsOtherTracks)
+            }
+
+            if case ShowMoreButtonState.available = showMoreButtonState {
+                ShowMoreButton {
+                    onShowMoreButtonTap()
+                }
             }
         }
         .padding()
         .background(Color(ColorPalette.surface))
     }
 
-    private var topicsToRepeatList: some View {
-        VStack(alignment: .leading, spacing: appearance.smallPadding) {
+    private func buildRepeatList(repeatButtons: [RepeatButtonInfo]) -> some View {
+        VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
             ForEach(repeatButtons, id: \.topicID) { buttonInfo in
                 Button(
                     action: {
@@ -60,21 +74,11 @@ struct TopicsRepetitionsRepeatBlock: View {
                 .buttonStyle(appearance.buttonStyle)
             }
 
-            switch showMoreButtonState {
-            case ShowMoreButtonState.available:
-                ShowMoreButton {
-                    onShowMoreButtonTap()
-                }
-                .padding(.top, appearance.largePadding - appearance.smallPadding)
-            case ShowMoreButtonState.loading:
+            if case ShowMoreButtonState.loading = showMoreButtonState {
                 ForEach(0..<topicsToRepeatWillLoadedCount, id: \.self) { _ in
                     SkeletonRoundedView()
                         .frame(height: appearance.buttonStyle.minHeight)
                 }
-            case ShowMoreButtonState.empty:
-                EmptyView()
-            default:
-                Text("Unkwown state")
             }
         }
     }
@@ -86,21 +90,45 @@ struct TopicsRepetitionsRepeatBlock_Previews: PreviewProvider {
             TopicsRepetitionsRepeatBlock(
                 repeatBlockTitle: "All 8 topics to repeat",
                 trackTopicsTitle: "Topics from track Python Core",
-                            repeatButtons: [
-                                RepeatButtonInfo(topicID: 1, title: "Variables", onTap: {}),
-                                RepeatButtonInfo(topicID: 2, title: "Quotes and multi-line strings", onTap: {}),
-                                RepeatButtonInfo(topicID: 3, title: "Basic data types", onTap: {})
-                            ],
-                showMoreButtonState: ShowMoreButtonState.available,
+                repeatButtonsCurrentTrack: [
+                    RepeatButtonInfo(topicID: 1, title: "Variables", onTap: {}),
+                    RepeatButtonInfo(topicID: 2, title: "Quotes and multi-line strings", onTap: {}),
+                    RepeatButtonInfo(topicID: 3, title: "Basic data types", onTap: {})
+                ],
+                repeatButtonsOtherTracks: [],
+                showMoreButtonState: ShowMoreButtonState.loading,
                 onShowMoreButtonTap: {},
                 topicsToRepeatWillLoadedCount: 5
             )
 
             TopicsRepetitionsRepeatBlock(
                 repeatBlockTitle: "All topics to repeat",
-                trackTopicsTitle: "There are no topics to repeat for the Python Core track",
-                repeatButtons: [],
+                trackTopicsTitle: "Topics from track Python Core",
+                repeatButtonsCurrentTrack: [],
+                repeatButtonsOtherTracks: [
+                    RepeatButtonInfo(topicID: 1, title: "Variables", onTap: {}),
+                    RepeatButtonInfo(topicID: 2, title: "Quotes and multi-line strings", onTap: {}),
+                    RepeatButtonInfo(topicID: 3, title: "Basic data types", onTap: {})
+                ],
                 showMoreButtonState: ShowMoreButtonState.empty,
+                onShowMoreButtonTap: {},
+                topicsToRepeatWillLoadedCount: 5
+            )
+
+            TopicsRepetitionsRepeatBlock(
+                repeatBlockTitle: "All topics to repeat",
+                trackTopicsTitle: "Topics from track Python Core",
+                repeatButtonsCurrentTrack: [
+                    RepeatButtonInfo(topicID: 1, title: "Variables", onTap: {}),
+                    RepeatButtonInfo(topicID: 2, title: "Quotes and multi-line strings", onTap: {}),
+                    RepeatButtonInfo(topicID: 3, title: "Basic data types", onTap: {})
+                ],
+                repeatButtonsOtherTracks: [
+                    RepeatButtonInfo(topicID: 1, title: "Variables", onTap: {}),
+                    RepeatButtonInfo(topicID: 2, title: "Quotes and multi-line strings", onTap: {}),
+                    RepeatButtonInfo(topicID: 3, title: "Basic data types", onTap: {})
+                ],
+                showMoreButtonState: ShowMoreButtonState.available,
                 onShowMoreButtonTap: {},
                 topicsToRepeatWillLoadedCount: 5
             )

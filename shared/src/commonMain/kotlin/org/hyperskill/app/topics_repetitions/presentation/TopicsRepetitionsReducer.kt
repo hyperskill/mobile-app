@@ -24,9 +24,10 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                 if (state is State.Loading) {
                     State.Content(
                         message.topicsRepetitions,
-                        message.topicsToRepeat,
                         message.recommendedRepetitionsCount,
-                        message.trackTitle
+                        message.trackTitle,
+                        message.remainRepetitionsCount,
+                        message.repeatedTotalByCount
                     ) to emptySet()
                 } else {
                     null
@@ -38,22 +39,23 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                     null
                 }
             is Message.ShowMoreButtonClicked ->
-                if (state is State.Content && state.topicsRepetitions.repetitions.isNotEmpty()) {
-                    state.copy(nextTopicsLoading = true) to setOf(Action.FetchNextTopics(state.topicsRepetitions))
+                if (state is State.Content && state.remainRepetitionsCount > 0) {
+                    state.copy(nextTopicsLoading = true) to setOf(Action.FetchNextTopics(nextPage = state.page.inc()))
                 } else {
                     null
                 }
-            is Message.NextTopicsLoaded.Success ->
+            is Message.NextTopicsRepetitionsLoaded.Success ->
                 if (state is State.Content) {
                     state.copy(
-                        topicsRepetitions = message.remainingTopicsRepetitions,
-                        topicsToRepeat = state.topicsToRepeat + message.nextTopicsToRepeat,
-                        nextTopicsLoading = false
+                        topicsRepetitions = state.topicsRepetitions + message.nextTopicsRepetitions,
+                        page = message.nextPage,
+                        nextTopicsLoading = false,
+                        remainRepetitionsCount = state.remainRepetitionsCount - message.nextTopicsRepetitions.count()
                     ) to emptySet()
                 } else {
                     null
                 }
-            is Message.NextTopicsLoaded.Error ->
+            is Message.NextTopicsRepetitionsLoaded.Error ->
                 if (state is State.Content) {
                     state.copy(nextTopicsLoading = false) to setOf(Action.ViewAction.ShowNetworkError)
                 } else {
@@ -61,19 +63,13 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                 }
             is Message.StepCompleted ->
                 if (state is State.Content) {
-                    state.topicsToRepeat.firstOrNull { it.stepId == message.stepId }?.topicId?.let { topicId ->
-                        val repeatedCount = state.topicsToRepeat
-                            .firstOrNull { it.topicId == topicId }
-                            ?.repeatedCount
-
+                    state.topicsRepetitions.firstOrNull { it.steps.contains(message.stepId) }?.let { completedRepetition ->
                         state.copy(
-                            topicsRepetitions = state.topicsRepetitions.copy(
-                                repetitionsByCount = getNewChartData(
-                                    oldChartData = state.topicsRepetitions.repetitionsByCount.toMutableMap(),
-                                    repeatedCount = repeatedCount
-                                )
+                            topicsRepetitions = state.topicsRepetitions.filter { it.id != completedRepetition.id },
+                            repeatedTotalByCount = getNewChartData(
+                                oldChartData = state.repeatedTotalByCount.toMutableMap(),
+                                repeatedCount = completedRepetition.repeatedCount
                             ),
-                            topicsToRepeat = state.topicsToRepeat.filter { it.topicId != topicId },
                             recommendedRepetitionsCount = max(state.recommendedRepetitionsCount.dec(), 0)
                         ) to setOf(Action.NotifyTopicRepeated)
                     }
@@ -83,8 +79,8 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
             is Message.RepeatNextTopicClicked -> {
                 if (state is State.Content) {
                     state to buildSet {
-                        state.topicsToRepeat.firstOrNull()?.let { topicToRepeat ->
-                            add(Action.ViewAction.NavigateTo.StepScreen(topicToRepeat.stepId))
+                        state.topicsRepetitions.firstOrNull()?.let { topicToRepeat ->
+                            add(Action.ViewAction.NavigateTo.StepScreen(topicToRepeat.steps.first()))
                         }
                         add(Action.LogAnalyticEvent(TopicsRepetitionsClickedRepeatNextTopicHyperskillAnalyticEvent()))
                     }

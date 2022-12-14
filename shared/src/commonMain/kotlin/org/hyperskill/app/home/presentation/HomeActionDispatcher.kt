@@ -4,7 +4,6 @@ import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -29,6 +28,7 @@ import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.streak.domain.interactor.StreakInteractor
+import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class HomeActionDispatcher(
@@ -36,11 +36,11 @@ class HomeActionDispatcher(
     private val homeInteractor: HomeInteractor,
     private val streakInteractor: StreakInteractor,
     private val profileInteractor: ProfileInteractor,
+    private val topicsRepetitionsInteractor: TopicsRepetitionsInteractor,
     private val stepInteractor: StepInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
-    private val urlPathProcessor: UrlPathProcessor,
-    private val topicRepeatedSharedFlow: SharedFlow<Unit>
+    private val urlPathProcessor: UrlPathProcessor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     companion object {
@@ -64,7 +64,7 @@ class HomeActionDispatcher(
         }
 
         actionScope.launch {
-            topicRepeatedSharedFlow.collect {
+            topicsRepetitionsInteractor.topicRepeatedSharedFlow.collect {
                 onNewMessage(Message.TopicRepeated)
             }
         }
@@ -86,8 +86,7 @@ class HomeActionDispatcher(
                     .getCurrentProfile(DataSourceType.REMOTE) // ALTAPPS-303: Get from remote to get relevant problem of the day
                     .getOrElse {
                         sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                        onNewMessage(Message.HomeFailure)
-                        return
+                        return onNewMessage(Message.HomeFailure)
                     }
 
                 val problemOfDayStateResult = actionScope.async {
@@ -96,17 +95,22 @@ class HomeActionDispatcher(
                 val currentProfileStreaksResult = actionScope.async {
                     streakInteractor.getStreaks(currentProfile.id)
                 }
+                val topicsRepetitionsStatisticsResult = actionScope.async {
+                    topicsRepetitionsInteractor.getTopicsRepetitionStatistics()
+                }
 
                 val problemOfDayState = problemOfDayStateResult.await().getOrElse {
                     sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                    onNewMessage(Message.HomeFailure)
-                    return
+                    return onNewMessage(Message.HomeFailure)
                 }
                 val currentProfileStreaks = currentProfileStreaksResult.await().getOrElse {
                     sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                    onNewMessage(Message.HomeFailure)
-                    return
+                    return onNewMessage(Message.HomeFailure)
                 }
+                val recommendedRepetitionsCount = topicsRepetitionsStatisticsResult.await().getOrElse {
+                    sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
+                    return onNewMessage(Message.HomeFailure)
+                }.recommendTodayCount
 
                 sentryInteractor.finishTransaction(sentryTransaction)
 
@@ -115,7 +119,7 @@ class HomeActionDispatcher(
                         streak = currentProfileStreaks.firstOrNull(),
                         hypercoinsBalance = currentProfile.gamification.hypercoinsBalance,
                         problemOfDayState = problemOfDayState,
-                        recommendedRepetitionsCount = currentProfile.recommendedRepetitionsCount
+                        recommendedRepetitionsCount = recommendedRepetitionsCount
                     )
                 )
                 onNewMessage(Message.ReadyToLaunchNextProblemInTimer)

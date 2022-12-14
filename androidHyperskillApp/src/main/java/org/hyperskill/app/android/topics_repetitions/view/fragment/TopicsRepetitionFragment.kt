@@ -144,7 +144,7 @@ class TopicsRepetitionFragment :
                         TopicsRepetitionListState(
                             repeatBlockTitle = it.repeatBlockTitle,
                             trackTopicsTitle = it.trackTopicsTitle,
-                            topicsToRepeat = it.topicsToRepeat,
+                            topicsToRepeat = it.topicsToRepeatFromCurrentTrack,
                             topicsToRepeatWillLoadedCount = it.topicsToRepeatWillLoadedCount,
                             showMoreButtonState = it.showMoreButtonState
                         )
@@ -152,7 +152,7 @@ class TopicsRepetitionFragment :
                     state = TopicsRepetitionListState(
                         repeatBlockTitle = viewState.repeatBlockTitle,
                         trackTopicsTitle = viewState.trackTopicsTitle,
-                        topicsToRepeat = viewState.topicsToRepeat,
+                        topicsToRepeat = viewState.topicsToRepeatFromCurrentTrack,
                         topicsToRepeatWillLoadedCount = viewState.topicsToRepeatWillLoadedCount,
                         showMoreButtonState = viewState.showMoreButtonState
                     )

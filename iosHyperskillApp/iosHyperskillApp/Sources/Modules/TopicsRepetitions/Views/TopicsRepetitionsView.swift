@@ -98,15 +98,10 @@ struct TopicsRepetitionsView: View {
                 TopicsRepetitionsRepeatBlock(
                     repeatBlockTitle: viewData.repeatBlockTitle,
                     trackTopicsTitle: viewData.trackTopicsTitle,
-                    repeatButtons: viewData.topicsToRepeat.map { topic in
-                        RepeatButtonInfo(
-                            topicID: Int(topic.topicId),
-                            title: topic.title,
-                            onTap: {
-                                viewModel.doRepeatTopic(stepID: topic.stepId)
-                            }
-                        )
-                    },
+                    repeatButtonsCurrentTrack: viewData.topicsToRepeatFromCurrentTrack
+                        .map(mapTopicToRepeatButtonInfo(topic:)),
+                    repeatButtonsOtherTracks: viewData.topicsToRepeatFromOtherTracks
+                        .map(mapTopicToRepeatButtonInfo(topic:)),
                     showMoreButtonState: viewData.showMoreButtonState,
                     onShowMoreButtonTap: viewModel.doLoadNextTopics,
                     topicsToRepeatWillLoadedCount: Int(viewData.topicsToRepeatWillLoadedCount)
@@ -116,6 +111,16 @@ struct TopicsRepetitionsView: View {
             TopicsRepetitionsInfoBlock()
                 .padding(.bottom, appearance.padding)
         }
+    }
+
+    private func mapTopicToRepeatButtonInfo(topic: TopicToRepeat) -> RepeatButtonInfo {
+        RepeatButtonInfo(
+            topicID: Int(topic.topicId),
+            title: topic.title,
+            onTap: {
+                viewModel.doRepeatTopic(stepID: topic.stepId)
+            }
+        )
     }
 
     private func handleViewAction(_ viewAction: TopicsRepetitionsFeatureActionViewAction) {
