@@ -296,6 +296,7 @@
 		2CE31F4827F1BB79008EEE66 /* AuthSocialAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4727F1BB79008EEE66 /* AuthSocialAssembly.swift */; };
 		2CE31F4B27F1E070008EEE66 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4A27F1E070008EEE66 /* AppViewModel.swift */; };
 		2CE31F4D27F1E0C8008EEE66 /* AppAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4C27F1E0C8008EEE66 /* AppAssembly.swift */; };
+		2CEB33772949930B00B9E437 /* StepQuizSQLSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB33762949930B00B9E437 /* StepQuizSQLSkeletonView.swift */; };
 		2CEB50C6288A92820044F9AB /* StepExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB50C5288A92820044F9AB /* StepExtensions.swift */; };
 		2CEB50C8288A94050044F9AB /* BlockExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB50C7288A94050044F9AB /* BlockExtensions.swift */; };
 		2CEB50CB288A95D70044F9AB /* KotlinxDatetimeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB50CA288A95D70044F9AB /* KotlinxDatetimeExtensions.swift */; };
@@ -708,6 +709,7 @@
 		2CE31F4727F1BB79008EEE66 /* AuthSocialAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialAssembly.swift; sourceTree = "<group>"; };
 		2CE31F4A27F1E070008EEE66 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		2CE31F4C27F1E0C8008EEE66 /* AppAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAssembly.swift; sourceTree = "<group>"; };
+		2CEB33762949930B00B9E437 /* StepQuizSQLSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSQLSkeletonView.swift; sourceTree = "<group>"; };
 		2CEB50C5288A92820044F9AB /* StepExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepExtensions.swift; sourceTree = "<group>"; };
 		2CEB50C7288A94050044F9AB /* BlockExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockExtensions.swift; sourceTree = "<group>"; };
 		2CEB50CA288A95D70044F9AB /* KotlinxDatetimeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KotlinxDatetimeExtensions.swift; sourceTree = "<group>"; };
@@ -1417,9 +1419,9 @@
 			isa = PBXGroup;
 			children = (
 				2C5CBBE42948FA7400113007 /* StepQuizSQLAssembly.swift */,
-				2C5CBBE62948FC7A00113007 /* StepQuizSQLView.swift */,
 				2C5CBBE02948EBEA00113007 /* StepQuizSQLViewDataMapper.swift */,
 				2C5CBBE22948F4B600113007 /* StepQuizSQLViewModel.swift */,
+				2CEB33782949933A00B9E437 /* Views */,
 			);
 			path = StepQuizSQL;
 			sourceTree = "<group>";
@@ -2074,6 +2076,15 @@
 				2CDF14D328EEFA850060D972 /* ViewControllers */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		2CEB33782949933A00B9E437 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2CEB33762949930B00B9E437 /* StepQuizSQLSkeletonView.swift */,
+				2C5CBBE62948FC7A00113007 /* StepQuizSQLView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		2CEB50C9288A95BF0044F9AB /* Kotlinx_datetime */ = {
@@ -2818,6 +2829,7 @@
 				2CEB50D0288AADA40044F9AB /* StepQuizCodeFullScreenDetailsView.swift in Sources */,
 				2C65637A28744DDA006AAD77 /* TrackHeaderView.swift in Sources */,
 				2C8E4FB42848CB980011ADFA /* StepQuizTableSelectColumnsColumnView.swift in Sources */,
+				2CEB33772949930B00B9E437 /* StepQuizSQLSkeletonView.swift in Sources */,
 				2CB45762288EC29D007C2D77 /* StepQuizActionButtons.swift in Sources */,
 				E9859B91292E414300857679 /* RepeatButtonInfo.swift in Sources */,
 				2C6B30A628B7C3F300609CE8 /* AuthNewUserPlaceholderViewModel.swift in Sources */,
