@@ -8,7 +8,7 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.DateTimeHelper
-import org.hyperskill.app.android.notification.model.ClickedNotificationData
+import org.hyperskill.app.android.notification.model.DailyStudyReminderClickedData
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
 import org.hyperskill.app.notification.domain.analytic.NotificationDailyStudyReminderShownHyperskillAnalyticEvent
 import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
@@ -30,18 +30,15 @@ class DailyStudyReminderNotificationDelegate(
         }
         scheduleDailyNotification()
 
+        val notificationDescription = notificationInteractor.getRandomDailyStudyRemindersNotificationDescription()
+
         val pendingIntent = with(NotificationIntentBuilder) {
             buildActivityPendingIntent(context) {
                 addClickedNotificationDataExtra(
-                    ClickedNotificationData(
-                        notificationId = NotificationId,
-                        notificationChannel = HyperskillNotificationChannel.DailyReminder
-                    )
+                    DailyStudyReminderClickedData(notificationId = notificationDescription.id)
                 )
             }
         }
-
-        val notificationDescription = notificationInteractor.getRandomDailyStudyRemindersNotificationDescription()
 
         val notification = NotificationCompat.Builder(context, HyperskillNotificationChannel.DailyReminder.channelId)
             .setContentTitle(notificationDescription.title)
@@ -55,13 +52,7 @@ class DailyStudyReminderNotificationDelegate(
 
         showNotification(NotificationId, notification.build())
 
-        val event = NotificationDailyStudyReminderShownHyperskillAnalyticEvent(
-            route = HyperskillAnalyticRoute.Home(),
-            notificationId = NotificationId.toInt(),
-            plannedAtISO8601 = SimpleDateFormat(DateTimeHelper.ISO_PATTERN).format(Calendar.getInstance().time)
-        )
-
-        analyticInteractor.reportEvent(event)
+        logShownNotificationEvent(notificationDescription.id)
     }
 
     fun scheduleDailyNotification() {
@@ -84,5 +75,15 @@ class DailyStudyReminderNotificationDelegate(
         }
 
         scheduleNotificationAt(nextNotificationMillis)
+    }
+
+    private fun logShownNotificationEvent(notificationId: Int) {
+        val event = NotificationDailyStudyReminderShownHyperskillAnalyticEvent(
+            route = HyperskillAnalyticRoute.Home(),
+            notificationId = notificationId,
+            plannedAtISO8601 = SimpleDateFormat(DateTimeHelper.ISO_PATTERN).format(Calendar.getInstance().time)
+        )
+
+        analyticInteractor.reportEvent(event)
     }
 }

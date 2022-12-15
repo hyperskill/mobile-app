@@ -25,7 +25,8 @@ import org.hyperskill.app.android.databinding.ActivityMainBinding
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.notification.NotificationIntentBuilder
 import org.hyperskill.app.android.notification.model.ClickedNotificationData
-import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
+import org.hyperskill.app.android.notification.model.DailyStudyReminderClickedData
+import org.hyperskill.app.android.notification.model.DefaultNotificationClickedData
 import org.hyperskill.app.android.onboarding.navigation.OnboardingScreen
 import org.hyperskill.app.android.placeholder_new_user.navigation.PlaceholderNewUserScreen
 import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper
@@ -168,17 +169,17 @@ class MainActivity :
     private fun logNotificationClickedEvent(
         clickedNotificationData: ClickedNotificationData
     ) {
-        when (clickedNotificationData.notificationChannel) {
-            HyperskillNotificationChannel.DailyReminder -> {
+        when (clickedNotificationData) {
+            is DailyStudyReminderClickedData -> {
                 lifecycleScope.launch {
                     analyticInteractor.logEvent(
                         NotificationDailyStudyReminderClickedHyperskillAnalyticEvent(
-                            notificationId = clickedNotificationData.notificationId.toInt()
+                            notificationId = clickedNotificationData.notificationId
                         )
                     )
                 }
             }
-            HyperskillNotificationChannel.Other -> {
+            is DefaultNotificationClickedData -> {
                 // no op
             }
         }
