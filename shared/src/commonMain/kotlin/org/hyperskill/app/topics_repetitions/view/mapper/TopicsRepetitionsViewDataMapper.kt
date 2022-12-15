@@ -50,7 +50,7 @@ class TopicsRepetitionsViewDataMapper(
             topicsToRepeatFromOtherTracks = mapTopicsRepetitionsToTopicsToRepeat(state.topicsRepetitions.filter { !it.isInCurrentTrack }),
             showMoreButtonState = if (state.nextTopicsLoading) {
                 ShowMoreButtonState.LOADING
-            } else if (state.topicRepetitionStatistics.totalCount > state.topicsRepetitions.count()) {
+            } else if (state.hasNextTopics) {
                 ShowMoreButtonState.AVAILABLE
             } else {
                 ShowMoreButtonState.EMPTY

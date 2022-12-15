@@ -38,7 +38,7 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                     null
                 }
             is Message.ShowMoreButtonClicked ->
-                if (state is State.Content && state.topicRepetitionStatistics.totalCount > state.topicsRepetitions.count()) {
+                if (state is State.Content && state.hasNextTopics) {
                     state.copy(nextTopicsLoading = true) to setOf(
                         Action.FetchNextTopics(
                             nextPage = (state.topicsRepetitions.count() / TopicsRepetitionsActionDispatcher.TOPICS_PAGINATION_SIZE) + 1

@@ -14,7 +14,9 @@ interface TopicsRepetitionsFeature {
             val topicRepetitionStatistics: TopicRepetitionStatistics,
             val trackTitle: String,
             val nextTopicsLoading: Boolean = false
-        ) : State
+        ) : State {
+            val hasNextTopics: Boolean = topicRepetitionStatistics.totalCount > topicsRepetitions.count()
+        }
 
         object NetworkError : State
     }
