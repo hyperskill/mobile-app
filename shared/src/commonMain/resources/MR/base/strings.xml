@@ -131,6 +131,9 @@
     <string name="step_quiz_code_empty_lang">No lang</string>
     <string name="step_quiz_code_reset">Reset</string>
 
+    <!-- Step quiz code -->
+    <string name="step_quiz_sql_title">Write an SQL statement</string>
+
     <!-- Tab bar -->
     <string name="tab_bar_home_title">Home</string>
     <string name="tab_bar_track_title">Track</string>
@@ -238,11 +241,13 @@
 
 
     <!-- Placeholder for new users -->
-    <string name="placeholder_register_text">Sign up and select a track</string>
-    <string name="placeholder_instruction_text">To get access to the content you should register at our website and select a learning track.</string>
-    <string name="placeholder_continue_button_text">Continue to hyperskill.org \u2197</string>
-    <string name="placeholder_continue_button_text_ios">Continue to hyperskill.org ↗</string>
-    <string name="placeholder_first_description_text">My Hyperskill helps you practice what you’ve learned and stay on top of your studies. We are working hard to bring even more features. Stay tuned :)</string>
+    <string name="placeholder_new_user_title">What is your learning goal?</string>
+    <string name="placeholder_new_user_text">
+        Explore all tracks and find the right one by choosing a specific area of knowledge
+    </string>
+    <string name="placeholder_new_user_start_track_button_text">Start learning</string>
+    <string name="placeholder_new_user_start_track_success_message">Track successfully selected</string>
+    <string name="placeholder_new_user_start_track_error_message">Failed to select track</string>
 
     <!--  Notifications titles & descriptions  -->
     <string name="notification1_title">Keep it up</string>

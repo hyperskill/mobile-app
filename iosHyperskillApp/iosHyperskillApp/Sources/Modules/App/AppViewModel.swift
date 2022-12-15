@@ -93,8 +93,8 @@ extension AppViewModel: OnboardingOutputProtocol {
 // MARK: - AppViewModel: AuthNewUserPlaceholderOutputProtocol -
 
 extension AppViewModel: AuthNewUserPlaceholderOutputProtocol {
-    func handleAuthNewUserPlaceholderSignInRequested() {
-        onViewAction?(AppFeatureActionViewActionNavigateToAuthScreen())
+    func handleAuthNewUserPlaceholderDidRequestNavigateToHome() {
+        onViewAction?(AppFeatureActionViewActionNavigateToHomeScreen())
     }
 }
 

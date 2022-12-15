@@ -30,6 +30,7 @@ import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponent
 import org.hyperskill.app.track.injection.TrackComponent
+import org.hyperskill.app.track.injection.TrackDataComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 
 interface AppGraph {
@@ -49,6 +50,7 @@ interface AppGraph {
     fun buildStepQuizComponent(): StepQuizComponent
     fun buildProfileDataComponent(): ProfileDataComponent
     fun buildTrackComponent(): TrackComponent
+    fun buildTrackDataComponent(): TrackDataComponent
     fun buildProfileComponent(): ProfileComponent
     fun buildProfileSettingsComponent(): ProfileSettingsComponent
     fun buildHomeComponent(): HomeComponent

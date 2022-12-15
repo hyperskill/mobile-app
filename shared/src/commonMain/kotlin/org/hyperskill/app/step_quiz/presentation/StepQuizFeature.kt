@@ -57,7 +57,7 @@ interface StepQuizFeature {
          * Submit submission
          */
         data class CreateSubmissionClicked(val step: Step, val reply: Reply) : Message
-        data class CreateSubmissionSuccess(val submission: Submission) : Message
+        data class CreateSubmissionSuccess(val submission: Submission, val newAttempt: Attempt? = null) : Message
         object CreateSubmissionNetworkError : Message
         data class CreateSubmissionReplyValidationResult(
             val step: Step,
@@ -106,7 +106,7 @@ interface StepQuizFeature {
             val shouldResetReply: Boolean
         ) : Action
         data class CreateSubmissionValidateReply(val step: Step, val reply: Reply) : Action
-        data class CreateSubmission(val step: Step, val attemptId: Long, val reply: Reply) : Action
+        data class CreateSubmission(val step: Step, val attemptId: Long, val submission: Submission) : Action
 
         data class RequestUserPermissionResult(
             val userPermissionRequest: StepQuizUserPermissionRequest,

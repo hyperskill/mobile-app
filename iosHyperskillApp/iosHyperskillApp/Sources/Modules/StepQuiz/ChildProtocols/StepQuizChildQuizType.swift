@@ -4,6 +4,7 @@ import shared
 enum StepQuizChildQuizType {
     case choice
     case code
+    case sql
     case matching
     case sorting
     case table
@@ -12,12 +13,23 @@ enum StepQuizChildQuizType {
     case math
     case unsupported(blockName: String)
 
+    var isCodeOrSQL: Bool {
+        switch self {
+        case .code, .sql:
+            return true
+        default:
+            return false
+        }
+    }
+
     init(blockName: String) {
         switch blockName {
         case BlockName.shared.CHOICE:
             self = .choice
         case BlockName.shared.CODE:
             self = .code
+        case BlockName.shared.SQL:
+            self = .sql
         case BlockName.shared.MATCHING:
             self = .matching
         case BlockName.shared.SORTING:

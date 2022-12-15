@@ -56,5 +56,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     DAILY_STEP_COMPLETED_MODAL("daily_step_completed_modal"),
     CLOSE("close"),
     STREAK("streak"),
-    GEMS("gems")
+    GEMS("gems"),
+    TRACK_MODAL("track_modal"),
+    START_LEARNING("start_learning")
 }

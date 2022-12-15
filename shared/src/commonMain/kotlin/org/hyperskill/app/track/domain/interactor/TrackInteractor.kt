@@ -12,15 +12,8 @@ class TrackInteractor(
             return trackRepository.getTrack(trackId)
         }
 
-    suspend fun getTracks(trackIds: List<Long>): Result<List<Track>> =
-        kotlin.runCatching {
-            return trackRepository.getTracks(trackIds)
-        }
-
-    suspend fun getStudyPlans(): Result<List<StudyPlan>> =
-        kotlin.runCatching {
-            return trackRepository.getStudyPlans()
-        }
+    suspend fun getAllTracks(): Result<List<Track>> =
+        trackRepository.getAllTracks()
 
     suspend fun getStudyPlanByTrackId(trackId: Long): Result<StudyPlan> =
         kotlin.runCatching {

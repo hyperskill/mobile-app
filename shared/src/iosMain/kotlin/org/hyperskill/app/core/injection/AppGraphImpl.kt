@@ -63,6 +63,8 @@ import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComp
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponentImpl
 import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.track.injection.TrackComponentImpl
+import org.hyperskill.app.track.injection.TrackDataComponent
+import org.hyperskill.app.track.injection.TrackDataComponentImpl
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
 
@@ -128,6 +130,9 @@ class AppGraphImpl(
 
     override fun buildTrackComponent(): TrackComponent =
         TrackComponentImpl(this)
+
+    override fun buildTrackDataComponent(): TrackDataComponent =
+        TrackDataComponentImpl(this)
 
     override fun buildProfileComponent(): ProfileComponent =
         ProfileComponentImpl(this)

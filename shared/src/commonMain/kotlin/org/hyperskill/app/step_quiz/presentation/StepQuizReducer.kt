@@ -5,11 +5,11 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedCodeDetailsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedContinueHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRetryHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRunHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedSendHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizHiddenDailyNotificationsNoticeHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizShownDailyNotificationsNoticeHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedSendHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRunHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRetryHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.daily_step_completed_modal.StepQuizDailyStepCompletedModalClickedGoBackHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.daily_step_completed_modal.StepQuizDailyStepCompletedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.daily_step_completed_modal.StepQuizDailyStepCompletedModalShownHyperskillAnalyticEvent
@@ -88,9 +88,10 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
             is Message.CreateSubmissionClicked ->
                 if (state is State.AttemptLoaded) {
                     val analyticRoute = resolveAnalyticRoute(state)
-                    val analyticEvent = if (message.step.block.name == BlockName.CODE)
-                        StepQuizClickedRunHyperskillAnalyticEvent(analyticRoute)
-                    else StepQuizClickedSendHyperskillAnalyticEvent(analyticRoute)
+                    val analyticEvent =
+                        if (message.step.block.name == BlockName.CODE || message.step.block.name == BlockName.SQL)
+                            StepQuizClickedRunHyperskillAnalyticEvent(analyticRoute)
+                        else StepQuizClickedSendHyperskillAnalyticEvent(analyticRoute)
 
                     state to setOf(
                         Action.CreateSubmissionValidateReply(message.step, message.reply),
@@ -103,32 +104,23 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 if (state is State.AttemptLoaded) {
                     when (message.replyValidation) {
                         is ReplyValidationResult.Error -> {
-                            val submission = Submission(
-                                attempt = state.attempt.id,
-                                reply = message.reply,
-                                status = SubmissionStatus.LOCAL
-                            )
-
                             state.copy(
                                 submissionState = StepQuizFeature.SubmissionState.Loaded(
-                                    submission,
+                                    createLocalSubmission(state, message.reply),
                                     message.replyValidation
                                 )
                             ) to emptySet()
                         }
                         ReplyValidationResult.Success -> {
-                            val submission = Submission(
-                                attempt = state.attempt.id,
-                                reply = message.reply,
-                                status = SubmissionStatus.EVALUATION
-                            )
+                            val submission = createLocalSubmission(state, message.reply)
+                                .copy(status = SubmissionStatus.EVALUATION)
 
                             state.copy(
                                 submissionState = StepQuizFeature.SubmissionState.Loaded(
                                     submission,
                                     message.replyValidation
                                 )
-                            ) to setOf(Action.CreateSubmission(message.step, state.attempt.id, message.reply))
+                            ) to setOf(Action.CreateSubmission(message.step, state.attempt.id, submission))
                         }
                     }
                 } else {
@@ -136,7 +128,10 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
                 }
             is Message.CreateSubmissionSuccess ->
                 if (state is State.AttemptLoaded) {
-                    state.copy(submissionState = StepQuizFeature.SubmissionState.Loaded(message.submission)) to emptySet()
+                    state.copy(
+                        attempt = message.newAttempt ?: state.attempt,
+                        submissionState = StepQuizFeature.SubmissionState.Loaded(message.submission)
+                    ) to emptySet()
                 } else {
                     null
                 }
@@ -256,16 +251,13 @@ class StepQuizReducer : StateReducer<State, Message, Action> {
         } ?: (state to emptySet())
 
     private fun createLocalSubmission(oldState: State.AttemptLoaded, reply: Reply): Submission {
-        val submissionId = (oldState.submissionState as? StepQuizFeature.SubmissionState.Loaded)
-            ?.submission
-            ?.id
-            ?: 0
-
+        val submission = (oldState.submissionState as? StepQuizFeature.SubmissionState.Loaded)?.submission
         return Submission(
-            id = submissionId,
+            id = submission?.id ?: 0,
             attempt = oldState.attempt.id,
             reply = reply,
             status = SubmissionStatus.LOCAL,
+            originalStatus = submission?.originalStatus ?: submission?.status,
             time = Clock.System.now().toString()
         )
     }

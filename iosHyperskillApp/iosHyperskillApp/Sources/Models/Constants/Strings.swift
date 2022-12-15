@@ -52,11 +52,15 @@ enum Strings {
         // MARK: NewUserPlaceholder
 
         enum NewUserPlaceholder {
-            static let title = sharedStrings.placeholder_register_text.localized()
-            static let introText = sharedStrings.placeholder_instruction_text.localized()
-            static let continueButton = sharedStrings.placeholder_continue_button_text_ios.localized()
-            static let signInButton = Onboarding.signIn
-            static let possibilityText = sharedStrings.placeholder_first_description_text.localized()
+            static let title = sharedStrings.placeholder_new_user_title.localized()
+            static let subtitle = sharedStrings.placeholder_new_user_text.localized()
+
+            static let startLearningButton = sharedStrings.placeholder_new_user_start_track_button_text.localized()
+
+            enum TrackSelectionStatus {
+                static let error = sharedStrings.placeholder_new_user_start_track_error_message.localized()
+                static let success = sharedStrings.placeholder_new_user_start_track_success_message.localized()
+            }
         }
     }
 
@@ -126,6 +130,12 @@ enum Strings {
         static let fullScreenCodeTab = sharedStrings.step_quiz_code_full_screen_code_tab.localized()
         static let emptyLang = sharedStrings.step_quiz_code_empty_lang.localized()
         static let reset = sharedStrings.step_quiz_code_reset.localized()
+    }
+
+    // MARK: - StepQuizSQL -
+
+    enum StepQuizSQL {
+        static let title = sharedStrings.step_quiz_sql_title.localized()
     }
 
     // MARK: - StepQuizTable -
