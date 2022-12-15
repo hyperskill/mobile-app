@@ -144,7 +144,7 @@ class ProfileFragment :
 
             val notificationManagerCompat = NotificationManagerCompat.from(requireContext())
             profileDailyRemindersSwitchCompat.isChecked = notificationManagerCompat.isChannelNotificationsEnabled(
-                HyperskillNotificationChannel.DAILY_REMINDER.channelId
+                HyperskillNotificationChannel.DailyReminder.channelId
             ) && platformNotificationComponent.notificationInteractor.isDailyStudyRemindersEnabled()
 
             profileScheduleTextView.isVisible = profileDailyRemindersSwitchCompat.isChecked
@@ -170,10 +170,10 @@ class ProfileFragment :
                 return
             }
 
-            if (!notificationManager.isChannelNotificationsEnabled(HyperskillNotificationChannel.DAILY_REMINDER.channelId)) {
+            if (!notificationManager.isChannelNotificationsEnabled(HyperskillNotificationChannel.DailyReminder.channelId)) {
                 val intent: Intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
                     .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
-                    .putExtra(Settings.EXTRA_CHANNEL_ID, HyperskillNotificationChannel.DAILY_REMINDER.channelId)
+                    .putExtra(Settings.EXTRA_CHANNEL_ID, HyperskillNotificationChannel.DailyReminder.channelId)
                 startActivity(intent)
                 return
             }
