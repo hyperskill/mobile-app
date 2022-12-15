@@ -202,7 +202,6 @@ class ProfileFragment :
                 .newInstance()
                 .showIfNotExists(childFragmentManager, ProfileSettingsDialogFragment.TAG)
         }
-
     }
 
     override fun onDestroyView() {
