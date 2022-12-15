@@ -46,5 +46,5 @@ enum class NotificationType(val channel: HyperskillNotificationChannel) {
 //    learn(HyperskillNotificationChannel.learn),
 
     @SerialName("default")
-    other(HyperskillNotificationChannel.other)
+    other(HyperskillNotificationChannel.Other)
 }

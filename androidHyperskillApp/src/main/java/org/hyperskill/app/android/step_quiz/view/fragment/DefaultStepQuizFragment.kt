@@ -199,10 +199,10 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
                     return@setPositiveButton
                 }
 
-                if (!notificationManagerCompat.isChannelNotificationsEnabled(HyperskillNotificationChannel.DAILY_REMINDER.channelId)) {
+                if (!notificationManagerCompat.isChannelNotificationsEnabled(HyperskillNotificationChannel.DailyReminder.channelId)) {
                     val intent: Intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
                         .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
-                        .putExtra(Settings.EXTRA_CHANNEL_ID, HyperskillNotificationChannel.DAILY_REMINDER.channelId)
+                        .putExtra(Settings.EXTRA_CHANNEL_ID, HyperskillNotificationChannel.DailyReminder.channelId)
                     startActivity(intent)
                     return@setPositiveButton
                 }
