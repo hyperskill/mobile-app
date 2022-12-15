@@ -52,7 +52,7 @@ class TopicsRepetitionsActionDispatcher(
                     sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                     return onNewMessage(Message.TopicsRepetitionsLoaded.Error)
                 }
-                val topicsRepetitionsStatistics = topicsRepetitionsStatisticsResult.await().getOrElse {
+                val topicRepetitionStatistics = topicsRepetitionsStatisticsResult.await().getOrElse {
                     sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                     return onNewMessage(Message.TopicsRepetitionsLoaded.Error)
                 }
@@ -66,10 +66,8 @@ class TopicsRepetitionsActionDispatcher(
                 onNewMessage(
                     Message.TopicsRepetitionsLoaded.Success(
                         topicsRepetitions = topicsRepetitions,
-                        recommendedRepetitionsCount = action.recommendedRepetitionsCount,
-                        trackTitle = currentProfile.trackTitle ?: "",
-                        remainRepetitionsCount = topicsRepetitionsStatistics.totalCount - topicsRepetitions.count(),
-                        repeatedTotalByCount = topicsRepetitionsStatistics.repeatedTotalByCount
+                        topicRepetitionStatistics = topicRepetitionStatistics,
+                        trackTitle = currentProfile.trackTitle ?: ""
                     )
                 )
             }

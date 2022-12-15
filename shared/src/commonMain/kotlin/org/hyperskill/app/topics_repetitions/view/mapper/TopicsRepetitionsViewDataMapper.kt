@@ -14,16 +14,15 @@ import org.hyperskill.app.topics_repetitions.view.model.TopicsRepetitionsViewDat
 class TopicsRepetitionsViewDataMapper(
     private val resourceProvider: ResourceProvider
 ) {
-    fun mapStateToViewData(state: TopicsRepetitionsFeature.State.Content): TopicsRepetitionsViewData {
-        val allRepetitionsCount = state.topicsRepetitions.count() + state.remainRepetitionsCount
-
-        return TopicsRepetitionsViewData(
+    fun mapStateToViewData(state: TopicsRepetitionsFeature.State.Content): TopicsRepetitionsViewData =
+        TopicsRepetitionsViewData(
             repetitionsStatus = getRepetitionsStatus(
-                state.recommendedRepetitionsCount,
-                allRepetitionsCount,
+                state.topicRepetitionStatistics.recommendTodayCount,
+                state.topicRepetitionStatistics.totalCount,
                 state.topicsRepetitions.firstOrNull()
             ),
-            chartData = state.repeatedTotalByCount.toList().sortedBy { it.first }
+            chartData = state.topicRepetitionStatistics.repeatedTotalByCount.toList()
+                .sortedBy { it.first }
                 .map {
                     Pair(
                         resourceProvider.getQuantityString(
@@ -38,30 +37,29 @@ class TopicsRepetitionsViewDataMapper(
                 SharedResources.strings.topics_repetitions_chart_description,
                 resourceProvider.getQuantityString(
                     SharedResources.plurals.topics,
-                    state.repeatedTotalByCount.values.sum(),
-                    state.repeatedTotalByCount.values.sum()
+                    state.topicRepetitionStatistics.repeatedTotalByCount.values.sum(),
+                    state.topicRepetitionStatistics.repeatedTotalByCount.values.sum()
                 )
             ),
-            repeatBlockTitle = mapRepetitionsCountToRepeatBlockTitle(allRepetitionsCount),
+            repeatBlockTitle = mapRepetitionsCountToRepeatBlockTitle(state.topicRepetitionStatistics.totalCount),
             trackTopicsTitle = resourceProvider.getString(
                 SharedResources.strings.topics_repetitions_repeat_block_current_track,
                 state.trackTitle
             ),
             topicsToRepeatFromCurrentTrack = mapTopicsRepetitionsToTopicsToRepeat(state.topicsRepetitions.filter { it.isInCurrentTrack }),
-            topicsToRepeatFromOtherTracks = mapTopicsRepetitionsToTopicsToRepeat(state.topicsRepetitions.filter { it.isInCurrentTrack.not() }),
+            topicsToRepeatFromOtherTracks = mapTopicsRepetitionsToTopicsToRepeat(state.topicsRepetitions.filter { !it.isInCurrentTrack }),
             showMoreButtonState = if (state.nextTopicsLoading) {
                 ShowMoreButtonState.LOADING
-            } else if (state.remainRepetitionsCount > 0) {
+            } else if (state.topicRepetitionStatistics.totalCount > state.topicsRepetitions.count()) {
                 ShowMoreButtonState.AVAILABLE
             } else {
                 ShowMoreButtonState.EMPTY
             },
             topicsToRepeatWillLoadedCount = min(
-                state.remainRepetitionsCount,
+                state.topicRepetitionStatistics.totalCount - state.topicsRepetitions.count(),
                 TopicsRepetitionsActionDispatcher.TOPICS_PAGINATION_SIZE
             )
         )
-    }
 
     private fun mapRepetitionsCountToRepeatBlockTitle(repetitionsCount: Int): String =
         if (repetitionsCount == 0) {
@@ -81,9 +79,7 @@ class TopicsRepetitionsViewDataMapper(
         topicsRepetitions.map { topicRepetition ->
             TopicToRepeat(
                 topicId = topicRepetition.topicId,
-                title = topicRepetition.topicTitle,
-                stepId = topicRepetition.steps.first(),
-                repeatedCount = topicRepetition.repeatedCount
+                title = topicRepetition.topicTitle
             )
         }
 

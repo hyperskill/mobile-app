@@ -4,6 +4,7 @@ import kotlin.math.max
 import org.hyperskill.app.topics_repetitions.domain.analytic.TopicsRepetitionsClickedRepeatNextTopicHyperskillAnalyticEvent
 import org.hyperskill.app.topics_repetitions.domain.analytic.TopicsRepetitionsClickedRepeatTopicHyperskillAnalyticEvent
 import org.hyperskill.app.topics_repetitions.domain.analytic.TopicsRepetitionsViewedHyperskillAnalyticEvent
+import org.hyperskill.app.topics_repetitions.domain.model.TopicRepetitionStatistics
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Action
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Message
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.State
@@ -16,7 +17,7 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                 if (state is State.Idle ||
                     (message.forceUpdate && (state is State.Content || state is State.NetworkError))
                 ) {
-                    State.Loading to setOf(Action.Initialize(message.recommendedRepetitionsCount))
+                    State.Loading to setOf(Action.Initialize)
                 } else {
                     null
                 }
@@ -24,10 +25,8 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                 if (state is State.Loading) {
                     State.Content(
                         message.topicsRepetitions,
-                        message.recommendedRepetitionsCount,
-                        message.trackTitle,
-                        message.remainRepetitionsCount,
-                        message.repeatedTotalByCount
+                        message.topicRepetitionStatistics,
+                        message.trackTitle
                     ) to emptySet()
                 } else {
                     null
@@ -39,8 +38,12 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                     null
                 }
             is Message.ShowMoreButtonClicked ->
-                if (state is State.Content && state.remainRepetitionsCount > 0) {
-                    state.copy(nextTopicsLoading = true) to setOf(Action.FetchNextTopics(nextPage = state.page.inc()))
+                if (state is State.Content && state.topicRepetitionStatistics.totalCount > state.topicsRepetitions.count()) {
+                    state.copy(nextTopicsLoading = true) to setOf(
+                        Action.FetchNextTopics(
+                            nextPage = (state.topicsRepetitions.count() / TopicsRepetitionsActionDispatcher.TOPICS_PAGINATION_SIZE) + 1
+                        )
+                    )
                 } else {
                     null
                 }
@@ -48,9 +51,7 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                 if (state is State.Content) {
                     state.copy(
                         topicsRepetitions = state.topicsRepetitions + message.nextTopicsRepetitions,
-                        page = message.nextPage,
                         nextTopicsLoading = false,
-                        remainRepetitionsCount = state.remainRepetitionsCount - message.nextTopicsRepetitions.count()
                     ) to emptySet()
                 } else {
                     null
@@ -66,11 +67,15 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                     state.topicsRepetitions.firstOrNull { it.steps.contains(message.stepId) }?.let { completedRepetition ->
                         state.copy(
                             topicsRepetitions = state.topicsRepetitions.filter { it.id != completedRepetition.id },
-                            repeatedTotalByCount = getNewChartData(
-                                oldChartData = state.repeatedTotalByCount.toMutableMap(),
-                                repeatedCount = completedRepetition.repeatedCount
-                            ),
-                            recommendedRepetitionsCount = max(state.recommendedRepetitionsCount.dec(), 0)
+                            topicRepetitionStatistics = TopicRepetitionStatistics(
+                                recommendTodayCount = max(state.topicRepetitionStatistics.recommendTodayCount - 1, 0),
+                                repeatedTodayCount = state.topicRepetitionStatistics.repeatedTodayCount + 1,
+                                totalCount = state.topicRepetitionStatistics.totalCount - 1,
+                                repeatedTotalByCount = getNewChartData(
+                                    oldChartData = state.topicRepetitionStatistics.repeatedTotalByCount.toMutableMap(),
+                                    repeatedCount = completedRepetition.repeatedCount
+                                )
+                            )
                         ) to setOf(Action.NotifyTopicRepeated)
                     }
                 } else {
@@ -89,10 +94,16 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                 }
             }
             is Message.RepeatTopicClicked -> {
-                state to setOf(
-                    Action.ViewAction.NavigateTo.StepScreen(message.stepId),
-                    Action.LogAnalyticEvent(TopicsRepetitionsClickedRepeatTopicHyperskillAnalyticEvent())
-                )
+                if (state is State.Content) {
+                    state.topicsRepetitions.firstOrNull { it.topicId == message.topicId }?.let { topicRepetition ->
+                        state to setOf(
+                            Action.ViewAction.NavigateTo.StepScreen(topicRepetition.steps.first()),
+                            Action.LogAnalyticEvent(TopicsRepetitionsClickedRepeatTopicHyperskillAnalyticEvent())
+                        )
+                    }
+                } else {
+                    null
+                }
             }
             is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(TopicsRepetitionsViewedHyperskillAnalyticEvent()))

@@ -279,8 +279,8 @@ class AndroidAppComponentImpl(
     override fun buildTopicsRepetitionsComponent(): TopicsRepetitionsComponent =
         TopicsRepetitionsComponentImpl(this)
 
-    override fun buildPlatformTopicsRepetitionsComponent(recommendedRepetitionsCount: Int): PlatformTopicsRepetitionComponent =
-        PlatformTopicsRepetitionComponentImpl(this, recommendedRepetitionsCount)
+    override fun buildPlatformTopicsRepetitionsComponent(): PlatformTopicsRepetitionComponent =
+        PlatformTopicsRepetitionComponentImpl(this)
 
     override fun buildPlatformPlaceholderNewUserComponent(placeholderNewUserComponent: PlaceholderNewUserComponent): PlatformPlaceholderNewUserComponent =
         PlatformPlaceholderNewUserComponentImpl(placeholderNewUserComponent)

@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.hyperskill.app.core.remote.Meta
 import org.hyperskill.app.core.remote.MetaResponse
-import org.hyperskill.app.topics_repetitions.domain.model.TopicsRepetitionStatistics
+import org.hyperskill.app.topics_repetitions.domain.model.TopicRepetitionStatistics
 
 @Serializable
 class TopicsRepetitionStatisticsResponse(
@@ -12,5 +12,5 @@ class TopicsRepetitionStatisticsResponse(
     override val meta: Meta,
 
     @SerialName("topics-repetition")
-    val topicsRepetitionStatistics: List<TopicsRepetitionStatistics>
+    val topicsRepetitionStatistics: List<TopicRepetitionStatistics>
 ) : MetaResponse

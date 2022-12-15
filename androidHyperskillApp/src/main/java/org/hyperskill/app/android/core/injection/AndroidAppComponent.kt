@@ -47,5 +47,5 @@ interface AndroidAppComponent : AppGraph {
     fun buildPlatformHomeComponent(homeComponent: HomeComponent): PlatformHomeComponent
     fun buildPlatformOnboardingComponent(onboardingComponent: OnboardingComponent): PlatformOnboardingComponent
     fun buildPlatformPlaceholderNewUserComponent(placeholderNewUserComponent: PlaceholderNewUserComponent): PlatformPlaceholderNewUserComponent
-    fun buildPlatformTopicsRepetitionsComponent(recommendedRepetitionsCount: Int): PlatformTopicsRepetitionComponent
+    fun buildPlatformTopicsRepetitionsComponent(): PlatformTopicsRepetitionComponent
 }

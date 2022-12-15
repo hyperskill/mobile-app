@@ -88,7 +88,7 @@ class TopicsRepetitionListDelegate(
             val title = itemView.findViewById<TextView>(R.id.topicTitle)
             itemView.setOnClickListener {
                 item?.let {
-                    onNewMessage(TopicsRepetitionsFeature.Message.RepeatTopicClicked(stepId = it.topic.stepId))
+                    onNewMessage(TopicsRepetitionsFeature.Message.RepeatTopicClicked(topicId = it.topic.topicId))
                 }
             }
 

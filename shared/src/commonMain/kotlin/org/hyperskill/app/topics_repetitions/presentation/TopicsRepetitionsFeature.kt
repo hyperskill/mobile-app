@@ -2,6 +2,7 @@ package org.hyperskill.app.topics_repetitions.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.topics_repetitions.domain.model.TopicRepetition
+import org.hyperskill.app.topics_repetitions.domain.model.TopicRepetitionStatistics
 
 interface TopicsRepetitionsFeature {
     sealed interface State {
@@ -10,11 +11,8 @@ interface TopicsRepetitionsFeature {
 
         data class Content(
             val topicsRepetitions: List<TopicRepetition>,
-            val recommendedRepetitionsCount: Int,
+            val topicRepetitionStatistics: TopicRepetitionStatistics,
             val trackTitle: String,
-            val remainRepetitionsCount: Int,
-            val repeatedTotalByCount: Map<String, Int>,
-            val page: Int = 1,
             val nextTopicsLoading: Boolean = false
         ) : State
 
@@ -22,18 +20,13 @@ interface TopicsRepetitionsFeature {
     }
 
     sealed interface Message {
-        data class Initialize(
-            val recommendedRepetitionsCount: Int,
-            val forceUpdate: Boolean
-        ) : Message
+        data class Initialize(val forceUpdate: Boolean) : Message
 
         sealed interface TopicsRepetitionsLoaded : Message {
             data class Success(
                 val topicsRepetitions: List<TopicRepetition>,
-                val recommendedRepetitionsCount: Int,
-                val trackTitle: String,
-                val remainRepetitionsCount: Int,
-                val repeatedTotalByCount: Map<String, Int>,
+                val topicRepetitionStatistics: TopicRepetitionStatistics,
+                val trackTitle: String
             ) : TopicsRepetitionsLoaded
 
             object Error : TopicsRepetitionsLoaded
@@ -52,14 +45,14 @@ interface TopicsRepetitionsFeature {
 
         data class StepCompleted(val stepId: Long) : Message
 
-        data class RepeatTopicClicked(val stepId: Long) : Message
+        data class RepeatTopicClicked(val topicId: Long) : Message
         object RepeatNextTopicClicked : Message
 
         object ViewedEventMessage : Message
     }
 
     sealed interface Action {
-        data class Initialize(val recommendedRepetitionsCount: Int) : Action
+        object Initialize : Action
 
         data class FetchNextTopics(val nextPage: Int) : Action
 

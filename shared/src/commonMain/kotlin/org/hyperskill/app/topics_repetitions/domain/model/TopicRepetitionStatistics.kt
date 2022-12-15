@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class TopicsRepetitionStatistics(
+data class TopicRepetitionStatistics(
     @SerialName("recommend_today_count")
     val recommendTodayCount: Int,
     @SerialName("repeated_today_count")

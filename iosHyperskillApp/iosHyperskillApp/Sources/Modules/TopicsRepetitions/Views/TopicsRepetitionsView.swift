@@ -98,10 +98,11 @@ struct TopicsRepetitionsView: View {
                 TopicsRepetitionsRepeatBlock(
                     repeatBlockTitle: viewData.repeatBlockTitle,
                     trackTopicsTitle: viewData.trackTopicsTitle,
-                    repeatButtonsCurrentTrack: viewData.topicsToRepeatFromCurrentTrack
-                        .map(mapTopicToRepeatButtonInfo(topic:)),
-                    repeatButtonsOtherTracks: viewData.topicsToRepeatFromOtherTracks
-                        .map(mapTopicToRepeatButtonInfo(topic:)),
+                    topicsToRepeatFromCurrentTrack: viewData.topicsToRepeatFromCurrentTrack,
+                    topicsToRepeatFromOtherTracks: viewData.topicsToRepeatFromOtherTracks,
+                    onTopicButtonTapped: { topicID in
+                        viewModel.doRepeatTopic(topicID: topicID)
+                    },
                     showMoreButtonState: viewData.showMoreButtonState,
                     onShowMoreButtonTap: viewModel.doLoadNextTopics,
                     topicsToRepeatWillLoadedCount: Int(viewData.topicsToRepeatWillLoadedCount)
@@ -111,16 +112,6 @@ struct TopicsRepetitionsView: View {
             TopicsRepetitionsInfoBlock()
                 .padding(.bottom, appearance.padding)
         }
-    }
-
-    private func mapTopicToRepeatButtonInfo(topic: TopicToRepeat) -> RepeatButtonInfo {
-        RepeatButtonInfo(
-            topicID: Int(topic.topicId),
-            title: topic.title,
-            onTap: {
-                viewModel.doRepeatTopic(stepID: topic.stepId)
-            }
-        )
     }
 
     private func handleViewAction(_ viewAction: TopicsRepetitionsFeatureActionViewAction) {
@@ -140,7 +131,7 @@ struct TopicsRepetitionsView: View {
 struct TopicsRepetitionsView_Previews: PreviewProvider {
     static var previews: some View {
         UIKitViewControllerPreview {
-            TopicsRepetitionsAssembly(recommendedRepetitionsCount: 5).makeModule()
+            TopicsRepetitionsAssembly().makeModule()
         }
     }
 }

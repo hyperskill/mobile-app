@@ -24,7 +24,6 @@ import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeatu
 import org.hyperskill.app.topics_repetitions.view.mapper.TopicsRepetitionsViewDataMapper
 import org.hyperskill.app.topics_repetitions.view.model.TopicsRepetitionsViewData
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
-import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
@@ -33,13 +32,9 @@ class TopicsRepetitionFragment :
     Fragment(R.layout.fragment_topics_repetition),
     ReduxView<TopicsRepetitionsFeature.State, TopicsRepetitionsFeature.Action.ViewAction> {
     companion object {
-        fun newInstance(recommendedRepetitionsCount: Int): Fragment =
-            TopicsRepetitionFragment().apply {
-                this.recommendedRepetitionsCount = recommendedRepetitionsCount
-            }
+        fun newInstance(): Fragment =
+            TopicsRepetitionFragment()
     }
-
-    private var recommendedRepetitionsCount: Int by argument()
 
     private val viewBinding: FragmentTopicsRepetitionBinding by viewBinding(FragmentTopicsRepetitionBinding::bind)
     private var viewStateDelegate: ViewStateDelegate<TopicsRepetitionsFeature.State>? = null
@@ -63,7 +58,7 @@ class TopicsRepetitionFragment :
 
     private fun injectComponent() {
         val platformTopicsRepetitionsComponent =
-            HyperskillApp.graph().buildPlatformTopicsRepetitionsComponent(recommendedRepetitionsCount)
+            HyperskillApp.graph().buildPlatformTopicsRepetitionsComponent()
         viewModelFactory = platformTopicsRepetitionsComponent.reduxViewModelFactory
         viewDataMapper = platformTopicsRepetitionsComponent.topicsRepetitionsViewDataMapper
     }
@@ -86,7 +81,6 @@ class TopicsRepetitionFragment :
             topicsRepetitionError.tryAgain.setOnClickListener {
                 topicsRepetitionViewModel.onNewMessage(
                     TopicsRepetitionsFeature.Message.Initialize(
-                        recommendedRepetitionsCount = recommendedRepetitionsCount,
                         forceUpdate = true
                     )
                 )
@@ -129,7 +123,6 @@ class TopicsRepetitionFragment :
         viewStateDelegate?.switchState(state)
         val mapper = viewDataMapper
         if (mapper != null && state is TopicsRepetitionsFeature.State.Content) {
-            recommendedRepetitionsCount = state.recommendedRepetitionsCount
             viewLifecycleOwner.lifecycleScope.launch {
                 val viewState = withContext(Dispatchers.Default) {
                     mapper.mapStateToViewData(state)
