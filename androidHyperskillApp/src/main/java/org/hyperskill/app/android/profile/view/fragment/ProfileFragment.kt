@@ -118,11 +118,11 @@ class ProfileFragment :
     private fun initViewStateDelegate() {
         with(viewStateDelegate) {
             addState<ProfileFeature.State.Idle>()
-            addState<ProfileFeature.State.Loading>(viewBinding.profileProgress)
+            addState<ProfileFeature.State.Loading>(viewBinding.profileSkeleton.root)
             addState<ProfileFeature.State.Error>(viewBinding.profileError.root)
             addState<ProfileFeature.State.Content>(
-                viewBinding.profileAppBar,
-                viewBinding.profileContentNestedScrollView
+                viewBinding.profileContentNestedScrollView,
+                viewBinding.profileSettingsButton
             )
         }
     }
