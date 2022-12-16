@@ -30,6 +30,7 @@ interface ProfileFeature {
         data class Content(
             val profile: Profile,
             val streak: Streak?,
+            val streakFreezeState: StreakFreezeState?,
             val isRefreshing: Boolean = false,
             val isLoadingMagicLink: Boolean = false
         ) : State
@@ -40,6 +41,15 @@ interface ProfileFeature {
         object Error : State
     }
 
+    sealed interface StreakFreezeState {
+        data class CanBuy(
+            val streakFreezeProductId: Long,
+            val price: Int
+        ) : StreakFreezeState
+        data class NotEnoughGems(val price: Int) : StreakFreezeState
+        object AlreadyHave : StreakFreezeState
+    }
+
     sealed interface Message {
         data class Initialize(
             val isInitCurrent: Boolean = true,
@@ -48,7 +58,11 @@ interface ProfileFeature {
         ) : Message
 
         sealed interface ProfileLoaded : Message {
-            data class Success(val profile: Profile, val streak: Streak?) : ProfileLoaded
+            data class Success(
+                val profile: Profile,
+                val streak: Streak?,
+                val streakFreezeState: StreakFreezeState?
+            ) : ProfileLoaded
             object Error : ProfileLoaded
         }
 
@@ -66,12 +80,24 @@ interface ProfileFeature {
         object GetMagicLinkReceiveFailure : Message
 
         /**
+         * Streak freeze
+         */
+        object StreakFreezeCardButtonClicked : Message
+        object StreakFreezeModalButtonClicked : Message
+        sealed interface StreakFreezeBought : Message {
+            object Success : StreakFreezeBought
+            object Error : StreakFreezeBought
+        }
+
+        /**
          * Analytic
          */
         object ViewedEventMessage : Message
         object ClickedSettingsEventMessage : Message
         data class ClickedDailyStudyRemindsEventMessage(val isEnabled: Boolean) : Message
         object ClickedDailyStudyRemindsTimeEventMessage : Message
+        object StreakFreezeModalShownEventMessage : Message
+        object StreakFreezeModalHiddenEventMessage : Message
     }
 
     sealed interface Action {
@@ -82,9 +108,23 @@ interface ProfileFeature {
 
         data class GetMagicLink(val path: HyperskillUrlPath) : Action
 
+        data class BuyStreakFreeze(val streakFreezeProductId: Long) : Action
+
         sealed interface ViewAction : Action {
             data class OpenUrl(val url: String) : ViewAction
             object ShowGetMagicLinkError : ViewAction
+
+            object ShowStreakFreezeModal : ViewAction
+            object HideStreakFreezeModal : ViewAction
+            sealed interface ShowStreakFreezeBuyingStatus : ViewAction {
+                object Loading : ShowStreakFreezeBuyingStatus
+                object Error : ShowStreakFreezeBuyingStatus
+                object Success : ShowStreakFreezeBuyingStatus
+            }
+
+            sealed interface NavigateTo : ViewAction {
+                object HomeScreen : NavigateTo
+            }
         }
     }
 }

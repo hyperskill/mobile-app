@@ -140,6 +140,8 @@ struct ProfileView: View {
             WebControllerManager.shared.presentWebControllerWithURLString(data.url)
         case .showGetMagicLinkError:
             ProgressHUD.showError()
+        default:
+            #warning("implement streak freeze view actions")
         }
     }
 }

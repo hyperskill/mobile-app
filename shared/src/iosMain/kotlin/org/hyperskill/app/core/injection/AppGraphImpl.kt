@@ -16,6 +16,8 @@ import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponentImpl
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.HomeComponentImpl
+import org.hyperskill.app.items.injection.ItemsDataComponent
+import org.hyperskill.app.items.injection.ItemsDataComponentImpl
 import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponent
 import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponentImpl
 import org.hyperskill.app.likes.injection.LikesDataComponent
@@ -32,6 +34,8 @@ import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponentImpl
 import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponent
 import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponentImpl
+import org.hyperskill.app.products.injection.ProductsDataComponent
+import org.hyperskill.app.products.injection.ProductsDataComponentImpl
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile.injection.ProfileComponentImpl
 import org.hyperskill.app.profile.injection.ProfileDataComponent
@@ -184,4 +188,10 @@ class AppGraphImpl(
 
     override fun buildProgressesDataComponent(): ProgressesDataComponent =
         ProgressesDataComponentImpl(this)
+
+    override fun buildProductsDataComponent(): ProductsDataComponent =
+        ProductsDataComponentImpl(this)
+
+    override fun buildItemsDataComponent(): ItemsDataComponent =
+        ItemsDataComponentImpl(this)
 }
