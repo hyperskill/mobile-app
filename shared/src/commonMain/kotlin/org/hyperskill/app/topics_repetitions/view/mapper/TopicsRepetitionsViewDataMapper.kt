@@ -48,9 +48,9 @@ class TopicsRepetitionsViewDataMapper(
             ),
             topicsToRepeatFromCurrentTrack = mapTopicsRepetitionsToTopicsToRepeat(state.topicsRepetitions.filter { it.isInCurrentTrack }),
             topicsToRepeatFromOtherTracks = mapTopicsRepetitionsToTopicsToRepeat(state.topicsRepetitions.filter { !it.isInCurrentTrack }),
-            showMoreButtonState = if (state.nextTopicsLoading) {
+            showMoreButtonState = if (state.isLoadingNextTopics) {
                 ShowMoreButtonState.LOADING
-            } else if (state.hasNextTopics) {
+            } else if (state.hasNextTopicsToLoad) {
                 ShowMoreButtonState.AVAILABLE
             } else {
                 ShowMoreButtonState.EMPTY

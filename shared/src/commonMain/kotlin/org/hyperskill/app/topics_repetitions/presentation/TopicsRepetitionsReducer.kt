@@ -38,8 +38,8 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                     null
                 }
             is Message.ShowMoreButtonClicked ->
-                if (state is State.Content && state.hasNextTopics) {
-                    state.copy(nextTopicsLoading = true) to setOf(
+                if (state is State.Content && state.hasNextTopicsToLoad) {
+                    state.copy(isLoadingNextTopics = true) to setOf(
                         Action.FetchNextTopics(
                             nextPage = (state.topicsRepetitions.count() / TopicsRepetitionsActionDispatcher.TOPICS_PAGINATION_SIZE) + 1
                         )
@@ -51,14 +51,14 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                 if (state is State.Content) {
                     state.copy(
                         topicsRepetitions = state.topicsRepetitions + message.nextTopicsRepetitions,
-                        nextTopicsLoading = false,
+                        isLoadingNextTopics = false,
                     ) to emptySet()
                 } else {
                     null
                 }
             is Message.NextTopicsRepetitionsLoaded.Error ->
                 if (state is State.Content) {
-                    state.copy(nextTopicsLoading = false) to setOf(Action.ViewAction.ShowNetworkError)
+                    state.copy(isLoadingNextTopics = false) to setOf(Action.ViewAction.ShowNetworkError)
                 } else {
                     null
                 }
@@ -84,8 +84,8 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
             is Message.RepeatNextTopicClicked -> {
                 if (state is State.Content) {
                     state to buildSet {
-                        state.topicsRepetitions.firstOrNull()?.let { topicToRepeat ->
-                            add(Action.ViewAction.NavigateTo.StepScreen(topicToRepeat.steps.first()))
+                        state.topicsRepetitions.firstOrNull()?.steps?.firstOrNull()?.let { stepId ->
+                            add(Action.ViewAction.NavigateTo.StepScreen(stepId))
                         }
                         add(Action.LogAnalyticEvent(TopicsRepetitionsClickedRepeatNextTopicHyperskillAnalyticEvent()))
                     }
@@ -96,10 +96,12 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
             is Message.RepeatTopicClicked -> {
                 if (state is State.Content) {
                     state.topicsRepetitions.firstOrNull { it.topicId == message.topicId }?.let { topicRepetition ->
-                        state to setOf(
-                            Action.ViewAction.NavigateTo.StepScreen(topicRepetition.steps.first()),
-                            Action.LogAnalyticEvent(TopicsRepetitionsClickedRepeatTopicHyperskillAnalyticEvent())
-                        )
+                        state to buildSet {
+                            topicRepetition.steps.firstOrNull()?.let { stepId ->
+                                add(Action.ViewAction.NavigateTo.StepScreen(stepId))
+                            }
+                            add(Action.LogAnalyticEvent(TopicsRepetitionsClickedRepeatTopicHyperskillAnalyticEvent()))
+                        }
                     }
                 } else {
                     null

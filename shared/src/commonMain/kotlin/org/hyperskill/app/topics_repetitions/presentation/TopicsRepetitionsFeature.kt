@@ -13,9 +13,10 @@ interface TopicsRepetitionsFeature {
             val topicsRepetitions: List<TopicRepetition>,
             val topicRepetitionStatistics: TopicRepetitionStatistics,
             val trackTitle: String,
-            val nextTopicsLoading: Boolean = false
+            val isLoadingNextTopics: Boolean = false
         ) : State {
-            val hasNextTopics: Boolean = topicRepetitionStatistics.totalCount > topicsRepetitions.count()
+            val hasNextTopicsToLoad: Boolean
+                get() = topicRepetitionStatistics.totalCount > topicsRepetitions.count()
         }
 
         object NetworkError : State
