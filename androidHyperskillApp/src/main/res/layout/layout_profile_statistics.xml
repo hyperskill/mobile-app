@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    >
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@color/color_surface"
+        android:layout_marginEnd="6dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingVertical="12dp"
+            android:background="@color/color_surface"
+            >
+
+            <TextView
+                android:id="@+id/profileProjectsCountTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/color_on_surface_alpha_87"
+                app:drawableStartCompat="@drawable/ic_profile_projects"
+                android:drawablePadding="6dp"
+                android:gravity="center_vertical"
+                android:layout_gravity="center"
+                tools:text="3"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_statistics_block_passed_projects_title"
+                android:textSize="12sp"
+                android:textColor="@color/color_on_surface_alpha_38"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@color/color_surface"
+        android:layout_marginEnd="6dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingVertical="12dp"
+            android:background="@color/color_surface"
+            >
+
+            <TextView
+                android:id="@+id/profileTracksCountTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/color_on_surface_alpha_87"
+                app:drawableStartCompat="@drawable/ic_profile_tracks"
+                android:drawablePadding="6dp"
+                android:gravity="center_vertical"
+                android:layout_gravity="center"
+                tools:text="3"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_statistics_block_passed_tracks_title"
+                android:textSize="12sp"
+                android:textColor="@color/color_on_surface_alpha_38"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@color/color_surface"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingVertical="12dp"
+            android:background="@color/color_surface"
+            >
+
+            <TextView
+                android:id="@+id/profileGemsCountTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/color_on_surface_alpha_87"
+                app:drawableStartCompat="@drawable/ic_menu_gems_count"
+                android:drawablePadding="6dp"
+                android:gravity="center_vertical"
+                android:layout_gravity="center"
+                tools:text="3"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_statistics_block_hypercoins_balance_title"
+                android:textSize="12sp"
+                android:textColor="@color/color_on_surface_alpha_38"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

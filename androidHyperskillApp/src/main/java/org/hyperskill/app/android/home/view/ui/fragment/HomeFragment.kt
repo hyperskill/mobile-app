@@ -2,6 +2,8 @@ package org.hyperskill.app.android.home.view.ui.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -13,17 +15,18 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.launchUrl
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
+import org.hyperskill.app.android.core.view.ui.navigation.requireMainRouter
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentHomeBinding
 import org.hyperskill.app.android.problem_of_day.view.delegate.ProblemOfDayCardFormDelegate
+import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
 import org.hyperskill.app.android.step.view.screen.StepScreen
-import org.hyperskill.app.android.streak.view.delegate.StreakCardFormDelegate
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionCardFormDelegate
 import org.hyperskill.app.android.topics_repetitions.view.screen.TopicsRepetitionScreen
+import org.hyperskill.app.android.view.base.ui.extension.setElevationOnCollapsed
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeViewModel
-import org.hyperskill.app.streak.domain.model.Streak
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -44,7 +47,6 @@ class HomeFragment :
     private val viewStateDelegate: ViewStateDelegate<HomeFeature.State> = ViewStateDelegate()
 
     private lateinit var problemOfDayCardFormDelegate: ProblemOfDayCardFormDelegate
-    private lateinit var streakCardFormDelegate: StreakCardFormDelegate
     private val topicsRepetitionDelegate: TopicsRepetitionCardFormDelegate by lazy(LazyThreadSafetyMode.NONE) {
         TopicsRepetitionCardFormDelegate()
     }
@@ -65,14 +67,28 @@ class HomeFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (requireActivity() as AppCompatActivity)
+            .setSupportActionBar(viewBinding.homeScreenToolbar)
         initViewStateDelegate()
+        with(viewBinding) {
+            homeScreenAppBar.setElevationOnCollapsed(viewLifecycleOwner.lifecycle)
+            homeScreenAppBar.setExpanded(true)
 
-        viewBinding.homeScreenError.tryAgain.setOnClickListener {
-            homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = false))
-        }
+            homeScreenGemsCountTextView.setOnClickListener {
+                homeViewModel.onNewMessage(HomeFeature.Message.ClickedGemsBarButtonItem)
+                requireMainRouter().switch(ProfileScreen(isInitCurrent = true))
+            }
+            homeScreenStreakDurationTextView.setOnClickListener {
+                homeViewModel.onNewMessage(HomeFeature.Message.ClickedStreakBarButtonItem)
+                requireMainRouter().switch(ProfileScreen(isInitCurrent = true))
+            }
 
-        viewBinding.homeScreenKeepLearningInWebButton.setOnClickListener {
-            homeViewModel.onNewMessage(HomeFeature.Message.ClickedContinueLearningOnWeb)
+            homeScreenError.tryAgain.setOnClickListener {
+                homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = false))
+            }
+            homeScreenKeepLearningInWebButton.setOnClickListener {
+                homeViewModel.onNewMessage(HomeFeature.Message.ClickedContinueLearningOnWeb)
+            }
         }
 
 //        viewBinding.homeOpenStepButton.setOnClickListener {
@@ -109,7 +125,7 @@ class HomeFragment :
             addState<HomeFeature.State.Idle>()
             addState<HomeFeature.State.Loading>(viewBinding.homeScreenProgress)
             addState<HomeFeature.State.NetworkError>(viewBinding.homeScreenError.root)
-            addState<HomeFeature.State.Content>(viewBinding.homeScreenContainer)
+            addState<HomeFeature.State.Content>(viewBinding.homeScreenContainer, viewBinding.homeScreenAppBar)
         }
     }
 
@@ -139,23 +155,21 @@ class HomeFragment :
             } else {
                 childFragmentManager.dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
             }
-            renderStreakCardDelegate(state.streak)
+            renderMenuItems(state)
             renderProblemOfDayCardDelegate(state.problemOfDayState)
             renderTopicsRepetition(state.recommendedRepetitionsCount)
         }
     }
 
-    private fun renderStreakCardDelegate(streak: Streak?) {
-        if (streak == null) {
-            viewBinding.homeScreenStreakCard.root.visibility = View.GONE
-            return
+    private fun renderMenuItems(state: HomeFeature.State.Content) {
+        with(viewBinding) {
+            homeScreenStreakDurationTextView.isVisible = state.streak != null
+            state.streak?.let { streak ->
+                homeScreenStreakDurationTextView.text = streak.currentStreak.toString()
+            }
+            homeScreenGemsCountTextView.isVisible = true
+            homeScreenGemsCountTextView.text = state.hypercoinsBalance.toString()
         }
-
-        streakCardFormDelegate = StreakCardFormDelegate(
-            requireContext(),
-            viewBinding.homeScreenStreakCard,
-            streak
-        )
     }
 
     private fun renderProblemOfDayCardDelegate(state: HomeFeature.ProblemOfDayState) {

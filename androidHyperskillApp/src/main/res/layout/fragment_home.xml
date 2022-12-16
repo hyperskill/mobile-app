@@ -1,52 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/homeScreenAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_background"
+        android:elevation="0dp"
+        >
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/homeScreenCollapsingToolbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            app:title="@string/home_title"
+            android:minHeight="?attr/actionBarSize"
+            app:contentScrim="@color/color_background"
+            app:expandedTitleGravity="start|bottom"
+            app:expandedTitleMarginBottom="8dp"
+            app:expandedTitleMarginStart="20dp"
+            app:expandedTitleTextAppearance="@style/TextAppearance.AppTheme.CollapsingTitle"
+            app:collapsedTitleTextAppearance="@style/TextAppearance.AppTheme.CollapsingTitle"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            >
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/homeScreenToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                android:background="@color/color_background"
+                android:paddingEnd="16dp"
+                tools:ignore="RtlSymmetry"
+                >
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/homeScreenStreakDurationTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:textSize="14sp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:drawableStartCompat="@drawable/ic_menu_streak"
+                    android:drawablePadding="6dp"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center"
+                    android:paddingHorizontal="4dp"
+                    android:visibility="gone"
+                    tools:text="3"
+                    tools:visibility="visible"
+                    />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/homeScreenGemsCountTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:textSize="14sp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:drawableStartCompat="@drawable/ic_menu_gems_count"
+                    android:drawablePadding="6dp"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center"
+                    android:paddingHorizontal="4dp"
+                    tools:text="3"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    />
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/homeScreenContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        >
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/homeScreenContainer"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/color_background"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="20dp">
-
-            <TextView
-                android:id="@+id/homeScreenHelloLetsLearnTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/home_hello_lets_learn_text"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textSize="24sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="20dp">
 
             <TextView
                 android:id="@+id/homeScreenKeepPracticingTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:text="@string/home_keep_practicing_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/homeScreenHelloLetsLearnTextView" />
+                />
 
-            <include
-                android:id="@+id/homeScreenStreakCard"
-                layout="@layout/layout_streak_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/homeScreenKeepPracticingTextView" />
 
             <include
                 android:id="@+id/homeScreenProblemOfDayCard"
@@ -54,9 +113,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/homeScreenStreakCard" />
+                />
 
             <include
                 android:id="@+id/homeScreenTopicsRepetitionCard"
@@ -64,21 +121,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/homeScreenProblemOfDayCard"
-            />
+                />
 
-        <com.google.android.material.textfield.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/homeOpenStepInputLayout"
                 style="@style/Widget.AppTheme.TextInputLayouts.InputText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:hint="Enter step ID"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/homeScreenTopicsRepetitionCard"
                 tools:ignore="HardcodedText"
                 android:visibility="gone"
                 >
@@ -88,6 +139,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
@@ -105,22 +157,17 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/homeScreenKeepLearningInWebButton"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/auth_button_height"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                app:strokeColor="?colorPrimary"
                 android:layout_marginTop="24dp"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
                 android:text="@string/track_continue_in_web_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/homeOpenStepButton"
-                app:layout_constraintVertical_bias="0"
-                app:layout_constraintWidth_max="@dimen/auth_button_max_width"
-                app:strokeColor="?colorPrimary"
                 />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
 
@@ -133,9 +180,9 @@
     <include
         android:id="@+id/homeScreenError"
         layout="@layout/error_no_connection_with_button"
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:visibility="gone"
+        />
 
-</FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
