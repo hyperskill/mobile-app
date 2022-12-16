@@ -32,7 +32,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3.1.0
+      uses: actions/checkout@v3.2.0
 
     - name: Setup CI
       uses: ./.github/actions/setup-android
@@ -52,7 +52,7 @@ jobs:
     
     steps:
       - name: Checkout
-        uses: actions/checkout@v3.1.0
+        uses: actions/checkout@v3.2.0
 
       - name: Run SwiftLint
         working-directory: './iosHyperskillApp'
