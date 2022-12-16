@@ -69,17 +69,6 @@
                 android:visibility="gone"
                 />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/stepQuizDiscussionButton"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="match_parent"
-                android:visibility="gone"
-                android:layout_height="@dimen/step_quiz_discussion_button_height"
-                android:layout_margin="20dp"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                android:text="@string/step_quiz_discussions_button_text"
-                app:strokeColor="?colorPrimary" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
