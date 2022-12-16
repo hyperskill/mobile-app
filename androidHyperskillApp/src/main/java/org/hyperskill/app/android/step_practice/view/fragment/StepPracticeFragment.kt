@@ -2,6 +2,8 @@ package org.hyperskill.app.android.step_practice.view.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.IdRes
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.chrynan.parcelable.core.getParcelable
@@ -13,14 +15,17 @@ import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepPracticeBinding
 import org.hyperskill.app.android.step_content_text.view.fragment.TextStepContentFragment
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizFragmentFactory
+import org.hyperskill.app.android.step_quiz_hints.fragment.StepQuizHintsFragment
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.extension.TimeFancifier
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 
 class StepPracticeFragment : Fragment(R.layout.fragment_step_practice) {
     companion object {
         private const val STEP_CONTENT_FRAGMENT_TAG = "step_content"
         private const val STEP_QUIZ_FRAGMENT_TAG = "step_quiz"
+        private const val STEP_HINTS_FRAGMENT_TAG = "step_hints"
         private const val KEY_STEP = "key_step"
 
         fun newInstance(step: Step): Fragment {
@@ -59,6 +64,7 @@ class StepPracticeFragment : Fragment(R.layout.fragment_step_practice) {
         )
         initStepTheoryFragment(step)
         setStepQuizFragment(step)
+        setStepHintsFragment(step)
     }
 
     private fun injectComponent() {
@@ -66,25 +72,33 @@ class StepPracticeFragment : Fragment(R.layout.fragment_step_practice) {
     }
 
     private fun initStepTheoryFragment(step: Step) {
-        if (childFragmentManager.findFragmentByTag(STEP_CONTENT_FRAGMENT_TAG) == null) {
-            val stepContentFragment = TextStepContentFragment.newInstance(step)
-
-            childFragmentManager
-                .beginTransaction()
-                .add(R.id.stepTheoryContainer, stepContentFragment, STEP_CONTENT_FRAGMENT_TAG)
-                .commitNow()
+        setChildFragment(R.id.stepTheoryContainer, STEP_CONTENT_FRAGMENT_TAG) {
+            TextStepContentFragment.newInstance(step)
         }
     }
 
     private fun setStepQuizFragment(step: Step) {
-        val isQuizFragmentEmpty = childFragmentManager.findFragmentByTag(STEP_QUIZ_FRAGMENT_TAG) == null
+        setChildFragment(R.id.stepQuizContainer, STEP_QUIZ_FRAGMENT_TAG) {
+            StepQuizFragmentFactory.getQuizFragment(step)
+        }
+    }
 
-        if (isQuizFragmentEmpty) {
-            val quizFragment = StepQuizFragmentFactory.getQuizFragment(step)
+    private fun setStepHintsFragment(step: Step) {
+        val isFeatureEnabled = StepQuizHintsFeature.areHintsAvailable(step)
+        viewBinding.stepQuizHints.isVisible = isFeatureEnabled
+        if (isFeatureEnabled) {
+            setChildFragment(R.id.stepQuizHints, STEP_HINTS_FRAGMENT_TAG) {
+                StepQuizHintsFragment.newInstance(step)
+            }
+        }
+    }
 
+    private fun setChildFragment(@IdRes containerViewId: Int, tag: String, buildFragment: () -> Fragment) {
+        if (childFragmentManager.findFragmentByTag(tag) == null) {
+            val fragment = buildFragment()
             childFragmentManager
                 .beginTransaction()
-                .add(R.id.stepQuizContainer, quizFragment, STEP_QUIZ_FRAGMENT_TAG)
+                .add(containerViewId, fragment, tag)
                 .commitNow()
         }
     }

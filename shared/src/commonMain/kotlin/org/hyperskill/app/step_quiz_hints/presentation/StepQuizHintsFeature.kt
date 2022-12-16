@@ -3,9 +3,17 @@ package org.hyperskill.app.step_quiz_hints.presentation
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.comments.domain.model.Comment
 import org.hyperskill.app.reactions.domain.model.ReactionType
+import org.hyperskill.app.step.domain.model.CommentThread
+import org.hyperskill.app.step.domain.model.Step
 
 interface StepQuizHintsFeature {
+    companion object {
+        fun areHintsAvailable(step: Step): Boolean =
+            step.commentsStatistics.any { it.thread == CommentThread.HINT && it.totalCount > 0 }
+    }
+
     sealed interface State {
+
         object Idle : State
 
         /**
