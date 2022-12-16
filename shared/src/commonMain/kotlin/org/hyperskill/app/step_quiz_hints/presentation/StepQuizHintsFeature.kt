@@ -7,7 +7,11 @@ import org.hyperskill.app.reactions.domain.model.ReactionType
 interface StepQuizHintsFeature {
     sealed interface State {
         object Idle : State
-        object Loading : State
+
+        /**
+         * @property isInitialLoading true in case of initial data loading, false in case of certain hint loading
+         * */
+        data class Loading(val isInitialLoading: Boolean = false) : State
 
         /**
          * State of content displaying
