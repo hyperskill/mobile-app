@@ -127,7 +127,7 @@ class HomeReducer : StateReducer<State, Message, Action> {
             is Message.ClickedTopicsRepetitionsCard ->
                 if (state is State.Content) {
                     state to setOf(
-                        Action.ViewAction.NavigateTo.TopicsRepetitionsScreen(state.recommendedRepetitionsCount),
+                        Action.ViewAction.NavigateTo.TopicsRepetitionsScreen,
                         Action.LogAnalyticEvent(
                             HomeClickedTopicsRepetitionsCardHyperskillAnalyticEvent(
                                 isCompleted = state.recommendedRepetitionsCount == 0

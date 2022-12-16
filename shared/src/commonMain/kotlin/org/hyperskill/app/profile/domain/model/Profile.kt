@@ -1,6 +1,5 @@
 package org.hyperskill.app.profile.domain.model
 
-import kotlin.math.min
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -103,13 +102,4 @@ data class Profile(
 ) {
     val isNewUser: Boolean
         get() = trackId == null
-
-    val recommendedRepetitionsCount: Int
-        get() {
-            val recommendedRepetitionsPerDay = 5
-            val repetitionsCount = gamification.topicsRepetitions.repetitionsCount ?: 0
-            val repeatedTodayCount = gamification.topicsRepetitions.repeatedTodayCount ?: 0
-            val repetitionsLeft = recommendedRepetitionsPerDay - repeatedTodayCount
-            return if (repetitionsLeft > 0) min(repetitionsLeft, repetitionsCount) else 0
-        }
 }

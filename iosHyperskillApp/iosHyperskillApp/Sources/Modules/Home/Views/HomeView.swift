@@ -132,10 +132,8 @@ struct HomeView: View {
             case .stepScreen(let data):
                 let assembly = StepAssembly(stepID: Int(data.stepId))
                 pushRouter.pushViewController(assembly.makeModule())
-            case .topicsRepetitionsScreen(let data):
-                let assembly = TopicsRepetitionsAssembly(
-                    recommendedRepetitionsCount: data.recommendedRepetitionsCount
-                )
+            case .topicsRepetitionsScreen:
+                let assembly = TopicsRepetitionsAssembly()
                 pushRouter.pushViewController(assembly.makeModule())
             case .profileTab:
                 TabBarRouter(tab: .profile).route()

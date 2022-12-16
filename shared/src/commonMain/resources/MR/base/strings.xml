@@ -231,6 +231,7 @@
     <string name="topics_repetitions_repeat_block_title">All %s to repeat</string>
     <string name="topics_repetitions_repeat_block_empty_title">All topics to repeat</string>
     <string name="topics_repetitions_repeat_block_current_track">Topics from track %s</string>
+    <string name="topics_repetitions_repeat_block_other_tracks">Topics from other tracks</string>
     <string name="topics_repetitions_repeat_block_empty_current_track">There are no topics to repeat for the %s track</string>
     <string name="topics_repetitions_info_block_title">I\'ve learned these topics! Why repeating them?</string>
     <string name="topics_repetitions_info_block_description">You retain more knowledge and build up your skill.\n\nSome

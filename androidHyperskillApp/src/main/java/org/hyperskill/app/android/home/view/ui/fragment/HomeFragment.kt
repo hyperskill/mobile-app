@@ -138,7 +138,7 @@ class HomeFragment :
                 viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
             }
             is HomeFeature.Action.ViewAction.NavigateTo.TopicsRepetitionsScreen -> {
-                requireRouter().navigateTo(TopicsRepetitionScreen(action.recommendedRepetitionsCount))
+                requireRouter().navigateTo(TopicsRepetitionScreen())
             }
             else -> {
                 // no op
