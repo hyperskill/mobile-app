@@ -75,6 +75,7 @@ import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
 import org.hyperskill.app.sentry.domain.model.manager.SentryManager
 import org.hyperskill.app.sentry.injection.SentryComponent
 import org.hyperskill.app.sentry.injection.SentryComponentImpl
+import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.injection.PlatformStepComponent
 import org.hyperskill.app.step.injection.PlatformStepComponentImpl
 import org.hyperskill.app.step.injection.StepComponent
@@ -85,6 +86,8 @@ import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponentImpl
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponentImpl
+import org.hyperskill.app.step_quiz_hints.injection.PlatformStepQuizHintsComponent
+import org.hyperskill.app.step_quiz_hints.injection.PlatformStepQuizHintsComponentImpl
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponentImpl
 import org.hyperskill.app.topics.injection.TopicsDataComponent
@@ -273,6 +276,9 @@ class AndroidAppComponentImpl(
     override fun buildPlaceholderNewUserComponent(): PlaceholderNewUserComponent =
         PlaceholderNewUserComponentImpl(this)
 
+    override fun buildPlatformPlaceholderNewUserComponent(placeholderNewUserComponent: PlaceholderNewUserComponent): PlatformPlaceholderNewUserComponent =
+        PlatformPlaceholderNewUserComponentImpl(placeholderNewUserComponent)
+
     /**
      * Topics repetitions component
      */
@@ -282,17 +288,20 @@ class AndroidAppComponentImpl(
     override fun buildPlatformTopicsRepetitionsComponent(recommendedRepetitionsCount: Int): PlatformTopicsRepetitionComponent =
         PlatformTopicsRepetitionComponentImpl(this, recommendedRepetitionsCount)
 
-    override fun buildPlatformPlaceholderNewUserComponent(placeholderNewUserComponent: PlaceholderNewUserComponent): PlatformPlaceholderNewUserComponent =
-        PlatformPlaceholderNewUserComponentImpl(placeholderNewUserComponent)
+    /**
+     * Step quiz hints component
+     * */
+    override fun buildStepQuizHintsComponent(): StepQuizHintsComponent =
+        StepQuizHintsComponentImpl(this)
+
+    override fun buildPlatformStepQuizHintsComponent(step: Step): PlatformStepQuizHintsComponent =
+        PlatformStepQuizHintsComponentImpl(this, step)
 
     override fun buildUserStorageComponent(): UserStorageComponent =
         UserStorageComponentImpl(this)
 
     override fun buildCommentsDataComponent(): CommentsDataComponent =
         CommentsDataComponentImpl(this)
-
-    override fun buildStepQuizHintsComponent(): StepQuizHintsComponent =
-        StepQuizHintsComponentImpl(this)
 
     override fun buildMagicLinksDataComponent(): MagicLinksDataComponent =
         MagicLinksDataComponentImpl(this)
