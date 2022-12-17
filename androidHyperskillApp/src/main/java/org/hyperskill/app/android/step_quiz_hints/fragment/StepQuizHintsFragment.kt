@@ -17,6 +17,7 @@ import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step_quiz_hints.model.StepQuizHintsViewState
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsViewModel
+import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -82,7 +83,10 @@ class StepQuizHintsFragment : Fragment(R.layout.layout_step_quiz_hints),
     }
 
     override fun onAction(action: StepQuizHintsFeature.Action.ViewAction) {
-        TODO("Not yet implemented")
+        when (action) {
+            StepQuizHintsFeature.Action.ViewAction.ShowNetworkError ->
+                view?.snackbar(messageRes = R.string.connection_error)
+        }
     }
 
     override fun render(state: StepQuizHintsViewState) {

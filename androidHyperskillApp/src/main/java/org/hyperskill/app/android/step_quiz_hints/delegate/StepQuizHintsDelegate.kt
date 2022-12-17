@@ -5,6 +5,7 @@ import androidx.core.view.isVisible
 import coil.ImageLoader
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.LayoutStepQuizHintsBinding
 import org.hyperskill.app.reactions.domain.model.ReactionType
@@ -40,9 +41,6 @@ class StepQuizHintsDelegate(
                 }
                 stepQuizHintHelpfulButton.setOnClickListener {
                     onNewMessage(StepQuizHintsFeature.Message.ReactionButtonClicked(ReactionType.HELPFUL))
-                }
-                stepQuizHintReportTextView.setOnClickListener {
-                    onNewMessage(StepQuizHintsFeature.Message.ClickedReportEventMessage)
                 }
                 stepQuizHintsRetryButton.setOnClickListener {
                     onNewMessage(StepQuizHintsFeature.Message.LoadHintButtonClicked)
@@ -85,7 +83,39 @@ class StepQuizHintsDelegate(
                         }.let(context::getString)
                     )
                 }
+                if (state.hintState == StepQuizHintsViewState.HintState.ReactToHint) {
+                    stepQuizHintReportTextView.setOnClickListener {
+                        handleHintReportClick(context, onNewMessage)
+                    }
+                }
             }
         }
     }
+
+    private fun handleHintReportClick(
+        context: Context,
+        onNewMessage: (StepQuizHintsFeature.Message) -> Unit
+    ) {
+        onNewMessage(StepQuizHintsFeature.Message.ClickedReportEventMessage)
+        buildHintReportAlert(context, onNewMessage).show()
+        onNewMessage(StepQuizHintsFeature.Message.ReportHintNoticeShownEventMessage)
+    }
+
+    private fun buildHintReportAlert(
+        context: Context,
+        onNewMessage: (StepQuizHintsFeature.Message) -> Unit
+    ) = MaterialAlertDialogBuilder(context)
+        .setTitle(R.string.step_quiz_hints_report_alert_title)
+        .setMessage(R.string.step_quiz_hints_report_alert_text)
+        .setPositiveButton(R.string.yes) { dialog, _ ->
+            dialog.dismiss()
+            onNewMessage(StepQuizHintsFeature.Message.ReportHintNoticeHiddenEventMessage(true))
+            onNewMessage(StepQuizHintsFeature.Message.ReportHint)
+        }
+        .setNegativeButton(R.string.no) { dialog, _ ->
+            dialog.dismiss()
+            onNewMessage(
+                StepQuizHintsFeature.Message.ReportHintNoticeHiddenEventMessage(false)
+            )
+        }
 }
