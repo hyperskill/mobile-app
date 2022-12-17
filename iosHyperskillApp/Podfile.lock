@@ -30,7 +30,7 @@ PODS:
   - Sentry (7.13.0):
     - Sentry/Core (= 7.13.0)
   - Sentry/Core (7.13.0)
-  - shared (1.0)
+  - shared (1.5)
   - SkeletonUI (1.0.7)
   - SnapKit (5.6.0)
   - STRegex (2.1.1)
@@ -128,7 +128,7 @@ SPEC CHECKSUMS:
   NukeUI: 3c7ec7b299dd99707afdc783b436f39768b4493b
   PanModal: 3e16ead1a907fb06f4df3f13492fd00149fa4974
   Sentry: c55b9f69091e58cc48adc3c25bbca908a480e08d
-  shared: e454a4a5b5331ac23d196b648f28d37a269334f0
+  shared: 600d2394278b46fc1f9641384cdaa7c59fe55f79
   SkeletonUI: 18fbcd8698480432852d7e30a65b8d5e138266f0
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   STRegex: d49e88d0fe58538d3175fdd989bc1243b9be2a07

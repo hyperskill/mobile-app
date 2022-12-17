@@ -1,5 +1,9 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+import java.time.Year
 import org.gradle.internal.os.OperatingSystem
+import org.jetbrains.dokka.base.DokkaBase
+import org.jetbrains.dokka.base.DokkaBaseConfiguration
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.plugin.mpp.Framework
 import org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink
 import org.jetbrains.kotlin.konan.properties.loadProperties
@@ -13,13 +17,14 @@ plugins {
     id("com.codingfeline.buildkonfig")
     id("dev.icerock.mobile.multiplatform-resources")
     id("dev.icerock.moko.kswift")
+    id("org.jetbrains.dokka")
 }
 
 dependencies {
     ktlintRuleset(libs.ktlintRules)
 }
 
-version = "1.0"
+version = appVersions.versions.versionName.get()
 
 kotlin {
     android()
@@ -193,3 +198,34 @@ tasks.withType<KotlinNativeLink>()
             kSwiftSharedGeneratedSwiftFile.copyTo(iosHyperskillAppSharedSwiftFile, overwrite = true)
         }
     }
+
+tasks.register("dokkaAnalytics", DokkaTask::class.java) {
+    outputDirectory.set(buildDir.resolve("dokka/analytics"))
+
+    moduleName.set("Hyperskill Mobile Analytics")
+
+    pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
+        footerMessage = "© ${Year.now().value} Hyperskill"
+    }
+
+    dokkaSourceSets {
+        configureEach {
+            // Suppress all packages and the enable only the ones we want
+            perPackageOption {
+                suppress.set(true)
+                // Do not create index pages for empty packages
+                skipEmptyPackages.set(true)
+            }
+
+            perPackageOption {
+                matchingRegex.set(""".*\.domain.analytic.*""")
+                suppress.set(false)
+            }
+
+            perPackageOption {
+                matchingRegex.set(""".*\.analytic.domain.model.*""")
+                suppress.set(false)
+            }
+        }
+    }
+}
