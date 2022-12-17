@@ -33,8 +33,8 @@
 
     <org.hyperskill.app.android.ui.custom.LoadingView
         android:id="@+id/stepQuizSeeHintsStub"
-        android:layout_width="150dp"
-        android:layout_height="@dimen/action_button_height"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
         />
 
     <org.hyperskill.app.android.ui.custom.LoadingView
