@@ -20,7 +20,6 @@ class StepQuizHintsDelegate(
     private val imageLoader: ImageLoader,
     private val onNewMessage: (StepQuizHintsFeature.Message) -> Unit
 ) {
-    
     init {
         with(binding) {
             with(stepQuizSeeHintsButton.root) {
@@ -104,18 +103,19 @@ class StepQuizHintsDelegate(
     private fun buildHintReportAlert(
         context: Context,
         onNewMessage: (StepQuizHintsFeature.Message) -> Unit
-    ) = MaterialAlertDialogBuilder(context)
-        .setTitle(R.string.step_quiz_hints_report_alert_title)
-        .setMessage(R.string.step_quiz_hints_report_alert_text)
-        .setPositiveButton(R.string.yes) { dialog, _ ->
-            dialog.dismiss()
-            onNewMessage(StepQuizHintsFeature.Message.ReportHintNoticeHiddenEventMessage(true))
-            onNewMessage(StepQuizHintsFeature.Message.ReportHint)
-        }
-        .setNegativeButton(R.string.no) { dialog, _ ->
-            dialog.dismiss()
-            onNewMessage(
-                StepQuizHintsFeature.Message.ReportHintNoticeHiddenEventMessage(false)
-            )
-        }
+    ) =
+        MaterialAlertDialogBuilder(context)
+            .setTitle(R.string.step_quiz_hints_report_alert_title)
+            .setMessage(R.string.step_quiz_hints_report_alert_text)
+            .setPositiveButton(R.string.yes) { dialog, _ ->
+                dialog.dismiss()
+                onNewMessage(StepQuizHintsFeature.Message.ReportHintNoticeHiddenEventMessage(true))
+                onNewMessage(StepQuizHintsFeature.Message.ReportHint)
+            }
+            .setNegativeButton(R.string.no) { dialog, _ ->
+                dialog.dismiss()
+                onNewMessage(
+                    StepQuizHintsFeature.Message.ReportHintNoticeHiddenEventMessage(false)
+                )
+            }
 }

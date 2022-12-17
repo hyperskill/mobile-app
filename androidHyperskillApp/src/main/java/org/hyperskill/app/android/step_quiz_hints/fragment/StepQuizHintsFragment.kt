@@ -21,7 +21,8 @@ import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
-class StepQuizHintsFragment : Fragment(R.layout.layout_step_quiz_hints),
+class StepQuizHintsFragment :
+    Fragment(R.layout.layout_step_quiz_hints),
     ReduxView<StepQuizHintsViewState, StepQuizHintsFeature.Action.ViewAction> {
 
     companion object {
