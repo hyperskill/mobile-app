@@ -55,10 +55,10 @@ class HomeComponentImpl(appGraph: AppGraph) : HomeComponent {
             homeInteractor,
             streakInteractor,
             profileInteractor,
+            topicsRepetitionsInteractor,
             stepInteractor,
             analyticInteractor,
             sentryInteractor,
             urlPathProcessor,
-            topicsRepetitionsInteractor.topicRepeatedMutableSharedFlow
         )
 }

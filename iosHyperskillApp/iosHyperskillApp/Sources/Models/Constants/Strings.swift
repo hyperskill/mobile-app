@@ -300,6 +300,7 @@ enum Strings {
         enum RepeatBlock {
             static let title = sharedStrings.topics_repetitions_repeat_block_title.localized()
             static let currentTrack = sharedStrings.topics_repetitions_repeat_block_current_track.localized()
+            static let otherTracks = sharedStrings.topics_repetitions_repeat_block_other_tracks.localized()
         }
 
         enum InfoBlock {

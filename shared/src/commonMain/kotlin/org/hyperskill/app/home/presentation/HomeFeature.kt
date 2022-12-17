@@ -96,7 +96,7 @@ interface HomeFeature {
             sealed interface NavigateTo : ViewAction {
                 object ProfileTab : NavigateTo
                 data class StepScreen(val stepId: Long) : NavigateTo
-                data class TopicsRepetitionsScreen(val recommendedRepetitionsCount: Int) : NavigateTo
+                object TopicsRepetitionsScreen : NavigateTo
             }
 
             data class OpenUrl(val url: String) : ViewAction
