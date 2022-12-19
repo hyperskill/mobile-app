@@ -9,7 +9,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.LayoutStepQuizHintsBinding
 import org.hyperskill.app.reactions.domain.model.ReactionType
-
 import org.hyperskill.app.step_quiz_hints.model.StepQuizHintsViewState
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
@@ -65,7 +64,9 @@ class StepQuizHintsDelegate(
                 stepQuizHintAvatarImageView.load(state.authorAvatar, imageLoader) {
                     transformations(CircleCropTransformation())
                 }
-                stepQuizHintContentTextView.setTextIfChanged(state.hintText)
+                if (stepQuizHintContentTextView.originalText != state.hintText) {
+                    stepQuizHintContentTextView.originalText = state.hintText
+                }
                 stepQuizHintBeforeRateGroup.isVisible =
                     state.hintState == StepQuizHintsViewState.HintState.ReactToHint
                 stepQuizSeeNextHintButton.root.isVisible =
