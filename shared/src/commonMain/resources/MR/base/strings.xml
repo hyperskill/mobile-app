@@ -207,6 +207,18 @@
     <string name="streak_previous_five_days_text">your previous 5 days</string>
     <string name="streak_today_text">today</string>
     <string name="streak_days_text">days</string>
+    <string name="streak_get_one_day_streak_freeze">Get 1-day streak freeze</string>
+    <string name="streak_you_have_one_day_streak_freeze">You have a 1-day streak freeze!</string>
+
+    <!-- Streak freeze modal -->
+    <string name="streak_freeze_modal_can_buy_title">Save your streak</string>
+    <string name="streak_freeze_modal_already_have_title">Streak is protected</string>
+    <string name="streak_freeze_modal_not_enough_gems_title">Not enough gems</string>
+    <string name="streak_freeze_modal_text">The freeze automatically saves your progress if you miss a day and do not solve a problem.\n\nThe streak count will remain the same and won\'t get lost.</string>
+    <string name="streak_freeze_modal_one_day_streak_freeze">1-day streak freeze!</string>
+    <string name="streak_freeze_modal_you_have_one_day_streak_freeze"> You\'ve 1-day streak freeze!</string>
+    <string name="streak_freeze_modal_get_it_for_gems">Get it for %d gems</string>
+    <string name="streak_freeze_modal_continue_learning">Continue learning</string>
 
     <!-- Daily problem -->
     <string name="problem_of_day_title_uncompleted">Problem of the day</string>
