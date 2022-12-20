@@ -156,7 +156,6 @@
             android:textColor="@color/color_on_surface_alpha_60"
             android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@+id/firesBarrier"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             />
 
@@ -168,8 +167,35 @@
             android:textColor="@color/color_on_surface_alpha_60"
             android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@+id/firesBarrier"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/streakCardBuyFreezeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:strokeColor="@color/color_primary_alpha_38"
+            android:text="@string/streak_get_one_day_streak_freeze"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/streakPreviousFiveDaysTextView"
+            android:visibility="gone"
+            tools:visibility="visible"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/streakFreezeAlreadyHaveTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/streak_you_have_one_day_streak_freeze"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:drawableStartCompat="@drawable/ic_buy_streak_freeze"
+            android:drawablePadding="6dp"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/streakPreviousFiveDaysTextView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="gone"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package org.hyperskill.app.profile.presentation
 
+import kotlinx.serialization.Serializable
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.profile.domain.model.Profile
@@ -41,12 +42,18 @@ interface ProfileFeature {
         object Error : State
     }
 
+    @Serializable
     sealed interface StreakFreezeState {
+        @Serializable
         data class CanBuy(
             val streakFreezeProductId: Long,
             val price: Int
         ) : StreakFreezeState
+
+        @Serializable
         data class NotEnoughGems(val price: Int) : StreakFreezeState
+
+        @Serializable
         object AlreadyHave : StreakFreezeState
     }
 
