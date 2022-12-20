@@ -96,7 +96,7 @@ final class UIKitRoundedRectangleButton: UIKitBounceButton {
             case .violet:
                 return ColorPalette.primary
             case .outline:
-                return UIColor.systemBackground
+                return UIColor.clear
             }
         }
 
