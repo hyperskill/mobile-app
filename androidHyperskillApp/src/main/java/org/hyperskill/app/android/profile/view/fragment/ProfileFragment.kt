@@ -15,7 +15,6 @@ import coil.decode.SvgDecoder
 import coil.load
 import coil.transform.CircleCropTransformation
 import java.util.Locale
-import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.isChannelNotificationsEnabled
