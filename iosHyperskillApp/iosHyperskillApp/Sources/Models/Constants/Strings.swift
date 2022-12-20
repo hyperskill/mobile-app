@@ -277,6 +277,8 @@ enum Strings {
                 sharedStrings.streak_freeze_modal_you_have_one_day_streak_freeze.localized()
             static let continueLearning = sharedStrings.streak_freeze_modal_continue_learning.localized()
             static let getItForGemsResource = sharedStrings.streak_freeze_modal_get_it_for_gems
+            static let boughtError = sharedStrings.streak_freeze_bought_error.localized()
+            static let boughtSuccess = sharedStrings.streak_freeze_bought_success.localized()
         }
     }
 

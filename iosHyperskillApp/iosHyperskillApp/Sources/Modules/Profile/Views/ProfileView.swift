@@ -152,9 +152,9 @@ struct ProfileView: View {
             case .loading:
                 ProgressHUD.show()
             case .success:
-                ProgressHUD.showSuccess()
+                ProgressHUD.showSuccess(status: Strings.Streak.FreezeModal.boughtSuccess)
             case .error:
-                ProgressHUD.showError()
+                ProgressHUD.showError(status: Strings.Streak.FreezeModal.boughtError)
             }
         case .showStreakFreezeModal(let actionShowStreakFreezeModal):
             displayStreakFreezeModal(
