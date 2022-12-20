@@ -86,11 +86,15 @@ struct ProfileView: View {
                     )
 
                     if let streak = data.streak {
-                        StreakViewBuilder(streak: streak, viewType: .plain)
-                            .build()
-                            .padding()
-                            .background(Color(ColorPalette.surface))
-                            .cornerRadius(appearance.cornerRadius)
+                        StreakViewBuilder(
+                            streak: streak,
+                            streakFreezeState: data.streakFreezeState,
+                            viewType: .plain
+                        )
+                        .build()
+                        .padding()
+                        .background(Color(ColorPalette.surface))
+                        .cornerRadius(appearance.cornerRadius)
                     }
 
                     ProfileStatisticsView(
