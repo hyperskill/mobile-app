@@ -13,7 +13,7 @@ extension StreakFreezeModalViewController {
             vertical: LayoutInsets.largeInset
         )
 
-        let imageViewSizeRatio = CGSize(width: 0.36, height: 0.28)
+        let imageViewSizeRatio = CGSize(width: 0.32, height: 0.16)
 
         let statusBadgeImageWidthHeight: CGFloat = 36
         let statusBadgeSpacing: CGFloat = LayoutInsets.smallInset
@@ -77,7 +77,7 @@ final class StreakFreezeModalViewController: PanModalPresentableViewController {
         setupTitleView()
         setupStatusStackView()
         setupTextView()
-        setupGoBackButton()
+        setupActionButton()
     }
 
     private func setupContentStackView() {
@@ -129,11 +129,11 @@ final class StreakFreezeModalViewController: PanModalPresentableViewController {
 
         containerStackView.addArrangedSubview(makeStatusBadgeView())
 
-        let totalGemsLabel = UILabel()
-        totalGemsLabel.font = .preferredFont(forTextStyle: .subheadline)
-        totalGemsLabel.textColor = .secondaryText
-        totalGemsLabel.text = streakFreezeState.statusText
-        containerStackView.addArrangedSubview(totalGemsLabel)
+        let statusTextLabel = UILabel()
+        statusTextLabel.font = .preferredFont(forTextStyle: .subheadline)
+        statusTextLabel.textColor = .primaryText
+        statusTextLabel.text = streakFreezeState.statusText
+        containerStackView.addArrangedSubview(statusTextLabel)
     }
 
     private func makeStatusBadgeView() -> UIStackView {
@@ -174,10 +174,10 @@ final class StreakFreezeModalViewController: PanModalPresentableViewController {
         contentStackView.addArrangedSubview(label)
     }
 
-    private func setupGoBackButton() {
+    private func setupActionButton() {
         let button = UIKitRoundedRectangleButton(style: .violet)
         button.setTitle(streakFreezeState.buttonText, for: .normal)
-        button.addTarget(self, action: #selector(goBackButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
 
         contentStackView.addArrangedSubview(button)
 
@@ -189,9 +189,8 @@ final class StreakFreezeModalViewController: PanModalPresentableViewController {
     }
 
     @objc
-    private func goBackButtonTapped() {
+    private func actionButtonTapped() {
         onActionButtonTap()
-        dismiss(animated: true)
     }
 }
 

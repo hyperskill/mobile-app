@@ -147,8 +147,8 @@ struct ProfileView: View {
             WebControllerManager.shared.presentWebControllerWithURLString(data.url)
         case .showGetMagicLinkError:
             ProgressHUD.showError()
-        case .showStreakFreezeBuyingStatus(let streakFreezeBuyinStatus):
-            switch ProfileFeatureActionViewActionShowStreakFreezeBuyingStatusKs(streakFreezeBuyinStatus) {
+        case .showStreakFreezeBuyingStatus(let streakFreezeBuyingStatus):
+            switch ProfileFeatureActionViewActionShowStreakFreezeBuyingStatusKs(streakFreezeBuyingStatus) {
             case .loading:
                 ProgressHUD.show()
             case .success:
@@ -156,14 +156,16 @@ struct ProfileView: View {
             case .error:
                 ProgressHUD.showError()
             }
-        case .showStreakFreezeModal:
-            #warning("todo")
+        case .showStreakFreezeModal(let actionShowStreakFreezeModal):
+            displayTrackModal(
+                streakFreezeState: ProfileFeatureStreakFreezeStateKs(actionShowStreakFreezeModal.streakFreezeState)
+            )
         case .hideStreakFreezeModal:
             panModalPresenter.dismissPanModal()
         case .navigateTo(let actionNavigateTo):
             switch ProfileFeatureActionViewActionNavigateToKs(actionNavigateTo) {
-            case.homeScreen:
-                #warning("todo")
+            case .homeScreen:
+                TabBarRouter(tab: .home).route()
             }
         }
     }

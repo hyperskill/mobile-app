@@ -12,7 +12,7 @@ final class StreakViewBuilder {
     init(
         streak: Streak,
         streakFreezeState: ProfileFeatureStreakFreezeState?,
-        onStreakFreezeTapped: () -> Void,
+        onStreakFreezeTapped: @escaping () -> Void,
         viewType: ViewType,
         formatter: Formatter = .default
     ) {
