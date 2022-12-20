@@ -8,6 +8,8 @@ import io.ktor.client.request.parameter
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import org.hyperskill.app.items.domain.model.Item
+import org.hyperskill.app.items.remote.model.ItemsResponse
 import org.hyperskill.app.products.data.source.ProductsRemoteDataSource
 import org.hyperskill.app.products.domain.model.Product
 import org.hyperskill.app.products.remote.model.BuyProductRequest
@@ -26,12 +28,12 @@ class ProductsRemoteDataSourceImpl(
                 }.body<ProductsResponse>().products
         }
 
-    override suspend fun buyProduct(productId: Long, count: Int): Result<Product> =
+    override suspend fun buyProduct(productId: Long, count: Int): Result<Item> =
         kotlin.runCatching {
             httpClient
-                .post("/api/products") {
+                .post("/api/products/buy") {
                     contentType(ContentType.Application.Json)
-                    setBody(BuyProductRequest(productId, count))
-                }.body<ProductsResponse>().products.first()
+                    setBody(listOf(BuyProductRequest(productId, count)))
+                }.body<ItemsResponse>().items.first()
         }
 }
