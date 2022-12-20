@@ -6,7 +6,6 @@ enum Strings {
 
     // MARK: - General -
 
-
     enum General {
         static let connectionError = sharedStrings.connection_error.localized()
         static let done = sharedStrings.done.localized()
