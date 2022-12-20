@@ -16,6 +16,8 @@ struct ProfileView: View {
 
     @StateObject var viewModel: ProfileViewModel
 
+    @StateObject var panModalPresenter = PanModalPresenter()
+
     @State private var presentingSettings = false
 
     var body: some View {
@@ -86,11 +88,16 @@ struct ProfileView: View {
                     )
 
                     if let streak = data.streak {
-                        StreakViewBuilder(streak: streak, viewType: .plain)
-                            .build()
-                            .padding()
-                            .background(Color(ColorPalette.surface))
-                            .cornerRadius(appearance.cornerRadius)
+                        StreakViewBuilder(
+                            streak: streak,
+                            streakFreezeState: data.streakFreezeState,
+                            onStreakFreezeTapped: viewModel.doStreakFreezeCardButtonTapped,
+                            viewType: .plain
+                        )
+                        .build()
+                        .padding()
+                        .background(Color(ColorPalette.surface))
+                        .cornerRadius(appearance.cornerRadius)
                     }
 
                     ProfileStatisticsView(
@@ -140,9 +147,41 @@ struct ProfileView: View {
             WebControllerManager.shared.presentWebControllerWithURLString(data.url)
         case .showGetMagicLinkError:
             ProgressHUD.showError()
-        default:
-            #warning("implement streak freeze view actions")
+        case .showStreakFreezeBuyingStatus(let streakFreezeBuyingStatus):
+            switch ProfileFeatureActionViewActionShowStreakFreezeBuyingStatusKs(streakFreezeBuyingStatus) {
+            case .loading:
+                ProgressHUD.show()
+            case .success:
+                ProgressHUD.showSuccess(status: Strings.Streak.FreezeModal.boughtSuccess)
+            case .error:
+                ProgressHUD.showError(status: Strings.Streak.FreezeModal.boughtError)
+            }
+        case .showStreakFreezeModal(let actionShowStreakFreezeModal):
+            displayStreakFreezeModal(
+                streakFreezeState: ProfileFeatureStreakFreezeStateKs(actionShowStreakFreezeModal.streakFreezeState)
+            )
+        case .hideStreakFreezeModal:
+            panModalPresenter.dismissPanModal()
+        case .navigateTo(let actionNavigateTo):
+            switch ProfileFeatureActionViewActionNavigateToKs(actionNavigateTo) {
+            case .homeScreen:
+                TabBarRouter(tab: .home).route()
+            }
         }
+    }
+
+    private func displayStreakFreezeModal(streakFreezeState: ProfileFeatureStreakFreezeStateKs) {
+        viewModel.logStreakFreezeModalShownEvent()
+
+        let panModal = StreakFreezeModalViewController(
+            streakFreezeState: streakFreezeState,
+            onActionButtonTap: viewModel.doStreakFreezeModalButtonTapped
+        )
+        panModal.onDisappear = { [weak viewModel] in
+            viewModel?.logStreakFreezeModalHiddenEvent()
+        }
+
+        panModalPresenter.presentPanModal(panModal)
     }
 }
 

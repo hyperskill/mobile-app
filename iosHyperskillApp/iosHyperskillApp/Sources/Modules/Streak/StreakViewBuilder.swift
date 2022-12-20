@@ -3,12 +3,22 @@ import SwiftUI
 
 final class StreakViewBuilder {
     private let streak: Streak
+    private let streakFreezeState: ProfileFeatureStreakFreezeState?
+    private let onStreakFreezeTapped: () -> Void
     private let viewType: ViewType
 
     private let formatter: Formatter
 
-    init(streak: Streak, viewType: ViewType, formatter: Formatter = .default) {
+    init(
+        streak: Streak,
+        streakFreezeState: ProfileFeatureStreakFreezeState?,
+        onStreakFreezeTapped: @escaping () -> Void,
+        viewType: ViewType,
+        formatter: Formatter = .default
+    ) {
         self.streak = streak
+        self.streakFreezeState = streakFreezeState
+        self.onStreakFreezeTapped = onStreakFreezeTapped
         self.viewType = viewType
         self.formatter = formatter
     }
@@ -26,18 +36,24 @@ final class StreakViewBuilder {
             return .passive
         }
 
+        let streakFreezeStateKs = streakFreezeState.map(ProfileFeatureStreakFreezeStateKs.init)
+
         switch viewType {
         case .plain:
             StreakView(
                 isNewStreakRecord: streak.isNewRecord,
                 currentStreakCountString: currentStreakCountString,
-                daysStates: daysStates
+                daysStates: daysStates,
+                streakFreezeState: streakFreezeStateKs,
+                onStreakFreezeTapped: onStreakFreezeTapped
             )
         case .card:
             StreakCardView(
                 isNewStreakRecord: streak.isNewRecord,
                 currentStreakCountString: currentStreakCountString,
-                daysStates: daysStates
+                daysStates: daysStates,
+                streakFreezeState: streakFreezeStateKs,
+                onStreakFreezeTapped: onStreakFreezeTapped
             )
         }
     }
