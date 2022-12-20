@@ -1,0 +1,3 @@
+package org.hyperskill.app.step_quiz_hints.injection
+
+actual interface PlatformStepQuizHintsComponent
