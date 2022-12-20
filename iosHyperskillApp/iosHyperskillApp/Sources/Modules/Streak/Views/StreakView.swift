@@ -27,6 +27,8 @@ struct StreakView: View {
 
     let streakFreezeState: ProfileFeatureStreakFreezeStateKs?
 
+    let onStreakFreezeTapped: () -> Void
+
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
             HStack(spacing: LayoutInsets.defaultInset) {
@@ -91,7 +93,7 @@ struct StreakView: View {
                 switch streakFreezeState {
                 case .notEnoughGems, .canBuy:
                     Button(Strings.Streak.getOneDayStreakFreeze) {
-                        #warning("todo")
+                        onStreakFreezeTapped()
                     }
                     .buttonStyle(OutlineButtonStyle(
                         minHeight: appearance.getStreakFreezeButtonMinHeight,
@@ -100,9 +102,7 @@ struct StreakView: View {
                     .buttonStyle(BounceButtonStyle())
                 case .alreadyHave:
                     Button(
-                        action: {
-                            #warning("todo")
-                        },
+                        action: onStreakFreezeTapped,
                         label: {
                             HStack(spacing: LayoutInsets.smallInset) {
                                 Image(Images.Profile.Streak.FreezeModal.snowflakeBadge)
@@ -128,14 +128,16 @@ struct StreakView_Previews: PreviewProvider {
                 isNewStreakRecord: true,
                 currentStreakCountString: "3 days",
                 daysStates: [.passive, .passive, .active, .active, .frozen],
-                streakFreezeState: .alreadyHave
+                streakFreezeState: .alreadyHave,
+                onStreakFreezeTapped: {}
             )
 
             StreakView(
                 isNewStreakRecord: false,
                 currentStreakCountString: "0 days",
                 daysStates: [.passive, .passive, .active, .passive, .passive],
-                streakFreezeState: .alreadyHave
+                streakFreezeState: .alreadyHave,
+                onStreakFreezeTapped: {}
             )
         }
         .previewLayout(.sizeThatFits)

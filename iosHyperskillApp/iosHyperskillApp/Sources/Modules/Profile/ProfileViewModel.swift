@@ -108,6 +108,16 @@ final class ProfileViewModel: FeatureViewModel<
         onNewMessage(ProfileFeatureMessageClickedViewFullProfile())
     }
 
+    // MARK: Streak freeze
+
+    func onStreakFreezeCardButtonTapped() {
+        onNewMessage(ProfileFeatureMessageStreakFreezeCardButtonClicked())
+    }
+
+    func onStreakFreezeModalButtonTapped() {
+        onNewMessage(ProfileFeatureMessageStreakFreezeModalButtonClicked())
+    }
+
     // MARK: Daily study reminders
 
     func setDailyStudyRemindersEnabled(_ isEnabled: Bool) {
@@ -199,5 +209,13 @@ final class ProfileViewModel: FeatureViewModel<
 
     func logClickedDailyStudyRemindsTimeEvent() {
         onNewMessage(ProfileFeatureMessageClickedDailyStudyRemindsTimeEventMessage())
+    }
+
+    func logStreakFreezeModalShownEvent() {
+        onNewMessage(ProfileFeatureMessageStreakFreezeModalShownEventMessage())
+    }
+
+    func logStreakFreezeModalHiddenEvent() {
+        onNewMessage(ProfileFeatureMessageStreakFreezeModalHiddenEventMessage())
     }
 }

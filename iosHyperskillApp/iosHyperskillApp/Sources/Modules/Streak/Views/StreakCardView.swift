@@ -8,12 +8,15 @@ struct StreakCardView: View {
 
     let streakFreezeState: ProfileFeatureStreakFreezeStateKs?
 
+    let onStreakFreezeTapped: () -> Void
+
     var body: some View {
         StreakView(
             isNewStreakRecord: isNewStreakRecord,
             currentStreakCountString: currentStreakCountString,
             daysStates: daysStates,
-            streakFreezeState: streakFreezeState
+            streakFreezeState: streakFreezeState,
+            onStreakFreezeTapped: onStreakFreezeTapped
         )
         .padding()
         .background(Color(ColorPalette.surface))
@@ -28,14 +31,16 @@ struct StreakCardView_Previews: PreviewProvider {
                 isNewStreakRecord: true,
                 currentStreakCountString: "3 days",
                 daysStates: [.passive, .passive, .active, .active, .frozen],
-                streakFreezeState: .alreadyHave
+                streakFreezeState: .alreadyHave,
+                onStreakFreezeTapped: {}
             )
 
             StreakCardView(
                 isNewStreakRecord: false,
                 currentStreakCountString: "0 days",
                 daysStates: [.passive, .passive, .active, .passive, .passive],
-                streakFreezeState: .alreadyHave
+                streakFreezeState: .alreadyHave,
+                onStreakFreezeTapped: {}
             )
         }
         .previewLayout(.sizeThatFits)

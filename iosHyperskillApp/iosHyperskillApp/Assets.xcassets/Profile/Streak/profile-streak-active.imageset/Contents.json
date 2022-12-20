@@ -1,7 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "home-streak-active.pdf",
+      "filename" : "profile-streak-active-light.pdf",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "profile-streak-active-dark.pdf",
       "idiom" : "universal"
     }
   ],

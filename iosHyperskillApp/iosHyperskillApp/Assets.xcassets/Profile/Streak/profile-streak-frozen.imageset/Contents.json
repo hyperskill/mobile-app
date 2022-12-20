@@ -1,7 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "home-streak-frozen.pdf",
+      "filename" : "profile-streak-frozen-light.pdf",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "profile-streak-frozen-dark.pdf",
       "idiom" : "universal"
     }
   ],

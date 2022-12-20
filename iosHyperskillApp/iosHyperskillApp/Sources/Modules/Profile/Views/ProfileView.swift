@@ -16,6 +16,8 @@ struct ProfileView: View {
 
     @StateObject var viewModel: ProfileViewModel
 
+    @StateObject var panModalPresenter = PanModalPresenter()
+
     @State private var presentingSettings = false
 
     var body: some View {
@@ -89,6 +91,7 @@ struct ProfileView: View {
                         StreakViewBuilder(
                             streak: streak,
                             streakFreezeState: data.streakFreezeState,
+                            onStreakFreezeTapped: viewModel.onStreakFreezeCardButtonTapped,
                             viewType: .plain
                         )
                         .build()
@@ -144,9 +147,39 @@ struct ProfileView: View {
             WebControllerManager.shared.presentWebControllerWithURLString(data.url)
         case .showGetMagicLinkError:
             ProgressHUD.showError()
-        default:
-            #warning("implement streak freeze view actions")
+        case .showStreakFreezeBuyingStatus(let streakFreezeBuyinStatus):
+            switch ProfileFeatureActionViewActionShowStreakFreezeBuyingStatusKs(streakFreezeBuyinStatus) {
+            case .loading:
+                ProgressHUD.show()
+            case .success:
+                ProgressHUD.showSuccess()
+            case .error:
+                ProgressHUD.showError()
+            }
+        case .showStreakFreezeModal:
+            #warning("todo")
+        case .hideStreakFreezeModal:
+            panModalPresenter.dismissPanModal()
+        case .navigateTo(let actionNavigateTo):
+            switch ProfileFeatureActionViewActionNavigateToKs(actionNavigateTo) {
+            case.homeScreen:
+                #warning("todo")
+            }
         }
+    }
+
+    private func displayTrackModal(streakFreezeState: ProfileFeatureStreakFreezeStateKs) {
+        viewModel.logStreakFreezeModalShownEvent()
+
+        let panModal = StreakFreezeModalViewController(
+            streakFreezeState: streakFreezeState,
+            onActionButtonTap: viewModel.onStreakFreezeModalButtonTapped
+        )
+        panModal.onDisappear = { [weak viewModel] in
+            viewModel?.logStreakFreezeModalHiddenEvent()
+        }
+
+        panModalPresenter.presentPanModal(panModal)
     }
 }
 
