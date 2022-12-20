@@ -8,7 +8,7 @@ import org.hyperskill.app.step.domain.model.Step
 
 interface StepQuizHintsFeature {
     companion object {
-        fun areHintsAvailable(step: Step): Boolean =
+        fun isHintsFeatureAvailable(step: Step): Boolean =
             step.commentsStatistics.any { it.thread == CommentThread.HINT && it.totalCount > 0 }
     }
 

@@ -50,7 +50,8 @@
             android:focusable="true"
             android:background="?selectableItemBackground"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/stepQuizHintAvatarImageView"
+            app:layout_constraintBottom_toBottomOf="@+id/stepQuizHintAvatarImageView"
             />
 
         <androidx.constraintlayout.widget.Barrier

@@ -2,7 +2,6 @@ package org.hyperskill.app.android.step_practice.view.fragment
 
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.IdRes
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -11,6 +10,7 @@ import com.chrynan.parcelable.core.putParcelable
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepPracticeBinding
 import org.hyperskill.app.android.step_content_text.view.fragment.TextStepContentFragment
@@ -84,22 +84,12 @@ class StepPracticeFragment : Fragment(R.layout.fragment_step_practice) {
     }
 
     private fun setStepHintsFragment(step: Step) {
-        val isFeatureEnabled = StepQuizHintsFeature.areHintsAvailable(step)
+        val isFeatureEnabled = StepQuizHintsFeature.isHintsFeatureAvailable(step)
         viewBinding.stepQuizHints.isVisible = isFeatureEnabled
         if (isFeatureEnabled) {
             setChildFragment(R.id.stepQuizHints, STEP_HINTS_FRAGMENT_TAG) {
                 StepQuizHintsFragment.newInstance(step)
             }
-        }
-    }
-
-    private fun setChildFragment(@IdRes containerViewId: Int, tag: String, buildFragment: () -> Fragment) {
-        if (childFragmentManager.findFragmentByTag(tag) == null) {
-            val fragment = buildFragment()
-            childFragmentManager
-                .beginTransaction()
-                .add(containerViewId, fragment, tag)
-                .commitNow()
         }
     }
 }

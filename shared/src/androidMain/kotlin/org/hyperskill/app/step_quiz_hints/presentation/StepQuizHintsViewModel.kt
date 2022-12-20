@@ -10,7 +10,7 @@ class StepQuizHintsViewModel(
     step: Step
 ) : ReduxViewModel<StepQuizHintsViewState, StepQuizHintsFeature.Message, StepQuizHintsFeature.Action.ViewAction>(reduxViewContainer) {
     init {
-        if (StepQuizHintsFeature.areHintsAvailable(step)) {
+        if (StepQuizHintsFeature.isHintsFeatureAvailable(step)) {
             onNewMessage(
                 StepQuizHintsFeature.Message.InitWithStepId(step.id)
             )
