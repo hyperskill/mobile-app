@@ -107,10 +107,10 @@ class HomeActionDispatcher(
                     sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                     return onNewMessage(Message.HomeFailure)
                 }
-                val recommendedRepetitionsCount = topicsRepetitionsStatisticsResult.await().getOrElse {
+                val topicsRepetitionsStatistics = topicsRepetitionsStatisticsResult.await().getOrElse {
                     sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                     return onNewMessage(Message.HomeFailure)
-                }.recommendTodayCount
+                }
 
                 sentryInteractor.finishTransaction(sentryTransaction)
 
@@ -119,7 +119,11 @@ class HomeActionDispatcher(
                         streak = currentProfileStreaks.firstOrNull(),
                         hypercoinsBalance = currentProfile.gamification.hypercoinsBalance,
                         problemOfDayState = problemOfDayState,
-                        recommendedRepetitionsCount = recommendedRepetitionsCount
+                        repetitionsState = if (topicsRepetitionsStatistics.totalCount == 0) {
+                            HomeFeature.RepetitionsState.Empty
+                        } else {
+                            HomeFeature.RepetitionsState.Available(topicsRepetitionsStatistics.recommendTodayCount)
+                        }
                     )
                 )
                 onNewMessage(Message.ReadyToLaunchNextProblemInTimer)

@@ -157,7 +157,7 @@ class HomeFragment :
             }
             renderMenuItems(state)
             renderProblemOfDayCardDelegate(state.problemOfDayState)
-            renderTopicsRepetition(state.recommendedRepetitionsCount)
+            renderTopicsRepetition(state.repetitionsState)
         }
     }
 
@@ -187,14 +187,20 @@ class HomeFragment :
         }
     }
 
-    private fun renderTopicsRepetition(topicsToRepeatCount: Int) {
-        viewBinding.homeScreenTopicsRepetitionCard.root.setOnClickListener {
-            homeViewModel.onNewMessage(HomeFeature.Message.ClickedTopicsRepetitionsCard)
+    private fun renderTopicsRepetition(repetitionsState: HomeFeature.RepetitionsState) {
+        when (repetitionsState) {
+            is HomeFeature.RepetitionsState.Available -> {
+                viewBinding.homeScreenTopicsRepetitionCard.root.setOnClickListener {
+                    homeViewModel.onNewMessage(HomeFeature.Message.ClickedTopicsRepetitionsCard)
+                }
+                topicsRepetitionDelegate.render(
+                    requireContext(),
+                    viewBinding.homeScreenTopicsRepetitionCard,
+                    repetitionsState.recommendedRepetitionsCount
+                )
+            }
+            is HomeFeature.RepetitionsState.Empty ->
+                viewBinding.homeScreenTopicsRepetitionCard.root.visibility = View.GONE
         }
-        topicsRepetitionDelegate.render(
-            requireContext(),
-            viewBinding.homeScreenTopicsRepetitionCard,
-            topicsToRepeatCount
-        )
     }
 }
