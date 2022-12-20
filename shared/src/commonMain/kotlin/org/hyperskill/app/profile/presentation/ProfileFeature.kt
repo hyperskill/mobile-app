@@ -114,7 +114,7 @@ interface ProfileFeature {
             data class OpenUrl(val url: String) : ViewAction
             object ShowGetMagicLinkError : ViewAction
 
-            object ShowStreakFreezeModal : ViewAction
+            data class ShowStreakFreezeModal(val streakFreezeState: StreakFreezeState) : ViewAction
             object HideStreakFreezeModal : ViewAction
             sealed interface ShowStreakFreezeBuyingStatus : ViewAction {
                 object Loading : ShowStreakFreezeBuyingStatus

@@ -109,13 +109,10 @@ class ProfileActionDispatcher(
             )
 
     private fun getStreakFreezeState(streakFreezeProduct: Product?, items: List<Item>?, hypercoinsBalance: Int): ProfileFeature.StreakFreezeState? =
-        if (streakFreezeProduct == null || items == null) {
-            null
-        } else if (items.any { it.productId == streakFreezeProduct.id && it.usedAt == null }) {
-            ProfileFeature.StreakFreezeState.AlreadyHave
-        } else if (hypercoinsBalance >= streakFreezeProduct.price) {
-            ProfileFeature.StreakFreezeState.CanBuy(streakFreezeProduct.id, streakFreezeProduct.price)
-        } else {
-            ProfileFeature.StreakFreezeState.NotEnoughGems(streakFreezeProduct.price)
+        when {
+            streakFreezeProduct == null || items == null -> null
+            items.any { it.productId == streakFreezeProduct.id && it.usedAt == null } -> ProfileFeature.StreakFreezeState.AlreadyHave
+            hypercoinsBalance >= streakFreezeProduct.price -> ProfileFeature.StreakFreezeState.CanBuy(streakFreezeProduct.id, streakFreezeProduct.price)
+            else -> ProfileFeature.StreakFreezeState.NotEnoughGems(streakFreezeProduct.price)
         }
 }

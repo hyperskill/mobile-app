@@ -93,57 +93,49 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                 }
             is Message.StreakFreezeCardButtonClicked ->
                 if (state is State.Content && state.streakFreezeState != null) {
-                    state to buildSet {
-                        add(
-                            Action.LogAnalyticEvent(
-                                StreakFreezeClickedCardActionHyperskillAnalyticEvent(
-                                    when (state.streakFreezeState) {
-                                        ProfileFeature.StreakFreezeState.AlreadyHave ->
-                                            StreakFreezeCardAnalyticAction.STREAK_FREEZE_ICON
-                                        is ProfileFeature.StreakFreezeState.CanBuy,
-                                        is ProfileFeature.StreakFreezeState.NotEnoughGems ->
-                                            StreakFreezeCardAnalyticAction.GET_STREAK_FREEZE
-                                    }
-                                )
+                    state to setOf(
+                        Action.LogAnalyticEvent(
+                            StreakFreezeClickedCardActionHyperskillAnalyticEvent(
+                                when (state.streakFreezeState) {
+                                    ProfileFeature.StreakFreezeState.AlreadyHave ->
+                                        StreakFreezeCardAnalyticAction.STREAK_FREEZE_ICON
+                                    is ProfileFeature.StreakFreezeState.CanBuy,
+                                    is ProfileFeature.StreakFreezeState.NotEnoughGems ->
+                                        StreakFreezeCardAnalyticAction.GET_STREAK_FREEZE
+                                }
                             )
-                        )
-                        add(Action.ViewAction.ShowStreakFreezeModal)
-                    }
+                        ),
+                        Action.ViewAction.ShowStreakFreezeModal(state.streakFreezeState)
+                    )
                 } else {
                     null
                 }
             is Message.StreakFreezeModalButtonClicked ->
                 if (state is State.Content && state.streakFreezeState != null) {
-                    state to buildSet {
-                        when (state.streakFreezeState) {
-                            is ProfileFeature.StreakFreezeState.CanBuy ->
-                                addAll(
-                                    setOf(
-                                        Action.BuyStreakFreeze(state.streakFreezeState.streakFreezeProductId),
-                                        Action.LogAnalyticEvent(
-                                            StreakFreezeClickedModalActionButtonHyperskillAnalyticEvent(
-                                                StreakFreezeModalAnalyticAction.GET_IT,
-                                                mapContentStateToStreakFreezeAnalyticState(state.streakFreezeState)
-                                            )
-                                        ),
-                                        Action.ViewAction.ShowStreakFreezeBuyingStatus.Loading
+                    state to when (state.streakFreezeState) {
+                        is ProfileFeature.StreakFreezeState.CanBuy ->
+                            setOf(
+                                Action.BuyStreakFreeze(state.streakFreezeState.streakFreezeProductId),
+                                Action.LogAnalyticEvent(
+                                    StreakFreezeClickedModalActionButtonHyperskillAnalyticEvent(
+                                        StreakFreezeModalAnalyticAction.GET_IT,
+                                        mapContentStateToStreakFreezeAnalyticState(state.streakFreezeState)
                                     )
-                                )
-                            ProfileFeature.StreakFreezeState.AlreadyHave,
-                            is ProfileFeature.StreakFreezeState.NotEnoughGems ->
-                                addAll(
-                                    setOf(
-                                        Action.LogAnalyticEvent(
-                                            StreakFreezeClickedModalActionButtonHyperskillAnalyticEvent(
-                                                StreakFreezeModalAnalyticAction.CONTINUE_LEARNING,
-                                                mapContentStateToStreakFreezeAnalyticState(state.streakFreezeState)
-                                            )
-                                        ),
-                                        Action.ViewAction.HideStreakFreezeModal,
-                                        Action.ViewAction.NavigateTo.HomeScreen
+                                ),
+                                Action.ViewAction.ShowStreakFreezeBuyingStatus.Loading
+                            )
+                        ProfileFeature.StreakFreezeState.AlreadyHave,
+                        is ProfileFeature.StreakFreezeState.NotEnoughGems ->
+                            setOf(
+                                Action.LogAnalyticEvent(
+                                    StreakFreezeClickedModalActionButtonHyperskillAnalyticEvent(
+                                        StreakFreezeModalAnalyticAction.CONTINUE_LEARNING,
+                                        mapContentStateToStreakFreezeAnalyticState(state.streakFreezeState)
                                     )
-                                )
-                        }
+                                ),
+                                Action.ViewAction.HideStreakFreezeModal,
+                                Action.ViewAction.NavigateTo.HomeScreen
+                            )
                     }
                 } else {
                     null

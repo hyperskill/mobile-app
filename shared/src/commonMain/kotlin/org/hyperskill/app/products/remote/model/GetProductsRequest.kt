@@ -1,7 +1,5 @@
 package org.hyperskill.app.products.remote.model
 
-import ru.nobird.app.core.model.mapOfNotNull
-
 class GetProductsRequest(
     val category: Category
 ) {
@@ -10,7 +8,7 @@ class GetProductsRequest(
     }
 
     val parameters: Map<String, Any> =
-        mapOfNotNull(
+        mapOf(
             PARAM_CATEGORY to category.parameterValue
         )
 
