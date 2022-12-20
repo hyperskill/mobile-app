@@ -166,7 +166,7 @@ final class StreakFreezeModalViewController: PanModalPresentableViewController {
     private func setupTextView() {
         let label = UILabel()
         label.text = Strings.Streak.FreezeModal.text
-        label.font = .preferredFont(forTextStyle: .headline)
+        label.font = .preferredFont(forTextStyle: .body)
         label.textColor = .primaryText
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
@@ -175,7 +175,7 @@ final class StreakFreezeModalViewController: PanModalPresentableViewController {
     }
 
     private func setupActionButton() {
-        let button = UIKitRoundedRectangleButton(style: .violet)
+        let button = UIKitRoundedRectangleButton(style: streakFreezeState.buttonStyle)
         button.setTitle(streakFreezeState.buttonText, for: .normal)
         button.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
 
@@ -255,6 +255,15 @@ fileprivate extension ProfileFeatureStreakFreezeStateKs {
             )
         case .notEnoughGems, .alreadyHave:
             return Strings.Streak.FreezeModal.continueLearning
+        }
+    }
+
+    var buttonStyle: UIKitRoundedRectangleButton.Style {
+        switch self {
+        case .canBuy:
+            return .violet
+        case .notEnoughGems, .alreadyHave:
+            return .outline
         }
     }
 }

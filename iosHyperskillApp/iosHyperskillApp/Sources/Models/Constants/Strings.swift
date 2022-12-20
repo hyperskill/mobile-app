@@ -267,8 +267,6 @@ enum Strings {
         static let getOneDayStreakFreeze = sharedStrings.streak_get_one_day_streak_freeze.localized()
         static let youHaveOneDayStreakFreeze = sharedStrings.streak_you_have_one_day_streak_freeze.localized()
 
-
-
         enum FreezeModal {
             static let canBuyTitle = sharedStrings.streak_freeze_modal_can_buy_title.localized()
             static let alreadyHaveTitle = sharedStrings.streak_freeze_modal_already_have_title.localized()

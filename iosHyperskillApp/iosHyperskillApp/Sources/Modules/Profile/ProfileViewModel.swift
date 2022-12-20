@@ -110,11 +110,11 @@ final class ProfileViewModel: FeatureViewModel<
 
     // MARK: Streak freeze
 
-    func onStreakFreezeCardButtonTapped() {
+    func doStreakFreezeCardButtonTapped() {
         onNewMessage(ProfileFeatureMessageStreakFreezeCardButtonClicked())
     }
 
-    func onStreakFreezeModalButtonTapped() {
+    func doStreakFreezeModalButtonTapped() {
         onNewMessage(ProfileFeatureMessageStreakFreezeModalButtonClicked())
     }
 

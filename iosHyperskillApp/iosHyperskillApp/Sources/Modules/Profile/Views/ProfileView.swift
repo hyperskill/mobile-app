@@ -91,7 +91,7 @@ struct ProfileView: View {
                         StreakViewBuilder(
                             streak: streak,
                             streakFreezeState: data.streakFreezeState,
-                            onStreakFreezeTapped: viewModel.onStreakFreezeCardButtonTapped,
+                            onStreakFreezeTapped: viewModel.doStreakFreezeCardButtonTapped,
                             viewType: .plain
                         )
                         .build()
@@ -157,7 +157,7 @@ struct ProfileView: View {
                 ProgressHUD.showError()
             }
         case .showStreakFreezeModal(let actionShowStreakFreezeModal):
-            displayTrackModal(
+            displayStreakFreezeModal(
                 streakFreezeState: ProfileFeatureStreakFreezeStateKs(actionShowStreakFreezeModal.streakFreezeState)
             )
         case .hideStreakFreezeModal:
@@ -170,12 +170,12 @@ struct ProfileView: View {
         }
     }
 
-    private func displayTrackModal(streakFreezeState: ProfileFeatureStreakFreezeStateKs) {
+    private func displayStreakFreezeModal(streakFreezeState: ProfileFeatureStreakFreezeStateKs) {
         viewModel.logStreakFreezeModalShownEvent()
 
         let panModal = StreakFreezeModalViewController(
             streakFreezeState: streakFreezeState,
-            onActionButtonTap: viewModel.onStreakFreezeModalButtonTapped
+            onActionButtonTap: viewModel.doStreakFreezeModalButtonTapped
         )
         panModal.onDisappear = { [weak viewModel] in
             viewModel?.logStreakFreezeModalHiddenEvent()

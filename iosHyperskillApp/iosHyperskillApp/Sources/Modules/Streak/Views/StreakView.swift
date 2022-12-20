@@ -43,7 +43,7 @@ struct StreakView: View {
                         .foregroundColor(.primaryText)
 
                     if isNewStreakRecord {
-                        Image(Images.Profile.Streak.crown)
+                        Image(Images.Profile.Streak.Card.crown)
                             .renderingMode(.original)
                             .resizable()
                             .frame(width: appearance.crownWidth, height: appearance.crownHeight)

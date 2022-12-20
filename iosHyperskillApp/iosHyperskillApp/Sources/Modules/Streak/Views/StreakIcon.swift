@@ -17,11 +17,11 @@ fileprivate extension StreakDayState {
     var icon: String {
         switch self {
         case .active:
-            return Images.Profile.Streak.streakActive
+            return Images.Profile.Streak.Card.streakActive
         case .passive:
-            return Images.Profile.Streak.streakPassive
+            return Images.Profile.Streak.Card.streakPassive
         case .frozen:
-            return Images.Profile.Streak.streakFrozen
+            return Images.Profile.Streak.Card.streakFrozen
         }
     }
 }

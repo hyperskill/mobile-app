@@ -36,12 +36,7 @@ final class StreakViewBuilder {
             return .passive
         }
 
-        let streakFreezeStateKs: ProfileFeatureStreakFreezeStateKs? = {
-            guard let streakFreezeState else {
-                return nil
-            }
-            return .init(streakFreezeState)
-        }()
+        let streakFreezeStateKs = streakFreezeState.map(ProfileFeatureStreakFreezeStateKs.init)
 
         switch viewType {
         case .plain:

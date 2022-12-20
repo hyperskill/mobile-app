@@ -116,10 +116,12 @@ enum Images {
         }
 
         enum Streak {
-            static let streakActive = "profile-streak-active"
-            static let streakPassive = "profile-streak-passive"
-            static let streakFrozen = "profile-streak-frozen"
-            static let crown = "profile-streak-crown"
+            enum Card {
+                static let streakActive = "profile-streak-active"
+                static let streakPassive = "profile-streak-passive"
+                static let streakFrozen = "profile-streak-frozen"
+                static let crown = "profile-streak-crown"
+            }
 
             enum FreezeModal {
                 static let diamond = "profile-streak-freeze-modal-diamond"
