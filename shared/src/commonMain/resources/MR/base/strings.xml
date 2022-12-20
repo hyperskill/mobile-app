@@ -219,6 +219,8 @@
     <string name="streak_freeze_modal_you_have_one_day_streak_freeze"> You\'ve 1-day streak freeze!</string>
     <string name="streak_freeze_modal_get_it_for_gems">Get it for %d gems</string>
     <string name="streak_freeze_modal_continue_learning">Continue learning</string>
+    <string name="streak_freeze_bought_error">Failed to get 1-day streak freeze</string>
+    <string name="streak_freeze_bought_success">Successfully got 1-day streak freeze</string>
 
     <!-- Daily problem -->
     <string name="problem_of_day_title_uncompleted">Problem of the day</string>
