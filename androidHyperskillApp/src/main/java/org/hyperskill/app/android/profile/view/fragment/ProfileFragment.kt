@@ -229,9 +229,8 @@ class ProfileFragment :
             is ProfileFeature.Action.ViewAction.OpenUrl ->
                 requireContext().launchUrl(action.url)
 
-            is ProfileFeature.Action.ViewAction.ShowGetMagicLinkError,
-            ProfileFeature.Action.ViewAction.ShowStreakFreezeBuyingStatus.Error ->
-                viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
+            is ProfileFeature.Action.ViewAction.ShowGetMagicLinkError ->
+                viewBinding.root.snackbar(R.string.common_error)
 
             is ProfileFeature.Action.ViewAction.ShowStreakFreezeModal -> {
                 StreakFreezeDialogFragment.newInstance(action.streakFreezeState)
@@ -241,10 +240,17 @@ class ProfileFragment :
                 childFragmentManager
                     .dismissDialogFragmentIfExists(StreakFreezeDialogFragment.Tag)
             }
-            ProfileFeature.Action.ViewAction.ShowStreakFreezeBuyingStatus.Loading,
-            ProfileFeature.Action.ViewAction.ShowStreakFreezeBuyingStatus.Success -> {
-                childFragmentManager.dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
+            ProfileFeature.Action.ViewAction.ShowStreakFreezeBuyingStatus.Loading -> {
+                childFragmentManager
+                    .dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
             }
+            ProfileFeature.Action.ViewAction.ShowStreakFreezeBuyingStatus.Success -> {
+                viewBinding.root.snackbar(R.string.streak_freeze_bought_success)
+                childFragmentManager
+                    .dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
+            }
+            ProfileFeature.Action.ViewAction.ShowStreakFreezeBuyingStatus.Error ->
+                viewBinding.root.snackbar(R.string.streak_freeze_bought_error)
 
             ProfileFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
                 requireMainRouter().switch(HomeScreen)
