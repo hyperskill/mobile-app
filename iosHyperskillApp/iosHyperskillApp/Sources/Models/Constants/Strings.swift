@@ -275,7 +275,8 @@ enum Strings {
             static let notEnoughGemsTitle = sharedStrings.streak_freeze_modal_not_enough_gems_title.localized()
             static let text = sharedStrings.streak_freeze_modal_text.localized()
             static let oneDayStreakFreeze = sharedStrings.streak_freeze_modal_one_day_streak_freeze.localized()
-            static let youHaveOneDayStreakFreeze = sharedStrings.streak_freeze_modal_you_have_one_day_streak_freeze.localized()
+            static let youHaveOneDayStreakFreeze =
+                sharedStrings.streak_freeze_modal_you_have_one_day_streak_freeze.localized()
             static let continueLearning = sharedStrings.streak_freeze_modal_continue_learning.localized()
             static let getItForGemsResource = sharedStrings.streak_freeze_modal_get_it_for_gems
         }
