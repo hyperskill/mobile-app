@@ -55,7 +55,7 @@ class TopicsRepetitionListDelegate(
                     is TopicsRepetitionListItem.Topic,
                     TopicsRepetitionListItem.LoadingStub -> {
                         val isAfterHeader  = if (position > 0) {
-                            topicsAdapter.items.getOrNull(position -1 ) is TopicsRepetitionListItem.Header
+                            topicsAdapter.items.getOrNull(position - 1) is TopicsRepetitionListItem.Header
                         } else {
                             false
                         }
