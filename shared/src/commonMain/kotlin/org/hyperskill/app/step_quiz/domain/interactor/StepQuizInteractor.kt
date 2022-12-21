@@ -1,5 +1,6 @@
 package org.hyperskill.app.step_quiz.domain.interactor
 
+import kotlinx.coroutines.delay
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.attempts.AttemptStatus
@@ -8,11 +9,16 @@ import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.domain.repository.AttemptRepository
 import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
+import kotlin.time.Duration.Companion.seconds
 
 class StepQuizInteractor(
     private val attemptRepository: AttemptRepository,
     private val submissionRepository: SubmissionRepository
 ) {
+    companion object {
+        const val POLL_SECONDS_INTERVAL = 0.5
+    }
+
     suspend fun getAttempt(stepId: Long, userId: Long): Result<Attempt> =
         kotlin.runCatching {
             val activeAttempt = attemptRepository
@@ -54,20 +60,18 @@ class StepQuizInteractor(
             return pollSub
         }
 
-    private suspend fun pollSubmission(submissionId: Long): Result<Submission> {
-        while (true) {
-            // delay(1000) TODO ALTAPPS-88 freezes indefinitely
+    private suspend fun pollSubmission(submissionId: Long, retryCount: Int = 1): Result<Submission> {
+        delay(POLL_SECONDS_INTERVAL.seconds * retryCount)
 
-            val submission = submissionRepository
-                .getSubmissions(listOf(submissionId))
-                .getOrThrow()
-                .first()
+        val submission = submissionRepository
+            .getSubmissions(listOf(submissionId))
+            .getOrThrow()
+            .first()
 
-            if (submission.status == SubmissionStatus.EVALUATION) {
-                continue
-            } else {
-                return Result.success(submission)
-            }
+        return if (submission.status == SubmissionStatus.EVALUATION) {
+            pollSubmission(submissionId = submissionId, retryCount = retryCount + 1)
+        } else {
+            Result.success(submission)
         }
     }
 }
