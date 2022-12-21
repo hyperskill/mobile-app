@@ -28,6 +28,8 @@ class ProfileComponentImpl(private val appGraph: AppGraph) : ProfileComponent {
         get() = ProfileFeatureBuilder.build(
             profileInteractor,
             streakInteractor,
+            appGraph.buildProductsDataComponent().productsInteractor,
+            appGraph.buildItemsDataComponent().itemsInteractor,
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor,
             urlPathProcessor

@@ -15,17 +15,19 @@ import coil.decode.SvgDecoder
 import coil.load
 import coil.transform.CircleCropTransformation
 import java.util.Locale
-import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.isChannelNotificationsEnabled
 import org.hyperskill.app.android.core.extensions.launchUrl
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
+import org.hyperskill.app.android.core.view.ui.navigation.requireMainRouter
 import org.hyperskill.app.android.databinding.FragmentProfileBinding
+import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
 import org.hyperskill.app.android.profile_settings.view.dialog.ProfileSettingsDialogFragment
 import org.hyperskill.app.android.profile.view.delegate.StreakCardFormDelegate
+import org.hyperskill.app.android.profile.view.dialog.StreakFreezeDialogFragment
 import org.hyperskill.app.android.view.base.ui.extension.redirectToUsernamePage
 import org.hyperskill.app.android.view.base.ui.extension.setElevationOnCollapsed
 import org.hyperskill.app.profile.domain.model.Profile
@@ -94,7 +96,13 @@ class ProfileFragment :
         initProfileViewFullVersionTextView()
 
         streakFormDelegate =
-            StreakCardFormDelegate(requireContext(), viewBinding.profileStreakLayout)
+            StreakCardFormDelegate(
+                context = requireContext(),
+                binding = viewBinding.profileStreakLayout,
+                onFreezeButtonClick = {
+                    profileViewModel.onNewMessage(ProfileFeature.Message.StreakFreezeCardButtonClicked)
+                }
+            )
 
         viewBinding.profileError.tryAgain.setOnClickListener {
             profileViewModel.onNewMessage(
@@ -221,7 +229,31 @@ class ProfileFragment :
                 requireContext().launchUrl(action.url)
 
             is ProfileFeature.Action.ViewAction.ShowGetMagicLinkError ->
-                viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
+                viewBinding.root.snackbar(R.string.common_error)
+
+            is ProfileFeature.Action.ViewAction.ShowStreakFreezeModal -> {
+                StreakFreezeDialogFragment.newInstance(action.streakFreezeState)
+                    .showIfNotExists(childFragmentManager, StreakFreezeDialogFragment.Tag)
+            }
+            ProfileFeature.Action.ViewAction.HideStreakFreezeModal -> {
+                childFragmentManager
+                    .dismissDialogFragmentIfExists(StreakFreezeDialogFragment.Tag)
+            }
+            ProfileFeature.Action.ViewAction.ShowStreakFreezeBuyingStatus.Loading -> {
+                childFragmentManager
+                    .dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
+            }
+            ProfileFeature.Action.ViewAction.ShowStreakFreezeBuyingStatus.Success -> {
+                viewBinding.root.snackbar(R.string.streak_freeze_bought_success)
+                childFragmentManager
+                    .dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
+            }
+            ProfileFeature.Action.ViewAction.ShowStreakFreezeBuyingStatus.Error ->
+                viewBinding.root.snackbar(R.string.streak_freeze_bought_error)
+
+            ProfileFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
+                requireMainRouter().switch(HomeScreen)
+            }
         }
     }
 
@@ -239,7 +271,7 @@ class ProfileFragment :
     }
 
     private fun renderContent(content: ProfileFeature.State.Content) {
-        streakFormDelegate?.render(content.streak)
+        streakFormDelegate?.render(content.streak, content.streakFreezeState)
 
         renderStatistics(content.profile)
         renderNameProfileBadge(content.profile)

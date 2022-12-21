@@ -7,6 +7,7 @@ import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.comments.injection.CommentsDataComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
 import org.hyperskill.app.home.injection.HomeComponent
+import org.hyperskill.app.items.injection.ItemsDataComponent
 import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponent
 import org.hyperskill.app.likes.injection.LikesDataComponent
 import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
@@ -15,6 +16,7 @@ import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.notification.injection.NotificationComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponent
+import org.hyperskill.app.products.injection.ProductsDataComponent
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile.injection.ProfileHypercoinsDataComponent
@@ -68,4 +70,6 @@ interface AppGraph {
     fun buildLearningActivitiesDataComponent(): LearningActivitiesDataComponent
     fun buildTopicsDataComponent(): TopicsDataComponent
     fun buildProgressesDataComponent(): ProgressesDataComponent
+    fun buildProductsDataComponent(): ProductsDataComponent
+    fun buildItemsDataComponent(): ItemsDataComponent
 }

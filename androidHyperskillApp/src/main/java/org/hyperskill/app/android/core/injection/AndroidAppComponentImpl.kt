@@ -34,6 +34,8 @@ import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.HomeComponentImpl
 import org.hyperskill.app.home.injection.PlatformHomeComponent
 import org.hyperskill.app.home.injection.PlatformHomeComponentImpl
+import org.hyperskill.app.items.injection.ItemsDataComponent
+import org.hyperskill.app.items.injection.ItemsDataComponentImpl
 import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponent
 import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponentImpl
 import org.hyperskill.app.likes.injection.LikesDataComponent
@@ -56,6 +58,8 @@ import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserCompo
 import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponentImpl
 import org.hyperskill.app.placeholder_new_user.injection.PlatformPlaceholderNewUserComponent
 import org.hyperskill.app.placeholder_new_user.injection.PlatformPlaceholderNewUserComponentImpl
+import org.hyperskill.app.products.injection.ProductsDataComponent
+import org.hyperskill.app.products.injection.ProductsDataComponentImpl
 import org.hyperskill.app.profile.injection.PlatformProfileComponent
 import org.hyperskill.app.profile.injection.PlatformProfileComponentImpl
 import org.hyperskill.app.profile.injection.PlatformProfileSettingsComponentImpl
@@ -323,4 +327,10 @@ class AndroidAppComponentImpl(
 
     override fun buildProgressesDataComponent(): ProgressesDataComponent =
         ProgressesDataComponentImpl(this)
+
+    override fun buildProductsDataComponent(): ProductsDataComponent =
+        ProductsDataComponentImpl(this)
+
+    override fun buildItemsDataComponent(): ItemsDataComponent =
+        ItemsDataComponentImpl(this)
 }
