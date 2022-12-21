@@ -1,11 +1,11 @@
 package org.hyperskill.app.android.topics_repetitions.view.delegate
 
+import android.content.Context
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.core.view.ui.adapter.decoration.HorizontalMarginItemDecoration
-import org.hyperskill.app.android.core.view.ui.adapter.decoration.VerticalMarginItemDecoration
+import org.hyperskill.app.android.core.view.ui.adapter.decoration.itemDecoration
 import org.hyperskill.app.android.databinding.LayoutTopicsRepetitionTopicsListBinding
 import org.hyperskill.app.android.topics_repetitions.view.model.TopicsRepetitionListItem
 import org.hyperskill.app.android.topics_repetitions.view.model.TopicsRepetitionListState
@@ -20,62 +20,83 @@ class TopicsRepetitionListDelegate(
     private val onNewMessage: (TopicsRepetitionsFeature.Message) -> Unit
 ) {
 
-    private val topicsDelegate by lazy(LazyThreadSafetyMode.NONE) {
+    private val topicsAdapter by lazy(LazyThreadSafetyMode.NONE) {
         DefaultDelegateAdapter<TopicsRepetitionListItem>().apply {
             addDelegate(topicsAdapterDelegate())
             addDelegate(topicsSkeletonAdapterDelegate())
+            addDelegate(topicsHeaderAdapterDelegate())
         }
     }
 
     init {
-        setupLayout(binding)
+        binding.topicsListsShowMoreButton.setOnClickListener {
+            onNewMessage(TopicsRepetitionsFeature.Message.ShowMoreButtonClicked)
+        }
+        setupRecycler()
     }
 
-    private fun setupLayout(binding: LayoutTopicsRepetitionTopicsListBinding) {
-        with(binding) {
-            topicsListsShowMoreButton.setOnClickListener {
-                onNewMessage(TopicsRepetitionsFeature.Message.ShowMoreButtonClicked)
-            }
-            with(topicsListRecyclerView) {
-                layoutManager =
-                    LinearLayoutManager(root.context, LinearLayoutManager.VERTICAL, false)
-                adapter = topicsDelegate
-                isNestedScrollingEnabled = false
-                val verticalMargin = resources.getDimensionPixelSize(R.dimen.track_next_topic_vertical_item_margin)
-                addItemDecoration(
-                    VerticalMarginItemDecoration(verticalMargin = verticalMargin)
-                )
-                addItemDecoration(
-                    HorizontalMarginItemDecoration(
-                        resources.getDimensionPixelSize(R.dimen.track_next_topic_horizontal_item_margin)
-                    )
-                )
+    private fun setupRecycler() {
+        with(binding.topicsListRecyclerView) {
+            layoutManager =
+                LinearLayoutManager(binding.root.context, LinearLayoutManager.VERTICAL, false)
+            adapter = topicsAdapter
+            isNestedScrollingEnabled = false
+            val headerVerticalMargin = resources.getDimensionPixelSize(R.dimen.track_next_topic_header_vertical_item_margin)
+            val topicVerticalMargin = resources.getDimensionPixelSize(R.dimen.track_next_topic_vertical_item_margin)
+            itemDecoration { position, rect, _ ->
+                val item = topicsAdapter.items.getOrNull(position) ?: return@itemDecoration
+                when (item) {
+                    is TopicsRepetitionListItem.Header -> {
+                        with(rect) {
+                            top = headerVerticalMargin
+                            bottom = headerVerticalMargin
+                        }
+                    }
+                    is TopicsRepetitionListItem.Topic,
+                    TopicsRepetitionListItem.LoadingStub -> {
+                        val isAfterHeader  = if (position > 0) {
+                            topicsAdapter.items[position - 1] is TopicsRepetitionListItem.Header
+                        } else {
+                            false
+                        }
+                        if (!isAfterHeader) {
+                            rect.top = topicVerticalMargin
+                        }
+                    }
+                }
             }
         }
     }
 
-    fun render(previousState: TopicsRepetitionListState?, state: TopicsRepetitionListState) {
+    fun render(context: Context, previousState: TopicsRepetitionListState?, state: TopicsRepetitionListState) {
         if (previousState == state) return
         with(binding) {
-            root.isVisible = state.topicsToRepeat.isNotEmpty()
+            root.isVisible = state.topicsToRepeatFromCurrentTrack.isNotEmpty()
             topicsListTitleTextView.setTextIfChanged(state.repeatBlockTitle)
-            topicsListTrackTitleTextView.setTextIfChanged(state.trackTopicsTitle)
 
             if (previousState?.showMoreButtonState != state.showMoreButtonState) {
                 topicsListsShowMoreButton.isVisible =
                     state.showMoreButtonState == ShowMoreButtonState.AVAILABLE
             }
-            topicsListRecyclerView.isVisible = state.topicsToRepeat.isNotEmpty()
-            if (state.topicsToRepeat.isNotEmpty() && (previousState?.topicsToRepeat != state.topicsToRepeat || previousState.showMoreButtonState != state.showMoreButtonState)) {
-                topicsDelegate.items = buildList {
-                    addAll(state.topicsToRepeat.map(TopicsRepetitionListItem::Topic))
-                    if (state.showMoreButtonState == ShowMoreButtonState.LOADING) {
-                        addAll(
-                            List(state.topicsToRepeatWillLoadedCount) {
-                                TopicsRepetitionListItem.LoadingStub
-                            }
+            topicsListRecyclerView.isVisible =
+                state.topicsToRepeatFromCurrentTrack.isNotEmpty() || state.topicsToRepeatFromOtherTracks.isNotEmpty()
+            topicsAdapter.items = buildList {
+                add(TopicsRepetitionListItem.Header(state.trackTopicsTitle))
+                addAll(state.topicsToRepeatFromCurrentTrack.map(TopicsRepetitionListItem::Topic))
+                if (state.topicsToRepeatFromOtherTracks.isNotEmpty()) {
+                    add(
+                        TopicsRepetitionListItem.Header(
+                            context.getString(R.string.topics_repetitions_repeat_block_other_tracks)
                         )
-                    }
+                    )
+                    addAll(state.topicsToRepeatFromOtherTracks.map(TopicsRepetitionListItem::Topic))
+                }
+                if (state.showMoreButtonState == ShowMoreButtonState.LOADING) {
+                    addAll(
+                        List(state.topicsToRepeatWillLoadedCount) {
+                            TopicsRepetitionListItem.LoadingStub
+                        }
+                    )
                 }
             }
         }
@@ -101,4 +122,13 @@ class TopicsRepetitionListDelegate(
         adapterDelegate<TopicsRepetitionListItem, TopicsRepetitionListItem.LoadingStub>(
             R.layout.item_topics_to_repeat_skeleton
         )
+
+    private fun topicsHeaderAdapterDelegate() =
+        adapterDelegate<TopicsRepetitionListItem, TopicsRepetitionListItem.Header>(R.layout.item_topics_to_repeat_header) {
+            onBind {
+                item?.title?.let { title ->
+                    (itemView as TextView).text = title
+                }
+            }
+        }
 }
