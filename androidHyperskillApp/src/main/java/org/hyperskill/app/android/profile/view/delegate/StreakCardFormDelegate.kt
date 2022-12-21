@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.core.view.isVisible
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.LayoutProfileStreakCardBinding
+import org.hyperskill.app.profile.presentation.ProfileFeature
 import org.hyperskill.app.streak.domain.model.HistoricalStreak
 import org.hyperskill.app.streak.domain.model.Streak
 import org.hyperskill.app.streak.domain.model.StreakState
@@ -11,7 +12,8 @@ import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 
 class StreakCardFormDelegate(
     private val context: Context,
-    private val binding: LayoutProfileStreakCardBinding
+    private val binding: LayoutProfileStreakCardBinding,
+    onFreezeButtonClick: () -> Unit
 ) {
     init {
         with(binding.streakTodayIncludedFire.itemStreak) {
@@ -20,9 +22,17 @@ class StreakCardFormDelegate(
             strokeColor =
                 context.getColor(R.color.color_primary)
         }
+        with(binding) {
+            streakCardBuyFreezeButton.setOnClickListener {
+                onFreezeButtonClick()
+            }
+            streakFreezeAlreadyHaveTextView.setOnClickListener {
+                onFreezeButtonClick()
+            }
+        }
     }
 
-    fun render(streak: Streak?) {
+    fun render(streak: Streak?, freezeState: ProfileFeature.StreakFreezeState?) {
         binding.root.isVisible = streak != null
         if (streak == null) return
 
@@ -51,6 +61,11 @@ class StreakCardFormDelegate(
                 streak.currentStreak
             )
         )
+
+        binding.streakCardBuyFreezeButton.isVisible =
+            freezeState is ProfileFeature.StreakFreezeState.CanBuy || freezeState is ProfileFeature.StreakFreezeState.NotEnoughGems
+        binding.streakFreezeAlreadyHaveTextView.isVisible =
+            freezeState is ProfileFeature.StreakFreezeState.AlreadyHave
     }
 
     private fun getFireDrawable(historicalStreak: HistoricalStreak?): Int =
