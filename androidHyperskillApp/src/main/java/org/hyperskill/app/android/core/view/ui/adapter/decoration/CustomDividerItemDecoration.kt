@@ -16,13 +16,11 @@ class CustomDividerItemDecoration(
         state: RecyclerView.State,
     ) {
         val position = parent.getChildAdapterPosition(view)
-        if(position != RecyclerView.NO_POSITION) {
+        if (position != RecyclerView.NO_POSITION) {
             setRectOffset(position, outRect, state)
         }
     }
 }
 
-fun RecyclerView.itemDecoration(
-    setRectOffset: SetRectOffset
-) : RecyclerView.ItemDecoration = CustomDividerItemDecoration(setRectOffset)
-    .also { addItemDecoration(it) }
+fun RecyclerView.itemDecoration(setRectOffset: SetRectOffset): RecyclerView.ItemDecoration =
+    CustomDividerItemDecoration(setRectOffset).also { addItemDecoration(it) }
