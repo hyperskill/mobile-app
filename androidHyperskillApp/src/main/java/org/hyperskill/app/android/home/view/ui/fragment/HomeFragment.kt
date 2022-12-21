@@ -89,6 +89,10 @@ class HomeFragment :
             homeScreenKeepLearningInWebButton.setOnClickListener {
                 homeViewModel.onNewMessage(HomeFeature.Message.ClickedContinueLearningOnWeb)
             }
+
+            viewBinding.homeScreenTopicsRepetitionCard.root.setOnClickListener {
+                homeViewModel.onNewMessage(HomeFeature.Message.ClickedTopicsRepetitionsCard)
+            }
         }
 
 //        viewBinding.homeOpenStepButton.setOnClickListener {
@@ -157,7 +161,7 @@ class HomeFragment :
             }
             renderMenuItems(state)
             renderProblemOfDayCardDelegate(state.problemOfDayState)
-            renderTopicsRepetition(state.recommendedRepetitionsCount)
+            renderTopicsRepetition(state.repetitionsState)
         }
     }
 
@@ -187,14 +191,15 @@ class HomeFragment :
         }
     }
 
-    private fun renderTopicsRepetition(topicsToRepeatCount: Int) {
-        viewBinding.homeScreenTopicsRepetitionCard.root.setOnClickListener {
-            homeViewModel.onNewMessage(HomeFeature.Message.ClickedTopicsRepetitionsCard)
+    private fun renderTopicsRepetition(repetitionsState: HomeFeature.RepetitionsState) {
+        viewBinding.homeScreenTopicsRepetitionCard.root.isVisible =
+            repetitionsState is HomeFeature.RepetitionsState.Available
+        if (repetitionsState is HomeFeature.RepetitionsState.Available) {
+            topicsRepetitionDelegate.render(
+                requireContext(),
+                viewBinding.homeScreenTopicsRepetitionCard,
+                repetitionsState.recommendedRepetitionsCount
+            )
         }
-        topicsRepetitionDelegate.render(
-            requireContext(),
-            viewBinding.homeScreenTopicsRepetitionCard,
-            topicsToRepeatCount
-        )
     }
 }

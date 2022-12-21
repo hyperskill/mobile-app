@@ -73,10 +73,13 @@ struct HomeView: View {
                     )
                     .makeModule()
 
-                    TopicsRepetitionsCardView(
-                        topicsToRepeatCount: Int(data.recommendedRepetitionsCount),
-                        onTap: viewModel.doTopicsRepetitionsPresentation
-                    )
+                    if let availableRepetitionsState = data.repetitionsState as? HomeFeatureRepetitionsStateAvailable {
+                        TopicsRepetitionsCardView(
+                            topicsToRepeatCount: Int(availableRepetitionsState.recommendedRepetitionsCount),
+                            onTap: viewModel.doTopicsRepetitionsPresentation
+                        )
+                    }
+
 
                     let shouldShowContinueInWebButton = data.problemOfDayState is HomeFeatureProblemOfDayStateEmpty ||
                       data.problemOfDayState is HomeFeatureProblemOfDayStateSolved
