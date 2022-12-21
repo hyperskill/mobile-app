@@ -1,4 +1,10 @@
 What to Test:
 1. Fix class "alert alert-primary" has incorrect style for dark theme ALTAPPS-432
-2. Show earned gems after completing Problem of the day ALTAPPS-439
-3. Track selection for new users ALTAPPS-441
+2. Analytics for notifications ALTAPPS-438
+3. Show earned gems after completing Problem of the day ALTAPPS-439
+4. Header and Home screen improvements, user statistics on Profile screen ALTAPPS-440
+5. Track selection for new users ALTAPPS-441
+6. 1-day streak freeze ALTAPPS-455
+7. Step hints ALTAPPS-456
+8. Use new API for topics repetition feature ALTAPPS-457
+9. Topics repetition card appears if no topics recomended for repetitions ALTAPPS-467
