@@ -1,6 +1,7 @@
 package org.hyperskill.app.android.placeholder_new_user.dialog
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -75,13 +76,6 @@ class NewUserTrackDetailsBottomSheet : BottomSheetDialogFragment() {
                     }
                 }
             }
-            dialog.setOnDismissListener {
-                track?.id?.let { trackId ->
-                    placeholderNewUserViewModel.onNewMessage(
-                        PlaceholderNewUserFeature.Message.TrackModalHiddenEventMessage(trackId)
-                    )
-                }
-            }
         }
 
     override fun onCreateView(
@@ -110,6 +104,15 @@ class NewUserTrackDetailsBottomSheet : BottomSheetDialogFragment() {
                 trackDetailsRatingTextView.text = track.rating
                 trackDetailsIconImageView.load(track.imageSource, svgImageLoader)
             }
+        }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        track?.id?.let { trackId ->
+            placeholderNewUserViewModel.onNewMessage(
+                PlaceholderNewUserFeature.Message.TrackModalHiddenEventMessage(trackId)
+            )
         }
     }
 }
