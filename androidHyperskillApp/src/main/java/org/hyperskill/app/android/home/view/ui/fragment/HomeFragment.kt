@@ -89,6 +89,10 @@ class HomeFragment :
             homeScreenKeepLearningInWebButton.setOnClickListener {
                 homeViewModel.onNewMessage(HomeFeature.Message.ClickedContinueLearningOnWeb)
             }
+
+            viewBinding.homeScreenTopicsRepetitionCard.root.setOnClickListener {
+                homeViewModel.onNewMessage(HomeFeature.Message.ClickedTopicsRepetitionsCard)
+            }
         }
 
 //        viewBinding.homeOpenStepButton.setOnClickListener {
@@ -188,19 +192,14 @@ class HomeFragment :
     }
 
     private fun renderTopicsRepetition(repetitionsState: HomeFeature.RepetitionsState) {
-        when (repetitionsState) {
-            is HomeFeature.RepetitionsState.Available -> {
-                viewBinding.homeScreenTopicsRepetitionCard.root.setOnClickListener {
-                    homeViewModel.onNewMessage(HomeFeature.Message.ClickedTopicsRepetitionsCard)
-                }
-                topicsRepetitionDelegate.render(
-                    requireContext(),
-                    viewBinding.homeScreenTopicsRepetitionCard,
-                    repetitionsState.recommendedRepetitionsCount
-                )
-            }
-            is HomeFeature.RepetitionsState.Empty ->
-                viewBinding.homeScreenTopicsRepetitionCard.root.visibility = View.GONE
+        viewBinding.homeScreenTopicsRepetitionCard.root.isVisible =
+            repetitionsState is HomeFeature.RepetitionsState.Available
+        if (repetitionsState is HomeFeature.RepetitionsState.Available) {
+            topicsRepetitionDelegate.render(
+                requireContext(),
+                viewBinding.homeScreenTopicsRepetitionCard,
+                repetitionsState.recommendedRepetitionsCount
+            )
         }
     }
 }
