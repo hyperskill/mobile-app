@@ -8,6 +8,8 @@ enum StepQuizSkeletonViewFactory {
             StepQuizChoiceSkeletonView()
         case .code:
             StepQuizCodeSkeletonView()
+        case .sql:
+            StepQuizSQLSkeletonView()
         case .matching:
             StepQuizMatchingSkeletonView()
         case .sorting:

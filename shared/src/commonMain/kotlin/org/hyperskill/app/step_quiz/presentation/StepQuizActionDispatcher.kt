@@ -13,6 +13,7 @@ import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizViewedHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
+import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.permissions.StepQuizUserPermissionRequest
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.domain.validation.StepQuizReplyValidator
@@ -151,15 +152,33 @@ class StepQuizActionDispatcher(
                 onNewMessage(Message.CreateSubmissionReplyValidationResult(action.step, action.reply, validationResult))
             }
             is Action.CreateSubmission -> {
+                val reply = action.submission.reply ?: return onNewMessage(Message.CreateSubmissionNetworkError)
+
                 val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepQuizCreateSubmission()
                 sentryInteractor.startTransaction(sentryTransaction)
 
+                var newAttempt: Attempt? = null
+                if (action.submission.originalStatus == SubmissionStatus.WRONG &&
+                    StepQuizResolver.isNeedRecreateAttemptForNewSubmission(action.step)
+                ) {
+                    newAttempt = stepQuizInteractor
+                        .createAttempt(action.step.id)
+                        .getOrElse {
+                            sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
+                            return onNewMessage(Message.CreateSubmissionNetworkError)
+                        }
+                }
+
                 stepQuizInteractor
-                    .createSubmission(action.step.id, action.attemptId, action.reply)
+                    .createSubmission(
+                        stepId = action.step.id,
+                        attemptId = newAttempt?.id ?: action.attemptId,
+                        reply = reply
+                    )
                     .fold(
                         onSuccess = { newSubmission ->
                             sentryInteractor.finishTransaction(sentryTransaction)
-                            onNewMessage(Message.CreateSubmissionSuccess(newSubmission))
+                            onNewMessage(Message.CreateSubmissionSuccess(newSubmission, newAttempt))
                         },
                         onFailure = {
                             sentryInteractor.finishTransaction(sentryTransaction)

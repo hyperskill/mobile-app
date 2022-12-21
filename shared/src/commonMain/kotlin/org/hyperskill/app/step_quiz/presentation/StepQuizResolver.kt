@@ -15,7 +15,11 @@ object StepQuizResolver {
                 return true
             }
             if (state.submissionState.submission.status == SubmissionStatus.WRONG) {
-                return !isNeedRecreateAttemptForNewSubmission(state.step)
+                return if (state.step.block.name == BlockName.SQL) {
+                    true
+                } else {
+                    !isNeedRecreateAttemptForNewSubmission(state.step)
+                }
             }
         }
 

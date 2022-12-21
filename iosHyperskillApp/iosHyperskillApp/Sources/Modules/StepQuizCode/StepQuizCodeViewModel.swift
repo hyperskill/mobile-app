@@ -3,7 +3,7 @@ import CombineSchedulers
 import Foundation
 import shared
 
-final class StepQuizCodeViewModel: ObservableObject {
+class StepQuizCodeViewModel: ObservableObject {
     weak var moduleOutput: StepQuizChildQuizOutputProtocol?
 
     weak var fullScreenModuleInput: StepQuizCodeFullScreenInputProtocol?
@@ -52,6 +52,7 @@ final class StepQuizCodeViewModel: ObservableObject {
 // MARK: - StepQuizCodeViewModel: StepQuizChildQuizInputProtocol -
 
 extension StepQuizCodeViewModel: StepQuizChildQuizInputProtocol {
+    @objc
     func createReply() -> Reply {
         Reply(language: viewData.languageStringValue, code: viewData.code)
     }
@@ -105,9 +106,8 @@ extension StepQuizCodeViewModel: StepQuizCodeFullScreenOutputProtocol {
         }
     }
 
-    // MARK: Private Helpers
-
-    private func syncReply(code: String?) {
+    @objc
+    func syncReply(code: String?) {
         let reply = Reply(language: viewData.languageStringValue, code: code)
         moduleOutput?.handleChildQuizSync(reply: reply)
     }

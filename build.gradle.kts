@@ -16,6 +16,8 @@ buildscript {
         classpath(libs.plugin.buildKonfig)
         classpath(libs.plugin.mokoResources)
         classpath(libs.plugin.mokoKswift)
+        classpath(libs.plugin.dokka)
+        classpath(libs.plugin.dokkaBase)
     }
 }
 

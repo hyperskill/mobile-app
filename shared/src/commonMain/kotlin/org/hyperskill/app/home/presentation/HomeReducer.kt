@@ -30,7 +30,7 @@ class HomeReducer : StateReducer<State, Message, Action> {
                     message.streak,
                     message.hypercoinsBalance,
                     message.problemOfDayState,
-                    message.recommendedRepetitionsCount
+                    message.repetitionsState
                 ) to emptySet()
             is Message.HomeFailure ->
                 State.NetworkError to emptySet()
@@ -100,9 +100,11 @@ class HomeReducer : StateReducer<State, Message, Action> {
                 }
             }
             is Message.TopicRepeated ->
-                if (state is State.Content) {
+                if (state is State.Content && state.repetitionsState is HomeFeature.RepetitionsState.Available) {
                     state.copy(
-                        recommendedRepetitionsCount = max(state.recommendedRepetitionsCount.dec(), 0)
+                        repetitionsState = HomeFeature.RepetitionsState.Available(
+                            max(state.repetitionsState.recommendedRepetitionsCount.dec(), 0)
+                        )
                     ) to emptySet()
                 } else {
                     null
@@ -127,10 +129,11 @@ class HomeReducer : StateReducer<State, Message, Action> {
             is Message.ClickedTopicsRepetitionsCard ->
                 if (state is State.Content) {
                     state to setOf(
-                        Action.ViewAction.NavigateTo.TopicsRepetitionsScreen(state.recommendedRepetitionsCount),
+                        Action.ViewAction.NavigateTo.TopicsRepetitionsScreen,
                         Action.LogAnalyticEvent(
                             HomeClickedTopicsRepetitionsCardHyperskillAnalyticEvent(
-                                isCompleted = state.recommendedRepetitionsCount == 0
+                                isCompleted = state.repetitionsState is HomeFeature.RepetitionsState.Available &&
+                                    state.repetitionsState.recommendedRepetitionsCount == 0
                             )
                         )
                     )

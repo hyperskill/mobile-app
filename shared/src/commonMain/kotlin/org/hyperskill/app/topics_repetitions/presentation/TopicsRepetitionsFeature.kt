@@ -1,8 +1,8 @@
 package org.hyperskill.app.topics_repetitions.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
-import org.hyperskill.app.topics_repetitions.domain.model.TopicsRepetitions
-import org.hyperskill.app.topics_repetitions.view.model.TopicToRepeat
+import org.hyperskill.app.topics_repetitions.domain.model.TopicRepetition
+import org.hyperskill.app.topics_repetitions.domain.model.TopicRepetitionStatistics
 
 interface TopicsRepetitionsFeature {
     sealed interface State {
@@ -10,27 +10,25 @@ interface TopicsRepetitionsFeature {
         object Loading : State
 
         data class Content(
-            val topicsRepetitions: TopicsRepetitions,
-            val topicsToRepeat: List<TopicToRepeat>,
-            val recommendedRepetitionsCount: Int,
+            val topicsRepetitions: List<TopicRepetition>,
+            val topicRepetitionStatistics: TopicRepetitionStatistics,
             val trackTitle: String,
-            val nextTopicsLoading: Boolean = false
-        ) : State
+            val isLoadingNextTopics: Boolean = false
+        ) : State {
+            val hasNextTopicsToLoad: Boolean
+                get() = topicRepetitionStatistics.totalCount > topicsRepetitions.count()
+        }
 
         object NetworkError : State
     }
 
     sealed interface Message {
-        data class Initialize(
-            val recommendedRepetitionsCount: Int,
-            val forceUpdate: Boolean
-        ) : Message
+        data class Initialize(val forceUpdate: Boolean) : Message
 
         sealed interface TopicsRepetitionsLoaded : Message {
             data class Success(
-                val topicsRepetitions: TopicsRepetitions,
-                val topicsToRepeat: List<TopicToRepeat>,
-                val recommendedRepetitionsCount: Int,
+                val topicsRepetitions: List<TopicRepetition>,
+                val topicRepetitionStatistics: TopicRepetitionStatistics,
                 val trackTitle: String
             ) : TopicsRepetitionsLoaded
 
@@ -39,27 +37,27 @@ interface TopicsRepetitionsFeature {
 
         object ShowMoreButtonClicked : Message
 
-        sealed interface NextTopicsLoaded : Message {
+        sealed interface NextTopicsRepetitionsLoaded : Message {
             data class Success(
-                val remainingTopicsRepetitions: TopicsRepetitions,
-                val nextTopicsToRepeat: List<TopicToRepeat>
-            ) : NextTopicsLoaded
+                val nextTopicsRepetitions: List<TopicRepetition>,
+                val nextPage: Int
+            ) : NextTopicsRepetitionsLoaded
 
-            object Error : NextTopicsLoaded
+            object Error : NextTopicsRepetitionsLoaded
         }
 
         data class StepCompleted(val stepId: Long) : Message
 
-        data class RepeatTopicClicked(val stepId: Long) : Message
+        data class RepeatTopicClicked(val topicId: Long) : Message
         object RepeatNextTopicClicked : Message
 
         object ViewedEventMessage : Message
     }
 
     sealed interface Action {
-        data class Initialize(val recommendedRepetitionsCount: Int) : Action
+        object Initialize : Action
 
-        data class FetchNextTopics(val topicsRepetitions: TopicsRepetitions) : Action
+        data class FetchNextTopics(val nextPage: Int) : Action
 
         object NotifyTopicRepeated : Action
 

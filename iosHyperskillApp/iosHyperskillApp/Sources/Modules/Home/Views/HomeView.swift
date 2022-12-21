@@ -73,10 +73,13 @@ struct HomeView: View {
                     )
                     .makeModule()
 
-                    TopicsRepetitionsCardView(
-                        topicsToRepeatCount: Int(data.recommendedRepetitionsCount),
-                        onTap: viewModel.doTopicsRepetitionsPresentation
-                    )
+                    if let availableRepetitionsState = data.repetitionsState as? HomeFeatureRepetitionsStateAvailable {
+                        TopicsRepetitionsCardView(
+                            topicsToRepeatCount: Int(availableRepetitionsState.recommendedRepetitionsCount),
+                            onTap: viewModel.doTopicsRepetitionsPresentation
+                        )
+                    }
+
 
                     let shouldShowContinueInWebButton = data.problemOfDayState is HomeFeatureProblemOfDayStateEmpty ||
                       data.problemOfDayState is HomeFeatureProblemOfDayStateSolved
@@ -132,10 +135,8 @@ struct HomeView: View {
             case .stepScreen(let data):
                 let assembly = StepAssembly(stepID: Int(data.stepId))
                 pushRouter.pushViewController(assembly.makeModule())
-            case .topicsRepetitionsScreen(let data):
-                let assembly = TopicsRepetitionsAssembly(
-                    recommendedRepetitionsCount: data.recommendedRepetitionsCount
-                )
+            case .topicsRepetitionsScreen:
+                let assembly = TopicsRepetitionsAssembly()
                 pushRouter.pushViewController(assembly.makeModule())
             case .profileTab:
                 TabBarRouter(tab: .profile).route()

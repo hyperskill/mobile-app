@@ -19,6 +19,10 @@ struct StepQuizCodeFullScreenDetailsView: View {
     let executionTimeLimit: String?
     let executionMemoryLimit: String?
 
+    private var isDetailsEmpty: Bool {
+        samples.isEmpty && executionTimeLimit == nil && executionMemoryLimit == nil
+    }
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: appearance.spacing) {
@@ -32,13 +36,15 @@ struct StepQuizCodeFullScreenDetailsView: View {
                     )
                 )
 
-                StepQuizCodeDetailsView(
-                    samples: samples,
-                    executionTimeLimit: executionTimeLimit,
-                    executionMemoryLimit: executionMemoryLimit,
-                    isAlwaysExpanded: true
-                )
-                .padding(.horizontal, -appearance.spacing)
+                if !isDetailsEmpty {
+                    StepQuizCodeDetailsView(
+                        samples: samples,
+                        executionTimeLimit: executionTimeLimit,
+                        executionMemoryLimit: executionMemoryLimit,
+                        isAlwaysExpanded: true
+                    )
+                    .padding(.horizontal, -appearance.spacing)
+                }
             }
             .padding()
         }

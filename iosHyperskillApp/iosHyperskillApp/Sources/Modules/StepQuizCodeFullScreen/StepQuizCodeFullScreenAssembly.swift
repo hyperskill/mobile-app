@@ -10,14 +10,18 @@ final class StepQuizCodeFullScreenAssembly: Assembly {
     private let codeQuizViewData: StepQuizCodeViewData
     private let initialTab: StepQuizCodeFullScreenTab
 
+    private let navigationTitle: String
+
     init(
         codeQuizViewData: StepQuizCodeViewData,
         initialTab: StepQuizCodeFullScreenTab = .code,
+        navigationTitle: String = Strings.StepQuizCode.title,
         provideModuleInputCallback: @escaping (StepQuizCodeFullScreenInputProtocol?) -> Void,
         output: StepQuizCodeFullScreenOutputProtocol? = nil
     ) {
         self.codeQuizViewData = codeQuizViewData
         self.initialTab = initialTab
+        self.navigationTitle = navigationTitle
         self.provideModuleInputCallback = provideModuleInputCallback
         self.moduleOutput = output
     }
@@ -31,7 +35,11 @@ final class StepQuizCodeFullScreenAssembly: Assembly {
         viewModel.moduleOutput = moduleOutput
         moduleInput = viewModel
 
-        return StepQuizCodeFullScreenView(viewModel: viewModel, selectedTab: initialTab)
+        return StepQuizCodeFullScreenView(
+            viewModel: viewModel,
+            selectedTab: initialTab,
+            navigationTitle: navigationTitle
+        )
     }
 }
 

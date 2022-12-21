@@ -131,6 +131,9 @@
     <string name="step_quiz_code_empty_lang">No lang</string>
     <string name="step_quiz_code_reset">Reset</string>
 
+    <!-- Step quiz code -->
+    <string name="step_quiz_sql_title">Write an SQL statement</string>
+
     <!-- Tab bar -->
     <string name="tab_bar_home_title">Home</string>
     <string name="tab_bar_track_title">Track</string>
@@ -138,8 +141,6 @@
 
     <!-- Home -->
     <string name="home_title">Hello!</string>
-    <!-- TODO: ALTAPPS-440 Delete this resource -->
-    <string name="home_hello_lets_learn_text">Hello!\nLet’s learn something</string>
     <string name="home_keep_practicing_text">Keep practicing to achieve your learning goal</string>
 
     <!-- Track -->
@@ -206,6 +207,20 @@
     <string name="streak_previous_five_days_text">your previous 5 days</string>
     <string name="streak_today_text">today</string>
     <string name="streak_days_text">days</string>
+    <string name="streak_get_one_day_streak_freeze">Get 1-day streak freeze</string>
+    <string name="streak_you_have_one_day_streak_freeze">You have a 1-day streak freeze!</string>
+
+    <!-- Streak freeze modal -->
+    <string name="streak_freeze_modal_can_buy_title">Save your streak</string>
+    <string name="streak_freeze_modal_already_have_title">Streak is protected</string>
+    <string name="streak_freeze_modal_not_enough_gems_title">Not enough gems</string>
+    <string name="streak_freeze_modal_text">The freeze automatically saves your progress if you miss a day and do not solve a problem.\n\nThe streak count will remain the same and won\'t get lost.</string>
+    <string name="streak_freeze_modal_one_day_streak_freeze">1-day streak freeze!</string>
+    <string name="streak_freeze_modal_you_have_one_day_streak_freeze"> You\'ve 1-day streak freeze!</string>
+    <string name="streak_freeze_modal_get_it_for_gems">Get it for %d gems</string>
+    <string name="streak_freeze_modal_continue_learning">Continue learning</string>
+    <string name="streak_freeze_bought_error">Failed to get 1-day streak freeze</string>
+    <string name="streak_freeze_bought_success">Successfully got 1-day streak freeze</string>
 
     <!-- Daily problem -->
     <string name="problem_of_day_title_uncompleted">Problem of the day</string>
@@ -230,6 +245,7 @@
     <string name="topics_repetitions_repeat_block_title">All %s to repeat</string>
     <string name="topics_repetitions_repeat_block_empty_title">All topics to repeat</string>
     <string name="topics_repetitions_repeat_block_current_track">Topics from track %s</string>
+    <string name="topics_repetitions_repeat_block_other_tracks">Topics from other tracks</string>
     <string name="topics_repetitions_repeat_block_empty_current_track">There are no topics to repeat for the %s track</string>
     <string name="topics_repetitions_info_block_title">I\'ve learned these topics! Why repeating them?</string>
     <string name="topics_repetitions_info_block_description">You retain more knowledge and build up your skill.\n\nSome

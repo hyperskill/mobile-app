@@ -34,6 +34,8 @@ import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.HomeComponentImpl
 import org.hyperskill.app.home.injection.PlatformHomeComponent
 import org.hyperskill.app.home.injection.PlatformHomeComponentImpl
+import org.hyperskill.app.items.injection.ItemsDataComponent
+import org.hyperskill.app.items.injection.ItemsDataComponentImpl
 import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponent
 import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponentImpl
 import org.hyperskill.app.likes.injection.LikesDataComponent
@@ -56,6 +58,8 @@ import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserCompo
 import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponentImpl
 import org.hyperskill.app.placeholder_new_user.injection.PlatformPlaceholderNewUserComponent
 import org.hyperskill.app.placeholder_new_user.injection.PlatformPlaceholderNewUserComponentImpl
+import org.hyperskill.app.products.injection.ProductsDataComponent
+import org.hyperskill.app.products.injection.ProductsDataComponentImpl
 import org.hyperskill.app.profile.injection.PlatformProfileComponent
 import org.hyperskill.app.profile.injection.PlatformProfileComponentImpl
 import org.hyperskill.app.profile.injection.PlatformProfileSettingsComponentImpl
@@ -75,6 +79,7 @@ import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
 import org.hyperskill.app.sentry.domain.model.manager.SentryManager
 import org.hyperskill.app.sentry.injection.SentryComponent
 import org.hyperskill.app.sentry.injection.SentryComponentImpl
+import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.injection.PlatformStepComponent
 import org.hyperskill.app.step.injection.PlatformStepComponentImpl
 import org.hyperskill.app.step.injection.StepComponent
@@ -85,6 +90,8 @@ import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponentImpl
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponentImpl
+import org.hyperskill.app.step_quiz_hints.injection.PlatformStepQuizHintsComponent
+import org.hyperskill.app.step_quiz_hints.injection.PlatformStepQuizHintsComponentImpl
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponentImpl
 import org.hyperskill.app.topics.injection.TopicsDataComponent
@@ -273,26 +280,32 @@ class AndroidAppComponentImpl(
     override fun buildPlaceholderNewUserComponent(): PlaceholderNewUserComponent =
         PlaceholderNewUserComponentImpl(this)
 
+    override fun buildPlatformPlaceholderNewUserComponent(placeholderNewUserComponent: PlaceholderNewUserComponent): PlatformPlaceholderNewUserComponent =
+        PlatformPlaceholderNewUserComponentImpl(placeholderNewUserComponent)
+
     /**
      * Topics repetitions component
      */
     override fun buildTopicsRepetitionsComponent(): TopicsRepetitionsComponent =
         TopicsRepetitionsComponentImpl(this)
 
-    override fun buildPlatformTopicsRepetitionsComponent(recommendedRepetitionsCount: Int): PlatformTopicsRepetitionComponent =
-        PlatformTopicsRepetitionComponentImpl(this, recommendedRepetitionsCount)
+    override fun buildPlatformTopicsRepetitionsComponent(): PlatformTopicsRepetitionComponent =
+        PlatformTopicsRepetitionComponentImpl(this)
 
-    override fun buildPlatformPlaceholderNewUserComponent(placeholderNewUserComponent: PlaceholderNewUserComponent): PlatformPlaceholderNewUserComponent =
-        PlatformPlaceholderNewUserComponentImpl(placeholderNewUserComponent)
+    /**
+     * Step quiz hints component
+     * */
+    override fun buildStepQuizHintsComponent(): StepQuizHintsComponent =
+        StepQuizHintsComponentImpl(this)
+
+    override fun buildPlatformStepQuizHintsComponent(step: Step): PlatformStepQuizHintsComponent =
+        PlatformStepQuizHintsComponentImpl(this, step)
 
     override fun buildUserStorageComponent(): UserStorageComponent =
         UserStorageComponentImpl(this)
 
     override fun buildCommentsDataComponent(): CommentsDataComponent =
         CommentsDataComponentImpl(this)
-
-    override fun buildStepQuizHintsComponent(): StepQuizHintsComponent =
-        StepQuizHintsComponentImpl(this)
 
     override fun buildMagicLinksDataComponent(): MagicLinksDataComponent =
         MagicLinksDataComponentImpl(this)
@@ -314,4 +327,10 @@ class AndroidAppComponentImpl(
 
     override fun buildProgressesDataComponent(): ProgressesDataComponent =
         ProgressesDataComponentImpl(this)
+
+    override fun buildProductsDataComponent(): ProductsDataComponent =
+        ProductsDataComponentImpl(this)
+
+    override fun buildItemsDataComponent(): ItemsDataComponent =
+        ItemsDataComponentImpl(this)
 }

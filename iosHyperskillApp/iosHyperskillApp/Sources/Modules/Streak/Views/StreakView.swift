@@ -11,6 +11,9 @@ extension StreakView {
 
         let defaultBorderWidth: CGFloat = 1
         let todayBorderWidth: CGFloat = 2
+
+        let getStreakFreezeButtonMinHeight: CGFloat = 32
+        let streakFreezeIconWidthHeight: CGFloat = 28
     }
 }
 
@@ -21,6 +24,10 @@ struct StreakView: View {
     let currentStreakCountString: String
 
     let daysStates: [StreakDayState]
+
+    let streakFreezeState: ProfileFeatureStreakFreezeStateKs?
+
+    let onStreakFreezeTapped: () -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
@@ -36,7 +43,7 @@ struct StreakView: View {
                         .foregroundColor(.primaryText)
 
                     if isNewStreakRecord {
-                        Image(Images.Home.Streak.crown)
+                        Image(Images.Profile.Streak.Card.crown)
                             .renderingMode(.original)
                             .resizable()
                             .frame(width: appearance.crownWidth, height: appearance.crownHeight)
@@ -81,6 +88,34 @@ struct StreakView: View {
                     .font(.subheadline)
                     .foregroundColor(.secondaryText)
             }
+
+            if let streakFreezeState {
+                switch streakFreezeState {
+                case .notEnoughGems, .canBuy:
+                    Button(Strings.Streak.getOneDayStreakFreeze) {
+                        onStreakFreezeTapped()
+                    }
+                    .buttonStyle(OutlineButtonStyle(
+                        minHeight: appearance.getStreakFreezeButtonMinHeight,
+                        maxWidth: nil
+                    ))
+                    .buttonStyle(BounceButtonStyle())
+                case .alreadyHave:
+                    Button(
+                        action: onStreakFreezeTapped,
+                        label: {
+                            HStack(spacing: LayoutInsets.smallInset) {
+                                Image(Images.Profile.Streak.FreezeModal.snowflakeBadge)
+                                    .renderingMode(.original)
+                                    .resizable()
+                                    .frame(widthHeight: appearance.streakFreezeIconWidthHeight)
+
+                                Text(Strings.Streak.youHaveOneDayStreakFreeze)
+                            }
+                        }
+                    )
+                }
+            }
         }
         .background(Color(ColorPalette.surface))
     }
@@ -92,13 +127,17 @@ struct StreakView_Previews: PreviewProvider {
             StreakView(
                 isNewStreakRecord: true,
                 currentStreakCountString: "3 days",
-                daysStates: [.passive, .passive, .active, .active, .frozen]
+                daysStates: [.passive, .passive, .active, .active, .frozen],
+                streakFreezeState: .alreadyHave,
+                onStreakFreezeTapped: {}
             )
 
             StreakView(
                 isNewStreakRecord: false,
                 currentStreakCountString: "0 days",
-                daysStates: [.passive, .passive, .active, .passive, .passive]
+                daysStates: [.passive, .passive, .active, .passive, .passive],
+                streakFreezeState: .alreadyHave,
+                onStreakFreezeTapped: {}
             )
         }
         .previewLayout(.sizeThatFits)

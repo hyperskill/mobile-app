@@ -23,7 +23,7 @@ interface HomeFeature {
          * @property streak Current user profile streak.
          * @property hypercoinsBalance Current user profile balance of the hypercoins.
          * @property problemOfDayState Problem of the day state.
-         * @property recommendedRepetitionsCount Recommended topics repetitions count.
+         * @property repetitionsState Topics repetitions state.
          * @property isRefreshing A boolean flag that indicates about is pull-to-refresh is ongoing.
          * @property isLoadingMagicLink A boolean flag that indicates about magic link loading.
          * @see Streak
@@ -33,7 +33,7 @@ interface HomeFeature {
             val streak: Streak?,
             val hypercoinsBalance: Int,
             val problemOfDayState: ProblemOfDayState,
-            val recommendedRepetitionsCount: Int,
+            val repetitionsState: RepetitionsState,
             val isRefreshing: Boolean = false,
             val isLoadingMagicLink: Boolean = false
         ) : State
@@ -50,13 +50,18 @@ interface HomeFeature {
         data class Solved(val step: Step, val nextProblemIn: Long) : ProblemOfDayState
     }
 
+    sealed interface RepetitionsState {
+        object Empty : RepetitionsState
+        data class Available(val recommendedRepetitionsCount: Int) : RepetitionsState
+    }
+
     sealed interface Message {
         data class Initialize(val forceUpdate: Boolean) : Message
         data class HomeSuccess(
             val streak: Streak?,
             val hypercoinsBalance: Int,
             val problemOfDayState: ProblemOfDayState,
-            val recommendedRepetitionsCount: Int
+            val repetitionsState: RepetitionsState
         ) : Message
         object HomeFailure : Message
         object PullToRefresh : Message
@@ -96,7 +101,7 @@ interface HomeFeature {
             sealed interface NavigateTo : ViewAction {
                 object ProfileTab : NavigateTo
                 data class StepScreen(val stepId: Long) : NavigateTo
-                data class TopicsRepetitionsScreen(val recommendedRepetitionsCount: Int) : NavigateTo
+                object TopicsRepetitionsScreen : NavigateTo
             }
 
             data class OpenUrl(val url: String) : ViewAction

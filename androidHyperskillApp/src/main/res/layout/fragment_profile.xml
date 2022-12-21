@@ -1,317 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/profileContainer"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/profileAppBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@color/color_background"
+        android:elevation="0dp"
+        >
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/profileSettingsAvatarNameLayout"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/profileCollapsingToolbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            app:title="@string/profile_title"
+            android:minHeight="?attr/actionBarSize"
+            app:contentScrim="@color/color_background"
+            app:expandedTitleGravity="start|bottom"
+            app:expandedTitleMarginBottom="8dp"
+            app:expandedTitleMarginStart="20dp"
+            app:expandedTitleTextAppearance="@style/TextAppearance.AppTheme.CollapsingTitle"
+            app:collapsedTitleTextAppearance="@style/TextAppearance.AppTheme.CollapsingTitle"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            >
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/profileToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                android:background="@color/color_background"
+                android:paddingEnd="16dp"
+                tools:ignore="RtlSymmetry"
+                >
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/profileSettingsButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_settings"
+                    android:paddingHorizontal="16dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:layout_gravity="end"
+                    />
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/profileContentNestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        >
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:paddingHorizontal="20dp"
-            android:paddingTop="16dp"
-            android:paddingBottom="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:paddingTop="8dp"
+            android:paddingBottom="16dp"
+            >
 
-            <ImageButton
-                android:id="@+id/profileEditButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:background="@android:color/transparent"
-                android:foreground="?attr/selectableItemBackgroundRounded"
-                android:src="@drawable/ic_edit"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toStartOf="@+id/profileSettingsButton"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageButton
-                android:id="@+id/profileSettingsButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:foreground="?attr/selectableItemBackgroundRounded"
-                android:src="@drawable/ic_settings"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/profileAvatarImageView"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_marginTop="44dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profileEditButton" />
-
-            <LinearLayout
-                app:layout_constraintStart_toEndOf="@+id/profileAvatarImageView"
-                app:layout_constraintTop_toTopOf="@+id/profileAvatarImageView"
-                app:layout_constraintBottom_toBottomOf="@+id/profileAvatarImageView"
-                android:layout_width="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginStart="20dp"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/profileNameTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Konstantin\nKonstantinopolsky"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/profileRoleTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Learner"
-                    android:textColor="@color/color_on_surface_alpha_60"
-                    android:textSize="14sp"/>
-            </LinearLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:fillViewport="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profileSettingsAvatarNameLayout">
-
-            <LinearLayout
+            <include
+                android:id="@+id/profileHeader"
+                layout="@layout/layout_profile_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                />
 
-                <include
-                    android:layout_marginHorizontal="20dp"
-                    android:id="@+id/profileStreakLayout"
-                    layout="@layout/layout_streak_card"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <include
+                android:id="@+id/profile_streak_layout"
+                layout="@layout/layout_profile_streak_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:background="@color/color_surface"
-                    android:orientation="vertical"
-                    android:paddingTop="20dp"
-                    android:paddingHorizontal="20dp"
-                    android:paddingBottom="12dp">
+            <include
+                android:id="@+id/profileStatisticsLayout"
+                layout="@layout/layout_profile_statistics"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                />
 
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/profileDailyRemindersSwitchCompat"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/profile_daily_study_reminders_text"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                        android:textSize="18sp"
-                        android:theme="@style/ColorSwitchStyle" />
+            <include
+                android:id="@+id/profileDailyReminder"
+                layout="@layout/layout_profile_daily_reminder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                />
 
-                    <TextView
-                        android:paddingVertical="8dp"
-                        android:id="@+id/profileScheduleTextView"
-                        android:textSize="14sp"
-                        android:textColor="@color/color_on_surface_alpha_60"
-                        app:drawableEndCompat="@drawable/ic_arrow_right"
-                        android:foreground="?attr/selectableItemBackgroundBorderless"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/profile_daily_study_reminders_schedule_text" />
+            <include
+                android:id="@+id/profileFooterLayout"
+                layout="@layout/layout_profile_personal_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                />
 
-                </LinearLayout>
+        </LinearLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/profileInfoLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:background="@color/color_surface"
-                    android:padding="20dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/profileStreakLayout">
+    </androidx.core.widget.NestedScrollView>
 
-                    <TextView
-                        android:id="@+id/profileAboutMeTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/profile_about_me_text"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                        android:textSize="18sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/profileAboutLivesTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:text="Lives in India"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/profileAboutMeTextView" />
-
-                    <TextView
-                        android:id="@+id/profileAboutSpeaksTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:text="Speaks English"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/profileAboutLivesTextView" />
-
-                    <TextView
-                        android:id="@+id/profileAboutBioBarTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="@string/profile_bio_text"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                        android:textSize="16sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/profileAboutSpeaksTextView" />
-
-                    <TextView
-                        android:id="@+id/profileAboutBioTextTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:text="Something in bio"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/profileAboutBioBarTextView" />
-
-                    <TextView
-                        android:id="@+id/profileAboutExperienceBarTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="@string/profile_experience_text"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                        android:textSize="16sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/profileAboutBioTextTextView" />
-
-                    <TextView
-                        android:id="@+id/profileAboutExperienceTextTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:text="Something in experience"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/profileAboutExperienceBarTextView" />
-
-                    <LinearLayout
-                        android:id="@+id/profileSocialButtonsLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/profileAboutExperienceTextTextView">
-
-
-                        <ImageButton
-                            android:id="@+id/profileFacebookButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@android:color/transparent"
-                            android:paddingEnd="16dp"
-                            android:src="@drawable/ic_profile_facebook"
-                            app:layout_constraintEnd_toStartOf="@+id/profileTwitterButton"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/profileAboutExperienceTextTextView" />
-
-                        <ImageButton
-                            android:id="@+id/profileTwitterButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@android:color/transparent"
-                            android:paddingEnd="16dp"
-                            android:src="@drawable/ic_profile_twitter"
-                            app:layout_constraintStart_toEndOf="@+id/profileFacebookButton"
-                            app:layout_constraintTop_toTopOf="@+id/profileFacebookButton" />
-
-                        <ImageButton
-                            android:id="@+id/profileLinkedinButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@android:color/transparent"
-                            android:paddingEnd="16dp"
-                            android:src="@drawable/ic_profile_linkedin"
-                            app:layout_constraintStart_toEndOf="@+id/profileTwitterButton"
-                            app:layout_constraintTop_toTopOf="@+id/profileFacebookButton" />
-
-                        <ImageButton
-                            android:id="@+id/profileRedditButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@android:color/transparent"
-                            android:paddingEnd="16dp"
-                            android:src="@drawable/ic_profile_reddit"
-                            app:layout_constraintStart_toEndOf="@+id/profileLinkedinButton"
-                            app:layout_constraintTop_toTopOf="@+id/profileFacebookButton" />
-
-                        <ImageButton
-                            android:id="@+id/profileGithubButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@android:color/transparent"
-                            android:src="@drawable/ic_profile_github"
-                            app:layout_constraintStart_toEndOf="@+id/profileRedditButton"
-                            app:layout_constraintTop_toTopOf="@+id/profileFacebookButton" />
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/profileViewFullVersionTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:text="@string/profile_view_full_version_button_text"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/profileSocialButtonsLayout" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-            </LinearLayout>
-
-        </androidx.core.widget.NestedScrollView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
-        android:id="@+id/profileProgress"
-        android:layout_width="wrap_content"
+    <include
+        android:id="@+id/profileSkeleton"
+        layout="@layout/layout_profile_skeleton"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        />
 
     <include
         android:id="@+id/profileError"
         layout="@layout/error_no_connection_with_button"
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:visibility="gone"
+        />
 
-</FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

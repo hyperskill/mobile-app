@@ -7,8 +7,7 @@ import org.hyperskill.app.topics_repetitions.view.mapper.TopicsRepetitionsViewDa
 import ru.nobird.app.presentation.redux.container.wrapWithViewContainer
 
 class PlatformTopicsRepetitionComponentImpl(
-    appGraph: AppGraph,
-    private val recommendedRepetitionsCount: Int
+    appGraph: AppGraph
 ) : PlatformTopicsRepetitionComponent {
 
     private val topicsRepetitionComponent: TopicsRepetitionsComponent = appGraph.buildTopicsRepetitionsComponent()
@@ -19,8 +18,7 @@ class PlatformTopicsRepetitionComponentImpl(
                 TopicsRepetitionViewModel::class.java to
                     {
                         TopicsRepetitionViewModel(
-                            topicsRepetitionComponent.topicsRepetitionsFeature.wrapWithViewContainer(),
-                            recommendedRepetitionsCount = recommendedRepetitionsCount
+                            topicsRepetitionComponent.topicsRepetitionsFeature.wrapWithViewContainer()
                         )
                     }
             )
