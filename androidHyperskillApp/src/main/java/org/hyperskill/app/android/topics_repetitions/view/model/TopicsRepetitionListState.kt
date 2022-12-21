@@ -6,7 +6,8 @@ import org.hyperskill.app.topics_repetitions.view.model.TopicToRepeat
 data class TopicsRepetitionListState(
     val repeatBlockTitle: String,
     val trackTopicsTitle: String,
-    val topicsToRepeat: List<TopicToRepeat>,
+    val topicsToRepeatFromCurrentTrack: List<TopicToRepeat>,
+    val topicsToRepeatFromOtherTracks: List<TopicToRepeat>,
     val showMoreButtonState: ShowMoreButtonState,
     val topicsToRepeatWillLoadedCount: Int
 )

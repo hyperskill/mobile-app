@@ -133,11 +133,13 @@ class TopicsRepetitionFragment :
                     state = viewState.repetitionsStatus
                 )
                 topicsRepetitionListDelegate?.render(
+                    context = requireContext(),
                     previousState = this@TopicsRepetitionFragment.viewState?.let {
                         TopicsRepetitionListState(
                             repeatBlockTitle = it.repeatBlockTitle,
                             trackTopicsTitle = it.trackTopicsTitle,
-                            topicsToRepeat = it.topicsToRepeatFromCurrentTrack,
+                            topicsToRepeatFromCurrentTrack = it.topicsToRepeatFromCurrentTrack,
+                            topicsToRepeatFromOtherTracks = it.topicsToRepeatFromOtherTracks,
                             topicsToRepeatWillLoadedCount = it.topicsToRepeatWillLoadedCount,
                             showMoreButtonState = it.showMoreButtonState
                         )
@@ -145,7 +147,8 @@ class TopicsRepetitionFragment :
                     state = TopicsRepetitionListState(
                         repeatBlockTitle = viewState.repeatBlockTitle,
                         trackTopicsTitle = viewState.trackTopicsTitle,
-                        topicsToRepeat = viewState.topicsToRepeatFromCurrentTrack,
+                        topicsToRepeatFromCurrentTrack = viewState.topicsToRepeatFromCurrentTrack,
+                        topicsToRepeatFromOtherTracks = viewState.topicsToRepeatFromOtherTracks,
                         topicsToRepeatWillLoadedCount = viewState.topicsToRepeatWillLoadedCount,
                         showMoreButtonState = viewState.showMoreButtonState
                     )
