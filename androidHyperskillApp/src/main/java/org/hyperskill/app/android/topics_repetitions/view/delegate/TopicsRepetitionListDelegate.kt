@@ -71,18 +71,21 @@ class TopicsRepetitionListDelegate(
     fun render(context: Context, previousState: TopicsRepetitionListState?, state: TopicsRepetitionListState) {
         if (previousState == state) return
         with(binding) {
-            root.isVisible = state.topicsToRepeatFromCurrentTrack.isNotEmpty()
+            root.isVisible =
+                state.topicsToRepeatFromCurrentTrack.isNotEmpty() || state.topicsToRepeatFromOtherTracks.isNotEmpty()
+
             topicsListTitleTextView.setTextIfChanged(state.repeatBlockTitle)
 
             if (previousState?.showMoreButtonState != state.showMoreButtonState) {
                 topicsListsShowMoreButton.isVisible =
                     state.showMoreButtonState == ShowMoreButtonState.AVAILABLE
             }
-            topicsListRecyclerView.isVisible =
-                state.topicsToRepeatFromCurrentTrack.isNotEmpty() || state.topicsToRepeatFromOtherTracks.isNotEmpty()
+
             topicsAdapter.items = buildList {
-                add(TopicsRepetitionListItem.Header(state.trackTopicsTitle))
-                addAll(state.topicsToRepeatFromCurrentTrack.map(TopicsRepetitionListItem::Topic))
+                if (state.topicsToRepeatFromCurrentTrack.isNotEmpty()) {
+                    add(TopicsRepetitionListItem.Header(state.trackTopicsTitle))
+                    addAll(state.topicsToRepeatFromCurrentTrack.map(TopicsRepetitionListItem::Topic))
+                }
                 if (state.topicsToRepeatFromOtherTracks.isNotEmpty()) {
                     add(
                         TopicsRepetitionListItem.Header(
