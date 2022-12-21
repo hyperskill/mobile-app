@@ -119,7 +119,7 @@ class HomeActionDispatcher(
                         streak = currentProfileStreaks.firstOrNull(),
                         hypercoinsBalance = currentProfile.gamification.hypercoinsBalance,
                         problemOfDayState = problemOfDayState,
-                        repetitionsState = if (topicsRepetitionsStatistics.totalCount == 0) {
+                        repetitionsState = if (topicsRepetitionsStatistics.recommendTodayCount == 0 && topicsRepetitionsStatistics.repeatedTodayCount == 0) {
                             HomeFeature.RepetitionsState.Empty
                         } else {
                             HomeFeature.RepetitionsState.Available(topicsRepetitionsStatistics.recommendTodayCount)
