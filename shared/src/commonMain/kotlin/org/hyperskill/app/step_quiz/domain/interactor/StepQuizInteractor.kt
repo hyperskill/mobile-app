@@ -16,7 +16,7 @@ class StepQuizInteractor(
     private val submissionRepository: SubmissionRepository
 ) {
     companion object {
-        const val POLL_SECONDS_INTERVAL = 0.5
+        private val POLL_SUBMISSION_INTERVAL = 1.seconds
     }
 
     suspend fun getAttempt(stepId: Long, userId: Long): Result<Attempt> =
@@ -52,16 +52,21 @@ class StepQuizInteractor(
                 .createSubmission(attemptId, reply, solvingContext)
                 .getOrThrow()
 
-            val pollSub = pollSubmission(submission.id)
-            if (pollSub.getOrNull()?.status == SubmissionStatus.CORRECT) {
+            val evaluatedSubmission = if (submission.status == SubmissionStatus.EVALUATION) {
+                pollSubmission(submission.id)
+            } else {
+                submission
+            }
+
+            if (evaluatedSubmission.status == SubmissionStatus.CORRECT) {
                 submissionRepository.notifyStepSolved(stepId)
             }
 
-            return pollSub
+            return Result.success(evaluatedSubmission)
         }
 
-    private suspend fun pollSubmission(submissionId: Long, retryCount: Int = 1): Result<Submission> {
-        delay(POLL_SECONDS_INTERVAL.seconds * retryCount)
+    private suspend fun pollSubmission(submissionId: Long, retryCount: Int = 1): Submission {
+        delay(POLL_SUBMISSION_INTERVAL * retryCount)
 
         val submission = submissionRepository
             .getSubmissions(listOf(submissionId))
@@ -71,7 +76,7 @@ class StepQuizInteractor(
         return if (submission.status == SubmissionStatus.EVALUATION) {
             pollSubmission(submissionId = submissionId, retryCount = retryCount + 1)
         } else {
-            Result.success(submission)
+            submission
         }
     }
 }
