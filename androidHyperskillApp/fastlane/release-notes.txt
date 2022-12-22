@@ -8,3 +8,5 @@ What to Test:
 7. Step hints ALTAPPS-456
 8. Use new API for topics repetition feature ALTAPPS-457
 9. Topics repetition card appears if no topics recomended for repetitions ALTAPPS-467
+10. Fix no event sent on earned gems modal closing ALTAPPS-470
+11. Fix no analytics events sent in state "Not enough gems" ALTAPPS-478
