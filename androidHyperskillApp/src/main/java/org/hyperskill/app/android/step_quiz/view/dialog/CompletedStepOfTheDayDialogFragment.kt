@@ -1,6 +1,7 @@
 package org.hyperskill.app.android.step_quiz.view.dialog
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -49,11 +50,6 @@ class CompletedStepOfTheDayDialogFragment : BottomSheetDialogFragment() {
                     )
                 }
             }
-            dialog.setOnDismissListener {
-                stepQuizViewModel.onNewMessage(
-                    StepQuizFeature.Message.DailyStepCompletedModalHiddenEventMessage
-                )
-            }
         }
 
     override fun onCreateView(
@@ -78,5 +74,12 @@ class CompletedStepOfTheDayDialogFragment : BottomSheetDialogFragment() {
                 dismiss()
             }
         }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        stepQuizViewModel.onNewMessage(
+            StepQuizFeature.Message.DailyStepCompletedModalHiddenEventMessage
+        )
     }
 }
