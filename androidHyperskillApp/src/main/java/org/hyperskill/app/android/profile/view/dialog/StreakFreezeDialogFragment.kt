@@ -1,6 +1,7 @@
 package org.hyperskill.app.android.profile.view.dialog
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -54,9 +55,6 @@ class StreakFreezeDialogFragment : BottomSheetDialogFragment() {
                 if (savedInstanceState == null) {
                     viewModel.onNewMessage(ProfileFeature.Message.StreakFreezeModalShownEventMessage)
                 }
-            }
-            dialog.setOnDismissListener {
-                viewModel.onNewMessage(ProfileFeature.Message.StreakFreezeModalHiddenEventMessage)
             }
         }
 
@@ -157,5 +155,10 @@ class StreakFreezeDialogFragment : BottomSheetDialogFragment() {
                 )
             }
         }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        viewModel.onNewMessage(ProfileFeature.Message.StreakFreezeModalHiddenEventMessage)
     }
 }
