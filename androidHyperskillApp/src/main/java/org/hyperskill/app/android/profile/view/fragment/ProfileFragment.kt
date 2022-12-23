@@ -18,7 +18,7 @@ import java.util.Locale
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.isChannelNotificationsEnabled
-import org.hyperskill.app.android.core.extensions.launchUrl
+import org.hyperskill.app.android.core.extensions.openUrl
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireMainRouter
@@ -30,6 +30,7 @@ import org.hyperskill.app.android.profile.view.delegate.StreakCardFormDelegate
 import org.hyperskill.app.android.profile.view.dialog.StreakFreezeDialogFragment
 import org.hyperskill.app.android.view.base.ui.extension.redirectToUsernamePage
 import org.hyperskill.app.android.view.base.ui.extension.setElevationOnCollapsed
+import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.presentation.ProfileFeature
 import org.hyperskill.app.profile.presentation.ProfileViewModel
@@ -38,7 +39,6 @@ import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
-import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -226,7 +226,7 @@ class ProfileFragment :
     override fun onAction(action: ProfileFeature.Action.ViewAction) {
         when (action) {
             is ProfileFeature.Action.ViewAction.OpenUrl ->
-                requireContext().launchUrl(action.url)
+                requireContext().openUrl(action.url)
 
             is ProfileFeature.Action.ViewAction.ShowGetMagicLinkError ->
                 viewBinding.root.snackbar(R.string.common_error)
