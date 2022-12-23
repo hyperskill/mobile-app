@@ -30,13 +30,12 @@ struct HomeView: View {
             buildBody()
         }
         .navigationTitle(Strings.Home.title)
-        .navigationBarHidden(true)
+        .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
         }
         .onDisappear(perform: viewModel.stopListening)
-        .navigationViewStyle(StackNavigationViewStyle())
     }
 
     // MARK: Private API
@@ -45,12 +44,12 @@ struct HomeView: View {
     private func buildBody() -> some View {
         switch viewModel.stateKs {
         case .idle:
-            ProgressView()
+            HomeSkeletonView()
                 .onAppear {
                     viewModel.doLoadContent()
                 }
         case .loading:
-            ProgressView()
+            HomeSkeletonView()
         case .networkError:
             PlaceholderView(
                 configuration: .networkError(backgroundColor: appearance.backgroundColor) {
@@ -64,17 +63,9 @@ struct HomeView: View {
 
             ScrollView {
                 VStack(alignment: .leading, spacing: appearance.spacingBetweenContainers) {
-                    Text(Strings.Home.helloLetsLearn)
-                        .font(.title)
-                        .foregroundColor(.primaryText)
-
                     Text(Strings.Home.keepPracticing)
                         .font(.subheadline)
                         .foregroundColor(.secondaryText)
-
-                    if let streak = data.streak {
-                        StreakViewBuilder(streak: streak, viewType: .card).build()
-                    }
 
                     ProblemOfDayAssembly(
                         problemOfDayState: data.problemOfDayState,
@@ -82,10 +73,13 @@ struct HomeView: View {
                     )
                     .makeModule()
 
-                    TopicsRepetitionsCardView(
-                        topicsToRepeatCount: Int(data.recommendedRepetitionsCount),
-                        onTap: viewModel.handleTopicsRepetitionsRequested
-                    )
+                    if let availableRepetitionsState = data.repetitionsState as? HomeFeatureRepetitionsStateAvailable {
+                        TopicsRepetitionsCardView(
+                            topicsToRepeatCount: Int(availableRepetitionsState.recommendedRepetitionsCount),
+                            onTap: viewModel.doTopicsRepetitionsPresentation
+                        )
+                    }
+
 
                     let shouldShowContinueInWebButton = data.problemOfDayState is HomeFeatureProblemOfDayStateEmpty ||
                       data.problemOfDayState is HomeFeatureProblemOfDayStateSolved
@@ -116,7 +110,21 @@ struct HomeView: View {
                 )
             }
             .frame(maxWidth: .infinity)
-            .padding(.top, 0.1)
+            .toolbar {
+                ToolbarItemGroup(placement: .primaryAction) {
+                    if let streak = data.streak {
+                        StreakBarButtonItem(
+                            currentStreak: Int(streak.currentStreak),
+                            onTap: viewModel.doStreakBarButtonItemAction
+                        )
+                    }
+
+                    GemsBarButtonItem(
+                        hypercoinsBalance: Int(data.hypercoinsBalance),
+                        onTap: viewModel.doGemsBarButtonItemAction
+                    )
+                }
+            }
         }
     }
 
@@ -127,11 +135,11 @@ struct HomeView: View {
             case .stepScreen(let data):
                 let assembly = StepAssembly(stepID: Int(data.stepId))
                 pushRouter.pushViewController(assembly.makeModule())
-            case .topicsRepetitionsScreen(let data):
-                let assembly = TopicsRepetitionsAssembly(
-                    recommendedRepetitionsCount: data.recommendedRepetitionsCount
-                )
+            case .topicsRepetitionsScreen:
+                let assembly = TopicsRepetitionsAssembly()
                 pushRouter.pushViewController(assembly.makeModule())
+            case .profileTab:
+                TabBarRouter(tab: .profile).route()
             }
         case .openUrl(let data):
             ProgressHUD.showSuccess()

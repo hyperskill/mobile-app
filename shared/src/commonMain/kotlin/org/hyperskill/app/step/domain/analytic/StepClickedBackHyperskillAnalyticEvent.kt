@@ -6,6 +6,20 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
+/**
+ * Represents click on the back button in the navigation bar analytic event.
+ *
+ * JSON payload:
+ * ```
+ * {
+ *     "route": "/learn/step/1",
+ *     "action": "click",
+ *     "part": "head",
+ *     "target": "back"
+ * }
+ * ```
+ * @see HyperskillAnalyticEvent
+ */
 class StepClickedBackHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute
 ) : HyperskillAnalyticEvent(

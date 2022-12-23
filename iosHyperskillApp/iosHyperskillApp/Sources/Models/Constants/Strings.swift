@@ -6,7 +6,6 @@ enum Strings {
 
     // MARK: - General -
 
-
     enum General {
         static let connectionError = sharedStrings.connection_error.localized()
         static let done = sharedStrings.done.localized()
@@ -52,11 +51,15 @@ enum Strings {
         // MARK: NewUserPlaceholder
 
         enum NewUserPlaceholder {
-            static let title = sharedStrings.placeholder_register_text.localized()
-            static let introText = sharedStrings.placeholder_instruction_text.localized()
-            static let continueButton = sharedStrings.placeholder_continue_button_text_ios.localized()
-            static let signInButton = Onboarding.signIn
-            static let possibilityText = sharedStrings.placeholder_first_description_text.localized()
+            static let title = sharedStrings.placeholder_new_user_title.localized()
+            static let subtitle = sharedStrings.placeholder_new_user_text.localized()
+
+            static let startLearningButton = sharedStrings.placeholder_new_user_start_track_button_text.localized()
+
+            enum TrackSelectionStatus {
+                static let error = sharedStrings.placeholder_new_user_start_track_error_message.localized()
+                static let success = sharedStrings.placeholder_new_user_start_track_success_message.localized()
+            }
         }
     }
 
@@ -128,6 +131,12 @@ enum Strings {
         static let reset = sharedStrings.step_quiz_code_reset.localized()
     }
 
+    // MARK: - StepQuizSQL -
+
+    enum StepQuizSQL {
+        static let title = sharedStrings.step_quiz_sql_title.localized()
+    }
+
     // MARK: - StepQuizTable -
 
     enum StepQuizTable {
@@ -159,7 +168,6 @@ enum Strings {
 
     enum Home {
         static let title = sharedStrings.home_title.localized()
-        static let helloLetsLearn = sharedStrings.home_hello_lets_learn_text.localized()
         static let keepPracticing = sharedStrings.home_keep_practicing_text.localized()
     }
 
@@ -202,6 +210,12 @@ enum Strings {
         static let viewFullVersionButton = sharedStrings.profile_view_full_version_button_text.localized()
         static let roleStaff = sharedStrings.profile_role_staff_text.localized()
         static let roleLearner = sharedStrings.profile_role_learner_text.localized()
+
+        enum Statistics {
+            static let passedProjects = sharedStrings.profile_statistics_block_passed_projects_title.localized()
+            static let passedTracks = sharedStrings.profile_statistics_block_passed_tracks_title.localized()
+            static let hypercoinsBalance = sharedStrings.profile_statistics_block_hypercoins_balance_title.localized()
+        }
 
         enum DailyStudyReminders {
             static let title = sharedStrings.profile_daily_study_reminders_text.localized()
@@ -249,6 +263,22 @@ enum Strings {
         static let keepSolvingProblemsText = sharedStrings.streak_keep_solving_problems_text.localized()
         static let previousFiveDaysText = sharedStrings.streak_previous_five_days_text.localized()
         static let todayText = sharedStrings.streak_today_text.localized()
+        static let getOneDayStreakFreeze = sharedStrings.streak_get_one_day_streak_freeze.localized()
+        static let youHaveOneDayStreakFreeze = sharedStrings.streak_you_have_one_day_streak_freeze.localized()
+
+        enum FreezeModal {
+            static let canBuyTitle = sharedStrings.streak_freeze_modal_can_buy_title.localized()
+            static let alreadyHaveTitle = sharedStrings.streak_freeze_modal_already_have_title.localized()
+            static let notEnoughGemsTitle = sharedStrings.streak_freeze_modal_not_enough_gems_title.localized()
+            static let text = sharedStrings.streak_freeze_modal_text.localized()
+            static let oneDayStreakFreeze = sharedStrings.streak_freeze_modal_one_day_streak_freeze.localized()
+            static let youHaveOneDayStreakFreeze =
+                sharedStrings.streak_freeze_modal_you_have_one_day_streak_freeze.localized()
+            static let continueLearning = sharedStrings.streak_freeze_modal_continue_learning.localized()
+            static let getItForGemsResource = sharedStrings.streak_freeze_modal_get_it_for_gems
+            static let boughtError = sharedStrings.streak_freeze_bought_error.localized()
+            static let boughtSuccess = sharedStrings.streak_freeze_bought_success.localized()
+        }
     }
 
     // MARK: - ProblemOfDay -
@@ -285,6 +315,7 @@ enum Strings {
         enum RepeatBlock {
             static let title = sharedStrings.topics_repetitions_repeat_block_title.localized()
             static let currentTrack = sharedStrings.topics_repetitions_repeat_block_current_track.localized()
+            static let otherTracks = sharedStrings.topics_repetitions_repeat_block_other_tracks.localized()
         }
 
         enum InfoBlock {

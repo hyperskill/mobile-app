@@ -6,6 +6,20 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
+/**
+ * Represents a click on "Reset password" button analytic event.
+ *
+ * JSON payload:
+ * ```
+ * {
+ *     "route": "/login/password",
+ *     "action": "click",
+ *     "part": "main",
+ *     "target": "reset_password"
+ * }
+ * ```
+ * @see HyperskillAnalyticEvent
+ */
 class AuthCredentialsClickedResetPasswordHyperskillAnalyticEvent : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Login.Password(),
     HyperskillAnalyticAction.CLICK,

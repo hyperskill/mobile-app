@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/profileSettingsAvatarNameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:background="@color/color_surface"
+        >
+
+        <ImageView
+            android:id="@+id/profileAvatarImageView"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription"
+            tools:background="@color/color_green_200"
+            />
+
+        <TextView
+            android:id="@+id/profileNameTextView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="18sp"
+            android:layout_marginStart="20dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            app:layout_constraintStart_toEndOf="@+id/profileAvatarImageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/profileAvatarImageView"
+            app:layout_constraintBottom_toTopOf="@+id/profileRoleTextView"
+            app:layout_constraintVertical_bias="0"
+            tools:text="Konstantin Konstantinopolsky Konstantin Konstantinopolsky Konstantin Konstantinopolsky"
+            />
+
+        <TextView
+            android:id="@+id/profileRoleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/color_on_surface_alpha_60"
+            android:textSize="14sp"
+            android:layout_marginStart="20dp"
+            app:layout_constraintStart_toEndOf="@+id/profileAvatarImageView"
+            app:layout_constraintBottom_toBottomOf="@+id/profileAvatarImageView"
+            tools:text="Learner"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

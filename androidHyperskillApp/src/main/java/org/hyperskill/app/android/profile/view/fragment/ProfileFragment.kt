@@ -15,25 +15,28 @@ import coil.decode.SvgDecoder
 import coil.load
 import coil.transform.CircleCropTransformation
 import java.util.Locale
-import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.isChannelNotificationsEnabled
 import org.hyperskill.app.android.core.extensions.launchUrl
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
+import org.hyperskill.app.android.core.view.ui.navigation.requireMainRouter
 import org.hyperskill.app.android.databinding.FragmentProfileBinding
-import org.hyperskill.app.android.notification.injection.PlatformNotificationComponent
+import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
 import org.hyperskill.app.android.profile_settings.view.dialog.ProfileSettingsDialogFragment
-import org.hyperskill.app.android.streak.view.delegate.StreakCardFormDelegate
+import org.hyperskill.app.android.profile.view.delegate.StreakCardFormDelegate
+import org.hyperskill.app.android.profile.view.dialog.StreakFreezeDialogFragment
 import org.hyperskill.app.android.view.base.ui.extension.redirectToUsernamePage
+import org.hyperskill.app.android.view.base.ui.extension.setElevationOnCollapsed
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.presentation.ProfileFeature
 import org.hyperskill.app.profile.presentation.ProfileViewModel
 import org.hyperskill.app.profile.view.social_redirect.SocialNetworksRedirect
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.argument
+import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -55,39 +58,28 @@ class ProfileFragment :
     private var profileId: Long by argument()
     private var isInitCurrent: Boolean by argument()
 
-    private lateinit var viewModelFactory: ViewModelProvider.Factory
-
     private val viewBinding: FragmentProfileBinding by viewBinding(FragmentProfileBinding::bind)
+
+    private lateinit var viewModelFactory: ViewModelProvider.Factory
     private val profileViewModel: ProfileViewModel by reduxViewModel(this) { viewModelFactory }
     private val viewStateDelegate: ViewStateDelegate<ProfileFeature.State> = ViewStateDelegate()
 
-    private lateinit var streakFormDelegate: StreakCardFormDelegate
+    private var streakFormDelegate: StreakCardFormDelegate? = null
 
-    private val platformNotificationComponent: PlatformNotificationComponent = HyperskillApp.graph().platformNotificationComponent
+    private val platformNotificationComponent =
+        HyperskillApp.graph().platformNotificationComponent
+
+    private val imageLoader: ImageLoader by lazy(LazyThreadSafetyMode.NONE) {
+        ImageLoader.Builder(requireContext())
+            .components {
+                add(SvgDecoder.Factory())
+            }
+            .build()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponents()
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initViewStateDelegate()
-        viewBinding.profileError.tryAgain.setOnClickListener {
-            profileViewModel.onNewMessage(ProfileFeature.Message.Initialize(profileId = profileId, forceUpdate = true, isInitCurrent = isInitCurrent))
-        }
-
-        viewBinding.profileSettingsButton.setOnClickListener {
-            profileViewModel.onNewMessage(ProfileFeature.Message.ClickedSettingsEventMessage)
-            ProfileSettingsDialogFragment
-                .newInstance()
-                .showIfNotExists(childFragmentManager, ProfileSettingsDialogFragment.TAG)
-        }
-
-        setupProfileViewFullVersionTextView()
-
-        profileViewModel.onNewMessage(ProfileFeature.Message.Initialize(profileId = profileId, isInitCurrent = isInitCurrent))
-        profileViewModel.onNewMessage(ProfileFeature.Message.ViewedEventMessage)
     }
 
     private fun injectComponents() {
@@ -96,21 +88,172 @@ class ProfileFragment :
         viewModelFactory = platformProfileComponent.reduxViewModelFactory
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initViewStateDelegate()
+        initToolbar()
+        initRemindersSchedule()
+        initProfileViewFullVersionTextView()
+
+        streakFormDelegate =
+            StreakCardFormDelegate(
+                context = requireContext(),
+                binding = viewBinding.profileStreakLayout,
+                onFreezeButtonClick = {
+                    profileViewModel.onNewMessage(ProfileFeature.Message.StreakFreezeCardButtonClicked)
+                }
+            )
+
+        viewBinding.profileError.tryAgain.setOnClickListener {
+            profileViewModel.onNewMessage(
+                ProfileFeature.Message.Initialize(
+                    profileId = profileId,
+                    forceUpdate = true,
+                    isInitCurrent = isInitCurrent
+                )
+            )
+        }
+
+        profileViewModel.onNewMessage(
+            ProfileFeature.Message.Initialize(
+                profileId = profileId,
+                isInitCurrent = isInitCurrent
+            )
+        )
+        profileViewModel.onNewMessage(ProfileFeature.Message.ViewedEventMessage)
+    }
+
     private fun initViewStateDelegate() {
         with(viewStateDelegate) {
             addState<ProfileFeature.State.Idle>()
-            addState<ProfileFeature.State.Loading>(viewBinding.profileProgress)
+            addState<ProfileFeature.State.Loading>(viewBinding.profileSkeleton.root)
             addState<ProfileFeature.State.Error>(viewBinding.profileError.root)
-            addState<ProfileFeature.State.Content>(viewBinding.profileContainer)
+            addState<ProfileFeature.State.Content>(
+                viewBinding.profileContentNestedScrollView,
+                viewBinding.profileSettingsButton
+            )
         }
+    }
+
+    private fun initRemindersSchedule() {
+        with(viewBinding.profileDailyReminder) {
+            profileScheduleTextView.setOnClickListener {
+                profileViewModel.onNewMessage(ProfileFeature.Message.ClickedDailyStudyRemindsTimeEventMessage)
+                TimeIntervalPickerDialogFragment
+                    .newInstance()
+                    .showIfNotExists(childFragmentManager, TimeIntervalPickerDialogFragment.TAG)
+            }
+            profileDailyRemindersSwitchCompat.isChecked =
+                platformNotificationComponent.notificationInteractor.isDailyStudyRemindersEnabled()
+
+            profileScheduleTextView.text = getScheduleTimeText(
+                time = platformNotificationComponent.notificationInteractor.getDailyStudyRemindersIntervalStartHour()
+            )
+
+            val notificationManagerCompat = NotificationManagerCompat.from(requireContext())
+            profileDailyRemindersSwitchCompat.isChecked = notificationManagerCompat.isChannelNotificationsEnabled(
+                HyperskillNotificationChannel.DailyReminder.channelId
+            ) && platformNotificationComponent.notificationInteractor.isDailyStudyRemindersEnabled()
+
+            profileScheduleTextView.isVisible = profileDailyRemindersSwitchCompat.isChecked
+
+            profileDailyRemindersSwitchCompat.setOnCheckedChangeListener { _, isChecked ->
+                onDailyReminderCheckChanged(isChecked, notificationManagerCompat)
+                profileScheduleTextView.isVisible = isChecked
+            }
+        }
+    }
+
+    private fun onDailyReminderCheckChanged(isChecked: Boolean, notificationManager: NotificationManagerCompat) {
+        profileViewModel.onNewMessage(ProfileFeature.Message.ClickedDailyStudyRemindsEventMessage(isChecked))
+        platformNotificationComponent.notificationInteractor.setDailyStudyRemindersEnabled(isChecked)
+
+        if (isChecked) {
+            platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification()
+
+            if (!notificationManager.areNotificationsEnabled()) {
+                val intent: Intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                    .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
+                startActivity(intent)
+                return
+            }
+
+            if (!notificationManager.isChannelNotificationsEnabled(HyperskillNotificationChannel.DailyReminder.channelId)) {
+                val intent: Intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
+                    .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
+                    .putExtra(Settings.EXTRA_CHANNEL_ID, HyperskillNotificationChannel.DailyReminder.channelId)
+                startActivity(intent)
+                return
+            }
+        }
+
+        viewBinding.profileDailyReminder.profileScheduleTextView.isVisible = isChecked
+    }
+
+    private fun initProfileViewFullVersionTextView() {
+        with(viewBinding.profileFooterLayout.profileViewFullVersionTextView) {
+            paintFlags = paintFlags or Paint.UNDERLINE_TEXT_FLAG
+            setOnClickListener {
+                profileViewModel.onNewMessage(ProfileFeature.Message.ClickedViewFullProfile)
+            }
+        }
+    }
+
+    private fun initToolbar() {
+        with(viewBinding.profileAppBar) {
+            setElevationOnCollapsed(viewLifecycleOwner.lifecycle)
+            setExpanded(true)
+        }
+        viewBinding.profileSettingsButton.setOnClickListener {
+            profileViewModel.onNewMessage(ProfileFeature.Message.ClickedSettingsEventMessage)
+            ProfileSettingsDialogFragment
+                .newInstance()
+                .showIfNotExists(childFragmentManager, ProfileSettingsDialogFragment.TAG)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        streakFormDelegate = null
+    }
+
+    override fun onTimeIntervalPicked(chosenInterval: Int) {
+        platformNotificationComponent.notificationInteractor.setDailyStudyRemindersIntervalStartHour(chosenInterval)
+        platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification()
+        viewBinding.profileDailyReminder.profileScheduleTextView.text = getScheduleTimeText(chosenInterval)
     }
 
     override fun onAction(action: ProfileFeature.Action.ViewAction) {
         when (action) {
             is ProfileFeature.Action.ViewAction.OpenUrl ->
                 requireContext().launchUrl(action.url)
+
             is ProfileFeature.Action.ViewAction.ShowGetMagicLinkError ->
-                viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
+                viewBinding.root.snackbar(R.string.common_error)
+
+            is ProfileFeature.Action.ViewAction.ShowStreakFreezeModal -> {
+                StreakFreezeDialogFragment.newInstance(action.streakFreezeState)
+                    .showIfNotExists(childFragmentManager, StreakFreezeDialogFragment.Tag)
+            }
+            ProfileFeature.Action.ViewAction.HideStreakFreezeModal -> {
+                childFragmentManager
+                    .dismissDialogFragmentIfExists(StreakFreezeDialogFragment.Tag)
+            }
+            ProfileFeature.Action.ViewAction.ShowStreakFreezeBuyingStatus.Loading -> {
+                childFragmentManager
+                    .dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
+            }
+            ProfileFeature.Action.ViewAction.ShowStreakFreezeBuyingStatus.Success -> {
+                viewBinding.root.snackbar(R.string.streak_freeze_bought_success)
+                childFragmentManager
+                    .dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
+            }
+            ProfileFeature.Action.ViewAction.ShowStreakFreezeBuyingStatus.Error ->
+                viewBinding.root.snackbar(R.string.streak_freeze_bought_error)
+
+            ProfileFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
+                requireMainRouter().switch(HomeScreen)
+            }
         }
     }
 
@@ -121,18 +264,17 @@ class ProfileFragment :
                 profileId = state.profile.id
                 renderContent(state)
             }
+            else -> {
+                // no op
+            }
         }
     }
 
     private fun renderContent(content: ProfileFeature.State.Content) {
-        if (content.streak != null) {
-            streakFormDelegate = StreakCardFormDelegate(requireContext(), viewBinding.profileStreakLayout, content.streak!!)
-        } else {
-            viewBinding.profileStreakLayout.root.visibility = View.GONE
-        }
+        streakFormDelegate?.render(content.streak, content.streakFreezeState)
 
+        renderStatistics(content.profile)
         renderNameProfileBadge(content.profile)
-        setupRemindersSchedule()
         renderAboutMeSection(content.profile)
         renderBioSection(content.profile)
         renderExperienceSection(content.profile)
@@ -147,105 +289,75 @@ class ProfileFragment :
     }
 
     private fun renderNameProfileBadge(profile: Profile) {
-        val svgImageLoader = ImageLoader.Builder(requireContext())
-            .components {
-                add(SvgDecoder.Factory())
+        with(viewBinding.profileHeader) {
+            profileAvatarImageView.load(profile.avatar, imageLoader) {
+                transformations(CircleCropTransformation())
             }
-            .build()
-        viewBinding.profileAvatarImageView.load(profile.avatar, svgImageLoader) {
-            transformations(CircleCropTransformation())
-        }
-        viewBinding.profileNameTextView.text = profile.fullname
-
-        if (profile.isStaff) {
-            viewBinding.profileRoleTextView.text = resources.getString(R.string.profile_role_staff_text)
-        } else {
-            viewBinding.profileRoleTextView.text = resources.getString(R.string.profile_role_learner_text)
+            profileNameTextView.setTextIfChanged(profile.fullname)
+            profileRoleTextView.setTextIfChanged(
+                if (profile.isStaff) {
+                    resources.getString(R.string.profile_role_staff_text)
+                } else {
+                    resources.getString(R.string.profile_role_learner_text)
+                }
+            )
         }
     }
 
-    private fun setupRemindersSchedule() {
-        viewBinding.profileScheduleTextView.setOnClickListener {
-            profileViewModel.onNewMessage(ProfileFeature.Message.ClickedDailyStudyRemindsTimeEventMessage)
-            TimeIntervalPickerDialogFragment
-                .newInstance()
-                .showIfNotExists(childFragmentManager, TimeIntervalPickerDialogFragment.TAG)
-        }
-        val scheduleTime = platformNotificationComponent.notificationInteractor.getDailyStudyRemindersIntervalStartHour()
-        viewBinding.profileDailyRemindersSwitchCompat.isChecked = platformNotificationComponent.notificationInteractor.isDailyStudyRemindersEnabled()
-
-        viewBinding.profileScheduleTextView.text = requireContext().resources.getString(R.string.profile_daily_study_reminders_schedule_text) +
-            " ${scheduleTime.toString().padStart(2, '0')}:00 - ${(scheduleTime + 1).toString().padStart(2, '0')}:00"
-
-        val notificationManagerCompat = NotificationManagerCompat.from(requireContext())
-        viewBinding.profileDailyRemindersSwitchCompat.isChecked =
-            notificationManagerCompat.isChannelNotificationsEnabled(HyperskillNotificationChannel.DAILY_REMINDER.channelId) && platformNotificationComponent.notificationInteractor.isDailyStudyRemindersEnabled()
-
-        viewBinding.profileScheduleTextView.isVisible = viewBinding.profileDailyRemindersSwitchCompat.isChecked
-
-        viewBinding.profileDailyRemindersSwitchCompat.setOnCheckedChangeListener { _, isChecked ->
-            profileViewModel.onNewMessage(ProfileFeature.Message.ClickedDailyStudyRemindsEventMessage(isChecked))
-            platformNotificationComponent.notificationInteractor.setDailyStudyRemindersEnabled(isChecked)
-
-            if (isChecked) {
-                platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification()
-
-                if (!notificationManagerCompat.areNotificationsEnabled()) {
-                    val intent: Intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
-                        .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
-                    startActivity(intent)
-                    return@setOnCheckedChangeListener
-                }
-
-                if (!notificationManagerCompat.isChannelNotificationsEnabled(HyperskillNotificationChannel.DAILY_REMINDER.channelId)) {
-                    val intent: Intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
-                        .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
-                        .putExtra(Settings.EXTRA_CHANNEL_ID, HyperskillNotificationChannel.DAILY_REMINDER.channelId)
-                    startActivity(intent)
-                    return@setOnCheckedChangeListener
-                }
-            }
-
-            viewBinding.profileScheduleTextView.isVisible = isChecked
+    private fun renderStatistics(profile: Profile) {
+        with(viewBinding.profileStatisticsLayout) {
+            profileGemsCountTextView.setTextIfChanged(profile.gamification.hypercoinsBalance.toString())
+            profileTracksCountTextView.setTextIfChanged(profile.gamification.passedTracksCount.toString())
+            profileProjectsCountTextView.setTextIfChanged(profile.gamification.passedProjectsCount.toString())
         }
     }
 
     private fun renderAboutMeSection(profile: Profile) {
-        if (profile.country != null) {
-            viewBinding.profileAboutLivesTextView.text =
-                "${resources.getString(R.string.profile_lives_in_text)} ${ Locale(Locale.ENGLISH.language, profile.country!!).displayCountry }"
-        } else {
-            viewBinding.profileAboutLivesTextView.visibility = View.GONE
-        }
+        with(viewBinding.profileFooterLayout) {
+            if (profile.country != null) {
+                profileAboutLivesTextView.text =
+                    "${resources.getString(R.string.profile_lives_in_text)} ${Locale(Locale.ENGLISH.language, profile.country!!).displayCountry}"
+            } else {
+                profileAboutLivesTextView.visibility = View.GONE
+            }
 
-        if (profile.languages?.isEmpty() == false) {
-            viewBinding.profileAboutSpeaksTextView.text =
-                "${resources.getString(R.string.profile_speaks_text)} ${profile.languages!!.joinToString(", ") { Locale(it).getDisplayLanguage(Locale.ENGLISH) }}"
-        } else {
-            viewBinding.profileAboutSpeaksTextView.visibility = View.GONE
+            if (profile.languages?.isEmpty() == false) {
+                profileAboutSpeaksTextView.text =
+                    "${resources.getString(R.string.profile_speaks_text)} ${
+                    profile.languages!!.joinToString(", ") {
+                        Locale(it).getDisplayLanguage(Locale.ENGLISH)
+                    }
+                    }"
+            } else {
+                profileAboutSpeaksTextView.visibility = View.GONE
+            }
         }
     }
 
     private fun renderBioSection(profile: Profile) {
-        if (profile.bio != "") {
-            viewBinding.profileAboutBioTextTextView.text = profile.bio
-        } else {
-            viewBinding.profileAboutBioTextTextView.visibility = View.GONE
-            viewBinding.profileAboutBioBarTextView.visibility = View.GONE
+        with(viewBinding.profileFooterLayout) {
+            if (profile.bio != "") {
+                profileAboutBioTextTextView.text = profile.bio
+            } else {
+                profileAboutBioTextTextView.visibility = View.GONE
+                profileAboutBioBarTextView.visibility = View.GONE
+            }
         }
     }
 
     private fun renderExperienceSection(profile: Profile) {
-        if (profile.experience != "") {
-            viewBinding.profileAboutExperienceTextTextView.text = profile.experience
-        } else {
-            viewBinding.profileAboutExperienceTextTextView.visibility = View.GONE
-            viewBinding.profileAboutExperienceBarTextView.visibility = View.GONE
+        with(viewBinding.profileFooterLayout) {
+            if (profile.experience != "") {
+                profileAboutExperienceTextTextView.text = profile.experience
+            } else {
+                profileAboutExperienceTextTextView.visibility = View.GONE
+                profileAboutExperienceBarTextView.visibility = View.GONE
+            }
         }
     }
 
     private fun renderSocialButtons(profile: Profile) {
-        with(viewBinding) {
+        with(viewBinding.profileFooterLayout) {
             if (profile.facebookUsername != "") {
                 profileFacebookButton.setOnClickListener {
                     SocialNetworksRedirect.FACEBOOK.redirectToUsernamePage(requireContext(), profile.facebookUsername)
@@ -288,18 +400,7 @@ class ProfileFragment :
         }
     }
 
-    private fun setupProfileViewFullVersionTextView() {
-        viewBinding.profileViewFullVersionTextView.paintFlags = viewBinding.profileViewFullVersionTextView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
-        viewBinding.profileViewFullVersionTextView.setOnClickListener {
-            profileViewModel.onNewMessage(ProfileFeature.Message.ClickedViewFullProfile)
-        }
-    }
-
-    override fun onTimeIntervalPicked(chosenInterval: Int) {
-        platformNotificationComponent.notificationInteractor.setDailyStudyRemindersIntervalStartHour(chosenInterval)
-        platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification()
-
-        viewBinding.profileScheduleTextView.text = requireContext().resources.getString(R.string.profile_daily_study_reminders_schedule_text) +
-            " ${chosenInterval.toString().padStart(2, '0')}:00 - ${(chosenInterval + 1).toString().padStart(2, '0')}:00"
-    }
+    private fun getScheduleTimeText(time: Int) =
+        requireContext().resources.getString(R.string.profile_daily_study_reminders_schedule_text) +
+            "${time.toString().padStart(2, '0')}:00 - ${(time + 1).toString().padStart(2, '0')}:00"
 }

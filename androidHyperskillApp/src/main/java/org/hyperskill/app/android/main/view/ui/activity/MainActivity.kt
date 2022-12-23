@@ -1,5 +1,6 @@
 package org.hyperskill.app.android.main.view.ui.activity
 
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -14,18 +15,25 @@ import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.view.ui.fragment.AuthFragment
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthScreen
 import org.hyperskill.app.android.core.view.ui.navigation.AppNavigationContainer
 import org.hyperskill.app.android.databinding.ActivityMainBinding
-import org.hyperskill.app.android.placeholder_new_user.navigation.PlaceholderNewUserScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
+import org.hyperskill.app.android.notification.NotificationIntentBuilder
+import org.hyperskill.app.android.notification.model.ClickedNotificationData
+import org.hyperskill.app.android.notification.model.DailyStudyReminderClickedData
+import org.hyperskill.app.android.notification.model.DefaultNotificationClickedData
 import org.hyperskill.app.android.onboarding.navigation.OnboardingScreen
+import org.hyperskill.app.android.placeholder_new_user.navigation.PlaceholderNewUserScreen
 import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.main.presentation.MainViewModel
+import org.hyperskill.app.notification.domain.analytic.NotificationDailyStudyReminderClickedHyperskillAnalyticEvent
+import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile_settings.domain.model.ProfileSettings
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.resolveColorAttribute
@@ -49,6 +57,8 @@ class MainActivity :
     override val router: Router = localCicerone.router
 
     private lateinit var profileSettings: ProfileSettings
+
+    private lateinit var analyticInteractor: AnalyticInteractor
 
     override val navigator by lazy {
         NestedAppNavigator(
@@ -82,8 +92,8 @@ class MainActivity :
                 .observeResult(AuthFragment.AUTH_SUCCESS)
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collectLatest {
-                    val isNewUser = (it as? Boolean) ?: true
-                    mainViewModelProvider.onNewMessage(AppFeature.Message.UserAuthorized(isNewUser))
+                    val profile = (it as? Profile) ?: return@collectLatest
+                    mainViewModelProvider.onNewMessage(AppFeature.Message.UserAuthorized(profile))
                 }
         }
 
@@ -92,12 +102,14 @@ class MainActivity :
         }
 
         AppCompatDelegate.setDefaultNightMode(ThemeMapper.getAppCompatDelegate(profileSettings.theme))
+
+        handleNewIntent(intent)
     }
 
     private fun injectManual() {
         viewModelFactory = HyperskillApp.graph().platformMainComponent.reduxViewModelFactory
-
         profileSettings = HyperskillApp.graph().buildProfileSettingsComponent().profileSettingsInteractor.getProfileSettings()
+        analyticInteractor = HyperskillApp.graph().analyticComponent.analyticInteractor
     }
 
     private fun initViewStateDelegate() {
@@ -105,6 +117,11 @@ class MainActivity :
         viewStateDelegate.addState<AppFeature.State.Loading>(viewBinding.mainProgress)
         viewStateDelegate.addState<AppFeature.State.Ready>(viewBinding.mainNavigationContainer)
         viewStateDelegate.addState<AppFeature.State.NetworkError>(viewBinding.mainError.root)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        intent?.let(::handleNewIntent)
     }
 
     override fun onResumeFragments() {
@@ -137,6 +154,34 @@ class MainActivity :
                 window.statusBarColor = ContextCompat.getColor(this, R.color.color_black_900)
             is AppFeature.State.Ready ->
                 window.statusBarColor = resolveColorAttribute(R.attr.colorPrimaryVariant)
+        }
+    }
+
+    private fun handleNewIntent(intent: Intent) {
+        val clickedNotificationData = with(NotificationIntentBuilder) {
+            intent.getClickedNotificationData()
+        }
+        if (clickedNotificationData != null) {
+            logNotificationClickedEvent(clickedNotificationData)
+        }
+    }
+
+    private fun logNotificationClickedEvent(
+        clickedNotificationData: ClickedNotificationData
+    ) {
+        when (clickedNotificationData) {
+            is DailyStudyReminderClickedData -> {
+                lifecycleScope.launch {
+                    analyticInteractor.logEvent(
+                        NotificationDailyStudyReminderClickedHyperskillAnalyticEvent(
+                            notificationId = clickedNotificationData.notificationId
+                        )
+                    )
+                }
+            }
+            is DefaultNotificationClickedData -> {
+                // no op
+            }
         }
     }
 }

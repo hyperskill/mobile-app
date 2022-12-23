@@ -11,6 +11,9 @@ class TrackRepositoryImpl(
     override suspend fun getTracks(trackIds: List<Long>): Result<List<Track>> =
         trackRemoteDataSource.getTracks(trackIds)
 
+    override suspend fun getAllTracks(): Result<List<Track>> =
+        trackRemoteDataSource.getAllTracks()
+
     override suspend fun getStudyPlans(): Result<List<StudyPlan>> =
         trackRemoteDataSource.getStudyPlans()
 }

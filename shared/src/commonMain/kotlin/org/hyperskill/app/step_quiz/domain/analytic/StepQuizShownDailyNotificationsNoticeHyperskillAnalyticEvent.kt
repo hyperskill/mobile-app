@@ -6,6 +6,20 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
+/**
+ * Represents a shown analytic event of the prompt to receive daily study reminders.
+ *
+ * JSON payload:
+ * ```
+ * {
+ *     "route": "/learn/step/1",
+ *     "action": "hidden",
+ *     "part": "notice",
+ *     "target": "daily_notifications_notice"
+ * }
+ * ```
+ * @see HyperskillAnalyticEvent
+ */
 class StepQuizShownDailyNotificationsNoticeHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute,
 ) : HyperskillAnalyticEvent(

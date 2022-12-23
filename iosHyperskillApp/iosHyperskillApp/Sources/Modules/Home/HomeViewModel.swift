@@ -45,8 +45,16 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
         onNewMessage(HomeFeatureMessageClickedContinueLearningOnWeb())
     }
 
-    func handleTopicsRepetitionsRequested() {
+    func doTopicsRepetitionsPresentation() {
         onNewMessage(HomeFeatureMessageClickedTopicsRepetitionsCard())
+    }
+
+    func doStreakBarButtonItemAction() {
+        onNewMessage(HomeFeatureMessageClickedStreakBarButtonItem())
+    }
+
+    func doGemsBarButtonItemAction() {
+        onNewMessage(HomeFeatureMessageClickedGemsBarButtonItem())
     }
 
     // MARK: Analytic

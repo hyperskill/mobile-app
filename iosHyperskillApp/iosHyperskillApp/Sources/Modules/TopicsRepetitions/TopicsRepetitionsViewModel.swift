@@ -6,16 +6,6 @@ final class TopicsRepetitionsViewModel: FeatureViewModel<
   TopicsRepetitionsFeatureMessage,
   TopicsRepetitionsFeatureActionViewAction
 > {
-    private let recommendedRepetitionsCount: Int32
-
-    init(
-        recommendedRepetitionsCount: Int32,
-        feature: Presentation_reduxFeature
-    ) {
-        self.recommendedRepetitionsCount = recommendedRepetitionsCount
-        super.init(feature: feature)
-    }
-
     var stateKs: TopicsRepetitionsFeatureStateKs { .init(state) }
 
     override func shouldNotifyStateDidChange(
@@ -26,23 +16,24 @@ final class TopicsRepetitionsViewModel: FeatureViewModel<
     }
 
     func doLoadContent(forceUpdate: Bool = false) {
-        onNewMessage(
-            TopicsRepetitionsFeatureMessageInitialize(
-                recommendedRepetitionsCount: recommendedRepetitionsCount,
-                forceUpdate: forceUpdate
-            )
-        )
+        onNewMessage(TopicsRepetitionsFeatureMessageInitialize(forceUpdate: forceUpdate))
     }
 
     func doLoadNextTopics() {
         onNewMessage(TopicsRepetitionsFeatureMessageShowMoreButtonClicked())
     }
 
-    func doRepeatTopic(stepID: Int64) {
-        onNewMessage(TopicsRepetitionsFeatureMessageRepeatTopicClicked(stepId: stepID))
+    func doRepeatTopic(topicID: Int64) {
+        onNewMessage(TopicsRepetitionsFeatureMessageRepeatTopicClicked(topicId: topicID))
     }
 
     func doRepeatNextTopic() {
         onNewMessage(TopicsRepetitionsFeatureMessageRepeatNextTopicClicked())
+    }
+
+    // MARK: Analytic
+
+    func logViewedEvent() {
+        onNewMessage(TopicsRepetitionsFeatureMessageViewedEventMessage())
     }
 }

@@ -1,6 +1,14 @@
 import SwiftUI
 
+extension ProfileDailyStudyRemindersView {
+    struct Appearance {
+        var cornerRadius: CGFloat = 8
+    }
+}
+
 struct ProfileDailyStudyRemindersView: View {
+    private(set) var appearance = Appearance()
+
     var isActivated: Bool
     @State var selectedHour: Int
 
@@ -39,6 +47,7 @@ struct ProfileDailyStudyRemindersView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
         .background(BackgroundView(color: Color(ColorPalette.surface)))
+        .cornerRadius(appearance.cornerRadius)
     }
 }
 

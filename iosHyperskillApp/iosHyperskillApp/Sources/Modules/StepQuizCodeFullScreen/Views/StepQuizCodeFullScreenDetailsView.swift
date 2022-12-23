@@ -19,32 +19,32 @@ struct StepQuizCodeFullScreenDetailsView: View {
     let executionTimeLimit: String?
     let executionMemoryLimit: String?
 
+    private var isDetailsEmpty: Bool {
+        samples.isEmpty && executionTimeLimit == nil && executionMemoryLimit == nil
+    }
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: appearance.spacing) {
                 StepQuizStatsView(text: stepStats)
 
-                LatexView(
-                    text: .constant(stepText),
-                    configuration: .init(
-                        appearance: .init(labelFont: appearance.stepTextFont),
-                        contentProcessor: ContentProcessor(
-                            injections: ContentProcessor.defaultInjections + [
-                                StepStylesInjection(),
-                                FontInjection(font: appearance.stepTextFont),
-                                TextColorInjection(dynamicColor: appearance.stepTextColor)
-                            ]
-                        )
+                StepTextView(
+                    text: stepText,
+                    appearance: .init(
+                        textFont: appearance.stepTextFont,
+                        textColor: appearance.stepTextColor
                     )
                 )
 
-                StepQuizCodeDetailsView(
-                    samples: samples,
-                    executionTimeLimit: executionTimeLimit,
-                    executionMemoryLimit: executionMemoryLimit,
-                    isAlwaysExpanded: true
-                )
-                .padding(.horizontal, -appearance.spacing)
+                if !isDetailsEmpty {
+                    StepQuizCodeDetailsView(
+                        samples: samples,
+                        executionTimeLimit: executionTimeLimit,
+                        executionMemoryLimit: executionMemoryLimit,
+                        isAlwaysExpanded: true
+                    )
+                    .padding(.horizontal, -appearance.spacing)
+                }
             }
             .padding()
         }

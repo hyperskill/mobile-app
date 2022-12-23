@@ -16,7 +16,7 @@ class StepQuizHintsReducer : StateReducer<State, Message, Action> {
         when (message) {
             is Message.InitWithStepId ->
                 if (state is State.Idle) {
-                    State.Loading to setOf(Action.FetchHintsIds(message.stepId))
+                    State.Loading(isInitialLoading = true) to setOf(Action.FetchHintsIds(message.stepId))
                 } else {
                     null
                 }
@@ -94,7 +94,7 @@ class StepQuizHintsReducer : StateReducer<State, Message, Action> {
                     is State.Content -> {
                         val hintsIds = state.hintsIds.toMutableList()
                         val nextHintId = hintsIds.removeLast()
-                        State.Loading to setOf(
+                        State.Loading() to setOf(
                             Action.FetchNextHint(nextHintId, hintsIds, state.isDailyStep, state.stepId),
                             Action.LogAnalyticEvent(
                                 StepQuizHintsClickedHyperskillAnalyticEvent(
@@ -108,7 +108,7 @@ class StepQuizHintsReducer : StateReducer<State, Message, Action> {
                         )
                     }
                     is State.NetworkError -> {
-                        State.Loading to setOf(
+                        State.Loading() to setOf(
                             Action.FetchNextHint(
                                 nextHintId = state.nextHintId,
                                 remainingHintsIds = state.hintsIds,

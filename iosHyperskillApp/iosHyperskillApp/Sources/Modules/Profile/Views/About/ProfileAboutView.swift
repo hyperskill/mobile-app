@@ -3,6 +3,8 @@ import SwiftUI
 extension ProfileAboutView {
     struct Appearance {
         let socialAccountsOffset = CGSize(width: -9, height: 0)
+
+        var cornerRadius: CGFloat = 8
     }
 }
 
@@ -83,6 +85,7 @@ struct ProfileAboutView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
         .background(BackgroundView(color: Color(ColorPalette.surface)))
+        .cornerRadius(appearance.cornerRadius)
     }
 }
 

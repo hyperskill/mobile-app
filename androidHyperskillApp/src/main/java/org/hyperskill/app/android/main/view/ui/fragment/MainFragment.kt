@@ -8,6 +8,7 @@ import com.github.terrakok.cicerone.Cicerone
 import org.hyperskill.app.analytic.domain.model.Analytic
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.view.ui.navigation.MainNavigationContainer
 import org.hyperskill.app.android.databinding.FragmentMainBinding
 import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.view.ui.navigation.Tabs
@@ -18,7 +19,7 @@ import ru.nobird.android.view.navigation.navigator.RetainedAppNavigator
 import ru.nobird.android.view.navigation.router.RetainedRouter
 import ru.nobird.android.view.navigation.ui.fragment.addBackNavigationDelegate
 
-class MainFragment : Fragment(R.layout.fragment_main) {
+class MainFragment : Fragment(R.layout.fragment_main), MainNavigationContainer {
     companion object {
         fun newInstance(): Fragment =
             MainFragment()
@@ -27,7 +28,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private val viewBinding: FragmentMainBinding by viewBinding(FragmentMainBinding::bind)
 
     private val localCicerone: Cicerone<RetainedRouter> = Cicerone.create(RetainedRouter())
-    private val router: RetainedRouter = localCicerone.router
+    override val router: RetainedRouter = localCicerone.router
 
     private val navigator by lazy(LazyThreadSafetyMode.NONE) {
         RetainedAppNavigator(

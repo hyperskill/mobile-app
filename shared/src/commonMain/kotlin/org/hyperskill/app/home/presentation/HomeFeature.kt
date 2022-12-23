@@ -21,8 +21,9 @@ interface HomeFeature {
          * Represents a state when home screen data successfully loaded.
          *
          * @property streak Current user profile streak.
+         * @property hypercoinsBalance Current user profile balance of the hypercoins.
          * @property problemOfDayState Problem of the day state.
-         * @property recommendedRepetitionsCount Recommended topics repetitions count.
+         * @property repetitionsState Topics repetitions state.
          * @property isRefreshing A boolean flag that indicates about is pull-to-refresh is ongoing.
          * @property isLoadingMagicLink A boolean flag that indicates about magic link loading.
          * @see Streak
@@ -30,8 +31,9 @@ interface HomeFeature {
          */
         data class Content(
             val streak: Streak?,
+            val hypercoinsBalance: Int,
             val problemOfDayState: ProblemOfDayState,
-            val recommendedRepetitionsCount: Int,
+            val repetitionsState: RepetitionsState,
             val isRefreshing: Boolean = false,
             val isLoadingMagicLink: Boolean = false
         ) : State
@@ -48,12 +50,18 @@ interface HomeFeature {
         data class Solved(val step: Step, val nextProblemIn: Long) : ProblemOfDayState
     }
 
+    sealed interface RepetitionsState {
+        object Empty : RepetitionsState
+        data class Available(val recommendedRepetitionsCount: Int) : RepetitionsState
+    }
+
     sealed interface Message {
         data class Initialize(val forceUpdate: Boolean) : Message
         data class HomeSuccess(
             val streak: Streak?,
+            val hypercoinsBalance: Int,
             val problemOfDayState: ProblemOfDayState,
-            val recommendedRepetitionsCount: Int
+            val repetitionsState: RepetitionsState
         ) : Message
         object HomeFailure : Message
         object PullToRefresh : Message
@@ -63,13 +71,15 @@ interface HomeFeature {
 
         data class StepQuizSolved(val stepId: Long) : Message
         object TopicRepeated : Message
+        data class HypercoinsBalanceChanged(val hypercoinsBalance: Int) : Message
 
+        object ClickedStreakBarButtonItem : Message
+        object ClickedGemsBarButtonItem : Message
         object ClickedContinueLearningOnWeb : Message
+        object ClickedTopicsRepetitionsCard : Message
 
         data class GetMagicLinkReceiveSuccess(val url: String) : Message
         object GetMagicLinkReceiveFailure : Message
-
-        object ClickedTopicsRepetitionsCard : Message
 
         /**
          * Analytic
@@ -89,9 +99,11 @@ interface HomeFeature {
 
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
+                object ProfileTab : NavigateTo
                 data class StepScreen(val stepId: Long) : NavigateTo
-                data class TopicsRepetitionsScreen(val recommendedRepetitionsCount: Int) : NavigateTo
+                object TopicsRepetitionsScreen : NavigateTo
             }
+
             data class OpenUrl(val url: String) : ViewAction
             object ShowGetMagicLinkError : ViewAction
         }

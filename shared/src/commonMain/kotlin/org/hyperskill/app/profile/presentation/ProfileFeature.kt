@@ -1,5 +1,6 @@
 package org.hyperskill.app.profile.presentation
 
+import kotlinx.serialization.Serializable
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.profile.domain.model.Profile
@@ -30,6 +31,7 @@ interface ProfileFeature {
         data class Content(
             val profile: Profile,
             val streak: Streak?,
+            val streakFreezeState: StreakFreezeState?,
             val isRefreshing: Boolean = false,
             val isLoadingMagicLink: Boolean = false
         ) : State
@@ -40,6 +42,21 @@ interface ProfileFeature {
         object Error : State
     }
 
+    @Serializable
+    sealed interface StreakFreezeState {
+        @Serializable
+        data class CanBuy(
+            val streakFreezeProductId: Long,
+            val price: Int
+        ) : StreakFreezeState
+
+        @Serializable
+        data class NotEnoughGems(val price: Int) : StreakFreezeState
+
+        @Serializable
+        object AlreadyHave : StreakFreezeState
+    }
+
     sealed interface Message {
         data class Initialize(
             val isInitCurrent: Boolean = true,
@@ -48,8 +65,12 @@ interface ProfileFeature {
         ) : Message
 
         sealed interface ProfileLoaded : Message {
-            data class Success(val profile: Profile, val streak: Streak?) : ProfileLoaded
-            data class Error(val errorMsg: String) : ProfileLoaded
+            data class Success(
+                val profile: Profile,
+                val streak: Streak?,
+                val streakFreezeState: StreakFreezeState?
+            ) : ProfileLoaded
+            object Error : ProfileLoaded
         }
 
         data class PullToRefresh(
@@ -58,11 +79,22 @@ interface ProfileFeature {
         ) : Message
 
         object StepQuizSolved : Message
+        data class HypercoinsBalanceChanged(val hypercoinsBalance: Int) : Message
 
         object ClickedViewFullProfile : Message
 
         data class GetMagicLinkReceiveSuccess(val url: String) : Message
         object GetMagicLinkReceiveFailure : Message
+
+        /**
+         * Streak freeze
+         */
+        object StreakFreezeCardButtonClicked : Message
+        object StreakFreezeModalButtonClicked : Message
+        sealed interface StreakFreezeBought : Message {
+            object Success : StreakFreezeBought
+            object Error : StreakFreezeBought
+        }
 
         /**
          * Analytic
@@ -71,6 +103,8 @@ interface ProfileFeature {
         object ClickedSettingsEventMessage : Message
         data class ClickedDailyStudyRemindsEventMessage(val isEnabled: Boolean) : Message
         object ClickedDailyStudyRemindsTimeEventMessage : Message
+        object StreakFreezeModalShownEventMessage : Message
+        object StreakFreezeModalHiddenEventMessage : Message
     }
 
     sealed interface Action {
@@ -81,9 +115,23 @@ interface ProfileFeature {
 
         data class GetMagicLink(val path: HyperskillUrlPath) : Action
 
+        data class BuyStreakFreeze(val streakFreezeProductId: Long) : Action
+
         sealed interface ViewAction : Action {
             data class OpenUrl(val url: String) : ViewAction
             object ShowGetMagicLinkError : ViewAction
+
+            data class ShowStreakFreezeModal(val streakFreezeState: StreakFreezeState) : ViewAction
+            object HideStreakFreezeModal : ViewAction
+            sealed interface ShowStreakFreezeBuyingStatus : ViewAction {
+                object Loading : ShowStreakFreezeBuyingStatus
+                object Error : ShowStreakFreezeBuyingStatus
+                object Success : ShowStreakFreezeBuyingStatus
+            }
+
+            sealed interface NavigateTo : ViewAction {
+                object HomeScreen : NavigateTo
+            }
         }
     }
 }

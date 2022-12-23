@@ -4,6 +4,7 @@ import android.os.Bundle
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthFlow
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthSocialScreen
 import org.hyperskill.app.android.core.view.ui.navigation.requireAppRouter
+import org.hyperskill.app.profile.domain.model.Profile
 import ru.nobird.android.view.navigation.ui.fragment.FlowFragment
 
 class AuthFragment : FlowFragment(), AuthFlow {
@@ -22,8 +23,8 @@ class AuthFragment : FlowFragment(), AuthFlow {
         }
     }
 
-    override fun onAuthSuccess(isNewUser: Boolean) {
-        requireAppRouter().sendResult(AUTH_SUCCESS, isNewUser)
+    override fun onAuthSuccess(profile: Profile) {
+        requireAppRouter().sendResult(AUTH_SUCCESS, profile)
     }
 
     private fun initNavigation() {

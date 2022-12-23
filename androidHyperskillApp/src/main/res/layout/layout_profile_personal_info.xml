@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:background="@color/color_surface"
+        >
+
+        <TextView
+            android:id="@+id/profileAboutMeTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_about_me_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/profileAboutLivesTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            tools:text="Lives in India"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileAboutMeTextView" />
+
+        <TextView
+            android:id="@+id/profileAboutSpeaksTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            tools:text="Speaks English"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileAboutLivesTextView" />
+
+        <TextView
+            android:id="@+id/profileAboutBioBarTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/profile_bio_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileAboutSpeaksTextView" />
+
+        <TextView
+            android:id="@+id/profileAboutBioTextTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            tools:text="Something in bio"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileAboutBioBarTextView" />
+
+        <TextView
+            android:id="@+id/profileAboutExperienceBarTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/profile_experience_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileAboutBioTextTextView" />
+
+        <TextView
+            android:id="@+id/profileAboutExperienceTextTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            tools:text="Something in experience"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileAboutExperienceBarTextView" />
+
+        <LinearLayout
+            android:id="@+id/profileSocialButtonsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profileAboutExperienceTextTextView"
+            >
+
+
+            <ImageButton
+                android:id="@+id/profileFacebookButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:paddingEnd="16dp"
+                android:src="@drawable/ic_profile_facebook"
+                app:layout_constraintEnd_toStartOf="@+id/profileTwitterButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/profileAboutExperienceTextTextView"
+                tools:ignore="ContentDescription,RtlSymmetry"
+                />
+
+            <ImageButton
+                android:id="@+id/profileTwitterButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:paddingEnd="16dp"
+                android:src="@drawable/ic_profile_twitter"
+                app:layout_constraintStart_toEndOf="@+id/profileFacebookButton"
+                app:layout_constraintTop_toTopOf="@+id/profileFacebookButton"
+                tools:ignore="ContentDescription,RtlSymmetry"
+                />
+
+            <ImageButton
+                android:id="@+id/profileLinkedinButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:paddingEnd="16dp"
+                android:src="@drawable/ic_profile_linkedin"
+                app:layout_constraintStart_toEndOf="@+id/profileTwitterButton"
+                app:layout_constraintTop_toTopOf="@+id/profileFacebookButton"
+                tools:ignore="ContentDescription,RtlSymmetry"
+                />
+
+            <ImageButton
+                android:id="@+id/profileRedditButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:paddingEnd="16dp"
+                android:src="@drawable/ic_profile_reddit"
+                app:layout_constraintStart_toEndOf="@+id/profileLinkedinButton"
+                app:layout_constraintTop_toTopOf="@+id/profileFacebookButton"
+                tools:ignore="ContentDescription,RtlSymmetry"
+                />
+
+            <ImageButton
+                android:id="@+id/profileGithubButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_profile_github"
+                app:layout_constraintStart_toEndOf="@+id/profileRedditButton"
+                app:layout_constraintTop_toTopOf="@+id/profileFacebookButton"
+                tools:ignore="ContentDescription"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/profileViewFullVersionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/profile_view_full_version_button_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileSocialButtonsLayout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

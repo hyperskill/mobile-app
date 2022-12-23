@@ -9,8 +9,11 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.notification.data.extension.NotificationExtensions
 import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizViewedHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
+import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.permissions.StepQuizUserPermissionRequest
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.domain.validation.StepQuizReplyValidator
@@ -24,32 +27,29 @@ class StepQuizActionDispatcher(
     private val stepQuizReplyValidator: StepQuizReplyValidator,
     private val profileInteractor: ProfileInteractor,
     private val notificationInteractor: NotificationInteractor,
-    private val analyticInteractor: AnalyticInteractor
+    private val analyticInteractor: AnalyticInteractor,
+    private val sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
         actionScope.launch {
-            notificationInteractor.solvedStepsSharedFlow.collect {
+            notificationInteractor.solvedStepsSharedFlow.collect { solvedStepId ->
                 if (notificationInteractor.isRequiredToAskUserToEnableDailyReminders()) {
                     onNewMessage(Message.RequestUserPermission(StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS))
                 } else {
-                    val currentProfile = profileInteractor
+                    val isSolvedStepDailyStep = profileInteractor
                         .getCurrentProfile(sourceType = DataSourceType.CACHE)
-                        .getOrElse {
-                            return@collect
-                        }
+                        .map { it.dailyStep == solvedStepId }
+                        .getOrDefault(false)
 
-                    if (currentProfile.dailyStep == it) {
-                        onNewMessage(
-                            Message.ShowProblemOfDaySolvedModal(
-                                profileInteractor
-                                    .getCurrentProfile(sourceType = DataSourceType.REMOTE)
-                                    .getOrElse {
-                                        return@collect
-                                    }
-                                    .gamification.hypercoins
-                            )
-                        )
+                    if (isSolvedStepDailyStep) {
+                        val currentProfileHypercoinsBalance = profileInteractor
+                            .getCurrentProfile(sourceType = DataSourceType.REMOTE)
+                            .map { it.gamification.hypercoinsBalance }
+                            .getOrElse { return@collect }
+
+                        profileInteractor.notifyHypercoinsBalanceChanged(currentProfileHypercoinsBalance)
+                        onNewMessage(Message.ShowProblemOfDaySolvedModal(currentProfileHypercoinsBalance))
                     }
                 }
             }
@@ -59,10 +59,14 @@ class StepQuizActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchAttempt -> {
+                val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepQuizScreenRemoteDataLoading()
+                sentryInteractor.startTransaction(sentryTransaction)
+
                 val currentProfile = profileInteractor
                     .getCurrentProfile(sourceType = DataSourceType.CACHE)
                     .getOrElse {
-                        onNewMessage(Message.FetchAttemptError)
+                        sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
+                        onNewMessage(Message.FetchAttemptError(it))
                         return
                     }
 
@@ -73,13 +77,19 @@ class StepQuizActionDispatcher(
                             val message = getSubmissionState(attempt.id, action.step.id, currentProfile.id).fold(
                                 onSuccess = { Message.FetchAttemptSuccess(action.step, attempt, it, currentProfile) },
                                 onFailure = {
-                                    Message.FetchAttemptError
+                                    Message.FetchAttemptError(it)
                                 }
                             )
                             message
                         },
-                        onFailure = { Message.FetchAttemptError }
+                        onFailure = { Message.FetchAttemptError(it) }
                     )
+
+                sentryInteractor.finishTransaction(
+                    transaction = sentryTransaction,
+                    throwable = (message as? Message.FetchAttemptError)?.throwable
+                )
+
                 onNewMessage(message)
             }
             is Action.CreateAttempt -> {
@@ -91,28 +101,34 @@ class StepQuizActionDispatcher(
                     }
 
                 if (StepQuizResolver.isNeedRecreateAttemptForNewSubmission(action.step)) {
+                    val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepQuizCreateAttempt()
+                    sentryInteractor.startTransaction(sentryTransaction)
+
                     val reply = (action.submissionState as? StepQuizFeature.SubmissionState.Loaded)
                         ?.submission
                         ?.reply
 
-                    val message = stepQuizInteractor
+                    stepQuizInteractor
                         .createAttempt(action.step.id)
                         .fold(
                             onSuccess = {
-                                Message.CreateAttemptSuccess(
-                                    step = action.step,
-                                    attempt = it,
-                                    submissionState = StepQuizFeature.SubmissionState.Empty(
-                                        reply = if (action.shouldResetReply) null else reply
-                                    ),
-                                    currentProfile = currentProfile
+                                sentryInteractor.finishTransaction(sentryTransaction)
+                                onNewMessage(
+                                    Message.CreateAttemptSuccess(
+                                        step = action.step,
+                                        attempt = it,
+                                        submissionState = StepQuizFeature.SubmissionState.Empty(
+                                            reply = if (action.shouldResetReply) null else reply
+                                        ),
+                                        currentProfile = currentProfile
+                                    )
                                 )
                             },
                             onFailure = {
-                                Message.CreateAttemptError
+                                sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
+                                onNewMessage(Message.CreateAttemptError)
                             }
                         )
-                    onNewMessage(message)
                 } else {
                     val submissionState = (action.submissionState as? StepQuizFeature.SubmissionState.Loaded)
                         ?.submission
@@ -136,17 +152,39 @@ class StepQuizActionDispatcher(
                 onNewMessage(Message.CreateSubmissionReplyValidationResult(action.step, action.reply, validationResult))
             }
             is Action.CreateSubmission -> {
-                val message = stepQuizInteractor
-                    .createSubmission(action.step.id, action.attemptId, action.reply)
+                val reply = action.submission.reply ?: return onNewMessage(Message.CreateSubmissionNetworkError)
+
+                val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepQuizCreateSubmission()
+                sentryInteractor.startTransaction(sentryTransaction)
+
+                var newAttempt: Attempt? = null
+                if (action.submission.originalStatus == SubmissionStatus.WRONG &&
+                    StepQuizResolver.isNeedRecreateAttemptForNewSubmission(action.step)
+                ) {
+                    newAttempt = stepQuizInteractor
+                        .createAttempt(action.step.id)
+                        .getOrElse {
+                            sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
+                            return onNewMessage(Message.CreateSubmissionNetworkError)
+                        }
+                }
+
+                stepQuizInteractor
+                    .createSubmission(
+                        stepId = action.step.id,
+                        attemptId = newAttempt?.id ?: action.attemptId,
+                        reply = reply
+                    )
                     .fold(
                         onSuccess = { newSubmission ->
-                            Message.CreateSubmissionSuccess(newSubmission)
+                            sentryInteractor.finishTransaction(sentryTransaction)
+                            onNewMessage(Message.CreateSubmissionSuccess(newSubmission, newAttempt))
                         },
                         onFailure = {
-                            Message.CreateSubmissionNetworkError
+                            sentryInteractor.finishTransaction(sentryTransaction)
+                            onNewMessage(Message.CreateSubmissionNetworkError)
                         }
                     )
-                onNewMessage(message)
             }
             is Action.RequestUserPermissionResult -> {
                 when (action.userPermissionRequest) {
@@ -179,6 +217,7 @@ class StepQuizActionDispatcher(
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
+            else -> {}
         }
     }
 

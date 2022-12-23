@@ -9,6 +9,8 @@ interface TrackRepository {
 
     suspend fun getTracks(trackIds: List<Long>): Result<List<Track>>
 
+    suspend fun getAllTracks(): Result<List<Track>>
+
     suspend fun getStudyPlans(): Result<List<StudyPlan>>
 
     suspend fun getStudyPlanByTrackId(trackId: Long): Result<StudyPlan> =

@@ -1,14 +1,21 @@
 package org.hyperskill.app.profile.presentation
 
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.items.domain.interactor.ItemsInteractor
+import org.hyperskill.app.items.domain.model.Item
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
+import org.hyperskill.app.products.domain.interactor.ProductsInteractor
+import org.hyperskill.app.products.domain.model.Product
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.profile.presentation.ProfileFeature.Action
 import org.hyperskill.app.profile.presentation.ProfileFeature.Message
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.streak.domain.interactor.StreakInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -16,7 +23,10 @@ class ProfileActionDispatcher(
     config: ActionDispatcherOptions,
     private val profileInteractor: ProfileInteractor,
     private val streakInteractor: StreakInteractor,
+    private val productsInteractor: ProductsInteractor,
+    private val itemsInteractor: ItemsInteractor,
     private val analyticInteractor: AnalyticInteractor,
+    private val sentryInteractor: SentryInteractor,
     private val urlPathProcessor: UrlPathProcessor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
@@ -26,24 +36,55 @@ class ProfileActionDispatcher(
                 onNewMessage(Message.StepQuizSolved)
             }
         }
+
+        actionScope.launch {
+            profileInteractor.observeHypercoinsBalance().collect {
+                onNewMessage(Message.HypercoinsBalanceChanged(it))
+            }
+        }
     }
 
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchCurrentProfile -> {
+                val sentryTransaction = HyperskillSentryTransactionBuilder.buildProfileScreenRemoteDataLoading()
+                sentryInteractor.startTransaction(sentryTransaction)
+
                 val currentProfile = profileInteractor
                     .getCurrentProfile(sourceType = DataSourceType.REMOTE)
                     .getOrElse {
-                        onNewMessage(Message.ProfileLoaded.Error(it.message ?: ""))
-                        return
+                        sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
+                        return onNewMessage(Message.ProfileLoaded.Error)
                     }
 
-                val message = streakInteractor
-                    .getStreaks(currentProfile.id)
-                    .map { Message.ProfileLoaded.Success(currentProfile, it.firstOrNull()) }
-                    .getOrElse { Message.ProfileLoaded.Error(it.message ?: "") }
+                val streaksResult = actionScope.async { streakInteractor.getStreaks(currentProfile.id) }
+                val streakFreezeProductResult = actionScope.async { productsInteractor.getStreakFreezeProduct() }
+                val itemsResult = actionScope.async { itemsInteractor.getItems() }
 
-                onNewMessage(message)
+                val streaks = streaksResult.await().getOrElse {
+                    sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
+                    return onNewMessage(Message.ProfileLoaded.Error)
+                }
+                val streakFreezeProduct = streakFreezeProductResult.await().getOrNull()
+                val items = itemsResult.await().getOrNull()
+
+                sentryInteractor.finishTransaction(sentryTransaction)
+
+                onNewMessage(
+                    Message.ProfileLoaded.Success(
+                        profile = currentProfile,
+                        streak = streaks.firstOrNull(),
+                        streakFreezeState = getStreakFreezeState(streakFreezeProduct, items, currentProfile.gamification.hypercoinsBalance)
+                    )
+                )
+            }
+            is Action.BuyStreakFreeze -> {
+                productsInteractor.buyStreakFreeze(action.streakFreezeProductId)
+                    .getOrElse {
+                        return onNewMessage(Message.StreakFreezeBought.Error)
+                    }
+
+                onNewMessage(Message.StreakFreezeBought.Success)
             }
             is Action.FetchProfile -> {
                 // TODO add code when GET on any profile is implemented
@@ -52,6 +93,7 @@ class ProfileActionDispatcher(
                 analyticInteractor.logEvent(action.analyticEvent)
             is Action.GetMagicLink ->
                 getLink(action.path, ::onNewMessage)
+            else -> {}
         }
     }
 
@@ -65,4 +107,12 @@ class ProfileActionDispatcher(
                     onNewMessage(Message.GetMagicLinkReceiveFailure)
                 }
             )
+
+    private fun getStreakFreezeState(streakFreezeProduct: Product?, items: List<Item>?, hypercoinsBalance: Int): ProfileFeature.StreakFreezeState? =
+        when {
+            streakFreezeProduct == null || items == null -> null
+            items.any { it.productId == streakFreezeProduct.id && it.usedAt == null } -> ProfileFeature.StreakFreezeState.AlreadyHave
+            hypercoinsBalance >= streakFreezeProduct.price -> ProfileFeature.StreakFreezeState.CanBuy(streakFreezeProduct.id, streakFreezeProduct.price)
+            else -> ProfileFeature.StreakFreezeState.NotEnoughGems(streakFreezeProduct.price)
+        }
 }

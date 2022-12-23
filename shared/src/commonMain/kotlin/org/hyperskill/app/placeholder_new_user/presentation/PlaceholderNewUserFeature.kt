@@ -1,44 +1,56 @@
 package org.hyperskill.app.placeholder_new_user.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
-import org.hyperskill.app.core.domain.url.HyperskillUrlPath
+import org.hyperskill.app.track.domain.model.Track
 
 interface PlaceholderNewUserFeature {
     sealed interface State {
-        /**
-         * @property isLoadingMagicLink A boolean flag that indicates about magic link loading.
-         * */
-        data class Content(
-            val isLoadingMagicLink: Boolean = false
-        ) : State
+        object Idle : State
+        object Loading : State
+        data class Content(val tracks: List<Track>) : State
+        object NetworkError : State
     }
 
     sealed interface Message {
-        object PlaceholderSignInTappedMessage : Message
-        object OpenAuthScreen : Message
+        data class Initialize(val forceUpdate: Boolean) : Message
+        sealed interface TracksLoaded : Message {
+            data class Success(val tracks: List<Track>) : TracksLoaded
+            object Error : TracksLoaded
+        }
 
-        object ClickedContinueOnWeb : Message
+        data class TrackClicked(val trackId: Long) : Message
 
-        data class GetMagicLinkReceiveSuccess(val url: String) : Message
-        object GetMagicLinkReceiveFailure : Message
+        data class StartLearningButtonClicked(val trackId: Long) : Message
+        sealed interface TrackSelected : Message {
+            object Success : TrackSelected
+            object Error : TrackSelected
+        }
 
         /**
          * Analytic
          */
         object ViewedEventMessage : Message
+        data class TrackModalShownEventMessage(val trackId: Long) : Message
+        data class TrackModalHiddenEventMessage(val trackId: Long) : Message
     }
 
     sealed interface Action {
-        object Logout : Action
+        object Initialize : Action
 
-        data class GetMagicLink(val path: HyperskillUrlPath) : Action
+        data class SelectTrack(val track: Track) : Action
 
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
-                object AuthScreen : NavigateTo
+                object HomeScreen : NavigateTo
             }
-            data class OpenUrl(val url: String) : ViewAction
-            object ShowGetMagicLinkError : ViewAction
+
+            data class ShowTrackModal(val track: Track) : ViewAction
+
+            sealed interface ShowTrackSelectionStatus : ViewAction {
+                object Loading : ShowTrackSelectionStatus
+                object Error : ShowTrackSelectionStatus
+                object Success : ShowTrackSelectionStatus
+            }
         }
 
         /**

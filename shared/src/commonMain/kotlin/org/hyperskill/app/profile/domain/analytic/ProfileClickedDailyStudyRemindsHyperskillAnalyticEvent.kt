@@ -6,6 +6,24 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
+/**
+ * Represents click on the daily study reminds toggle analytic event, e.g.e when toggle value changed.
+ *
+ * JSON payload:
+ * ```
+ * {
+ *     "route": "/profile",
+ *     "action": "click",
+ *     "part": "main",
+ *     "target": "daily_study_reminds",
+ *     "context":
+ *     {
+ *         "state": true
+ *     }
+ * }
+ * ```
+ * @see HyperskillAnalyticEvent
+ */
 class ProfileClickedDailyStudyRemindsHyperskillAnalyticEvent(
     val isEnabled: Boolean
 ) : HyperskillAnalyticEvent(

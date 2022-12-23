@@ -39,7 +39,7 @@ interface StepQuizFeature {
             val submissionState: SubmissionState,
             val currentProfile: Profile
         ) : Message
-        object FetchAttemptError : Message
+        data class FetchAttemptError(val throwable: Throwable) : Message
 
         /**
          * Create/retry attempt
@@ -57,7 +57,7 @@ interface StepQuizFeature {
          * Submit submission
          */
         data class CreateSubmissionClicked(val step: Step, val reply: Reply) : Message
-        data class CreateSubmissionSuccess(val submission: Submission) : Message
+        data class CreateSubmissionSuccess(val submission: Submission, val newAttempt: Attempt? = null) : Message
         object CreateSubmissionNetworkError : Message
         data class CreateSubmissionReplyValidationResult(
             val step: Step,
@@ -84,13 +84,14 @@ interface StepQuizFeature {
 
         data class ShowProblemOfDaySolvedModal(val gemsCount: Int) : Message
 
+        object ProblemOfDaySolvedModalGoBackClicked : Message
+
         /**
          * Analytic
          */
         data class ViewedEventMessage(val stepId: Long) : Message
         object ClickedCodeDetailsEventMessage : Message
         object ClickedRetryEventMessage : Message
-        object DailyStepCompletedModalClickedGoBackEventMessage : Message
         object DailyStepCompletedModalShownEventMessage : Message
         object DailyStepCompletedModalHiddenEventMessage : Message
     }
@@ -105,7 +106,7 @@ interface StepQuizFeature {
             val shouldResetReply: Boolean
         ) : Action
         data class CreateSubmissionValidateReply(val step: Step, val reply: Reply) : Action
-        data class CreateSubmission(val step: Step, val attemptId: Long, val reply: Reply) : Action
+        data class CreateSubmission(val step: Step, val attemptId: Long, val submission: Submission) : Action
 
         data class RequestUserPermissionResult(
             val userPermissionRequest: StepQuizUserPermissionRequest,

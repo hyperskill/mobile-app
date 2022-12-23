@@ -20,6 +20,13 @@ enum Images {
         static let profileFilled = "tab-bar-profile-filled"
     }
 
+    // MARK: - NavigationBar -
+
+    enum NavigationBar {
+        static let streak = "navigation-bar-streak"
+        static let gems = "navigation-bar-gems"
+    }
+
     // MARK: - AuthSocial -
 
     enum AuthSocial {
@@ -84,13 +91,6 @@ enum Images {
     // MARK: - Home -
 
     enum Home {
-        enum Streak {
-            static let streakActive = "home-streak-active"
-            static let streakPassive = "home-streak-passive"
-            static let streakFrozen = "home-streak-frozen"
-            static let crown = "home-streak-crown"
-        }
-
         enum ProblemOfDay {
             static let calendar = "problem-of-day-calendar"
             static let done = "problem-of-day-done"
@@ -112,6 +112,22 @@ enum Images {
                 static let linkedIn = "profile-about-social-linkedin"
                 static let reddit = "profile-about-social-reddit"
                 static let github = "profile-about-social-github"
+            }
+        }
+
+        enum Streak {
+            enum Card {
+                static let streakActive = "profile-streak-active"
+                static let streakPassive = "profile-streak-passive"
+                static let streakFrozen = "profile-streak-frozen"
+                static let crown = "profile-streak-crown"
+            }
+
+            enum FreezeModal {
+                static let diamond = "profile-streak-freeze-modal-diamond"
+                static let snowflake = "profile-streak-freeze-modal-snowflake"
+                static let gemsBadgeLocked = "profile-streak-freeze-modal-gems-badge-locked"
+                static let snowflakeBadge = "profile-streak-freeze-modal-snowflake-badge"
             }
         }
     }

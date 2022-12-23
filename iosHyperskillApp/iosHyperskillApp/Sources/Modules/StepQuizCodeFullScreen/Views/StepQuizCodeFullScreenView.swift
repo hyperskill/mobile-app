@@ -5,6 +5,8 @@ struct StepQuizCodeFullScreenView: View {
 
     @State var selectedTab: StepQuizCodeFullScreenTab
 
+    let navigationTitle: String
+
     @State private var isEditingCode = false
 
     @Environment(\.presentationMode) private var presentationMode
@@ -62,7 +64,7 @@ struct StepQuizCodeFullScreenView: View {
                 .tabViewStyle(.page(indexDisplayMode: .never))
             }
             .navigationBarTitleDisplayMode(.inline)
-            .navigationTitle(Strings.StepQuizCode.title)
+            .navigationTitle(navigationTitle)
             .toolbar(content: buildToolbarContent)
         }
         .navigationViewStyle(StackNavigationViewStyle())

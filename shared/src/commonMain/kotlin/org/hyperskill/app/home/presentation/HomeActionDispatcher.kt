@@ -4,7 +4,6 @@ import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -25,8 +24,11 @@ import org.hyperskill.app.home.presentation.HomeFeature.Action
 import org.hyperskill.app.home.presentation.HomeFeature.Message
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.streak.domain.interactor.StreakInteractor
+import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class HomeActionDispatcher(
@@ -34,10 +36,11 @@ class HomeActionDispatcher(
     private val homeInteractor: HomeInteractor,
     private val streakInteractor: StreakInteractor,
     private val profileInteractor: ProfileInteractor,
+    private val topicsRepetitionsInteractor: TopicsRepetitionsInteractor,
     private val stepInteractor: StepInteractor,
     private val analyticInteractor: AnalyticInteractor,
-    private val urlPathProcessor: UrlPathProcessor,
-    private val topicRepeatedSharedFlow: SharedFlow<Unit>
+    private val sentryInteractor: SentryInteractor,
+    private val urlPathProcessor: UrlPathProcessor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     companion object {
@@ -61,8 +64,14 @@ class HomeActionDispatcher(
         }
 
         actionScope.launch {
-            topicRepeatedSharedFlow.collect {
+            topicsRepetitionsInteractor.topicRepeatedSharedFlow.collect {
                 onNewMessage(Message.TopicRepeated)
+            }
+        }
+
+        actionScope.launch {
+            profileInteractor.observeHypercoinsBalance().collect {
+                onNewMessage(Message.HypercoinsBalanceChanged(it))
             }
         }
     }
@@ -70,11 +79,14 @@ class HomeActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchHomeScreenData -> {
+                val sentryTransaction = HyperskillSentryTransactionBuilder.buildHomeScreenRemoteDataLoading()
+                sentryInteractor.startTransaction(sentryTransaction)
+
                 val currentProfile = profileInteractor
                     .getCurrentProfile(DataSourceType.REMOTE) // ALTAPPS-303: Get from remote to get relevant problem of the day
                     .getOrElse {
-                        onNewMessage(Message.HomeFailure)
-                        return
+                        sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
+                        return onNewMessage(Message.HomeFailure)
                     }
 
                 val problemOfDayStateResult = actionScope.async {
@@ -83,21 +95,35 @@ class HomeActionDispatcher(
                 val currentProfileStreaksResult = actionScope.async {
                     streakInteractor.getStreaks(currentProfile.id)
                 }
+                val topicsRepetitionsStatisticsResult = actionScope.async {
+                    topicsRepetitionsInteractor.getTopicsRepetitionStatistics()
+                }
 
                 val problemOfDayState = problemOfDayStateResult.await().getOrElse {
-                    onNewMessage(Message.HomeFailure)
-                    return
+                    sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
+                    return onNewMessage(Message.HomeFailure)
                 }
                 val currentProfileStreaks = currentProfileStreaksResult.await().getOrElse {
-                    onNewMessage(Message.HomeFailure)
-                    return
+                    sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
+                    return onNewMessage(Message.HomeFailure)
                 }
+                val topicsRepetitionsStatistics = topicsRepetitionsStatisticsResult.await().getOrElse {
+                    sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
+                    return onNewMessage(Message.HomeFailure)
+                }
+
+                sentryInteractor.finishTransaction(sentryTransaction)
 
                 onNewMessage(
                     Message.HomeSuccess(
                         streak = currentProfileStreaks.firstOrNull(),
+                        hypercoinsBalance = currentProfile.gamification.hypercoinsBalance,
                         problemOfDayState = problemOfDayState,
-                        recommendedRepetitionsCount = currentProfile.recommendedRepetitionsCount
+                        repetitionsState = if (topicsRepetitionsStatistics.recommendTodayCount > 0 || topicsRepetitionsStatistics.repeatedTodayCount > 0) {
+                            HomeFeature.RepetitionsState.Available(topicsRepetitionsStatistics.recommendTodayCount)
+                        } else {
+                            HomeFeature.RepetitionsState.Empty
+                        }
                     )
                 )
                 onNewMessage(Message.ReadyToLaunchNextProblemInTimer)
@@ -115,9 +141,10 @@ class HomeActionDispatcher(
                     .onEach { seconds -> onNewMessage(Message.HomeNextProblemInUpdate(seconds)) }
                     .launchIn(actionScope)
             }
+            is Action.GetMagicLink ->
+                getLink(action.path, ::onNewMessage)
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
-            is Action.GetMagicLink -> getLink(action.path, ::onNewMessage)
             else -> {
                 // no op
             }

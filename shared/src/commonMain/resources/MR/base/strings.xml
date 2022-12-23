@@ -131,14 +131,16 @@
     <string name="step_quiz_code_empty_lang">No lang</string>
     <string name="step_quiz_code_reset">Reset</string>
 
+    <!-- Step quiz code -->
+    <string name="step_quiz_sql_title">Write an SQL statement</string>
+
     <!-- Tab bar -->
     <string name="tab_bar_home_title">Home</string>
     <string name="tab_bar_track_title">Track</string>
     <string name="tab_bar_profile_title">Profile</string>
 
     <!-- Home -->
-    <string name="home_title">Home</string>
-    <string name="home_hello_lets_learn_text">Hello!\nLet’s learn something</string>
+    <string name="home_title">Hello!</string>
     <string name="home_keep_practicing_text">Keep practicing to achieve your learning goal</string>
 
     <!-- Track -->
@@ -165,6 +167,9 @@
     <string name="profile_role_learner_text">Learner</string>
     <string name="profile_daily_study_reminders_text">Daily study reminders</string>
     <string name="profile_daily_study_reminders_schedule_text">Schedule:</string>
+    <string name="profile_statistics_block_passed_projects_title">Projects</string>
+    <string name="profile_statistics_block_passed_tracks_title">Tracks</string>
+    <string name="profile_statistics_block_hypercoins_balance_title">Gems</string>
 
     <!-- Settings -->
     <string name="settings_title">Settings</string>
@@ -202,6 +207,20 @@
     <string name="streak_previous_five_days_text">your previous 5 days</string>
     <string name="streak_today_text">today</string>
     <string name="streak_days_text">days</string>
+    <string name="streak_get_one_day_streak_freeze">Get 1-day streak freeze</string>
+    <string name="streak_you_have_one_day_streak_freeze">You have a 1-day streak freeze!</string>
+
+    <!-- Streak freeze modal -->
+    <string name="streak_freeze_modal_can_buy_title">Save your streak</string>
+    <string name="streak_freeze_modal_already_have_title">Streak is protected</string>
+    <string name="streak_freeze_modal_not_enough_gems_title">Not enough gems</string>
+    <string name="streak_freeze_modal_text">The freeze automatically saves your progress if you miss a day and do not solve a problem.\n\nThe streak count will remain the same and won\'t get lost.</string>
+    <string name="streak_freeze_modal_one_day_streak_freeze">1-day streak freeze!</string>
+    <string name="streak_freeze_modal_you_have_one_day_streak_freeze"> You\'ve 1-day streak freeze!</string>
+    <string name="streak_freeze_modal_get_it_for_gems">Get it for %d gems</string>
+    <string name="streak_freeze_modal_continue_learning">Continue learning</string>
+    <string name="streak_freeze_bought_error">Failed to get 1-day streak freeze</string>
+    <string name="streak_freeze_bought_success">Successfully got 1-day streak freeze</string>
 
     <!-- Daily problem -->
     <string name="problem_of_day_title_uncompleted">Problem of the day</string>
@@ -226,6 +245,7 @@
     <string name="topics_repetitions_repeat_block_title">All %s to repeat</string>
     <string name="topics_repetitions_repeat_block_empty_title">All topics to repeat</string>
     <string name="topics_repetitions_repeat_block_current_track">Topics from track %s</string>
+    <string name="topics_repetitions_repeat_block_other_tracks">Topics from other tracks</string>
     <string name="topics_repetitions_repeat_block_empty_current_track">There are no topics to repeat for the %s track</string>
     <string name="topics_repetitions_info_block_title">I\'ve learned these topics! Why repeating them?</string>
     <string name="topics_repetitions_info_block_description">You retain more knowledge and build up your skill.\n\nSome
@@ -236,11 +256,13 @@
 
 
     <!-- Placeholder for new users -->
-    <string name="placeholder_register_text">Sign up and select a track</string>
-    <string name="placeholder_instruction_text">To get access to the content you should register at our website and select a learning track.</string>
-    <string name="placeholder_continue_button_text">Continue to hyperskill.org \u2197</string>
-    <string name="placeholder_continue_button_text_ios">Continue to hyperskill.org ↗</string>
-    <string name="placeholder_first_description_text">My Hyperskill helps you practice what you’ve learned and stay on top of your studies. We are working hard to bring even more features. Stay tuned :)</string>
+    <string name="placeholder_new_user_title">What is your learning goal?</string>
+    <string name="placeholder_new_user_text">
+        Explore all tracks and find the right one by choosing a specific area of knowledge
+    </string>
+    <string name="placeholder_new_user_start_track_button_text">Start learning</string>
+    <string name="placeholder_new_user_start_track_success_message">Track successfully selected</string>
+    <string name="placeholder_new_user_start_track_error_message">Failed to select track</string>
 
     <!--  Notifications titles & descriptions  -->
     <string name="notification1_title">Keep it up</string>

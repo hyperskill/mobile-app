@@ -73,8 +73,8 @@ final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, A
 // MARK: - AppViewModel: AuthOutputProtocol -
 
 extension AppViewModel: AuthOutputProtocol {
-    func handleUserAuthorized(isNewUser: Bool) {
-        onNewMessage(AppFeatureMessageUserAuthorized(isNewUser: isNewUser))
+    func handleUserAuthorized(profile: Profile) {
+        onNewMessage(AppFeatureMessageUserAuthorized(profile: profile))
     }
 }
 
@@ -93,8 +93,8 @@ extension AppViewModel: OnboardingOutputProtocol {
 // MARK: - AppViewModel: AuthNewUserPlaceholderOutputProtocol -
 
 extension AppViewModel: AuthNewUserPlaceholderOutputProtocol {
-    func handleAuthNewUserPlaceholderSignInRequested() {
-        onViewAction?(AppFeatureActionViewActionNavigateToAuthScreen())
+    func handleAuthNewUserPlaceholderDidRequestNavigateToHome() {
+        onViewAction?(AppFeatureActionViewActionNavigateToHomeScreen())
     }
 }
 

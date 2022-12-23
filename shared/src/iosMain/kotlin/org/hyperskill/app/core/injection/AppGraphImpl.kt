@@ -16,6 +16,8 @@ import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponentImpl
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.HomeComponentImpl
+import org.hyperskill.app.items.injection.ItemsDataComponent
+import org.hyperskill.app.items.injection.ItemsDataComponentImpl
 import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponent
 import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponentImpl
 import org.hyperskill.app.likes.injection.LikesDataComponent
@@ -32,16 +34,23 @@ import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponentImpl
 import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponent
 import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponentImpl
+import org.hyperskill.app.products.injection.ProductsDataComponent
+import org.hyperskill.app.products.injection.ProductsDataComponentImpl
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile.injection.ProfileComponentImpl
 import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponentImpl
+import org.hyperskill.app.profile.injection.ProfileHypercoinsDataComponent
+import org.hyperskill.app.profile.injection.ProfileHypercoinsDataComponentImpl
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponentImpl
 import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponentImpl
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
+import org.hyperskill.app.sentry.domain.model.manager.SentryManager
+import org.hyperskill.app.sentry.injection.SentryComponent
+import org.hyperskill.app.sentry.injection.SentryComponentImpl
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step.injection.StepComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
@@ -58,12 +67,15 @@ import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComp
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponentImpl
 import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.track.injection.TrackComponentImpl
+import org.hyperskill.app.track.injection.TrackDataComponent
+import org.hyperskill.app.track.injection.TrackDataComponentImpl
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
 
 class AppGraphImpl(
     userAgentInfo: UserAgentInfo,
-    buildVariant: BuildVariant
+    buildVariant: BuildVariant,
+    sentryManager: SentryManager
 ) : iOSAppComponent {
     override val commonComponent: CommonComponent =
         CommonComponentImpl(userAgentInfo, buildVariant)
@@ -77,8 +89,14 @@ class AppGraphImpl(
     override val authComponent: AuthComponent =
         AuthComponentImpl(this)
 
+    override val profileHypercoinsDataComponent: ProfileHypercoinsDataComponent =
+        ProfileHypercoinsDataComponentImpl()
+
     override val analyticComponent: AnalyticComponent =
         AnalyticComponentImpl(this)
+
+    override val sentryComponent: SentryComponent =
+        SentryComponentImpl(sentryManager)
 
     override val mainComponent: MainComponent =
         MainComponentImpl(this)
@@ -91,7 +109,8 @@ class AppGraphImpl(
             commonComponent,
             authComponent,
             buildProfileDataComponent(),
-            analyticComponent
+            analyticComponent,
+            sentryComponent
         )
 
     override fun buildAuthCredentialsComponent(): AuthCredentialsComponent =
@@ -99,8 +118,9 @@ class AppGraphImpl(
             commonComponent,
             authComponent,
             buildProfileDataComponent(),
+            buildMagicLinksDataComponent(),
             analyticComponent,
-            buildMagicLinksDataComponent()
+            sentryComponent
         )
 
     override fun buildStepComponent(): StepComponent =
@@ -114,6 +134,9 @@ class AppGraphImpl(
 
     override fun buildTrackComponent(): TrackComponent =
         TrackComponentImpl(this)
+
+    override fun buildTrackDataComponent(): TrackDataComponent =
+        TrackDataComponentImpl(this)
 
     override fun buildProfileComponent(): ProfileComponent =
         ProfileComponentImpl(this)
@@ -165,4 +188,10 @@ class AppGraphImpl(
 
     override fun buildProgressesDataComponent(): ProgressesDataComponent =
         ProgressesDataComponentImpl(this)
+
+    override fun buildProductsDataComponent(): ProductsDataComponent =
+        ProductsDataComponentImpl(this)
+
+    override fun buildItemsDataComponent(): ItemsDataComponent =
+        ItemsDataComponentImpl(this)
 }

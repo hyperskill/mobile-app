@@ -6,6 +6,20 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
+/**
+ * Represents a click on "Continue with social networks" button analytic event.
+ *
+ * JSON payload:
+ * ```
+ * {
+ *     "route": "/login/password",
+ *     "action": "click",
+ *     "part": "main",
+ *     "target": "continue_with_social_networks"
+ * }
+ * ```
+ * @see HyperskillAnalyticEvent
+ */
 class AuthCredentialsClickedContinueWithSocialHyperskillAnalyticEvent : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Login.Password(),
     HyperskillAnalyticAction.CLICK,

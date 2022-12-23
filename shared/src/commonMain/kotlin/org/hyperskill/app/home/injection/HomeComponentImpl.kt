@@ -5,13 +5,8 @@ import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
-import org.hyperskill.app.profile.cache.ProfileCacheDataSourceImpl
-import org.hyperskill.app.profile.data.repository.ProfileRepositoryImpl
-import org.hyperskill.app.profile.data.source.ProfileCacheDataSource
-import org.hyperskill.app.profile.data.source.ProfileRemoteDataSource
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
-import org.hyperskill.app.profile.domain.repository.ProfileRepository
-import org.hyperskill.app.profile.remote.ProfileRemoteDataSourceImpl
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step.data.repository.StepRepositoryImpl
 import org.hyperskill.app.step.data.source.StepRemoteDataSource
 import org.hyperskill.app.step.domain.interactor.StepInteractor
@@ -32,17 +27,8 @@ class HomeComponentImpl(appGraph: AppGraph) : HomeComponent {
     private val streakRepository: StreakRepository = StreakRepositoryImpl(streakRemoteDataSource)
     private val streakInteractor: StreakInteractor = StreakInteractor(streakRepository)
 
-    private val profileRemoteDataSource: ProfileRemoteDataSource = ProfileRemoteDataSourceImpl(
-        appGraph.networkComponent.authorizedHttpClient
-    )
-    private val profileCacheDataSource: ProfileCacheDataSource = ProfileCacheDataSourceImpl(
-        appGraph.commonComponent.json,
-        appGraph.commonComponent.settings
-    )
-    private val profileRepository: ProfileRepository =
-        ProfileRepositoryImpl(profileRemoteDataSource, profileCacheDataSource)
     private val profileInteractor: ProfileInteractor =
-        ProfileInteractor(profileRepository, appGraph.submissionDataComponent.submissionRepository)
+        appGraph.buildProfileDataComponent().profileInteractor
 
     private val stepRemoteDataSource: StepRemoteDataSource = StepRemoteDataSourceImpl(
         appGraph.networkComponent.authorizedHttpClient
@@ -55,6 +41,9 @@ class HomeComponentImpl(appGraph: AppGraph) : HomeComponent {
     private val analyticInteractor: AnalyticInteractor =
         appGraph.analyticComponent.analyticInteractor
 
+    private val sentryInteractor: SentryInteractor =
+        appGraph.sentryComponent.sentryInteractor
+
     private val urlPathProcessor: UrlPathProcessor =
         appGraph.buildMagicLinksDataComponent().urlPathProcessor
 
@@ -63,12 +52,13 @@ class HomeComponentImpl(appGraph: AppGraph) : HomeComponent {
 
     override val homeFeature: Feature<HomeFeature.State, HomeFeature.Message, HomeFeature.Action>
         get() = HomeFeatureBuilder.build(
-            analyticInteractor,
             homeInteractor,
             streakInteractor,
             profileInteractor,
+            topicsRepetitionsInteractor,
             stepInteractor,
+            analyticInteractor,
+            sentryInteractor,
             urlPathProcessor,
-            topicsRepetitionsInteractor.topicRepeatedMutableSharedFlow
         )
 }

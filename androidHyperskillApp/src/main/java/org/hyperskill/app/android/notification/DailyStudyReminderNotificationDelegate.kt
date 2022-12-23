@@ -1,24 +1,27 @@
 package org.hyperskill.app.android.notification
 
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import androidx.core.app.NotificationCompat
-import org.hyperskill.app.android.HyperskillApp
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.DateTimeHelper
-import org.hyperskill.app.android.main.view.ui.activity.MainActivity
+import org.hyperskill.app.android.notification.model.DailyStudyReminderClickedData
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
+import org.hyperskill.app.notification.domain.analytic.NotificationDailyStudyReminderShownHyperskillAnalyticEvent
 import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
-import java.util.Calendar
 
 class DailyStudyReminderNotificationDelegate(
+    hyperskillNotificationManager: HyperskillNotificationManager,
     private val context: Context,
-    private val hyperskillNotificationManager: HyperskillNotificationManager,
-    private val notificationInteractor: NotificationInteractor
+    private val notificationInteractor: NotificationInteractor,
+    private val analyticInteractor: AnalyticInteractor
 ) : NotificationDelegate(KEY, hyperskillNotificationManager) {
     companion object {
         const val KEY = "daily_study_reminder_notification"
+        private const val NotificationId: Long = 0
     }
 
     override fun onNeedShowNotification() {
@@ -27,12 +30,17 @@ class DailyStudyReminderNotificationDelegate(
         }
         scheduleDailyNotification()
 
-        val intent = Intent(HyperskillApp.getAppContext(), MainActivity::class.java)
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(HyperskillApp.getAppContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE)
-
         val notificationDescription = notificationInteractor.getRandomDailyStudyRemindersNotificationDescription()
 
-        val notification = NotificationCompat.Builder(context, HyperskillNotificationChannel.DAILY_REMINDER.channelId)
+        val pendingIntent = with(NotificationIntentBuilder) {
+            buildActivityPendingIntent(context) {
+                addClickedNotificationDataExtra(
+                    DailyStudyReminderClickedData(notificationId = notificationDescription.id)
+                )
+            }
+        }
+
+        val notification = NotificationCompat.Builder(context, HyperskillNotificationChannel.DailyReminder.channelId)
             .setContentTitle(notificationDescription.title)
             .setStyle(
                 NotificationCompat.BigTextStyle()
@@ -42,7 +50,9 @@ class DailyStudyReminderNotificationDelegate(
             .setContentIntent(pendingIntent)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
 
-        showNotification(0, notification.build())
+        showNotification(NotificationId, notification.build())
+
+        logShownNotificationEvent(notificationDescription.id)
     }
 
     fun scheduleDailyNotification() {
@@ -65,5 +75,15 @@ class DailyStudyReminderNotificationDelegate(
         }
 
         scheduleNotificationAt(nextNotificationMillis)
+    }
+
+    private fun logShownNotificationEvent(notificationId: Int) {
+        val event = NotificationDailyStudyReminderShownHyperskillAnalyticEvent(
+            route = HyperskillAnalyticRoute.Home(),
+            notificationId = notificationId,
+            plannedAtISO8601 = SimpleDateFormat(DateTimeHelper.ISO_PATTERN).format(Calendar.getInstance().time)
+        )
+
+        analyticInteractor.reportEvent(event)
     }
 }

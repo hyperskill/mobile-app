@@ -64,6 +64,11 @@ final class UIKitRoundedRectangleButton: UIKitBounceButton {
         backgroundColor = style.backgroundColor
         clipsToBounds = true
         layer.cornerRadius = appearance.cornerRadius
+
+        if let border = style.border {
+            layer.borderWidth = border.width
+            layer.borderColor = border.color.cgColor
+        }
     }
 
     // MARK: Inner Types
@@ -71,6 +76,7 @@ final class UIKitRoundedRectangleButton: UIKitBounceButton {
     enum Style {
         case green
         case violet
+        case outline
 
         fileprivate var foregroundColor: UIColor {
             switch self {
@@ -78,6 +84,8 @@ final class UIKitRoundedRectangleButton: UIKitBounceButton {
                 return ColorPalette.onSecondary
             case .violet:
                 return ColorPalette.onPrimary
+            case .outline:
+                return ColorPalette.primary
             }
         }
 
@@ -87,7 +95,23 @@ final class UIKitRoundedRectangleButton: UIKitBounceButton {
                 return ColorPalette.secondary
             case .violet:
                 return ColorPalette.primary
+            case .outline:
+                return UIColor.clear
             }
+        }
+
+        fileprivate var border: Border? {
+            switch self {
+            case .green, .violet:
+                return nil
+            case .outline:
+                return Border(color: ColorPalette.primaryAlpha38)
+            }
+        }
+
+        struct Border {
+            let color: UIColor
+            var width: CGFloat = 1
         }
     }
 }

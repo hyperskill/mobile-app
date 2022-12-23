@@ -2,6 +2,7 @@ package org.hyperskill.app.step_quiz.domain.model.submissions
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
 @Serializable
 data class Submission(
@@ -9,6 +10,8 @@ data class Submission(
     val id: Long = 0,
     @SerialName("status")
     val status: SubmissionStatus? = null,
+    @Transient
+    val originalStatus: SubmissionStatus? = null,
     @SerialName("score")
     val score: String? = null,
     @SerialName("hint")

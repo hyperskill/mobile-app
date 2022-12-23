@@ -79,9 +79,7 @@ struct AuthCredentialsView: View {
         switch AuthCredentialsFeatureActionViewActionKs(viewAction) {
         case .completeAuthFlow(let data):
             ProgressHUD.showSuccess()
-            viewModel.doCompleteAuthFlow(isNewUser: data.isNewUser)
-        case .captureError(let data):
-            viewModel.logAuthErrorToSentry(data.error)
+            viewModel.doCompleteAuthFlow(profile: data.profile)
         case .openUrl(let data):
             ProgressHUD.showSuccess()
             WebControllerManager.shared.presentWebControllerWithURLString(data.url)

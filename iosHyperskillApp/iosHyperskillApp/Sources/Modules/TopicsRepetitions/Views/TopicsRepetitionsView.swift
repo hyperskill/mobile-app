@@ -21,6 +21,8 @@ struct TopicsRepetitionsView: View {
 
     var body: some View {
         ZStack {
+            UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
+
             buildBody()
         }
         .background(appearance.backgroundColor)
@@ -96,14 +98,10 @@ struct TopicsRepetitionsView: View {
                 TopicsRepetitionsRepeatBlock(
                     repeatBlockTitle: viewData.repeatBlockTitle,
                     trackTopicsTitle: viewData.trackTopicsTitle,
-                    repeatButtons: viewData.topicsToRepeat.map { topic in
-                        RepeatButtonInfo(
-                            topicID: Int(topic.topicId),
-                            title: topic.title,
-                            onTap: {
-                                viewModel.doRepeatTopic(stepID: topic.stepId)
-                            }
-                        )
+                    topicsToRepeatFromCurrentTrack: viewData.topicsToRepeatFromCurrentTrack,
+                    topicsToRepeatFromOtherTracks: viewData.topicsToRepeatFromOtherTracks,
+                    onTopicButtonTapped: { topicID in
+                        viewModel.doRepeatTopic(topicID: topicID)
                     },
                     showMoreButtonState: viewData.showMoreButtonState,
                     onShowMoreButtonTap: viewModel.doLoadNextTopics,
@@ -133,7 +131,7 @@ struct TopicsRepetitionsView: View {
 struct TopicsRepetitionsView_Previews: PreviewProvider {
     static var previews: some View {
         UIKitViewControllerPreview {
-            TopicsRepetitionsAssembly(recommendedRepetitionsCount: 5).makeModule()
+            TopicsRepetitionsAssembly().makeModule()
         }
     }
 }

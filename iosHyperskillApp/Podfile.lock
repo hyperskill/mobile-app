@@ -30,14 +30,14 @@ PODS:
   - Sentry (7.13.0):
     - Sentry/Core (= 7.13.0)
   - Sentry/Core (7.13.0)
-  - shared (1.5)
+  - shared (1.6)
   - SkeletonUI (1.0.7)
   - SnapKit (5.6.0)
   - STRegex (2.1.1)
   - SVGKit (3.1.0):
     - CocoaLumberjack (~> 3.0)
   - SVProgressHUD (2.2.5)
-  - SwiftLint (0.47.0)
+  - SwiftLint (0.50.1)
 
 DEPENDENCIES:
   - Atributika (= 4.10.1)
@@ -55,7 +55,7 @@ DEPENDENCIES:
   - STRegex (= 2.1.1)
   - SVGKit (from `https://github.com/SVGKit/SVGKit.git`, branch `3.x`)
   - SVProgressHUD (= 2.2.5)
-  - SwiftLint (= 0.47.0)
+  - SwiftLint (= 0.50.1)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -128,14 +128,14 @@ SPEC CHECKSUMS:
   NukeUI: 3c7ec7b299dd99707afdc783b436f39768b4493b
   PanModal: 3e16ead1a907fb06f4df3f13492fd00149fa4974
   Sentry: c55b9f69091e58cc48adc3c25bbca908a480e08d
-  shared: 600d2394278b46fc1f9641384cdaa7c59fe55f79
+  shared: a04f34a5fd3fe591e51b43ac9519b61b904a1e8e
   SkeletonUI: 18fbcd8698480432852d7e30a65b8d5e138266f0
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   STRegex: d49e88d0fe58538d3175fdd989bc1243b9be2a07
   SVGKit: 3c8468aab0026048532a3b27a0c81cdd939f0649
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
-  SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
+  SwiftLint: 6b0cf1f4d619808dbc16e4fab064ce6fc79f090b
 
-PODFILE CHECKSUM: 07742ebfd7b3e2a9067343e330dae49961ee1ad1
+PODFILE CHECKSUM: add437846160fbe51ebe5adbedf9ab330be129b4
 
 COCOAPODS: 1.11.3

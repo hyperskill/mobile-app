@@ -11,13 +11,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.Scopes
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.common.api.Scope
 import com.google.android.material.snackbar.Snackbar
-import io.sentry.Breadcrumb
-import io.sentry.Sentry
-import io.sentry.SentryLevel
-import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.BuildConfig
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
@@ -29,7 +24,6 @@ import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragm
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentAuthSocialBinding
-import org.hyperskill.app.android.sentry.domain.model.SentryBreadcrumbKeyValues
 import org.hyperskill.app.auth.domain.model.AuthSocialError
 import org.hyperskill.app.auth.domain.model.SocialAuthProvider
 import org.hyperskill.app.auth.presentation.AuthSocialFeature
@@ -65,22 +59,25 @@ class AuthSocialFragment :
 
     private var currentSocialAuthProvider: SocialAuthProvider? = null
 
-    private val signInWithGoogleCallback = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { res ->
-        val task = GoogleSignIn.getSignedInAccountFromIntent(res.data)
-        try {
-            val account = task.getResult(ApiException::class.java)
-            val authCode = account.serverAuthCode
-            onSuccess(authCode!!, SocialAuthProvider.GOOGLE)
-        } catch (e: ApiException) {
-            logSignInErrorToSentry(null, e)
-
-            val message = if (e.statusCode == CommonStatusCodes.NETWORK_ERROR)
-                resourceProvider.getString(SharedResources.strings.connection_error)
-            else resourceProvider.getString(SharedResources.strings.common_error)
-
-            view?.snackbar(message, Snackbar.LENGTH_LONG)
+    private val signInWithGoogleCallback =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { res ->
+            val task = GoogleSignIn.getSignedInAccountFromIntent(res.data)
+            try {
+                val account = task.getResult(ApiException::class.java)
+                val authCode = account.serverAuthCode
+                onSuccess(authCode!!, SocialAuthProvider.GOOGLE)
+            } catch (exception: ApiException) {
+                authSocialViewModel.onNewMessage(
+                    AuthSocialFeature.Message.SocialAuthProviderAuthFailureEventMessage(
+                        AuthSocialFeature.Message.AuthFailureData(
+                            socialAuthProvider = SocialAuthProvider.GOOGLE,
+                            socialAuthError = null,
+                            originalError = exception
+                        )
+                    )
+                )
+            }
         }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,13 +96,6 @@ class AuthSocialFragment :
     private fun onSocialClickListener(social: AuthSocialCardInfo) {
         currentSocialAuthProvider = social.socialAuthProvider
         authSocialViewModel.onNewMessage(AuthSocialFeature.Message.ClickedSignInWithSocialEventMessage(social.socialAuthProvider))
-
-        val breadcrumb = Breadcrumb().apply {
-            category = SentryBreadcrumbKeyValues.CATEGORY_AUTH_SOCIAL
-            message = "Signing in with ${social.socialAuthProvider.title}"
-            level = SentryLevel.INFO
-        }
-        Sentry.addBreadcrumb(breadcrumb)
 
         val authSocialWebViewFragment = AuthSocialWebViewFragment.newInstance(social.socialAuthProvider)
         when (social) {
@@ -141,20 +131,13 @@ class AuthSocialFragment :
 
     override fun onAction(action: AuthSocialFeature.Action.ViewAction) {
         when (action) {
-            is AuthSocialFeature.Action.ViewAction.CompleteAuthFlow -> {
-                val breadcrumb = Breadcrumb().apply {
-                    category = SentryBreadcrumbKeyValues.CATEGORY_AUTH_SOCIAL
-                    message = "Signed in with ${currentSocialAuthProvider?.title ?: "None"}"
-                    level = SentryLevel.INFO
-                }
-                Sentry.addBreadcrumb(breadcrumb)
-
-                (parentFragment as? AuthFlow)?.onAuthSuccess(action.isNewUser)
-            }
-            is AuthSocialFeature.Action.ViewAction.ShowAuthError -> {
-                logSignInErrorToSentry(action.socialError, action.originalError,)
-                view?.snackbar(message = authSocialErrorMapper.getAuthSocialErrorText(action.socialError), Snackbar.LENGTH_LONG)
-            }
+            is AuthSocialFeature.Action.ViewAction.CompleteAuthFlow ->
+                (parentFragment as? AuthFlow)?.onAuthSuccess(action.profile)
+            is AuthSocialFeature.Action.ViewAction.ShowAuthError ->
+                view?.snackbar(
+                    message = authSocialErrorMapper.getAuthSocialErrorText(action.socialAuthError),
+                    Snackbar.LENGTH_LONG
+                )
         }
     }
 
@@ -180,28 +163,27 @@ class AuthSocialFragment :
     }
 
     override fun onError(error: AuthSocialError, originalError: Throwable?) {
-        if (originalError != null) {
-            logSignInErrorToSentry(error, originalError)
+        val socialAuthProvider = currentSocialAuthProvider
+
+        if (socialAuthProvider != null && originalError != null) {
+            authSocialViewModel.onNewMessage(
+                AuthSocialFeature.Message.SocialAuthProviderAuthFailureEventMessage(
+                    AuthSocialFeature.Message.AuthFailureData(
+                        socialAuthProvider = socialAuthProvider,
+                        socialAuthError = error,
+                        originalError = originalError
+                    )
+                )
+            )
         }
-        view?.snackbar(message = authSocialErrorMapper.getAuthSocialErrorText(error), Snackbar.LENGTH_LONG)
     }
 
     override fun onSuccess(authCode: String, provider: SocialAuthProvider) {
-        authSocialViewModel.onNewMessage(AuthSocialFeature.Message.AuthWithSocial(authCode = authCode, socialAuthProvider = provider))
-    }
-
-    private fun logSignInErrorToSentry(socialError: AuthSocialError?, originalError: Throwable) {
-        val breadcrumb = Breadcrumb().apply {
-            category = SentryBreadcrumbKeyValues.CATEGORY_AUTH_SOCIAL
-            message = "Sign in failed with ${currentSocialAuthProvider?.title ?: "None"}"
-            level = SentryLevel.ERROR
-        }
-        Sentry.addBreadcrumb(breadcrumb)
-
-        if (socialError != null) {
-            Sentry.captureMessage("AuthSocial: $socialError, $originalError", SentryLevel.ERROR)
-        } else {
-            Sentry.captureMessage("AuthSocial: $originalError", SentryLevel.ERROR)
-        }
+        authSocialViewModel.onNewMessage(
+            AuthSocialFeature.Message.AuthWithSocial(
+                authCode = authCode,
+                socialAuthProvider = provider
+            )
+        )
     }
 }

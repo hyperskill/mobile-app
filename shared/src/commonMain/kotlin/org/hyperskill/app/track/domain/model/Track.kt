@@ -2,6 +2,7 @@ package org.hyperskill.app.track.domain.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
 @Serializable
 data class Track(
@@ -41,8 +42,9 @@ data class Track(
     val capstoneProjects: List<Long>,
     @SerialName("capstone_topics_count")
     val capstoneTopicsCount: Int,
-    @SerialName("provider_id")
-    val providerId: Long,
     @SerialName("topic_providers")
-    val topicProviders: List<Long>
+    val topicProviders: List<Long>,
+
+    @Transient
+    val progress: TrackProgress? = null
 )

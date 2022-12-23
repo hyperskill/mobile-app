@@ -5,8 +5,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Gamification(
-    @SerialName("topics_repetitions")
-    val topicsRepetitions: GamificationTopicsRepetitions,
     @SerialName("hypercoins")
-    val hypercoins: Int,
+    val hypercoinsBalance: Int,
+    @SerialName("passed_projects")
+    val passedProjectsCount: Int = 0,
+    @SerialName("passed_tracks")
+    val passedTracksCount: Int = 0
 )
