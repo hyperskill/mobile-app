@@ -19,6 +19,7 @@ import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetit
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionListDelegate
 import org.hyperskill.app.android.topics_repetitions.view.model.TopicsRepetitionChartState
 import org.hyperskill.app.android.topics_repetitions.view.model.TopicsRepetitionListState
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionViewModel
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature
 import org.hyperskill.app.topics_repetitions.view.mapper.TopicsRepetitionsViewDataMapper
@@ -113,7 +114,7 @@ class TopicsRepetitionFragment :
     override fun onAction(action: TopicsRepetitionsFeature.Action.ViewAction) {
         when (action) {
             is TopicsRepetitionsFeature.Action.ViewAction.NavigateTo.StepScreen ->
-                requireRouter().navigateTo(StepScreen(action.stepId))
+                requireRouter().navigateTo(StepScreen(StepRoute.RepeatStepRoute(action.stepId)))
             TopicsRepetitionsFeature.Action.ViewAction.ShowNetworkError ->
                 view?.snackbar(messageRes = R.string.connection_error)
         }

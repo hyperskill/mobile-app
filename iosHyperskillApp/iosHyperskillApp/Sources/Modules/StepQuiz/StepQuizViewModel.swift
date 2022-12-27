@@ -150,7 +150,9 @@ final class StepQuizViewModel: FeatureViewModel<
     // MARK: Analytic
 
     func logViewedEvent() {
-        onNewMessage(StepQuizFeatureMessageViewedEventMessage(stepId: step.id))
+        if let stepRoute = step.stepRoute {
+            onNewMessage(StepQuizFeatureMessageViewedEventMessage(stepRoute: stepRoute))
+        }
     }
 
     private func logClickedRetryEvent() {

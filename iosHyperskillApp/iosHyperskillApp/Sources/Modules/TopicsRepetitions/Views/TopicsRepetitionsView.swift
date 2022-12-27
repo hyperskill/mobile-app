@@ -121,7 +121,7 @@ struct TopicsRepetitionsView: View {
         case .navigateTo(let navigateToViewAction):
             switch TopicsRepetitionsFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .stepScreen(let data):
-                let assembly = StepAssembly(stepID: Int(data.stepId))
+                let assembly = StepAssembly(stepRoute: StepRoute.RepeatStepRoute(stepId: data.stepId))
                 pushRouter.pushViewController(assembly.makeModule())
             }
         }

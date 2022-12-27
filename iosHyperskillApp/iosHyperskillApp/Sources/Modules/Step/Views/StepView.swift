@@ -73,7 +73,7 @@ struct StepView: View {
 struct StepView_Previews: PreviewProvider {
     static var previews: some View {
         UIKitViewControllerPreview {
-            StepAssembly(stepID: 4350).makeModule()
+            StepAssembly(stepRoute: StepRoute.LearnStepRoute(stepId: 4350)).makeModule()
         }
     }
 }

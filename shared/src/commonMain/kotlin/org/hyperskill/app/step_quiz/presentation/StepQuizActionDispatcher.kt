@@ -3,7 +3,6 @@ package org.hyperskill.app.step_quiz.presentation
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
-import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.notification.data.extension.NotificationExtensions
@@ -203,18 +202,12 @@ class StepQuizActionDispatcher(
                     }
                 }
             }
-            is Action.LogViewedEvent -> {
-                val currentProfile = profileInteractor
-                    .getCurrentProfile()
-                    .getOrElse { return }
-
-                val analyticEvent = StepQuizViewedHyperskillAnalyticEvent(
-                    if (action.stepId == currentProfile.dailyStep)
-                        HyperskillAnalyticRoute.Learn.Daily(action.stepId)
-                    else HyperskillAnalyticRoute.Learn.Step(action.stepId)
+            is Action.LogViewedEvent ->
+                analyticInteractor.logEvent(
+                    StepQuizViewedHyperskillAnalyticEvent(
+                        action.stepRoute.analyticRoute
+                    )
                 )
-                analyticInteractor.logEvent(analyticEvent)
-            }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
             else -> {}

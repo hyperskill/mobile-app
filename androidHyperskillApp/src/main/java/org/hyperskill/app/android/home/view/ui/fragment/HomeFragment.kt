@@ -27,6 +27,7 @@ import org.hyperskill.app.android.view.base.ui.extension.setElevationOnCollapsed
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeViewModel
+import org.hyperskill.app.step.domain.model.StepRoute
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -121,7 +122,7 @@ class HomeFragment :
 
     private fun onProblemOfDayCardActionButtonClicked(stepId: Long) {
         homeViewModel.onNewMessage(HomeFeature.Message.ClickedProblemOfDayCardEventMessage)
-        requireRouter().navigateTo(StepScreen(stepId))
+        requireRouter().navigateTo(StepScreen(StepRoute.LearnDailyStepRoute(stepId)))
     }
 
     private fun initViewStateDelegate() {

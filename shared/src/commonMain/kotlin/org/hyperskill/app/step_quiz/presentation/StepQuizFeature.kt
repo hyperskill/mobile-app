@@ -2,6 +2,7 @@ package org.hyperskill.app.step_quiz.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.profile.domain.model.Profile
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.permissions.StepQuizUserPermissionRequest
@@ -89,7 +90,7 @@ interface StepQuizFeature {
         /**
          * Analytic
          */
-        data class ViewedEventMessage(val stepId: Long) : Message
+        data class ViewedEventMessage(val stepRoute: StepRoute) : Message
         object ClickedCodeDetailsEventMessage : Message
         object ClickedRetryEventMessage : Message
         object DailyStepCompletedModalShownEventMessage : Message
@@ -116,7 +117,7 @@ interface StepQuizFeature {
         /**
          * Analytic
          */
-        data class LogViewedEvent(val stepId: Long) : Action
+        data class LogViewedEvent(val stepRoute: StepRoute) : Action
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
         sealed interface ViewAction : Action {

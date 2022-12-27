@@ -25,6 +25,7 @@ import org.hyperskill.app.android.core.view.ui.adapter.decoration.VerticalMargin
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentTrackBinding
 import org.hyperskill.app.android.step.view.screen.StepScreen
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.presentation.TrackFeature
@@ -92,7 +93,7 @@ class TrackFragment :
     override fun onAction(action: TrackFeature.Action.ViewAction) {
         when (action) {
             is TrackFeature.Action.ViewAction.NavigateTo.StepScreen ->
-                requireRouter().navigateTo(StepScreen(action.stepId))
+                requireRouter().navigateTo(StepScreen(StepRoute.LearnStepRoute(action.stepId)))
             is TrackFeature.Action.ViewAction.OpenUrl ->
                 requireContext().launchUrl(action.url)
             is TrackFeature.Action.ViewAction.ShowGetMagicLinkError ->

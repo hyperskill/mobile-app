@@ -11,6 +11,7 @@ import org.hyperskill.app.android.databinding.FragmentStepBinding
 import org.hyperskill.app.android.step_practice.view.fragment.StepPracticeFragment
 import org.hyperskill.app.android.step_theory.view.fragment.StepTheoryFragment
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step.presentation.StepViewModel
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
@@ -22,10 +23,10 @@ class StepFragment : Fragment(R.layout.fragment_step), ReduxView<StepFeature.Sta
     companion object {
         private const val STEP_TAG = "step"
 
-        fun newInstance(stepId: Long): Fragment =
+        fun newInstance(stepRoute: StepRoute): Fragment =
             StepFragment()
                 .apply {
-                    this.stepId = stepId
+                    this.stepRoute = stepRoute
                 }
     }
 
@@ -35,7 +36,7 @@ class StepFragment : Fragment(R.layout.fragment_step), ReduxView<StepFeature.Sta
     private val stepViewModel: StepViewModel by reduxViewModel(this) { viewModelFactory }
     private val viewStateDelegate: ViewStateDelegate<StepFeature.State> = ViewStateDelegate()
 
-    private var stepId: Long by argument()
+    private var stepRoute: StepRoute by argument()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,9 +47,9 @@ class StepFragment : Fragment(R.layout.fragment_step), ReduxView<StepFeature.Sta
         super.onViewCreated(view, savedInstanceState)
         initViewStateDelegate()
         viewBinding.stepError.tryAgain.setOnClickListener {
-            stepViewModel.onNewMessage(StepFeature.Message.Initialize(stepId, forceUpdate = true))
+            stepViewModel.onNewMessage(StepFeature.Message.Initialize(stepRoute, forceUpdate = true))
         }
-        stepViewModel.onNewMessage(StepFeature.Message.Initialize(stepId))
+        stepViewModel.onNewMessage(StepFeature.Message.Initialize(stepRoute))
     }
 
     private fun injectComponent() {

@@ -80,7 +80,6 @@ struct HomeView: View {
                         )
                     }
 
-
                     let shouldShowContinueInWebButton = data.problemOfDayState is HomeFeatureProblemOfDayStateEmpty ||
                       data.problemOfDayState is HomeFeatureProblemOfDayStateSolved
 
@@ -95,7 +94,10 @@ struct HomeView: View {
                     #if BETA_PROFILE || DEBUG
                     HomeDebugStepNavigationView(
                         onOpenStepTapped: { stepID in
-                            pushRouter.pushViewController(StepAssembly(stepID: stepID).makeModule())
+                            let assembly = StepAssembly(
+                                stepRoute: StepRoute.LearnStepRoute(stepId: Int64(stepID))
+                            )
+                            pushRouter.pushViewController(assembly.makeModule())
                         }
                     )
                     #endif
@@ -133,7 +135,7 @@ struct HomeView: View {
         case .navigateTo(let navigateToViewAction):
             switch HomeFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .stepScreen(let data):
-                let assembly = StepAssembly(stepID: Int(data.stepId))
+                let assembly = StepAssembly(stepRoute: StepRoute.LearnDailyStepRoute(stepId: data.stepId))
                 pushRouter.pushViewController(assembly.makeModule())
             case .topicsRepetitionsScreen:
                 let assembly = TopicsRepetitionsAssembly()

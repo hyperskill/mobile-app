@@ -12,7 +12,7 @@ class StepReducer : StateReducer<State, Message, Action> {
                 if (state is State.Idle ||
                     (message.forceUpdate && (state is State.Data || state is State.Error))
                 ) {
-                    State.Loading to setOf(Action.FetchStep(message.stepId))
+                    State.Loading to setOf(Action.FetchStep(message.stepRoute))
                 } else {
                     null
                 }
@@ -21,6 +21,10 @@ class StepReducer : StateReducer<State, Message, Action> {
             is Message.StepLoaded.Error ->
                 State.Error to emptySet()
             is Message.ClickedBackEventMessage ->
-                state to setOf(Action.LogClickedBackEvent(message.stepId))
+                if (state is State.Data && state.step.stepRoute != null) {
+                    state to setOf(Action.LogClickedBackEvent(state.step.stepRoute))
+                } else {
+                    null
+                }
         } ?: (state to emptySet())
 }
