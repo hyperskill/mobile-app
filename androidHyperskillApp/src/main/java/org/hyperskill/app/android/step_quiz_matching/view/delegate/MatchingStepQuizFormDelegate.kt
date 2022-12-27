@@ -32,7 +32,7 @@ class MatchingStepQuizFormDelegate(
     }
 
     init {
-        quizDescription.setText(R.string.step_quiz_matching_title)
+        quizDescription.setText(org.hyperskill.app.R.string.step_quiz_matching_title)
 
         optionsAdapter += MatchingItemTitleAdapterDelegate()
         optionsAdapter += MatchingItemOptionAdapterDelegate(optionsAdapter, ::moveOption)

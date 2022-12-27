@@ -139,13 +139,13 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(viewBinding.fullScreenCenteredToolbar) {
-            centeredToolbarTitle.text = getString(R.string.step_quiz_code_write_program_text)
+            centeredToolbarTitle.text = getString(org.hyperskill.app.R.string.step_quiz_code_write_program_text)
             centeredToolbar.inflateMenu(R.menu.code_playground_menu)
             centeredToolbar.setNavigationOnClickListener { dismiss() }
             centeredToolbar.apply {
                 navigationIcon = AppCompatResources
                     .getDrawable(context, R.drawable.ic_close_thin)
-                    ?.setTintList(context, R.attr.colorControlNormal)
+                    ?.setTintList(context, androidx.appcompat.R.attr.colorControlNormal)
             }
             centeredToolbar.setOnMenuItemClickListener { item ->
                 if (item?.itemId == R.id.action_reset_code) {
@@ -200,7 +200,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
         submitButtonSeparator = playgroundLayout.findViewById(R.id.submitButtonSeparator)
 
         codeSubmitButton = playgroundLayout.findViewById(R.id.stepQuizSubmitButton)
-        codeSubmitButton.setText(R.string.step_quiz_code_run_solution_button_text)
+        codeSubmitButton.setText(org.hyperskill.app.R.string.step_quiz_code_run_solution_button_text)
         codeSubmitButton.setIconResource(R.drawable.ic_run)
         codeSubmitButton.iconPadding =
             requireContext().resources.getDimensionPixelSize(R.dimen.step_quiz_fullscreen_code_layout_action_button_icon_padding)
