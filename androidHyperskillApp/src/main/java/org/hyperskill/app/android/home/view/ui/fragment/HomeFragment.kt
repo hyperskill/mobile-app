@@ -12,7 +12,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.core.extensions.launchUrl
+import org.hyperskill.app.android.core.extensions.openUrl
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireMainRouter
@@ -137,7 +137,7 @@ class HomeFragment :
     override fun onAction(action: HomeFeature.Action.ViewAction) {
         when (action) {
             is HomeFeature.Action.ViewAction.OpenUrl -> {
-                requireContext().launchUrl(action.url)
+                requireContext().openUrl(action.url)
             }
             is HomeFeature.Action.ViewAction.ShowGetMagicLinkError -> {
                 viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)

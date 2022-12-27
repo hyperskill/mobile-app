@@ -18,7 +18,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *     "target": "streak_freeze_modal"
  *     "context":
  *     {
- *         "state": "can_buy / already_have / not_enough_games"
+ *         "state": "can_buy / already_have / not_enough_gems"
  *     }
  * }
  * ```
