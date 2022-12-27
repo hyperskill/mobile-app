@@ -17,7 +17,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
  *     "target": "get_it / continue_learning"
  *     "context":
  *     {
- *         "state": "can_buy / already_have / not_enough_games"
+ *         "state": "can_buy / already_have / not_enough_gems"
  *     }
  * }
  * ```

@@ -1,7 +1,12 @@
 What to Test:
-1. Load the following 10 topics from the track ALTAPPS-417
-2. Fix Theory step has incorrect reading time representation ALTAPPS-431
-3. Topics repetitions ALTAPPS-433
-4. Fix Home screen is not scrollable ALTAPPS-435
-5. Fix infinity progress indicator on the Profile Settings screen ALTAPPS-447
-6. Fix Topics repetitions / Step quiz / Continue button navigates to the Home screen ALTAPPS-448
+1. Fix class "alert alert-primary" has incorrect style for dark theme ALTAPPS-432
+2. Analytics for notifications ALTAPPS-438
+3. Show earned gems after completing Problem of the day ALTAPPS-439
+4. Header and Home screen improvements, user statistics on Profile screen ALTAPPS-440
+5. Track selection for new users ALTAPPS-441
+6. 1-day streak freeze ALTAPPS-455
+7. Step hints ALTAPPS-456
+8. Use new API for topics repetition feature ALTAPPS-457
+9. Topics repetition card appears if no topics recomended for repetitions ALTAPPS-467
+10. Fix no event sent on earned gems modal closing ALTAPPS-470
+11. Fix no analytics events sent in state "Not enough gems" ALTAPPS-478
