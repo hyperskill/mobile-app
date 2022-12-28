@@ -12,6 +12,8 @@ import org.hyperskill.app.comments.injection.CommentsDataComponent
 import org.hyperskill.app.comments.injection.CommentsDataComponentImpl
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.remote.UserAgentInfo
+import org.hyperskill.app.debug.injection.DebugComponent
+import org.hyperskill.app.debug.injection.DebugComponentImpl
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponentImpl
 import org.hyperskill.app.home.injection.HomeComponent
@@ -78,7 +80,7 @@ class AppGraphImpl(
     sentryManager: SentryManager
 ) : iOSAppComponent {
     override val commonComponent: CommonComponent =
-        CommonComponentImpl(userAgentInfo, buildVariant)
+        CommonComponentImpl(buildVariant, userAgentInfo)
 
     override val networkComponent: NetworkComponent =
         NetworkComponentImpl(this)
@@ -194,4 +196,7 @@ class AppGraphImpl(
 
     override fun buildItemsDataComponent(): ItemsDataComponent =
         ItemsDataComponentImpl(this)
+
+    override fun buildDebugComponent(): DebugComponent =
+        DebugComponentImpl(this)
 }

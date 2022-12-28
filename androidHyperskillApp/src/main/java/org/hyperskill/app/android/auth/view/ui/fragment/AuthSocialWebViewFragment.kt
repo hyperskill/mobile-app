@@ -15,14 +15,14 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
-import org.hyperskill.app.auth.presentation.AuthSocialWebViewViewModel
 import org.hyperskill.app.android.databinding.DialogInAppWebViewBinding
 import org.hyperskill.app.auth.domain.model.AuthSocialError
 import org.hyperskill.app.auth.domain.model.SocialAuthProvider
 import org.hyperskill.app.auth.presentation.AuthSocialWebViewFeature
+import org.hyperskill.app.auth.presentation.AuthSocialWebViewViewModel
 import org.hyperskill.app.auth.view.mapper.SocialAuthProviderRequestURLBuilder
-import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.network.domain.model.NetworkEndpointConfigInfo
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -42,6 +42,7 @@ class AuthSocialWebViewFragment :
 
     private lateinit var resourceProvider: ResourceProvider
     private lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var networkEndpointConfigInfo: NetworkEndpointConfigInfo
 
     private val authSocialWebViewViewModel: AuthSocialWebViewViewModel by reduxViewModel(this) { viewModelFactory }
 
@@ -57,6 +58,7 @@ class AuthSocialWebViewFragment :
         val authSocialWebViewComponent = HyperskillApp.graph().buildPlatformAuthSocialWebViewComponent()
         resourceProvider = HyperskillApp.graph().commonComponent.resourceProvider
         viewModelFactory = authSocialWebViewComponent.reduxViewModelFactory
+        networkEndpointConfigInfo = HyperskillApp.graph().networkComponent.endpointConfigInfo
     }
 
     private fun initViewStateDelegate() {
@@ -83,7 +85,7 @@ class AuthSocialWebViewFragment :
                                 view: WebView?,
                                 request: WebResourceRequest?
                             ): Boolean {
-                                if (request!!.url.toString().startsWith("https://" + BuildKonfig.HOST + "/oauth?")) {
+                                if (request!!.url.toString().startsWith("https://" + networkEndpointConfigInfo.host + "/oauth?")) {
                                     val uri = Uri.parse(request.url.toString())
                                     authSocialWebViewViewModel.onNewMessage(
                                         AuthSocialWebViewFeature.Message.AuthCodeSuccess(
@@ -129,7 +131,7 @@ class AuthSocialWebViewFragment :
             }
             setNavigationIcon(R.drawable.ic_close)
         }
-        authSocialWebViewViewModel.onNewMessage(AuthSocialWebViewFeature.Message.InitMessage(SocialAuthProviderRequestURLBuilder.build(provider)))
+        authSocialWebViewViewModel.onNewMessage(AuthSocialWebViewFeature.Message.InitMessage(SocialAuthProviderRequestURLBuilder.build(provider, networkEndpointConfigInfo)))
     }
 
     override fun onStart() {

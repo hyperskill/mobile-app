@@ -5,13 +5,15 @@ import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.magic_links.domain.model.MagicLink
 
-class UrlPathProcessor(private val magicLinksInteractor: MagicLinksInteractor) {
-
+class UrlPathProcessor(
+    private val urlBuilder: HyperskillUrlBuilder,
+    private val magicLinksInteractor: MagicLinksInteractor
+) {
     /**
      * Create **MagicLink** if necessary or build plain url.
      *
      * @param path Url path to process
-     * @return On success returns a value of String represented **Magic link** or plain url. Otherwise returns a failure with an arbitrary Throwable exception.
+     * @return On success returns a value of String represented **Magic link** or plain url. Otherwise, returns a failure with an arbitrary Throwable exception.
      *
      * @see MagicLink
      * @see MagicLinksInteractor
@@ -20,10 +22,10 @@ class UrlPathProcessor(private val magicLinksInteractor: MagicLinksInteractor) {
         path: HyperskillUrlPath
     ): Result<String> =
         if (shouldCreateMagicLink(path)) {
-            val redirectUrl = HyperskillUrlBuilder.build(path).fullPath
+            val redirectUrl = urlBuilder.build(path).fullPath
             magicLinksInteractor.createMagicLink(redirectUrl).map { it.url }
         } else {
-            Result.success(HyperskillUrlBuilder.build(path).toString())
+            Result.success(urlBuilder.build(path).toString())
         }
 
     /**

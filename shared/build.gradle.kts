@@ -132,32 +132,32 @@ android {
 
 buildkonfig {
     packageName = "org.hyperskill.app.config"
-    exposeObjectWithName = "BuildKonfig"
+    objectName = "InternalBuildKonfig"
 
     defaultConfigs {
-        // required
-    }
-
-    fun applyFlavorConfigsFromFile(flavor: String) {
-        if (SystemProperties.isCI() && !SystemProperties.isGitCryptUnlocked()) return
-        defaultConfigs(flavor) {
+        if (SystemProperties.isCI() && !SystemProperties.isGitCryptUnlocked()) return@defaultConfigs
+        listOf("production", "dev", "release").forEach { flavor ->
             val properties = loadProperties("${project.rootDir}/shared/keys/$flavor.properties")
-            buildConfigField(STRING, "FLAVOR", flavor)
+
+            val fieldNamePrefix = "${flavor.toUpperCase()}_"
+            buildConfigField(
+                type = STRING,
+                name = "${fieldNamePrefix}FLAVOR",
+                value = flavor,
+                const = true
+            )
+
             properties.keys.forEach { name ->
                 name as String
                 buildConfigField(
                     type = STRING,
-                    name = name,
-                    value = requireNotNull(System.getenv(name) ?: properties.propertyString(name))
+                    name = "${fieldNamePrefix}$name",
+                    value = requireNotNull(properties.propertyString(name)),
+                    const = true
                 )
             }
         }
     }
-
-    applyFlavorConfigsFromFile("production")
-    applyFlavorConfigsFromFile("dev")
-    applyFlavorConfigsFromFile("release")
-    // add flavors for release.hyperskill.org / dev.hyperskill.org on demand
 }
 
 // Resources directory - src/commonMain/resources/MR

@@ -35,12 +35,14 @@ class HyperskillApp : Application() {
 
         DebugToolsHelper.initDebugTools(this)
 
+        val sentryManager = SentryManagerImpl()
         appGraph = AndroidAppComponentImpl(
             application = this,
             userAgentInfo = buildUserAgentInfo(),
             buildVariant = if (BuildConfig.DEBUG) BuildVariant.DEBUG else BuildVariant.RELEASE,
-            sentryManager = SentryManagerImpl()
+            sentryManager = sentryManager
         )
+        sentryManager.buildKonfig = appGraph.commonComponent.buildKonfig
 
         initSentry()
         initChannels()

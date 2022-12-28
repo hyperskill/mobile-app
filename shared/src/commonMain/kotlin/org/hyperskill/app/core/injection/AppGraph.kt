@@ -5,6 +5,7 @@ import org.hyperskill.app.auth.injection.AuthComponent
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.comments.injection.CommentsDataComponent
+import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.items.injection.ItemsDataComponent
@@ -72,4 +73,5 @@ interface AppGraph {
     fun buildProgressesDataComponent(): ProgressesDataComponent
     fun buildProductsDataComponent(): ProductsDataComponent
     fun buildItemsDataComponent(): ItemsDataComponent
+    fun buildDebugComponent(): DebugComponent
 }

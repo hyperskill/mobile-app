@@ -170,6 +170,7 @@
     <string name="profile_statistics_block_passed_projects_title">Projects</string>
     <string name="profile_statistics_block_passed_tracks_title">Tracks</string>
     <string name="profile_statistics_block_hypercoins_balance_title">Gems</string>
+    <string name="choose_notification_time_interval">Change notification interval</string>
 
     <!-- Settings -->
     <string name="settings_title">Settings</string>
@@ -183,6 +184,8 @@
     <string name="settings_privacy_policy">Hyperskill Terms of Service and Privacy Policy</string>
     <string name="settings_report_problem">Report a problem</string>
     <string name="settings_send_feedback">Send feedback</string>
+    <string name="settings_send_feedback_support_email">academy@jetbrains.com</string>
+    <string name="settings_send_feedback_application_name">My Hyperskill</string>
     <string name="settings_version">Version</string>
     <string name="settings_rate_application">Rate this application</string>
     <string name="settings_sign_out">Sign out</string>
@@ -195,7 +198,6 @@
     <string name="settings_terms_of_service_url">https://www.jetbrains.com/legal/terms/jetbrains-academy.html</string>
     <string name="settings_privacy_policy_url">https://hi.hyperskill.org/terms</string>
     <string name="settings_report_problem_url">https://support.hyperskill.org/hc/en-us/requests/new</string>
-    <string name="choose_notification_time_interval">Change notification interval</string>
 
     <!-- Placeholder -->
     <string name="placeholder_network_error_title">Oops! It seems like the network error.</string>

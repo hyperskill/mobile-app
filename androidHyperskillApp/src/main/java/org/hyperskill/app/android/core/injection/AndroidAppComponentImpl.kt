@@ -28,6 +28,10 @@ import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.injection.CommonComponent
 import org.hyperskill.app.core.injection.CommonComponentImpl
 import org.hyperskill.app.core.remote.UserAgentInfo
+import org.hyperskill.app.debug.injection.DebugComponent
+import org.hyperskill.app.debug.injection.DebugComponentImpl
+import org.hyperskill.app.debug.injection.PlatformDebugComponent
+import org.hyperskill.app.debug.injection.PlatformDebugComponentImpl
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponentImpl
 import org.hyperskill.app.home.injection.HomeComponent
@@ -102,12 +106,12 @@ import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponen
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponentImpl
-import org.hyperskill.app.track.injection.TrackDataComponentImpl
-import org.hyperskill.app.track.injection.TrackDataComponent
-import org.hyperskill.app.track.injection.TrackComponent
-import org.hyperskill.app.track.injection.TrackComponentImpl
 import org.hyperskill.app.track.injection.PlatformTrackComponent
 import org.hyperskill.app.track.injection.PlatformTrackComponentImpl
+import org.hyperskill.app.track.injection.TrackComponent
+import org.hyperskill.app.track.injection.TrackComponentImpl
+import org.hyperskill.app.track.injection.TrackDataComponent
+import org.hyperskill.app.track.injection.TrackDataComponentImpl
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
 
@@ -121,7 +125,7 @@ class AndroidAppComponentImpl(
         get() = application
 
     override val commonComponent: CommonComponent =
-        CommonComponentImpl(application, userAgentInfo, buildVariant)
+        CommonComponentImpl(application, buildVariant, userAgentInfo)
 
     override val mainComponent: MainComponent =
         MainComponentImpl(this)
@@ -209,7 +213,7 @@ class AndroidAppComponentImpl(
      * Latex component
      */
     override fun buildPlatformLatexComponent(): PlatformLatexComponent =
-        PlatformLatexComponentImpl(application)
+        PlatformLatexComponentImpl(application, networkComponent.endpointConfigInfo)
 
     /**
      * CodeEditor component
@@ -300,6 +304,15 @@ class AndroidAppComponentImpl(
 
     override fun buildPlatformStepQuizHintsComponent(step: Step): PlatformStepQuizHintsComponent =
         PlatformStepQuizHintsComponentImpl(this, step)
+
+    /**
+     * Debug component
+     * */
+    override fun buildPlatformDebugComponent(debugComponent: DebugComponent): PlatformDebugComponent =
+        PlatformDebugComponentImpl(debugComponent)
+
+    override fun buildDebugComponent(): DebugComponent =
+        DebugComponentImpl(this)
 
     override fun buildUserStorageComponent(): UserStorageComponent =
         UserStorageComponentImpl(this)

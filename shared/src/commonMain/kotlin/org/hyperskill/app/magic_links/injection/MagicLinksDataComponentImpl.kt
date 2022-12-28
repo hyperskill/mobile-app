@@ -1,5 +1,6 @@
 package org.hyperskill.app.magic_links.injection
 
+import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.magic_links.data.repository.MagicLinksRepositoryImpl
 import org.hyperskill.app.magic_links.data.source.MagicLinksRemoteDataSource
@@ -19,6 +20,10 @@ class MagicLinksDataComponentImpl(appGraph: AppGraph) : MagicLinksDataComponent 
     private val magicLinksInteractor: MagicLinksInteractor =
         MagicLinksInteractor(magicLinksRepository)
 
+    private val urlBuilder: HyperskillUrlBuilder = HyperskillUrlBuilder(
+        appGraph.networkComponent.endpointConfigInfo
+    )
+
     override val urlPathProcessor: UrlPathProcessor
-        get() = UrlPathProcessor(magicLinksInteractor)
+        get() = UrlPathProcessor(urlBuilder, magicLinksInteractor)
 }

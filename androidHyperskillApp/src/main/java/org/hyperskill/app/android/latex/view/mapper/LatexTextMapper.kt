@@ -12,9 +12,9 @@ import org.hyperskill.app.android.latex.view.model.block.MetaBlock
 import org.hyperskill.app.android.latex.view.model.block.WebScriptBlock
 import org.hyperskill.app.android.latex.view.model.rule.RelativePathContentRule
 import org.hyperskill.app.android.latex.view.resolvers.OlLiTagHandler
-import org.hyperskill.app.config.BuildKonfig
+import org.hyperskill.app.network.domain.model.NetworkEndpointConfigInfo
 
-class LatexTextMapper {
+class LatexTextMapper(networkEndpointConfigInfo: NetworkEndpointConfigInfo) {
     private val primaryBlocks =
         listOf(
             HighlightScriptBlock(),
@@ -26,12 +26,12 @@ class LatexTextMapper {
     private val regularBlocks =
         listOf(
             HorizontalScrollBlock(),
-            MetaBlock(BuildKonfig.BASE_URL)
+            MetaBlock(networkEndpointConfigInfo.baseUrl)
         )
 
     private val rules =
         listOf(
-            RelativePathContentRule(BuildKonfig.BASE_URL),
+            RelativePathContentRule(networkEndpointConfigInfo.baseUrl)
         )
 
     private val tagHandler = OlLiTagHandler()
