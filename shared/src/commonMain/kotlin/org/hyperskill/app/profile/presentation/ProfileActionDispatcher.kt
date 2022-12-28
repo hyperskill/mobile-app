@@ -84,6 +84,13 @@ class ProfileActionDispatcher(
                         return onNewMessage(Message.StreakFreezeBought.Error)
                     }
 
+                profileInteractor
+                    .getCurrentProfile()
+                    .getOrNull()
+                    ?.gamification?.hypercoinsBalance?.let { oldBalance ->
+                        profileInteractor.notifyHypercoinsBalanceChanged(oldBalance - action.streakFreezePrice)
+                    }
+
                 onNewMessage(Message.StreakFreezeBought.Success)
             }
             is Action.FetchProfile -> {
