@@ -11,8 +11,6 @@ data class Step(
     val id: Long,
     @SerialName("stepik_id")
     val stepikId: Long,
-    @SerialName("lesson_stepik_id")
-    val lessonStepikId: Long,
     @SerialName("position")
     val position: Int,
     @SerialName("title")
