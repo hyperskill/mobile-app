@@ -1,27 +1,22 @@
 package org.hyperskill.app.android.auth.view.ui.fragment
 
-import android.annotation.SuppressLint
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.webkit.WebResourceError
-import android.webkit.WebResourceRequest
 import android.webkit.WebView
-import android.webkit.WebViewClient
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
-import org.hyperskill.app.auth.presentation.AuthSocialWebViewViewModel
+import org.hyperskill.app.android.auth.view.ui.widget.AuthSocialWebViewClient
 import org.hyperskill.app.android.databinding.DialogInAppWebViewBinding
 import org.hyperskill.app.auth.domain.model.AuthSocialError
 import org.hyperskill.app.auth.domain.model.SocialAuthProvider
 import org.hyperskill.app.auth.presentation.AuthSocialWebViewFeature
+import org.hyperskill.app.auth.presentation.AuthSocialWebViewViewModel
 import org.hyperskill.app.auth.view.mapper.SocialAuthProviderRequestURLBuilder
-import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.argument
@@ -73,52 +68,16 @@ class AuthSocialWebViewFragment :
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = DialogInAppWebViewBinding
-            .inflate(inflater, container, false)
-            .also { _ ->
-                if (webView == null) {
-                    webView = WebView(requireContext().applicationContext).also {
-                        it.webViewClient = object : WebViewClient() {
-                            override fun shouldOverrideUrlLoading(
-                                view: WebView?,
-                                request: WebResourceRequest?
-                            ): Boolean {
-                                if (request!!.url.toString().startsWith("https://" + BuildKonfig.HOST + "/oauth?")) {
-                                    val uri = Uri.parse(request.url.toString())
-                                    authSocialWebViewViewModel.onNewMessage(
-                                        AuthSocialWebViewFeature.Message.AuthCodeSuccess(
-                                            uri.getQueryParameter("code")!!,
-                                            provider
-                                        )
-                                    )
-                                }
-                                return false
-                            }
-
-                            override fun onReceivedError(
-                                view: WebView?,
-                                request: WebResourceRequest?,
-                                error: WebResourceError?
-                            ) {
-                                authSocialWebViewViewModel.onNewMessage(
-                                    AuthSocialWebViewFeature.Message.AuthCodeFailure(
-                                        socialError = AuthSocialError.CONNECTION_PROBLEM,
-                                        originalError = if (error != null) Exception(error.description.toString()) else null
-                                    )
-                                )
-                            }
-
-                            override fun onPageFinished(view: WebView?, url: String?) {
-                                authSocialWebViewViewModel.onNewMessage(AuthSocialWebViewFeature.Message.PageLoaded)
-                            }
-                        }
-                        @SuppressLint("SetJavaScriptEnabled")
-                        it.settings.javaScriptEnabled = true
-                    }
-                }
+        val binding = DialogInAppWebViewBinding.inflate(inflater, container, false)
+        if (webView == null) {
+            webView = WebView(requireContext().applicationContext).also {
+                it.webViewClient = AuthSocialWebViewClient(authSocialWebViewViewModel, provider)
+                it.settings.javaScriptEnabled = true
             }
-        webView?.let { viewBinding.containerView.addView(it) }
-        return viewBinding.root
+        }
+        webView?.let { binding.containerView.addView(it) }
+        this._binding = binding
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

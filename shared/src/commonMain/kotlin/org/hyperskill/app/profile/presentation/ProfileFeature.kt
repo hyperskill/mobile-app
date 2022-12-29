@@ -115,7 +115,10 @@ interface ProfileFeature {
 
         data class GetMagicLink(val path: HyperskillUrlPath) : Action
 
-        data class BuyStreakFreeze(val streakFreezeProductId: Long) : Action
+        data class BuyStreakFreeze(
+            val streakFreezeProductId: Long,
+            val streakFreezePrice: Int
+        ) : Action
 
         sealed interface ViewAction : Action {
             data class OpenUrl(val url: String) : ViewAction

@@ -142,13 +142,13 @@ buildkonfig {
         if (SystemProperties.isCI() && !SystemProperties.isGitCryptUnlocked()) return
         defaultConfigs(flavor) {
             val properties = loadProperties("${project.rootDir}/shared/keys/$flavor.properties")
-            buildConfigField(STRING, "FLAVOR", flavor)
+            buildConfigField(type = STRING, name = "FLAVOR", value = flavor, const = true)
             properties.keys.forEach { name ->
-                name as String
                 buildConfigField(
                     type = STRING,
-                    name = name,
-                    value = requireNotNull(System.getenv(name) ?: properties.propertyString(name))
+                    name = name as String,
+                    value = requireNotNull(System.getenv(name) ?: properties.propertyString(name)),
+                    const = true
                 )
             }
         }
