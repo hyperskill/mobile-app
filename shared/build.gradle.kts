@@ -1,3 +1,4 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.BOOLEAN
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import java.time.Year
 import org.gradle.internal.os.OperatingSystem
@@ -136,6 +137,14 @@ buildkonfig {
 
     defaultConfigs {
         if (SystemProperties.isCI() && !SystemProperties.isGitCryptUnlocked()) return@defaultConfigs
+
+        buildConfigField(
+            type = BOOLEAN,
+            name = "IS_DEBUG_CONTROLS_ENABLED",
+            value = SystemProperties.isDebugControlsEnabled()?.toString(),
+            nullable = true
+        )
+
         listOf("production", "dev", "release").forEach { flavor ->
             val properties = loadProperties("${project.rootDir}/shared/keys/$flavor.properties")
 

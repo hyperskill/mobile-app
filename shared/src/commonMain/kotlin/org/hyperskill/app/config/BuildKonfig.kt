@@ -7,6 +7,10 @@ class BuildKonfig(
     val buildVariant: BuildVariant,
     private val endpointConfigType: EndpointConfigType
 ) {
+    companion object {
+        val IS_DEBUG_CONTROLS_ENABLED: Boolean? = InternalBuildKonfig.IS_DEBUG_CONTROLS_ENABLED
+    }
+
     val flavor: String
         get() = when (endpointConfigType) {
             EndpointConfigType.DEV -> InternalBuildKonfig.DEV_FLAVOR

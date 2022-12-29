@@ -1,9 +1,16 @@
 package org.hyperskill.app.debug.presentation
 
+import org.hyperskill.app.config.BuildKonfig
+import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.debug.domain.model.DebugSettings
 import org.hyperskill.app.debug.domain.model.EndpointConfigType
 
 interface DebugFeature {
+    companion object {
+        fun isDebugFeatureAvailable(buildKonfig: BuildKonfig): Boolean =
+            BuildKonfig.IS_DEBUG_CONTROLS_ENABLED ?: (buildKonfig.buildVariant == BuildVariant.DEBUG)
+    }
+
     sealed interface State {
         object Idle : State
         object Loading : State
