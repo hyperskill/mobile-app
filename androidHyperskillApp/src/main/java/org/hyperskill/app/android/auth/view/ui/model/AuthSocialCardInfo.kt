@@ -1,6 +1,5 @@
 package org.hyperskill.app.android.auth.view.ui.model
 
-import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.R
 import org.hyperskill.app.auth.domain.model.SocialAuthProvider
 
@@ -10,7 +9,7 @@ enum class AuthSocialCardInfo(
     val socialAuthProvider: SocialAuthProvider
 ) {
     JETBRAINS(
-        SharedResources.strings.auth_jetbrains_account_text.resourceId,
+        org.hyperskill.app.R.string.auth_jetbrains_account_text,
         R.drawable.ic_jetbrains_logo,
         SocialAuthProvider.JETBRAINS_ACCOUNT
     ),
