@@ -15,6 +15,8 @@ data class Step(
     val type: Type,
     @SerialName("block")
     val block: Block,
+    @SerialName("topic_theory")
+    val topicTheory: Long? = null,
     @SerialName("comments_statistics")
     val commentsStatistics: List<CommentStatisticsEntry>,
     @SerialName("solved_by")
