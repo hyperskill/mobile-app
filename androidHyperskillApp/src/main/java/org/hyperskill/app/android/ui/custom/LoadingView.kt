@@ -23,7 +23,7 @@ class LoadingView
 constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
     View(context, attrs, defStyleAttr) {
 
-    private val baseColorDefault = context.resolveColorAttribute(R.attr.colorControlHighlight)
+    private val baseColorDefault = context.resolveColorAttribute(androidx.appcompat.R.attr.colorControlHighlight)
     private val deepColorDefault = ColorExtensions.colorWithAlphaMul(
         baseColorDefault,
         context.resolveFloatAttribute(R.attr.alphaEmphasisDisabled)

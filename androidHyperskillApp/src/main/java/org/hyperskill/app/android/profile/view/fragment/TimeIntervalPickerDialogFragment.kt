@@ -44,8 +44,8 @@ class TimeIntervalPickerDialogFragment : DialogFragment() {
         picker.descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
         picker.wrapSelectorWheel = false
         picker.setBackgroundColor(0x0)
-        picker.textColor = requireContext().resolveColorAttribute(R.attr.colorOnSurface)
-        picker.selectedTextColor = requireContext().resolveColorAttribute(R.attr.colorOnSurface)
+        picker.textColor = requireContext().resolveColorAttribute(com.google.android.material.R.attr.colorOnSurface)
+        picker.selectedTextColor = requireContext().resolveColorAttribute(com.google.android.material.R.attr.colorOnSurface)
         picker.dividerColor = 0x0
 
         try {
@@ -55,12 +55,12 @@ class TimeIntervalPickerDialogFragment : DialogFragment() {
         callback = parentFragment as Callback
 
         return MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.choose_notification_time_interval)
+            .setTitle(org.hyperskill.app.R.string.choose_notification_time_interval)
             .setView(picker)
-            .setPositiveButton(R.string.ok) { _, _ ->
+            .setPositiveButton(org.hyperskill.app.R.string.ok) { _, _ ->
                 callback.onTimeIntervalPicked(picker.value)
             }
-            .setNegativeButton(R.string.cancel, null)
+            .setNegativeButton(org.hyperskill.app.R.string.cancel, null)
             .create()
     }
 

@@ -151,9 +151,9 @@ class MainActivity :
         viewStateDelegate.switchState(state)
         when (state) {
             is AppFeature.State.Idle, AppFeature.State.Loading ->
-                window.statusBarColor = ContextCompat.getColor(this, R.color.color_black_900)
+                window.statusBarColor = ContextCompat.getColor(this, org.hyperskill.app.R.color.color_black_900)
             is AppFeature.State.Ready ->
-                window.statusBarColor = resolveColorAttribute(R.attr.colorPrimaryVariant)
+                window.statusBarColor = resolveColorAttribute(com.google.android.material.R.attr.colorPrimaryVariant)
         }
     }
 

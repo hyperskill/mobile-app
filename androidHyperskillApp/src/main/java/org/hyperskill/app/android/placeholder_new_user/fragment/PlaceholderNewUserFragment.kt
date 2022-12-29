@@ -140,12 +140,12 @@ class PlaceholderNewUserFragment :
             PlaceholderNewUserFeature.Action.ViewAction.ShowTrackSelectionStatus.Error -> {
                 childFragmentManager
                     .dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
-                viewBinding.root.snackbar(R.string.placeholder_new_user_start_track_error_message)
+                viewBinding.root.snackbar(org.hyperskill.app.R.string.placeholder_new_user_start_track_error_message)
             }
             PlaceholderNewUserFeature.Action.ViewAction.ShowTrackSelectionStatus.Success -> {
                 childFragmentManager
                     .dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
-                viewBinding.root.snackbar(R.string.placeholder_new_user_start_track_success_message)
+                viewBinding.root.snackbar(org.hyperskill.app.R.string.placeholder_new_user_start_track_success_message)
             }
             is PlaceholderNewUserFeature.Action.ViewAction.ShowTrackModal -> {
                 viewDataMapper?.let { mapper ->

@@ -28,12 +28,12 @@ class ProblemOfDayCardFormDelegate(
         binding.problemOfDayNextProblemInTextView.text =
             buildSpannedString {
                 append(
-                    "${context.resources.getString(R.string.problem_of_day_next_problem_in)} "
+                    "${context.resources.getString(org.hyperskill.app.R.string.problem_of_day_next_problem_in)} "
                 )
                 bold {
                     append(
                         context.resources.getString(
-                            R.string.problem_of_day_hours_and_minutes,
+                            org.hyperskill.app.R.string.problem_of_day_hours_and_minutes,
                             hours,
                             minutes
                         )
@@ -54,14 +54,14 @@ class ProblemOfDayCardFormDelegate(
                     problemOfDayLayout.alpha = EMPTY_CARD_STATE_ALPHA
                     problemOfDayHexogens.alpha = EMPTY_CARD_STATE_ALPHA
 
-                    problemOfDayDescriptionTextView.setText(R.string.problem_of_day_no_problems_to_solve)
+                    problemOfDayDescriptionTextView.setText(org.hyperskill.app.R.string.problem_of_day_no_problems_to_solve)
 
                     topicsRepetitionArrowImageView.setImageResource(R.drawable.ic_home_screen_arrow_button)
 
                     problemOfDayHexogens.setImageResource(R.drawable.bg_hexogens_static)
 
                     problemOfDayTitleTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_task_day, 0, 0, 0)
-                    problemOfDayTitleTextView.setText(R.string.problem_of_day_title_uncompleted)
+                    problemOfDayTitleTextView.setText(org.hyperskill.app.R.string.problem_of_day_title_uncompleted)
                 }
                 is HomeFeature.ProblemOfDayState.Solved -> {
                     state as HomeFeature.ProblemOfDayState.Solved
@@ -77,14 +77,14 @@ class ProblemOfDayCardFormDelegate(
                     problemOfDayLayout.alpha = 1F
                     problemOfDayHexogens.alpha = 1F
 
-                    problemOfDayDescriptionTextView.setText(R.string.problem_of_day_get_back)
+                    problemOfDayDescriptionTextView.setText(org.hyperskill.app.R.string.problem_of_day_get_back)
 
                     topicsRepetitionArrowImageView.setImageResource(R.drawable.ic_home_screen_success_arrow_button)
 
                     problemOfDayHexogens.setImageResource(R.drawable.bg_hexogens_static_solved)
 
                     problemOfDayTitleTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_checkmark, 0, 0, 0)
-                    problemOfDayTitleTextView.setText(R.string.problem_of_day_title_completed)
+                    problemOfDayTitleTextView.setText(org.hyperskill.app.R.string.problem_of_day_title_completed)
 
                     updateNextProblemTime(state.nextProblemIn)
                 }
@@ -113,14 +113,14 @@ class ProblemOfDayCardFormDelegate(
                     problemOfDayLayout.alpha = 1F
                     problemOfDayHexogens.alpha = 1F
 
-                    problemOfDayDescriptionTextView.setText(R.string.problem_of_day_solve_a_random_problem)
+                    problemOfDayDescriptionTextView.setText(org.hyperskill.app.R.string.problem_of_day_solve_a_random_problem)
 
                     topicsRepetitionArrowImageView.setImageResource(R.drawable.ic_home_screen_arrow_button)
 
                     problemOfDayHexogens.setImageResource(R.drawable.bg_hexogens_static)
 
                     problemOfDayTitleTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_task_day, 0, 0, 0)
-                    problemOfDayTitleTextView.setText(R.string.problem_of_day_title_uncompleted)
+                    problemOfDayTitleTextView.setText(org.hyperskill.app.R.string.problem_of_day_title_uncompleted)
 
                     updateNextProblemTime(state.nextProblemIn)
                 }

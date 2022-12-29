@@ -89,11 +89,11 @@ class StreakFreezeDialogFragment : BottomSheetDialogFragment() {
             streakFreezeModalTitle.setText(
                 when (state) {
                     ProfileFeature.StreakFreezeState.AlreadyHave ->
-                        R.string.streak_freeze_modal_already_have_title
+                        org.hyperskill.app.R.string.streak_freeze_modal_already_have_title
                     is ProfileFeature.StreakFreezeState.CanBuy ->
-                        R.string.streak_freeze_modal_can_buy_title
+                        org.hyperskill.app.R.string.streak_freeze_modal_can_buy_title
                     is ProfileFeature.StreakFreezeState.NotEnoughGems ->
-                        R.string.streak_freeze_modal_not_enough_gems_title
+                        org.hyperskill.app.R.string.streak_freeze_modal_not_enough_gems_title
                 }
             )
             with(streakFreezeCountTextView) {
@@ -116,10 +116,10 @@ class StreakFreezeDialogFragment : BottomSheetDialogFragment() {
             streakFreezeCountDescription.setText(
                 when (state) {
                     ProfileFeature.StreakFreezeState.AlreadyHave ->
-                        R.string.streak_freeze_modal_you_have_one_day_streak_freeze
+                        org.hyperskill.app.R.string.streak_freeze_modal_you_have_one_day_streak_freeze
                     is ProfileFeature.StreakFreezeState.CanBuy,
                     is ProfileFeature.StreakFreezeState.NotEnoughGems ->
-                        R.string.streak_freeze_modal_one_day_streak_freeze
+                        org.hyperskill.app.R.string.streak_freeze_modal_one_day_streak_freeze
                 }
             )
 
@@ -127,7 +127,7 @@ class StreakFreezeDialogFragment : BottomSheetDialogFragment() {
                 isVisible = state is ProfileFeature.StreakFreezeState.CanBuy
                 if (state is ProfileFeature.StreakFreezeState.CanBuy) {
                     streakFreezeBuyButton.text = resources.getString(
-                        R.string.streak_freeze_modal_get_it_for_gems,
+                        org.hyperskill.app.R.string.streak_freeze_modal_get_it_for_gems,
                         state.price
                     )
                 }

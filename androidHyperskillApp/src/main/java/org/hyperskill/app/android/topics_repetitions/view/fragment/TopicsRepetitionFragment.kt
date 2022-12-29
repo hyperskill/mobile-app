@@ -115,7 +115,7 @@ class TopicsRepetitionFragment :
             is TopicsRepetitionsFeature.Action.ViewAction.NavigateTo.StepScreen ->
                 requireRouter().navigateTo(StepScreen(action.stepId))
             TopicsRepetitionsFeature.Action.ViewAction.ShowNetworkError ->
-                view?.snackbar(messageRes = R.string.connection_error)
+                view?.snackbar(messageRes = org.hyperskill.app.R.string.connection_error)
         }
     }
 
