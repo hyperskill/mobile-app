@@ -80,7 +80,6 @@ struct HomeView: View {
                         )
                     }
 
-
                     let shouldShowContinueInWebButton = data.problemOfDayState is HomeFeatureProblemOfDayStateEmpty ||
                       data.problemOfDayState is HomeFeatureProblemOfDayStateSolved
 

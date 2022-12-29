@@ -139,7 +139,7 @@ class MainActivity :
             is AppFeature.Action.ViewAction.NavigateTo.OnboardingScreen ->
                 router.newRootScreen(OnboardingScreen)
             is AppFeature.Action.ViewAction.NavigateTo.AuthScreen ->
-                router.newRootScreen(AuthScreen)
+                router.newRootScreen(AuthScreen())
             is AppFeature.Action.ViewAction.NavigateTo.HomeScreen ->
                 router.newRootScreen(MainScreen)
             is AppFeature.Action.ViewAction.NavigateTo.NewUserScreen ->

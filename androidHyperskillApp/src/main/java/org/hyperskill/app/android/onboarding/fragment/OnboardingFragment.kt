@@ -46,22 +46,29 @@ class OnboardingFragment :
 
         viewBinding.onboardingSignInButton.setOnClickListener {
             onboardingViewModel.onNewMessage(OnboardingFeature.Message.ClickedSignInEventMessage)
-            requireRouter().navigateTo(AuthScreen)
+            requireRouter().navigateTo(AuthScreen())
         }
 
         viewBinding.onboardingSignUpButton.setOnClickListener {
-            onboardingViewModel.onNewMessage(OnboardingFeature.Message.ClickedSignUnEventMessage)
-            requireRouter().navigateTo(PlaceholderNewUserScreen)
+            onboardingViewModel.onNewMessage(OnboardingFeature.Message.ClickedSignUn)
         }
 
-        onboardingViewModel.onNewMessage(OnboardingFeature.Message.Initialize)
+        onboardingViewModel.onNewMessage(OnboardingFeature.Message.Initialize())
         onboardingViewModel.onNewMessage(OnboardingFeature.Message.ViewedEventMessage)
     }
 
     override fun onAction(action: OnboardingFeature.Action.ViewAction) {
-        // no op
+        when (action) {
+            is OnboardingFeature.Action.ViewAction.NavigateTo.AuthScreen ->
+                requireRouter().navigateTo(AuthScreen(action.isInSignUpMode))
+            is OnboardingFeature.Action.ViewAction.NavigateTo.NewUserScreen ->
+                requireRouter().navigateTo(PlaceholderNewUserScreen)
+        }
     }
 
+    // TODO: read for more info https://vyahhi.myjetbrains.com/youtrack/issue/ALTAPPS-505
+    // Support all state OnboardingFeature.State's
+    // show loading, error and etc
     override fun render(state: OnboardingFeature.State) {
         // no op
     }

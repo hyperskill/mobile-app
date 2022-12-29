@@ -82,11 +82,15 @@ extension AppViewModel: AuthOutputProtocol {
 
 extension AppViewModel: OnboardingOutputProtocol {
     func handleOnboardingSignInRequested() {
-        onViewAction?(AppFeatureActionViewActionNavigateToAuthScreen())
+        onViewAction?(AppFeatureActionViewActionNavigateToAuthScreen(isInSignUpMode: false))
     }
 
-    func handleOnboardingSignUpRequested() {
-        onViewAction?(AppFeatureActionViewActionNavigateToNewUserScreen())
+    func handleOnboardingSignUpRequested(isInSignUpMode: Bool) {
+        if isInSignUpMode {
+            onViewAction?(AppFeatureActionViewActionNavigateToAuthScreen(isInSignUpMode: isInSignUpMode))
+        } else {
+            onViewAction?(AppFeatureActionViewActionNavigateToNewUserScreen())
+        }
     }
 }
 
