@@ -100,9 +100,8 @@ class ProblemOfDayCardFormDelegate(
                         problemOfDayTimeToSolveTextView.visibility = View.VISIBLE
                         val minutesToComplete = state.step.secondsToComplete!!.div(60).toInt()
                         problemOfDayTimeToSolveTextView.text =
-                            context.resources.getQuantityString(
-                                R.plurals.minutes,
-                                minutesToComplete,
+                            context.getString(
+                                org.hyperskill.app.R.string.problem_of_day_minutes,
                                 minutesToComplete
                             )
                     } else {
