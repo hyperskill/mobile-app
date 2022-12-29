@@ -78,8 +78,9 @@ extension AppViewController: AppViewControllerProtocol {
                 let controller = AppTabBarController()
                 controller.appTabBarControllerDelegate = viewModel
                 return controller
-            case .authScreen:
-                return UIHostingController(rootView: AuthSocialAssembly(output: viewModel).makeModule())
+            case .authScreen(let data):
+                let assembly = AuthSocialAssembly(isInSignUpMode: data.isInSignUpMode, output: viewModel)
+                return UIHostingController(rootView: assembly.makeModule())
             case .newUserScreen:
                 return UIHostingController(rootView: AuthNewUserPlaceholderAssembly(output: viewModel).makeModule())
             }
