@@ -18,7 +18,7 @@ import java.util.Locale
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.isChannelNotificationsEnabled
-import org.hyperskill.app.android.core.extensions.launchUrl
+import org.hyperskill.app.android.core.extensions.openUrl
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireMainRouter
@@ -30,6 +30,7 @@ import org.hyperskill.app.android.profile.view.delegate.StreakCardFormDelegate
 import org.hyperskill.app.android.profile.view.dialog.StreakFreezeDialogFragment
 import org.hyperskill.app.android.view.base.ui.extension.redirectToUsernamePage
 import org.hyperskill.app.android.view.base.ui.extension.setElevationOnCollapsed
+import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.presentation.ProfileFeature
 import org.hyperskill.app.profile.presentation.ProfileViewModel
@@ -38,7 +39,6 @@ import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
-import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -226,10 +226,10 @@ class ProfileFragment :
     override fun onAction(action: ProfileFeature.Action.ViewAction) {
         when (action) {
             is ProfileFeature.Action.ViewAction.OpenUrl ->
-                requireContext().launchUrl(action.url)
+                requireContext().openUrl(action.url)
 
             is ProfileFeature.Action.ViewAction.ShowGetMagicLinkError ->
-                viewBinding.root.snackbar(R.string.common_error)
+                viewBinding.root.snackbar(org.hyperskill.app.R.string.common_error)
 
             is ProfileFeature.Action.ViewAction.ShowStreakFreezeModal -> {
                 StreakFreezeDialogFragment.newInstance(action.streakFreezeState)
@@ -244,12 +244,12 @@ class ProfileFragment :
                     .dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
             }
             ProfileFeature.Action.ViewAction.ShowStreakFreezeBuyingStatus.Success -> {
-                viewBinding.root.snackbar(R.string.streak_freeze_bought_success)
+                viewBinding.root.snackbar(org.hyperskill.app.R.string.streak_freeze_bought_success)
                 childFragmentManager
                     .dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
             }
             ProfileFeature.Action.ViewAction.ShowStreakFreezeBuyingStatus.Error ->
-                viewBinding.root.snackbar(R.string.streak_freeze_bought_error)
+                viewBinding.root.snackbar(org.hyperskill.app.R.string.streak_freeze_bought_error)
 
             ProfileFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
                 requireMainRouter().switch(HomeScreen)
@@ -296,9 +296,9 @@ class ProfileFragment :
             profileNameTextView.setTextIfChanged(profile.fullname)
             profileRoleTextView.setTextIfChanged(
                 if (profile.isStaff) {
-                    resources.getString(R.string.profile_role_staff_text)
+                    resources.getString(org.hyperskill.app.R.string.profile_role_staff_text)
                 } else {
-                    resources.getString(R.string.profile_role_learner_text)
+                    resources.getString(org.hyperskill.app.R.string.profile_role_learner_text)
                 }
             )
         }
@@ -316,14 +316,14 @@ class ProfileFragment :
         with(viewBinding.profileFooterLayout) {
             if (profile.country != null) {
                 profileAboutLivesTextView.text =
-                    "${resources.getString(R.string.profile_lives_in_text)} ${Locale(Locale.ENGLISH.language, profile.country!!).displayCountry}"
+                    "${resources.getString(org.hyperskill.app.R.string.profile_lives_in_text)} ${Locale(Locale.ENGLISH.language, profile.country!!).displayCountry}"
             } else {
                 profileAboutLivesTextView.visibility = View.GONE
             }
 
             if (profile.languages?.isEmpty() == false) {
                 profileAboutSpeaksTextView.text =
-                    "${resources.getString(R.string.profile_speaks_text)} ${
+                    "${resources.getString(org.hyperskill.app.R.string.profile_speaks_text)} ${
                     profile.languages!!.joinToString(", ") {
                         Locale(it).getDisplayLanguage(Locale.ENGLISH)
                     }
@@ -401,6 +401,6 @@ class ProfileFragment :
     }
 
     private fun getScheduleTimeText(time: Int) =
-        requireContext().resources.getString(R.string.profile_daily_study_reminders_schedule_text) +
+        requireContext().resources.getString(org.hyperskill.app.R.string.profile_daily_study_reminders_schedule_text) +
             "${time.toString().padStart(2, '0')}:00 - ${(time + 1).toString().padStart(2, '0')}:00"
 }

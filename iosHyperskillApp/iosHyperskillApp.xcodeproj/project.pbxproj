@@ -258,6 +258,7 @@
 		2CBFB94A28897DBB0044D1BA /* StepQuizCodeFullScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBFB94928897DBB0044D1BA /* StepQuizCodeFullScreenView.swift */; };
 		2CBFB94C28897DD70044D1BA /* StepQuizCodeFullScreenAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBFB94B28897DD70044D1BA /* StepQuizCodeFullScreenAssembly.swift */; };
 		2CC4AAF1280DB513002276A0 /* WebOAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC4AAF0280DB513002276A0 /* WebOAuthService.swift */; };
+		2CC7833E295DAE3E00A867CD /* OnboardingFeatureStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC7833D295DAE3E00A867CD /* OnboardingFeatureStateKsExtensions.swift */; };
 		2CC78D0928C74E7D0006EF91 /* UIViewControllerEventsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC78D0828C74E7D0006EF91 /* UIViewControllerEventsWrapper.swift */; };
 		2CC78D0C28C74EF90006EF91 /* ViewRelatedEventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC78D0B28C74EF90006EF91 /* ViewRelatedEventsViewController.swift */; };
 		2CC78D0E28C75A3D0006EF91 /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC78D0D28C75A3D0006EF91 /* UIViewControllerExtensions.swift */; };
@@ -672,6 +673,7 @@
 		2CBFB94928897DBB0044D1BA /* StepQuizCodeFullScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeFullScreenView.swift; sourceTree = "<group>"; };
 		2CBFB94B28897DD70044D1BA /* StepQuizCodeFullScreenAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeFullScreenAssembly.swift; sourceTree = "<group>"; };
 		2CC4AAF0280DB513002276A0 /* WebOAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebOAuthService.swift; sourceTree = "<group>"; };
+		2CC7833D295DAE3E00A867CD /* OnboardingFeatureStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFeatureStateKsExtensions.swift; sourceTree = "<group>"; };
 		2CC78D0828C74E7D0006EF91 /* UIViewControllerEventsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerEventsWrapper.swift; sourceTree = "<group>"; };
 		2CC78D0B28C74EF90006EF91 /* ViewRelatedEventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRelatedEventsViewController.swift; sourceTree = "<group>"; };
 		2CC78D0D28C75A3D0006EF91 /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
@@ -994,13 +996,14 @@
 				2C1860FB2923C540007D4EBF /* AppFeatureStateKsExtensions.swift */,
 				2C93C2D7292EBBB5004D1861 /* AuthSocialFeatureStateKsExtensions.swift */,
 				2C1860FE2923CAAD007D4EBF /* HomeFeatureStateKsExtensions.swift */,
+				2CC7833D295DAE3E00A867CD /* OnboardingFeatureStateKsExtensions.swift */,
 				2C0FA876292FC9BF00A37636 /* PlaceholderNewUserFeatureStateKsExtensions.swift */,
 				2C0DFB992923BB4300D30921 /* ProfileFeatureStateKsExtensions.swift */,
 				2C0FA878292FD73400A37636 /* ProfileSettingsFeatureStateKsExtensions.swift */,
 				2CFD7C67292542FB00902748 /* StepFeatureStateKsExtensions.swift */,
 				2CFD7C692925447600902748 /* StepQuizFeatureStateKsExtensions.swift */,
-				2C1860F92923BE7E007D4EBF /* TrackFeatureStateKsExtensions.swift */,
 				E9AD65A9292DC0BE00E574F0 /* TopicsRepetitionsFeatureStateKsExtensions.swift */,
+				2C1860F92923BE7E007D4EBF /* TrackFeatureStateKsExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2885,6 +2888,7 @@
 				2C96744228883A180091B6C9 /* StepQuizCodeViewDataMapper.swift in Sources */,
 				2C0EC2DF28F9E92D004A36B2 /* ModalRouter.swift in Sources */,
 				2C919E3527EEFF110022A2F2 /* Queue.swift in Sources */,
+				2CC7833E295DAE3E00A867CD /* OnboardingFeatureStateKsExtensions.swift in Sources */,
 				2CA7614B2926272500987B66 /* StepQuizFeedbackView.swift in Sources */,
 				2C58DE292803D197002A2774 /* UIColor+DynamicColor.swift in Sources */,
 				E996D414292228A700A47498 /* TopicsRepetitionsView.swift in Sources */,
@@ -3107,7 +3111,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 49;
+				CURRENT_PROJECT_VERSION = 52;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 3DWS674B2M;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -3128,7 +3132,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 49;
+				CURRENT_PROJECT_VERSION = 52;
 				DEVELOPMENT_TEAM = 3DWS674B2M;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.4;

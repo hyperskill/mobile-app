@@ -17,6 +17,7 @@
 
     <!-- Auth -->
     <string name="auth_log_in_title">Sign in to My Hyperskill</string>
+    <string name="auth_sign_up_title">Sign up to My Hyperskill</string>
     <string name="auth_jetbrains_account_text">JetBrains Account</string>
     <string name="auth_google_account_text">Google</string>
     <string name="auth_github_account_text">GitHub</string>

@@ -62,8 +62,8 @@ android-test-junit = { module = "junit:junit", version = "4.13.2" }
 android-test-runner = { module = "androidx.test:runner", version = "1.4.0" }
 android-test-robolectric = { module = "org.robolectric:robolectric", version = "4.7.1" }
 
-gms-services = { module = "com.google.android.gms:play-services-base", version = "17.6.0" }
-gms-login = { module = "com.google.android.gms:play-services-auth", version = "19.0.0" }
+gms-services = { module = "com.google.android.gms:play-services-base", version = "18.1.0" }
+gms-login = { module = "com.google.android.gms:play-services-auth", version = "20.4.0" }
 viewbinding = { module = "com.github.kirich1409:viewbindingpropertydelegate", version = "1.5.6" }
 
 mokoResources-main = { module = "dev.icerock.moko:resources", version.ref = "mokoResources" }

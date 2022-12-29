@@ -13,19 +13,19 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.core.extensions.launchUrl
+import org.hyperskill.app.android.core.extensions.openUrl
 import org.hyperskill.app.android.core.extensions.representation
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.databinding.FragmentProfileSettingsBinding
 import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper
+import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.profile.presentation.ProfileSettingsViewModel
 import org.hyperskill.app.profile_settings.domain.model.FeedbackEmailData
 import org.hyperskill.app.profile_settings.domain.model.Theme
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
-import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -63,8 +63,8 @@ class ProfileSettingsDialogFragment :
         super.onViewCreated(view, savedInstanceState)
 
         with(viewBinding.settingsCenteredToolbar) {
-            centeredToolbarTitle.setText(R.string.settings_title)
-            centeredToolbarTitle.setTextAppearance(R.style.TextAppearance_AppCompat_Body2)
+            centeredToolbarTitle.setText(org.hyperskill.app.R.string.settings_title)
+            centeredToolbarTitle.setTextAppearance(androidx.appcompat.R.style.TextAppearance_AppCompat_Body2)
             centeredToolbarTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18F)
 
             centeredToolbar.setNavigationOnClickListener {
@@ -77,7 +77,7 @@ class ProfileSettingsDialogFragment :
         viewBinding.settingsThemeButton.setOnClickListener {
             profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ClickedThemeEventMessage)
             MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog)
-                .setTitle(R.string.settings_theme)
+                .setTitle(org.hyperskill.app.R.string.settings_theme)
                 .setSingleChoiceItems(Theme.values().map { theme -> theme.representation }.toTypedArray(), currentThemePosition) { _, which ->
                     val newTheme = Theme.values()[which]
 
@@ -87,7 +87,7 @@ class ProfileSettingsDialogFragment :
                     val mode = ThemeMapper.getAppCompatDelegate(newTheme)
                     AppCompatDelegate.setDefaultNightMode(mode)
                 }
-                .setNegativeButton(R.string.cancel) { dialog, _ ->
+                .setNegativeButton(org.hyperskill.app.R.string.cancel) { dialog, _ ->
                     dialog.dismiss()
                 }
                 .show()
@@ -95,17 +95,17 @@ class ProfileSettingsDialogFragment :
 
         viewBinding.settingsTermsOfServiceButton.setOnClickListener {
             profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ClickedTermsOfServiceEventMessage)
-            openLinkInBrowser(resources.getString(R.string.settings_terms_of_service_url))
+            openLinkInBrowser(resources.getString(org.hyperskill.app.R.string.settings_terms_of_service_url))
         }
 
         viewBinding.settingsPrivacyPolicyButton.setOnClickListener {
             profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ClickedPrivacyPolicyEventMessage)
-            openLinkInBrowser(resources.getString(R.string.settings_privacy_policy_url))
+            openLinkInBrowser(resources.getString(org.hyperskill.app.R.string.settings_privacy_policy_url))
         }
 
         viewBinding.settingsReportProblemButton.setOnClickListener {
             profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ClickedReportProblemEventMessage)
-            openLinkInBrowser(resources.getString(R.string.settings_report_problem_url))
+            openLinkInBrowser(resources.getString(org.hyperskill.app.R.string.settings_report_problem_url))
         }
 
         viewBinding.settingsSendFeedbackButton.setOnClickListener {
@@ -118,9 +118,9 @@ class ProfileSettingsDialogFragment :
             profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ClickedSignOutEventMessage)
 
             MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog_ProfileSettingsConfirmDialog)
-                .setTitle(R.string.settings_sign_out_dialog_title)
-                .setMessage(R.string.settings_sign_out_dialog_explanation)
-                .setPositiveButton(R.string.yes) { _, _ ->
+                .setTitle(org.hyperskill.app.R.string.settings_sign_out_dialog_title)
+                .setMessage(org.hyperskill.app.R.string.settings_sign_out_dialog_explanation)
+                .setPositiveButton(org.hyperskill.app.R.string.yes) { _, _ ->
                     profileSettingsViewModel.onNewMessage(
                         ProfileSettingsFeature.Message.SignOutNoticeHiddenEventMessage(
                             isConfirmed = true
@@ -128,7 +128,7 @@ class ProfileSettingsDialogFragment :
                     )
                     profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.SignOutConfirmed)
                 }
-                .setNegativeButton(R.string.no) { dialog, _ ->
+                .setNegativeButton(org.hyperskill.app.R.string.no) { dialog, _ ->
                     profileSettingsViewModel.onNewMessage(
                         ProfileSettingsFeature.Message.SignOutNoticeHiddenEventMessage(
                             isConfirmed = false
@@ -145,14 +145,14 @@ class ProfileSettingsDialogFragment :
             profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ClickedDeleteAccountEventMessage)
 
             MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog_ProfileSettingsConfirmDialog)
-                .setTitle(R.string.settings_account_deletion_dialog_title)
-                .setMessage(R.string.settings_account_deletion_dialog_explanation)
-                .setPositiveButton(R.string.settings_account_deletion_dialog_delete_button_text) { _, _ ->
+                .setTitle(org.hyperskill.app.R.string.settings_account_deletion_dialog_title)
+                .setMessage(org.hyperskill.app.R.string.settings_account_deletion_dialog_explanation)
+                .setPositiveButton(org.hyperskill.app.R.string.settings_account_deletion_dialog_delete_button_text) { _, _ ->
                     profileSettingsViewModel.onNewMessage(
                         ProfileSettingsFeature.Message.DeleteAccountNoticeHidden(true)
                     )
                 }
-                .setNegativeButton(R.string.cancel) { dialog, _ ->
+                .setNegativeButton(org.hyperskill.app.R.string.cancel) { dialog, _ ->
                     profileSettingsViewModel.onNewMessage(
                         ProfileSettingsFeature.Message.DeleteAccountNoticeHidden(false)
                     )
@@ -168,7 +168,7 @@ class ProfileSettingsDialogFragment :
     }
 
     private fun openLinkInBrowser(link: String) {
-        requireContext().launchUrl(link)
+        requireContext().openUrl(link)
     }
 
     override fun onAction(action: ProfileSettingsFeature.Action.ViewAction) {

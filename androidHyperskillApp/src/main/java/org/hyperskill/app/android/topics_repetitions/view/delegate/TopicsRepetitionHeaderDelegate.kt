@@ -29,20 +29,20 @@ class TopicsRepetitionHeaderDelegate(
                 setText(
                     when (state) {
                         is RepetitionsStatus.AllTopicsRepeated ->
-                            R.string.topics_repetitions_all_topics_repeated_text
+                            org.hyperskill.app.R.string.topics_repetitions_all_topics_repeated_text
                         is RepetitionsStatus.RecommendedTopicsAvailable ->
-                            R.string.topics_repetitions_good_job_text
+                            org.hyperskill.app.R.string.topics_repetitions_good_job_text
                         is RepetitionsStatus.RecommendedTopicsRepeated ->
-                            R.string.topics_repetitions_try_to_recall_text
+                            org.hyperskill.app.R.string.topics_repetitions_try_to_recall_text
                     }
                 )
                 setTextAppearance(
                     when (state) {
                         is RepetitionsStatus.AllTopicsRepeated ->
-                            R.style.TextAppearance_AppCompat_Body2
+                            androidx.appcompat.R.style.TextAppearance_AppCompat_Body2
                         is RepetitionsStatus.RecommendedTopicsAvailable,
                         is RepetitionsStatus.RecommendedTopicsRepeated ->
-                            R.style.TextAppearance_AppCompat_Body1
+                            androidx.appcompat.R.style.TextAppearance_AppCompat_Body1
                     }
                 )
             }
@@ -54,7 +54,7 @@ class TopicsRepetitionHeaderDelegate(
                     state.recommendedRepetitionsCount.toString()
                 topicsRepetitionCountDescriptionTextView.text =
                     context.resources.getQuantityText(
-                        R.plurals.topics_to_repeat_today,
+                        org.hyperskill.app.R.plurals.topics_to_repeat_today,
                         state.recommendedRepetitionsCount
                     )
             }

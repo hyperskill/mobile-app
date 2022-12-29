@@ -26,8 +26,8 @@ class CodeDetailSampleAdapterDelegate : AdapterDelegate<CodeDetail, DelegateView
         override fun onBind(data: CodeDetail) {
             data as CodeDetail.Sample
 
-            inputTitle.text = context.getString(R.string.step_quiz_code_detail_sample_input_title, data.position)
-            outputTitle.text = context.getString(R.string.step_quiz_code_detail_sample_output_title, data.position)
+            inputTitle.text = context.getString(org.hyperskill.app.R.string.step_quiz_code_detail_sample_input_title, data.position)
+            outputTitle.text = context.getString(org.hyperskill.app.R.string.step_quiz_code_detail_sample_output_title, data.position)
             input.text = data.input
             output.text = data.output
         }

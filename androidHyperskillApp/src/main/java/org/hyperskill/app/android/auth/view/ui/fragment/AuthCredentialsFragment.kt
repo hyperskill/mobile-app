@@ -14,12 +14,13 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthFlow
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthSocialScreen
-import org.hyperskill.app.android.core.extensions.launchUrl
+import org.hyperskill.app.android.core.extensions.openUrl
 import org.hyperskill.app.android.core.view.ui.dialog.CreateMagicLinkLoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentAuthEmailBinding
+import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature
 import org.hyperskill.app.auth.presentation.AuthCredentialsViewModel
 import org.hyperskill.app.auth.view.mapper.AuthCredentialsErrorMapper
@@ -27,7 +28,6 @@ import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.addKeyboardVisibilityListener
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
-import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -92,7 +92,7 @@ class AuthCredentialsFragment :
         }
         viewBinding.signInWithSocialMaterialButton.setOnClickListener {
             authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.ClickedContinueWithSocialEventMessage)
-            requireRouter().backTo(AuthSocialScreen)
+            requireRouter().backTo(AuthSocialScreen())
         }
 
         viewBinding.root.addKeyboardVisibilityListener { isVisible ->
@@ -117,7 +117,7 @@ class AuthCredentialsFragment :
             is AuthCredentialsFeature.Action.ViewAction.CompleteAuthFlow ->
                 (parentFragment as? AuthFlow)?.onAuthSuccess(action.profile)
             is AuthCredentialsFeature.Action.ViewAction.OpenUrl ->
-                requireContext().launchUrl(action.url)
+                requireContext().openUrl(action.url)
             is AuthCredentialsFeature.Action.ViewAction.ShowGetMagicLinkError ->
                 viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
         }

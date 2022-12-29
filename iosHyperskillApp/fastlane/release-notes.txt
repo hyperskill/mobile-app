@@ -1,8 +1,2 @@
 What to Test:
-1. Header and Home screen improvements, user statistics on Profile screen ALTAPPS-394
-2. Track selection for new users ALTAPPS-437
-3. Use new API for topics repetition feature ALTAPPS-451
-4. 1-day streak freeze ALTAPPS-452
-5. Support SQL quiz ALTAPPS-454
-6. Topics repetition card appears if no topics recomended for repetitions ALTAPPS-467
-7. Fix no analytics events sent in state "Not enough gems" ALTAPPS-478
+1. Fix unauthorized user can try to select track ALTAPPS-505

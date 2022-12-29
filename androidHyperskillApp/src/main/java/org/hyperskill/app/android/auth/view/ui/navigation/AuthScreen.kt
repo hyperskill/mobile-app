@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentFactory
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import org.hyperskill.app.android.auth.view.ui.fragment.AuthFragment
 
-object AuthScreen : FragmentScreen {
+class AuthScreen(private val isInSignUpMode: Boolean = false) : FragmentScreen {
     override fun createFragment(factory: FragmentFactory): Fragment =
-        AuthFragment.newInstance()
+        AuthFragment.newInstance(isInSignUpMode)
 }

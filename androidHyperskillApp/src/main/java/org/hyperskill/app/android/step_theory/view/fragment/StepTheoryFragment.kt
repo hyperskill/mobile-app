@@ -133,7 +133,7 @@ class StepTheoryFragment : Fragment(R.layout.fragment_step_theory) {
     }
 
     private fun setupStepRatingRecyclerView() {
-        ViewCompat.setBackgroundTintList(viewBinding.stepTheoryRatingRecycler, AppCompatResources.getColorStateList(requireContext(), R.color.color_background))
+        ViewCompat.setBackgroundTintList(viewBinding.stepTheoryRatingRecycler, AppCompatResources.getColorStateList(requireContext(), org.hyperskill.app.R.color.color_background))
         with(viewBinding.stepTheoryRatingRecycler) {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = stepTheoryRatingAdapter

@@ -17,7 +17,7 @@ import coil.size.Scale
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.core.extensions.launchUrl
+import org.hyperskill.app.android.core.extensions.openUrl
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.HorizontalMarginItemDecoration
@@ -25,6 +25,7 @@ import org.hyperskill.app.android.core.view.ui.adapter.decoration.VerticalMargin
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentTrackBinding
 import org.hyperskill.app.android.step.view.screen.StepScreen
+import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.presentation.TrackFeature
@@ -33,7 +34,6 @@ import ru.nobird.android.ui.adapterdelegates.dsl.adapterDelegate
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
-import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 import kotlin.math.roundToInt
@@ -94,7 +94,7 @@ class TrackFragment :
             is TrackFeature.Action.ViewAction.NavigateTo.StepScreen ->
                 requireRouter().navigateTo(StepScreen(action.stepId))
             is TrackFeature.Action.ViewAction.OpenUrl ->
-                requireContext().launchUrl(action.url)
+                requireContext().openUrl(action.url)
             is TrackFeature.Action.ViewAction.ShowGetMagicLinkError ->
                 viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
         }
@@ -203,7 +203,7 @@ class TrackFragment :
             trackAboutUsefulnessTextView.text = "${content.trackProgress.averageRating}"
             val hoursToComplete = (content.track.secondsToComplete / 3600).roundToInt()
             trackAboutAllPerformTimeTextView.text = resources.getQuantityString(
-                R.plurals.hours,
+                org.hyperskill.app.R.plurals.hours,
                 hoursToComplete,
                 hoursToComplete
             )
@@ -212,7 +212,7 @@ class TrackFragment :
                 trackAboutProjectsCountTextView.visibility = View.GONE
             } else {
                 trackAboutProjectsCountTextView.text = resources.getQuantityString(
-                    R.plurals.projects,
+                    org.hyperskill.app.R.plurals.projects,
                     content.track.projects.size,
                     content.track.projects.size
                 )
@@ -222,7 +222,7 @@ class TrackFragment :
                 trackAboutTopicsCountTextView.visibility = View.GONE
             } else {
                 trackAboutTopicsCountTextView.text = resources.getQuantityString(
-                    R.plurals.topics,
+                    org.hyperskill.app.R.plurals.topics,
                     content.track.topicsCount,
                     content.track.topicsCount
                 )

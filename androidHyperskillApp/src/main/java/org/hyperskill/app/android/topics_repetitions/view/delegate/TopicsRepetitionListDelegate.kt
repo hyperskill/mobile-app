@@ -89,7 +89,7 @@ class TopicsRepetitionListDelegate(
                 if (state.topicsToRepeatFromOtherTracks.isNotEmpty()) {
                     add(
                         TopicsRepetitionListItem.Header(
-                            context.getString(R.string.topics_repetitions_repeat_block_other_tracks)
+                            context.getString(org.hyperskill.app.R.string.topics_repetitions_repeat_block_other_tracks)
                         )
                     )
                     addAll(state.topicsToRepeatFromOtherTracks.map(TopicsRepetitionListItem::Topic))
