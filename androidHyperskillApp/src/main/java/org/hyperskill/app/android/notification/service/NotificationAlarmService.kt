@@ -6,6 +6,7 @@ import androidx.core.app.JobIntentService
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.notification.NotificationPublisher
 
+@Deprecated("Replace with WorkManager")
 class NotificationAlarmService : JobIntentService() {
     private lateinit var notificationPublisher: NotificationPublisher
 
