@@ -19,8 +19,6 @@ class AuthFragment : FlowFragment(), AuthFlow {
                 }
     }
 
-    // TODO: read for more info https://vyahhi.myjetbrains.com/youtrack/issue/ALTAPPS-505
-    // Based on this flag we should hide/show sign with email button and change title to Sign up
     private var isInSignUpMode: Boolean by argument()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +34,6 @@ class AuthFragment : FlowFragment(), AuthFlow {
     }
 
     private fun initNavigation() {
-        router.newRootScreen(AuthSocialScreen)
+        router.newRootScreen(AuthSocialScreen(isInSignUpMode))
     }
 }

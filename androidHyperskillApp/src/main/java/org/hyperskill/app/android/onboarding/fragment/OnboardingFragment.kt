@@ -13,6 +13,7 @@ import org.hyperskill.app.android.databinding.FragmentOnboardingBinding
 import org.hyperskill.app.android.placeholder_new_user.navigation.PlaceholderNewUserScreen
 import org.hyperskill.app.onboarding.presentation.OnboardingFeature
 import org.hyperskill.app.onboarding.presentation.OnboardingViewModel
+import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -29,6 +30,8 @@ class OnboardingFragment :
     private lateinit var viewModelFactory: ViewModelProvider.Factory
     private val onboardingViewModel: OnboardingViewModel by reduxViewModel(this) { viewModelFactory }
 
+    private var viewStateDelegate: ViewStateDelegate<OnboardingFeature.State>? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponents()
@@ -44,6 +47,8 @@ class OnboardingFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initViewStateDelegate()
+
         viewBinding.onboardingSignInButton.setOnClickListener {
             onboardingViewModel.onNewMessage(OnboardingFeature.Message.ClickedSignInEventMessage)
             requireRouter().navigateTo(AuthScreen())
@@ -57,6 +62,20 @@ class OnboardingFragment :
         onboardingViewModel.onNewMessage(OnboardingFeature.Message.ViewedEventMessage)
     }
 
+    private fun initViewStateDelegate() {
+        viewStateDelegate = ViewStateDelegate<OnboardingFeature.State>().apply {
+            addState<OnboardingFeature.State.Idle>()
+            addState<OnboardingFeature.State.Loading>(viewBinding.onboardingProgressBar)
+            addState<OnboardingFeature.State.NetworkError>(viewBinding.onboardingError.root)
+            addState<OnboardingFeature.State.Content>(viewBinding.onboardingContent)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewStateDelegate = null
+    }
+
     override fun onAction(action: OnboardingFeature.Action.ViewAction) {
         when (action) {
             is OnboardingFeature.Action.ViewAction.NavigateTo.AuthScreen ->
@@ -66,10 +85,7 @@ class OnboardingFragment :
         }
     }
 
-    // TODO: read for more info https://vyahhi.myjetbrains.com/youtrack/issue/ALTAPPS-505
-    // Support all state OnboardingFeature.State's
-    // show loading, error and etc
     override fun render(state: OnboardingFeature.State) {
-        // no op
+        viewStateDelegate?.switchState(state)
     }
 }
