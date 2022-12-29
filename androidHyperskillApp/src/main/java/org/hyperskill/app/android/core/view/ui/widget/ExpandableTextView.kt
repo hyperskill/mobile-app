@@ -74,7 +74,7 @@ constructor(
         }
 
     @ColorInt
-    var expandActionColor: Int = ContextCompat.getColor(context, R.color.color_primary)
+    var expandActionColor: Int = ContextCompat.getColor(context, org.hyperskill.app.R.color.color_primary)
         set(value) {
             field = value
             val colorSpan = ForegroundColorSpan(value)

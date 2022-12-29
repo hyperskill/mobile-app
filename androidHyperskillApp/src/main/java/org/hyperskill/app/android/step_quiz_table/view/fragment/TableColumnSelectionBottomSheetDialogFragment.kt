@@ -87,9 +87,9 @@ class TableColumnSelectionBottomSheetDialogFragment : BottomSheetDialogFragment(
         }
 
         val (@StringRes description, delegate) = if (isCheckBox) {
-            R.string.step_quiz_table_multiple_choice to TableColumnMultipleSelectionItemAdapterDelegate(selectionHelper, ::handleColumnSelectionClick)
+            org.hyperskill.app.R.string.step_quiz_table_multiple_choice to TableColumnMultipleSelectionItemAdapterDelegate(selectionHelper, ::handleColumnSelectionClick)
         } else {
-            R.string.step_quiz_table_single_choice to TableColumnSingleSelectionItemAdapterDelegate(selectionHelper, ::handleColumnSelectionClick)
+            org.hyperskill.app.R.string.step_quiz_table_single_choice to TableColumnSingleSelectionItemAdapterDelegate(selectionHelper, ::handleColumnSelectionClick)
         }
         viewBinding.tableColumnSelectionInformation.setText(description)
         columnsAdapter += delegate

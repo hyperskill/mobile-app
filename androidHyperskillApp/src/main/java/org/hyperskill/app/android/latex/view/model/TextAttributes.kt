@@ -33,13 +33,13 @@ data class TextAttributes(
                 android.R.attr.textColor,
                 android.R.attr.textColorHighlight,
                 android.R.attr.textIsSelectable,
-                R.attr.fontFamily,
+                androidx.appcompat.R.attr.fontFamily,
                 R.attr.isNightMode
             ).apply { sort() }
 
         @SuppressLint("ResourceType")
         fun fromAttributeSet(context: Context, attrs: AttributeSet?): TextAttributes {
-            val colorOnSurface = context.resolveColorAttribute(R.attr.colorOnSurface)
+            val colorOnSurface = context.resolveColorAttribute(com.google.android.material.R.attr.colorOnSurface)
             val alphaEmphasisHigh = context.resolveFloatAttribute(R.attr.alphaEmphasisHigh)
 
             // default params
@@ -100,7 +100,7 @@ data class TextAttributes(
                     array.getBoolean(attrsSet.indexOf(android.R.attr.textIsSelectable), textAttributes.textIsSelectable),
 
                     fontResId =
-                    array.getResourceId(attrsSet.indexOf(R.attr.fontFamily), textAttributes.fontResId),
+                    array.getResourceId(attrsSet.indexOf(androidx.appcompat.R.attr.fontFamily), textAttributes.fontResId),
 
                     isNightMode =
                     array.getBoolean(attrsSet.indexOf(R.attr.isNightMode), textAttributes.isNightMode)
