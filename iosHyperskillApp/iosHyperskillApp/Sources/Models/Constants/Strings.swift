@@ -31,6 +31,7 @@ enum Strings {
 
         enum Social {
             static let logInTitle = sharedStrings.auth_log_in_title.localized()
+            static let signUpTitle = sharedStrings.auth_sign_up_title.localized()
             static let jetBrainsAccount = sharedStrings.auth_jetbrains_account_text.localized()
             static let googleAccount = sharedStrings.auth_google_account_text.localized()
             static let gitHubAccount = sharedStrings.auth_github_account_text.localized()

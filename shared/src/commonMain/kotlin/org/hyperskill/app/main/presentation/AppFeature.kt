@@ -33,7 +33,7 @@ interface AppFeature {
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
                 object HomeScreen : NavigateTo
-                object AuthScreen : NavigateTo
+                data class AuthScreen(val isInSignUpMode: Boolean = false) : NavigateTo
                 object NewUserScreen : NavigateTo
                 object OnboardingScreen : NavigateTo
             }

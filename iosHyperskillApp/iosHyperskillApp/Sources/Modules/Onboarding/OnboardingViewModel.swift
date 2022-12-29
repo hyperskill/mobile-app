@@ -8,8 +8,17 @@ final class OnboardingViewModel: FeatureViewModel<
 > {
     weak var moduleOutput: OnboardingOutputProtocol?
 
-    func loadOnboarding() {
-        onNewMessage(OnboardingFeatureMessageInitialize())
+    var stateKs: OnboardingFeatureStateKs { .init(state) }
+
+    override func shouldNotifyStateDidChange(
+        oldState: OnboardingFeatureState,
+        newState: OnboardingFeatureState
+    ) -> Bool {
+        OnboardingFeatureStateKs(oldState) != OnboardingFeatureStateKs(newState)
+    }
+
+    func loadOnboarding(forceUpdate: Bool = false) {
+        onNewMessage(OnboardingFeatureMessageInitialize(forceUpdate: forceUpdate))
     }
 
     func doSignPresentation() {
@@ -17,9 +26,12 @@ final class OnboardingViewModel: FeatureViewModel<
         moduleOutput?.handleOnboardingSignInRequested()
     }
 
-    func doSignUpPresentation() {
-        logClickedSignUnEvent()
-        moduleOutput?.handleOnboardingSignUpRequested()
+    func doClickedSignUpAction() {
+        onNewMessage(OnboardingFeatureMessageClickedSignUn())
+    }
+
+    func doSignUpPresentation(isInSignUpMode: Bool) {
+        moduleOutput?.handleOnboardingSignUpRequested(isInSignUpMode: isInSignUpMode)
     }
 
     // MARK: Analytic
@@ -30,9 +42,5 @@ final class OnboardingViewModel: FeatureViewModel<
 
     private func logClickedSignInEvent() {
         onNewMessage(OnboardingFeatureMessageClickedSignInEventMessage())
-    }
-
-    private func logClickedSignUnEvent() {
-        onNewMessage(OnboardingFeatureMessageClickedSignUnEventMessage())
     }
 }

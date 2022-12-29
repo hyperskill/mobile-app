@@ -13,19 +13,10 @@ struct AuthSocialControlsView: View {
 
     let socialAuthProviders: [SocialAuthProvider]
 
-    private let onSocialAuthProviderClick: ((SocialAuthProvider) -> Void)
+    let isContinueWithEmailAvailable: Bool
 
-    private let onContinueWithEmailClick: (() -> Void)
-
-    init(
-        socialAuthProviders: [SocialAuthProvider],
-        onSocialAuthProviderClick: @escaping (SocialAuthProvider) -> Void = { _ in },
-        onContinueWithEmailClick: @escaping () -> Void = {}
-    ) {
-        self.socialAuthProviders = socialAuthProviders
-        self.onSocialAuthProviderClick = onSocialAuthProviderClick
-        self.onContinueWithEmailClick = onContinueWithEmailClick
-    }
+    let onSocialAuthProviderClick: ((SocialAuthProvider) -> Void)
+    let onContinueWithEmailClick: (() -> Void)
 
     var body: some View {
         VStack {
@@ -39,10 +30,12 @@ struct AuthSocialControlsView: View {
                 )
             }
 
-            Button(Strings.Auth.Social.emailText, action: self.onContinueWithEmailClick)
-                .font(.body)
-                .foregroundColor(Color(appearance.continueWithEmailButtonTextColor))
-                .padding(appearance.continueWithEmailButtonLayoutInsets.edgeInsets)
+            if isContinueWithEmailAvailable {
+                Button(Strings.Auth.Social.emailText, action: self.onContinueWithEmailClick)
+                    .font(.body)
+                    .foregroundColor(Color(appearance.continueWithEmailButtonTextColor))
+                    .padding(appearance.continueWithEmailButtonLayoutInsets.edgeInsets)
+            }
         }
     }
 }
@@ -78,11 +71,21 @@ private extension SocialAuthProvider {
 struct AuthSocialControlsView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            AuthSocialControlsView(socialAuthProviders: SocialAuthProvider.allCases)
-                .preferredColorScheme(.light)
+            AuthSocialControlsView(
+                socialAuthProviders: SocialAuthProvider.allCases,
+                isContinueWithEmailAvailable: true,
+                onSocialAuthProviderClick: { _ in },
+                onContinueWithEmailClick: {}
+            )
+            .preferredColorScheme(.light)
 
-            AuthSocialControlsView(socialAuthProviders: SocialAuthProvider.allCases)
-                .preferredColorScheme(.dark)
+            AuthSocialControlsView(
+                socialAuthProviders: SocialAuthProvider.allCases,
+                isContinueWithEmailAvailable: true,
+                onSocialAuthProviderClick: { _ in },
+                onContinueWithEmailClick: {}
+            )
+            .preferredColorScheme(.dark)
         }
         .previewLayout(.sizeThatFits)
         .padding()

@@ -22,6 +22,34 @@ struct OnboardingView: View {
 
             BackgroundView()
 
+            buildBody()
+        }
+        .onAppear {
+            viewModel.startListening()
+            viewModel.onViewAction = handleViewAction(_:)
+        }
+        .onDisappear(perform: viewModel.stopListening)
+    }
+
+    // MARK: Private API
+
+    @ViewBuilder
+    private func buildBody() -> some View {
+        switch viewModel.stateKs {
+        case .idle:
+            ProgressView()
+                .onAppear {
+                    viewModel.loadOnboarding()
+                }
+        case .loading:
+            ProgressView()
+        case .networkError:
+            PlaceholderView(
+                configuration: .networkError(backgroundColor: .clear) {
+                    viewModel.loadOnboarding(forceUpdate: true)
+                }
+            )
+        case .content:
             VStack(alignment: .center, spacing: LayoutInsets.largeInset) {
                 if horizontalSizeClass == .regular {
                     Spacer()
@@ -52,7 +80,7 @@ struct OnboardingView: View {
                 Button(Strings.Onboarding.signIn, action: viewModel.doSignPresentation)
                     .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
 
-                Button(Strings.Onboarding.signUp, action: viewModel.doSignUpPresentation)
+                Button(Strings.Onboarding.signUp, action: viewModel.doClickedSignUpAction)
                     .buttonStyle(OutlineButtonStyle(style: .violet))
 
                 if horizontalSizeClass == .regular {
@@ -62,19 +90,18 @@ struct OnboardingView: View {
             .frame(maxWidth: appearance.contentMaxWidth)
             .padding()
         }
-        .onAppear {
-            viewModel.startListening()
-            viewModel.onViewAction = handleViewAction(_:)
-
-            viewModel.loadOnboarding()
-        }
-        .onDisappear(perform: viewModel.stopListening)
     }
 
-    // MARK: Private API
-
     private func handleViewAction(_ viewAction: OnboardingFeatureActionViewAction) {
-        print("OnboardingView :: \(#function) viewAction = \(viewAction)")
+        switch OnboardingFeatureActionViewActionKs(viewAction) {
+        case .navigateTo(let navigateToViewAction):
+            switch OnboardingFeatureActionViewActionNavigateToKs(navigateToViewAction) {
+            case .authScreen(let data):
+                viewModel.doSignUpPresentation(isInSignUpMode: data.isInSignUpMode)
+            case .newUserScreen:
+                viewModel.doSignPresentation()
+            }
+        }
     }
 }
 

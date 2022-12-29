@@ -3,6 +3,7 @@ package org.hyperskill.app.android.auth.view.ui.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,6 +32,7 @@ import org.hyperskill.app.auth.presentation.AuthSocialViewModel
 import org.hyperskill.app.auth.view.mapper.AuthSocialErrorMapper
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
+import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -42,8 +44,10 @@ class AuthSocialFragment :
     AuthSocialWebViewFragment.Callback {
 
     companion object {
-        fun newInstance(): AuthSocialFragment =
-            AuthSocialFragment()
+        fun newInstance(isInSignUpMode: Boolean): AuthSocialFragment =
+            AuthSocialFragment().apply {
+                this.isInSignUpMode = isInSignUpMode
+            }
     }
 
     private lateinit var resourceProvider: ResourceProvider
@@ -58,6 +62,8 @@ class AuthSocialFragment :
     private val authMaterialCardViewsAdapter: DefaultDelegateAdapter<AuthSocialCardInfo> = DefaultDelegateAdapter()
 
     private var currentSocialAuthProvider: SocialAuthProvider? = null
+
+    private var isInSignUpMode: Boolean by argument()
 
     private val signInWithGoogleCallback =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { res ->
@@ -113,6 +119,23 @@ class AuthSocialFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        with(viewBinding.signInWithEmailMaterialButton) {
+            isVisible = !isInSignUpMode
+            setOnClickListener {
+                authSocialViewModel.onNewMessage(AuthSocialFeature.Message.ClickedContinueWithEmailEventMessage)
+                requireRouter().navigateTo(AuthEmailScreen)
+            }
+        }
+
+        viewBinding.signInToTextView.setText(
+            if (isInSignUpMode) {
+                org.hyperskill.app.R.string.auth_sign_up_title
+            } else {
+                org.hyperskill.app.R.string.auth_log_in_title
+            }
+        )
+
         authMaterialCardViewsAdapter.items = listOf(
             AuthSocialCardInfo.JETBRAINS,
             AuthSocialCardInfo.GOOGLE,
@@ -120,11 +143,6 @@ class AuthSocialFragment :
         )
         viewBinding.authButtonsRecyclerView.layoutManager = LinearLayoutManager(context)
         viewBinding.authButtonsRecyclerView.adapter = authMaterialCardViewsAdapter
-
-        viewBinding.signInWithEmailMaterialButton.setOnClickListener {
-            authSocialViewModel.onNewMessage(AuthSocialFeature.Message.ClickedContinueWithEmailEventMessage)
-            requireRouter().navigateTo(AuthEmailScreen)
-        }
 
         authSocialViewModel.onNewMessage(AuthSocialFeature.Message.ViewedEventMessage)
     }

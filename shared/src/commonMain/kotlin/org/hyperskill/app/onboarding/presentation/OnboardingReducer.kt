@@ -12,12 +12,43 @@ class OnboardingReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
             is Message.Initialize ->
-                state to setOf(Action.FetchOnboarding)
+                if (state is State.Idle ||
+                    (message.forceUpdate && (state is State.Content || state is State.NetworkError))
+                ) {
+                    State.Loading to setOf(Action.FetchOnboarding)
+                } else {
+                    null
+                }
+            is Message.OnboardingSuccess ->
+                if (state is State.Loading) {
+                    State.Content(isAuthorized = !message.profile.isGuest) to emptySet()
+                } else {
+                    null
+                }
+            is Message.OnboardingFailure ->
+                if (state is State.Loading) {
+                    State.NetworkError to emptySet()
+                } else {
+                    null
+                }
+            is Message.ClickedSignUn ->
+                if (state is State.Content) {
+                    val navigateToViewAction = if (state.isAuthorized) {
+                        Action.ViewAction.NavigateTo.NewUserScreen
+                    } else {
+                        Action.ViewAction.NavigateTo.AuthScreen(isInSignUpMode = true)
+                    }
+
+                    state to setOf(
+                        Action.LogAnalyticEvent(OnboardingClickedSignUnHyperskillAnalyticEvent()),
+                        navigateToViewAction
+                    )
+                } else {
+                    null
+                }
             is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(OnboardingViewedHyperskillAnalyticEvent()))
             is Message.ClickedSignInEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(OnboardingClickedSignInHyperskillAnalyticEvent()))
-            is Message.ClickedSignUnEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(OnboardingClickedSignUnHyperskillAnalyticEvent()))
-        }
+        } ?: (state to emptySet())
 }

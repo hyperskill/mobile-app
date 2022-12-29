@@ -92,7 +92,7 @@ class AuthCredentialsFragment :
         }
         viewBinding.signInWithSocialMaterialButton.setOnClickListener {
             authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.ClickedContinueWithSocialEventMessage)
-            requireRouter().backTo(AuthSocialScreen)
+            requireRouter().backTo(AuthSocialScreen())
         }
 
         viewBinding.root.addKeyboardVisibilityListener { isVisible ->

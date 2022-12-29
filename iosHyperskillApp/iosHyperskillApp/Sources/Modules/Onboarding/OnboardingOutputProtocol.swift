@@ -3,5 +3,5 @@ import Foundation
 protocol OnboardingOutputProtocol: AnyObject {
     func handleOnboardingSignInRequested()
 
-    func handleOnboardingSignUpRequested()
+    func handleOnboardingSignUpRequested(isInSignUpMode: Bool)
 }
