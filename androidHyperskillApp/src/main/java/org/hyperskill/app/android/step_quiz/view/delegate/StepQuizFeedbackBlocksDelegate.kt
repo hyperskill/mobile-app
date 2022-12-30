@@ -58,6 +58,9 @@ class StepQuizFeedbackBlocksDelegate(
             }
             is StepQuizFeedbackState.Validation ->
                 layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackValidation.text = state.message
+            else -> {
+                // no op
+            }
         }
     }
 

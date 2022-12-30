@@ -154,6 +154,9 @@ class MainActivity :
                 window.statusBarColor = ContextCompat.getColor(this, org.hyperskill.app.R.color.color_black_900)
             is AppFeature.State.Ready ->
                 window.statusBarColor = resolveColorAttribute(com.google.android.material.R.attr.colorPrimaryVariant)
+            else -> {
+                // no op
+            }
         }
     }
 

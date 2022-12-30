@@ -53,6 +53,9 @@ class ProfileSettingsActionDispatcher(
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
             is Action.GetMagicLink -> getLink(action.path, ::onNewMessage)
+            else -> {
+                // no op
+            }
         }
     }
 
