@@ -9,16 +9,20 @@ struct StepView: View {
     @StateObject var modalRouter: SwiftUIModalRouter
 
     var body: some View {
-        buildBody()
-            .navigationBarHidden(false)
-            .onAppear {
-                viewModel.startListening()
-                viewModel.onViewAction = handleViewAction(_:)
-                viewModel.logViewedEvent()
-            }
-            .onDisappear(perform: viewModel.stopListening)
-            .environmentObject(pushRouter)
-            .environmentObject(modalRouter)
+        ZStack {
+            UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
+
+            buildBody()
+        }
+        .navigationBarHidden(false)
+        .onAppear {
+            viewModel.startListening()
+            viewModel.onViewAction = handleViewAction(_:)
+            viewModel.logViewedEvent()
+        }
+        .onDisappear(perform: viewModel.stopListening)
+        .environmentObject(pushRouter)
+        .environmentObject(modalRouter)
     }
 
     // MARK: Private API

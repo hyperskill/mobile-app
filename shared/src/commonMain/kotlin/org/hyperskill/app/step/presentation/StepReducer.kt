@@ -3,7 +3,7 @@ package org.hyperskill.app.step.presentation
 import org.hyperskill.app.step.presentation.StepFeature.Action
 import org.hyperskill.app.step.presentation.StepFeature.Message
 import org.hyperskill.app.step.presentation.StepFeature.State
-import org.hyperskill.app.step_quiz.domain.analytic.StepQuizViewedHyperskillAnalyticEvent
+import org.hyperskill.app.step.domain.analytic.StepViewedHyperskillAnalyticEvent
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 class StepReducer : StateReducer<State, Message, Action> {
@@ -24,7 +24,7 @@ class StepReducer : StateReducer<State, Message, Action> {
             is Message.ViewedEventMessage ->
                 state to setOf(
                     Action.LogAnalyticEvent(
-                        StepQuizViewedHyperskillAnalyticEvent(
+                        StepViewedHyperskillAnalyticEvent(
                             message.stepRoute.analyticRoute
                         )
                     )

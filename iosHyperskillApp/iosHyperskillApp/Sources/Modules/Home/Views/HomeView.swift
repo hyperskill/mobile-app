@@ -137,7 +137,7 @@ struct HomeView: View {
         case .navigateTo(let navigateToViewAction):
             switch HomeFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .stepScreen(let data):
-                let assembly = StepAssembly(stepRoute: StepRouteLearnDaily(stepId: data.stepId))
+                let assembly = StepAssembly(stepRoute: data.stepRoute)
                 pushRouter.pushViewController(assembly.makeModule())
             case .topicsRepetitionsScreen:
                 let assembly = TopicsRepetitionsAssembly()
