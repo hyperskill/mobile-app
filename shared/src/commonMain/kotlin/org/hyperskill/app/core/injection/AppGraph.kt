@@ -24,6 +24,7 @@ import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.sentry.injection.SentryComponent
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
@@ -49,7 +50,7 @@ interface AppGraph {
     fun buildAuthSocialComponent(): AuthSocialComponent
     fun buildAuthCredentialsComponent(): AuthCredentialsComponent
     fun buildStepComponent(): StepComponent
-    fun buildStepQuizComponent(): StepQuizComponent
+    fun buildStepQuizComponent(stepRoute: StepRoute): StepQuizComponent
     fun buildProfileDataComponent(): ProfileDataComponent
     fun buildTrackComponent(): TrackComponent
     fun buildTrackDataComponent(): TrackDataComponent

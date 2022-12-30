@@ -20,7 +20,7 @@ sealed class HyperskillAnalyticRoute {
         override val path: String = "/register"
     }
 
-    open class Learn : HyperskillAnalyticRoute() {
+    sealed class Learn : HyperskillAnalyticRoute() {
         override val path: String = "/learn"
 
         class Daily(stepId: Long) : Learn() {
@@ -38,8 +38,13 @@ sealed class HyperskillAnalyticRoute {
         override val path: String = "/home"
     }
 
-    class Repeat : HyperskillAnalyticRoute() {
+    open class Repeat : HyperskillAnalyticRoute() {
         override val path: String = "/repeat"
+
+        class Step(stepId: Long) : Repeat() {
+            override val path: String =
+                "${super.path}/step/$stepId"
+        }
     }
 
     class Track : HyperskillAnalyticRoute() {

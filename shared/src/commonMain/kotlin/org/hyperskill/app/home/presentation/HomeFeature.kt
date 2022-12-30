@@ -3,6 +3,7 @@ package org.hyperskill.app.home.presentation
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.streak.domain.model.Streak
 
 interface HomeFeature {
@@ -100,7 +101,7 @@ interface HomeFeature {
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
                 object ProfileTab : NavigateTo
-                data class StepScreen(val stepId: Long) : NavigateTo
+                data class StepScreen(val stepRoute: StepRoute) : NavigateTo
                 object TopicsRepetitionsScreen : NavigateTo
             }
 

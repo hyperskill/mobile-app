@@ -25,31 +25,28 @@ struct StepQuizView: View {
     @Environment(\.presentationMode) private var presentationMode
 
     var body: some View {
-        ZStack {
-            UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
+        buildBody()
+            .navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                viewModel.startListening()
+                viewModel.onViewAction = handleViewAction(_:)
 
-            buildBody()
-        }
-        .navigationBarTitleDisplayMode(.inline)
-        .onAppear {
-            viewModel.startListening()
-            viewModel.onViewAction = handleViewAction(_:)
-
-            if viewModel.state is StepQuizFeatureStateIdle {
-                viewModel.loadAttempt()
+                if viewModel.state is StepQuizFeatureStateIdle {
+                    viewModel.loadAttempt()
+                }
             }
-        }
-        .onDisappear(perform: viewModel.stopListening)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                if let theoryID = viewModel.step.topicTheory {
-                    Button(Strings.Step.theory) {
-                        let assembly = StepAssembly(stepID: theoryID.intValue)
-                        pushRouter.pushViewController(assembly.makeModule())
+            .onDisappear(perform: viewModel.stopListening)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    if viewModel.stepRoute is StepRouteRepeat,
+                       let theoryID = viewModel.step.topicTheory {
+                        Button(Strings.Step.theory) {
+                            let assembly = StepAssembly(stepRoute: StepRouteRepeat(stepId: theoryID.int64Value))
+                            pushRouter.pushViewController(assembly.makeModule())
+                        }
                     }
                 }
             }
-        }
     }
 
     // MARK: Private API
