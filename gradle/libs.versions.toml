@@ -1,6 +1,6 @@
 [versions]
 androidGradlePlugin = '7.2.2'
-kotlin = '1.7.20'
+kotlin = '1.7.21'
 kotlinCoroutines = '1.6.4'
 ktor = '2.0.0'
 mokoResources = "0.20.1"
@@ -10,14 +10,15 @@ adapters = '1.1.1'
 sentry = '5.7.3'
 fragment = '1.4.1'
 flipper = '0.148.0'
+dokka = '1.7.20'
 
 kitPresentationRedux = '1.3.1'
 
 [libraries]
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 plugin-kotlinSerialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
-plugin-dokka = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "kotlin" }
-plugin-dokkaBase = { module = "org.jetbrains.dokka:dokka-base", version.ref = "kotlin" }
+plugin-dokka = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
+plugin-dokkaBase = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
 plugin-android = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
 plugin-ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version = "10.2.0" }
 plugin-gradleVersionUpdates = { module = "com.github.ben-manes:gradle-versions-plugin", version = "0.39.0" }
