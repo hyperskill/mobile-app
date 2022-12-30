@@ -1,22 +1,32 @@
 package org.hyperskill.app.step.domain.model
 
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 
-sealed class StepRoute(val stepId: Long) {
-    abstract val analyticRoute: HyperskillAnalyticRoute
+@Serializable
+sealed interface StepRoute {
+    val analyticRoute: HyperskillAnalyticRoute
+    val stepId: Long
 
-    class Learn(stepId: Long) : StepRoute(stepId) {
+    @Serializable
+    class Learn(override val stepId: Long) : StepRoute {
+        @Transient
         override val analyticRoute: HyperskillAnalyticRoute =
-            HyperskillAnalyticRoute.Learn.Step(super.stepId)
+            HyperskillAnalyticRoute.Learn.Step(stepId)
     }
 
-    class LearnDaily(stepId: Long) : StepRoute(stepId) {
+    @Serializable
+    class LearnDaily(override val stepId: Long) : StepRoute {
+        @Transient
         override val analyticRoute: HyperskillAnalyticRoute =
-            HyperskillAnalyticRoute.Learn.Daily(super.stepId)
+            HyperskillAnalyticRoute.Learn.Daily(stepId)
     }
 
-    class Repeat(stepId: Long) : StepRoute(stepId) {
+    @Serializable
+    class Repeat(override val stepId: Long) : StepRoute {
+        @Transient
         override val analyticRoute: HyperskillAnalyticRoute =
-            HyperskillAnalyticRoute.Repeat.Step(super.stepId)
+            HyperskillAnalyticRoute.Repeat.Step(stepId)
     }
 }

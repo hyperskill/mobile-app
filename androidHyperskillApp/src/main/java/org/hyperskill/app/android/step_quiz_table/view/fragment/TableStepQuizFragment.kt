@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.chrynan.parcelable.core.putParcelable
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizTableBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.fragment.DefaultStepQuizFragment
 import org.hyperskill.app.android.step_quiz_table.view.delegate.TableStepQuizFormDelegate
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.model.submissions.Cell
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import ru.nobird.app.presentation.redux.container.ReduxView
@@ -20,14 +20,11 @@ class TableStepQuizFragment :
     ReduxView<StepQuizFeature.State, StepQuizFeature.Action.ViewAction>,
     TableColumnSelectionBottomSheetDialogFragment.Callback {
     companion object {
-        fun newInstance(step: Step): Fragment {
-            val arguments = Bundle().apply {
-                putParcelable(KEY_STEP, step)
+        fun newInstance(step: Step, stepRoute: StepRoute): Fragment =
+            TableStepQuizFragment().apply {
+                this.step = step
+                this.stepRoute = stepRoute
             }
-            return TableStepQuizFragment().apply {
-                this.arguments = arguments
-            }
-        }
     }
 
     private var _binding: LayoutStepQuizTableBinding? = null

@@ -11,10 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.chrynan.parcelable.core.getParcelable
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.extensions.isChannelNotificationsEnabled
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
@@ -27,6 +27,7 @@ import org.hyperskill.app.android.step_quiz.view.mapper.StepQuizFeedbackMapper
 import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.model.permissions.StepQuizUserPermissionRequest
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
@@ -42,10 +43,6 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 
 abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), ReduxView<StepQuizFeature.State, StepQuizFeature.Action.ViewAction> {
 
-    companion object {
-        const val KEY_STEP = "key_step"
-    }
-
     private lateinit var userPermissionRequestTextMapper: StepQuizUserPermissionRequestTextMapper
     private lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -60,16 +57,16 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
     protected abstract val quizViews: Array<View>
     protected abstract val skeletonView: View
 
-    protected lateinit var step: Step
+    protected var step: Step by argument(serializer = Step.serializer())
+    protected var stepRoute: StepRoute by argument(serializer = StepRoute.serializer())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponent()
-        step = requireArguments().getParcelable<Step>(KEY_STEP) ?: throw IllegalStateException()
     }
 
     private fun injectComponent() {
-        val stepQuizComponent = HyperskillApp.graph().buildStepQuizComponent(TODO())
+        val stepQuizComponent = HyperskillApp.graph().buildStepQuizComponent(stepRoute)
         val platformStepQuizComponent = HyperskillApp.graph().buildPlatformStepQuizComponent(stepQuizComponent)
         userPermissionRequestTextMapper = stepQuizComponent.stepQuizUserPermissionRequestTextMapper
         viewModelFactory = platformStepQuizComponent.reduxViewModelFactory

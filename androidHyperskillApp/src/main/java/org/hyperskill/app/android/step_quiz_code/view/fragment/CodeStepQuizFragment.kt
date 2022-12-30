@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import com.chrynan.parcelable.core.putParcelable
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizCodeBinding
@@ -17,6 +16,7 @@ import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeStepQuizFormD
 import org.hyperskill.app.android.step_quiz_fullscreen_code.dialog.CodeStepQuizFullScreenDialogFragment
 import org.hyperskill.app.step.domain.model.Block
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.app.presentation.redux.container.ReduxView
@@ -27,14 +27,11 @@ class CodeStepQuizFragment :
     CodeStepQuizFullScreenDialogFragment.Callback {
 
     companion object {
-        fun newInstance(step: Step): Fragment {
-            val arguments = Bundle().apply {
-                putParcelable(KEY_STEP, step)
+        fun newInstance(step: Step, stepRoute: StepRoute): Fragment =
+            CodeStepQuizFragment().apply {
+                this.step = step
+                this.stepRoute = stepRoute
             }
-            return CodeStepQuizFragment().apply {
-                this.arguments = arguments
-            }
-        }
     }
 
     private var _binding: LayoutStepQuizCodeBinding? = null

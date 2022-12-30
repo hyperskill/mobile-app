@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.databinding.FragmentStepBinding
 import org.hyperskill.app.android.step_practice.view.fragment.StepPracticeFragment
 import org.hyperskill.app.android.step_theory.view.fragment.StepTheoryFragment
@@ -15,7 +16,6 @@ import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step.presentation.StepViewModel
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
-import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -36,7 +36,7 @@ class StepFragment : Fragment(R.layout.fragment_step), ReduxView<StepFeature.Sta
     private val stepViewModel: StepViewModel by reduxViewModel(this) { viewModelFactory }
     private val viewStateDelegate: ViewStateDelegate<StepFeature.State> = ViewStateDelegate()
 
-    private var stepRoute: StepRoute by argument()
+    private var stepRoute: StepRoute by argument(serializer = StepRoute.serializer())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,7 +85,7 @@ class StepFragment : Fragment(R.layout.fragment_step), ReduxView<StepFeature.Sta
         }
 
         val fragment = if (step.type == Step.Type.PRACTICE) {
-            StepPracticeFragment.newInstance(step)
+            StepPracticeFragment.newInstance(step, stepRoute)
         } else {
             StepTheoryFragment.newInstance(step)
         }
