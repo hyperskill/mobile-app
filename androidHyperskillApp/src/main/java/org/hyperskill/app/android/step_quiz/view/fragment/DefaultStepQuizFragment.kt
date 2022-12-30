@@ -69,7 +69,7 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
     }
 
     private fun injectComponent() {
-        val stepQuizComponent = HyperskillApp.graph().buildStepQuizComponent()
+        val stepQuizComponent = HyperskillApp.graph().buildStepQuizComponent(TODO())
         val platformStepQuizComponent = HyperskillApp.graph().buildPlatformStepQuizComponent(stepQuizComponent)
         userPermissionRequestTextMapper = stepQuizComponent.stepQuizUserPermissionRequestTextMapper
         viewModelFactory = platformStepQuizComponent.reduxViewModelFactory
@@ -98,10 +98,6 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
         }
 
         stepQuizViewModel.onNewMessage(StepQuizFeature.Message.InitWithStep(step))
-
-        step.stepRoute?.let {
-            stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ViewedEventMessage(it))
-        }
     }
 
     protected abstract fun createStepQuizFormDelegate(containerBinding: FragmentStepQuizBinding): StepQuizFormDelegate

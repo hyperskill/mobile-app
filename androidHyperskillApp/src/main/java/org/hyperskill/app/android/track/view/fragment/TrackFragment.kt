@@ -93,7 +93,7 @@ class TrackFragment :
     override fun onAction(action: TrackFeature.Action.ViewAction) {
         when (action) {
             is TrackFeature.Action.ViewAction.NavigateTo.StepScreen ->
-                requireRouter().navigateTo(StepScreen(StepRoute.LearnStepRoute(action.stepId)))
+                requireRouter().navigateTo(StepScreen(StepRoute.Learn(action.stepId)))
             is TrackFeature.Action.ViewAction.OpenUrl ->
                 requireContext().openUrl(action.url)
             is TrackFeature.Action.ViewAction.ShowGetMagicLinkError ->

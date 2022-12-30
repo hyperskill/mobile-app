@@ -5,18 +5,18 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 sealed class StepRoute(val stepId: Long) {
     abstract val analyticRoute: HyperskillAnalyticRoute
 
-    class LearnStepRoute(stepId: Long) : StepRoute(stepId) {
-        override val analyticRoute: HyperskillAnalyticRoute
-            get() = HyperskillAnalyticRoute.Learn.Step(super.stepId)
+    class Learn(stepId: Long) : StepRoute(stepId) {
+        override val analyticRoute: HyperskillAnalyticRoute =
+            HyperskillAnalyticRoute.Learn.Step(super.stepId)
     }
 
-    class LearnDailyStepRoute(stepId: Long) : StepRoute(stepId) {
-        override val analyticRoute: HyperskillAnalyticRoute
-            get() = HyperskillAnalyticRoute.Learn.Daily(super.stepId)
+    class LearnDaily(stepId: Long) : StepRoute(stepId) {
+        override val analyticRoute: HyperskillAnalyticRoute =
+            HyperskillAnalyticRoute.Learn.Daily(super.stepId)
     }
 
-    class RepeatStepRoute(stepId: Long) : StepRoute(stepId) {
-        override val analyticRoute: HyperskillAnalyticRoute
-            get() = HyperskillAnalyticRoute.Repeat.Step(super.stepId)
+    class Repeat(stepId: Long) : StepRoute(stepId) {
+        override val analyticRoute: HyperskillAnalyticRoute =
+            HyperskillAnalyticRoute.Repeat.Step(super.stepId)
     }
 }

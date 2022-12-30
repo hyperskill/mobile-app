@@ -2,7 +2,7 @@ import shared
 import SwiftUI
 
 final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage, StepFeatureActionViewAction> {
-    private let stepRoute: StepRoute
+    let stepRoute: StepRoute
 
     private let viewDataMapper: StepViewDataMapper
 
@@ -28,7 +28,7 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
 
     // MARK: Analytic
 
-    func logClickedBackEvent() {
-        onNewMessage(StepFeatureMessageClickedBackEventMessage())
+    func logViewedEvent() {
+        onNewMessage(StepFeatureMessageViewedEventMessage(stepRoute: stepRoute))
     }
 }

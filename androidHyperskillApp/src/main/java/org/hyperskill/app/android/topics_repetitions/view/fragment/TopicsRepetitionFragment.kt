@@ -114,7 +114,7 @@ class TopicsRepetitionFragment :
     override fun onAction(action: TopicsRepetitionsFeature.Action.ViewAction) {
         when (action) {
             is TopicsRepetitionsFeature.Action.ViewAction.NavigateTo.StepScreen ->
-                requireRouter().navigateTo(StepScreen(StepRoute.RepeatStepRoute(action.stepId)))
+                requireRouter().navigateTo(StepScreen(StepRoute.Repeat(action.stepId)))
             TopicsRepetitionsFeature.Action.ViewAction.ShowNetworkError ->
                 view?.snackbar(messageRes = R.string.connection_error)
         }

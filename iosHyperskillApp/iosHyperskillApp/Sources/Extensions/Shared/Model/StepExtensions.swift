@@ -20,8 +20,7 @@ extension Step {
         solvedBy: Int = 0,
         isCompleted: Bool = false,
         secondsToComplete: Float? = nil,
-        lastCompletedAt: Kotlinx_datetimeInstant = .fromSwiftCurrentDate(),
-        stepRoute: StepRoute = StepRoute.LearnStepRoute(stepId: 0)
+        lastCompletedAt: Kotlinx_datetimeInstant = .fromSwiftCurrentDate()
     ) {
         self.init(
             id: Int64(id),
@@ -41,8 +40,7 @@ extension Step {
             solvedBy: Int32(solvedBy),
             isCompleted: isCompleted,
             secondsToComplete: secondsToComplete != nil ? KotlinFloat(value: secondsToComplete.require()) : nil,
-            lastCompletedAt: lastCompletedAt,
-            stepRoute: stepRoute
+            lastCompletedAt: lastCompletedAt
         )
     }
 }

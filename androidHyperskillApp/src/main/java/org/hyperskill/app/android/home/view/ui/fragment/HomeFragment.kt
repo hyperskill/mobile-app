@@ -122,7 +122,7 @@ class HomeFragment :
 
     private fun onProblemOfDayCardActionButtonClicked(stepId: Long) {
         homeViewModel.onNewMessage(HomeFeature.Message.ClickedProblemOfDayCardEventMessage)
-        requireRouter().navigateTo(StepScreen(StepRoute.LearnDailyStepRoute(stepId)))
+        requireRouter().navigateTo(StepScreen(StepRoute.LearnDaily(stepId)))
     }
 
     private fun initViewStateDelegate() {

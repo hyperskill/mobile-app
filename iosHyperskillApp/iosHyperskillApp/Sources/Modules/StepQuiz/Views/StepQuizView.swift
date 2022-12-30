@@ -26,8 +26,6 @@ struct StepQuizView: View {
 
     var body: some View {
         ZStack {
-            UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
-
             buildBody()
         }
         .navigationBarTitleDisplayMode(.inline)
@@ -42,11 +40,10 @@ struct StepQuizView: View {
         .onDisappear(perform: viewModel.stopListening)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                if let stepRoute = viewModel.step.stepRoute,
-                   stepRoute is StepRoute.RepeatStepRoute,
+                if viewModel.stepRoute is StepRoute.Repeat,
                    let theoryID = viewModel.step.topicTheory {
                     Button(Strings.Step.theory) {
-                        let assembly = StepAssembly(stepRoute: StepRoute.RepeatStepRoute(stepId: theoryID.int64Value))
+                        let assembly = StepAssembly(stepRoute: StepRoute.Repeat(stepId: theoryID.int64Value))
                         pushRouter.pushViewController(assembly.makeModule())
                     }
                 }

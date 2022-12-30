@@ -3,6 +3,7 @@ package org.hyperskill.app.step.presentation
 import org.hyperskill.app.step.presentation.StepFeature.Action
 import org.hyperskill.app.step.presentation.StepFeature.Message
 import org.hyperskill.app.step.presentation.StepFeature.State
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizViewedHyperskillAnalyticEvent
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 class StepReducer : StateReducer<State, Message, Action> {
@@ -20,11 +21,13 @@ class StepReducer : StateReducer<State, Message, Action> {
                 State.Data(message.step) to emptySet()
             is Message.StepLoaded.Error ->
                 State.Error to emptySet()
-            is Message.ClickedBackEventMessage ->
-                if (state is State.Data && state.step.stepRoute != null) {
-                    state to setOf(Action.LogClickedBackEvent(state.step.stepRoute))
-                } else {
-                    null
-                }
+            is Message.ViewedEventMessage ->
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        StepQuizViewedHyperskillAnalyticEvent(
+                            message.stepRoute.analyticRoute
+                        )
+                    )
+                )
         } ?: (state to emptySet())
 }

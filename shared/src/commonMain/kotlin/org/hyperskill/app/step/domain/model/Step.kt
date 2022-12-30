@@ -4,7 +4,6 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
 
 @Serializable
 data class Step(
@@ -43,10 +42,7 @@ data class Step(
     @SerialName("seconds_to_complete")
     val secondsToComplete: Float?,
     @SerialName("last_completed_at")
-    val lastCompletedAt: Instant,
-
-    @Transient
-    val stepRoute: StepRoute? = null
+    val lastCompletedAt: Instant
 ) {
     @Serializable
     enum class Type {

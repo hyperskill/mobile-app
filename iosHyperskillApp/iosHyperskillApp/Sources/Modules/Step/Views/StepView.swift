@@ -14,6 +14,7 @@ struct StepView: View {
             .onAppear {
                 viewModel.startListening()
                 viewModel.onViewAction = handleViewAction(_:)
+                viewModel.logViewedEvent()
             }
             .onDisappear(perform: viewModel.stopListening)
             .environmentObject(pushRouter)
@@ -57,7 +58,7 @@ struct StepView: View {
                 viewData: viewModel.makeViewData(data.step)
             )
         case Step.Type_.practice:
-            StepQuizAssembly(step: data.step)
+            StepQuizAssembly(step: data.step, stepRoute: viewModel.stepRoute)
                 .makeModule()
                 .environmentObject(PanModalPresenter())
         default:
@@ -73,7 +74,7 @@ struct StepView: View {
 struct StepView_Previews: PreviewProvider {
     static var previews: some View {
         UIKitViewControllerPreview {
-            StepAssembly(stepRoute: StepRoute.LearnStepRoute(stepId: 4350)).makeModule()
+            StepAssembly(stepRoute: StepRoute.Learn(stepId: 4350)).makeModule()
         }
     }
 }
