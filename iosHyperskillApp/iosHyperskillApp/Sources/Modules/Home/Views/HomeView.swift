@@ -110,18 +110,20 @@ struct HomeView: View {
             }
             .frame(maxWidth: .infinity)
             .toolbar {
-                ToolbarItemGroup(placement: .primaryAction) {
-                    if let streak = data.streak {
-                        StreakBarButtonItem(
-                            currentStreak: Int(streak.currentStreak),
-                            onTap: viewModel.doStreakBarButtonItemAction
+                ToolbarItem(placement: .primaryAction) {
+                    HStack {
+                        if let streak = data.streak {
+                            StreakBarButtonItem(
+                                currentStreak: Int(streak.currentStreak),
+                                onTap: viewModel.doStreakBarButtonItemAction
+                            )
+                        }
+
+                        GemsBarButtonItem(
+                            hypercoinsBalance: Int(data.hypercoinsBalance),
+                            onTap: viewModel.doGemsBarButtonItemAction
                         )
                     }
-
-                    GemsBarButtonItem(
-                        hypercoinsBalance: Int(data.hypercoinsBalance),
-                        onTap: viewModel.doGemsBarButtonItemAction
-                    )
                 }
             }
         }

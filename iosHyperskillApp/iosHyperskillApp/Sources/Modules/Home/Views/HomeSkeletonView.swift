@@ -17,9 +17,11 @@ struct HomeSkeletonView: View {
             Spacer()
         }
         .toolbar {
-            ToolbarItemGroup(placement: .primaryAction) {
-                SkeletonRoundedView(appearance: .init(size: appearance.toolbarSkeletonSize))
-                SkeletonRoundedView(appearance: .init(size: appearance.toolbarSkeletonSize))
+            ToolbarItem(placement: .primaryAction) {
+                HStack {
+                    SkeletonRoundedView(appearance: .init(size: appearance.toolbarSkeletonSize))
+                    SkeletonRoundedView(appearance: .init(size: appearance.toolbarSkeletonSize))
+                }
             }
         }
         .padding()
