@@ -50,6 +50,7 @@ class StepFragment : Fragment(R.layout.fragment_step), ReduxView<StepFeature.Sta
             stepViewModel.onNewMessage(StepFeature.Message.Initialize(stepRoute, forceUpdate = true))
         }
         stepViewModel.onNewMessage(StepFeature.Message.Initialize(stepRoute))
+        stepViewModel.onNewMessage(StepFeature.Message.ViewedEventMessage(stepRoute))
     }
 
     private fun injectComponent() {
