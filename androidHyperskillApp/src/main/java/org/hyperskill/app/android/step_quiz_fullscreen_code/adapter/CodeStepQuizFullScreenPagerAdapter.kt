@@ -15,8 +15,8 @@ class CodeStepQuizFullScreenPagerAdapter(
     private val layouts: List<Pair<View, String>>
     init {
         val result = listOf(
-            inflateLayout(R.layout.layout_step_quiz_code_fullscreen_instruction,  R.string.step_quiz_code_full_screen_details_tab),
-            inflateLayout(R.layout.layout_step_quiz_code_fullscreen_playground, R.string.step_quiz_code_full_screen_code_tab)
+            inflateLayout(R.layout.layout_step_quiz_code_fullscreen_instruction,  org.hyperskill.app.R.string.step_quiz_code_full_screen_details_tab),
+            inflateLayout(R.layout.layout_step_quiz_code_fullscreen_playground, org.hyperskill.app.R.string.step_quiz_code_full_screen_code_tab)
         )
 
         layouts = result

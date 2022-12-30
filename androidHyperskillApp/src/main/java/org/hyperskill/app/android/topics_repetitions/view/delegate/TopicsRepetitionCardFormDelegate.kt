@@ -34,17 +34,17 @@ class TopicsRepetitionCardFormDelegate {
             }
             topicsRepetitionCountDescriptionTextView.text = if (recommendedRepetitionsCount > 0) {
                 context.resources.getQuantityString(
-                    R.plurals.topics_to_repeat_today,
+                    org.hyperskill.app.R.plurals.topics_to_repeat_today,
                     recommendedRepetitionsCount
                 )
             } else {
-                context.getString(R.string.topics_repetitions_card_text_completed)
+                context.getString(org.hyperskill.app.R.string.topics_repetitions_card_text_completed)
             }
             topicsRepetitionTitleTextView.text = context.getString(
                 if (recommendedRepetitionsCount > 0) {
-                    R.string.topics_repetitions_card_title_uncompleted
+                    org.hyperskill.app.R.string.topics_repetitions_card_title_uncompleted
                 } else {
-                    R.string.topics_repetitions_card_title_completed
+                    org.hyperskill.app.R.string.topics_repetitions_card_title_completed
                 }
             )
         }

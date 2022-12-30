@@ -204,7 +204,7 @@ class TrackFragment :
             trackAboutUsefulnessTextView.text = "${content.trackProgress.averageRating}"
             val hoursToComplete = (content.track.secondsToComplete / 3600).roundToInt()
             trackAboutAllPerformTimeTextView.text = resources.getQuantityString(
-                R.plurals.hours,
+                org.hyperskill.app.R.plurals.hours,
                 hoursToComplete,
                 hoursToComplete
             )
@@ -213,7 +213,7 @@ class TrackFragment :
                 trackAboutProjectsCountTextView.visibility = View.GONE
             } else {
                 trackAboutProjectsCountTextView.text = resources.getQuantityString(
-                    R.plurals.projects,
+                    org.hyperskill.app.R.plurals.projects,
                     content.track.projects.size,
                     content.track.projects.size
                 )
@@ -223,7 +223,7 @@ class TrackFragment :
                 trackAboutTopicsCountTextView.visibility = View.GONE
             } else {
                 trackAboutTopicsCountTextView.text = resources.getQuantityString(
-                    R.plurals.topics,
+                    org.hyperskill.app.R.plurals.topics,
                     content.track.topicsCount,
                     content.track.topicsCount
                 )

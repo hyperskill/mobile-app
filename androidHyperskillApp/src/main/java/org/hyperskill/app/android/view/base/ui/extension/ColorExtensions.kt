@@ -88,8 +88,8 @@ object ColorExtensions {
         @Dimension(unit = Dimension.DP) elevation: Int,
         overrideLightTheme: Boolean = false
     ): Int {
-        val colorSurface = context.resolveColorAttribute(R.attr.colorSurface)
-        val colorOnSurface = context.resolveColorAttribute(R.attr.colorOnSurface)
+        val colorSurface = context.resolveColorAttribute(com.google.android.material.R.attr.colorSurface)
+        val colorOnSurface = context.resolveColorAttribute(com.google.android.material.R.attr.colorOnSurface)
 
         return colorWithElevationOverlay(
             colorSurface,

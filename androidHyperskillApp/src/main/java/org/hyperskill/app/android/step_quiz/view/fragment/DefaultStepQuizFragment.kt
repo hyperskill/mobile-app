@@ -132,7 +132,7 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
     override fun onAction(action: StepQuizFeature.Action.ViewAction) {
         when (action) {
             is StepQuizFeature.Action.ViewAction.ShowNetworkError -> {
-                view?.snackbar(messageRes = R.string.connection_error)
+                view?.snackbar(messageRes = org.hyperskill.app.R.string.connection_error)
             }
             is StepQuizFeature.Action.ViewAction.NavigateTo.Back -> {
                 requireRouter().exit()
@@ -159,7 +159,7 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(userPermissionRequestTextMapper.getTitle(action.userPermissionRequest))
             .setMessage(userPermissionRequestTextMapper.getMessage(action.userPermissionRequest))
-            .setPositiveButton(R.string.yes) { _, _ ->
+            .setPositiveButton(org.hyperskill.app.R.string.yes) { _, _ ->
                 stepQuizViewModel.onNewMessage(
                     StepQuizFeature.Message.RequestUserPermissionResult(
                         action.userPermissionRequest,
@@ -167,7 +167,7 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
                     )
                 )
             }
-            .setNegativeButton(R.string.cancel) { _, _ ->
+            .setNegativeButton(org.hyperskill.app.R.string.cancel) { _, _ ->
                 stepQuizViewModel.onNewMessage(
                     StepQuizFeature.Message.RequestUserPermissionResult(
                         action.userPermissionRequest,
@@ -182,7 +182,7 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(userPermissionRequestTextMapper.getTitle(action.userPermissionRequest))
             .setMessage(userPermissionRequestTextMapper.getMessage(action.userPermissionRequest))
-            .setPositiveButton(R.string.ok) { _, _ ->
+            .setPositiveButton(org.hyperskill.app.R.string.ok) { _, _ ->
                 stepQuizViewModel.onNewMessage(
                     StepQuizFeature.Message.RequestUserPermissionResult(
                         action.userPermissionRequest,
@@ -206,7 +206,7 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
                     return@setPositiveButton
                 }
             }
-            .setNegativeButton(R.string.later) { _, _ ->
+            .setNegativeButton(org.hyperskill.app.R.string.later) { _, _ ->
                 stepQuizViewModel.onNewMessage(
                     StepQuizFeature.Message.RequestUserPermissionResult(
                         action.userPermissionRequest,

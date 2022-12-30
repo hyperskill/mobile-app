@@ -229,7 +229,7 @@ class ProfileFragment :
                 requireContext().openUrl(action.url)
 
             is ProfileFeature.Action.ViewAction.ShowGetMagicLinkError ->
-                viewBinding.root.snackbar(R.string.common_error)
+                viewBinding.root.snackbar(org.hyperskill.app.R.string.common_error)
 
             is ProfileFeature.Action.ViewAction.ShowStreakFreezeModal -> {
                 StreakFreezeDialogFragment.newInstance(action.streakFreezeState)
@@ -244,12 +244,12 @@ class ProfileFragment :
                     .dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
             }
             ProfileFeature.Action.ViewAction.ShowStreakFreezeBuyingStatus.Success -> {
-                viewBinding.root.snackbar(R.string.streak_freeze_bought_success)
+                viewBinding.root.snackbar(org.hyperskill.app.R.string.streak_freeze_bought_success)
                 childFragmentManager
                     .dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
             }
             ProfileFeature.Action.ViewAction.ShowStreakFreezeBuyingStatus.Error ->
-                viewBinding.root.snackbar(R.string.streak_freeze_bought_error)
+                viewBinding.root.snackbar(org.hyperskill.app.R.string.streak_freeze_bought_error)
 
             ProfileFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
                 requireMainRouter().switch(HomeScreen)
@@ -296,9 +296,9 @@ class ProfileFragment :
             profileNameTextView.setTextIfChanged(profile.fullname)
             profileRoleTextView.setTextIfChanged(
                 if (profile.isStaff) {
-                    resources.getString(R.string.profile_role_staff_text)
+                    resources.getString(org.hyperskill.app.R.string.profile_role_staff_text)
                 } else {
-                    resources.getString(R.string.profile_role_learner_text)
+                    resources.getString(org.hyperskill.app.R.string.profile_role_learner_text)
                 }
             )
         }
@@ -316,14 +316,14 @@ class ProfileFragment :
         with(viewBinding.profileFooterLayout) {
             if (profile.country != null) {
                 profileAboutLivesTextView.text =
-                    "${resources.getString(R.string.profile_lives_in_text)} ${Locale(Locale.ENGLISH.language, profile.country!!).displayCountry}"
+                    "${resources.getString(org.hyperskill.app.R.string.profile_lives_in_text)} ${Locale(Locale.ENGLISH.language, profile.country!!).displayCountry}"
             } else {
                 profileAboutLivesTextView.visibility = View.GONE
             }
 
             if (profile.languages?.isEmpty() == false) {
                 profileAboutSpeaksTextView.text =
-                    "${resources.getString(R.string.profile_speaks_text)} ${
+                    "${resources.getString(org.hyperskill.app.R.string.profile_speaks_text)} ${
                     profile.languages!!.joinToString(", ") {
                         Locale(it).getDisplayLanguage(Locale.ENGLISH)
                     }
@@ -401,6 +401,6 @@ class ProfileFragment :
     }
 
     private fun getScheduleTimeText(time: Int) =
-        requireContext().resources.getString(R.string.profile_daily_study_reminders_schedule_text) +
+        requireContext().resources.getString(org.hyperskill.app.R.string.profile_daily_study_reminders_schedule_text) +
             "${time.toString().padStart(2, '0')}:00 - ${(time + 1).toString().padStart(2, '0')}:00"
 }

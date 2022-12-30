@@ -6,6 +6,7 @@ import androidx.core.app.JobIntentService
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.notification.NotificationDelegate
 
+@Deprecated("Replace with WorkManager")
 class BootCompleteService : JobIntentService() {
     private lateinit var notificationDelegates: Set<@JvmSuppressWildcards NotificationDelegate>
 

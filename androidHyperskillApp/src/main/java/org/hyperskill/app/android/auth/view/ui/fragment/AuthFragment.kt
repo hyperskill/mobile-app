@@ -5,15 +5,21 @@ import org.hyperskill.app.android.auth.view.ui.navigation.AuthFlow
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthSocialScreen
 import org.hyperskill.app.android.core.view.ui.navigation.requireAppRouter
 import org.hyperskill.app.profile.domain.model.Profile
+import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.navigation.ui.fragment.FlowFragment
 
 class AuthFragment : FlowFragment(), AuthFlow {
     companion object {
         const val AUTH_SUCCESS = "auth_success"
 
-        fun newInstance(): AuthFragment =
+        fun newInstance(isInSignUpMode: Boolean): AuthFragment =
             AuthFragment()
+                .apply {
+                    this.isInSignUpMode = isInSignUpMode
+                }
     }
+
+    private var isInSignUpMode: Boolean by argument()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +34,6 @@ class AuthFragment : FlowFragment(), AuthFlow {
     }
 
     private fun initNavigation() {
-        router.newRootScreen(AuthSocialScreen)
+        router.newRootScreen(AuthSocialScreen(isInSignUpMode))
     }
 }

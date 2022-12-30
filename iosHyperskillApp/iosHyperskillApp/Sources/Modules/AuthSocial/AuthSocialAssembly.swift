@@ -4,7 +4,10 @@ import SwiftUI
 final class AuthSocialAssembly: Assembly {
     private weak var moduleOutput: AuthOutputProtocol?
 
-    init(output: AuthOutputProtocol? = nil) {
+    private let isInSignUpMode: Bool
+
+    init(isInSignUpMode: Bool = false, output: AuthOutputProtocol? = nil) {
+        self.isInSignUpMode = isInSignUpMode
         self.moduleOutput = output
     }
 
@@ -18,6 +21,6 @@ final class AuthSocialAssembly: Assembly {
         )
         viewModel.moduleOutput = moduleOutput
 
-        return AuthSocialView(viewModel: viewModel)
+        return AuthSocialView(isInSignUpMode: isInSignUpMode, viewModel: viewModel)
     }
 }

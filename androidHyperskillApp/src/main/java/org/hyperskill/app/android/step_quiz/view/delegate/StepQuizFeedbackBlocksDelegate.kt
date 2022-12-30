@@ -41,7 +41,7 @@ class StepQuizFeedbackBlocksDelegate(
 
         // TODO Ask design team about correct feedback
         layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackCorrect.text = "Good job!"
-        layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackWrong.setText(R.string.step_quiz_status_wrong_text)
+        layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackWrong.setText(org.hyperskill.app.R.string.step_quiz_status_wrong_text)
     }
 
     fun setState(state: StepQuizFeedbackState) {
@@ -53,7 +53,7 @@ class StepQuizFeedbackBlocksDelegate(
                 setHint(layoutStepQuizFeedbackBlockBinding, state.hint)
             }
             is StepQuizFeedbackState.Wrong -> {
-                layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackWrong.setText(R.string.step_quiz_status_wrong_text)
+                layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackWrong.setText(org.hyperskill.app.R.string.step_quiz_status_wrong_text)
                 setHint(layoutStepQuizFeedbackBlockBinding, state.hint)
             }
             is StepQuizFeedbackState.Validation ->

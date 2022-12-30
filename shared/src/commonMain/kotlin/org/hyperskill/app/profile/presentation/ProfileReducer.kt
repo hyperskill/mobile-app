@@ -115,7 +115,10 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                     state to when (state.streakFreezeState) {
                         is ProfileFeature.StreakFreezeState.CanBuy ->
                             setOf(
-                                Action.BuyStreakFreeze(state.streakFreezeState.streakFreezeProductId),
+                                Action.BuyStreakFreeze(
+                                    streakFreezeProductId = state.streakFreezeState.streakFreezeProductId,
+                                    streakFreezePrice = state.streakFreezeState.price
+                                ),
                                 Action.LogAnalyticEvent(
                                     StreakFreezeClickedModalActionButtonHyperskillAnalyticEvent(
                                         StreakFreezeModalAnalyticAction.GET_IT,
