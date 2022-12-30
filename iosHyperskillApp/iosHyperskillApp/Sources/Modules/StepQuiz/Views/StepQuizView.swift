@@ -40,10 +40,10 @@ struct StepQuizView: View {
         .onDisappear(perform: viewModel.stopListening)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                if viewModel.stepRoute is StepRoute.Repeat,
+                if viewModel.stepRoute is StepRouteRepeat,
                    let theoryID = viewModel.step.topicTheory {
                     Button(Strings.Step.theory) {
-                        let assembly = StepAssembly(stepRoute: StepRoute.Repeat(stepId: theoryID.int64Value))
+                        let assembly = StepAssembly(stepRoute: StepRouteRepeat(stepId: theoryID.int64Value))
                         pushRouter.pushViewController(assembly.makeModule())
                     }
                 }

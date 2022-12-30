@@ -130,7 +130,7 @@ struct TrackView: View {
         case .navigateTo(let navigateToViewAction):
             switch TrackFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .stepScreen(let data):
-                let assembly = StepAssembly(stepRoute: StepRoute.Learn(stepId: data.stepId))
+                let assembly = StepAssembly(stepRoute: StepRouteLearn(stepId: data.stepId))
                 pushRouter.pushViewController(assembly.makeModule())
             }
         }

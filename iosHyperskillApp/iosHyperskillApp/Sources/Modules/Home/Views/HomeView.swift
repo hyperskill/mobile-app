@@ -95,7 +95,7 @@ struct HomeView: View {
                     HomeDebugStepNavigationView(
                         onOpenStepTapped: { stepID in
                             let assembly = StepAssembly(
-                                stepRoute: StepRoute.Learn(stepId: Int64(stepID))
+                                stepRoute: StepRouteLearn(stepId: Int64(stepID))
                             )
                             pushRouter.pushViewController(assembly.makeModule())
                         }
@@ -137,7 +137,7 @@ struct HomeView: View {
         case .navigateTo(let navigateToViewAction):
             switch HomeFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .stepScreen(let data):
-                let assembly = StepAssembly(stepRoute: StepRoute.LearnDaily(stepId: data.stepId))
+                let assembly = StepAssembly(stepRoute: StepRouteLearnDaily(stepId: data.stepId))
                 pushRouter.pushViewController(assembly.makeModule())
             case .topicsRepetitionsScreen:
                 let assembly = TopicsRepetitionsAssembly()
