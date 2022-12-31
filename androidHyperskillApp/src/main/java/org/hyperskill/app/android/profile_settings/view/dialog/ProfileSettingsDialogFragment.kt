@@ -179,6 +179,9 @@ class ProfileSettingsDialogFragment :
                 openLinkInBrowser(action.url)
             is ProfileSettingsFeature.Action.ViewAction.ShowGetMagicLinkError ->
                 viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
+            else -> {
+                // no op
+            }
         }
     }
 
