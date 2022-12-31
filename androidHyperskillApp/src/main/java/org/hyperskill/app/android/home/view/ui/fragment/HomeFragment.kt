@@ -9,6 +9,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.google.android.material.snackbar.Snackbar
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
@@ -96,14 +97,14 @@ class HomeFragment :
             }
         }
 
-//        viewBinding.homeOpenStepButton.setOnClickListener {
-//            val stepId = viewBinding.homeOpenStepInputEditText.text.toString().toLongOrNull()
-//            if (stepId == null) {
-//                view.snackbar("Insert a valid number", Snackbar.LENGTH_SHORT)
-//            } else {
-//                requireRouter().navigateTo(StepScreen(stepId))
-//            }
-//        }
+        viewBinding.homeOpenStepButton.setOnClickListener {
+            val stepId = viewBinding.homeOpenStepInputEditText.text.toString().toLongOrNull()
+            if (stepId == null) {
+                view.snackbar("Insert a valid number", Snackbar.LENGTH_SHORT)
+            } else {
+                requireRouter().navigateTo(StepScreen(StepRoute.Learn(stepId)))
+            }
+        }
 
         homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = false))
         homeViewModel.onNewMessage(HomeFeature.Message.ViewedEventMessage)

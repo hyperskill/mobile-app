@@ -131,7 +131,7 @@
                 android:layout_marginTop="20dp"
                 android:hint="Enter step ID"
                 tools:ignore="HardcodedText"
-                android:visibility="gone"
+                android:visibility="visible"
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -152,7 +152,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/homeOpenStepInputLayout"
                 tools:ignore="HardcodedText"
-                android:visibility="gone"
+                android:visibility="visible"
                 />
 
             <com.google.android.material.button.MaterialButton
