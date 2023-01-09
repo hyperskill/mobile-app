@@ -6,12 +6,14 @@ import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.domain.Platform
 import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.extension.PluralsFormatter
 
 interface CommonComponent {
     val json: Json
     val userAgentInfo: UserAgentInfo
     val settings: Settings
     val resourceProvider: ResourceProvider
+    val pluralsFormatter: PluralsFormatter
     val platform: Platform
     val buildVariant: BuildVariant
 }

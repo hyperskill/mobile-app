@@ -19,6 +19,7 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.extension.PluralsFormatter
 import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeFeature.Action
 import org.hyperskill.app.home.presentation.HomeFeature.Message
@@ -40,7 +41,8 @@ class HomeActionDispatcher(
     private val stepInteractor: StepInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
-    private val urlPathProcessor: UrlPathProcessor
+    private val urlPathProcessor: UrlPathProcessor,
+    private val pluralsFormatter: PluralsFormatter
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     private var isTimerLaunched: Boolean = false
 
@@ -146,8 +148,9 @@ class HomeActionDispatcher(
                     }
 
                     isTimerLaunched = false
+                    onNewMessage(Message.NextProblemInTimerStopped)
                 }
-                    .onEach { seconds -> onNewMessage(Message.HomeNextProblemInUpdate(seconds)) }
+                    .onEach { seconds -> onNewMessage(Message.HomeNextProblemInUpdate(pluralsFormatter.hoursWithMinutesCount(seconds))) }
                     .launchIn(actionScope)
             }
             is Action.GetMagicLink ->
@@ -169,9 +172,9 @@ class HomeActionDispatcher(
                 .getStep(dailyStepId)
                 .map { step ->
                     if (step.isCompleted) {
-                        HomeFeature.ProblemOfDayState.Solved(step, nextProblemIn)
+                        HomeFeature.ProblemOfDayState.Solved(step, pluralsFormatter.hoursWithMinutesCount(nextProblemIn))
                     } else {
-                        HomeFeature.ProblemOfDayState.NeedToSolve(step, nextProblemIn)
+                        HomeFeature.ProblemOfDayState.NeedToSolve(step, pluralsFormatter.hoursWithMinutesCount(nextProblemIn))
                     }
                 }
         }

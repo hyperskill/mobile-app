@@ -50,6 +50,22 @@ class HomeReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
+            is Message.NextProblemInTimerStopped ->
+                if (state is State.Content) {
+                    when (state.problemOfDayState) {
+                        is HomeFeature.ProblemOfDayState.NeedToSolve -> {
+                            state.copy(problemOfDayState = state.problemOfDayState.copy(needToRefresh = true)) to emptySet()
+                        }
+                        is HomeFeature.ProblemOfDayState.Solved -> {
+                            state.copy(problemOfDayState = state.problemOfDayState.copy(needToRefresh = true)) to emptySet()
+                        }
+                        else -> {
+                            null
+                        }
+                    }
+                } else {
+                    null
+                }
             is Message.HomeNextProblemInUpdate ->
                 if (state is State.Content) {
                     when (state.problemOfDayState) {
@@ -57,7 +73,7 @@ class HomeReducer : StateReducer<State, Message, Action> {
                             state.copy(
                                 problemOfDayState = HomeFeature.ProblemOfDayState.NeedToSolve(
                                     state.problemOfDayState.step,
-                                    message.seconds
+                                    message.nextProblemIn
                                 )
                             ) to emptySet()
                         }
@@ -65,7 +81,7 @@ class HomeReducer : StateReducer<State, Message, Action> {
                             state.copy(
                                 problemOfDayState = HomeFeature.ProblemOfDayState.Solved(
                                     state.problemOfDayState.step,
-                                    message.seconds
+                                    message.nextProblemIn
                                 )
                             ) to emptySet()
                         }
@@ -85,7 +101,7 @@ class HomeReducer : StateReducer<State, Message, Action> {
                     ) {
                         HomeFeature.ProblemOfDayState.Solved(
                             state.problemOfDayState.step.copy(isCompleted = true),
-                            HomeActionDispatcher.calculateNextProblemIn()
+                            state.problemOfDayState.nextProblemIn
                         )
                     } else {
                         state.problemOfDayState

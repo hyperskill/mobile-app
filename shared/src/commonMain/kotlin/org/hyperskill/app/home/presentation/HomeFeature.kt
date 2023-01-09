@@ -47,8 +47,18 @@ interface HomeFeature {
 
     sealed interface ProblemOfDayState {
         object Empty : ProblemOfDayState
-        data class NeedToSolve(val step: Step, val nextProblemIn: Long) : ProblemOfDayState
-        data class Solved(val step: Step, val nextProblemIn: Long) : ProblemOfDayState
+
+        data class NeedToSolve(
+            val step: Step,
+            val nextProblemIn: String,
+            val needToRefresh: Boolean = false
+        ) : ProblemOfDayState
+
+        data class Solved(
+            val step: Step,
+            val nextProblemIn: String,
+            val needToRefresh: Boolean = false
+        ) : ProblemOfDayState
     }
 
     sealed interface RepetitionsState {
@@ -68,7 +78,8 @@ interface HomeFeature {
         object PullToRefresh : Message
 
         object ReadyToLaunchNextProblemInTimer : Message
-        data class HomeNextProblemInUpdate(val seconds: Long) : Message
+        object NextProblemInTimerStopped : Message
+        data class HomeNextProblemInUpdate(val nextProblemIn: String) : Message
 
         data class StepQuizSolved(val stepId: Long) : Message
         object TopicRepeated : Message

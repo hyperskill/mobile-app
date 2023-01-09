@@ -230,7 +230,6 @@
     <string name="problem_of_day_solve_a_random_problem">Solve a random problem using the topics you already know to practice what you\'ve learned.</string>
     <string name="problem_of_day_get_back">Get back later to solve another problem.</string>
     <string name="problem_of_day_next_problem_in">Next problem in</string>
-    <string name="problem_of_day_hours_and_minutes">%d hrs %d mins</string>
     <string name="problem_of_day_minutes">%d minutes</string>
 
     <!--  Topics repetitions  -->

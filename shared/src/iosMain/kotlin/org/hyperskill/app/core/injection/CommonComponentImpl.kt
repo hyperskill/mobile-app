@@ -8,6 +8,7 @@ import org.hyperskill.app.core.domain.Platform
 import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.ResourceProviderImpl
+import org.hyperskill.app.extension.PluralsFormatter
 import org.hyperskill.app.network.injection.NetworkModule
 import platform.Foundation.NSUserDefaults
 
@@ -24,6 +25,9 @@ class CommonComponentImpl(
 
     override val resourceProvider: ResourceProvider =
         ResourceProviderImpl()
+
+    override val pluralsFormatter: PluralsFormatter =
+        PluralsFormatter(resourceProvider)
 
     override val platform: Platform =
         Platform()

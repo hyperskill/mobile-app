@@ -2,8 +2,6 @@ package org.hyperskill.app.android.problem_of_day.view.delegate
 
 import android.content.Context
 import android.view.View
-import androidx.core.text.bold
-import androidx.core.text.buildSpannedString
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.LayoutProblemOfTheDayCardBinding
 import org.hyperskill.app.home.presentation.HomeFeature
@@ -20,26 +18,6 @@ class ProblemOfDayCardFormDelegate(
 
     init {
         setCardState(state)
-    }
-
-    private fun updateNextProblemTime(seconds: Long) {
-        val hours = (seconds / 3600).toInt()
-        val minutes = ((seconds % 3600) / 60).toInt()
-        binding.problemOfDayNextProblemInTextView.text =
-            buildSpannedString {
-                append(
-                    "${context.resources.getString(org.hyperskill.app.R.string.problem_of_day_next_problem_in)} "
-                )
-                bold {
-                    append(
-                        context.resources.getString(
-                            org.hyperskill.app.R.string.problem_of_day_hours_and_minutes,
-                            hours,
-                            minutes
-                        )
-                    )
-                }
-            }
     }
 
     private fun setCardState(cardState: HomeFeature.ProblemOfDayState) {
@@ -86,7 +64,7 @@ class ProblemOfDayCardFormDelegate(
                     problemOfDayTitleTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_checkmark, 0, 0, 0)
                     problemOfDayTitleTextView.setText(org.hyperskill.app.R.string.problem_of_day_title_completed)
 
-                    updateNextProblemTime(state.nextProblemIn)
+                    binding.problemOfDayNextProblemInTextView.text = state.nextProblemIn
                 }
                 is HomeFeature.ProblemOfDayState.NeedToSolve -> {
                     state as HomeFeature.ProblemOfDayState.NeedToSolve
@@ -122,7 +100,7 @@ class ProblemOfDayCardFormDelegate(
                     problemOfDayTitleTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_task_day, 0, 0, 0)
                     problemOfDayTitleTextView.setText(org.hyperskill.app.R.string.problem_of_day_title_uncompleted)
 
-                    updateNextProblemTime(state.nextProblemIn)
+                    binding.problemOfDayNextProblemInTextView.text = state.nextProblemIn
                 }
             }
         }
