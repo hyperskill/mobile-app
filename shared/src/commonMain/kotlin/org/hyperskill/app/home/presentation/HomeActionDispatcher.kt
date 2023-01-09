@@ -42,6 +42,7 @@ class HomeActionDispatcher(
     private val sentryInteractor: SentryInteractor,
     private val urlPathProcessor: UrlPathProcessor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
+    private var isTimerLaunched: Boolean = false
 
     companion object {
         private val DELAY_ONE_MINUTE = 1.toDuration(DurationUnit.MINUTES)
@@ -129,6 +130,12 @@ class HomeActionDispatcher(
                 onNewMessage(Message.ReadyToLaunchNextProblemInTimer)
             }
             is Action.LaunchTimer -> {
+                if (isTimerLaunched) {
+                    return
+                }
+
+                isTimerLaunched = true
+
                 flow {
                     var nextProblemIn = calculateNextProblemIn()
 
@@ -137,6 +144,8 @@ class HomeActionDispatcher(
                         nextProblemIn -= DELAY_ONE_MINUTE.inWholeSeconds
                         emit(nextProblemIn)
                     }
+
+                    isTimerLaunched = false
                 }
                     .onEach { seconds -> onNewMessage(Message.HomeNextProblemInUpdate(seconds)) }
                     .launchIn(actionScope)
