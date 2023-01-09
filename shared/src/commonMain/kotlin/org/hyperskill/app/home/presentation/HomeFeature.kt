@@ -66,6 +66,7 @@ interface HomeFeature {
         object HomeFailure : Message
         object PullToRefresh : Message
 
+        object ReadyToLaunchNextProblemInTimer : Message
         data class HomeNextProblemInUpdate(val seconds: Long) : Message
 
         data class StepQuizSolved(val stepId: Long) : Message
@@ -90,6 +91,7 @@ interface HomeFeature {
 
     sealed interface Action {
         object FetchHomeScreenData : Action
+        object LaunchTimer : Action
 
         data class GetMagicLink(val path: HyperskillUrlPath) : Action
 

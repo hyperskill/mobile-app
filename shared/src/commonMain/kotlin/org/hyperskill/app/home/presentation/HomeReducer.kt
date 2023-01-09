@@ -44,6 +44,12 @@ class HomeReducer : StateReducer<State, Message, Action> {
                     null
                 }
             // Timer Messages
+            is Message.ReadyToLaunchNextProblemInTimer ->
+                if (state is State.Content) {
+                    state to setOf(Action.LaunchTimer)
+                } else {
+                    null
+                }
             is Message.HomeNextProblemInUpdate ->
                 if (state is State.Content) {
                     when (state.problemOfDayState) {

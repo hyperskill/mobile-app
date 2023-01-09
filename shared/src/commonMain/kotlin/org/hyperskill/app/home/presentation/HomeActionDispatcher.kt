@@ -5,6 +5,8 @@ import kotlin.time.toDuration
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
@@ -72,22 +74,6 @@ class HomeActionDispatcher(
                 onNewMessage(Message.HypercoinsBalanceChanged(it))
             }
         }
-
-        actionScope.launch {
-            flow {
-                var nextProblemIn = calculateNextProblemIn()
-
-                while (true) {
-                    delay(DELAY_ONE_MINUTE)
-                    nextProblemIn -= DELAY_ONE_MINUTE.inWholeSeconds
-                    if (nextProblemIn < 0) {
-                        nextProblemIn = calculateNextProblemIn()
-                    }
-                    emit(nextProblemIn)
-                }
-            }
-                .collect { seconds -> onNewMessage(Message.HomeNextProblemInUpdate(seconds)) }
-        }
     }
 
     override suspend fun doSuspendableAction(action: Action) {
@@ -140,6 +126,20 @@ class HomeActionDispatcher(
                         }
                     )
                 )
+                onNewMessage(Message.ReadyToLaunchNextProblemInTimer)
+            }
+            is Action.LaunchTimer -> {
+                flow {
+                    var nextProblemIn = calculateNextProblemIn()
+
+                    while (nextProblemIn > 0) {
+                        delay(DELAY_ONE_MINUTE)
+                        nextProblemIn -= DELAY_ONE_MINUTE.inWholeSeconds
+                        emit(nextProblemIn)
+                    }
+                }
+                    .onEach { seconds -> onNewMessage(Message.HomeNextProblemInUpdate(seconds)) }
+                    .launchIn(actionScope)
             }
             is Action.GetMagicLink ->
                 getLink(action.path, ::onNewMessage)
