@@ -150,9 +150,8 @@ class ProfileFragment :
 
             val notificationManagerCompat = NotificationManagerCompat.from(requireContext())
 
-            profileDailyRemindersSwitchCompat.isChecked =
-                notificationManagerCompat.isChannelNotificationsEnabled(HyperskillNotificationChannel.DailyReminder.channelId) &&
-                    platformNotificationComponent.notificationInteractor.isDailyStudyRemindersEnabled()
+            profileDailyRemindersSwitchCompat.isChecked = notificationManagerCompat.isChannelNotificationsEnabled(HyperskillNotificationChannel.DailyReminder.channelId) &&
+                platformNotificationComponent.notificationInteractor.isDailyStudyRemindersEnabled()
 
             profileScheduleTextView.isVisible = profileDailyRemindersSwitchCompat.isChecked
 
