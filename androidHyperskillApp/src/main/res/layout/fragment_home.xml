@@ -106,7 +106,6 @@
                 android:text="@string/home_keep_practicing_text"
                 />
 
-
             <include
                 android:id="@+id/homeScreenProblemOfDayCard"
                 layout="@layout/layout_problem_of_the_day_card"
@@ -171,11 +170,15 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
-        android:id="@+id/homeScreenProgress"
-        android:layout_width="wrap_content"
+    <include
+        android:id="@+id/homeScreenSkeleton"
+        layout="@layout/layout_home_skeleton"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="16dp"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        />
 
     <include
         android:id="@+id/homeScreenError"

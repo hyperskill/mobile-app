@@ -9,6 +9,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.ImageLoader
 import coil.decode.SvgDecoder
@@ -84,7 +86,7 @@ class TrackFragment :
     private fun initViewStateDelegate() {
         with(viewStateDelegate) {
             addState<TrackFeature.State.Idle>()
-            addState<TrackFeature.State.Loading>(viewBinding.trackProgressBar)
+            addState<TrackFeature.State.Loading>(viewBinding.trackSkeleton.root)
             addState<TrackFeature.State.NetworkError>(viewBinding.trackError.root)
             addState<TrackFeature.State.Content>(viewBinding.trackContainer)
         }
@@ -124,7 +126,7 @@ class TrackFragment :
 
     override fun render(state: TrackFeature.State) {
         viewStateDelegate.switchState(state)
-
+        TransitionManager.beginDelayedTransition(viewBinding.root, AutoTransition())
         if (state is TrackFeature.State.Content) {
             renderContent(state)
         }
