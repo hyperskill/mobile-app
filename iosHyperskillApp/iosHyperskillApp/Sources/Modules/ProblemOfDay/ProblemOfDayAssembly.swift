@@ -31,16 +31,25 @@ extension ProblemOfDayAssembly {
     static func makePlaceholder(
         state: ProblemOfDayCardView.State,
         secondsToComplete: Float = 25.6,
-        nextProblemIn: Int64 = 21600
+        nextProblemIn: String = "19 hours 13 minutes",
+        needToRefresh: Bool = false
     ) -> ProblemOfDayAssembly {
         let step = Step(secondsToComplete: secondsToComplete)
 
         switch state {
         case .completed:
-            let problemOfDayState = HomeFeatureProblemOfDayStateSolved(step: step, nextProblemIn: nextProblemIn)
+            let problemOfDayState = HomeFeatureProblemOfDayStateSolved(
+                step: step,
+                nextProblemIn: nextProblemIn,
+                needToRefresh: needToRefresh
+            )
             return ProblemOfDayAssembly(problemOfDayState: problemOfDayState)
         case .uncompleted:
-            let problemOfDayState = HomeFeatureProblemOfDayStateNeedToSolve(step: step, nextProblemIn: nextProblemIn)
+            let problemOfDayState = HomeFeatureProblemOfDayStateNeedToSolve(
+                step: step,
+                nextProblemIn: nextProblemIn,
+                needToRefresh: needToRefresh
+            )
             return ProblemOfDayAssembly(problemOfDayState: problemOfDayState)
         case .unavailable:
             return ProblemOfDayAssembly(problemOfDayState: HomeFeatureProblemOfDayStateEmpty())

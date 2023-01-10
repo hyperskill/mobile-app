@@ -2,6 +2,7 @@ package org.hyperskill.app.home.injection
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.core.view.mapper.DateFormatter
 import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeActionDispatcher
 import org.hyperskill.app.home.presentation.HomeFeature.Action
@@ -27,7 +28,8 @@ object HomeFeatureBuilder {
         stepInteractor: StepInteractor,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
-        urlPathProcessor: UrlPathProcessor
+        urlPathProcessor: UrlPathProcessor,
+        dateFormatter: DateFormatter
     ): Feature<State, Message, Action> {
         val homeReducer = HomeReducer()
         val homeActionDispatcher = HomeActionDispatcher(
@@ -39,7 +41,8 @@ object HomeFeatureBuilder {
             stepInteractor,
             analyticInteractor,
             sentryInteractor,
-            urlPathProcessor
+            urlPathProcessor,
+            dateFormatter
         )
 
         return ReduxFeature(State.Idle, homeReducer)

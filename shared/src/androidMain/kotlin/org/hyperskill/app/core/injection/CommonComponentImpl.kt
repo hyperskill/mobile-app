@@ -13,6 +13,7 @@ import org.hyperskill.app.core.domain.Platform
 import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.ResourceProviderImpl
+import org.hyperskill.app.core.view.mapper.DateFormatter
 import org.hyperskill.app.network.injection.NetworkModule
 
 class CommonComponentImpl(
@@ -41,6 +42,9 @@ class CommonComponentImpl(
 
     override val resourceProvider: ResourceProvider =
         ResourceProviderImpl(application)
+
+    override val dateFormatter: DateFormatter =
+        DateFormatter(resourceProvider)
 
     override val platform: Platform =
         Platform()

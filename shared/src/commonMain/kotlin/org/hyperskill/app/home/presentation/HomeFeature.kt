@@ -46,9 +46,34 @@ interface HomeFeature {
     }
 
     sealed interface ProblemOfDayState {
+        /**
+         * Represents state when problem of day is unavailable
+         */
         object Empty : ProblemOfDayState
-        data class NeedToSolve(val step: Step, val nextProblemIn: Long) : ProblemOfDayState
-        data class Solved(val step: Step, val nextProblemIn: Long) : ProblemOfDayState
+
+        /**
+         * Represents state when problem of day is available and not solved
+         * @property step Daily step to be solved
+         * @property nextProblemIn Daily step updating in formatted time
+         * @property needToRefresh Indicates that reload button should be shown in daily problem card
+         */
+        data class NeedToSolve(
+            val step: Step,
+            val nextProblemIn: String,
+            val needToRefresh: Boolean = false
+        ) : ProblemOfDayState
+
+        /**
+         * Represents state when problem of day is available and solved
+         * @property step Daily step to be solved
+         * @property nextProblemIn Daily step updating in formatted time
+         * @property needToRefresh Indicates that reload button should be shown in daily problem card
+         */
+        data class Solved(
+            val step: Step,
+            val nextProblemIn: String,
+            val needToRefresh: Boolean = false
+        ) : ProblemOfDayState
     }
 
     sealed interface RepetitionsState {
@@ -68,7 +93,8 @@ interface HomeFeature {
         object PullToRefresh : Message
 
         object ReadyToLaunchNextProblemInTimer : Message
-        data class HomeNextProblemInUpdate(val seconds: Long) : Message
+        object NextProblemInTimerStopped : Message
+        data class HomeNextProblemInUpdate(val nextProblemIn: String) : Message
 
         data class StepQuizSolved(val stepId: Long) : Message
         object TopicRepeated : Message

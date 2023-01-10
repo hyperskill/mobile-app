@@ -20,7 +20,7 @@ import org.hyperskill.app.streak.remote.StreakRemoteDataSourceImpl
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import ru.nobird.app.presentation.redux.feature.Feature
 
-class HomeComponentImpl(appGraph: AppGraph) : HomeComponent {
+class HomeComponentImpl(private val appGraph: AppGraph) : HomeComponent {
     private val streakRemoteDataSource: StreakRemoteDataSource = StreakRemoteDataSourceImpl(
         appGraph.networkComponent.authorizedHttpClient
     )
@@ -60,5 +60,6 @@ class HomeComponentImpl(appGraph: AppGraph) : HomeComponent {
             analyticInteractor,
             sentryInteractor,
             urlPathProcessor,
+            appGraph.commonComponent.dateFormatter
         )
 }

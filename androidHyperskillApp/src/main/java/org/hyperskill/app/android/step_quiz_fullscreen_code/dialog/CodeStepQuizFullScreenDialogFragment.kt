@@ -32,8 +32,8 @@ import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeLayoutDelegat
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeQuizInstructionDelegate
 import org.hyperskill.app.android.step_quiz_fullscreen_code.adapter.CodeStepQuizFullScreenPagerAdapter
 import org.hyperskill.app.android.view.base.ui.extension.setOnKeyboardOpenListener
+import org.hyperskill.app.core.view.mapper.DateFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
-import org.hyperskill.app.extension.TimeFancifier
 import org.hyperskill.app.step.domain.model.Step
 import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.base.ui.extension.hideKeyboard
@@ -179,7 +179,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
             resourceProvider.getString(
                 SharedResources.strings.step_quiz_stats_text,
                 step.solvedBy.toString(),
-                TimeFancifier.formatTimeDistance(step.millisSinceLastCompleted)
+                DateFormatter.formatTimeDistance(step.millisSinceLastCompleted)
             )
         instructionsLayout.findViewById<LatexView>(R.id.stepQuizCodeFullscreenInstructionTextHeader)
             .setText(text)
