@@ -46,14 +46,29 @@ interface HomeFeature {
     }
 
     sealed interface ProblemOfDayState {
+        /**
+         * Represents state when problem of day is unavailable
+         */
         object Empty : ProblemOfDayState
 
+        /**
+         * Represents state when problem of day is available and not solved
+         * @property step Daily step to be solved
+         * @property nextProblemIn Daily step updating in formatted time
+         * @property needToRefresh Indicates that reload button should be shown in daily problem card
+         */
         data class NeedToSolve(
             val step: Step,
             val nextProblemIn: String,
             val needToRefresh: Boolean = false
         ) : ProblemOfDayState
 
+        /**
+         * Represents state when problem of day is available and solved
+         * @property step Daily step to be solved
+         * @property nextProblemIn Daily step updating in formatted time
+         * @property needToRefresh Indicates that reload button should be shown in daily problem card
+         */
         data class Solved(
             val step: Step,
             val nextProblemIn: String,

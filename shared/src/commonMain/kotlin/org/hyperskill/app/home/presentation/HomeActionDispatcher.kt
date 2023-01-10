@@ -1,11 +1,10 @@
 package org.hyperskill.app.home.presentation
 
-import kotlin.time.DurationUnit
-import kotlin.time.toDuration
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
@@ -19,7 +18,7 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.extension.PluralsFormatter
+import org.hyperskill.app.core.view.mapper.DateFormatter
 import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeFeature.Action
 import org.hyperskill.app.home.presentation.HomeFeature.Message
@@ -31,6 +30,8 @@ import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.streak.domain.interactor.StreakInteractor
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 class HomeActionDispatcher(
     config: ActionDispatcherOptions,
@@ -42,7 +43,7 @@ class HomeActionDispatcher(
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val urlPathProcessor: UrlPathProcessor,
-    private val pluralsFormatter: PluralsFormatter
+    private val dateFormatter: DateFormatter
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     private var isTimerLaunched: Boolean = false
 
@@ -146,11 +147,12 @@ class HomeActionDispatcher(
                         nextProblemIn -= DELAY_ONE_MINUTE.inWholeSeconds
                         emit(nextProblemIn)
                     }
-
-                    isTimerLaunched = false
-                    onNewMessage(Message.NextProblemInTimerStopped)
                 }
-                    .onEach { seconds -> onNewMessage(Message.HomeNextProblemInUpdate(pluralsFormatter.hoursWithMinutesCount(seconds))) }
+                    .onCompletion {
+                        isTimerLaunched = false
+                        onNewMessage(Message.NextProblemInTimerStopped)
+                    }
+                    .onEach { seconds -> onNewMessage(Message.HomeNextProblemInUpdate(dateFormatter.hoursWithMinutesCount(seconds))) }
                     .launchIn(actionScope)
             }
             is Action.GetMagicLink ->
@@ -172,9 +174,9 @@ class HomeActionDispatcher(
                 .getStep(dailyStepId)
                 .map { step ->
                     if (step.isCompleted) {
-                        HomeFeature.ProblemOfDayState.Solved(step, pluralsFormatter.hoursWithMinutesCount(nextProblemIn))
+                        HomeFeature.ProblemOfDayState.Solved(step, dateFormatter.hoursWithMinutesCount(nextProblemIn))
                     } else {
-                        HomeFeature.ProblemOfDayState.NeedToSolve(step, pluralsFormatter.hoursWithMinutesCount(nextProblemIn))
+                        HomeFeature.ProblemOfDayState.NeedToSolve(step, dateFormatter.hoursWithMinutesCount(nextProblemIn))
                     }
                 }
         }

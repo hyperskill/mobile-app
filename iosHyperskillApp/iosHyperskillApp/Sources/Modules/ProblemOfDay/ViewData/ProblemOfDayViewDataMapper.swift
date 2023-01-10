@@ -42,7 +42,7 @@ final class ProblemOfDayViewDataMapper {
 
         let nextProblemIn = solvedStateOrNil?.nextProblemIn ?? needToSolveStateOrNil?.nextProblemIn
 
-        let needToRefresh: Bool = solvedStateOrNil?.needToRefresh ?? needToSolveStateOrNil?.needToRefresh ?? false
+        let needToRefresh = solvedStateOrNil?.needToRefresh ?? needToSolveStateOrNil?.needToRefresh ?? false
 
         let stepID: Int? = {
             guard let stepID = solvedStateOrNil?.step.id ?? needToSolveStateOrNil?.step.id else {

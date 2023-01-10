@@ -15,8 +15,8 @@ import org.hyperskill.app.android.databinding.FragmentStepPracticeBinding
 import org.hyperskill.app.android.step_content_text.view.fragment.TextStepContentFragment
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizFragmentFactory
 import org.hyperskill.app.android.step_quiz_hints.fragment.StepQuizHintsFragment
+import org.hyperskill.app.core.view.mapper.DateFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
-import org.hyperskill.app.extension.TimeFancifier
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
@@ -56,7 +56,7 @@ class StepPracticeFragment : Fragment(R.layout.fragment_step_practice) {
         viewBinding.stepPracticeCompletion.text = resourceProvider.getString(
             SharedResources.strings.step_quiz_stats_text,
             step.solvedBy.toString(),
-            TimeFancifier.formatTimeDistance(step.millisSinceLastCompleted)
+            DateFormatter.formatTimeDistance(step.millisSinceLastCompleted)
         )
         initStepTheoryFragment(step)
         setStepQuizFragment(step, stepRoute)

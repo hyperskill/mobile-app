@@ -60,6 +60,6 @@ class HomeComponentImpl(private val appGraph: AppGraph) : HomeComponent {
             analyticInteractor,
             sentryInteractor,
             urlPathProcessor,
-            appGraph.commonComponent.pluralsFormatter
+            appGraph.commonComponent.dateFormatter
         )
 }
