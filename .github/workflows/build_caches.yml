@@ -1,0 +1,60 @@
+name: Build Caches
+
+on:
+  push:
+    branches:
+      - 'develop'
+  workflow_dispatch:
+  # Runs at 00:00 UTC every sunday
+  schedule:
+    - cron: "0 0 * * 0"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build-android:
+    name: Build Android Caches
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3.3.0
+
+    - name: Setup CI
+      uses: ./.github/actions/setup-android
+      with:
+        setup-ruby: true
+
+    - name: Clean
+      run: ./gradlew clean
+      env:
+        GITHUB_USER: ${{ github.actor }}
+        GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+  build-ios:
+    name: Build iOS Caches
+    runs-on: macos-12
+    timeout-minutes: 60
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.3.0
+
+      - name: Setup CI
+        id: setup
+        uses: ./.github/actions/setup-ios
+        with:
+          git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
+
+      - name: Clean
+        run: ./gradlew clean
+        env:
+          GITHUB_USER: ${{ github.actor }}
+          GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
