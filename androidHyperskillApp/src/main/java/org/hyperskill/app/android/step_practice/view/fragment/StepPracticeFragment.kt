@@ -12,6 +12,7 @@ import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepPracticeBinding
+import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.step_content_text.view.fragment.TextStepContentFragment
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizFragmentFactory
 import org.hyperskill.app.android.step_quiz_hints.fragment.StepQuizHintsFragment
@@ -47,12 +48,20 @@ class StepPracticeFragment : Fragment(R.layout.fragment_step_practice) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewBinding.stepPracticeAppBar.stepQuizToolbar.root.setNavigationOnClickListener {
-            requireRouter().exit()
+        with(viewBinding.stepPracticeAppBar.stepQuizToolbar) {
+            root.setNavigationOnClickListener {
+                requireRouter().exit()
+            }
+            root.menu.findItem(R.id.theory).apply {
+                isVisible = step.topicTheory != null && stepRoute is StepRoute.Repeat
+                actionView.setOnClickListener {
+                    step.topicTheory?.let { theoryId ->
+                        requireRouter().navigateTo(StepScreen(StepRoute.Repeat(theoryId)))
+                    }
+                }
+            }
+            stepQuizToolbarTitle.text = step.title
         }
-        viewBinding.stepPracticeAppBar.stepQuizToolbar.stepQuizToolbarTitle.text =
-            step.title
-
         viewBinding.stepPracticeCompletion.text = resourceProvider.getString(
             SharedResources.strings.step_quiz_stats_text,
             step.solvedBy.toString(),
