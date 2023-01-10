@@ -64,7 +64,7 @@ class ProblemOfDayCardFormDelegate(
                     problemOfDayTitleTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_checkmark, 0, 0, 0)
                     problemOfDayTitleTextView.setText(org.hyperskill.app.R.string.problem_of_day_title_completed)
 
-                    binding.problemOfDayNextProblemInTextView.text = state.nextProblemIn
+                    problemOfDayNextProblemInTextView.text = state.nextProblemIn
                 }
                 is HomeFeature.ProblemOfDayState.NeedToSolve -> {
                     state as HomeFeature.ProblemOfDayState.NeedToSolve
@@ -100,7 +100,7 @@ class ProblemOfDayCardFormDelegate(
                     problemOfDayTitleTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_task_day, 0, 0, 0)
                     problemOfDayTitleTextView.setText(org.hyperskill.app.R.string.problem_of_day_title_uncompleted)
 
-                    binding.problemOfDayNextProblemInTextView.text = state.nextProblemIn
+                    problemOfDayNextProblemInTextView.text = state.nextProblemIn
                 }
             }
         }
