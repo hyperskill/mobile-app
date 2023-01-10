@@ -1,5 +1,6 @@
 package org.hyperskill.app.android.profile_settings.view.dialog
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -206,6 +207,10 @@ class ProfileSettingsDialogFragment :
             .putExtra(Intent.EXTRA_EMAIL, arrayOf(feedbackEmailData.mailTo))
             .putExtra(Intent.EXTRA_SUBJECT, feedbackEmailData.subject)
             .putExtra(Intent.EXTRA_TEXT, feedbackEmailData.body)
-        startActivity(Intent.createChooser(intent, "Select your E-Mail app"))
+        try {
+            startActivity(Intent.createChooser(intent, "Select your E-Mail app"))
+        } catch (e: ActivityNotFoundException) {
+            viewBinding.root.snackbar(org.hyperskill.app.R.string.common_error)
+        }
     }
 }

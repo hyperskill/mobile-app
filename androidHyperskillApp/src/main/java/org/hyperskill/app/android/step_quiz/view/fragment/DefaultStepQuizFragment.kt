@@ -1,8 +1,6 @@
 package org.hyperskill.app.android.step_quiz.view.fragment
 
-import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
 import android.view.View
 import android.widget.LinearLayout
 import androidx.core.app.NotificationManagerCompat
@@ -15,7 +13,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
-import org.hyperskill.app.android.core.extensions.isChannelNotificationsEnabled
+import org.hyperskill.app.android.core.extensions.checkNotificationChannelAvailability
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
@@ -25,6 +23,7 @@ import org.hyperskill.app.android.step_quiz.view.dialog.CompletedStepOfTheDayDia
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizViewStateDelegateFactory
 import org.hyperskill.app.android.step_quiz.view.mapper.StepQuizFeedbackMapper
 import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
+import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -38,7 +37,6 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizViewModel
 import org.hyperskill.app.step_quiz.view.mapper.StepQuizUserPermissionRequestTextMapper
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
-import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.app.presentation.redux.container.ReduxView
 
 abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), ReduxView<StepQuizFeature.State, StepQuizFeature.Action.ViewAction> {
@@ -186,22 +184,13 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
                         isGranted = true
                     )
                 )
-
-                val notificationManagerCompat = NotificationManagerCompat.from(requireContext())
-                if (!notificationManagerCompat.areNotificationsEnabled()) {
-                    val intent: Intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
-                        .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
-                    startActivity(intent)
-                    return@setPositiveButton
-                }
-
-                if (!notificationManagerCompat.isChannelNotificationsEnabled(HyperskillNotificationChannel.DailyReminder.channelId)) {
-                    val intent: Intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
-                        .putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
-                        .putExtra(Settings.EXTRA_CHANNEL_ID, HyperskillNotificationChannel.DailyReminder.channelId)
-                    startActivity(intent)
-                    return@setPositiveButton
-                }
+                NotificationManagerCompat.from(requireContext())
+                    .checkNotificationChannelAvailability(
+                        requireContext(),
+                        HyperskillNotificationChannel.DailyReminder
+                    ) {
+                        viewBinding.root.snackbar(org.hyperskill.app.R.string.common_error)
+                    }
             }
             .setNegativeButton(org.hyperskill.app.R.string.later) { _, _ ->
                 stepQuizViewModel.onNewMessage(
