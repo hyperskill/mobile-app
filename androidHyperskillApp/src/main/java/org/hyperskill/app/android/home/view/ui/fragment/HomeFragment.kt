@@ -172,7 +172,7 @@ class HomeFragment :
             val streakDuration = state.streak?.currentStreak ?: 0
             text = streakDuration.toString()
             setCompoundDrawablesWithIntrinsicBounds(
-                if (streakDuration > 0) R.drawable.ic_menu_streak else R.drawable.ic_menu_empty_streak, // left
+                if (state.streak?.history?.firstOrNull()?.isCompleted == true) R.drawable.ic_menu_streak else R.drawable.ic_menu_empty_streak, // left
                 0,
                 0,
                 0
