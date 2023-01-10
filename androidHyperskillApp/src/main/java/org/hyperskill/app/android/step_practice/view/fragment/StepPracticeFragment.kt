@@ -56,7 +56,7 @@ class StepPracticeFragment : Fragment(R.layout.fragment_step_practice) {
                 isVisible = step.topicTheory != null && stepRoute is StepRoute.Repeat
                 actionView.setOnClickListener {
                     step.topicTheory?.let { theoryId ->
-                        requireRouter().navigateTo(StepScreen(StepRoute.Learn(theoryId)))
+                        requireRouter().navigateTo(StepScreen(StepRoute.Repeat(theoryId)))
                     }
                 }
             }
