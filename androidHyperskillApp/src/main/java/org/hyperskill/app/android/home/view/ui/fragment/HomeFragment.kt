@@ -167,13 +167,20 @@ class HomeFragment :
     }
 
     private fun renderMenuItems(state: HomeFeature.State.Content) {
-        with(viewBinding) {
-            homeScreenStreakDurationTextView.isVisible = state.streak != null
-            state.streak?.let { streak ->
-                homeScreenStreakDurationTextView.text = streak.currentStreak.toString()
-            }
-            homeScreenGemsCountTextView.isVisible = true
-            homeScreenGemsCountTextView.text = state.hypercoinsBalance.toString()
+        with(viewBinding.homeScreenStreakDurationTextView) {
+            isVisible = true
+            val streakDuration = state.streak?.currentStreak ?: 0
+            text = streakDuration.toString()
+            setCompoundDrawablesWithIntrinsicBounds(
+                if (state.streak?.history?.firstOrNull()?.isCompleted == true) R.drawable.ic_menu_streak else R.drawable.ic_menu_empty_streak, // left
+                0,
+                0,
+                0
+            )
+        }
+        with(viewBinding.homeScreenGemsCountTextView) {
+            isVisible = true
+            text = state.hypercoinsBalance.toString()
         }
     }
 
