@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
@@ -128,7 +130,7 @@ class HomeFragment :
     private fun initViewStateDelegate() {
         with(viewStateDelegate) {
             addState<HomeFeature.State.Idle>()
-            addState<HomeFeature.State.Loading>(viewBinding.homeScreenProgress)
+            addState<HomeFeature.State.Loading>(viewBinding.homeScreenSkeleton.root, viewBinding.homeScreenAppBar)
             addState<HomeFeature.State.NetworkError>(viewBinding.homeScreenError.root)
             addState<HomeFeature.State.Content>(viewBinding.homeScreenContainer, viewBinding.homeScreenAppBar)
         }
@@ -153,6 +155,7 @@ class HomeFragment :
 
     override fun render(state: HomeFeature.State) {
         viewStateDelegate.switchState(state)
+        TransitionManager.beginDelayedTransition(viewBinding.root, AutoTransition())
         if (state is HomeFeature.State.Content) {
             if (state.isLoadingMagicLink) {
                 LoadingProgressDialogFragment.newInstance()
