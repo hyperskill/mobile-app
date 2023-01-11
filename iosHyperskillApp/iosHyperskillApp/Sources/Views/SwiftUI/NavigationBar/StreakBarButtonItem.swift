@@ -3,6 +3,8 @@ import SwiftUI
 struct StreakBarButtonItem: View {
     let currentStreak: Int
 
+    let isCompletedToday: Bool
+
     let onTap: () -> Void
 
     var body: some View {
@@ -10,10 +12,14 @@ struct StreakBarButtonItem: View {
             action: onTap,
             label: {
                 HStack {
-                    Image(Images.NavigationBar.streak)
-                        .renderingMode(.original)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
+                    Image(
+                        isCompletedToday
+                            ? Images.NavigationBar.streakCompleted
+                            : Images.NavigationBar.streakUncompleted
+                    )
+                    .renderingMode(.original)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
 
                     Text("\(currentStreak)")
                         .foregroundColor(.primaryText)
@@ -30,7 +36,11 @@ struct StreakBarButtonItem_Previews: PreviewProvider {
                 .navigationTitle("Navigation")
                 .toolbar {
                     ToolbarItem(placement: .primaryAction) {
-                        StreakBarButtonItem(currentStreak: 3, onTap: {})
+                        StreakBarButtonItem(
+                            currentStreak: 3,
+                            isCompletedToday: true,
+                            onTap: {}
+                        )
                     }
                 }
         }

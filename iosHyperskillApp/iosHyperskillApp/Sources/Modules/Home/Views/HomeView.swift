@@ -118,6 +118,7 @@ struct HomeView: View {
                         if let streak = data.streak {
                             StreakBarButtonItem(
                                 currentStreak: Int(streak.currentStreak),
+                                isCompletedToday: streak.history.first?.isCompleted == true,
                                 onTap: viewModel.doStreakBarButtonItemAction
                             )
                         }
