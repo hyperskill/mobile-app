@@ -32,6 +32,7 @@ class ProfileSettingsComponentImpl(private val appGraph: AppGraph) : ProfileSett
             appGraph.networkComponent.authorizationFlow,
             appGraph.commonComponent.platform,
             appGraph.commonComponent.userAgentInfo,
+            appGraph.commonComponent.resourceProvider,
             urlPathProcessor
         )
 }

@@ -3,6 +3,8 @@ package org.hyperskill.app.core.injection
 import com.russhwolf.settings.AppleSettings
 import com.russhwolf.settings.Settings
 import kotlinx.serialization.json.Json
+import org.hyperskill.app.config.BuildKonfig
+import org.hyperskill.app.config.BuildKonfigModule
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.domain.Platform
 import org.hyperskill.app.core.remote.UserAgentInfo
@@ -13,10 +15,9 @@ import org.hyperskill.app.network.injection.NetworkModule
 import platform.Foundation.NSUserDefaults
 
 class CommonComponentImpl(
-    override val userAgentInfo: UserAgentInfo,
-    override val buildVariant: BuildVariant
+    buildVariant: BuildVariant,
+    override val userAgentInfo: UserAgentInfo
 ) : CommonComponent {
-
     override val json: Json =
         NetworkModule.provideJson()
 
@@ -31,4 +32,7 @@ class CommonComponentImpl(
 
     override val platform: Platform =
         Platform()
+
+    override val buildKonfig: BuildKonfig =
+        BuildKonfigModule.provideBuildKonfig(buildVariant, settings)
 }

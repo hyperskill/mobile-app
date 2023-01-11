@@ -23,14 +23,15 @@ import org.hyperskill.app.auth.domain.model.SocialAuthProvider
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.auth.remote.model.AuthResponse
 import org.hyperskill.app.auth.remote.model.AuthSocialErrorResponse
-import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.network.domain.model.NetworkClientType
+import org.hyperskill.app.network.domain.model.NetworkEndpointConfigInfo
 
 class AuthRemoteDataSourceImpl(
     private val authCacheMutex: Mutex,
     private val deauthorizationFlow: Flow<UserDeauthorized>,
     private val authSocialHttpClient: HttpClient,
     private val authCredentialsHttpClient: HttpClient,
+    private val networkEndpointConfigInfo: NetworkEndpointConfigInfo,
     private val json: Json,
     private val settings: Settings
 ) : AuthRemoteDataSource {
@@ -58,7 +59,7 @@ class AuthRemoteDataSourceImpl(
                             append("provider", providerName)
                             append("code", authCode)
                             append("grant_type", "authorization_code")
-                            append("redirect_uri", BuildKonfig.REDIRECT_URI)
+                            append("redirect_uri", networkEndpointConfigInfo.redirectUri)
                             if (idToken != null) {
                                 append("id_token", idToken)
                             }
@@ -76,7 +77,7 @@ class AuthRemoteDataSourceImpl(
                         formParameters = Parameters.build {
                             append("code", authCode)
                             append("grant_type", "authorization_code")
-                            append("redirect_uri", BuildKonfig.REDIRECT_URI)
+                            append("redirect_uri", networkEndpointConfigInfo.redirectUri)
                         }
                     )
             resolveSocialAuthHttpResponse(httpResponse)
@@ -91,7 +92,7 @@ class AuthRemoteDataSourceImpl(
                         append("username", email)
                         append("password", password)
                         append("grant_type", "password")
-                        append("redirect_uri", BuildKonfig.REDIRECT_URI)
+                        append("redirect_uri", networkEndpointConfigInfo.redirectUri)
                     }
                 )
 

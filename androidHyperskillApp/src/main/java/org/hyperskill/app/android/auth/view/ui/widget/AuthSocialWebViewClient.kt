@@ -8,15 +8,15 @@ import org.hyperskill.app.auth.domain.model.AuthSocialError
 import org.hyperskill.app.auth.domain.model.SocialAuthProvider
 import org.hyperskill.app.auth.presentation.AuthSocialWebViewFeature
 import org.hyperskill.app.auth.presentation.AuthSocialWebViewViewModel
-import org.hyperskill.app.config.BuildKonfig
+import org.hyperskill.app.network.domain.model.NetworkEndpointConfigInfo
 
 class AuthSocialWebViewClient(
     private val authSocialWebViewViewModel: AuthSocialWebViewViewModel,
-    private val socialAuthProvider: SocialAuthProvider
+    private val socialAuthProvider: SocialAuthProvider,
+    private val networkEndpointConfigInfo: NetworkEndpointConfigInfo
 ) : WebViewClient() {
 
     companion object {
-        private const val OAuthPath = "https://${BuildKonfig.HOST}/oauth?"
         private const val CodeParameter = "code"
     }
 
@@ -27,7 +27,7 @@ class AuthSocialWebViewClient(
         request?.url?.let { url ->
             val urlString = url.toString()
             val codeQueryParameter = url.getQueryParameter(CodeParameter)
-            if (urlString.startsWith(OAuthPath) && codeQueryParameter != null) {
+            if (urlString.startsWith("https://${networkEndpointConfigInfo.host}/oauth?") && codeQueryParameter != null) {
                 authSocialWebViewViewModel.onNewMessage(
                     AuthSocialWebViewFeature.Message.AuthCodeSuccess(
                         codeQueryParameter,
