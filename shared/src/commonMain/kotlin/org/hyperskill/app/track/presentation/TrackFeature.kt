@@ -2,6 +2,7 @@ package org.hyperskill.app.track.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
+import org.hyperskill.app.streak.domain.model.Streak
 import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.track.domain.model.StudyPlan
 import org.hyperskill.app.track.domain.model.Track
@@ -26,6 +27,8 @@ interface TrackFeature {
          * @property trackProgress Current user profile selected track progress.
          * @property studyPlan Current user profile study plan.
          * @property topicsToDiscoverNext Current user profile uncompleted topics (theory to discover next) for current stage.
+         * @property streak Current user profile streak.
+         * @property hypercoinsBalance Current user profile balance of the hypercoins.
          * @property isRefreshing A boolean flag that indicates about is pull-to-refresh is ongoing.
          * @property isLoadingMagicLink A boolean flag that indicates about magic link loading.
          * @see Track
@@ -38,6 +41,8 @@ interface TrackFeature {
             val trackProgress: TrackProgress,
             val studyPlan: StudyPlan? = null,
             val topicsToDiscoverNext: List<Topic>,
+            val streak: Streak?,
+            val hypercoinsBalance: Int,
             val isRefreshing: Boolean = false,
             val isLoadingMagicLink: Boolean = false
         ) : State
@@ -68,7 +73,9 @@ interface TrackFeature {
             val track: Track,
             val trackProgress: TrackProgress,
             val studyPlan: StudyPlan? = null,
-            val topicsToDiscoverNext: List<Topic>
+            val topicsToDiscoverNext: List<Topic>,
+            val streak: Streak?,
+            val hypercoinsBalance: Int
         ) : Message
 
         /**
@@ -83,6 +90,9 @@ interface TrackFeature {
          * @property topicId A topic id that triggered that event.
          */
         data class TopicToDiscoverNextClicked(val topicId: Long) : Message
+
+        object StepQuizSolved : Message
+        data class HypercoinsBalanceChanged(val hypercoinsBalance: Int) : Message
 
         object PullToRefresh : Message
 

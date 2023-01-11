@@ -26,10 +26,36 @@ class TrackReducer : StateReducer<State, Message, Action> {
                     message.track,
                     message.trackProgress,
                     message.studyPlan,
-                    message.topicsToDiscoverNext
+                    message.topicsToDiscoverNext,
+                    message.streak,
+                    message.hypercoinsBalance
                 ) to emptySet()
             is Message.TrackFailure ->
                 State.NetworkError to emptySet()
+            is Message.PullToRefresh ->
+                if (state is State.Content && !state.isRefreshing) {
+                    state.copy(isRefreshing = true) to setOf(
+                        Action.FetchTrack,
+                        Action.LogAnalyticEvent(TrackClickedPullToRefreshHyperskillAnalyticEvent())
+                    )
+                } else {
+                    null
+                }
+            // Flow Messages
+            is Message.StepQuizSolved -> {
+                if (state is State.Content) {
+                    state.copy(streak = state.streak?.getStreakWithTodaySolved()) to emptySet()
+                } else {
+                    null
+                }
+            }
+            is Message.HypercoinsBalanceChanged ->
+                if (state is State.Content) {
+                    state.copy(hypercoinsBalance = message.hypercoinsBalance) to emptySet()
+                } else {
+                    null
+                }
+            // Click Messages
             is Message.TopicToDiscoverNextClicked -> {
                 val targetTheoryId = (state as? State.Content)
                     ?.topicsToDiscoverNext?.firstOrNull { it.id == message.topicId }
@@ -49,17 +75,6 @@ class TrackReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
-            is Message.PullToRefresh ->
-                if (state is State.Content && !state.isRefreshing) {
-                    state.copy(isRefreshing = true) to setOf(
-                        Action.FetchTrack,
-                        Action.LogAnalyticEvent(TrackClickedPullToRefreshHyperskillAnalyticEvent())
-                    )
-                } else {
-                    null
-                }
-            is Message.ViewedEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(TrackViewedHyperskillAnalyticEvent()))
             is Message.ClickedContinueInWeb ->
                 if (state is State.Content) {
                     state.copy(isLoadingMagicLink = true) to setOf(
@@ -69,6 +84,7 @@ class TrackReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
+            // MagicLinks Messages
             is Message.GetMagicLinkReceiveSuccess ->
                 if (state is State.Content) {
                     state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.OpenUrl(message.url))
@@ -81,5 +97,8 @@ class TrackReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
+            // Analytic Messages
+            is Message.ViewedEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(TrackViewedHyperskillAnalyticEvent()))
         } ?: (state to emptySet())
 }
