@@ -6,7 +6,6 @@ import android.os.Build
 import org.hyperskill.app.android.core.extensions.NotificationChannelInitializer
 import org.hyperskill.app.android.core.injection.AndroidAppComponent
 import org.hyperskill.app.android.core.injection.AndroidAppComponentImpl
-import org.hyperskill.app.android.sentry.domain.model.manager.SentryManagerImpl
 import org.hyperskill.app.android.util.DebugToolsHelper
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.remote.UserAgentInfo
@@ -35,14 +34,11 @@ class HyperskillApp : Application() {
 
         DebugToolsHelper.initDebugTools(this)
 
-        val sentryManager = SentryManagerImpl()
         appGraph = AndroidAppComponentImpl(
             application = this,
             userAgentInfo = buildUserAgentInfo(),
-            buildVariant = if (BuildConfig.DEBUG) BuildVariant.DEBUG else BuildVariant.RELEASE,
-            sentryManager = sentryManager
+            buildVariant = if (BuildConfig.DEBUG) BuildVariant.DEBUG else BuildVariant.RELEASE
         )
-        sentryManager.buildKonfig = appGraph.commonComponent.buildKonfig
 
         initSentry()
         initChannels()

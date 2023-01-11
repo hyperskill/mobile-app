@@ -17,9 +17,7 @@ import org.hyperskill.app.sentry.domain.model.level.HyperskillSentryLevel
 import org.hyperskill.app.sentry.domain.model.manager.SentryManager
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransaction
 
-class SentryManagerImpl : SentryManager {
-    lateinit var buildKonfig: BuildKonfig
-
+class SentryManagerImpl(private val buildKonfig: BuildKonfig) : SentryManager {
     private val currentTransactionsMap = mutableMapOf<Int, PlatformHyperskillSentryTransaction>()
 
     override fun setup() {

@@ -10,6 +10,7 @@ import org.hyperskill.app.android.latex.injection.PlatformLatexComponent
 import org.hyperskill.app.android.latex.injection.PlatformLatexComponentImpl
 import org.hyperskill.app.android.notification.injection.PlatformNotificationComponent
 import org.hyperskill.app.android.notification.injection.PlatformNotificationComponentImpl
+import org.hyperskill.app.android.sentry.domain.model.manager.SentryManagerImpl
 import org.hyperskill.app.auth.injection.AuthComponent
 import org.hyperskill.app.auth.injection.AuthComponentImpl
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
@@ -80,7 +81,6 @@ import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponentImpl
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
-import org.hyperskill.app.sentry.domain.model.manager.SentryManager
 import org.hyperskill.app.sentry.injection.SentryComponent
 import org.hyperskill.app.sentry.injection.SentryComponentImpl
 import org.hyperskill.app.step.domain.model.Step
@@ -118,8 +118,7 @@ import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
 class AndroidAppComponentImpl(
     private val application: Application,
     userAgentInfo: UserAgentInfo,
-    buildVariant: BuildVariant,
-    sentryManager: SentryManager
+    buildVariant: BuildVariant
 ) : AndroidAppComponent {
     override val context: Context
         get() = application
@@ -149,7 +148,7 @@ class AndroidAppComponentImpl(
         AnalyticComponentImpl(this)
 
     override val sentryComponent: SentryComponent =
-        SentryComponentImpl(sentryManager)
+        SentryComponentImpl(SentryManagerImpl(commonComponent.buildKonfig))
 
     override val platformNotificationComponent: PlatformNotificationComponent =
         PlatformNotificationComponentImpl(application, this)
