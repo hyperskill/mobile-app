@@ -2,6 +2,7 @@ package org.hyperskill.app.track.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
+import org.hyperskill.app.home.presentation.HomeFeature.Action.ViewAction
 import org.hyperskill.app.streak.domain.model.Streak
 import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.track.domain.model.StudyPlan
@@ -97,6 +98,8 @@ interface TrackFeature {
         object PullToRefresh : Message
 
         object ClickedContinueInWeb : Message
+        object ClickedStreakBarButtonItem : Message
+        object ClickedGemsBarButtonItem : Message
 
         data class GetMagicLinkReceiveSuccess(val url: String) : Message
         object GetMagicLinkReceiveFailure : Message
@@ -119,6 +122,7 @@ interface TrackFeature {
             object ShowGetMagicLinkError : ViewAction
 
             sealed interface NavigateTo : ViewAction {
+                object ProfileTab : NavigateTo
                 data class StepScreen(val stepId: Long) : NavigateTo
             }
         }

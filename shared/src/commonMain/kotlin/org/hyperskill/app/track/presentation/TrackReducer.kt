@@ -2,7 +2,9 @@ package org.hyperskill.app.track.presentation
 
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.track.domain.analytic.TrackClickedContinueInWebHyperskillAnalyticEvent
+import org.hyperskill.app.track.domain.analytic.TrackClickedGemsBarButtonItemHyperskillAnalyticEvent
 import org.hyperskill.app.track.domain.analytic.TrackClickedPullToRefreshHyperskillAnalyticEvent
+import org.hyperskill.app.track.domain.analytic.TrackClickedStreakBarButtonItemHyperskillAnalyticEvent
 import org.hyperskill.app.track.domain.analytic.TrackClickedTopicToDiscoverNextHyperskillAnalyticEvent
 import org.hyperskill.app.track.domain.analytic.TrackViewedHyperskillAnalyticEvent
 import org.hyperskill.app.track.presentation.TrackFeature.Action
@@ -80,6 +82,24 @@ class TrackReducer : StateReducer<State, Message, Action> {
                     state.copy(isLoadingMagicLink = true) to setOf(
                         Action.GetMagicLink(HyperskillUrlPath.StudyPlan()),
                         Action.LogAnalyticEvent(TrackClickedContinueInWebHyperskillAnalyticEvent())
+                    )
+                } else {
+                    null
+                }
+            Message.ClickedGemsBarButtonItem ->
+                if (state is State.Content) {
+                    state to setOf(
+                        Action.ViewAction.NavigateTo.ProfileTab,
+                        Action.LogAnalyticEvent(TrackClickedGemsBarButtonItemHyperskillAnalyticEvent())
+                    )
+                } else {
+                    null
+                }
+            Message.ClickedStreakBarButtonItem ->
+                if (state is State.Content) {
+                    state to setOf(
+                        Action.ViewAction.NavigateTo.ProfileTab,
+                        Action.LogAnalyticEvent(TrackClickedStreakBarButtonItemHyperskillAnalyticEvent())
                     )
                 } else {
                     null
