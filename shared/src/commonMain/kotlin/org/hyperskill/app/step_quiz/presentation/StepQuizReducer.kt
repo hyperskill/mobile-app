@@ -207,7 +207,7 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                     null
                 }
             is Message.ShowProblemOfDaySolvedModal ->
-                state to setOf(Action.ViewAction.ShowProblemOfDaySolvedModal(message.gemsCount))
+                state to setOf(Action.ViewAction.ShowProblemOfDaySolvedModal(message.earnedGemsText))
             is Message.ProblemOfDaySolvedModalGoBackClicked ->
                 if (state is State.AttemptLoaded) {
                     val event = StepQuizDailyStepCompletedModalClickedGoBackHyperskillAnalyticEvent(

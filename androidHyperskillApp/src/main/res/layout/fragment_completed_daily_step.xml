@@ -56,7 +56,7 @@
         />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/completedDailyStepGemsCountTextView"
+        android:id="@+id/completedDailyStepEarnedGemsTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -72,36 +72,17 @@
         tools:text="300"
         />
 
-    <TextView
-        android:id="@+id/completedDailyStepGemsCountDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/step_quiz_problem_of_day_solved_modal_total_gems"
-        app:layout_constraintTop_toTopOf="@+id/completedDailyStepGemsCountTextView"
-        app:layout_constraintBottom_toBottomOf="@+id/completedDailyStepGemsCountTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="20dp"
-        />
-
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/completedDailyStepButtonBarrier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="bottom"
-        app:constraint_referenced_ids="completedDailyStepGemsCountTextView,completedDailyStepGemsCountDescription"
-        />
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/completedDailyStepGoBackButton"
         android:layout_width="match_parent"
         android:layout_height="@dimen/action_button_height"
         style="@style/ThemeOverlay.Blue"
-        android:text="@string/step_quiz_problem_of_day_solved_modal_go_back_button_text"
+        android:text="@string/step_quiz_problem_of_day_solved_modal_go_to_homescreen_button_text"
         android:layout_marginTop="32dp"
         android:layout_marginHorizontal="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/completedDailyStepButtonBarrier"
+        app:layout_constraintTop_toBottomOf="@+id/completedDailyStepEarnedGemsTextView"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

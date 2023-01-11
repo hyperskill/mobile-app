@@ -144,7 +144,7 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
             }
             is StepQuizFeature.Action.ViewAction.ShowProblemOfDaySolvedModal -> {
                 CompletedStepOfTheDayDialogFragment
-                    .newInstance(gemsCount = action.gemsCount)
+                    .newInstance(earnedGemsText = action.earnedGemsText)
                     .showIfNotExists(childFragmentManager, CompletedStepOfTheDayDialogFragment.TAG)
             }
         }

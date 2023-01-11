@@ -22,9 +22,9 @@ class CompletedStepOfTheDayDialogFragment : BottomSheetDialogFragment() {
     companion object {
         const val TAG = "CompletedStepOfTheDayDialogFragment"
 
-        fun newInstance(gemsCount: Int): CompletedStepOfTheDayDialogFragment =
+        fun newInstance(earnedGemsText: String): CompletedStepOfTheDayDialogFragment =
             CompletedStepOfTheDayDialogFragment().apply {
-                this.gemsCount = gemsCount
+                this.earnedGemsText = earnedGemsText
             }
     }
 
@@ -33,7 +33,7 @@ class CompletedStepOfTheDayDialogFragment : BottomSheetDialogFragment() {
 
     private val viewBinding: FragmentCompletedDailyStepBinding by viewBinding(FragmentCompletedDailyStepBinding::bind)
 
-    private var gemsCount: Int by argument()
+    private var earnedGemsText: String by argument()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +66,7 @@ class CompletedStepOfTheDayDialogFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(viewBinding) {
-            completedDailyStepGemsCountTextView.text = gemsCount.toString()
+            completedDailyStepEarnedGemsTextView.text = earnedGemsText
             completedDailyStepGoBackButton.setOnClickListener {
                 stepQuizViewModel.onNewMessage(
                     StepQuizFeature.Message.ProblemOfDaySolvedModalGoBackClicked
