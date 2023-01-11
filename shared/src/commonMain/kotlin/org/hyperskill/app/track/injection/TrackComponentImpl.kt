@@ -16,6 +16,7 @@ class TrackComponentImpl(private val appGraph: AppGraph) : TrackComponent {
             appGraph.buildProgressesDataComponent().progressesInteractor,
             appGraph.buildLearningActivitiesDataComponent().learningActivitiesInteractor,
             appGraph.buildTopicsDataComponent().topicsInteractor,
+            appGraph.buildStreaksDataComponent().streaksInteractor,
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor,
             urlPathProcessor

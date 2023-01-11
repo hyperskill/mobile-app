@@ -1,7 +1,7 @@
-package org.hyperskill.app.streak.data.source
+package org.hyperskill.app.streak.domain.repository
 
 import org.hyperskill.app.streak.domain.model.Streak
 
-interface StreakRemoteDataSource {
+interface StreaksRepository {
     suspend fun getStreaks(userId: Long): Result<List<Streak>>
 }

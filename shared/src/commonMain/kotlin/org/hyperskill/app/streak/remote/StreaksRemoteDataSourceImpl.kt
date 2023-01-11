@@ -6,13 +6,13 @@ import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
-import org.hyperskill.app.streak.data.source.StreakRemoteDataSource
+import org.hyperskill.app.streak.data.source.StreaksRemoteDataSource
 import org.hyperskill.app.streak.domain.model.Streak
-import org.hyperskill.app.streak.remote.model.StreakResponse
+import org.hyperskill.app.streak.remote.model.StreaksResponse
 
-class StreakRemoteDataSourceImpl(
+class StreaksRemoteDataSourceImpl(
     private val httpClient: HttpClient
-) : StreakRemoteDataSource {
+) : StreaksRemoteDataSource {
     override suspend fun getStreaks(userId: Long): Result<List<Streak>> =
         kotlin.runCatching {
             var page = 1
@@ -23,7 +23,7 @@ class StreakRemoteDataSourceImpl(
                         contentType(ContentType.Application.Json)
                         parameter("user", userId)
                         parameter("page", page)
-                    }.body<StreakResponse>()
+                    }.body<StreaksResponse>()
                 streakResponses.add(response.streaks)
                 page++
             } while (response.meta.hasNext)

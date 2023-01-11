@@ -12,7 +12,7 @@ import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
-import org.hyperskill.app.streak.domain.interactor.StreakInteractor
+import org.hyperskill.app.streak.domain.interactor.StreaksInteractor
 import org.hyperskill.app.topics.domain.interactor.TopicsInteractor
 import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.track.domain.interactor.TrackInteractor
@@ -28,7 +28,7 @@ class TrackActionDispatcher(
     private val progressesInteractor: ProgressesInteractor,
     private val learningActivitiesInteractor: LearningActivitiesInteractor,
     private val topicsInteractor: TopicsInteractor,
-    private val streakInteractor: StreakInteractor,
+    private val streaksInteractor: StreaksInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val urlPathProcessor: UrlPathProcessor
@@ -78,7 +78,7 @@ class TrackActionDispatcher(
                 val trackResult = actionScope.async { trackInteractor.getTrack(trackId) }
                 val trackProgressResult = actionScope.async { progressesInteractor.getTrackProgress(trackId) }
                 val studyPlanResult = actionScope.async { trackInteractor.getStudyPlanByTrackId(trackId) }
-                val streaksResult = actionScope.async { streakInteractor.getStreaks(currentCachedProfile.id) }
+                val streaksResult = actionScope.async { streaksInteractor.getStreaks(currentCachedProfile.id) }
                 val currentRemoteProfileResult = actionScope.async {
                     profileInteractor.getCurrentProfile(sourceType = DataSourceType.REMOTE)
                 }

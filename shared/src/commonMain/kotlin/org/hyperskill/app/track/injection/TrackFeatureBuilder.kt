@@ -7,6 +7,7 @@ import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.streak.domain.interactor.StreaksInteractor
 import org.hyperskill.app.topics.domain.interactor.TopicsInteractor
 import org.hyperskill.app.track.domain.interactor.TrackInteractor
 import org.hyperskill.app.track.presentation.TrackActionDispatcher
@@ -25,6 +26,7 @@ object TrackFeatureBuilder {
         progressesInteractor: ProgressesInteractor,
         learningActivitiesInteractor: LearningActivitiesInteractor,
         topicsInteractor: TopicsInteractor,
+        streaksInteractor: StreaksInteractor,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
         urlPathProcessor: UrlPathProcessor
@@ -37,6 +39,7 @@ object TrackFeatureBuilder {
             progressesInteractor,
             learningActivitiesInteractor,
             topicsInteractor,
+            streaksInteractor,
             analyticInteractor,
             sentryInteractor,
             urlPathProcessor

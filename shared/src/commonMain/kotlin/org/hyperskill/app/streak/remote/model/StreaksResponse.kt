@@ -7,7 +7,7 @@ import org.hyperskill.app.core.remote.MetaResponse
 import org.hyperskill.app.streak.domain.model.Streak
 
 @Serializable
-class StreakResponse(
+class StreaksResponse(
     @SerialName("meta")
     override val meta: Meta,
 

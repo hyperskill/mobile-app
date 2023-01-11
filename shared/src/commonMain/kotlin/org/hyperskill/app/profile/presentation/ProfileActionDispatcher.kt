@@ -16,13 +16,13 @@ import org.hyperskill.app.profile.presentation.ProfileFeature.Action
 import org.hyperskill.app.profile.presentation.ProfileFeature.Message
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
-import org.hyperskill.app.streak.domain.interactor.StreakInteractor
+import org.hyperskill.app.streak.domain.interactor.StreaksInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class ProfileActionDispatcher(
     config: ActionDispatcherOptions,
     private val profileInteractor: ProfileInteractor,
-    private val streakInteractor: StreakInteractor,
+    private val streaksInteractor: StreaksInteractor,
     private val productsInteractor: ProductsInteractor,
     private val itemsInteractor: ItemsInteractor,
     private val analyticInteractor: AnalyticInteractor,
@@ -57,7 +57,7 @@ class ProfileActionDispatcher(
                         return onNewMessage(Message.ProfileLoaded.Error)
                     }
 
-                val streaksResult = actionScope.async { streakInteractor.getStreaks(currentProfile.id) }
+                val streaksResult = actionScope.async { streaksInteractor.getStreaks(currentProfile.id) }
                 val streakFreezeProductResult = actionScope.async { productsInteractor.getStreakFreezeProduct() }
                 val itemsResult = actionScope.async { itemsInteractor.getItems() }
 

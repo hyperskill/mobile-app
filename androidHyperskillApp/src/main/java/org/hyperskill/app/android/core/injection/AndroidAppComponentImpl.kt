@@ -99,6 +99,8 @@ import org.hyperskill.app.step_quiz_hints.injection.PlatformStepQuizHintsCompone
 import org.hyperskill.app.step_quiz_hints.injection.PlatformStepQuizHintsComponentImpl
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponentImpl
+import org.hyperskill.app.streak.injection.StreaksDataComponent
+import org.hyperskill.app.streak.injection.StreaksDataComponentImpl
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.PlatformTopicsRepetitionComponent
@@ -346,4 +348,7 @@ class AndroidAppComponentImpl(
 
     override fun buildItemsDataComponent(): ItemsDataComponent =
         ItemsDataComponentImpl(this)
+
+    override fun buildStreaksDataComponent(): StreaksDataComponent =
+        StreaksDataComponentImpl(this)
 }

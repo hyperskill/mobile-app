@@ -1,8 +1,8 @@
 package org.hyperskill.app.streak.domain.model
 
+import kotlin.math.max
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlin.math.max
 
 @Serializable
 data class Streak(

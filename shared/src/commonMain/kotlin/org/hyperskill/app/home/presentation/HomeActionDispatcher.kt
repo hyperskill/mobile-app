@@ -1,5 +1,7 @@
 package org.hyperskill.app.home.presentation
 
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
@@ -27,16 +29,14 @@ import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.step.domain.interactor.StepInteractor
-import org.hyperskill.app.streak.domain.interactor.StreakInteractor
+import org.hyperskill.app.streak.domain.interactor.StreaksInteractor
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
-import kotlin.time.DurationUnit
-import kotlin.time.toDuration
 
 class HomeActionDispatcher(
     config: ActionDispatcherOptions,
     private val homeInteractor: HomeInteractor,
-    private val streakInteractor: StreakInteractor,
+    private val streaksInteractor: StreaksInteractor,
     private val profileInteractor: ProfileInteractor,
     private val topicsRepetitionsInteractor: TopicsRepetitionsInteractor,
     private val stepInteractor: StepInteractor,
@@ -97,7 +97,7 @@ class HomeActionDispatcher(
                     getProblemOfDayState(currentProfile.dailyStep)
                 }
                 val currentProfileStreaksResult = actionScope.async {
-                    streakInteractor.getStreaks(currentProfile.id)
+                    streaksInteractor.getStreaks(currentProfile.id)
                 }
                 val topicsRepetitionsStatisticsResult = actionScope.async {
                     topicsRepetitionsInteractor.getTopicsRepetitionStatistics()
