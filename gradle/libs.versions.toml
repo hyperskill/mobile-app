@@ -88,7 +88,7 @@ android-reactivex-rxjava = { module = "io.reactivex.rxjava2:rxjava", version = "
 android-reactivex-rxkotlin = { module = "io.reactivex.rxjava2:rxkotlin", version = "2.3.0" }
 android-coil = { module = "io.coil-kt:coil", version = "2.1.0" }
 android-coil-svg = { module = "io.coil-kt:coil-svg", version = "2.1.0" }
-android-splashscreen = { module = "androidx.core:core-splashscreen", version = "1.0.0-beta02" }
+android-splashscreen = { module = "androidx.core:core-splashscreen", version = "1.0.0" }
 android-timepicker = { module = "io.github.ShawnLin013:number-picker", version = "2.4.13" }
 
 android-desugar-jdk = { module = "com.android.tools:desugar_jdk_libs", version = "1.1.5" }
