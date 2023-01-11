@@ -33,7 +33,7 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
         return stackView
     }()
 
-    private let gemsCount: Int
+    private let earnedGemsText: String
     private let onGoBackButtonTap: () -> Void
 
     override var shortFormHeight: PanModalHeight {
@@ -44,8 +44,8 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
 
     override var longFormHeight: PanModalHeight { shortFormHeight }
 
-    init(gemsCount: Int, onGoBackButtonTap: @escaping () -> Void) {
-        self.gemsCount = gemsCount
+    init(earnedGemsText: String, onGoBackButtonTap: @escaping () -> Void) {
+        self.earnedGemsText = earnedGemsText
         self.onGoBackButtonTap = onGoBackButtonTap
 
         super.init()
@@ -129,27 +129,9 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
     private func setupGemsView() {
         let containerStackView = UIStackView()
         containerStackView.axis = .horizontal
-        containerStackView.distribution = .equalSpacing
+        containerStackView.spacing = appearance.gemsBadgeSpacing
 
         contentStackView.addArrangedSubview(containerStackView)
-        containerStackView.translatesAutoresizingMaskIntoConstraints = false
-        containerStackView.snp.makeConstraints { make in
-            make.width.equalToSuperview()
-        }
-
-        containerStackView.addArrangedSubview(makeGemsBadgeView())
-
-        let totalGemsLabel = UILabel()
-        totalGemsLabel.font = .preferredFont(forTextStyle: .subheadline)
-        totalGemsLabel.textColor = .secondaryText
-        totalGemsLabel.text = Strings.StepQuiz.ProblemOfDaySolvedModal.totalGems
-        containerStackView.addArrangedSubview(totalGemsLabel)
-    }
-
-    private func makeGemsBadgeView() -> UIStackView {
-        let containerStackView = UIStackView()
-        containerStackView.axis = .horizontal
-        containerStackView.spacing = appearance.gemsBadgeSpacing
 
         let image = UIImage(
             named: Images.StepQuiz.ProblemOfDaySolvedModal.gemsBadge
@@ -165,12 +147,10 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
         }
 
         let label = UILabel()
-        label.text = String(gemsCount)
+        label.text = earnedGemsText
         label.font = .preferredFont(forTextStyle: .title3)
         label.textColor = .primaryText
         containerStackView.addArrangedSubview(label)
-
-        return containerStackView
     }
 
     private func setupGoBackButton() {

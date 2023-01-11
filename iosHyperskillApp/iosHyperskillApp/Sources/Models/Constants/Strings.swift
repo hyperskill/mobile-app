@@ -100,9 +100,8 @@ enum Strings {
         enum ProblemOfDaySolvedModal {
             static let title = sharedStrings.step_quiz_problem_of_day_solved_modal_title.localized()
             static let text = sharedStrings.step_quiz_problem_of_day_solved_modal_text.localized()
-            static let totalGems = sharedStrings.step_quiz_problem_of_day_solved_modal_total_gems.localized()
             static let goButtonText =
-                sharedStrings.step_quiz_problem_of_day_solved_modal_go_back_button_text.localized()
+                sharedStrings.step_quiz_problem_of_day_solved_modal_go_to_homescreen_button_text.localized()
         }
     }
 
