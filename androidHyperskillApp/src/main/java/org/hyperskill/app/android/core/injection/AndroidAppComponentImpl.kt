@@ -84,6 +84,7 @@ import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
 import org.hyperskill.app.sentry.injection.SentryComponent
 import org.hyperskill.app.sentry.injection.SentryComponentImpl
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.injection.PlatformStepComponent
 import org.hyperskill.app.step.injection.PlatformStepComponentImpl
 import org.hyperskill.app.step.injection.StepComponent
@@ -202,8 +203,8 @@ class AndroidAppComponentImpl(
     /**
      * Step quiz component
      */
-    override fun buildStepQuizComponent(): StepQuizComponent =
-        StepQuizComponentImpl(this)
+    override fun buildStepQuizComponent(stepRoute: StepRoute): StepQuizComponent =
+        StepQuizComponentImpl(this, stepRoute)
 
     override fun buildPlatformStepQuizComponent(stepQuizComponent: StepQuizComponent): PlatformStepQuizComponent =
         PlatformStepQuizComponentImpl(stepQuizComponent)

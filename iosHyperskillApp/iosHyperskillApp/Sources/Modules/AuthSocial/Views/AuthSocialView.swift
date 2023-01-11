@@ -10,6 +10,8 @@ extension AuthSocialView {
 struct AuthSocialView: View {
     private(set) var appearance = Appearance()
 
+    let isInSignUpMode: Bool
+
     @StateObject var viewModel: AuthSocialViewModel
 
     @State private var presentingAuthWithEmail = false
@@ -27,11 +29,15 @@ struct AuthSocialView: View {
             AuthAdaptiveContentView(
                 onViewDidAppear: viewModel.logViewedEvent
             ) { horizontalSizeClass in
-                AuthLogoView(logoWidthHeight: appearance.logoWidthHeight)
-                    .padding(horizontalSizeClass == .regular ? .bottom : .vertical, appearance.logoWidthHeight)
+                AuthLogoView(
+                    logoWidthHeight: appearance.logoWidthHeight,
+                    title: isInSignUpMode ? Strings.Auth.Social.signUpTitle : Strings.Auth.Social.logInTitle
+                )
+                .padding(horizontalSizeClass == .regular ? .bottom : .vertical, appearance.logoWidthHeight)
 
                 AuthSocialControlsView(
                     socialAuthProviders: viewModel.availableSocialAuthProviders,
+                    isContinueWithEmailAvailable: !isInSignUpMode,
                     onSocialAuthProviderClick: viewModel.signIn(with:),
                     onContinueWithEmailClick: {
                         viewModel.logClickedContinueWithEmailEvent()

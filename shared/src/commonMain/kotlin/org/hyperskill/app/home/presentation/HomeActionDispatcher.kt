@@ -1,11 +1,10 @@
 package org.hyperskill.app.home.presentation
 
-import kotlin.time.DurationUnit
-import kotlin.time.toDuration
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
@@ -19,6 +18,7 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.core.view.mapper.DateFormatter
 import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeFeature.Action
 import org.hyperskill.app.home.presentation.HomeFeature.Message
@@ -30,6 +30,8 @@ import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.streak.domain.interactor.StreakInteractor
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 class HomeActionDispatcher(
     config: ActionDispatcherOptions,
@@ -40,8 +42,10 @@ class HomeActionDispatcher(
     private val stepInteractor: StepInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
-    private val urlPathProcessor: UrlPathProcessor
+    private val urlPathProcessor: UrlPathProcessor,
+    private val dateFormatter: DateFormatter
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
+    private var isTimerLaunched: Boolean = false
 
     companion object {
         private val DELAY_ONE_MINUTE = 1.toDuration(DurationUnit.MINUTES)
@@ -129,6 +133,12 @@ class HomeActionDispatcher(
                 onNewMessage(Message.ReadyToLaunchNextProblemInTimer)
             }
             is Action.LaunchTimer -> {
+                if (isTimerLaunched) {
+                    return
+                }
+
+                isTimerLaunched = true
+
                 flow {
                     var nextProblemIn = calculateNextProblemIn()
 
@@ -138,7 +148,11 @@ class HomeActionDispatcher(
                         emit(nextProblemIn)
                     }
                 }
-                    .onEach { seconds -> onNewMessage(Message.HomeNextProblemInUpdate(seconds)) }
+                    .onCompletion {
+                        isTimerLaunched = false
+                        onNewMessage(Message.NextProblemInTimerStopped)
+                    }
+                    .onEach { seconds -> onNewMessage(Message.HomeNextProblemInUpdate(dateFormatter.hoursWithMinutesCount(seconds))) }
                     .launchIn(actionScope)
             }
             is Action.GetMagicLink ->
@@ -160,9 +174,9 @@ class HomeActionDispatcher(
                 .getStep(dailyStepId)
                 .map { step ->
                     if (step.isCompleted) {
-                        HomeFeature.ProblemOfDayState.Solved(step, nextProblemIn)
+                        HomeFeature.ProblemOfDayState.Solved(step, dateFormatter.hoursWithMinutesCount(nextProblemIn))
                     } else {
-                        HomeFeature.ProblemOfDayState.NeedToSolve(step, nextProblemIn)
+                        HomeFeature.ProblemOfDayState.NeedToSolve(step, dateFormatter.hoursWithMinutesCount(nextProblemIn))
                     }
                 }
         }

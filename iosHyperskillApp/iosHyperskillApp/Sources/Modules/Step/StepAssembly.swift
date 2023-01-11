@@ -2,10 +2,10 @@ import shared
 import SwiftUI
 
 final class StepAssembly: UIKitAssembly {
-    private let stepID: Int
+    private let stepRoute: StepRoute
 
-    init(stepID: Int) {
-        self.stepID = stepID
+    init(stepRoute: StepRoute) {
+        self.stepRoute = stepRoute
     }
 
     func makeModule() -> UIViewController {
@@ -13,7 +13,7 @@ final class StepAssembly: UIKitAssembly {
         let stepComponent = AppGraphBridge.sharedAppGraph.buildStepComponent()
 
         let viewModel = StepViewModel(
-            stepID: self.stepID,
+            stepRoute: self.stepRoute,
             viewDataMapper: StepViewDataMapper(
                 formatter: Formatter(resourceProvider: commonComponent.resourceProvider),
                 resourceProvider: commonComponent.resourceProvider,

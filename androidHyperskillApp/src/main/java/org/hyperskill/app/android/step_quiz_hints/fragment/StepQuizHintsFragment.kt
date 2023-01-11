@@ -86,7 +86,7 @@ class StepQuizHintsFragment :
     override fun onAction(action: StepQuizHintsFeature.Action.ViewAction) {
         when (action) {
             StepQuizHintsFeature.Action.ViewAction.ShowNetworkError ->
-                view?.snackbar(messageRes = R.string.connection_error)
+                view?.snackbar(messageRes = org.hyperskill.app.R.string.connection_error)
         }
     }
 

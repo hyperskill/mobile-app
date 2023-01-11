@@ -34,7 +34,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3.2.0
+      uses: actions/checkout@v3.3.0
 
     - name: Setup CI
       id: setup
@@ -58,7 +58,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3.2.0
+      uses: actions/checkout@v3.3.0
 
     - name: Setup CI
       id: setup
@@ -82,7 +82,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3.2.0
+      uses: actions/checkout@v3.3.0
       
     - name: Setup CI
       id: setup

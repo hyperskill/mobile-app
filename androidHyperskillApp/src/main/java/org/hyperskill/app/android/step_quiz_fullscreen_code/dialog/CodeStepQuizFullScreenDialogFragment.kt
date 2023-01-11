@@ -16,8 +16,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.chrynan.parcelable.core.getParcelable
-import com.chrynan.parcelable.core.putParcelable
 import com.google.android.material.button.MaterialButton
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
@@ -25,17 +23,17 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.code.util.CodeToolbarUtil
 import org.hyperskill.app.android.code.view.adapter.CodeToolbarAdapter
 import org.hyperskill.app.android.code.view.widget.CodeEditorLayout
+import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.extensions.setTintList
 import org.hyperskill.app.android.databinding.DialogStepQuizCodeFullscreenBinding
 import org.hyperskill.app.android.latex.view.widget.LatexView
 import org.hyperskill.app.android.latex.view.widget.LatexWebView
-import org.hyperskill.app.android.step_quiz.view.fragment.DefaultStepQuizFragment
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeLayoutDelegate
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeQuizInstructionDelegate
 import org.hyperskill.app.android.step_quiz_fullscreen_code.adapter.CodeStepQuizFullScreenPagerAdapter
 import org.hyperskill.app.android.view.base.ui.extension.setOnKeyboardOpenListener
+import org.hyperskill.app.core.view.mapper.DateFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
-import org.hyperskill.app.extension.TimeFancifier
 import org.hyperskill.app.step.domain.model.Step
 import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.base.ui.extension.hideKeyboard
@@ -57,18 +55,14 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
             codeTemplates: Map<String, String>,
             step: Step,
             isShowRetryButton: Boolean
-        ): CodeStepQuizFullScreenDialogFragment {
-            val arguments = Bundle().apply {
-                putParcelable(DefaultStepQuizFragment.KEY_STEP, step)
-            }
-            return CodeStepQuizFullScreenDialogFragment().apply {
-                this.arguments = arguments
+        ): CodeStepQuizFullScreenDialogFragment =
+            CodeStepQuizFullScreenDialogFragment().apply {
+                this.step = step
                 this.lang = lang
                 this.code = code
                 this.codeTemplates = codeTemplates
                 this.isShowRetryButton = isShowRetryButton
             }
-        }
     }
 
     private val viewBinding: DialogStepQuizCodeFullscreenBinding by viewBinding(
@@ -96,7 +90,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
     private var lang: String by argument()
     private var code: String by argument()
     private var codeTemplates: Map<String, String> by argument()
-    private lateinit var step: Step
+    private var step: Step by argument(serializer = Step.serializer())
     private var isShowRetryButton: Boolean by argument()
 
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -120,10 +114,6 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        step = requireArguments().getParcelable<Step>(DefaultStepQuizFragment.KEY_STEP)
-            ?: throw IllegalStateException()
-
         setStyle(STYLE_NO_TITLE, R.style.ThemeOverlay_AppTheme_Dialog_Fullscreen)
         injectComponent()
     }
@@ -139,13 +129,13 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(viewBinding.fullScreenCenteredToolbar) {
-            centeredToolbarTitle.text = getString(R.string.step_quiz_code_write_program_text)
+            centeredToolbarTitle.text = getString(org.hyperskill.app.R.string.step_quiz_code_write_program_text)
             centeredToolbar.inflateMenu(R.menu.code_playground_menu)
             centeredToolbar.setNavigationOnClickListener { dismiss() }
             centeredToolbar.apply {
                 navigationIcon = AppCompatResources
                     .getDrawable(context, R.drawable.ic_close_thin)
-                    ?.setTintList(context, R.attr.colorControlNormal)
+                    ?.setTintList(context, androidx.appcompat.R.attr.colorControlNormal)
             }
             centeredToolbar.setOnMenuItemClickListener { item ->
                 if (item?.itemId == R.id.action_reset_code) {
@@ -189,7 +179,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
             resourceProvider.getString(
                 SharedResources.strings.step_quiz_stats_text,
                 step.solvedBy.toString(),
-                TimeFancifier.formatTimeDistance(step.millisSinceLastCompleted)
+                DateFormatter.formatTimeDistance(step.millisSinceLastCompleted)
             )
         instructionsLayout.findViewById<LatexView>(R.id.stepQuizCodeFullscreenInstructionTextHeader)
             .setText(text)
@@ -200,7 +190,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
         submitButtonSeparator = playgroundLayout.findViewById(R.id.submitButtonSeparator)
 
         codeSubmitButton = playgroundLayout.findViewById(R.id.stepQuizSubmitButton)
-        codeSubmitButton.setText(R.string.step_quiz_code_run_solution_button_text)
+        codeSubmitButton.setText(org.hyperskill.app.R.string.step_quiz_code_run_solution_button_text)
         codeSubmitButton.setIconResource(R.drawable.ic_run)
         codeSubmitButton.iconPadding =
             requireContext().resources.getDimensionPixelSize(R.dimen.step_quiz_fullscreen_code_layout_action_button_icon_padding)

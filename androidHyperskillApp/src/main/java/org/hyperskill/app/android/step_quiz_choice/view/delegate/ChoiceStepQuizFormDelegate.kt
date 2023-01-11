@@ -42,9 +42,9 @@ class ChoiceStepQuizFormDelegate(
         @StringRes
         val descriptionRes =
             if (dataset.isMultipleChoice) {
-                R.string.step_quiz_choice_multiple_choice_title
+                org.hyperskill.app.R.string.step_quiz_choice_multiple_choice_title
             } else {
-                R.string.step_quiz_choice_single_choice_title
+                org.hyperskill.app.R.string.step_quiz_choice_single_choice_title
             }
         quizDescription.setText(descriptionRes)
 

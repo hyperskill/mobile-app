@@ -94,7 +94,10 @@ struct HomeView: View {
                     #if BETA_PROFILE || DEBUG
                     HomeDebugStepNavigationView(
                         onOpenStepTapped: { stepID in
-                            pushRouter.pushViewController(StepAssembly(stepID: stepID).makeModule())
+                            let assembly = StepAssembly(
+                                stepRoute: StepRouteLearn(stepId: Int64(stepID))
+                            )
+                            pushRouter.pushViewController(assembly.makeModule())
                         }
                     )
                     #endif
@@ -110,18 +113,20 @@ struct HomeView: View {
             }
             .frame(maxWidth: .infinity)
             .toolbar {
-                ToolbarItemGroup(placement: .primaryAction) {
-                    if let streak = data.streak {
-                        StreakBarButtonItem(
-                            currentStreak: Int(streak.currentStreak),
-                            onTap: viewModel.doStreakBarButtonItemAction
+                ToolbarItem(placement: .primaryAction) {
+                    HStack {
+                        if let streak = data.streak {
+                            StreakBarButtonItem(
+                                currentStreak: Int(streak.currentStreak),
+                                onTap: viewModel.doStreakBarButtonItemAction
+                            )
+                        }
+
+                        GemsBarButtonItem(
+                            hypercoinsBalance: Int(data.hypercoinsBalance),
+                            onTap: viewModel.doGemsBarButtonItemAction
                         )
                     }
-
-                    GemsBarButtonItem(
-                        hypercoinsBalance: Int(data.hypercoinsBalance),
-                        onTap: viewModel.doGemsBarButtonItemAction
-                    )
                 }
             }
         }
@@ -132,7 +137,7 @@ struct HomeView: View {
         case .navigateTo(let navigateToViewAction):
             switch HomeFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .stepScreen(let data):
-                let assembly = StepAssembly(stepID: Int(data.stepId))
+                let assembly = StepAssembly(stepRoute: data.stepRoute)
                 pushRouter.pushViewController(assembly.makeModule())
             case .topicsRepetitionsScreen:
                 let assembly = TopicsRepetitionsAssembly()

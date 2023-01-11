@@ -1,12 +1,9 @@
 package org.hyperskill.app.step.presentation
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
-import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
-import org.hyperskill.app.step.domain.analytic.StepClickedBackHyperskillAnalyticEvent
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.step.presentation.StepFeature.Action
 import org.hyperskill.app.step.presentation.StepFeature.Message
@@ -15,7 +12,6 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 class StepActionDispatcher(
     config: ActionDispatcherOptions,
     private val stepInteractor: StepInteractor,
-    private val profileInteractor: ProfileInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
@@ -26,7 +22,7 @@ class StepActionDispatcher(
                 sentryInteractor.startTransaction(sentryTransaction)
 
                 stepInteractor
-                    .getStep(action.stepId)
+                    .getStep(action.stepRoute.stepId)
                     .fold(
                         onSuccess = {
                             sentryInteractor.finishTransaction(sentryTransaction)
@@ -38,18 +34,8 @@ class StepActionDispatcher(
                         }
                     )
             }
-            is Action.LogClickedBackEvent -> {
-                val currentProfile = profileInteractor
-                    .getCurrentProfile()
-                    .getOrElse { return }
-
-                val analyticEvent = StepClickedBackHyperskillAnalyticEvent(
-                    if (action.stepId == currentProfile.dailyStep)
-                        HyperskillAnalyticRoute.Learn.Daily(action.stepId)
-                    else HyperskillAnalyticRoute.Learn.Step(action.stepId)
-                )
-                analyticInteractor.logEvent(analyticEvent)
-            }
+            is Action.LogAnalyticEvent ->
+                analyticInteractor.logEvent(action.analyticEvent)
         }
     }
 }

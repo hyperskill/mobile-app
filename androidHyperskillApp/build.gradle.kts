@@ -68,6 +68,9 @@ android {
         targetSdk = appVersions.versions.targetSdk.get().toInt()
         versionCode = appVersions.versions.versionCode.get().toInt()
         versionName = appVersions.versions.versionName.get()
+
+        // Prevent other localisations because of ru.nobird.ui ru localization
+        resourceConfigurations.add("en")
     }
 
     signingConfigs {

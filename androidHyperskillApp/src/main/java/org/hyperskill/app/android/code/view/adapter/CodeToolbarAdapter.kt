@@ -28,7 +28,7 @@ class CodeToolbarAdapter(private val context: Context) :
     }
 
     private val autocompletePrefixBackgroundSpan =
-        BackgroundColorSpan(context.resolveColorAttribute(R.attr.colorControlHighlight))
+        BackgroundColorSpan(context.resolveColorAttribute(androidx.appcompat.R.attr.colorControlHighlight))
 
     private var recyclerView: RecyclerView? = null
     private var items: MutableList<Spannable?> = ArrayList()

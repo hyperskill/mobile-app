@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import org.hyperskill.app.android.notification.service.NotificationAlarmService
 
+@Deprecated("Replace with WorkManager")
 class AlarmReceiver : BroadcastReceiver() {
     companion object {
         const val REQUEST_CODE = 151

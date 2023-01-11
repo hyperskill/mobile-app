@@ -22,14 +22,14 @@ class StepQuizHintsDelegate(
     init {
         with(binding) {
             with(stepQuizSeeHintsButton.root) {
-                setText(R.string.step_quiz_hints_show_button_text)
+                setText(org.hyperskill.app.R.string.step_quiz_hints_show_button_text)
                 setOnClickListener {
                     onNewMessage(StepQuizHintsFeature.Message.LoadHintButtonClicked)
                 }
             }
 
             with(stepQuizHintCard) {
-                stepQuizSeeNextHintButton.root.setText(R.string.step_quiz_hints_see_next_hint)
+                stepQuizSeeNextHintButton.root.setText(org.hyperskill.app.R.string.step_quiz_hints_see_next_hint)
                 stepQuizSeeNextHintButton.root.setOnClickListener {
                     onNewMessage(StepQuizHintsFeature.Message.LoadHintButtonClicked)
                 }
@@ -77,8 +77,8 @@ class StepQuizHintsDelegate(
                     @Suppress("KotlinConstantConditions")
                     stepQuizHintDescriptionTextView.setTextIfChanged(
                         when (state.hintState) {
-                            StepQuizHintsViewState.HintState.ReactToHint -> R.string.step_quiz_hints_helpful_question_text
-                            StepQuizHintsViewState.HintState.LastHint -> R.string.step_quiz_hints_last_hint_text
+                            StepQuizHintsViewState.HintState.ReactToHint -> org.hyperskill.app.R.string.step_quiz_hints_helpful_question_text
+                            StepQuizHintsViewState.HintState.LastHint -> org.hyperskill.app.R.string.step_quiz_hints_last_hint_text
                             StepQuizHintsViewState.HintState.SeeNextHint -> error("Can't evaluate text for state = $state")
                         }.let(context::getString)
                     )
@@ -106,14 +106,14 @@ class StepQuizHintsDelegate(
         onNewMessage: (StepQuizHintsFeature.Message) -> Unit
     ) =
         MaterialAlertDialogBuilder(context)
-            .setTitle(R.string.step_quiz_hints_report_alert_title)
-            .setMessage(R.string.step_quiz_hints_report_alert_text)
-            .setPositiveButton(R.string.yes) { dialog, _ ->
+            .setTitle(org.hyperskill.app.R.string.step_quiz_hints_report_alert_title)
+            .setMessage(org.hyperskill.app.R.string.step_quiz_hints_report_alert_text)
+            .setPositiveButton(org.hyperskill.app.R.string.yes) { dialog, _ ->
                 dialog.dismiss()
                 onNewMessage(StepQuizHintsFeature.Message.ReportHintNoticeHiddenEventMessage(true))
                 onNewMessage(StepQuizHintsFeature.Message.ReportHint)
             }
-            .setNegativeButton(R.string.no) { dialog, _ ->
+            .setNegativeButton(org.hyperskill.app.R.string.no) { dialog, _ ->
                 dialog.dismiss()
                 onNewMessage(
                     StepQuizHintsFeature.Message.ReportHintNoticeHiddenEventMessage(false)

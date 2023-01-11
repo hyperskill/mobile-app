@@ -219,7 +219,7 @@ tasks.register("dokkaAnalytics", DokkaTask::class.java) {
 
     dokkaSourceSets {
         configureEach {
-            // Suppress all packages and the enable only the ones we want
+            // Suppress all packages and then enable only the ones we want
             perPackageOption {
                 suppress.set(true)
                 // Do not create index pages for empty packages

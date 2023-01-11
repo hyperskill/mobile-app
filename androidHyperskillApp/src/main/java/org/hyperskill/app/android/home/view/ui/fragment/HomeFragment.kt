@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
@@ -27,6 +29,7 @@ import org.hyperskill.app.android.view.base.ui.extension.setElevationOnCollapsed
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeViewModel
+import org.hyperskill.app.step.domain.model.StepRoute
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -121,13 +124,13 @@ class HomeFragment :
 
     private fun onProblemOfDayCardActionButtonClicked(stepId: Long) {
         homeViewModel.onNewMessage(HomeFeature.Message.ClickedProblemOfDayCardEventMessage)
-        requireRouter().navigateTo(StepScreen(stepId))
+        requireRouter().navigateTo(StepScreen(StepRoute.LearnDaily(stepId)))
     }
 
     private fun initViewStateDelegate() {
         with(viewStateDelegate) {
             addState<HomeFeature.State.Idle>()
-            addState<HomeFeature.State.Loading>(viewBinding.homeScreenProgress)
+            addState<HomeFeature.State.Loading>(viewBinding.homeScreenSkeleton.root, viewBinding.homeScreenAppBar)
             addState<HomeFeature.State.NetworkError>(viewBinding.homeScreenError.root)
             addState<HomeFeature.State.Content>(viewBinding.homeScreenContainer, viewBinding.homeScreenAppBar)
         }
@@ -152,6 +155,7 @@ class HomeFragment :
 
     override fun render(state: HomeFeature.State) {
         viewStateDelegate.switchState(state)
+        TransitionManager.beginDelayedTransition(viewBinding.root, AutoTransition())
         if (state is HomeFeature.State.Content) {
             if (state.isLoadingMagicLink) {
                 LoadingProgressDialogFragment.newInstance()
@@ -166,13 +170,20 @@ class HomeFragment :
     }
 
     private fun renderMenuItems(state: HomeFeature.State.Content) {
-        with(viewBinding) {
-            homeScreenStreakDurationTextView.isVisible = state.streak != null
-            state.streak?.let { streak ->
-                homeScreenStreakDurationTextView.text = streak.currentStreak.toString()
-            }
-            homeScreenGemsCountTextView.isVisible = true
-            homeScreenGemsCountTextView.text = state.hypercoinsBalance.toString()
+        with(viewBinding.homeScreenStreakDurationTextView) {
+            isVisible = true
+            val streakDuration = state.streak?.currentStreak ?: 0
+            text = streakDuration.toString()
+            setCompoundDrawablesWithIntrinsicBounds(
+                if (state.streak?.history?.firstOrNull()?.isCompleted == true) R.drawable.ic_menu_streak else R.drawable.ic_menu_empty_streak, // left
+                0,
+                0,
+                0
+            )
+        }
+        with(viewBinding.homeScreenGemsCountTextView) {
+            isVisible = true
+            text = state.hypercoinsBalance.toString()
         }
     }
 

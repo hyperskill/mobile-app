@@ -53,6 +53,7 @@ import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
 import org.hyperskill.app.sentry.domain.model.manager.SentryManager
 import org.hyperskill.app.sentry.injection.SentryComponent
 import org.hyperskill.app.sentry.injection.SentryComponentImpl
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step.injection.StepComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
@@ -128,8 +129,8 @@ class AppGraphImpl(
     override fun buildStepComponent(): StepComponent =
         StepComponentImpl(this)
 
-    override fun buildStepQuizComponent(): StepQuizComponent =
-        StepQuizComponentImpl(this)
+    override fun buildStepQuizComponent(stepRoute: StepRoute): StepQuizComponent =
+        StepQuizComponentImpl(this, stepRoute)
 
     override fun buildProfileDataComponent(): ProfileDataComponent =
         ProfileDataComponentImpl(this)

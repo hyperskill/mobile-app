@@ -20,7 +20,7 @@ class StreakCardFormDelegate(
             strokeWidth =
                 context.resources.getDimensionPixelSize(R.dimen.streak_today_streak_card_stroke_width)
             strokeColor =
-                context.getColor(R.color.color_primary)
+                context.getColor(org.hyperskill.app.R.color.color_primary)
         }
         with(binding) {
             streakCardBuyFreezeButton.setOnClickListener {
@@ -56,7 +56,7 @@ class StreakCardFormDelegate(
 
         binding.streakDaysCountTextView.setTextIfChanged(
             context.resources.getQuantityString(
-                R.plurals.days,
+                org.hyperskill.app.R.plurals.days,
                 streak.currentStreak,
                 streak.currentStreak
             )

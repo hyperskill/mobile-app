@@ -8,7 +8,7 @@ extension Analytic {
 }
 
 extension AnalyticInteractor {
-    func logEvent(event: AnalyticEvent, completionHandler: ((KotlinUnit?, Error?) -> Void)? = nil) {
-        logEvent(event: event, forceLogEvent: false, completionHandler: completionHandler ?? { _, _ in })
+    func logEvent(event: AnalyticEvent, completionHandler: ((Error?) -> Void)? = nil) {
+        logEvent(event: event, forceLogEvent: false, completionHandler: completionHandler ?? { _ in })
     }
 }

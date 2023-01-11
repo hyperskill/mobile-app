@@ -34,7 +34,7 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 
     private val verticalLinePaint: Paint = Paint().apply {
         isAntiAlias = true
-        color = ContextCompat.getColor(context, R.color.color_on_surface_alpha_12)
+        color = ContextCompat.getColor(context, org.hyperskill.app.R.color.color_on_surface_alpha_12)
         style = Paint.Style.FILL
         strokeWidth = Dp(StrokeWidth).toPx().value
         pathEffect = DashPathEffect(

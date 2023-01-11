@@ -35,7 +35,7 @@ class TableStepQuizFormDelegate(
     private var isCheckBox: Boolean = false
 
     init {
-        quizDescription.setText(R.string.step_quiz_table_single_choice_title)
+        quizDescription.setText(org.hyperskill.app.R.string.step_quiz_table_single_choice_title)
 
         tableAdapter += TableSelectionItemAdapterDelegate() { index, rowTitle, chosenColumns ->
             TableColumnSelectionBottomSheetDialogFragment

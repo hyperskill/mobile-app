@@ -9,6 +9,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.ImageLoader
 import coil.decode.SvgDecoder
@@ -26,6 +28,7 @@ import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentTrackBinding
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.presentation.TrackFeature
@@ -83,7 +86,7 @@ class TrackFragment :
     private fun initViewStateDelegate() {
         with(viewStateDelegate) {
             addState<TrackFeature.State.Idle>()
-            addState<TrackFeature.State.Loading>(viewBinding.trackProgressBar)
+            addState<TrackFeature.State.Loading>(viewBinding.trackSkeleton.root)
             addState<TrackFeature.State.NetworkError>(viewBinding.trackError.root)
             addState<TrackFeature.State.Content>(viewBinding.trackContainer)
         }
@@ -92,7 +95,7 @@ class TrackFragment :
     override fun onAction(action: TrackFeature.Action.ViewAction) {
         when (action) {
             is TrackFeature.Action.ViewAction.NavigateTo.StepScreen ->
-                requireRouter().navigateTo(StepScreen(action.stepId))
+                requireRouter().navigateTo(StepScreen(StepRoute.Learn(action.stepId)))
             is TrackFeature.Action.ViewAction.OpenUrl ->
                 requireContext().openUrl(action.url)
             is TrackFeature.Action.ViewAction.ShowGetMagicLinkError ->
@@ -123,7 +126,7 @@ class TrackFragment :
 
     override fun render(state: TrackFeature.State) {
         viewStateDelegate.switchState(state)
-
+        TransitionManager.beginDelayedTransition(viewBinding.root, AutoTransition())
         if (state is TrackFeature.State.Content) {
             renderContent(state)
         }
@@ -203,7 +206,7 @@ class TrackFragment :
             trackAboutUsefulnessTextView.text = "${content.trackProgress.averageRating}"
             val hoursToComplete = (content.track.secondsToComplete / 3600).roundToInt()
             trackAboutAllPerformTimeTextView.text = resources.getQuantityString(
-                R.plurals.hours,
+                org.hyperskill.app.R.plurals.hours,
                 hoursToComplete,
                 hoursToComplete
             )
@@ -212,7 +215,7 @@ class TrackFragment :
                 trackAboutProjectsCountTextView.visibility = View.GONE
             } else {
                 trackAboutProjectsCountTextView.text = resources.getQuantityString(
-                    R.plurals.projects,
+                    org.hyperskill.app.R.plurals.projects,
                     content.track.projects.size,
                     content.track.projects.size
                 )
@@ -222,7 +225,7 @@ class TrackFragment :
                 trackAboutTopicsCountTextView.visibility = View.GONE
             } else {
                 trackAboutTopicsCountTextView.text = resources.getQuantityString(
-                    R.plurals.topics,
+                    org.hyperskill.app.R.plurals.topics,
                     content.track.topicsCount,
                     content.track.topicsCount
                 )

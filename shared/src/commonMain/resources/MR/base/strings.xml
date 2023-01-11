@@ -17,6 +17,7 @@
 
     <!-- Auth -->
     <string name="auth_log_in_title">Sign in to My Hyperskill</string>
+    <string name="auth_sign_up_title">Sign up to My Hyperskill</string>
     <string name="auth_jetbrains_account_text">JetBrains Account</string>
     <string name="auth_google_account_text">Google</string>
     <string name="auth_github_account_text">GitHub</string>
@@ -231,7 +232,6 @@
     <string name="problem_of_day_solve_a_random_problem">Solve a random problem using the topics you already know to practice what you\'ve learned.</string>
     <string name="problem_of_day_get_back">Get back later to solve another problem.</string>
     <string name="problem_of_day_next_problem_in">Next problem in</string>
-    <string name="problem_of_day_hours_and_minutes">%d hrs %d mins</string>
     <string name="problem_of_day_minutes">%d minutes</string>
 
     <!--  Topics repetitions  -->

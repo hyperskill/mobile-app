@@ -36,7 +36,7 @@ object NotificationChannelInitializer {
         channel.description = context.getString(hyperskillChannel.visibleChannelDescriptionRes)
         channel.enableLights(true)
         channel.enableVibration(true)
-        channel.lightColor = context.resolveColorAttribute(R.attr.colorError)
+        channel.lightColor = context.resolveColorAttribute(androidx.appcompat.R.attr.colorError)
         return channel
     }
 }

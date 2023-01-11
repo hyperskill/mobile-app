@@ -89,7 +89,6 @@ interface StepQuizFeature {
         /**
          * Analytic
          */
-        data class ViewedEventMessage(val stepId: Long) : Message
         object ClickedCodeDetailsEventMessage : Message
         object ClickedRetryEventMessage : Message
         object DailyStepCompletedModalShownEventMessage : Message
@@ -116,7 +115,6 @@ interface StepQuizFeature {
         /**
          * Analytic
          */
-        data class LogViewedEvent(val stepId: Long) : Action
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
         sealed interface ViewAction : Action {

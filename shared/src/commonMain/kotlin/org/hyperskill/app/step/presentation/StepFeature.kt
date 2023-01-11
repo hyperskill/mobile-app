@@ -1,6 +1,8 @@
 package org.hyperskill.app.step.presentation
 
+import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.StepRoute
 
 interface StepFeature {
     sealed interface State {
@@ -12,7 +14,7 @@ interface StepFeature {
 
     sealed interface Message {
         data class Initialize(
-            val stepId: Long,
+            val stepRoute: StepRoute,
             val forceUpdate: Boolean = false
         ) : Message
 
@@ -21,12 +23,12 @@ interface StepFeature {
             object Error : StepLoaded
         }
 
-        data class ClickedBackEventMessage(val stepId: Long) : Message
+        data class ViewedEventMessage(val stepRoute: StepRoute) : Message
     }
 
     sealed interface Action {
-        data class FetchStep(val stepId: Long) : Action
+        data class FetchStep(val stepRoute: StepRoute) : Action
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
         sealed class ViewAction : Action
-        data class LogClickedBackEvent(val stepId: Long) : Action
     }
 }

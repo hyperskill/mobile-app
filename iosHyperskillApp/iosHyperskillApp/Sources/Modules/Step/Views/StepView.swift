@@ -9,15 +9,19 @@ struct StepView: View {
     @StateObject var modalRouter: SwiftUIModalRouter
 
     var body: some View {
-        buildBody()
-            .navigationBarHidden(false)
-            .onAppear {
-                viewModel.startListening()
-                viewModel.onViewAction = handleViewAction(_:)
-            }
-            .onDisappear(perform: viewModel.stopListening)
-            .environmentObject(pushRouter)
-            .environmentObject(modalRouter)
+        ZStack {
+            UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
+
+            buildBody()
+        }
+        .navigationBarHidden(false)
+        .onAppear {
+            viewModel.startListening()
+            viewModel.onViewAction = handleViewAction(_:)
+        }
+        .onDisappear(perform: viewModel.stopListening)
+        .environmentObject(pushRouter)
+        .environmentObject(modalRouter)
     }
 
     // MARK: Private API
@@ -57,7 +61,7 @@ struct StepView: View {
                 viewData: viewModel.makeViewData(data.step)
             )
         case Step.Type_.practice:
-            StepQuizAssembly(step: data.step)
+            StepQuizAssembly(step: data.step, stepRoute: viewModel.stepRoute)
                 .makeModule()
                 .environmentObject(PanModalPresenter())
         default:
@@ -73,7 +77,7 @@ struct StepView: View {
 struct StepView_Previews: PreviewProvider {
     static var previews: some View {
         UIKitViewControllerPreview {
-            StepAssembly(stepID: 4350).makeModule()
+            StepAssembly(stepRoute: StepRouteLearn(stepId: 4350)).makeModule()
         }
     }
 }

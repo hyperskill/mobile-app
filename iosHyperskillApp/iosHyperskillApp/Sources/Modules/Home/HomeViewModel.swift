@@ -96,7 +96,11 @@ extension HomeViewModel: ProblemOfDayOutputProtocol {
         logClickedProblemOfDayCardEvent()
 
         DispatchQueue.main.async {
-            self.onViewAction?(HomeFeatureActionViewActionNavigateToStepScreen(stepId: Int64(stepID)))
+            self.onViewAction?(
+                HomeFeatureActionViewActionNavigateToStepScreen(
+                    stepRoute: StepRouteLearnDaily(stepId: Int64(stepID))
+                )
+            )
         }
     }
 }
