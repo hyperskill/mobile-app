@@ -10,10 +10,14 @@ struct StreakBarButtonItem: View {
             action: onTap,
             label: {
                 HStack {
-                    Image(Images.NavigationBar.streak)
-                        .renderingMode(.original)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
+                    Image(
+                        currentStreak > 0
+                            ? Images.NavigationBar.streakCompleted
+                            : Images.NavigationBar.streakUncompleted
+                    )
+                    .renderingMode(.original)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
 
                     Text("\(currentStreak)")
                         .foregroundColor(.primaryText)
