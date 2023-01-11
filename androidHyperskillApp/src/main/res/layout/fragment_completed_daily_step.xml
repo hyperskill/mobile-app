@@ -72,14 +72,6 @@
         tools:text="300"
         />
 
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/completedDailyStepButtonBarrier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="bottom"
-        app:constraint_referenced_ids="completedDailyStepEarnedGemsTextView"
-        />
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/completedDailyStepGoBackButton"
         android:layout_width="match_parent"
@@ -90,7 +82,7 @@
         android:layout_marginHorizontal="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/completedDailyStepButtonBarrier"
+        app:layout_constraintTop_toBottomOf="@+id/completedDailyStepEarnedGemsTextView"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
