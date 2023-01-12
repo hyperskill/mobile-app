@@ -13,7 +13,6 @@ import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.ImageLoader
-import coil.decode.SvgDecoder
 import coil.load
 import coil.size.Scale
 import org.hyperskill.app.SharedResources
