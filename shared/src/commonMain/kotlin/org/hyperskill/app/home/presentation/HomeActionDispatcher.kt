@@ -96,8 +96,8 @@ class HomeActionDispatcher(
                 val problemOfDayStateResult = actionScope.async {
                     getProblemOfDayState(currentProfile.dailyStep)
                 }
-                val currentProfileStreaksResult = actionScope.async {
-                    streaksInteractor.getStreaks(currentProfile.id)
+                val currentProfileStreakResult = actionScope.async {
+                    streaksInteractor.getUserStreak(currentProfile.id)
                 }
                 val topicsRepetitionsStatisticsResult = actionScope.async {
                     topicsRepetitionsInteractor.getTopicsRepetitionStatistics()
@@ -107,10 +107,7 @@ class HomeActionDispatcher(
                     sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                     return onNewMessage(Message.HomeFailure)
                 }
-                val currentProfileStreaks = currentProfileStreaksResult.await().getOrElse {
-                    sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                    return onNewMessage(Message.HomeFailure)
-                }
+                val currentProfileStreak = currentProfileStreakResult.await().getOrNull()
                 val topicsRepetitionsStatistics = topicsRepetitionsStatisticsResult.await().getOrElse {
                     sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                     return onNewMessage(Message.HomeFailure)
@@ -120,7 +117,7 @@ class HomeActionDispatcher(
 
                 onNewMessage(
                     Message.HomeSuccess(
-                        streak = currentProfileStreaks.firstOrNull(),
+                        streak = currentProfileStreak,
                         hypercoinsBalance = currentProfile.gamification.hypercoinsBalance,
                         problemOfDayState = problemOfDayState,
                         repetitionsState = if (topicsRepetitionsStatistics.recommendTodayCount > 0 || topicsRepetitionsStatistics.repeatedTodayCount > 0) {

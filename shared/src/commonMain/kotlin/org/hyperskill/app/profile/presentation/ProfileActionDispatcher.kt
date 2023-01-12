@@ -57,11 +57,11 @@ class ProfileActionDispatcher(
                         return onNewMessage(Message.ProfileLoaded.Error)
                     }
 
-                val streaksResult = actionScope.async { streaksInteractor.getStreaks(currentProfile.id) }
+                val streakResult = actionScope.async { streaksInteractor.getUserStreak(currentProfile.id) }
                 val streakFreezeProductResult = actionScope.async { productsInteractor.getStreakFreezeProduct() }
                 val itemsResult = actionScope.async { itemsInteractor.getItems() }
 
-                val streaks = streaksResult.await().getOrElse {
+                val streak = streakResult.await().getOrElse {
                     sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                     return onNewMessage(Message.ProfileLoaded.Error)
                 }
@@ -73,7 +73,7 @@ class ProfileActionDispatcher(
                 onNewMessage(
                     Message.ProfileLoaded.Success(
                         profile = currentProfile,
-                        streak = streaks.firstOrNull(),
+                        streak = streak,
                         streakFreezeState = getStreakFreezeState(streakFreezeProduct, items, currentProfile.gamification.hypercoinsBalance)
                     )
                 )

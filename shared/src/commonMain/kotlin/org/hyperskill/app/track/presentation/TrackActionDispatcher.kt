@@ -78,7 +78,7 @@ class TrackActionDispatcher(
                 val trackResult = actionScope.async { trackInteractor.getTrack(trackId) }
                 val trackProgressResult = actionScope.async { progressesInteractor.getTrackProgress(trackId) }
                 val studyPlanResult = actionScope.async { trackInteractor.getStudyPlanByTrackId(trackId) }
-                val streaksResult = actionScope.async { streaksInteractor.getStreaks(currentCachedProfile.id) }
+                val streakResult = actionScope.async { streaksInteractor.getUserStreak(currentCachedProfile.id) }
                 val currentRemoteProfileResult = actionScope.async {
                     profileInteractor.getCurrentProfile(sourceType = DataSourceType.REMOTE)
                 }
@@ -99,11 +99,7 @@ class TrackActionDispatcher(
                     return
                 } ?: return
                 val studyPlan = studyPlanResult.await().getOrNull()
-                val streaks = streaksResult.await().getOrElse {
-                    sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                    onNewMessage(Message.TrackFailure)
-                    return
-                }
+                val streak = streakResult.await().getOrNull()
                 val currentRemoteProfile = currentRemoteProfileResult.await().getOrElse {
                     sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                     onNewMessage(Message.TrackFailure)
@@ -118,7 +114,7 @@ class TrackActionDispatcher(
                         trackProgress,
                         studyPlan,
                         topicsToDiscoverNext,
-                        streaks.firstOrNull(),
+                        streak,
                         currentRemoteProfile.gamification.hypercoinsBalance
                     )
                 )

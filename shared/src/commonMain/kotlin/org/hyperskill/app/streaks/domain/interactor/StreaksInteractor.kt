@@ -6,6 +6,6 @@ import org.hyperskill.app.streaks.domain.repository.StreaksRepository
 class StreaksInteractor(
     private val streaksRepository: StreaksRepository
 ) {
-    suspend fun getStreaks(userId: Long): Result<List<Streak>> =
-        streaksRepository.getStreaks(userId)
+    suspend fun getUserStreak(userId: Long): Result<Streak?> =
+        streaksRepository.getUserStreak(userId)
 }
