@@ -4,6 +4,9 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.learning_activities.domain.interactor.LearningActivitiesInteractor
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
+import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsActionDispatcher
+import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsFeature
+import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsReducer
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
@@ -11,10 +14,10 @@ import org.hyperskill.app.streaks.domain.interactor.StreaksInteractor
 import org.hyperskill.app.topics.domain.interactor.TopicsInteractor
 import org.hyperskill.app.track.domain.interactor.TrackInteractor
 import org.hyperskill.app.track.presentation.TrackActionDispatcher
-import org.hyperskill.app.track.presentation.TrackFeature.Action
-import org.hyperskill.app.track.presentation.TrackFeature.Message
-import org.hyperskill.app.track.presentation.TrackFeature.State
+import org.hyperskill.app.track.presentation.TrackFeature
 import org.hyperskill.app.track.presentation.TrackReducer
+import ru.nobird.app.core.model.safeCast
+import ru.nobird.app.presentation.redux.dispatcher.transform
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
@@ -30,8 +33,15 @@ object TrackFeatureBuilder {
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
         urlPathProcessor: UrlPathProcessor
-    ): Feature<State, Message, Action> {
-        val trackReducer = TrackReducer()
+    ): Feature<TrackFeature.State, TrackFeature.Message, TrackFeature.Action> {
+        val navigationBarItemsReducer = NavigationBarItemsReducer()
+        val navigationBarItemsActionDispatcher = NavigationBarItemsActionDispatcher(
+            ActionDispatcherOptions(),
+            profileInteractor,
+            streaksInteractor
+        )
+
+        val trackReducer = TrackReducer(navigationBarItemsReducer)
         val trackActionDispatcher = TrackActionDispatcher(
             ActionDispatcherOptions(),
             trackInteractor,
@@ -39,13 +49,24 @@ object TrackFeatureBuilder {
             progressesInteractor,
             learningActivitiesInteractor,
             topicsInteractor,
-            streaksInteractor,
             analyticInteractor,
             sentryInteractor,
             urlPathProcessor
         )
 
-        return ReduxFeature(State.Idle, trackReducer)
+        return ReduxFeature(
+            TrackFeature.State(
+                trackState = TrackFeature.TrackState.Idle,
+                navigationBarItemsState = NavigationBarItemsFeature.State.Idle
+            ),
+            trackReducer
+        )
             .wrapWithActionDispatcher(trackActionDispatcher)
+            .wrapWithActionDispatcher(
+                navigationBarItemsActionDispatcher.transform(
+                    transformAction = { it.safeCast<TrackFeature.Action.NavigationBarItemsAction>()?.action },
+                    transformMessage = TrackFeature.Message::NavigationBarItemsMessage
+                )
+            )
     }
 }

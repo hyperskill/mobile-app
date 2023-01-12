@@ -2,23 +2,28 @@ package org.hyperskill.app.track.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
-import org.hyperskill.app.streaks.domain.model.Streak
+import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsFeature
 import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.track.domain.model.StudyPlan
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.domain.model.TrackProgress
 
 interface TrackFeature {
-    sealed interface State {
+    data class State(
+        val trackState: TrackState,
+        val navigationBarItemsState: NavigationBarItemsFeature.State
+    )
+
+    sealed interface TrackState {
         /**
          * Represents initial state.
          */
-        object Idle : State
+        object Idle : TrackState
 
         /**
          * Represents a state when loading track screen data.
          */
-        object Loading : State
+        object Loading : TrackState
 
         /**
          * Represents a state when track screen data successfully loaded.
@@ -27,8 +32,6 @@ interface TrackFeature {
          * @property trackProgress Current user profile selected track progress.
          * @property studyPlan Current user profile study plan.
          * @property topicsToDiscoverNext Current user profile uncompleted topics (theory to discover next) for current stage.
-         * @property streak Current user profile streak.
-         * @property hypercoinsBalance Current user profile balance of the hypercoins.
          * @property isRefreshing A boolean flag that indicates about is pull-to-refresh is ongoing.
          * @property isLoadingMagicLink A boolean flag that indicates about magic link loading.
          * @see Track
@@ -41,16 +44,14 @@ interface TrackFeature {
             val trackProgress: TrackProgress,
             val studyPlan: StudyPlan? = null,
             val topicsToDiscoverNext: List<Topic>,
-            val streak: Streak?,
-            val hypercoinsBalance: Int,
             val isRefreshing: Boolean = false,
             val isLoadingMagicLink: Boolean = false
-        ) : State
+        ) : TrackState
 
         /**
          * Represents a state when track screen data failed to load.
          */
-        object NetworkError : State
+        object NetworkError : TrackState
     }
 
     sealed interface Message {
@@ -73,9 +74,7 @@ interface TrackFeature {
             val track: Track,
             val trackProgress: TrackProgress,
             val studyPlan: StudyPlan? = null,
-            val topicsToDiscoverNext: List<Topic>,
-            val streak: Streak?,
-            val hypercoinsBalance: Int
+            val topicsToDiscoverNext: List<Topic>
         ) : Message
 
         /**
@@ -91,9 +90,6 @@ interface TrackFeature {
          */
         data class TopicToDiscoverNextClicked(val topicId: Long) : Message
 
-        object StepQuizSolved : Message
-        data class HypercoinsBalanceChanged(val hypercoinsBalance: Int) : Message
-
         object PullToRefresh : Message
 
         object ClickedContinueInWeb : Message
@@ -107,6 +103,11 @@ interface TrackFeature {
          * Analytic
          */
         object ViewedEventMessage : Message
+
+        /**
+         * Message Wrappers
+         */
+        data class NavigationBarItemsMessage(val message: NavigationBarItemsFeature.Message) : Message
     }
 
     sealed interface Action {
@@ -115,6 +116,11 @@ interface TrackFeature {
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
         data class GetMagicLink(val path: HyperskillUrlPath) : Action
+
+        /**
+         * Action Wrappers
+         */
+        data class NavigationBarItemsAction(val action: NavigationBarItemsFeature.Action) : Action
 
         sealed interface ViewAction : Action {
             data class OpenUrl(val url: String) : ViewAction

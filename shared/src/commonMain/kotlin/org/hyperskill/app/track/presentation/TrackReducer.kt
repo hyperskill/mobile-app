@@ -1,6 +1,7 @@
 package org.hyperskill.app.track.presentation
 
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
+import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsReducer
 import org.hyperskill.app.track.domain.analytic.TrackClickedContinueInWebHyperskillAnalyticEvent
 import org.hyperskill.app.track.domain.analytic.TrackClickedGemsBarButtonItemHyperskillAnalyticEvent
 import org.hyperskill.app.track.domain.analytic.TrackClickedPullToRefreshHyperskillAnalyticEvent
@@ -10,56 +11,45 @@ import org.hyperskill.app.track.domain.analytic.TrackViewedHyperskillAnalyticEve
 import org.hyperskill.app.track.presentation.TrackFeature.Action
 import org.hyperskill.app.track.presentation.TrackFeature.Message
 import org.hyperskill.app.track.presentation.TrackFeature.State
+import org.hyperskill.app.track.presentation.TrackFeature.TrackState
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
-class TrackReducer : StateReducer<State, Message, Action> {
+class TrackReducer(
+    private val navigationBarItemsReducer: NavigationBarItemsReducer
+) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
             is Message.Initialize ->
-                if (state is State.Idle ||
-                    (message.forceUpdate && (state is State.Content || state is State.NetworkError))
+                if (state.trackState is TrackState.Idle ||
+                    (message.forceUpdate && (state.trackState is TrackState.Content || state.trackState is TrackState.NetworkError))
                 ) {
-                    State.Loading to setOf(Action.FetchTrack)
+                    state.copy(trackState = TrackState.Loading) to setOf(Action.FetchTrack)
                 } else {
                     null
                 }
             is Message.TrackSuccess ->
-                State.Content(
-                    message.track,
-                    message.trackProgress,
-                    message.studyPlan,
-                    message.topicsToDiscoverNext,
-                    message.streak,
-                    message.hypercoinsBalance
+                state.copy(
+                    trackState = TrackState.Content(
+                        message.track,
+                        message.trackProgress,
+                        message.studyPlan,
+                        message.topicsToDiscoverNext
+                    )
                 ) to emptySet()
             is Message.TrackFailure ->
-                State.NetworkError to emptySet()
+                state.copy(trackState = TrackState.NetworkError) to emptySet()
             is Message.PullToRefresh ->
-                if (state is State.Content && !state.isRefreshing) {
-                    state.copy(isRefreshing = true) to setOf(
+                if (state.trackState is TrackState.Content && !state.trackState.isRefreshing) {
+                    state.copy(trackState = state.trackState.copy(isRefreshing = true)) to setOf(
                         Action.FetchTrack,
                         Action.LogAnalyticEvent(TrackClickedPullToRefreshHyperskillAnalyticEvent())
                     )
                 } else {
                     null
                 }
-            // Flow Messages
-            is Message.StepQuizSolved -> {
-                if (state is State.Content) {
-                    state.copy(streak = state.streak?.getStreakWithTodaySolved()) to emptySet()
-                } else {
-                    null
-                }
-            }
-            is Message.HypercoinsBalanceChanged ->
-                if (state is State.Content) {
-                    state.copy(hypercoinsBalance = message.hypercoinsBalance) to emptySet()
-                } else {
-                    null
-                }
             // Click Messages
             is Message.TopicToDiscoverNextClicked -> {
-                val targetTheoryId = (state as? State.Content)
+                val targetTheoryId = (state.trackState as? TrackState.Content)
                     ?.topicsToDiscoverNext?.firstOrNull { it.id == message.topicId }
                     ?.theoryId
 
@@ -78,8 +68,8 @@ class TrackReducer : StateReducer<State, Message, Action> {
                 }
             }
             is Message.ClickedContinueInWeb ->
-                if (state is State.Content) {
-                    state.copy(isLoadingMagicLink = true) to setOf(
+                if (state.trackState is TrackState.Content) {
+                    state.copy(trackState = state.trackState.copy(isLoadingMagicLink = true)) to setOf(
                         Action.GetMagicLink(HyperskillUrlPath.StudyPlan()),
                         Action.LogAnalyticEvent(TrackClickedContinueInWebHyperskillAnalyticEvent())
                     )
@@ -87,7 +77,7 @@ class TrackReducer : StateReducer<State, Message, Action> {
                     null
                 }
             Message.ClickedGemsBarButtonItem ->
-                if (state is State.Content) {
+                if (state.trackState is TrackState.Content) {
                     state to setOf(
                         Action.ViewAction.NavigateTo.ProfileTab,
                         Action.LogAnalyticEvent(TrackClickedGemsBarButtonItemHyperskillAnalyticEvent())
@@ -96,7 +86,7 @@ class TrackReducer : StateReducer<State, Message, Action> {
                     null
                 }
             Message.ClickedStreakBarButtonItem ->
-                if (state is State.Content) {
+                if (state.trackState is TrackState.Content) {
                     state to setOf(
                         Action.ViewAction.NavigateTo.ProfileTab,
                         Action.LogAnalyticEvent(TrackClickedStreakBarButtonItemHyperskillAnalyticEvent())
@@ -106,19 +96,33 @@ class TrackReducer : StateReducer<State, Message, Action> {
                 }
             // MagicLinks Messages
             is Message.GetMagicLinkReceiveSuccess ->
-                if (state is State.Content) {
-                    state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.OpenUrl(message.url))
+                if (state.trackState is TrackState.Content) {
+                    state.copy(trackState = state.trackState.copy(isLoadingMagicLink = false)) to setOf(
+                        Action.ViewAction.OpenUrl(message.url)
+                    )
                 } else {
                     null
                 }
             is Message.GetMagicLinkReceiveFailure ->
-                if (state is State.Content) {
-                    state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.ShowGetMagicLinkError)
+                if (state.trackState is TrackState.Content) {
+                    state.copy(trackState = state.trackState.copy(isLoadingMagicLink = false)) to setOf(
+                        Action.ViewAction.ShowGetMagicLinkError
+                    )
                 } else {
                     null
                 }
             // Analytic Messages
             is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(TrackViewedHyperskillAnalyticEvent()))
+            // Wrapper Messages
+            is Message.NavigationBarItemsMessage -> {
+                val (navigationBarItemsState, navigationBarItemsActions) = navigationBarItemsReducer.reduce(
+                    state.navigationBarItemsState,
+                    message.message
+                )
+                state.copy(
+                    navigationBarItemsState = navigationBarItemsState
+                ) to navigationBarItemsActions.map(Action::NavigationBarItemsAction).toSet()
+            }
         } ?: (state to emptySet())
 }

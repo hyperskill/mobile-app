@@ -29,6 +29,7 @@ import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentTrackBinding
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
+import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsFeature
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.track.domain.model.Track
@@ -53,7 +54,7 @@ class TrackFragment :
 
     private val viewBinding: FragmentTrackBinding by viewBinding(FragmentTrackBinding::bind)
     private val trackViewModel: TrackViewModel by reduxViewModel(this) { viewModelFactory }
-    private val viewStateDelegate: ViewStateDelegate<TrackFeature.State> = ViewStateDelegate()
+    private val viewStateDelegate: ViewStateDelegate<TrackFeature.TrackState> = ViewStateDelegate()
 
     private val nextTopicsAdapter by lazy(LazyThreadSafetyMode.NONE) {
         DefaultDelegateAdapter<Topic>().apply {
@@ -75,6 +76,11 @@ class TrackFragment :
         setupTopicsRecycler()
         trackViewModel.onNewMessage(TrackFeature.Message.Initialize())
         trackViewModel.onNewMessage(TrackFeature.Message.ViewedEventMessage)
+
+        // TODO: Delete before merge
+        trackViewModel.onNewMessage(
+            TrackFeature.Message.NavigationBarItemsMessage(NavigationBarItemsFeature.Message.Initialize())
+        )
     }
 
     private fun injectComponents() {
@@ -85,10 +91,10 @@ class TrackFragment :
 
     private fun initViewStateDelegate() {
         with(viewStateDelegate) {
-            addState<TrackFeature.State.Idle>()
-            addState<TrackFeature.State.Loading>(viewBinding.trackSkeleton.root)
-            addState<TrackFeature.State.NetworkError>(viewBinding.trackError.root)
-            addState<TrackFeature.State.Content>(viewBinding.trackContainer)
+            addState<TrackFeature.TrackState.Idle>()
+            addState<TrackFeature.TrackState.Loading>(viewBinding.trackSkeleton.root)
+            addState<TrackFeature.TrackState.NetworkError>(viewBinding.trackError.root)
+            addState<TrackFeature.TrackState.Content>(viewBinding.trackContainer)
         }
     }
 
@@ -126,14 +132,14 @@ class TrackFragment :
     }
 
     override fun render(state: TrackFeature.State) {
-        viewStateDelegate.switchState(state)
+        viewStateDelegate.switchState(state.trackState)
         TransitionManager.beginDelayedTransition(viewBinding.root, AutoTransition())
-        if (state is TrackFeature.State.Content) {
-            renderContent(state)
+        if (state.trackState is TrackFeature.TrackState.Content) {
+            renderContent(state.trackState as TrackFeature.TrackState.Content)
         }
     }
 
-    private fun renderContent(content: TrackFeature.State.Content) {
+    private fun renderContent(content: TrackFeature.TrackState.Content) {
         if (content.isLoadingMagicLink) {
             LoadingProgressDialogFragment.newInstance()
                 .showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
@@ -162,7 +168,7 @@ class TrackFragment :
         viewBinding.trackNameTextView.text = track.title
     }
 
-    private fun renderCards(content: TrackFeature.State.Content) {
+    private fun renderCards(content: TrackFeature.TrackState.Content) {
         with(viewBinding) {
             if (content.studyPlan != null) {
                 trackTimeToCompleteTextView.text =
@@ -202,7 +208,7 @@ class TrackFragment :
         }
     }
 
-    private fun renderAboutSection(content: TrackFeature.State.Content) {
+    private fun renderAboutSection(content: TrackFeature.TrackState.Content) {
         with(viewBinding) {
             trackAboutUsefulnessTextView.text = "${content.trackProgress.averageRating}"
             val hoursToComplete = (content.track.secondsToComplete / 3600).roundToInt()

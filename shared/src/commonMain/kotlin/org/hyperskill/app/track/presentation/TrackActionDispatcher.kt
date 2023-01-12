@@ -1,7 +1,6 @@
 package org.hyperskill.app.track.presentation
 
 import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
@@ -12,7 +11,6 @@ import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
-import org.hyperskill.app.streaks.domain.interactor.StreaksInteractor
 import org.hyperskill.app.topics.domain.interactor.TopicsInteractor
 import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.track.domain.interactor.TrackInteractor
@@ -28,7 +26,6 @@ class TrackActionDispatcher(
     private val progressesInteractor: ProgressesInteractor,
     private val learningActivitiesInteractor: LearningActivitiesInteractor,
     private val topicsInteractor: TopicsInteractor,
-    private val streaksInteractor: StreaksInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val urlPathProcessor: UrlPathProcessor
@@ -39,49 +36,24 @@ class TrackActionDispatcher(
         private const val TOPICS_TO_DISCOVER_NEXT_PREFIX_COUNT = 10
     }
 
-    init {
-        actionScope.launch {
-            profileInteractor.solvedStepsSharedFlow.collect {
-                onNewMessage(Message.StepQuizSolved)
-            }
-        }
-
-        actionScope.launch {
-            profileInteractor.observeHypercoinsBalance().collect {
-                onNewMessage(Message.HypercoinsBalanceChanged(it))
-            }
-        }
-    }
-
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchTrack -> {
                 val sentryTransaction = HyperskillSentryTransactionBuilder.buildTrackScreenRemoteDataLoading()
                 sentryInteractor.startTransaction(sentryTransaction)
 
-                val currentCachedProfile = profileInteractor
+                val trackId = profileInteractor
                     .getCurrentProfile(sourceType = DataSourceType.CACHE)
+                    .map { it.trackId }
                     .getOrElse {
                         sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                         onNewMessage(Message.TrackFailure)
                         return
-                    }
-
-                val trackId = if (currentCachedProfile.trackId == null) {
-                    sentryInteractor.finishTransaction(sentryTransaction, throwable = NullPointerException())
-                    onNewMessage(Message.TrackFailure)
-                    return
-                } else {
-                    currentCachedProfile.trackId
-                }
+                    } ?: return
 
                 val trackResult = actionScope.async { trackInteractor.getTrack(trackId) }
                 val trackProgressResult = actionScope.async { progressesInteractor.getTrackProgress(trackId) }
                 val studyPlanResult = actionScope.async { trackInteractor.getStudyPlanByTrackId(trackId) }
-                val streakResult = actionScope.async { streaksInteractor.getUserStreak(currentCachedProfile.id) }
-                val currentRemoteProfileResult = actionScope.async {
-                    profileInteractor.getCurrentProfile(sourceType = DataSourceType.REMOTE)
-                }
 
                 val track = trackResult.await().getOrElse {
                     sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
@@ -99,25 +71,10 @@ class TrackActionDispatcher(
                     return
                 } ?: return
                 val studyPlan = studyPlanResult.await().getOrNull()
-                val streak = streakResult.await().getOrNull()
-                val currentRemoteProfile = currentRemoteProfileResult.await().getOrElse {
-                    sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                    onNewMessage(Message.TrackFailure)
-                    return
-                }
 
                 sentryInteractor.finishTransaction(sentryTransaction)
 
-                onNewMessage(
-                    Message.TrackSuccess(
-                        track,
-                        trackProgress,
-                        studyPlan,
-                        topicsToDiscoverNext,
-                        streak,
-                        currentRemoteProfile.gamification.hypercoinsBalance
-                    )
-                )
+                onNewMessage(Message.TrackSuccess(track, trackProgress, studyPlan, topicsToDiscoverNext))
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
