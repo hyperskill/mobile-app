@@ -59,7 +59,7 @@ class TrackActionDispatcher(
                 val sentryTransaction = HyperskillSentryTransactionBuilder.buildTrackScreenRemoteDataLoading()
                 sentryInteractor.startTransaction(sentryTransaction)
 
-                val currentCachedProfile = profileInteractor
+                val currentProfile = profileInteractor
                     .getCurrentProfile(sourceType = DataSourceType.CACHE)
                     .getOrElse {
                         sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
@@ -67,21 +67,17 @@ class TrackActionDispatcher(
                         return
                     }
 
-                val trackId = if (currentCachedProfile.trackId == null) {
+                val trackId = if (currentProfile.trackId == null) {
                     sentryInteractor.finishTransaction(sentryTransaction, throwable = NullPointerException())
                     onNewMessage(Message.TrackFailure)
                     return
                 } else {
-                    currentCachedProfile.trackId
+                    currentProfile.trackId
                 }
 
                 val trackResult = actionScope.async { trackInteractor.getTrack(trackId) }
                 val trackProgressResult = actionScope.async { progressesInteractor.getTrackProgress(trackId) }
                 val studyPlanResult = actionScope.async { trackInteractor.getStudyPlanByTrackId(trackId) }
-                val streaksResult = actionScope.async { streaksInteractor.getStreaks(currentCachedProfile.id) }
-                val currentRemoteProfileResult = actionScope.async {
-                    profileInteractor.getCurrentProfile(sourceType = DataSourceType.REMOTE)
-                }
 
                 val track = trackResult.await().getOrElse {
                     sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
@@ -99,16 +95,6 @@ class TrackActionDispatcher(
                     return
                 } ?: return
                 val studyPlan = studyPlanResult.await().getOrNull()
-                val streaks = streaksResult.await().getOrElse {
-                    sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                    onNewMessage(Message.TrackFailure)
-                    return
-                }
-                val currentRemoteProfile = currentRemoteProfileResult.await().getOrElse {
-                    sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                    onNewMessage(Message.TrackFailure)
-                    return
-                }
 
                 sentryInteractor.finishTransaction(sentryTransaction)
 
@@ -117,7 +103,32 @@ class TrackActionDispatcher(
                         track,
                         trackProgress,
                         studyPlan,
-                        topicsToDiscoverNext,
+                        topicsToDiscoverNext
+                    )
+                )
+            }
+            is Action.FetchNavigationBarItemsData -> {
+                val currentUserId = profileInteractor
+                    .getCurrentProfile(sourceType = DataSourceType.CACHE)
+                    .map { it.id }
+                    .getOrElse {
+                        return onNewMessage(Message.FetchNavigationBarItemsDataError)
+                    }
+
+                val streaksResult = actionScope.async { streaksInteractor.getStreaks(currentUserId) }
+                val currentProfileResult = actionScope.async {
+                    profileInteractor.getCurrentProfile(sourceType = DataSourceType.REMOTE)
+                }
+
+                val streaks = streaksResult.await().getOrElse {
+                    return onNewMessage(Message.FetchNavigationBarItemsDataError)
+                }
+                val currentRemoteProfile = currentProfileResult.await().getOrElse {
+                    return onNewMessage(Message.FetchNavigationBarItemsDataError)
+                }
+
+                onNewMessage(
+                    Message.FetchNavigationBarItemsDataSuccess(
                         streaks.firstOrNull(),
                         currentRemoteProfile.gamification.hypercoinsBalance
                     )

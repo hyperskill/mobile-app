@@ -9,7 +9,9 @@ import org.hyperskill.app.track.domain.analytic.TrackClickedTopicToDiscoverNextH
 import org.hyperskill.app.track.domain.analytic.TrackViewedHyperskillAnalyticEvent
 import org.hyperskill.app.track.presentation.TrackFeature.Action
 import org.hyperskill.app.track.presentation.TrackFeature.Message
+import org.hyperskill.app.track.presentation.TrackFeature.NavigationBarItemsState
 import org.hyperskill.app.track.presentation.TrackFeature.State
+import org.hyperskill.app.track.presentation.TrackFeature.State.WithNavigationBarItemsState
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 class TrackReducer : StateReducer<State, Message, Action> {
@@ -19,44 +21,115 @@ class TrackReducer : StateReducer<State, Message, Action> {
                 if (state is State.Idle ||
                     (message.forceUpdate && (state is State.Content || state is State.NetworkError))
                 ) {
-                    State.Loading to setOf(Action.FetchTrack)
-                } else {
-                    null
-                }
-            is Message.TrackSuccess ->
-                State.Content(
-                    message.track,
-                    message.trackProgress,
-                    message.studyPlan,
-                    message.topicsToDiscoverNext,
-                    message.streak,
-                    message.hypercoinsBalance
-                ) to emptySet()
-            is Message.TrackFailure ->
-                State.NetworkError to emptySet()
-            is Message.PullToRefresh ->
-                if (state is State.Content && !state.isRefreshing) {
-                    state.copy(isRefreshing = true) to setOf(
+                    State.Loading(NavigationBarItemsState.Loading) to setOf(
                         Action.FetchTrack,
-                        Action.LogAnalyticEvent(TrackClickedPullToRefreshHyperskillAnalyticEvent())
+                        Action.FetchNavigationBarItemsData
                     )
                 } else {
                     null
                 }
+            is Message.TrackSuccess ->
+                if (state is State.Loading) {
+                    State.Content(
+                        message.track,
+                        message.trackProgress,
+                        message.studyPlan,
+                        message.topicsToDiscoverNext,
+                        state.navigationBarItemsState
+                    ) to emptySet()
+                } else {
+                    null
+                }
+            is Message.TrackFailure ->
+                if (state is State.Loading) {
+                    State.NetworkError(state.navigationBarItemsState) to emptySet()
+                } else {
+                    null
+                }
+            is Message.PullToRefresh ->
+                if (state is State.Content && !state.isRefreshing) {
+                    state.copy(
+                        navigationBarItemsState = NavigationBarItemsState.Loading,
+                        isRefreshing = true
+                    ) to buildSet {
+                        add(Action.FetchTrack)
+                        if (state.navigationBarItemsState != NavigationBarItemsState.Loading) {
+                            add(Action.FetchNavigationBarItemsData)
+                        }
+                        add(Action.LogAnalyticEvent(TrackClickedPullToRefreshHyperskillAnalyticEvent()))
+                    }
+                } else {
+                    null
+                }
+            is Message.FetchNavigationBarItemsDataError ->
+                when (state) {
+                    is State.Loading ->
+                        state.copy(navigationBarItemsState = NavigationBarItemsState.Error) to emptySet()
+                    is State.NetworkError ->
+                        state.copy(navigationBarItemsState = NavigationBarItemsState.Error) to emptySet()
+                    is State.Content ->
+                        state.copy(navigationBarItemsState = NavigationBarItemsState.Error) to emptySet()
+                    is State.Idle ->
+                        null
+                }
+            is Message.FetchNavigationBarItemsDataSuccess -> {
+                val navigationBarItemsState = NavigationBarItemsState.Data(message.streak, message.hypercoinsBalance)
+                when (state) {
+                    is State.Loading ->
+                        state.copy(navigationBarItemsState = navigationBarItemsState) to emptySet()
+                    is State.NetworkError ->
+                        state.copy(navigationBarItemsState = navigationBarItemsState) to emptySet()
+                    is State.Content ->
+                        state.copy(navigationBarItemsState = navigationBarItemsState) to emptySet()
+                    is State.Idle ->
+                        null
+                }
+            }
             // Flow Messages
             is Message.StepQuizSolved -> {
-                if (state is State.Content) {
-                    state.copy(streak = state.streak?.getStreakWithTodaySolved()) to emptySet()
+                if (state is WithNavigationBarItemsState && state.navigationBarItemsState is NavigationBarItemsState.Data) {
+                    val castedNavigationBarItemsState = state.navigationBarItemsState as NavigationBarItemsState.Data
+                    val newNavigationBarItemsState = castedNavigationBarItemsState.copy(
+                        streak = castedNavigationBarItemsState.streak?.getStreakWithTodaySolved()
+                    )
+
+                    when (state) {
+                        is State.Loading ->
+                            state.copy(navigationBarItemsState = newNavigationBarItemsState) to emptySet()
+                        is State.NetworkError ->
+                            state.copy(navigationBarItemsState = newNavigationBarItemsState) to emptySet()
+                        is State.Content ->
+                            state.copy(navigationBarItemsState = newNavigationBarItemsState) to emptySet()
+                        is State.Idle ->
+                            null
+                    }
                 } else {
                     null
                 }
             }
-            is Message.HypercoinsBalanceChanged ->
-                if (state is State.Content) {
-                    state.copy(hypercoinsBalance = message.hypercoinsBalance) to emptySet()
+            is Message.HypercoinsBalanceChanged -> {
+                if (state is WithNavigationBarItemsState) {
+                    val newNavigationBarItemsState = if (state.navigationBarItemsState is NavigationBarItemsState.Data) {
+                        val castedNavigationBarItemsState = state.navigationBarItemsState as NavigationBarItemsState.Data
+                        castedNavigationBarItemsState.copy(hypercoinsBalance = message.hypercoinsBalance)
+                    } else {
+                        NavigationBarItemsState.Data(null, message.hypercoinsBalance)
+                    }
+
+                    when (state) {
+                        is State.Loading ->
+                            state.copy(navigationBarItemsState = newNavigationBarItemsState) to emptySet()
+                        is State.NetworkError ->
+                            state.copy(navigationBarItemsState = newNavigationBarItemsState) to emptySet()
+                        is State.Content ->
+                            state.copy(navigationBarItemsState = newNavigationBarItemsState) to emptySet()
+                        is State.Idle ->
+                            null
+                    }
                 } else {
                     null
                 }
+            }
             // Click Messages
             is Message.TopicToDiscoverNextClicked -> {
                 val targetTheoryId = (state as? State.Content)
