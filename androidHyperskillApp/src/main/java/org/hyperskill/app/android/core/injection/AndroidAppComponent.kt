@@ -2,6 +2,7 @@ package org.hyperskill.app.android.core.injection
 
 import android.content.Context
 import org.hyperskill.app.android.code.injection.PlatformCodeEditorComponent
+import org.hyperskill.app.android.image_loading.injection.ImageLoadingComponent
 import org.hyperskill.app.android.latex.injection.PlatformLatexComponent
 import org.hyperskill.app.android.notification.injection.PlatformNotificationComponent
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
@@ -37,6 +38,7 @@ interface AndroidAppComponent : AppGraph {
     val context: Context
     val platformMainComponent: PlatformMainComponent
     val platformNotificationComponent: PlatformNotificationComponent
+    val imageLoadingComponent: ImageLoadingComponent
 
     fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent
     fun buildPlatformAuthSocialComponent(authSocialComponent: AuthSocialComponent): PlatformAuthSocialComponent

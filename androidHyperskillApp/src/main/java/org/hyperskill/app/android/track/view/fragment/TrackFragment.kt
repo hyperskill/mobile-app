@@ -61,6 +61,10 @@ class TrackFragment :
         }
     }
 
+    private val imageLoader: ImageLoader by lazy(LazyThreadSafetyMode.NONE) {
+        HyperskillApp.graph().imageLoadingComponent.imageLoader
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponents()
@@ -146,13 +150,8 @@ class TrackFragment :
     }
 
     private fun renderTrackCoverAndName(track: Track) {
-        val svgImageLoader = ImageLoader.Builder(requireContext())
-            .components {
-                add(SvgDecoder.Factory())
-            }
-            .build()
         if (track.cover != null) {
-            viewBinding.trackIconImageView.load(track.cover, svgImageLoader) {
+            viewBinding.trackIconImageView.load(track.cover, imageLoader) {
                 scale(Scale.FILL)
             }
         } else {
