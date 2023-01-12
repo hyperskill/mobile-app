@@ -79,6 +79,7 @@ kotlin {
             }
         }
         val androidTest by getting {
+            dependsOn(commonTest)
             dependencies {
                 implementation(kotlin("test-junit"))
                 implementation(libs.bundles.android.test)
