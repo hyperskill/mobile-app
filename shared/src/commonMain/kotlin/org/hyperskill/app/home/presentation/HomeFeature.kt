@@ -4,7 +4,7 @@ import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
-import org.hyperskill.app.streak.domain.model.Streak
+import org.hyperskill.app.streaks.domain.model.Streak
 
 interface HomeFeature {
     sealed interface State {

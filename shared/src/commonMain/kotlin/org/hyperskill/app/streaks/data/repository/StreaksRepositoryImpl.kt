@@ -1,8 +1,8 @@
-package org.hyperskill.app.streak.data.repository
+package org.hyperskill.app.streaks.data.repository
 
-import org.hyperskill.app.streak.data.source.StreaksRemoteDataSource
-import org.hyperskill.app.streak.domain.model.Streak
-import org.hyperskill.app.streak.domain.repository.StreaksRepository
+import org.hyperskill.app.streaks.data.source.StreaksRemoteDataSource
+import org.hyperskill.app.streaks.domain.model.Streak
+import org.hyperskill.app.streaks.domain.repository.StreaksRepository
 
 class StreaksRepositoryImpl(
     private val streaksRemoteDataSource: StreaksRemoteDataSource

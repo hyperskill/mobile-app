@@ -1,10 +1,10 @@
-package org.hyperskill.app.streak.remote.model
+package org.hyperskill.app.streaks.remote.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.hyperskill.app.core.remote.Meta
 import org.hyperskill.app.core.remote.MetaResponse
-import org.hyperskill.app.streak.domain.model.Streak
+import org.hyperskill.app.streaks.domain.model.Streak
 
 @Serializable
 class StreaksResponse(

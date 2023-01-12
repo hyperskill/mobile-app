@@ -16,7 +16,7 @@ import org.hyperskill.app.profile.presentation.ProfileFeature.Action
 import org.hyperskill.app.profile.presentation.ProfileFeature.Message
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
-import org.hyperskill.app.streak.domain.interactor.StreaksInteractor
+import org.hyperskill.app.streaks.domain.interactor.StreaksInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class ProfileActionDispatcher(

@@ -12,7 +12,7 @@ import org.hyperskill.app.profile.presentation.ProfileFeature.Message
 import org.hyperskill.app.profile.presentation.ProfileFeature.State
 import org.hyperskill.app.profile.presentation.ProfileReducer
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
-import org.hyperskill.app.streak.domain.interactor.StreaksInteractor
+import org.hyperskill.app.streaks.domain.interactor.StreaksInteractor
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature

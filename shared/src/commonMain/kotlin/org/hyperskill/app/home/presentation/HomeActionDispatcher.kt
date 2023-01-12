@@ -29,7 +29,7 @@ import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.step.domain.interactor.StepInteractor
-import org.hyperskill.app.streak.domain.interactor.StreaksInteractor
+import org.hyperskill.app.streaks.domain.interactor.StreaksInteractor
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 

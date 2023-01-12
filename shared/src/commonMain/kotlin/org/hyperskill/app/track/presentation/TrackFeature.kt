@@ -2,7 +2,7 @@ package org.hyperskill.app.track.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
-import org.hyperskill.app.streak.domain.model.Streak
+import org.hyperskill.app.streaks.domain.model.Streak
 import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.track.domain.model.StudyPlan
 import org.hyperskill.app.track.domain.model.Track

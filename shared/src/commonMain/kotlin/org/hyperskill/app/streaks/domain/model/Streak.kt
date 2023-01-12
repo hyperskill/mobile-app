@@ -1,4 +1,4 @@
-package org.hyperskill.app.streak.domain.model
+package org.hyperskill.app.streaks.domain.model
 
 import kotlin.math.max
 import kotlinx.serialization.SerialName

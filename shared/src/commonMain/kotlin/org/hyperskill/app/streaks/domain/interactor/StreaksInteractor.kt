@@ -1,7 +1,7 @@
-package org.hyperskill.app.streak.domain.interactor
+package org.hyperskill.app.streaks.domain.interactor
 
-import org.hyperskill.app.streak.domain.model.Streak
-import org.hyperskill.app.streak.domain.repository.StreaksRepository
+import org.hyperskill.app.streaks.domain.model.Streak
+import org.hyperskill.app.streaks.domain.repository.StreaksRepository
 
 class StreaksInteractor(
     private val streaksRepository: StreaksRepository
