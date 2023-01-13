@@ -1,11 +1,10 @@
 package org.hyperskill.app.track.presentation
 
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
+import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsFeature
 import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsReducer
 import org.hyperskill.app.track.domain.analytic.TrackClickedContinueInWebHyperskillAnalyticEvent
-import org.hyperskill.app.track.domain.analytic.TrackClickedGemsBarButtonItemHyperskillAnalyticEvent
 import org.hyperskill.app.track.domain.analytic.TrackClickedPullToRefreshHyperskillAnalyticEvent
-import org.hyperskill.app.track.domain.analytic.TrackClickedStreakBarButtonItemHyperskillAnalyticEvent
 import org.hyperskill.app.track.domain.analytic.TrackClickedTopicToDiscoverNextHyperskillAnalyticEvent
 import org.hyperskill.app.track.domain.analytic.TrackViewedHyperskillAnalyticEvent
 import org.hyperskill.app.track.presentation.TrackFeature.Action
@@ -76,24 +75,6 @@ class TrackReducer(
                 } else {
                     null
                 }
-            Message.ClickedGemsBarButtonItem ->
-                if (state.trackState is TrackState.Content) {
-                    state to setOf(
-                        Action.ViewAction.NavigateTo.ProfileTab,
-                        Action.LogAnalyticEvent(TrackClickedGemsBarButtonItemHyperskillAnalyticEvent())
-                    )
-                } else {
-                    null
-                }
-            Message.ClickedStreakBarButtonItem ->
-                if (state.trackState is TrackState.Content) {
-                    state to setOf(
-                        Action.ViewAction.NavigateTo.ProfileTab,
-                        Action.LogAnalyticEvent(TrackClickedStreakBarButtonItemHyperskillAnalyticEvent())
-                    )
-                } else {
-                    null
-                }
             // MagicLinks Messages
             is Message.GetMagicLinkReceiveSuccess ->
                 if (state.trackState is TrackState.Content) {
@@ -120,9 +101,18 @@ class TrackReducer(
                     state.navigationBarItemsState,
                     message.message
                 )
-                state.copy(
-                    navigationBarItemsState = navigationBarItemsState
-                ) to navigationBarItemsActions.map(Action::NavigationBarItemsAction).toSet()
+
+                val actions = navigationBarItemsActions
+                    .map {
+                        if (it is NavigationBarItemsFeature.Action.ViewAction) {
+                            Action.ViewAction.NavigationBarItemsViewAction(it)
+                        } else {
+                            Action.NavigationBarItemsAction(it)
+                        }
+                    }
+                    .toSet()
+
+                state.copy(navigationBarItemsState = navigationBarItemsState) to actions
             }
         } ?: (state to emptySet())
 }

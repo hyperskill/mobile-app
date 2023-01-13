@@ -2,6 +2,7 @@ package org.hyperskill.app.navigation_bar_items.presentation
 
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsFeature.Action
@@ -14,6 +15,7 @@ class NavigationBarItemsActionDispatcher(
     config: ActionDispatcherOptions,
     private val profileInteractor: ProfileInteractor,
     private val streaksInteractor: StreaksInteractor,
+    private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
@@ -47,6 +49,11 @@ class NavigationBarItemsActionDispatcher(
                 val profile = profileResult.await().getOrElse { return onNewMessage(Message.NavigationBarItemsError) }
 
                 onNewMessage(Message.NavigationBarItemsSuccess(streak, profile.gamification.hypercoinsBalance))
+            }
+            is Action.LogAnalyticEvent ->
+                analyticInteractor.logEvent(action.analyticEvent)
+            else -> {
+                // no op
             }
         }
     }

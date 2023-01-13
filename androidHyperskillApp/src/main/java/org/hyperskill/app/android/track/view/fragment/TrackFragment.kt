@@ -102,11 +102,15 @@ class TrackFragment :
         when (action) {
             is TrackFeature.Action.ViewAction.NavigateTo.StepScreen ->
                 requireRouter().navigateTo(StepScreen(StepRoute.Learn(action.stepId)))
-            is TrackFeature.Action.ViewAction.NavigateTo.ProfileTab -> TODO()
             is TrackFeature.Action.ViewAction.OpenUrl ->
                 requireContext().openUrl(action.url)
             is TrackFeature.Action.ViewAction.ShowGetMagicLinkError ->
                 viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
+            is TrackFeature.Action.ViewAction.NavigationBarItemsViewAction ->
+                when (action.viewAction) {
+                    is NavigationBarItemsFeature.Action.ViewAction.ShowProfileTab ->
+                        TODO()
+                }
         }
     }
 

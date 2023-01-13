@@ -13,6 +13,7 @@ class NavigationBarItemsComponentImpl(private val appGraph: AppGraph) : Navigati
         get() = NavigationBarItemsActionDispatcher(
             ActionDispatcherOptions(),
             appGraph.buildProfileDataComponent().profileInteractor,
-            appGraph.buildStreaksDataComponent().streaksInteractor
+            appGraph.buildStreaksDataComponent().streaksInteractor,
+            appGraph.analyticComponent.analyticInteractor
         )
 }

@@ -93,8 +93,6 @@ interface TrackFeature {
         object PullToRefresh : Message
 
         object ClickedContinueInWeb : Message
-        object ClickedStreakBarButtonItem : Message
-        object ClickedGemsBarButtonItem : Message
 
         data class GetMagicLinkReceiveSuccess(val url: String) : Message
         object GetMagicLinkReceiveFailure : Message
@@ -126,8 +124,11 @@ interface TrackFeature {
             data class OpenUrl(val url: String) : ViewAction
             object ShowGetMagicLinkError : ViewAction
 
+            data class NavigationBarItemsViewAction(
+                val viewAction: NavigationBarItemsFeature.Action.ViewAction
+            ) : ViewAction
+
             sealed interface NavigateTo : ViewAction {
-                object ProfileTab : NavigateTo
                 data class StepScreen(val stepId: Long) : NavigateTo
             }
         }

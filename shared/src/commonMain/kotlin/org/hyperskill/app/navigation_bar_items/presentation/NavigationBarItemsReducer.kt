@@ -1,5 +1,7 @@
 package org.hyperskill.app.navigation_bar_items.presentation
 
+import org.hyperskill.app.navigation_bar_items.domain.analytic.NavigationBarItemsClickedGemsHyperskillAnalyticEvent
+import org.hyperskill.app.navigation_bar_items.domain.analytic.NavigationBarItemsClickedStreakHyperskillAnalyticEvent
 import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsFeature.Action
 import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsFeature.Message
 import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsFeature.State
@@ -30,6 +32,25 @@ class NavigationBarItemsReducer : StateReducer<State, Message, Action> {
             is Message.HypercoinsBalanceChanged ->
                 if (state is State.Content) {
                     state.copy(hypercoinsBalance = message.hypercoinsBalance) to emptySet()
+                } else {
+                    null
+                }
+            // Click Messages
+            is Message.ClickedGems ->
+                if (state is State.Content) {
+                    state to setOf(
+                        Action.ViewAction.ShowProfileTab,
+                        Action.LogAnalyticEvent(NavigationBarItemsClickedGemsHyperskillAnalyticEvent(message.screen))
+                    )
+                } else {
+                    null
+                }
+            is Message.ClickedStreak ->
+                if (state is State.Content) {
+                    state to setOf(
+                        Action.ViewAction.ShowProfileTab,
+                        Action.LogAnalyticEvent(NavigationBarItemsClickedStreakHyperskillAnalyticEvent(message.screen))
+                    )
                 } else {
                     null
                 }
