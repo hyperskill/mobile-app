@@ -6,6 +6,8 @@ import org.hyperskill.app.analytic.injection.AnalyticComponent
 import org.hyperskill.app.analytic.injection.AnalyticComponentImpl
 import org.hyperskill.app.android.code.injection.PlatformCodeEditorComponent
 import org.hyperskill.app.android.code.injection.PlatformCodeEditorComponentImpl
+import org.hyperskill.app.android.image_loading.injection.ImageLoadingComponent
+import org.hyperskill.app.android.image_loading.injection.ImageLoadingComponentImpl
 import org.hyperskill.app.android.latex.injection.PlatformLatexComponent
 import org.hyperskill.app.android.latex.injection.PlatformLatexComponentImpl
 import org.hyperskill.app.android.notification.injection.PlatformNotificationComponent
@@ -132,6 +134,9 @@ class AndroidAppComponentImpl(
 
     override val platformMainComponent: PlatformMainComponent =
         PlatformMainComponentImpl(mainComponent)
+
+    override val imageLoadingComponent: ImageLoadingComponent =
+        ImageLoadingComponentImpl(context)
 
     override val networkComponent: NetworkComponent =
         NetworkComponentImpl(this)

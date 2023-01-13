@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.ImageLoader
-import coil.decode.SvgDecoder
 import coil.load
 import coil.transform.CircleCropTransformation
 import java.util.Locale
@@ -69,11 +68,7 @@ class ProfileFragment :
         HyperskillApp.graph().platformNotificationComponent
 
     private val imageLoader: ImageLoader by lazy(LazyThreadSafetyMode.NONE) {
-        ImageLoader.Builder(requireContext())
-            .components {
-                add(SvgDecoder.Factory())
-            }
-            .build()
+        HyperskillApp.graph().imageLoadingComponent.imageLoader
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

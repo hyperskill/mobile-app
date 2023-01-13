@@ -8,7 +8,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.ImageLoader
-import coil.decode.SvgDecoder
 import coil.load
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -53,12 +52,8 @@ class PlaceholderNewUserFragment :
 
     private var viewDataMapper: PlaceholderNewUserViewDataMapper? = null
 
-    private val svgImageLoader by lazy(LazyThreadSafetyMode.NONE) {
-        ImageLoader.Builder(requireContext())
-            .components {
-                add(SvgDecoder.Factory())
-            }
-            .build()
+    private val svgImageLoader: ImageLoader by lazy(LazyThreadSafetyMode.NONE) {
+        HyperskillApp.graph().imageLoadingComponent.imageLoader
     }
 
     private val trackAdapter by lazy(LazyThreadSafetyMode.NONE) {

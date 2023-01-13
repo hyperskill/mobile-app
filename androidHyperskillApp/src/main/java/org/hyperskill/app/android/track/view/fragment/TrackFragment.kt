@@ -13,7 +13,6 @@ import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.ImageLoader
-import coil.decode.SvgDecoder
 import coil.load
 import coil.size.Scale
 import org.hyperskill.app.SharedResources
@@ -59,6 +58,10 @@ class TrackFragment :
         DefaultDelegateAdapter<Topic>().apply {
             addDelegate(nextTopicAdapterDelegate())
         }
+    }
+
+    private val imageLoader: ImageLoader by lazy(LazyThreadSafetyMode.NONE) {
+        HyperskillApp.graph().imageLoadingComponent.imageLoader
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -146,13 +149,8 @@ class TrackFragment :
     }
 
     private fun renderTrackCoverAndName(track: Track) {
-        val svgImageLoader = ImageLoader.Builder(requireContext())
-            .components {
-                add(SvgDecoder.Factory())
-            }
-            .build()
         if (track.cover != null) {
-            viewBinding.trackIconImageView.load(track.cover, svgImageLoader) {
+            viewBinding.trackIconImageView.load(track.cover, imageLoader) {
                 scale(Scale.FILL)
             }
         } else {
