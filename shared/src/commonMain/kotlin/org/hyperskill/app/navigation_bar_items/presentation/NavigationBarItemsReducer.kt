@@ -14,7 +14,7 @@ class NavigationBarItemsReducer : StateReducer<State, Message, Action> {
                 if (state is State.Idle ||
                     (message.forceUpdate && (state is State.Content || state is State.Error))
                 ) {
-                    State.Loading to setOf(Action.FetchNavigationBarItems)
+                    State.Loading to setOf(Action.FetchNavigationBarItems(message.screen))
                 } else {
                     null
                 }

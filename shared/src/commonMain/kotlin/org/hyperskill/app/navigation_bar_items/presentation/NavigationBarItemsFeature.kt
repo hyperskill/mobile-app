@@ -1,7 +1,7 @@
 package org.hyperskill.app.navigation_bar_items.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
-import org.hyperskill.app.navigation_bar_items.domain.model.Screen
+import org.hyperskill.app.navigation_bar_items.domain.model.NavigationBarItemsScreen
 import org.hyperskill.app.streaks.domain.model.Streak
 
 interface NavigationBarItemsFeature {
@@ -19,7 +19,7 @@ interface NavigationBarItemsFeature {
         /**
          * Initialization
          */
-        data class Initialize(val forceUpdate: Boolean = false) : Message
+        data class Initialize(val screen: NavigationBarItemsScreen, val forceUpdate: Boolean = false) : Message
         object NavigationBarItemsError : Message
         data class NavigationBarItemsSuccess(
             val streak: Streak?,
@@ -35,12 +35,12 @@ interface NavigationBarItemsFeature {
         /**
          * Clicks
          */
-        data class ClickedGems(val screen: Screen) : Message
-        data class ClickedStreak(val screen: Screen) : Message
+        data class ClickedGems(val screen: NavigationBarItemsScreen) : Message
+        data class ClickedStreak(val screen: NavigationBarItemsScreen) : Message
     }
 
     sealed interface Action {
-        object FetchNavigationBarItems : Action
+        data class FetchNavigationBarItems(val screen: NavigationBarItemsScreen) : Action
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 

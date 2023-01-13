@@ -29,6 +29,7 @@ import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentTrackBinding
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
+import org.hyperskill.app.navigation_bar_items.domain.model.NavigationBarItemsScreen
 import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsFeature
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.topics.domain.model.Topic
@@ -79,7 +80,9 @@ class TrackFragment :
 
         // TODO: Delete before merge
         trackViewModel.onNewMessage(
-            TrackFeature.Message.NavigationBarItemsMessage(NavigationBarItemsFeature.Message.Initialize())
+            TrackFeature.Message.NavigationBarItemsMessage(
+                NavigationBarItemsFeature.Message.Initialize(NavigationBarItemsScreen.TRACK)
+            )
         )
     }
 

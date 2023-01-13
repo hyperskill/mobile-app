@@ -4,7 +4,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAct
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPart
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
-import org.hyperskill.app.navigation_bar_items.domain.model.Screen
+import org.hyperskill.app.navigation_bar_items.domain.model.NavigationBarItemsScreen
 
 /**
  * Represents a click on the gems navigation bar button item analytic event.
@@ -20,7 +20,9 @@ import org.hyperskill.app.navigation_bar_items.domain.model.Screen
  * ```
  * @see HyperskillAnalyticEvent
  */
-class NavigationBarItemsClickedGemsHyperskillAnalyticEvent(screen: Screen) : HyperskillAnalyticEvent(
+class NavigationBarItemsClickedGemsHyperskillAnalyticEvent(
+    screen: NavigationBarItemsScreen
+) : HyperskillAnalyticEvent(
     screen.analyticRoute,
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.HEAD,
