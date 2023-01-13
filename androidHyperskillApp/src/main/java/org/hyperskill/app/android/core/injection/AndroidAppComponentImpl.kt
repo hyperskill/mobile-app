@@ -51,6 +51,8 @@ import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainComponentImpl
 import org.hyperskill.app.main.injection.PlatformMainComponent
 import org.hyperskill.app.main.injection.PlatformMainComponentImpl
+import org.hyperskill.app.navigation_bar_items.injection.NavigationBarItemsComponent
+import org.hyperskill.app.navigation_bar_items.injection.NavigationBarItemsComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.network.injection.NetworkComponentImpl
 import org.hyperskill.app.notification.injection.NotificationComponent
@@ -351,4 +353,7 @@ class AndroidAppComponentImpl(
 
     override fun buildStreaksDataComponent(): StreaksDataComponent =
         StreaksDataComponentImpl(this)
+
+    override fun buildNavigationBarItemsComponent(): NavigationBarItemsComponent =
+        NavigationBarItemsComponentImpl(this)
 }

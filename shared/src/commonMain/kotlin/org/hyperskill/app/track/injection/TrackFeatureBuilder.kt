@@ -10,7 +10,6 @@ import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsRe
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
-import org.hyperskill.app.streaks.domain.interactor.StreaksInteractor
 import org.hyperskill.app.topics.domain.interactor.TopicsInteractor
 import org.hyperskill.app.track.domain.interactor.TrackInteractor
 import org.hyperskill.app.track.presentation.TrackActionDispatcher
@@ -29,18 +28,12 @@ object TrackFeatureBuilder {
         progressesInteractor: ProgressesInteractor,
         learningActivitiesInteractor: LearningActivitiesInteractor,
         topicsInteractor: TopicsInteractor,
-        streaksInteractor: StreaksInteractor,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
-        urlPathProcessor: UrlPathProcessor
+        urlPathProcessor: UrlPathProcessor,
+        navigationBarItemsReducer: NavigationBarItemsReducer,
+        navigationBarItemsActionDispatcher: NavigationBarItemsActionDispatcher
     ): Feature<TrackFeature.State, TrackFeature.Message, TrackFeature.Action> {
-        val navigationBarItemsReducer = NavigationBarItemsReducer()
-        val navigationBarItemsActionDispatcher = NavigationBarItemsActionDispatcher(
-            ActionDispatcherOptions(),
-            profileInteractor,
-            streaksInteractor
-        )
-
         val trackReducer = TrackReducer(navigationBarItemsReducer)
         val trackActionDispatcher = TrackActionDispatcher(
             ActionDispatcherOptions(),
