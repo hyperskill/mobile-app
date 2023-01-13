@@ -2,27 +2,31 @@ package org.hyperskill.app.home.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
+import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsFeature
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.streaks.domain.model.Streak
 
 interface HomeFeature {
-    sealed interface State {
+    data class State(
+        val homeState: HomeState,
+        val navigationBarItemsState: NavigationBarItemsFeature.State
+    )
+
+    sealed interface HomeState {
         /**
          * Represents initial state.
          */
-        object Idle : State
+        object Idle : HomeState
 
         /**
          * Represents a state when loading home screen data.
          */
-        object Loading : State
+        object Loading : HomeState
 
         /**
          * Represents a state when home screen data successfully loaded.
          *
-         * @property streak Current user profile streak.
-         * @property hypercoinsBalance Current user profile balance of the hypercoins.
          * @property problemOfDayState Problem of the day state.
          * @property repetitionsState Topics repetitions state.
          * @property isRefreshing A boolean flag that indicates about is pull-to-refresh is ongoing.
@@ -31,18 +35,16 @@ interface HomeFeature {
          * @see ProblemOfDayState
          */
         data class Content(
-            val streak: Streak?,
-            val hypercoinsBalance: Int,
             val problemOfDayState: ProblemOfDayState,
             val repetitionsState: RepetitionsState,
             val isRefreshing: Boolean = false,
             val isLoadingMagicLink: Boolean = false
-        ) : State
+        ) : HomeState
 
         /**
          * Represents a state when home screen data failed to load.
          */
-        object NetworkError : State
+        object NetworkError : HomeState
     }
 
     sealed interface ProblemOfDayState {
@@ -84,11 +86,10 @@ interface HomeFeature {
     sealed interface Message {
         data class Initialize(val forceUpdate: Boolean) : Message
         data class HomeSuccess(
-            val streak: Streak?,
-            val hypercoinsBalance: Int,
             val problemOfDayState: ProblemOfDayState,
             val repetitionsState: RepetitionsState
         ) : Message
+
         object HomeFailure : Message
         object PullToRefresh : Message
 
@@ -98,10 +99,7 @@ interface HomeFeature {
 
         data class StepQuizSolved(val stepId: Long) : Message
         object TopicRepeated : Message
-        data class HypercoinsBalanceChanged(val hypercoinsBalance: Int) : Message
 
-        object ClickedStreakBarButtonItem : Message
-        object ClickedGemsBarButtonItem : Message
         object ClickedContinueLearningOnWeb : Message
         object ClickedTopicsRepetitionsCard : Message
 
@@ -114,6 +112,11 @@ interface HomeFeature {
         object ViewedEventMessage : Message
         object ClickedProblemOfDayCardEventMessage : Message
         object ClickedContinueLearningOnWebEventMessage : Message
+
+        /**
+         * Message Wrappers
+         */
+        data class NavigationBarItemsMessage(val message: NavigationBarItemsFeature.Message) : Message
     }
 
     sealed interface Action {
@@ -124,15 +127,24 @@ interface HomeFeature {
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
+        /**
+         * Action Wrappers
+         */
+        data class NavigationBarItemsAction(val action: NavigationBarItemsFeature.Action) : Action
+
         sealed interface ViewAction : Action {
+            data class OpenUrl(val url: String) : ViewAction
+            object ShowGetMagicLinkError : ViewAction
+
+            data class NavigationBarItemsViewAction(
+                val viewAction: NavigationBarItemsFeature.Action.ViewAction
+            ) : ViewAction
+
             sealed interface NavigateTo : ViewAction {
                 object ProfileTab : NavigateTo
                 data class StepScreen(val stepRoute: StepRoute) : NavigateTo
                 object TopicsRepetitionsScreen : NavigateTo
             }
-
-            data class OpenUrl(val url: String) : ViewAction
-            object ShowGetMagicLinkError : ViewAction
         }
     }
 }

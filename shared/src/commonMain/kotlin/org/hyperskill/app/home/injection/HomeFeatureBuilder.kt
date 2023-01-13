@@ -5,16 +5,18 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.DateFormatter
 import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeActionDispatcher
-import org.hyperskill.app.home.presentation.HomeFeature.Action
-import org.hyperskill.app.home.presentation.HomeFeature.Message
-import org.hyperskill.app.home.presentation.HomeFeature.State
+import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeReducer
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
+import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsActionDispatcher
+import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsFeature
+import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsReducer
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
-import org.hyperskill.app.streaks.domain.interactor.StreaksInteractor
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
+import ru.nobird.app.core.model.safeCast
+import ru.nobird.app.presentation.redux.dispatcher.transform
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
@@ -22,20 +24,20 @@ import ru.nobird.app.presentation.redux.feature.ReduxFeature
 object HomeFeatureBuilder {
     fun build(
         homeInteractor: HomeInteractor,
-        streaksInteractor: StreaksInteractor,
         profileInteractor: ProfileInteractor,
         topicsRepetitionsInteractor: TopicsRepetitionsInteractor,
         stepInteractor: StepInteractor,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
         urlPathProcessor: UrlPathProcessor,
-        dateFormatter: DateFormatter
-    ): Feature<State, Message, Action> {
-        val homeReducer = HomeReducer()
+        dateFormatter: DateFormatter,
+        navigationBarItemsReducer: NavigationBarItemsReducer,
+        navigationBarItemsActionDispatcher: NavigationBarItemsActionDispatcher
+    ): Feature<HomeFeature.State, HomeFeature.Message, HomeFeature.Action> {
+        val homeReducer = HomeReducer(navigationBarItemsReducer)
         val homeActionDispatcher = HomeActionDispatcher(
             ActionDispatcherOptions(),
             homeInteractor,
-            streaksInteractor,
             profileInteractor,
             topicsRepetitionsInteractor,
             stepInteractor,
@@ -45,7 +47,19 @@ object HomeFeatureBuilder {
             dateFormatter
         )
 
-        return ReduxFeature(State.Idle, homeReducer)
+        return ReduxFeature(
+            HomeFeature.State(
+                homeState = HomeFeature.HomeState.Idle,
+                navigationBarItemsState = NavigationBarItemsFeature.State.Idle
+            ),
+            homeReducer
+        )
             .wrapWithActionDispatcher(homeActionDispatcher)
+            .wrapWithActionDispatcher(
+                navigationBarItemsActionDispatcher.transform(
+                    transformAction = { it.safeCast<HomeFeature.Action.NavigationBarItemsAction>()?.action },
+                    transformMessage = HomeFeature.Message::NavigationBarItemsMessage
+                )
+            )
     }
 }

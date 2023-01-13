@@ -29,14 +29,12 @@ import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.step.domain.interactor.StepInteractor
-import org.hyperskill.app.streaks.domain.interactor.StreaksInteractor
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class HomeActionDispatcher(
     config: ActionDispatcherOptions,
     private val homeInteractor: HomeInteractor,
-    private val streaksInteractor: StreaksInteractor,
     private val profileInteractor: ProfileInteractor,
     private val topicsRepetitionsInteractor: TopicsRepetitionsInteractor,
     private val stepInteractor: StepInteractor,
@@ -72,12 +70,6 @@ class HomeActionDispatcher(
                 onNewMessage(Message.TopicRepeated)
             }
         }
-
-        actionScope.launch {
-            profileInteractor.observeHypercoinsBalance().collect {
-                onNewMessage(Message.HypercoinsBalanceChanged(it))
-            }
-        }
     }
 
     override suspend fun doSuspendableAction(action: Action) {
@@ -93,40 +85,21 @@ class HomeActionDispatcher(
                         return onNewMessage(Message.HomeFailure)
                     }
 
-                val problemOfDayStateResult = actionScope.async {
-                    getProblemOfDayState(currentProfile.dailyStep)
-                }
-                val currentProfileStreakResult = actionScope.async {
-                    streaksInteractor.getUserStreak(currentProfile.id)
-                }
-                val topicsRepetitionsStatisticsResult = actionScope.async {
-                    topicsRepetitionsInteractor.getTopicsRepetitionStatistics()
-                }
+                val problemOfDayStateResult = actionScope.async { getProblemOfDayState(currentProfile.dailyStep) }
+                val repetitionsStateResult = actionScope.async { getRepetitionsState() }
 
                 val problemOfDayState = problemOfDayStateResult.await().getOrElse {
                     sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                     return onNewMessage(Message.HomeFailure)
                 }
-                val currentProfileStreak = currentProfileStreakResult.await().getOrNull()
-                val topicsRepetitionsStatistics = topicsRepetitionsStatisticsResult.await().getOrElse {
+                val repetitionsState = repetitionsStateResult.await().getOrElse {
                     sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                     return onNewMessage(Message.HomeFailure)
                 }
 
                 sentryInteractor.finishTransaction(sentryTransaction)
 
-                onNewMessage(
-                    Message.HomeSuccess(
-                        streak = currentProfileStreak,
-                        hypercoinsBalance = currentProfile.gamification.hypercoinsBalance,
-                        problemOfDayState = problemOfDayState,
-                        repetitionsState = if (topicsRepetitionsStatistics.recommendTodayCount > 0 || topicsRepetitionsStatistics.repeatedTodayCount > 0) {
-                            HomeFeature.RepetitionsState.Available(topicsRepetitionsStatistics.recommendTodayCount)
-                        } else {
-                            HomeFeature.RepetitionsState.Empty
-                        }
-                    )
-                )
+                onNewMessage(Message.HomeSuccess(problemOfDayState, repetitionsState))
                 onNewMessage(Message.ReadyToLaunchNextProblemInTimer)
             }
             is Action.LaunchTimer -> {
@@ -149,7 +122,9 @@ class HomeActionDispatcher(
                         isTimerLaunched = false
                         onNewMessage(Message.NextProblemInTimerStopped)
                     }
-                    .onEach { seconds -> onNewMessage(Message.HomeNextProblemInUpdate(dateFormatter.hoursWithMinutesCount(seconds))) }
+                    .onEach { seconds ->
+                        onNewMessage(Message.HomeNextProblemInUpdate(dateFormatter.hoursWithMinutesCount(seconds)))
+                    }
                     .launchIn(actionScope)
             }
             is Action.GetMagicLink ->
@@ -177,6 +152,17 @@ class HomeActionDispatcher(
                     }
                 }
         }
+
+    private suspend fun getRepetitionsState(): Result<HomeFeature.RepetitionsState> =
+        topicsRepetitionsInteractor
+            .getTopicsRepetitionStatistics()
+            .map { statistics ->
+                if (statistics.recommendTodayCount > 0 || statistics.repeatedTodayCount > 0) {
+                    HomeFeature.RepetitionsState.Available(statistics.recommendTodayCount)
+                } else {
+                    HomeFeature.RepetitionsState.Empty
+                }
+            }
 
     private suspend fun getLink(
         path: HyperskillUrlPath,

@@ -22,13 +22,14 @@ class HomeComponentImpl(private val appGraph: AppGraph) : HomeComponent {
     override val homeFeature: Feature<HomeFeature.State, HomeFeature.Message, HomeFeature.Action>
         get() = HomeFeatureBuilder.build(
             homeInteractor,
-            appGraph.buildStreaksDataComponent().streaksInteractor,
             appGraph.buildProfileDataComponent().profileInteractor,
             appGraph.topicsRepetitionsDataComponent.topicsRepetitionsInteractor,
             stepInteractor,
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor,
             appGraph.buildMagicLinksDataComponent().urlPathProcessor,
-            appGraph.commonComponent.dateFormatter
+            appGraph.commonComponent.dateFormatter,
+            appGraph.buildNavigationBarItemsComponent().navigationBarItemsReducer,
+            appGraph.buildNavigationBarItemsComponent().navigationBarItemsActionDispatcher
         )
 }
