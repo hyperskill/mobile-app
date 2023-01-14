@@ -12,8 +12,13 @@ on:
       - 'dependabot/bundler/**'
   workflow_dispatch:
     inputs:
+      force_build_android:
+        description: 'Force build Android'
+        required: false
+        default: false
+        type: boolean
       force_build_ios:
-        description: 'True to force build iOS'
+        description: 'Force build iOS'
         required: false
         default: false
         type: boolean
@@ -33,7 +38,7 @@ jobs:
 
   build-android:
     needs: files-changed
-    if: ${{ needs.files-changed.outputs.android == 'true' || needs.files-changed.outputs.shared == 'true' }}
+    if: ${{ inputs.force_build_android || needs.files-changed.outputs.android == 'true' || needs.files-changed.outputs.shared == 'true' }}
     name: Build Android
     runs-on: ubuntu-22.04
     timeout-minutes: 60
