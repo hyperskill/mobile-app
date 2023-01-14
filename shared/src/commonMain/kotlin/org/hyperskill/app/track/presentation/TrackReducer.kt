@@ -97,10 +97,10 @@ class TrackReducer(
                 state to setOf(Action.LogAnalyticEvent(TrackViewedHyperskillAnalyticEvent()))
             // Wrapper Messages
             is Message.GamificationToolbarMessage -> {
-                val (navigationBarItemsState, navigationBarItemsActions) =
+                val (toolbarState, toolbarActions) =
                     gamificationToolbarReducer.reduce(state.toolbarState, message.message)
 
-                val actions = navigationBarItemsActions
+                val actions = toolbarActions
                     .map {
                         if (it is GamificationToolbarFeature.Action.ViewAction) {
                             Action.ViewAction.GamificationToolbarViewAction(it)
@@ -110,7 +110,7 @@ class TrackReducer(
                     }
                     .toSet()
 
-                state.copy(toolbarState = navigationBarItemsState) to actions
+                state.copy(toolbarState = toolbarState) to actions
             }
         } ?: (state to emptySet())
 }

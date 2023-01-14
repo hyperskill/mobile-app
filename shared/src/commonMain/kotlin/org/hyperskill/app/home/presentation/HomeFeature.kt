@@ -93,7 +93,6 @@ interface HomeFeature {
             val problemOfDayState: ProblemOfDayState,
             val repetitionsState: RepetitionsState
         ) : Message
-
         object HomeFailure : Message
         object PullToRefresh : Message
 

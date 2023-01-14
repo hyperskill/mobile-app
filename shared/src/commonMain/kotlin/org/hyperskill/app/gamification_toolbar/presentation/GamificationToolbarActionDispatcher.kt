@@ -36,7 +36,7 @@ class GamificationToolbarActionDispatcher(
 
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            is Action.FetchGamificationToolbarItems -> {
+            is Action.FetchGamificationToolbarData -> {
                 val sentryTransaction = action.screen.sentryTransaction
                 sentryInteractor.startTransaction(sentryTransaction)
 
@@ -45,7 +45,7 @@ class GamificationToolbarActionDispatcher(
                     .map { it.id }
                     .getOrElse {
                         sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                        return onNewMessage(Message.FetchGamificationToolbarError)
+                        return onNewMessage(Message.FetchGamificationToolbarDataError)
                     }
 
                 val streakResult = actionScope.async { streaksInteractor.getUserStreak(currentUserId) }
@@ -55,16 +55,21 @@ class GamificationToolbarActionDispatcher(
 
                 val streak = streakResult.await().getOrElse {
                     sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                    return onNewMessage(Message.FetchGamificationToolbarError)
+                    return onNewMessage(Message.FetchGamificationToolbarDataError)
                 }
                 val profile = profileResult.await().getOrElse {
                     sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                    return onNewMessage(Message.FetchGamificationToolbarError)
+                    return onNewMessage(Message.FetchGamificationToolbarDataError)
                 }
 
                 sentryInteractor.finishTransaction(sentryTransaction)
 
-                onNewMessage(Message.FetchGamificationToolbarSuccess(streak, profile.gamification.hypercoinsBalance))
+                onNewMessage(
+                    Message.FetchGamificationToolbarDataSuccess(
+                        streak,
+                        profile.gamification.hypercoinsBalance
+                    )
+                )
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)

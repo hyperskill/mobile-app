@@ -219,10 +219,10 @@ class HomeReducer(
             }
             // Wrapper Messages
             is Message.GamificationToolbarMessage -> {
-                val (navigationBarItemsState, navigationBarItemsActions) =
+                val (toolbarState, toolbarActions) =
                     gamificationToolbarReducer.reduce(state.toolbarState, message.message)
 
-                val actions = navigationBarItemsActions
+                val actions = toolbarActions
                     .map {
                         if (it is GamificationToolbarFeature.Action.ViewAction) {
                             Action.ViewAction.GamificationToolbarViewAction(it)
@@ -232,7 +232,7 @@ class HomeReducer(
                     }
                     .toSet()
 
-                state.copy(toolbarState = navigationBarItemsState) to actions
+                state.copy(toolbarState = toolbarState) to actions
             }
         } ?: (state to emptySet())
 }
