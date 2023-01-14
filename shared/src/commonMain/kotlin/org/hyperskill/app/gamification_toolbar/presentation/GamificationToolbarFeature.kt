@@ -21,8 +21,8 @@ interface GamificationToolbarFeature {
          * Initialization
          */
         data class Initialize(val screen: GamificationToolbarScreen, val forceUpdate: Boolean = false) : Message
-        object NavigationBarItemsError : Message
-        data class NavigationBarItemsSuccess(
+        object FetchGamificationToolbarError : Message
+        data class FetchGamificationToolbarSuccess(
             val streak: Streak?,
             val hypercoinsBalance: Int
         ) : Message
@@ -43,7 +43,7 @@ interface GamificationToolbarFeature {
     }
 
     sealed interface Action {
-        data class FetchNavigationBarItems(val screen: GamificationToolbarScreen) : Action
+        data class FetchGamificationToolbarItems(val screen: GamificationToolbarScreen) : Action
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 

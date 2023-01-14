@@ -14,21 +14,21 @@ class GamificationToolbarReducer : StateReducer<State, Message, Action> {
                 if (state is State.Idle ||
                     (message.forceUpdate && (state is State.Content || state is State.Error))
                 ) {
-                    State.Loading to setOf(Action.FetchNavigationBarItems(message.screen))
+                    State.Loading to setOf(Action.FetchGamificationToolbarItems(message.screen))
                 } else {
                     null
                 }
-            is Message.NavigationBarItemsError ->
+            is Message.FetchGamificationToolbarError ->
                 State.Error to emptySet()
-            is Message.NavigationBarItemsSuccess ->
+            is Message.FetchGamificationToolbarSuccess ->
                 State.Content(message.streak, message.hypercoinsBalance) to emptySet()
             is Message.PullToRefresh ->
                 when (state) {
                     is State.Content ->
                         if (state.isRefreshing) null
-                        else state.copy(isRefreshing = true) to setOf(Action.FetchNavigationBarItems(message.screen))
+                        else state.copy(isRefreshing = true) to setOf(Action.FetchGamificationToolbarItems(message.screen))
                     is State.Error ->
-                        State.Loading to setOf(Action.FetchNavigationBarItems(message.screen))
+                        State.Loading to setOf(Action.FetchGamificationToolbarItems(message.screen))
                     else ->
                         null
                 }
