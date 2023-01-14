@@ -27,10 +27,10 @@ import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetit
 import org.hyperskill.app.android.topics_repetitions.view.screen.TopicsRepetitionScreen
 import org.hyperskill.app.android.view.base.ui.extension.setElevationOnCollapsed
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
+import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
+import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeViewModel
-import org.hyperskill.app.navigation_bar_items.domain.model.NavigationBarItemsScreen
-import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsFeature
 import org.hyperskill.app.step.domain.model.StepRoute
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
@@ -62,9 +62,9 @@ class HomeFragment :
                 super.onResume(owner)
                 homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = true))
                 homeViewModel.onNewMessage(
-                    HomeFeature.Message.NavigationBarItemsMessage(
-                        NavigationBarItemsFeature.Message.Initialize(
-                            screen = NavigationBarItemsScreen.HOME,
+                    HomeFeature.Message.GamificationToolbarMessage(
+                        GamificationToolbarFeature.Message.Initialize(
+                            screen = GamificationToolbarScreen.HOME,
                             forceUpdate = true
                         )
                     )
@@ -89,15 +89,15 @@ class HomeFragment :
 
             homeScreenGemsCountTextView.setOnClickListener {
                 homeViewModel.onNewMessage(
-                    HomeFeature.Message.NavigationBarItemsMessage(
-                        NavigationBarItemsFeature.Message.ClickedGems(screen = NavigationBarItemsScreen.HOME)
+                    HomeFeature.Message.GamificationToolbarMessage(
+                        GamificationToolbarFeature.Message.ClickedGems(screen = GamificationToolbarScreen.HOME)
                     )
                 )
             }
             homeScreenStreakDurationTextView.setOnClickListener {
                 homeViewModel.onNewMessage(
-                    HomeFeature.Message.NavigationBarItemsMessage(
-                        NavigationBarItemsFeature.Message.ClickedStreak(screen = NavigationBarItemsScreen.HOME)
+                    HomeFeature.Message.GamificationToolbarMessage(
+                        GamificationToolbarFeature.Message.ClickedStreak(screen = GamificationToolbarScreen.HOME)
                     )
                 )
             }
@@ -105,9 +105,9 @@ class HomeFragment :
             homeScreenError.tryAgain.setOnClickListener {
                 homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = true))
                 homeViewModel.onNewMessage(
-                    HomeFeature.Message.NavigationBarItemsMessage(
-                        NavigationBarItemsFeature.Message.Initialize(
-                            screen = NavigationBarItemsScreen.HOME,
+                    HomeFeature.Message.GamificationToolbarMessage(
+                        GamificationToolbarFeature.Message.Initialize(
+                            screen = GamificationToolbarScreen.HOME,
                             forceUpdate = true
                         )
                     )
@@ -135,9 +135,9 @@ class HomeFragment :
         homeViewModel.onNewMessage(HomeFeature.Message.ViewedEventMessage)
 
         homeViewModel.onNewMessage(
-            HomeFeature.Message.NavigationBarItemsMessage(
-                NavigationBarItemsFeature.Message.Initialize(
-                    screen = NavigationBarItemsScreen.HOME,
+            HomeFeature.Message.GamificationToolbarMessage(
+                GamificationToolbarFeature.Message.Initialize(
+                    screen = GamificationToolbarScreen.HOME,
                     forceUpdate = false
                 )
             )
@@ -180,9 +180,9 @@ class HomeFragment :
             is HomeFeature.Action.ViewAction.NavigateTo.TopicsRepetitionsScreen -> {
                 requireRouter().navigateTo(TopicsRepetitionScreen())
             }
-            is HomeFeature.Action.ViewAction.NavigationBarItemsViewAction ->
+            is HomeFeature.Action.ViewAction.GamificationToolbarViewAction ->
                 when (action.viewAction) {
-                    is NavigationBarItemsFeature.Action.ViewAction.ShowProfileTab ->
+                    is GamificationToolbarFeature.Action.ViewAction.ShowProfileTab ->
                         requireMainRouter().switch(ProfileScreen(isInitCurrent = true))
                 }
             else -> {
@@ -208,12 +208,12 @@ class HomeFragment :
             renderTopicsRepetition(castedHomeState.repetitionsState)
         }
 
-        if (state.navigationBarItemsState is NavigationBarItemsFeature.State.Content) {
-            renderMenuItems(state.navigationBarItemsState as NavigationBarItemsFeature.State.Content)
+        if (state.toolbarState is GamificationToolbarFeature.State.Content) {
+            renderMenuItems(state.toolbarState as GamificationToolbarFeature.State.Content)
         }
     }
 
-    private fun renderMenuItems(state: NavigationBarItemsFeature.State.Content) {
+    private fun renderMenuItems(state: GamificationToolbarFeature.State.Content) {
         with(viewBinding.homeScreenStreakDurationTextView) {
             isVisible = true
             val streakDuration = state.streak?.currentStreak ?: 0

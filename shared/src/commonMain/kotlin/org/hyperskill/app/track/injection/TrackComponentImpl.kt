@@ -15,7 +15,7 @@ class TrackComponentImpl(private val appGraph: AppGraph) : TrackComponent {
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor,
             appGraph.buildMagicLinksDataComponent().urlPathProcessor,
-            appGraph.buildNavigationBarItemsComponent().navigationBarItemsReducer,
-            appGraph.buildNavigationBarItemsComponent().navigationBarItemsActionDispatcher
+            appGraph.buildGamificationToolbarComponent().gamificationToolbarReducer,
+            appGraph.buildGamificationToolbarComponent().gamificationToolbarActionDispatcher
         )
 }

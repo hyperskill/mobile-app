@@ -32,8 +32,8 @@ struct HomeView: View {
         .navigationTitle(Strings.Home.title)
         .navigationViewStyle(StackNavigationViewStyle())
         .toolbar {
-            NavigationBarItemsToolbarContent(
-                navigationBarItemsStateKs: viewModel.navigationBarItemsStateKs,
+            GamificationToolbarContent(
+                stateKs: viewModel.gamificationToolbarStateKs,
                 onGemsTap: viewModel.doGemsBarButtonItemAction,
                 onStreakTap: viewModel.doStreakBarButtonItemAction
             )
@@ -138,8 +138,8 @@ struct HomeView: View {
             WebControllerManager.shared.presentWebControllerWithURLString(data.url)
         case .showGetMagicLinkError:
             ProgressHUD.showError()
-        case .navigationBarItemsViewAction(let navigationBarItemsViewAction):
-            switch NavigationBarItemsFeatureActionViewActionKs(navigationBarItemsViewAction.viewAction) {
+        case .gamificationToolbarViewAction(let gamificationToolbarViewAction):
+            switch GamificationToolbarFeatureActionViewActionKs(gamificationToolbarViewAction.viewAction) {
             case .showProfileTab:
                 TabBarRouter(tab: .profile).route()
             }

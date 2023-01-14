@@ -1,10 +1,10 @@
-package org.hyperskill.app.navigation_bar_items.domain.analytic
+package org.hyperskill.app.gamification_toolbar.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPart
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
-import org.hyperskill.app.navigation_bar_items.domain.model.NavigationBarItemsScreen
+import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 
 /**
  * Represents a click on the streak navigation bar button item analytic event.
@@ -20,8 +20,8 @@ import org.hyperskill.app.navigation_bar_items.domain.model.NavigationBarItemsSc
  * ```
  * @see HyperskillAnalyticEvent
  */
-class NavigationBarItemsClickedStreakHyperskillAnalyticEvent(
-    screen: NavigationBarItemsScreen
+class GamificationToolbarClickedStreakHyperskillAnalyticEvent(
+    screen: GamificationToolbarScreen
 ) : HyperskillAnalyticEvent(
     screen.analyticRoute,
     HyperskillAnalyticAction.CLICK,

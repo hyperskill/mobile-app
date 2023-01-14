@@ -1,8 +1,8 @@
 package org.hyperskill.app.track.presentation
 
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
-import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsFeature
-import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsReducer
+import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
+import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
 import org.hyperskill.app.track.domain.analytic.TrackClickedContinueInWebHyperskillAnalyticEvent
 import org.hyperskill.app.track.domain.analytic.TrackClickedPullToRefreshHyperskillAnalyticEvent
 import org.hyperskill.app.track.domain.analytic.TrackClickedTopicToDiscoverNextHyperskillAnalyticEvent
@@ -14,7 +14,7 @@ import org.hyperskill.app.track.presentation.TrackFeature.TrackState
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 class TrackReducer(
-    private val navigationBarItemsReducer: NavigationBarItemsReducer
+    private val gamificationToolbarReducer: GamificationToolbarReducer
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
@@ -96,23 +96,21 @@ class TrackReducer(
             is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(TrackViewedHyperskillAnalyticEvent()))
             // Wrapper Messages
-            is Message.NavigationBarItemsMessage -> {
-                val (navigationBarItemsState, navigationBarItemsActions) = navigationBarItemsReducer.reduce(
-                    state.navigationBarItemsState,
-                    message.message
-                )
+            is Message.GamificationToolbarMessage -> {
+                val (navigationBarItemsState, navigationBarItemsActions) =
+                    gamificationToolbarReducer.reduce(state.toolbarState, message.message)
 
                 val actions = navigationBarItemsActions
                     .map {
-                        if (it is NavigationBarItemsFeature.Action.ViewAction) {
-                            Action.ViewAction.NavigationBarItemsViewAction(it)
+                        if (it is GamificationToolbarFeature.Action.ViewAction) {
+                            Action.ViewAction.GamificationToolbarViewAction(it)
                         } else {
-                            Action.NavigationBarItemsAction(it)
+                            Action.GamificationToolbarAction(it)
                         }
                     }
                     .toSet()
 
-                state.copy(navigationBarItemsState = navigationBarItemsState) to actions
+                state.copy(toolbarState = navigationBarItemsState) to actions
             }
         } ?: (state to emptySet())
 }

@@ -7,13 +7,13 @@ import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.comments.injection.CommentsDataComponent
 import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
+import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.items.injection.ItemsDataComponent
 import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponent
 import org.hyperskill.app.likes.injection.LikesDataComponent
 import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
 import org.hyperskill.app.main.injection.MainComponent
-import org.hyperskill.app.navigation_bar_items.injection.NavigationBarItemsComponent
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.notification.injection.NotificationComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
@@ -78,5 +78,5 @@ interface AppGraph {
     fun buildProductsDataComponent(): ProductsDataComponent
     fun buildItemsDataComponent(): ItemsDataComponent
     fun buildDebugComponent(): DebugComponent
-    fun buildNavigationBarItemsComponent(): NavigationBarItemsComponent
+    fun buildGamificationToolbarComponent(): GamificationToolbarComponent
 }

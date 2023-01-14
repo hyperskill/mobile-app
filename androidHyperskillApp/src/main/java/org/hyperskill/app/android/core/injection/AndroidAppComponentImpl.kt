@@ -35,6 +35,8 @@ import org.hyperskill.app.debug.injection.PlatformDebugComponent
 import org.hyperskill.app.debug.injection.PlatformDebugComponentImpl
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponentImpl
+import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
+import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponentImpl
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.HomeComponentImpl
 import org.hyperskill.app.home.injection.PlatformHomeComponent
@@ -51,8 +53,6 @@ import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainComponentImpl
 import org.hyperskill.app.main.injection.PlatformMainComponent
 import org.hyperskill.app.main.injection.PlatformMainComponentImpl
-import org.hyperskill.app.navigation_bar_items.injection.NavigationBarItemsComponent
-import org.hyperskill.app.navigation_bar_items.injection.NavigationBarItemsComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.network.injection.NetworkComponentImpl
 import org.hyperskill.app.notification.injection.NotificationComponent
@@ -354,6 +354,6 @@ class AndroidAppComponentImpl(
     override fun buildStreaksDataComponent(): StreaksDataComponent =
         StreaksDataComponentImpl(this)
 
-    override fun buildNavigationBarItemsComponent(): NavigationBarItemsComponent =
-        NavigationBarItemsComponentImpl(this)
+    override fun buildGamificationToolbarComponent(): GamificationToolbarComponent =
+        GamificationToolbarComponentImpl(this)
 }

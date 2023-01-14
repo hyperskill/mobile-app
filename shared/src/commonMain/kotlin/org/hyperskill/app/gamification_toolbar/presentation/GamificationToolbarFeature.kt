@@ -1,10 +1,10 @@
-package org.hyperskill.app.navigation_bar_items.presentation
+package org.hyperskill.app.gamification_toolbar.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
-import org.hyperskill.app.navigation_bar_items.domain.model.NavigationBarItemsScreen
+import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.streaks.domain.model.Streak
 
-interface NavigationBarItemsFeature {
+interface GamificationToolbarFeature {
     sealed interface State {
         object Idle : State
         object Loading : State
@@ -20,14 +20,14 @@ interface NavigationBarItemsFeature {
         /**
          * Initialization
          */
-        data class Initialize(val screen: NavigationBarItemsScreen, val forceUpdate: Boolean = false) : Message
+        data class Initialize(val screen: GamificationToolbarScreen, val forceUpdate: Boolean = false) : Message
         object NavigationBarItemsError : Message
         data class NavigationBarItemsSuccess(
             val streak: Streak?,
             val hypercoinsBalance: Int
         ) : Message
 
-        data class PullToRefresh(val screen: NavigationBarItemsScreen) : Message
+        data class PullToRefresh(val screen: GamificationToolbarScreen) : Message
 
         /**
          * Flow Messages
@@ -38,12 +38,12 @@ interface NavigationBarItemsFeature {
         /**
          * Clicks
          */
-        data class ClickedGems(val screen: NavigationBarItemsScreen) : Message
-        data class ClickedStreak(val screen: NavigationBarItemsScreen) : Message
+        data class ClickedGems(val screen: GamificationToolbarScreen) : Message
+        data class ClickedStreak(val screen: GamificationToolbarScreen) : Message
     }
 
     sealed interface Action {
-        data class FetchNavigationBarItems(val screen: NavigationBarItemsScreen) : Action
+        data class FetchNavigationBarItems(val screen: GamificationToolbarScreen) : Action
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 

@@ -142,7 +142,7 @@
 		2C5CBBE32948F4B600113007 /* StepQuizSQLViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5CBBE22948F4B600113007 /* StepQuizSQLViewModel.swift */; };
 		2C5CBBE52948FA7400113007 /* StepQuizSQLAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5CBBE42948FA7400113007 /* StepQuizSQLAssembly.swift */; };
 		2C5CBBE72948FC7A00113007 /* StepQuizSQLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5CBBE62948FC7A00113007 /* StepQuizSQLView.swift */; };
-		2C5F4A5A2971C71200677530 /* NavigationBarItemsToolbarContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5F4A592971C71200677530 /* NavigationBarItemsToolbarContent.swift */; };
+		2C5F4A5A2971C71200677530 /* GamificationToolbarContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5F4A592971C71200677530 /* GamificationToolbarContent.swift */; };
 		2C65637128743796006AAD77 /* TrackViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65637028743796006AAD77 /* TrackViewData.swift */; };
 		2C65637328743910006AAD77 /* TrackAboutBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65637228743910006AAD77 /* TrackAboutBlockView.swift */; };
 		2C65637628743F5B006AAD77 /* TrackAboutStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65637528743F5B006AAD77 /* TrackAboutStatsView.swift */; };
@@ -555,7 +555,7 @@
 		2C5CBBE22948F4B600113007 /* StepQuizSQLViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSQLViewModel.swift; sourceTree = "<group>"; };
 		2C5CBBE42948FA7400113007 /* StepQuizSQLAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSQLAssembly.swift; sourceTree = "<group>"; };
 		2C5CBBE62948FC7A00113007 /* StepQuizSQLView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSQLView.swift; sourceTree = "<group>"; };
-		2C5F4A592971C71200677530 /* NavigationBarItemsToolbarContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarItemsToolbarContent.swift; sourceTree = "<group>"; };
+		2C5F4A592971C71200677530 /* GamificationToolbarContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamificationToolbarContent.swift; sourceTree = "<group>"; };
 		2C65637028743796006AAD77 /* TrackViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewData.swift; sourceTree = "<group>"; };
 		2C65637228743910006AAD77 /* TrackAboutBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackAboutBlockView.swift; sourceTree = "<group>"; };
 		2C65637528743F5B006AAD77 /* TrackAboutStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackAboutStatsView.swift; sourceTree = "<group>"; };
@@ -1028,8 +1028,8 @@
 				2C725B6428091ACF00A49043 /* AuthCredentials */,
 				2C6B30A428B7C3BB00609CE8 /* AuthNewUserPlaceholder */,
 				2C005DD027EF5C4800DC6503 /* AuthSocial */,
+				2C5F4A582971C6C500677530 /* GamificationToolbar */,
 				2C963BC32812D16C0036DD53 /* Home */,
-				2C5F4A582971C6C500677530 /* NavigationBarItems */,
 				E9F923F428A2632800C065A7 /* Onboarding */,
 				E9F655CF2875B31B00291143 /* ProblemOfDay */,
 				2C9EB95B2861BAAE007DDE44 /* Profile */,
@@ -1429,12 +1429,12 @@
 			path = StepQuizSQL;
 			sourceTree = "<group>";
 		};
-		2C5F4A582971C6C500677530 /* NavigationBarItems */ = {
+		2C5F4A582971C6C500677530 /* GamificationToolbar */ = {
 			isa = PBXGroup;
 			children = (
 				2C78225F2942F98D0067200F /* Views */,
 			);
-			path = NavigationBarItems;
+			path = GamificationToolbar;
 			sourceTree = "<group>";
 		};
 		2C60F1B428880AA600B66C78 /* Skeletons */ = {
@@ -1525,8 +1525,8 @@
 		2C78225F2942F98D0067200F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2C5F4A592971C71200677530 /* GamificationToolbarContent.swift */,
 				2C7822622943037C0067200F /* GemsBarButtonItem.swift */,
-				2C5F4A592971C71200677530 /* NavigationBarItemsToolbarContent.swift */,
 				2C7822602942F9CF0067200F /* StreakBarButtonItem.swift */,
 			);
 			path = Views;
@@ -2806,7 +2806,7 @@
 				2C0146AA28FDF2350083DA9C /* StepQuizCodeFullScreenInputProtocol.swift in Sources */,
 				E9B2CF5D2822975400B2DC6F /* StepQuizStatsView.swift in Sources */,
 				2CA7B89428932EB100A789EF /* UIWindowExtensions.swift in Sources */,
-				2C5F4A5A2971C71200677530 /* NavigationBarItemsToolbarContent.swift in Sources */,
+				2C5F4A5A2971C71200677530 /* GamificationToolbarContent.swift in Sources */,
 				2C5B2A1F286595AF0097B270 /* CodeCompletionTableViewController.swift in Sources */,
 				E94BC942291E89D6000B18D3 /* TopicsRepetitionsCountView.swift in Sources */,
 				2C8E4FB12848C9050011ADFA /* StepQuizTableSelectColumnsView.swift in Sources */,

@@ -1,13 +1,13 @@
-package org.hyperskill.app.navigation_bar_items.presentation
+package org.hyperskill.app.gamification_toolbar.presentation
 
-import org.hyperskill.app.navigation_bar_items.domain.analytic.NavigationBarItemsClickedGemsHyperskillAnalyticEvent
-import org.hyperskill.app.navigation_bar_items.domain.analytic.NavigationBarItemsClickedStreakHyperskillAnalyticEvent
-import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsFeature.Action
-import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsFeature.Message
-import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsFeature.State
+import org.hyperskill.app.gamification_toolbar.domain.analytic.GamificationToolbarClickedGemsHyperskillAnalyticEvent
+import org.hyperskill.app.gamification_toolbar.domain.analytic.GamificationToolbarClickedStreakHyperskillAnalyticEvent
+import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.Action
+import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.Message
+import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
-class NavigationBarItemsReducer : StateReducer<State, Message, Action> {
+class GamificationToolbarReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
             is Message.Initialize ->
@@ -50,7 +50,7 @@ class NavigationBarItemsReducer : StateReducer<State, Message, Action> {
                 if (state is State.Content) {
                     state to setOf(
                         Action.ViewAction.ShowProfileTab,
-                        Action.LogAnalyticEvent(NavigationBarItemsClickedGemsHyperskillAnalyticEvent(message.screen))
+                        Action.LogAnalyticEvent(GamificationToolbarClickedGemsHyperskillAnalyticEvent(message.screen))
                     )
                 } else {
                     null
@@ -59,7 +59,7 @@ class NavigationBarItemsReducer : StateReducer<State, Message, Action> {
                 if (state is State.Content) {
                     state to setOf(
                         Action.ViewAction.ShowProfileTab,
-                        Action.LogAnalyticEvent(NavigationBarItemsClickedStreakHyperskillAnalyticEvent(message.screen))
+                        Action.LogAnalyticEvent(GamificationToolbarClickedStreakHyperskillAnalyticEvent(message.screen))
                     )
                 } else {
                     null

@@ -8,9 +8,9 @@ import org.hyperskill.app.home.presentation.HomeActionDispatcher
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeReducer
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
-import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsActionDispatcher
-import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsFeature
-import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsReducer
+import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarActionDispatcher
+import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
+import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
@@ -31,10 +31,10 @@ object HomeFeatureBuilder {
         sentryInteractor: SentryInteractor,
         urlPathProcessor: UrlPathProcessor,
         dateFormatter: DateFormatter,
-        navigationBarItemsReducer: NavigationBarItemsReducer,
-        navigationBarItemsActionDispatcher: NavigationBarItemsActionDispatcher
+        gamificationToolbarReducer: GamificationToolbarReducer,
+        gamificationToolbarActionDispatcher: GamificationToolbarActionDispatcher
     ): Feature<HomeFeature.State, HomeFeature.Message, HomeFeature.Action> {
-        val homeReducer = HomeReducer(navigationBarItemsReducer)
+        val homeReducer = HomeReducer(gamificationToolbarReducer)
         val homeActionDispatcher = HomeActionDispatcher(
             ActionDispatcherOptions(),
             homeInteractor,
@@ -50,15 +50,15 @@ object HomeFeatureBuilder {
         return ReduxFeature(
             HomeFeature.State(
                 homeState = HomeFeature.HomeState.Idle,
-                navigationBarItemsState = NavigationBarItemsFeature.State.Idle
+                toolbarState = GamificationToolbarFeature.State.Idle
             ),
             homeReducer
         )
             .wrapWithActionDispatcher(homeActionDispatcher)
             .wrapWithActionDispatcher(
-                navigationBarItemsActionDispatcher.transform(
-                    transformAction = { it.safeCast<HomeFeature.Action.NavigationBarItemsAction>()?.action },
-                    transformMessage = HomeFeature.Message::NavigationBarItemsMessage
+                gamificationToolbarActionDispatcher.transform(
+                    transformAction = { it.safeCast<HomeFeature.Action.GamificationToolbarAction>()?.action },
+                    transformMessage = HomeFeature.Message::GamificationToolbarMessage
                 )
             )
     }

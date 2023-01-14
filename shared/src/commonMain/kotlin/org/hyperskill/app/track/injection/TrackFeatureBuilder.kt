@@ -4,9 +4,9 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.learning_activities.domain.interactor.LearningActivitiesInteractor
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
-import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsActionDispatcher
-import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsFeature
-import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsReducer
+import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarActionDispatcher
+import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
+import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
@@ -31,10 +31,10 @@ object TrackFeatureBuilder {
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
         urlPathProcessor: UrlPathProcessor,
-        navigationBarItemsReducer: NavigationBarItemsReducer,
-        navigationBarItemsActionDispatcher: NavigationBarItemsActionDispatcher
+        gamificationToolbarReducer: GamificationToolbarReducer,
+        gamificationToolbarActionDispatcher: GamificationToolbarActionDispatcher
     ): Feature<TrackFeature.State, TrackFeature.Message, TrackFeature.Action> {
-        val trackReducer = TrackReducer(navigationBarItemsReducer)
+        val trackReducer = TrackReducer(gamificationToolbarReducer)
         val trackActionDispatcher = TrackActionDispatcher(
             ActionDispatcherOptions(),
             trackInteractor,
@@ -50,15 +50,15 @@ object TrackFeatureBuilder {
         return ReduxFeature(
             TrackFeature.State(
                 trackState = TrackFeature.TrackState.Idle,
-                navigationBarItemsState = NavigationBarItemsFeature.State.Idle
+                toolbarState = GamificationToolbarFeature.State.Idle
             ),
             trackReducer
         )
             .wrapWithActionDispatcher(trackActionDispatcher)
             .wrapWithActionDispatcher(
-                navigationBarItemsActionDispatcher.transform(
-                    transformAction = { it.safeCast<TrackFeature.Action.NavigationBarItemsAction>()?.action },
-                    transformMessage = TrackFeature.Message::NavigationBarItemsMessage
+                gamificationToolbarActionDispatcher.transform(
+                    transformAction = { it.safeCast<TrackFeature.Action.GamificationToolbarAction>()?.action },
+                    transformMessage = TrackFeature.Message::GamificationToolbarMessage
                 )
             )
     }

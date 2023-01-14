@@ -31,8 +31,8 @@ import org.hyperskill.app.android.databinding.FragmentTrackBinding
 import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
-import org.hyperskill.app.navigation_bar_items.domain.model.NavigationBarItemsScreen
-import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsFeature
+import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
+import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.track.domain.model.Track
@@ -77,9 +77,9 @@ class TrackFragment :
             trackViewModel.onNewMessage(TrackFeature.Message.Initialize(forceUpdate = true))
             // TODO: Delete before merge or support in Android
             trackViewModel.onNewMessage(
-                TrackFeature.Message.NavigationBarItemsMessage(
-                    NavigationBarItemsFeature.Message.Initialize(
-                        screen = NavigationBarItemsScreen.TRACK,
+                TrackFeature.Message.GamificationToolbarMessage(
+                    GamificationToolbarFeature.Message.Initialize(
+                        screen = GamificationToolbarScreen.TRACK,
                         forceUpdate = true
                     )
                 )
@@ -91,8 +91,8 @@ class TrackFragment :
 
         // TODO: Delete before merge or support in Android
         trackViewModel.onNewMessage(
-            TrackFeature.Message.NavigationBarItemsMessage(
-                NavigationBarItemsFeature.Message.Initialize(NavigationBarItemsScreen.TRACK)
+            TrackFeature.Message.GamificationToolbarMessage(
+                GamificationToolbarFeature.Message.Initialize(GamificationToolbarScreen.TRACK)
             )
         )
     }
@@ -120,9 +120,9 @@ class TrackFragment :
                 requireContext().openUrl(action.url)
             is TrackFeature.Action.ViewAction.ShowGetMagicLinkError ->
                 viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
-            is TrackFeature.Action.ViewAction.NavigationBarItemsViewAction ->
+            is TrackFeature.Action.ViewAction.GamificationToolbarViewAction ->
                 when (action.viewAction) {
-                    is NavigationBarItemsFeature.Action.ViewAction.ShowProfileTab ->
+                    is GamificationToolbarFeature.Action.ViewAction.ShowProfileTab ->
                         requireMainRouter().switch(ProfileScreen(isInitCurrent = true))
                 }
         }

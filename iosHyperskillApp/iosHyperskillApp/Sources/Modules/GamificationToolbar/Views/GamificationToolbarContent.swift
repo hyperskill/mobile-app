@@ -1,23 +1,23 @@
 import shared
 import SwiftUI
 
-extension NavigationBarItemsToolbarContent {
+extension GamificationToolbarContent {
     struct Appearance {
         let toolbarSkeletonSize = CGSize(width: 56, height: 28)
     }
 }
 
-struct NavigationBarItemsToolbarContent: ToolbarContent {
+struct GamificationToolbarContent: ToolbarContent {
     private(set) var appearance = Appearance()
 
-    let navigationBarItemsStateKs: NavigationBarItemsFeatureStateKs
+    let stateKs: GamificationToolbarFeatureStateKs
 
     let onGemsTap: () -> Void
     let onStreakTap: () -> Void
 
     var body: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            switch navigationBarItemsStateKs {
+            switch stateKs {
             case .idle, .loading:
                 HStack {
                     SkeletonRoundedView(appearance: .init(size: appearance.toolbarSkeletonSize))

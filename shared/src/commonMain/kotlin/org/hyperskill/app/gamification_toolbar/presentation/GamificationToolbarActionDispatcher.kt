@@ -1,18 +1,18 @@
-package org.hyperskill.app.navigation_bar_items.presentation
+package org.hyperskill.app.gamification_toolbar.presentation
 
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsFeature.Action
-import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsFeature.Message
+import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.Action
+import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.Message
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.streaks.domain.interactor.StreaksInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
-class NavigationBarItemsActionDispatcher(
+class GamificationToolbarActionDispatcher(
     config: ActionDispatcherOptions,
     private val profileInteractor: ProfileInteractor,
     private val streaksInteractor: StreaksInteractor,

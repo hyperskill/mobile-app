@@ -2,7 +2,7 @@ package org.hyperskill.app.track.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
-import org.hyperskill.app.navigation_bar_items.presentation.NavigationBarItemsFeature
+import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.track.domain.model.StudyPlan
 import org.hyperskill.app.track.domain.model.Track
@@ -11,11 +11,11 @@ import org.hyperskill.app.track.domain.model.TrackProgress
 interface TrackFeature {
     data class State(
         val trackState: TrackState,
-        val navigationBarItemsState: NavigationBarItemsFeature.State
+        val toolbarState: GamificationToolbarFeature.State
     ) {
         val isRefreshing: Boolean
             get() = trackState is TrackState.Content && trackState.isRefreshing ||
-                navigationBarItemsState is NavigationBarItemsFeature.State.Content && navigationBarItemsState.isRefreshing
+                toolbarState is GamificationToolbarFeature.State.Content && toolbarState.isRefreshing
     }
 
     sealed interface TrackState {
@@ -109,7 +109,7 @@ interface TrackFeature {
         /**
          * Message Wrappers
          */
-        data class NavigationBarItemsMessage(val message: NavigationBarItemsFeature.Message) : Message
+        data class GamificationToolbarMessage(val message: GamificationToolbarFeature.Message) : Message
     }
 
     sealed interface Action {
@@ -122,14 +122,14 @@ interface TrackFeature {
         /**
          * Action Wrappers
          */
-        data class NavigationBarItemsAction(val action: NavigationBarItemsFeature.Action) : Action
+        data class GamificationToolbarAction(val action: GamificationToolbarFeature.Action) : Action
 
         sealed interface ViewAction : Action {
             data class OpenUrl(val url: String) : ViewAction
             object ShowGetMagicLinkError : ViewAction
 
-            data class NavigationBarItemsViewAction(
-                val viewAction: NavigationBarItemsFeature.Action.ViewAction
+            data class GamificationToolbarViewAction(
+                val viewAction: GamificationToolbarFeature.Action.ViewAction
             ) : ViewAction
 
             sealed interface NavigateTo : ViewAction {

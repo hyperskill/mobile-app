@@ -5,7 +5,7 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
     private let viewDataMapper: TrackViewDataMapper
 
     var trackStateKs: TrackFeatureTrackStateKs { .init(state.trackState) }
-    var navigationBarItemsStateKs: NavigationBarItemsFeatureStateKs { .init(state.navigationBarItemsState) }
+    var gamificationToolbarStateKs: GamificationToolbarFeatureStateKs { .init(state.toolbarState) }
 
     init(viewDataMapper: TrackViewDataMapper, feature: Presentation_reduxFeature) {
         self.viewDataMapper = viewDataMapper
@@ -19,9 +19,9 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
     func doLoadTrack(forceUpdate: Bool = false) {
         onNewMessage(TrackFeatureMessageInitialize(forceUpdate: forceUpdate))
         onNewMessage(
-            TrackFeatureMessageNavigationBarItemsMessage(
-                message: NavigationBarItemsFeatureMessageInitialize(
-                    screen: NavigationBarItemsScreen.track,
+            TrackFeatureMessageGamificationToolbarMessage(
+                message: GamificationToolbarFeatureMessageInitialize(
+                    screen: GamificationToolbarScreen.track,
                     forceUpdate: forceUpdate
                 )
             )
@@ -31,8 +31,8 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
     func doPullToRefresh() {
         onNewMessage(TrackFeatureMessagePullToRefresh())
         onNewMessage(
-            TrackFeatureMessageNavigationBarItemsMessage(
-                message: NavigationBarItemsFeatureMessagePullToRefresh(screen: NavigationBarItemsScreen.track)
+            TrackFeatureMessageGamificationToolbarMessage(
+                message: GamificationToolbarFeatureMessagePullToRefresh(screen: GamificationToolbarScreen.track)
             )
         )
     }
@@ -47,16 +47,16 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
 
     func doStreakBarButtonItemAction() {
         onNewMessage(
-            TrackFeatureMessageNavigationBarItemsMessage(
-                message: NavigationBarItemsFeatureMessageClickedStreak(screen: NavigationBarItemsScreen.track)
+            TrackFeatureMessageGamificationToolbarMessage(
+                message: GamificationToolbarFeatureMessageClickedStreak(screen: GamificationToolbarScreen.track)
             )
         )
     }
 
     func doGemsBarButtonItemAction() {
         onNewMessage(
-            TrackFeatureMessageNavigationBarItemsMessage(
-                message: NavigationBarItemsFeatureMessageClickedGems(screen: NavigationBarItemsScreen.track)
+            TrackFeatureMessageGamificationToolbarMessage(
+                message: GamificationToolbarFeatureMessageClickedGems(screen: GamificationToolbarScreen.track)
             )
         )
     }

@@ -7,7 +7,7 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
     private var shouldReloadContent = false
 
     var homeStateKs: HomeFeatureHomeStateKs { .init(state.homeState) }
-    var navigationBarItemsStateKs: NavigationBarItemsFeatureStateKs { .init(state.navigationBarItemsState) }
+    var gamificationToolbarStateKs: GamificationToolbarFeatureStateKs { .init(state.toolbarState) }
 
     override init(feature: Presentation_reduxFeature, mainScheduler: AnySchedulerOf<RunLoop> = .main) {
         super.init(feature: feature, mainScheduler: mainScheduler)
@@ -35,9 +35,9 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
 
         onNewMessage(HomeFeatureMessageInitialize(forceUpdate: forceUpdate))
         onNewMessage(
-            HomeFeatureMessageNavigationBarItemsMessage(
-                message: NavigationBarItemsFeatureMessageInitialize(
-                    screen: NavigationBarItemsScreen.home,
+            HomeFeatureMessageGamificationToolbarMessage(
+                message: GamificationToolbarFeatureMessageInitialize(
+                    screen: GamificationToolbarScreen.home,
                     forceUpdate: forceUpdate
                 )
             )
@@ -51,8 +51,8 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
     func doPullToRefresh() {
         onNewMessage(HomeFeatureMessagePullToRefresh())
         onNewMessage(
-            HomeFeatureMessageNavigationBarItemsMessage(
-                message: NavigationBarItemsFeatureMessagePullToRefresh(screen: NavigationBarItemsScreen.home)
+            HomeFeatureMessageGamificationToolbarMessage(
+                message: GamificationToolbarFeatureMessagePullToRefresh(screen: GamificationToolbarScreen.home)
             )
         )
     }
@@ -67,16 +67,16 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
 
     func doStreakBarButtonItemAction() {
         onNewMessage(
-            HomeFeatureMessageNavigationBarItemsMessage(
-                message: NavigationBarItemsFeatureMessageClickedStreak(screen: NavigationBarItemsScreen.home)
+            HomeFeatureMessageGamificationToolbarMessage(
+                message: GamificationToolbarFeatureMessageClickedStreak(screen: GamificationToolbarScreen.home)
             )
         )
     }
 
     func doGemsBarButtonItemAction() {
         onNewMessage(
-            HomeFeatureMessageNavigationBarItemsMessage(
-                message: NavigationBarItemsFeatureMessageClickedGems(screen: NavigationBarItemsScreen.home)
+            HomeFeatureMessageGamificationToolbarMessage(
+                message: GamificationToolbarFeatureMessageClickedGems(screen: GamificationToolbarScreen.home)
             )
         )
     }

@@ -140,15 +140,15 @@ object HyperskillSentryTransactionBuilder {
         )
 
     /**
-     * NavigationBarItemsFeature
+     * GamificationToolbarFeature
      */
-    fun buildNavigationBarItemsHomeScreenRemoteDataLoading(): HyperskillSentryTransaction =
+    fun buildGamificationToolbarHomeScreenRemoteDataLoading(): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
             name = "navigation-bar-items-feature-home-screen-remote-data-loading",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
 
-    fun buildNavigationBarItemsTrackScreenRemoteDataLoading(): HyperskillSentryTransaction =
+    fun buildGamificationToolbarTrackScreenRemoteDataLoading(): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
             name = "navigation-bar-items-feature-track-screen-remote-data-loading",
             operation = HyperskillSentryTransactionOperation.API_LOAD

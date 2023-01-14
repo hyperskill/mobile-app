@@ -31,8 +31,8 @@ struct TrackView: View {
         .navigationTitle(Strings.Track.title)
         .navigationViewStyle(StackNavigationViewStyle())
         .toolbar {
-            NavigationBarItemsToolbarContent(
-                navigationBarItemsStateKs: viewModel.navigationBarItemsStateKs,
+            GamificationToolbarContent(
+                stateKs: viewModel.gamificationToolbarStateKs,
                 onGemsTap: viewModel.doGemsBarButtonItemAction,
                 onStreakTap: viewModel.doStreakBarButtonItemAction
             )
@@ -140,8 +140,8 @@ struct TrackView: View {
                 let assembly = StepAssembly(stepRoute: StepRouteLearn(stepId: data.stepId))
                 pushRouter.pushViewController(assembly.makeModule())
             }
-        case .navigationBarItemsViewAction(let navigationBarItemsViewAction):
-            switch NavigationBarItemsFeatureActionViewActionKs(navigationBarItemsViewAction.viewAction) {
+        case .gamificationToolbarViewAction(let gamificationToolbarViewAction):
+            switch GamificationToolbarFeatureActionViewActionKs(gamificationToolbarViewAction.viewAction) {
             case .showProfileTab:
                 TabBarRouter(tab: .profile).route()
             }

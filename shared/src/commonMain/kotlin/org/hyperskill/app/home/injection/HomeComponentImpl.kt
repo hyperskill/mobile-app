@@ -29,7 +29,7 @@ class HomeComponentImpl(private val appGraph: AppGraph) : HomeComponent {
             appGraph.sentryComponent.sentryInteractor,
             appGraph.buildMagicLinksDataComponent().urlPathProcessor,
             appGraph.commonComponent.dateFormatter,
-            appGraph.buildNavigationBarItemsComponent().navigationBarItemsReducer,
-            appGraph.buildNavigationBarItemsComponent().navigationBarItemsActionDispatcher
+            appGraph.buildGamificationToolbarComponent().gamificationToolbarReducer,
+            appGraph.buildGamificationToolbarComponent().gamificationToolbarActionDispatcher
         )
 }
