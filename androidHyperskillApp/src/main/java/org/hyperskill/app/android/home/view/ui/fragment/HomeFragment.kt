@@ -61,6 +61,14 @@ class HomeFragment :
             override fun onResume(owner: LifecycleOwner) {
                 super.onResume(owner)
                 homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = true))
+                homeViewModel.onNewMessage(
+                    HomeFeature.Message.NavigationBarItemsMessage(
+                        NavigationBarItemsFeature.Message.Initialize(
+                            screen = NavigationBarItemsScreen.HOME,
+                            forceUpdate = true
+                        )
+                    )
+                )
             }
         }
 
@@ -95,7 +103,15 @@ class HomeFragment :
             }
 
             homeScreenError.tryAgain.setOnClickListener {
-                homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = false))
+                homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = true))
+                homeViewModel.onNewMessage(
+                    HomeFeature.Message.NavigationBarItemsMessage(
+                        NavigationBarItemsFeature.Message.Initialize(
+                            screen = NavigationBarItemsScreen.HOME,
+                            forceUpdate = true
+                        )
+                    )
+                )
             }
             homeScreenKeepLearningInWebButton.setOnClickListener {
                 homeViewModel.onNewMessage(HomeFeature.Message.ClickedContinueLearningOnWeb)

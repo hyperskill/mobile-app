@@ -22,6 +22,16 @@ class NavigationBarItemsReducer : StateReducer<State, Message, Action> {
                 State.Error to emptySet()
             is Message.NavigationBarItemsSuccess ->
                 State.Content(message.streak, message.hypercoinsBalance) to emptySet()
+            is Message.PullToRefresh ->
+                when (state) {
+                    is State.Content ->
+                        if (state.isRefreshing) null
+                        else state.copy(isRefreshing = true) to setOf(Action.FetchNavigationBarItems(message.screen))
+                    is State.Error ->
+                        State.Loading to setOf(Action.FetchNavigationBarItems(message.screen))
+                    else ->
+                        null
+                }
             // Flow Messages
             is Message.StepSolved ->
                 if (state is State.Content) {

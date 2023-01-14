@@ -11,7 +11,8 @@ interface NavigationBarItemsFeature {
         object Error : State
         data class Content(
             val streak: Streak?,
-            val hypercoinsBalance: Int
+            val hypercoinsBalance: Int,
+            internal val isRefreshing: Boolean = false
         ) : State
     }
 
@@ -25,6 +26,8 @@ interface NavigationBarItemsFeature {
             val streak: Streak?,
             val hypercoinsBalance: Int
         ) : Message
+
+        data class PullToRefresh(val screen: NavigationBarItemsScreen) : Message
 
         /**
          * Flow Messages

@@ -117,7 +117,7 @@ struct TrackView: View {
                 .padding(.vertical)
                 .pullToRefresh(
                     isShowing: Binding(
-                        get: { data.isRefreshing },
+                        get: { viewModel.state.isRefreshing },
                         set: { _ in }
                     ),
                     onRefresh: viewModel.doPullToRefresh

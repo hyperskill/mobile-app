@@ -30,6 +30,11 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
 
     func doPullToRefresh() {
         onNewMessage(TrackFeatureMessagePullToRefresh())
+        onNewMessage(
+            TrackFeatureMessageNavigationBarItemsMessage(
+                message: NavigationBarItemsFeatureMessagePullToRefresh(screen: NavigationBarItemsScreen.track)
+            )
+        )
     }
 
     func doTheoryTopicPresentation(topic: TrackViewData.TheoryTopic) {

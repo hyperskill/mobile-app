@@ -12,7 +12,11 @@ interface TrackFeature {
     data class State(
         val trackState: TrackState,
         val navigationBarItemsState: NavigationBarItemsFeature.State
-    )
+    ) {
+        val isRefreshing: Boolean
+            get() = trackState is TrackState.Content && trackState.isRefreshing ||
+                navigationBarItemsState is NavigationBarItemsFeature.State.Content && navigationBarItemsState.isRefreshing
+    }
 
     sealed interface TrackState {
         /**
@@ -44,7 +48,7 @@ interface TrackFeature {
             val trackProgress: TrackProgress,
             val studyPlan: StudyPlan? = null,
             val topicsToDiscoverNext: List<Topic>,
-            val isRefreshing: Boolean = false,
+            internal val isRefreshing: Boolean = false,
             val isLoadingMagicLink: Boolean = false
         ) : TrackState
 

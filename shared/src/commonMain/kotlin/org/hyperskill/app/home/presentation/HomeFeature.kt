@@ -11,7 +11,11 @@ interface HomeFeature {
     data class State(
         val homeState: HomeState,
         val navigationBarItemsState: NavigationBarItemsFeature.State
-    )
+    ) {
+        val isRefreshing: Boolean
+            get() = homeState is HomeState.Content && homeState.isRefreshing ||
+                navigationBarItemsState is NavigationBarItemsFeature.State.Content && navigationBarItemsState.isRefreshing
+    }
 
     sealed interface HomeState {
         /**
@@ -37,7 +41,7 @@ interface HomeFeature {
         data class Content(
             val problemOfDayState: ProblemOfDayState,
             val repetitionsState: RepetitionsState,
-            val isRefreshing: Boolean = false,
+            internal val isRefreshing: Boolean = false,
             val isLoadingMagicLink: Boolean = false
         ) : HomeState
 

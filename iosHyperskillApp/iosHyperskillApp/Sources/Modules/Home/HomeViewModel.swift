@@ -50,6 +50,11 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
 
     func doPullToRefresh() {
         onNewMessage(HomeFeatureMessagePullToRefresh())
+        onNewMessage(
+            HomeFeatureMessageNavigationBarItemsMessage(
+                message: NavigationBarItemsFeatureMessagePullToRefresh(screen: NavigationBarItemsScreen.home)
+            )
+        )
     }
 
     func doContinueLearningOnWebPresentation() {
