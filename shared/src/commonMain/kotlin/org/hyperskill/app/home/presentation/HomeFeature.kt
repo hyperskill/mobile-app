@@ -141,7 +141,6 @@ interface HomeFeature {
             ) : ViewAction
 
             sealed interface NavigateTo : ViewAction {
-                object ProfileTab : NavigateTo
                 data class StepScreen(val stepRoute: StepRoute) : NavigateTo
                 object TopicsRepetitionsScreen : NavigateTo
             }

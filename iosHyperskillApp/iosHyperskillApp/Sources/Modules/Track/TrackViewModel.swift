@@ -4,7 +4,8 @@ import SwiftUI
 final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMessage, TrackFeatureActionViewAction> {
     private let viewDataMapper: TrackViewDataMapper
 
-    var stateKs: TrackFeatureStateKs { .init(state) }
+    var trackStateKs: TrackFeatureTrackStateKs { .init(state.trackState) }
+    var navigationBarItemsStateKs: NavigationBarItemsFeatureStateKs { .init(state.navigationBarItemsState) }
 
     init(viewDataMapper: TrackViewDataMapper, feature: Presentation_reduxFeature) {
         self.viewDataMapper = viewDataMapper
@@ -12,11 +13,19 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
     }
 
     override func shouldNotifyStateDidChange(oldState: TrackFeatureState, newState: TrackFeatureState) -> Bool {
-        TrackFeatureStateKs(oldState) != TrackFeatureStateKs(newState)
+        !oldState.isEqual(newState)
     }
 
     func doLoadTrack(forceUpdate: Bool = false) {
         onNewMessage(TrackFeatureMessageInitialize(forceUpdate: forceUpdate))
+        onNewMessage(
+            TrackFeatureMessageNavigationBarItemsMessage(
+                message: NavigationBarItemsFeatureMessageInitialize(
+                    screen: NavigationBarItemsScreen.track,
+                    forceUpdate: forceUpdate
+                )
+            )
+        )
     }
 
     func doPullToRefresh() {
@@ -29,6 +38,22 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
 
     func doStudyPlanInWebPresentation() {
         onNewMessage(TrackFeatureMessageClickedContinueInWeb())
+    }
+
+    func doStreakBarButtonItemAction() {
+        onNewMessage(
+            TrackFeatureMessageNavigationBarItemsMessage(
+                message: NavigationBarItemsFeatureMessageClickedStreak(screen: NavigationBarItemsScreen.track)
+            )
+        )
+    }
+
+    func doGemsBarButtonItemAction() {
+        onNewMessage(
+            TrackFeatureMessageNavigationBarItemsMessage(
+                message: NavigationBarItemsFeatureMessageClickedGems(screen: NavigationBarItemsScreen.track)
+            )
+        )
     }
 
     func makeViewData(
