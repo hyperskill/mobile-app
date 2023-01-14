@@ -9,6 +9,17 @@ on:
     branches:
       - 'feature/**'
   workflow_dispatch:
+    inputs:
+      force_ktlint:
+        description: 'Force run ktlint'
+        required: false
+        default: false
+        type: boolean
+      force_swiftlint:
+        description: 'Force run SwiftLint'
+        required: false
+        default: false
+        type: boolean
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref_name }}
@@ -25,7 +36,7 @@ jobs:
 
   ktlint:
     needs: files-changed
-    if: ${{ needs.files-changed.outputs.android == 'true' || needs.files-changed.outputs.shared == 'true' }}
+    if: ${{ inputs.force_ktlint || needs.files-changed.outputs.android == 'true' || needs.files-changed.outputs.shared == 'true' }}
     name: Run ktlint
     runs-on: ubuntu-22.04
     timeout-minutes: 60
@@ -45,7 +56,7 @@ jobs:
   
   swiftlint:
     needs: files-changed
-    if: ${{ needs.files-changed.outputs.ios == 'true' }}
+    if: ${{ inputs.force_swiftlint || needs.files-changed.outputs.ios == 'true' }}
     name: Run SwiftLint
     runs-on: macos-12
     timeout-minutes: 10
