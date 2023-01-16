@@ -1,13 +1,13 @@
-package org.hyperskill.app.gamification_toolbar.presentation
+package org.hyperskill.app.gamification_toolbar.presentation.reducer
 
 import org.hyperskill.app.gamification_toolbar.domain.analytic.GamificationToolbarClickedGemsHyperskillAnalyticEvent
 import org.hyperskill.app.gamification_toolbar.domain.analytic.GamificationToolbarClickedStreakHyperskillAnalyticEvent
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.Action
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.Message
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.State
-import ru.nobird.app.presentation.redux.reducer.StateReducer
 
-class GamificationToolbarReducer : StateReducer<State, Message, Action> {
+// TODO: ALTAPPS-519 refactor rename this class -> GamificationToolbarReducer : StateReducer<State, Message, Action>
+class GamificationToolbarReducerImpl : GamificationToolbarReducer {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
             is Message.Initialize ->

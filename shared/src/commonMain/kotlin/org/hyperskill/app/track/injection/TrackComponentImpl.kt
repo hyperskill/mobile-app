@@ -6,8 +6,10 @@ import org.hyperskill.app.track.presentation.TrackFeature
 import ru.nobird.app.presentation.redux.feature.Feature
 
 class TrackComponentImpl(private val appGraph: AppGraph) : TrackComponent {
+    // TODO: ALTAPPS-519 delete this if comparison
     private val gamificationToolbarComponent: GamificationToolbarComponent =
-        appGraph.buildGamificationToolbarComponent()
+        if (appGraph.commonComponent.platform.isAndroid) appGraph.buildIdleGamificationToolbarComponent()
+        else appGraph.buildGamificationToolbarComponent()
 
     override val trackFeature: Feature<TrackFeature.State, TrackFeature.Message, TrackFeature.Action>
         get() = TrackFeatureBuilder.build(
