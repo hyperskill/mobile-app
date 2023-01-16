@@ -79,5 +79,4 @@ interface AppGraph {
     fun buildItemsDataComponent(): ItemsDataComponent
     fun buildDebugComponent(): DebugComponent
     fun buildGamificationToolbarComponent(): GamificationToolbarComponent
-    fun buildIdleGamificationToolbarComponent(): GamificationToolbarComponent // TODO: ALTAPPS-519 delete this method
 }

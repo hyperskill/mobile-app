@@ -18,7 +18,6 @@ import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponentImpl
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponentImpl
-import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarIdleComponentImpl
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.HomeComponentImpl
 import org.hyperskill.app.items.injection.ItemsDataComponent
@@ -211,8 +210,4 @@ class AppGraphImpl(
 
     override fun buildGamificationToolbarComponent(): GamificationToolbarComponent =
         GamificationToolbarComponentImpl(this)
-
-    // TODO: ALTAPPS-519 delete this method
-    override fun buildIdleGamificationToolbarComponent(): GamificationToolbarComponent =
-        GamificationToolbarIdleComponentImpl(this)
 }

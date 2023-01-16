@@ -27,9 +27,11 @@ import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExi
 import org.hyperskill.app.android.core.view.ui.navigation.requireMainRouter
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentTrackBinding
+import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.GamificationToolbarDelegate
 import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
+import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.topics.domain.model.Topic
@@ -55,7 +57,9 @@ class TrackFragment :
 
     private val viewBinding: FragmentTrackBinding by viewBinding(FragmentTrackBinding::bind)
     private val trackViewModel: TrackViewModel by reduxViewModel(this) { viewModelFactory }
+
     private val viewStateDelegate: ViewStateDelegate<TrackFeature.TrackState> = ViewStateDelegate()
+    private var gamificationToolbarDelegate: GamificationToolbarDelegate? = null
 
     private val nextTopicsAdapter by lazy(LazyThreadSafetyMode.NONE) {
         DefaultDelegateAdapter<Topic>().apply {
@@ -75,6 +79,7 @@ class TrackFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewStateDelegate()
+        initGamificationToolbarDelegate()
         viewBinding.trackError.tryAgain.setOnClickListener {
             trackViewModel.onNewMessage(TrackFeature.Message.Initialize(forceUpdate = true))
         }
@@ -96,6 +101,23 @@ class TrackFragment :
             addState<TrackFeature.TrackState.NetworkError>(viewBinding.trackError.root)
             addState<TrackFeature.TrackState.Content>(viewBinding.trackContainer)
         }
+    }
+
+    private fun initGamificationToolbarDelegate() {
+        viewBinding.trackAppBar.gamificationCollapsingToolbarLayout.title =
+            requireContext().getString(org.hyperskill.app.R.string.track_title)
+        gamificationToolbarDelegate = GamificationToolbarDelegate(
+            viewLifecycleOwner,
+            viewBinding.trackAppBar,
+            GamificationToolbarScreen.TRACK
+        ) { message ->
+            trackViewModel.onNewMessage(TrackFeature.Message.GamificationToolbarMessage(message))
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        gamificationToolbarDelegate = null
     }
 
     override fun onAction(action: TrackFeature.Action.ViewAction) {
@@ -138,9 +160,11 @@ class TrackFragment :
     override fun render(state: TrackFeature.State) {
         viewStateDelegate.switchState(state.trackState)
         TransitionManager.beginDelayedTransition(viewBinding.root, AutoTransition())
-        if (state.trackState is TrackFeature.TrackState.Content) {
-            renderContent(state.trackState as TrackFeature.TrackState.Content)
+        val trackState = state.trackState
+        if (trackState is TrackFeature.TrackState.Content) {
+            renderContent(trackState)
         }
+        gamificationToolbarDelegate?.render(state.toolbarState)
     }
 
     private fun renderContent(content: TrackFeature.TrackState.Content) {

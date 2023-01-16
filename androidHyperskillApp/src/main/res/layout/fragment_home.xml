@@ -7,82 +7,9 @@
     android:layout_height="match_parent"
     >
 
-    <com.google.android.material.appbar.AppBarLayout
+    <include
         android:id="@+id/homeScreenAppBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/color_background"
-        android:elevation="0dp"
-        >
-
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/homeScreenCollapsingToolbarLayout"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            app:title="@string/home_title"
-            android:minHeight="?attr/actionBarSize"
-            app:contentScrim="@color/color_background"
-            app:expandedTitleGravity="start|bottom"
-            app:expandedTitleMarginBottom="8dp"
-            app:expandedTitleMarginStart="20dp"
-            app:expandedTitleTextAppearance="@style/TextAppearance.AppTheme.CollapsingTitle"
-            app:collapsedTitleTextAppearance="@style/TextAppearance.AppTheme.CollapsingTitle"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            >
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/homeScreenToolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                android:background="@color/color_background"
-                android:paddingEnd="16dp"
-                tools:ignore="RtlSymmetry"
-                >
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/homeScreenStreakDurationTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:textSize="14sp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    tools:drawableStart="@drawable/ic_menu_empty_streak"
-                    android:drawablePadding="6dp"
-                    android:gravity="center_vertical"
-                    android:layout_gravity="center"
-                    android:paddingHorizontal="4dp"
-                    android:visibility="gone"
-                    tools:text="3"
-                    tools:visibility="visible"
-                    />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/homeScreenGemsCountTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:textSize="14sp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    app:drawableStartCompat="@drawable/ic_menu_gems_count"
-                    android:drawablePadding="6dp"
-                    android:gravity="center_vertical"
-                    android:layout_gravity="center"
-                    android:paddingHorizontal="4dp"
-                    tools:text="3"
-                    android:visibility="gone"
-                    tools:visibility="visible"
-                    />
-
-            </androidx.appcompat.widget.Toolbar>
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
+        layout="@layout/layout_gamification_toolbar"/>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/homeScreenContainer"
