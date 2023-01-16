@@ -3,7 +3,7 @@ package org.hyperskill.app.gamification_toolbar.injection
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarActionDispatcher
-import org.hyperskill.app.gamification_toolbar.presentation.reducer.GamificationToolbarReducer
+import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
 
 class GamificationToolbarComponentImpl(private val appGraph: AppGraph) : GamificationToolbarComponent {
     override val gamificationToolbarReducer: GamificationToolbarReducer

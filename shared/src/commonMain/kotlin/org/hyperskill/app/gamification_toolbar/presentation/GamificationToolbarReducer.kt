@@ -1,4 +1,4 @@
-package org.hyperskill.app.gamification_toolbar.presentation.reducer
+package org.hyperskill.app.gamification_toolbar.presentation
 
 import org.hyperskill.app.gamification_toolbar.domain.analytic.GamificationToolbarClickedGemsHyperskillAnalyticEvent
 import org.hyperskill.app.gamification_toolbar.domain.analytic.GamificationToolbarClickedStreakHyperskillAnalyticEvent
