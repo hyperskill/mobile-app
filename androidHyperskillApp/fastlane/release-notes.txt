@@ -1,4 +1,14 @@
 What to Test:
-1. Fix incorrect step analytic route ALTAPPS-466
-2. Fix hypercoins balance not updating after 1-day streak freeze purchased ALTAPPS-482
-3. Update Kotlin from 1.6.21 to 1.7.21 ALTAPPS-488
+1. Fix Extra click needed to switch notifications on/off ALTAPPS-318
+2. Color of the logo icon in notifications ALTAPPS-319
+3. Fix incorrect time count to receiving new problem of the day ALTAPPS-427
+4. Fix sync time representation for problem of the day ALTAPPS-428
+5. Skeletons for Home, Track and Profile tabs ALTAPPS-459
+6. Fix incorrect step analytic route ALTAPPS-466
+7. New not completed streak icon in header ALTAPPS-475
+8. Theory button on the repetitions quiz screen ALTAPPS-479
+9. Fix hypercoins balance not updating after 1-day streak freeze purchased ALTAPPS-482
+10. Fix incorrect repetition stats diagram ALTAPPS-484
+11. Show gems count earned for solving daily step ALTAPPS-503
+12. Gems and streak on the Track screen ALTAPPS-519
+13. Fix crash ActivityNotFoundException ALTAPPS-522
