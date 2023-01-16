@@ -34,14 +34,6 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
         let forceUpdate = forceUpdate || shouldReloadContent
 
         onNewMessage(HomeFeatureMessageInitialize(forceUpdate: forceUpdate))
-        onNewMessage(
-            HomeFeatureMessageGamificationToolbarMessage(
-                message: GamificationToolbarFeatureMessageInitialize(
-                    screen: GamificationToolbarScreen.home,
-                    forceUpdate: forceUpdate
-                )
-            )
-        )
 
         if shouldReloadContent {
             shouldReloadContent = false
@@ -50,11 +42,6 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
 
     func doPullToRefresh() {
         onNewMessage(HomeFeatureMessagePullToRefresh())
-        onNewMessage(
-            HomeFeatureMessageGamificationToolbarMessage(
-                message: GamificationToolbarFeatureMessagePullToRefresh(screen: GamificationToolbarScreen.home)
-            )
-        )
     }
 
     func doContinueLearningOnWebPresentation() {

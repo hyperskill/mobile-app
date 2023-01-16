@@ -1,6 +1,7 @@
 package org.hyperskill.app.track.presentation
 
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
+import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
 import org.hyperskill.app.track.domain.analytic.TrackClickedContinueInWebHyperskillAnalyticEvent
@@ -18,14 +19,22 @@ class TrackReducer(
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
-            is Message.Initialize ->
-                if (state.trackState is TrackState.Idle ||
+            is Message.Initialize -> {
+                val (trackState, trackActions) = if (state.trackState is TrackState.Idle ||
                     (message.forceUpdate && (state.trackState is TrackState.Content || state.trackState is TrackState.NetworkError))
                 ) {
-                    state.copy(trackState = TrackState.Loading) to setOf(Action.FetchTrack)
+                    TrackState.Loading to setOf(Action.FetchTrack)
                 } else {
-                    null
+                    state.trackState to emptySet()
                 }
+
+                val (toolbarState, toolbarActions) = reduceGamificationToolbarMessage(
+                    state.toolbarState,
+                    GamificationToolbarFeature.Message.Initialize(GamificationToolbarScreen.TRACK, message.forceUpdate)
+                )
+
+                state.copy(trackState = trackState, toolbarState = toolbarState) to trackActions + toolbarActions
+            }
             is Message.TrackSuccess ->
                 state.copy(
                     trackState = TrackState.Content(
@@ -37,15 +46,25 @@ class TrackReducer(
                 ) to emptySet()
             is Message.TrackFailure ->
                 state.copy(trackState = TrackState.NetworkError) to emptySet()
-            is Message.PullToRefresh ->
-                if (state.trackState is TrackState.Content && !state.trackState.isRefreshing) {
-                    state.copy(trackState = state.trackState.copy(isRefreshing = true)) to setOf(
+            is Message.PullToRefresh -> {
+                val (trackState, trackActions) = if (
+                    state.trackState is TrackState.Content && !state.trackState.isRefreshing
+                ) {
+                    state.trackState.copy(isRefreshing = true) to setOf(
                         Action.FetchTrack,
                         Action.LogAnalyticEvent(TrackClickedPullToRefreshHyperskillAnalyticEvent())
                     )
                 } else {
-                    null
+                    state.trackState to emptySet()
                 }
+
+                val (toolbarState, toolbarActions) = reduceGamificationToolbarMessage(
+                    state.toolbarState,
+                    GamificationToolbarFeature.Message.PullToRefresh(GamificationToolbarScreen.TRACK)
+                )
+
+                state.copy(trackState = trackState, toolbarState = toolbarState) to trackActions + toolbarActions
+            }
             // Click Messages
             is Message.TopicToDiscoverNextClicked -> {
                 val targetTheoryId = (state.trackState as? TrackState.Content)
@@ -98,19 +117,30 @@ class TrackReducer(
             // Wrapper Messages
             is Message.GamificationToolbarMessage -> {
                 val (toolbarState, toolbarActions) =
-                    gamificationToolbarReducer.reduce(state.toolbarState, message.message)
-
-                val actions = toolbarActions
-                    .map {
-                        if (it is GamificationToolbarFeature.Action.ViewAction) {
-                            Action.ViewAction.GamificationToolbarViewAction(it)
-                        } else {
-                            Action.GamificationToolbarAction(it)
-                        }
-                    }
-                    .toSet()
-
-                state.copy(toolbarState = toolbarState) to actions
+                    reduceGamificationToolbarMessage(state.toolbarState, message.message)
+                state.copy(toolbarState = toolbarState) to toolbarActions
             }
         } ?: (state to emptySet())
+
+    /**
+     * Reduces [Message.GamificationToolbarMessage] to [GamificationToolbarFeature.State] and set of [TrackFeature.Action]
+     */
+    private fun reduceGamificationToolbarMessage(
+        state: GamificationToolbarFeature.State,
+        message: GamificationToolbarFeature.Message
+    ): Pair<GamificationToolbarFeature.State, Set<Action>> {
+        val (gamificationToolbarState, gamificationToolbarActions) = gamificationToolbarReducer.reduce(state, message)
+
+        val actions = gamificationToolbarActions
+            .map {
+                if (it is GamificationToolbarFeature.Action.ViewAction) {
+                    Action.ViewAction.GamificationToolbarViewAction(it)
+                } else {
+                    Action.GamificationToolbarAction(it)
+                }
+            }
+            .toSet()
+
+        return gamificationToolbarState to actions
+    }
 }

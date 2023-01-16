@@ -2,6 +2,7 @@ package org.hyperskill.app.home.presentation
 
 import kotlin.math.max
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
+import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
 import org.hyperskill.app.home.domain.analytic.HomeClickedContinueLearningOnWebHyperskillAnalyticEvent
@@ -20,29 +21,47 @@ class HomeReducer(
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
-            is Message.Initialize ->
-                if (state.homeState is HomeState.Idle ||
+            is Message.Initialize -> {
+                val (homeState, homeActions) = if (state.homeState is HomeState.Idle ||
                     (message.forceUpdate && (state.homeState is HomeState.Content || state.homeState is HomeState.NetworkError))
                 ) {
-                    state.copy(homeState = HomeState.Loading) to setOf(Action.FetchHomeScreenData)
+                    HomeState.Loading to setOf(Action.FetchHomeScreenData)
                 } else {
-                    null
+                    state.homeState to emptySet()
                 }
+
+                val (toolbarState, toolbarActions) = reduceGamificationToolbarMessage(
+                    state.toolbarState,
+                    GamificationToolbarFeature.Message.Initialize(GamificationToolbarScreen.HOME, message.forceUpdate)
+                )
+
+                state.copy(homeState = homeState, toolbarState = toolbarState) to homeActions + toolbarActions
+            }
             is Message.HomeSuccess ->
                 state.copy(
                     homeState = HomeState.Content(message.problemOfDayState, message.repetitionsState)
                 ) to emptySet()
             is Message.HomeFailure ->
                 state.copy(homeState = HomeState.NetworkError) to emptySet()
-            is Message.PullToRefresh ->
-                if (state.homeState is HomeState.Content && !state.homeState.isRefreshing) {
-                    state.copy(homeState = state.homeState.copy(isRefreshing = true)) to setOf(
+            is Message.PullToRefresh -> {
+                val (homeState, homeActions) = if (
+                    state.homeState is HomeState.Content && !state.homeState.isRefreshing
+                ) {
+                    state.homeState.copy(isRefreshing = true) to setOf(
                         Action.FetchHomeScreenData,
                         Action.LogAnalyticEvent(HomeClickedPullToRefreshHyperskillAnalyticEvent())
                     )
                 } else {
-                    null
+                    state.homeState to emptySet()
                 }
+
+                val (toolbarState, toolbarActions) = reduceGamificationToolbarMessage(
+                    state.toolbarState,
+                    GamificationToolbarFeature.Message.PullToRefresh(GamificationToolbarScreen.HOME)
+                )
+
+                state.copy(homeState = homeState, toolbarState = toolbarState) to homeActions + toolbarActions
+            }
             // Timer Messages
             is Message.ReadyToLaunchNextProblemInTimer ->
                 if (state.homeState is HomeState.Content) {
@@ -220,19 +239,30 @@ class HomeReducer(
             // Wrapper Messages
             is Message.GamificationToolbarMessage -> {
                 val (toolbarState, toolbarActions) =
-                    gamificationToolbarReducer.reduce(state.toolbarState, message.message)
-
-                val actions = toolbarActions
-                    .map {
-                        if (it is GamificationToolbarFeature.Action.ViewAction) {
-                            Action.ViewAction.GamificationToolbarViewAction(it)
-                        } else {
-                            Action.GamificationToolbarAction(it)
-                        }
-                    }
-                    .toSet()
-
-                state.copy(toolbarState = toolbarState) to actions
+                    reduceGamificationToolbarMessage(state.toolbarState, message.message)
+                state.copy(toolbarState = toolbarState) to toolbarActions
             }
         } ?: (state to emptySet())
+
+    /**
+     * Reduces [Message.GamificationToolbarMessage] to [GamificationToolbarFeature.State] and set of [HomeFeature.Action]
+     */
+    private fun reduceGamificationToolbarMessage(
+        state: GamificationToolbarFeature.State,
+        message: GamificationToolbarFeature.Message
+    ): Pair<GamificationToolbarFeature.State, Set<Action>> {
+        val (gamificationToolbarState, gamificationToolbarActions) = gamificationToolbarReducer.reduce(state, message)
+
+        val actions = gamificationToolbarActions
+            .map {
+                if (it is GamificationToolbarFeature.Action.ViewAction) {
+                    Action.ViewAction.GamificationToolbarViewAction(it)
+                } else {
+                    Action.GamificationToolbarAction(it)
+                }
+            }
+            .toSet()
+
+        return gamificationToolbarState to actions
+    }
 }

@@ -61,14 +61,6 @@ class HomeFragment :
             override fun onResume(owner: LifecycleOwner) {
                 super.onResume(owner)
                 homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = true))
-                homeViewModel.onNewMessage(
-                    HomeFeature.Message.GamificationToolbarMessage(
-                        GamificationToolbarFeature.Message.Initialize(
-                            screen = GamificationToolbarScreen.HOME,
-                            forceUpdate = true
-                        )
-                    )
-                )
             }
         }
 
@@ -104,14 +96,6 @@ class HomeFragment :
 
             homeScreenError.tryAgain.setOnClickListener {
                 homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = true))
-                homeViewModel.onNewMessage(
-                    HomeFeature.Message.GamificationToolbarMessage(
-                        GamificationToolbarFeature.Message.Initialize(
-                            screen = GamificationToolbarScreen.HOME,
-                            forceUpdate = true
-                        )
-                    )
-                )
             }
             homeScreenKeepLearningInWebButton.setOnClickListener {
                 homeViewModel.onNewMessage(HomeFeature.Message.ClickedContinueLearningOnWeb)
@@ -133,15 +117,6 @@ class HomeFragment :
 
         homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = false))
         homeViewModel.onNewMessage(HomeFeature.Message.ViewedEventMessage)
-
-        homeViewModel.onNewMessage(
-            HomeFeature.Message.GamificationToolbarMessage(
-                GamificationToolbarFeature.Message.Initialize(
-                    screen = GamificationToolbarScreen.HOME,
-                    forceUpdate = false
-                )
-            )
-        )
     }
 
     override fun onDestroy() {

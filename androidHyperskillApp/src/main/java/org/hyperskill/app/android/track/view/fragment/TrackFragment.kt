@@ -31,7 +31,6 @@ import org.hyperskill.app.android.databinding.FragmentTrackBinding
 import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
-import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.topics.domain.model.Topic
@@ -75,26 +74,10 @@ class TrackFragment :
         initViewStateDelegate()
         viewBinding.trackError.tryAgain.setOnClickListener {
             trackViewModel.onNewMessage(TrackFeature.Message.Initialize(forceUpdate = true))
-            // TODO: Delete before merge or support in Android
-            trackViewModel.onNewMessage(
-                TrackFeature.Message.GamificationToolbarMessage(
-                    GamificationToolbarFeature.Message.Initialize(
-                        screen = GamificationToolbarScreen.TRACK,
-                        forceUpdate = true
-                    )
-                )
-            )
         }
         setupTopicsRecycler()
         trackViewModel.onNewMessage(TrackFeature.Message.Initialize())
         trackViewModel.onNewMessage(TrackFeature.Message.ViewedEventMessage)
-
-        // TODO: Delete before merge or support in Android
-        trackViewModel.onNewMessage(
-            TrackFeature.Message.GamificationToolbarMessage(
-                GamificationToolbarFeature.Message.Initialize(GamificationToolbarScreen.TRACK)
-            )
-        )
     }
 
     private fun injectComponents() {
