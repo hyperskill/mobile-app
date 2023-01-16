@@ -82,7 +82,7 @@ interface StepQuizFeature {
          * Show problem of day solve modal
          */
 
-        data class ShowProblemOfDaySolvedModal(val gemsCount: Int) : Message
+        data class ShowProblemOfDaySolvedModal(val earnedGemsText: String) : Message
 
         object ProblemOfDaySolvedModalGoBackClicked : Message
 
@@ -122,7 +122,7 @@ interface StepQuizFeature {
 
             data class RequestUserPermission(val userPermissionRequest: StepQuizUserPermissionRequest) : ViewAction
 
-            data class ShowProblemOfDaySolvedModal(val gemsCount: Int) : ViewAction
+            data class ShowProblemOfDaySolvedModal(val earnedGemsText: String) : ViewAction
 
             sealed interface NavigateTo : ViewAction {
                 object Back : NavigateTo

@@ -11,6 +11,22 @@ on:
       - 'feature/**'
       - 'dependabot/bundler/**'
   workflow_dispatch:
+    inputs:
+      force_shared:
+        description: 'Force run shared unit tests'
+        required: false
+        default: false
+        type: boolean
+      force_android:
+        description: 'Force run Android unit tests'
+        required: false
+        default: false
+        type: boolean
+      force_ios:
+        description: 'Force run iOS unit tests'
+        required: false
+        default: false
+        type: boolean
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref_name }}
@@ -27,14 +43,14 @@ jobs:
 
   shared-unit-testing:
     needs: files-changed
-    if: ${{ needs.files-changed.outputs.shared == 'true' }}
+    if: ${{ inputs.force_shared || needs.files-changed.outputs.shared == 'true' }}
     name: Run shared unit tests
     runs-on: ubuntu-22.04
     timeout-minutes: 60
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3.2.0
+      uses: actions/checkout@v3.3.0
 
     - name: Setup CI
       id: setup
@@ -51,14 +67,14 @@ jobs:
 
   android-unit-testing:
     needs: files-changed
-    if: ${{ needs.files-changed.outputs.android == 'true' || needs.files-changed.outputs.shared == 'true' }}
+    if: ${{ inputs.force_android || needs.files-changed.outputs.android == 'true' || needs.files-changed.outputs.shared == 'true' }}
     name: Run Android unit tests
     runs-on: ubuntu-22.04
     timeout-minutes: 60
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3.2.0
+      uses: actions/checkout@v3.3.0
 
     - name: Setup CI
       id: setup
@@ -75,14 +91,14 @@ jobs:
 
   ios-unit-testing:
     needs: files-changed
-    if: ${{ needs.files-changed.outputs.ios == 'true' || needs.files-changed.outputs.shared == 'true' }}
+    if: ${{ inputs.force_ios || needs.files-changed.outputs.ios == 'true' || needs.files-changed.outputs.shared == 'true' }}
     name: Run iOS unit tests
     runs-on: macos-12
     timeout-minutes: 60
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3.2.0
+      uses: actions/checkout@v3.3.0
       
     - name: Setup CI
       id: setup

@@ -29,19 +29,26 @@ struct TrackView: View {
             buildBody()
         }
         .navigationTitle(Strings.Track.title)
+        .navigationViewStyle(StackNavigationViewStyle())
+        .toolbar {
+            GamificationToolbarContent(
+                stateKs: viewModel.gamificationToolbarStateKs,
+                onGemsTap: viewModel.doGemsBarButtonItemAction,
+                onStreakTap: viewModel.doStreakBarButtonItemAction
+            )
+        }
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
         }
         .onDisappear(perform: viewModel.stopListening)
-        .navigationViewStyle(StackNavigationViewStyle())
     }
 
     // MARK: Private API
 
     @ViewBuilder
     private func buildBody() -> some View {
-        switch viewModel.stateKs {
+        switch viewModel.trackStateKs {
         case .idle:
             TrackSkeletonView()
                 .onAppear {
@@ -110,7 +117,7 @@ struct TrackView: View {
                 .padding(.vertical)
                 .pullToRefresh(
                     isShowing: Binding(
-                        get: { data.isRefreshing },
+                        get: { viewModel.state.isRefreshing },
                         set: { _ in }
                     ),
                     onRefresh: viewModel.doPullToRefresh
@@ -132,6 +139,11 @@ struct TrackView: View {
             case .stepScreen(let data):
                 let assembly = StepAssembly(stepRoute: StepRouteLearn(stepId: data.stepId))
                 pushRouter.pushViewController(assembly.makeModule())
+            }
+        case .gamificationToolbarViewAction(let gamificationToolbarViewAction):
+            switch GamificationToolbarFeatureActionViewActionKs(gamificationToolbarViewAction.viewAction) {
+            case .showProfileTab:
+                TabBarRouter(tab: .profile).route()
             }
         }
     }

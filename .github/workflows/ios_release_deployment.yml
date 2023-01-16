@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v3.2.0
+        uses: actions/checkout@v3.3.0
         
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@v1.0.5
@@ -35,13 +35,12 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3.2.0
+      uses: actions/checkout@v3.3.0
 
     - name: Setup CI
       id: setup
       uses: ./.github/actions/setup-ios
       with:
-        cache-cocoapods-on-pods-cache-miss: true
         git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
         google-cloud-storage-code-signing-certificates-key: ${{ secrets.GOOGLE_CLOUD_STORAGE_CODE_SIGNING_CERTIFICATES_KEY_CONTENT }}
 

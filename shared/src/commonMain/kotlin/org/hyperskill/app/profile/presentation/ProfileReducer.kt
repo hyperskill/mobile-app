@@ -9,9 +9,9 @@ import org.hyperskill.app.profile.domain.analytic.ProfileClickedViewFullProfileH
 import org.hyperskill.app.profile.domain.analytic.ProfileViewedHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.streak_freeze.StreakFreezeAnalyticState
 import org.hyperskill.app.profile.domain.analytic.streak_freeze.StreakFreezeCardAnalyticAction
-import org.hyperskill.app.profile.domain.analytic.streak_freeze.StreakFreezeModalAnalyticAction
-import org.hyperskill.app.profile.domain.analytic.streak_freeze.StreakFreezeClickedModalActionButtonHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.streak_freeze.StreakFreezeClickedCardActionHyperskillAnalyticEvent
+import org.hyperskill.app.profile.domain.analytic.streak_freeze.StreakFreezeClickedModalActionButtonHyperskillAnalyticEvent
+import org.hyperskill.app.profile.domain.analytic.streak_freeze.StreakFreezeModalAnalyticAction
 import org.hyperskill.app.profile.domain.analytic.streak_freeze.StreakFreezeModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.streak_freeze.StreakFreezeModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.profile.presentation.ProfileFeature.Action

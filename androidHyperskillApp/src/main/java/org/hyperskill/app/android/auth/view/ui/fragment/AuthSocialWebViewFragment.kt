@@ -18,6 +18,7 @@ import org.hyperskill.app.auth.presentation.AuthSocialWebViewFeature
 import org.hyperskill.app.auth.presentation.AuthSocialWebViewViewModel
 import org.hyperskill.app.auth.view.mapper.SocialAuthProviderRequestURLBuilder
 import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.network.domain.model.NetworkEndpointConfigInfo
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -37,6 +38,7 @@ class AuthSocialWebViewFragment :
 
     private lateinit var resourceProvider: ResourceProvider
     private lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var networkEndpointConfigInfo: NetworkEndpointConfigInfo
 
     private val authSocialWebViewViewModel: AuthSocialWebViewViewModel by reduxViewModel(this) { viewModelFactory }
 
@@ -52,6 +54,7 @@ class AuthSocialWebViewFragment :
         val authSocialWebViewComponent = HyperskillApp.graph().buildPlatformAuthSocialWebViewComponent()
         resourceProvider = HyperskillApp.graph().commonComponent.resourceProvider
         viewModelFactory = authSocialWebViewComponent.reduxViewModelFactory
+        networkEndpointConfigInfo = HyperskillApp.graph().networkComponent.endpointConfigInfo
     }
 
     private fun initViewStateDelegate() {
@@ -71,7 +74,11 @@ class AuthSocialWebViewFragment :
         val binding = DialogInAppWebViewBinding.inflate(inflater, container, false)
         if (webView == null) {
             webView = WebView(requireContext().applicationContext).also {
-                it.webViewClient = AuthSocialWebViewClient(authSocialWebViewViewModel, provider)
+                it.webViewClient = AuthSocialWebViewClient(
+                    authSocialWebViewViewModel,
+                    provider,
+                    networkEndpointConfigInfo
+                )
                 it.settings.javaScriptEnabled = true
             }
         }
@@ -88,7 +95,11 @@ class AuthSocialWebViewFragment :
             }
             setNavigationIcon(R.drawable.ic_close)
         }
-        authSocialWebViewViewModel.onNewMessage(AuthSocialWebViewFeature.Message.InitMessage(SocialAuthProviderRequestURLBuilder.build(provider)))
+        authSocialWebViewViewModel.onNewMessage(
+            AuthSocialWebViewFeature.Message.InitMessage(
+                SocialAuthProviderRequestURLBuilder.build(provider, networkEndpointConfigInfo)
+            )
+        )
     }
 
     override fun onStart() {
@@ -96,7 +107,7 @@ class AuthSocialWebViewFragment :
         dialog
             ?.window
             ?.let { window ->
-                window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT,  ViewGroup.LayoutParams.MATCH_PARENT)
+                window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
                 window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
             }
     }

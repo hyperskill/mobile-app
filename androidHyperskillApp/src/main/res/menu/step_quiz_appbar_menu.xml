@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/search"
-        android:icon="@drawable/ic_info_outline_24px"
-        android:title="@string/step_quiz_appbar_tooltip_title"
+        android:id="@+id/theory"
+        android:title="@string/step_theory_text"
+        app:actionLayout="@layout/view_step_quiz_theory_button"
         app:showAsAction="ifRoom" />
 
 </menu>

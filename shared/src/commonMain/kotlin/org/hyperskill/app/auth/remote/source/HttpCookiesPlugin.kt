@@ -18,20 +18,23 @@ import io.ktor.http.renderCookieHeader
 import io.ktor.http.setCookie
 import io.ktor.util.AttributeKey
 import io.ktor.utils.io.core.Closeable
-import org.hyperskill.app.config.BuildKonfig
+import org.hyperskill.app.network.domain.model.NetworkEndpointConfigInfo
 
 class HttpCookiesPlugin(
     private val storage: CookiesStorage,
-    private val shouldSendCookiesForRequest: Boolean
+    private val shouldSendCookiesForRequest: Boolean,
+    private val networkEndpointConfigInfo: NetworkEndpointConfigInfo
 ) : Closeable {
     class Config {
         var storage: CookiesStorage? = null
         var shouldSendCookiesForRequest: Boolean? = null
+        var networkEndpointConfigInfo: NetworkEndpointConfigInfo? = null
 
         fun build(): HttpCookiesPlugin =
             HttpCookiesPlugin(
                 storage ?: throw IllegalArgumentException("storage should be passed"),
-                shouldSendCookiesForRequest ?: throw IllegalArgumentException("shouldSendCookiesForRequest should be passed")
+                shouldSendCookiesForRequest ?: throw IllegalArgumentException("shouldSendCookiesForRequest should be passed"),
+                networkEndpointConfigInfo ?: throw IllegalArgumentException("networkEndpointConfigInfo should be passed")
             )
     }
 
@@ -54,7 +57,7 @@ class HttpCookiesPlugin(
         with(builder) {
             if (cookies.isNotEmpty()) {
                 headers[HttpHeaders.Cookie] = renderCookies(cookies)
-                headers[HttpHeaders.Origin] = "https://" + BuildKonfig.HOST
+                headers[HttpHeaders.Origin] = "https://" + networkEndpointConfigInfo.host
 
                 val tokenCookie = cookies
                     .firstOrNull { it.name == COOKIE_NAME_CSRFTOKEN }

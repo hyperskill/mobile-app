@@ -20,6 +20,7 @@ class AuthComponentImpl(
             appGraph.networkComponent.authorizationFlow,
             appGraph.networkComponent.authSocialHttpClient,
             appGraph.networkComponent.authCredentialsHttpClient,
+            appGraph.networkComponent.endpointConfigInfo,
             appGraph.commonComponent.json,
             appGraph.commonComponent.settings
         )

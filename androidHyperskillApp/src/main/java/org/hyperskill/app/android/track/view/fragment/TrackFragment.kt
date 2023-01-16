@@ -9,23 +9,30 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.ImageLoader
-import coil.decode.SvgDecoder
 import coil.load
 import coil.size.Scale
+import kotlin.math.roundToInt
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.openUrl
-import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
-import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.HorizontalMarginItemDecoration
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.VerticalMarginItemDecoration
+import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
+import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
+import org.hyperskill.app.android.core.view.ui.navigation.requireMainRouter
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentTrackBinding
+import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.GamificationToolbarDelegate
+import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
+import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
+import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.track.domain.model.Track
@@ -37,7 +44,6 @@ import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
-import kotlin.math.roundToInt
 
 class TrackFragment :
     Fragment(R.layout.fragment_track),
@@ -51,12 +57,18 @@ class TrackFragment :
 
     private val viewBinding: FragmentTrackBinding by viewBinding(FragmentTrackBinding::bind)
     private val trackViewModel: TrackViewModel by reduxViewModel(this) { viewModelFactory }
-    private val viewStateDelegate: ViewStateDelegate<TrackFeature.State> = ViewStateDelegate()
+
+    private val viewStateDelegate: ViewStateDelegate<TrackFeature.TrackState> = ViewStateDelegate()
+    private var gamificationToolbarDelegate: GamificationToolbarDelegate? = null
 
     private val nextTopicsAdapter by lazy(LazyThreadSafetyMode.NONE) {
         DefaultDelegateAdapter<Topic>().apply {
             addDelegate(nextTopicAdapterDelegate())
         }
+    }
+
+    private val imageLoader: ImageLoader by lazy(LazyThreadSafetyMode.NONE) {
+        HyperskillApp.graph().imageLoadingComponent.imageLoader
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,6 +79,7 @@ class TrackFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewStateDelegate()
+        initGamificationToolbarDelegate()
         viewBinding.trackError.tryAgain.setOnClickListener {
             trackViewModel.onNewMessage(TrackFeature.Message.Initialize(forceUpdate = true))
         }
@@ -83,11 +96,28 @@ class TrackFragment :
 
     private fun initViewStateDelegate() {
         with(viewStateDelegate) {
-            addState<TrackFeature.State.Idle>()
-            addState<TrackFeature.State.Loading>(viewBinding.trackProgressBar)
-            addState<TrackFeature.State.NetworkError>(viewBinding.trackError.root)
-            addState<TrackFeature.State.Content>(viewBinding.trackContainer)
+            addState<TrackFeature.TrackState.Idle>()
+            addState<TrackFeature.TrackState.Loading>(viewBinding.trackSkeleton.root)
+            addState<TrackFeature.TrackState.NetworkError>(viewBinding.trackError.root)
+            addState<TrackFeature.TrackState.Content>(viewBinding.trackContainer)
         }
+    }
+
+    private fun initGamificationToolbarDelegate() {
+        viewBinding.trackAppBar.gamificationCollapsingToolbarLayout.title =
+            requireContext().getString(org.hyperskill.app.R.string.track_title)
+        gamificationToolbarDelegate = GamificationToolbarDelegate(
+            viewLifecycleOwner,
+            viewBinding.trackAppBar,
+            GamificationToolbarScreen.TRACK
+        ) { message ->
+            trackViewModel.onNewMessage(TrackFeature.Message.GamificationToolbarMessage(message))
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        gamificationToolbarDelegate = null
     }
 
     override fun onAction(action: TrackFeature.Action.ViewAction) {
@@ -98,6 +128,11 @@ class TrackFragment :
                 requireContext().openUrl(action.url)
             is TrackFeature.Action.ViewAction.ShowGetMagicLinkError ->
                 viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
+            is TrackFeature.Action.ViewAction.GamificationToolbarViewAction ->
+                when (action.viewAction) {
+                    is GamificationToolbarFeature.Action.ViewAction.ShowProfileTab ->
+                        requireMainRouter().switch(ProfileScreen(isInitCurrent = true))
+                }
         }
     }
 
@@ -123,14 +158,16 @@ class TrackFragment :
     }
 
     override fun render(state: TrackFeature.State) {
-        viewStateDelegate.switchState(state)
-
-        if (state is TrackFeature.State.Content) {
-            renderContent(state)
+        viewStateDelegate.switchState(state.trackState)
+        TransitionManager.beginDelayedTransition(viewBinding.root, AutoTransition())
+        val trackState = state.trackState
+        if (trackState is TrackFeature.TrackState.Content) {
+            renderContent(trackState)
         }
+        gamificationToolbarDelegate?.render(state.toolbarState)
     }
 
-    private fun renderContent(content: TrackFeature.State.Content) {
+    private fun renderContent(content: TrackFeature.TrackState.Content) {
         if (content.isLoadingMagicLink) {
             LoadingProgressDialogFragment.newInstance()
                 .showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
@@ -144,13 +181,8 @@ class TrackFragment :
     }
 
     private fun renderTrackCoverAndName(track: Track) {
-        val svgImageLoader = ImageLoader.Builder(requireContext())
-            .components {
-                add(SvgDecoder.Factory())
-            }
-            .build()
         if (track.cover != null) {
-            viewBinding.trackIconImageView.load(track.cover, svgImageLoader) {
+            viewBinding.trackIconImageView.load(track.cover, imageLoader) {
                 scale(Scale.FILL)
             }
         } else {
@@ -159,7 +191,7 @@ class TrackFragment :
         viewBinding.trackNameTextView.text = track.title
     }
 
-    private fun renderCards(content: TrackFeature.State.Content) {
+    private fun renderCards(content: TrackFeature.TrackState.Content) {
         with(viewBinding) {
             if (content.studyPlan != null) {
                 trackTimeToCompleteTextView.text =
@@ -199,7 +231,7 @@ class TrackFragment :
         }
     }
 
-    private fun renderAboutSection(content: TrackFeature.State.Content) {
+    private fun renderAboutSection(content: TrackFeature.TrackState.Content) {
         with(viewBinding) {
             trackAboutUsefulnessTextView.text = "${content.trackProgress.averageRating}"
             val hoursToComplete = (content.track.secondsToComplete / 3600).roundToInt()

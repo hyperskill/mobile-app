@@ -6,7 +6,8 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
     private var applicationWasInBackground = false
     private var shouldReloadContent = false
 
-    var stateKs: HomeFeatureStateKs { .init(state) }
+    var homeStateKs: HomeFeatureHomeStateKs { .init(state.homeState) }
+    var gamificationToolbarStateKs: GamificationToolbarFeatureStateKs { .init(state.toolbarState) }
 
     override init(feature: Presentation_reduxFeature, mainScheduler: AnySchedulerOf<RunLoop> = .main) {
         super.init(feature: feature, mainScheduler: mainScheduler)
@@ -26,11 +27,13 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
     }
 
     override func shouldNotifyStateDidChange(oldState: HomeFeatureState, newState: HomeFeatureState) -> Bool {
-        HomeFeatureStateKs(oldState) != HomeFeatureStateKs(newState)
+        !oldState.isEqual(newState)
     }
 
     func doLoadContent(forceUpdate: Bool = false) {
-        onNewMessage(HomeFeatureMessageInitialize(forceUpdate: forceUpdate || shouldReloadContent))
+        let forceUpdate = forceUpdate || shouldReloadContent
+
+        onNewMessage(HomeFeatureMessageInitialize(forceUpdate: forceUpdate))
 
         if shouldReloadContent {
             shouldReloadContent = false
@@ -50,11 +53,19 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
     }
 
     func doStreakBarButtonItemAction() {
-        onNewMessage(HomeFeatureMessageClickedStreakBarButtonItem())
+        onNewMessage(
+            HomeFeatureMessageGamificationToolbarMessage(
+                message: GamificationToolbarFeatureMessageClickedStreak(screen: GamificationToolbarScreen.home)
+            )
+        )
     }
 
     func doGemsBarButtonItemAction() {
-        onNewMessage(HomeFeatureMessageClickedGemsBarButtonItem())
+        onNewMessage(
+            HomeFeatureMessageGamificationToolbarMessage(
+                message: GamificationToolbarFeatureMessageClickedGems(screen: GamificationToolbarScreen.home)
+            )
+        )
     }
 
     // MARK: Analytic

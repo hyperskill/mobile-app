@@ -17,13 +17,13 @@ import org.hyperskill.app.sentry.domain.model.level.HyperskillSentryLevel
 import org.hyperskill.app.sentry.domain.model.manager.SentryManager
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransaction
 
-class SentryManagerImpl : SentryManager {
+class SentryManagerImpl(private val buildKonfig: BuildKonfig) : SentryManager {
     private val currentTransactionsMap = mutableMapOf<Int, PlatformHyperskillSentryTransaction>()
 
     override fun setup() {
         SentryAndroid.init(HyperskillApp.application) { options ->
             options.dsn = BuildConfig.SENTRY_DSN
-            options.environment = "${BuildKonfig.FLAVOR}-${BuildConfig.BUILD_TYPE}"
+            options.environment = "${buildKonfig.flavor}-${BuildConfig.BUILD_TYPE}"
             options.release = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
             options.isEnableAutoSessionTracking = true
             options.isAnrEnabled = true

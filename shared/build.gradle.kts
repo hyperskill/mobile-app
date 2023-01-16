@@ -1,3 +1,4 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.BOOLEAN
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import java.time.Year
 import org.gradle.internal.os.OperatingSystem
@@ -78,6 +79,7 @@ kotlin {
             }
         }
         val androidTest by getting {
+            dependsOn(commonTest)
             dependencies {
                 implementation(kotlin("test-junit"))
                 implementation(libs.bundles.android.test)
@@ -132,32 +134,40 @@ android {
 
 buildkonfig {
     packageName = "org.hyperskill.app.config"
-    exposeObjectWithName = "BuildKonfig"
+    objectName = "InternalBuildKonfig"
 
     defaultConfigs {
-        // required
-    }
+        if (SystemProperties.isCI() && !SystemProperties.isGitCryptUnlocked()) return@defaultConfigs
 
-    fun applyFlavorConfigsFromFile(flavor: String) {
-        if (SystemProperties.isCI() && !SystemProperties.isGitCryptUnlocked()) return
-        defaultConfigs(flavor) {
+        buildConfigField(
+            type = BOOLEAN,
+            name = "IS_DEBUG_CONTROLS_ENABLED",
+            value = SystemProperties.isDebugControlsEnabled()?.toString(),
+            nullable = true
+        )
+
+        listOf("production", "dev", "release").forEach { flavor ->
             val properties = loadProperties("${project.rootDir}/shared/keys/$flavor.properties")
-            buildConfigField(type = STRING, name = "FLAVOR", value = flavor, const = true)
+
+            val fieldNamePrefix = "${flavor.toUpperCase()}_"
+            buildConfigField(
+                type = STRING,
+                name = "${fieldNamePrefix}FLAVOR",
+                value = flavor,
+                const = true
+            )
+
             properties.keys.forEach { name ->
+                name as String
                 buildConfigField(
                     type = STRING,
-                    name = name as String,
-                    value = requireNotNull(System.getenv(name) ?: properties.propertyString(name)),
+                    name = "${fieldNamePrefix}$name",
+                    value = requireNotNull(properties.propertyString(name)),
                     const = true
                 )
             }
         }
     }
-
-    applyFlavorConfigsFromFile("production")
-    applyFlavorConfigsFromFile("dev")
-    applyFlavorConfigsFromFile("release")
-    // add flavors for release.hyperskill.org / dev.hyperskill.org on demand
 }
 
 // Resources directory - src/commonMain/resources/MR
@@ -210,7 +220,7 @@ tasks.register("dokkaAnalytics", DokkaTask::class.java) {
 
     dokkaSourceSets {
         configureEach {
-            // Suppress all packages and the enable only the ones we want
+            // Suppress all packages and then enable only the ones we want
             perPackageOption {
                 suppress.set(true)
                 // Do not create index pages for empty packages

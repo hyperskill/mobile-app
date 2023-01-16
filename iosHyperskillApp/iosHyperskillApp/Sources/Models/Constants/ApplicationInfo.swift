@@ -2,17 +2,20 @@ import Foundation
 import shared
 
 enum ApplicationInfo {
-    static let host = BuildKonfig.shared.HOST
+    private static let buildKonfig = AppGraphBridge.sharedAppGraph.commonComponent.buildKonfig
+    private static let endpointConfigInfo = AppGraphBridge.sharedAppGraph.networkComponent.endpointConfigInfo
 
-    static let oauthClientID = BuildKonfig.shared.OAUTH_CLIENT_ID
-    static let oauthClientSecret = BuildKonfig.shared.OAUTH_CLIENT_SECRET
+    static let host = endpointConfigInfo.host
 
-    static let redirectURI = BuildKonfig.shared.REDIRECT_URI
+    static let oauthClientID = endpointConfigInfo.oauthClientId
+    static let oauthClientSecret = endpointConfigInfo.oauthClientSecret
 
-    static let credentialsClientID = BuildKonfig.shared.CREDENTIALS_CLIEND_ID
-    static let credentialsClientSecret = BuildKonfig.shared.CREDENTIALS_CLIENT_SECRET
+    static let redirectURI = endpointConfigInfo.redirectUri
 
-    static let flavor = BuildKonfig.shared.FLAVOR
+    static let credentialsClientID = endpointConfigInfo.credentialsClientId
+    static let credentialsClientSecret = endpointConfigInfo.credentialsClientSecret
+
+    static let flavor = buildKonfig.flavor
 }
 
 enum BuildType: String {

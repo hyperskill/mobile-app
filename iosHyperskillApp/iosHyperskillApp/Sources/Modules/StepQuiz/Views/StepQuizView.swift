@@ -252,7 +252,7 @@ struct StepQuizView: View {
                 break
             }
         case .showProblemOfDaySolvedModal(let showProblemOfDaySolvedModalViewAction):
-            presentDailyStepCompletedModal(gemsCount: Int(showProblemOfDaySolvedModalViewAction.gemsCount))
+            presentDailyStepCompletedModal(earnedGemsText: showProblemOfDaySolvedModalViewAction.earnedGemsText)
         case .navigateTo(let viewActionNavigateTo):
             switch StepQuizFeatureActionViewActionNavigateToKs(viewActionNavigateTo) {
             case .back:
@@ -321,11 +321,11 @@ extension StepQuizView {
         modalRouter.presentAlert(alert)
     }
 
-    private func presentDailyStepCompletedModal(gemsCount: Int) {
+    private func presentDailyStepCompletedModal(earnedGemsText: String) {
         viewModel.logDailyStepCompletedModalShownEvent()
 
         let panModal = ProblemOfDaySolvedModalViewController(
-            gemsCount: gemsCount,
+            earnedGemsText: earnedGemsText,
             onGoBackButtonTap: {
                 viewModel.doGoBackAction()
             }

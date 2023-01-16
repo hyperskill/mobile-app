@@ -57,7 +57,8 @@ class StepQuizComponentImpl(
                 appGraph.buildProfileDataComponent().profileInteractor,
                 appGraph.buildNotificationComponent().notificationInteractor,
                 appGraph.analyticComponent.analyticInteractor,
-                appGraph.sentryComponent.sentryInteractor
+                appGraph.sentryComponent.sentryInteractor,
+                appGraph.commonComponent.resourceProvider
             )
 
             return ReduxFeature(StepQuizFeature.State.Idle, stepQuizReducer)

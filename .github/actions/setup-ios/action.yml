@@ -8,10 +8,6 @@ inputs:
   google-cloud-storage-code-signing-certificates-key:
     description: 'gc_keys.json file base64 content for code signing APIs communication'
     required: false
-  cache-cocoapods-on-pods-cache-miss:
-    description: 'Should cache cocoapods on Pods cache miss'
-    required: false
-    default: false
 
 outputs:
   is-git-crypt-unlocked:
@@ -24,7 +20,7 @@ runs:
     - name: Setup Xcode version
       uses: maxim-lobanov/setup-xcode@v1.5.1
       with:
-        xcode-version: '14.1'
+        xcode-version: '14.2'
 
     - name: Homebrew install git-crypt
       run: brew install git-crypt
@@ -110,16 +106,6 @@ runs:
         key: ${{ runner.os }}-pods-${{ hashFiles('iosHyperskillApp/Podfile.lock') }}
         restore-keys: |
           ${{ runner.os }}-pods-
-
-    # Cache Cocoapods repository
-    - name: Cache Cocoapods
-      if: ${{ inputs.cache-cocoapods-on-pods-cache-miss == 'true' && steps.cache-pods.outputs.cache-hit != 'true' }}
-      uses: actions/cache@v3.0.11
-      with:
-        path: ~/.cocoapods
-        key: ${{ runner.os }}-cocoapods-${{ hashFiles('iosHyperskillApp/Podfile.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-cocoapods-
 
     # Install Pods if cache miss occurred
     - name: Install Pods

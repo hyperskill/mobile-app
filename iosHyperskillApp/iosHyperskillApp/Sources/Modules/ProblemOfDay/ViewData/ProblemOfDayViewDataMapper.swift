@@ -41,17 +41,8 @@ final class ProblemOfDayViewDataMapper {
         }()
 
         let nextProblemIn = solvedStateOrNil?.nextProblemIn ?? needToSolveStateOrNil?.nextProblemIn
-        let formattedNextProblemIn = nextProblemIn != nil
-            ? formatter.hoursWithMinutesCount(seconds: TimeInterval(nextProblemIn.require()))
-            : nil
 
-        let needToRefresh: Bool = {
-            guard let nextProblemIn = nextProblemIn else {
-                return false
-            }
-
-            return nextProblemIn <= 0
-        }()
+        let needToRefresh = solvedStateOrNil?.needToRefresh ?? needToSolveStateOrNil?.needToRefresh ?? false
 
         let stepID: Int? = {
             guard let stepID = solvedStateOrNil?.step.id ?? needToSolveStateOrNil?.step.id else {
@@ -64,7 +55,7 @@ final class ProblemOfDayViewDataMapper {
         return ProblemOfDayViewData(
             state: state,
             timeToSolve: formattedTimeToSolve,
-            nextProblemIn: formattedNextProblemIn,
+            nextProblemIn: nextProblemIn,
             needToRefresh: needToRefresh,
             stepID: stepID
         )

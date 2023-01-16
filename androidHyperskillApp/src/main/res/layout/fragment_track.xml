@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
+
+    <include
+        android:id="@+id/trackAppBar"
+        layout="@layout/layout_gamification_toolbar"/>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/trackContainer"
@@ -19,8 +26,8 @@
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/trackIconImageView"
                 style="@style/TrackIconStrokeStyle"
-                android:layout_width="34dp"
-                android:layout_height="34dp"
+                android:layout_width="@dimen/track_icon_size"
+                android:layout_height="@dimen/track_icon_size"
                 android:padding="1dp"
                 android:src="@drawable/ic_project_graduate"
                 app:contentPadding="-1dp"
@@ -369,18 +376,21 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
-        android:id="@+id/trackProgressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+    <include
+        android:id="@+id/trackSkeleton"
+        layout="@layout/layout_track_skeleton"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        />
 
     <include
         android:id="@+id/trackError"
         layout="@layout/error_no_connection_with_button"
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:visibility="gone"
+        />
 
-</FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

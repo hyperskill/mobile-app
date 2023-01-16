@@ -2,9 +2,11 @@ package org.hyperskill.app.step_quiz.presentation
 
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
+import org.hyperskill.app.SharedResources
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.notification.data.extension.NotificationExtensions
 import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
@@ -26,7 +28,8 @@ class StepQuizActionDispatcher(
     private val profileInteractor: ProfileInteractor,
     private val notificationInteractor: NotificationInteractor,
     private val analyticInteractor: AnalyticInteractor,
-    private val sentryInteractor: SentryInteractor
+    private val sentryInteractor: SentryInteractor,
+    private val resourceProvider: ResourceProvider
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
@@ -35,19 +38,24 @@ class StepQuizActionDispatcher(
                 if (notificationInteractor.isRequiredToAskUserToEnableDailyReminders()) {
                     onNewMessage(Message.RequestUserPermission(StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS))
                 } else {
-                    val isSolvedStepDailyStep = profileInteractor
+                    val cachedProfile = profileInteractor
                         .getCurrentProfile(sourceType = DataSourceType.CACHE)
-                        .map { it.dailyStep == solvedStepId }
-                        .getOrDefault(false)
+                        .getOrElse { return@collect }
 
-                    if (isSolvedStepDailyStep) {
+                    if (cachedProfile.dailyStep == solvedStepId) {
                         val currentProfileHypercoinsBalance = profileInteractor
                             .getCurrentProfile(sourceType = DataSourceType.REMOTE)
                             .map { it.gamification.hypercoinsBalance }
                             .getOrElse { return@collect }
 
+                        val gemsEarned = currentProfileHypercoinsBalance - cachedProfile.gamification.hypercoinsBalance
+
                         profileInteractor.notifyHypercoinsBalanceChanged(currentProfileHypercoinsBalance)
-                        onNewMessage(Message.ShowProblemOfDaySolvedModal(currentProfileHypercoinsBalance))
+                        onNewMessage(
+                            Message.ShowProblemOfDaySolvedModal(
+                                earnedGemsText = resourceProvider.getQuantityString(SharedResources.plurals.earned_gems, gemsEarned, gemsEarned)
+                            )
+                        )
                     }
                 }
             }

@@ -23,7 +23,8 @@ enum Images {
     // MARK: - NavigationBar -
 
     enum NavigationBar {
-        static let streak = "navigation-bar-streak"
+        static let streakCompleted = "navigation-bar-streak-completed"
+        static let streakUncompleted = "navigation-bar-streak-uncompleted"
         static let gems = "navigation-bar-gems"
     }
 

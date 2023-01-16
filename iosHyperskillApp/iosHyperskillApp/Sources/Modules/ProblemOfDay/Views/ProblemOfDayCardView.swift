@@ -185,14 +185,14 @@ struct DailyProblemCardView_Previews: PreviewProvider {
                 .makePlaceholder(
                     state: .uncompleted,
                     secondsToComplete: 112,
-                    nextProblemIn: 7260
+                    nextProblemIn: "19 hours 13 minutes"
                 )
                 .makeModule()
 
             ProblemOfDayAssembly
                 .makePlaceholder(
                     state: .uncompleted,
-                    nextProblemIn: 59
+                    nextProblemIn: "19 hours 13 minutes"
                 )
                 .makeModule()
 
