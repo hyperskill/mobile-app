@@ -5,9 +5,9 @@ import androidx.core.view.isVisible
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.LayoutProfileStreakCardBinding
 import org.hyperskill.app.profile.presentation.ProfileFeature
-import org.hyperskill.app.streak.domain.model.HistoricalStreak
-import org.hyperskill.app.streak.domain.model.Streak
-import org.hyperskill.app.streak.domain.model.StreakState
+import org.hyperskill.app.streaks.domain.model.HistoricalStreak
+import org.hyperskill.app.streaks.domain.model.Streak
+import org.hyperskill.app.streaks.domain.model.StreakState
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 
 class StreakCardFormDelegate(

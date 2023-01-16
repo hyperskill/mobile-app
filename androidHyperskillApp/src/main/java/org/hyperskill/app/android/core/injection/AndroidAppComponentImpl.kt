@@ -37,6 +37,9 @@ import org.hyperskill.app.debug.injection.PlatformDebugComponent
 import org.hyperskill.app.debug.injection.PlatformDebugComponentImpl
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponentImpl
+import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
+import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponentImpl
+import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarIdleComponentImpl
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.HomeComponentImpl
 import org.hyperskill.app.home.injection.PlatformHomeComponent
@@ -101,6 +104,8 @@ import org.hyperskill.app.step_quiz_hints.injection.PlatformStepQuizHintsCompone
 import org.hyperskill.app.step_quiz_hints.injection.PlatformStepQuizHintsComponentImpl
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponentImpl
+import org.hyperskill.app.streaks.injection.StreaksDataComponent
+import org.hyperskill.app.streaks.injection.StreaksDataComponentImpl
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.PlatformTopicsRepetitionComponent
@@ -351,4 +356,14 @@ class AndroidAppComponentImpl(
 
     override fun buildItemsDataComponent(): ItemsDataComponent =
         ItemsDataComponentImpl(this)
+
+    override fun buildStreaksDataComponent(): StreaksDataComponent =
+        StreaksDataComponentImpl(this)
+
+    override fun buildGamificationToolbarComponent(): GamificationToolbarComponent =
+        GamificationToolbarComponentImpl(this)
+
+    // TODO: ALTAPPS-519 delete this method
+    override fun buildIdleGamificationToolbarComponent(): GamificationToolbarComponent =
+        GamificationToolbarIdleComponentImpl(this)
 }

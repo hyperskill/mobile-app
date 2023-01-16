@@ -27,6 +27,8 @@ import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetit
 import org.hyperskill.app.android.topics_repetitions.view.screen.TopicsRepetitionScreen
 import org.hyperskill.app.android.view.base.ui.extension.setElevationOnCollapsed
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
+import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
+import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeViewModel
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -47,7 +49,7 @@ class HomeFragment :
 
     private val viewBinding: FragmentHomeBinding by viewBinding(FragmentHomeBinding::bind)
     private val homeViewModel: HomeViewModel by reduxViewModel(this) { viewModelFactory }
-    private val viewStateDelegate: ViewStateDelegate<HomeFeature.State> = ViewStateDelegate()
+    private val viewStateDelegate: ViewStateDelegate<HomeFeature.HomeState> = ViewStateDelegate()
 
     private lateinit var problemOfDayCardFormDelegate: ProblemOfDayCardFormDelegate
     private val topicsRepetitionDelegate: TopicsRepetitionCardFormDelegate by lazy(LazyThreadSafetyMode.NONE) {
@@ -78,16 +80,22 @@ class HomeFragment :
             homeScreenAppBar.setExpanded(true)
 
             homeScreenGemsCountTextView.setOnClickListener {
-                homeViewModel.onNewMessage(HomeFeature.Message.ClickedGemsBarButtonItem)
-                requireMainRouter().switch(ProfileScreen(isInitCurrent = true))
+                homeViewModel.onNewMessage(
+                    HomeFeature.Message.GamificationToolbarMessage(
+                        GamificationToolbarFeature.Message.ClickedGems(screen = GamificationToolbarScreen.HOME)
+                    )
+                )
             }
             homeScreenStreakDurationTextView.setOnClickListener {
-                homeViewModel.onNewMessage(HomeFeature.Message.ClickedStreakBarButtonItem)
-                requireMainRouter().switch(ProfileScreen(isInitCurrent = true))
+                homeViewModel.onNewMessage(
+                    HomeFeature.Message.GamificationToolbarMessage(
+                        GamificationToolbarFeature.Message.ClickedStreak(screen = GamificationToolbarScreen.HOME)
+                    )
+                )
             }
 
             homeScreenError.tryAgain.setOnClickListener {
-                homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = false))
+                homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = true))
             }
             homeScreenKeepLearningInWebButton.setOnClickListener {
                 homeViewModel.onNewMessage(HomeFeature.Message.ClickedContinueLearningOnWeb)
@@ -129,10 +137,10 @@ class HomeFragment :
 
     private fun initViewStateDelegate() {
         with(viewStateDelegate) {
-            addState<HomeFeature.State.Idle>()
-            addState<HomeFeature.State.Loading>(viewBinding.homeScreenSkeleton.root, viewBinding.homeScreenAppBar)
-            addState<HomeFeature.State.NetworkError>(viewBinding.homeScreenError.root)
-            addState<HomeFeature.State.Content>(viewBinding.homeScreenContainer, viewBinding.homeScreenAppBar)
+            addState<HomeFeature.HomeState.Idle>()
+            addState<HomeFeature.HomeState.Loading>(viewBinding.homeScreenSkeleton.root, viewBinding.homeScreenAppBar)
+            addState<HomeFeature.HomeState.NetworkError>(viewBinding.homeScreenError.root)
+            addState<HomeFeature.HomeState.Content>(viewBinding.homeScreenContainer, viewBinding.homeScreenAppBar)
         }
     }
 
@@ -147,6 +155,11 @@ class HomeFragment :
             is HomeFeature.Action.ViewAction.NavigateTo.TopicsRepetitionsScreen -> {
                 requireRouter().navigateTo(TopicsRepetitionScreen())
             }
+            is HomeFeature.Action.ViewAction.GamificationToolbarViewAction ->
+                when (action.viewAction) {
+                    is GamificationToolbarFeature.Action.ViewAction.ShowProfileTab ->
+                        requireMainRouter().switch(ProfileScreen(isInitCurrent = true))
+                }
             else -> {
                 // no op
             }
@@ -154,22 +167,28 @@ class HomeFragment :
     }
 
     override fun render(state: HomeFeature.State) {
-        viewStateDelegate.switchState(state)
+        viewStateDelegate.switchState(state.homeState)
+
         TransitionManager.beginDelayedTransition(viewBinding.root, AutoTransition())
-        if (state is HomeFeature.State.Content) {
-            if (state.isLoadingMagicLink) {
+
+        if (state.homeState is HomeFeature.HomeState.Content) {
+            val castedHomeState = state.homeState as HomeFeature.HomeState.Content
+            if (castedHomeState.isLoadingMagicLink) {
                 LoadingProgressDialogFragment.newInstance()
                     .showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
             } else {
                 childFragmentManager.dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
             }
-            renderMenuItems(state)
-            renderProblemOfDayCardDelegate(state.problemOfDayState)
-            renderTopicsRepetition(state.repetitionsState)
+            renderProblemOfDayCardDelegate(castedHomeState.problemOfDayState)
+            renderTopicsRepetition(castedHomeState.repetitionsState)
+        }
+
+        if (state.toolbarState is GamificationToolbarFeature.State.Content) {
+            renderMenuItems(state.toolbarState as GamificationToolbarFeature.State.Content)
         }
     }
 
-    private fun renderMenuItems(state: HomeFeature.State.Content) {
+    private fun renderMenuItems(state: GamificationToolbarFeature.State.Content) {
         with(viewBinding.homeScreenStreakDurationTextView) {
             isVisible = true
             val streakDuration = state.streak?.currentStreak ?: 0

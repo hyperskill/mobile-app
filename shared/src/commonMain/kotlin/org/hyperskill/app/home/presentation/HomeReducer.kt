@@ -2,62 +2,89 @@ package org.hyperskill.app.home.presentation
 
 import kotlin.math.max
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
+import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
+import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
+import org.hyperskill.app.gamification_toolbar.presentation.reducer.GamificationToolbarReducer
 import org.hyperskill.app.home.domain.analytic.HomeClickedContinueLearningOnWebHyperskillAnalyticEvent
-import org.hyperskill.app.home.domain.analytic.HomeClickedGemsBarButtonItemHyperskillAnalyticEvent
 import org.hyperskill.app.home.domain.analytic.HomeClickedProblemOfDayCardHyperskillAnalyticEvent
 import org.hyperskill.app.home.domain.analytic.HomeClickedPullToRefreshHyperskillAnalyticEvent
-import org.hyperskill.app.home.domain.analytic.HomeClickedStreakBarButtonItemHyperskillAnalyticEvent
 import org.hyperskill.app.home.domain.analytic.HomeClickedTopicsRepetitionsCardHyperskillAnalyticEvent
 import org.hyperskill.app.home.domain.analytic.HomeViewedHyperskillAnalyticEvent
 import org.hyperskill.app.home.presentation.HomeFeature.Action
+import org.hyperskill.app.home.presentation.HomeFeature.HomeState
 import org.hyperskill.app.home.presentation.HomeFeature.Message
 import org.hyperskill.app.home.presentation.HomeFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
-class HomeReducer : StateReducer<State, Message, Action> {
+class HomeReducer(
+    private val gamificationToolbarReducer: GamificationToolbarReducer
+) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
-            is Message.Initialize ->
-                if (state is State.Idle ||
-                    (message.forceUpdate && (state is State.Content || state is State.NetworkError))
+            is Message.Initialize -> {
+                val (homeState, homeActions) = if (state.homeState is HomeState.Idle ||
+                    (message.forceUpdate && (state.homeState is HomeState.Content || state.homeState is HomeState.NetworkError))
                 ) {
-                    State.Loading to setOf(Action.FetchHomeScreenData)
+                    HomeState.Loading to setOf(Action.FetchHomeScreenData)
                 } else {
-                    null
+                    state.homeState to emptySet()
                 }
+
+                val (toolbarState, toolbarActions) = reduceGamificationToolbarMessage(
+                    state.toolbarState,
+                    GamificationToolbarFeature.Message.Initialize(GamificationToolbarScreen.HOME, message.forceUpdate)
+                )
+
+                state.copy(homeState = homeState, toolbarState = toolbarState) to homeActions + toolbarActions
+            }
             is Message.HomeSuccess ->
-                State.Content(
-                    message.streak,
-                    message.hypercoinsBalance,
-                    message.problemOfDayState,
-                    message.repetitionsState
+                state.copy(
+                    homeState = HomeState.Content(message.problemOfDayState, message.repetitionsState)
                 ) to emptySet()
             is Message.HomeFailure ->
-                State.NetworkError to emptySet()
-            is Message.PullToRefresh ->
-                if (state is State.Content && !state.isRefreshing) {
-                    state.copy(isRefreshing = true) to setOf(
+                state.copy(homeState = HomeState.NetworkError) to emptySet()
+            is Message.PullToRefresh -> {
+                val (homeState, homeActions) = if (
+                    state.homeState is HomeState.Content && !state.homeState.isRefreshing
+                ) {
+                    state.homeState.copy(isRefreshing = true) to setOf(
                         Action.FetchHomeScreenData,
                         Action.LogAnalyticEvent(HomeClickedPullToRefreshHyperskillAnalyticEvent())
                     )
                 } else {
-                    null
+                    state.homeState to emptySet()
                 }
+
+                val (toolbarState, toolbarActions) = reduceGamificationToolbarMessage(
+                    state.toolbarState,
+                    GamificationToolbarFeature.Message.PullToRefresh(GamificationToolbarScreen.HOME)
+                )
+
+                state.copy(homeState = homeState, toolbarState = toolbarState) to homeActions + toolbarActions
+            }
             // Timer Messages
             is Message.ReadyToLaunchNextProblemInTimer ->
-                if (state is State.Content) {
+                if (state.homeState is HomeState.Content) {
                     state to setOf(Action.LaunchTimer)
                 } else {
                     null
                 }
             is Message.NextProblemInTimerStopped ->
-                if (state is State.Content) {
-                    when (state.problemOfDayState) {
+                if (state.homeState is HomeState.Content) {
+                    when (state.homeState.problemOfDayState) {
                         is HomeFeature.ProblemOfDayState.NeedToSolve -> {
-                            state.copy(problemOfDayState = state.problemOfDayState.copy(needToRefresh = true)) to emptySet()
+                            state.copy(
+                                homeState = state.homeState.copy(
+                                    problemOfDayState = state.homeState.problemOfDayState.copy(needToRefresh = true)
+                                )
+                            ) to emptySet()
                         }
                         is HomeFeature.ProblemOfDayState.Solved -> {
-                            state.copy(problemOfDayState = state.problemOfDayState.copy(needToRefresh = true)) to emptySet()
+                            state.copy(
+                                homeState = state.homeState.copy(
+                                    problemOfDayState = state.homeState.problemOfDayState.copy(needToRefresh = true)
+                                )
+                            ) to emptySet()
                         }
                         else -> {
                             null
@@ -67,21 +94,25 @@ class HomeReducer : StateReducer<State, Message, Action> {
                     null
                 }
             is Message.HomeNextProblemInUpdate ->
-                if (state is State.Content) {
-                    when (state.problemOfDayState) {
+                if (state.homeState is HomeState.Content) {
+                    when (state.homeState.problemOfDayState) {
                         is HomeFeature.ProblemOfDayState.NeedToSolve -> {
                             state.copy(
-                                problemOfDayState = HomeFeature.ProblemOfDayState.NeedToSolve(
-                                    state.problemOfDayState.step,
-                                    message.nextProblemIn
+                                homeState = state.homeState.copy(
+                                    problemOfDayState = HomeFeature.ProblemOfDayState.NeedToSolve(
+                                        state.homeState.problemOfDayState.step,
+                                        message.nextProblemIn
+                                    )
                                 )
                             ) to emptySet()
                         }
                         is HomeFeature.ProblemOfDayState.Solved -> {
                             state.copy(
-                                problemOfDayState = HomeFeature.ProblemOfDayState.Solved(
-                                    state.problemOfDayState.step,
-                                    message.nextProblemIn
+                                homeState = state.homeState.copy(
+                                    problemOfDayState = HomeFeature.ProblemOfDayState.Solved(
+                                        state.homeState.problemOfDayState.step,
+                                        message.nextProblemIn
+                                    )
                                 )
                             ) to emptySet()
                         }
@@ -94,47 +125,43 @@ class HomeReducer : StateReducer<State, Message, Action> {
                 }
             // Flow Messages
             is Message.StepQuizSolved -> {
-                if (state is State.Content) {
+                if (state.homeState is HomeState.Content) {
                     val problemOfDayState = if (
-                        state.problemOfDayState is HomeFeature.ProblemOfDayState.NeedToSolve &&
-                        state.problemOfDayState.step.id == message.stepId
+                        state.homeState.problemOfDayState is HomeFeature.ProblemOfDayState.NeedToSolve &&
+                        state.homeState.problemOfDayState.step.id == message.stepId
                     ) {
                         HomeFeature.ProblemOfDayState.Solved(
-                            state.problemOfDayState.step.copy(isCompleted = true),
-                            state.problemOfDayState.nextProblemIn
+                            state.homeState.problemOfDayState.step.copy(isCompleted = true),
+                            state.homeState.problemOfDayState.nextProblemIn
                         )
                     } else {
-                        state.problemOfDayState
+                        state.homeState.problemOfDayState
                     }
 
-                    state.copy(
-                        streak = state.streak?.getStreakWithTodaySolved(),
-                        problemOfDayState = problemOfDayState
-                    ) to emptySet()
+                    state.copy(homeState = state.homeState.copy(problemOfDayState = problemOfDayState)) to emptySet()
                 } else {
                     null
                 }
             }
             is Message.TopicRepeated ->
-                if (state is State.Content && state.repetitionsState is HomeFeature.RepetitionsState.Available) {
+                if (
+                    state.homeState is HomeState.Content &&
+                    state.homeState.repetitionsState is HomeFeature.RepetitionsState.Available
+                ) {
                     state.copy(
-                        repetitionsState = HomeFeature.RepetitionsState.Available(
-                            max(state.repetitionsState.recommendedRepetitionsCount.dec(), 0)
+                        homeState = state.homeState.copy(
+                            repetitionsState = HomeFeature.RepetitionsState.Available(
+                                max(state.homeState.repetitionsState.recommendedRepetitionsCount.dec(), 0)
+                            )
                         )
                     ) to emptySet()
                 } else {
                     null
                 }
-            is Message.HypercoinsBalanceChanged ->
-                if (state is State.Content) {
-                    state.copy(hypercoinsBalance = message.hypercoinsBalance) to emptySet()
-                } else {
-                    null
-                }
             // Click Messages
             is Message.ClickedContinueLearningOnWeb -> {
-                if (state is State.Content) {
-                    state.copy(isLoadingMagicLink = true) to setOf(
+                if (state.homeState is HomeState.Content) {
+                    state.copy(homeState = state.homeState.copy(isLoadingMagicLink = true)) to setOf(
                         Action.GetMagicLink(HyperskillUrlPath.Index()),
                         Action.LogAnalyticEvent(HomeClickedContinueLearningOnWebHyperskillAnalyticEvent())
                     )
@@ -143,48 +170,34 @@ class HomeReducer : StateReducer<State, Message, Action> {
                 }
             }
             is Message.ClickedTopicsRepetitionsCard ->
-                if (state is State.Content) {
+                if (state.homeState is HomeState.Content) {
                     state to setOf(
                         Action.ViewAction.NavigateTo.TopicsRepetitionsScreen,
                         Action.LogAnalyticEvent(
                             HomeClickedTopicsRepetitionsCardHyperskillAnalyticEvent(
-                                isCompleted = state.repetitionsState is HomeFeature.RepetitionsState.Available &&
-                                    state.repetitionsState.recommendedRepetitionsCount == 0
+                                isCompleted = state.homeState.repetitionsState is HomeFeature.RepetitionsState.Available &&
+                                    state.homeState.repetitionsState.recommendedRepetitionsCount == 0
                             )
                         )
                     )
                 } else {
                     null
                 }
-            Message.ClickedGemsBarButtonItem ->
-                if (state is State.Content) {
-                    state to setOf(
-                        Action.ViewAction.NavigateTo.ProfileTab,
-                        Action.LogAnalyticEvent(HomeClickedGemsBarButtonItemHyperskillAnalyticEvent())
-                    )
-                } else {
-                    null
-                }
-            Message.ClickedStreakBarButtonItem ->
-                if (state is State.Content) {
-                    state to setOf(
-                        Action.ViewAction.NavigateTo.ProfileTab,
-                        Action.LogAnalyticEvent(HomeClickedStreakBarButtonItemHyperskillAnalyticEvent())
-                    )
-                } else {
-                    null
-                }
             // MagicLinks Messages
             is Message.GetMagicLinkReceiveSuccess -> {
-                if (state is State.Content) {
-                    state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.OpenUrl(message.url))
+                if (state.homeState is HomeState.Content) {
+                    state.copy(homeState = state.homeState.copy(isLoadingMagicLink = false)) to setOf(
+                        Action.ViewAction.OpenUrl(message.url)
+                    )
                 } else {
                     null
                 }
             }
             is Message.GetMagicLinkReceiveFailure -> {
-                if (state is State.Content) {
-                    state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.ShowGetMagicLinkError)
+                if (state.homeState is HomeState.Content) {
+                    state.copy(homeState = state.homeState.copy(isLoadingMagicLink = false)) to setOf(
+                        Action.ViewAction.ShowGetMagicLinkError
+                    )
                 } else {
                     null
                 }
@@ -195,8 +208,8 @@ class HomeReducer : StateReducer<State, Message, Action> {
             is Message.ClickedContinueLearningOnWebEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(HomeClickedContinueLearningOnWebHyperskillAnalyticEvent()))
             is Message.ClickedProblemOfDayCardEventMessage -> {
-                if (state is State.Content) {
-                    when (state.problemOfDayState) {
+                if (state.homeState is HomeState.Content) {
+                    when (state.homeState.problemOfDayState) {
                         is HomeFeature.ProblemOfDayState.NeedToSolve -> {
                             state to setOf(
                                 Action.LogAnalyticEvent(
@@ -223,5 +236,33 @@ class HomeReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
+            // Wrapper Messages
+            is Message.GamificationToolbarMessage -> {
+                val (toolbarState, toolbarActions) =
+                    reduceGamificationToolbarMessage(state.toolbarState, message.message)
+                state.copy(toolbarState = toolbarState) to toolbarActions
+            }
         } ?: (state to emptySet())
+
+    /**
+     * Reduces [Message.GamificationToolbarMessage] to [GamificationToolbarFeature.State] and set of [HomeFeature.Action]
+     */
+    private fun reduceGamificationToolbarMessage(
+        state: GamificationToolbarFeature.State,
+        message: GamificationToolbarFeature.Message
+    ): Pair<GamificationToolbarFeature.State, Set<Action>> {
+        val (gamificationToolbarState, gamificationToolbarActions) = gamificationToolbarReducer.reduce(state, message)
+
+        val actions = gamificationToolbarActions
+            .map {
+                if (it is GamificationToolbarFeature.Action.ViewAction) {
+                    Action.ViewAction.GamificationToolbarViewAction(it)
+                } else {
+                    Action.GamificationToolbarAction(it)
+                }
+            }
+            .toSet()
+
+        return gamificationToolbarState to actions
+    }
 }
