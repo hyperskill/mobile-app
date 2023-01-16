@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -34,7 +33,6 @@ import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
-import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.track.domain.model.Track
@@ -43,7 +41,6 @@ import org.hyperskill.app.track.presentation.TrackViewModel
 import ru.nobird.android.ui.adapterdelegates.dsl.adapterDelegate
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
-import ru.nobird.android.view.base.ui.extension.resolveColorAttribute
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
@@ -108,7 +105,7 @@ class TrackFragment :
 
     private fun initGamificationToolbarDelegate() {
         viewBinding.trackAppBar.gamificationCollapsingToolbarLayout.title =
-                requireContext().getString(org.hyperskill.app.R.string.track_title)
+            requireContext().getString(org.hyperskill.app.R.string.track_title)
         gamificationToolbarDelegate = GamificationToolbarDelegate(
             viewLifecycleOwner,
             viewBinding.trackAppBar,
