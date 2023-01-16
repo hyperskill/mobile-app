@@ -18,23 +18,10 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
 
     func doLoadTrack(forceUpdate: Bool = false) {
         onNewMessage(TrackFeatureMessageInitialize(forceUpdate: forceUpdate))
-        onNewMessage(
-            TrackFeatureMessageGamificationToolbarMessage(
-                message: GamificationToolbarFeatureMessageInitialize(
-                    screen: GamificationToolbarScreen.track,
-                    forceUpdate: forceUpdate
-                )
-            )
-        )
     }
 
     func doPullToRefresh() {
         onNewMessage(TrackFeatureMessagePullToRefresh())
-        onNewMessage(
-            TrackFeatureMessageGamificationToolbarMessage(
-                message: GamificationToolbarFeatureMessagePullToRefresh(screen: GamificationToolbarScreen.track)
-            )
-        )
     }
 
     func doTheoryTopicPresentation(topic: TrackViewData.TheoryTopic) {
