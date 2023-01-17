@@ -19,9 +19,8 @@ class TopicAdapterDelegate(
 
     override fun isForViewType(position: Int, data: Topic): Boolean = true
 
-    override fun onCreateViewHolder(parent: ViewGroup): DelegateViewHolder<Topic> {
-        return ViewHolder(createView(parent, R.layout.item_topic))
-    }
+    override fun onCreateViewHolder(parent: ViewGroup): DelegateViewHolder<Topic> =
+        ViewHolder(createView(parent, R.layout.item_topic))
 
     inner class ViewHolder(root: View) : DelegateViewHolder<Topic>(root) {
 
@@ -56,7 +55,7 @@ class TopicAdapterDelegate(
                         setCompoundDrawablesWithIntrinsicBounds(
                             0,
                             0,
-                            drawableRes, //right
+                            drawableRes, // right
                             0
                         )
                     }
@@ -67,5 +66,4 @@ class TopicAdapterDelegate(
             }
         }
     }
-
 }
