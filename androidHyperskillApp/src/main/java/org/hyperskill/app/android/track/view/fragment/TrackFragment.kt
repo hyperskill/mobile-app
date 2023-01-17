@@ -4,11 +4,7 @@ import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.doOnLayout
-import androidx.core.view.doOnNextLayout
 import androidx.core.view.isVisible
-import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,20 +25,18 @@ import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExi
 import org.hyperskill.app.android.core.view.ui.navigation.requireMainRouter
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentTrackBinding
-import org.hyperskill.app.android.databinding.ItemTrackNextTopicBinding
 import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.GamificationToolbarDelegate
 import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
 import org.hyperskill.app.android.step.view.screen.StepScreen
+import org.hyperskill.app.android.topics.adapter_delegate.TopicAdapterDelegate
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.topics.domain.model.Topic
-import org.hyperskill.app.topics.domain.model.completenessPercentage
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.presentation.TrackFeature
 import org.hyperskill.app.track.presentation.TrackViewModel
-import ru.nobird.android.ui.adapterdelegates.dsl.adapterDelegate
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
@@ -68,7 +62,11 @@ class TrackFragment :
 
     private val nextTopicsAdapter by lazy(LazyThreadSafetyMode.NONE) {
         DefaultDelegateAdapter<Topic>().apply {
-            addDelegate(nextTopicAdapterDelegate())
+            addDelegate(
+                TopicAdapterDelegate { topicId ->
+                    trackViewModel.onNewMessage(TrackFeature.Message.TopicToDiscoverNextClicked(topicId))
+                }
+            )
         }
     }
 
@@ -282,49 +280,4 @@ class TrackFragment :
             nextTopicsAdapter.items = topics
         }
     }
-
-    private fun nextTopicAdapterDelegate() =
-        adapterDelegate<Topic, Topic>(
-            R.layout.item_track_next_topic
-        ) {
-            val binding = ItemTrackNextTopicBinding.bind(itemView)
-            itemView.setOnClickListener {
-                item?.let { topic ->
-                    trackViewModel.onNewMessage(
-                        TrackFeature.Message.TopicToDiscoverNextClicked(topicId = topic.id)
-                    )
-                }
-            }
-
-            onBind { topic ->
-                with(binding) {
-                    topicTitle.text = topic.title
-                    val progress = topic.progress
-                    topicCompletenessTextView.isVisible = progress != null
-                    topicCompletenessView.isVisible = progress != null
-                    if (progress != null) {
-                        with(topicCompletenessTextView) {
-                            text = when {
-                                progress.isSkipped || progress.isCompleted -> null
-                                else -> "${progress.completenessPercentage.roundToInt()}%"
-                            }
-                            val drawableRes: Int = when {
-                                progress.isSkipped -> R.drawable.ic_topic_skipped
-                                progress.isCompleted -> R.drawable.ic_topic_completed
-                                else -> 0
-                            }
-                            setCompoundDrawablesWithIntrinsicBounds(
-                                0,
-                                0,
-                                drawableRes, //right
-                                0
-                            )
-                        }
-                        topicCompletenessView.updateLayoutParams<ConstraintLayout.LayoutParams> {
-                            matchConstraintPercentWidth = progress.completenessPercentage / 100
-                        }
-                    }
-                }
-            }
-        }
 }
