@@ -18,18 +18,39 @@ final class SentryManager: shared.SentryManager {
             let userAgentInfo = UserAgentBuilder.userAgentInfo
             options.releaseName = "\(userAgentInfo.versionName) (\(userAgentInfo.versionCode))"
 
-            options.enableAutoPerformanceTracking = true
-            options.enableUIViewControllerTracking = true
-            options.enableOutOfMemoryTracking = false
-
             #if DEBUG
             options.debug = true
-            options.diagnosticLevel = .warning
+            options.diagnosticLevel = .info
 
             options.tracesSampleRate = 1
             #else
             options.tracesSampleRate = 0.3
             #endif
+
+            // HTTP Client Errors
+            options.enableCaptureFailedRequests = true
+
+            options.failedRequestStatusCodes = [
+                // Client errors
+                HttpStatusCodeRange(min: 400, max: 407),
+                HttpStatusCodeRange(min: 409, max: 499),
+                // Server errors
+                HttpStatusCodeRange(min: 500, max: 599)
+            ]
+            options.failedRequestTargets = [ApplicationInfo.host]
+
+            // Swizzling
+            options.enableSwizzling = true
+            // Watchdog Terminations
+            options.enableWatchdogTerminationTracking = false
+            // App Hangs
+            options.enableAppHangTracking = true
+            // Performance Monitoring
+            options.enableAutoPerformanceTracing = true
+            options.enableUIViewControllerTracing = true
+            options.enableNetworkTracking = true
+            options.enableFileIOTracing = false
+            options.enableCoreDataTracing = false
         }
     }
 
@@ -37,7 +58,7 @@ final class SentryManager: shared.SentryManager {
 
     func addBreadcrumb(breadcrumb: HyperskillSentryBreadcrumb) {
         let crumb = breadcrumb.sentryBreadcrumb
-        SentrySDK.addBreadcrumb(crumb: crumb)
+        SentrySDK.addBreadcrumb(crumb)
     }
 
     // MARK: Capture
