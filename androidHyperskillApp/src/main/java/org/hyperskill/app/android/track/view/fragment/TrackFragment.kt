@@ -4,7 +4,6 @@ import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -15,7 +14,6 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.ImageLoader
 import coil.load
 import coil.size.Scale
-import kotlin.math.roundToInt
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
@@ -30,6 +28,7 @@ import org.hyperskill.app.android.databinding.FragmentTrackBinding
 import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.GamificationToolbarDelegate
 import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
 import org.hyperskill.app.android.step.view.screen.StepScreen
+import org.hyperskill.app.android.topics.adapter_delegate.TopicAdapterDelegate
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
@@ -38,12 +37,12 @@ import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.presentation.TrackFeature
 import org.hyperskill.app.track.presentation.TrackViewModel
-import ru.nobird.android.ui.adapterdelegates.dsl.adapterDelegate
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
+import kotlin.math.roundToInt
 
 class TrackFragment :
     Fragment(R.layout.fragment_track),
@@ -63,7 +62,11 @@ class TrackFragment :
 
     private val nextTopicsAdapter by lazy(LazyThreadSafetyMode.NONE) {
         DefaultDelegateAdapter<Topic>().apply {
-            addDelegate(nextTopicAdapterDelegate())
+            addDelegate(
+                TopicAdapterDelegate { topicId ->
+                    trackViewModel.onNewMessage(TrackFeature.Message.TopicToDiscoverNextClicked(topicId))
+                }
+            )
         }
     }
 
@@ -277,22 +280,4 @@ class TrackFragment :
             nextTopicsAdapter.items = topics
         }
     }
-
-    private fun nextTopicAdapterDelegate() =
-        adapterDelegate<Topic, Topic>(
-            R.layout.item_track_next_topic
-        ) {
-            val title = itemView.findViewById<TextView>(R.id.nextTopicTitle)
-            itemView.setOnClickListener {
-                item?.let { topic ->
-                    trackViewModel.onNewMessage(
-                        TrackFeature.Message.TopicToDiscoverNextClicked(topicId = topic.id)
-                    )
-                }
-            }
-
-            onBind { topic ->
-                title.text = topic.title
-            }
-        }
 }

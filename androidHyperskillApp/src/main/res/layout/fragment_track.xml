@@ -88,7 +88,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/color_surface"
-                    tools:listitem="@layout/item_track_next_topic"
+                    tools:listitem="@layout/item_topic"
                     tools:itemCount="3"
                     />
 
