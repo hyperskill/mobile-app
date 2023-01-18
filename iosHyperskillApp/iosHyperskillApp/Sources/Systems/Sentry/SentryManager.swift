@@ -86,7 +86,16 @@ final class SentryManager: shared.SentryManager {
             return
         }
 
-        platformTransaction.span.finish(status: throwable != nil ? .unknownError : .ok)
+        if let throwable {
+            platformTransaction.span.setData(
+                value: String(describing: throwable),
+                key: HyperskillSentryTransactionKeyValues.shared.DATA_ERROR
+            )
+            platformTransaction.span.finish(status: .unknownError)
+        } else {
+            platformTransaction.span.finish(status: .ok)
+        }
+
         currentTransactionsDict.removeValue(forKey: mapTransactionToKey(platformTransaction))
     }
 
