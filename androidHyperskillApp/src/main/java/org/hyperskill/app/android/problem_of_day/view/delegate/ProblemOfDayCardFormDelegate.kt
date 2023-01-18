@@ -27,7 +27,7 @@ class ProblemOfDayCardFormDelegate(
                     root.isClickable = false
 
                     problemOfDayTimeToSolveTextView.visibility = View.GONE
-                    problemOfDayNextProblemInLinearLayout.visibility = View.GONE
+                    problemOfDayNextProblemInFrameLayout.visibility = View.GONE
 
                     problemOfDayLayout.alpha = EMPTY_CARD_STATE_ALPHA
                     problemOfDayHexogens.alpha = EMPTY_CARD_STATE_ALPHA
@@ -50,7 +50,7 @@ class ProblemOfDayCardFormDelegate(
                     }
 
                     problemOfDayTimeToSolveTextView.visibility = View.GONE
-                    problemOfDayNextProblemInLinearLayout.visibility = View.VISIBLE
+                    problemOfDayNextProblemInFrameLayout.visibility = View.VISIBLE
 
                     problemOfDayLayout.alpha = 1F
                     problemOfDayHexogens.alpha = 1F
@@ -64,7 +64,7 @@ class ProblemOfDayCardFormDelegate(
                     problemOfDayTitleTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_checkmark, 0, 0, 0)
                     problemOfDayTitleTextView.setText(org.hyperskill.app.R.string.problem_of_day_title_completed)
 
-                    problemOfDayNextProblemInTextView.text = state.nextProblemIn
+                    problemOfDayNextProblemInCounterView.text = state.nextProblemIn
                 }
                 is HomeFeature.ProblemOfDayState.NeedToSolve -> {
                     state as HomeFeature.ProblemOfDayState.NeedToSolve
@@ -86,7 +86,7 @@ class ProblemOfDayCardFormDelegate(
                         problemOfDayTimeToSolveTextView.visibility = View.GONE
                     }
 
-                    problemOfDayNextProblemInLinearLayout.visibility = View.VISIBLE
+                    problemOfDayNextProblemInFrameLayout.visibility = View.VISIBLE
 
                     problemOfDayLayout.alpha = 1F
                     problemOfDayHexogens.alpha = 1F
@@ -100,7 +100,7 @@ class ProblemOfDayCardFormDelegate(
                     problemOfDayTitleTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_task_day, 0, 0, 0)
                     problemOfDayTitleTextView.setText(org.hyperskill.app.R.string.problem_of_day_title_uncompleted)
 
-                    problemOfDayNextProblemInTextView.text = state.nextProblemIn
+                    problemOfDayNextProblemInCounterView.text = state.nextProblemIn
                 }
             }
         }
