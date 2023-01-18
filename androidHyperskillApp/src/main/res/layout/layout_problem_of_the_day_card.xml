@@ -95,10 +95,11 @@
                     android:id="@+id/problemOfDayNextProblemInCounterView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="@string/problem_of_day_next_problem_in"
                     android:textColor="@color/color_on_surface_alpha_87"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:layout_marginStart="4dp"
+                    tools:text="15 h 32 minutes"
+                    />
 
             </LinearLayout>
 
