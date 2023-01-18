@@ -7,4 +7,8 @@ interface StepRepository {
         getSteps(listOf(stepId)).map { it.first() }
 
     suspend fun getSteps(stepIds: List<Long>): Result<List<Step>>
+
+    suspend fun completeStep(stepId: Long): Result<Step>
+
+    suspend fun getNextRecommendedStepByTopicId(topicId: Long): Result<Step>
 }

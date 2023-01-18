@@ -1,3 +1,4 @@
+import shared
 import SwiftUI
 
 extension StepTheoryContentView {
@@ -11,6 +12,10 @@ struct StepTheoryContentView: View {
 
     @State var viewData: StepViewData
 
+    let practiceStatus: StepFeaturePracticeStatus
+
+    let onStartPracticingTap: () -> Void
+
     var body: some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: appearance.interItemSpacing) {
@@ -19,28 +24,34 @@ struct StepTheoryContentView: View {
                     timeToComplete: viewData.formattedTimeToComplete
                 )
 
-                // ALTAPPS-397: Hidden
-//                StepActionButton(
-//                    title: Strings.Step.startPracticing,
-//                    style: .greenOutline
-//                ) {
-//                    print("Start practicing tapped")
-//                }
+                buildPracticingButton()
+                    .buttonStyle(OutlineButtonStyle(style: .violet))
 
                 StepTextView(text: viewData.text)
 
-                // ALTAPPS-397: Hidden
-//                StepBottomControlsView(
-//                    commentStatisticsViewData: viewData.commentsStatistics,
-//                    onStartPracticingClick: {
-//                        print("Start practicing tapped")
-//                    },
-//                    onCommentStatisticClick: { commentStatistic in
-//                        print("Comment statistic clicked = \(commentStatistic)")
-//                    }
-//                )
+                buildPracticingButton()
+                    .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
             }
             .padding()
+        }
+    }
+
+    @ViewBuilder
+    private func buildPracticingButton() -> some View {
+        if practiceStatus == StepFeaturePracticeStatus.unavailable {
+            EmptyView()
+        } else {
+            Button(
+                action: onStartPracticingTap,
+                label: {
+                    if practiceStatus == StepFeaturePracticeStatus.loading {
+                        ProgressView()
+                    } else {
+                        Text(Strings.Step.startPracticing)
+                    }
+                }
+            )
+            .disabled(practiceStatus == StepFeaturePracticeStatus.loading)
         }
     }
 }
@@ -48,7 +59,11 @@ struct StepTheoryContentView: View {
 #if DEBUG
 struct StepContentView_Previews: PreviewProvider {
     static var previews: some View {
-        StepTheoryContentView(viewData: .placeholder)
+        StepTheoryContentView(
+            viewData: .placeholder,
+            practiceStatus: StepFeaturePracticeStatus.available,
+            onStartPracticingTap: {}
+        )
     }
 }
 #endif

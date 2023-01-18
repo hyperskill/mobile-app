@@ -9,7 +9,17 @@ interface StepFeature {
         object Idle : State
         object Loading : State
         object Error : State
-        data class Data(val step: Step) : State
+        data class Data(
+            val step: Step,
+            val stepRoute: StepRoute,
+            val practiceStatus: PracticeStatus
+        ) : State
+    }
+
+    enum class PracticeStatus {
+        UNAVAILABLE,
+        AVAILABLE,
+        LOADING
     }
 
     sealed interface Message {
@@ -19,9 +29,16 @@ interface StepFeature {
         ) : Message
 
         sealed interface StepLoaded : Message {
-            data class Success(val step: Step) : StepLoaded
+            data class Success(
+                val step: Step,
+                val stepRoute: StepRoute,
+                val practiceStatus: PracticeStatus
+            ) : StepLoaded
             object Error : StepLoaded
         }
+
+        object StartPracticingClicked : Message
+        object PracticeFetchedError : Message
 
         data class ViewedEventMessage(val stepRoute: StepRoute) : Message
     }
@@ -29,6 +46,10 @@ interface StepFeature {
     sealed interface Action {
         data class FetchStep(val stepRoute: StepRoute) : Action
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
-        sealed class ViewAction : Action
+
+        data class FetchPractice(val currentStep: Step) : Action
+        sealed interface ViewAction : Action {
+            object ShowStartPracticingErrorStatus : ViewAction
+        }
     }
 }

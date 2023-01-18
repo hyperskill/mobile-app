@@ -14,6 +14,8 @@ enum Strings {
         static let cancel = sharedStrings.cancel.localized()
         static let ok = sharedStrings.ok.localized()
         static let later = sharedStrings.later.localized()
+        static let goodJob = sharedStrings.good_job.localized()
+        static let goToHomescreen = sharedStrings.go_to_homescreen.localized()
     }
 
     // MARK: - TabBar -
@@ -69,6 +71,7 @@ enum Strings {
     enum Step {
         static let startPracticing = sharedStrings.step_start_practicing_text.localized()
         static let theory = sharedStrings.step_theory_text.localized()
+        static let failedToStartPracticing = sharedStrings.step_theory_failed_to_start_practicing.localized()
     }
 
     // MARK: - StepQuiz -
@@ -100,8 +103,10 @@ enum Strings {
         enum ProblemOfDaySolvedModal {
             static let title = sharedStrings.step_quiz_problem_of_day_solved_modal_title.localized()
             static let text = sharedStrings.step_quiz_problem_of_day_solved_modal_text.localized()
-            static let goButtonText =
-                sharedStrings.step_quiz_problem_of_day_solved_modal_go_to_homescreen_button_text.localized()
+        }
+
+        enum TopicCompletedModal {
+            static let text = sharedStrings.step_quiz_topic_completed_modal_text.localized()
         }
     }
 
@@ -297,7 +302,6 @@ enum Strings {
     enum TopicsRepetitions {
         enum Card {
             static let titleUncompleted = sharedStrings.topics_repetitions_card_title_uncompleted.localized()
-            static let titleCompleted = sharedStrings.topics_repetitions_card_title_completed.localized()
             static let textCompleted = sharedStrings.topics_repetitions_card_text_completed.localized()
         }
 

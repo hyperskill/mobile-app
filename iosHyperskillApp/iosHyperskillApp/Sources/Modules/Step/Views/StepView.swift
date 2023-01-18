@@ -28,15 +28,15 @@ struct StepView: View {
 
     @ViewBuilder
     private func buildBody() -> some View {
-        switch viewModel.state {
-        case is StepFeatureStateIdle:
+        switch viewModel.stateKs {
+        case .idle:
             ProgressView()
                 .onAppear {
                     viewModel.loadStep()
                 }
-        case is StepFeatureStateLoading:
+        case .loading:
             ProgressView()
-        case is StepFeatureStateError:
+        case .error:
             PlaceholderView(
                 configuration: .networkError(
                     backgroundColor: .clear,
@@ -45,11 +45,9 @@ struct StepView: View {
                     }
                 )
             )
-        case let data as StepFeatureStateData:
+        case .data(let data):
             buildContent(data: data)
                 .navigationTitle(data.step.title)
-        default:
-            Text("Unkwown state")
         }
     }
 
@@ -58,10 +56,12 @@ struct StepView: View {
         switch data.step.type {
         case Step.Type_.theory:
             StepTheoryContentView(
-                viewData: viewModel.makeViewData(data.step)
+                viewData: viewModel.makeViewData(data.step),
+                practiceStatus: data.practiceStatus,
+                onStartPracticingTap: viewModel.doStartPracticing
             )
         case Step.Type_.practice:
-            StepQuizAssembly(step: data.step, stepRoute: viewModel.stepRoute)
+            StepQuizAssembly(step: data.step, stepRoute: data.stepRoute)
                 .makeModule()
                 .environmentObject(PanModalPresenter())
         default:
@@ -70,6 +70,10 @@ struct StepView: View {
     }
 
     private func handleViewAction(_ viewAction: StepFeatureActionViewAction) {
+        switch StepFeatureActionViewActionKs(viewAction) {
+        case .showStartPracticingErrorStatus:
+            ProgressHUD.showError(status: Strings.Step.failedToStartPracticing)
+        }
         print("StepView :: \(#function) viewAction = \(viewAction)")
     }
 }

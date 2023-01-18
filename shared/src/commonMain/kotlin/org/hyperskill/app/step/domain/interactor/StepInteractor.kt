@@ -15,4 +15,10 @@ class StepInteractor(
         kotlin.runCatching {
             return stepRepository.getSteps(stepIds)
         }
+
+    suspend fun completeStep(stepId: Long): Result<Step> =
+        stepRepository.completeStep(stepId)
+
+    suspend fun getNextRecommendedStepByTopicId(topicId: Long): Result<Step> =
+        stepRepository.getNextRecommendedStepByTopicId(topicId)
 }

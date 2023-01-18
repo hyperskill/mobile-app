@@ -2,7 +2,7 @@ import shared
 import SwiftUI
 
 final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage, StepFeatureActionViewAction> {
-    let stepRoute: StepRoute
+    private let stepRoute: StepRoute
 
     private let viewDataMapper: StepViewDataMapper
 
@@ -24,6 +24,10 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
 
     func makeViewData(_ step: Step) -> StepViewData {
         viewDataMapper.mapStepToViewData(step)
+    }
+
+    func doStartPracticing() {
+        onNewMessage(StepFeatureMessageStartPracticingClicked())
     }
 
     // MARK: Analytic

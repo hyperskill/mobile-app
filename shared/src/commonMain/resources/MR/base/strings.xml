@@ -10,6 +10,8 @@
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
     <string name="later">Later</string>
+    <string name="good_job">Good job!</string>
+    <string name="go_to_homescreen">Go to Homescreen</string>
 
     <!-- Users list -->
     <string name="user_list_search_button_title">Search</string>
@@ -45,6 +47,7 @@
     <string name="step_rating_text_part_1">How did you like the</string>
     <string name="step_rating_text_part_2">theory?</string>
     <string name="step_theory_reading_text">%s reading</string>
+    <string name="step_theory_failed_to_start_practicing">Failed to start practicing</string>
     <string name="step_comment_thread_statistics_text">%s (%s)</string>
     <string name="step_comment_thread_type_comment_text">Comments</string>
     <string name="step_comment_thread_type_hint_text">Hint</string>
@@ -66,7 +69,7 @@
     <string name="step_quiz_unsupported_quiz_text">Current quiz type is not supported in mobile app yet</string>
     <string name="step_quiz_problem_of_day_solved_modal_title">Problem of the day solved!</string>
     <string name="step_quiz_problem_of_day_solved_modal_text">Solve another one tomorrow to get more</string>
-    <string name="step_quiz_problem_of_day_solved_modal_go_to_homescreen_button_text">Go to Homescreen</string>
+    <string name="step_quiz_topic_completed_modal_text">You completed %s</string>
 
     <!-- Step quiz hint -->
     <string name="step_quiz_hints_show_button_text">See hint</string>
@@ -235,7 +238,6 @@
 
     <!--  Topics repetitions  -->
     <string name="topics_repetitions_card_title_uncompleted">Repeat what you\'ve learned</string>
-    <string name="topics_repetitions_card_title_completed">Good job!</string>
     <string name="topics_repetitions_card_text_completed">For now, you\'ve repeated all recommended topics</string>
     <string name="topics_repetitions_try_to_recall_text">Try to recall what you\'ve learned by solving one problem for each topic. Return to theory if you experience any difficulties.</string>
     <string name="topics_repetitions_good_job_text">Good job! Keep repeating the topics – it helps you learn better.</string>
