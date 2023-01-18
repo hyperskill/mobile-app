@@ -50,7 +50,7 @@ runs:
     - name: Setup Ruby
       uses: ruby/setup-ruby@v1.118.0
       with:
-        ruby-version: '3.2.0'
+        ruby-version: '3.1.0'
         bundler-cache: true
         working-directory: './iosHyperskillApp'
         
