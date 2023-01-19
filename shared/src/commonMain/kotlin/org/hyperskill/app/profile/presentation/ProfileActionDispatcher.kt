@@ -17,6 +17,7 @@ import org.hyperskill.app.profile.presentation.ProfileFeature.Action
 import org.hyperskill.app.profile.presentation.ProfileFeature.Message
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
+import org.hyperskill.app.streaks.domain.flow.StreakFlow
 import org.hyperskill.app.streaks.domain.interactor.StreaksInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -28,7 +29,8 @@ class ProfileActionDispatcher(
     private val itemsInteractor: ItemsInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
-    private val urlPathProcessor: UrlPathProcessor
+    private val urlPathProcessor: UrlPathProcessor,
+    private val streakFlow: StreakFlow
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
@@ -42,7 +44,7 @@ class ProfileActionDispatcher(
             }
             .launchIn(actionScope)
 
-        profileInteractor.observeStreak()
+        streakFlow.observeStreak()
             .onEach { streak ->
                 onNewMessage(Message.StreakChanged(streak))
             }
@@ -75,7 +77,7 @@ class ProfileActionDispatcher(
 
                 sentryInteractor.finishTransaction(sentryTransaction)
 
-                profileInteractor.notifyStreakChanged(streak)
+                streakFlow.notifyStreakChanged(streak)
 
                 onNewMessage(
                     Message.ProfileLoaded.Success(

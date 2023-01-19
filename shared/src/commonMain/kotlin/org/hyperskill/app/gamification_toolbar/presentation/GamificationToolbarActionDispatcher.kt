@@ -11,6 +11,7 @@ import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarF
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.Message
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.streaks.domain.flow.StreakFlow
 import org.hyperskill.app.streaks.domain.interactor.StreaksInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -19,7 +20,8 @@ class GamificationToolbarActionDispatcher(
     private val profileInteractor: ProfileInteractor,
     private val streaksInteractor: StreaksInteractor,
     private val analyticInteractor: AnalyticInteractor,
-    private val sentryInteractor: SentryInteractor
+    private val sentryInteractor: SentryInteractor,
+    private val streakFlow: StreakFlow
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
@@ -33,7 +35,7 @@ class GamificationToolbarActionDispatcher(
             }
             .launchIn(actionScope)
 
-        profileInteractor.observeStreak()
+        streakFlow.observeStreak()
             .distinctUntilChanged()
             .onEach { streak ->
                 onNewMessage(Message.StreakChanged(streak))
@@ -71,7 +73,7 @@ class GamificationToolbarActionDispatcher(
 
                 sentryInteractor.finishTransaction(sentryTransaction)
 
-                profileInteractor.notifyStreakChanged(streak)
+                streakFlow.notifyStreakChanged(streak)
 
                 onNewMessage(
                     Message.FetchGamificationToolbarDataSuccess(

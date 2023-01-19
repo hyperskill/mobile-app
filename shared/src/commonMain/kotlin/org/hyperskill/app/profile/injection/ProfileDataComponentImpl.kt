@@ -25,7 +25,6 @@ class ProfileDataComponentImpl(private val appGraph: AppGraph) : ProfileDataComp
         get() = ProfileInteractor(
             profileRepository,
             appGraph.profileHypercoinsDataComponent.hypercoinsBalanceMutableSharedFlow,
-            appGraph.profileStreakDataComponent.streakMutableSharedFlow,
             appGraph.submissionDataComponent.submissionRepository
         )
 }

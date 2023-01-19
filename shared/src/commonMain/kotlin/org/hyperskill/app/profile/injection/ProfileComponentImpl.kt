@@ -9,6 +9,7 @@ class ProfileComponentImpl(private val appGraph: AppGraph) : ProfileComponent {
         get() = ProfileFeatureBuilder.build(
             appGraph.buildProfileDataComponent().profileInteractor,
             appGraph.buildStreaksDataComponent().streaksInteractor,
+            appGraph.streakFlowDataComponent.streakFlow,
             appGraph.buildProductsDataComponent().productsInteractor,
             appGraph.buildItemsDataComponent().itemsInteractor,
             appGraph.analyticComponent.analyticInteractor,
