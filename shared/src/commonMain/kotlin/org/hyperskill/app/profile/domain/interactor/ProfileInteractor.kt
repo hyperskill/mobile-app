@@ -6,10 +6,12 @@ import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.repository.ProfileRepository
 import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
+import org.hyperskill.app.streaks.domain.model.Streak
 
 class ProfileInteractor(
     private val profileRepository: ProfileRepository,
     private val hypercoinsBalanceMutableSharedFlow: MutableSharedFlow<Int>,
+    private val streakMutableSharedFlow: MutableSharedFlow<Streak?>,
     submissionRepository: SubmissionRepository
 ) {
     val solvedStepsSharedFlow: SharedFlow<Long> = submissionRepository.solvedStepsMutableSharedFlow
@@ -29,5 +31,12 @@ class ProfileInteractor(
 
     suspend fun notifyHypercoinsBalanceChanged(hypercoinsBalance: Int) {
         hypercoinsBalanceMutableSharedFlow.emit(hypercoinsBalance)
+    }
+
+    fun observeStreak(): SharedFlow<Streak?> =
+        streakMutableSharedFlow
+
+    suspend fun notifyStreakChanged(streak: Streak?) {
+        streakMutableSharedFlow.emit(streak)
     }
 }

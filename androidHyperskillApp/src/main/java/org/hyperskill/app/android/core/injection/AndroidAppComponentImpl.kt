@@ -78,6 +78,8 @@ import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponentImpl
 import org.hyperskill.app.profile.injection.ProfileHypercoinsDataComponent
 import org.hyperskill.app.profile.injection.ProfileHypercoinsDataComponentImpl
+import org.hyperskill.app.profile.injection.ProfileStreakDataComponent
+import org.hyperskill.app.profile.injection.ProfileStreakDataComponentImpl
 import org.hyperskill.app.profile_settings.injection.PlatformProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponentImpl
@@ -153,6 +155,9 @@ class AndroidAppComponentImpl(
 
     override val profileHypercoinsDataComponent: ProfileHypercoinsDataComponent =
         ProfileHypercoinsDataComponentImpl()
+
+    override val profileStreakDataComponent: ProfileStreakDataComponent =
+        ProfileStreakDataComponentImpl()
 
     override val analyticComponent: AnalyticComponent =
         AnalyticComponentImpl(this)

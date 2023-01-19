@@ -1,7 +1,9 @@
 package org.hyperskill.app.gamification_toolbar.presentation
 
 import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
@@ -21,17 +23,22 @@ class GamificationToolbarActionDispatcher(
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
-        actionScope.launch {
-            profileInteractor.solvedStepsSharedFlow.collect {
-                onNewMessage(Message.StepSolved)
-            }
-        }
+        profileInteractor.solvedStepsSharedFlow
+            .onEach { onNewMessage(Message.StepSolved) }
+            .launchIn(actionScope)
 
-        actionScope.launch {
-            profileInteractor.observeHypercoinsBalance().collect {
-                onNewMessage(Message.HypercoinsBalanceChanged(it))
+        profileInteractor.observeHypercoinsBalance()
+            .onEach { hypercoinsBalance ->
+                onNewMessage(Message.HypercoinsBalanceChanged(hypercoinsBalance))
             }
-        }
+            .launchIn(actionScope)
+
+        profileInteractor.observeStreak()
+            .distinctUntilChanged()
+            .onEach { streak ->
+                onNewMessage(Message.StreakChanged(streak))
+            }
+            .launchIn(actionScope)
     }
 
     override suspend fun doSuspendableAction(action: Action) {
@@ -63,6 +70,8 @@ class GamificationToolbarActionDispatcher(
                 }
 
                 sentryInteractor.finishTransaction(sentryTransaction)
+
+                profileInteractor.notifyStreakChanged(streak)
 
                 onNewMessage(
                     Message.FetchGamificationToolbarDataSuccess(

@@ -22,6 +22,7 @@ import org.hyperskill.app.products.injection.ProductsDataComponent
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile.injection.ProfileHypercoinsDataComponent
+import org.hyperskill.app.profile.injection.ProfileStreakDataComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
@@ -49,6 +50,7 @@ interface AppGraph {
     val submissionDataComponent: SubmissionDataComponent
     val topicsRepetitionsDataComponent: TopicsRepetitionsDataComponent
     val profileHypercoinsDataComponent: ProfileHypercoinsDataComponent
+    val profileStreakDataComponent: ProfileStreakDataComponent
 
     fun buildAuthSocialComponent(): AuthSocialComponent
     fun buildAuthCredentialsComponent(): AuthCredentialsComponent
