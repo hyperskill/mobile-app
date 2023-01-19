@@ -4,6 +4,7 @@ import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.main.presentation.AppFeature.Action
 import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.main.presentation.AppFeature.State
+import org.hyperskill.app.profile.domain.model.isNewUser
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 class AppReducer : StateReducer<State, Message, Action> {
