@@ -75,6 +75,8 @@ class ProfileActionDispatcher(
 
                 sentryInteractor.finishTransaction(sentryTransaction)
 
+                profileInteractor.notifyStreakChanged(streak)
+
                 onNewMessage(
                     Message.ProfileLoaded.Success(
                         profile = currentProfile,
