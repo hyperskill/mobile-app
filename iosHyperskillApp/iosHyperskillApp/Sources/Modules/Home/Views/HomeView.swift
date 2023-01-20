@@ -14,7 +14,7 @@ struct HomeView: View {
 
     @StateObject var viewModel: HomeViewModel
 
-    @StateObject var pushRouter: SwiftUIPushRouter
+    @StateObject var pushRouter: SwiftUIStackRouter
 
     var body: some View {
         ZStack {

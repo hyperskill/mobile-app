@@ -10,5 +10,7 @@ data class TopicProgress(
     @SerialName("stage_position")
     val stagePosition: Int? = null,
     @SerialName("repeated_count")
-    val repeatedCount: Int? = null
+    val repeatedCount: Int? = null,
+    @SerialName("is_completed")
+    val isCompleted: Boolean
 )

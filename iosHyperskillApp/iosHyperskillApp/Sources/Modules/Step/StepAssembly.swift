@@ -3,9 +3,11 @@ import SwiftUI
 
 final class StepAssembly: UIKitAssembly {
     private let stepRoute: StepRoute
+    private let moduleOutput: StepOutputProtocol?
 
-    init(stepRoute: StepRoute) {
+    init(stepRoute: StepRoute, moduleOutput: StepOutputProtocol? = nil) {
         self.stepRoute = stepRoute
+        self.moduleOutput = moduleOutput
     }
 
     func makeModule() -> UIViewController {
@@ -14,6 +16,7 @@ final class StepAssembly: UIKitAssembly {
 
         let viewModel = StepViewModel(
             stepRoute: self.stepRoute,
+            moduleOutput: self.moduleOutput,
             viewDataMapper: StepViewDataMapper(
                 formatter: Formatter(resourceProvider: commonComponent.resourceProvider),
                 resourceProvider: commonComponent.resourceProvider,
@@ -22,7 +25,7 @@ final class StepAssembly: UIKitAssembly {
             feature: stepComponent.stepFeature
         )
 
-        let pushRouter = SwiftUIPushRouter()
+        let pushRouter = SwiftUIStackRouter()
         let modalRouter = SwiftUIModalRouter()
         let stepView = StepView(
             viewModel: viewModel,

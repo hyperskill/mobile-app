@@ -11,7 +11,6 @@ interface StepFeature {
         object Error : State
         data class Data(
             val step: Step,
-            val stepRoute: StepRoute,
             val practiceStatus: PracticeStatus
         ) : State
     }
@@ -31,14 +30,17 @@ interface StepFeature {
         sealed interface StepLoaded : Message {
             data class Success(
                 val step: Step,
-                val stepRoute: StepRoute,
                 val practiceStatus: PracticeStatus
             ) : StepLoaded
             object Error : StepLoaded
         }
 
         object StartPracticingClicked : Message
-        object PracticeFetchedError : Message
+
+        sealed interface NextStepQuizFetchedStatus : Message {
+            data class Success(val stepRoute: StepRoute) : NextStepQuizFetchedStatus
+            object Error : NextStepQuizFetchedStatus
+        }
 
         data class ViewedEventMessage(val stepRoute: StepRoute) : Message
     }
@@ -47,9 +49,12 @@ interface StepFeature {
         data class FetchStep(val stepRoute: StepRoute) : Action
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
-        data class FetchPractice(val currentStep: Step) : Action
+        data class FetchNextStepQuiz(val currentStep: Step) : Action
+
         sealed interface ViewAction : Action {
             object ShowStartPracticingErrorStatus : ViewAction
+
+            data class ReloadStep(val stepRoute: StepRoute) : ViewAction
         }
     }
 }

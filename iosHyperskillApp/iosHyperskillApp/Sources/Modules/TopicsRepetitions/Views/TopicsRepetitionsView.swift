@@ -15,7 +15,7 @@ struct TopicsRepetitionsView: View {
 
     @StateObject var viewModel: TopicsRepetitionsViewModel
 
-    @StateObject var pushRouter: SwiftUIPushRouter
+    @StateObject var pushRouter: SwiftUIStackRouter
 
     let dataMapper: TopicsRepetitionsViewDataMapper
 

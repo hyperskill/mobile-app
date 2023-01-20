@@ -30,6 +30,7 @@ final class TopicCompletedModalViewController: PanModalPresentableViewController
         return stackView
     }()
 
+    private let modalText: String
     private let onGoToHomescreenButtonTap: () -> Void
 
     override var shortFormHeight: PanModalHeight {
@@ -40,7 +41,8 @@ final class TopicCompletedModalViewController: PanModalPresentableViewController
 
     override var longFormHeight: PanModalHeight { shortFormHeight }
 
-    init(onGoToHomescreenButtonTap: @escaping () -> Void) {
+    init(modalText: String, onGoToHomescreenButtonTap: @escaping () -> Void) {
+        self.modalText = modalText
         self.onGoToHomescreenButtonTap = onGoToHomescreenButtonTap
 
         super.init()
@@ -116,7 +118,7 @@ final class TopicCompletedModalViewController: PanModalPresentableViewController
         containerStackView.addArrangedSubview(titleLabel)
 
         let textLabel = UILabel()
-        textLabel.text = Strings.StepQuiz.TopicCompletedModal.text
+        textLabel.text = modalText
         textLabel.font = .preferredFont(forTextStyle: .headline)
         textLabel.textColor = .primaryText
         textLabel.lineBreakMode = .byWordWrapping

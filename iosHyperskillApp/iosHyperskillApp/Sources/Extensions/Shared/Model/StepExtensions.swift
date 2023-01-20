@@ -13,6 +13,7 @@ extension Step {
         solvedBy: Int = 0,
         isCompleted: Bool = false,
         isNext: Bool = false,
+        canSkip: Bool = true,
         secondsToComplete: Float? = nil,
         lastCompletedAt: Kotlinx_datetimeInstant = .fromSwiftCurrentDate()
     ) {
@@ -27,6 +28,7 @@ extension Step {
             solvedBy: Int32(solvedBy),
             isCompleted: isCompleted,
             isNext: isNext,
+            canSkip: canSkip,
             secondsToComplete: secondsToComplete != nil ? KotlinFloat(value: secondsToComplete.require()) : nil,
             lastCompletedAt: lastCompletedAt
         )

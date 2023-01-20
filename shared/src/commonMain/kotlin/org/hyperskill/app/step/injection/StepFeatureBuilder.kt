@@ -1,5 +1,6 @@
 package org.hyperskill.app.step.injection
 
+import kotlinx.coroutines.flow.MutableSharedFlow
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
@@ -17,14 +18,16 @@ object StepFeatureBuilder {
     fun build(
         stepInteractor: StepInteractor,
         analyticInteractor: AnalyticInteractor,
-        sentryInteractor: SentryInteractor
+        sentryInteractor: SentryInteractor,
+        failedToLoadNextStepQuizMutableSharedFlow: MutableSharedFlow<Unit>
     ): Feature<State, Message, Action> {
         val stepReducer = StepReducer()
         val stepActionDispatcher = StepActionDispatcher(
             ActionDispatcherOptions(),
             stepInteractor,
             analyticInteractor,
-            sentryInteractor
+            sentryInteractor,
+            failedToLoadNextStepQuizMutableSharedFlow
         )
 
         return ReduxFeature(State.Idle, stepReducer)

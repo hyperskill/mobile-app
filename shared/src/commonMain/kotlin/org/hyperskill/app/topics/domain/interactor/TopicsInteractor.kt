@@ -8,4 +8,12 @@ class TopicsInteractor(
 ) {
     suspend fun getTopics(topicsIds: List<Long>): Result<List<Topic>> =
         topicsRepository.getTopics(topicsIds)
+
+    suspend fun getTopic(topicId: Long): Result<Topic> =
+        kotlin.runCatching {
+            topicsRepository
+                .getTopics(listOf(topicId))
+                .getOrThrow()
+                .first()
+        }
 }

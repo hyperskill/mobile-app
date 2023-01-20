@@ -51,3 +51,9 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
         onNewMessage(TrackFeatureMessageViewedEventMessage())
     }
 }
+
+extension TrackViewModel: StepOutputProtocol {
+    func handleStepReloading(stepRoute: StepRoute) {
+        self.onViewAction?(TrackFeatureActionViewActionReloadStep(stepRoute: stepRoute))
+    }
+}

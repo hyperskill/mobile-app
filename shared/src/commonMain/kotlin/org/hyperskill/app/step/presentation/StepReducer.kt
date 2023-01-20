@@ -1,10 +1,10 @@
 package org.hyperskill.app.step.presentation
 
+import org.hyperskill.app.step.domain.analytic.StepViewedHyperskillAnalyticEvent
 import org.hyperskill.app.step.presentation.StepFeature.Action
 import org.hyperskill.app.step.presentation.StepFeature.Message
-import org.hyperskill.app.step.presentation.StepFeature.State
 import org.hyperskill.app.step.presentation.StepFeature.PracticeStatus
-import org.hyperskill.app.step.domain.analytic.StepViewedHyperskillAnalyticEvent
+import org.hyperskill.app.step.presentation.StepFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 class StepReducer : StateReducer<State, Message, Action> {
@@ -19,7 +19,7 @@ class StepReducer : StateReducer<State, Message, Action> {
                     null
                 }
             is Message.StepLoaded.Success ->
-                State.Data(message.step, message.stepRoute, message.practiceStatus) to emptySet()
+                State.Data(message.step, message.practiceStatus) to emptySet()
             is Message.StepLoaded.Error ->
                 State.Error to emptySet()
             is Message.ViewedEventMessage ->
@@ -33,18 +33,25 @@ class StepReducer : StateReducer<State, Message, Action> {
             is Message.StartPracticingClicked ->
                 if (state is State.Data) {
                     state.copy(practiceStatus = PracticeStatus.LOADING) to setOf(
-                        Action.FetchPractice(state.step)
+                        Action.FetchNextStepQuiz(state.step)
                     )
                 } else {
                     null
                 }
-           is Message.PracticeFetchedError ->
-               if (state is State.Data) {
-                   state.copy(practiceStatus = PracticeStatus.AVAILABLE) to setOf(
-                       Action.ViewAction.ShowStartPracticingErrorStatus
-                   )
-               } else {
-                   null
-               }
+            is Message.NextStepQuizFetchedStatus.Success ->
+                if (state is State.Data) {
+                    state to setOf(Action.ViewAction.ReloadStep(message.stepRoute))
+                } else {
+                    null
+                }
+
+            is Message.NextStepQuizFetchedStatus.Error ->
+                if (state is State.Data) {
+                    state.copy(practiceStatus = PracticeStatus.AVAILABLE) to setOf(
+                        Action.ViewAction.ShowStartPracticingErrorStatus
+                    )
+                } else {
+                    null
+                }
         } ?: (state to emptySet())
 }

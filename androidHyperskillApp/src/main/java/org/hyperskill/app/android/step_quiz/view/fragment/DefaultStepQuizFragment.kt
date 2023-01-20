@@ -147,6 +147,12 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
                     .newInstance(earnedGemsText = action.earnedGemsText)
                     .showIfNotExists(childFragmentManager, CompletedStepOfTheDayDialogFragment.TAG)
             }
+            is StepQuizFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
+                // TODO: implement navigation
+            }
+            is StepQuizFeature.Action.ViewAction.ShowTopicCompletedModal -> {
+                // TODO: implement topic completed modal
+            }
         }
     }
 

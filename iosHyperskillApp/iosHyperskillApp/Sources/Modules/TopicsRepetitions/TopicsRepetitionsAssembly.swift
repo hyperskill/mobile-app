@@ -7,7 +7,7 @@ class TopicsRepetitionsAssembly: UIKitAssembly {
 
         let viewModel = TopicsRepetitionsViewModel(feature: topicsRepetitionsComponent.topicsRepetitionsFeature)
 
-        let pushRouter = SwiftUIPushRouter()
+        let pushRouter = SwiftUIStackRouter()
 
         let topicsRepetitionsView = TopicsRepetitionsView(
             viewModel: viewModel,

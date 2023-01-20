@@ -4,7 +4,7 @@ import SwiftUI
 struct StepView: View {
     @StateObject var viewModel: StepViewModel
 
-    @StateObject var pushRouter: SwiftUIPushRouter
+    @StateObject var pushRouter: SwiftUIStackRouter
 
     @StateObject var modalRouter: SwiftUIModalRouter
 
@@ -61,7 +61,7 @@ struct StepView: View {
                 onStartPracticingTap: viewModel.doStartPracticing
             )
         case Step.Type_.practice:
-            StepQuizAssembly(step: data.step, stepRoute: data.stepRoute)
+            StepQuizAssembly(step: data.step, stepRoute: viewModel.stepRoute)
                 .makeModule()
                 .environmentObject(PanModalPresenter())
         default:
@@ -73,8 +73,9 @@ struct StepView: View {
         switch StepFeatureActionViewActionKs(viewAction) {
         case .showStartPracticingErrorStatus:
             ProgressHUD.showError(status: Strings.Step.failedToStartPracticing)
+        case .reloadStep(let reloadStepViewAction):
+            viewModel.doStepReload(stepRoute: reloadStepViewAction.stepRoute)
         }
-        print("StepView :: \(#function) viewAction = \(viewAction)")
     }
 }
 

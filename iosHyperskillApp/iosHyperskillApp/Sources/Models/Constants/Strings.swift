@@ -104,10 +104,6 @@ enum Strings {
             static let title = sharedStrings.step_quiz_problem_of_day_solved_modal_title.localized()
             static let text = sharedStrings.step_quiz_problem_of_day_solved_modal_text.localized()
         }
-
-        enum TopicCompletedModal {
-            static let text = sharedStrings.step_quiz_topic_completed_modal_text.localized()
-        }
     }
 
     // MARK: - StepQuizChoice -

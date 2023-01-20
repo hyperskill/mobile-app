@@ -12,7 +12,7 @@ final class TrackAssembly: UIKitAssembly {
             feature: trackComponent.trackFeature
         )
 
-        let pushRouter = SwiftUIPushRouter()
+        let pushRouter = SwiftUIStackRouter()
         let trackView = TrackView(viewModel: viewModel, pushRouter: pushRouter)
         let hostingController = UIHostingController(rootView: trackView)
 

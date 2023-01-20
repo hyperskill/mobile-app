@@ -103,6 +103,7 @@ class TrackFragment :
                 requireContext().openUrl(action.url)
             is TrackFeature.Action.ViewAction.ShowGetMagicLinkError ->
                 viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
+            else -> {}
         }
     }
 

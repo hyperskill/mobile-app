@@ -85,6 +85,10 @@ final class StepQuizViewModel: FeatureViewModel<
         onNewMessage(StepQuizFeatureMessageProblemOfDaySolvedModalGoBackClicked())
     }
 
+    func doGoToHomeScreenAction() {
+        onNewMessage(StepQuizFeatureMessageTopicCompletedModalGoToHomeScreenClicked())
+    }
+
     func makeViewData() -> StepQuizViewData {
         viewDataMapper.mapStepDataToViewData(step: step, state: state)
     }
@@ -182,5 +186,11 @@ extension StepQuizViewModel: StepQuizChildQuizOutputProtocol {
 
     func handleChildQuizAnalyticEventMessage(_ message: StepQuizFeatureMessage) {
         onNewMessage(message)
+    }
+}
+
+extension StepQuizViewModel: Equatable {
+    public static func == (lhs: StepQuizViewModel, rhs: StepQuizViewModel) -> Bool {
+        lhs.stateKs == rhs.stateKs
     }
 }

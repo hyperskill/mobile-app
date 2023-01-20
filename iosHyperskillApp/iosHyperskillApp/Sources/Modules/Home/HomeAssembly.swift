@@ -6,7 +6,7 @@ final class HomeAssembly: UIKitAssembly {
 
         let viewModel = HomeViewModel(feature: homeComponent.homeFeature)
 
-        let pushRouter = SwiftUIPushRouter()
+        let pushRouter = SwiftUIStackRouter()
         let homeView = HomeView(viewModel: viewModel, pushRouter: pushRouter)
         let hostingController = UIHostingController(rootView: homeView)
 

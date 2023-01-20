@@ -1,6 +1,5 @@
 package org.hyperskill.app.step_quiz.injection
 
-import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.view.mapper.StepQuizStatsTextMapper
 import org.hyperskill.app.step_quiz.view.mapper.StepQuizTitleMapper
@@ -11,6 +10,5 @@ interface StepQuizComponent {
     val stepQuizStatsTextMapper: StepQuizStatsTextMapper
     val stepQuizTitleMapper: StepQuizTitleMapper
     val stepQuizUserPermissionRequestTextMapper: StepQuizUserPermissionRequestTextMapper
-    val stepQuizInteractor: StepQuizInteractor
     val stepQuizFeature: Feature<StepQuizFeature.State, StepQuizFeature.Message, StepQuizFeature.Action>
 }

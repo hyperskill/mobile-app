@@ -18,7 +18,7 @@ struct TrackView: View {
 
     @StateObject var viewModel: TrackViewModel
 
-    @StateObject var pushRouter: SwiftUIPushRouter
+    @StateObject var pushRouter: SwiftUIStackRouter
 
     var body: some View {
         ZStack {
@@ -130,9 +130,19 @@ struct TrackView: View {
         case .navigateTo(let navigateToViewAction):
             switch TrackFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .stepScreen(let data):
-                let assembly = StepAssembly(stepRoute: StepRouteLearn(stepId: data.stepId))
+                let assembly = StepAssembly(
+                    stepRoute: StepRouteLearn(stepId: data.stepId),
+                    moduleOutput: viewModel
+                )
                 pushRouter.pushViewController(assembly.makeModule())
             }
+        case .reloadStep(let reloadStepViewAction):
+            let assembly = StepAssembly(
+                stepRoute: reloadStepViewAction.stepRoute,
+                moduleOutput: viewModel
+            )
+            pushRouter.popViewController(animated: false)
+            pushRouter.pushViewController(assembly.makeModule(), animated: false)
         }
     }
 }

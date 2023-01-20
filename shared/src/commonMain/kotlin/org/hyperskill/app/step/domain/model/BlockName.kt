@@ -1,5 +1,6 @@
 package org.hyperskill.app.step.domain.model
 
+// TODO: Refactor to enum class
 object BlockName {
     const val CHOICE = "choice"
     const val CODE = "code"
@@ -13,3 +14,5 @@ object BlockName {
     const val TEXT = "text"
     const val VIDEO = "video"
 }
+
+expect val BlockName.supportedBlocksNames: Set<String>

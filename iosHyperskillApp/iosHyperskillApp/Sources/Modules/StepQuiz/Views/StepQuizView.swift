@@ -18,7 +18,7 @@ struct StepQuizView: View {
 
     @EnvironmentObject private var modalRouter: SwiftUIModalRouter
 
-    @EnvironmentObject var pushRouter: SwiftUIPushRouter
+    @EnvironmentObject var pushRouter: SwiftUIStackRouter
 
     @EnvironmentObject var panModalPresenter: PanModalPresenter
 
@@ -210,15 +210,21 @@ struct StepQuizView: View {
                     .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
             }
         } else if submissionStatus == SubmissionStatus.correct {
+            let isContinueButtonLoading = (
+                (state as? StepQuizFeatureStateAttemptLoaded)?.continueButtonAction
+                as? StepQuizFeatureContinueButtonActionFetchNextStepQuiz
+            )?.isLoading ?? false
+
             if StepQuizResolver.shared.isQuizRetriable(step: viewModel.step) {
                 StepQuizActionButtons.retryLogoAndContinue(
                     retryButtonAction: viewModel.doQuizRetryAction,
+                    isContinueButtonLoading: isContinueButtonLoading,
                     continueButtonAction: viewModel.doQuizContinueAction
                 )
                 .disabled(StepQuizResolver.shared.isQuizLoading(state: state))
             } else {
                 StepQuizActionButtons
-                    .continue(action: viewModel.doQuizContinueAction)
+                    .continue(isLoading: isContinueButtonLoading, action: viewModel.doQuizContinueAction)
                     .disabled(StepQuizResolver.shared.isQuizLoading(state: state))
             }
         } else {
@@ -253,10 +259,16 @@ struct StepQuizView: View {
             }
         case .showProblemOfDaySolvedModal(let showProblemOfDaySolvedModalViewAction):
             presentDailyStepCompletedModal(earnedGemsText: showProblemOfDaySolvedModalViewAction.earnedGemsText)
+        case .showTopicCompletedModal(let topicCompletedModalViewAction):
+            presentTopicCompletedModal(modalText: topicCompletedModalViewAction.modalText)
         case .navigateTo(let viewActionNavigateTo):
             switch StepQuizFeatureActionViewActionNavigateToKs(viewActionNavigateTo) {
             case .back:
                 presentationMode.wrappedValue.dismiss()
+            case .homeScreen:
+                panModalPresenter.dismissPanModal()
+                presentationMode.wrappedValue.dismiss()
+                TabBarRouter(tab: .home).route()
             }
         }
     }
@@ -320,7 +332,11 @@ extension StepQuizView {
 
         modalRouter.presentAlert(alert)
     }
+}
 
+// MARK: - StepQuizView (Modals) -
+
+extension StepQuizView {
     private func presentDailyStepCompletedModal(earnedGemsText: String) {
         viewModel.logDailyStepCompletedModalShownEvent()
 
@@ -332,6 +348,19 @@ extension StepQuizView {
         )
 
         panModal.onDisappear = viewModel.logDailyStepCompletedModalHiddenEvent
+
+        panModalPresenter.presentPanModal(panModal)
+    }
+
+    private func presentTopicCompletedModal(modalText: String) {
+        //viewModel.logDailyStepCompletedModalShownEvent()
+
+        let panModal = TopicCompletedModalViewController(
+            modalText: modalText,
+            onGoToHomescreenButtonTap: viewModel.doGoToHomeScreenAction
+        )
+
+        //panModal.onDisappear = viewModel.logDailyStepCompletedModalHiddenEvent
 
         panModalPresenter.presentPanModal(panModal)
     }

@@ -91,10 +91,14 @@ import org.hyperskill.app.step.injection.PlatformStepComponent
 import org.hyperskill.app.step.injection.PlatformStepComponentImpl
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step.injection.StepComponentImpl
+import org.hyperskill.app.step.injection.StepDataComponent
+import org.hyperskill.app.step.injection.StepDataComponentImpl
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponent
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponentImpl
+import org.hyperskill.app.step_quiz.injection.StepQuizDataComponent
+import org.hyperskill.app.step_quiz.injection.StepQuizDataComponentImpl
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponentImpl
 import org.hyperskill.app.step_quiz_hints.injection.PlatformStepQuizHintsComponent
@@ -161,6 +165,12 @@ class AndroidAppComponentImpl(
 
     override val topicsRepetitionsDataComponent: TopicsRepetitionsDataComponent =
         TopicsRepetitionsDataComponentImpl(this)
+
+    override val stepDataComponent: StepDataComponent =
+            StepDataComponentImpl(this)
+
+    override val stepQuizDataComponent: StepQuizDataComponent =
+            StepQuizDataComponentImpl(this)
 
     override fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent =
         PlatformAuthSocialWebViewComponentImpl()

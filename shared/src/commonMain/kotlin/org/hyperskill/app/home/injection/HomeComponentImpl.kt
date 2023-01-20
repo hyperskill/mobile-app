@@ -7,11 +7,7 @@ import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
-import org.hyperskill.app.step.data.repository.StepRepositoryImpl
-import org.hyperskill.app.step.data.source.StepRemoteDataSource
 import org.hyperskill.app.step.domain.interactor.StepInteractor
-import org.hyperskill.app.step.domain.repository.StepRepository
-import org.hyperskill.app.step.remote.StepRemoteDataSourceImpl
 import org.hyperskill.app.streak.data.repository.StreakRepositoryImpl
 import org.hyperskill.app.streak.data.source.StreakRemoteDataSource
 import org.hyperskill.app.streak.domain.interactor.StreakInteractor
@@ -30,11 +26,7 @@ class HomeComponentImpl(private val appGraph: AppGraph) : HomeComponent {
     private val profileInteractor: ProfileInteractor =
         appGraph.buildProfileDataComponent().profileInteractor
 
-    private val stepRemoteDataSource: StepRemoteDataSource = StepRemoteDataSourceImpl(
-        appGraph.networkComponent.authorizedHttpClient
-    )
-    private val stepRepository: StepRepository = StepRepositoryImpl(stepRemoteDataSource)
-    private val stepInteractor: StepInteractor = StepInteractor(stepRepository)
+    private val stepInteractor: StepInteractor = appGraph.stepDataComponent.stepInteractor
     private val homeInteractor: HomeInteractor =
         HomeInteractor(appGraph.submissionDataComponent.submissionRepository)
 

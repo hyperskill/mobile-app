@@ -56,8 +56,12 @@ import org.hyperskill.app.sentry.injection.SentryComponentImpl
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step.injection.StepComponentImpl
+import org.hyperskill.app.step.injection.StepDataComponent
+import org.hyperskill.app.step.injection.StepDataComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponentImpl
+import org.hyperskill.app.step_quiz.injection.StepQuizDataComponent
+import org.hyperskill.app.step_quiz.injection.StepQuizDataComponentImpl
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponentImpl
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
@@ -106,6 +110,12 @@ class AppGraphImpl(
 
     override val topicsRepetitionsDataComponent: TopicsRepetitionsDataComponent =
         TopicsRepetitionsDataComponentImpl(this)
+
+    override val stepDataComponent: StepDataComponent =
+        StepDataComponentImpl(this)
+
+    override val stepQuizDataComponent: StepQuizDataComponent =
+        StepQuizDataComponentImpl(this)
 
     override fun buildAuthSocialComponent(): AuthSocialComponent =
         AuthSocialComponentImpl(

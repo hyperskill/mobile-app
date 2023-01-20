@@ -27,6 +27,8 @@ data class Step(
     val isCompleted: Boolean,
     @SerialName("is_next")
     val isNext: Boolean,
+    @SerialName("can_skip")
+    val canSkip: Boolean,
     @SerialName("seconds_to_complete")
     val secondsToComplete: Float?,
     @SerialName("last_completed_at")

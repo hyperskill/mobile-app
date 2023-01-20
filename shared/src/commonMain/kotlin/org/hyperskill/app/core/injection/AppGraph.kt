@@ -27,7 +27,9 @@ import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.sentry.injection.SentryComponent
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.injection.StepComponent
+import org.hyperskill.app.step.injection.StepDataComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
+import org.hyperskill.app.step_quiz.injection.StepQuizDataComponent
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponent
@@ -47,6 +49,8 @@ interface AppGraph {
     val submissionDataComponent: SubmissionDataComponent
     val topicsRepetitionsDataComponent: TopicsRepetitionsDataComponent
     val profileHypercoinsDataComponent: ProfileHypercoinsDataComponent
+    val stepDataComponent: StepDataComponent
+    val stepQuizDataComponent: StepQuizDataComponent
 
     fun buildAuthSocialComponent(): AuthSocialComponent
     fun buildAuthCredentialsComponent(): AuthCredentialsComponent

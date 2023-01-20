@@ -2,6 +2,7 @@ package org.hyperskill.app.step_quiz.presentation
 
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.supportedBlocksNames
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 
 object StepQuizResolver {
@@ -60,4 +61,7 @@ object StepQuizResolver {
             else ->
                 false
         }
+
+    fun isQuizSupportable(blockName: String): Boolean =
+        BlockName.supportedBlocksNames.contains(blockName)
 }

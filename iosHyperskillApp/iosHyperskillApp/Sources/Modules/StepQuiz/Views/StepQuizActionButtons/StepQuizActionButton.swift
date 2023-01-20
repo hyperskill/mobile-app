@@ -3,6 +3,8 @@ import SwiftUI
 struct StepQuizActionButton: View {
     var state = State.default
 
+    var isLoading = false
+
     var titleForState: ((State) -> String?)?
     var systemImageNameForState: ((State) -> String?)?
 
@@ -17,11 +19,17 @@ struct StepQuizActionButton: View {
 
     var body: some View {
         Button(
-            titleForState?(state) ?? state.title,
-            action: onTap
+            action: onTap,
+            label: {
+                if isLoading {
+                    ProgressView()
+                } else {
+                    Text(titleForState?(state) ?? state.title)
+                }
+            }
         )
         .buttonStyle(RoundedRectangleButtonStyle(style: state.style, overlayImage: overlayImage))
-        .disabled(state == .evaluation)
+        .disabled(state == .evaluation || isLoading)
     }
 
     enum State: CaseIterable {

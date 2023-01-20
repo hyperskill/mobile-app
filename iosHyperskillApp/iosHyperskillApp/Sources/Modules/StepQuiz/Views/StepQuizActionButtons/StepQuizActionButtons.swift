@@ -21,6 +21,7 @@ struct StepQuizActionButtons: View {
             if let continueButton {
                 StepQuizActionButton(
                     state: .correct,
+                    isLoading: continueButton.isLoading,
                     onTap: continueButton.action
                 )
             }
@@ -45,6 +46,7 @@ struct StepQuizActionButtons: View {
     }
 
     struct ContinueButton {
+        let isLoading: Bool
         let action: () -> Void
     }
 
@@ -80,8 +82,8 @@ extension StepQuizActionButtons {
         StepQuizActionButtons(retryButton: .init(style: .roundedRectangle, action: action))
     }
 
-    static func `continue`(action: @escaping () -> Void) -> StepQuizActionButtons {
-        StepQuizActionButtons(continueButton: .init(action: action))
+    static func `continue`(isLoading: Bool, action: @escaping () -> Void) -> StepQuizActionButtons {
+        StepQuizActionButtons(continueButton: .init(isLoading: isLoading, action: action))
     }
 
     static func retryLogoAndSubmit(
@@ -113,11 +115,12 @@ extension StepQuizActionButtons {
 
     static func retryLogoAndContinue(
         retryButtonAction: @escaping () -> Void,
+        isContinueButtonLoading: Bool,
         continueButtonAction: @escaping () -> Void
     ) -> StepQuizActionButtons {
         StepQuizActionButtons(
             retryButton: .init(style: .logoOnly, action: retryButtonAction),
-            continueButton: .init(action: continueButtonAction)
+            continueButton: .init(isLoading: isContinueButtonLoading, action: continueButtonAction)
         )
     }
 }
@@ -133,7 +136,7 @@ struct StepQuizActionButtons_Previews: PreviewProvider {
 
             StepQuizActionButtons.retry {}
 
-            StepQuizActionButtons.continue {}
+            StepQuizActionButtons.continue(isLoading: false) {}
 
             StepQuizActionButtons.retryLogoAndSubmit(
                 retryButtonAction: {},
@@ -147,7 +150,11 @@ struct StepQuizActionButtons_Previews: PreviewProvider {
                 runSolutionButtonAction: {}
             )
 
-            StepQuizActionButtons.retryLogoAndContinue(retryButtonAction: {}, continueButtonAction: {})
+            StepQuizActionButtons.retryLogoAndContinue(
+                retryButtonAction: {},
+                isContinueButtonLoading: false,
+                continueButtonAction: {}
+            )
         }
         .previewLayout(.sizeThatFits)
         .padding()
