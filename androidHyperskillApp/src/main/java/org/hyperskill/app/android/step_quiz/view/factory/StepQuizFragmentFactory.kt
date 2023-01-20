@@ -43,5 +43,4 @@ object StepQuizFragmentFactory {
         } else {
             UnsupportedStepQuizFragment.newInstance()
         }
-
 }
