@@ -82,14 +82,13 @@ interface StepQuizFeature {
          * Show problem of day solve modal
          */
 
-        data class ShowProblemOfDaySolvedModal(val gemsCount: Int) : Message
+        data class ShowProblemOfDaySolvedModal(val earnedGemsText: String) : Message
 
         object ProblemOfDaySolvedModalGoBackClicked : Message
 
         /**
          * Analytic
          */
-        data class ViewedEventMessage(val stepId: Long) : Message
         object ClickedCodeDetailsEventMessage : Message
         object ClickedRetryEventMessage : Message
         object DailyStepCompletedModalShownEventMessage : Message
@@ -116,7 +115,6 @@ interface StepQuizFeature {
         /**
          * Analytic
          */
-        data class LogViewedEvent(val stepId: Long) : Action
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
         sealed interface ViewAction : Action {
@@ -124,7 +122,7 @@ interface StepQuizFeature {
 
             data class RequestUserPermission(val userPermissionRequest: StepQuizUserPermissionRequest) : ViewAction
 
-            data class ShowProblemOfDaySolvedModal(val gemsCount: Int) : ViewAction
+            data class ShowProblemOfDaySolvedModal(val earnedGemsText: String) : ViewAction
 
             sealed interface NavigateTo : ViewAction {
                 object Back : NavigateTo

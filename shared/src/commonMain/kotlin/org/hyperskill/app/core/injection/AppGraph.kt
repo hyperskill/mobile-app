@@ -5,7 +5,9 @@ import org.hyperskill.app.auth.injection.AuthComponent
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.comments.injection.CommentsDataComponent
+import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
+import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.items.injection.ItemsDataComponent
 import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponent
@@ -24,10 +26,12 @@ import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.sentry.injection.SentryComponent
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
+import org.hyperskill.app.streaks.injection.StreaksDataComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponent
@@ -49,7 +53,7 @@ interface AppGraph {
     fun buildAuthSocialComponent(): AuthSocialComponent
     fun buildAuthCredentialsComponent(): AuthCredentialsComponent
     fun buildStepComponent(): StepComponent
-    fun buildStepQuizComponent(): StepQuizComponent
+    fun buildStepQuizComponent(stepRoute: StepRoute): StepQuizComponent
     fun buildProfileDataComponent(): ProfileDataComponent
     fun buildTrackComponent(): TrackComponent
     fun buildTrackDataComponent(): TrackDataComponent
@@ -62,6 +66,7 @@ interface AppGraph {
     fun buildUserStorageComponent(): UserStorageComponent
     fun buildCommentsDataComponent(): CommentsDataComponent
     fun buildStepQuizHintsComponent(): StepQuizHintsComponent
+    fun buildStreaksDataComponent(): StreaksDataComponent
     fun buildMagicLinksDataComponent(): MagicLinksDataComponent
     fun buildDiscussionsDataComponent(): DiscussionsDataComponent
     fun buildReactionsDataComponent(): ReactionsDataComponent
@@ -72,4 +77,6 @@ interface AppGraph {
     fun buildProgressesDataComponent(): ProgressesDataComponent
     fun buildProductsDataComponent(): ProductsDataComponent
     fun buildItemsDataComponent(): ItemsDataComponent
+    fun buildDebugComponent(): DebugComponent
+    fun buildGamificationToolbarComponent(): GamificationToolbarComponent
 }

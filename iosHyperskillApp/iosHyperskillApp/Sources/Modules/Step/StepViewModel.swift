@@ -2,14 +2,14 @@ import shared
 import SwiftUI
 
 final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage, StepFeatureActionViewAction> {
-    private let stepID: Int
+    let stepRoute: StepRoute
 
     private let viewDataMapper: StepViewDataMapper
 
     var stateKs: StepFeatureStateKs { .init(state) }
 
-    init(stepID: Int, viewDataMapper: StepViewDataMapper, feature: Presentation_reduxFeature) {
-        self.stepID = stepID
+    init(stepRoute: StepRoute, viewDataMapper: StepViewDataMapper, feature: Presentation_reduxFeature) {
+        self.stepRoute = stepRoute
         self.viewDataMapper = viewDataMapper
         super.init(feature: feature)
     }
@@ -19,7 +19,7 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
     }
 
     func loadStep(forceUpdate: Bool = false) {
-        onNewMessage(StepFeatureMessageInitialize(stepId: Int64(stepID), forceUpdate: forceUpdate))
+        onNewMessage(StepFeatureMessageInitialize(stepRoute: stepRoute, forceUpdate: forceUpdate))
     }
 
     func makeViewData(_ step: Step) -> StepViewData {
@@ -28,7 +28,7 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
 
     // MARK: Analytic
 
-    func logClickedBackEvent() {
-        onNewMessage(StepFeatureMessageClickedBackEventMessage(stepId: Int64(stepID)))
+    func logViewedEvent() {
+        onNewMessage(StepFeatureMessageViewedEventMessage(stepRoute: stepRoute))
     }
 }

@@ -7,11 +7,7 @@ protocol HTMLToAttributedStringConverterProtocol {
 }
 
 final class HTMLToAttributedStringConverter: HTMLToAttributedStringConverterProtocol {
-    static let defaultTagTransformers: [TagTransformer] = [
-        TagTransformer.brTransformer,
-        TagTransformer(tagName: "p", tagType: .start, replaceValue: "\n"),
-        TagTransformer(tagName: "p", tagType: .end, replaceValue: "\n")
-    ]
+    static let defaultTagTransformers: [TagTransformer] = [.brTransformer]
 
     static let defaultLinkStyle = Style("a")
         .foregroundColor(
@@ -41,7 +37,7 @@ final class HTMLToAttributedStringConverter: HTMLToAttributedStringConverterProt
     init(
         font: UIFont,
         tagStyles: [Style] = [],
-        tagTransformers: [TagTransformer] = []
+        tagTransformers: [TagTransformer] = defaultTagTransformers
     ) {
         let defaultStyles = Self.defaultTagStyles(fontSize: font.pointSize)
         let finalStyles = tagStyles.isEmpty

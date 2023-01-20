@@ -9,3 +9,7 @@ android:
 
 ci/cd:
   - .github/workflows/**
+  - .github/actions/**
+  - .github/dependabot.yml
+  - .github/filters.yaml
+  - .github/labeler.yml

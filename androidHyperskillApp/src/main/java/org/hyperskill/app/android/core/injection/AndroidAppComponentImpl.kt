@@ -6,10 +6,13 @@ import org.hyperskill.app.analytic.injection.AnalyticComponent
 import org.hyperskill.app.analytic.injection.AnalyticComponentImpl
 import org.hyperskill.app.android.code.injection.PlatformCodeEditorComponent
 import org.hyperskill.app.android.code.injection.PlatformCodeEditorComponentImpl
+import org.hyperskill.app.android.image_loading.injection.ImageLoadingComponent
+import org.hyperskill.app.android.image_loading.injection.ImageLoadingComponentImpl
 import org.hyperskill.app.android.latex.injection.PlatformLatexComponent
 import org.hyperskill.app.android.latex.injection.PlatformLatexComponentImpl
 import org.hyperskill.app.android.notification.injection.PlatformNotificationComponent
 import org.hyperskill.app.android.notification.injection.PlatformNotificationComponentImpl
+import org.hyperskill.app.android.sentry.domain.model.manager.SentryManagerImpl
 import org.hyperskill.app.auth.injection.AuthComponent
 import org.hyperskill.app.auth.injection.AuthComponentImpl
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
@@ -28,8 +31,14 @@ import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.injection.CommonComponent
 import org.hyperskill.app.core.injection.CommonComponentImpl
 import org.hyperskill.app.core.remote.UserAgentInfo
+import org.hyperskill.app.debug.injection.DebugComponent
+import org.hyperskill.app.debug.injection.DebugComponentImpl
+import org.hyperskill.app.debug.injection.PlatformDebugComponent
+import org.hyperskill.app.debug.injection.PlatformDebugComponentImpl
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponentImpl
+import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
+import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponentImpl
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.HomeComponentImpl
 import org.hyperskill.app.home.injection.PlatformHomeComponent
@@ -76,10 +85,10 @@ import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponentImpl
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
-import org.hyperskill.app.sentry.domain.model.manager.SentryManager
 import org.hyperskill.app.sentry.injection.SentryComponent
 import org.hyperskill.app.sentry.injection.SentryComponentImpl
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.injection.PlatformStepComponent
 import org.hyperskill.app.step.injection.PlatformStepComponentImpl
 import org.hyperskill.app.step.injection.StepComponent
@@ -94,6 +103,8 @@ import org.hyperskill.app.step_quiz_hints.injection.PlatformStepQuizHintsCompone
 import org.hyperskill.app.step_quiz_hints.injection.PlatformStepQuizHintsComponentImpl
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponentImpl
+import org.hyperskill.app.streaks.injection.StreaksDataComponent
+import org.hyperskill.app.streaks.injection.StreaksDataComponentImpl
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.PlatformTopicsRepetitionComponent
@@ -102,32 +113,34 @@ import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponen
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponentImpl
-import org.hyperskill.app.track.injection.TrackDataComponentImpl
-import org.hyperskill.app.track.injection.TrackDataComponent
-import org.hyperskill.app.track.injection.TrackComponent
-import org.hyperskill.app.track.injection.TrackComponentImpl
 import org.hyperskill.app.track.injection.PlatformTrackComponent
 import org.hyperskill.app.track.injection.PlatformTrackComponentImpl
+import org.hyperskill.app.track.injection.TrackComponent
+import org.hyperskill.app.track.injection.TrackComponentImpl
+import org.hyperskill.app.track.injection.TrackDataComponent
+import org.hyperskill.app.track.injection.TrackDataComponentImpl
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
 
 class AndroidAppComponentImpl(
     private val application: Application,
     userAgentInfo: UserAgentInfo,
-    buildVariant: BuildVariant,
-    sentryManager: SentryManager
+    buildVariant: BuildVariant
 ) : AndroidAppComponent {
     override val context: Context
         get() = application
 
     override val commonComponent: CommonComponent =
-        CommonComponentImpl(application, userAgentInfo, buildVariant)
+        CommonComponentImpl(application, buildVariant, userAgentInfo)
 
     override val mainComponent: MainComponent =
         MainComponentImpl(this)
 
     override val platformMainComponent: PlatformMainComponent =
         PlatformMainComponentImpl(mainComponent)
+
+    override val imageLoadingComponent: ImageLoadingComponent =
+        ImageLoadingComponentImpl(context)
 
     override val networkComponent: NetworkComponent =
         NetworkComponentImpl(this)
@@ -145,7 +158,7 @@ class AndroidAppComponentImpl(
         AnalyticComponentImpl(this)
 
     override val sentryComponent: SentryComponent =
-        SentryComponentImpl(sentryManager)
+        SentryComponentImpl(SentryManagerImpl(commonComponent.buildKonfig))
 
     override val platformNotificationComponent: PlatformNotificationComponent =
         PlatformNotificationComponentImpl(application, this)
@@ -199,8 +212,8 @@ class AndroidAppComponentImpl(
     /**
      * Step quiz component
      */
-    override fun buildStepQuizComponent(): StepQuizComponent =
-        StepQuizComponentImpl(this)
+    override fun buildStepQuizComponent(stepRoute: StepRoute): StepQuizComponent =
+        StepQuizComponentImpl(this, stepRoute)
 
     override fun buildPlatformStepQuizComponent(stepQuizComponent: StepQuizComponent): PlatformStepQuizComponent =
         PlatformStepQuizComponentImpl(stepQuizComponent)
@@ -209,7 +222,7 @@ class AndroidAppComponentImpl(
      * Latex component
      */
     override fun buildPlatformLatexComponent(): PlatformLatexComponent =
-        PlatformLatexComponentImpl(application)
+        PlatformLatexComponentImpl(application, networkComponent.endpointConfigInfo)
 
     /**
      * CodeEditor component
@@ -301,6 +314,15 @@ class AndroidAppComponentImpl(
     override fun buildPlatformStepQuizHintsComponent(step: Step): PlatformStepQuizHintsComponent =
         PlatformStepQuizHintsComponentImpl(this, step)
 
+    /**
+     * Debug component
+     * */
+    override fun buildPlatformDebugComponent(debugComponent: DebugComponent): PlatformDebugComponent =
+        PlatformDebugComponentImpl(debugComponent)
+
+    override fun buildDebugComponent(): DebugComponent =
+        DebugComponentImpl(this)
+
     override fun buildUserStorageComponent(): UserStorageComponent =
         UserStorageComponentImpl(this)
 
@@ -333,4 +355,10 @@ class AndroidAppComponentImpl(
 
     override fun buildItemsDataComponent(): ItemsDataComponent =
         ItemsDataComponentImpl(this)
+
+    override fun buildStreaksDataComponent(): StreaksDataComponent =
+        StreaksDataComponentImpl(this)
+
+    override fun buildGamificationToolbarComponent(): GamificationToolbarComponent =
+        GamificationToolbarComponentImpl(this)
 }

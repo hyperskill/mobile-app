@@ -2,6 +2,7 @@ package org.hyperskill.app.android.notification
 
 import android.content.Context
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
@@ -46,7 +47,8 @@ class DailyStudyReminderNotificationDelegate(
                 NotificationCompat.BigTextStyle()
                     .bigText(notificationDescription.text)
             )
-            .setSmallIcon(R.drawable.ic_branded_logo_splash)
+            .setSmallIcon(R.drawable.ic_notifiaction_small)
+            .setColor(ContextCompat.getColor(context, org.hyperskill.app.R.color.color_primary))
             .setContentIntent(pendingIntent)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
 

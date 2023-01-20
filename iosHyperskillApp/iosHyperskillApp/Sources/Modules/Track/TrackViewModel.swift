@@ -4,7 +4,8 @@ import SwiftUI
 final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMessage, TrackFeatureActionViewAction> {
     private let viewDataMapper: TrackViewDataMapper
 
-    var stateKs: TrackFeatureStateKs { .init(state) }
+    var trackStateKs: TrackFeatureTrackStateKs { .init(state.trackState) }
+    var gamificationToolbarStateKs: GamificationToolbarFeatureStateKs { .init(state.toolbarState) }
 
     init(viewDataMapper: TrackViewDataMapper, feature: Presentation_reduxFeature) {
         self.viewDataMapper = viewDataMapper
@@ -12,7 +13,7 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
     }
 
     override func shouldNotifyStateDidChange(oldState: TrackFeatureState, newState: TrackFeatureState) -> Bool {
-        TrackFeatureStateKs(oldState) != TrackFeatureStateKs(newState)
+        !oldState.isEqual(newState)
     }
 
     func doLoadTrack(forceUpdate: Bool = false) {
@@ -29,6 +30,22 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
 
     func doStudyPlanInWebPresentation() {
         onNewMessage(TrackFeatureMessageClickedContinueInWeb())
+    }
+
+    func doStreakBarButtonItemAction() {
+        onNewMessage(
+            TrackFeatureMessageGamificationToolbarMessage(
+                message: GamificationToolbarFeatureMessageClickedStreak(screen: GamificationToolbarScreen.track)
+            )
+        )
+    }
+
+    func doGemsBarButtonItemAction() {
+        onNewMessage(
+            TrackFeatureMessageGamificationToolbarMessage(
+                message: GamificationToolbarFeatureMessageClickedGems(screen: GamificationToolbarScreen.track)
+            )
+        )
     }
 
     func makeViewData(

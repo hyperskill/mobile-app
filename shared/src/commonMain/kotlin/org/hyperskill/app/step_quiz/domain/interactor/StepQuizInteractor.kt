@@ -1,5 +1,6 @@
 package org.hyperskill.app.step_quiz.domain.interactor
 
+import kotlinx.coroutines.delay
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.attempts.AttemptStatus
@@ -8,11 +9,16 @@ import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.domain.repository.AttemptRepository
 import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
+import kotlin.time.Duration.Companion.seconds
 
 class StepQuizInteractor(
     private val attemptRepository: AttemptRepository,
     private val submissionRepository: SubmissionRepository
 ) {
+    companion object {
+        private val POLL_SUBMISSION_INTERVAL = 1.seconds
+    }
+
     suspend fun getAttempt(stepId: Long, userId: Long): Result<Attempt> =
         kotlin.runCatching {
             val activeAttempt = attemptRepository
@@ -46,28 +52,31 @@ class StepQuizInteractor(
                 .createSubmission(attemptId, reply, solvingContext)
                 .getOrThrow()
 
-            val pollSub = pollSubmission(submission.id)
-            if (pollSub.getOrNull()?.status == SubmissionStatus.CORRECT) {
+            val evaluatedSubmission = if (submission.status == SubmissionStatus.EVALUATION) {
+                pollSubmission(submission.id)
+            } else {
+                submission
+            }
+
+            if (evaluatedSubmission.status == SubmissionStatus.CORRECT) {
                 submissionRepository.notifyStepSolved(stepId)
             }
 
-            return pollSub
+            return Result.success(evaluatedSubmission)
         }
 
-    private suspend fun pollSubmission(submissionId: Long): Result<Submission> {
-        while (true) {
-            // delay(1000) TODO ALTAPPS-88 freezes indefinitely
+    private suspend fun pollSubmission(submissionId: Long, retryCount: Int = 1): Submission {
+        delay(POLL_SUBMISSION_INTERVAL * retryCount)
 
-            val submission = submissionRepository
-                .getSubmissions(listOf(submissionId))
-                .getOrThrow()
-                .first()
+        val submission = submissionRepository
+            .getSubmissions(listOf(submissionId))
+            .getOrThrow()
+            .first()
 
-            if (submission.status == SubmissionStatus.EVALUATION) {
-                continue
-            } else {
-                return Result.success(submission)
-            }
+        return if (submission.status == SubmissionStatus.EVALUATION) {
+            pollSubmission(submissionId = submissionId, retryCount = retryCount + 1)
+        } else {
+            submission
         }
     }
 }

@@ -31,6 +31,13 @@ struct HomeView: View {
         }
         .navigationTitle(Strings.Home.title)
         .navigationViewStyle(StackNavigationViewStyle())
+        .toolbar {
+            GamificationToolbarContent(
+                stateKs: viewModel.gamificationToolbarStateKs,
+                onGemsTap: viewModel.doGemsBarButtonItemAction,
+                onStreakTap: viewModel.doStreakBarButtonItemAction
+            )
+        }
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
@@ -42,7 +49,7 @@ struct HomeView: View {
 
     @ViewBuilder
     private func buildBody() -> some View {
-        switch viewModel.stateKs {
+        switch viewModel.homeStateKs {
         case .idle:
             HomeSkeletonView()
                 .onAppear {
@@ -94,7 +101,10 @@ struct HomeView: View {
                     #if BETA_PROFILE || DEBUG
                     HomeDebugStepNavigationView(
                         onOpenStepTapped: { stepID in
-                            pushRouter.pushViewController(StepAssembly(stepID: stepID).makeModule())
+                            let assembly = StepAssembly(
+                                stepRoute: StepRouteLearn(stepId: Int64(stepID))
+                            )
+                            pushRouter.pushViewController(assembly.makeModule())
                         }
                     )
                     #endif
@@ -102,28 +112,13 @@ struct HomeView: View {
                 .padding()
                 .pullToRefresh(
                     isShowing: Binding(
-                        get: { data.isRefreshing },
+                        get: { viewModel.state.isRefreshing },
                         set: { _ in }
                     ),
                     onRefresh: viewModel.doPullToRefresh
                 )
             }
             .frame(maxWidth: .infinity)
-            .toolbar {
-                ToolbarItemGroup(placement: .primaryAction) {
-                    if let streak = data.streak {
-                        StreakBarButtonItem(
-                            currentStreak: Int(streak.currentStreak),
-                            onTap: viewModel.doStreakBarButtonItemAction
-                        )
-                    }
-
-                    GemsBarButtonItem(
-                        hypercoinsBalance: Int(data.hypercoinsBalance),
-                        onTap: viewModel.doGemsBarButtonItemAction
-                    )
-                }
-            }
         }
     }
 
@@ -132,19 +127,22 @@ struct HomeView: View {
         case .navigateTo(let navigateToViewAction):
             switch HomeFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .stepScreen(let data):
-                let assembly = StepAssembly(stepID: Int(data.stepId))
+                let assembly = StepAssembly(stepRoute: data.stepRoute)
                 pushRouter.pushViewController(assembly.makeModule())
             case .topicsRepetitionsScreen:
                 let assembly = TopicsRepetitionsAssembly()
                 pushRouter.pushViewController(assembly.makeModule())
-            case .profileTab:
-                TabBarRouter(tab: .profile).route()
             }
         case .openUrl(let data):
             ProgressHUD.showSuccess()
             WebControllerManager.shared.presentWebControllerWithURLString(data.url)
         case .showGetMagicLinkError:
             ProgressHUD.showError()
+        case .gamificationToolbarViewAction(let gamificationToolbarViewAction):
+            switch GamificationToolbarFeatureActionViewActionKs(gamificationToolbarViewAction.viewAction) {
+            case .showProfileTab:
+                TabBarRouter(tab: .profile).route()
+            }
         }
     }
 }

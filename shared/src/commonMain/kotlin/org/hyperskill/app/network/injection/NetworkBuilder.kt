@@ -34,24 +34,38 @@ import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.network.domain.model.NetworkClientType
+import org.hyperskill.app.network.domain.model.NetworkEndpointConfigInfo
 
 object NetworkBuilder {
     private const val AUTHORIZATION_HEADER = "Authorization"
 
+    internal fun buildEndpointConfigInfo(buildKonfig: BuildKonfig): NetworkEndpointConfigInfo =
+        NetworkEndpointConfigInfo(
+            baseUrl = buildKonfig.baseUrl,
+            host = buildKonfig.host,
+            oauthClientId = buildKonfig.oauthClientId,
+            oauthClientSecret = buildKonfig.oauthClientSecret,
+            redirectUri = buildKonfig.redirectUri,
+            credentialsClientId = buildKonfig.credentialsClientId,
+            credentialsClientSecret = buildKonfig.credentialsClientSecret
+        )
+
     internal fun buildAuthClient(
         networkClientType: NetworkClientType,
+        networkEndpointConfigInfo: NetworkEndpointConfigInfo,
         userAgentInfo: UserAgentInfo,
         json: Json,
         buildVariant: BuildVariant
     ): HttpClient {
         val (clientId, clientSecret) = when (networkClientType) {
             NetworkClientType.SOCIAL ->
-                BuildKonfig.OAUTH_CLIENT_ID to BuildKonfig.OAUTH_CLIENT_SECRET
+                networkEndpointConfigInfo.oauthClientId to networkEndpointConfigInfo.oauthClientSecret
             NetworkClientType.CREDENTIALS ->
-                BuildKonfig.CREDENTIALS_CLIEND_ID to BuildKonfig.CREDENTIALS_CLIENT_SECRET
+                networkEndpointConfigInfo.credentialsClientId to networkEndpointConfigInfo.credentialsClientSecret
         }
 
         return provideClientFromBasicAuthCredentials(
+            networkEndpointConfigInfo,
             userAgentInfo,
             json,
             buildVariant,
@@ -60,6 +74,7 @@ object NetworkBuilder {
     }
 
     internal fun buildAuthorizedClient(
+        networkEndpointConfigInfo: NetworkEndpointConfigInfo,
         userAgentInfo: UserAgentInfo,
         json: Json,
         settings: Settings,
@@ -71,6 +86,7 @@ object NetworkBuilder {
         HttpClient {
             val tokenSocialAuthClient = buildAuthClient(
                 NetworkClientType.SOCIAL,
+                networkEndpointConfigInfo,
                 userAgentInfo,
                 json,
                 buildVariant
@@ -78,6 +94,7 @@ object NetworkBuilder {
 
             val tokenCredentialsAuthClient = buildAuthClient(
                 NetworkClientType.CREDENTIALS,
+                networkEndpointConfigInfo,
                 userAgentInfo,
                 json,
                 buildVariant
@@ -86,12 +103,13 @@ object NetworkBuilder {
             defaultRequest {
                 url {
                     protocol = URLProtocol.HTTPS
-                    host = BuildKonfig.HOST
+                    host = networkEndpointConfigInfo.host
                 }
             }
             install(HttpCookiesPlugin) {
                 storage = cookiesStorage
                 shouldSendCookiesForRequest = false
+                this.networkEndpointConfigInfo = networkEndpointConfigInfo
             }
             install(ContentNegotiation) {
                 json(json)
@@ -165,6 +183,7 @@ object NetworkBuilder {
         }
 
     internal fun buildFrontendEventsUnauthorizedClient(
+        networkEndpointConfigInfo: NetworkEndpointConfigInfo,
         userAgentInfo: UserAgentInfo,
         json: Json,
         buildVariant: BuildVariant,
@@ -174,12 +193,13 @@ object NetworkBuilder {
             defaultRequest {
                 url {
                     protocol = URLProtocol.HTTPS
-                    host = BuildKonfig.HOST
+                    host = networkEndpointConfigInfo.host
                 }
             }
             install(HttpCookiesPlugin) {
                 storage = cookiesStorage
                 shouldSendCookiesForRequest = true
+                this.networkEndpointConfigInfo = networkEndpointConfigInfo
             }
             install(ContentNegotiation) {
                 json(json)
@@ -196,6 +216,7 @@ object NetworkBuilder {
         }
 
     private fun provideClientFromBasicAuthCredentials(
+        networkEndpointConfigInfo: NetworkEndpointConfigInfo,
         userAgentInfo: UserAgentInfo,
         json: Json,
         buildVariant: BuildVariant,
@@ -208,7 +229,7 @@ object NetworkBuilder {
                 }
                 url {
                     protocol = URLProtocol.HTTPS
-                    host = BuildKonfig.HOST
+                    host = networkEndpointConfigInfo.host
                 }
             }
             install(ContentNegotiation) {

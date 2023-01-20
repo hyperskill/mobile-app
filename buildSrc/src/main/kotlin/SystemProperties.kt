@@ -9,4 +9,7 @@ object SystemProperties {
 
     fun isGitCryptUnlocked(): Boolean =
         System.getenv("IS_GIT_CRYPT_UNLOCKED")?.toBoolean() ?: false
+
+    fun isDebugControlsEnabled(): Boolean? =
+        System.getenv("HYPERSKILL_IS_DEBUG_CONTROLS_ENABLED")?.toBoolean()
 }

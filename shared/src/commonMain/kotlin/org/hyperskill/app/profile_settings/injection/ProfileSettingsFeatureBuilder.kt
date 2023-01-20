@@ -6,6 +6,7 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.remote.UserAgentInfo
+import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.profile_settings.domain.interactor.ProfileSettingsInteractor
@@ -26,6 +27,7 @@ object ProfileSettingsFeatureBuilder {
         authorizationFlow: MutableSharedFlow<UserDeauthorized>,
         platform: Platform,
         userAgentInfo: UserAgentInfo,
+        resourceProvider: ResourceProvider,
         urlPathProcessor: UrlPathProcessor
     ): Feature<State, Message, Action> {
         val profileSettingsReducer = ProfileSettingsReducer()
@@ -37,6 +39,7 @@ object ProfileSettingsFeatureBuilder {
             authorizationFlow,
             platform,
             userAgentInfo,
+            resourceProvider,
             urlPathProcessor
         )
 

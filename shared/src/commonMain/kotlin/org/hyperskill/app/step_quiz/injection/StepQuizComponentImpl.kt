@@ -2,6 +2,7 @@ package org.hyperskill.app.step_quiz.injection
 
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.data.repository.AttemptRepositoryImpl
 import org.hyperskill.app.step_quiz.data.source.AttemptRemoteDataSource
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
@@ -18,7 +19,10 @@ import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
-class StepQuizComponentImpl(private val appGraph: AppGraph) : StepQuizComponent {
+class StepQuizComponentImpl(
+    private val appGraph: AppGraph,
+    private val stepRoute: StepRoute
+) : StepQuizComponent {
     private val attemptRemoteDataSource: AttemptRemoteDataSource = AttemptRemoteDataSourceImpl(
         appGraph.networkComponent.authorizedHttpClient
     )
@@ -45,7 +49,7 @@ class StepQuizComponentImpl(private val appGraph: AppGraph) : StepQuizComponent 
 
     override val stepQuizFeature: Feature<StepQuizFeature.State, StepQuizFeature.Message, StepQuizFeature.Action>
         get() {
-            val stepQuizReducer = StepQuizReducer()
+            val stepQuizReducer = StepQuizReducer(stepRoute)
             val stepQuizActionDispatcher = StepQuizActionDispatcher(
                 ActionDispatcherOptions(),
                 stepQuizInteractor,
@@ -53,7 +57,8 @@ class StepQuizComponentImpl(private val appGraph: AppGraph) : StepQuizComponent 
                 appGraph.buildProfileDataComponent().profileInteractor,
                 appGraph.buildNotificationComponent().notificationInteractor,
                 appGraph.analyticComponent.analyticInteractor,
-                appGraph.sentryComponent.sentryInteractor
+                appGraph.sentryComponent.sentryInteractor,
+                appGraph.commonComponent.resourceProvider
             )
 
             return ReduxFeature(StepQuizFeature.State.Idle, stepQuizReducer)

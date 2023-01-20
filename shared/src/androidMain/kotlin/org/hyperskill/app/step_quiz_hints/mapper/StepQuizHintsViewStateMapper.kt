@@ -15,24 +15,28 @@ object StepQuizHintsViewStateMapper {
                 }
             }
             is StepQuizHintsFeature.State.Content -> {
-                val hint = state.currentHint
-                if (hint == null) {
-                    StepQuizHintsViewState.Content.SeeHintButton
-                } else {
-                    StepQuizHintsViewState.Content.HintCard(
-                        hintText = hint.text,
-                        authorAvatar = hint.user.avatar,
-                        authorName = hint.user.fullName,
-                        hintState = when {
-                            !state.hintHasReaction -> {
-                                StepQuizHintsViewState.HintState.ReactToHint
+                when {
+                    state.currentHint != null -> {
+                        val hint = state.currentHint
+                        StepQuizHintsViewState.Content.HintCard(
+                            hintText = hint.text,
+                            authorAvatar = hint.user.avatar,
+                            authorName = hint.user.fullName,
+                            hintState = when {
+                                !state.hintHasReaction -> {
+                                    StepQuizHintsViewState.HintState.ReactToHint
+                                }
+                                state.hintHasReaction && state.hintsIds.isNotEmpty() -> {
+                                    StepQuizHintsViewState.HintState.SeeNextHint
+                                }
+                                else -> StepQuizHintsViewState.HintState.LastHint
                             }
-                            state.hintHasReaction && state.hintsIds.isNotEmpty() -> {
-                                StepQuizHintsViewState.HintState.SeeNextHint
-                            }
-                            else -> StepQuizHintsViewState.HintState.LastHint
-                        }
-                    )
+                        )
+                    }
+                    state.hintsIds.isNotEmpty() -> {
+                        StepQuizHintsViewState.Content.SeeHintButton
+                    }
+                    else -> StepQuizHintsViewState.Idle
                 }
             }
             is StepQuizHintsFeature.State.NetworkError -> StepQuizHintsViewState.Error

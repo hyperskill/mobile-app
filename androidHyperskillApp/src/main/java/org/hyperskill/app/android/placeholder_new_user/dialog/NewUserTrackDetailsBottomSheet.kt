@@ -9,13 +9,13 @@ import android.view.ViewGroup
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.fragment.app.viewModels
 import coil.ImageLoader
-import coil.decode.SvgDecoder
 import coil.load
 import com.chrynan.parcelable.core.getParcelable
 import com.chrynan.parcelable.core.putParcelable
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentNewUserTrackDetailsBinding
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature
@@ -41,12 +41,8 @@ class NewUserTrackDetailsBottomSheet : BottomSheetDialogFragment() {
 
     private var track: PlaceholderNewUserViewData.Track? = null
 
-    private val svgImageLoader by lazy(LazyThreadSafetyMode.NONE) {
-        ImageLoader.Builder(requireContext())
-            .components {
-                add(SvgDecoder.Factory())
-            }
-            .build()
+    private val svgImageLoader: ImageLoader by lazy(LazyThreadSafetyMode.NONE) {
+        HyperskillApp.graph().imageLoadingComponent.imageLoader
     }
 
     private val placeholderNewUserViewModel: PlaceholderNewUserViewModel by viewModels(ownerProducer = ::requireParentFragment)

@@ -2,6 +2,7 @@ package org.hyperskill.app.android.core.injection
 
 import android.content.Context
 import org.hyperskill.app.android.code.injection.PlatformCodeEditorComponent
+import org.hyperskill.app.android.image_loading.injection.ImageLoadingComponent
 import org.hyperskill.app.android.latex.injection.PlatformLatexComponent
 import org.hyperskill.app.android.notification.injection.PlatformNotificationComponent
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
@@ -10,6 +11,8 @@ import org.hyperskill.app.auth.injection.PlatformAuthCredentialsComponent
 import org.hyperskill.app.auth.injection.PlatformAuthSocialComponent
 import org.hyperskill.app.auth.injection.PlatformAuthSocialWebViewComponent
 import org.hyperskill.app.core.injection.AppGraph
+import org.hyperskill.app.debug.injection.DebugComponent
+import org.hyperskill.app.debug.injection.PlatformDebugComponent
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.PlatformHomeComponent
 import org.hyperskill.app.main.injection.PlatformMainComponent
@@ -35,6 +38,7 @@ interface AndroidAppComponent : AppGraph {
     val context: Context
     val platformMainComponent: PlatformMainComponent
     val platformNotificationComponent: PlatformNotificationComponent
+    val imageLoadingComponent: ImageLoadingComponent
 
     fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent
     fun buildPlatformAuthSocialComponent(authSocialComponent: AuthSocialComponent): PlatformAuthSocialComponent
@@ -51,4 +55,5 @@ interface AndroidAppComponent : AppGraph {
     fun buildPlatformOnboardingComponent(onboardingComponent: OnboardingComponent): PlatformOnboardingComponent
     fun buildPlatformPlaceholderNewUserComponent(placeholderNewUserComponent: PlaceholderNewUserComponent): PlatformPlaceholderNewUserComponent
     fun buildPlatformTopicsRepetitionsComponent(): PlatformTopicsRepetitionComponent
+    fun buildPlatformDebugComponent(debugComponent: DebugComponent): PlatformDebugComponent
 }

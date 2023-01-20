@@ -11,7 +11,9 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kotlinx.serialization.builtins.ListSerializer
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.databinding.BottomSheetDialogTableColumnsSelectionBinding
 import org.hyperskill.app.android.step_quiz_table.view.adapter.TableColumnMultipleSelectionItemAdapterDelegate
 import org.hyperskill.app.android.step_quiz_table.view.adapter.TableColumnSingleSelectionItemAdapterDelegate
@@ -44,7 +46,7 @@ class TableColumnSelectionBottomSheetDialogFragment : BottomSheetDialogFragment(
 
     private var index: Int by argument()
     private var rowTitle: String by argument()
-    private var chosenColumns: List<Cell> by argument()
+    private var chosenColumns: List<Cell> by argument(ListSerializer(Cell.serializer()))
     private var isCheckBox: Boolean by argument()
 
     private val columnsAdapter = DefaultDelegateAdapter<Cell>()

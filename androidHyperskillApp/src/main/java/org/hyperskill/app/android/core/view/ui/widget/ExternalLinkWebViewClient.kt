@@ -9,7 +9,7 @@ import org.hyperskill.app.android.core.extensions.openUrl
 open class ExternalLinkWebViewClient(
     private val context: Context
 ) : WebViewClient() {
-    @Suppress("Deprecation")
+    @Suppress("OVERRIDE_DEPRECATION")
     override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
         context.openUrl(url)
         return true

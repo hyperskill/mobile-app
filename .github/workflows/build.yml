@@ -11,6 +11,17 @@ on:
       - 'feature/**'
       - 'dependabot/bundler/**'
   workflow_dispatch:
+    inputs:
+      force_build_android:
+        description: 'Force build Android'
+        required: false
+        default: false
+        type: boolean
+      force_build_ios:
+        description: 'Force build iOS'
+        required: false
+        default: false
+        type: boolean
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref_name }}
@@ -27,14 +38,14 @@ jobs:
 
   build-android:
     needs: files-changed
-    if: ${{ needs.files-changed.outputs.android == 'true' || needs.files-changed.outputs.shared == 'true' }}
+    if: ${{ inputs.force_build_android || needs.files-changed.outputs.android == 'true' || needs.files-changed.outputs.shared == 'true' }}
     name: Build Android
     runs-on: ubuntu-22.04
     timeout-minutes: 60
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3.2.0
+      uses: actions/checkout@v3.3.0
 
     - name: Setup CI
       id: setup
@@ -51,14 +62,14 @@ jobs:
   
   build-ios:
     needs: files-changed
-    if: ${{ needs.files-changed.outputs.ios == 'true' || needs.files-changed.outputs.shared == 'true' }}
+    if: ${{ inputs.force_build_ios || needs.files-changed.outputs.ios == 'true' || needs.files-changed.outputs.shared == 'true' }}
     name: Build iOS
     runs-on: macos-12
     timeout-minutes: 60
     
     steps:
       - name: Checkout
-        uses: actions/checkout@v3.2.0
+        uses: actions/checkout@v3.3.0
 
       - name: Setup CI
         id: setup

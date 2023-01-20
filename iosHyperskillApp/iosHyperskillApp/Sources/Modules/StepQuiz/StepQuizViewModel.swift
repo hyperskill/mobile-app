@@ -8,6 +8,7 @@ final class StepQuizViewModel: FeatureViewModel<
   StepQuizFeatureActionViewAction
 > {
     let step: Step
+    let stepRoute: StepRoute
 
     weak var childQuizModuleInput: StepQuizChildQuizInputProtocol?
     private var updateChildQuizSubscription: AnyCancellable?
@@ -22,6 +23,7 @@ final class StepQuizViewModel: FeatureViewModel<
 
     init(
         step: Step,
+        stepRoute: StepRoute,
         viewDataMapper: StepQuizViewDataMapper,
         userPermissionRequestTextMapper: StepQuizUserPermissionRequestTextMapper,
         notificationService: NotificationsService,
@@ -29,6 +31,7 @@ final class StepQuizViewModel: FeatureViewModel<
         feature: Presentation_reduxFeature
     ) {
         self.step = step
+        self.stepRoute = stepRoute
         self.viewDataMapper = viewDataMapper
         self.userPermissionRequestTextMapper = userPermissionRequestTextMapper
         self.notificationService = notificationService
@@ -148,10 +151,6 @@ final class StepQuizViewModel: FeatureViewModel<
     }
 
     // MARK: Analytic
-
-    func logViewedEvent() {
-        onNewMessage(StepQuizFeatureMessageViewedEventMessage(stepId: step.id))
-    }
 
     private func logClickedRetryEvent() {
         onNewMessage(StepQuizFeatureMessageClickedRetryEventMessage())

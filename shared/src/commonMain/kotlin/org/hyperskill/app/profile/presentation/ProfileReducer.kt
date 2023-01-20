@@ -9,9 +9,9 @@ import org.hyperskill.app.profile.domain.analytic.ProfileClickedViewFullProfileH
 import org.hyperskill.app.profile.domain.analytic.ProfileViewedHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.streak_freeze.StreakFreezeAnalyticState
 import org.hyperskill.app.profile.domain.analytic.streak_freeze.StreakFreezeCardAnalyticAction
-import org.hyperskill.app.profile.domain.analytic.streak_freeze.StreakFreezeModalAnalyticAction
-import org.hyperskill.app.profile.domain.analytic.streak_freeze.StreakFreezeClickedModalActionButtonHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.streak_freeze.StreakFreezeClickedCardActionHyperskillAnalyticEvent
+import org.hyperskill.app.profile.domain.analytic.streak_freeze.StreakFreezeClickedModalActionButtonHyperskillAnalyticEvent
+import org.hyperskill.app.profile.domain.analytic.streak_freeze.StreakFreezeModalAnalyticAction
 import org.hyperskill.app.profile.domain.analytic.streak_freeze.StreakFreezeModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.streak_freeze.StreakFreezeModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.profile.presentation.ProfileFeature.Action
@@ -115,7 +115,10 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                     state to when (state.streakFreezeState) {
                         is ProfileFeature.StreakFreezeState.CanBuy ->
                             setOf(
-                                Action.BuyStreakFreeze(state.streakFreezeState.streakFreezeProductId),
+                                Action.BuyStreakFreeze(
+                                    streakFreezeProductId = state.streakFreezeState.streakFreezeProductId,
+                                    streakFreezePrice = state.streakFreezeState.price
+                                ),
                                 Action.LogAnalyticEvent(
                                     StreakFreezeClickedModalActionButtonHyperskillAnalyticEvent(
                                         StreakFreezeModalAnalyticAction.GET_IT,

@@ -123,30 +123,6 @@ final class Formatter {
         )
     }
 
-    /// Format hours and minutes count with localized and pluralized suffix;  7260 -> "2 hours 1 minute", 7320 -> "2 hours 2 minute", 21600 -> "6 hours"
-    func hoursWithMinutesCount(seconds: TimeInterval, roundingRule: FloatingPointRoundingRule = .up) -> String {
-        let seconds = Int(seconds.rounded(roundingRule))
-
-        let secondsPerMinute = Int(TimeInterval.oneMinute)
-        let secondsPerHour = Int(TimeInterval.oneHour)
-
-        let hours = seconds / secondsPerHour
-        let minutes = (seconds % secondsPerHour) / secondsPerMinute
-
-        var result = ""
-
-        if hours > 0 {
-            result += hoursCount(hours)
-            if minutes > 0 {
-                result += " \(minutesCount(minutes))"
-            }
-        } else {
-            result += minutesCount(max(1, minutes))
-        }
-
-        return result
-    }
-
     /// Format days count with localized and pluralized suffix; 1 -> "1 day", 5 -> "5 days"
     func daysCount(_ count: Int) -> String { daysCount(Int32(count)) }
 

@@ -5,7 +5,6 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.ImageLoader
-import coil.decode.SvgDecoder
 import com.chrynan.parcelable.core.getParcelable
 import com.chrynan.parcelable.core.putParcelable
 import org.hyperskill.app.android.HyperskillApp
@@ -45,12 +44,8 @@ class StepQuizHintsFragment :
 
     private var stepQuizHintsDelegate: StepQuizHintsDelegate? = null
 
-    private val svgImageLoader by lazy(LazyThreadSafetyMode.NONE) {
-        ImageLoader.Builder(requireContext())
-            .components {
-                add(SvgDecoder.Factory())
-            }
-            .build()
+    private val svgImageLoader: ImageLoader by lazy(LazyThreadSafetyMode.NONE) {
+        HyperskillApp.graph().imageLoadingComponent.imageLoader
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

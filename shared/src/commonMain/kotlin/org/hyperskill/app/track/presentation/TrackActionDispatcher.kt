@@ -30,6 +30,7 @@ class TrackActionDispatcher(
     private val sentryInteractor: SentryInteractor,
     private val urlPathProcessor: UrlPathProcessor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
+
     companion object {
         private const val TOPICS_TO_DISCOVER_NEXT_LEARNING_ACTIVITIES_PAGE_SIZE = 20
         private const val TOPICS_TO_DISCOVER_NEXT_PREFIX_COUNT = 10

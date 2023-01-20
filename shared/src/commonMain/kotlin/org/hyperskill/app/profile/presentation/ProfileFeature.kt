@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.profile.domain.model.Profile
-import org.hyperskill.app.streak.domain.model.Streak
+import org.hyperskill.app.streaks.domain.model.Streak
 
 interface ProfileFeature {
     sealed interface State {
@@ -115,7 +115,10 @@ interface ProfileFeature {
 
         data class GetMagicLink(val path: HyperskillUrlPath) : Action
 
-        data class BuyStreakFreeze(val streakFreezeProductId: Long) : Action
+        data class BuyStreakFreeze(
+            val streakFreezeProductId: Long,
+            val streakFreezePrice: Int
+        ) : Action
 
         sealed interface ViewAction : Action {
             data class OpenUrl(val url: String) : ViewAction

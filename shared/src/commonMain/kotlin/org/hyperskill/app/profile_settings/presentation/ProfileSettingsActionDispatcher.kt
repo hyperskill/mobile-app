@@ -1,13 +1,14 @@
 package org.hyperskill.app.profile_settings.presentation
 
 import kotlinx.coroutines.flow.MutableSharedFlow
+import org.hyperskill.app.SharedResources.strings
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
-import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.core.domain.Platform
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.remote.UserAgentInfo
+import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.profile_settings.domain.interactor.ProfileSettingsInteractor
@@ -24,6 +25,7 @@ class ProfileSettingsActionDispatcher(
     private val authorizationFlow: MutableSharedFlow<UserDeauthorized>,
     private val platform: Platform,
     private val userAgentInfo: UserAgentInfo,
+    private val resourceProvider: ResourceProvider,
     private val urlPathProcessor: UrlPathProcessor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
@@ -42,7 +44,8 @@ class ProfileSettingsActionDispatcher(
                     .getOrNull()
 
                 val feedbackEmailData = FeedbackEmailDataBuilder.build(
-                    applicationName = BuildKonfig.APP_NAME,
+                    supportEmail = resourceProvider.getString(strings.settings_send_feedback_support_email),
+                    applicationName = resourceProvider.getString(strings.settings_send_feedback_application_name),
                     platform = platform,
                     userId = currentProfile?.id,
                     applicationVersion = userAgentInfo.versionCode
@@ -53,6 +56,9 @@ class ProfileSettingsActionDispatcher(
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
             is Action.GetMagicLink -> getLink(action.path, ::onNewMessage)
+            else -> {
+                // no op
+            }
         }
     }
 

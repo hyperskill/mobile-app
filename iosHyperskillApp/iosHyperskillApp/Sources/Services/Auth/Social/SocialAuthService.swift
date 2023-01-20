@@ -115,11 +115,17 @@ enum SocialAuthProvider: String, CaseIterable {
 
         switch self {
         case .jetbrains:
-            stringOrNil = SocialAuthProviderRequestURLBuilder.shared.build(provider: .jetbrainsAccount)
+            stringOrNil = SocialAuthProviderRequestURLBuilder.shared.build(
+                provider: .jetbrainsAccount,
+                networkEndpointConfigInfo: AppGraphBridge.sharedAppGraph.networkComponent.endpointConfigInfo
+            )
         case .google:
             return nil
         case .github:
-            stringOrNil = SocialAuthProviderRequestURLBuilder.shared.build(provider: .github)
+            stringOrNil = SocialAuthProviderRequestURLBuilder.shared.build(
+                provider: .github,
+                networkEndpointConfigInfo: AppGraphBridge.sharedAppGraph.networkComponent.endpointConfigInfo
+            )
         case .apple:
             return nil
         }

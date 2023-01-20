@@ -10,29 +10,30 @@ import org.hyperskill.app.android.step_quiz_table.view.fragment.TableStepQuizFra
 import org.hyperskill.app.android.step_quiz_unsupported.view.fragment.UnsupportedStepQuizFragment
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.StepRoute
 
 object StepQuizFragmentFactory {
-    fun getQuizFragment(step: Step): Fragment =
+    fun getQuizFragment(step: Step, stepRoute: StepRoute): Fragment =
         when (step.block.name) {
             BlockName.SORTING ->
-                SortingStepQuizFragment.newInstance(step)
+                SortingStepQuizFragment.newInstance(step, stepRoute)
 
             BlockName.NUMBER,
             BlockName.STRING,
             BlockName.MATH ->
-                TextStepQuizFragment.newInstance(step)
+                TextStepQuizFragment.newInstance(step, stepRoute)
 
             BlockName.MATCHING ->
-                MatchingStepQuizFragment.newInstance(step)
+                MatchingStepQuizFragment.newInstance(step, stepRoute)
 
             BlockName.TABLE ->
-                TableStepQuizFragment.newInstance(step)
+                TableStepQuizFragment.newInstance(step, stepRoute)
 
             BlockName.CHOICE ->
-                ChoiceStepQuizFragment.newInstance(step)
+                ChoiceStepQuizFragment.newInstance(step, stepRoute)
 
             BlockName.CODE ->
-                CodeStepQuizFragment.newInstance(step)
+                CodeStepQuizFragment.newInstance(step, stepRoute)
 
             else ->
                 UnsupportedStepQuizFragment.newInstance()
