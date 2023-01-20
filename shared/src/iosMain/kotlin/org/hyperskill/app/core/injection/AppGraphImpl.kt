@@ -72,6 +72,8 @@ import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponen
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponentImpl
+import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextDataComponent
+import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextDataComponentImpl
 import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.track.injection.TrackComponentImpl
 import org.hyperskill.app.track.injection.TrackDataComponent
@@ -210,4 +212,7 @@ class AppGraphImpl(
 
     override fun buildGamificationToolbarComponent(): GamificationToolbarComponent =
         GamificationToolbarComponentImpl(this)
+
+    override fun buildTopicsToDiscoverNextDataComponent(): TopicsToDiscoverNextDataComponent =
+        TopicsToDiscoverNextDataComponentImpl(this)
 }

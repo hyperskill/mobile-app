@@ -45,8 +45,8 @@ data class Profile(
     val trackTitle: String?
 )
 
-val Profile.isNewUser: Boolean
+internal val Profile.isNewUser: Boolean
     get() = trackId == null
 
-val Profile.isCurrentTrackCompleted: Boolean
+internal val Profile.isCurrentTrackCompleted: Boolean
     get() = trackId?.let { completedTracks.contains(it) } ?: false

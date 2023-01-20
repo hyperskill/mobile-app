@@ -5,12 +5,11 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarActionDispatcher
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
-import org.hyperskill.app.learning_activities.domain.interactor.LearningActivitiesInteractor
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
-import org.hyperskill.app.topics.domain.interactor.TopicsInteractor
+import org.hyperskill.app.topics_to_discover_next.domain.interactor.TopicsToDiscoverNextInteractor
 import org.hyperskill.app.track.domain.interactor.TrackInteractor
 import org.hyperskill.app.track.presentation.TrackActionDispatcher
 import org.hyperskill.app.track.presentation.TrackFeature
@@ -26,8 +25,7 @@ object TrackFeatureBuilder {
         trackInteractor: TrackInteractor,
         profileInteractor: ProfileInteractor,
         progressesInteractor: ProgressesInteractor,
-        learningActivitiesInteractor: LearningActivitiesInteractor,
-        topicsInteractor: TopicsInteractor,
+        topicsToDiscoverNextInteractor: TopicsToDiscoverNextInteractor,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
         urlPathProcessor: UrlPathProcessor,
@@ -40,8 +38,7 @@ object TrackFeatureBuilder {
             trackInteractor,
             profileInteractor,
             progressesInteractor,
-            learningActivitiesInteractor,
-            topicsInteractor,
+            topicsToDiscoverNextInteractor,
             analyticInteractor,
             sentryInteractor,
             urlPathProcessor
