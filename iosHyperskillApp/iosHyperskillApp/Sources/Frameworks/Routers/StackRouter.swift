@@ -12,7 +12,7 @@ extension StackRouterProtocol {
     }
 
     func popViewController(animated: Bool) {
-        popViewController(animated: false)
+        popViewController(animated: true)
     }
 }
 
@@ -50,9 +50,5 @@ class SwiftUIStackRouter: StackRouter, ObservableObject {
     func pushView(_ view: some View, animated: Bool = true) {
         let hostingController = UIHostingController(rootView: view)
         pushViewController(hostingController, animated: animated)
-    }
-
-    func popView(animated: Bool = false) {
-        popViewController(animated: animated)
     }
 }
