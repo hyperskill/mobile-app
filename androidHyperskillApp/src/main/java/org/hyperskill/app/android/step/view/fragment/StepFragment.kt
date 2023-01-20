@@ -87,7 +87,7 @@ class StepFragment : Fragment(R.layout.fragment_step), ReduxView<StepFeature.Sta
         val fragment = if (step.type == Step.Type.PRACTICE) {
             StepPracticeFragment.newInstance(step, stepRoute)
         } else {
-            StepTheoryFragment.newInstance(step)
+            StepTheoryFragment.newInstance(step, stepRoute)
         }
 
         childFragmentManager

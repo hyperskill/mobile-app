@@ -171,10 +171,10 @@ class AndroidAppComponentImpl(
         TopicsRepetitionsDataComponentImpl(this)
 
     override val stepDataComponent: StepDataComponent =
-            StepDataComponentImpl(this)
+        StepDataComponentImpl(this)
 
     override val stepQuizDataComponent: StepQuizDataComponent =
-            StepQuizDataComponentImpl(this)
+        StepQuizDataComponentImpl(this)
 
     override fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent =
         PlatformAuthSocialWebViewComponentImpl()
