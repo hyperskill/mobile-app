@@ -197,11 +197,11 @@ class StepQuizActionDispatcher(
                     )
                     .fold(
                         onSuccess = { newSubmission ->
-                            sentryInteractor.finishTransaction(sentryTransaction)
-
                             if (action.stepRoute is StepRoute.Learn && newSubmission.status == SubmissionStatus.CORRECT) {
                                 doSuspendableAction(Action.CheckTopicCompletion(action.step.topic))
                             }
+
+                            sentryInteractor.finishTransaction(sentryTransaction)
 
                             onNewMessage(Message.CreateSubmissionSuccess(newSubmission, newAttempt))
                         },
