@@ -13,6 +13,7 @@ import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.topics.domain.interactor.TopicsInteractor
 import org.hyperskill.app.topics.domain.model.Topic
+import org.hyperskill.app.topics.domain.model.TopicProgress
 import org.hyperskill.app.track.domain.interactor.TrackInteractor
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.presentation.TrackFeature.Action
@@ -30,6 +31,7 @@ class TrackActionDispatcher(
     private val sentryInteractor: SentryInteractor,
     private val urlPathProcessor: UrlPathProcessor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
+
     companion object {
         private const val TOPICS_TO_DISCOVER_NEXT_LEARNING_ACTIVITIES_PAGE_SIZE = 20
         private const val TOPICS_TO_DISCOVER_NEXT_PREFIX_COUNT = 10
@@ -105,30 +107,26 @@ class TrackActionDispatcher(
                 .getTopics(topicsIds)
                 .getOrThrow()
 
-            val isTrackWithoutProjects = track.projects.isEmpty()
-            if (isTrackWithoutProjects) {
-                return Result.success(topics.take(TOPICS_TO_DISCOVER_NEXT_PREFIX_COUNT))
+            val progressById: Map<String, TopicProgress> = progressesInteractor
+                .getTopicsProgresses(topicsIds)
+                .getOrThrow()
+                .associateBy { it.id }
+
+            val topicsByStagePosition: Map<Int, List<Topic>> = topics
+                .map { it.copy(progress = progressById[it.progressId]) }
+                .filter { it.progress?.stagePosition != null }
+                .groupBy { it.progress!!.stagePosition!! }
+
+            val minStagePositionKey = topicsByStagePosition.keys.minOrNull()
+
+            return if (minStagePositionKey != null) {
+                Result.success(
+                    topicsByStagePosition
+                        .getValue(minStagePositionKey)
+                        .take(TOPICS_TO_DISCOVER_NEXT_PREFIX_COUNT)
+                )
             } else {
-                val progressById = progressesInteractor
-                    .getTopicsProgresses(topicsIds)
-                    .getOrThrow()
-                    .associateBy { it.id }
-
-                val topicsByStagePosition = topics
-                    .map { it.copy(progress = progressById[it.progressId]) }
-                    .filter { it.progress?.stagePosition != null }
-                    .groupBy { it.progress!!.stagePosition!! }
-                val minStagePositionKey = topicsByStagePosition.keys.minOrNull()
-
-                return if (minStagePositionKey != null) {
-                    Result.success(
-                        topicsByStagePosition
-                            .getValue(minStagePositionKey)
-                            .take(TOPICS_TO_DISCOVER_NEXT_PREFIX_COUNT)
-                    )
-                } else {
-                    Result.success(topics.take(TOPICS_TO_DISCOVER_NEXT_PREFIX_COUNT))
-                }
+                Result.success(topics.take(TOPICS_TO_DISCOVER_NEXT_PREFIX_COUNT))
             }
         }
 

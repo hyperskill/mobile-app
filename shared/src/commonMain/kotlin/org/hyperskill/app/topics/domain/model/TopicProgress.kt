@@ -2,6 +2,7 @@ package org.hyperskill.app.topics.domain.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.math.round
 
 @Serializable
 data class TopicProgress(
@@ -12,5 +13,18 @@ data class TopicProgress(
     @SerialName("repeated_count")
     val repeatedCount: Int? = null,
     @SerialName("is_completed")
-    val isCompleted: Boolean
+    val isCompleted: Boolean,
+    @SerialName("is_skipped")
+    val isSkipped: Boolean,
+    @SerialName("capacity")
+    val capacity: Float? = null
 )
+
+val TopicProgress.completenessPercentage: Float
+    get() = if (isCompleted || isSkipped) {
+        100f
+    } else {
+        capacity?.let {
+            round(capacity * 100)
+        } ?: 0f
+    }

@@ -1,3 +1,5 @@
+fastlane_version "2.211.0"
+
 default_platform(:android)
 
 platform :android do

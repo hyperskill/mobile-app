@@ -3,22 +3,32 @@ package org.hyperskill.app.track.presentation
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.track.domain.model.StudyPlan
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.domain.model.TrackProgress
 
 interface TrackFeature {
-    sealed interface State {
+    data class State(
+        val trackState: TrackState,
+        val toolbarState: GamificationToolbarFeature.State
+    ) {
+        val isRefreshing: Boolean
+            get() = trackState is TrackState.Content && trackState.isRefreshing ||
+                toolbarState is GamificationToolbarFeature.State.Content && toolbarState.isRefreshing
+    }
+
+    sealed interface TrackState {
         /**
          * Represents initial state.
          */
-        object Idle : State
+        object Idle : TrackState
 
         /**
          * Represents a state when loading track screen data.
          */
-        object Loading : State
+        object Loading : TrackState
 
         /**
          * Represents a state when track screen data successfully loaded.
@@ -39,19 +49,19 @@ interface TrackFeature {
             val trackProgress: TrackProgress,
             val studyPlan: StudyPlan? = null,
             val topicsToDiscoverNext: List<Topic>,
-            val isRefreshing: Boolean = false,
+            internal val isRefreshing: Boolean = false,
             val isLoadingMagicLink: Boolean = false
-        ) : State
+        ) : TrackState
 
         /**
          * Represents a state when track screen data failed to load.
          */
-        object NetworkError : State
+        object NetworkError : TrackState
     }
 
     sealed interface Message {
         /**
-         * A message that triggers the process of loading all of the necessary data for module.
+         * A message that triggers the process of loading all the necessary data for module.
          *
          * Use cases:
          * 1. Initial module data loading
@@ -96,6 +106,11 @@ interface TrackFeature {
          * Analytic
          */
         object ViewedEventMessage : Message
+
+        /**
+         * Message Wrappers
+         */
+        data class GamificationToolbarMessage(val message: GamificationToolbarFeature.Message) : Message
     }
 
     sealed interface Action {
@@ -105,9 +120,18 @@ interface TrackFeature {
 
         data class GetMagicLink(val path: HyperskillUrlPath) : Action
 
+        /**
+         * Action Wrappers
+         */
+        data class GamificationToolbarAction(val action: GamificationToolbarFeature.Action) : Action
+
         sealed interface ViewAction : Action {
             data class OpenUrl(val url: String) : ViewAction
             object ShowGetMagicLinkError : ViewAction
+
+            data class GamificationToolbarViewAction(
+                val viewAction: GamificationToolbarFeature.Action.ViewAction
+            ) : ViewAction
 
             data class ReloadStep(val stepRoute: StepRoute) : ViewAction
 

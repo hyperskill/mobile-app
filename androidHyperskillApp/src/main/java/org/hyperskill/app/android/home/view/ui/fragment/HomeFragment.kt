@@ -2,7 +2,6 @@ package org.hyperskill.app.android.home.view.ui.fragment
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
@@ -20,13 +19,15 @@ import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExi
 import org.hyperskill.app.android.core.view.ui.navigation.requireMainRouter
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentHomeBinding
+import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.GamificationToolbarDelegate
 import org.hyperskill.app.android.problem_of_day.view.delegate.ProblemOfDayCardFormDelegate
 import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionCardFormDelegate
 import org.hyperskill.app.android.topics_repetitions.view.screen.TopicsRepetitionScreen
-import org.hyperskill.app.android.view.base.ui.extension.setElevationOnCollapsed
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
+import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
+import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeViewModel
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -47,12 +48,13 @@ class HomeFragment :
 
     private val viewBinding: FragmentHomeBinding by viewBinding(FragmentHomeBinding::bind)
     private val homeViewModel: HomeViewModel by reduxViewModel(this) { viewModelFactory }
-    private val viewStateDelegate: ViewStateDelegate<HomeFeature.State> = ViewStateDelegate()
+    private val viewStateDelegate: ViewStateDelegate<HomeFeature.HomeState> = ViewStateDelegate()
 
-    private lateinit var problemOfDayCardFormDelegate: ProblemOfDayCardFormDelegate
+    private var problemOfDayCardFormDelegate: ProblemOfDayCardFormDelegate? = null
     private val topicsRepetitionDelegate: TopicsRepetitionCardFormDelegate by lazy(LazyThreadSafetyMode.NONE) {
         TopicsRepetitionCardFormDelegate()
     }
+    private var gamificationToolbarDelegate: GamificationToolbarDelegate? = null
 
     private val onForegroundObserver =
         object : DefaultLifecycleObserver {
@@ -70,24 +72,11 @@ class HomeFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as AppCompatActivity)
-            .setSupportActionBar(viewBinding.homeScreenToolbar)
         initViewStateDelegate()
+        initGamificationToolbarDelegate()
         with(viewBinding) {
-            homeScreenAppBar.setElevationOnCollapsed(viewLifecycleOwner.lifecycle)
-            homeScreenAppBar.setExpanded(true)
-
-            homeScreenGemsCountTextView.setOnClickListener {
-                homeViewModel.onNewMessage(HomeFeature.Message.ClickedGemsBarButtonItem)
-                requireMainRouter().switch(ProfileScreen(isInitCurrent = true))
-            }
-            homeScreenStreakDurationTextView.setOnClickListener {
-                homeViewModel.onNewMessage(HomeFeature.Message.ClickedStreakBarButtonItem)
-                requireMainRouter().switch(ProfileScreen(isInitCurrent = true))
-            }
-
             homeScreenError.tryAgain.setOnClickListener {
-                homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = false))
+                homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = true))
             }
             homeScreenKeepLearningInWebButton.setOnClickListener {
                 homeViewModel.onNewMessage(HomeFeature.Message.ClickedContinueLearningOnWeb)
@@ -114,6 +103,8 @@ class HomeFragment :
     override fun onDestroy() {
         super.onDestroy()
         requireActivity().lifecycle.removeObserver(onForegroundObserver)
+        gamificationToolbarDelegate = null
+        problemOfDayCardFormDelegate = null
     }
 
     private fun injectComponents() {
@@ -129,10 +120,22 @@ class HomeFragment :
 
     private fun initViewStateDelegate() {
         with(viewStateDelegate) {
-            addState<HomeFeature.State.Idle>()
-            addState<HomeFeature.State.Loading>(viewBinding.homeScreenSkeleton.root, viewBinding.homeScreenAppBar)
-            addState<HomeFeature.State.NetworkError>(viewBinding.homeScreenError.root)
-            addState<HomeFeature.State.Content>(viewBinding.homeScreenContainer, viewBinding.homeScreenAppBar)
+            addState<HomeFeature.HomeState.Idle>()
+            addState<HomeFeature.HomeState.Loading>(viewBinding.homeScreenSkeleton.root, viewBinding.homeScreenAppBar.root)
+            addState<HomeFeature.HomeState.NetworkError>(viewBinding.homeScreenError.root)
+            addState<HomeFeature.HomeState.Content>(viewBinding.homeScreenContainer, viewBinding.homeScreenAppBar.root)
+        }
+    }
+
+    private fun initGamificationToolbarDelegate() {
+        viewBinding.homeScreenAppBar.gamificationCollapsingToolbarLayout.title =
+            requireContext().getString(org.hyperskill.app.R.string.home_title)
+        gamificationToolbarDelegate = GamificationToolbarDelegate(
+            viewLifecycleOwner,
+            viewBinding.homeScreenAppBar,
+            GamificationToolbarScreen.HOME
+        ) { message ->
+            homeViewModel.onNewMessage(HomeFeature.Message.GamificationToolbarMessage(message))
         }
     }
 
@@ -147,6 +150,11 @@ class HomeFragment :
             is HomeFeature.Action.ViewAction.NavigateTo.TopicsRepetitionsScreen -> {
                 requireRouter().navigateTo(TopicsRepetitionScreen())
             }
+            is HomeFeature.Action.ViewAction.GamificationToolbarViewAction ->
+                when (action.viewAction) {
+                    is GamificationToolbarFeature.Action.ViewAction.ShowProfileTab ->
+                        requireMainRouter().switch(ProfileScreen(isInitCurrent = true))
+                }
             else -> {
                 // no op
             }
@@ -154,37 +162,23 @@ class HomeFragment :
     }
 
     override fun render(state: HomeFeature.State) {
-        viewStateDelegate.switchState(state)
+        viewStateDelegate.switchState(state.homeState)
+
         TransitionManager.beginDelayedTransition(viewBinding.root, AutoTransition())
-        if (state is HomeFeature.State.Content) {
-            if (state.isLoadingMagicLink) {
+
+        val homeState = state.homeState
+        if (homeState is HomeFeature.HomeState.Content) {
+            if (homeState.isLoadingMagicLink) {
                 LoadingProgressDialogFragment.newInstance()
                     .showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
             } else {
                 childFragmentManager.dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
             }
-            renderMenuItems(state)
-            renderProblemOfDayCardDelegate(state.problemOfDayState)
-            renderTopicsRepetition(state.repetitionsState)
+            renderProblemOfDayCardDelegate(homeState.problemOfDayState)
+            renderTopicsRepetition(homeState.repetitionsState)
         }
-    }
 
-    private fun renderMenuItems(state: HomeFeature.State.Content) {
-        with(viewBinding.homeScreenStreakDurationTextView) {
-            isVisible = true
-            val streakDuration = state.streak?.currentStreak ?: 0
-            text = streakDuration.toString()
-            setCompoundDrawablesWithIntrinsicBounds(
-                if (state.streak?.history?.firstOrNull()?.isCompleted == true) R.drawable.ic_menu_streak else R.drawable.ic_menu_empty_streak, // left
-                0,
-                0,
-                0
-            )
-        }
-        with(viewBinding.homeScreenGemsCountTextView) {
-            isVisible = true
-            text = state.hypercoinsBalance.toString()
-        }
+        gamificationToolbarDelegate?.render(state.toolbarState)
     }
 
     private fun renderProblemOfDayCardDelegate(state: HomeFeature.ProblemOfDayState) {

@@ -16,6 +16,8 @@ import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.debug.injection.DebugComponentImpl
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponentImpl
+import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
+import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponentImpl
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.HomeComponentImpl
 import org.hyperskill.app.items.injection.ItemsDataComponent
@@ -66,6 +68,8 @@ import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponentImpl
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponentImpl
+import org.hyperskill.app.streaks.injection.StreaksDataComponent
+import org.hyperskill.app.streaks.injection.StreaksDataComponentImpl
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponent
@@ -208,6 +212,12 @@ class AppGraphImpl(
     override fun buildItemsDataComponent(): ItemsDataComponent =
         ItemsDataComponentImpl(this)
 
+    override fun buildStreaksDataComponent(): StreaksDataComponent =
+        StreaksDataComponentImpl(this)
+
     override fun buildDebugComponent(): DebugComponent =
         DebugComponentImpl(this)
+
+    override fun buildGamificationToolbarComponent(): GamificationToolbarComponent =
+        GamificationToolbarComponentImpl(this)
 }
