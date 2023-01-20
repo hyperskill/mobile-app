@@ -15,7 +15,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *     "route": "/learn/step/1",
  *     "action": "shown",
  *     "part": "modal",
- *     "target": "daily_step_completed_modal"
+ *     "target": "topic_completed_modal"
  * }
  * ```
  * @see HyperskillAnalyticEvent
