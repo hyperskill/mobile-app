@@ -136,8 +136,8 @@ class AppGraphImpl(
             sentryComponent
         )
 
-    override fun buildStepComponent(): StepComponent =
-        StepComponentImpl(this)
+    override fun buildStepComponent(stepRoute: StepRoute): StepComponent =
+        StepComponentImpl(this, stepRoute)
 
     override fun buildStepQuizComponent(stepRoute: StepRoute): StepQuizComponent =
         StepQuizComponentImpl(this, stepRoute)

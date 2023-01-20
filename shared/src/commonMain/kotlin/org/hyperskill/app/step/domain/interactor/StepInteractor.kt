@@ -25,6 +25,9 @@ class StepInteractor(
     suspend fun completeStep(stepId: Long): Result<Step> =
         stepRepository.completeStep(stepId)
 
+    suspend fun skipStep(stepId: Long): Result<Step> =
+        stepRepository.completeStep(stepId)
+
     suspend fun getNextRecommendedStepByTopicId(topicId: Long): Result<Step> =
         stepRepository.getNextRecommendedStepByTopicId(topicId)
 }

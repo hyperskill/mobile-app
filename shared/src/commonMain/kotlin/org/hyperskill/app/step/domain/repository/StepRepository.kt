@@ -10,5 +10,7 @@ interface StepRepository {
 
     suspend fun completeStep(stepId: Long): Result<Step>
 
+    suspend fun skipStep(stepId: Long): Result<Step>
+
     suspend fun getNextRecommendedStepByTopicId(topicId: Long): Result<Step>
 }

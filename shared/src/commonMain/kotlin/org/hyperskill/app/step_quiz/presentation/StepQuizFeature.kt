@@ -3,6 +3,7 @@ package org.hyperskill.app.step_quiz.presentation
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.permissions.StepQuizUserPermissionRequest
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
@@ -74,6 +75,9 @@ interface StepQuizFeature {
 
         object ContinueClicked : Message
 
+        object NextStepQuizFetchedError : Message
+
+
         data class SyncReply(val reply: Reply) : Message
 
         /**
@@ -86,9 +90,8 @@ interface StepQuizFeature {
         ) : Message
 
         /**
-         * Topic is completed & next step quiz messages
+         * Topic completed modal
          */
-        object NextStepQuizFetchedError : Message
 
         data class CurrentTopicCompleted(val modalText: String) : Message
 
@@ -109,6 +112,8 @@ interface StepQuizFeature {
         object ClickedRetryEventMessage : Message
         object DailyStepCompletedModalShownEventMessage : Message
         object DailyStepCompletedModalHiddenEventMessage : Message
+        object TopicCompletedModalShownEventMessage : Message
+        object TopicCompletedModalHiddenEventMessage : Message
     }
 
     sealed interface Action {
@@ -121,7 +126,12 @@ interface StepQuizFeature {
             val shouldResetReply: Boolean
         ) : Action
         data class CreateSubmissionValidateReply(val step: Step, val reply: Reply) : Action
-        data class CreateSubmission(val step: Step, val attemptId: Long, val submission: Submission) : Action
+        data class CreateSubmission(
+            val step: Step,
+            val stepRoute: StepRoute,
+            val attemptId: Long,
+            val submission: Submission
+        ) : Action
 
         data class RequestUserPermissionResult(
             val userPermissionRequest: StepQuizUserPermissionRequest,

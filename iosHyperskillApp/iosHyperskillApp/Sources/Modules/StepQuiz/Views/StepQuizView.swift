@@ -353,14 +353,14 @@ extension StepQuizView {
     }
 
     private func presentTopicCompletedModal(modalText: String) {
-        //viewModel.logDailyStepCompletedModalShownEvent()
+        viewModel.logTopicCompletedModalShownEvent()
 
         let panModal = TopicCompletedModalViewController(
             modalText: modalText,
             onGoToHomescreenButtonTap: viewModel.doGoToHomeScreenAction
         )
 
-        //panModal.onDisappear = viewModel.logDailyStepCompletedModalHiddenEvent
+        panModal.onDisappear = viewModel.logTopicCompletedModalHiddenEvent
 
         panModalPresenter.presentPanModal(panModal)
     }

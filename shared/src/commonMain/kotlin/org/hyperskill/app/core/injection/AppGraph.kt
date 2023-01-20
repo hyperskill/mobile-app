@@ -54,7 +54,7 @@ interface AppGraph {
 
     fun buildAuthSocialComponent(): AuthSocialComponent
     fun buildAuthCredentialsComponent(): AuthCredentialsComponent
-    fun buildStepComponent(): StepComponent
+    fun buildStepComponent(stepRoute: StepRoute): StepComponent
     fun buildStepQuizComponent(stepRoute: StepRoute): StepQuizComponent
     fun buildProfileDataComponent(): ProfileDataComponent
     fun buildTrackComponent(): TrackComponent

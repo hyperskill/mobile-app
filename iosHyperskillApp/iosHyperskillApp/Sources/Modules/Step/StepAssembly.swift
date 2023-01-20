@@ -12,7 +12,7 @@ final class StepAssembly: UIKitAssembly {
 
     func makeModule() -> UIViewController {
         let commonComponent = AppGraphBridge.sharedAppGraph.commonComponent
-        let stepComponent = AppGraphBridge.sharedAppGraph.buildStepComponent()
+        let stepComponent = AppGraphBridge.sharedAppGraph.buildStepComponent(stepRoute: stepRoute)
 
         let viewModel = StepViewModel(
             stepRoute: self.stepRoute,

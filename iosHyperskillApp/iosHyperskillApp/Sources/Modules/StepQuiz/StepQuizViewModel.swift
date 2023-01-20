@@ -167,6 +167,14 @@ final class StepQuizViewModel: FeatureViewModel<
     func logDailyStepCompletedModalHiddenEvent() {
         onNewMessage(StepQuizFeatureMessageDailyStepCompletedModalHiddenEventMessage())
     }
+
+    func logTopicCompletedModalShownEvent() {
+        onNewMessage(StepQuizFeatureMessageTopicCompletedModalShownEventMessage())
+    }
+
+    func logTopicCompletedModalHiddenEvent() {
+        onNewMessage(StepQuizFeatureMessageTopicCompletedModalHiddenEventMessage())
+    }
 }
 
 // MARK: - StepQuizViewModel: StepQuizChildQuizDelegate -

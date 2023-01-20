@@ -48,6 +48,7 @@
     <string name="step_rating_text_part_2">theory?</string>
     <string name="step_theory_reading_text">%s reading</string>
     <string name="step_theory_failed_to_start_practicing">Failed to start practicing</string>
+    <string name="step_theory_failed_to_continue_practicing">Failed to continue practicing</string>
     <string name="step_comment_thread_statistics_text">%s (%s)</string>
     <string name="step_comment_thread_type_comment_text">Comments</string>
     <string name="step_comment_thread_type_hint_text">Hint</string>

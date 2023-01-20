@@ -209,8 +209,8 @@ class AndroidAppComponentImpl(
     /**
      * Step component
      */
-    override fun buildStepComponent(): StepComponent =
-        StepComponentImpl(this)
+    override fun buildStepComponent(stepRoute: StepRoute): StepComponent =
+        StepComponentImpl(this, stepRoute)
 
     override fun buildPlatformStepComponent(stepComponent: StepComponent): PlatformStepComponent =
         PlatformStepComponentImpl(stepComponent)

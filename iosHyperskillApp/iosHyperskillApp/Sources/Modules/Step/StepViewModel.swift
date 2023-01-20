@@ -27,7 +27,7 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
     }
 
     func loadStep(forceUpdate: Bool = false) {
-        onNewMessage(StepFeatureMessageInitialize(stepRoute: stepRoute, forceUpdate: forceUpdate))
+        onNewMessage(StepFeatureMessageInitialize(forceUpdate: forceUpdate))
     }
 
     func makeViewData(_ step: Step) -> StepViewData {
@@ -45,6 +45,6 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
     // MARK: Analytic
 
     func logViewedEvent() {
-        onNewMessage(StepFeatureMessageViewedEventMessage(stepRoute: stepRoute))
+        onNewMessage(StepFeatureMessageViewedEventMessage())
     }
 }

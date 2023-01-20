@@ -15,6 +15,7 @@ import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.permissions.StepQuizUserPermissionRequest
@@ -197,6 +198,11 @@ class StepQuizActionDispatcher(
                     .fold(
                         onSuccess = { newSubmission ->
                             sentryInteractor.finishTransaction(sentryTransaction)
+
+                            if (action.stepRoute is StepRoute.Learn && newSubmission.status == SubmissionStatus.CORRECT) {
+                                doSuspendableAction(Action.CheckTopicCompletion(action.step.topic))
+                            }
+
                             onNewMessage(Message.CreateSubmissionSuccess(newSubmission, newAttempt))
                         },
                         onFailure = {

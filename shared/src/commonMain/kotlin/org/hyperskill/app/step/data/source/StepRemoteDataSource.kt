@@ -7,5 +7,7 @@ interface StepRemoteDataSource {
 
     suspend fun completeStep(stepId: Long): Result<Step>
 
+    suspend fun skipStep(stepId: Long): Result<Step>
+
     suspend fun getRecommendedStepsByTopicId(topicId: Long): Result<List<Step>>
 }

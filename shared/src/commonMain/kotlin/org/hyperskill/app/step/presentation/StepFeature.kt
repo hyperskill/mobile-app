@@ -22,10 +22,7 @@ interface StepFeature {
     }
 
     sealed interface Message {
-        data class Initialize(
-            val stepRoute: StepRoute,
-            val forceUpdate: Boolean = false
-        ) : Message
+        data class Initialize(val forceUpdate: Boolean = false) : Message
 
         sealed interface StepLoaded : Message {
             data class Success(
@@ -38,11 +35,11 @@ interface StepFeature {
         object StartPracticingClicked : Message
 
         sealed interface NextStepQuizFetchedStatus : Message {
-            data class Success(val stepRoute: StepRoute) : NextStepQuizFetchedStatus
-            object Error : NextStepQuizFetchedStatus
+            data class Success(val newStepRoute: StepRoute) : NextStepQuizFetchedStatus
+            data class Error(val errorMessage: String) : NextStepQuizFetchedStatus
         }
 
-        data class ViewedEventMessage(val stepRoute: StepRoute) : Message
+        object ViewedEventMessage : Message
     }
 
     sealed interface Action {
@@ -52,7 +49,7 @@ interface StepFeature {
         data class FetchNextStepQuiz(val currentStep: Step) : Action
 
         sealed interface ViewAction : Action {
-            object ShowStartPracticingErrorStatus : ViewAction
+            data class ShowPracticingErrorStatus(val errorMessage: String) : ViewAction
 
             data class ReloadStep(val stepRoute: StepRoute) : ViewAction
         }

@@ -71,8 +71,8 @@ struct StepView: View {
 
     private func handleViewAction(_ viewAction: StepFeatureActionViewAction) {
         switch StepFeatureActionViewActionKs(viewAction) {
-        case .showStartPracticingErrorStatus:
-            ProgressHUD.showError(status: Strings.Step.failedToStartPracticing)
+        case .showPracticingErrorStatus(let showPracticingErrorStatusViewAction):
+            ProgressHUD.showError(status: showPracticingErrorStatusViewAction.errorMessage)
         case .reloadStep(let reloadStepViewAction):
             viewModel.doStepReload(stepRoute: reloadStepViewAction.stepRoute)
         }

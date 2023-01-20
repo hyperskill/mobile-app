@@ -31,6 +31,15 @@ class StepRemoteDataSourceImpl(
                 .body<StepResponse>().steps.first()
         }
 
+    override suspend fun skipStep(stepId: Long): Result<Step> =
+        kotlin.runCatching {
+            httpClient
+                .post("/api/steps/$stepId/skip") {
+                    header("Content-Type", "application/json")
+                }
+                .body<StepResponse>().steps.first()
+        }
+
     override suspend fun getRecommendedStepsByTopicId(topicId: Long): Result<List<Step>> =
         kotlin.runCatching {
             httpClient
