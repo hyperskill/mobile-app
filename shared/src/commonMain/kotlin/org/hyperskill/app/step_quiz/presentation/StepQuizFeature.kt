@@ -77,7 +77,6 @@ interface StepQuizFeature {
 
         object NextStepQuizFetchedError : Message
 
-
         data class SyncReply(val reply: Reply) : Message
 
         /**

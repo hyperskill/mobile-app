@@ -101,7 +101,7 @@ class StepActionDispatcher(
     private suspend fun onNextStepQuizFetchedError(currentStep: Step) {
         onNewMessage(
             Message.NextStepQuizFetchedStatus.Error(
-                when(currentStep.type) {
+                when (currentStep.type) {
                     Step.Type.THEORY ->
                         resourceProvider.getString(SharedResources.strings.step_theory_failed_to_start_practicing)
                     Step.Type.PRACTICE ->

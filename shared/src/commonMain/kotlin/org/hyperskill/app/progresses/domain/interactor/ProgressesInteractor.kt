@@ -23,5 +23,4 @@ class ProgressesInteractor(
                 .getOrThrow()
                 .first()
         }
-
 }

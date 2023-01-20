@@ -20,5 +20,4 @@ class StepRepositoryImpl(
         kotlin.runCatching {
             stepRemoteDataSource.getRecommendedStepsByTopicId(topicId).getOrThrow().first { it.isNext }
         }
-
 }

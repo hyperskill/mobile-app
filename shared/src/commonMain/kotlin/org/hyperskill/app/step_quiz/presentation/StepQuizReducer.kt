@@ -359,7 +359,7 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
     }
 
     private val defaultContinueButtonAction
-        get() = if(stepRoute is StepRoute.Learn) {
+        get() = if (stepRoute is StepRoute.Learn) {
             StepQuizFeature.ContinueButtonAction.FetchNextStepQuiz()
         } else {
             StepQuizFeature.ContinueButtonAction.NavigateToBack
