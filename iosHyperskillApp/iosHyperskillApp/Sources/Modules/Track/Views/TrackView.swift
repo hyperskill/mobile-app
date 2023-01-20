@@ -18,7 +18,7 @@ struct TrackView: View {
 
     @StateObject var viewModel: TrackViewModel
 
-    @StateObject var pushRouter: SwiftUIStackRouter
+    @StateObject var stackRouter: SwiftUIStackRouter
 
     var body: some View {
         ZStack {
@@ -139,17 +139,10 @@ struct TrackView: View {
             case .stepScreen(let data):
                 let assembly = StepAssembly(
                     stepRoute: StepRouteLearn(stepId: data.stepId),
-                    moduleOutput: viewModel
+                    stackRouter: stackRouter
                 )
-                pushRouter.pushViewController(assembly.makeModule())
+                stackRouter.pushViewController(assembly.makeModule())
             }
-        case .reloadStep(let reloadStepViewAction):
-            let assembly = StepAssembly(
-                stepRoute: reloadStepViewAction.stepRoute,
-                moduleOutput: viewModel
-            )
-            pushRouter.popViewController(animated: false)
-            pushRouter.pushViewController(assembly.makeModule(), animated: false)
         case .gamificationToolbarViewAction(let gamificationToolbarViewAction):
             switch GamificationToolbarFeatureActionViewActionKs(gamificationToolbarViewAction.viewAction) {
             case .showProfileTab:

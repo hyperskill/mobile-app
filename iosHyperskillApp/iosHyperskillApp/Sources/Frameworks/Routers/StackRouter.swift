@@ -44,6 +44,13 @@ class StackRouter: StackRouterProtocol {
     func popViewController(animated: Bool) {
         navigationController?.popViewController(animated: animated)
     }
+
+    func replaceViewController(_ newViewController: UIViewController, animated: Bool) {
+        if var viewControllers = navigationController?.viewControllers {
+            viewControllers[viewControllers.count - 1] = newViewController
+            navigationController?.viewControllers = viewControllers
+        }
+    }
 }
 
 class SwiftUIStackRouter: StackRouter, ObservableObject {

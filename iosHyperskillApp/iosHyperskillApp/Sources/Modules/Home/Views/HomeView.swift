@@ -14,7 +14,7 @@ struct HomeView: View {
 
     @StateObject var viewModel: HomeViewModel
 
-    @StateObject var pushRouter: SwiftUIStackRouter
+    @StateObject var stackRouter: SwiftUIStackRouter
 
     var body: some View {
         ZStack {
@@ -102,9 +102,10 @@ struct HomeView: View {
                     HomeDebugStepNavigationView(
                         onOpenStepTapped: { stepID in
                             let assembly = StepAssembly(
-                                stepRoute: StepRouteLearn(stepId: Int64(stepID))
+                                stepRoute: StepRouteLearn(stepId: Int64(stepID)),
+                                stackRouter: stackRouter
                             )
-                            pushRouter.pushViewController(assembly.makeModule())
+                            stackRouter.pushViewController(assembly.makeModule())
                         }
                     )
                     #endif
@@ -127,11 +128,14 @@ struct HomeView: View {
         case .navigateTo(let navigateToViewAction):
             switch HomeFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .stepScreen(let data):
-                let assembly = StepAssembly(stepRoute: data.stepRoute)
-                pushRouter.pushViewController(assembly.makeModule())
+                let assembly = StepAssembly(
+                    stepRoute: data.stepRoute,
+                    stackRouter: stackRouter
+                )
+                stackRouter.pushViewController(assembly.makeModule())
             case .topicsRepetitionsScreen:
                 let assembly = TopicsRepetitionsAssembly()
-                pushRouter.pushViewController(assembly.makeModule())
+                stackRouter.pushViewController(assembly.makeModule())
             }
         case .openUrl(let data):
             ProgressHUD.showSuccess()

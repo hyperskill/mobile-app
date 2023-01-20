@@ -2,7 +2,6 @@ package org.hyperskill.app.track.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
-import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.track.domain.model.StudyPlan
@@ -132,8 +131,6 @@ interface TrackFeature {
             data class GamificationToolbarViewAction(
                 val viewAction: GamificationToolbarFeature.Action.ViewAction
             ) : ViewAction
-
-            data class ReloadStep(val stepRoute: StepRoute) : ViewAction
 
             sealed interface NavigateTo : ViewAction {
                 data class StepScreen(val stepId: Long) : NavigateTo

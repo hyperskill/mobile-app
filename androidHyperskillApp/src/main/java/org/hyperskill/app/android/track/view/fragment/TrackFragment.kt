@@ -136,7 +136,6 @@ class TrackFragment :
                     is GamificationToolbarFeature.Action.ViewAction.ShowProfileTab ->
                         requireMainRouter().switch(ProfileScreen(isInitCurrent = true))
                 }
-            else -> {}
         }
     }
 

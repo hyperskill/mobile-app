@@ -18,7 +18,7 @@ struct StepQuizView: View {
 
     @EnvironmentObject private var modalRouter: SwiftUIModalRouter
 
-    @EnvironmentObject var pushRouter: SwiftUIStackRouter
+    @EnvironmentObject var stackRouter: SwiftUIStackRouter
 
     @EnvironmentObject var panModalPresenter: PanModalPresenter
 
@@ -41,8 +41,11 @@ struct StepQuizView: View {
                     if viewModel.stepRoute is StepRouteRepeat,
                        let theoryID = viewModel.step.topicTheory {
                         Button(Strings.Step.theory) {
-                            let assembly = StepAssembly(stepRoute: StepRouteRepeat(stepId: theoryID.int64Value))
-                            pushRouter.pushViewController(assembly.makeModule())
+                            let assembly = StepAssembly(
+                                stepRoute: StepRouteRepeat(stepId: theoryID.int64Value),
+                                stackRouter: stackRouter
+                            )
+                            stackRouter.pushViewController(assembly.makeModule())
                         }
                     }
                 }

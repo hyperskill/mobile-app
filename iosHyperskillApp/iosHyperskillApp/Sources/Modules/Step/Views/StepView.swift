@@ -4,7 +4,7 @@ import SwiftUI
 struct StepView: View {
     @StateObject var viewModel: StepViewModel
 
-    @StateObject var pushRouter: SwiftUIStackRouter
+    @StateObject var stackRouter: SwiftUIStackRouter
 
     @StateObject var modalRouter: SwiftUIModalRouter
 
@@ -20,7 +20,7 @@ struct StepView: View {
             viewModel.onViewAction = handleViewAction(_:)
         }
         .onDisappear(perform: viewModel.stopListening)
-        .environmentObject(pushRouter)
+        .environmentObject(stackRouter)
         .environmentObject(modalRouter)
     }
 
@@ -74,7 +74,13 @@ struct StepView: View {
         case .showPracticingErrorStatus(let showPracticingErrorStatusViewAction):
             ProgressHUD.showError(status: showPracticingErrorStatusViewAction.errorMessage)
         case .reloadStep(let reloadStepViewAction):
-            viewModel.doStepReload(stepRoute: reloadStepViewAction.stepRoute)
+            stackRouter.replaceViewController(
+                StepAssembly(
+                    stepRoute: reloadStepViewAction.stepRoute,
+                    stackRouter: stackRouter
+                ).makeModule(),
+                animated: false
+            )
         }
     }
 }
@@ -82,7 +88,7 @@ struct StepView: View {
 struct StepView_Previews: PreviewProvider {
     static var previews: some View {
         UIKitViewControllerPreview {
-            StepAssembly(stepRoute: StepRouteLearn(stepId: 4350)).makeModule()
+            StepAssembly(stepRoute: StepRouteLearn(stepId: 4350), stackRouter: SwiftUIStackRouter()).makeModule()
         }
     }
 }
