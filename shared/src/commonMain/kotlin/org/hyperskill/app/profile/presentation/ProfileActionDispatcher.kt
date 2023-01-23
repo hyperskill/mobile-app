@@ -44,7 +44,7 @@ class ProfileActionDispatcher(
             }
             .launchIn(actionScope)
 
-        streakFlow.observeStreak()
+        streakFlow.observe()
             .onEach { streak ->
                 onNewMessage(Message.StreakChanged(streak))
             }
@@ -77,7 +77,7 @@ class ProfileActionDispatcher(
 
                 sentryInteractor.finishTransaction(sentryTransaction)
 
-                streakFlow.notifyStreakChanged(streak)
+                streakFlow.notifyDataChanged(streak)
 
                 onNewMessage(
                     Message.ProfileLoaded.Success(

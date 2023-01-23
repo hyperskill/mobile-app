@@ -7,12 +7,12 @@ import org.hyperskill.app.streaks.domain.model.Streak
 
 class StreakFlowImpl : StreakFlow {
 
-    private val streakMutableSharedFlow: MutableSharedFlow<Streak?> = MutableSharedFlow()
+    private val streakMutableSharedFlow = MutableSharedFlow<Streak?>()
 
-    override fun observeStreak(): SharedFlow<Streak?> =
+    override fun observe(): SharedFlow<Streak?> =
         streakMutableSharedFlow
 
-    override suspend fun notifyStreakChanged(streak: Streak?) {
-        streakMutableSharedFlow.emit(streak)
+    override suspend fun notifyDataChanged(data: Streak?) {
+        streakMutableSharedFlow.emit(data)
     }
 }

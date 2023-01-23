@@ -35,7 +35,7 @@ class GamificationToolbarActionDispatcher(
             }
             .launchIn(actionScope)
 
-        streakFlow.observeStreak()
+        streakFlow.observe()
             .distinctUntilChanged()
             .onEach { streak ->
                 onNewMessage(Message.StreakChanged(streak))
@@ -73,7 +73,7 @@ class GamificationToolbarActionDispatcher(
 
                 sentryInteractor.finishTransaction(sentryTransaction)
 
-                streakFlow.notifyStreakChanged(streak)
+                streakFlow.notifyDataChanged(streak)
 
                 onNewMessage(
                     Message.FetchGamificationToolbarDataSuccess(

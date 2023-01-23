@@ -1,10 +1,6 @@
 package org.hyperskill.app.streaks.domain.flow
 
-import kotlinx.coroutines.flow.SharedFlow
+import org.hyperskill.app.core.domain.flow.SharedDataFlow
 import org.hyperskill.app.streaks.domain.model.Streak
 
-interface StreakFlow {
-    fun observeStreak(): SharedFlow<Streak?>
-
-    suspend fun notifyStreakChanged(streak: Streak?)
-}
+interface StreakFlow : SharedDataFlow<Streak?>
