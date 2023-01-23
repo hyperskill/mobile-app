@@ -46,6 +46,7 @@ import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponentImpl
 import org.hyperskill.app.profile.injection.ProfileHypercoinsDataComponent
 import org.hyperskill.app.profile.injection.ProfileHypercoinsDataComponentImpl
+import org.hyperskill.app.streaks.injection.StreakFlowDataComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponentImpl
 import org.hyperskill.app.progresses.injection.ProgressesDataComponent
@@ -64,6 +65,7 @@ import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponentImpl
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponentImpl
+import org.hyperskill.app.streaks.injection.StreakFlowDataComponentImpl
 import org.hyperskill.app.streaks.injection.StreaksDataComponent
 import org.hyperskill.app.streaks.injection.StreaksDataComponentImpl
 import org.hyperskill.app.topics.injection.TopicsDataComponent
@@ -98,6 +100,9 @@ class AppGraphImpl(
 
     override val profileHypercoinsDataComponent: ProfileHypercoinsDataComponent =
         ProfileHypercoinsDataComponentImpl()
+
+    override val streakFlowDataComponent: StreakFlowDataComponent =
+        StreakFlowDataComponentImpl()
 
     override val analyticComponent: AnalyticComponent =
         AnalyticComponentImpl(this)

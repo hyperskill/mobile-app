@@ -1,7 +1,8 @@
 package org.hyperskill.app.profile.presentation
 
 import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
@@ -16,6 +17,7 @@ import org.hyperskill.app.profile.presentation.ProfileFeature.Action
 import org.hyperskill.app.profile.presentation.ProfileFeature.Message
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
+import org.hyperskill.app.streaks.domain.flow.StreakFlow
 import org.hyperskill.app.streaks.domain.interactor.StreaksInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -27,21 +29,26 @@ class ProfileActionDispatcher(
     private val itemsInteractor: ItemsInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
-    private val urlPathProcessor: UrlPathProcessor
+    private val urlPathProcessor: UrlPathProcessor,
+    private val streakFlow: StreakFlow
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
-        actionScope.launch {
-            profileInteractor.solvedStepsSharedFlow.collect {
-                onNewMessage(Message.StepQuizSolved)
-            }
-        }
+        profileInteractor.solvedStepsSharedFlow
+            .onEach { onNewMessage(Message.StepQuizSolved) }
+            .launchIn(actionScope)
 
-        actionScope.launch {
-            profileInteractor.observeHypercoinsBalance().collect {
-                onNewMessage(Message.HypercoinsBalanceChanged(it))
+        profileInteractor.observeHypercoinsBalance()
+            .onEach { hypercoinsBalance ->
+                onNewMessage(Message.HypercoinsBalanceChanged(hypercoinsBalance))
             }
-        }
+            .launchIn(actionScope)
+
+        streakFlow.observe()
+            .onEach { streak ->
+                onNewMessage(Message.StreakChanged(streak))
+            }
+            .launchIn(actionScope)
     }
 
     override suspend fun doSuspendableAction(action: Action) {
@@ -69,6 +76,8 @@ class ProfileActionDispatcher(
                 val items = itemsResult.await().getOrNull()
 
                 sentryInteractor.finishTransaction(sentryTransaction)
+
+                streakFlow.notifyDataChanged(streak)
 
                 onNewMessage(
                     Message.ProfileLoaded.Success(
