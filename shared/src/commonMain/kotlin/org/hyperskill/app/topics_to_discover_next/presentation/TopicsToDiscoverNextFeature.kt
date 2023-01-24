@@ -1,9 +1,9 @@
 package org.hyperskill.app.topics_to_discover_next.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.home.presentation.HomeFeature.Message
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransaction
 import org.hyperskill.app.topics.domain.model.Topic
-import org.hyperskill.app.topics_to_discover_next.domain.model.TopicsToDiscoverNextScreen
 
 interface TopicsToDiscoverNextFeature {
     sealed interface State {
@@ -45,11 +45,13 @@ interface TopicsToDiscoverNextFeature {
         /**
          * Initialization
          */
-        data class Initialize(val screen: TopicsToDiscoverNextScreen, val forceUpdate: Boolean = false) : Message
+        data class Initialize(val forceUpdate: Boolean = false) : Message
         object FetchTopicsToDiscoverNextError : Message
         data class FetchTopicsToDiscoverNextSuccess(val topicsToDiscoverNext: List<Topic>) : Message
 
-        data class PullToRefresh(val screen: TopicsToDiscoverNextScreen) : Message
+        object PullToRefresh : Message
+
+        data class TopicRepeated(val topicId: Long) : Message
 
         /**
          * A message that indicates about click on topic.
@@ -57,7 +59,7 @@ interface TopicsToDiscoverNextFeature {
          *
          * @property topicId A topic id that triggered that event.
          */
-        data class TopicToDiscoverNextClicked(val topicId: Long, val screen: TopicsToDiscoverNextScreen) : Message
+        data class TopicToDiscoverNextClicked(val topicId: Long) : Message
     }
 
     sealed interface Action {

@@ -14,6 +14,7 @@ import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
+import org.hyperskill.app.topics_repetitions.domain.flow.TopicRepeatedFlow
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextActionDispatcher
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
@@ -34,6 +35,7 @@ object HomeFeatureBuilder {
         sentryInteractor: SentryInteractor,
         urlPathProcessor: UrlPathProcessor,
         dateFormatter: DateFormatter,
+        topicRepeatedFlow: TopicRepeatedFlow,
         gamificationToolbarReducer: GamificationToolbarReducer,
         gamificationToolbarActionDispatcher: GamificationToolbarActionDispatcher,
         topicsToDiscoverNextReducer: TopicsToDiscoverNextReducer,
@@ -49,7 +51,8 @@ object HomeFeatureBuilder {
             analyticInteractor,
             sentryInteractor,
             urlPathProcessor,
-            dateFormatter
+            dateFormatter,
+            topicRepeatedFlow
         )
 
         return ReduxFeature(

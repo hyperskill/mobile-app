@@ -14,7 +14,6 @@ import org.hyperskill.app.home.presentation.HomeFeature.Action
 import org.hyperskill.app.home.presentation.HomeFeature.HomeState
 import org.hyperskill.app.home.presentation.HomeFeature.Message
 import org.hyperskill.app.home.presentation.HomeFeature.State
-import org.hyperskill.app.topics_to_discover_next.domain.model.TopicsToDiscoverNextScreen
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextReducer
 import ru.nobird.app.presentation.redux.reducer.StateReducer
@@ -41,7 +40,7 @@ class HomeReducer(
 
                 val (topicsToDiscoverNextState, topicsToDiscoverNextActions) = reduceTopicsToDiscoverNextMessage(
                     state.topicsToDiscoverNextState,
-                    TopicsToDiscoverNextFeature.Message.Initialize(TopicsToDiscoverNextScreen.HOME, message.forceUpdate)
+                    TopicsToDiscoverNextFeature.Message.Initialize(message.forceUpdate)
                 )
 
                 state.copy(
@@ -75,7 +74,7 @@ class HomeReducer(
 
                 val (topicsToDiscoverNextState, topicsToDiscoverNextActions) = reduceTopicsToDiscoverNextMessage(
                     state.topicsToDiscoverNextState,
-                    TopicsToDiscoverNextFeature.Message.PullToRefresh(TopicsToDiscoverNextScreen.HOME)
+                    TopicsToDiscoverNextFeature.Message.PullToRefresh
                 )
 
                 state.copy(

@@ -36,6 +36,8 @@ import org.hyperskill.app.streaks.injection.StreaksDataComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponent
+import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsFlowDataComponent
+import org.hyperskill.app.topics_to_discover_next.domain.model.TopicsToDiscoverNextScreen
 import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextComponent
 import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextDataComponent
 import org.hyperskill.app.track.injection.TrackComponent
@@ -50,9 +52,9 @@ interface AppGraph {
     val analyticComponent: AnalyticComponent
     val sentryComponent: SentryComponent
     val submissionDataComponent: SubmissionDataComponent
-    val topicsRepetitionsDataComponent: TopicsRepetitionsDataComponent
     val profileHypercoinsDataComponent: ProfileHypercoinsDataComponent
     val streakFlowDataComponent: StreakFlowDataComponent
+    val topicsRepetitionsFlowDataComponent: TopicsRepetitionsFlowDataComponent
 
     fun buildAuthSocialComponent(): AuthSocialComponent
     fun buildAuthCredentialsComponent(): AuthCredentialsComponent
@@ -76,6 +78,7 @@ interface AppGraph {
     fun buildReactionsDataComponent(): ReactionsDataComponent
     fun buildLikesDataComponent(): LikesDataComponent
     fun buildTopicsRepetitionsComponent(): TopicsRepetitionsComponent
+    fun buildTopicsRepetitionsDataComponent(): TopicsRepetitionsDataComponent
     fun buildLearningActivitiesDataComponent(): LearningActivitiesDataComponent
     fun buildTopicsDataComponent(): TopicsDataComponent
     fun buildProgressesDataComponent(): ProgressesDataComponent
@@ -83,6 +86,6 @@ interface AppGraph {
     fun buildItemsDataComponent(): ItemsDataComponent
     fun buildDebugComponent(): DebugComponent
     fun buildGamificationToolbarComponent(): GamificationToolbarComponent
-    fun buildTopicsToDiscoverNextComponent(): TopicsToDiscoverNextComponent
+    fun buildTopicsToDiscoverNextComponent(screen: TopicsToDiscoverNextScreen): TopicsToDiscoverNextComponent
     fun buildTopicsToDiscoverNextDataComponent(): TopicsToDiscoverNextDataComponent
 }

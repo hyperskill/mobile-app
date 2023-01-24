@@ -24,10 +24,7 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
     func doReloadTopicsToDiscoverNext() {
         onNewMessage(
             TrackFeatureMessageTopicsToDiscoverNextMessage(
-                message: TopicsToDiscoverNextFeatureMessageInitialize(
-                    screen: TopicsToDiscoverNextScreen.track,
-                    forceUpdate: true
-                )
+                message: TopicsToDiscoverNextFeatureMessageInitialize(forceUpdate: true)
             )
         )
     }

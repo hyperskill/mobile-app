@@ -114,6 +114,9 @@ import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponen
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponentImpl
+import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsFlowDataComponent
+import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsFlowDataComponentImpl
+import org.hyperskill.app.topics_to_discover_next.domain.model.TopicsToDiscoverNextScreen
 import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextComponent
 import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextComponentImpl
 import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextDataComponent
@@ -162,6 +165,9 @@ class AndroidAppComponentImpl(
     override val streakFlowDataComponent: StreakFlowDataComponentImpl =
         StreakFlowDataComponentImpl()
 
+    override val topicsRepetitionsFlowDataComponent: TopicsRepetitionsFlowDataComponent =
+        TopicsRepetitionsFlowDataComponentImpl()
+
     override val analyticComponent: AnalyticComponent =
         AnalyticComponentImpl(this)
 
@@ -170,9 +176,6 @@ class AndroidAppComponentImpl(
 
     override val platformNotificationComponent: PlatformNotificationComponent =
         PlatformNotificationComponentImpl(application, this)
-
-    override val topicsRepetitionsDataComponent: TopicsRepetitionsDataComponent =
-        TopicsRepetitionsDataComponentImpl(this)
 
     override fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent =
         PlatformAuthSocialWebViewComponentImpl()
@@ -313,6 +316,9 @@ class AndroidAppComponentImpl(
     override fun buildPlatformTopicsRepetitionsComponent(): PlatformTopicsRepetitionComponent =
         PlatformTopicsRepetitionComponentImpl(this)
 
+    override fun buildTopicsRepetitionsDataComponent(): TopicsRepetitionsDataComponent =
+        TopicsRepetitionsDataComponentImpl(this)
+
     /**
      * Step quiz hints component
      */
@@ -334,8 +340,8 @@ class AndroidAppComponentImpl(
     /**
      * Topics to discover next component
      */
-    override fun buildTopicsToDiscoverNextComponent(): TopicsToDiscoverNextComponent =
-        TopicsToDiscoverNextComponentImpl(this)
+    override fun buildTopicsToDiscoverNextComponent(screen: TopicsToDiscoverNextScreen): TopicsToDiscoverNextComponent =
+        TopicsToDiscoverNextComponentImpl(this, screen)
 
     override fun buildTopicsToDiscoverNextDataComponent(): TopicsToDiscoverNextDataComponent =
         TopicsToDiscoverNextDataComponentImpl(this)

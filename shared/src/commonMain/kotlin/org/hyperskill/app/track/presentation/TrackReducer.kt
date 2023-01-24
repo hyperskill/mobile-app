@@ -4,7 +4,6 @@ import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
-import org.hyperskill.app.topics_to_discover_next.domain.model.TopicsToDiscoverNextScreen
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextReducer
 import org.hyperskill.app.track.domain.analytic.TrackClickedContinueInWebHyperskillAnalyticEvent
@@ -38,10 +37,7 @@ class TrackReducer(
 
                 val (topicsToDiscoverNextState, topicsToDiscoverNextActions) = reduceTopicsToDiscoverNextMessage(
                     state.topicsToDiscoverNextState,
-                    TopicsToDiscoverNextFeature.Message.Initialize(
-                        TopicsToDiscoverNextScreen.TRACK,
-                        message.forceUpdate
-                    )
+                    TopicsToDiscoverNextFeature.Message.Initialize(message.forceUpdate)
                 )
 
                 state.copy(
@@ -79,7 +75,7 @@ class TrackReducer(
 
                 val (topicsToDiscoverNextState, topicsToDiscoverNextActions) = reduceTopicsToDiscoverNextMessage(
                     state.topicsToDiscoverNextState,
-                    TopicsToDiscoverNextFeature.Message.PullToRefresh(TopicsToDiscoverNextScreen.TRACK)
+                    TopicsToDiscoverNextFeature.Message.PullToRefresh
                 )
 
                 state.copy(
@@ -92,10 +88,7 @@ class TrackReducer(
             is Message.TopicToDiscoverNextClicked -> {
                 val (topicsToDiscoverNextState, topicsToDiscoverNextActions) = reduceTopicsToDiscoverNextMessage(
                     state.topicsToDiscoverNextState,
-                    TopicsToDiscoverNextFeature.Message.TopicToDiscoverNextClicked(
-                        message.topicId,
-                        TopicsToDiscoverNextScreen.TRACK
-                    )
+                    TopicsToDiscoverNextFeature.Message.TopicToDiscoverNextClicked(message.topicId)
                 )
                 state.copy(topicsToDiscoverNextState = topicsToDiscoverNextState) to topicsToDiscoverNextActions
             }
