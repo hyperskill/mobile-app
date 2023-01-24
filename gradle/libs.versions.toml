@@ -7,7 +7,7 @@ mokoResources = "0.20.1"
 mokoKswift = "0.6.1"
 ktlintRules = '1.0.0'
 adapters = '1.1.1'
-sentry = '5.7.3'
+sentry = '6.12.1'
 fragment = '1.4.1'
 flipper = '0.148.0'
 dokka = '1.7.20'
@@ -76,12 +76,14 @@ ktlintRules = { module = "ru.nobird.android.ktlint:rules", version.ref = "ktlint
 
 android-security = { module = "androidx.security:security-crypto", version = "1.1.0-alpha03" }
 android-material-progress-bar = { module = "me.zhanghai.android.materialprogressbar:library", version = "1.6.1" }
-android-sentry = { module = "io.sentry:sentry-android", version.ref = "sentry" }
-android-sentry-fragment = { module = "io.sentry:sentry-android-fragment", version.ref = "sentry" }
 android-flipper = { module = "com.facebook.flipper:flipper", version.ref = "flipper" }
 android-flipper-noop = { module = "com.facebook.flipper:flipper-noop", version.ref = "flipper" }
 android-soloader = { module = "com.facebook.soloader:soloader", version = "0.10.1" }
 android-parcelable = { module = "com.chrynan.parcelable:parcelable-core", version = "0.4.1" }
+
+android-sentry = { module = "io.sentry:sentry-android", version.ref = "sentry" }
+android-sentry-fragment = { module = "io.sentry:sentry-android-fragment", version.ref = "sentry" }
+android-sentry-okhttp = { module = "io.sentry:sentry-android-okhttp", version.ref = "sentry" }
 
 android-reactivex-rxandroid = { module = "io.reactivex.rxjava2:rxandroid", version = "2.1.0" }
 android-reactivex-rxjava = { module = "io.reactivex.rxjava2:rxjava", version = "2.2.5" }
@@ -98,4 +100,4 @@ ktor-common = ['ktor-core', 'ktor-serialization', 'ktor-logging', 'ktor-contentN
 android-test = ['android-test-junit', 'android-test-runner', 'android-test-robolectric']
 
 [plugins]
-sentry-androidGradle = { id = "io.sentry.android.gradle", version = "3.0.1" }
+sentry-androidGradle = { id = "io.sentry.android.gradle", version = "3.4.0" }
