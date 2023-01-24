@@ -292,7 +292,7 @@ class HomeReducer(
     private fun reduceTopicsToDiscoverNextMessage(
         state: TopicsToDiscoverNextFeature.State,
         message: TopicsToDiscoverNextFeature.Message
-    ): Pair<TopicsToDiscoverNextFeature.State, Set<Action>> {
+    ): Pair<TopicsToDiscoverNextFeature.State, Set<Action>> =
         // TODO: Uncomment after TopicsToDiscoverNextFeature will be implemented in Home
 //        val (topicsToDiscoverNextState, topicsToDiscoverNextActions) =
 //            topicsToDiscoverNextReducer.reduce(state, message)
@@ -308,6 +308,5 @@ class HomeReducer(
 //            .toSet()
 //
 //        return topicsToDiscoverNextState to actions
-        return TopicsToDiscoverNextFeature.State.Idle to emptySet()
-    }
+        TopicsToDiscoverNextFeature.State.Idle to emptySet()
 }
