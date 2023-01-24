@@ -6,6 +6,7 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
 
     var trackStateKs: TrackFeatureTrackStateKs { .init(state.trackState) }
     var gamificationToolbarStateKs: GamificationToolbarFeatureStateKs { .init(state.toolbarState) }
+    var topicsToDiscoverNextStateKs: TopicsToDiscoverNextFeatureStateKs { .init(state.topicsToDiscoverNextState) }
 
     init(viewDataMapper: TrackViewDataMapper, feature: Presentation_reduxFeature) {
         self.viewDataMapper = viewDataMapper
@@ -20,12 +21,23 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
         onNewMessage(TrackFeatureMessageInitialize(forceUpdate: forceUpdate))
     }
 
+    func doReloadTopicsToDiscoverNext() {
+        onNewMessage(
+            TrackFeatureMessageTopicsToDiscoverNextMessage(
+                message: TopicsToDiscoverNextFeatureMessageInitialize(
+                    screen: TopicsToDiscoverNextScreen.track,
+                    forceUpdate: true
+                )
+            )
+        )
+    }
+
     func doPullToRefresh() {
         onNewMessage(TrackFeatureMessagePullToRefresh())
     }
 
-    func doTheoryTopicPresentation(topic: TrackViewData.TheoryTopic) {
-        onNewMessage(TrackFeatureMessageTopicToDiscoverNextClicked(topicId: topic.id))
+    func doTheoryTopicPresentation(topicID: Int64) {
+        onNewMessage(TrackFeatureMessageTopicToDiscoverNextClicked(topicId: topicID))
     }
 
     func doStudyPlanInWebPresentation() {
@@ -51,14 +63,12 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
     func makeViewData(
         track: Track,
         trackProgress: TrackProgress,
-        studyPlan: StudyPlan?,
-        topicsToDiscoverNext: [Topic]
+        studyPlan: StudyPlan?
     ) -> TrackViewData {
         viewDataMapper.mapTrackDataToViewData(
             track: track,
             trackProgress: trackProgress,
-            studyPlan: studyPlan,
-            topicsToDiscoverNext: topicsToDiscoverNext
+            studyPlan: studyPlan
         )
     }
 

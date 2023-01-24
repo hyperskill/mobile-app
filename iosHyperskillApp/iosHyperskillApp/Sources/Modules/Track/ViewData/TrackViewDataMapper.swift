@@ -11,8 +11,7 @@ final class TrackViewDataMapper {
     func mapTrackDataToViewData(
         track: Track,
         trackProgress: TrackProgress,
-        studyPlan: StudyPlan?,
-        topicsToDiscoverNext: [Topic]
+        studyPlan: StudyPlan?
     ) -> TrackViewData {
         let currentTimeToCompleteText: String? = {
             guard let studyPlan = studyPlan else {
@@ -74,10 +73,6 @@ final class TrackViewDataMapper {
             return formatter.topicsCount(track.topicsCount)
         }()
 
-        let theoryTopicsToDiscoverNext = topicsToDiscoverNext.map { topic in
-            TrackViewData.TheoryTopic(id: topic.id, title: topic.title)
-        }
-
         return TrackViewData(
             coverSource: track.cover?.trimmedNonEmptyOrNil(),
             name: track.title,
@@ -93,8 +88,7 @@ final class TrackViewDataMapper {
             projectsCountText: projectsCountText,
             topicsCountText: topicsCountText,
             description: track.description_.trimmed(),
-            webActionButtonText: Strings.Track.About.continueInWebButton,
-            topicsToDiscoverNext: theoryTopicsToDiscoverNext
+            webActionButtonText: Strings.Track.About.continueInWebButton
         )
     }
 }

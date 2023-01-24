@@ -14,6 +14,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.ImageLoader
 import coil.load
 import coil.size.Scale
+import kotlin.math.roundToInt
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
@@ -34,6 +35,7 @@ import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarS
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.topics.domain.model.Topic
+import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.presentation.TrackFeature
 import org.hyperskill.app.track.presentation.TrackViewModel
@@ -42,7 +44,6 @@ import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
-import kotlin.math.roundToInt
 
 class TrackFragment :
     Fragment(R.layout.fragment_track),
@@ -125,8 +126,6 @@ class TrackFragment :
 
     override fun onAction(action: TrackFeature.Action.ViewAction) {
         when (action) {
-            is TrackFeature.Action.ViewAction.NavigateTo.StepScreen ->
-                requireRouter().navigateTo(StepScreen(StepRoute.Learn(action.stepId)))
             is TrackFeature.Action.ViewAction.OpenUrl ->
                 requireContext().openUrl(action.url)
             is TrackFeature.Action.ViewAction.ShowGetMagicLinkError ->
@@ -135,6 +134,14 @@ class TrackFragment :
                 when (action.viewAction) {
                     is GamificationToolbarFeature.Action.ViewAction.ShowProfileTab ->
                         requireMainRouter().switch(ProfileScreen(isInitCurrent = true))
+                }
+            is TrackFeature.Action.ViewAction.TopicsToDiscoverNextViewAction ->
+                when (action.viewAction) {
+                    is TopicsToDiscoverNextFeature.Action.ViewAction.ShowStepScreen -> {
+                        val viewAction =
+                            action.viewAction as TopicsToDiscoverNextFeature.Action.ViewAction.ShowStepScreen
+                        requireRouter().navigateTo(StepScreen(StepRoute.Learn(viewAction.stepId)))
+                    }
                 }
         }
     }
@@ -168,6 +175,11 @@ class TrackFragment :
             renderContent(trackState)
         }
         gamificationToolbarDelegate?.render(state.toolbarState)
+        // TODO: Add render for TopicsToDiscoverNextFeature.State.Loading
+        val topicsToDiscoverNextState = state.topicsToDiscoverNextState
+        if (topicsToDiscoverNextState is TopicsToDiscoverNextFeature.State.Content) {
+            renderNextTopics(topicsToDiscoverNextState.topicsToDiscoverNext)
+        }
     }
 
     private fun renderContent(content: TrackFeature.TrackState.Content) {
@@ -180,7 +192,6 @@ class TrackFragment :
         renderTrackCoverAndName(content.track)
         renderCards(content)
         renderAboutSection(content)
-        renderNextTopics(content.topicsToDiscoverNext)
     }
 
     private fun renderTrackCoverAndName(track: Track) {

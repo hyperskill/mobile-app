@@ -113,6 +113,8 @@ import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponen
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponentImpl
+import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextComponent
+import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextComponentImpl
 import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextDataComponent
 import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextDataComponentImpl
 import org.hyperskill.app.track.injection.PlatformTrackComponent
@@ -309,7 +311,7 @@ class AndroidAppComponentImpl(
 
     /**
      * Step quiz hints component
-     * */
+     */
     override fun buildStepQuizHintsComponent(): StepQuizHintsComponent =
         StepQuizHintsComponentImpl(this)
 
@@ -318,12 +320,21 @@ class AndroidAppComponentImpl(
 
     /**
      * Debug component
-     * */
+     */
     override fun buildPlatformDebugComponent(debugComponent: DebugComponent): PlatformDebugComponent =
         PlatformDebugComponentImpl(debugComponent)
 
     override fun buildDebugComponent(): DebugComponent =
         DebugComponentImpl(this)
+
+    /**
+     * Topics to discover next component
+     */
+    override fun buildTopicsToDiscoverNextComponent(): TopicsToDiscoverNextComponent =
+        TopicsToDiscoverNextComponentImpl(this)
+
+    override fun buildTopicsToDiscoverNextDataComponent(): TopicsToDiscoverNextDataComponent =
+        TopicsToDiscoverNextDataComponentImpl(this)
 
     override fun buildUserStorageComponent(): UserStorageComponent =
         UserStorageComponentImpl(this)
@@ -363,7 +374,4 @@ class AndroidAppComponentImpl(
 
     override fun buildGamificationToolbarComponent(): GamificationToolbarComponent =
         GamificationToolbarComponentImpl(this)
-
-    override fun buildTopicsToDiscoverNextDataComponent(): TopicsToDiscoverNextDataComponent =
-        TopicsToDiscoverNextDataComponentImpl(this)
 }

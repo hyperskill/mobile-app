@@ -10,7 +10,6 @@ import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
-import org.hyperskill.app.topics_to_discover_next.domain.interactor.TopicsToDiscoverNextInteractor
 import org.hyperskill.app.track.domain.interactor.TrackInteractor
 import org.hyperskill.app.track.presentation.TrackFeature.Action
 import org.hyperskill.app.track.presentation.TrackFeature.Message
@@ -21,7 +20,6 @@ class TrackActionDispatcher(
     private val trackInteractor: TrackInteractor,
     private val profileInteractor: ProfileInteractor,
     private val progressesInteractor: ProgressesInteractor,
-    private val topicsToDiscoverNextInteractor: TopicsToDiscoverNextInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val urlPathProcessor: UrlPathProcessor
@@ -44,16 +42,8 @@ class TrackActionDispatcher(
                 val trackResult = actionScope.async { trackInteractor.getTrack(trackId) }
                 val trackProgressResult = actionScope.async { progressesInteractor.getTrackProgress(trackId) }
                 val studyPlanResult = actionScope.async { trackInteractor.getStudyPlanByTrackId(trackId) }
-                val topicsToDiscoverNextResult = actionScope.async {
-                    topicsToDiscoverNextInteractor.getTopicsToDiscoverNext()
-                }
 
                 val track = trackResult.await().getOrElse {
-                    sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                    onNewMessage(Message.TrackFailure)
-                    return
-                }
-                val topicsToDiscoverNext = topicsToDiscoverNextResult.await().getOrElse {
                     sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                     onNewMessage(Message.TrackFailure)
                     return
@@ -67,7 +57,7 @@ class TrackActionDispatcher(
 
                 sentryInteractor.finishTransaction(sentryTransaction)
 
-                onNewMessage(Message.TrackSuccess(track, trackProgress, studyPlan, topicsToDiscoverNext))
+                onNewMessage(Message.TrackSuccess(track, trackProgress, studyPlan))
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
