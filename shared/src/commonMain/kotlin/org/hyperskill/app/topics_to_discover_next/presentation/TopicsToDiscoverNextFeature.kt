@@ -69,5 +69,4 @@ interface TopicsToDiscoverNextFeature {
             data class ShowStepScreen(val stepId: Long) : ViewAction
         }
     }
-
 }

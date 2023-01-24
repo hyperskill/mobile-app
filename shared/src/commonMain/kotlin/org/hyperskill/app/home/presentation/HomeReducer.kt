@@ -14,10 +14,14 @@ import org.hyperskill.app.home.presentation.HomeFeature.Action
 import org.hyperskill.app.home.presentation.HomeFeature.HomeState
 import org.hyperskill.app.home.presentation.HomeFeature.Message
 import org.hyperskill.app.home.presentation.HomeFeature.State
+import org.hyperskill.app.topics_to_discover_next.domain.model.TopicsToDiscoverNextScreen
+import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
+import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextReducer
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 class HomeReducer(
-    private val gamificationToolbarReducer: GamificationToolbarReducer
+    private val gamificationToolbarReducer: GamificationToolbarReducer,
+    private val topicsToDiscoverNextReducer: TopicsToDiscoverNextReducer
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
@@ -35,7 +39,16 @@ class HomeReducer(
                     GamificationToolbarFeature.Message.Initialize(GamificationToolbarScreen.HOME, message.forceUpdate)
                 )
 
-                state.copy(homeState = homeState, toolbarState = toolbarState) to homeActions + toolbarActions
+                val (topicsToDiscoverNextState, topicsToDiscoverNextActions) = reduceTopicsToDiscoverNextMessage(
+                    state.topicsToDiscoverNextState,
+                    TopicsToDiscoverNextFeature.Message.Initialize(TopicsToDiscoverNextScreen.HOME, message.forceUpdate)
+                )
+
+                state.copy(
+                    homeState = homeState,
+                    toolbarState = toolbarState,
+                    topicsToDiscoverNextState = topicsToDiscoverNextState
+                ) to homeActions + toolbarActions + topicsToDiscoverNextActions
             }
             is Message.HomeSuccess ->
                 state.copy(
@@ -60,7 +73,16 @@ class HomeReducer(
                     GamificationToolbarFeature.Message.PullToRefresh(GamificationToolbarScreen.HOME)
                 )
 
-                state.copy(homeState = homeState, toolbarState = toolbarState) to homeActions + toolbarActions
+                val (topicsToDiscoverNextState, topicsToDiscoverNextActions) = reduceTopicsToDiscoverNextMessage(
+                    state.topicsToDiscoverNextState,
+                    TopicsToDiscoverNextFeature.Message.PullToRefresh(TopicsToDiscoverNextScreen.HOME)
+                )
+
+                state.copy(
+                    homeState = homeState,
+                    toolbarState = toolbarState,
+                    topicsToDiscoverNextState = topicsToDiscoverNextState
+                ) to homeActions + toolbarActions + topicsToDiscoverNextActions
             }
             // Timer Messages
             is Message.ReadyToLaunchNextProblemInTimer ->
@@ -242,11 +264,13 @@ class HomeReducer(
                     reduceGamificationToolbarMessage(state.toolbarState, message.message)
                 state.copy(toolbarState = toolbarState) to toolbarActions
             }
+            is Message.TopicsToDiscoverNextMessage -> {
+                val (topicsToDiscoverNextState, topicsToDiscoverNextActions) =
+                    reduceTopicsToDiscoverNextMessage(state.topicsToDiscoverNextState, message.message)
+                state.copy(topicsToDiscoverNextState = topicsToDiscoverNextState) to topicsToDiscoverNextActions
+            }
         } ?: (state to emptySet())
 
-    /**
-     * Reduces [Message.GamificationToolbarMessage] to [GamificationToolbarFeature.State] and set of [HomeFeature.Action]
-     */
     private fun reduceGamificationToolbarMessage(
         state: GamificationToolbarFeature.State,
         message: GamificationToolbarFeature.Message
@@ -264,5 +288,27 @@ class HomeReducer(
             .toSet()
 
         return gamificationToolbarState to actions
+    }
+
+    private fun reduceTopicsToDiscoverNextMessage(
+        state: TopicsToDiscoverNextFeature.State,
+        message: TopicsToDiscoverNextFeature.Message
+    ): Pair<TopicsToDiscoverNextFeature.State, Set<Action>> {
+        // TODO: Uncomment after TopicsToDiscoverNextFeature will be implemented in Home
+//        val (topicsToDiscoverNextState, topicsToDiscoverNextActions) =
+//            topicsToDiscoverNextReducer.reduce(state, message)
+//
+//        val actions = topicsToDiscoverNextActions
+//            .map {
+//                if (it is TopicsToDiscoverNextFeature.Action.ViewAction) {
+//                    Action.ViewAction.TopicsToDiscoverNextViewAction(it)
+//                } else {
+//                    Action.TopicsToDiscoverNextAction(it)
+//                }
+//            }
+//            .toSet()
+//
+//        return topicsToDiscoverNextState to actions
+        return TopicsToDiscoverNextFeature.State.Idle to emptySet()
     }
 }

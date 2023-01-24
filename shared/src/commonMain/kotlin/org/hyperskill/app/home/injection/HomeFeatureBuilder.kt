@@ -15,6 +15,9 @@ import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
+import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextActionDispatcher
+import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
+import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextReducer
 import ru.nobird.app.core.model.safeCast
 import ru.nobird.app.presentation.redux.dispatcher.transform
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
@@ -32,9 +35,11 @@ object HomeFeatureBuilder {
         urlPathProcessor: UrlPathProcessor,
         dateFormatter: DateFormatter,
         gamificationToolbarReducer: GamificationToolbarReducer,
-        gamificationToolbarActionDispatcher: GamificationToolbarActionDispatcher
+        gamificationToolbarActionDispatcher: GamificationToolbarActionDispatcher,
+        topicsToDiscoverNextReducer: TopicsToDiscoverNextReducer,
+        topicsToDiscoverNextActionDispatcher: TopicsToDiscoverNextActionDispatcher
     ): Feature<HomeFeature.State, HomeFeature.Message, HomeFeature.Action> {
-        val homeReducer = HomeReducer(gamificationToolbarReducer)
+        val homeReducer = HomeReducer(gamificationToolbarReducer, topicsToDiscoverNextReducer)
         val homeActionDispatcher = HomeActionDispatcher(
             ActionDispatcherOptions(),
             homeInteractor,
@@ -50,7 +55,8 @@ object HomeFeatureBuilder {
         return ReduxFeature(
             HomeFeature.State(
                 homeState = HomeFeature.HomeState.Idle,
-                toolbarState = GamificationToolbarFeature.State.Idle
+                toolbarState = GamificationToolbarFeature.State.Idle,
+                topicsToDiscoverNextState = TopicsToDiscoverNextFeature.State.Idle
             ),
             homeReducer
         )
@@ -59,6 +65,12 @@ object HomeFeatureBuilder {
                 gamificationToolbarActionDispatcher.transform(
                     transformAction = { it.safeCast<HomeFeature.Action.GamificationToolbarAction>()?.action },
                     transformMessage = HomeFeature.Message::GamificationToolbarMessage
+                )
+            )
+            .wrapWithActionDispatcher(
+                topicsToDiscoverNextActionDispatcher.transform(
+                    transformAction = { it.safeCast<HomeFeature.Action.TopicsToDiscoverNextAction>()?.action },
+                    transformMessage = HomeFeature.Message::TopicsToDiscoverNextMessage
                 )
             )
     }
