@@ -45,6 +45,12 @@ class GamificationToolbarReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
+            is Message.StreakChanged ->
+                if (state is State.Content) {
+                    state.copy(streak = message.streak) to emptySet()
+                } else {
+                    null
+                }
             // Click Messages
             is Message.ClickedGems ->
                 if (state is State.Content) {

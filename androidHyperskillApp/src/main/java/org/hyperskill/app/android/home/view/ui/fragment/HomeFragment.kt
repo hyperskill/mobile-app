@@ -92,7 +92,7 @@ class HomeFragment :
 //            if (stepId == null) {
 //                view.snackbar("Insert a valid number", Snackbar.LENGTH_SHORT)
 //            } else {
-//                requireRouter().navigateTo(StepScreen(stepId))
+//                requireRouter().navigateTo(StepScreen(StepRoute.Learn(stepId)))
 //            }
 //        }
 

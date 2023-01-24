@@ -34,6 +34,7 @@ interface GamificationToolbarFeature {
          */
         object StepSolved : Message
         data class HypercoinsBalanceChanged(val hypercoinsBalance: Int) : Message
+        data class StreakChanged(val streak: Streak?) : Message
 
         /**
          * Clicks

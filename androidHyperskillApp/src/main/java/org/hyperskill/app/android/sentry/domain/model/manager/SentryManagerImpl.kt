@@ -16,6 +16,7 @@ import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcr
 import org.hyperskill.app.sentry.domain.model.level.HyperskillSentryLevel
 import org.hyperskill.app.sentry.domain.model.manager.SentryManager
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransaction
+import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionKeyValues
 
 class SentryManagerImpl(private val buildKonfig: BuildKonfig) : SentryManager {
     private val currentTransactionsMap = mutableMapOf<Int, PlatformHyperskillSentryTransaction>()
@@ -81,6 +82,10 @@ class SentryManagerImpl(private val buildKonfig: BuildKonfig) : SentryManager {
         val platformTransaction = currentTransactionsMap[mapTransactionInfoToKey(transaction)] ?: return
 
         if (throwable != null) {
+            platformTransaction.transaction.setData(
+                HyperskillSentryTransactionKeyValues.DATA_ERROR,
+                throwable.toString()
+            )
             platformTransaction.transaction.throwable = throwable
             platformTransaction.transaction.status = SpanStatus.UNKNOWN_ERROR
         } else {

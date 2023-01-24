@@ -11,6 +11,7 @@ import org.hyperskill.app.main.presentation.AppFeature.Action
 import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcrumbBuilder
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -37,6 +38,8 @@ class AppActionDispatcher(
                     }
                 }
 
+                sentryInteractor.addBreadcrumb(HyperskillSentryBreadcrumbBuilder.buildAppUserDeauthorized(it.reason))
+
                 onNewMessage(Message.UserDeauthorized(it.reason))
             }
             .launchIn(actionScope)
@@ -48,14 +51,22 @@ class AppActionDispatcher(
                 val transaction = HyperskillSentryTransactionBuilder.buildAppScreenRemoteDataLoading()
                 sentryInteractor.startTransaction(transaction)
 
+                sentryInteractor.addBreadcrumb(HyperskillSentryBreadcrumbBuilder.buildAppDetermineUserAccountStatus())
+
                 profileInteractor
                     .getCurrentProfile(sourceType = DataSourceType.REMOTE)
                     .fold(
                         onSuccess = { profile ->
+                            sentryInteractor.addBreadcrumb(
+                                HyperskillSentryBreadcrumbBuilder.buildAppDetermineUserAccountStatusSuccess()
+                            )
                             sentryInteractor.finishTransaction(transaction)
                             onNewMessage(Message.UserAccountStatus(profile))
                         },
                         onFailure = { exception ->
+                            sentryInteractor.addBreadcrumb(
+                                HyperskillSentryBreadcrumbBuilder.buildAppDetermineUserAccountStatusError(exception)
+                            )
                             sentryInteractor.finishTransaction(transaction, exception)
                             onNewMessage(Message.UserAccountStatusError)
                         }
