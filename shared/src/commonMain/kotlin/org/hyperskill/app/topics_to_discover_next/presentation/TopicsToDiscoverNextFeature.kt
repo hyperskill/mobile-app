@@ -1,7 +1,6 @@
 package org.hyperskill.app.topics_to_discover_next.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
-import org.hyperskill.app.home.presentation.HomeFeature.Message
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransaction
 import org.hyperskill.app.topics.domain.model.Topic
 
