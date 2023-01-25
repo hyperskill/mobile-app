@@ -25,7 +25,7 @@ class StepQuizHintsReducer : StateReducer<State, Message, Action> {
                     State.Content(
                         hintsIds = message.hintsIds,
                         currentHint = message.lastSeenHint,
-                        hintHasReaction = false,
+                        hintHasReaction = message.lastSeenHintHasReaction,
                         isDailyStep = message.isDailyStep,
                         stepId = message.stepId
                     ) to emptySet()

@@ -37,12 +37,18 @@ class StepQuizHintsActionDispatcher(
                 val hintsIds = stepQuizHintsInteractor.getNotSeenHintsIds(action.stepId)
                 val dailyStepId = profileInteractor
                     .getCurrentProfile()
-                    .fold(
-                        onSuccess = { it.dailyStep },
-                        onFailure = { null }
-                    )
+                    .map { it.dailyStep }
+                    .getOrNull()
 
                 val lastSeenHint = stepQuizHintsInteractor.getLastSeenHint(action.stepId)
+
+                var lastSeenHintHasReaction = false
+                if (lastSeenHint != null) {
+                    val hintState = stepQuizHintsInteractor
+                        .getCachedHintState(action.stepId, lastSeenHint.id)
+                        .getOrNull()
+                    lastSeenHintHasReaction = hintState?.hasReaction ?: false
+                }
 
                 sentryInteractor.finishTransaction(sentryTransaction)
 
@@ -50,6 +56,7 @@ class StepQuizHintsActionDispatcher(
                     Message.HintsIdsLoaded(
                         hintsIds = hintsIds,
                         lastSeenHint = lastSeenHint,
+                        lastSeenHintHasReaction = lastSeenHintHasReaction,
                         isDailyStep = dailyStepId == action.stepId,
                         stepId = action.stepId
                     )

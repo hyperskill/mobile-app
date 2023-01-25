@@ -26,7 +26,7 @@ interface StepQuizHintsFeature {
          *
          * @property hintsIds remaining hints to be displayed
          * @property currentHint current hint to be displayed
-         * @property hintHasReaction flag true, if user created reaction or reprted hint
+         * @property hintHasReaction flag true, if user created reaction or reported hint
          * @property isDailyStep used for analytic route
          * @property stepId used for analytic route
          */
@@ -72,6 +72,7 @@ interface StepQuizHintsFeature {
         data class HintsIdsLoaded(
             val hintsIds: List<Long>,
             val lastSeenHint: Comment?,
+            val lastSeenHintHasReaction: Boolean,
             val isDailyStep: Boolean,
             val stepId: Long
         ) : Message
