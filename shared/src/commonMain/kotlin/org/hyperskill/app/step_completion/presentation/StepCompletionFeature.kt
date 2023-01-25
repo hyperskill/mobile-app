@@ -5,6 +5,18 @@ import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 
 interface StepCompletionFeature {
+    companion object {
+        fun createState(step: Step, stepRoute: StepRoute): State =
+            State(
+                currentStep = step,
+                continueButtonAction = if (stepRoute is StepRoute.Learn) {
+                    ContinueButtonAction.FetchNextStepQuiz
+                } else {
+                    ContinueButtonAction.NavigateToBack
+                }
+            )
+    }
+
     data class State(
         val currentStep: Step,
         val continueButtonAction: ContinueButtonAction,

@@ -24,14 +24,7 @@ class StepReducer(private val stepRoute: StepRoute, private val stepCompletionRe
                 State.Data(
                     step = message.step,
                     isPracticingAvailable = stepRoute is StepRoute.Learn,
-                    stepCompletionState = StepCompletionFeature.State(
-                        currentStep = message.step,
-                        continueButtonAction = if (stepRoute is StepRoute.Learn) {
-                            StepCompletionFeature.ContinueButtonAction.FetchNextStepQuiz
-                        } else {
-                            StepCompletionFeature.ContinueButtonAction.NavigateToBack
-                        }
-                    )
+                    stepCompletionState = StepCompletionFeature.createState(message.step, stepRoute)
                 ) to emptySet()
             }
             is Message.StepLoaded.Error ->
@@ -61,9 +54,9 @@ class StepReducer(private val stepRoute: StepRoute, private val stepCompletionRe
         state: StepCompletionFeature.State,
         message: StepCompletionFeature.Message
     ): Pair<StepCompletionFeature.State, Set<Action>> {
-        val (gamificationToolbarState, gamificationToolbarActions) = stepCompletionReducer.reduce(state, message)
+        val (stepCompletionState, stepCompletionActions) = stepCompletionReducer.reduce(state, message)
 
-        val actions = gamificationToolbarActions
+        val actions = stepCompletionActions
             .map {
                 if (it is StepCompletionFeature.Action.ViewAction) {
                     Action.ViewAction.StepCompletionViewAction(it)
@@ -73,6 +66,6 @@ class StepReducer(private val stepRoute: StepRoute, private val stepCompletionRe
             }
             .toSet()
 
-        return gamificationToolbarState to actions
+        return stepCompletionState to actions
     }
 }
