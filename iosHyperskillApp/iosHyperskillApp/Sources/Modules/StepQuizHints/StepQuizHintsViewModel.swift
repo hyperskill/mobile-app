@@ -2,15 +2,24 @@ import Foundation
 import shared
 
 final class StepQuizHintsViewModel: FeatureViewModel<
-  StepQuizHintsFeatureState,
+  StepQuizHintsViewState,
   StepQuizHintsFeatureMessage,
   StepQuizHintsFeatureActionViewAction
 > {
     let stepID: Int64
 
+    var stateKs: StepQuizHintsViewStateKs { .init(state) }
+
     init(stepID: Int64, feature: Presentation_reduxFeature) {
         self.stepID = stepID
         super.init(feature: feature)
+    }
+
+    override func shouldNotifyStateDidChange(
+        oldState: StepQuizHintsViewState,
+        newState: StepQuizHintsViewState
+    ) -> Bool {
+        StepQuizHintsViewStateKs(oldState) != StepQuizHintsViewStateKs(newState)
     }
 
     func loadHintsIDs() {
