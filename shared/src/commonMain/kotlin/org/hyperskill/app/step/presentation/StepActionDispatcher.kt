@@ -26,7 +26,7 @@ class StepActionDispatcher(
                     .fold(
                         onSuccess = {
                             sentryInteractor.finishTransaction(sentryTransaction)
-                            onNewMessage(Message.StepLoaded.Success(step = it))
+                            onNewMessage(Message.StepLoaded.Success(it))
                         },
                         onFailure = {
                             sentryInteractor.finishTransaction(sentryTransaction, throwable = it)

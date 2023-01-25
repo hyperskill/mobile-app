@@ -1313,11 +1313,11 @@
 			isa = PBXGroup;
 			children = (
 				2CD48D842858638A00CFCC4A /* StepQuizAssembly.swift */,
+				E9470C6A29810AB7008ACF9A /* StepQuizOutputProtocol.swift */,
 				2CD48D862858639500CFCC4A /* StepQuizViewModel.swift */,
 				2C1061A0285C341C00EBD614 /* ChildProtocols */,
 				2CD48D8C28586B5C00CFCC4A /* ViewData */,
 				2C41127528376ECE004948A3 /* Views */,
-				E9470C6A29810AB7008ACF9A /* StepQuizOutputProtocol.swift */,
 			);
 			path = StepQuiz;
 			sourceTree = "<group>";
@@ -1325,13 +1325,13 @@
 		2C41127528376ECE004948A3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E9ACD3402937342F0005E05B /* ProblemOfDaySolvedModalViewController.swift */,
 				2CA7614A2926272500987B66 /* StepQuizFeedbackView.swift */,
 				E99B21802887E535006A6154 /* StepQuizSkeletonViewFactory.swift */,
 				E99D4CEE2826B91100B49D52 /* StepQuizStatusView.swift */,
 				2CD48D882858657100CFCC4A /* StepQuizView.swift */,
 				2C41127628376F50004948A3 /* BottomControls */,
 				2CCD49712838E40F004DC3CE /* Header */,
-				E97BEA1C2977CDBC00348EEC /* Modal */,
 				2C7802C3285C933300082547 /* StepQuizActionButtons */,
 			);
 			path = Views;
@@ -1826,11 +1826,12 @@
 		2CAE8CF5280525DB00E6C83D /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2CAE8D0A280578A200E6C83D /* BottomControls */,
 				2CAE8CF628052F9600E6C83D /* StepHeaderView.swift */,
 				2C9F59A629267A530008ADC5 /* StepTextView.swift */,
 				2C8409522805BF3C009C6BE9 /* StepTheoryContentView.swift */,
 				2CAE8CF1280525C900E6C83D /* StepView.swift */,
-				2CAE8D0A280578A200E6C83D /* BottomControls */,
+				E97BEA1D2977D26F00348EEC /* TopicCompletedModalViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2302,15 +2303,6 @@
 				E97704772946F47000ACD7E7 /* AuthNewUserTrackModalViewController.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		E97BEA1C2977CDBC00348EEC /* Modal */ = {
-			isa = PBXGroup;
-			children = (
-				E9ACD3402937342F0005E05B /* ProblemOfDaySolvedModalViewController.swift */,
-				E97BEA1D2977D26F00348EEC /* TopicCompletedModalViewController.swift */,
-			);
-			path = Modal;
 			sourceTree = "<group>";
 		};
 		E9802D03281BB5A500CF3AC1 /* StepQuizChoice */ = {

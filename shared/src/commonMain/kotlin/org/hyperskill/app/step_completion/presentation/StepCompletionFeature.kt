@@ -8,7 +8,7 @@ interface StepCompletionFeature {
     data class State(
         val step: Step,
         val continueButtonAction: ContinueButtonAction,
-        val isLoading: Boolean = false
+        val isPracticingLoading: Boolean = false
     )
 
     sealed interface ContinueButtonAction {

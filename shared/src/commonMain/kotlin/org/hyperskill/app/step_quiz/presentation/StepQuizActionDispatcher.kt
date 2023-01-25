@@ -184,7 +184,6 @@ class StepQuizActionDispatcher(
                     .fold(
                         onSuccess = { newSubmission ->
                             sentryInteractor.finishTransaction(sentryTransaction)
-
                             onNewMessage(Message.CreateSubmissionSuccess(newSubmission, newAttempt))
                         },
                         onFailure = {

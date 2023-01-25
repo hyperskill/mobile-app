@@ -303,10 +303,8 @@ extension StepQuizView {
 
     private func presentSendDailyStudyRemindersPermissionAlert() {
         let alert = UIAlertController(
-            title: viewModel
-                .makeUserPermissionRequestTitle(StepQuizUserPermissionRequest.sendDailyStudyReminders),
-            message: viewModel
-                .makeUserPermissionRequestMessage(StepQuizUserPermissionRequest.sendDailyStudyReminders),
+            title: viewModel.makeUserPermissionRequestTitle(StepQuizUserPermissionRequest.sendDailyStudyReminders),
+            message: viewModel.makeUserPermissionRequestMessage(StepQuizUserPermissionRequest.sendDailyStudyReminders),
             preferredStyle: .alert
         )
         alert.addAction(

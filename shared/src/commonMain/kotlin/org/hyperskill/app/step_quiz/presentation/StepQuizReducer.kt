@@ -124,12 +124,7 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                                     message.replyValidation
                                 )
                             ) to setOf(
-                                Action.CreateSubmission(
-                                    message.step,
-                                    stepRoute,
-                                    state.attempt.id,
-                                    submission
-                                )
+                                Action.CreateSubmission(message.step, state.attempt.id, submission)
                             )
                         }
                     }

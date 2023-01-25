@@ -73,7 +73,7 @@ extension StepViewModel: StepQuizOutputProtocol {
     var isPracticingLoading: Bool {
         switch stateKs {
         case .data(let data):
-            return data.stepCompletionState.isLoading
+            return data.stepCompletionState.isPracticingLoading
         default:
             return false
         }

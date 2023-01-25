@@ -22,7 +22,7 @@ final class StepQuizAssembly: Assembly {
             stepQuizStatsTextMapper: stepQuizComponent.stepQuizStatsTextMapper,
             stepQuizTitleMapper: stepQuizComponent.stepQuizTitleMapper
         )
-        let stepQuizViewModel = StepQuizViewModel(
+        let viewModel = StepQuizViewModel(
             step: self.step,
             stepRoute: self.stepRoute,
             moduleOutput: self.moduleOutput,
@@ -37,6 +37,6 @@ final class StepQuizAssembly: Assembly {
             feature: stepQuizComponent.stepQuizFeature
         )
 
-        return StepQuizView(viewModel: stepQuizViewModel)
+        return StepQuizView(viewModel: viewModel)
     }
 }

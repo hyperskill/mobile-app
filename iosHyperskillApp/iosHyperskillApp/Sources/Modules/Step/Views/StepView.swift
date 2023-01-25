@@ -62,7 +62,7 @@ struct StepView: View {
             StepTheoryContentView(
                 viewData: viewModel.makeViewData(data.step),
                 isPracticingAvailable: data.isPracticingAvailable,
-                isPracticingLoading: data.stepCompletionState.isLoading,
+                isPracticingLoading: data.stepCompletionState.isPracticingLoading,
                 onStartPracticingTap: {
                     viewModel.doStartPracticing(currentStep: data.step)
                 }
