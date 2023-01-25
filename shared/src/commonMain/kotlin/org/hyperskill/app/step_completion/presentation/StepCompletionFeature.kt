@@ -6,7 +6,7 @@ import org.hyperskill.app.step.domain.model.StepRoute
 
 interface StepCompletionFeature {
     data class State(
-        val step: Step,
+        val currentStep: Step,
         val continueButtonAction: ContinueButtonAction,
         val isPracticingLoading: Boolean = false
     )
@@ -18,9 +18,9 @@ interface StepCompletionFeature {
     }
 
     sealed interface Message {
-        data class StartPracticingClicked(val currentStep: Step) : Message
+        object StartPracticingClicked : Message
 
-        data class ContinuePracticingClicked(val currentStep: Step) : Message
+        object ContinuePracticingClicked : Message
 
         data class StepSolved(val stepId: Long) : Message
 

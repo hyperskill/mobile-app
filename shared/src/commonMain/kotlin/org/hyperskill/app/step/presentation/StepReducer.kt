@@ -25,7 +25,7 @@ class StepReducer(private val stepRoute: StepRoute, private val stepCompletionRe
                     step = message.step,
                     isPracticingAvailable = stepRoute is StepRoute.Learn,
                     stepCompletionState = StepCompletionFeature.State(
-                        step = message.step,
+                        currentStep = message.step,
                         continueButtonAction = if (stepRoute is StepRoute.Learn) {
                             StepCompletionFeature.ContinueButtonAction.FetchNextStepQuiz
                         } else {

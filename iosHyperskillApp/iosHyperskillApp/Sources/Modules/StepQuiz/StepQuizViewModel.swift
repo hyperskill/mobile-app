@@ -85,7 +85,7 @@ final class StepQuizViewModel: FeatureViewModel<
     }
 
     func doQuizContinueAction() {
-        moduleOutput?.doContinuePracticing(currentStep: step)
+        moduleOutput?.doContinuePracticing()
     }
 
     func doGoBackAction() {

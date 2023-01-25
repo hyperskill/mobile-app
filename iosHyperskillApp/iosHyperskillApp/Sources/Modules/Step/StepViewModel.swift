@@ -30,10 +30,10 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
         viewDataMapper.mapStepToViewData(step)
     }
 
-    func doStartPracticing(currentStep: Step) {
+    func doStartPracticing() {
         onNewMessage(
             StepFeatureMessageStepCompletionMessage(
-                message: StepCompletionFeatureMessageStartPracticingClicked(currentStep: currentStep)
+                message: StepCompletionFeatureMessageStartPracticingClicked()
             )
         )
     }
@@ -79,10 +79,10 @@ extension StepViewModel: StepQuizOutputProtocol {
         }
     }
 
-    func doContinuePracticing(currentStep: Step) {
+    func doContinuePracticing() {
         onNewMessage(
             StepFeatureMessageStepCompletionMessage(
-                message: StepCompletionFeatureMessageContinuePracticingClicked(currentStep: currentStep)
+                message: StepCompletionFeatureMessageContinuePracticingClicked()
             )
         )
     }

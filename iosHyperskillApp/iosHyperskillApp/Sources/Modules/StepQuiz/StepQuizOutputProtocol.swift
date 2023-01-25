@@ -2,6 +2,6 @@ import Foundation
 import shared
 
 protocol StepQuizOutputProtocol {
-    func doContinuePracticing(currentStep: Step)
+    func doContinuePracticing()
     var isPracticingLoading: Bool { get }
 }

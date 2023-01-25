@@ -63,9 +63,7 @@ struct StepView: View {
                 viewData: viewModel.makeViewData(data.step),
                 isPracticingAvailable: data.isPracticingAvailable,
                 isPracticingLoading: data.stepCompletionState.isPracticingLoading,
-                onStartPracticingTap: {
-                    viewModel.doStartPracticing(currentStep: data.step)
-                }
+                onStartPracticingTap: viewModel.doStartPracticing
             )
         case Step.Type_.practice:
             StepQuizAssembly(
