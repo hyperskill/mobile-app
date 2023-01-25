@@ -1,4 +1,4 @@
-package org.hyperskill.app.step_quiz.domain.analytic.topic_completed_modal
+package org.hyperskill.app.step_completion.domain.analytic.topic_completed_modal
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -7,24 +7,24 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents a hidden analytic event of the topic completed modal.
+ * Represents a shown analytic event of the topic completed modal.
  *
  * JSON payload:
  * ```
  * {
  *     "route": "/learn/step/1",
- *     "action": "hidden",
- *     "part": "topic_completed_modal",
- *     "target": "close"
+ *     "action": "shown",
+ *     "part": "modal",
+ *     "target": "topic_completed_modal"
  * }
  * ```
  * @see HyperskillAnalyticEvent
  */
-class StepQuizTopicCompletedModalHiddenHyperskillAnalyticEvent(
+class StepCompletionTopicCompletedModalShownHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute
 ) : HyperskillAnalyticEvent(
     route,
-    HyperskillAnalyticAction.HIDDEN,
-    HyperskillAnalyticPart.TOPIC_COMPLETED_MODAL,
-    HyperskillAnalyticTarget.CLOSE
+    HyperskillAnalyticAction.SHOWN,
+    HyperskillAnalyticPart.MODAL,
+    HyperskillAnalyticTarget.TOPIC_COMPLETED_MODAL
 )

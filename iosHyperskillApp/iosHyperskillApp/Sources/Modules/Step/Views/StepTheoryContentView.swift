@@ -12,7 +12,9 @@ struct StepTheoryContentView: View {
 
     @State var viewData: StepViewData
 
-    let practiceStatus: StepFeaturePracticeStatus
+    let isPracticingAvailable: Bool
+
+    let isPracticingLoading: Bool
 
     let onStartPracticingTap: () -> Void
 
@@ -38,20 +40,20 @@ struct StepTheoryContentView: View {
 
     @ViewBuilder
     private func buildPracticingButton() -> some View {
-        if practiceStatus == StepFeaturePracticeStatus.unavailable {
-            EmptyView()
-        } else {
+        if isPracticingAvailable {
             Button(
                 action: onStartPracticingTap,
                 label: {
-                    if practiceStatus == StepFeaturePracticeStatus.loading {
+                    if isPracticingLoading {
                         ProgressView()
                     } else {
                         Text(Strings.Step.startPracticing)
                     }
                 }
             )
-            .disabled(practiceStatus == StepFeaturePracticeStatus.loading)
+            .disabled(isPracticingLoading)
+        } else {
+            EmptyView()
         }
     }
 }
@@ -61,7 +63,8 @@ struct StepContentView_Previews: PreviewProvider {
     static var previews: some View {
         StepTheoryContentView(
             viewData: .placeholder,
-            practiceStatus: StepFeaturePracticeStatus.available,
+            isPracticingAvailable: true,
+            isPracticingLoading: false,
             onStartPracticingTap: {}
         )
     }

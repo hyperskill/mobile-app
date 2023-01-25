@@ -15,7 +15,7 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
 
 object StepQuizFragmentFactory {
     fun getQuizFragment(step: Step, stepRoute: StepRoute): Fragment =
-        if (StepQuizResolver.isQuizSupportable(step.block.name)) {
+        if (StepQuizResolver.isQuizSupportable(step)) {
             when (step.block.name) {
                 BlockName.SORTING ->
                     SortingStepQuizFragment.newInstance(step, stepRoute)

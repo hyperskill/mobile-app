@@ -1,6 +1,5 @@
 package org.hyperskill.app.step_quiz.presentation
 
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import org.hyperskill.app.SharedResources
@@ -11,11 +10,8 @@ import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.notification.data.extension.NotificationExtensions
 import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
-import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
-import org.hyperskill.app.step.domain.model.Step
-import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.permissions.StepQuizUserPermissionRequest
@@ -23,7 +19,6 @@ import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.domain.validation.StepQuizReplyValidator
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Action
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Message
-import org.hyperskill.app.topics.domain.interactor.TopicsInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class StepQuizActionDispatcher(
@@ -34,10 +29,7 @@ class StepQuizActionDispatcher(
     private val notificationInteractor: NotificationInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
-    private val resourceProvider: ResourceProvider,
-    private val progressesInteractor: ProgressesInteractor,
-    private val topicsInteractor: TopicsInteractor,
-    private val readyToLoadNextStepQuizMutableSharedFlow: MutableSharedFlow<Step>
+    private val resourceProvider: ResourceProvider
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
@@ -66,12 +58,6 @@ class StepQuizActionDispatcher(
                         )
                     }
                 }
-            }
-        }
-
-        actionScope.launch {
-            stepQuizInteractor.observeFailedToLoadNextStepQuiz().collect {
-                onNewMessage(Message.NextStepQuizFetchedError)
             }
         }
     }
@@ -197,10 +183,6 @@ class StepQuizActionDispatcher(
                     )
                     .fold(
                         onSuccess = { newSubmission ->
-                            if (action.stepRoute is StepRoute.Learn && newSubmission.status == SubmissionStatus.CORRECT) {
-                                doSuspendableAction(Action.CheckTopicCompletion(action.step.topic))
-                            }
-
                             sentryInteractor.finishTransaction(sentryTransaction)
 
                             onNewMessage(Message.CreateSubmissionSuccess(newSubmission, newAttempt))
@@ -227,30 +209,6 @@ class StepQuizActionDispatcher(
                         }
                     }
                 }
-            }
-            is Action.CheckTopicCompletion -> {
-                val topicIsCompleted = progressesInteractor
-                    .getTopicProgress(action.topicId)
-                    .getOrElse {
-                        return
-                    }.isCompleted
-
-                if (topicIsCompleted) {
-                    val topicTitle = topicsInteractor
-                        .getTopic(action.topicId)
-                        .getOrElse {
-                            return
-                        }.title
-
-                    onNewMessage(
-                        Message.CurrentTopicCompleted(
-                            resourceProvider.getString(SharedResources.strings.step_quiz_topic_completed_modal_text, topicTitle)
-                        )
-                    )
-                }
-            }
-            is Action.NotifyFetchingNextStepQuiz -> {
-                readyToLoadNextStepQuizMutableSharedFlow.emit(action.currentStep)
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)

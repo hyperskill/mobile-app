@@ -333,6 +333,7 @@
 		E9317A0228A23FD100F59373 /* UNNotificationTrigger+nextTriggerDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9317A0128A23FD100F59373 /* UNNotificationTrigger+nextTriggerDate.swift */; };
 		E9380EDA286B48A400CBF221 /* AuthNewUserPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9380ED9286B48A400CBF221 /* AuthNewUserPlaceholderView.swift */; };
 		E93B3745283E527000968DF0 /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93B3744283E527000968DF0 /* PlaceholderView.swift */; };
+		E9470C6B29810AB7008ACF9A /* StepQuizOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9470C6A29810AB7008ACF9A /* StepQuizOutputProtocol.swift */; };
 		E94A6D0B28748C3E005F9ACC /* StreakIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94A6D0A28748C3E005F9ACC /* StreakIcon.swift */; };
 		E94BC942291E89D6000B18D3 /* TopicsRepetitionsCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94BC941291E89D6000B18D3 /* TopicsRepetitionsCountView.swift */; };
 		E94BC944291E8BF5000B18D3 /* TopicsRepetitionsInfoBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94BC943291E8BF5000B18D3 /* TopicsRepetitionsInfoBlock.swift */; };
@@ -752,6 +753,7 @@
 		E9317A0128A23FD100F59373 /* UNNotificationTrigger+nextTriggerDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UNNotificationTrigger+nextTriggerDate.swift"; sourceTree = "<group>"; };
 		E9380ED9286B48A400CBF221 /* AuthNewUserPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNewUserPlaceholderView.swift; sourceTree = "<group>"; };
 		E93B3744283E527000968DF0 /* PlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderView.swift; sourceTree = "<group>"; };
+		E9470C6A29810AB7008ACF9A /* StepQuizOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizOutputProtocol.swift; sourceTree = "<group>"; };
 		E94A6D0A28748C3E005F9ACC /* StreakIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakIcon.swift; sourceTree = "<group>"; };
 		E94BC941291E89D6000B18D3 /* TopicsRepetitionsCountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsRepetitionsCountView.swift; sourceTree = "<group>"; };
 		E94BC943291E8BF5000B18D3 /* TopicsRepetitionsInfoBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsRepetitionsInfoBlock.swift; sourceTree = "<group>"; };
@@ -1315,6 +1317,7 @@
 				2C1061A0285C341C00EBD614 /* ChildProtocols */,
 				2CD48D8C28586B5C00CFCC4A /* ViewData */,
 				2C41127528376ECE004948A3 /* Views */,
+				E9470C6A29810AB7008ACF9A /* StepQuizOutputProtocol.swift */,
 			);
 			path = StepQuiz;
 			sourceTree = "<group>";
@@ -2926,6 +2929,7 @@
 				2C963BCA2812D3550036DD53 /* ProfileSettingsView.swift in Sources */,
 				2C772E7D28ABB4E500A58758 /* AppleIDSocialAuthSDKProvider.swift in Sources */,
 				2C963BCC2812D9330036DD53 /* ProfileSettingsAssembly.swift in Sources */,
+				E9470C6B29810AB7008ACF9A /* StepQuizOutputProtocol.swift in Sources */,
 				2C079687285CFFF500EE0487 /* StepQuizSortingAssembly.swift in Sources */,
 				2C58DE2B2803DEE2002A2774 /* VerticalCenteredScrollView.swift in Sources */,
 				2CD48D892858657100CFCC4A /* StepQuizView.swift in Sources */,

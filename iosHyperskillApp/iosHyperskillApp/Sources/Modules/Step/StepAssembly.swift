@@ -28,7 +28,8 @@ final class StepAssembly: UIKitAssembly {
         let stepView = StepView(
             viewModel: viewModel,
             stackRouter: self.stackRouter,
-            modalRouter: modalRouter
+            modalRouter: modalRouter,
+            panModalPresenter: PanModalPresenter()
         )
         let hostingController = RemoveBackButtonTitleHostingController(rootView: stepView)
 

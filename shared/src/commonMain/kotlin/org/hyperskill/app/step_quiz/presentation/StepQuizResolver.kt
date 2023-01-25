@@ -62,6 +62,6 @@ object StepQuizResolver {
                 false
         }
 
-    fun isQuizSupportable(blockName: String): Boolean =
-        BlockName.supportedBlocksNames.contains(blockName)
+    fun isQuizSupportable(step: Step): Boolean =
+        BlockName.supportedBlocksNames.contains(step.block.name)
 }

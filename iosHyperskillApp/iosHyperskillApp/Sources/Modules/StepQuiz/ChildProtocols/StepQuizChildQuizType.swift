@@ -22,9 +22,9 @@ enum StepQuizChildQuizType {
         }
     }
 
-    init(blockName: String) {
-        if StepQuizResolver.shared.isQuizSupportable(blockName: blockName) {
-            switch blockName {
+    init(step: Step) {
+        if StepQuizResolver.shared.isQuizSupportable(step: step) {
+            switch step.block.name {
             case BlockName.shared.CHOICE:
                 self = .choice
             case BlockName.shared.CODE:
@@ -44,10 +44,10 @@ enum StepQuizChildQuizType {
             case BlockName.shared.MATH:
                 self = .math
             default:
-                self = .unsupported(blockName: blockName)
+                self = .unsupported(blockName: step.block.name)
             }
         } else {
-            self = .unsupported(blockName: blockName)
+            self = .unsupported(blockName: step.block.name)
         }
     }
 }

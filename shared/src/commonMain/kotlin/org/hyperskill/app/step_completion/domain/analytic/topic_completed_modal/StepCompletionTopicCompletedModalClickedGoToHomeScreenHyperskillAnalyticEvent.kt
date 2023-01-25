@@ -1,4 +1,4 @@
-package org.hyperskill.app.step_quiz.domain.analytic.topic_completed_modal
+package org.hyperskill.app.step_completion.domain.analytic.topic_completed_modal
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -20,7 +20,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * ```
  * @see HyperskillAnalyticEvent
  */
-class StepQuizTopicCompletedModalClickedGoToHomeScreenHyperskillAnalyticEvent(
+class StepCompletionTopicCompletedModalClickedGoToHomeScreenHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute
 ) : HyperskillAnalyticEvent(
     route,

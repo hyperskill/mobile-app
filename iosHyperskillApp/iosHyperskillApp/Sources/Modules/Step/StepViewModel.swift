@@ -30,13 +30,60 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
         viewDataMapper.mapStepToViewData(step)
     }
 
-    func doStartPracticing() {
-        onNewMessage(StepFeatureMessageStartPracticingClicked())
+    func doStartPracticing(currentStep: Step) {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageStartPracticingClicked(currentStep: currentStep)
+            )
+        )
+    }
+
+    func doGoToHomeScreenAction() {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageTopicCompletedModalGoToHomeScreenClicked()
+            )
+        )
     }
 
     // MARK: Analytic
 
     func logViewedEvent() {
         onNewMessage(StepFeatureMessageViewedEventMessage())
+    }
+
+    func logTopicCompletedModalShownEvent() {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageTopicCompletedModalShownEventMessage()
+            )
+        )
+    }
+
+    func logTopicCompletedModalHiddenEvent() {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageTopicCompletedModalHiddenEventMessage()
+            )
+        )
+    }
+}
+
+extension StepViewModel: StepQuizOutputProtocol {
+    var isPracticingLoading: Bool {
+        switch stateKs {
+        case .data(let data):
+            return data.stepCompletionState.isLoading
+        default:
+            return false
+        }
+    }
+
+    func doContinuePracticing(currentStep: Step) {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageContinuePracticingClicked(currentStep: currentStep)
+            )
+        )
     }
 }

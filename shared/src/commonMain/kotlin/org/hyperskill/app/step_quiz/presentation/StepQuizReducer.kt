@@ -4,7 +4,6 @@ import kotlinx.datetime.Clock
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedCodeDetailsHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedContinueHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRetryHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRunHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedSendHyperskillAnalyticEvent
@@ -13,9 +12,6 @@ import org.hyperskill.app.step_quiz.domain.analytic.StepQuizShownDailyNotificati
 import org.hyperskill.app.step_quiz.domain.analytic.daily_step_completed_modal.StepQuizDailyStepCompletedModalClickedGoBackHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.daily_step_completed_modal.StepQuizDailyStepCompletedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.daily_step_completed_modal.StepQuizDailyStepCompletedModalShownHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.topic_completed_modal.StepQuizTopicCompletedModalClickedGoToHomeScreenHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.topic_completed_modal.StepQuizTopicCompletedModalHiddenHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.topic_completed_modal.StepQuizTopicCompletedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.model.permissions.StepQuizUserPermissionRequest
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
@@ -43,8 +39,7 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                         message.step,
                         message.attempt,
                         message.submissionState,
-                        message.currentProfile,
-                        defaultContinueButtonAction
+                        message.currentProfile
                     ) to emptySet()
                 } else {
                     null
@@ -82,8 +77,7 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                         message.step,
                         message.attempt,
                         message.submissionState,
-                        message.currentProfile,
-                        defaultContinueButtonAction
+                        message.currentProfile
                     ) to emptySet()
                 } else {
                     null
@@ -158,62 +152,6 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                     state.copy(
                         submissionState = StepQuizFeature.SubmissionState.Loaded(submission)
                     ) to setOf(Action.ViewAction.ShowNetworkError)
-                } else {
-                    null
-                }
-            is Message.TopicCompletedModalGoToHomeScreenClicked ->
-                if (state is State.AttemptLoaded) {
-                    state to setOf(
-                        Action.ViewAction.NavigateTo.HomeScreen,
-                        Action.LogAnalyticEvent(
-                            StepQuizTopicCompletedModalClickedGoToHomeScreenHyperskillAnalyticEvent(
-                                route = stepRoute.analyticRoute
-                            )
-                        )
-                    )
-                } else {
-                    null
-                }
-            is Message.CurrentTopicCompleted ->
-                if (state is State.AttemptLoaded) {
-                    state.copy(
-                        continueButtonAction = StepQuizFeature.ContinueButtonAction.NavigateToHomeScreen
-                    ) to setOf(Action.ViewAction.ShowTopicCompletedModal(message.modalText))
-                } else {
-                    null
-                }
-            is Message.NextStepQuizFetchedError ->
-                if (state is State.AttemptLoaded &&
-                    state.continueButtonAction is StepQuizFeature.ContinueButtonAction.FetchNextStepQuiz
-                ) {
-                    state.copy(
-                        continueButtonAction = StepQuizFeature.ContinueButtonAction.FetchNextStepQuiz(isLoading = false)
-                    ) to emptySet()
-                } else {
-                    null
-                }
-            is Message.ContinueClicked ->
-                if (state is State.AttemptLoaded) {
-                    val analyticEvent = StepQuizClickedContinueHyperskillAnalyticEvent(
-                        route = stepRoute.analyticRoute
-                    )
-                    state.copy(
-                        continueButtonAction = when (state.continueButtonAction) {
-                            is StepQuizFeature.ContinueButtonAction.FetchNextStepQuiz ->
-                                StepQuizFeature.ContinueButtonAction.FetchNextStepQuiz(isLoading = true)
-                            else ->
-                                state.continueButtonAction
-                        }
-                    ) to setOf(
-                        Action.LogAnalyticEvent(analyticEvent),
-                        when (state.continueButtonAction) {
-                            StepQuizFeature.ContinueButtonAction.NavigateToBack -> Action.ViewAction.NavigateTo.Back
-                            StepQuizFeature.ContinueButtonAction.NavigateToHomeScreen -> Action.ViewAction.NavigateTo.HomeScreen
-                            is StepQuizFeature.ContinueButtonAction.FetchNextStepQuiz -> Action.NotifyFetchingNextStepQuiz(
-                                state.step
-                            )
-                        }
-                    )
                 } else {
                     null
                 }
@@ -326,24 +264,6 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                 } else {
                     null
                 }
-            is Message.TopicCompletedModalShownEventMessage ->
-                if (state is State.AttemptLoaded) {
-                    val event = StepQuizTopicCompletedModalShownHyperskillAnalyticEvent(
-                        route = stepRoute.analyticRoute
-                    )
-                    state to setOf(Action.LogAnalyticEvent(event))
-                } else {
-                    null
-                }
-            is Message.TopicCompletedModalHiddenEventMessage ->
-                if (state is State.AttemptLoaded) {
-                    val event = StepQuizTopicCompletedModalHiddenHyperskillAnalyticEvent(
-                        route = stepRoute.analyticRoute
-                    )
-                    state to setOf(Action.LogAnalyticEvent(event))
-                } else {
-                    null
-                }
         } ?: (state to emptySet())
 
     private fun createLocalSubmission(oldState: State.AttemptLoaded, reply: Reply): Submission {
@@ -357,11 +277,4 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
             time = Clock.System.now().toString()
         )
     }
-
-    private val defaultContinueButtonAction
-        get() = if (stepRoute is StepRoute.Learn) {
-            StepQuizFeature.ContinueButtonAction.FetchNextStepQuiz()
-        } else {
-            StepQuizFeature.ContinueButtonAction.NavigateToBack
-        }
 }

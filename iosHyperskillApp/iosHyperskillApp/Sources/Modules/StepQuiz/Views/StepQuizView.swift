@@ -68,13 +68,11 @@ struct StepQuizView: View {
         } else {
             let viewData = viewModel.makeViewData()
 
-            let quizType = StepQuizChildQuizType(blockName: viewData.stepBlockName)
-
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: appearance.interItemSpacing) {
                     StepQuizStatsView(text: viewData.formattedStats)
 
-                    if case .unsupported = quizType {
+                    if case .unsupported = viewData.stepQuizChildQuizType {
                         StepQuizStatusView(state: .unsupportedQuiz)
                     }
 
@@ -94,7 +92,7 @@ struct StepQuizView: View {
                         state: viewModel.state,
                         step: viewModel.step,
                         stepQuizName: viewData.quizName,
-                        quizType: quizType,
+                        quizType: viewData.stepQuizChildQuizType,
                         feedbackHintText: viewData.feedbackHintText
                     )
                 }
@@ -209,25 +207,26 @@ struct StepQuizView: View {
                     .disabled(StepQuizResolver.shared.isQuizLoading(state: state))
             } else {
                 StepQuizActionButtons
-                    .submit(state: .init(submissionStatus: submissionStatus), action: viewModel.doMainQuizAction)
+                    .submit(
+                        state: .init(submissionStatus: submissionStatus),
+                        action: viewModel.doMainQuizAction
+                    )
                     .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
             }
         } else if submissionStatus == SubmissionStatus.correct {
-            let isContinueButtonLoading = (
-                (state as? StepQuizFeatureStateAttemptLoaded)?.continueButtonAction
-                as? StepQuizFeatureContinueButtonActionFetchNextStepQuiz
-            )?.isLoading ?? false
-
             if StepQuizResolver.shared.isQuizRetriable(step: viewModel.step) {
                 StepQuizActionButtons.retryLogoAndContinue(
                     retryButtonAction: viewModel.doQuizRetryAction,
-                    isContinueButtonLoading: isContinueButtonLoading,
+                    isContinueButtonLoading: viewModel.isPracticingLoading,
                     continueButtonAction: viewModel.doQuizContinueAction
                 )
                 .disabled(StepQuizResolver.shared.isQuizLoading(state: state))
             } else {
                 StepQuizActionButtons
-                    .continue(isLoading: isContinueButtonLoading, action: viewModel.doQuizContinueAction)
+                    .continue(
+                        isLoading: viewModel.isPracticingLoading,
+                        action: viewModel.doQuizContinueAction
+                    )
                     .disabled(StepQuizResolver.shared.isQuizLoading(state: state))
             }
         } else {
@@ -262,16 +261,10 @@ struct StepQuizView: View {
             }
         case .showProblemOfDaySolvedModal(let showProblemOfDaySolvedModalViewAction):
             presentDailyStepCompletedModal(earnedGemsText: showProblemOfDaySolvedModalViewAction.earnedGemsText)
-        case .showTopicCompletedModal(let topicCompletedModalViewAction):
-            presentTopicCompletedModal(modalText: topicCompletedModalViewAction.modalText)
         case .navigateTo(let viewActionNavigateTo):
             switch StepQuizFeatureActionViewActionNavigateToKs(viewActionNavigateTo) {
             case .back:
                 presentationMode.wrappedValue.dismiss()
-            case .homeScreen:
-                panModalPresenter.dismissPanModal()
-                presentationMode.wrappedValue.dismiss()
-                TabBarRouter(tab: .home).route()
             }
         }
     }
@@ -310,8 +303,10 @@ extension StepQuizView {
 
     private func presentSendDailyStudyRemindersPermissionAlert() {
         let alert = UIAlertController(
-            title: viewModel.makeUserPermissionRequestTitle(StepQuizUserPermissionRequest.sendDailyStudyReminders),
-            message: viewModel.makeUserPermissionRequestMessage(StepQuizUserPermissionRequest.sendDailyStudyReminders),
+            title: viewModel
+                .makeUserPermissionRequestTitle(StepQuizUserPermissionRequest.sendDailyStudyReminders),
+            message: viewModel
+                .makeUserPermissionRequestMessage(StepQuizUserPermissionRequest.sendDailyStudyReminders),
             preferredStyle: .alert
         )
         alert.addAction(
@@ -351,19 +346,6 @@ extension StepQuizView {
         )
 
         panModal.onDisappear = viewModel.logDailyStepCompletedModalHiddenEvent
-
-        panModalPresenter.presentPanModal(panModal)
-    }
-
-    private func presentTopicCompletedModal(modalText: String) {
-        viewModel.logTopicCompletedModalShownEvent()
-
-        let panModal = TopicCompletedModalViewController(
-            modalText: modalText,
-            onGoToHomescreenButtonTap: viewModel.doGoToHomeScreenAction
-        )
-
-        panModal.onDisappear = viewModel.logTopicCompletedModalHiddenEvent
 
         panModalPresenter.presentPanModal(panModal)
     }

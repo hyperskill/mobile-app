@@ -19,8 +19,7 @@ interface StepQuizFeature {
             val step: Step,
             val attempt: Attempt,
             val submissionState: SubmissionState,
-            val currentProfile: Profile,
-            val continueButtonAction: ContinueButtonAction
+            val currentProfile: Profile
         ) : State
 
         object NetworkError : State
@@ -31,12 +30,6 @@ interface StepQuizFeature {
             val submission: Submission,
             val replyValidation: ReplyValidationResult? = null
         ) : SubmissionState
-    }
-
-    sealed interface ContinueButtonAction {
-        object NavigateToHomeScreen : ContinueButtonAction
-        object NavigateToBack : ContinueButtonAction
-        data class FetchNextStepQuiz(val isLoading: Boolean = false) : ContinueButtonAction
     }
 
     sealed interface Message {
@@ -73,10 +66,6 @@ interface StepQuizFeature {
             val replyValidation: ReplyValidationResult
         ) : Message
 
-        object ContinueClicked : Message
-
-        object NextStepQuizFetchedError : Message
-
         data class SyncReply(val reply: Reply) : Message
 
         /**
@@ -87,14 +76,6 @@ interface StepQuizFeature {
             val userPermissionRequest: StepQuizUserPermissionRequest,
             val isGranted: Boolean
         ) : Message
-
-        /**
-         * Topic completed modal
-         */
-
-        data class CurrentTopicCompleted(val modalText: String) : Message
-
-        object TopicCompletedModalGoToHomeScreenClicked : Message
 
         /**
          * Show problem of day solve modal
@@ -111,8 +92,6 @@ interface StepQuizFeature {
         object ClickedRetryEventMessage : Message
         object DailyStepCompletedModalShownEventMessage : Message
         object DailyStepCompletedModalHiddenEventMessage : Message
-        object TopicCompletedModalShownEventMessage : Message
-        object TopicCompletedModalHiddenEventMessage : Message
     }
 
     sealed interface Action {
@@ -137,10 +116,6 @@ interface StepQuizFeature {
             val isGranted: Boolean
         ) : Action
 
-        data class CheckTopicCompletion(val topicId: Long) : Action
-
-        data class NotifyFetchingNextStepQuiz(val currentStep: Step) : Action
-
         /**
          * Analytic
          */
@@ -153,11 +128,8 @@ interface StepQuizFeature {
 
             data class ShowProblemOfDaySolvedModal(val earnedGemsText: String) : ViewAction
 
-            data class ShowTopicCompletedModal(val modalText: String) : ViewAction
-
             sealed interface NavigateTo : ViewAction {
                 object Back : NavigateTo
-                object HomeScreen : NavigateTo
             }
         }
     }

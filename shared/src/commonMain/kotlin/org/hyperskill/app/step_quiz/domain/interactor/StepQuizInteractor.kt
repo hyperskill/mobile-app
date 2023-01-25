@@ -1,8 +1,6 @@
 package org.hyperskill.app.step_quiz.domain.interactor
 
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.attempts.AttemptStatus
@@ -17,11 +15,6 @@ class StepQuizInteractor(
     private val attemptRepository: AttemptRepository,
     private val submissionRepository: SubmissionRepository
 ) {
-    val failedToLoadNextStepQuizMutableSharedFlow = MutableSharedFlow<Unit>()
-
-    fun observeFailedToLoadNextStepQuiz(): SharedFlow<Unit> =
-        failedToLoadNextStepQuizMutableSharedFlow
-
     companion object {
         private val POLL_SUBMISSION_INTERVAL = 1.seconds
     }

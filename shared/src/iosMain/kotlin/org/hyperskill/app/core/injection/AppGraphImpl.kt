@@ -62,14 +62,14 @@ import org.hyperskill.app.step.injection.StepDataComponent
 import org.hyperskill.app.step.injection.StepDataComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponentImpl
-import org.hyperskill.app.step_quiz.injection.StepQuizDataComponent
-import org.hyperskill.app.step_quiz.injection.StepQuizDataComponentImpl
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponentImpl
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponentImpl
 import org.hyperskill.app.streaks.injection.StreaksDataComponent
 import org.hyperskill.app.streaks.injection.StreaksDataComponentImpl
+import org.hyperskill.app.step_completion.injection.StepCompletionComponent
+import org.hyperskill.app.step_completion.injection.StepCompletionComponentImpl
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponent
@@ -117,9 +117,6 @@ class AppGraphImpl(
 
     override val stepDataComponent: StepDataComponent =
         StepDataComponentImpl(this)
-
-    override val stepQuizDataComponent: StepQuizDataComponent =
-        StepQuizDataComponentImpl(this)
 
     override fun buildAuthSocialComponent(): AuthSocialComponent =
         AuthSocialComponentImpl(
@@ -220,4 +217,7 @@ class AppGraphImpl(
 
     override fun buildGamificationToolbarComponent(): GamificationToolbarComponent =
         GamificationToolbarComponentImpl(this)
+
+    override fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent =
+        StepCompletionComponentImpl(this, stepRoute)
 }

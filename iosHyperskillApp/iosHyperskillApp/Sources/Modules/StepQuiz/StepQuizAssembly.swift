@@ -4,10 +4,12 @@ import SwiftUI
 final class StepQuizAssembly: Assembly {
     private let step: Step
     private let stepRoute: StepRoute
+    private let moduleOutput: StepQuizOutputProtocol?
 
-    init(step: Step, stepRoute: StepRoute) {
+    init(step: Step, stepRoute: StepRoute, moduleOutput: StepQuizOutputProtocol? = nil) {
         self.step = step
         self.stepRoute = stepRoute
+        self.moduleOutput = moduleOutput
     }
 
     func makeModule() -> StepQuizView {
@@ -20,9 +22,10 @@ final class StepQuizAssembly: Assembly {
             stepQuizStatsTextMapper: stepQuizComponent.stepQuizStatsTextMapper,
             stepQuizTitleMapper: stepQuizComponent.stepQuizTitleMapper
         )
-        let viewModel = StepQuizViewModel(
+        let stepQuizViewModel = StepQuizViewModel(
             step: self.step,
             stepRoute: self.stepRoute,
+            moduleOutput: self.moduleOutput,
             viewDataMapper: viewDataMapper,
             userPermissionRequestTextMapper: StepQuizUserPermissionRequestTextMapper(
                 resourceProvider: commonComponent.resourceProvider
@@ -34,6 +37,6 @@ final class StepQuizAssembly: Assembly {
             feature: stepQuizComponent.stepQuizFeature
         )
 
-        return StepQuizView(viewModel: viewModel)
+        return StepQuizView(viewModel: stepQuizViewModel)
     }
 }

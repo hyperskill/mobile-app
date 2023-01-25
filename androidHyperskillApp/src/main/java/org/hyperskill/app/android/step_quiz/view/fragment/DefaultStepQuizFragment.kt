@@ -86,7 +86,8 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
             onRetryButtonClicked()
         }
         viewBinding.stepQuizButtons.stepQuizContinueButton.setOnClickListener {
-            stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ContinueClicked)
+            // TODO: implement message with StepViewModel
+//            stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ContinueClicked)
         }
         viewBinding.stepQuizNetworkError.tryAgain.setOnClickListener {
             stepQuizViewModel.onNewMessage(StepQuizFeature.Message.InitWithStep(step, forceUpdate = true))
@@ -146,12 +147,6 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
                 CompletedStepOfTheDayDialogFragment
                     .newInstance(earnedGemsText = action.earnedGemsText)
                     .showIfNotExists(childFragmentManager, CompletedStepOfTheDayDialogFragment.TAG)
-            }
-            is StepQuizFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
-                // TODO: implement navigation
-            }
-            is StepQuizFeature.Action.ViewAction.ShowTopicCompletedModal -> {
-                // TODO: implement topic completed modal
             }
         }
     }

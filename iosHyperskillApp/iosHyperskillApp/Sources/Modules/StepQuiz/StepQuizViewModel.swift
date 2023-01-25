@@ -9,6 +9,7 @@ final class StepQuizViewModel: FeatureViewModel<
 > {
     let step: Step
     let stepRoute: StepRoute
+    let moduleOutput: StepQuizOutputProtocol?
 
     weak var childQuizModuleInput: StepQuizChildQuizInputProtocol?
     private var updateChildQuizSubscription: AnyCancellable?
@@ -21,9 +22,14 @@ final class StepQuizViewModel: FeatureViewModel<
 
     var stateKs: StepQuizFeatureStateKs { .init(state) }
 
+    var isPracticingLoading: Bool {
+        moduleOutput?.isPracticingLoading ?? false
+    }
+
     init(
         step: Step,
         stepRoute: StepRoute,
+        moduleOutput: StepQuizOutputProtocol?,
         viewDataMapper: StepQuizViewDataMapper,
         userPermissionRequestTextMapper: StepQuizUserPermissionRequestTextMapper,
         notificationService: NotificationsService,
@@ -32,6 +38,7 @@ final class StepQuizViewModel: FeatureViewModel<
     ) {
         self.step = step
         self.stepRoute = stepRoute
+        self.moduleOutput = moduleOutput
         self.viewDataMapper = viewDataMapper
         self.userPermissionRequestTextMapper = userPermissionRequestTextMapper
         self.notificationService = notificationService
@@ -78,15 +85,11 @@ final class StepQuizViewModel: FeatureViewModel<
     }
 
     func doQuizContinueAction() {
-        onNewMessage(StepQuizFeatureMessageContinueClicked())
+        moduleOutput?.doContinuePracticing(currentStep: step)
     }
 
     func doGoBackAction() {
         onNewMessage(StepQuizFeatureMessageProblemOfDaySolvedModalGoBackClicked())
-    }
-
-    func doGoToHomeScreenAction() {
-        onNewMessage(StepQuizFeatureMessageTopicCompletedModalGoToHomeScreenClicked())
     }
 
     func makeViewData() -> StepQuizViewData {
@@ -166,14 +169,6 @@ final class StepQuizViewModel: FeatureViewModel<
 
     func logDailyStepCompletedModalHiddenEvent() {
         onNewMessage(StepQuizFeatureMessageDailyStepCompletedModalHiddenEventMessage())
-    }
-
-    func logTopicCompletedModalShownEvent() {
-        onNewMessage(StepQuizFeatureMessageTopicCompletedModalShownEventMessage())
-    }
-
-    func logTopicCompletedModalHiddenEvent() {
-        onNewMessage(StepQuizFeatureMessageTopicCompletedModalHiddenEventMessage())
     }
 }
 
