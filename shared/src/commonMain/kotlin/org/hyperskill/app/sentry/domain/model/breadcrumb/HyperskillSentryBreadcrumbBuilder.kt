@@ -2,9 +2,43 @@ package org.hyperskill.app.sentry.domain.model.breadcrumb
 
 import org.hyperskill.app.auth.domain.model.AuthCredentialsError
 import org.hyperskill.app.auth.domain.model.SocialAuthProvider
+import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.sentry.domain.model.level.HyperskillSentryLevel
 
 object HyperskillSentryBreadcrumbBuilder {
+    /**
+     * AppFeature
+     */
+    fun buildAppDetermineUserAccountStatus(): HyperskillSentryBreadcrumb =
+        HyperskillSentryBreadcrumb(
+            category = HyperskillSentryBreadcrumbCategory.APP_FEATURE,
+            message = "Determining user account status",
+            level = HyperskillSentryLevel.INFO
+        )
+
+    fun buildAppDetermineUserAccountStatusSuccess(): HyperskillSentryBreadcrumb =
+        HyperskillSentryBreadcrumb(
+            category = HyperskillSentryBreadcrumbCategory.APP_FEATURE,
+            message = "Successfully determined user account status",
+            level = HyperskillSentryLevel.INFO
+        )
+
+    fun buildAppDetermineUserAccountStatusError(throwable: Throwable): HyperskillSentryBreadcrumb =
+        HyperskillSentryBreadcrumb(
+            category = HyperskillSentryBreadcrumbCategory.APP_FEATURE,
+            message = "Failed determine user account status",
+            level = HyperskillSentryLevel.ERROR,
+            data = mapOf("error" to throwable.toString())
+        )
+
+    fun buildAppUserDeauthorized(reason: UserDeauthorized.Reason): HyperskillSentryBreadcrumb =
+        HyperskillSentryBreadcrumb(
+            category = HyperskillSentryBreadcrumbCategory.APP_FEATURE,
+            message = "App FLow user sign out", // Sentry will filter "User deauthorized" message
+            level = HyperskillSentryLevel.INFO,
+            data = mapOf("reason" to reason.toString())
+        )
+
     /**
      * AuthCredentials
      */

@@ -1,7 +1,9 @@
 package org.hyperskill.app.gamification_toolbar.presentation
 
 import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
@@ -9,6 +11,7 @@ import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarF
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.Message
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.streaks.domain.flow.StreakFlow
 import org.hyperskill.app.streaks.domain.interactor.StreaksInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -17,21 +20,27 @@ class GamificationToolbarActionDispatcher(
     private val profileInteractor: ProfileInteractor,
     private val streaksInteractor: StreaksInteractor,
     private val analyticInteractor: AnalyticInteractor,
-    private val sentryInteractor: SentryInteractor
+    private val sentryInteractor: SentryInteractor,
+    private val streakFlow: StreakFlow
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
-        actionScope.launch {
-            profileInteractor.solvedStepsSharedFlow.collect {
-                onNewMessage(Message.StepSolved)
-            }
-        }
+        profileInteractor.solvedStepsSharedFlow
+            .onEach { onNewMessage(Message.StepSolved) }
+            .launchIn(actionScope)
 
-        actionScope.launch {
-            profileInteractor.observeHypercoinsBalance().collect {
-                onNewMessage(Message.HypercoinsBalanceChanged(it))
+        profileInteractor.observeHypercoinsBalance()
+            .onEach { hypercoinsBalance ->
+                onNewMessage(Message.HypercoinsBalanceChanged(hypercoinsBalance))
             }
-        }
+            .launchIn(actionScope)
+
+        streakFlow.observe()
+            .distinctUntilChanged()
+            .onEach { streak ->
+                onNewMessage(Message.StreakChanged(streak))
+            }
+            .launchIn(actionScope)
     }
 
     override suspend fun doSuspendableAction(action: Action) {
@@ -63,6 +72,8 @@ class GamificationToolbarActionDispatcher(
                 }
 
                 sentryInteractor.finishTransaction(sentryTransaction)
+
+                streakFlow.notifyDataChanged(streak)
 
                 onNewMessage(
                     Message.FetchGamificationToolbarDataSuccess(

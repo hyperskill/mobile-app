@@ -12,6 +12,7 @@ import org.hyperskill.app.profile.presentation.ProfileFeature.Message
 import org.hyperskill.app.profile.presentation.ProfileFeature.State
 import org.hyperskill.app.profile.presentation.ProfileReducer
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.streaks.domain.flow.StreakFlow
 import org.hyperskill.app.streaks.domain.interactor.StreaksInteractor
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
@@ -21,6 +22,7 @@ object ProfileFeatureBuilder {
     fun build(
         profileInteractor: ProfileInteractor,
         streaksInteractor: StreaksInteractor,
+        streakFlow: StreakFlow,
         productsInteractor: ProductsInteractor,
         itemsInteractor: ItemsInteractor,
         analyticInteractor: AnalyticInteractor,
@@ -36,7 +38,8 @@ object ProfileFeatureBuilder {
             itemsInteractor,
             analyticInteractor,
             sentryInteractor,
-            urlPathProcessor
+            urlPathProcessor,
+            streakFlow
         )
 
         return ReduxFeature(State.Idle, profileReducer)

@@ -68,6 +68,13 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
+            is Message.StreakChanged -> {
+                if (state is State.Content) {
+                    state.copy(streak = message.streak) to emptySet()
+                } else {
+                    null
+                }
+            }
             is Message.ClickedViewFullProfile -> {
                 if (state is State.Content) {
                     state.copy(isLoadingMagicLink = true) to setOf(
