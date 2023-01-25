@@ -13,7 +13,7 @@ import org.hyperskill.app.android.databinding.LayoutStepQuizHintsBinding
 import org.hyperskill.app.android.step_quiz_hints.delegate.StepQuizHintsDelegate
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import org.hyperskill.app.step.domain.model.Step
-import org.hyperskill.app.step_quiz_hints.model.StepQuizHintsViewState
+import org.hyperskill.app.step_quiz_hints.view.model.StepQuizHintsViewState
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsViewModel
 import ru.nobird.android.view.base.ui.extension.snackbar

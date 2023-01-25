@@ -3,6 +3,7 @@ package org.hyperskill.app.step_quiz_hints.injection
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.step_quiz_hints.domain.interactor.StepQuizHintsInteractor
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
+import org.hyperskill.app.step_quiz_hints.view.model.StepQuizHintsViewState
 import ru.nobird.app.presentation.redux.feature.Feature
 
 class StepQuizHintsComponentImpl(private val appGraph: AppGraph) : StepQuizHintsComponent {
@@ -13,7 +14,7 @@ class StepQuizHintsComponentImpl(private val appGraph: AppGraph) : StepQuizHints
             appGraph.buildCommentsDataComponent().commentsRepository
         )
 
-    override val stepQuizHintsFeature: Feature<StepQuizHintsFeature.State, StepQuizHintsFeature.Message, StepQuizHintsFeature.Action>
+    override val stepQuizHintsFeature: Feature<StepQuizHintsViewState, StepQuizHintsFeature.Message, StepQuizHintsFeature.Action>
         get() = StepQuizHintsFeatureBuilder.build(
             stepQuizHintsInteractor,
             appGraph.buildProfileDataComponent().profileInteractor,

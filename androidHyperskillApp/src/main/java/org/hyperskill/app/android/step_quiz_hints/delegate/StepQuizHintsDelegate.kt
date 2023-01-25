@@ -6,10 +6,9 @@ import coil.ImageLoader
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.LayoutStepQuizHintsBinding
 import org.hyperskill.app.reactions.domain.model.ReactionType
-import org.hyperskill.app.step_quiz_hints.model.StepQuizHintsViewState
+import org.hyperskill.app.step_quiz_hints.view.model.StepQuizHintsViewState
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged

@@ -1,4 +1,4 @@
-package org.hyperskill.app.step_quiz_hints.model
+package org.hyperskill.app.step_quiz_hints.view.model
 
 sealed interface StepQuizHintsViewState {
     object Idle : StepQuizHintsViewState

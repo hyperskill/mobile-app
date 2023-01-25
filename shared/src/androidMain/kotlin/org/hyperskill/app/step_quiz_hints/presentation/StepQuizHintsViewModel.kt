@@ -1,7 +1,7 @@
 package org.hyperskill.app.step_quiz_hints.presentation
 
 import org.hyperskill.app.step.domain.model.Step
-import org.hyperskill.app.step_quiz_hints.model.StepQuizHintsViewState
+import org.hyperskill.app.step_quiz_hints.view.model.StepQuizHintsViewState
 import ru.nobird.android.view.redux.viewmodel.ReduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxViewContainer
 

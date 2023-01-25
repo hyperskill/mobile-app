@@ -1,7 +1,7 @@
-package org.hyperskill.app.step_quiz_hints.mapper
+package org.hyperskill.app.step_quiz_hints.view.mapper
 
-import org.hyperskill.app.step_quiz_hints.model.StepQuizHintsViewState
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
+import org.hyperskill.app.step_quiz_hints.view.model.StepQuizHintsViewState
 
 object StepQuizHintsViewStateMapper {
     fun mapState(state: StepQuizHintsFeature.State): StepQuizHintsViewState =
