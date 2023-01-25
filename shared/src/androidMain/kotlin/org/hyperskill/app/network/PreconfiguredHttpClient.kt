@@ -7,7 +7,7 @@ import io.sentry.HttpStatusCodeRange
 import io.sentry.android.okhttp.SentryOkHttpInterceptor
 
 @Suppress("FunctionName")
-internal actual fun PreconfiguredHttpClient(block: HttpClientConfig<*>.() -> Unit): HttpClient =
+internal actual fun PreconfiguredPlatformHttpClient(block: HttpClientConfig<*>.() -> Unit): HttpClient =
     HttpClient(OkHttp) {
         apply(block)
         engine {

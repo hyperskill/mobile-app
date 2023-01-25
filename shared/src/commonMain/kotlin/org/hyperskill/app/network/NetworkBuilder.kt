@@ -83,7 +83,7 @@ internal object NetworkBuilder {
         authorizationMutex: Mutex,
         cookiesStorage: CookiesStorage
     ): HttpClient =
-        PreconfiguredHttpClient {
+        PreconfiguredPlatformHttpClient {
             val tokenSocialAuthClient = buildAuthClient(
                 NetworkClientType.SOCIAL,
                 networkEndpointConfigInfo,
@@ -189,7 +189,7 @@ internal object NetworkBuilder {
         buildVariant: BuildVariant,
         cookiesStorage: CookiesStorage
     ): HttpClient =
-        PreconfiguredHttpClient {
+        PreconfiguredPlatformHttpClient {
             defaultRequest {
                 url {
                     protocol = URLProtocol.HTTPS
@@ -222,7 +222,7 @@ internal object NetworkBuilder {
         buildVariant: BuildVariant,
         credentials: String
     ) =
-        PreconfiguredHttpClient {
+        PreconfiguredPlatformHttpClient {
             defaultRequest {
                 headers {
                     append(AUTHORIZATION_HEADER, credentials)
