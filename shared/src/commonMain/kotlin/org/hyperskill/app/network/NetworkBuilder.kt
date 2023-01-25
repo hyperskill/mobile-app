@@ -1,4 +1,4 @@
-package org.hyperskill.app.network.injection
+package org.hyperskill.app.network
 
 import com.russhwolf.settings.Settings
 import io.ktor.client.HttpClient
@@ -36,10 +36,10 @@ import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.network.domain.model.NetworkClientType
 import org.hyperskill.app.network.domain.model.NetworkEndpointConfigInfo
 
-object NetworkBuilder {
+internal object NetworkBuilder {
     private const val AUTHORIZATION_HEADER = "Authorization"
 
-    internal fun buildEndpointConfigInfo(buildKonfig: BuildKonfig): NetworkEndpointConfigInfo =
+    fun buildEndpointConfigInfo(buildKonfig: BuildKonfig): NetworkEndpointConfigInfo =
         NetworkEndpointConfigInfo(
             baseUrl = buildKonfig.baseUrl,
             host = buildKonfig.host,
@@ -73,7 +73,7 @@ object NetworkBuilder {
         )
     }
 
-    internal fun buildAuthorizedClient(
+    fun buildAuthorizedClient(
         networkEndpointConfigInfo: NetworkEndpointConfigInfo,
         userAgentInfo: UserAgentInfo,
         json: Json,
@@ -83,7 +83,7 @@ object NetworkBuilder {
         authorizationMutex: Mutex,
         cookiesStorage: CookiesStorage
     ): HttpClient =
-        HttpClient {
+        PreconfiguredPlatformHttpClient {
             val tokenSocialAuthClient = buildAuthClient(
                 NetworkClientType.SOCIAL,
                 networkEndpointConfigInfo,
@@ -182,14 +182,14 @@ object NetworkBuilder {
             }
         }
 
-    internal fun buildFrontendEventsUnauthorizedClient(
+    fun buildFrontendEventsUnauthorizedClient(
         networkEndpointConfigInfo: NetworkEndpointConfigInfo,
         userAgentInfo: UserAgentInfo,
         json: Json,
         buildVariant: BuildVariant,
         cookiesStorage: CookiesStorage
     ): HttpClient =
-        HttpClient {
+        PreconfiguredPlatformHttpClient {
             defaultRequest {
                 url {
                     protocol = URLProtocol.HTTPS
@@ -222,7 +222,7 @@ object NetworkBuilder {
         buildVariant: BuildVariant,
         credentials: String
     ) =
-        HttpClient {
+        PreconfiguredPlatformHttpClient {
             defaultRequest {
                 headers {
                     append(AUTHORIZATION_HEADER, credentials)
