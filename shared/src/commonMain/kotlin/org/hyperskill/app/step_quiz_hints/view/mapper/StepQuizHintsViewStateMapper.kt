@@ -3,7 +3,8 @@ package org.hyperskill.app.step_quiz_hints.view.mapper
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.view.model.StepQuizHintsViewState
 
-object StepQuizHintsViewStateMapper {
+internal object StepQuizHintsViewStateMapper {
+    // 'public' function exposes its 'internal' return type argument State
     fun mapState(state: StepQuizHintsFeature.State): StepQuizHintsViewState =
         when (state) {
             is StepQuizHintsFeature.State.Idle -> StepQuizHintsViewState.Idle

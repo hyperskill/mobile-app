@@ -6,14 +6,15 @@ import org.hyperskill.app.reactions.domain.model.ReactionType
 import org.hyperskill.app.step.domain.model.CommentThread
 import org.hyperskill.app.step.domain.model.Step
 
-interface StepQuizHintsFeature {
-    companion object {
-        fun isHintsFeatureAvailable(step: Step): Boolean =
-            step.commentsStatistics.any { it.thread == CommentThread.HINT && it.totalCount > 0 }
-    }
+// Modifier 'internal' is not applicable inside 'interface' for StepQuizHintsFeature.State
+// Making StepQuizHintsFeature 'abstract class', 'sealed class' or 'object' solves this.
+// What's better to use?
+object StepQuizHintsFeature {
+    fun isHintsFeatureAvailable(step: Step): Boolean =
+        step.commentsStatistics.any { it.thread == CommentThread.HINT && it.totalCount > 0 }
 
-    sealed interface State {
-
+    // Modifier 'internal' is not applicable inside 'interface'
+    internal sealed interface State {
         object Idle : State
 
         /**

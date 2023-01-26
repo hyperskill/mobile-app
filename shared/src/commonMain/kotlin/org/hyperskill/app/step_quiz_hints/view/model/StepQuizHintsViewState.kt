@@ -1,5 +1,7 @@
 package org.hyperskill.app.step_quiz_hints.view.model
 
+// I think it would be better if we'll have StepQuizHintsViewState in scope of the Feature -> StepQuizHintsFeature.ViewState
+// Kotlin Extensions allows to do this?
 sealed interface StepQuizHintsViewState {
     object Idle : StepQuizHintsViewState
 
