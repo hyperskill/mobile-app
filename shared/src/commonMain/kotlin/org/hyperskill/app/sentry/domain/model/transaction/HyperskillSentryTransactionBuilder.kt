@@ -68,6 +68,15 @@ object HyperskillSentryTransactionBuilder {
         )
 
     /**
+     * StepCompletionFeature
+     */
+    fun buildStepCompletionNextStepLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "step-completion-feature-next-step-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    /**
      * StepQuizFeature
      */
     fun buildStepQuizScreenRemoteDataLoading(): HyperskillSentryTransaction =

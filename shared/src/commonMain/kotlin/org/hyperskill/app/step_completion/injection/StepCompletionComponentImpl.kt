@@ -17,6 +17,7 @@ class StepCompletionComponentImpl(private val appGraph: AppGraph, private val st
             appGraph.buildTopicsDataComponent().topicsInteractor,
             appGraph.analyticComponent.analyticInteractor,
             appGraph.commonComponent.resourceProvider,
+            appGraph.sentryComponent.sentryInteractor,
             appGraph.buildNotificationComponent().notificationInteractor
         )
 }

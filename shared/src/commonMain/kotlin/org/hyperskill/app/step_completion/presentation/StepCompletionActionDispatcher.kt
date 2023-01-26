@@ -8,6 +8,8 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -23,6 +25,7 @@ class StepCompletionActionDispatcher(
     private val topicsInteractor: TopicsInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val resourceProvider: ResourceProvider,
+    private val sentryInteractor: SentryInteractor,
     notificationInteractor: NotificationInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
@@ -35,9 +38,13 @@ class StepCompletionActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchNextStepQuiz -> {
+                val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepCompletionNextStepLoading()
+                sentryInteractor.startTransaction(sentryTransaction)
+
                 val nextRecommendedStep = stepInteractor
                     .getNextRecommendedStepByCurrentStep(action.currentStep)
                     .getOrElse {
+                        sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                         onNewMessage(
                             Message.NextStepQuizFetchedStatus.Error(
                                 when (action.currentStep.type) {
@@ -50,6 +57,8 @@ class StepCompletionActionDispatcher(
                         )
                         return
                     }
+
+                sentryInteractor.finishTransaction(sentryTransaction)
 
                 onNewMessage(Message.NextStepQuizFetchedStatus.Success(StepRoute.Learn(nextRecommendedStep.id)))
             }
