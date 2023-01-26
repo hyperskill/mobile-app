@@ -3,6 +3,9 @@ package org.hyperskill.app.step_quiz.domain.model.submissions
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * TODO: replace with a sealed hierarchy on mobile side to avoid invalid Reply state
+ */
 @Serializable
 data class Reply(
     @SerialName("choices")
@@ -27,4 +30,10 @@ data class Reply(
     val files: List<String>? = null,
     @SerialName("solve_sql")
     val solveSql: String? = null
-)
+) {
+
+    companion object {
+        fun sql(sqlCode: String?): Reply =
+            Reply(solveSql = sqlCode)
+    }
+}

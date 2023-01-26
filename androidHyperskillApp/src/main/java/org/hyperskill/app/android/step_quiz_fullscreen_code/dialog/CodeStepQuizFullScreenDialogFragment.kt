@@ -12,7 +12,6 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -92,8 +91,6 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
     private var codeTemplates: Map<String, String> by argument()
     private var step: Step by argument(serializer = Step.serializer())
     private var isShowRetryButton: Boolean by argument()
-
-    internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var resourceProvider: ResourceProvider
     private var latexWebView: LatexWebView? = null

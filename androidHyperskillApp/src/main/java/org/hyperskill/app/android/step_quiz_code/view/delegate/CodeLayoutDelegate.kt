@@ -9,7 +9,7 @@ class CodeLayoutDelegate(
     private val codeLayout: CodeEditorLayout,
     private val step: Step,
     private val codeTemplates: Map<String, String>,
-    private val codeQuizInstructionDelegate: CodeQuizInstructionDelegate,
+    private val codeQuizInstructionDelegate: CodeQuizInstructionDelegate?,
     private var codeToolbarAdapter: CodeToolbarAdapter?
 ) {
 
@@ -23,7 +23,7 @@ class CodeLayoutDelegate(
     }
 
     fun setDetailsContentData(lang: String?) {
-        codeQuizInstructionDelegate.setCodeDetailsData(step, lang)
+        codeQuizInstructionDelegate?.setCodeDetailsData(step, lang)
     }
 
     fun setEnabled(isEnabled: Boolean) {
