@@ -32,49 +32,48 @@ class TopicsToDiscoverNextInteractor(
      * Returns a list of topics to discover next.
      */
     suspend fun getTopicsToDiscoverNext(): Result<List<Topic>> =
-        kotlin.runCatching {
-            val currentProfile = profileRepository
-                .getCurrentProfile(primarySourceType = DataSourceType.CACHE)
-                .getOrThrow()
+        coroutineScope {
+            kotlin.runCatching {
+                val currentProfile = profileRepository
+                    .getCurrentProfile(primarySourceType = DataSourceType.CACHE)
+                    .getOrThrow()
 
-            if (currentProfile.isCurrentTrackCompleted) {
-                return Result.success(emptyList())
-            }
+                if (currentProfile.isCurrentTrackCompleted) {
+                    return@runCatching emptyList()
+                }
 
-            val learningActivities = learningActivitiesRepository
-                .getUncompletedTopicsLearningActivities(pageSize = LEARNING_ACTIVITIES_PAGE_SIZE)
-                .map { it.learningActivities }
-                .getOrThrow()
+                val learningActivities = learningActivitiesRepository
+                    .getUncompletedTopicsLearningActivities(pageSize = LEARNING_ACTIVITIES_PAGE_SIZE)
+                    .map { it.learningActivities }
+                    .getOrThrow()
 
-            if (learningActivities.isEmpty()) {
-                return Result.success(emptyList())
-            }
+                if (learningActivities.isEmpty()) {
+                    return@runCatching emptyList()
+                }
 
-            val topicsIds = learningActivities.map { it.targetId }
+                val topicsIds = learningActivities.map { it.targetId }
 
-            val (topics, topicsProgresses) = coroutineScope {
                 val topicsResult = async { topicsRepository.getTopics(topicsIds) }
                 val topicsProgressesResult = async { progressesRepository.getTopicsProgresses(topicsIds) }
-                Pair(topicsResult.await().getOrThrow(), topicsProgressesResult.await().getOrThrow())
-            }
+                val topics = topicsResult.await().getOrThrow()
+                val topicsProgresses = topicsProgressesResult.await().getOrThrow()
 
-            val topicProgressById = topicsProgresses.associateBy { it.id }
-            val topicsWithProgresses = topics.map { it.copy(progress = topicProgressById[it.progressId]) }
+                val topicProgressById = topicsProgresses.associateBy { it.id }
+                val topicsWithProgresses = topics.map { it.copy(progress = topicProgressById[it.progressId]) }
 
-            val topicsByStagePosition = topicsWithProgresses
-                .filter { it.progress?.stagePosition != null }
-                .groupBy { it.progress!!.stagePosition!! }
+                val topicsByStagePosition = topicsWithProgresses
+                    .filter { it.progress?.stagePosition != null }
+                    .groupBy { it.progress!!.stagePosition!! }
 
-            val minStagePositionKey = topicsByStagePosition.keys.minOrNull()
+                val minStagePositionKey = topicsByStagePosition.keys.minOrNull()
 
-            return if (minStagePositionKey != null) {
-                Result.success(
+                return@runCatching if (minStagePositionKey != null) {
                     topicsByStagePosition
                         .getValue(minStagePositionKey)
                         .take(TOPICS_TO_DISCOVER_NEXT_PREFIX_COUNT)
-                )
-            } else {
-                Result.success(topicsWithProgresses.take(TOPICS_TO_DISCOVER_NEXT_PREFIX_COUNT))
+                } else {
+                    topicsWithProgresses.take(TOPICS_TO_DISCOVER_NEXT_PREFIX_COUNT)
+                }
             }
         }
 }
