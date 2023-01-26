@@ -11,6 +11,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.hyperskill.app.analytic.domain.model.Analytic
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.analytic.domain.model.AnalyticEventMonitor
 import org.hyperskill.app.analytic.domain.model.AnalyticSource
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
 import org.hyperskill.app.analytic.domain.processor.AnalyticHyperskillEventProcessor
@@ -26,7 +27,8 @@ class AnalyticInteractor(
     private val profileInteractor: ProfileInteractor,
     private val notificationInteractor: NotificationInteractor,
     private val hyperskillRepository: AnalyticHyperskillRepository,
-    private val hyperskillEventProcessor: AnalyticHyperskillEventProcessor
+    private val hyperskillEventProcessor: AnalyticHyperskillEventProcessor,
+    override val eventMonitor: AnalyticEventMonitor?
 ) : Analytic {
     companion object {
         private val FLUSH_EVENTS_DELAY_DURATION: Duration = 5.seconds
@@ -44,12 +46,14 @@ class AnalyticInteractor(
 
     override suspend fun flushEvents() {
         launchHyperskillFlushEventsJob(withDelay = false)
+        eventMonitor?.analyticDidFlushEvents()
     }
 
     suspend fun logEvent(event: AnalyticEvent, forceLogEvent: Boolean = false) {
         when (event.source) {
             AnalyticSource.HYPERSKILL_API -> logHyperskillEvent(event, forceLogEvent)
         }
+        eventMonitor?.analyticDidReportEvent(event)
     }
 
     private suspend fun logHyperskillEvent(event: AnalyticEvent, forceLogEvent: Boolean) {

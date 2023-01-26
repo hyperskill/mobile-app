@@ -158,11 +158,11 @@ class AndroidAppComponentImpl(
     override val streakFlowDataComponent: StreakFlowDataComponentImpl =
         StreakFlowDataComponentImpl()
 
-    override val analyticComponent: AnalyticComponent =
-        AnalyticComponentImpl(this)
-
     override val sentryComponent: SentryComponent =
         SentryComponentImpl(SentryManagerImpl(commonComponent.buildKonfig))
+
+    override val analyticComponent: AnalyticComponent =
+        AnalyticComponentImpl(this)
 
     override val platformNotificationComponent: PlatformNotificationComponent =
         PlatformNotificationComponentImpl(application, this)
