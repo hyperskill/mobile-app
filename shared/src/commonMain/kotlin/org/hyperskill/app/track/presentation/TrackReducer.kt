@@ -85,13 +85,6 @@ class TrackReducer(
                 ) to trackActions + toolbarActions + topicsToDiscoverNextActions
             }
             // Click Messages
-            is Message.TopicToDiscoverNextClicked -> {
-                val (topicsToDiscoverNextState, topicsToDiscoverNextActions) = reduceTopicsToDiscoverNextMessage(
-                    state.topicsToDiscoverNextState,
-                    TopicsToDiscoverNextFeature.Message.TopicToDiscoverNextClicked(message.topicId)
-                )
-                state.copy(topicsToDiscoverNextState = topicsToDiscoverNextState) to topicsToDiscoverNextActions
-            }
             is Message.ClickedContinueInWeb ->
                 if (state.trackState is TrackState.Content) {
                     state.copy(trackState = state.trackState.copy(isLoadingMagicLink = true)) to setOf(

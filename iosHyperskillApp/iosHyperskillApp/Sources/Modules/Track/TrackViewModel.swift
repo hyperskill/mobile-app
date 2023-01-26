@@ -34,7 +34,11 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
     }
 
     func doTheoryTopicPresentation(topicID: Int64) {
-        onNewMessage(TrackFeatureMessageTopicToDiscoverNextClicked(topicId: topicID))
+        onNewMessage(
+            TrackFeatureMessageTopicsToDiscoverNextMessage(
+                message: TopicsToDiscoverNextFeatureMessageTopicToDiscoverNextClicked(topicId: topicID)
+            )
+        )
     }
 
     func doStudyPlanInWebPresentation() {

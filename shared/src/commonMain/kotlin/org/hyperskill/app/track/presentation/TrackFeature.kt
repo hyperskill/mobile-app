@@ -86,14 +86,6 @@ interface TrackFeature {
          */
         object TrackFailure : Message
 
-        /**
-         * A message that indicates about click on topic.
-         * Triggers navigation to step screen and logs that event to the analytics.
-         *
-         * @property topicId A topic id that triggered that event.
-         */
-        data class TopicToDiscoverNextClicked(val topicId: Long) : Message
-
         object PullToRefresh : Message
 
         object ClickedContinueInWeb : Message

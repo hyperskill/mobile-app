@@ -65,7 +65,8 @@ class TrackFragment :
         DefaultDelegateAdapter<Topic>().apply {
             addDelegate(
                 TopicAdapterDelegate { topicId ->
-                    trackViewModel.onNewMessage(TrackFeature.Message.TopicToDiscoverNextClicked(topicId))
+                    val messageToWrap = TopicsToDiscoverNextFeature.Message.TopicToDiscoverNextClicked(topicId)
+                    trackViewModel.onNewMessage(TrackFeature.Message.TopicsToDiscoverNextMessage(messageToWrap))
                 }
             )
         }
