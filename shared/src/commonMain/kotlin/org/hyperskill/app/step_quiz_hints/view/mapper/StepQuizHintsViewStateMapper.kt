@@ -24,12 +24,12 @@ object StepQuizHintsViewStateMapper {
                             authorName = hint.user.fullName,
                             hintState = when {
                                 !state.hintHasReaction -> {
-                                    StepQuizHintsViewState.HintState.ReactToHint
+                                    StepQuizHintsViewState.HintState.REACT_TO_HINT
                                 }
                                 state.hintHasReaction && state.hintsIds.isNotEmpty() -> {
-                                    StepQuizHintsViewState.HintState.SeeNextHint
+                                    StepQuizHintsViewState.HintState.SEE_NEXT_HINT
                                 }
-                                else -> StepQuizHintsViewState.HintState.LastHint
+                                else -> StepQuizHintsViewState.HintState.LAST_HINT
                             }
                         )
                     }

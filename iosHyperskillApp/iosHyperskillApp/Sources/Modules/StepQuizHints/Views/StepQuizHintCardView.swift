@@ -46,7 +46,7 @@ struct StepQuizHintCardView: View {
 
                 Spacer()
 
-                if hintState == .reacttohint {
+                if hintState == .reactToHint {
                     Button(Strings.StepQuiz.Hints.reportButton) {
                         isPresentingReportAlert = true
                         onReportTapped()
@@ -72,13 +72,13 @@ struct StepQuizHintCardView: View {
                 }
             }
 
-            if hintState == .seenexthint {
+            if hintState == .seeNextHint {
                 StepQuizShowHintButton(text: Strings.StepQuiz.Hints.seeNextHint) {
                     isShowingMore = false
                     onNextHintTapped()
                 }
             } else {
-                if hintState == .lasthint {
+                if hintState == .lastHint {
                     Text(Strings.StepQuiz.Hints.lastHint)
                         .font(.caption)
                         .foregroundColor(.secondaryText)
@@ -137,7 +137,7 @@ struct StepQuizHintCardView_Previews: PreviewProvider {
                 authorAvatarSource: nil,
                 authorName: "Name Surname",
                 hintText: "Python is used for almost everything in programming.",
-                hintState: .reacttohint,
+                hintState: .reactToHint,
                 onReactionTapped: { _ in },
                 onReportTapped: {},
                 onReportAlertAppeared: {},
@@ -150,7 +150,7 @@ struct StepQuizHintCardView_Previews: PreviewProvider {
                 authorAvatarSource: nil,
                 authorName: "Name Surname",
                 hintText: "Python is used for almost everything in programming.",
-                hintState: .seenexthint,
+                hintState: .seeNextHint,
                 onReactionTapped: { _ in },
                 onReportTapped: {},
                 onReportAlertAppeared: {},
@@ -163,7 +163,7 @@ struct StepQuizHintCardView_Previews: PreviewProvider {
                 authorAvatarSource: nil,
                 authorName: "Name Surname",
                 hintText: "Python is used for almost everything in programming.",
-                hintState: .lasthint,
+                hintState: .lastHint,
                 onReactionTapped: { _ in },
                 onReportTapped: {},
                 onReportAlertAppeared: {},

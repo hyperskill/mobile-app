@@ -19,9 +19,17 @@ sealed interface StepQuizHintsViewState {
 
     object Error : StepQuizHintsViewState
 
+    // After Kotlin/Native compiling in ObjC this becomes (not friendly):
+    // ReactToHint -> reacttohint
+    // SeeNextHint -> seenexthint
+    // LastHint -> lasthint
+    // After using the following naming conversion it becomes friendly to use:
+    // ReactToHint -> reactToHint
+    // SeeNextHint -> seeNextHint
+    // LastHint -> lastHint
     enum class HintState {
-        ReactToHint,
-        SeeNextHint,
-        LastHint
+        REACT_TO_HINT,
+        SEE_NEXT_HINT,
+        LAST_HINT
     }
 }

@@ -67,22 +67,22 @@ class StepQuizHintsDelegate(
                     stepQuizHintContentTextView.originalText = state.hintText
                 }
                 stepQuizHintBeforeRateGroup.isVisible =
-                    state.hintState == StepQuizHintsViewState.HintState.ReactToHint
+                    state.hintState == StepQuizHintsViewState.HintState.REACT_TO_HINT
                 stepQuizSeeNextHintButton.root.isVisible =
-                    state.hintState == StepQuizHintsViewState.HintState.SeeNextHint
+                    state.hintState == StepQuizHintsViewState.HintState.SEE_NEXT_HINT
                 stepQuizHintDescriptionTextView.isVisible =
-                    state.hintState != StepQuizHintsViewState.HintState.SeeNextHint
-                if (state.hintState != StepQuizHintsViewState.HintState.SeeNextHint) {
+                    state.hintState != StepQuizHintsViewState.HintState.SEE_NEXT_HINT
+                if (state.hintState != StepQuizHintsViewState.HintState.SEE_NEXT_HINT) {
                     @Suppress("KotlinConstantConditions")
                     stepQuizHintDescriptionTextView.setTextIfChanged(
                         when (state.hintState) {
-                            StepQuizHintsViewState.HintState.ReactToHint -> org.hyperskill.app.R.string.step_quiz_hints_helpful_question_text
-                            StepQuizHintsViewState.HintState.LastHint -> org.hyperskill.app.R.string.step_quiz_hints_last_hint_text
-                            StepQuizHintsViewState.HintState.SeeNextHint -> error("Can't evaluate text for state = $state")
+                            StepQuizHintsViewState.HintState.REACT_TO_HINT -> org.hyperskill.app.R.string.step_quiz_hints_helpful_question_text
+                            StepQuizHintsViewState.HintState.LAST_HINT -> org.hyperskill.app.R.string.step_quiz_hints_last_hint_text
+                            StepQuizHintsViewState.HintState.SEE_NEXT_HINT -> error("Can't evaluate text for state = $state")
                         }.let(context::getString)
                     )
                 }
-                if (state.hintState == StepQuizHintsViewState.HintState.ReactToHint) {
+                if (state.hintState == StepQuizHintsViewState.HintState.REACT_TO_HINT) {
                     stepQuizHintReportTextView.setOnClickListener {
                         handleHintReportClick(context, onNewMessage)
                     }
