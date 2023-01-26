@@ -30,6 +30,7 @@ import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.Gamifica
 import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.topics.adapter_delegate.TopicAdapterDelegate
+import org.hyperskill.app.android.topics.delegate.TopicsToDiscoverNextDelegate
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
@@ -61,14 +62,10 @@ class TrackFragment :
     private val viewStateDelegate: ViewStateDelegate<TrackFeature.TrackState> = ViewStateDelegate()
     private var gamificationToolbarDelegate: GamificationToolbarDelegate? = null
 
-    private val nextTopicsAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        DefaultDelegateAdapter<Topic>().apply {
-            addDelegate(
-                TopicAdapterDelegate { topicId ->
-                    val messageToWrap = TopicsToDiscoverNextFeature.Message.TopicToDiscoverNextClicked(topicId)
-                    trackViewModel.onNewMessage(TrackFeature.Message.TopicsToDiscoverNextMessage(messageToWrap))
-                }
-            )
+    private val topicsDelegate: TopicsToDiscoverNextDelegate by lazy(LazyThreadSafetyMode.NONE) {
+        TopicsToDiscoverNextDelegate { topicId ->
+            val messageToWrap = TopicsToDiscoverNextFeature.Message.TopicToDiscoverNextClicked(topicId)
+            trackViewModel.onNewMessage(TrackFeature.Message.TopicsToDiscoverNextMessage(messageToWrap))
         }
     }
 
@@ -88,7 +85,7 @@ class TrackFragment :
         viewBinding.trackError.tryAgain.setOnClickListener {
             trackViewModel.onNewMessage(TrackFeature.Message.Initialize(forceUpdate = true))
         }
-        setupTopicsRecycler()
+        topicsDelegate.setup(requireContext(), viewBinding.trackNextTopicsRecyclerView)
         trackViewModel.onNewMessage(TrackFeature.Message.Initialize())
         trackViewModel.onNewMessage(TrackFeature.Message.ViewedEventMessage)
     }
@@ -144,27 +141,6 @@ class TrackFragment :
                         requireRouter().navigateTo(StepScreen(StepRoute.Learn(viewAction.stepId)))
                     }
                 }
-        }
-    }
-
-    private fun setupTopicsRecycler() {
-        with(viewBinding.trackNextTopicsRecyclerView) {
-            adapter = nextTopicsAdapter
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            isNestedScrollingEnabled = false
-            val verticalMargin = resources.getDimensionPixelSize(R.dimen.track_next_topic_vertical_item_margin)
-            addItemDecoration(
-                VerticalMarginItemDecoration(
-                    verticalMargin = verticalMargin,
-                    firstItemTopMargin = verticalMargin,
-                    lastItemMargin = verticalMargin
-                )
-            )
-            addItemDecoration(
-                HorizontalMarginItemDecoration(
-                    resources.getDimensionPixelSize(R.dimen.track_next_topic_horizontal_item_margin)
-                )
-            )
         }
     }
 
@@ -288,8 +264,6 @@ class TrackFragment :
 
     private fun renderNextTopics(topics: List<Topic>) {
         viewBinding.trackTopicsLinearLayout.isVisible = topics.isNotEmpty()
-        if (topics.isNotEmpty()) {
-            nextTopicsAdapter.items = topics
-        }
+        topicsDelegate.setTopics(topics)
     }
 }
