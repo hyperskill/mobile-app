@@ -6,15 +6,18 @@ import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarF
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.streaks.domain.model.Streak
+import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
 
 interface HomeFeature {
     data class State(
         val homeState: HomeState,
-        val toolbarState: GamificationToolbarFeature.State
+        val toolbarState: GamificationToolbarFeature.State,
+        val topicsToDiscoverNextState: TopicsToDiscoverNextFeature.State
     ) {
         val isRefreshing: Boolean
             get() = homeState is HomeState.Content && homeState.isRefreshing ||
-                toolbarState is GamificationToolbarFeature.State.Content && toolbarState.isRefreshing
+                toolbarState is GamificationToolbarFeature.State.Content && toolbarState.isRefreshing ||
+                topicsToDiscoverNextState is TopicsToDiscoverNextFeature.State.Content && topicsToDiscoverNextState.isRefreshing
     }
 
     sealed interface HomeState {
@@ -120,6 +123,7 @@ interface HomeFeature {
          * Message Wrappers
          */
         data class GamificationToolbarMessage(val message: GamificationToolbarFeature.Message) : Message
+        data class TopicsToDiscoverNextMessage(val message: TopicsToDiscoverNextFeature.Message) : Message
     }
 
     sealed interface Action {
@@ -134,6 +138,7 @@ interface HomeFeature {
          * Action Wrappers
          */
         data class GamificationToolbarAction(val action: GamificationToolbarFeature.Action) : Action
+        data class TopicsToDiscoverNextAction(val action: TopicsToDiscoverNextFeature.Action) : Action
 
         sealed interface ViewAction : Action {
             data class OpenUrl(val url: String) : ViewAction
@@ -141,6 +146,9 @@ interface HomeFeature {
 
             data class GamificationToolbarViewAction(
                 val viewAction: GamificationToolbarFeature.Action.ViewAction
+            ) : ViewAction
+            data class TopicsToDiscoverNextViewAction(
+                val viewAction: TopicsToDiscoverNextFeature.Action.ViewAction
             ) : ViewAction
 
             sealed interface NavigateTo : ViewAction {

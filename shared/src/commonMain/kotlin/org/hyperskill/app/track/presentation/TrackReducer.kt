@@ -4,9 +4,10 @@ import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
+import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
+import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextReducer
 import org.hyperskill.app.track.domain.analytic.TrackClickedContinueInWebHyperskillAnalyticEvent
 import org.hyperskill.app.track.domain.analytic.TrackClickedPullToRefreshHyperskillAnalyticEvent
-import org.hyperskill.app.track.domain.analytic.TrackClickedTopicToDiscoverNextHyperskillAnalyticEvent
 import org.hyperskill.app.track.domain.analytic.TrackViewedHyperskillAnalyticEvent
 import org.hyperskill.app.track.presentation.TrackFeature.Action
 import org.hyperskill.app.track.presentation.TrackFeature.Message
@@ -15,7 +16,8 @@ import org.hyperskill.app.track.presentation.TrackFeature.TrackState
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 class TrackReducer(
-    private val gamificationToolbarReducer: GamificationToolbarReducer
+    private val gamificationToolbarReducer: GamificationToolbarReducer,
+    private val topicsToDiscoverNextReducer: TopicsToDiscoverNextReducer
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
@@ -33,15 +35,23 @@ class TrackReducer(
                     GamificationToolbarFeature.Message.Initialize(GamificationToolbarScreen.TRACK, message.forceUpdate)
                 )
 
-                state.copy(trackState = trackState, toolbarState = toolbarState) to trackActions + toolbarActions
+                val (topicsToDiscoverNextState, topicsToDiscoverNextActions) = reduceTopicsToDiscoverNextMessage(
+                    state.topicsToDiscoverNextState,
+                    TopicsToDiscoverNextFeature.Message.Initialize(message.forceUpdate)
+                )
+
+                state.copy(
+                    trackState = trackState,
+                    toolbarState = toolbarState,
+                    topicsToDiscoverNextState = topicsToDiscoverNextState
+                ) to trackActions + toolbarActions + topicsToDiscoverNextActions
             }
             is Message.TrackSuccess ->
                 state.copy(
                     trackState = TrackState.Content(
                         message.track,
                         message.trackProgress,
-                        message.studyPlan,
-                        message.topicsToDiscoverNext
+                        message.studyPlan
                     )
                 ) to emptySet()
             is Message.TrackFailure ->
@@ -63,28 +73,18 @@ class TrackReducer(
                     GamificationToolbarFeature.Message.PullToRefresh(GamificationToolbarScreen.TRACK)
                 )
 
-                state.copy(trackState = trackState, toolbarState = toolbarState) to trackActions + toolbarActions
+                val (topicsToDiscoverNextState, topicsToDiscoverNextActions) = reduceTopicsToDiscoverNextMessage(
+                    state.topicsToDiscoverNextState,
+                    TopicsToDiscoverNextFeature.Message.PullToRefresh
+                )
+
+                state.copy(
+                    trackState = trackState,
+                    toolbarState = toolbarState,
+                    topicsToDiscoverNextState = topicsToDiscoverNextState
+                ) to trackActions + toolbarActions + topicsToDiscoverNextActions
             }
             // Click Messages
-            is Message.TopicToDiscoverNextClicked -> {
-                val targetTheoryId = (state.trackState as? TrackState.Content)
-                    ?.topicsToDiscoverNext?.firstOrNull { it.id == message.topicId }
-                    ?.theoryId
-
-                if (targetTheoryId != null) {
-                    state to setOf(
-                        Action.ViewAction.NavigateTo.StepScreen(targetTheoryId),
-                        Action.LogAnalyticEvent(
-                            TrackClickedTopicToDiscoverNextHyperskillAnalyticEvent(
-                                topicId = message.topicId,
-                                theoryId = targetTheoryId
-                            )
-                        )
-                    )
-                } else {
-                    null
-                }
-            }
             is Message.ClickedContinueInWeb ->
                 if (state.trackState is TrackState.Content) {
                     state.copy(trackState = state.trackState.copy(isLoadingMagicLink = true)) to setOf(
@@ -120,11 +120,13 @@ class TrackReducer(
                     reduceGamificationToolbarMessage(state.toolbarState, message.message)
                 state.copy(toolbarState = toolbarState) to toolbarActions
             }
+            is Message.TopicsToDiscoverNextMessage -> {
+                val (topicsToDiscoverNextState, topicsToDiscoverNextActions) =
+                    reduceTopicsToDiscoverNextMessage(state.topicsToDiscoverNextState, message.message)
+                state.copy(topicsToDiscoverNextState = topicsToDiscoverNextState) to topicsToDiscoverNextActions
+            }
         } ?: (state to emptySet())
 
-    /**
-     * Reduces [Message.GamificationToolbarMessage] to [GamificationToolbarFeature.State] and set of [TrackFeature.Action]
-     */
     private fun reduceGamificationToolbarMessage(
         state: GamificationToolbarFeature.State,
         message: GamificationToolbarFeature.Message
@@ -142,5 +144,25 @@ class TrackReducer(
             .toSet()
 
         return gamificationToolbarState to actions
+    }
+
+    private fun reduceTopicsToDiscoverNextMessage(
+        state: TopicsToDiscoverNextFeature.State,
+        message: TopicsToDiscoverNextFeature.Message
+    ): Pair<TopicsToDiscoverNextFeature.State, Set<Action>> {
+        val (topicsToDiscoverNextState, topicsToDiscoverNextActions) =
+            topicsToDiscoverNextReducer.reduce(state, message)
+
+        val actions = topicsToDiscoverNextActions
+            .map {
+                if (it is TopicsToDiscoverNextFeature.Action.ViewAction) {
+                    Action.ViewAction.TopicsToDiscoverNextViewAction(it)
+                } else {
+                    Action.TopicsToDiscoverNextAction(it)
+                }
+            }
+            .toSet()
+
+        return topicsToDiscoverNextState to actions
     }
 }

@@ -2,7 +2,10 @@ package org.hyperskill.app.sentry.domain.interactor
 
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.analytic.domain.model.AnalyticEventMonitor
 import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcrumb
+import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcrumbAnalyticEventMapper
 import org.hyperskill.app.sentry.domain.model.level.HyperskillSentryLevel
 import org.hyperskill.app.sentry.domain.model.manager.SentryManager
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransaction
@@ -16,7 +19,7 @@ import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransa
  */
 class SentryInteractor(
     private val sentryManager: SentryManager
-) {
+) : AnalyticEventMonitor {
     private val transactionsMutex = Mutex()
 
     fun setup() {
@@ -55,5 +58,18 @@ class SentryInteractor(
         transactionsMutex.withLock {
             sentryManager.finishTransaction(transaction, throwable)
         }
+    }
+
+    // Conforming to AnalyticEventMonitor
+
+    override fun analyticDidReportEvent(event: AnalyticEvent) {
+        val breadcrumb = HyperskillSentryBreadcrumbAnalyticEventMapper.mapAnalyticEvent(event)
+        if (breadcrumb.message.isNotEmpty()) {
+            addBreadcrumb(breadcrumb)
+        }
+    }
+
+    override fun analyticDidFlushEvents() {
+        // no op
     }
 }

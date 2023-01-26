@@ -5,7 +5,7 @@ struct TrackSkeletonView: View {
         ScrollView([], showsIndicators: false) {
             VStack(spacing: TrackView.Appearance().spacingBetweenContainers) {
                 TrackHeaderSkeletonView()
-                TrackTopicsToDiscoverNextSkeletonView()
+                TrackTopicsToDiscoverNextSkeletonBlockView()
                 TrackProgressSkeletonView()
             }
         }

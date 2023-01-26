@@ -59,7 +59,7 @@ interface TopicsRepetitionsFeature {
 
         data class FetchNextTopics(val nextPage: Int) : Action
 
-        object NotifyTopicRepeated : Action
+        data class NotifyTopicRepeated(val topicId: Long) : Action
 
         /**
          * Logging analytic event action

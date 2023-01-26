@@ -12,6 +12,7 @@ import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.remote.UserAgentInfo
+import org.hyperskill.app.network.NetworkBuilder
 import org.hyperskill.app.network.domain.model.NetworkClientType
 import org.hyperskill.app.network.domain.model.NetworkEndpointConfigInfo
 
