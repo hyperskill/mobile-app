@@ -76,7 +76,7 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                                     repeatedCount = completedRepetition.repeatedCount
                                 )
                             )
-                        ) to setOf(Action.NotifyTopicRepeated)
+                        ) to setOf(Action.NotifyTopicRepeated(completedRepetition.topicId))
                     }
                 } else {
                     null
