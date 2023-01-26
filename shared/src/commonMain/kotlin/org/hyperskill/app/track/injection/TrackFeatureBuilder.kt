@@ -5,12 +5,13 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarActionDispatcher
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
-import org.hyperskill.app.learning_activities.domain.interactor.LearningActivitiesInteractor
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
-import org.hyperskill.app.topics.domain.interactor.TopicsInteractor
+import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextActionDispatcher
+import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
+import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextReducer
 import org.hyperskill.app.track.domain.interactor.TrackInteractor
 import org.hyperskill.app.track.presentation.TrackActionDispatcher
 import org.hyperskill.app.track.presentation.TrackFeature
@@ -26,22 +27,20 @@ object TrackFeatureBuilder {
         trackInteractor: TrackInteractor,
         profileInteractor: ProfileInteractor,
         progressesInteractor: ProgressesInteractor,
-        learningActivitiesInteractor: LearningActivitiesInteractor,
-        topicsInteractor: TopicsInteractor,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
         urlPathProcessor: UrlPathProcessor,
         gamificationToolbarReducer: GamificationToolbarReducer,
-        gamificationToolbarActionDispatcher: GamificationToolbarActionDispatcher
+        gamificationToolbarActionDispatcher: GamificationToolbarActionDispatcher,
+        topicsToDiscoverNextReducer: TopicsToDiscoverNextReducer,
+        topicsToDiscoverNextActionDispatcher: TopicsToDiscoverNextActionDispatcher
     ): Feature<TrackFeature.State, TrackFeature.Message, TrackFeature.Action> {
-        val trackReducer = TrackReducer(gamificationToolbarReducer)
+        val trackReducer = TrackReducer(gamificationToolbarReducer, topicsToDiscoverNextReducer)
         val trackActionDispatcher = TrackActionDispatcher(
             ActionDispatcherOptions(),
             trackInteractor,
             profileInteractor,
             progressesInteractor,
-            learningActivitiesInteractor,
-            topicsInteractor,
             analyticInteractor,
             sentryInteractor,
             urlPathProcessor
@@ -50,7 +49,8 @@ object TrackFeatureBuilder {
         return ReduxFeature(
             TrackFeature.State(
                 trackState = TrackFeature.TrackState.Idle,
-                toolbarState = GamificationToolbarFeature.State.Idle
+                toolbarState = GamificationToolbarFeature.State.Idle,
+                topicsToDiscoverNextState = TopicsToDiscoverNextFeature.State.Idle
             ),
             trackReducer
         )
@@ -59,6 +59,12 @@ object TrackFeatureBuilder {
                 gamificationToolbarActionDispatcher.transform(
                     transformAction = { it.safeCast<TrackFeature.Action.GamificationToolbarAction>()?.action },
                     transformMessage = TrackFeature.Message::GamificationToolbarMessage
+                )
+            )
+            .wrapWithActionDispatcher(
+                topicsToDiscoverNextActionDispatcher.transform(
+                    transformAction = { it.safeCast<TrackFeature.Action.TopicsToDiscoverNextAction>()?.action },
+                    transformMessage = TrackFeature.Message::TopicsToDiscoverNextMessage
                 )
             )
     }

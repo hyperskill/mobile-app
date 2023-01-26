@@ -70,8 +70,7 @@ struct TrackView: View {
             let viewData = viewModel.makeViewData(
                 track: data.track,
                 trackProgress: data.trackProgress,
-                studyPlan: data.studyPlan,
-                topicsToDiscoverNext: data.topicsToDiscoverNext
+                studyPlan: data.studyPlan
             )
 
             ScrollView {
@@ -82,13 +81,12 @@ struct TrackView: View {
                         subtitle: viewData.learningRole
                     )
 
-                    if !viewData.topicsToDiscoverNext.isEmpty {
-                        TrackTopicsToDiscoverNextBlockView(
-                            appearance: .init(spacing: appearance.spacingBetweenRelativeItems),
-                            topics: viewData.topicsToDiscoverNext,
-                            onTopicTapped: viewModel.doTheoryTopicPresentation(topic:)
-                        )
-                    }
+                    TrackTopicsToDiscoverNextBlockView(
+                        appearance: .init(spacing: appearance.spacingBetweenRelativeItems),
+                        state: viewModel.topicsToDiscoverNextStateKs,
+                        onTopicTapped: viewModel.doTheoryTopicPresentation(topicID:),
+                        onErrorButtonTapped: viewModel.doReloadTopicsToDiscoverNext
+                    )
 
                     TrackProgressBlockView(
                         appearance: .init(
@@ -134,16 +132,16 @@ struct TrackView: View {
             WebControllerManager.shared.presentWebControllerWithURLString(data.url)
         case .showGetMagicLinkError:
             ProgressHUD.showError()
-        case .navigateTo(let navigateToViewAction):
-            switch TrackFeatureActionViewActionNavigateToKs(navigateToViewAction) {
-            case .stepScreen(let data):
-                let assembly = StepAssembly(stepRoute: StepRouteLearn(stepId: data.stepId))
-                pushRouter.pushViewController(assembly.makeModule())
-            }
         case .gamificationToolbarViewAction(let gamificationToolbarViewAction):
             switch GamificationToolbarFeatureActionViewActionKs(gamificationToolbarViewAction.viewAction) {
             case .showProfileTab:
                 TabBarRouter(tab: .profile).route()
+            }
+        case .topicsToDiscoverNextViewAction(let topicsToDiscoverNextViewAction):
+            switch TopicsToDiscoverNextFeatureActionViewActionKs(topicsToDiscoverNextViewAction.viewAction) {
+            case .showStepScreen(let data):
+                let assembly = StepAssembly(stepRoute: StepRouteLearn(stepId: data.stepId))
+                pushRouter.pushViewController(assembly.makeModule())
             }
         }
     }

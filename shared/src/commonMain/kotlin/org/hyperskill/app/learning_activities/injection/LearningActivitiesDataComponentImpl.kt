@@ -13,8 +13,8 @@ class LearningActivitiesDataComponentImpl(
     private val learningActivitiesRemoteDataSource: LearningActivitiesRemoteDataSource =
         LearningActivitiesRemoteDataSourceImpl(appGraph.networkComponent.authorizedHttpClient)
 
-    private val learningActivitiesRepository: LearningActivitiesRepository =
-        LearningActivitiesRepositoryImpl(learningActivitiesRemoteDataSource)
+    override val learningActivitiesRepository: LearningActivitiesRepository
+        get() = LearningActivitiesRepositoryImpl(learningActivitiesRemoteDataSource)
 
     override val learningActivitiesInteractor: LearningActivitiesInteractor
         get() = LearningActivitiesInteractor(learningActivitiesRepository)

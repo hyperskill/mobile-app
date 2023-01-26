@@ -1,4 +1,4 @@
-package org.hyperskill.app.track.domain.analytic
+package org.hyperskill.app.topics_to_discover_next.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -12,7 +12,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * JSON payload:
  * ```
  * {
- *     "route": "/track",
+ *     "route": "/home | /track",
  *     "action": "click",
  *     "part": "theory_to_discover_next",
  *     "target": "topic",
@@ -25,11 +25,12 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * ```
  * @see HyperskillAnalyticEvent
  */
-class TrackClickedTopicToDiscoverNextHyperskillAnalyticEvent(
+class TopicsToDiscoverNextClickedHyperskillAnalyticEvent(
+    analyticRoute: HyperskillAnalyticRoute,
     private val topicId: Long,
     private val theoryId: Long
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.Track(),
+    analyticRoute,
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.THEORY_TO_DISCOVER_NEXT,
     HyperskillAnalyticTarget.TOPIC
