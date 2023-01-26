@@ -37,7 +37,7 @@ open class HyperskillAnalyticEvent(
 
     private val clientTime = Clock.System.now()
 
-    override val name: String = ""
+    override val name: String = this::class.simpleName ?: ""
 
     override val params: Map<String, Any> =
         mapOfNotNull(

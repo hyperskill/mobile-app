@@ -114,11 +114,11 @@ class AppGraphImpl(
     override val topicsRepetitionsFlowDataComponent: TopicsRepetitionsFlowDataComponent =
         TopicsRepetitionsFlowDataComponentImpl()
 
-    override val analyticComponent: AnalyticComponent =
-        AnalyticComponentImpl(this)
-
     override val sentryComponent: SentryComponent =
         SentryComponentImpl(sentryManager)
+
+    override val analyticComponent: AnalyticComponent =
+        AnalyticComponentImpl(this)
 
     override val mainComponent: MainComponent =
         MainComponentImpl(this)
