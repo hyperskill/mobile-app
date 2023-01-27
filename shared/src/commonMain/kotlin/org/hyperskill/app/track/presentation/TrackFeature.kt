@@ -4,6 +4,7 @@ import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.topics.domain.model.Topic
+import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
 import org.hyperskill.app.track.domain.model.StudyPlan
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.domain.model.TrackProgress
@@ -11,11 +12,13 @@ import org.hyperskill.app.track.domain.model.TrackProgress
 interface TrackFeature {
     data class State(
         val trackState: TrackState,
-        val toolbarState: GamificationToolbarFeature.State
+        val toolbarState: GamificationToolbarFeature.State,
+        val topicsToDiscoverNextState: TopicsToDiscoverNextFeature.State
     ) {
         val isRefreshing: Boolean
             get() = trackState is TrackState.Content && trackState.isRefreshing ||
-                toolbarState is GamificationToolbarFeature.State.Content && toolbarState.isRefreshing
+                toolbarState is GamificationToolbarFeature.State.Content && toolbarState.isRefreshing ||
+                topicsToDiscoverNextState is TopicsToDiscoverNextFeature.State.Content && topicsToDiscoverNextState.isRefreshing
     }
 
     sealed interface TrackState {
@@ -35,7 +38,6 @@ interface TrackFeature {
          * @property track Current user profile selected track.
          * @property trackProgress Current user profile selected track progress.
          * @property studyPlan Current user profile study plan.
-         * @property topicsToDiscoverNext Current user profile uncompleted topics (theory to discover next) for current stage.
          * @property isRefreshing A boolean flag that indicates about is pull-to-refresh is ongoing.
          * @property isLoadingMagicLink A boolean flag that indicates about magic link loading.
          * @see Track
@@ -47,7 +49,6 @@ interface TrackFeature {
             val track: Track,
             val trackProgress: TrackProgress,
             val studyPlan: StudyPlan? = null,
-            val topicsToDiscoverNext: List<Topic>,
             internal val isRefreshing: Boolean = false,
             val isLoadingMagicLink: Boolean = false
         ) : TrackState
@@ -77,22 +78,13 @@ interface TrackFeature {
         data class TrackSuccess(
             val track: Track,
             val trackProgress: TrackProgress,
-            val studyPlan: StudyPlan? = null,
-            val topicsToDiscoverNext: List<Topic>
+            val studyPlan: StudyPlan? = null
         ) : Message
 
         /**
          * A message that indicates about failure module data loading.
          */
         object TrackFailure : Message
-
-        /**
-         * A message that indicates about click on topic.
-         * Triggers navigation to step screen and logs that event to the analytics.
-         *
-         * @property topicId A topic id that triggered that event.
-         */
-        data class TopicToDiscoverNextClicked(val topicId: Long) : Message
 
         object PullToRefresh : Message
 
@@ -110,6 +102,7 @@ interface TrackFeature {
          * Message Wrappers
          */
         data class GamificationToolbarMessage(val message: GamificationToolbarFeature.Message) : Message
+        data class TopicsToDiscoverNextMessage(val message: TopicsToDiscoverNextFeature.Message) : Message
     }
 
     sealed interface Action {
@@ -123,18 +116,22 @@ interface TrackFeature {
          * Action Wrappers
          */
         data class GamificationToolbarAction(val action: GamificationToolbarFeature.Action) : Action
+        data class TopicsToDiscoverNextAction(val action: TopicsToDiscoverNextFeature.Action) : Action
 
         sealed interface ViewAction : Action {
             data class OpenUrl(val url: String) : ViewAction
             object ShowGetMagicLinkError : ViewAction
 
+            /**
+             * ViewAction Wrappers
+             */
             data class GamificationToolbarViewAction(
                 val viewAction: GamificationToolbarFeature.Action.ViewAction
             ) : ViewAction
 
-            sealed interface NavigateTo : ViewAction {
-                data class StepScreen(val stepId: Long) : NavigateTo
-            }
+            data class TopicsToDiscoverNextViewAction(
+                val viewAction: TopicsToDiscoverNextFeature.Action.ViewAction
+            ) : ViewAction
         }
     }
 }

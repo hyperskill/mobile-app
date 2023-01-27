@@ -27,13 +27,4 @@ struct TrackViewData {
     let topicsCountText: String?
     let description: String
     let webActionButtonText: String
-
-    // MARK: Theory to discover next
-
-    let topicsToDiscoverNext: [TheoryTopic]
-
-    struct TheoryTopic: Identifiable {
-        let id: Int64
-        let title: String
-    }
 }

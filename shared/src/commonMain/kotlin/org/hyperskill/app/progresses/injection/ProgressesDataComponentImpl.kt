@@ -13,8 +13,8 @@ class ProgressesDataComponentImpl(
     private val progressesRemoteDataSource: ProgressesRemoteDataSource =
         ProgressesRemoteDataSourceImpl(appGraph.networkComponent.authorizedHttpClient)
 
-    private val progressesRepository: ProgressesRepository =
-        ProgressesRepositoryImpl(progressesRemoteDataSource)
+    override val progressesRepository: ProgressesRepository
+        get() = ProgressesRepositoryImpl(progressesRemoteDataSource)
 
     override val progressesInteractor: ProgressesInteractor
         get() = ProgressesInteractor(progressesRepository)

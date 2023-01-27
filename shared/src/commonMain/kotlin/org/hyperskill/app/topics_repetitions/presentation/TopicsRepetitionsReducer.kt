@@ -89,7 +89,7 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                         newState.copy(
                             isLoadingNextTopics = newState.hasNextTopicsToLoad
                         ) to buildSet {
-                            add(Action.NotifyTopicRepeated)
+                            add(Action.NotifyTopicRepeated(completedRepetition.topicId))
 
                             if (newState.hasNextTopicsToLoad) {
                                 add(Action.FetchNextTopics(state.currentPage))
