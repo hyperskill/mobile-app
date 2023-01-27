@@ -41,7 +41,13 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                 if (state is State.Content && state.hasNextTopicsToLoad) {
                     state.copy(isLoadingNextTopics = true) to setOf(
                         Action.FetchNextTopics(
-                            nextPage = (state.topicsRepetitions.count() / TopicsRepetitionsActionDispatcher.TOPICS_PAGINATION_SIZE) + 1
+                            nextPage = if (
+                                state.topicsRepetitions.size % TopicsRepetitionsActionDispatcher.TOPICS_PAGINATION_SIZE == 0
+                            ) {
+                                state.currentPage + 1
+                            } else {
+                                state.currentPage
+                            }
                         )
                     )
                 } else {
@@ -50,7 +56,10 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
             is Message.NextTopicsRepetitionsLoaded.Success ->
                 if (state is State.Content) {
                     state.copy(
-                        topicsRepetitions = state.topicsRepetitions + message.nextTopicsRepetitions,
+                        topicsRepetitions = state.topicsRepetitions +
+                            message.nextTopicsRepetitions.filter { nextTopicRepetitions ->
+                                state.topicsRepetitions.none { it.topicId == nextTopicRepetitions.topicId }
+                            },
                         isLoadingNextTopics = false,
                     ) to emptySet()
                 } else {
@@ -65,7 +74,7 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
             is Message.StepCompleted ->
                 if (state is State.Content) {
                     state.topicsRepetitions.firstOrNull { it.steps.contains(message.stepId) }?.let { completedRepetition ->
-                        state.copy(
+                        val newState = state.copy(
                             topicsRepetitions = state.topicsRepetitions.filter { it.id != completedRepetition.id },
                             topicRepetitionStatistics = TopicRepetitionStatistics(
                                 recommendTodayCount = max(state.topicRepetitionStatistics.recommendTodayCount - 1, 0),
@@ -76,7 +85,16 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                                     repeatedCount = completedRepetition.repeatedCount
                                 )
                             )
-                        ) to setOf(Action.NotifyTopicRepeated)
+                        )
+                        newState.copy(
+                            isLoadingNextTopics = newState.hasNextTopicsToLoad
+                        ) to buildSet {
+                            add(Action.NotifyTopicRepeated)
+
+                            if (newState.hasNextTopicsToLoad) {
+                                add(Action.FetchNextTopics(state.currentPage))
+                            }
+                        }
                     }
                 } else {
                     null

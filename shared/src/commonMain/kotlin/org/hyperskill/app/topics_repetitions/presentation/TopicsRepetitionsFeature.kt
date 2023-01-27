@@ -3,6 +3,7 @@ package org.hyperskill.app.topics_repetitions.presentation
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.topics_repetitions.domain.model.TopicRepetition
 import org.hyperskill.app.topics_repetitions.domain.model.TopicRepetitionStatistics
+import kotlin.math.ceil
 
 interface TopicsRepetitionsFeature {
     sealed interface State {
@@ -17,6 +18,10 @@ interface TopicsRepetitionsFeature {
         ) : State {
             val hasNextTopicsToLoad: Boolean
                 get() = topicRepetitionStatistics.totalCount > topicsRepetitions.count()
+            val currentPage: Int
+                get() = ceil(
+                    topicsRepetitions.count().toFloat() / TopicsRepetitionsActionDispatcher.TOPICS_PAGINATION_SIZE
+                ).toInt()
         }
 
         object NetworkError : State

@@ -42,16 +42,12 @@ struct TopicsRepetitionsView: View {
     private func buildBody() -> some View {
         switch viewModel.stateKs {
         case .idle:
-            ScrollView {
-                buildSkeletons()
-                    .onAppear {
-                        viewModel.doLoadContent()
-                    }
-            }
+            buildSkeletons()
+                .onAppear {
+                    viewModel.doLoadContent()
+                }
         case .loading:
-            ScrollView {
-                buildSkeletons()
-            }
+            buildSkeletons()
         case .networkError:
             PlaceholderView(
                 configuration: .networkError(backgroundColor: appearance.backgroundColor) {
@@ -67,13 +63,15 @@ struct TopicsRepetitionsView: View {
 
     @ViewBuilder
     private func buildSkeletons() -> some View {
-        VStack(spacing: appearance.padding) {
-            ForEach(0..<3) { _ in
-                SkeletonRoundedView(appearance: SkeletonRoundedView.Appearance(cornerRadius: 0))
-                    .frame(height: appearance.skeletonHeight)
+        ScrollView([], showsIndicators: false) {
+            VStack(spacing: appearance.padding) {
+                ForEach(0..<3) { _ in
+                    SkeletonRoundedView(appearance: SkeletonRoundedView.Appearance(cornerRadius: 0))
+                        .frame(height: appearance.skeletonHeight)
+                }
             }
+            .padding(.vertical, appearance.padding)
         }
-        .padding(.vertical, appearance.padding)
     }
 
     @ViewBuilder
