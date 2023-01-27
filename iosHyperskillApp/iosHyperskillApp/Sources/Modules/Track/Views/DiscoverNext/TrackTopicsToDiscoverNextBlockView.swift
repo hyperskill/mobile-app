@@ -44,6 +44,7 @@ struct TrackTopicsToDiscoverNextBlockView: View {
                 EmptyView()
             case .content(let data):
                 buildTopicsList(topics: data.topicsToDiscoverNext)
+                buildTopicsList(topics: data.topicsToDiscoverNext)
             }
         }
         .frame(maxWidth: .infinity)
@@ -67,6 +68,15 @@ struct TrackTopicsToDiscoverNextBlockView: View {
                     }
                 )
                 .buttonStyle(OutlineButtonStyle(borderColor: .border, alignment: .leading))
+                .background(
+                    GeometryReader { geometry in
+                        Rectangle()
+                            .stroke(lineWidth: 0)
+                            .background(Color(ColorPalette.overlayGreenAlpha7))
+                            .cornerRadius(8)
+                            .frame(width: geometry.size.width * 0.45)
+                    }
+                )
             }
         }
     }
