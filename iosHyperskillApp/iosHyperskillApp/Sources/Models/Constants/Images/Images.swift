@@ -76,6 +76,11 @@ enum Images {
         static let projectGraduate = "track-project-graduate"
         static let hammer = "track-hammer"
 
+        enum TopicsToDiscoverNext {
+            static let completedTopic = "track-topics-to-discover-next-completed-topic"
+            static let skippedTopic = "track-topics-to-discover-next-skipped-topic"
+        }
+
         enum About {
             static let rating = "track-about-stat-item-star"
             static let project = "track-about-stat-item-project"
