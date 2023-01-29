@@ -30,7 +30,6 @@ import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.step.domain.model.StepRoute
-import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.presentation.TrackFeature
@@ -58,7 +57,7 @@ class TrackFragment :
     private var gamificationToolbarDelegate: GamificationToolbarDelegate? = null
 
     private val topicsDelegate: TopicsToDiscoverNextDelegate by lazy(LazyThreadSafetyMode.NONE) {
-        TopicsToDiscoverNextDelegate { topicId ->
+        TopicsToDiscoverNextDelegate(loadingItems = 3) { topicId ->
             val messageToWrap = TopicsToDiscoverNextFeature.Message.TopicToDiscoverNextClicked(topicId)
             trackViewModel.onNewMessage(TrackFeature.Message.TopicsToDiscoverNextMessage(messageToWrap))
         }
@@ -94,9 +93,18 @@ class TrackFragment :
     private fun initViewStateDelegate() {
         with(viewStateDelegate) {
             addState<TrackFeature.TrackState.Idle>()
-            addState<TrackFeature.TrackState.Loading>(viewBinding.trackSkeleton.root)
+            addState<TrackFeature.TrackState.Loading>(
+                viewBinding.trackHeaderSkeleton.root,
+                viewBinding.trackFooterSkeleton.root
+            )
             addState<TrackFeature.TrackState.NetworkError>(viewBinding.trackError.root)
-            addState<TrackFeature.TrackState.Content>(viewBinding.trackContainer)
+            addState<TrackFeature.TrackState.Content>(
+                viewBinding.trackIconImageView,
+                viewBinding.trackNameTextView,
+                viewBinding.trackLearningTextView,
+                viewBinding.trackProgress.root,
+                viewBinding.trackAbout.root
+            )
         }
     }
 
@@ -147,11 +155,7 @@ class TrackFragment :
             renderContent(trackState)
         }
         gamificationToolbarDelegate?.render(state.toolbarState)
-        // TODO: Add render for TopicsToDiscoverNextFeature.State.Loading
-        val topicsToDiscoverNextState = state.topicsToDiscoverNextState
-        if (topicsToDiscoverNextState is TopicsToDiscoverNextFeature.State.Content) {
-            renderNextTopics(topicsToDiscoverNextState.topicsToDiscoverNext)
-        }
+        renderNextTopics(state.topicsToDiscoverNextState)
     }
 
     private fun renderContent(content: TrackFeature.TrackState.Content) {
@@ -178,7 +182,7 @@ class TrackFragment :
     }
 
     private fun renderCards(content: TrackFeature.TrackState.Content) {
-        with(viewBinding) {
+        with(viewBinding.trackProgress) {
             if (content.studyPlan != null) {
                 trackTimeToCompleteTextView.text =
                     if (content.studyPlan!!.hoursToReachTrack != 0) {
@@ -218,7 +222,7 @@ class TrackFragment :
     }
 
     private fun renderAboutSection(content: TrackFeature.TrackState.Content) {
-        with(viewBinding) {
+        with(viewBinding.trackAbout) {
             trackAboutUsefulnessTextView.text = "${content.trackProgress.averageRating}"
             val hoursToComplete = (content.track.secondsToComplete / 3600).roundToInt()
             trackAboutAllPerformTimeTextView.text = resources.getQuantityString(
@@ -257,8 +261,9 @@ class TrackFragment :
         }
     }
 
-    private fun renderNextTopics(topics: List<Topic>) {
-        viewBinding.trackTopicsLinearLayout.isVisible = topics.isNotEmpty()
-        topicsDelegate.setTopics(topics)
+    private fun renderNextTopics(state: TopicsToDiscoverNextFeature.State) {
+        viewBinding.trackTopicsTitle.isVisible =
+            state is TopicsToDiscoverNextFeature.State.Content
+        topicsDelegate.render(state)
     }
 }

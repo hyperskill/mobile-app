@@ -7,15 +7,19 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.HorizontalMarginItemDecoration
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.VerticalMarginItemDecoration
 import org.hyperskill.app.android.topics.adapter_delegate.TopicAdapterDelegate
-import org.hyperskill.app.topics.domain.model.Topic
+import org.hyperskill.app.android.topics.view.TopicListItem
+import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
+import ru.nobird.android.ui.adapterdelegates.dsl.adapterDelegate
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 
 class TopicsToDiscoverNextDelegate(
+    private val loadingItems: Int,
     onTopicClick: (topicId: Long) -> Unit
 ) {
     private val nextTopicsAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        DefaultDelegateAdapter<Topic>().apply {
+        DefaultDelegateAdapter<TopicListItem>().apply {
             addDelegate(TopicAdapterDelegate(onTopicClick))
+            addDelegate(loadingAdapterDelegate())
         }
     }
 
@@ -40,9 +44,22 @@ class TopicsToDiscoverNextDelegate(
         }
     }
 
-    fun setTopics(topics: List<Topic>) {
-        if (topics.isNotEmpty()) {
-            nextTopicsAdapter.items = topics
+    fun render(state: TopicsToDiscoverNextFeature.State) {
+        nextTopicsAdapter.items = when (state) {
+            TopicsToDiscoverNextFeature.State.Idle,
+            TopicsToDiscoverNextFeature.State.Loading -> {
+                List(loadingItems) {
+                    TopicListItem.LoadingPlaceholder
+                }
+            }
+            is TopicsToDiscoverNextFeature.State.Content -> {
+                state.topicsToDiscoverNext.map(TopicListItem::fromDomainTopic)
+            }
+            TopicsToDiscoverNextFeature.State.Error,
+            TopicsToDiscoverNextFeature.State.Empty -> emptyList()
         }
     }
+
+    private fun loadingAdapterDelegate() =
+        adapterDelegate<TopicListItem, TopicListItem.LoadingPlaceholder>(R.layout.item_topics_list_placeholder)
 }

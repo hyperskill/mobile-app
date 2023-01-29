@@ -7,61 +7,49 @@ import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.ItemTopicBinding
-import org.hyperskill.app.topics.domain.model.Topic
-import org.hyperskill.app.topics.domain.model.completenessPercentage
+import org.hyperskill.app.android.topics.view.TopicListItem
 import ru.nobird.android.ui.adapterdelegates.AdapterDelegate
 import ru.nobird.android.ui.adapterdelegates.DelegateViewHolder
-import kotlin.math.roundToInt
+import ru.nobird.app.core.model.safeCast
 
 class TopicAdapterDelegate(
     private val onTopicClick: (topicId: Long) -> Unit
-) : AdapterDelegate<Topic, DelegateViewHolder<Topic>>() {
+) : AdapterDelegate<TopicListItem, DelegateViewHolder<TopicListItem>>() {
 
-    override fun isForViewType(position: Int, data: Topic): Boolean = true
+    override fun isForViewType(position: Int, data: TopicListItem): Boolean = data is TopicListItem.Topic
 
-    override fun onCreateViewHolder(parent: ViewGroup): DelegateViewHolder<Topic> =
+    override fun onCreateViewHolder(parent: ViewGroup): DelegateViewHolder<TopicListItem> =
         ViewHolder(createView(parent, R.layout.item_topic))
 
-    inner class ViewHolder(root: View) : DelegateViewHolder<Topic>(root) {
+    inner class ViewHolder(root: View) : DelegateViewHolder<TopicListItem>(root) {
 
         val binding = ItemTopicBinding.bind(itemView)
 
         init {
             itemView.setOnClickListener {
-                itemData?.id?.let(onTopicClick)
+                itemData?.safeCast<TopicListItem.Topic>()?.id?.let(onTopicClick)
             }
         }
 
-        override fun onBind(data: Topic) {
+        override fun onBind(data: TopicListItem) {
+            data as TopicListItem.Topic
             with(binding) {
                 topicTitle.text = data.title
 
-                val progress = data.progress
+                topicCompletenessTextView.isVisible = data.completenessText != null
+                topicCompletenessView.isVisible = data.completenessPercentage > 0f
 
-                topicCompletenessTextView.isVisible = progress != null
-                topicCompletenessView.isVisible = progress != null
-
-                if (progress != null) {
-                    with(topicCompletenessTextView) {
-                        text = when {
-                            progress.isSkipped || progress.isCompleted -> null
-                            else -> "${progress.completenessPercentage.roundToInt()}%"
-                        }
-                        val drawableRes: Int = when {
-                            progress.isSkipped -> R.drawable.ic_topic_skipped
-                            progress.isCompleted -> R.drawable.ic_topic_completed
-                            else -> 0
-                        }
-                        setCompoundDrawablesWithIntrinsicBounds(
-                            0,
-                            0,
-                            drawableRes, // right
-                            0
-                        )
-                    }
-                    topicCompletenessView.updateLayoutParams<ConstraintLayout.LayoutParams> {
-                        matchConstraintPercentWidth = progress.completenessPercentage / 100
-                    }
+                with(topicCompletenessTextView) {
+                    text = data.completenessText
+                    setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        0,
+                        data.completenessDrawable, // right
+                        0
+                    )
+                }
+                topicCompletenessView.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                    matchConstraintPercentWidth = data.completenessPercentage
                 }
             }
         }
