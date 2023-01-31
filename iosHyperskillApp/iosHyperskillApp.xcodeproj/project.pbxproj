@@ -202,7 +202,7 @@
 		2C96743F288831BB0091B6C9 /* StepQuizCodeSamplesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C96743E288831BB0091B6C9 /* StepQuizCodeSamplesView.swift */; };
 		2C96744228883A180091B6C9 /* StepQuizCodeViewDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C96744128883A180091B6C9 /* StepQuizCodeViewDataMapper.swift */; };
 		2C96744428883E710091B6C9 /* BlockOptionsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C96744328883E710091B6C9 /* BlockOptionsExtensions.swift */; };
-		2C97B0CD298124C1001DF1A0 /* StepQuizHintsViewStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C97B0CC298124C1001DF1A0 /* StepQuizHintsViewStateKsExtensions.swift */; };
+		2C97B0CD298124C1001DF1A0 /* StepQuizHintsFeatureViewStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C97B0CC298124C1001DF1A0 /* StepQuizHintsFeatureViewStateKsExtensions.swift */; };
 		2C97E55A2859A2C500EA1A21 /* StepQuizNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C97E5592859A2C500EA1A21 /* StepQuizNameView.swift */; };
 		2C97F50A28880B6F00DE77B7 /* SkeletonRoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C97F50928880B6F00DE77B7 /* SkeletonRoundedButton.swift */; };
 		2C98C7A62850B93100857783 /* alt.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C98C79E2850B93100857783 /* alt.css */; };
@@ -617,7 +617,7 @@
 		2C96743E288831BB0091B6C9 /* StepQuizCodeSamplesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeSamplesView.swift; sourceTree = "<group>"; };
 		2C96744128883A180091B6C9 /* StepQuizCodeViewDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeViewDataMapper.swift; sourceTree = "<group>"; };
 		2C96744328883E710091B6C9 /* BlockOptionsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockOptionsExtensions.swift; sourceTree = "<group>"; };
-		2C97B0CC298124C1001DF1A0 /* StepQuizHintsViewStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizHintsViewStateKsExtensions.swift; sourceTree = "<group>"; };
+		2C97B0CC298124C1001DF1A0 /* StepQuizHintsFeatureViewStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizHintsFeatureViewStateKsExtensions.swift; sourceTree = "<group>"; };
 		2C97E5592859A2C500EA1A21 /* StepQuizNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizNameView.swift; sourceTree = "<group>"; };
 		2C97F50928880B6F00DE77B7 /* SkeletonRoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonRoundedButton.swift; sourceTree = "<group>"; };
 		2C98C79E2850B93100857783 /* alt.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = alt.css; sourceTree = "<group>"; };
@@ -1001,7 +1001,7 @@
 				2C0FA878292FD73400A37636 /* ProfileSettingsFeatureStateKsExtensions.swift */,
 				2CFD7C67292542FB00902748 /* StepFeatureStateKsExtensions.swift */,
 				2CFD7C692925447600902748 /* StepQuizFeatureStateKsExtensions.swift */,
-				2C97B0CC298124C1001DF1A0 /* StepQuizHintsViewStateKsExtensions.swift */,
+				2C97B0CC298124C1001DF1A0 /* StepQuizHintsFeatureViewStateKsExtensions.swift */,
 				E9AD65A9292DC0BE00E574F0 /* TopicsRepetitionsFeatureStateKsExtensions.swift */,
 			);
 			path = Extensions;
@@ -2864,7 +2864,7 @@
 				2C1F5879280D2D1300372A37 /* WebOAuthURLParser.swift in Sources */,
 				E99B21892887E9DA006A6154 /* StepQuizTableSkeletonView.swift in Sources */,
 				E9F2CC552922694F00691540 /* TopicsRepetitionsChartBar.swift in Sources */,
-				2C97B0CD298124C1001DF1A0 /* StepQuizHintsViewStateKsExtensions.swift in Sources */,
+				2C97B0CD298124C1001DF1A0 /* StepQuizHintsFeatureViewStateKsExtensions.swift in Sources */,
 				2C6B30A828B7C47800609CE8 /* AuthNewUserPlaceholderAssembly.swift in Sources */,
 				2C5B2A1D286595960097B270 /* CodeCompletionTableViewCell.swift in Sources */,
 				2C27C77E28773042006A641A /* NukeManager.swift in Sources */,

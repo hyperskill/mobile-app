@@ -1,8 +1,8 @@
 import Foundation
 import shared
 
-extension StepQuizHintsViewStateKs: Equatable {
-    public static func == (lhs: StepQuizHintsViewStateKs, rhs: StepQuizHintsViewStateKs) -> Bool {
+extension StepQuizHintsFeatureViewStateKs: Equatable {
+    public static func == (lhs: StepQuizHintsFeatureViewStateKs, rhs: StepQuizHintsFeatureViewStateKs) -> Bool {
         switch (lhs, rhs) {
         case (.idle, .idle):
             return true
@@ -13,7 +13,7 @@ extension StepQuizHintsViewStateKs: Equatable {
         case (.error, .error):
             return true
         case (.content(let lhsData), .content(let rhsData)):
-            return StepQuizHintsViewStateContentKs(lhsData) == StepQuizHintsViewStateContentKs(rhsData)
+            return StepQuizHintsFeatureViewStateContentKs(lhsData) == StepQuizHintsFeatureViewStateContentKs(rhsData)
         case (.content, .error):
             return false
         case (.content, .hintLoading):
@@ -58,8 +58,11 @@ extension StepQuizHintsViewStateKs: Equatable {
     }
 }
 
-extension StepQuizHintsViewStateContentKs: Equatable {
-    public static func == (lhs: StepQuizHintsViewStateContentKs, rhs: StepQuizHintsViewStateContentKs) -> Bool {
+extension StepQuizHintsFeatureViewStateContentKs: Equatable {
+    public static func == (
+        lhs: StepQuizHintsFeatureViewStateContentKs,
+        rhs: StepQuizHintsFeatureViewStateContentKs
+    ) -> Bool {
         switch (lhs, rhs) {
         case (.seeHintButton, .seeHintButton):
             return true

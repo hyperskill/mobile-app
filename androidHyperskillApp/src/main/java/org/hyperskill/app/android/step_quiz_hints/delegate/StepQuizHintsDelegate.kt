@@ -8,7 +8,6 @@ import coil.transform.CircleCropTransformation
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.hyperskill.app.android.databinding.LayoutStepQuizHintsBinding
 import org.hyperskill.app.reactions.domain.model.ReactionType
-import org.hyperskill.app.step_quiz_hints.view.model.StepQuizHintsViewState
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
@@ -46,18 +45,18 @@ class StepQuizHintsDelegate(
         }
     }
 
-    private val viewStateDelegate = ViewStateDelegate<StepQuizHintsViewState>().apply {
-        addState<StepQuizHintsViewState.Idle>()
-        addState<StepQuizHintsViewState.InitialLoading>(binding.stepQuizSeeHintsStub)
-        addState<StepQuizHintsViewState.HintLoading>(binding.stepQuizHintLoadingView)
-        addState<StepQuizHintsViewState.Content.SeeHintButton>(binding.stepQuizSeeHintsButton.root)
-        addState<StepQuizHintsViewState.Content.HintCard>(binding.stepQuizHintCard.root)
-        addState<StepQuizHintsViewState.Error>(binding.stepQuizHintsRetryButton)
+    private val viewStateDelegate = ViewStateDelegate<StepQuizHintsFeature.ViewState>().apply {
+        addState<StepQuizHintsFeature.ViewState.Idle>()
+        addState<StepQuizHintsFeature.ViewState.InitialLoading>(binding.stepQuizSeeHintsStub)
+        addState<StepQuizHintsFeature.ViewState.HintLoading>(binding.stepQuizHintLoadingView)
+        addState<StepQuizHintsFeature.ViewState.Content.SeeHintButton>(binding.stepQuizSeeHintsButton.root)
+        addState<StepQuizHintsFeature.ViewState.Content.HintCard>(binding.stepQuizHintCard.root)
+        addState<StepQuizHintsFeature.ViewState.Error>(binding.stepQuizHintsRetryButton)
     }
 
-    fun render(context: Context, state: StepQuizHintsViewState) {
+    fun render(context: Context, state: StepQuizHintsFeature.ViewState) {
         viewStateDelegate.switchState(state)
-        if (state is StepQuizHintsViewState.Content.HintCard) {
+        if (state is StepQuizHintsFeature.ViewState.Content.HintCard) {
             with(binding.stepQuizHintCard) {
                 stepQuizHintNameTextView.setTextIfChanged(state.authorName)
                 stepQuizHintAvatarImageView.load(state.authorAvatar, imageLoader) {
@@ -67,22 +66,22 @@ class StepQuizHintsDelegate(
                     stepQuizHintContentTextView.originalText = state.hintText
                 }
                 stepQuizHintBeforeRateGroup.isVisible =
-                    state.hintState == StepQuizHintsViewState.HintState.REACT_TO_HINT
+                    state.hintState == StepQuizHintsFeature.ViewState.HintState.REACT_TO_HINT
                 stepQuizSeeNextHintButton.root.isVisible =
-                    state.hintState == StepQuizHintsViewState.HintState.SEE_NEXT_HINT
+                    state.hintState == StepQuizHintsFeature.ViewState.HintState.SEE_NEXT_HINT
                 stepQuizHintDescriptionTextView.isVisible =
-                    state.hintState != StepQuizHintsViewState.HintState.SEE_NEXT_HINT
-                if (state.hintState != StepQuizHintsViewState.HintState.SEE_NEXT_HINT) {
+                    state.hintState != StepQuizHintsFeature.ViewState.HintState.SEE_NEXT_HINT
+                if (state.hintState != StepQuizHintsFeature.ViewState.HintState.SEE_NEXT_HINT) {
                     @Suppress("KotlinConstantConditions")
                     stepQuizHintDescriptionTextView.setTextIfChanged(
                         when (state.hintState) {
-                            StepQuizHintsViewState.HintState.REACT_TO_HINT -> org.hyperskill.app.R.string.step_quiz_hints_helpful_question_text
-                            StepQuizHintsViewState.HintState.LAST_HINT -> org.hyperskill.app.R.string.step_quiz_hints_last_hint_text
-                            StepQuizHintsViewState.HintState.SEE_NEXT_HINT -> error("Can't evaluate text for state = $state")
+                            StepQuizHintsFeature.ViewState.HintState.REACT_TO_HINT -> org.hyperskill.app.R.string.step_quiz_hints_helpful_question_text
+                            StepQuizHintsFeature.ViewState.HintState.LAST_HINT -> org.hyperskill.app.R.string.step_quiz_hints_last_hint_text
+                            StepQuizHintsFeature.ViewState.HintState.SEE_NEXT_HINT -> error("Can't evaluate text for state = $state")
                         }.let(context::getString)
                     )
                 }
-                if (state.hintState == StepQuizHintsViewState.HintState.REACT_TO_HINT) {
+                if (state.hintState == StepQuizHintsFeature.ViewState.HintState.REACT_TO_HINT) {
                     stepQuizHintReportTextView.setOnClickListener {
                         handleHintReportClick(context, onNewMessage)
                     }

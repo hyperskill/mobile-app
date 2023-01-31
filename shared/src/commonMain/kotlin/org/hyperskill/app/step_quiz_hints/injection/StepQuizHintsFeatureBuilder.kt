@@ -13,7 +13,6 @@ import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsActionDispat
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
 import org.hyperskill.app.step_quiz_hints.view.mapper.StepQuizHintsViewStateMapper
-import org.hyperskill.app.step_quiz_hints.view.model.StepQuizHintsViewState
 import org.hyperskill.app.user_storage.domain.interactor.UserStorageInteractor
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
@@ -29,7 +28,7 @@ object StepQuizHintsFeatureBuilder {
         userStorageInteractor: UserStorageInteractor,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor
-    ): Feature<StepQuizHintsViewState, StepQuizHintsFeature.Message, StepQuizHintsFeature.Action> {
+    ): Feature<StepQuizHintsFeature.ViewState, StepQuizHintsFeature.Message, StepQuizHintsFeature.Action> {
         val stepQuizHintsReducer = StepQuizHintsReducer()
 
         val stepQuizHintsDispatcher = StepQuizHintsActionDispatcher(

@@ -6,14 +6,10 @@ import org.hyperskill.app.reactions.domain.model.ReactionType
 import org.hyperskill.app.step.domain.model.CommentThread
 import org.hyperskill.app.step.domain.model.Step
 
-// Modifier 'internal' is not applicable inside 'interface' for StepQuizHintsFeature.State
-// Making StepQuizHintsFeature 'abstract class', 'sealed class' or 'object' solves this.
-// What's better to use?
 object StepQuizHintsFeature {
     fun isHintsFeatureAvailable(step: Step): Boolean =
         step.commentsStatistics.any { it.thread == CommentThread.HINT && it.totalCount > 0 }
 
-    // Modifier 'internal' is not applicable inside 'interface'
     internal sealed interface State {
         object Idle : State
 
@@ -53,6 +49,32 @@ object StepQuizHintsFeature {
             val isDailyStep: Boolean,
             val stepId: Long
         ) : State
+    }
+
+    sealed interface ViewState {
+        object Idle : ViewState
+
+        object InitialLoading : ViewState
+
+        object HintLoading : ViewState
+
+        sealed interface Content : ViewState {
+            object SeeHintButton : Content
+            data class HintCard(
+                val authorAvatar: String,
+                val authorName: String,
+                val hintText: String,
+                val hintState: HintState
+            ) : Content
+        }
+
+        object Error : ViewState
+
+        enum class HintState {
+            REACT_TO_HINT,
+            SEE_NEXT_HINT,
+            LAST_HINT
+        }
     }
 
     sealed interface Message {

@@ -15,7 +15,7 @@ struct StepQuizHintCardView: View {
     let authorAvatarSource: String?
     let authorName: String
     let hintText: String
-    let hintState: StepQuizHintsViewStateHintState
+    let hintState: StepQuizHintsFeatureViewStateHintState
 
     let onReactionTapped: (ReactionType) -> Void
 

@@ -13,7 +13,6 @@ import org.hyperskill.app.android.databinding.LayoutStepQuizHintsBinding
 import org.hyperskill.app.android.step_quiz_hints.delegate.StepQuizHintsDelegate
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import org.hyperskill.app.step.domain.model.Step
-import org.hyperskill.app.step_quiz_hints.view.model.StepQuizHintsViewState
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsViewModel
 import ru.nobird.android.view.base.ui.extension.snackbar
@@ -22,7 +21,7 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 
 class StepQuizHintsFragment :
     Fragment(R.layout.layout_step_quiz_hints),
-    ReduxView<StepQuizHintsViewState, StepQuizHintsFeature.Action.ViewAction> {
+    ReduxView<StepQuizHintsFeature.ViewState, StepQuizHintsFeature.Action.ViewAction> {
 
     companion object {
         private const val KEY_STEP = "hints_key_step"
@@ -85,7 +84,7 @@ class StepQuizHintsFragment :
         }
     }
 
-    override fun render(state: StepQuizHintsViewState) {
+    override fun render(state: StepQuizHintsFeature.ViewState) {
         stepQuizHintsDelegate?.render(requireContext(), state)
     }
 }

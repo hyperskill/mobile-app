@@ -1,45 +1,43 @@
 package org.hyperskill.app.step_quiz_hints.view.mapper
 
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
-import org.hyperskill.app.step_quiz_hints.view.model.StepQuizHintsViewState
 
 internal object StepQuizHintsViewStateMapper {
-    // 'public' function exposes its 'internal' return type argument State
-    fun mapState(state: StepQuizHintsFeature.State): StepQuizHintsViewState =
+    fun mapState(state: StepQuizHintsFeature.State): StepQuizHintsFeature.ViewState =
         when (state) {
-            is StepQuizHintsFeature.State.Idle -> StepQuizHintsViewState.Idle
+            is StepQuizHintsFeature.State.Idle -> StepQuizHintsFeature.ViewState.Idle
             is StepQuizHintsFeature.State.Loading -> {
                 if (state.isInitialLoading) {
-                    StepQuizHintsViewState.InitialLoading
+                    StepQuizHintsFeature.ViewState.InitialLoading
                 } else {
-                    StepQuizHintsViewState.HintLoading
+                    StepQuizHintsFeature.ViewState.HintLoading
                 }
             }
             is StepQuizHintsFeature.State.Content -> {
                 when {
                     state.currentHint != null -> {
                         val hint = state.currentHint
-                        StepQuizHintsViewState.Content.HintCard(
+                        StepQuizHintsFeature.ViewState.Content.HintCard(
                             hintText = hint.localizedText.ifBlank { hint.text },
                             authorAvatar = hint.user.avatar,
                             authorName = hint.user.fullName,
                             hintState = when {
                                 !state.hintHasReaction -> {
-                                    StepQuizHintsViewState.HintState.REACT_TO_HINT
+                                    StepQuizHintsFeature.ViewState.HintState.REACT_TO_HINT
                                 }
                                 state.hintHasReaction && state.hintsIds.isNotEmpty() -> {
-                                    StepQuizHintsViewState.HintState.SEE_NEXT_HINT
+                                    StepQuizHintsFeature.ViewState.HintState.SEE_NEXT_HINT
                                 }
-                                else -> StepQuizHintsViewState.HintState.LAST_HINT
+                                else -> StepQuizHintsFeature.ViewState.HintState.LAST_HINT
                             }
                         )
                     }
                     state.hintsIds.isNotEmpty() -> {
-                        StepQuizHintsViewState.Content.SeeHintButton
+                        StepQuizHintsFeature.ViewState.Content.SeeHintButton
                     }
-                    else -> StepQuizHintsViewState.Idle
+                    else -> StepQuizHintsFeature.ViewState.Idle
                 }
             }
-            is StepQuizHintsFeature.State.NetworkError -> StepQuizHintsViewState.Error
+            is StepQuizHintsFeature.State.NetworkError -> StepQuizHintsFeature.ViewState.Error
         }
 }

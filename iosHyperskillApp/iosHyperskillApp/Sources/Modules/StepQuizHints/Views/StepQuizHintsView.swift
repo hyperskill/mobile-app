@@ -42,12 +42,12 @@ struct StepQuizHintsView: View {
                 onClick: viewModel.onLoadHintButtonTap
             )
         case .content(let sealedState):
-            buildContent(state: StepQuizHintsViewStateContentKs(sealedState))
+            buildContent(state: StepQuizHintsFeatureViewStateContentKs(sealedState))
         }
     }
 
     @ViewBuilder
-    private func buildContent(state: StepQuizHintsViewStateContentKs) -> some View {
+    private func buildContent(state: StepQuizHintsFeatureViewStateContentKs) -> some View {
         switch state {
         case .seeHintButton:
             StepQuizShowHintButton(
