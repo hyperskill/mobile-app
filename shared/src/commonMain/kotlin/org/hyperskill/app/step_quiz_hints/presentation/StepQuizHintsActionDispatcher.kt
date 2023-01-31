@@ -42,12 +42,13 @@ internal class StepQuizHintsActionDispatcher(
 
                 val lastSeenHint = stepQuizHintsInteractor.getLastSeenHint(action.stepId)
 
-                var lastSeenHintHasReaction = false
-                if (lastSeenHint != null) {
-                    val hintState = stepQuizHintsInteractor
+                val lastSeenHintHasReaction = if (lastSeenHint != null) {
+                    stepQuizHintsInteractor
                         .getCachedHintState(action.stepId, lastSeenHint.id)
-                        .getOrNull()
-                    lastSeenHintHasReaction = hintState?.hasReaction ?: false
+                        .map { it?.hasReaction ?: false }
+                        .getOrDefault(false)
+                } else {
+                    false
                 }
 
                 sentryInteractor.finishTransaction(sentryTransaction)
