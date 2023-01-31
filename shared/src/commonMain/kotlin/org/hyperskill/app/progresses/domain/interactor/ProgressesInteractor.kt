@@ -17,10 +17,5 @@ class ProgressesInteractor(
         progressesRepository.getTopicsProgresses(topicsIds)
 
     suspend fun getTopicProgress(topicId: Long): Result<TopicProgress> =
-        kotlin.runCatching {
-            progressesRepository
-                .getTopicsProgresses(listOf(topicId))
-                .getOrThrow()
-                .first()
-        }
+        progressesRepository.getTopicProgress(topicId)
 }

@@ -20,8 +20,7 @@ struct StepQuizActionButtons: View {
 
             if let continueButton {
                 StepQuizActionButton(
-                    state: .correct,
-                    isLoading: continueButton.isLoading,
+                    state: continueButton.isLoading ? .correctLoading : .correct,
                     onTap: continueButton.action
                 )
             }

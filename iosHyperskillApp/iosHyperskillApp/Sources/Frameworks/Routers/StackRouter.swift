@@ -4,6 +4,7 @@ import UIKit
 protocol StackRouterProtocol: AnyObject {
     func pushViewController(_ viewController: UIViewController, animated: Bool)
     func popViewController(animated: Bool)
+    func replaceTopViewController(_ newTopViewController: UIViewController, animated: Bool)
 }
 
 extension StackRouterProtocol {
@@ -11,7 +12,7 @@ extension StackRouterProtocol {
         pushViewController(viewController, animated: true)
     }
 
-    func popViewController(animated: Bool) {
+    func popViewController() {
         popViewController(animated: true)
     }
 }
@@ -25,7 +26,7 @@ class StackRouter: StackRouterProtocol {
 
     private var navigationController: UINavigationController? {
         let navigationController: UINavigationController? =
-        rootViewController?.navigationController ?? rootViewController as? UINavigationController
+          rootViewController?.navigationController ?? rootViewController as? UINavigationController
 
         guard let navigationController else {
             assertionFailure(
@@ -45,11 +46,16 @@ class StackRouter: StackRouterProtocol {
         navigationController?.popViewController(animated: animated)
     }
 
-    func replaceViewController(_ newViewController: UIViewController, animated: Bool) {
-        if var viewControllers = navigationController?.viewControllers {
-            viewControllers[viewControllers.count - 1] = newViewController
-            navigationController?.viewControllers = viewControllers
+    func replaceTopViewController(_ newTopViewController: UIViewController, animated: Bool) {
+        guard let navigationController,
+              !navigationController.viewControllers.isEmpty else {
+            return
         }
+
+        var viewControllers = navigationController.viewControllers
+        viewControllers[viewControllers.count - 1] = newTopViewController
+
+        navigationController.setViewControllers(viewControllers, animated: animated)
     }
 }
 

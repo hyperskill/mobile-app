@@ -29,24 +29,29 @@ class StepCompletionActionDispatcher(
     notificationInteractor: NotificationInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
-        notificationInteractor.solvedStepsSharedFlow.onEach { stepId ->
-            onNewMessage(Message.StepSolved(stepId))
-        }
+        notificationInteractor.solvedStepsSharedFlow
+            .onEach { stepId ->
+                onNewMessage(Message.StepSolved(stepId))
+            }
             .launchIn(actionScope)
     }
 
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            is Action.FetchNextStepQuiz -> {
+            is Action.FetchNextRecommendedStep -> {
                 val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepCompletionNextStepLoading()
                 sentryInteractor.startTransaction(sentryTransaction)
 
-                val nextRecommendedStep = stepInteractor
-                    .getNextRecommendedStepByCurrentStep(action.currentStep)
-                    .getOrElse {
-                        sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                        onNewMessage(
-                            Message.NextStepQuizFetchedStatus.Error(
+                val message = stepInteractor
+                    .getNextRecommendedStepAndCompleteCurrentIfNeeded(action.currentStep)
+                    .fold(
+                        onSuccess = {
+                            sentryInteractor.finishTransaction(sentryTransaction)
+                            Message.FetchNextRecommendedStepResult.Success(StepRoute.Learn(it.id))
+                        },
+                        onFailure = {
+                            sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
+                            Message.FetchNextRecommendedStepResult.Error(
                                 when (action.currentStep.type) {
                                     Step.Type.THEORY ->
                                         resourceProvider.getString(SharedResources.strings.step_theory_failed_to_start_practicing)
@@ -54,18 +59,16 @@ class StepCompletionActionDispatcher(
                                         resourceProvider.getString(SharedResources.strings.step_theory_failed_to_continue_practicing)
                                 }
                             )
-                        )
-                        return
-                    }
+                        }
+                    )
 
-                sentryInteractor.finishTransaction(sentryTransaction)
-
-                onNewMessage(Message.NextStepQuizFetchedStatus.Success(StepRoute.Learn(nextRecommendedStep.id)))
+                onNewMessage(message)
             }
-            is Action.CheckTopicCompletion -> {
+            is Action.CheckTopicCompletionStatus -> {
                 val topicIsCompleted = progressesInteractor
                     .getTopicProgress(action.topicId)
                     .getOrElse {
+                        onNewMessage(Message.CheckTopicCompletionStatus.Error)
                         return
                     }.isCompleted
 
@@ -73,16 +76,17 @@ class StepCompletionActionDispatcher(
                     val topicTitle = topicsInteractor
                         .getTopic(action.topicId)
                         .getOrElse {
+                            onNewMessage(Message.CheckTopicCompletionStatus.Error)
                             return
                         }.title
 
                     onNewMessage(
-                        Message.CurrentTopicStatus.Completed(
+                        Message.CheckTopicCompletionStatus.Completed(
                             resourceProvider.getString(SharedResources.strings.step_quiz_topic_completed_modal_text, topicTitle)
                         )
                     )
                 } else {
-                    onNewMessage(Message.CurrentTopicStatus.Uncompleted)
+                    onNewMessage(Message.CheckTopicCompletionStatus.Uncompleted)
                 }
             }
             is Action.LogAnalyticEvent ->

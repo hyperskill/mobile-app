@@ -23,7 +23,7 @@ extension Step {
             type: type,
             block: block,
             topicTheory: KotlinLong(value: Int64(topicTheory)),
-            topic: Int64(topic),
+            topic: KotlinLong(integerLiteral: topic),
             commentsStatistics: commentsStatistics,
             solvedBy: Int32(solvedBy),
             isCompleted: isCompleted,

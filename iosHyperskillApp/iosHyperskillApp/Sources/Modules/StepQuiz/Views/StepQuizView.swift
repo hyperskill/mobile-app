@@ -41,10 +41,7 @@ struct StepQuizView: View {
                     if viewModel.stepRoute is StepRouteRepeat,
                        let theoryID = viewModel.step.topicTheory {
                         Button(Strings.Step.theory) {
-                            let assembly = StepAssembly(
-                                stepRoute: StepRouteRepeat(stepId: theoryID.int64Value),
-                                stackRouter: stackRouter
-                            )
+                            let assembly = StepAssembly(stepRoute: StepRouteRepeat(stepId: theoryID.int64Value))
                             stackRouter.pushViewController(assembly.makeModule())
                         }
                     }

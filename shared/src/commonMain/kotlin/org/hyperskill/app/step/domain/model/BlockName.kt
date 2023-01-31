@@ -1,6 +1,6 @@
 package org.hyperskill.app.step.domain.model
 
-// TODO: Refactor to enum class
+// TODO: ALTAPPS-569 Refactor BlockName to enum class
 object BlockName {
     const val CHOICE = "choice"
     const val CODE = "code"

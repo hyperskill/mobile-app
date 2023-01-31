@@ -18,8 +18,12 @@ class StepInteractor(
             return stepRepository.getSteps(stepIds)
         }
 
-    suspend fun getNextRecommendedStepByCurrentStep(currentStep: Step): Result<Step> =
+    suspend fun getNextRecommendedStepAndCompleteCurrentIfNeeded(currentStep: Step): Result<Step> =
         kotlin.runCatching {
+            if (currentStep.topic == null) {
+                return Result.failure(IllegalArgumentException("Current step doesn't have topic"))
+            }
+
             if (currentStep.type == Step.Type.THEORY && !currentStep.isCompleted) {
                 stepRepository.completeStep(currentStep.id)
             }
@@ -30,7 +34,7 @@ class StepInteractor(
 
             while (!BlockName.supportedBlocksNames.contains(nextRecommendedStep.block.name) && nextRecommendedStep.canSkip) {
                 stepRepository
-                    .completeStep(currentStep.id)
+                    .skipStep(currentStep.id)
                     .getOrThrow()
 
                 nextRecommendedStep = stepRepository

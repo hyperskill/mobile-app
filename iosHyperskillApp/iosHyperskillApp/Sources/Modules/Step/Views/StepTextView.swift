@@ -7,15 +7,27 @@ struct StepTextView: UIViewRepresentable {
 
     var text: String
 
+    var onViewDidLoadContent: (() -> Void)?
+
     var appearance = StepTextUIKitView.Appearance()
 
     func makeUIView(context: Context) -> StepTextUIKitView {
-        StepTextUIKitView(appearance: appearance)
+        let stepText = StepTextUIKitView(appearance: appearance)
+
+        stepText.processedContentView.delegate = context.coordinator
+
+        return stepText
     }
 
     func updateUIView(_ uiView: StepTextUIKitView, context: Context) {
         uiView.setText(text)
+
+        context.coordinator.invalidateLayout = uiView.invalidateLayout
+
+        context.coordinator.onViewDidLoadContent = onViewDidLoadContent
     }
+
+    func makeCoordinator() -> Coordinator { Coordinator() }
 }
 
 struct StepTextView_Previews: PreviewProvider {
@@ -43,7 +55,7 @@ extension StepTextUIKitView {
 final class StepTextUIKitView: UIView {
     let appearance: Appearance
 
-    private lazy var processedContentView: ProcessedContentView = {
+    fileprivate lazy var processedContentView: ProcessedContentView = {
         let processedContentViewAppearance = ProcessedContentView.Appearance(
             labelFont: appearance.textFont,
             backgroundColor: .clear
@@ -65,7 +77,6 @@ final class StepTextUIKitView: UIView {
                 font: appearance.textFont
             )
         )
-        processedContentView.delegate = self
 
         return processedContentView
     }()
@@ -97,6 +108,15 @@ final class StepTextUIKitView: UIView {
     func setText(_ text: String) {
         processedContentView.setText(text)
     }
+
+    // MARK: Private Helpers
+
+    fileprivate func invalidateLayout() {
+        DispatchQueue.main.async {
+            self.layoutIfNeeded()
+            self.invalidateIntrinsicContentSize()
+        }
+    }
 }
 
 // MARK: - StepTextUIKitView: ProgrammaticallyInitializableViewProtocol -
@@ -118,39 +138,37 @@ extension StepTextUIKitView: ProgrammaticallyInitializableViewProtocol {
     }
 }
 
-// MARK: - StepTextUIKitView: ProcessedContentViewDelegate -
+// MARK: - StepTextView Coordinator -
 
-extension StepTextUIKitView: ProcessedContentViewDelegate {
-    func processedContentViewDidLoadContent(_ view: ProcessedContentView) {
-        invalidateLayout()
-    }
+extension StepTextView {
+    class Coordinator: NSObject, ProcessedContentViewDelegate {
+        var invalidateLayout: (() -> Void)?
 
-    func processedContentView(_ view: ProcessedContentView, didReportNewHeight height: Int) {
-        invalidateLayout()
-    }
+        var onViewDidLoadContent: (() -> Void)?
 
-    func processedContentView(_ view: ProcessedContentView, didOpenImageURL url: URL) {
-        openURLInTheWeb(url)
-    }
-
-    func processedContentView(_ view: ProcessedContentView, didOpenLink url: URL) {
-        openURLInTheWeb(url)
-    }
-
-    // MARK: Private Helpers
-
-    private func invalidateLayout() {
-        DispatchQueue.main.async {
-            self.layoutIfNeeded()
-            self.invalidateIntrinsicContentSize()
+        func processedContentViewDidLoadContent(_ view: ProcessedContentView) {
+            invalidateLayout?()
+            onViewDidLoadContent?()
         }
-    }
 
-    private func openURLInTheWeb(_ url: URL) {
-        WebControllerManager.shared.presentWebControllerWithURL(
-            url,
-            withKey: .externalLink,
-            controllerType: .inAppSafari
-        )
+        func processedContentView(_ view: ProcessedContentView, didReportNewHeight height: Int) {
+            invalidateLayout?()
+        }
+
+        func processedContentView(_ view: ProcessedContentView, didOpenImageURL url: URL) {
+            openURLInTheWeb(url)
+        }
+
+        func processedContentView(_ view: ProcessedContentView, didOpenLink url: URL) {
+            openURLInTheWeb(url)
+        }
+
+        private func openURLInTheWeb(_ url: URL) {
+            WebControllerManager.shared.presentWebControllerWithURL(
+                url,
+                withKey: .externalLink,
+                controllerType: .inAppSafari
+            )
+        }
     }
 }

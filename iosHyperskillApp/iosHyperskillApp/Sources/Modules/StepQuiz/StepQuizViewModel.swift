@@ -22,9 +22,7 @@ final class StepQuizViewModel: FeatureViewModel<
 
     var stateKs: StepQuizFeatureStateKs { .init(state) }
 
-    var isPracticingLoading: Bool {
-        moduleOutput?.isPracticingLoading ?? false
-    }
+    @Published var isPracticingLoading = false
 
     init(
         step: Step,
@@ -85,7 +83,7 @@ final class StepQuizViewModel: FeatureViewModel<
     }
 
     func doQuizContinueAction() {
-        moduleOutput?.doContinuePracticing()
+        moduleOutput?.stepQuizDidRequestContinue()
     }
 
     func doGoBackAction() {
@@ -189,5 +187,13 @@ extension StepQuizViewModel: StepQuizChildQuizOutputProtocol {
 
     func handleChildQuizAnalyticEventMessage(_ message: StepQuizFeatureMessage) {
         onNewMessage(message)
+    }
+}
+
+// MARK: - StepQuizViewModel: StepQuizInputProtocol -
+
+extension StepQuizViewModel: StepQuizInputProtocol {
+    func updateIsPracticingLoading(isPracticingLoading: Bool) {
+        self.isPracticingLoading = isPracticingLoading
     }
 }

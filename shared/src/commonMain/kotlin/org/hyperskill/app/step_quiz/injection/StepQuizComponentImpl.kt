@@ -43,7 +43,7 @@ class StepQuizComponentImpl(
         )
 
     override val stepQuizFeature: Feature<StepQuizFeature.State, StepQuizFeature.Message, StepQuizFeature.Action>
-        get()  = StepQuizFeatureBuilder.build(
+        get() = StepQuizFeatureBuilder.build(
             stepRoute,
             stepQuizInteractor,
             stepQuizReplyValidator,

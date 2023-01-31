@@ -3,6 +3,7 @@ package org.hyperskill.app.step_quiz.presentation
 import kotlinx.datetime.Clock
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.step_completion.domain.analytic.StepCompletionClickedContinueHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedCodeDetailsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRetryHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRunHyperskillAnalyticEvent
@@ -94,8 +95,9 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                     val analyticEvent =
                         if (message.step.block.name == BlockName.CODE || message.step.block.name == BlockName.SQL) {
                             StepQuizClickedRunHyperskillAnalyticEvent(analyticRoute)
-                        } else StepQuizClickedSendHyperskillAnalyticEvent(analyticRoute)
-
+                        } else {
+                            StepQuizClickedSendHyperskillAnalyticEvent(analyticRoute)
+                        }
                     state to setOf(
                         Action.CreateSubmissionValidateReply(message.step, message.reply),
                         Action.LogAnalyticEvent(analyticEvent)
@@ -154,6 +156,16 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                 if (state is State.AttemptLoaded && StepQuizResolver.isQuizEnabled(state)) {
                     val submission = createLocalSubmission(state, message.reply)
                     state.copy(submissionState = StepQuizFeature.SubmissionState.Loaded(submission)) to emptySet()
+                } else {
+                    null
+                }
+            // TODO: remove in ALTAPPS-543 implement message with StepViewModel
+            is Message.ContinueClicked ->
+                if (state is State.AttemptLoaded) {
+                    val analyticEvent = StepCompletionClickedContinueHyperskillAnalyticEvent(
+                        route = stepRoute.analyticRoute
+                    )
+                    state to setOf(Action.LogAnalyticEvent(analyticEvent), Action.ViewAction.NavigateTo.Back)
                 } else {
                     null
                 }

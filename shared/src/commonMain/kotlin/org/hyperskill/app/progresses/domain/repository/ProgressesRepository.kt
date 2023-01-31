@@ -10,4 +10,9 @@ interface ProgressesRepository {
         getTracksProgresses(listOf(trackId)).map { it.firstOrNull() }
 
     suspend fun getTopicsProgresses(topicsIds: List<Long>): Result<List<TopicProgress>>
+
+    suspend fun getTopicProgress(topicId: Long): Result<TopicProgress> =
+        kotlin.runCatching {
+            getTopicsProgresses(listOf(topicId)).getOrThrow().first()
+        }
 }

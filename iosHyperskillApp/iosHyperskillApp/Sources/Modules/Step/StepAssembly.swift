@@ -3,11 +3,9 @@ import SwiftUI
 
 final class StepAssembly: UIKitAssembly {
     private let stepRoute: StepRoute
-    private let stackRouter: SwiftUIStackRouter
 
-    init(stepRoute: StepRoute, stackRouter: SwiftUIStackRouter) {
+    init(stepRoute: StepRoute) {
         self.stepRoute = stepRoute
-        self.stackRouter = stackRouter
     }
 
     func makeModule() -> UIViewController {
@@ -24,16 +22,18 @@ final class StepAssembly: UIKitAssembly {
             feature: stepComponent.stepFeature
         )
 
+        let stackRouter = SwiftUIStackRouter()
         let modalRouter = SwiftUIModalRouter()
         let stepView = StepView(
             viewModel: viewModel,
-            stackRouter: self.stackRouter,
+            stackRouter: stackRouter,
             modalRouter: modalRouter,
             panModalPresenter: PanModalPresenter()
         )
         let hostingController = RemoveBackButtonTitleHostingController(rootView: stepView)
 
         modalRouter.rootViewController = hostingController
+        stackRouter.rootViewController = hostingController
 
         return hostingController
     }

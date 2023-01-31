@@ -27,6 +27,7 @@ interface StepCompletionFeature {
         object NavigateToHomeScreen : ContinueButtonAction
         object NavigateToBack : ContinueButtonAction
         object FetchNextStepQuiz : ContinueButtonAction
+        object CheckTopicCompletion : ContinueButtonAction
     }
 
     sealed interface Message {
@@ -40,16 +41,17 @@ interface StepCompletionFeature {
          * Topic completed modal
          */
 
-        sealed interface CurrentTopicStatus : Message {
-            data class Completed(val modalText: String) : CurrentTopicStatus
-            object Uncompleted : CurrentTopicStatus
+        sealed interface CheckTopicCompletionStatus : Message {
+            data class Completed(val modalText: String) : CheckTopicCompletionStatus
+            object Uncompleted : CheckTopicCompletionStatus
+            object Error : CheckTopicCompletionStatus
         }
 
         object TopicCompletedModalGoToHomeScreenClicked : Message
 
-        sealed interface NextStepQuizFetchedStatus : Message {
-            data class Success(val newStepRoute: StepRoute) : NextStepQuizFetchedStatus
-            data class Error(val errorMessage: String) : NextStepQuizFetchedStatus
+        sealed interface FetchNextRecommendedStepResult : Message {
+            data class Success(val newStepRoute: StepRoute) : FetchNextRecommendedStepResult
+            data class Error(val errorMessage: String) : FetchNextRecommendedStepResult
         }
 
         /**
@@ -60,16 +62,16 @@ interface StepCompletionFeature {
     }
 
     sealed interface Action {
-        data class FetchNextStepQuiz(val currentStep: Step) : Action
+        data class FetchNextRecommendedStep(val currentStep: Step) : Action
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
-        data class CheckTopicCompletion(val topicId: Long) : Action
+        data class CheckTopicCompletionStatus(val topicId: Long) : Action
 
         sealed interface ViewAction : Action {
             data class ShowTopicCompletedModal(val modalText: String) : ViewAction
 
-            data class ShowPracticingErrorStatus(val errorMessage: String) : ViewAction
+            data class ShowStartPracticingError(val message: String) : ViewAction
 
             data class ReloadStep(val stepRoute: StepRoute) : ViewAction
 

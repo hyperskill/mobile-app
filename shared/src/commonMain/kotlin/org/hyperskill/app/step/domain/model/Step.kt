@@ -18,7 +18,7 @@ data class Step(
     @SerialName("topic_theory")
     val topicTheory: Long? = null,
     @SerialName("topic")
-    val topic: Long,
+    val topic: Long? = null,
     @SerialName("comments_statistics")
     val commentsStatistics: List<CommentStatisticsEntry>,
     @SerialName("solved_by")

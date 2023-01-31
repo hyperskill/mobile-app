@@ -9,7 +9,10 @@ import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
 import org.hyperskill.app.step_completion.presentation.StepCompletionReducer
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
-class StepReducer(private val stepRoute: StepRoute, private val stepCompletionReducer: StepCompletionReducer) : StateReducer<State, Message, Action> {
+class StepReducer(
+    private val stepRoute: StepRoute,
+    private val stepCompletionReducer: StepCompletionReducer
+) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
             is Message.Initialize ->

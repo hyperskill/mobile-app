@@ -4,6 +4,8 @@ import SwiftUI
 final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage, StepFeatureActionViewAction> {
     let stepRoute: StepRoute
 
+    weak var stepQuizModuleInput: StepQuizInputProtocol?
+
     private let viewDataMapper: StepViewDataMapper
 
     var stateKs: StepFeatureStateKs { .init(state) }
@@ -19,7 +21,17 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
     }
 
     override func shouldNotifyStateDidChange(oldState: StepFeatureState, newState: StepFeatureState) -> Bool {
-        StepFeatureStateKs(oldState) != StepFeatureStateKs(newState)
+        let newStateKs = StepFeatureStateKs(newState)
+
+        let shouldNotify = StepFeatureStateKs(oldState) != newStateKs
+
+        if shouldNotify, case .data(let stepFeatureStateData) = stateKs {
+            stepQuizModuleInput?.updateIsPracticingLoading(
+                isPracticingLoading: stepFeatureStateData.stepCompletionState.isPracticingLoading
+            )
+        }
+
+        return shouldNotify
     }
 
     func loadStep(forceUpdate: Bool = false) {
@@ -38,18 +50,46 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
         )
     }
 
-    func doGoToHomeScreenAction() {
+    // MARK: Analytic
+
+    func logViewedEvent() {
+        onNewMessage(StepFeatureMessageViewedEventMessage())
+    }
+}
+
+extension StepViewModel: StepQuizOutputProtocol {
+    // updatePracticeLoading
+    var isPracticingLoading: Bool {
+        switch stateKs {
+        case .data(let data):
+            return data.stepCompletionState.isPracticingLoading
+        default:
+            return false
+        }
+    }
+
+    func stepQuizDidRequestContinue() {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageContinuePracticingClicked()
+            )
+        )
+    }
+}
+
+// MARK: - StepViewModel: TopicCompletedModalViewControllerDelegate -
+
+extension StepViewModel: TopicCompletedModalViewControllerDelegate {
+    func topicCompletedModalViewControllerDidTapGoToHomescreenButton(
+        _ viewController: TopicCompletedModalViewController
+    ) {
         onNewMessage(
             StepFeatureMessageStepCompletionMessage(
                 message: StepCompletionFeatureMessageTopicCompletedModalGoToHomeScreenClicked()
             )
         )
-    }
 
-    // MARK: Analytic
-
-    func logViewedEvent() {
-        onNewMessage(StepFeatureMessageViewedEventMessage())
+        viewController.dismiss(animated: true)
     }
 
     func logTopicCompletedModalShownEvent() {
@@ -64,25 +104,6 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
         onNewMessage(
             StepFeatureMessageStepCompletionMessage(
                 message: StepCompletionFeatureMessageTopicCompletedModalHiddenEventMessage()
-            )
-        )
-    }
-}
-
-extension StepViewModel: StepQuizOutputProtocol {
-    var isPracticingLoading: Bool {
-        switch stateKs {
-        case .data(let data):
-            return data.stepCompletionState.isPracticingLoading
-        default:
-            return false
-        }
-    }
-
-    func doContinuePracticing() {
-        onNewMessage(
-            StepFeatureMessageStepCompletionMessage(
-                message: StepCompletionFeatureMessageContinuePracticingClicked()
             )
         )
     }

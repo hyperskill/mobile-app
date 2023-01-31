@@ -3,9 +3,10 @@ package org.hyperskill.app.step.remote
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
-import io.ktor.client.request.header
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 import org.hyperskill.app.step.data.source.StepRemoteDataSource
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.remote.model.StepResponse
@@ -17,7 +18,7 @@ class StepRemoteDataSourceImpl(
         kotlin.runCatching {
             httpClient
                 .get("/api/steps") {
-                    header("Content-Type", "application/json")
+                    contentType(ContentType.Application.Json)
                     parameter("ids", stepIds.joinToString(separator = ","))
                 }.body<StepResponse>().steps
         }
@@ -26,7 +27,7 @@ class StepRemoteDataSourceImpl(
         kotlin.runCatching {
             httpClient
                 .post("/api/steps/$stepId/complete") {
-                    header("Content-Type", "application/json")
+                    contentType(ContentType.Application.Json)
                 }
                 .body<StepResponse>().steps.first()
         }
@@ -35,7 +36,7 @@ class StepRemoteDataSourceImpl(
         kotlin.runCatching {
             httpClient
                 .post("/api/steps/$stepId/skip") {
-                    header("Content-Type", "application/json")
+                    contentType(ContentType.Application.Json)
                 }
                 .body<StepResponse>().steps.first()
         }
@@ -44,7 +45,7 @@ class StepRemoteDataSourceImpl(
         kotlin.runCatching {
             httpClient
                 .get("/api/steps") {
-                    header("Content-Type", "application/json")
+                    contentType(ContentType.Application.Json)
                     parameter("topic", topicId)
                     parameter("is_recommended", true)
                 }.body<StepResponse>().steps

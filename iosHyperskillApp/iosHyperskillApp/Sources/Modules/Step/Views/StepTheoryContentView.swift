@@ -12,60 +12,69 @@ struct StepTheoryContentView: View {
 
     @State var viewData: StepViewData
 
-    let isPracticingAvailable: Bool
+    @State var isStepTextLoaded = false
 
-    let isPracticingLoading: Bool
-
-    let onStartPracticingTap: () -> Void
+    let startPracticingButton: StartPracticingButton?
 
     var body: some View {
         ScrollView {
-            LazyVStack(alignment: .leading, spacing: appearance.interItemSpacing) {
+            VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
                 StepHeaderView(
                     title: viewData.formattedType,
                     timeToComplete: viewData.formattedTimeToComplete
                 )
 
-                buildPracticingButton()
+                buildStartPracticingButton()
                     .buttonStyle(OutlineButtonStyle(style: .violet))
 
-                StepTextView(text: viewData.text)
+                StepTextView(
+                    text: viewData.text,
+                    onViewDidLoadContent: {
+                        isStepTextLoaded = true
+                    }
+                )
 
-                buildPracticingButton()
+                buildStartPracticingButton()
                     .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
             }
             .padding()
         }
     }
 
+    struct StartPracticingButton {
+        let isLoading: Bool
+        let action: () -> Void
+    }
+
     @ViewBuilder
-    private func buildPracticingButton() -> some View {
-        if isPracticingAvailable {
+    private func buildStartPracticingButton() -> some View {
+        if let startPracticingButton, isStepTextLoaded {
             Button(
-                action: onStartPracticingTap,
+                action: startPracticingButton.action,
                 label: {
-                    if isPracticingLoading {
-                        ProgressView()
-                    } else {
+                    HStack(spacing: LayoutInsets.smallInset) {
+                        if startPracticingButton.isLoading {
+                            ProgressView()
+                        }
+
                         Text(Strings.Step.startPracticing)
                     }
                 }
             )
-            .disabled(isPracticingLoading)
-        } else {
-            EmptyView()
+            .disabled(startPracticingButton.isLoading)
         }
     }
 }
 
 #if DEBUG
-struct StepContentView_Previews: PreviewProvider {
+struct StepTheoryContentView_Previews: PreviewProvider {
     static var previews: some View {
         StepTheoryContentView(
             viewData: .placeholder,
-            isPracticingAvailable: true,
-            isPracticingLoading: false,
-            onStartPracticingTap: {}
+            startPracticingButton: StepTheoryContentView.StartPracticingButton(
+                isLoading: false,
+                action: {}
+            )
         )
     }
 }

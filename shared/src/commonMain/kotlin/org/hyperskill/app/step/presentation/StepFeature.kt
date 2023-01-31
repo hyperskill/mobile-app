@@ -25,15 +25,24 @@ interface StepFeature {
             object Error : StepLoaded
         }
 
-        data class StepCompletionMessage(val message: StepCompletionFeature.Message) : Message
-
+        /**
+         * Analytic
+         */
         object ViewedEventMessage : Message
+
+        /**
+         * Message Wrappers
+         */
+        data class StepCompletionMessage(val message: StepCompletionFeature.Message) : Message
     }
 
     sealed interface Action {
         data class FetchStep(val stepRoute: StepRoute) : Action
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
+        /**
+         * Action Wrappers
+         */
         data class StepCompletionAction(val action: StepCompletionFeature.Action) : Action
 
         sealed interface ViewAction : Action {

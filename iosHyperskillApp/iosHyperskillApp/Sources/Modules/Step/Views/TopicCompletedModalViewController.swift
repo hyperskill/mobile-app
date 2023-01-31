@@ -31,7 +31,8 @@ final class TopicCompletedModalViewController: PanModalPresentableViewController
     }()
 
     private let modalText: String
-    private let onGoToHomescreenButtonTap: () -> Void
+
+    weak var delegate: TopicCompletedModalViewControllerDelegate?
 
     override var shortFormHeight: PanModalHeight {
         let contentStackViewSize = contentStackView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
@@ -41,9 +42,9 @@ final class TopicCompletedModalViewController: PanModalPresentableViewController
 
     override var longFormHeight: PanModalHeight { shortFormHeight }
 
-    init(modalText: String, onGoToHomescreenButtonTap: @escaping () -> Void) {
+    init(modalText: String, delegate: TopicCompletedModalViewControllerDelegate? = nil) {
         self.modalText = modalText
-        self.onGoToHomescreenButtonTap = onGoToHomescreenButtonTap
+        self.delegate = delegate
 
         super.init()
     }
@@ -51,11 +52,15 @@ final class TopicCompletedModalViewController: PanModalPresentableViewController
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.onDisappear = delegate?.logTopicCompletedModalHiddenEvent
+
         setup()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        delegate?.logTopicCompletedModalShownEvent()
 
         DispatchQueue.main.async {
             self.panModalSetNeedsLayoutUpdate()
@@ -143,7 +148,6 @@ final class TopicCompletedModalViewController: PanModalPresentableViewController
 
     @objc
     private func goToHomescreenButtonTapped() {
-        onGoToHomescreenButtonTap()
-        dismiss(animated: true)
+        delegate?.topicCompletedModalViewControllerDidTapGoToHomescreenButton(self)
     }
 }

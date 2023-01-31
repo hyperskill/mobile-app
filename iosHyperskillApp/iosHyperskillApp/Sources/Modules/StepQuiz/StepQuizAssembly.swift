@@ -4,11 +4,18 @@ import SwiftUI
 final class StepQuizAssembly: Assembly {
     private let step: Step
     private let stepRoute: StepRoute
-    private let moduleOutput: StepQuizOutputProtocol?
+    private let provideModuleInputCallback: (StepQuizInputProtocol?) -> Void
+    private weak var moduleOutput: StepQuizOutputProtocol?
 
-    init(step: Step, stepRoute: StepRoute, moduleOutput: StepQuizOutputProtocol? = nil) {
+    init(
+        step: Step,
+        stepRoute: StepRoute,
+        provideModuleInputCallback: @escaping (StepQuizInputProtocol?) -> Void,
+        moduleOutput: StepQuizOutputProtocol? = nil
+    ) {
         self.step = step
         self.stepRoute = stepRoute
+        self.provideModuleInputCallback = provideModuleInputCallback
         self.moduleOutput = moduleOutput
     }
 
@@ -36,6 +43,8 @@ final class StepQuizAssembly: Assembly {
             notificationsRegistrationService: .shared,
             feature: stepQuizComponent.stepQuizFeature
         )
+
+        provideModuleInputCallback(viewModel)
 
         return StepQuizView(viewModel: viewModel)
     }

@@ -137,10 +137,7 @@ struct TrackView: View {
         case .navigateTo(let navigateToViewAction):
             switch TrackFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .stepScreen(let data):
-                let assembly = StepAssembly(
-                    stepRoute: StepRouteLearn(stepId: data.stepId),
-                    stackRouter: stackRouter
-                )
+                let assembly = StepAssembly(stepRoute: StepRouteLearn(stepId: data.stepId))
                 stackRouter.pushViewController(assembly.makeModule())
             }
         case .gamificationToolbarViewAction(let gamificationToolbarViewAction):

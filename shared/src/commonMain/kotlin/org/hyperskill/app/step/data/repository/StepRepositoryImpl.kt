@@ -16,8 +16,6 @@ class StepRepositoryImpl(
     override suspend fun skipStep(stepId: Long): Result<Step> =
         stepRemoteDataSource.skipStep(stepId)
 
-    override suspend fun getNextRecommendedStepByTopicId(topicId: Long): Result<Step> =
-        kotlin.runCatching {
-            stepRemoteDataSource.getRecommendedStepsByTopicId(topicId).getOrThrow().first { it.isNext }
-        }
+    override suspend fun getRecommendedStepsByTopicId(topicId: Long): Result<List<Step>> =
+        stepRemoteDataSource.getRecommendedStepsByTopicId(topicId)
 }

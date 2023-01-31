@@ -15,44 +15,57 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
-            is Message.ContinuePracticingClicked -> {
-                val analyticEvent = StepCompletionClickedContinueHyperskillAnalyticEvent(
-                    route = stepRoute.analyticRoute
-                )
-                state.copy(
-                    isPracticingLoading = state.continueButtonAction is ContinueButtonAction.FetchNextStepQuiz
-                ) to setOf(
-                    Action.LogAnalyticEvent(analyticEvent),
-                    when (state.continueButtonAction) {
-                        ContinueButtonAction.NavigateToBack -> Action.ViewAction.NavigateTo.Back
-                        ContinueButtonAction.NavigateToHomeScreen -> Action.ViewAction.NavigateTo.HomeScreen
-                        ContinueButtonAction.FetchNextStepQuiz -> Action.FetchNextStepQuiz(state.currentStep)
-                    }
-                )
-            }
-            is Message.StartPracticingClicked -> {
-                state.copy(isPracticingLoading = true) to setOf(
-                    Action.LogAnalyticEvent(
-                        StepCompletionClickedStartPracticingHyperskillAnalyticEvent(
-                            route = stepRoute.analyticRoute
-                        )
-                    ),
-                    Action.FetchNextStepQuiz(state.currentStep)
-                )
-            }
-            is Message.NextStepQuizFetchedStatus.Success ->
+            is Message.ContinuePracticingClicked ->
+                if (!state.isPracticingLoading && state.currentStep.topic != null) {
+                    val analyticEvent = StepCompletionClickedContinueHyperskillAnalyticEvent(
+                        route = stepRoute.analyticRoute
+                    )
+                    state.copy(
+                        isPracticingLoading = state.continueButtonAction is ContinueButtonAction.FetchNextStepQuiz ||
+                            state.continueButtonAction is ContinueButtonAction.CheckTopicCompletion
+                    ) to setOf(
+                        Action.LogAnalyticEvent(analyticEvent),
+                        when (state.continueButtonAction) {
+                            ContinueButtonAction.NavigateToBack -> Action.ViewAction.NavigateTo.Back
+                            ContinueButtonAction.NavigateToHomeScreen -> Action.ViewAction.NavigateTo.HomeScreen
+                            ContinueButtonAction.FetchNextStepQuiz -> Action.FetchNextRecommendedStep(state.currentStep)
+                            ContinueButtonAction.CheckTopicCompletion -> Action.CheckTopicCompletionStatus(state.currentStep.topic)
+                        }
+                    )
+                } else {
+                    null
+                }
+            is Message.StartPracticingClicked ->
+                if (!state.isPracticingLoading) {
+                    state.copy(isPracticingLoading = true) to setOf(
+                        Action.LogAnalyticEvent(
+                            StepCompletionClickedStartPracticingHyperskillAnalyticEvent(
+                                route = stepRoute.analyticRoute
+                            )
+                        ),
+                        Action.FetchNextRecommendedStep(state.currentStep)
+                    )
+                } else {
+                    null
+                }
+            is Message.FetchNextRecommendedStepResult.Success ->
                 state.copy(isPracticingLoading = false) to setOf(Action.ViewAction.ReloadStep(message.newStepRoute))
-            is Message.NextStepQuizFetchedStatus.Error ->
+            is Message.FetchNextRecommendedStepResult.Error ->
                 state.copy(isPracticingLoading = false) to setOf(
-                    Action.ViewAction.ShowPracticingErrorStatus(message.errorMessage)
+                    Action.ViewAction.ShowStartPracticingError(message.errorMessage)
                 )
-            is Message.CurrentTopicStatus.Completed ->
+            is Message.CheckTopicCompletionStatus.Completed ->
                 state.copy(
                     continueButtonAction = ContinueButtonAction.NavigateToHomeScreen,
                     isPracticingLoading = false
                 ) to setOf(Action.ViewAction.ShowTopicCompletedModal(message.modalText))
-            is Message.CurrentTopicStatus.Uncompleted ->
+            is Message.CheckTopicCompletionStatus.Uncompleted ->
                 state.copy(isPracticingLoading = false) to emptySet()
+            is Message.CheckTopicCompletionStatus.Error ->
+                state.copy(
+                    continueButtonAction = ContinueButtonAction.CheckTopicCompletion,
+                    isPracticingLoading = false
+                ) to emptySet()
             is Message.TopicCompletedModalGoToHomeScreenClicked ->
                 state to setOf(
                     Action.ViewAction.NavigateTo.HomeScreen,
@@ -63,8 +76,12 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                     )
                 )
             is Message.StepSolved ->
-                if (stepRoute is StepRoute.Learn && message.stepId == state.currentStep.id) {
-                    state.copy(isPracticingLoading = true) to setOf(Action.CheckTopicCompletion(state.currentStep.topic))
+                if (!state.isPracticingLoading &&
+                    stepRoute is StepRoute.Learn &&
+                    message.stepId == state.currentStep.id &&
+                    state.currentStep.topic != null
+                ) {
+                    state.copy(isPracticingLoading = true) to setOf(Action.CheckTopicCompletionStatus(state.currentStep.topic))
                 } else {
                     null
                 }
