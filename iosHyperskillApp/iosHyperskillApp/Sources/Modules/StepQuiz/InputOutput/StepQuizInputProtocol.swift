@@ -1,5 +1,5 @@
 import Foundation
 
 protocol StepQuizInputProtocol: AnyObject {
-    func updateIsPracticingLoading(isPracticingLoading: Bool)
+    func update(isPracticingLoading: Bool)
 }

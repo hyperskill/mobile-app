@@ -201,7 +201,7 @@ extension StepQuizViewModel: StepQuizChildQuizOutputProtocol {
 // MARK: - StepQuizViewModel: StepQuizInputProtocol -
 
 extension StepQuizViewModel: StepQuizInputProtocol {
-    func updateIsPracticingLoading(isPracticingLoading: Bool) {
+    func update(isPracticingLoading: Bool) {
         self.isPracticingLoading = isPracticingLoading
     }
 }

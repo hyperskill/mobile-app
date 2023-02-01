@@ -67,7 +67,7 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
                 return
             }
 
-            strongSelf.stepQuizModuleInput?.updateIsPracticingLoading(
+            strongSelf.stepQuizModuleInput?.update(
                 isPracticingLoading: stepFeatureStateData.stepCompletionState.isPracticingLoading
             )
         }
