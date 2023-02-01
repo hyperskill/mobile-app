@@ -292,21 +292,20 @@ class HomeReducer(
     private fun reduceTopicsToDiscoverNextMessage(
         state: TopicsToDiscoverNextFeature.State,
         message: TopicsToDiscoverNextFeature.Message
-    ): Pair<TopicsToDiscoverNextFeature.State, Set<Action>> =
-        // TODO: Uncomment after TopicsToDiscoverNextFeature will be implemented in Home
-//        val (topicsToDiscoverNextState, topicsToDiscoverNextActions) =
-//            topicsToDiscoverNextReducer.reduce(state, message)
-//
-//        val actions = topicsToDiscoverNextActions
-//            .map {
-//                if (it is TopicsToDiscoverNextFeature.Action.ViewAction) {
-//                    Action.ViewAction.TopicsToDiscoverNextViewAction(it)
-//                } else {
-//                    Action.TopicsToDiscoverNextAction(it)
-//                }
-//            }
-//            .toSet()
-//
-//        return topicsToDiscoverNextState to actions
-        TopicsToDiscoverNextFeature.State.Idle to emptySet()
+    ): Pair<TopicsToDiscoverNextFeature.State, Set<Action>> {
+        val (topicsToDiscoverNextState, topicsToDiscoverNextActions) =
+            topicsToDiscoverNextReducer.reduce(state, message)
+
+        val actions = topicsToDiscoverNextActions
+            .map {
+                if (it is TopicsToDiscoverNextFeature.Action.ViewAction) {
+                    Action.ViewAction.TopicsToDiscoverNextViewAction(it)
+                } else {
+                    Action.TopicsToDiscoverNextAction(it)
+                }
+            }
+            .toSet()
+
+        return topicsToDiscoverNextState to actions
+    }
 }

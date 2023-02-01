@@ -26,6 +26,16 @@
             android:paddingTop="16dp"
             android:paddingBottom="20dp">
 
+            <include
+                android:visibility="gone"
+                android:id="@+id/homeScreenSkeleton"
+                layout="@layout/layout_home_skeleton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+                />
+
             <TextView
                 android:id="@+id/homeScreenKeepPracticingTextView"
                 android:layout_width="match_parent"
@@ -47,6 +57,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                />
+
+            <TextView
+                android:id="@+id/homeTopicsToDiscoverNextTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/home_topics_to_discover_next_title"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/color_on_surface_alpha_60"
+                android:layout_marginTop="46dp"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/homeTopicsToDiscoverNextRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                tools:itemCount="1"
+                tools:listitem="@layout/item_topic"
                 />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -96,16 +125,6 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-
-    <include
-        android:id="@+id/homeScreenSkeleton"
-        layout="@layout/layout_home_skeleton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="16dp"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        />
 
     <include
         android:id="@+id/homeScreenError"

@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.core.view.ui.adapter.decoration.HorizontalMarginItemDecoration
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.VerticalMarginItemDecoration
 import org.hyperskill.app.android.topics.adapter_delegate.TopicAdapterDelegate
 import org.hyperskill.app.android.topics.view.TopicListItem
@@ -28,18 +27,8 @@ class TopicsToDiscoverNextDelegate(
             adapter = nextTopicsAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             isNestedScrollingEnabled = false
-            val verticalMargin = resources.getDimensionPixelSize(R.dimen.track_next_topic_vertical_item_margin)
             addItemDecoration(
-                VerticalMarginItemDecoration(
-                    verticalMargin = verticalMargin,
-                    firstItemTopMargin = verticalMargin,
-                    lastItemMargin = verticalMargin
-                )
-            )
-            addItemDecoration(
-                HorizontalMarginItemDecoration(
-                    resources.getDimensionPixelSize(R.dimen.track_next_topic_horizontal_item_margin)
-                )
+                VerticalMarginItemDecoration(resources.getDimensionPixelSize(R.dimen.track_next_topic_vertical_item_margin))
             )
         }
     }
