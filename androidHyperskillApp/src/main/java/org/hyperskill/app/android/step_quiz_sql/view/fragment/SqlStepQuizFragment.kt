@@ -67,11 +67,13 @@ class SqlStepQuizFragment : DefaultStepQuizFragment(), CodeStepQuizFullScreenDia
     private fun onFullScreenClicked(lang: String, code: String?) {
         CodeStepQuizFullScreenDialogFragment
             .newInstance(
-                lang = lang,
-                code = code ?: getSqlCodeTemplate(step),
-                codeTemplates = step.block.options.codeTemplates ?: emptyMap(),
-                step = step,
-                isShowRetryButton = viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton.isVisible
+                CodeStepQuizFullScreenDialogFragment.Params(
+                    lang = lang,
+                    code = code ?: getSqlCodeTemplate(step),
+                    codeTemplates = step.block.options.codeTemplates ?: emptyMap(),
+                    step = step,
+                    isShowRetryButton = viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton.isVisible
+                )
             )
             .showIfNotExists(childFragmentManager, CodeStepQuizFullScreenDialogFragment.TAG)
     }

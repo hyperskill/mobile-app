@@ -122,11 +122,13 @@ class CodeStepQuizFragment :
     private fun onFullScreenClicked(lang: String, code: String?) {
         CodeStepQuizFullScreenDialogFragment
             .newInstance(
-                lang,
-                code = code ?: codeOptions.codeTemplates?.get(lang) ?: "",
-                codeOptions.codeTemplates!!,
-                step,
-                viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton.isVisible
+                CodeStepQuizFullScreenDialogFragment.Params(
+                    lang = lang,
+                    code = code ?: codeOptions.codeTemplates?.get(lang) ?: "",
+                    codeTemplates = codeOptions.codeTemplates!!,
+                    step = step,
+                    isShowRetryButton = viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton.isVisible
+                )
             )
             .showIfNotExists(childFragmentManager, CodeStepQuizFullScreenDialogFragment.TAG)
     }
