@@ -77,7 +77,6 @@ enum Images {
         static let hammer = "track-hammer"
 
         enum TopicsToDiscoverNext {
-            static let completedTopic = "track-topics-to-discover-next-completed-topic"
             static let skippedTopic = "track-topics-to-discover-next-skipped-topic"
         }
 

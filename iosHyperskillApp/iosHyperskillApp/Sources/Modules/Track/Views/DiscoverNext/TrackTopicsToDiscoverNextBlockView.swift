@@ -6,8 +6,6 @@ extension TrackTopicsToDiscoverNextBlockView {
         let insets = LayoutInsets(horizontal: LayoutInsets.defaultInset, vertical: LayoutInsets.largeInset)
 
         var spacing = LayoutInsets.defaultInset
-
-        let topicIconWidthHeight: CGFloat = 12
     }
 }
 
@@ -46,7 +44,6 @@ struct TrackTopicsToDiscoverNextBlockView: View {
                 EmptyView()
             case .content(let data):
                 buildTopicsList(topics: data.topicsToDiscoverNext)
-                buildTopicsList(topics: data.topicsToDiscoverNext)
             }
         }
         .frame(maxWidth: .infinity)
@@ -59,49 +56,9 @@ struct TrackTopicsToDiscoverNextBlockView: View {
     private func buildTopicsList(topics: [Topic]) -> some View {
         LazyVStack(spacing: appearance.spacing) {
             ForEach(topics, id: \.id) { topic in
-                Button(
-                    action: {
-                        onTopicTapped?(topic.id)
-                    },
-                    label: {
-                        HStack {
-                            Text(topic.title)
-                                .font(.body)
-                                .foregroundColor(.primaryText)
-
-                            Spacer()
-
-                            if let topicProgress = topic.progress {
-                                if topicProgress.isCompleted {
-                                    Image(Images.Track.TopicsToDiscoverNext.completedTopic)
-                                        .resizable()
-                                        .frame(widthHeight: appearance.topicIconWidthHeight)
-                                } else if topicProgress.isSkipped {
-                                    Image(Images.Track.TopicsToDiscoverNext.skippedTopic)
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(widthHeight: appearance.topicIconWidthHeight)
-                                } else if topicProgress.completenessPercentage > 0 {
-                                    Text("\(Int(topicProgress.completenessPercentage.rounded()))%")
-                                        .font(.subheadline)
-                                        .foregroundColor(Color(ColorPalette.secondary))
-                                }
-                            }
-                        }
-                    }
-                )
-                .buttonStyle(OutlineButtonStyle(borderColor: .border, alignment: .leading))
-                .background(
-                    GeometryReader { geometry in
-                        Rectangle()
-                            .stroke(lineWidth: 0)
-                            .background(Color(ColorPalette.overlayGreenAlpha7))
-                            .cornerRadius(8)
-                            .frame(
-                                width: geometry.size.width *
-                                   CGFloat(topic.progress?.completenessPercentage ?? 0) / 100
-                            )
-                    }
+                TopicToDiscoverNextButtonView(
+                    topic: topic,
+                    onTap: { onTopicTapped?(topic.id) }
                 )
             }
         }
