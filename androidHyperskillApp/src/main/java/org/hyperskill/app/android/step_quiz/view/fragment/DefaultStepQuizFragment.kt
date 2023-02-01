@@ -47,9 +47,9 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
     protected val viewBinding: FragmentStepQuizBinding by viewBinding(FragmentStepQuizBinding::bind)
     private val stepQuizViewModel: StepQuizViewModel by viewModels { viewModelFactory }
 
-    private lateinit var viewStateDelegate: ViewStateDelegate<StepQuizFeature.State>
-    private lateinit var stepQuizFeedbackBlocksDelegate: StepQuizFeedbackBlocksDelegate
-    private lateinit var stepQuizFormDelegate: StepQuizFormDelegate
+    private var viewStateDelegate: ViewStateDelegate<StepQuizFeature.State>? = null
+    private var stepQuizFeedbackBlocksDelegate: StepQuizFeedbackBlocksDelegate? = null
+    private var stepQuizFormDelegate: StepQuizFormDelegate? = null
     private val stepQuizFeedbackMapper = StepQuizFeedbackMapper()
 
     protected abstract val quizViews: Array<View>
@@ -95,13 +95,21 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
         stepQuizViewModel.onNewMessage(StepQuizFeature.Message.InitWithStep(step))
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewStateDelegate = null
+        stepQuizFeedbackBlocksDelegate = null
+        stepQuizFormDelegate = null
+    }
+
     protected abstract fun createStepQuizFormDelegate(containerBinding: FragmentStepQuizBinding): StepQuizFormDelegate
 
     protected open fun onNewState(state: StepQuizFeature.State) {}
 
     protected fun onSubmitButtonClicked() {
-        val reply = stepQuizFormDelegate.createReply()
-        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.CreateSubmissionClicked(step, reply))
+        stepQuizFormDelegate?.createReply()?.let { reply ->
+            stepQuizViewModel.onNewMessage(StepQuizFeature.Message.CreateSubmissionClicked(step, reply))
+        }
     }
 
     protected fun onRetryButtonClicked() {
@@ -204,7 +212,7 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
     }
 
     override fun render(state: StepQuizFeature.State) {
-        viewStateDelegate.switchState(state)
+        viewStateDelegate?.switchState(state)
 
         val stepQuizButtonsLinearLayout = view?.findViewById<LinearLayout>(R.id.stepQuizButtons)
         if (stepQuizButtonsLinearLayout != null) {
@@ -214,8 +222,8 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
         }
 
         if (state is StepQuizFeature.State.AttemptLoaded) {
-            stepQuizFormDelegate.setState(state)
-            stepQuizFeedbackBlocksDelegate.setState(stepQuizFeedbackMapper.mapToStepQuizFeedbackState(step.block.name, state))
+            stepQuizFormDelegate?.setState(state)
+            stepQuizFeedbackBlocksDelegate?.setState(stepQuizFeedbackMapper.mapToStepQuizFeedbackState(step.block.name, state))
             viewBinding.stepQuizButtons.stepQuizSubmitButton.isEnabled = StepQuizResolver.isQuizEnabled(state)
 
             val submissionState = state.submissionState
@@ -244,7 +252,7 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
 
                 val replyValidation = submissionState.replyValidation
                 if (replyValidation is ReplyValidationResult.Error) {
-                    stepQuizFeedbackBlocksDelegate.setState(StepQuizFeedbackState.Validation(replyValidation.message))
+                    stepQuizFeedbackBlocksDelegate?.setState(StepQuizFeedbackState.Validation(replyValidation.message))
                 }
             }
         }
