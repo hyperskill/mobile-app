@@ -16,7 +16,8 @@ class TopicAdapterDelegate(
     private val onTopicClick: (topicId: Long) -> Unit
 ) : AdapterDelegate<TopicListItem, DelegateViewHolder<TopicListItem>>() {
 
-    override fun isForViewType(position: Int, data: TopicListItem): Boolean = data is TopicListItem.Topic
+    override fun isForViewType(position: Int, data: TopicListItem): Boolean =
+        data is TopicListItem.Topic
 
     override fun onCreateViewHolder(parent: ViewGroup): DelegateViewHolder<TopicListItem> =
         ViewHolder(createView(parent, R.layout.item_topic))
