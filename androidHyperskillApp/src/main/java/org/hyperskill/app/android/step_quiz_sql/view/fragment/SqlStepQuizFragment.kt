@@ -14,6 +14,7 @@ import org.hyperskill.app.android.step_quiz_fullscreen_code.dialog.CodeStepQuizF
 import org.hyperskill.app.android.step_quiz_sql.view.delegate.SqlStepQuizFormDelegate
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 
 class SqlStepQuizFragment : DefaultStepQuizFragment(), CodeStepQuizFullScreenDialogFragment.Callback {
@@ -76,6 +77,17 @@ class SqlStepQuizFragment : DefaultStepQuizFragment(), CodeStepQuizFullScreenDia
                 )
             )
             .showIfNotExists(childFragmentManager, CodeStepQuizFullScreenDialogFragment.TAG)
+    }
+
+    override fun onNewState(state: StepQuizFeature.State) {
+        if (state is StepQuizFeature.State.AttemptLoaded) {
+            val submission = (state.submissionState as? StepQuizFeature.SubmissionState.Loaded)
+                ?.submission
+            val replyCode = submission?.reply?.code
+            val fullScreenFragment = childFragmentManager
+                .findFragmentByTag(CodeStepQuizFullScreenDialogFragment.TAG) as? CodeStepQuizFullScreenDialogFragment
+            fullScreenFragment?.onNewCode(replyCode)
+        }
     }
 
     override fun onSyncCodeStateWithParent(code: String, onSubmitClicked: Boolean) {
