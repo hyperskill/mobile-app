@@ -1,5 +1,6 @@
 package org.hyperskill.app.android.step_quiz_code.view.delegate
 
+import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
@@ -13,7 +14,7 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
 
 class CodeStepQuizFormDelegate(
     containerBinding: FragmentStepQuizBinding,
-    codeLayout: CodeEditorLayout,
+    private val codeLayout: CodeEditorLayout,
     initialCode: String,
     private val lang: String,
     private val codeLayoutDelegate: CodeLayoutDelegate,
@@ -22,6 +23,7 @@ class CodeStepQuizFormDelegate(
 ) : StepQuizFormDelegate {
 
     private var code: String? = initialCode
+    private var textWatcher: TextWatcher? = null
 
     init {
         (
@@ -68,6 +70,15 @@ class CodeStepQuizFormDelegate(
         codeLayoutDelegate.setEnabled(isEnabled)
 
         codeLayoutDelegate.setLanguage(lang, replyCode)
+        /**
+         * Set textWatcher only after initial text set to avoid premature [onQuizChanged] call
+         * */
+        if (textWatcher == null) {
+            textWatcher = codeLayout.codeEditor.doAfterTextChanged {
+                onQuizChanged(createReply())
+            }
+        }
+
         codeLayoutDelegate.setDetailsContentData(lang)
     }
 

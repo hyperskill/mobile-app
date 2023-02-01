@@ -1,5 +1,6 @@
 package org.hyperskill.app.android.step_quiz_sql.view.delegate
 
+import android.text.TextWatcher
 import androidx.core.widget.doAfterTextChanged
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.code.presentation.model.ProgrammingLanguage
@@ -21,6 +22,7 @@ class SqlStepQuizFormDelegate(
 ) : StepQuizFormDelegate {
 
     private var code: String? = sqlCodeTemplate
+    private var textWatcher: TextWatcher? = null
 
     init {
         containerBinding.stepQuizDescription.setText(org.hyperskill.app.R.string.step_quiz_sql_title)
@@ -34,12 +36,9 @@ class SqlStepQuizFormDelegate(
         with(codeLayout.codeEditor) {
             isFocusable = false
 
-            doAfterTextChanged {
-                onQuizChanged(createReply())
+            setOnClickListener {
+                onFullscreenClicked(ProgrammingLanguage.SQL.serverPrintableName, code)
             }
-        }
-        codeLayout.codeEditor.setOnClickListener {
-            onFullscreenClicked(ProgrammingLanguage.SQL.serverPrintableName, code)
         }
 
         with(codeLayout) {
@@ -60,6 +59,15 @@ class SqlStepQuizFormDelegate(
         with(codeLayout) {
             setEnabled(isEnabled)
             setTextIfChanged(code ?: sqlCodeTemplate ?: "")
+
+            /**
+             * Set textWatcher only after initial text set to avoid premature [onQuizChanged] call
+             * */
+            if (textWatcher == null) {
+                textWatcher = codeEditor.doAfterTextChanged {
+                    onQuizChanged(createReply())
+                }
+            }
         }
     }
 

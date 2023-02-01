@@ -218,9 +218,9 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
             stepQuizFeedbackBlocksDelegate.setState(stepQuizFeedbackMapper.mapToStepQuizFeedbackState(step.block.name, state))
             viewBinding.stepQuizButtons.stepQuizSubmitButton.isEnabled = StepQuizResolver.isQuizEnabled(state)
 
-            if (state.submissionState is StepQuizFeature.SubmissionState.Loaded) {
-                val castedState = state.submissionState as StepQuizFeature.SubmissionState.Loaded
-                val submissionStatus = castedState.submission.status
+            val submissionState = state.submissionState
+            if (submissionState is StepQuizFeature.SubmissionState.Loaded) {
+                val submissionStatus = submissionState.submission.status
 
                 if (submissionStatus == SubmissionStatus.WRONG) {
                     if (step.block.name == BlockName.CODE || step.block.name == BlockName.SQL) {
@@ -242,9 +242,9 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
                     setStepQuizButtonsState(StepQuizButtonsState.SUBMIT)
                 }
 
-                if (castedState.replyValidation is ReplyValidationResult.Error) {
-                    val replyValidationError = castedState.replyValidation as ReplyValidationResult.Error
-                    stepQuizFeedbackBlocksDelegate.setState(StepQuizFeedbackState.Validation(replyValidationError.message))
+                val replyValidation = submissionState.replyValidation
+                if (replyValidation is ReplyValidationResult.Error) {
+                    stepQuizFeedbackBlocksDelegate.setState(StepQuizFeedbackState.Validation(replyValidation.message))
                 }
             }
         }
