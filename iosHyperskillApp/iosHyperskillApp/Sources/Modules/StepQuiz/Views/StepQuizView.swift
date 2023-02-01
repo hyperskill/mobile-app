@@ -200,32 +200,31 @@ struct StepQuizView: View {
                 )
                 .disabled(StepQuizResolver.shared.isQuizLoading(state: state))
             } else if StepQuizResolver.shared.isNeedRecreateAttemptForNewSubmission(step: viewModel.step) {
-                StepQuizActionButtons
-                    .retry(action: viewModel.doQuizRetryAction)
+                StepQuizActionButtons.retry(action: viewModel.doQuizRetryAction)
                     .disabled(StepQuizResolver.shared.isQuizLoading(state: state))
             } else {
-                StepQuizActionButtons
-                    .submit(
-                        state: .init(submissionStatus: submissionStatus),
-                        action: viewModel.doMainQuizAction
-                    )
-                    .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
+                StepQuizActionButtons.submit(
+                    state: .init(submissionStatus: submissionStatus),
+                    action: viewModel.doMainQuizAction
+                )
+                .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
             }
         } else if submissionStatus == SubmissionStatus.correct {
             if StepQuizResolver.shared.isQuizRetriable(step: viewModel.step) {
                 StepQuizActionButtons.retryLogoAndContinue(
                     retryButtonAction: viewModel.doQuizRetryAction,
-                    isContinueButtonLoading: viewModel.isPracticingLoading,
-                    continueButtonAction: viewModel.doQuizContinueAction
-                )
-                .disabled(StepQuizResolver.shared.isQuizLoading(state: state))
-            } else {
-                StepQuizActionButtons
-                    .continue(
+                    continueButton: .init(
                         isLoading: viewModel.isPracticingLoading,
                         action: viewModel.doQuizContinueAction
                     )
-                    .disabled(StepQuizResolver.shared.isQuizLoading(state: state))
+                )
+                .disabled(StepQuizResolver.shared.isQuizLoading(state: state) || viewModel.isPracticingLoading)
+            } else {
+                StepQuizActionButtons.continue(
+                    isLoading: viewModel.isPracticingLoading,
+                    action: viewModel.doQuizContinueAction
+                )
+                .disabled(StepQuizResolver.shared.isQuizLoading(state: state))
             }
         } else {
             if quizType.isCodeOrSQL {

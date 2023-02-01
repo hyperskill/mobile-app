@@ -41,7 +41,7 @@ struct RoundedRectangleButtonStyle: ButtonStyle {
         let imageSystemName: String
 
         var insets = LayoutInsets(leading: LayoutInsets.defaultInset).edgeInsets
-        let alignment = Alignment.leading
+        let alignment = Alignment(horizontal: .leading, vertical: .center)
     }
 
     enum Style {
@@ -80,7 +80,7 @@ extension RoundedRectangleButtonStyle {
 
 struct RoundedRectangleButtonStyle_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
+        VStack {
             Button("Press Me", action: {})
                 .buttonStyle(RoundedRectangleButtonStyle())
 

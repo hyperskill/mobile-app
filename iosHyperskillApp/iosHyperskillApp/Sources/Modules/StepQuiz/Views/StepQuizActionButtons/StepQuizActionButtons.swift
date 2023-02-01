@@ -114,12 +114,11 @@ extension StepQuizActionButtons {
 
     static func retryLogoAndContinue(
         retryButtonAction: @escaping () -> Void,
-        isContinueButtonLoading: Bool,
-        continueButtonAction: @escaping () -> Void
+        continueButton: ContinueButton
     ) -> StepQuizActionButtons {
         StepQuizActionButtons(
             retryButton: .init(style: .logoOnly, action: retryButtonAction),
-            continueButton: .init(isLoading: isContinueButtonLoading, action: continueButtonAction)
+            continueButton: continueButton
         )
     }
 }
@@ -128,7 +127,7 @@ extension StepQuizActionButtons {
 
 struct StepQuizActionButtons_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
+        VStack {
             StepQuizActionButtons.submit(state: .default, action: {})
 
             StepQuizActionButtons.runSolution(state: .default, action: {})
@@ -136,6 +135,7 @@ struct StepQuizActionButtons_Previews: PreviewProvider {
             StepQuizActionButtons.retry {}
 
             StepQuizActionButtons.continue(isLoading: false) {}
+            StepQuizActionButtons.continue(isLoading: true) {}
 
             StepQuizActionButtons.retryLogoAndSubmit(
                 retryButtonAction: {},
@@ -151,9 +151,17 @@ struct StepQuizActionButtons_Previews: PreviewProvider {
 
             StepQuizActionButtons.retryLogoAndContinue(
                 retryButtonAction: {},
-                isContinueButtonLoading: false,
-                continueButtonAction: {}
+                continueButton: .init(isLoading: false, action: {})
             )
+            StepQuizActionButtons.retryLogoAndContinue(
+                retryButtonAction: {},
+                continueButton: .init(isLoading: true, action: {})
+            )
+            StepQuizActionButtons.retryLogoAndContinue(
+                retryButtonAction: {},
+                continueButton: .init(isLoading: true, action: {})
+            )
+            .disabled(true)
         }
         .previewLayout(.sizeThatFits)
         .padding()

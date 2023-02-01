@@ -17,19 +17,18 @@ struct StepQuizActionButton: View {
 
     var body: some View {
         Button(
-            action: onTap,
-            label: {
-                HStack(spacing: LayoutInsets.smallInset) {
-                    if state == .correctLoading {
-                        ProgressView()
-                    }
-
-                    Text(titleForState?(state) ?? state.title)
-                }
-            }
+            titleForState?(state) ?? state.title,
+            action: onTap
         )
         .buttonStyle(RoundedRectangleButtonStyle(style: state.style, overlayImage: overlayImage))
-        .disabled(state == .evaluation || state == .correctLoading)
+        .overlay(
+            ProgressView()
+                .opacity(state.isLoading ? 1 : 0)
+                .padding(.leading)
+            ,
+            alignment: .init(horizontal: .leading, vertical: .center)
+        )
+        .disabled(state.isDisabled)
     }
 
     enum State: CaseIterable {
@@ -62,22 +61,32 @@ struct StepQuizActionButton: View {
                 return .green
             }
         }
+
+        fileprivate var isDisabled: Bool {
+            self == .evaluation || self == .correctLoading
+        }
+
+        fileprivate var isLoading: Bool {
+            self == .correctLoading
+        }
     }
 }
 
 struct StepQuizActionButton_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ForEach(StepQuizActionButton.State.allCases, id: \.self) { state in
-                StepQuizActionButton(state: state, onTap: {})
-            }
+            VStack {
+                ForEach(StepQuizActionButton.State.allCases, id: \.self) { state in
+                    StepQuizActionButton(state: state, onTap: {})
+                }
 
-            StepQuizActionButton(
-                state: .normal,
-                titleForState: { _ in "Run solution" },
-                systemImageNameForState: { _ in "play" },
-                onTap: {}
-            )
+                StepQuizActionButton(
+                    state: .normal,
+                    titleForState: { _ in "Run solution" },
+                    systemImageNameForState: { _ in "play" },
+                    onTap: {}
+                )
+            }
         }
         .previewLayout(.sizeThatFits)
         .padding()
