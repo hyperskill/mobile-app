@@ -5,12 +5,8 @@ struct StepView: View {
     @StateObject var viewModel: StepViewModel
 
     @StateObject var stackRouter: SwiftUIStackRouter
-
     @StateObject var modalRouter: SwiftUIModalRouter
-
     @StateObject var panModalPresenter: PanModalPresenter
-
-    @Environment(\.presentationMode) private var presentationMode
 
     var body: some View {
         ZStack {
@@ -23,7 +19,10 @@ struct StepView: View {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
         }
-        .onDisappear(perform: viewModel.stopListening)
+        .onDisappear {
+            viewModel.stopListening()
+            viewModel.onViewAction = nil
+        }
         .environmentObject(stackRouter)
         .environmentObject(modalRouter)
     }
@@ -111,9 +110,10 @@ struct StepView: View {
     }
 
     private func dismissPanModalAndNavigateBack() {
-        panModalPresenter.dismissPanModal(completion: {
-            presentationMode.wrappedValue.dismiss()
-        })
+        panModalPresenter.dismissPanModal(
+            animated: true,
+            completion: stackRouter.popViewController
+        )
     }
 }
 

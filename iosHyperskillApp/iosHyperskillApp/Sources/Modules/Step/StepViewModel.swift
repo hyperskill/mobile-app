@@ -1,3 +1,4 @@
+import Combine
 import shared
 import SwiftUI
 
@@ -5,6 +6,7 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
     let stepRoute: StepRoute
 
     weak var stepQuizModuleInput: StepQuizInputProtocol?
+    private var updateStepQuizSubscription: AnyCancellable?
 
     private let viewDataMapper: StepViewDataMapper
 
@@ -21,14 +23,22 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
     }
 
     override func shouldNotifyStateDidChange(oldState: StepFeatureState, newState: StepFeatureState) -> Bool {
+        let oldStateKs = StepFeatureStateKs(oldState)
         let newStateKs = StepFeatureStateKs(newState)
 
-        let shouldNotify = StepFeatureStateKs(oldState) != newStateKs
+        let shouldNotify = oldStateKs != newStateKs
 
-        if shouldNotify, case .data(let stepFeatureStateData) = stateKs {
-            stepQuizModuleInput?.updateIsPracticingLoading(
-                isPracticingLoading: stepFeatureStateData.stepCompletionState.isPracticingLoading
-            )
+        if shouldNotify, case .data = oldStateKs, case .data = newStateKs {
+            updateStepQuizSubscription = objectWillChange.sink { [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+
+                strongSelf.updateStepQuizSubscription?.cancel()
+                strongSelf.updateStepQuizSubscription = nil
+
+                strongSelf.updateStepQuiz()
+            }
         }
 
         return shouldNotify
@@ -48,6 +58,19 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
                 message: StepCompletionFeatureMessageStartPracticingClicked()
             )
         )
+    }
+
+    private func updateStepQuiz() {
+        mainScheduler.schedule { [weak self] in
+            guard let strongSelf = self,
+                  case .data(let stepFeatureStateData) = strongSelf.stateKs else {
+                return
+            }
+
+            strongSelf.stepQuizModuleInput?.updateIsPracticingLoading(
+                isPracticingLoading: stepFeatureStateData.stepCompletionState.isPracticingLoading
+            )
+        }
     }
 
     // MARK: Analytic

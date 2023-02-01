@@ -9,7 +9,9 @@ final class StepQuizViewModel: FeatureViewModel<
 > {
     let step: Step
     let stepRoute: StepRoute
-    let moduleOutput: StepQuizOutputProtocol?
+
+    weak var moduleOutput: StepQuizOutputProtocol?
+    private let provideModuleInputCallback: (StepQuizInputProtocol?) -> Void
 
     weak var childQuizModuleInput: StepQuizChildQuizInputProtocol?
     private var updateChildQuizSubscription: AnyCancellable?
@@ -28,6 +30,7 @@ final class StepQuizViewModel: FeatureViewModel<
         step: Step,
         stepRoute: StepRoute,
         moduleOutput: StepQuizOutputProtocol?,
+        provideModuleInputCallback: @escaping (StepQuizInputProtocol?) -> Void,
         viewDataMapper: StepQuizViewDataMapper,
         userPermissionRequestTextMapper: StepQuizUserPermissionRequestTextMapper,
         notificationService: NotificationsService,
@@ -37,6 +40,7 @@ final class StepQuizViewModel: FeatureViewModel<
         self.step = step
         self.stepRoute = stepRoute
         self.moduleOutput = moduleOutput
+        self.provideModuleInputCallback = provideModuleInputCallback
         self.viewDataMapper = viewDataMapper
         self.userPermissionRequestTextMapper = userPermissionRequestTextMapper
         self.notificationService = notificationService
@@ -59,6 +63,10 @@ final class StepQuizViewModel: FeatureViewModel<
         }
 
         return StepQuizFeatureStateKs(oldState) != StepQuizFeatureStateKs(newState)
+    }
+
+    func doProvideModuleInput() {
+        provideModuleInputCallback(self)
     }
 
     func loadAttempt(forceUpdate: Bool = false) {

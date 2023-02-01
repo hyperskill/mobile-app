@@ -4,6 +4,7 @@ import SwiftUI
 final class StepQuizAssembly: Assembly {
     private let step: Step
     private let stepRoute: StepRoute
+
     private let provideModuleInputCallback: (StepQuizInputProtocol?) -> Void
     private weak var moduleOutput: StepQuizOutputProtocol?
 
@@ -30,9 +31,10 @@ final class StepQuizAssembly: Assembly {
             stepQuizTitleMapper: stepQuizComponent.stepQuizTitleMapper
         )
         let viewModel = StepQuizViewModel(
-            step: self.step,
-            stepRoute: self.stepRoute,
-            moduleOutput: self.moduleOutput,
+            step: step,
+            stepRoute: stepRoute,
+            moduleOutput: moduleOutput,
+            provideModuleInputCallback: provideModuleInputCallback,
             viewDataMapper: viewDataMapper,
             userPermissionRequestTextMapper: StepQuizUserPermissionRequestTextMapper(
                 resourceProvider: commonComponent.resourceProvider
@@ -43,8 +45,6 @@ final class StepQuizAssembly: Assembly {
             notificationsRegistrationService: .shared,
             feature: stepQuizComponent.stepQuizFeature
         )
-
-        provideModuleInputCallback(viewModel)
 
         return StepQuizView(viewModel: viewModel)
     }

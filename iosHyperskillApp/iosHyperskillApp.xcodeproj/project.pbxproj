@@ -1319,7 +1319,7 @@
 				2CD48D842858638A00CFCC4A /* StepQuizAssembly.swift */,
 				2CD48D862858639500CFCC4A /* StepQuizViewModel.swift */,
 				2C1061A0285C341C00EBD614 /* ChildProtocols */,
-				E9CC6C0529893EFC00D8D070 /* Protocols */,
+				E9CC6C0529893EFC00D8D070 /* InputOutput */,
 				2CD48D8C28586B5C00CFCC4A /* ViewData */,
 				2C41127528376ECE004948A3 /* Views */,
 			);
@@ -1831,12 +1831,12 @@
 		2CAE8CF5280525DB00E6C83D /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2CAE8D0A280578A200E6C83D /* BottomControls */,
 				2CAE8CF628052F9600E6C83D /* StepHeaderView.swift */,
 				2C9F59A629267A530008ADC5 /* StepTextView.swift */,
 				2C8409522805BF3C009C6BE9 /* StepTheoryContentView.swift */,
 				2CAE8CF1280525C900E6C83D /* StepView.swift */,
 				E97BEA1D2977D26F00348EEC /* TopicCompletedModalViewController.swift */,
+				2CAE8D0A280578A200E6C83D /* BottomControls */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2416,13 +2416,13 @@
 			path = Chart;
 			sourceTree = "<group>";
 		};
-		E9CC6C0529893EFC00D8D070 /* Protocols */ = {
+		E9CC6C0529893EFC00D8D070 /* InputOutput */ = {
 			isa = PBXGroup;
 			children = (
-				E9470C6A29810AB7008ACF9A /* StepQuizOutputProtocol.swift */,
 				E9CC6C0629893F2200D8D070 /* StepQuizInputProtocol.swift */,
+				E9470C6A29810AB7008ACF9A /* StepQuizOutputProtocol.swift */,
 			);
-			path = Protocols;
+			path = InputOutput;
 			sourceTree = "<group>";
 		};
 		E9D2D66E284E0A5D000757AC /* StepQuizMatching */ = {

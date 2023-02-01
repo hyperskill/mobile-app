@@ -17,25 +17,12 @@ struct StepQuizView: View {
     @StateObject var viewModel: StepQuizViewModel
 
     @EnvironmentObject private var modalRouter: SwiftUIModalRouter
-
-    @EnvironmentObject var stackRouter: SwiftUIStackRouter
-
-    @EnvironmentObject var panModalPresenter: PanModalPresenter
-
-    @Environment(\.presentationMode) private var presentationMode
+    @EnvironmentObject private var stackRouter: SwiftUIStackRouter
+    @EnvironmentObject private var panModalPresenter: PanModalPresenter
 
     var body: some View {
         buildBody()
             .navigationBarTitleDisplayMode(.inline)
-            .onAppear {
-                viewModel.startListening()
-                viewModel.onViewAction = handleViewAction(_:)
-
-                if viewModel.state is StepQuizFeatureStateIdle {
-                    viewModel.loadAttempt()
-                }
-            }
-            .onDisappear(perform: viewModel.stopListening)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     if viewModel.stepRoute is StepRouteRepeat,
@@ -46,6 +33,20 @@ struct StepQuizView: View {
                         }
                     }
                 }
+            }
+            .onAppear {
+                viewModel.startListening()
+                viewModel.onViewAction = handleViewAction(_:)
+
+                if viewModel.state is StepQuizFeatureStateIdle {
+                    viewModel.loadAttempt()
+                }
+
+                viewModel.doProvideModuleInput()
+            }
+            .onDisappear {
+                viewModel.stopListening()
+                viewModel.onViewAction = nil
             }
     }
 
@@ -261,7 +262,7 @@ struct StepQuizView: View {
         case .navigateTo(let viewActionNavigateTo):
             switch StepQuizFeatureActionViewActionNavigateToKs(viewActionNavigateTo) {
             case .back:
-                presentationMode.wrappedValue.dismiss()
+                stackRouter.popViewController()
             }
         }
     }
@@ -335,12 +336,13 @@ extension StepQuizView {
 
         let panModal = ProblemOfDaySolvedModalViewController(
             earnedGemsText: earnedGemsText,
-            onGoBackButtonTap: {
-                viewModel.doGoBackAction()
+            onGoBackButtonTap: { [weak viewModel] in
+                viewModel?.doGoBackAction()
             }
         )
-
-        panModal.onDisappear = viewModel.logDailyStepCompletedModalHiddenEvent
+        panModal.onDisappear = { [weak viewModel] in
+            viewModel?.logDailyStepCompletedModalHiddenEvent()
+        }
 
         panModalPresenter.presentPanModal(panModal)
     }
