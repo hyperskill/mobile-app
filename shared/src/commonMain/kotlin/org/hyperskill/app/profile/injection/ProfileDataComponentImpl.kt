@@ -17,10 +17,10 @@ class ProfileDataComponentImpl(private val appGraph: AppGraph) : ProfileDataComp
         appGraph.commonComponent.json,
         appGraph.commonComponent.settings
     )
-    private val profileRepository: ProfileRepository = ProfileRepositoryImpl(
-        profileRemoteDataSource,
-        profileCacheDataSource
-    )
+
+    override val profileRepository: ProfileRepository
+        get() = ProfileRepositoryImpl(profileRemoteDataSource, profileCacheDataSource)
+
     override val profileInteractor: ProfileInteractor
         get() = ProfileInteractor(
             profileRepository,

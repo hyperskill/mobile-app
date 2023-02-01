@@ -162,4 +162,19 @@ object HyperskillSentryTransactionBuilder {
             name = "navigation-bar-items-feature-track-screen-remote-data-loading",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
+
+    /**
+     * TopicsToDiscoverNextFeature
+     */
+    fun buildTopicsToDiscoverNextHomeScreenRemoteDataLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "topics-to-discover-next-feature-home-screen-remote-data-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    fun buildTopicsToDiscoverNextTrackScreenRemoteDataLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "topics-to-discover-next-feature-track-screen-remote-data-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
 }
