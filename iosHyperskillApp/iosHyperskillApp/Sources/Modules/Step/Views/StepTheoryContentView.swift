@@ -24,8 +24,7 @@ struct StepTheoryContentView: View {
                     timeToComplete: viewData.formattedTimeToComplete
                 )
 
-                buildStartPracticingButton()
-                    .buttonStyle(OutlineButtonStyle(style: .violet))
+                buildStartPracticingButton(isFilled: false)
 
                 StepTextView(
                     text: viewData.text,
@@ -34,34 +33,30 @@ struct StepTheoryContentView: View {
                     }
                 )
 
-                buildStartPracticingButton()
-                    .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
+                buildStartPracticingButton(isFilled: true)
             }
             .padding()
         }
     }
+}
 
+// MARK: - StepTheoryContentView (StartPracticingButton) -
+
+extension StepTheoryContentView {
     struct StartPracticingButton {
         let isLoading: Bool
         let action: () -> Void
     }
 
     @ViewBuilder
-    private func buildStartPracticingButton() -> some View {
+    private func buildStartPracticingButton(isFilled: Bool) -> some View {
         if let startPracticingButton, isStepTextLoaded {
-            Button(
-                action: startPracticingButton.action,
-                label: {
-                    HStack(spacing: LayoutInsets.smallInset) {
-                        if startPracticingButton.isLoading {
-                            ProgressView()
-                        }
-
-                        Text(Strings.Step.startPracticing)
-                    }
-                }
+            StepActionButton(
+                title: Strings.Step.startPracticing,
+                style: isFilled ? .violetFilled : .violetOutline,
+                isLoading: startPracticingButton.isLoading,
+                onClick: startPracticingButton.action
             )
-            .disabled(startPracticingButton.isLoading)
         }
     }
 }
