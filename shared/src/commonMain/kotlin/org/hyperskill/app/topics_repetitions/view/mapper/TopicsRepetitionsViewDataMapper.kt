@@ -3,8 +3,8 @@ package org.hyperskill.app.topics_repetitions.view.mapper
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.topics_repetitions.domain.model.TopicRepetition
-import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsActionDispatcher
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature
+import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Companion.TOPICS_PAGINATION_SIZE
 import org.hyperskill.app.topics_repetitions.view.model.RepetitionsStatus
 import org.hyperskill.app.topics_repetitions.view.model.ShowMoreButtonState
 import org.hyperskill.app.topics_repetitions.view.model.TopicToRepeat
@@ -55,13 +55,10 @@ class TopicsRepetitionsViewDataMapper(
             } else {
                 ShowMoreButtonState.EMPTY
             },
-            topicsToRepeatWillLoadedCount = if (state.topicsRepetitions.size % TopicsRepetitionsActionDispatcher.TOPICS_PAGINATION_SIZE != 0) {
+            topicsToRepeatWillLoadedCount = if (!state.currentPageIsFilled) {
                 1
             } else {
-                min(
-                    state.topicRepetitionStatistics.totalCount - state.topicsRepetitions.count(),
-                    TopicsRepetitionsActionDispatcher.TOPICS_PAGINATION_SIZE,
-                )
+                min(state.topicRepetitionStatistics.totalCount - state.topicsRepetitions.count(), TOPICS_PAGINATION_SIZE)
             }
 
         )

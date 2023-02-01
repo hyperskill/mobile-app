@@ -1,6 +1,5 @@
 package org.hyperskill.app.topics_repetitions.presentation
 
-import kotlin.math.max
 import org.hyperskill.app.topics_repetitions.domain.analytic.TopicsRepetitionsClickedRepeatNextTopicHyperskillAnalyticEvent
 import org.hyperskill.app.topics_repetitions.domain.analytic.TopicsRepetitionsClickedRepeatTopicHyperskillAnalyticEvent
 import org.hyperskill.app.topics_repetitions.domain.analytic.TopicsRepetitionsViewedHyperskillAnalyticEvent
@@ -9,6 +8,7 @@ import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeatu
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Message
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
+import kotlin.math.max
 
 class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
@@ -41,9 +41,7 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                 if (state is State.Content && state.hasNextTopicsToLoad) {
                     state.copy(isLoadingNextTopics = true) to setOf(
                         Action.FetchNextTopics(
-                            nextPage = if (
-                                state.topicsRepetitions.size % TopicsRepetitionsActionDispatcher.TOPICS_PAGINATION_SIZE == 0
-                            ) {
+                            nextPage = if (state.currentPageIsFilled) {
                                 state.currentPage + 1
                             } else {
                                 state.currentPage

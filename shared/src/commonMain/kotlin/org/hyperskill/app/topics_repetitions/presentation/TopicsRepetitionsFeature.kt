@@ -6,6 +6,10 @@ import org.hyperskill.app.topics_repetitions.domain.model.TopicRepetitionStatist
 import kotlin.math.ceil
 
 interface TopicsRepetitionsFeature {
+    companion object {
+        const val TOPICS_PAGINATION_SIZE = 5
+    }
+
     sealed interface State {
         object Idle : State
         object Loading : State
@@ -20,8 +24,10 @@ interface TopicsRepetitionsFeature {
                 get() = topicRepetitionStatistics.totalCount > topicsRepetitions.count()
             val currentPage: Int
                 get() = ceil(
-                    topicsRepetitions.count().toFloat() / TopicsRepetitionsActionDispatcher.TOPICS_PAGINATION_SIZE
+                    topicsRepetitions.count().toFloat() / TOPICS_PAGINATION_SIZE
                 ).toInt()
+            val currentPageIsFilled: Boolean
+                get() = topicsRepetitions.size % TOPICS_PAGINATION_SIZE == 0
         }
 
         object NetworkError : State
