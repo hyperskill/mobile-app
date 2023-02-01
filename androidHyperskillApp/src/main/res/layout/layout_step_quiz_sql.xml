@@ -18,6 +18,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
+        <include layout="@layout/view_divider_vertical" />
+
         <org.hyperskill.app.android.code.view.widget.CodeEditorLayout
             android:id="@+id/codeStepLayout"
             android:layout_width="match_parent"
