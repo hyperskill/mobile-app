@@ -12,7 +12,7 @@ struct StepTheoryContentView: View {
 
     @State var viewData: StepViewData
 
-    @State var isStepTextLoaded = false
+    @State var isStepTextContentLoaded = false
 
     let startPracticingButton: StartPracticingButton?
 
@@ -28,8 +28,8 @@ struct StepTheoryContentView: View {
 
                 StepTextView(
                     text: viewData.text,
-                    onViewDidLoadContent: {
-                        isStepTextLoaded = true
+                    onContentLoaded: {
+                        isStepTextContentLoaded = true
                     }
                 )
 
@@ -50,7 +50,7 @@ extension StepTheoryContentView {
 
     @ViewBuilder
     private func buildStartPracticingButton(isFilled: Bool) -> some View {
-        if let startPracticingButton, isStepTextLoaded {
+        if let startPracticingButton, isStepTextContentLoaded {
             StepActionButton(
                 title: Strings.Step.startPracticing,
                 style: isFilled ? .violetFilled : .violetOutline,

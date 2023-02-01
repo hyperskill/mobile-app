@@ -67,7 +67,7 @@ struct StepQuizView: View {
             let viewData = viewModel.makeViewData()
 
             ScrollView {
-                LazyVStack(alignment: .leading, spacing: appearance.interItemSpacing) {
+                VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
                     StepQuizStatsView(text: viewData.formattedStats)
 
                     if case .unsupported = viewData.stepQuizChildQuizType {
