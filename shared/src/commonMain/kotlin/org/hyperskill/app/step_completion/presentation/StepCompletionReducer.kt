@@ -16,7 +16,7 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
             is Message.ContinuePracticingClicked ->
-                if (!state.isPracticingLoading && state.currentStep.topic != null) {
+                if (!state.isPracticingLoading) {
                     val analyticEvent = StepCompletionClickedContinueHyperskillAnalyticEvent(
                         route = stepRoute.analyticRoute
                     )
@@ -29,7 +29,9 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                             ContinueButtonAction.NavigateToBack -> Action.ViewAction.NavigateTo.Back
                             ContinueButtonAction.NavigateToHomeScreen -> Action.ViewAction.NavigateTo.HomeScreen
                             ContinueButtonAction.FetchNextStepQuiz -> Action.FetchNextRecommendedStep(state.currentStep)
-                            ContinueButtonAction.CheckTopicCompletion -> Action.CheckTopicCompletionStatus(state.currentStep.topic)
+                            ContinueButtonAction.CheckTopicCompletion -> state.currentStep.topic?.let {
+                                Action.CheckTopicCompletionStatus(it)
+                            } ?: Action.ViewAction.NavigateTo.Back
                         }
                     )
                 } else {
