@@ -1826,7 +1826,6 @@
 			children = (
 				2CAE8CF3280525D400E6C83D /* StepAssembly.swift */,
 				2CAE8CEF280525BE00E6C83D /* StepViewModel.swift */,
-				E9CC6C0329893D8400D8D070 /* TopicCompletedModalViewControllerDelegate.swift */,
 				2C9ECBA1284735F80015CFD2 /* ViewData */,
 				2CAE8CF5280525DB00E6C83D /* Views */,
 			);
@@ -1840,8 +1839,8 @@
 				2C9F59A629267A530008ADC5 /* StepTextView.swift */,
 				2C8409522805BF3C009C6BE9 /* StepTheoryContentView.swift */,
 				2CAE8CF1280525C900E6C83D /* StepView.swift */,
-				E97BEA1D2977D26F00348EEC /* TopicCompletedModalViewController.swift */,
 				2CAE8D0A280578A200E6C83D /* BottomControls */,
+				2CD0BA05298B985A0037479A /* Modals */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1872,8 +1871,8 @@
 			children = (
 				2CB279AE28C72AA400EDDCC8 /* DeepLinkRouterProtocol.swift */,
 				2C0EC2DE28F9E92D004A36B2 /* ModalRouter.swift */,
-				2CDF14D528EF02740060D972 /* StackRouter.swift */,
 				2C225E47281A5B6800E8ABD2 /* SourcelessRouter.swift */,
+				2CDF14D528EF02740060D972 /* StackRouter.swift */,
 				2CB279AC28C72A9500EDDCC8 /* TabBarRouter.swift */,
 			);
 			path = Routers;
@@ -1990,6 +1989,15 @@
 				2CCF3B5728004FC40075D12C /* UserAgentBuilder.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		2CD0BA05298B985A0037479A /* Modals */ = {
+			isa = PBXGroup;
+			children = (
+				E97BEA1D2977D26F00348EEC /* TopicCompletedModalViewController.swift */,
+				E9CC6C0329893D8400D8D070 /* TopicCompletedModalViewControllerDelegate.swift */,
+			);
+			path = Modals;
 			sourceTree = "<group>";
 		};
 		2CD3652328796C3000D61855 /* ViewData */ = {

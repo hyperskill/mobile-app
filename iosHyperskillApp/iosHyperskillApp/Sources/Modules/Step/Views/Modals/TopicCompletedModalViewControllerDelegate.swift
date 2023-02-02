@@ -5,7 +5,7 @@ protocol TopicCompletedModalViewControllerDelegate: AnyObject {
         _ viewController: TopicCompletedModalViewController
     )
 
-    func logTopicCompletedModalShownEvent()
+    func topicCompletedModalViewControllerDidAppear(_ viewController: TopicCompletedModalViewController)
 
-    func logTopicCompletedModalHiddenEvent()
+    func topicCompletedModalViewControllerDidDisappear(_ viewController: TopicCompletedModalViewController)
 }

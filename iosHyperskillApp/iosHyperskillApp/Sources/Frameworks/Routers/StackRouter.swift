@@ -20,10 +20,6 @@ extension StackRouterProtocol {
 class StackRouter: StackRouterProtocol {
     weak var rootViewController: UIViewController?
 
-    init(rootViewController: UIViewController? = nil) {
-        self.rootViewController = rootViewController
-    }
-
     private var navigationController: UINavigationController? {
         let navigationController: UINavigationController? =
           rootViewController?.navigationController ?? rootViewController as? UINavigationController
@@ -36,6 +32,10 @@ class StackRouter: StackRouterProtocol {
         }
 
         return navigationController
+    }
+
+    init(rootViewController: UIViewController? = nil) {
+        self.rootViewController = rootViewController
     }
 
     func pushViewController(_ viewController: UIViewController, animated: Bool) {

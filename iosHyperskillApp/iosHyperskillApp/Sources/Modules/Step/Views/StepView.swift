@@ -58,13 +58,20 @@ struct StepView: View {
     private func buildContent(data: StepFeatureStateData) -> some View {
         switch data.step.type {
         case Step.Type_.theory:
+            let startPracticingButton: StepTheoryContentView.StartPracticingButton? = {
+                guard data.isPracticingAvailable else {
+                    return nil
+                }
+
+                return .init(
+                    isLoading: data.stepCompletionState.isPracticingLoading,
+                    action: viewModel.doStartPracticing
+                )
+            }()
+
             StepTheoryContentView(
                 viewData: viewModel.makeViewData(data.step),
-                startPracticingButton: data.isPracticingAvailable ?
-                    StepTheoryContentView.StartPracticingButton(
-                        isLoading: data.stepCompletionState.isPracticingLoading,
-                        action: viewModel.doStartPracticing
-                    ) : nil
+                startPracticingButton: startPracticingButton
             )
         case Step.Type_.practice:
             StepQuizAssembly(
@@ -110,10 +117,14 @@ struct StepView: View {
     }
 
     private func dismissPanModalAndNavigateBack() {
-        panModalPresenter.dismissPanModal(
+        let isDismissed = panModalPresenter.dismissPanModal(
             animated: true,
             completion: stackRouter.popViewController
         )
+
+        if !isDismissed {
+            stackRouter.popViewController()
+        }
     }
 }
 
@@ -121,14 +132,15 @@ struct StepView: View {
 
 extension StepView {
     private func presentTopicCompletedModal(modalText: String) {
-        let panModal = TopicCompletedModalViewController(
+        let modal = TopicCompletedModalViewController(
             modalText: modalText,
             delegate: viewModel
         )
-
-        panModalPresenter.presentPanModal(panModal)
+        panModalPresenter.presentPanModal(modal)
     }
 }
+
+// MARK: - StepView_Previews: PreviewProvider -
 
 struct StepView_Previews: PreviewProvider {
     static var previews: some View {

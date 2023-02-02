@@ -95,6 +95,8 @@ import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step.injection.StepComponentImpl
 import org.hyperskill.app.step.injection.StepDataComponent
 import org.hyperskill.app.step.injection.StepDataComponentImpl
+import org.hyperskill.app.step_completion.injection.StepCompletionComponent
+import org.hyperskill.app.step_completion.injection.StepCompletionComponentImpl
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponent
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
@@ -108,8 +110,6 @@ import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponentImpl
 import org.hyperskill.app.streaks.injection.StreakFlowDataComponentImpl
 import org.hyperskill.app.streaks.injection.StreaksDataComponent
 import org.hyperskill.app.streaks.injection.StreaksDataComponentImpl
-import org.hyperskill.app.step_completion.injection.StepCompletionComponent
-import org.hyperskill.app.step_completion.injection.StepCompletionComponentImpl
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.PlatformTopicsRepetitionComponent
@@ -181,9 +181,6 @@ class AndroidAppComponentImpl(
     override val platformNotificationComponent: PlatformNotificationComponent =
         PlatformNotificationComponentImpl(application, this)
 
-    override val stepDataComponent: StepDataComponent =
-        StepDataComponentImpl(this)
-
     override fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent =
         PlatformAuthSocialWebViewComponentImpl()
 
@@ -226,6 +223,9 @@ class AndroidAppComponentImpl(
 
     override fun buildPlatformStepComponent(stepComponent: StepComponent): PlatformStepComponent =
         PlatformStepComponentImpl(stepComponent)
+
+    override fun buildStepDataComponent(): StepDataComponent =
+        StepDataComponentImpl(this)
 
     /**
      * Step quiz component

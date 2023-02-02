@@ -6,13 +6,17 @@ import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_completion.presentation.StepCompletionActionDispatcher
 import org.hyperskill.app.step_completion.presentation.StepCompletionReducer
 
-class StepCompletionComponentImpl(private val appGraph: AppGraph, private val stepRoute: StepRoute) : StepCompletionComponent {
+class StepCompletionComponentImpl(
+    private val appGraph: AppGraph,
+    private val stepRoute: StepRoute
+) : StepCompletionComponent {
     override val stepCompletionReducer: StepCompletionReducer
         get() = StepCompletionReducer(stepRoute)
+
     override val stepCompletionActionDispatcher: StepCompletionActionDispatcher
         get() = StepCompletionActionDispatcher(
             ActionDispatcherOptions(),
-            appGraph.stepDataComponent.stepInteractor,
+            appGraph.buildStepDataComponent().stepInteractor,
             appGraph.buildProgressesDataComponent().progressesInteractor,
             appGraph.buildTopicsDataComponent().topicsInteractor,
             appGraph.analyticComponent.analyticInteractor,

@@ -67,22 +67,21 @@ class StepCompletionActionDispatcher(
             is Action.CheckTopicCompletionStatus -> {
                 val topicIsCompleted = progressesInteractor
                     .getTopicProgress(action.topicId)
-                    .getOrElse {
-                        onNewMessage(Message.CheckTopicCompletionStatus.Error)
-                        return
-                    }.isCompleted
+                    .map { it.isCompleted }
+                    .getOrElse { return onNewMessage(Message.CheckTopicCompletionStatus.Error) }
 
                 if (topicIsCompleted) {
                     val topicTitle = topicsInteractor
                         .getTopic(action.topicId)
-                        .getOrElse {
-                            onNewMessage(Message.CheckTopicCompletionStatus.Error)
-                            return
-                        }.title
+                        .map { it.title }
+                        .getOrElse { return onNewMessage(Message.CheckTopicCompletionStatus.Error) }
 
                     onNewMessage(
                         Message.CheckTopicCompletionStatus.Completed(
-                            resourceProvider.getString(SharedResources.strings.step_quiz_topic_completed_modal_text, topicTitle)
+                            resourceProvider.getString(
+                                SharedResources.strings.step_quiz_topic_completed_modal_text,
+                                topicTitle
+                            )
                         )
                     )
                 } else {

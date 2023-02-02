@@ -4,7 +4,8 @@ struct StepQuizViewData {
     let formattedStats: String
 
     let stepText: String
-    let stepQuizChildQuizType: StepQuizChildQuizType
+
+    let quizType: StepQuizChildQuizType
 
     let quizName: String?
 

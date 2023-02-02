@@ -70,7 +70,7 @@ struct StepQuizView: View {
                 VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
                     StepQuizStatsView(text: viewData.formattedStats)
 
-                    if case .unsupported = viewData.stepQuizChildQuizType {
+                    if case .unsupported = viewData.quizType {
                         StepQuizStatusView(state: .unsupportedQuiz)
                     }
 
@@ -89,8 +89,8 @@ struct StepQuizView: View {
                     buildQuizContent(
                         state: viewModel.state,
                         step: viewModel.step,
-                        stepQuizName: viewData.quizName,
-                        quizType: viewData.stepQuizChildQuizType,
+                        quizName: viewData.quizName,
+                        quizType: viewData.quizType,
                         feedbackHintText: viewData.feedbackHintText
                     )
                 }
@@ -103,12 +103,12 @@ struct StepQuizView: View {
     private func buildQuizContent(
         state: StepQuizFeatureState,
         step: Step,
-        stepQuizName: String?,
+        quizName: String?,
         quizType: StepQuizChildQuizType,
         feedbackHintText: String?
     ) -> some View {
-        if let stepQuizName = stepQuizName {
-            StepQuizNameView(text: stepQuizName)
+        if let quizName {
+            StepQuizNameView(text: quizName)
         }
 
         let attemptLoadedState: StepQuizFeatureStateAttemptLoaded? = {

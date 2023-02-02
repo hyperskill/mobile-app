@@ -17,7 +17,7 @@ class StepComponentImpl(private val appGraph: AppGraph, private val stepRoute: S
     override val stepFeature: Feature<StepFeature.State, StepFeature.Message, StepFeature.Action>
         get() = StepFeatureBuilder.build(
             stepRoute,
-            appGraph.stepDataComponent.stepInteractor,
+            appGraph.buildStepDataComponent().stepInteractor,
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor,
             stepCompletionComponent.stepCompletionReducer,

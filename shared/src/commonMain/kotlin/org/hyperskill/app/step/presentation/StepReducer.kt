@@ -50,9 +50,6 @@ class StepReducer(
                 }
         } ?: (state to emptySet())
 
-    /**
-     * Reduces [Message.StepCompletionMessage] to [StepCompletionFeature.State] and set of [StepFeature.Action]
-     */
     private fun reduceStepCompletionMessage(
         state: StepCompletionFeature.State,
         message: StepCompletionFeature.Message

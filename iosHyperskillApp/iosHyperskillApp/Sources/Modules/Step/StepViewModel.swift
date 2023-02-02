@@ -80,17 +80,9 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
     }
 }
 
-extension StepViewModel: StepQuizOutputProtocol {
-    // updatePracticeLoading
-    var isPracticingLoading: Bool {
-        switch stateKs {
-        case .data(let data):
-            return data.stepCompletionState.isPracticingLoading
-        default:
-            return false
-        }
-    }
+// MARK: - StepViewModel: StepQuizOutputProtocol -
 
+extension StepViewModel: StepQuizOutputProtocol {
     func stepQuizDidRequestContinue() {
         onNewMessage(
             StepFeatureMessageStepCompletionMessage(
@@ -115,7 +107,7 @@ extension StepViewModel: TopicCompletedModalViewControllerDelegate {
         viewController.dismiss(animated: true)
     }
 
-    func logTopicCompletedModalShownEvent() {
+    func topicCompletedModalViewControllerDidAppear(_ viewController: TopicCompletedModalViewController) {
         onNewMessage(
             StepFeatureMessageStepCompletionMessage(
                 message: StepCompletionFeatureMessageTopicCompletedModalShownEventMessage()
@@ -123,7 +115,7 @@ extension StepViewModel: TopicCompletedModalViewControllerDelegate {
         )
     }
 
-    func logTopicCompletedModalHiddenEvent() {
+    func topicCompletedModalViewControllerDidDisappear(_ viewController: TopicCompletedModalViewController) {
         onNewMessage(
             StepFeatureMessageStepCompletionMessage(
                 message: StepCompletionFeatureMessageTopicCompletedModalHiddenEventMessage()

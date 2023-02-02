@@ -45,27 +45,31 @@ final class TopicCompletedModalViewController: PanModalPresentableViewController
     init(modalText: String, delegate: TopicCompletedModalViewControllerDelegate? = nil) {
         self.modalText = modalText
         self.delegate = delegate
-
         super.init()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.onDisappear = delegate?.logTopicCompletedModalHiddenEvent
-
         setup()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        delegate?.logTopicCompletedModalShownEvent()
-
         DispatchQueue.main.async {
             self.panModalSetNeedsLayoutUpdate()
             self.panModalTransition(to: .shortForm)
         }
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        delegate?.topicCompletedModalViewControllerDidAppear(self)
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        delegate?.topicCompletedModalViewControllerDidDisappear(self)
     }
 
     // MARK: Private API
