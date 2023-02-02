@@ -7,17 +7,17 @@ class TopicsRepetitionsAssembly: UIKitAssembly {
 
         let viewModel = TopicsRepetitionsViewModel(feature: topicsRepetitionsComponent.topicsRepetitionsFeature)
 
-        let pushRouter = SwiftUIPushRouter()
+        let stackRouter = SwiftUIStackRouter()
 
         let topicsRepetitionsView = TopicsRepetitionsView(
             viewModel: viewModel,
-            pushRouter: pushRouter,
+            stackRouter: stackRouter,
             dataMapper: topicsRepetitionsComponent.topicsRepetitionsViewDataMapper
         )
 
         let viewController = RemoveBackButtonTitleHostingController(rootView: topicsRepetitionsView)
 
-        pushRouter.rootViewController = viewController
+        stackRouter.rootViewController = viewController
 
         return viewController
     }

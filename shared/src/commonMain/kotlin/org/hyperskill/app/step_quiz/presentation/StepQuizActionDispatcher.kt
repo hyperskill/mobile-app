@@ -33,6 +33,7 @@ class StepQuizActionDispatcher(
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
+        // TODO: ALTAPPS-570 Move solvedStepsSharedFlow processing logic to StepCompletionFeature
         actionScope.launch {
             notificationInteractor.solvedStepsSharedFlow.collect { solvedStepId ->
                 if (notificationInteractor.isRequiredToAskUserToEnableDailyReminders()) {

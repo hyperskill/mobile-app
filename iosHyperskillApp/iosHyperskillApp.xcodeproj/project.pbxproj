@@ -290,7 +290,7 @@
 		2CDA984929445C0A00ADE539 /* ProfileStatisticsItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA984829445C0A00ADE539 /* ProfileStatisticsItemView.swift */; };
 		2CDBE6F528C10DCE00033679 /* NotificationPermissionStatusSettingsObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDBE6F428C10DCE00033679 /* NotificationPermissionStatusSettingsObserver.swift */; };
 		2CDF14D228EEF9690060D972 /* AppTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDF14D128EEF9690060D972 /* AppTabBarController.swift */; };
-		2CDF14D628EF02740060D972 /* PushRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDF14D528EF02740060D972 /* PushRouter.swift */; };
+		2CDF14D628EF02740060D972 /* StackRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDF14D528EF02740060D972 /* StackRouter.swift */; };
 		2CDF14D828EF1E080060D972 /* UINavigationControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDF14D728EF1E080060D972 /* UINavigationControllerExtensions.swift */; };
 		2CE1C4DF27EDFB3800220041 /* FeatureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE1C4DE27EDFB3800220041 /* FeatureViewModel.swift */; };
 		2CE1E189292CCB450041FE14 /* UIKitIntrospectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE1E188292CCB450041FE14 /* UIKitIntrospectionView.swift */; };
@@ -336,6 +336,7 @@
 		E9317A0228A23FD100F59373 /* UNNotificationTrigger+nextTriggerDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9317A0128A23FD100F59373 /* UNNotificationTrigger+nextTriggerDate.swift */; };
 		E9380EDA286B48A400CBF221 /* AuthNewUserPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9380ED9286B48A400CBF221 /* AuthNewUserPlaceholderView.swift */; };
 		E93B3745283E527000968DF0 /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93B3744283E527000968DF0 /* PlaceholderView.swift */; };
+		E9470C6B29810AB7008ACF9A /* StepQuizOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9470C6A29810AB7008ACF9A /* StepQuizOutputProtocol.swift */; };
 		E94A6D0B28748C3E005F9ACC /* StreakIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94A6D0A28748C3E005F9ACC /* StreakIcon.swift */; };
 		E94BC942291E89D6000B18D3 /* TopicsRepetitionsCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94BC941291E89D6000B18D3 /* TopicsRepetitionsCountView.swift */; };
 		E94BC944291E8BF5000B18D3 /* TopicsRepetitionsInfoBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94BC943291E8BF5000B18D3 /* TopicsRepetitionsInfoBlock.swift */; };
@@ -348,6 +349,7 @@
 		E95D0F302941DF000074C9F3 /* AuthNewUserPlaceholderTrackCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95D0F2F2941DF000074C9F3 /* AuthNewUserPlaceholderTrackCardView.swift */; };
 		E96E80F627EF57BA00AA6683 /* AuthSocialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */; };
 		E97704782946F47000ACD7E7 /* AuthNewUserTrackModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97704772946F47000ACD7E7 /* AuthNewUserTrackModalViewController.swift */; };
+		E97BEA1E2977D26F00348EEC /* TopicCompletedModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97BEA1D2977D26F00348EEC /* TopicCompletedModalViewController.swift */; };
 		E9802D07281BB5CC00CF3AC1 /* StepQuizChoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9802D06281BB5CC00CF3AC1 /* StepQuizChoiceView.swift */; };
 		E9859B91292E414300857679 /* RepeatButtonInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9859B90292E414300857679 /* RepeatButtonInfo.swift */; };
 		E9886D3228ABCE5C003724F9 /* OnboardingOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9886D3128ABCE5C003724F9 /* OnboardingOutputProtocol.swift */; };
@@ -386,6 +388,8 @@
 		E9C3506D2886B0FE0080D277 /* MainBundleInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C3506C2886B0FE0080D277 /* MainBundleInfo.swift */; };
 		E9C3506F2886D0600080D277 /* OpenURLInsideAppButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C3506E2886D0600080D277 /* OpenURLInsideAppButton.swift */; };
 		E9C5C93028AE105200CADDEC /* NotificationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C5C92F28AE105200CADDEC /* NotificationsService.swift */; };
+		E9CC6C0429893D8400D8D070 /* TopicCompletedModalViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CC6C0329893D8400D8D070 /* TopicCompletedModalViewControllerDelegate.swift */; };
+		E9CC6C0729893F2200D8D070 /* StepQuizInputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CC6C0629893F2200D8D070 /* StepQuizInputProtocol.swift */; };
 		E9D2D670284E0A70000757AC /* StepQuizMatchingViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2D66F284E0A70000757AC /* StepQuizMatchingViewData.swift */; };
 		E9D2D673284E0A97000757AC /* StepQuizMatchingItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2D672284E0A97000757AC /* StepQuizMatchingItemView.swift */; };
 		E9D2D675284E0B30000757AC /* StepQuizMatchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2D674284E0B30000757AC /* StepQuizMatchingView.swift */; };
@@ -707,7 +711,7 @@
 		2CDA984829445C0A00ADE539 /* ProfileStatisticsItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStatisticsItemView.swift; sourceTree = "<group>"; };
 		2CDBE6F428C10DCE00033679 /* NotificationPermissionStatusSettingsObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPermissionStatusSettingsObserver.swift; sourceTree = "<group>"; };
 		2CDF14D128EEF9690060D972 /* AppTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabBarController.swift; sourceTree = "<group>"; };
-		2CDF14D528EF02740060D972 /* PushRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushRouter.swift; sourceTree = "<group>"; };
+		2CDF14D528EF02740060D972 /* StackRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackRouter.swift; sourceTree = "<group>"; };
 		2CDF14D728EF1E080060D972 /* UINavigationControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationControllerExtensions.swift; sourceTree = "<group>"; };
 		2CE1C4DE27EDFB3800220041 /* FeatureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureViewModel.swift; sourceTree = "<group>"; };
 		2CE1E188292CCB450041FE14 /* UIKitIntrospectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitIntrospectionView.swift; sourceTree = "<group>"; };
@@ -757,6 +761,7 @@
 		E9317A0128A23FD100F59373 /* UNNotificationTrigger+nextTriggerDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UNNotificationTrigger+nextTriggerDate.swift"; sourceTree = "<group>"; };
 		E9380ED9286B48A400CBF221 /* AuthNewUserPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNewUserPlaceholderView.swift; sourceTree = "<group>"; };
 		E93B3744283E527000968DF0 /* PlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderView.swift; sourceTree = "<group>"; };
+		E9470C6A29810AB7008ACF9A /* StepQuizOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizOutputProtocol.swift; sourceTree = "<group>"; };
 		E94A6D0A28748C3E005F9ACC /* StreakIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakIcon.swift; sourceTree = "<group>"; };
 		E94BC941291E89D6000B18D3 /* TopicsRepetitionsCountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsRepetitionsCountView.swift; sourceTree = "<group>"; };
 		E94BC943291E8BF5000B18D3 /* TopicsRepetitionsInfoBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsRepetitionsInfoBlock.swift; sourceTree = "<group>"; };
@@ -769,6 +774,7 @@
 		E95D0F2F2941DF000074C9F3 /* AuthNewUserPlaceholderTrackCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNewUserPlaceholderTrackCardView.swift; sourceTree = "<group>"; };
 		E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialViewModel.swift; sourceTree = "<group>"; };
 		E97704772946F47000ACD7E7 /* AuthNewUserTrackModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNewUserTrackModalViewController.swift; sourceTree = "<group>"; };
+		E97BEA1D2977D26F00348EEC /* TopicCompletedModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicCompletedModalViewController.swift; sourceTree = "<group>"; };
 		E9802D06281BB5CC00CF3AC1 /* StepQuizChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChoiceView.swift; sourceTree = "<group>"; };
 		E9859B90292E414300857679 /* RepeatButtonInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatButtonInfo.swift; sourceTree = "<group>"; };
 		E9886D3128ABCE5C003724F9 /* OnboardingOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingOutputProtocol.swift; sourceTree = "<group>"; };
@@ -807,6 +813,8 @@
 		E9C3506C2886B0FE0080D277 /* MainBundleInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainBundleInfo.swift; sourceTree = "<group>"; };
 		E9C3506E2886D0600080D277 /* OpenURLInsideAppButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenURLInsideAppButton.swift; sourceTree = "<group>"; };
 		E9C5C92F28AE105200CADDEC /* NotificationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsService.swift; sourceTree = "<group>"; };
+		E9CC6C0329893D8400D8D070 /* TopicCompletedModalViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicCompletedModalViewControllerDelegate.swift; sourceTree = "<group>"; };
+		E9CC6C0629893F2200D8D070 /* StepQuizInputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizInputProtocol.swift; sourceTree = "<group>"; };
 		E9D2D66F284E0A70000757AC /* StepQuizMatchingViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingViewData.swift; sourceTree = "<group>"; };
 		E9D2D672284E0A97000757AC /* StepQuizMatchingItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingItemView.swift; sourceTree = "<group>"; };
 		E9D2D674284E0B30000757AC /* StepQuizMatchingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingView.swift; sourceTree = "<group>"; };
@@ -1319,6 +1327,7 @@
 				2CD48D842858638A00CFCC4A /* StepQuizAssembly.swift */,
 				2CD48D862858639500CFCC4A /* StepQuizViewModel.swift */,
 				2C1061A0285C341C00EBD614 /* ChildProtocols */,
+				E9CC6C0529893EFC00D8D070 /* InputOutput */,
 				2CD48D8C28586B5C00CFCC4A /* ViewData */,
 				2C41127528376ECE004948A3 /* Views */,
 			);
@@ -1829,12 +1838,12 @@
 		2CAE8CF5280525DB00E6C83D /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2CAE8D0428055D8300E6C83D /* StepActionButton.swift */,
 				2CAE8CF628052F9600E6C83D /* StepHeaderView.swift */,
 				2C9F59A629267A530008ADC5 /* StepTextView.swift */,
 				2C8409522805BF3C009C6BE9 /* StepTheoryContentView.swift */,
 				2CAE8CF1280525C900E6C83D /* StepView.swift */,
 				2CAE8D0A280578A200E6C83D /* BottomControls */,
+				2CD0BA05298B985A0037479A /* Modals */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1842,6 +1851,7 @@
 		2CAE8D0A280578A200E6C83D /* BottomControls */ = {
 			isa = PBXGroup;
 			children = (
+				2CAE8D0428055D8300E6C83D /* StepActionButton.swift */,
 				2CAE8D06280576C500E6C83D /* StepBottomControlsView.swift */,
 				2CAE8D082805789100E6C83D /* StepCommentsStatisticsView.swift */,
 				2C84094E2805B28B009C6BE9 /* StepRatingControl.swift */,
@@ -1864,8 +1874,8 @@
 			children = (
 				2CB279AE28C72AA400EDDCC8 /* DeepLinkRouterProtocol.swift */,
 				2C0EC2DE28F9E92D004A36B2 /* ModalRouter.swift */,
-				2CDF14D528EF02740060D972 /* PushRouter.swift */,
 				2C225E47281A5B6800E8ABD2 /* SourcelessRouter.swift */,
+				2CDF14D528EF02740060D972 /* StackRouter.swift */,
 				2CB279AC28C72A9500EDDCC8 /* TabBarRouter.swift */,
 			);
 			path = Routers;
@@ -1982,6 +1992,15 @@
 				2CCF3B5728004FC40075D12C /* UserAgentBuilder.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		2CD0BA05298B985A0037479A /* Modals */ = {
+			isa = PBXGroup;
+			children = (
+				E97BEA1D2977D26F00348EEC /* TopicCompletedModalViewController.swift */,
+				E9CC6C0329893D8400D8D070 /* TopicCompletedModalViewControllerDelegate.swift */,
+			);
+			path = Modals;
 			sourceTree = "<group>";
 		};
 		2CD3652328796C3000D61855 /* ViewData */ = {
@@ -2414,6 +2433,15 @@
 			path = Chart;
 			sourceTree = "<group>";
 		};
+		E9CC6C0529893EFC00D8D070 /* InputOutput */ = {
+			isa = PBXGroup;
+			children = (
+				E9CC6C0629893F2200D8D070 /* StepQuizInputProtocol.swift */,
+				E9470C6A29810AB7008ACF9A /* StepQuizOutputProtocol.swift */,
+			);
+			path = InputOutput;
+			sourceTree = "<group>";
+		};
 		E9D2D66E284E0A5D000757AC /* StepQuizMatching */ = {
 			isa = PBXGroup;
 			children = (
@@ -2831,6 +2859,7 @@
 				E9A6250F28ABAE83009423EE /* OnboardingViewModel.swift in Sources */,
 				2C65637628743F5B006AAD77 /* TrackAboutStatsView.swift in Sources */,
 				E9F504D029128B5300B788C7 /* StepQuizHintsAssembly.swift in Sources */,
+				E97BEA1E2977D26F00348EEC /* TopicCompletedModalViewController.swift in Sources */,
 				2CEEE03128916A3100282849 /* ProblemOfDayAssembly.swift in Sources */,
 				2C8E4FB628490C020011ADFA /* PanModalPresenter.swift in Sources */,
 				2C55133B28B8DFE8009F7627 /* Debouncer.swift in Sources */,
@@ -2925,13 +2954,14 @@
 				2C963BCA2812D3550036DD53 /* ProfileSettingsView.swift in Sources */,
 				2C772E7D28ABB4E500A58758 /* AppleIDSocialAuthSDKProvider.swift in Sources */,
 				2C963BCC2812D9330036DD53 /* ProfileSettingsAssembly.swift in Sources */,
+				E9470C6B29810AB7008ACF9A /* StepQuizOutputProtocol.swift in Sources */,
 				2C079687285CFFF500EE0487 /* StepQuizSortingAssembly.swift in Sources */,
 				2C58DE2B2803DEE2002A2774 /* VerticalCenteredScrollView.swift in Sources */,
 				2CD48D892858657100CFCC4A /* StepQuizView.swift in Sources */,
 				2C8E4FA12848BF1F0011ADFA /* StepQuizTableSelectColumnsViewController.swift in Sources */,
 				2C1F5877280D2B4800372A37 /* ApplicationInfo.swift in Sources */,
 				2C20FBBE284F658E006D879E /* ProcessedContentTextView.swift in Sources */,
-				2CDF14D628EF02740060D972 /* PushRouter.swift in Sources */,
+				2CDF14D628EF02740060D972 /* StackRouter.swift in Sources */,
 				2C20FBAE284F1D05006D879E /* FontWeightNameMapping.swift in Sources */,
 				2C2D4932281154CB00753F16 /* Injection.swift in Sources */,
 				2CB45764288ED6D4007C2D77 /* StepQuizActionButtonCodeQuizDelegate.swift in Sources */,
@@ -2950,6 +2980,7 @@
 				2C906CBE280E5D9C0079C594 /* ProgressHUD.swift in Sources */,
 				2CA8E094281039EB00154088 /* RoundedRectangleButtonStyle.swift in Sources */,
 				2C2FF9C928506FDE0069C092 /* LatexView.swift in Sources */,
+				E9CC6C0729893F2200D8D070 /* StepQuizInputProtocol.swift in Sources */,
 				2C96743728882A0C0091B6C9 /* StepQuizCodeDetailsView.swift in Sources */,
 				2C20FBC7284F6928006D879E /* ProgrammaticallyInitializableViewProtocol.swift in Sources */,
 				2CDA983D294438BB00ADE539 /* TrackTopicsToDiscoverNextSkeletonBlockView.swift in Sources */,
@@ -3048,6 +3079,7 @@
 				E9B3A18C2828093800FE248B /* StepQuizActionButton.swift in Sources */,
 				2C567E89297FC44F00585EFB /* View+HiddenWithCondition.swift in Sources */,
 				2C93C2D2292E574F004D1861 /* HyperskillSentryLevel+SentryLevel.swift in Sources */,
+				E9CC6C0429893D8400D8D070 /* TopicCompletedModalViewControllerDelegate.swift in Sources */,
 				E9317A0228A23FD100F59373 /* UNNotificationTrigger+nextTriggerDate.swift in Sources */,
 				2C725B632809198000A49043 /* BackgroundView.swift in Sources */,
 				2CC78D0E28C75A3D0006EF91 /* UIViewControllerExtensions.swift in Sources */,

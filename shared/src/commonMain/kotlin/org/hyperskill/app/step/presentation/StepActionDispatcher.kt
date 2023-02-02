@@ -36,6 +36,7 @@ class StepActionDispatcher(
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
+            else -> {}
         }
     }
 }

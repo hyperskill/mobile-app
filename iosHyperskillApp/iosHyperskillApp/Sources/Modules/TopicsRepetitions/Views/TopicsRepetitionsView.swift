@@ -15,7 +15,7 @@ struct TopicsRepetitionsView: View {
 
     @StateObject var viewModel: TopicsRepetitionsViewModel
 
-    @StateObject var pushRouter: SwiftUIPushRouter
+    @StateObject var stackRouter: SwiftUIStackRouter
 
     let dataMapper: TopicsRepetitionsViewDataMapper
 
@@ -120,7 +120,7 @@ struct TopicsRepetitionsView: View {
             switch TopicsRepetitionsFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .stepScreen(let data):
                 let assembly = StepAssembly(stepRoute: StepRouteRepeat(stepId: data.stepId))
-                pushRouter.pushViewController(assembly.makeModule())
+                stackRouter.pushViewController(assembly.makeModule())
             }
         }
     }
