@@ -4,6 +4,8 @@ import SwiftUI
 extension TopicToDiscoverNextButtonView {
     struct Appearance {
         let topicIconWidthHeight: CGFloat = 12
+
+        let learnNextBadgeVerticalPadding: CGFloat = 4
     }
 }
 
@@ -11,6 +13,7 @@ struct TopicToDiscoverNextButtonView: View {
     private(set) var appearance = Appearance()
 
     let topic: Topic
+    let isLearnNext: Bool
     let onTap: () -> Void
 
     var body: some View {
@@ -49,17 +52,43 @@ struct TopicToDiscoverNextButtonView: View {
         )
         .buttonStyle(OutlineButtonStyle(borderColor: .border, alignment: .leading))
         .background(
+            completenessBar(
+                completenessPercentage: topic.progress?.completenessPercentage ?? 0
+            )
+        )
+        .overlay(learnNextBadge, alignment: .topLeading)
+    }
+
+    // MARK: Private API
+
+    @ViewBuilder private func completenessBar(completenessPercentage: Float) -> some View {
+        GeometryReader { geometry in
+            Rectangle()
+                .stroke(lineWidth: 0)
+                .background(Color(ColorPalette.overlayGreenAlpha7))
+                .cornerRadius(8)
+                .frame(width: geometry.size.width * CGFloat(completenessPercentage) / 100)
+        }
+    }
+
+    @ViewBuilder private var learnNextBadge: some View {
+        if isLearnNext {
             GeometryReader { geometry in
-                Rectangle()
-                    .stroke(lineWidth: 0)
-                    .background(Color(ColorPalette.overlayGreenAlpha7))
-                    .cornerRadius(8)
-                    .frame(
-                        width: geometry.size.width *
-                        CGFloat(topic.progress?.completenessPercentage ?? 0) / 100
+                Text("Learn next")
+                    .font(.caption)
+                    .foregroundColor(Color(ColorPalette.primary))
+                    .padding(.horizontal, LayoutInsets.smallInset)
+                    .padding(.vertical, appearance.learnNextBadgeVerticalPadding)
+                    .background(Color(ColorPalette.surface))
+                    .addBorder(color: Color(ColorPalette.primaryAlpha38))
+                    .offset(
+                        CGSize(
+                            width: LayoutInsets.defaultInset,
+                            height: -geometry.size.height / 4
+                        )
                     )
             }
-        )
+        }
     }
 }
 
@@ -81,6 +110,7 @@ struct TopicToDiscoverNextButtonView_Previews: PreviewProvider {
                         capacity: 0
                     )
                 ),
+                isLearnNext: false,
                 onTap: {}
             )
 
@@ -99,6 +129,7 @@ struct TopicToDiscoverNextButtonView_Previews: PreviewProvider {
                         capacity: 0
                     )
                 ),
+                isLearnNext: false,
                 onTap: {}
             )
 
@@ -117,6 +148,7 @@ struct TopicToDiscoverNextButtonView_Previews: PreviewProvider {
                         capacity: 0.4
                     )
                 ),
+                isLearnNext: true,
                 onTap: {}
             )
         }
