@@ -1,12 +1,12 @@
-package org.hyperskill.app.android.topics.delegate
+package org.hyperskill.app.android.topics.view.delegate
 
 import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.VerticalMarginItemDecoration
-import org.hyperskill.app.android.topics.adapter_delegate.TopicAdapterDelegate
-import org.hyperskill.app.android.topics.view.TopicListItem
+import org.hyperskill.app.android.topics.view.adapter_delegate.TopicAdapterDelegate
+import org.hyperskill.app.android.topics.view.model.TopicListItem
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
 import ru.nobird.android.ui.adapterdelegates.dsl.adapterDelegate
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter

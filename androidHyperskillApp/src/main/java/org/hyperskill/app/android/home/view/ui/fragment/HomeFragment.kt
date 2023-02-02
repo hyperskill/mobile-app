@@ -23,7 +23,7 @@ import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.Gamifica
 import org.hyperskill.app.android.problem_of_day.view.delegate.ProblemOfDayCardFormDelegate
 import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
 import org.hyperskill.app.android.step.view.screen.StepScreen
-import org.hyperskill.app.android.topics.delegate.TopicsToDiscoverNextDelegate
+import org.hyperskill.app.android.topics.view.delegate.TopicsToDiscoverNextDelegate
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionCardFormDelegate
 import org.hyperskill.app.android.topics_repetitions.view.screen.TopicsRepetitionScreen
 import org.hyperskill.app.android.view.base.ui.extension.snackbar

@@ -25,7 +25,7 @@ import org.hyperskill.app.android.databinding.FragmentTrackBinding
 import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.GamificationToolbarDelegate
 import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
 import org.hyperskill.app.android.step.view.screen.StepScreen
-import org.hyperskill.app.android.topics.delegate.TopicsToDiscoverNextDelegate
+import org.hyperskill.app.android.topics.view.delegate.TopicsToDiscoverNextDelegate
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature

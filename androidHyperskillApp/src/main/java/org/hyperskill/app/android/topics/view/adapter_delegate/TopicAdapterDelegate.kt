@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.topics.adapter_delegate
+package org.hyperskill.app.android.topics.view.adapter_delegate
 
 import android.view.View
 import android.view.ViewGroup
@@ -7,7 +7,7 @@ import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.ItemTopicBinding
-import org.hyperskill.app.android.topics.view.TopicListItem
+import org.hyperskill.app.android.topics.view.model.TopicListItem
 import ru.nobird.android.ui.adapterdelegates.AdapterDelegate
 import ru.nobird.android.ui.adapterdelegates.DelegateViewHolder
 import ru.nobird.app.core.model.safeCast

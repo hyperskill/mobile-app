@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.topics.view
+package org.hyperskill.app.android.topics.view.model
 
 import androidx.annotation.DrawableRes
 import org.hyperskill.app.topics.domain.model.Topic as DomainTopic
