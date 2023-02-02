@@ -321,4 +321,7 @@
     <!-- Text for receiving notification after daily step is complete -->
     <string name="after_daily_step_completed_dialog_title">Stay motivated with daily reminders</string>
     <string name="after_daily_step_completed_dialog_text">The app will send you notifications to practice everyday and keep up your learning streak</string>
+
+    <!--Topics widget-->
+    <string name="topics_widget_learn_next_badge">Learn next</string>
 </resources>
