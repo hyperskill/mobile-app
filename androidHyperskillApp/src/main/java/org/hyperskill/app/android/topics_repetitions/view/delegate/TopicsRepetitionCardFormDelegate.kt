@@ -44,7 +44,7 @@ class TopicsRepetitionCardFormDelegate {
                 if (recommendedRepetitionsCount > 0) {
                     org.hyperskill.app.R.string.topics_repetitions_card_title_uncompleted
                 } else {
-                    org.hyperskill.app.R.string.topics_repetitions_card_title_completed
+                    org.hyperskill.app.R.string.good_job
                 }
             )
         }

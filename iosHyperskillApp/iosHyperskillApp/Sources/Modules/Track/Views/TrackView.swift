@@ -18,7 +18,7 @@ struct TrackView: View {
 
     @StateObject var viewModel: TrackViewModel
 
-    @StateObject var pushRouter: SwiftUIPushRouter
+    @StateObject var stackRouter: SwiftUIStackRouter
 
     var body: some View {
         ZStack {
@@ -141,7 +141,7 @@ struct TrackView: View {
             switch TopicsToDiscoverNextFeatureActionViewActionKs(topicsToDiscoverNextViewAction.viewAction) {
             case .showStepScreen(let data):
                 let assembly = StepAssembly(stepRoute: StepRouteLearn(stepId: data.stepId))
-                pushRouter.pushViewController(assembly.makeModule())
+                stackRouter.pushViewController(assembly.makeModule())
             }
         }
     }

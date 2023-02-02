@@ -6,14 +6,11 @@ import org.hyperskill.app.reactions.domain.model.ReactionType
 import org.hyperskill.app.step.domain.model.CommentThread
 import org.hyperskill.app.step.domain.model.Step
 
-interface StepQuizHintsFeature {
-    companion object {
-        fun isHintsFeatureAvailable(step: Step): Boolean =
-            step.commentsStatistics.any { it.thread == CommentThread.HINT && it.totalCount > 0 }
-    }
+object StepQuizHintsFeature {
+    fun isHintsFeatureAvailable(step: Step): Boolean =
+        step.commentsStatistics.any { it.thread == CommentThread.HINT && it.totalCount > 0 }
 
-    sealed interface State {
-
+    internal sealed interface State {
         object Idle : State
 
         /**
@@ -26,7 +23,7 @@ interface StepQuizHintsFeature {
          *
          * @property hintsIds remaining hints to be displayed
          * @property currentHint current hint to be displayed
-         * @property hintHasReaction flag true, if user created reaction or reprted hint
+         * @property hintHasReaction flag true, if user created reaction or reported hint
          * @property isDailyStep used for analytic route
          * @property stepId used for analytic route
          */
@@ -54,6 +51,32 @@ interface StepQuizHintsFeature {
         ) : State
     }
 
+    sealed interface ViewState {
+        object Idle : ViewState
+
+        object InitialLoading : ViewState
+
+        object HintLoading : ViewState
+
+        sealed interface Content : ViewState {
+            object SeeHintButton : Content
+            data class HintCard(
+                val authorAvatar: String,
+                val authorName: String,
+                val hintText: String,
+                val hintState: HintState
+            ) : Content
+        }
+
+        object Error : ViewState
+
+        enum class HintState {
+            REACT_TO_HINT,
+            SEE_NEXT_HINT,
+            LAST_HINT
+        }
+    }
+
     sealed interface Message {
         /**
          * Trigger of state initialization
@@ -72,6 +95,7 @@ interface StepQuizHintsFeature {
         data class HintsIdsLoaded(
             val hintsIds: List<Long>,
             val lastSeenHint: Comment?,
+            val lastSeenHintHasReaction: Boolean,
             val isDailyStep: Boolean,
             val stepId: Long
         ) : Message

@@ -26,6 +26,7 @@ import org.hyperskill.app.android.step_theory.view.model.StepTheoryRating
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.step.domain.model.CommentStatisticsEntry
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.view.mapper.CommentThreadTitleMapper
 import ru.nobird.android.ui.adapterdelegates.dsl.adapterDelegate
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
@@ -35,9 +36,11 @@ class StepTheoryFragment : Fragment(R.layout.fragment_step_theory) {
     companion object {
         private const val STEP_CONTENT_FRAGMENT_TAG = "step_content"
         private const val KEY_STEP = "key_step"
-        fun newInstance(step: Step): Fragment {
+        private const val KEY_STEP_ROUTE = "key_step_route"
+        fun newInstance(step: Step, stepRoute: StepRoute): Fragment {
             val arguments = Bundle().apply {
                 putParcelable(KEY_STEP, step)
+                putParcelable(KEY_STEP_ROUTE, stepRoute)
             }
             return StepTheoryFragment().apply {
                 this.arguments = arguments
@@ -53,15 +56,17 @@ class StepTheoryFragment : Fragment(R.layout.fragment_step_theory) {
     private val stepCommentStatisticsAdapter: DefaultDelegateAdapter<CommentStatisticsEntry> = DefaultDelegateAdapter()
 
     private lateinit var step: Step
+    private lateinit var stepRoute: StepRoute
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponent()
         step = requireArguments().getParcelable<Step>(KEY_STEP) ?: throw IllegalStateException("Step cannot be null")
+        stepRoute = requireArguments().getParcelable<StepRoute>(KEY_STEP_ROUTE) ?: throw IllegalStateException("Step route cannot be null")
     }
 
     private fun injectComponent() {
-        val stepComponent = HyperskillApp.graph().buildStepComponent()
+        val stepComponent = HyperskillApp.graph().buildStepComponent(stepRoute)
         resourceProvider = HyperskillApp.graph().commonComponent.resourceProvider
         commentThreadTitleMapper = stepComponent.commentThreadTitleMapper
     }

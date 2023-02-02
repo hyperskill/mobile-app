@@ -10,6 +10,9 @@ final class StepQuizViewModel: FeatureViewModel<
     let step: Step
     let stepRoute: StepRoute
 
+    weak var moduleOutput: StepQuizOutputProtocol?
+    private let provideModuleInputCallback: (StepQuizInputProtocol?) -> Void
+
     weak var childQuizModuleInput: StepQuizChildQuizInputProtocol?
     private var updateChildQuizSubscription: AnyCancellable?
 
@@ -21,9 +24,13 @@ final class StepQuizViewModel: FeatureViewModel<
 
     var stateKs: StepQuizFeatureStateKs { .init(state) }
 
+    @Published var isPracticingLoading = false
+
     init(
         step: Step,
         stepRoute: StepRoute,
+        moduleOutput: StepQuizOutputProtocol?,
+        provideModuleInputCallback: @escaping (StepQuizInputProtocol?) -> Void,
         viewDataMapper: StepQuizViewDataMapper,
         userPermissionRequestTextMapper: StepQuizUserPermissionRequestTextMapper,
         notificationService: NotificationsService,
@@ -32,6 +39,8 @@ final class StepQuizViewModel: FeatureViewModel<
     ) {
         self.step = step
         self.stepRoute = stepRoute
+        self.moduleOutput = moduleOutput
+        self.provideModuleInputCallback = provideModuleInputCallback
         self.viewDataMapper = viewDataMapper
         self.userPermissionRequestTextMapper = userPermissionRequestTextMapper
         self.notificationService = notificationService
@@ -56,6 +65,10 @@ final class StepQuizViewModel: FeatureViewModel<
         return StepQuizFeatureStateKs(oldState) != StepQuizFeatureStateKs(newState)
     }
 
+    func doProvideModuleInput() {
+        provideModuleInputCallback(self)
+    }
+
     func loadAttempt(forceUpdate: Bool = false) {
         onNewMessage(StepQuizFeatureMessageInitWithStep(step: step, forceUpdate: forceUpdate))
     }
@@ -78,7 +91,7 @@ final class StepQuizViewModel: FeatureViewModel<
     }
 
     func doQuizContinueAction() {
-        onNewMessage(StepQuizFeatureMessageContinueClicked())
+        moduleOutput?.stepQuizDidRequestContinue()
     }
 
     func doGoBackAction() {
@@ -182,5 +195,13 @@ extension StepQuizViewModel: StepQuizChildQuizOutputProtocol {
 
     func handleChildQuizAnalyticEventMessage(_ message: StepQuizFeatureMessage) {
         onNewMessage(message)
+    }
+}
+
+// MARK: - StepQuizViewModel: StepQuizInputProtocol -
+
+extension StepQuizViewModel: StepQuizInputProtocol {
+    func update(isPracticingLoading: Bool) {
+        self.isPracticingLoading = isPracticingLoading
     }
 }

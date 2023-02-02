@@ -3,16 +3,16 @@ package org.hyperskill.app.step_quiz_hints.injection
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.comments.domain.interactor.CommentsInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.likes.domain.interactor.LikesInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.reactions.domain.interactor.ReactionsInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step_quiz_hints.domain.interactor.StepQuizHintsInteractor
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsActionDispatcher
-import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.Action
-import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.Message
-import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.State
+import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
+import org.hyperskill.app.step_quiz_hints.view.mapper.StepQuizHintsViewStateMapper
 import org.hyperskill.app.user_storage.domain.interactor.UserStorageInteractor
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
@@ -28,7 +28,7 @@ object StepQuizHintsFeatureBuilder {
         userStorageInteractor: UserStorageInteractor,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor
-    ): Feature<State, Message, Action> {
+    ): Feature<StepQuizHintsFeature.ViewState, StepQuizHintsFeature.Message, StepQuizHintsFeature.Action> {
         val stepQuizHintsReducer = StepQuizHintsReducer()
 
         val stepQuizHintsDispatcher = StepQuizHintsActionDispatcher(
@@ -43,7 +43,8 @@ object StepQuizHintsFeatureBuilder {
             sentryInteractor
         )
 
-        return ReduxFeature(State.Idle, stepQuizHintsReducer)
+        return ReduxFeature(StepQuizHintsFeature.State.Idle, stepQuizHintsReducer)
+            .transformState(StepQuizHintsViewStateMapper::mapState)
             .wrapWithActionDispatcher(stepQuizHintsDispatcher)
     }
 }

@@ -17,16 +17,23 @@ struct StepQuizView: View {
     @StateObject var viewModel: StepQuizViewModel
 
     @EnvironmentObject private var modalRouter: SwiftUIModalRouter
-
-    @EnvironmentObject var pushRouter: SwiftUIPushRouter
-
-    @EnvironmentObject var panModalPresenter: PanModalPresenter
-
-    @Environment(\.presentationMode) private var presentationMode
+    @EnvironmentObject private var stackRouter: SwiftUIStackRouter
+    @EnvironmentObject private var panModalPresenter: PanModalPresenter
 
     var body: some View {
         buildBody()
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    if viewModel.stepRoute is StepRouteRepeat,
+                       let theoryID = viewModel.step.topicTheory {
+                        Button(Strings.Step.theory) {
+                            let assembly = StepAssembly(stepRoute: StepRouteRepeat(stepId: theoryID.int64Value))
+                            stackRouter.pushViewController(assembly.makeModule())
+                        }
+                    }
+                }
+            }
             .onAppear {
                 viewModel.startListening()
                 viewModel.onViewAction = handleViewAction(_:)
@@ -34,18 +41,12 @@ struct StepQuizView: View {
                 if viewModel.state is StepQuizFeatureStateIdle {
                     viewModel.loadAttempt()
                 }
+
+                viewModel.doProvideModuleInput()
             }
-            .onDisappear(perform: viewModel.stopListening)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    if viewModel.stepRoute is StepRouteRepeat,
-                       let theoryID = viewModel.step.topicTheory {
-                        Button(Strings.Step.theory) {
-                            let assembly = StepAssembly(stepRoute: StepRouteRepeat(stepId: theoryID.int64Value))
-                            pushRouter.pushViewController(assembly.makeModule())
-                        }
-                    }
-                }
+            .onDisappear {
+                viewModel.stopListening()
+                viewModel.onViewAction = nil
             }
     }
 
@@ -65,13 +66,11 @@ struct StepQuizView: View {
         } else {
             let viewData = viewModel.makeViewData()
 
-            let quizType = StepQuizChildQuizType(blockName: viewData.stepBlockName)
-
             ScrollView {
-                LazyVStack(alignment: .leading, spacing: appearance.interItemSpacing) {
+                VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
                     StepQuizStatsView(text: viewData.formattedStats)
 
-                    if case .unsupported = quizType {
+                    if case .unsupported = viewData.quizType {
                         StepQuizStatusView(state: .unsupportedQuiz)
                     }
 
@@ -90,8 +89,8 @@ struct StepQuizView: View {
                     buildQuizContent(
                         state: viewModel.state,
                         step: viewModel.step,
-                        stepQuizName: viewData.quizName,
-                        quizType: quizType,
+                        quizName: viewData.quizName,
+                        quizType: viewData.quizType,
                         feedbackHintText: viewData.feedbackHintText
                     )
                 }
@@ -104,12 +103,12 @@ struct StepQuizView: View {
     private func buildQuizContent(
         state: StepQuizFeatureState,
         step: Step,
-        stepQuizName: String?,
+        quizName: String?,
         quizType: StepQuizChildQuizType,
         feedbackHintText: String?
     ) -> some View {
-        if let stepQuizName = stepQuizName {
-            StepQuizNameView(text: stepQuizName)
+        if let quizName {
+            StepQuizNameView(text: quizName)
         }
 
         let attemptLoadedState: StepQuizFeatureStateAttemptLoaded? = {
@@ -201,25 +200,31 @@ struct StepQuizView: View {
                 )
                 .disabled(StepQuizResolver.shared.isQuizLoading(state: state))
             } else if StepQuizResolver.shared.isNeedRecreateAttemptForNewSubmission(step: viewModel.step) {
-                StepQuizActionButtons
-                    .retry(action: viewModel.doQuizRetryAction)
+                StepQuizActionButtons.retry(action: viewModel.doQuizRetryAction)
                     .disabled(StepQuizResolver.shared.isQuizLoading(state: state))
             } else {
-                StepQuizActionButtons
-                    .submit(state: .init(submissionStatus: submissionStatus), action: viewModel.doMainQuizAction)
-                    .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
+                StepQuizActionButtons.submit(
+                    state: .init(submissionStatus: submissionStatus),
+                    action: viewModel.doMainQuizAction
+                )
+                .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
             }
         } else if submissionStatus == SubmissionStatus.correct {
             if StepQuizResolver.shared.isQuizRetriable(step: viewModel.step) {
                 StepQuizActionButtons.retryLogoAndContinue(
                     retryButtonAction: viewModel.doQuizRetryAction,
-                    continueButtonAction: viewModel.doQuizContinueAction
+                    continueButton: .init(
+                        isLoading: viewModel.isPracticingLoading,
+                        action: viewModel.doQuizContinueAction
+                    )
+                )
+                .disabled(StepQuizResolver.shared.isQuizLoading(state: state) || viewModel.isPracticingLoading)
+            } else {
+                StepQuizActionButtons.continue(
+                    isLoading: viewModel.isPracticingLoading,
+                    action: viewModel.doQuizContinueAction
                 )
                 .disabled(StepQuizResolver.shared.isQuizLoading(state: state))
-            } else {
-                StepQuizActionButtons
-                    .continue(action: viewModel.doQuizContinueAction)
-                    .disabled(StepQuizResolver.shared.isQuizLoading(state: state))
             }
         } else {
             if quizType.isCodeOrSQL {
@@ -256,7 +261,7 @@ struct StepQuizView: View {
         case .navigateTo(let viewActionNavigateTo):
             switch StepQuizFeatureActionViewActionNavigateToKs(viewActionNavigateTo) {
             case .back:
-                presentationMode.wrappedValue.dismiss()
+                stackRouter.popViewController()
             }
         }
     }
@@ -320,18 +325,23 @@ extension StepQuizView {
 
         modalRouter.presentAlert(alert)
     }
+}
 
+// MARK: - StepQuizView (Modals) -
+
+extension StepQuizView {
     private func presentDailyStepCompletedModal(earnedGemsText: String) {
         viewModel.logDailyStepCompletedModalShownEvent()
 
         let panModal = ProblemOfDaySolvedModalViewController(
             earnedGemsText: earnedGemsText,
-            onGoBackButtonTap: {
-                viewModel.doGoBackAction()
+            onGoBackButtonTap: { [weak viewModel] in
+                viewModel?.doGoBackAction()
             }
         )
-
-        panModal.onDisappear = viewModel.logDailyStepCompletedModalHiddenEvent
+        panModal.onDisappear = { [weak viewModel] in
+            viewModel?.logDailyStepCompletedModalHiddenEvent()
+        }
 
         panModalPresenter.presentPanModal(panModal)
     }

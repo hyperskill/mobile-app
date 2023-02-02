@@ -13,7 +13,7 @@ class StepQuizHintsComponentImpl(private val appGraph: AppGraph) : StepQuizHints
             appGraph.buildCommentsDataComponent().commentsRepository
         )
 
-    override val stepQuizHintsFeature: Feature<StepQuizHintsFeature.State, StepQuizHintsFeature.Message, StepQuizHintsFeature.Action>
+    override val stepQuizHintsFeature: Feature<StepQuizHintsFeature.ViewState, StepQuizHintsFeature.Message, StepQuizHintsFeature.Action>
         get() = StepQuizHintsFeatureBuilder.build(
             stepQuizHintsInteractor,
             appGraph.buildProfileDataComponent().profileInteractor,

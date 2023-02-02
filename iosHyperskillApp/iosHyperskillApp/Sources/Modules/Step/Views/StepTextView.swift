@@ -2,6 +2,8 @@ import SnapKit
 import SwiftUI
 import UIKit
 
+// MARK: - StepTextView -
+
 struct StepTextView: UIViewRepresentable {
     typealias UIViewType = StepTextUIKitView
 
@@ -9,12 +11,72 @@ struct StepTextView: UIViewRepresentable {
 
     var appearance = StepTextUIKitView.Appearance()
 
+    var onContentLoaded: (() -> Void)?
+
+    // MARK: UIViewRepresentable
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator()
+    }
+
     func makeUIView(context: Context) -> StepTextUIKitView {
-        StepTextUIKitView(appearance: appearance)
+        let view = StepTextUIKitView(appearance: appearance)
+        view.processedContentView.delegate = context.coordinator
+        return view
     }
 
     func updateUIView(_ uiView: StepTextUIKitView, context: Context) {
         uiView.setText(text)
+
+        context.coordinator.onContentLoaded = { [weak uiView] in
+            uiView?.invalidateLayout()
+            onContentLoaded?()
+        }
+        context.coordinator.onHeightUpdated = { [weak uiView] _ in
+            uiView?.invalidateLayout()
+        }
+        context.coordinator.onOpenImageURL = Self.openURLInTheWeb
+        context.coordinator.onOpenLink = Self.openURLInTheWeb
+    }
+
+    // MARK: Private Helpers
+
+    private static func openURLInTheWeb(_ url: URL) {
+        WebControllerManager.shared.presentWebControllerWithURL(
+            url,
+            withKey: .externalLink,
+            controllerType: .inAppSafari
+        )
+    }
+}
+
+// MARK: StepTextView (Coordinator)
+
+extension StepTextView {
+    class Coordinator: NSObject, ProcessedContentViewDelegate {
+        var onContentLoaded: (() -> Void)?
+
+        var onHeightUpdated: ((Int) -> Void)?
+
+        var onOpenImageURL: ((URL) -> Void)?
+
+        var onOpenLink: ((URL) -> Void)?
+
+        func processedContentViewDidLoadContent(_ view: ProcessedContentView) {
+            onContentLoaded?()
+        }
+
+        func processedContentView(_ view: ProcessedContentView, didReportNewHeight height: Int) {
+            onHeightUpdated?(height)
+        }
+
+        func processedContentView(_ view: ProcessedContentView, didOpenImageURL url: URL) {
+            onOpenImageURL?(url)
+        }
+
+        func processedContentView(_ view: ProcessedContentView, didOpenLink url: URL) {
+            onOpenLink?(url)
+        }
     }
 }
 
@@ -43,7 +105,7 @@ extension StepTextUIKitView {
 final class StepTextUIKitView: UIView {
     let appearance: Appearance
 
-    private lazy var processedContentView: ProcessedContentView = {
+    fileprivate lazy var processedContentView: ProcessedContentView = {
         let processedContentViewAppearance = ProcessedContentView.Appearance(
             labelFont: appearance.textFont,
             backgroundColor: .clear
@@ -65,7 +127,6 @@ final class StepTextUIKitView: UIView {
                 font: appearance.textFont
             )
         )
-        processedContentView.delegate = self
 
         return processedContentView
     }()
@@ -97,9 +158,16 @@ final class StepTextUIKitView: UIView {
     func setText(_ text: String) {
         processedContentView.setText(text)
     }
+
+    fileprivate func invalidateLayout() {
+        DispatchQueue.main.async {
+            self.layoutIfNeeded()
+            self.invalidateIntrinsicContentSize()
+        }
+    }
 }
 
-// MARK: - StepTextUIKitView: ProgrammaticallyInitializableViewProtocol -
+// MARK: StepTextUIKitView: ProgrammaticallyInitializableViewProtocol
 
 extension StepTextUIKitView: ProgrammaticallyInitializableViewProtocol {
     func setupView() {
@@ -115,42 +183,5 @@ extension StepTextUIKitView: ProgrammaticallyInitializableViewProtocol {
         processedContentView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-    }
-}
-
-// MARK: - StepTextUIKitView: ProcessedContentViewDelegate -
-
-extension StepTextUIKitView: ProcessedContentViewDelegate {
-    func processedContentViewDidLoadContent(_ view: ProcessedContentView) {
-        invalidateLayout()
-    }
-
-    func processedContentView(_ view: ProcessedContentView, didReportNewHeight height: Int) {
-        invalidateLayout()
-    }
-
-    func processedContentView(_ view: ProcessedContentView, didOpenImageURL url: URL) {
-        openURLInTheWeb(url)
-    }
-
-    func processedContentView(_ view: ProcessedContentView, didOpenLink url: URL) {
-        openURLInTheWeb(url)
-    }
-
-    // MARK: Private Helpers
-
-    private func invalidateLayout() {
-        DispatchQueue.main.async {
-            self.layoutIfNeeded()
-            self.invalidateIntrinsicContentSize()
-        }
-    }
-
-    private func openURLInTheWeb(_ url: URL) {
-        WebControllerManager.shared.presentWebControllerWithURL(
-            url,
-            withKey: .externalLink,
-            controllerType: .inAppSafari
-        )
     }
 }

@@ -21,12 +21,20 @@ struct StepQuizActionButton: View {
             action: onTap
         )
         .buttonStyle(RoundedRectangleButtonStyle(style: state.style, overlayImage: overlayImage))
-        .disabled(state == .evaluation)
+        .overlay(
+            ProgressView()
+                .opacity(state.isLoading ? 1 : 0)
+                .padding(.leading)
+            ,
+            alignment: .init(horizontal: .leading, vertical: .center)
+        )
+        .disabled(state.isDisabled)
     }
 
     enum State: CaseIterable {
         case normal
         case correct
+        case correctLoading
         case wrong
         case evaluation
 
@@ -36,7 +44,7 @@ struct StepQuizActionButton: View {
             switch self {
             case .normal:
                 return Strings.StepQuiz.sendButton
-            case .correct:
+            case .correct, .correctLoading:
                 return Strings.StepQuiz.continueButton
             case .wrong:
                 return Strings.StepQuiz.sendButton // .retryButton
@@ -49,9 +57,17 @@ struct StepQuizActionButton: View {
             switch self {
             case .normal, .wrong, .evaluation:
                 return .violet
-            case .correct:
+            case .correct, .correctLoading:
                 return .green
             }
+        }
+
+        fileprivate var isDisabled: Bool {
+            self == .evaluation || self == .correctLoading
+        }
+
+        fileprivate var isLoading: Bool {
+            self == .correctLoading
         }
     }
 }
@@ -59,16 +75,18 @@ struct StepQuizActionButton: View {
 struct StepQuizActionButton_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ForEach(StepQuizActionButton.State.allCases, id: \.self) { state in
-                StepQuizActionButton(state: state, onTap: {})
-            }
+            VStack {
+                ForEach(StepQuizActionButton.State.allCases, id: \.self) { state in
+                    StepQuizActionButton(state: state, onTap: {})
+                }
 
-            StepQuizActionButton(
-                state: .normal,
-                titleForState: { _ in "Run solution" },
-                systemImageNameForState: { _ in "play" },
-                onTap: {}
-            )
+                StepQuizActionButton(
+                    state: .normal,
+                    titleForState: { _ in "Run solution" },
+                    systemImageNameForState: { _ in "play" },
+                    onTap: {}
+                )
+            }
         }
         .previewLayout(.sizeThatFits)
         .padding()

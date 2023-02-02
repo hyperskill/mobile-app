@@ -12,6 +12,7 @@ import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
 import org.hyperskill.app.topics_repetitions.domain.flow.TopicRepeatedFlow
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Action
+import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Companion.TOPICS_PAGINATION_SIZE
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Message
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -24,10 +25,6 @@ class TopicsRepetitionsActionDispatcher(
     private val topicRepeatedFlow: TopicRepeatedFlow,
     submissionRepository: SubmissionRepository
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
-    companion object {
-        const val TOPICS_PAGINATION_SIZE = 5
-    }
-
     init {
         submissionRepository.solvedStepsMutableSharedFlow
             .onEach { onNewMessage(Message.StepCompleted(it)) }

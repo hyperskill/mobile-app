@@ -5,9 +5,19 @@ final class StepQuizAssembly: Assembly {
     private let step: Step
     private let stepRoute: StepRoute
 
-    init(step: Step, stepRoute: StepRoute) {
+    private let provideModuleInputCallback: (StepQuizInputProtocol?) -> Void
+    private weak var moduleOutput: StepQuizOutputProtocol?
+
+    init(
+        step: Step,
+        stepRoute: StepRoute,
+        provideModuleInputCallback: @escaping (StepQuizInputProtocol?) -> Void,
+        moduleOutput: StepQuizOutputProtocol? = nil
+    ) {
         self.step = step
         self.stepRoute = stepRoute
+        self.provideModuleInputCallback = provideModuleInputCallback
+        self.moduleOutput = moduleOutput
     }
 
     func makeModule() -> StepQuizView {
@@ -21,8 +31,10 @@ final class StepQuizAssembly: Assembly {
             stepQuizTitleMapper: stepQuizComponent.stepQuizTitleMapper
         )
         let viewModel = StepQuizViewModel(
-            step: self.step,
-            stepRoute: self.stepRoute,
+            step: step,
+            stepRoute: stepRoute,
+            moduleOutput: moduleOutput,
+            provideModuleInputCallback: provideModuleInputCallback,
             viewDataMapper: viewDataMapper,
             userPermissionRequestTextMapper: StepQuizUserPermissionRequestTextMapper(
                 resourceProvider: commonComponent.resourceProvider

@@ -9,4 +9,13 @@ class StepRepositoryImpl(
 ) : StepRepository {
     override suspend fun getSteps(stepIds: List<Long>): Result<List<Step>> =
         stepRemoteDataSource.getSteps(stepIds)
+
+    override suspend fun completeStep(stepId: Long): Result<Step> =
+        stepRemoteDataSource.completeStep(stepId)
+
+    override suspend fun skipStep(stepId: Long): Result<Step> =
+        stepRemoteDataSource.skipStep(stepId)
+
+    override suspend fun getRecommendedStepsByTopicId(topicId: Long): Result<List<Step>> =
+        stepRemoteDataSource.getRecommendedStepsByTopicId(topicId)
 }

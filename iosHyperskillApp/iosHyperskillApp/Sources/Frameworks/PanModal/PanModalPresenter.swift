@@ -16,12 +16,15 @@ final class PanModalPresenter: ObservableObject {
         currentPresentedViewController.presentIfPanModalWithCustomModalPresentationStyle(panModal)
     }
 
-    func dismissPanModal(animated: Bool = true) {
+    @discardableResult
+    func dismissPanModal(animated: Bool = true, completion: (() -> Void)? = nil) -> Bool {
         guard let currentPresentedViewController = sourcelessRouter.currentPresentedViewController(),
               let panModal = currentPresentedViewController as? UIViewController & PanModalPresentable else {
-            return
+            return false
         }
 
-        panModal.dismiss(animated: animated)
+        panModal.dismiss(animated: animated, completion: completion)
+
+        return true
     }
 }
