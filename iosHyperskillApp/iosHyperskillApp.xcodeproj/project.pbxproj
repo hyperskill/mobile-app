@@ -2023,10 +2023,10 @@
 		2CDA983B2944389300ADE539 /* DiscoverNext */ = {
 			isa = PBXGroup;
 			children = (
+				E9730A9D298A462B00254A6D /* TopicToDiscoverNextButtonView.swift */,
 				2CAB0611292A17C300D30DB1 /* TrackTopicsToDiscoverNextBlockView.swift */,
 				2CDA983C294438BB00ADE539 /* TrackTopicsToDiscoverNextSkeletonBlockView.swift */,
 				2CE2AE26297FBB34000364C8 /* TrackTopicsToDiscoverNextSkeletonListView.swift */,
-				E9730A9D298A462B00254A6D /* TopicToDiscoverNextButtonView.swift */,
 			);
 			path = DiscoverNext;
 			sourceTree = "<group>";
