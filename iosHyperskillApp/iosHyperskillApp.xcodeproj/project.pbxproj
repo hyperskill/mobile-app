@@ -127,6 +127,7 @@
 		2C5215AA291E5B63006C2427 /* PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5215A9291E5B63006C2427 /* PullToRefresh.swift */; };
 		2C5215AC291E6AD8006C2427 /* UIView+FindViewOfSpecifiedType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5215AB291E6AD8006C2427 /* UIView+FindViewOfSpecifiedType.swift */; };
 		2C55133B28B8DFE8009F7627 /* Debouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C55133A28B8DFE8009F7627 /* Debouncer.swift */; };
+		2C567E89297FC44F00585EFB /* View+HiddenWithCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C567E88297FC44F00585EFB /* View+HiddenWithCondition.swift */; };
 		2C58DE232803BF97002A2774 /* AuthLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C58DE222803BF97002A2774 /* AuthLogoView.swift */; };
 		2C58DE252803C185002A2774 /* AuthSocialControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C58DE242803C185002A2774 /* AuthSocialControlsView.swift */; };
 		2C58DE292803D197002A2774 /* UIColor+DynamicColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C58DE282803D197002A2774 /* UIColor+DynamicColor.swift */; };
@@ -280,7 +281,7 @@
 		2CDA98362944325300ADE539 /* TrackHeaderSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA98352944325300ADE539 /* TrackHeaderSkeletonView.swift */; };
 		2CDA9838294432C900ADE539 /* SkeletonCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA9837294432C900ADE539 /* SkeletonCircleView.swift */; };
 		2CDA983A2944377300ADE539 /* TrackSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA98392944377300ADE539 /* TrackSkeletonView.swift */; };
-		2CDA983D294438BB00ADE539 /* TrackTopicsToDiscoverNextSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA983C294438BB00ADE539 /* TrackTopicsToDiscoverNextSkeletonView.swift */; };
+		2CDA983D294438BB00ADE539 /* TrackTopicsToDiscoverNextSkeletonBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA983C294438BB00ADE539 /* TrackTopicsToDiscoverNextSkeletonBlockView.swift */; };
 		2CDA983F29443A1F00ADE539 /* TrackProgressSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA983E29443A1F00ADE539 /* TrackProgressSkeletonView.swift */; };
 		2CDA98412944512D00ADE539 /* ProfileSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA98402944512D00ADE539 /* ProfileSkeletonView.swift */; };
 		2CDA98432944524D00ADE539 /* HomeSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA98422944524D00ADE539 /* HomeSkeletonView.swift */; };
@@ -293,6 +294,7 @@
 		2CE1C4DF27EDFB3800220041 /* FeatureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE1C4DE27EDFB3800220041 /* FeatureViewModel.swift */; };
 		2CE1E189292CCB450041FE14 /* UIKitIntrospectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE1E188292CCB450041FE14 /* UIKitIntrospectionView.swift */; };
 		2CE2817927E8EF1E00641E22 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2CE2817827E8EF1E00641E22 /* GoogleService-Info.plist */; };
+		2CE2AE27297FBB34000364C8 /* TrackTopicsToDiscoverNextSkeletonListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE2AE26297FBB34000364C8 /* TrackTopicsToDiscoverNextSkeletonListView.swift */; };
 		2CE31F4827F1BB79008EEE66 /* AuthSocialAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4727F1BB79008EEE66 /* AuthSocialAssembly.swift */; };
 		2CE31F4B27F1E070008EEE66 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4A27F1E070008EEE66 /* AppViewModel.swift */; };
 		2CE31F4D27F1E0C8008EEE66 /* AppAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4C27F1E0C8008EEE66 /* AppAssembly.swift */; };
@@ -544,6 +546,7 @@
 		2C5215A9291E5B63006C2427 /* PullToRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRefresh.swift; sourceTree = "<group>"; };
 		2C5215AB291E6AD8006C2427 /* UIView+FindViewOfSpecifiedType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+FindViewOfSpecifiedType.swift"; sourceTree = "<group>"; };
 		2C55133A28B8DFE8009F7627 /* Debouncer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debouncer.swift; sourceTree = "<group>"; };
+		2C567E88297FC44F00585EFB /* View+HiddenWithCondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+HiddenWithCondition.swift"; sourceTree = "<group>"; };
 		2C58DE222803BF97002A2774 /* AuthLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthLogoView.swift; sourceTree = "<group>"; };
 		2C58DE242803C185002A2774 /* AuthSocialControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialControlsView.swift; sourceTree = "<group>"; };
 		2C58DE282803D197002A2774 /* UIColor+DynamicColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+DynamicColor.swift"; sourceTree = "<group>"; };
@@ -698,7 +701,7 @@
 		2CDA98352944325300ADE539 /* TrackHeaderSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackHeaderSkeletonView.swift; sourceTree = "<group>"; };
 		2CDA9837294432C900ADE539 /* SkeletonCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonCircleView.swift; sourceTree = "<group>"; };
 		2CDA98392944377300ADE539 /* TrackSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSkeletonView.swift; sourceTree = "<group>"; };
-		2CDA983C294438BB00ADE539 /* TrackTopicsToDiscoverNextSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTopicsToDiscoverNextSkeletonView.swift; sourceTree = "<group>"; };
+		2CDA983C294438BB00ADE539 /* TrackTopicsToDiscoverNextSkeletonBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTopicsToDiscoverNextSkeletonBlockView.swift; sourceTree = "<group>"; };
 		2CDA983E29443A1F00ADE539 /* TrackProgressSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackProgressSkeletonView.swift; sourceTree = "<group>"; };
 		2CDA98402944512D00ADE539 /* ProfileSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSkeletonView.swift; sourceTree = "<group>"; };
 		2CDA98422944524D00ADE539 /* HomeSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSkeletonView.swift; sourceTree = "<group>"; };
@@ -711,6 +714,7 @@
 		2CE1C4DE27EDFB3800220041 /* FeatureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureViewModel.swift; sourceTree = "<group>"; };
 		2CE1E188292CCB450041FE14 /* UIKitIntrospectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitIntrospectionView.swift; sourceTree = "<group>"; };
 		2CE2817827E8EF1E00641E22 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2CE2AE26297FBB34000364C8 /* TrackTopicsToDiscoverNextSkeletonListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTopicsToDiscoverNextSkeletonListView.swift; sourceTree = "<group>"; };
 		2CE31F4727F1BB79008EEE66 /* AuthSocialAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialAssembly.swift; sourceTree = "<group>"; };
 		2CE31F4A27F1E070008EEE66 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		2CE31F4C27F1E0C8008EEE66 /* AppAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAssembly.swift; sourceTree = "<group>"; };
@@ -1240,6 +1244,7 @@
 				2C2ECCA6288C0BF7008DDCBA /* View+ConditionalViewModifier.swift */,
 				2CF4341128126C79002893CD /* View+EndEditing.swift */,
 				2C177EC22837B65500D841DB /* View+Frame.swift */,
+				2C567E88297FC44F00585EFB /* View+HiddenWithCondition.swift */,
 				2C0CD582282BEB6600D5659D /* View+RemoveBackButtonTitle.swift */,
 			);
 			path = View;
@@ -2028,7 +2033,8 @@
 			isa = PBXGroup;
 			children = (
 				2CAB0611292A17C300D30DB1 /* TrackTopicsToDiscoverNextBlockView.swift */,
-				2CDA983C294438BB00ADE539 /* TrackTopicsToDiscoverNextSkeletonView.swift */,
+				2CDA983C294438BB00ADE539 /* TrackTopicsToDiscoverNextSkeletonBlockView.swift */,
+				2CE2AE26297FBB34000364C8 /* TrackTopicsToDiscoverNextSkeletonListView.swift */,
 			);
 			path = DiscoverNext;
 			sourceTree = "<group>";
@@ -2828,6 +2834,7 @@
 				2CA7B89428932EB100A789EF /* UIWindowExtensions.swift in Sources */,
 				2C5F4A5A2971C71200677530 /* GamificationToolbarContent.swift in Sources */,
 				2C5B2A1F286595AF0097B270 /* CodeCompletionTableViewController.swift in Sources */,
+				2CE2AE27297FBB34000364C8 /* TrackTopicsToDiscoverNextSkeletonListView.swift in Sources */,
 				E94BC942291E89D6000B18D3 /* TopicsRepetitionsCountView.swift in Sources */,
 				2C8E4FB12848C9050011ADFA /* StepQuizTableSelectColumnsView.swift in Sources */,
 				2CCCA3A12862E62F00D98089 /* StepQuizStringViewData.swift in Sources */,
@@ -2964,7 +2971,7 @@
 				E9CC6C0729893F2200D8D070 /* StepQuizInputProtocol.swift in Sources */,
 				2C96743728882A0C0091B6C9 /* StepQuizCodeDetailsView.swift in Sources */,
 				2C20FBC7284F6928006D879E /* ProgrammaticallyInitializableViewProtocol.swift in Sources */,
-				2CDA983D294438BB00ADE539 /* TrackTopicsToDiscoverNextSkeletonView.swift in Sources */,
+				2CDA983D294438BB00ADE539 /* TrackTopicsToDiscoverNextSkeletonBlockView.swift in Sources */,
 				2C9F59A729267A530008ADC5 /* StepTextView.swift in Sources */,
 				E951757927E61ACD00995008 /* AuthSocialView.swift in Sources */,
 				2C9EB9582861BA57007DDE44 /* TrackView.swift in Sources */,
@@ -3058,6 +3065,7 @@
 				2C2ECCA7288C0BF7008DDCBA /* View+ConditionalViewModifier.swift in Sources */,
 				E9F504CE2912891900B788C7 /* StepQuizHintsViewModel.swift in Sources */,
 				E9B3A18C2828093800FE248B /* StepQuizActionButton.swift in Sources */,
+				2C567E89297FC44F00585EFB /* View+HiddenWithCondition.swift in Sources */,
 				2C93C2D2292E574F004D1861 /* HyperskillSentryLevel+SentryLevel.swift in Sources */,
 				E9CC6C0429893D8400D8D070 /* TopicCompletedModalViewControllerDelegate.swift in Sources */,
 				E9317A0228A23FD100F59373 /* UNNotificationTrigger+nextTriggerDate.swift in Sources */,

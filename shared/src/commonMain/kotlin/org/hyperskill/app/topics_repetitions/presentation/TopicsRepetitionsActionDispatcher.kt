@@ -1,12 +1,15 @@
 package org.hyperskill.app.topics_repetitions.presentation
 
 import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
+import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
+import org.hyperskill.app.topics_repetitions.domain.flow.TopicRepeatedFlow
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Action
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Message
@@ -17,18 +20,18 @@ class TopicsRepetitionsActionDispatcher(
     private val topicsRepetitionsInteractor: TopicsRepetitionsInteractor,
     private val profileInteractor: ProfileInteractor,
     private val analyticInteractor: AnalyticInteractor,
-    private val sentryInteractor: SentryInteractor
+    private val sentryInteractor: SentryInteractor,
+    private val topicRepeatedFlow: TopicRepeatedFlow,
+    submissionRepository: SubmissionRepository
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     companion object {
         const val TOPICS_PAGINATION_SIZE = 5
     }
 
     init {
-        actionScope.launch {
-            topicsRepetitionsInteractor.solvedStepsSharedFlow.collect { id ->
-                onNewMessage(Message.StepCompleted(id))
-            }
-        }
+        submissionRepository.solvedStepsMutableSharedFlow
+            .onEach { onNewMessage(Message.StepCompleted(it)) }
+            .launchIn(actionScope)
     }
 
     override suspend fun doSuspendableAction(action: Action) {
@@ -95,7 +98,7 @@ class TopicsRepetitionsActionDispatcher(
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
             is Action.NotifyTopicRepeated ->
-                topicsRepetitionsInteractor.topicRepeatedMutableSharedFlow.emit(Unit)
+                topicRepeatedFlow.notifyDataChanged(action.topicId)
             else -> {}
         }
     }

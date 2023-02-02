@@ -13,8 +13,8 @@ class TopicsDataComponentImpl(
     private val topicsRemoteDataSource: TopicsRemoteDataSource =
         TopicsRemoteDataSourceImpl(appGraph.networkComponent.authorizedHttpClient)
 
-    private val topicsRepository: TopicsRepository =
-        TopicsRepositoryImpl(topicsRemoteDataSource)
+    override val topicsRepository: TopicsRepository
+        get() = TopicsRepositoryImpl(topicsRemoteDataSource)
 
     override val topicsInteractor: TopicsInteractor
         get() = TopicsInteractor(topicsRepository)

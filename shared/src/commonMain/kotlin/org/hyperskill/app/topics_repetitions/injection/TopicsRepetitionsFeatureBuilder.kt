@@ -4,6 +4,8 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
+import org.hyperskill.app.topics_repetitions.domain.flow.TopicRepeatedFlow
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsActionDispatcher
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Action
@@ -19,7 +21,9 @@ object TopicsRepetitionsFeatureBuilder {
         topicsRepetitionsInteractor: TopicsRepetitionsInteractor,
         profileInteractor: ProfileInteractor,
         analyticInteractor: AnalyticInteractor,
-        sentryInteractor: SentryInteractor
+        sentryInteractor: SentryInteractor,
+        topicRepeatedFlow: TopicRepeatedFlow,
+        submissionRepository: SubmissionRepository
     ): Feature<State, Message, Action> {
         val topicsRepetitionsReducer = TopicsRepetitionsReducer()
 
@@ -28,7 +32,9 @@ object TopicsRepetitionsFeatureBuilder {
             topicsRepetitionsInteractor,
             profileInteractor,
             analyticInteractor,
-            sentryInteractor
+            sentryInteractor,
+            topicRepeatedFlow,
+            submissionRepository
         )
 
         return ReduxFeature(State.Idle, topicsRepetitionsReducer)

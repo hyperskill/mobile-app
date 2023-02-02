@@ -125,8 +125,7 @@ struct HomeView: View {
         case .navigateTo(let navigateToViewAction):
             switch HomeFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .stepScreen(let data):
-                let assembly = StepAssembly(stepRoute: data.stepRoute)
-                stackRouter.pushViewController(assembly.makeModule())
+                displayStep(stepRoute: data.stepRoute)
             case .topicsRepetitionsScreen:
                 let assembly = TopicsRepetitionsAssembly()
                 stackRouter.pushViewController(assembly.makeModule())
@@ -141,7 +140,17 @@ struct HomeView: View {
             case .showProfileTab:
                 TabBarRouter(tab: .profile).route()
             }
+        case .topicsToDiscoverNextViewAction(let topicsToDiscoverNextViewAction):
+            switch TopicsToDiscoverNextFeatureActionViewActionKs(topicsToDiscoverNextViewAction.viewAction) {
+            case .showStepScreen(let data):
+                displayStep(stepRoute: StepRouteLearn(stepId: data.stepId))
+            }
         }
+    }
+
+    private func displayStep(stepRoute: StepRoute) {
+        let assembly = StepAssembly(stepRoute: stepRoute)
+        stackRouter.pushViewController(assembly.makeModule())
     }
 }
 
