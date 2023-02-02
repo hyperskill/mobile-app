@@ -54,7 +54,7 @@ final class StepQuizViewDataMapper {
         return StepQuizViewData(
             formattedStats: formattedStats,
             stepText: step.block.text,
-            stepBlockName: step.block.name,
+            quizType: StepQuizChildQuizType(step: step),
             quizName: quizName,
             feedbackHintText: feedbackHintText,
             stepHasHints: stepHasHints

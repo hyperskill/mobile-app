@@ -93,6 +93,10 @@ import org.hyperskill.app.step.injection.PlatformStepComponent
 import org.hyperskill.app.step.injection.PlatformStepComponentImpl
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step.injection.StepComponentImpl
+import org.hyperskill.app.step.injection.StepDataComponent
+import org.hyperskill.app.step.injection.StepDataComponentImpl
+import org.hyperskill.app.step_completion.injection.StepCompletionComponent
+import org.hyperskill.app.step_completion.injection.StepCompletionComponentImpl
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponent
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
@@ -214,11 +218,14 @@ class AndroidAppComponentImpl(
     /**
      * Step component
      */
-    override fun buildStepComponent(): StepComponent =
-        StepComponentImpl(this)
+    override fun buildStepComponent(stepRoute: StepRoute): StepComponent =
+        StepComponentImpl(this, stepRoute)
 
     override fun buildPlatformStepComponent(stepComponent: StepComponent): PlatformStepComponent =
         PlatformStepComponentImpl(stepComponent)
+
+    override fun buildStepDataComponent(): StepDataComponent =
+        StepDataComponentImpl(this)
 
     /**
      * Step quiz component
@@ -384,4 +391,7 @@ class AndroidAppComponentImpl(
 
     override fun buildGamificationToolbarComponent(): GamificationToolbarComponent =
         GamificationToolbarComponentImpl(this)
+
+    override fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent =
+        StepCompletionComponentImpl(this, stepRoute)
 }

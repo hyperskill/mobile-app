@@ -86,6 +86,7 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
             onRetryButtonClicked()
         }
         viewBinding.stepQuizButtons.stepQuizContinueButton.setOnClickListener {
+            // TODO: ALTAPPS-543 implement message with StepViewModel
             stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ContinueClicked)
         }
         viewBinding.stepQuizNetworkError.tryAgain.setOnClickListener {

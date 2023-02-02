@@ -15,7 +15,7 @@ enum StepQuizActionButtonCodeQuizDelegate {
         switch state {
         case .normal, .wrong, .evaluation:
             return (Strings.StepQuizCode.runSolutionButton, "play")
-        case .correct:
+        case .correct, .correctLoading:
             return nil
         }
     }

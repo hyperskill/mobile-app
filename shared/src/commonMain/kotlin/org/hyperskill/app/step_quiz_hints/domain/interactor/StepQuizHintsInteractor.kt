@@ -1,10 +1,13 @@
 package org.hyperskill.app.step_quiz_hints.domain.interactor
 
+import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import org.hyperskill.app.comments.domain.model.Comment
 import org.hyperskill.app.comments.domain.repository.CommentsRepository
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.discussions.domain.repository.DiscussionsRepository
+import org.hyperskill.app.step_quiz_hints.domain.model.HintState
 import org.hyperskill.app.user_storage.domain.model.UserStoragePathBuilder
 import org.hyperskill.app.user_storage.domain.repository.UserStorageRepository
 
@@ -13,6 +16,17 @@ class StepQuizHintsInteractor(
     private val userStorageRepository: UserStorageRepository,
     private val commentsRepository: CommentsRepository
 ) {
+    suspend fun getCachedHintState(stepId: Long, hintId: Long): Result<HintState?> =
+        kotlin.runCatching {
+            val userStorageValue = userStorageRepository
+                .getUserStorageValue(
+                    key = UserStoragePathBuilder.buildSeenHint(stepId, hintId),
+                    primarySourceType = DataSourceType.CACHE
+                )
+                .getOrThrow()
+            return@runCatching userStorageValue.jsonPrimitive.contentOrNull?.let { HintState.getByStringValue(it) }
+        }
+
     suspend fun getNotSeenHintsIds(stepId: Long): List<Long> {
         val hintsIds = getStepHintsIds(stepId)
         if (hintsIds.isEmpty()) {

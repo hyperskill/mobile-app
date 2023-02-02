@@ -28,6 +28,8 @@ import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.sentry.injection.SentryComponent
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.injection.StepComponent
+import org.hyperskill.app.step.injection.StepDataComponent
+import org.hyperskill.app.step_completion.injection.StepCompletionComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
@@ -58,7 +60,8 @@ interface AppGraph {
 
     fun buildAuthSocialComponent(): AuthSocialComponent
     fun buildAuthCredentialsComponent(): AuthCredentialsComponent
-    fun buildStepComponent(): StepComponent
+    fun buildStepComponent(stepRoute: StepRoute): StepComponent
+    fun buildStepDataComponent(): StepDataComponent
     fun buildStepQuizComponent(stepRoute: StepRoute): StepQuizComponent
     fun buildProfileDataComponent(): ProfileDataComponent
     fun buildTrackComponent(): TrackComponent
@@ -88,4 +91,5 @@ interface AppGraph {
     fun buildGamificationToolbarComponent(): GamificationToolbarComponent
     fun buildTopicsToDiscoverNextComponent(screen: TopicsToDiscoverNextScreen): TopicsToDiscoverNextComponent
     fun buildTopicsToDiscoverNextDataComponent(): TopicsToDiscoverNextDataComponent
+    fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent
 }

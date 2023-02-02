@@ -17,12 +17,18 @@ data class Step(
     val block: Block,
     @SerialName("topic_theory")
     val topicTheory: Long? = null,
+    @SerialName("topic")
+    val topic: Long? = null,
     @SerialName("comments_statistics")
     val commentsStatistics: List<CommentStatisticsEntry>,
     @SerialName("solved_by")
     val solvedBy: Int,
     @SerialName("is_completed")
     val isCompleted: Boolean,
+    @SerialName("is_next")
+    val isNext: Boolean,
+    @SerialName("can_skip")
+    val canSkip: Boolean,
     @SerialName("seconds_to_complete")
     val secondsToComplete: Float?,
     @SerialName("last_completed_at")
