@@ -346,6 +346,7 @@
 		E95BE4042938A30900992DDE /* TopicsRepetitionsStatusBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95BE4032938A30900992DDE /* TopicsRepetitionsStatusBlock.swift */; };
 		E95D0F302941DF000074C9F3 /* AuthNewUserPlaceholderTrackCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95D0F2F2941DF000074C9F3 /* AuthNewUserPlaceholderTrackCardView.swift */; };
 		E96E80F627EF57BA00AA6683 /* AuthSocialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */; };
+		E9730A9E298A462B00254A6D /* TopicToDiscoverNextButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9730A9D298A462B00254A6D /* TopicToDiscoverNextButtonView.swift */; };
 		E97704782946F47000ACD7E7 /* AuthNewUserTrackModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97704772946F47000ACD7E7 /* AuthNewUserTrackModalViewController.swift */; };
 		E9802D07281BB5CC00CF3AC1 /* StepQuizChoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9802D06281BB5CC00CF3AC1 /* StepQuizChoiceView.swift */; };
 		E9859B91292E414300857679 /* RepeatButtonInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9859B90292E414300857679 /* RepeatButtonInfo.swift */; };
@@ -766,6 +767,7 @@
 		E95BE4032938A30900992DDE /* TopicsRepetitionsStatusBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsRepetitionsStatusBlock.swift; sourceTree = "<group>"; };
 		E95D0F2F2941DF000074C9F3 /* AuthNewUserPlaceholderTrackCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNewUserPlaceholderTrackCardView.swift; sourceTree = "<group>"; };
 		E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialViewModel.swift; sourceTree = "<group>"; };
+		E9730A9D298A462B00254A6D /* TopicToDiscoverNextButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicToDiscoverNextButtonView.swift; sourceTree = "<group>"; };
 		E97704772946F47000ACD7E7 /* AuthNewUserTrackModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNewUserTrackModalViewController.swift; sourceTree = "<group>"; };
 		E9802D06281BB5CC00CF3AC1 /* StepQuizChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChoiceView.swift; sourceTree = "<group>"; };
 		E9859B90292E414300857679 /* RepeatButtonInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatButtonInfo.swift; sourceTree = "<group>"; };
@@ -2024,6 +2026,7 @@
 				2CAB0611292A17C300D30DB1 /* TrackTopicsToDiscoverNextBlockView.swift */,
 				2CDA983C294438BB00ADE539 /* TrackTopicsToDiscoverNextSkeletonBlockView.swift */,
 				2CE2AE26297FBB34000364C8 /* TrackTopicsToDiscoverNextSkeletonListView.swift */,
+				E9730A9D298A462B00254A6D /* TopicToDiscoverNextButtonView.swift */,
 			);
 			path = DiscoverNext;
 			sourceTree = "<group>";
@@ -2746,6 +2749,7 @@
 				E94D238F280585110003273F /* AuthCredentialsFormView.swift in Sources */,
 				2C5CBBE52948FA7400113007 /* StepQuizSQLAssembly.swift in Sources */,
 				2CEEE03528916A6800282849 /* ProblemOfDayOutputProtocol.swift in Sources */,
+				E9730A9E298A462B00254A6D /* TopicToDiscoverNextButtonView.swift in Sources */,
 				E9380EDA286B48A400CBF221 /* AuthNewUserPlaceholderView.swift in Sources */,
 				E94BC946291E8F40000B18D3 /* TopicsRepetitionsChartBlock.swift in Sources */,
 				E996D41229221F6200A47498 /* ShowMoreButton.swift in Sources */,

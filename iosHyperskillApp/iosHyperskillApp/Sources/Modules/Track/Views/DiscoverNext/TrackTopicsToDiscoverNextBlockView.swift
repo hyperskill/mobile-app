@@ -56,17 +56,10 @@ struct TrackTopicsToDiscoverNextBlockView: View {
     private func buildTopicsList(topics: [Topic]) -> some View {
         LazyVStack(spacing: appearance.spacing) {
             ForEach(topics, id: \.id) { topic in
-                Button(
-                    action: {
-                        onTopicTapped?(topic.id)
-                    },
-                    label: {
-                        Text(topic.title)
-                            .font(.body)
-                            .foregroundColor(.primaryText)
-                    }
+                TopicToDiscoverNextButtonView(
+                    topic: topic,
+                    onTap: { onTopicTapped?(topic.id) }
                 )
-                .buttonStyle(OutlineButtonStyle(borderColor: .border, alignment: .leading))
             }
         }
     }
@@ -84,7 +77,20 @@ struct TrackTopicsToDiscoverNextBlockView_Previews: PreviewProvider {
                         .init(id: 1, progressId: "", theoryId: nil, title: "Basic data types", progress: nil),
                         .init(id: 2, progressId: "", theoryId: nil, title: "Variables", progress: nil),
                         .init(id: 3, progressId: "", theoryId: nil, title: "Integer arithmetic", progress: nil),
-                        .init(id: 4, progressId: "", theoryId: nil, title: "Pro data types", progress: nil)
+                        .init(
+                            id: 4,
+                            progressId: "",
+                            theoryId: nil,
+                            title: "Pro data types",
+                            progress: TopicProgress(
+                                id: "",
+                                stagePosition: 0,
+                                repeatedCount: 0,
+                                isCompleted: false,
+                                isSkipped: true,
+                                capacity: 0
+                            )
+                        )
                     ],
                     isRefreshing: false
                 )
