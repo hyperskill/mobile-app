@@ -37,7 +37,8 @@ class TopicAdapterDelegate(
             with(binding) {
                 topicTitle.text = data.title
 
-                topicCompletenessTextView.isVisible = data.completenessText != null
+                topicCompletenessTextView.isVisible =
+                    data.completenessText != null || data.completenessDrawable != 0
                 topicCompletenessView.isVisible = data.completenessPercentage > 0f
 
                 with(topicCompletenessTextView) {
@@ -45,7 +46,7 @@ class TopicAdapterDelegate(
                     setCompoundDrawablesWithIntrinsicBounds(
                         0,
                         0,
-                        data.completenessDrawable, // right
+                        /*right*/ data.completenessDrawable,
                         0
                     )
                 }

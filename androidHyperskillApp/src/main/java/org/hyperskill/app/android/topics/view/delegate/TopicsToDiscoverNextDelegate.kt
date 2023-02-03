@@ -56,7 +56,7 @@ class TopicsToDiscoverNextDelegate(
                 }
             }
             is TopicsToDiscoverNextFeature.State.Content -> {
-                state.topicsToDiscoverNext.map(TopicListItem::fromDomainTopic)
+                state.topicsToDiscoverNext.mapIndexed(TopicListItem::fromDomainTopic)
             }
             TopicsToDiscoverNextFeature.State.Error,
             TopicsToDiscoverNextFeature.State.Empty -> emptyList()
