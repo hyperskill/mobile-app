@@ -83,7 +83,7 @@ struct TopicsRepetitionsCardView: View {
         fileprivate var titleText: String {
             switch self {
             case .completed:
-                return Strings.TopicsRepetitions.Card.titleCompleted
+                return Strings.General.goodJob
             case .uncompleted:
                 return Strings.TopicsRepetitions.Card.titleUncompleted
             }

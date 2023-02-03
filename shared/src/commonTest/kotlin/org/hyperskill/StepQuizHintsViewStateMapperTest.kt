@@ -1,10 +1,9 @@
 package org.hyperskill
 
-import org.hyperskill.app.step_quiz_hints.mapper.StepQuizHintsViewStateMapper
-import org.hyperskill.app.step_quiz_hints.model.StepQuizHintsViewState
-import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
-import org.junit.Test
+import kotlin.test.Test
 import kotlin.test.assertIs
+import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
+import org.hyperskill.app.step_quiz_hints.view.mapper.StepQuizHintsViewStateMapper
 
 class StepQuizHintsViewStateMapperTest {
     @Test
@@ -16,6 +15,6 @@ class StepQuizHintsViewStateMapperTest {
             isDailyStep = false,
             stepId = 0L
         )
-        assertIs<StepQuizHintsViewState.Idle>(StepQuizHintsViewStateMapper.mapState(featureState))
+        assertIs<StepQuizHintsFeature.ViewState.Idle>(StepQuizHintsViewStateMapper.mapState(featureState))
     }
 }

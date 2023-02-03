@@ -95,11 +95,12 @@ struct StreakView: View {
                     Button(Strings.Streak.getOneDayStreakFreeze) {
                         onStreakFreezeTapped()
                     }
-                    .buttonStyle(OutlineButtonStyle(
-                        minHeight: appearance.getStreakFreezeButtonMinHeight,
-                        maxWidth: nil
-                    ))
-                    .buttonStyle(BounceButtonStyle())
+                    .buttonStyle(
+                        OutlineButtonStyle(
+                            minHeight: appearance.getStreakFreezeButtonMinHeight,
+                            maxWidth: nil
+                        )
+                    )
                 case .alreadyHave:
                     Button(
                         action: onStreakFreezeTapped,
@@ -123,7 +124,7 @@ struct StreakView: View {
 
 struct StreakView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
+        VStack {
             StreakView(
                 isNewStreakRecord: true,
                 currentStreakCountString: "3 days",
@@ -136,7 +137,7 @@ struct StreakView_Previews: PreviewProvider {
                 isNewStreakRecord: false,
                 currentStreakCountString: "0 days",
                 daysStates: [.passive, .passive, .active, .passive, .passive],
-                streakFreezeState: .alreadyHave,
+                streakFreezeState: .canBuy(.init(streakFreezeProductId: 0, price: 0)),
                 onStreakFreezeTapped: {}
             )
         }

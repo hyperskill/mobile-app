@@ -47,14 +47,14 @@ class StepFragment : Fragment(R.layout.fragment_step), ReduxView<StepFeature.Sta
         super.onViewCreated(view, savedInstanceState)
         initViewStateDelegate()
         viewBinding.stepError.tryAgain.setOnClickListener {
-            stepViewModel.onNewMessage(StepFeature.Message.Initialize(stepRoute, forceUpdate = true))
+            stepViewModel.onNewMessage(StepFeature.Message.Initialize(forceUpdate = true))
         }
-        stepViewModel.onNewMessage(StepFeature.Message.Initialize(stepRoute))
-        stepViewModel.onNewMessage(StepFeature.Message.ViewedEventMessage(stepRoute))
+        stepViewModel.onNewMessage(StepFeature.Message.Initialize())
+        stepViewModel.onNewMessage(StepFeature.Message.ViewedEventMessage)
     }
 
     private fun injectComponent() {
-        val stepComponent = HyperskillApp.graph().buildStepComponent()
+        val stepComponent = HyperskillApp.graph().buildStepComponent(stepRoute)
         val platformStepComponent = HyperskillApp.graph().buildPlatformStepComponent(stepComponent)
         viewModelFactory = platformStepComponent.reduxViewModelFactory
     }
@@ -87,7 +87,7 @@ class StepFragment : Fragment(R.layout.fragment_step), ReduxView<StepFeature.Sta
         val fragment = if (step.type == Step.Type.PRACTICE) {
             StepPracticeFragment.newInstance(step, stepRoute)
         } else {
-            StepTheoryFragment.newInstance(step)
+            StepTheoryFragment.newInstance(step, stepRoute)
         }
 
         childFragmentManager

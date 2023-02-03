@@ -8,4 +8,7 @@ class TopicsInteractor(
 ) {
     suspend fun getTopics(topicsIds: List<Long>): Result<List<Topic>> =
         topicsRepository.getTopics(topicsIds)
+
+    suspend fun getTopic(topicId: Long): Result<Topic> =
+        topicsRepository.getTopic(topicId)
 }

@@ -20,45 +20,49 @@ struct StepQuizHintsView: View {
                 viewModel.startListening()
                 viewModel.onViewAction = handleViewAction(_:)
             }
-            .onDisappear(perform: viewModel.stopListening)
+            .onDisappear {
+                viewModel.stopListening()
+                viewModel.onViewAction = nil
+            }
     }
 
     // MARK: Private API
 
     @ViewBuilder
     private func buildBody() -> some View {
-        switch viewModel.state {
-        case is StepQuizHintsFeatureStateIdle:
+        switch viewModel.stateKs {
+        case .idle:
             SkeletonRoundedView()
                 .frame(height: appearance.skeletonInitialHeight)
-                .onAppear {
-                    viewModel.loadHintsIDs()
-                }
-        case is StepQuizHintsFeatureStateLoading:
+                .onAppear(perform: viewModel.loadHintsIDs)
+        case .initialLoading, .hintLoading:
             SkeletonRoundedView()
                 .frame(height: appearance.skeletonHintHeight)
-        case is StepQuizHintsFeatureStateNetworkError:
+        case .error:
             StepQuizShowHintButton(
                 text: Strings.Placeholder.networkErrorButtonText,
-                showLightning: false
-            ) {
-                viewModel.onLoadHintButtonTap()
-            }
-        case let content as StepQuizHintsFeatureStateContent:
-            buildContent(state: content)
-        default:
-            Text("Unkwown state")
+                showLightning: false,
+                onClick: viewModel.onLoadHintButtonTap
+            )
+        case .content(let sealedState):
+            buildContent(state: StepQuizHintsFeatureViewStateContentKs(sealedState))
         }
     }
 
     @ViewBuilder
-    private func buildContent(state: StepQuizHintsFeatureStateContent) -> some View {
-        if let hint = state.currentHint {
+    private func buildContent(state: StepQuizHintsFeatureViewStateContentKs) -> some View {
+        switch state {
+        case .seeHintButton:
+            StepQuizShowHintButton(
+                text: Strings.StepQuiz.Hints.showButton,
+                onClick: viewModel.onLoadHintButtonTap
+            )
+        case .hintCard(let data):
             StepQuizHintCardView(
-                authorAvatarSource: hint.user.avatar,
-                authorName: hint.user.fullName,
-                hintText: hint.localizedText,
-                hintHasReaction: state.hintHasReaction,
+                authorAvatarSource: data.authorAvatar,
+                authorName: data.authorName,
+                hintText: data.hintText,
+                hintState: data.hintState,
                 onReactionTapped: viewModel.onHintReactionButtonTap(reaction:),
                 onReportTapped: viewModel.logClickedReportEvent,
                 onReportAlertAppeared: viewModel.logHintNoticeShownEvent,
@@ -67,22 +71,15 @@ struct StepQuizHintsView: View {
                     viewModel.logHintNoticeHiddenEvent(isReported: true)
                 },
                 onReportAlertCanceled: { viewModel.logHintNoticeHiddenEvent(isReported: false) },
-                hasNextHints: !state.hintsIds.isEmpty,
                 onNextHintTapped: viewModel.onLoadHintButtonTap
             )
-        } else if !state.hintsIds.isEmpty {
-            StepQuizShowHintButton(text: Strings.StepQuiz.Hints.showButton) {
-                viewModel.onLoadHintButtonTap()
-            }
         }
     }
 
     private func handleViewAction(_ viewAction: StepQuizHintsFeatureActionViewAction) {
-        switch viewAction {
-        case is StepQuizHintsFeatureActionViewActionShowNetworkError:
+        switch StepQuizHintsFeatureActionViewActionKs(viewAction) {
+        case .showNetworkError:
             ProgressHUD.showError(status: Strings.General.connectionError)
-        default:
-            print("StepQuizHintsViewView :: \(#function) viewAction = \(viewAction)")
         }
     }
 }

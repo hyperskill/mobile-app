@@ -10,7 +10,7 @@ final class StepAssembly: UIKitAssembly {
 
     func makeModule() -> UIViewController {
         let commonComponent = AppGraphBridge.sharedAppGraph.commonComponent
-        let stepComponent = AppGraphBridge.sharedAppGraph.buildStepComponent()
+        let stepComponent = AppGraphBridge.sharedAppGraph.buildStepComponent(stepRoute: stepRoute)
 
         let viewModel = StepViewModel(
             stepRoute: self.stepRoute,
@@ -22,17 +22,18 @@ final class StepAssembly: UIKitAssembly {
             feature: stepComponent.stepFeature
         )
 
-        let pushRouter = SwiftUIPushRouter()
+        let stackRouter = SwiftUIStackRouter()
         let modalRouter = SwiftUIModalRouter()
         let stepView = StepView(
             viewModel: viewModel,
-            pushRouter: pushRouter,
-            modalRouter: modalRouter
+            stackRouter: stackRouter,
+            modalRouter: modalRouter,
+            panModalPresenter: PanModalPresenter()
         )
         let hostingController = RemoveBackButtonTitleHostingController(rootView: stepView)
 
-        pushRouter.rootViewController = hostingController
         modalRouter.rootViewController = hostingController
+        stackRouter.rootViewController = hostingController
 
         return hostingController
     }

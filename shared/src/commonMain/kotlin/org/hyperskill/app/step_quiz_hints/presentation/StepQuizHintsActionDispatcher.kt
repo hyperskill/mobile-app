@@ -17,7 +17,7 @@ import org.hyperskill.app.user_storage.domain.interactor.UserStorageInteractor
 import org.hyperskill.app.user_storage.domain.model.UserStoragePathBuilder
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
-class StepQuizHintsActionDispatcher(
+internal class StepQuizHintsActionDispatcher(
     config: ActionDispatcherOptions,
     private val stepQuizHintsInteractor: StepQuizHintsInteractor,
     private val profileInteractor: ProfileInteractor,
@@ -37,12 +37,19 @@ class StepQuizHintsActionDispatcher(
                 val hintsIds = stepQuizHintsInteractor.getNotSeenHintsIds(action.stepId)
                 val dailyStepId = profileInteractor
                     .getCurrentProfile()
-                    .fold(
-                        onSuccess = { it.dailyStep },
-                        onFailure = { null }
-                    )
+                    .map { it.dailyStep }
+                    .getOrNull()
 
                 val lastSeenHint = stepQuizHintsInteractor.getLastSeenHint(action.stepId)
+
+                val lastSeenHintHasReaction = if (lastSeenHint != null) {
+                    stepQuizHintsInteractor
+                        .getCachedHintState(action.stepId, lastSeenHint.id)
+                        .map { it?.hasReaction ?: false }
+                        .getOrDefault(false)
+                } else {
+                    false
+                }
 
                 sentryInteractor.finishTransaction(sentryTransaction)
 
@@ -50,6 +57,7 @@ class StepQuizHintsActionDispatcher(
                     Message.HintsIdsLoaded(
                         hintsIds = hintsIds,
                         lastSeenHint = lastSeenHint,
+                        lastSeenHintHasReaction = lastSeenHintHasReaction,
                         isDailyStep = dailyStepId == action.stepId,
                         stepId = action.stepId
                     )

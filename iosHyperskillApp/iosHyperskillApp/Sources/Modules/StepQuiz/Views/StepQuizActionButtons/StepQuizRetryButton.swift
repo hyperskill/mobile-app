@@ -20,6 +20,8 @@ struct StepQuizRetryButton: View {
 
     var onTap: () -> Void
 
+    @Environment(\.isEnabled) private var isEnabled
+
     var body: some View {
         switch style {
         case .logoOnly:
@@ -36,6 +38,7 @@ struct StepQuizRetryButton: View {
             .foregroundColor(appearance.tintColor)
             .frame(widthHeight: appearance.widthHeight)
             .buttonStyle(BounceButtonStyle())
+            .opacity(isEnabled ? 1 : 0.38)
         case .roundedRectangle:
             Button(
                 Strings.StepQuiz.retryButton,
@@ -53,10 +56,18 @@ struct StepQuizRetryButton: View {
 
 struct StepQuizRetryButton_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            StepQuizRetryButton(style: .logoOnly, onTap: {})
+        VStack {
+            HStack {
+                StepQuizRetryButton(style: .logoOnly, onTap: {})
+
+                StepQuizRetryButton(style: .logoOnly, onTap: {})
+                    .disabled(true)
+            }
 
             StepQuizRetryButton(style: .roundedRectangle, onTap: {})
+
+            StepQuizRetryButton(style: .roundedRectangle, onTap: {})
+                .disabled(true)
         }
         .previewLayout(.sizeThatFits)
         .padding()

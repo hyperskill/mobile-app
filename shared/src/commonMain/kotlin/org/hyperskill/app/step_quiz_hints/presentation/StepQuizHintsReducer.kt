@@ -11,7 +11,7 @@ import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.Mess
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
-class StepQuizHintsReducer : StateReducer<State, Message, Action> {
+internal class StepQuizHintsReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
             is Message.InitWithStepId ->
@@ -25,7 +25,7 @@ class StepQuizHintsReducer : StateReducer<State, Message, Action> {
                     State.Content(
                         hintsIds = message.hintsIds,
                         currentHint = message.lastSeenHint,
-                        hintHasReaction = false,
+                        hintHasReaction = message.lastSeenHintHasReaction,
                         isDailyStep = message.isDailyStep,
                         stepId = message.stepId
                     ) to emptySet()
