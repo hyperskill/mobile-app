@@ -18,7 +18,7 @@ sealed interface TopicListItem {
     object LoadingPlaceholder : TopicListItem
 
     companion object {
-        fun fromDomainTopic(topic: DomainTopic): Topic {
+        fun fromDomainTopic(index: Int, topic: DomainTopic): Topic {
             val progress = topic.progress
             return Topic(
                 id = topic.id,
@@ -31,6 +31,7 @@ sealed interface TopicListItem {
                     progress == null -> 0
                     progress.isSkipped -> R.drawable.ic_topic_skipped
                     progress.isCompleted -> R.drawable.ic_topic_completed
+                    index == 0 -> R.drawable.ic_home_screen_arrow_button
                     else -> 0
                 },
                 completenessPercentage = if (progress != null) progress.completenessPercentage / 100 else 0f

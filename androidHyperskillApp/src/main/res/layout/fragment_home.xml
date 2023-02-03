@@ -33,7 +33,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginHorizontal="20dp"
-                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
                 />
 
             <TextView
@@ -62,24 +61,12 @@
                 android:layout_marginHorizontal="20dp"
                 />
 
-            <TextView
-                android:id="@+id/homeTopicsToDiscoverNextTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/home_topics_to_discover_next_title"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/color_on_surface_alpha_60"
-                android:layout_marginTop="46dp"
-                android:layout_marginHorizontal="20dp"
-                />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/homeTopicsToDiscoverNextRecycler"
+            <include
+                android:id="@+id/homeTopicsToDiscoverNext"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="9dp"
-                tools:itemCount="1"
-                tools:listitem="@layout/item_topic"
+                layout="@layout/layout_home_topics_to_discover_next"
+                android:layout_marginTop="46dp"
                 />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -116,18 +103,31 @@
                 android:visibility="gone"
                 />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/homeScreenKeepLearningInWebButton"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/auth_button_height"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="?colorPrimary"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:layout_marginHorizontal="20dp"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                android:text="@string/track_continue_in_web_text"
-                />
+                android:paddingHorizontal="20dp"
+                >
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/homeScreenKeepLearningInWebButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/auth_button_height"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:strokeColor="?colorPrimary"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/track_continue_in_web_text"
+                    />
+
+                <org.hyperskill.app.android.ui.custom.LoadingView
+                    android:id="@+id/homeKeepLearningInWebButtonSkeleton"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/auth_button_height"
+                    />
+
+            </FrameLayout>
 
         </LinearLayout>
 

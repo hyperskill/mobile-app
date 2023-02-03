@@ -8,13 +8,11 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.chrynan.parcelable.core.getParcelable
-import com.chrynan.parcelable.core.putParcelable
 import com.google.android.material.appbar.AppBarLayout
-import kotlin.math.abs
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.HorizontalMarginItemDecoration
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.VerticalMarginItemDecoration
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
@@ -30,22 +28,17 @@ import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.view.mapper.CommentThreadTitleMapper
 import ru.nobird.android.ui.adapterdelegates.dsl.adapterDelegate
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
+import kotlin.math.abs
 import kotlin.math.floor
 
 class StepTheoryFragment : Fragment(R.layout.fragment_step_theory) {
     companion object {
         private const val STEP_CONTENT_FRAGMENT_TAG = "step_content"
-        private const val KEY_STEP = "key_step"
-        private const val KEY_STEP_ROUTE = "key_step_route"
-        fun newInstance(step: Step, stepRoute: StepRoute): Fragment {
-            val arguments = Bundle().apply {
-                putParcelable(KEY_STEP, step)
-                putParcelable(KEY_STEP_ROUTE, stepRoute)
+        fun newInstance(step: Step, stepRoute: StepRoute): Fragment =
+            StepTheoryFragment().apply {
+                this.step = step
+                this.stepRoute = stepRoute
             }
-            return StepTheoryFragment().apply {
-                this.arguments = arguments
-            }
-        }
     }
 
     private lateinit var resourceProvider: ResourceProvider
@@ -55,14 +48,12 @@ class StepTheoryFragment : Fragment(R.layout.fragment_step_theory) {
     private val stepTheoryRatingAdapter: DefaultDelegateAdapter<StepTheoryRating> = DefaultDelegateAdapter()
     private val stepCommentStatisticsAdapter: DefaultDelegateAdapter<CommentStatisticsEntry> = DefaultDelegateAdapter()
 
-    private lateinit var step: Step
-    private lateinit var stepRoute: StepRoute
+    private var step: Step by argument(serializer = Step.serializer())
+    private var stepRoute: StepRoute by argument(serializer = StepRoute.serializer())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponent()
-        step = requireArguments().getParcelable<Step>(KEY_STEP) ?: throw IllegalStateException("Step cannot be null")
-        stepRoute = requireArguments().getParcelable<StepRoute>(KEY_STEP_ROUTE) ?: throw IllegalStateException("Step route cannot be null")
     }
 
     private fun injectComponent() {
