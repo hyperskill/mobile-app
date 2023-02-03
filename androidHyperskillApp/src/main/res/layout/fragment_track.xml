@@ -55,12 +55,29 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="center_horizontal"
-                android:paddingBottom="20dp"
                 android:text="@string/track_learning_now_text"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/trackNameTextView" />
+
+            <include
+                android:id="@+id/trackHeaderSkeleton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/layout_track_header_skeleton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/trackHeaderBarrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="trackLearningTextView,trackHeaderSkeleton"
+                />
 
             <LinearLayout
                 android:id="@+id/trackTopicsLinearLayout"
@@ -68,19 +85,20 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@color/color_surface"
-                android:paddingTop="20dp"
-                app:layout_constraintTop_toBottomOf="@+id/trackLearningTextView"
+                android:paddingVertical="20dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@+id/trackHeaderBarrier"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
+                    android:id="@+id/trackTopicsTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/track_topics_to_discover_next_block_title"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                     android:textSize="18sp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginHorizontal="20dp"
                     />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -88,302 +106,45 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/color_surface"
+                    android:layout_marginTop="13dp"
                     tools:listitem="@layout/item_topic"
                     tools:itemCount="3"
                     />
 
             </LinearLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/trackCardsLayout"
+            <include
+                android:id="@+id/trackProgress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="20dp"
-                android:paddingVertical="20dp"
+                layout="@layout/layout_track_progress"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/trackTopicsLinearLayout"
-                >
+                />
 
-                <TextView
-                    android:id="@+id/trackProgressTitleTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/track_progress_block_title"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/trackProgressTimeCardView"
-                    style="@style/TrackCardViewStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:contentPadding="20dp"
-                    android:layout_marginTop="20dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/trackProgressCompletedGraduateProjectsCardView"
-                    app:layout_constraintEnd_toStartOf="@+id/trackProgressCompletedGraduateProjectsCardView"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/trackProgressTitleTextView">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/trackTimeToCompleteTextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            tools:text="~ 56 h"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                            app:drawableEndCompat="@drawable/ic_track_time" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:text="@string/track_time_to_complete_text" />
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/trackProgressCompletedGraduateProjectsCardView"
-                    style="@style/TrackCardViewStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    app:contentPadding="20dp"
-                    android:layout_marginTop="20dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/trackProgressTimeCardView"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/trackProgressTimeCardView"
-                    app:layout_constraintTop_toBottomOf="@+id/trackProgressTitleTextView">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/trackCompletedGraduateProjectsTextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            tools:text="1"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                            app:drawableEndCompat="@drawable/ic_project_graduate" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:text="@string/track_completed_graduate_project_text" />
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/trackCompletedTopicsCardView"
-                    style="@style/TrackCardViewStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:contentPadding="16dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/trackProgressTimeCardView">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/trackCompletedTopicsTextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            tools:text="48 / 149"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                            app:drawableEndCompat="@drawable/ic_topic" />
-
-                        <com.google.android.material.progressindicator.LinearProgressIndicator
-                            android:id="@+id/trackCompletedTopicsProgressIndicator"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:progress="45"
-                            app:indicatorColor="@color/color_blue_400_alpha_60"
-                            app:trackColor="@color/color_on_surface_alpha_12"
-                            app:trackCornerRadius="@dimen/corner_radius" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="@string/track_completed_topics_text" />
-
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/trackAppliedCoreTopicsCardView"
-                    style="@style/TrackCardViewStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:contentPadding="16dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/trackCompletedTopicsCardView">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/trackAppliedCoreTopicsTextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            tools:text="0 / 138"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                            app:drawableEndCompat="@drawable/ic_hammer" />
-
-                        <com.google.android.material.progressindicator.LinearProgressIndicator
-                            android:id="@+id/trackAppliedCoreTopicsProgressIndicator"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:progress="45"
-                            app:indicatorColor="@color/color_blue_400_alpha_60"
-                            app:trackColor="@color/color_on_surface_alpha_12"
-                            app:trackCornerRadius="@dimen/corner_radius" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="@string/track_applied_core_topics_text" />
-
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <include
+                android:id="@+id/trackAbout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_surface"
-                android:paddingHorizontal="20dp"
-                android:paddingVertical="20dp"
+                layout="@layout/layout_track_about"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/trackCardsLayout">
+                app:layout_constraintTop_toBottomOf="@+id/trackProgress"
+                />
 
-                <TextView
-                    android:id="@+id/trackAboutTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/track_about_text"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/trackAboutUsefulnessTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:drawablePadding="4dp"
-                    tools:text="4.7"
-                    android:textSize="12sp"
-                    app:drawableStartCompat="@drawable/ic_star"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/trackAboutTextView" />
-
-                <TextView
-                    android:id="@+id/trackAboutAllPerformTimeTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="16dp"
-                    android:drawablePadding="4dp"
-                    tools:text="104 hours"
-                    android:textSize="12sp"
-                    app:drawableStartCompat="@drawable/ic_track_about_time"
-                    app:layout_constraintStart_toEndOf="@+id/trackAboutUsefulnessTextView"
-                    app:layout_constraintTop_toBottomOf="@+id/trackAboutTextView" />
-
-                <TextView
-                    android:id="@+id/trackAboutProjectsCountTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="16dp"
-                    android:drawablePadding="4dp"
-                    tools:text="20 projects"
-                    android:textSize="12sp"
-                    app:drawableStartCompat="@drawable/ic_track_about_project"
-                    app:layout_constraintStart_toEndOf="@+id/trackAboutAllPerformTimeTextView"
-                    app:layout_constraintTop_toBottomOf="@+id/trackAboutTextView" />
-
-                <TextView
-                    android:id="@+id/trackAboutTopicsCountTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="16dp"
-                    android:drawablePadding="4dp"
-                    tools:text="120 topics"
-                    android:textSize="12sp"
-                    app:drawableStartCompat="@drawable/ic_track_about_book"
-                    app:layout_constraintStart_toEndOf="@+id/trackAboutProjectsCountTextView"
-                    app:layout_constraintTop_toBottomOf="@+id/trackAboutTextView" />
-
-                <TextView
-                    android:id="@+id/trackAboutDescriptionTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    tools:text="You've never tried programming and you would like to build a solid foundation?"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/trackAboutUsefulnessTextView" />
-
-                <TextView
-                    android:id="@+id/trackAboutKeepYourProgressInWebTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:text="@string/track_continue_in_web_text"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/trackAboutDescriptionTextView" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <include
+                android:id="@+id/trackFooterSkeleton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/layout_track_footer_skeleton"
+                app:layout_constraintTop_toBottomOf="@+id/trackTopicsLinearLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
-
-    <include
-        android:id="@+id/trackSkeleton"
-        layout="@layout/layout_track_skeleton"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        />
 
     <include
         android:id="@+id/trackError"

@@ -10,7 +10,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         >
 
         <TextView
@@ -31,13 +31,16 @@
             app:layout_constraintEnd_toStartOf="@+id/topicCompletenessTextView"
             />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/topicCompletenessTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/color_secondary"
             tools:text="32%"
+            android:gravity="center_vertical"
+            app:drawableEndCompat="@drawable/ic_home_screen_arrow_button"
+            android:drawablePadding="8dp"
             android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
