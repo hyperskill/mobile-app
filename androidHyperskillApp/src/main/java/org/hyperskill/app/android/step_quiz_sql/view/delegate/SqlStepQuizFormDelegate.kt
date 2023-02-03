@@ -1,11 +1,12 @@
 package org.hyperskill.app.android.step_quiz_sql.view.delegate
 
+import android.text.Editable
 import android.text.TextWatcher
-import androidx.core.widget.doAfterTextChanged
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.code.presentation.model.ProgrammingLanguage
 import org.hyperskill.app.android.code.presentation.model.extensionForLanguage
 import org.hyperskill.app.android.code.view.widget.CodeEditorLayout
+import org.hyperskill.app.android.code.view.widget.withoutTextChangeCallback
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
@@ -22,7 +23,17 @@ class SqlStepQuizFormDelegate(
 ) : StepQuizFormDelegate {
 
     private var code: String? = sqlCodeTemplate
-    private var textWatcher: TextWatcher? = null
+
+    private var textWatcher: TextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+        override fun afterTextChanged(p0: Editable?) {
+            code = p0?.toString()
+            onQuizChanged(createReply())
+        }
+    }
 
     init {
         containerBinding.stepQuizDescription.setText(org.hyperskill.app.R.string.step_quiz_sql_title)
@@ -39,6 +50,7 @@ class SqlStepQuizFormDelegate(
             setOnClickListener {
                 onFullscreenClicked(ProgrammingLanguage.SQL.serverPrintableName, code)
             }
+            addTextChangedListener(textWatcher)
         }
 
         with(codeLayout) {
@@ -53,26 +65,25 @@ class SqlStepQuizFormDelegate(
     override fun setState(state: StepQuizFeature.State.AttemptLoaded) {
         val submission = state.submissionState.safeCast<StepQuizFeature.SubmissionState.Loaded>()?.submission
         val replyCode = submission?.reply?.solveSql
-        code = replyCode
+        this.code = replyCode
 
         val isEnabled = StepQuizResolver.isQuizEnabled(state)
         with(codeLayout) {
             setEnabled(isEnabled)
-            setTextIfChanged(code ?: sqlCodeTemplate ?: "")
-
-            /**
-             * Set textWatcher only after initial text set to avoid premature [onQuizChanged] call
-             * */
-            if (textWatcher == null) {
-                textWatcher = codeEditor.doAfterTextChanged {
-                    onQuizChanged(createReply())
-                }
+            withoutTextChangeCallback(textWatcher) {
+                setTextIfChanged(replyCode ?: sqlCodeTemplate ?: "")
             }
         }
     }
 
-    fun updateCodeLayoutFromDialog(newCode: String) {
+    fun updateCodeLayoutFromDialog(newCode: String, onSubmitClicked: Boolean) {
         this.code = newCode
-        codeLayout.setTextIfChanged(newCode)
+        if (onSubmitClicked) {
+            codeLayout.withoutTextChangeCallback(textWatcher) {
+                setTextIfChanged(newCode)
+            }
+        } else {
+            codeLayout.setTextIfChanged(newCode)
+        }
     }
 }

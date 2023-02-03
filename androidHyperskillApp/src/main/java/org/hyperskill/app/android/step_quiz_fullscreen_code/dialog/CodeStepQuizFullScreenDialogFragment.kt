@@ -94,6 +94,8 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
     private lateinit var resourceProvider: ResourceProvider
     private var latexWebView: LatexWebView? = null
 
+    private var isCodeSyncedAfterSubmissionClick: Boolean = false
+
     private fun injectComponent() {
         resourceProvider = HyperskillApp.graph().commonComponent.resourceProvider
     }
@@ -265,8 +267,10 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
     }
 
     override fun onPause() {
-        (parentFragment as? Callback)
-            ?.onSyncCodeStateWithParent(codeLayout.text.toString())
+        if (!isCodeSyncedAfterSubmissionClick) {
+            (parentFragment as? Callback)
+                ?.onSyncCodeStateWithParent(codeLayout.text.toString())
+        }
         super.onPause()
     }
 
@@ -361,6 +365,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
     private fun submitCodeActionClick() {
         (parentFragment as? Callback)
             ?.onSyncCodeStateWithParent(codeLayout.text.toString(), onSubmitClicked = true)
+        isCodeSyncedAfterSubmissionClick = true
         dismiss()
     }
 

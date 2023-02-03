@@ -1,11 +1,12 @@
 package org.hyperskill.app.android.step_quiz_code.view.delegate
 
+import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.doAfterTextChanged
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.code.view.widget.CodeEditorLayout
+import org.hyperskill.app.android.code.view.widget.withoutTextChangeCallback
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
@@ -23,7 +24,16 @@ class CodeStepQuizFormDelegate(
 ) : StepQuizFormDelegate {
 
     private var code: String? = initialCode
-    private var textWatcher: TextWatcher? = null
+    private var textWatcher: TextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+        override fun afterTextChanged(p0: Editable?) {
+            code = p0?.toString()
+            onQuizChanged(createReply())
+        }
+    }
 
     init {
         (
@@ -40,21 +50,19 @@ class CodeStepQuizFormDelegate(
             iconPadding = context.resources.getDimensionPixelSize(R.dimen.step_quiz_fullscreen_code_layout_action_button_icon_padding)
         }
 
+        with(codeLayoutDelegate) {
+            setEnabled(true)
+            setLanguage(lang, code)
+            setDetailsContentData(lang)
+        }
+
         with(codeLayout.codeEditor) {
             isFocusable = false
-
-            doAfterTextChanged {
-                onQuizChanged(createReply())
+            addTextChangedListener(textWatcher)
+            codeLayout.codeEditor.setOnClickListener {
+                onFullscreenClicked(lang, code)
             }
         }
-        codeLayout.codeEditor.setOnClickListener {
-            onFullscreenClicked(lang, code)
-        }
-
-        codeLayoutDelegate.setEnabled(true)
-
-        codeLayoutDelegate.setLanguage(lang, code)
-        codeLayoutDelegate.setDetailsContentData(lang)
     }
 
     override fun createReply(): Reply =
@@ -64,27 +72,27 @@ class CodeStepQuizFormDelegate(
         val submission = (state.submissionState as? StepQuizFeature.SubmissionState.Loaded)
             ?.submission
         val replyCode = submission?.reply?.code
-        code = replyCode
+        this.code = replyCode
 
         val isEnabled = StepQuizResolver.isQuizEnabled(state)
         codeLayoutDelegate.setEnabled(isEnabled)
 
-        codeLayoutDelegate.setLanguage(lang, replyCode)
-        /**
-         * Set textWatcher only after initial text set to avoid premature [onQuizChanged] call
-         * */
-        if (textWatcher == null) {
-            textWatcher = codeLayout.codeEditor.doAfterTextChanged {
-                onQuizChanged(createReply())
-            }
+        codeLayout.withoutTextChangeCallback(textWatcher) {
+            codeLayoutDelegate.setLanguage(lang, replyCode)
+            codeLayoutDelegate.setDetailsContentData(lang)
         }
-
-        codeLayoutDelegate.setDetailsContentData(lang)
     }
 
-    fun updateCodeLayoutFromDialog(newCode: String) {
-        code = newCode
-        codeLayoutDelegate.setLanguage(lang, code)
-        codeLayoutDelegate.setDetailsContentData(lang)
+    fun updateCodeLayoutFromDialog(newCode: String, onSubmitClicked: Boolean) {
+        this.code = newCode
+        if (onSubmitClicked) {
+            codeLayout.withoutTextChangeCallback(textWatcher) {
+                codeLayoutDelegate.setLanguage(lang, code)
+                codeLayoutDelegate.setDetailsContentData(lang)
+            }
+        } else {
+            codeLayoutDelegate.setLanguage(lang, code)
+            codeLayoutDelegate.setDetailsContentData(lang)
+        }
     }
 }

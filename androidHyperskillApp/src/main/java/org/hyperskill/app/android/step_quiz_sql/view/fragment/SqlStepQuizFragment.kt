@@ -47,10 +47,10 @@ class SqlStepQuizFragment : DefaultStepQuizFragment(), CodeStepQuizFullScreenDia
         super.onViewCreated(view, savedInstanceState)
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
         _binding = null
         codeStepQuizFormDelegate = null
-        super.onDestroy()
+        super.onDestroyView()
     }
 
     override fun createStepQuizFormDelegate(containerBinding: FragmentStepQuizBinding): StepQuizFormDelegate {
@@ -91,7 +91,7 @@ class SqlStepQuizFragment : DefaultStepQuizFragment(), CodeStepQuizFullScreenDia
     }
 
     override fun onSyncCodeStateWithParent(code: String, onSubmitClicked: Boolean) {
-        codeStepQuizFormDelegate?.updateCodeLayoutFromDialog(code)
+        codeStepQuizFormDelegate?.updateCodeLayoutFromDialog(code, onSubmitClicked)
         if (onSubmitClicked) {
             onSubmitButtonClicked()
         }
