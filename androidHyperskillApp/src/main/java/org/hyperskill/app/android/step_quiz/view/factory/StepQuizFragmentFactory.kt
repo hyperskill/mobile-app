@@ -38,6 +38,9 @@ object StepQuizFragmentFactory {
                 BlockName.CODE ->
                     CodeStepQuizFragment.newInstance(step, stepRoute)
 
+                BlockName.SQL ->
+                    SqlStepQuizFragment.newInstance(step, stepRoute)
+
                 else ->
                     UnsupportedStepQuizFragment.newInstance()
             }
