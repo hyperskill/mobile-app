@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_surface"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="20dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    >
+
+    <TextView
+        android:id="@+id/trackAboutTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/track_about_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/trackAboutUsefulnessTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:drawablePadding="4dp"
+        tools:text="4.7"
+        android:textSize="12sp"
+        app:drawableStartCompat="@drawable/ic_star"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/trackAboutTextView" />
+
+    <TextView
+        android:id="@+id/trackAboutAllPerformTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:drawablePadding="4dp"
+        tools:text="104 hours"
+        android:textSize="12sp"
+        app:drawableStartCompat="@drawable/ic_track_about_time"
+        app:layout_constraintStart_toEndOf="@+id/trackAboutUsefulnessTextView"
+        app:layout_constraintTop_toBottomOf="@+id/trackAboutTextView" />
+
+    <TextView
+        android:id="@+id/trackAboutProjectsCountTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:drawablePadding="4dp"
+        tools:text="20 projects"
+        android:textSize="12sp"
+        app:drawableStartCompat="@drawable/ic_track_about_project"
+        app:layout_constraintStart_toEndOf="@+id/trackAboutAllPerformTimeTextView"
+        app:layout_constraintTop_toBottomOf="@+id/trackAboutTextView" />
+
+    <TextView
+        android:id="@+id/trackAboutTopicsCountTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:drawablePadding="4dp"
+        tools:text="120 topics"
+        android:textSize="12sp"
+        app:drawableStartCompat="@drawable/ic_track_about_book"
+        app:layout_constraintStart_toEndOf="@+id/trackAboutProjectsCountTextView"
+        app:layout_constraintTop_toBottomOf="@+id/trackAboutTextView" />
+
+    <TextView
+        android:id="@+id/trackAboutDescriptionTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        tools:text="You've never tried programming and you would like to build a solid foundation?"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/trackAboutUsefulnessTextView" />
+
+    <TextView
+        android:id="@+id/trackAboutKeepYourProgressInWebTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/track_continue_in_web_text"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/trackAboutDescriptionTextView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
