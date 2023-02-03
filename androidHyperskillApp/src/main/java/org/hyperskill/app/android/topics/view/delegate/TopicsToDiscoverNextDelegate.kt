@@ -1,7 +1,6 @@
 package org.hyperskill.app.android.topics.view.delegate
 
 import android.content.Context
-import android.view.LayoutInflater
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.hyperskill.app.android.R
@@ -39,10 +38,14 @@ class TopicsToDiscoverNextDelegate(
             )
             addItemDecoration(
                 LearnNextRecyclerItemDecoration(
-                    badge = LayoutInflater.from(context).inflate(R.layout.layout_learn_next_topic_badge, recyclerView, false),
+                    context = context,
+                    recyclerView = recyclerView,
                     marginStart = horizontalMargin +
-                        context.resources.getDimensionPixelOffset(R.dimen.track_next_topic_horizontal_item_padding)
-                )
+                        context.resources.getDimensionPixelOffset(R.dimen.track_next_topic_horizontal_item_padding),
+                    marginTop = context.resources.getDimensionPixelOffset(R.dimen.track_next_topic_first_item_vertical_offset)
+                ) { position ->
+                    nextTopicsAdapter.items[position] is TopicListItem.Topic
+                }
             )
         }
     }
