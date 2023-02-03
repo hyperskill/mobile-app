@@ -34,12 +34,11 @@ import kotlin.math.floor
 class StepTheoryFragment : Fragment(R.layout.fragment_step_theory) {
     companion object {
         private const val STEP_CONTENT_FRAGMENT_TAG = "step_content"
-        fun newInstance(step: Step, stepRoute: StepRoute): Fragment {
-            return StepTheoryFragment().apply {
+        fun newInstance(step: Step, stepRoute: StepRoute): Fragment =
+            StepTheoryFragment().apply {
                 this.step = step
                 this.stepRoute = stepRoute
             }
-        }
     }
 
     private lateinit var resourceProvider: ResourceProvider
