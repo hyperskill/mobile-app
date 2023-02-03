@@ -33,7 +33,7 @@ PODS:
   - Sentry/Core (8.0.0):
     - SentryPrivate (= 8.0.0)
   - SentryPrivate (8.0.0)
-  - shared (1.7)
+  - shared (1.8)
   - SkeletonUI (1.0.7)
   - SnapKit (5.6.0)
   - STRegex (2.1.1)
@@ -133,7 +133,7 @@ SPEC CHECKSUMS:
   PanModal: 3e16ead1a907fb06f4df3f13492fd00149fa4974
   Sentry: 2158a4621096dcd0a3a4f7c80b84b04dde261035
   SentryPrivate: 1e3acf96ee818a8d0d95b8e922d39ab6be338ea0
-  shared: 2beddc9bfa405a180f9e84791de584073c04f092
+  shared: 63b9f8c88ef366da2673e0b5f22dd47688ee76bc
   SkeletonUI: 18fbcd8698480432852d7e30a65b8d5e138266f0
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   STRegex: d49e88d0fe58538d3175fdd989bc1243b9be2a07
