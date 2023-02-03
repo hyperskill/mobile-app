@@ -227,33 +227,37 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
             stepQuizFeedbackBlocksDelegate?.setState(stepQuizFeedbackMapper.mapToStepQuizFeedbackState(step.block.name, state))
             viewBinding.stepQuizButtons.stepQuizSubmitButton.isEnabled = StepQuizResolver.isQuizEnabled(state)
 
-            val submissionState = state.submissionState
-            if (submissionState is StepQuizFeature.SubmissionState.Loaded) {
-                val submissionStatus = submissionState.submission.status
+            when (val submissionState = state.submissionState) {
+                is StepQuizFeature.SubmissionState.Loaded -> {
+                    val submissionStatus = submissionState.submission.status
 
-                if (submissionStatus == SubmissionStatus.WRONG) {
-                    if (step.block.name == BlockName.CODE || step.block.name == BlockName.SQL) {
-                        setStepQuizButtonsState(StepQuizButtonsState.RETRY_LOGO_AND_SUBMIT)
-                    } else {
+                    if (submissionStatus == SubmissionStatus.WRONG) {
+                        if (step.block.name == BlockName.CODE || step.block.name == BlockName.SQL) {
+                            setStepQuizButtonsState(StepQuizButtonsState.RETRY_LOGO_AND_SUBMIT)
+                        } else {
+                            setStepQuizButtonsState(
+                                if (StepQuizResolver.isNeedRecreateAttemptForNewSubmission(step)) {
+                                    StepQuizButtonsState.RETRY
+                                } else StepQuizButtonsState.SUBMIT
+                            )
+                        }
+                    } else if (submissionStatus == SubmissionStatus.CORRECT) {
                         setStepQuizButtonsState(
-                            if (StepQuizResolver.isNeedRecreateAttemptForNewSubmission(step)) {
-                                StepQuizButtonsState.RETRY
-                            } else StepQuizButtonsState.SUBMIT
+                            if (StepQuizResolver.isQuizRetriable(step)) {
+                                StepQuizButtonsState.RETRY_LOGO_AND_CONTINUE
+                            } else StepQuizButtonsState.CONTINUE
                         )
+                    } else {
+                        setStepQuizButtonsState(StepQuizButtonsState.SUBMIT)
                     }
-                } else if (submissionStatus == SubmissionStatus.CORRECT) {
-                    setStepQuizButtonsState(
-                        if (StepQuizResolver.isQuizRetriable(step)) {
-                            StepQuizButtonsState.RETRY_LOGO_AND_CONTINUE
-                        } else StepQuizButtonsState.CONTINUE
-                    )
-                } else {
-                    setStepQuizButtonsState(StepQuizButtonsState.SUBMIT)
-                }
 
-                val replyValidation = submissionState.replyValidation
-                if (replyValidation is ReplyValidationResult.Error) {
-                    stepQuizFeedbackBlocksDelegate?.setState(StepQuizFeedbackState.Validation(replyValidation.message))
+                    val replyValidation = submissionState.replyValidation
+                    if (replyValidation is ReplyValidationResult.Error) {
+                        stepQuizFeedbackBlocksDelegate?.setState(StepQuizFeedbackState.Validation(replyValidation.message))
+                    }
+                }
+                is StepQuizFeature.SubmissionState.Empty -> {
+                    setStepQuizButtonsState(StepQuizButtonsState.SUBMIT)
                 }
             }
         }
