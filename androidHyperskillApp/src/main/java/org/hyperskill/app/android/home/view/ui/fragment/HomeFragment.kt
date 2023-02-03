@@ -85,7 +85,10 @@ class HomeFragment :
         super.onViewCreated(view, savedInstanceState)
         initViewStateDelegate()
         initGamificationToolbarDelegate()
-        topicsToDiscoverNextDelegate.setup(requireContext(), viewBinding.homeTopicsToDiscoverNextRecycler)
+        topicsToDiscoverNextDelegate.setup(
+            requireContext(),
+            viewBinding.homeTopicsToDiscoverNext.homeTopicsToDiscoverNextRecycler
+        )
         with(viewBinding) {
             homeScreenError.tryAgain.setOnClickListener {
                 homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = true))
@@ -136,7 +139,8 @@ class HomeFragment :
             addState<HomeFeature.HomeState.Loading>(
                 viewBinding.homeScreenContainer,
                 viewBinding.homeScreenSkeleton.root,
-                viewBinding.homeScreenAppBar.root
+                viewBinding.homeScreenAppBar.root,
+                viewBinding.homeKeepLearningInWebButtonSkeleton
             )
             addState<HomeFeature.HomeState.NetworkError>(viewBinding.homeScreenError.root)
             addState<HomeFeature.HomeState.Content>(
@@ -196,8 +200,6 @@ class HomeFragment :
     override fun render(state: HomeFeature.State) {
         viewStateDelegate.switchState(state.homeState)
 
-        TransitionManager.beginDelayedTransition(viewBinding.root, AutoTransition())
-
         val homeState = state.homeState
         if (homeState is HomeFeature.HomeState.Content) {
             if (homeState.isLoadingMagicLink) {
@@ -242,8 +244,13 @@ class HomeFragment :
     }
 
     private fun renderTopicsToDiscoverNext(state: TopicsToDiscoverNextFeature.State) {
-        viewBinding.homeTopicsToDiscoverNextTitle.isVisible =
-            state is TopicsToDiscoverNextFeature.State.Content
+        TransitionManager.beginDelayedTransition(viewBinding.root, AutoTransition())
+        with(viewBinding) {
+            homeTopicsToDiscoverNext.homeTopicsToDiscoverNextTitle.isVisible =
+                state is TopicsToDiscoverNextFeature.State.Content
+            homeTopicsToDiscoverNext.homeTopicsToDiscoverNextTitleSkeleton.isVisible =
+                state is TopicsToDiscoverNextFeature.State.Loading
+        }
         topicsToDiscoverNextDelegate.render(state)
     }
 }

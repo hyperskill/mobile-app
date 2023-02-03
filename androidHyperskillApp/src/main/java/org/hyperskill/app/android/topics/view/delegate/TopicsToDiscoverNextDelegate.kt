@@ -47,6 +47,7 @@ class TopicsToDiscoverNextDelegate(
                     nextTopicsAdapter.items[position] is TopicListItem.Topic
                 }
             )
+            itemAnimator = null
         }
     }
 
