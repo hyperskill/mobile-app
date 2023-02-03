@@ -3,6 +3,16 @@
     {
       "filename" : "problem-of-day-arrow-uncompleted.pdf",
       "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "problem-of-day-arrow-uncompleted-dark.pdf",
+      "idiom" : "universal"
     }
   ],
   "info" : {

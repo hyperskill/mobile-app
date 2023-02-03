@@ -50,7 +50,7 @@ interface TopicsToDiscoverNextFeature {
 
         object PullToRefresh : Message
 
-        data class TopicRepeated(val topicId: Long) : Message
+        data class TopicCompleted(val topicId: Long) : Message
 
         /**
          * A message that indicates about click on topic.

@@ -55,9 +55,10 @@ struct TrackTopicsToDiscoverNextBlockView: View {
     @ViewBuilder
     private func buildTopicsList(topics: [Topic]) -> some View {
         LazyVStack(spacing: appearance.spacing) {
-            ForEach(topics, id: \.id) { topic in
+            ForEach(Array(topics.enumerated()), id: \.element.id) { index, topic in
                 TopicToDiscoverNextButtonView(
                     topic: topic,
+                    isLearnNext: index == 0,
                     onTap: { onTopicTapped?(topic.id) }
                 )
             }

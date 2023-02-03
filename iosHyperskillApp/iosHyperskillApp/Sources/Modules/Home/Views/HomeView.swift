@@ -87,6 +87,11 @@ struct HomeView: View {
                         )
                     }
 
+                    TopicToDiscoverNextCardView(
+                        state: viewModel.topicsToDiscoverNextStateSk,
+                        delegate: viewModel
+                    )
+
                     let shouldShowContinueInWebButton = data.problemOfDayState is HomeFeatureProblemOfDayStateEmpty ||
                       data.problemOfDayState is HomeFeatureProblemOfDayStateSolved
 
