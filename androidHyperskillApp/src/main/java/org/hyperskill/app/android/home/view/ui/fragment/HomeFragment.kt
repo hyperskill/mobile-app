@@ -178,6 +178,15 @@ class HomeFragment :
                     is GamificationToolbarFeature.Action.ViewAction.ShowProfileTab ->
                         requireMainRouter().switch(ProfileScreen(isInitCurrent = true))
                 }
+            is HomeFeature.Action.ViewAction.TopicsToDiscoverNextViewAction -> {
+                when (action.viewAction) {
+                    is TopicsToDiscoverNextFeature.Action.ViewAction.ShowStepScreen -> {
+                        val viewAction =
+                            action.viewAction as TopicsToDiscoverNextFeature.Action.ViewAction.ShowStepScreen
+                        requireRouter().navigateTo(StepScreen(StepRoute.Learn(viewAction.stepId)))
+                    }
+                }
+            }
             else -> {
                 // no op
             }
