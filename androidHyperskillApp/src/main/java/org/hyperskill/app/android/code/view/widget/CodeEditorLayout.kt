@@ -1,6 +1,7 @@
 package org.hyperskill.app.android.code.view.widget
 
 import android.content.Context
+import android.text.TextWatcher
 import android.util.AttributeSet
 import androidx.core.content.res.use
 import androidx.core.view.ViewCompat
@@ -99,4 +100,10 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
         super.fling(velocityY)
         stopNestedScroll(ViewCompat.TYPE_NON_TOUCH)
     }
+}
+
+fun CodeEditorLayout.withoutTextChangeCallback(textWatcher: TextWatcher?, block: (CodeEditorLayout) -> Unit) {
+    codeEditor.removeTextChangedListener(textWatcher)
+    block(this)
+    codeEditor.addTextChangedListener(textWatcher)
 }

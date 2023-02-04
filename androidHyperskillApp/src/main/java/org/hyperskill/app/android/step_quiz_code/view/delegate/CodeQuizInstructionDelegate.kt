@@ -19,7 +19,7 @@ import org.hyperskill.app.step.domain.model.Step
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 
 class CodeQuizInstructionDelegate(
-    detailsContainerView: View,
+    private val detailsContainerView: View,
     isCollapsible: Boolean,
     onDetailsIsExpandedStateChanged: () -> Unit
 ) {
@@ -61,10 +61,11 @@ class CodeQuizInstructionDelegate(
 
     fun setCodeDetailsData(step: Step, lang: String?) {
         if (lang == ProgrammingLanguage.SQL.serverPrintableName) {
-            stepQuizCodeDetails.isVisible = false
+            detailsContainerView.isVisible = false
         } else {
-            stepQuizCodeDetailsAdapter.items = codeStepQuizDetailsMapper.mapToCodeDetails(step)
-            stepQuizCodeDetails.isVisible = stepQuizCodeDetailsAdapter.items.isNotEmpty()
+            val details = codeStepQuizDetailsMapper.mapToCodeDetails(step)
+            stepQuizCodeDetailsAdapter.items = details
+            detailsContainerView.isVisible = details.isNotEmpty()
         }
     }
 }
