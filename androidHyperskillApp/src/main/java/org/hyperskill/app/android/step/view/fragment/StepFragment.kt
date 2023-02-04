@@ -8,10 +8,12 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
+import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepBinding
 import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
+import org.hyperskill.app.android.step.view.dialog.TopicPracticeCompletedBottomSheet
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step.view.screen.StepScreen
@@ -24,6 +26,7 @@ import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step.presentation.StepViewModel
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
+import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -90,6 +93,8 @@ class StepFragment :
 
                     StepCompletionFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
                         requireRouter().newRootScreen(HomeScreen)
+                        childFragmentManager
+                            .dismissDialogFragmentIfExists(TopicPracticeCompletedBottomSheet.Tag)
                     }
 
                     is StepCompletionFeature.Action.ViewAction.ReloadStep -> {
@@ -101,7 +106,8 @@ class StepFragment :
                     }
 
                     is StepCompletionFeature.Action.ViewAction.ShowTopicCompletedModal -> {
-                        TODO("Not implemented")
+                        TopicPracticeCompletedBottomSheet.newInstance(stepCompletionAction.modalText)
+                            .showIfNotExists(childFragmentManager, TopicPracticeCompletedBottomSheet.Tag)
                     }
                 }
             }
