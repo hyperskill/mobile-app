@@ -67,8 +67,6 @@ interface StepQuizFeature {
 
         data class SyncReply(val reply: Reply) : Message
 
-        object ContinueClicked : Message
-
         /**
          * Request user permission
          */
