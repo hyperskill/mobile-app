@@ -2,6 +2,7 @@ package org.hyperskill.app.android.step_quiz_sql.view.delegate
 
 import android.text.Editable
 import android.text.TextWatcher
+import com.google.android.material.button.MaterialButton
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.code.presentation.model.ProgrammingLanguage
 import org.hyperskill.app.android.code.presentation.model.extensionForLanguage
@@ -37,12 +38,6 @@ class SqlStepQuizFormDelegate(
 
     init {
         containerBinding.stepQuizDescription.setText(org.hyperskill.app.R.string.step_quiz_sql_title)
-        with(containerBinding.stepQuizButtons.stepQuizSubmitButton) {
-            setText(org.hyperskill.app.R.string.step_quiz_code_run_solution_button_text)
-            setIconResource(R.drawable.ic_run)
-            iconPadding =
-                context.resources.getDimensionPixelSize(R.dimen.step_quiz_fullscreen_code_layout_action_button_icon_padding)
-        }
 
         with(codeLayout.codeEditor) {
             isFocusable = false
@@ -56,6 +51,15 @@ class SqlStepQuizFormDelegate(
         with(codeLayout) {
             isEnabled = true
             lang = extensionForLanguage(ProgrammingLanguage.SQL.serverPrintableName)
+        }
+    }
+
+    override fun customizeSubmissionButton(button: MaterialButton) {
+        with (button) {
+            setText(org.hyperskill.app.R.string.step_quiz_code_run_solution_button_text)
+            setIconResource(R.drawable.ic_run)
+            iconPadding =
+                context.resources.getDimensionPixelSize(R.dimen.step_quiz_fullscreen_code_layout_action_button_icon_padding)
         }
     }
 

@@ -75,7 +75,9 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
         super.onViewCreated(view, savedInstanceState)
         viewStateDelegate = StepQuizViewStateDelegateFactory.create(viewBinding, skeletonView, *quizViews)
         stepQuizFeedbackBlocksDelegate = StepQuizFeedbackBlocksDelegate(requireContext(), viewBinding.stepQuizFeedbackBlocks)
-        stepQuizFormDelegate = createStepQuizFormDelegate(viewBinding)
+        stepQuizFormDelegate = createStepQuizFormDelegate(viewBinding).also { delegate ->
+            delegate.customizeSubmissionButton(viewBinding.stepQuizButtons.stepQuizSubmitButton)
+        }
         initButtonsViewStateDelegate()
 
         viewBinding.stepQuizButtons.stepQuizSubmitButton.setOnClickListener {
