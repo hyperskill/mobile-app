@@ -17,6 +17,7 @@ import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.step_practice.view.fragment.StepPracticeFragment
 import org.hyperskill.app.android.step_theory.view.fragment.StepTheoryFragment
+import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.presentation.StepFeature
@@ -96,7 +97,7 @@ class StepFragment :
                     }
 
                     is StepCompletionFeature.Action.ViewAction.ShowStartPracticingError -> {
-                        TODO("Not implemented")
+                        view?.snackbar(stepCompletionAction.message)
                     }
 
                     is StepCompletionFeature.Action.ViewAction.ShowTopicCompletedModal -> {
