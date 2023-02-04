@@ -80,5 +80,4 @@ class TopicPracticeCompletedBottomSheet : BottomSheetDialogFragment() {
     private fun onNewMessage(message: StepCompletionFeature.Message) {
         parentOfType(StepCompletionHost::class.java)?.onNewMessage(message)
     }
-
 }
