@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.children
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -99,14 +100,18 @@ abstract class DefaultStepQuizFragment :
         stepQuizButtonsViewStateDelegate = ViewStateDelegate<StepQuizButtonsState>().apply {
             addState<StepQuizButtonsState.Submit>(viewBinding.stepQuizButtons.stepQuizSubmitButton)
             addState<StepQuizButtonsState.Retry>(viewBinding.stepQuizButtons.stepQuizRetryButton)
-            addState<StepQuizButtonsState.Continue>(viewBinding.stepQuizButtons.stepQuizContinueButton)
+            addState<StepQuizButtonsState.Continue>(
+                viewBinding.stepQuizButtons.stepQuizContinueButton,
+                viewBinding.stepQuizButtons.stepQuizContinueFrame
+            )
             addState<StepQuizButtonsState.RetryLogoAndSubmit>(
                 viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton,
                 viewBinding.stepQuizButtons.stepQuizSubmitButton
             )
             addState<StepQuizButtonsState.RetryLogoAndContinue>(
                 viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton,
-                viewBinding.stepQuizButtons.stepQuizContinueButton
+                viewBinding.stepQuizButtons.stepQuizContinueButton,
+                viewBinding.stepQuizButtons.stepQuizContinueFrame
             )
         }
     }
@@ -294,8 +299,13 @@ abstract class DefaultStepQuizFragment :
         onNewState(state)
     }
 
-    override fun render(isPracticingLoading: Boolean) {
-        // TODO("Not yet implemented")
+    final override fun render(isPracticingLoading: Boolean) {
+        if (isResumed) {
+            with(viewBinding) {
+                stepQuizButtons.stepQuizContinueButtonShimmer.isVisible = isPracticingLoading
+                stepQuizButtons.stepQuizContinueButton.isEnabled = !isPracticingLoading
+            }
+        }
     }
 
     protected fun syncReplyState(reply: Reply) {

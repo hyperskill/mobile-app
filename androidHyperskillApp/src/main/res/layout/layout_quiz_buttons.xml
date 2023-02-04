@@ -15,13 +15,29 @@
         app:icon="@drawable/ic_retry"
         app:strokeColor="@color/color_primary_alpha_38" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/stepQuizContinueButton"
+    <FrameLayout
+        android:id="@+id/stepQuizContinueFrame"
         android:layout_width="match_parent"
         android:layout_height="@dimen/step_quiz_submit_button_height"
-        android:text="@string/step_quiz_continue_button_text"
-        android:theme="@style/ThemeOverlay.Green"
-        android:visibility="gone" />
+        android:visibility="gone"
+        >
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/stepQuizContinueButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/step_quiz_submit_button_height"
+            android:text="@string/step_quiz_continue_button_text"
+            android:theme="@style/ThemeOverlay.Green"
+            />
+
+        <org.hyperskill.app.android.ui.custom.LoadingView
+            android:id="@+id/stepQuizContinueButtonShimmer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            />
+
+    </FrameLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/stepQuizSubmitButton"

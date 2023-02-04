@@ -190,6 +190,13 @@ class StepTheoryFragment : Fragment(R.layout.fragment_step_theory), StepCompleti
     }
 
     override fun render(isPracticingLoading: Boolean) {
-        // TODO("Not yet implemented")
+        if (isResumed) {
+            with(viewBinding) {
+                stepTheoryPracticeActionBeginningShimmer.isVisible = isPracticingLoading
+                stepTheoryPracticeActionBeginning.isEnabled = !isPracticingLoading
+                stepTheoryPracticeActionEndShimmer.isVisible = isPracticingLoading
+                stepTheoryPracticeActionEnd.isEnabled = !isPracticingLoading
+            }
+        }
     }
 }

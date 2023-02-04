@@ -55,6 +55,16 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/stepTheoryTimeToComplete" />
 
+            <org.hyperskill.app.android.ui.custom.LoadingView
+                android:id="@+id/stepTheoryPracticeActionBeginningShimmer"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="@+id/stepTheoryPracticeActionBeginning"
+                app:layout_constraintBottom_toBottomOf="@+id/stepTheoryPracticeActionBeginning"
+                app:layout_constraintStart_toStartOf="@+id/stepTheoryPracticeActionBeginning"
+                app:layout_constraintEnd_toEndOf="@+id/stepTheoryPracticeActionBeginning"
+                />
+
             <FrameLayout
                 android:id="@+id/stepTheoryContent"
                 android:layout_width="match_parent"
@@ -104,6 +114,16 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/stepTheoryRatingRecycler" />
+
+            <org.hyperskill.app.android.ui.custom.LoadingView
+                android:id="@+id/stepTheoryPracticeActionEndShimmer"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="@+id/stepTheoryPracticeActionEnd"
+                app:layout_constraintBottom_toBottomOf="@+id/stepTheoryPracticeActionEnd"
+                app:layout_constraintStart_toStartOf="@+id/stepTheoryPracticeActionEnd"
+                app:layout_constraintEnd_toEndOf="@+id/stepTheoryPracticeActionEnd"
+                />
 
             <!-- ALTAPPS-397: Hidden -->
             <androidx.recyclerview.widget.RecyclerView
