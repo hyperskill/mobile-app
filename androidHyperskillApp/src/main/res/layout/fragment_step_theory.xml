@@ -43,7 +43,6 @@
                 tools:drawableStart="@drawable/ic_time"
                 tools:text="3 minutes reading" />
 
-            <!-- ALTAPPS-397: Hidden -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/stepTheoryPracticeActionBeginning"
                 style="@style/Widget.AppTheme.Button.OutlinedButton"
@@ -51,8 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/step_theory_elements_margin"
                 android:text="@string/step_start_practicing_text"
-                android:theme="@style/ThemeOverlay.Green"
-                android:visibility="gone"
+                android:theme="@style/ThemeOverlay.Blue"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/stepTheoryTimeToComplete" />
@@ -96,15 +94,13 @@
                 tools:listitem="@layout/item_step_theory_rating"
                 tools:orientation="horizontal" />
 
-            <!-- ALTAPPS-397: Hidden -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/stepTheoryPracticeActionEnd"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/step_theory_elements_margin"
                 android:text="@string/step_start_practicing_text"
-                android:theme="@style/ThemeOverlay.Green"
-                android:visibility="gone"
+                android:theme="@style/ThemeOverlay.Blue"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/stepTheoryRatingRecycler" />
@@ -135,6 +131,8 @@
         android:theme="@style/StepFloatingActionButton"
         android:visibility="invisible"
         app:layout_anchorGravity="top|start"
-        app:tint="?colorControlNormal" />
+        app:tint="?colorControlNormal"
+        tools:ignore="ContentDescription"
+        />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

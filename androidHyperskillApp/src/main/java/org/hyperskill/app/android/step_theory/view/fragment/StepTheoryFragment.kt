@@ -8,17 +8,21 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.button.MaterialButton
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.HorizontalMarginItemDecoration
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.VerticalMarginItemDecoration
+import org.hyperskill.app.android.core.view.ui.fragment.parentOfType
+import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepTheoryBinding
 import org.hyperskill.app.android.databinding.ItemStepCommentActionBinding
 import org.hyperskill.app.android.databinding.ItemStepTheoryRatingBinding
+import org.hyperskill.app.android.step.view.model.StepCompletionHost
+import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step_content_text.view.fragment.TextStepContentFragment
 import org.hyperskill.app.android.step_theory.view.model.StepTheoryRating
 import org.hyperskill.app.core.view.mapper.ResourceProvider
@@ -26,18 +30,21 @@ import org.hyperskill.app.step.domain.model.CommentStatisticsEntry
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.view.mapper.CommentThreadTitleMapper
+import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
 import ru.nobird.android.ui.adapterdelegates.dsl.adapterDelegate
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
+import ru.nobird.android.view.base.ui.extension.argument
 import kotlin.math.abs
 import kotlin.math.floor
 
-class StepTheoryFragment : Fragment(R.layout.fragment_step_theory) {
+class StepTheoryFragment : Fragment(R.layout.fragment_step_theory), StepCompletionView {
     companion object {
         private const val STEP_CONTENT_FRAGMENT_TAG = "step_content"
-        fun newInstance(step: Step, stepRoute: StepRoute): Fragment =
+        fun newInstance(step: Step, stepRoute: StepRoute, isPracticingAvailable: Boolean): Fragment =
             StepTheoryFragment().apply {
                 this.step = step
                 this.stepRoute = stepRoute
+                this.isPracticingAvailable = isPracticingAvailable
             }
     }
 
@@ -50,6 +57,7 @@ class StepTheoryFragment : Fragment(R.layout.fragment_step_theory) {
 
     private var step: Step by argument(serializer = Step.serializer())
     private var stepRoute: StepRoute by argument(serializer = StepRoute.serializer())
+    private var isPracticingAvailable: Boolean by argument()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,31 +72,27 @@ class StepTheoryFragment : Fragment(R.layout.fragment_step_theory) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewBinding.stepTheoryAppBar.stepToolbar.root.setNavigationOnClickListener {
-            requireRouter().exit()
-        }
-        viewBinding.stepTheoryAppBar.stepToolbar.stepToolbarTitle.text = step.title
-        viewBinding.stepTheoryAppBar.root.addOnOffsetChangedListener(
-            AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+        with(viewBinding.stepTheoryAppBar) {
+            stepToolbar.root.setNavigationOnClickListener {
+                requireRouter().exit()
+            }
+            stepToolbar.stepToolbarTitle.text = step.title
+            root.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
                 if (abs(verticalOffset) == appBarLayout.totalScrollRange) {
                     viewBinding.stepTheoryFab.show()
                 } else {
                     viewBinding.stepTheoryFab.hide()
                 }
             }
-        )
+        }
         viewBinding.stepTheoryFab.setOnClickListener {
-            activity?.onBackPressed()
+            requireRouter().exit()
         }
 
-        viewBinding.stepTheoryTimeToComplete.isVisible = step.secondsToComplete != null
-        step.secondsToComplete?.let { secondsToComplete ->
-            val minutesToComplete = floor(secondsToComplete / 60).toInt()
-            viewBinding.stepTheoryTimeToComplete.text = resourceProvider.getString(
-                SharedResources.strings.step_theory_reading_text,
-                resourceProvider.getQuantityString(SharedResources.plurals.minutes, minutesToComplete, minutesToComplete)
-            )
-        }
+        setupStarPracticeButton(viewBinding.stepTheoryPracticeActionBeginning, isPracticingAvailable)
+        setupStarPracticeButton(viewBinding.stepTheoryPracticeActionEnd, isPracticingAvailable)
+
+        renderSecondsToComplete(step.secondsToComplete)
 
         // ALTAPPS-397: Hidden
 //        viewBinding.stepTheoryReactionTitle.text = buildSpannedString {
@@ -98,21 +102,39 @@ class StepTheoryFragment : Fragment(R.layout.fragment_step_theory) {
 //                append(resources.getString(R.string.step_rating_text_part_2))
 //            }
 //        }
-        initStepTheoryFragment(step)
+        setupStepContentFragment(step)
         setupCommentStatisticsAdapterDelegate()
         // ALTAPPS-397: Hidden
         // setupStepRatingRecyclerView()
         // setupCommentStatisticsRecyclerView()
     }
 
-    private fun initStepTheoryFragment(step: Step) {
-        if (childFragmentManager.findFragmentByTag(STEP_CONTENT_FRAGMENT_TAG) == null) {
-            val stepContentFragment = TextStepContentFragment.newInstance(step)
+    private fun setupStarPracticeButton(button: MaterialButton, isPracticingAvailable: Boolean) {
+        button.isVisible = isPracticingAvailable
+        button.setOnClickListener {
+            parentOfType(StepCompletionHost::class.java)
+                ?.onNewMessage(StepCompletionFeature.Message.StartPracticingClicked)
+        }
+    }
 
-            childFragmentManager
-                .beginTransaction()
-                .add(R.id.stepTheoryContent, stepContentFragment, STEP_CONTENT_FRAGMENT_TAG)
-                .commitNow()
+    private fun renderSecondsToComplete(secondsToComplete: Float?) {
+        viewBinding.stepTheoryTimeToComplete.isVisible = step.secondsToComplete != null
+        if (secondsToComplete != null) {
+            val minutesToComplete = floor(secondsToComplete / 60).toInt()
+            viewBinding.stepTheoryTimeToComplete.text = resourceProvider.getString(
+                SharedResources.strings.step_theory_reading_text,
+                resourceProvider.getQuantityString(
+                    SharedResources.plurals.minutes,
+                    minutesToComplete,
+                    minutesToComplete
+                )
+            )
+        }
+    }
+
+    private fun setupStepContentFragment(step: Step) {
+        setChildFragment(R.id.stepTheoryContent, STEP_CONTENT_FRAGMENT_TAG) {
+            TextStepContentFragment.newInstance(step)
         }
     }
 
@@ -165,5 +187,9 @@ class StepTheoryFragment : Fragment(R.layout.fragment_step_theory) {
                 )
             )
         }
+    }
+
+    override fun render(isPracticingLoading: Boolean) {
+        // TODO("Not yet implemented")
     }
 }

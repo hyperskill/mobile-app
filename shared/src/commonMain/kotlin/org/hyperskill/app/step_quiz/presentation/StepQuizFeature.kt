@@ -67,7 +67,6 @@ interface StepQuizFeature {
 
         data class SyncReply(val reply: Reply) : Message
 
-        // TODO: remove in ALTAPPS-543 implement message with StepViewModel
         object ContinueClicked : Message
 
         /**

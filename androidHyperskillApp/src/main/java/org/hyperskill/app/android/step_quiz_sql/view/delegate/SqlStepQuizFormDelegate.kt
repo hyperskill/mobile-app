@@ -55,7 +55,7 @@ class SqlStepQuizFormDelegate(
     }
 
     override fun customizeSubmissionButton(button: MaterialButton) {
-        with (button) {
+        with(button) {
             setText(org.hyperskill.app.R.string.step_quiz_code_run_solution_button_text)
             setIconResource(R.drawable.ic_run)
             iconPadding =
