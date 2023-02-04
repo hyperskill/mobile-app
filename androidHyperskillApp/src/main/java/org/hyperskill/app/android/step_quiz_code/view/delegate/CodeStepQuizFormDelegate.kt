@@ -87,8 +87,8 @@ class CodeStepQuizFormDelegate(
         this.code = newCode
         if (onSubmitClicked) {
             codeLayout.withoutTextChangeCallback(textWatcher) {
-                codeLayoutDelegate.setLanguage(lang, code)
-                codeLayoutDelegate.setDetailsContentData(lang)
+                codeLayoutDelegate.setLanguage(this.lang, code)
+                codeLayoutDelegate.setDetailsContentData(this.lang)
             }
         } else {
             codeLayoutDelegate.setLanguage(lang, code)

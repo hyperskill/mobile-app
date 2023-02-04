@@ -79,8 +79,8 @@ class SqlStepQuizFormDelegate(
     fun updateCodeLayoutFromDialog(newCode: String, onSubmitClicked: Boolean) {
         this.code = newCode
         if (onSubmitClicked) {
-            codeLayout.withoutTextChangeCallback(textWatcher) {
-                setTextIfChanged(newCode)
+            codeLayout.withoutTextChangeCallback(textWatcher) { editor ->
+                editor.setTextIfChanged(newCode)
             }
         } else {
             codeLayout.setTextIfChanged(newCode)

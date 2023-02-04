@@ -102,7 +102,7 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
     }
 }
 
-fun CodeEditorLayout.withoutTextChangeCallback(textWatcher: TextWatcher?, block: CodeEditorLayout.() -> Unit) {
+fun CodeEditorLayout.withoutTextChangeCallback(textWatcher: TextWatcher?, block: (CodeEditorLayout) -> Unit) {
     codeEditor.removeTextChangedListener(textWatcher)
     block(this)
     codeEditor.addTextChangedListener(textWatcher)
