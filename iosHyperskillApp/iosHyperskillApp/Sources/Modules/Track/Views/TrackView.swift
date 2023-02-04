@@ -41,7 +41,10 @@ struct TrackView: View {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
         }
-        .onDisappear(perform: viewModel.stopListening)
+        .onDisappear {
+            viewModel.stopListening()
+            viewModel.onViewAction = nil
+        }
     }
 
     // MARK: Private API

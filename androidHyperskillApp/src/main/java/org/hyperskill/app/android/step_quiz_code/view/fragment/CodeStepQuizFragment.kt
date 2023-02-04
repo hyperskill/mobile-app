@@ -39,8 +39,7 @@ class CodeStepQuizFragment :
 
     private lateinit var codeOptions: Block.Options
 
-    private lateinit var codeStepQuizFormDelegate: CodeStepQuizFormDelegate
-    private lateinit var codeLayoutDelegate: CodeLayoutDelegate
+    private var codeStepQuizFormDelegate: CodeStepQuizFormDelegate? = null
 
     private lateinit var lang: String
 
@@ -59,7 +58,7 @@ class CodeStepQuizFragment :
 
     override fun onDestroyView() {
         _binding = null
-
+        codeStepQuizFormDelegate = null
         super.onDestroyView()
     }
 
@@ -70,7 +69,7 @@ class CodeStepQuizFragment :
         val codeDetailsView = (viewBinding.root.parent.parent as View).findViewById<View>(R.id.stepQuizCodeSamples)
         codeDetailsView.isVisible = true
 
-        codeLayoutDelegate = CodeLayoutDelegate(
+        val codeLayoutDelegate = CodeLayoutDelegate(
             codeLayout = binding.codeStepLayout,
             step = step,
             codeTemplates = codeOptions.codeTemplates!!,
@@ -81,10 +80,10 @@ class CodeStepQuizFragment :
                     logAnalyticEventMessage(StepQuizFeature.Message.ClickedCodeDetailsEventMessage)
                 }
             ),
-            codeToolbarAdapter = null,
+            codeToolbarAdapter = null
         )
 
-        codeStepQuizFormDelegate = CodeStepQuizFormDelegate(
+        val codeStepQuizFormDelegate = CodeStepQuizFormDelegate(
             containerBinding = containerBinding,
             codeLayout = binding.codeStepLayout,
             lang = lang,
@@ -93,6 +92,7 @@ class CodeStepQuizFragment :
             onFullscreenClicked = ::onFullScreenClicked,
             onQuizChanged = ::syncReplyState
         )
+        this.codeStepQuizFormDelegate = codeStepQuizFormDelegate
 
         return codeStepQuizFormDelegate
     }
@@ -109,7 +109,7 @@ class CodeStepQuizFragment :
     }
 
     override fun onSyncCodeStateWithParent(code: String, onSubmitClicked: Boolean) {
-        codeStepQuizFormDelegate.updateCodeLayoutFromDialog(code)
+        codeStepQuizFormDelegate?.updateCodeLayoutFromDialog(code, onSubmitClicked)
         if (onSubmitClicked) {
             onSubmitButtonClicked()
         }
@@ -122,11 +122,13 @@ class CodeStepQuizFragment :
     private fun onFullScreenClicked(lang: String, code: String?) {
         CodeStepQuizFullScreenDialogFragment
             .newInstance(
-                lang,
-                code = code ?: codeOptions.codeTemplates?.get(lang) ?: "",
-                codeOptions.codeTemplates!!,
-                step,
-                viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton.isVisible
+                CodeStepQuizFullScreenDialogFragment.Params(
+                    lang = lang,
+                    code = code ?: codeOptions.codeTemplates?.get(lang) ?: "",
+                    codeTemplates = codeOptions.codeTemplates!!,
+                    step = step,
+                    isShowRetryButton = viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton.isVisible
+                )
             )
             .showIfNotExists(childFragmentManager, CodeStepQuizFullScreenDialogFragment.TAG)
     }

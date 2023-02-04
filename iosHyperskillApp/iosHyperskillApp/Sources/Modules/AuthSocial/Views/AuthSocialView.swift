@@ -52,12 +52,15 @@ struct AuthSocialView: View {
             }
             .navigationBarHidden(true)
         }
+        .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
         }
-        .onDisappear(perform: viewModel.stopListening)
-        .navigationViewStyle(StackNavigationViewStyle())
+        .onDisappear {
+            viewModel.stopListening()
+            viewModel.onViewAction = nil
+        }
     }
 
     // MARK: Private API

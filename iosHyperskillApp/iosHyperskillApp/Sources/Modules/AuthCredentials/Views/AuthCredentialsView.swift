@@ -68,6 +68,8 @@ struct AuthCredentialsView: View {
         }
         .onDisappear {
             viewModel.stopListening()
+            viewModel.onViewAction = nil
+
             KeyboardManager.setDefaultKeyboardDistanceFromTextField()
         }
         .navigationBarHidden(true)
