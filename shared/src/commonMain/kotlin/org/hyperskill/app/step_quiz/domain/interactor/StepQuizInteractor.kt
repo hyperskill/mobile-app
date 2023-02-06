@@ -45,7 +45,7 @@ class StepQuizInteractor(
         stepId: Long,
         attemptId: Long,
         reply: Reply,
-        solvingContext: StepContext = StepContext.DEFAULT
+        solvingContext: StepContext
     ): Result<Submission> =
         kotlin.runCatching {
             val submission = submissionRepository

@@ -28,7 +28,7 @@ interface SubmissionRepository {
     suspend fun createSubmission(
         attemptId: Long,
         reply: Reply,
-        solvingContext: StepContext = StepContext.DEFAULT
+        solvingContext: StepContext
     ): Result<Submission>
 
     suspend fun notifyStepSolved(stepId: Long)

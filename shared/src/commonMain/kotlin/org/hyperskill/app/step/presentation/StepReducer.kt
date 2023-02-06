@@ -38,7 +38,8 @@ class StepReducer(
                         StepViewedHyperskillAnalyticEvent(
                             stepRoute.analyticRoute
                         )
-                    )
+                    ),
+                    Action.ViewStep(stepRoute.stepId, stepRoute.stepContext)
                 )
             is Message.StepCompletionMessage ->
                 if (state is State.Data) {

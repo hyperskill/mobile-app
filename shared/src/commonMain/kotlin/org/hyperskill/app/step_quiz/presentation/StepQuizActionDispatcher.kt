@@ -179,6 +179,7 @@ class StepQuizActionDispatcher(
                 stepQuizInteractor
                     .createSubmission(
                         stepId = action.step.id,
+                        solvingContext = action.stepContext,
                         attemptId = newAttempt?.id ?: action.attemptId,
                         reply = reply
                     )

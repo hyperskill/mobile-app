@@ -9,6 +9,7 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import org.hyperskill.app.step.data.source.StepRemoteDataSource
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step.remote.model.StepResponse
 
 class StepRemoteDataSourceImpl(
@@ -40,6 +41,17 @@ class StepRemoteDataSourceImpl(
                 }
                 .body<StepResponse>().steps.first()
         }
+
+    override suspend fun viewStep(stepId: Long, stepContext: StepContext) {
+        kotlin.runCatching {
+            httpClient
+                .post("/api/views") {
+                    contentType(ContentType.Application.Json)
+                    parameter("step", stepId)
+                    parameter("context", stepContext)
+                }
+        }
+    }
 
     override suspend fun getRecommendedStepsByTopicId(topicId: Long): Result<List<Step>> =
         kotlin.runCatching {

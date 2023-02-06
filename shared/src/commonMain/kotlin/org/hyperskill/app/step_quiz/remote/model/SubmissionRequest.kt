@@ -12,5 +12,5 @@ data class SubmissionRequest(
     @SerialName("reply")
     val reply: Reply,
     @SerialName("solving_context")
-    val solvingContext: StepContext = StepContext.DEFAULT
+    val solvingContext: StepContext
 )
