@@ -4,6 +4,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.button.MaterialButton
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.code.view.widget.CodeEditorLayout
 import org.hyperskill.app.android.code.view.widget.withoutTextChangeCallback
@@ -44,12 +45,6 @@ class CodeStepQuizFormDelegate(
 
         containerBinding.stepQuizDescription.setText(org.hyperskill.app.R.string.step_quiz_code_write_program_text)
 
-        with(containerBinding.stepQuizButtons.stepQuizSubmitButton) {
-            setText(org.hyperskill.app.R.string.step_quiz_code_run_solution_button_text)
-            setIconResource(R.drawable.ic_run)
-            iconPadding = context.resources.getDimensionPixelSize(R.dimen.step_quiz_fullscreen_code_layout_action_button_icon_padding)
-        }
-
         with(codeLayoutDelegate) {
             setEnabled(true)
             setLanguage(lang, code)
@@ -62,6 +57,15 @@ class CodeStepQuizFormDelegate(
             codeLayout.codeEditor.setOnClickListener {
                 onFullscreenClicked(lang, code)
             }
+        }
+    }
+
+    override fun customizeSubmissionButton(button: MaterialButton) {
+        with(button) {
+            setText(org.hyperskill.app.R.string.step_quiz_code_run_solution_button_text)
+            setIconResource(R.drawable.ic_run)
+            iconPadding =
+                context.resources.getDimensionPixelSize(R.dimen.step_quiz_fullscreen_code_layout_action_button_icon_padding)
         }
     }
 

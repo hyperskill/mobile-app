@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.children
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -14,9 +15,12 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.extensions.checkNotificationChannelAvailability
+import org.hyperskill.app.android.core.view.ui.fragment.parentOfType
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
+import org.hyperskill.app.android.step.view.model.StepCompletionHost
+import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFeedbackBlocksDelegate
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.dialog.CompletedStepOfTheDayDialogFragment
@@ -27,6 +31,7 @@ import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
 import org.hyperskill.app.step_quiz.domain.model.permissions.StepQuizUserPermissionRequest
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
@@ -39,7 +44,10 @@ import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.app.presentation.redux.container.ReduxView
 
-abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), ReduxView<StepQuizFeature.State, StepQuizFeature.Action.ViewAction> {
+abstract class DefaultStepQuizFragment :
+    Fragment(R.layout.fragment_step_quiz),
+    ReduxView<StepQuizFeature.State, StepQuizFeature.Action.ViewAction>,
+    StepCompletionView {
 
     private lateinit var userPermissionRequestTextMapper: StepQuizUserPermissionRequestTextMapper
     private lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -75,22 +83,12 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
         super.onViewCreated(view, savedInstanceState)
         viewStateDelegate = StepQuizViewStateDelegateFactory.create(viewBinding, skeletonView, *quizViews)
         stepQuizFeedbackBlocksDelegate = StepQuizFeedbackBlocksDelegate(requireContext(), viewBinding.stepQuizFeedbackBlocks)
-        stepQuizFormDelegate = createStepQuizFormDelegate(viewBinding)
+        stepQuizFormDelegate = createStepQuizFormDelegate(viewBinding).also { delegate ->
+            delegate.customizeSubmissionButton(viewBinding.stepQuizButtons.stepQuizSubmitButton)
+        }
         initButtonsViewStateDelegate()
+        setupQuizButtons()
 
-        viewBinding.stepQuizButtons.stepQuizSubmitButton.setOnClickListener {
-            onSubmitButtonClicked()
-        }
-        viewBinding.stepQuizButtons.stepQuizRetryButton.setOnClickListener {
-            onRetryButtonClicked()
-        }
-        viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton.setOnClickListener {
-            onRetryButtonClicked()
-        }
-        viewBinding.stepQuizButtons.stepQuizContinueButton.setOnClickListener {
-            // TODO: ALTAPPS-543 implement message with StepViewModel
-            stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ContinueClicked)
-        }
         viewBinding.stepQuizNetworkError.tryAgain.setOnClickListener {
             stepQuizViewModel.onNewMessage(StepQuizFeature.Message.InitWithStep(step, forceUpdate = true))
         }
@@ -102,15 +100,35 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
         stepQuizButtonsViewStateDelegate = ViewStateDelegate<StepQuizButtonsState>().apply {
             addState<StepQuizButtonsState.Submit>(viewBinding.stepQuizButtons.stepQuizSubmitButton)
             addState<StepQuizButtonsState.Retry>(viewBinding.stepQuizButtons.stepQuizRetryButton)
-            addState<StepQuizButtonsState.Continue>(viewBinding.stepQuizButtons.stepQuizContinueButton)
+            addState<StepQuizButtonsState.Continue>(
+                viewBinding.stepQuizButtons.stepQuizContinueButton,
+                viewBinding.stepQuizButtons.stepQuizContinueFrame
+            )
             addState<StepQuizButtonsState.RetryLogoAndSubmit>(
                 viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton,
                 viewBinding.stepQuizButtons.stepQuizSubmitButton
             )
             addState<StepQuizButtonsState.RetryLogoAndContinue>(
                 viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton,
-                viewBinding.stepQuizButtons.stepQuizContinueButton
+                viewBinding.stepQuizButtons.stepQuizContinueButton,
+                viewBinding.stepQuizButtons.stepQuizContinueFrame
             )
+        }
+    }
+
+    private fun setupQuizButtons() {
+        viewBinding.stepQuizButtons.stepQuizSubmitButton.setOnClickListener {
+            onSubmitButtonClicked()
+        }
+        viewBinding.stepQuizButtons.stepQuizRetryButton.setOnClickListener {
+            onRetryButtonClicked()
+        }
+        viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton.setOnClickListener {
+            onRetryButtonClicked()
+        }
+        viewBinding.stepQuizButtons.stepQuizContinueButton.setOnClickListener {
+            parentOfType(StepCompletionHost::class.java)
+                ?.onNewMessage(StepCompletionFeature.Message.ContinuePracticingClicked)
         }
     }
 
@@ -279,6 +297,15 @@ abstract class DefaultStepQuizFragment : Fragment(R.layout.fragment_step_quiz), 
         }
 
         onNewState(state)
+    }
+
+    final override fun render(isPracticingLoading: Boolean) {
+        if (isResumed) {
+            with(viewBinding) {
+                stepQuizButtons.stepQuizContinueButtonShimmer.isVisible = isPracticingLoading
+                stepQuizButtons.stepQuizContinueButton.isEnabled = !isPracticingLoading
+            }
+        }
     }
 
     protected fun syncReplyState(reply: Reply) {

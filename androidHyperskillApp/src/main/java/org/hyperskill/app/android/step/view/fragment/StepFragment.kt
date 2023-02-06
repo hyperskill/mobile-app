@@ -8,18 +8,33 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
+import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
+import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
+import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepBinding
+import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
+import org.hyperskill.app.android.step.view.dialog.TopicPracticeCompletedBottomSheet
+import org.hyperskill.app.android.step.view.model.StepCompletionHost
+import org.hyperskill.app.android.step.view.model.StepCompletionView
+import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.step_practice.view.fragment.StepPracticeFragment
 import org.hyperskill.app.android.step_theory.view.fragment.StepTheoryFragment
+import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step.presentation.StepViewModel
+import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
+import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
-class StepFragment : Fragment(R.layout.fragment_step), ReduxView<StepFeature.State, StepFeature.Action.ViewAction>  {
+class StepFragment :
+    Fragment(R.layout.fragment_step),
+    ReduxView<StepFeature.State, StepFeature.Action.ViewAction>,
+    StepCompletionHost {
+
     companion object {
         private const val STEP_TAG = "step"
 
@@ -69,30 +84,58 @@ class StepFragment : Fragment(R.layout.fragment_step), ReduxView<StepFeature.Sta
     }
 
     override fun onAction(action: StepFeature.Action.ViewAction) {
-        // no op
+        when (action) {
+            is StepFeature.Action.ViewAction.StepCompletionViewAction -> {
+                when (val stepCompletionAction = action.viewAction) {
+                    StepCompletionFeature.Action.ViewAction.NavigateTo.Back -> {
+                        requireRouter().exit()
+                    }
+
+                    StepCompletionFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
+                        requireRouter().newRootScreen(HomeScreen)
+                        childFragmentManager
+                            .dismissDialogFragmentIfExists(TopicPracticeCompletedBottomSheet.Tag)
+                    }
+
+                    is StepCompletionFeature.Action.ViewAction.ReloadStep -> {
+                        requireRouter().replaceScreen(StepScreen(stepCompletionAction.stepRoute))
+                    }
+
+                    is StepCompletionFeature.Action.ViewAction.ShowStartPracticingError -> {
+                        view?.snackbar(stepCompletionAction.message)
+                    }
+
+                    is StepCompletionFeature.Action.ViewAction.ShowTopicCompletedModal -> {
+                        TopicPracticeCompletedBottomSheet.newInstance(stepCompletionAction.modalText)
+                            .showIfNotExists(childFragmentManager, TopicPracticeCompletedBottomSheet.Tag)
+                    }
+                }
+            }
+        }
     }
 
     override fun render(state: StepFeature.State) {
         viewStateDelegate.switchState(state)
         if (state is StepFeature.State.Data) {
-            initStepContainer(state.step)
+            initStepContainer(state)
+            (childFragmentManager.findFragmentByTag(STEP_TAG) as? StepCompletionView)
+                ?.render(state.stepCompletionState.isPracticingLoading)
         }
     }
 
-    private fun initStepContainer(step: Step) {
-        if (childFragmentManager.findFragmentByTag(STEP_TAG) != null) {
-            return
-        }
+    override fun onNewMessage(message: StepCompletionFeature.Message) {
+        stepViewModel.onNewMessage(
+            StepFeature.Message.StepCompletionMessage(message)
+        )
+    }
 
-        val fragment = if (step.type == Step.Type.PRACTICE) {
-            StepPracticeFragment.newInstance(step, stepRoute)
-        } else {
-            StepTheoryFragment.newInstance(step, stepRoute)
+    private fun initStepContainer(data: StepFeature.State.Data) {
+        setChildFragment(R.id.stepContainer, STEP_TAG) {
+            if (data.step.type == Step.Type.PRACTICE) {
+                StepPracticeFragment.newInstance(data.step, stepRoute)
+            } else {
+                StepTheoryFragment.newInstance(data.step, stepRoute, data.isPracticingAvailable)
+            }
         }
-
-        childFragmentManager
-            .beginTransaction()
-            .add(R.id.stepContainer, fragment, STEP_TAG)
-            .commitNow()
     }
 }
