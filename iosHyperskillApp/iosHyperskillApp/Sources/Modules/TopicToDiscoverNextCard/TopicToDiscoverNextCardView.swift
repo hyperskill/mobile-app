@@ -3,9 +3,9 @@ import SwiftUI
 
 extension TopicToDiscoverNextCardView {
     struct Appearance {
-        let skeletonHeight: CGFloat = 100
+        let skeletonHeight: CGFloat = 44
 
-        let backgroundSurfaceButtonStyle: OutlineButtonStyle = {
+        let topicButtonStyle: OutlineButtonStyle = {
             var defaultStyle = TopicToDiscoverNextButtonView.Appearance().buttonStyle
 
             defaultStyle.backgroundColor = Color(ColorPalette.surface)
@@ -19,6 +19,7 @@ struct TopicToDiscoverNextCardView: View {
     private(set) var appearance = Appearance()
 
     let state: TopicsToDiscoverNextFeatureStateKs
+
     weak var delegate: TopicToDiscoverNextCardDelegate?
 
     var body: some View {
@@ -40,11 +41,11 @@ struct TopicToDiscoverNextCardView: View {
                         delegate?.doTopicToDiscoverNextCardReloadAction()
                     }
                 )
-                .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
+                .buttonStyle(OutlineButtonStyle())
             case .content(let data):
                 if let topic = data.topicsToDiscoverNext.first {
                     TopicToDiscoverNextButtonView(
-                        appearance: .init(buttonStyle: appearance.backgroundSurfaceButtonStyle),
+                        appearance: .init(buttonStyle: appearance.topicButtonStyle),
                         topic: topic,
                         isLearnNext: true,
                         onTap: {
@@ -59,30 +60,39 @@ struct TopicToDiscoverNextCardView: View {
 
 struct TopicToDiscoverNextCardView_Previews: PreviewProvider {
     static var previews: some View {
-        TopicToDiscoverNextCardView(
-            state: .init(
-                TopicsToDiscoverNextFeatureStateContent(
-                    topicsToDiscoverNext: [
-                        .init(
-                            id: 4,
-                            progressId: "",
-                            theoryId: nil,
-                            title: "Pro data types",
-                            progress: TopicProgress(
-                                id: "",
-                                stagePosition: 0,
-                                repeatedCount: 0,
-                                isCompleted: false,
-                                isSkipped: false,
-                                capacity: 0.50
+        VStack(spacing: LayoutInsets.largeInset) {
+            TopicToDiscoverNextCardView(state: .loading)
+
+            TopicToDiscoverNextCardView(state: .error)
+
+            TopicToDiscoverNextCardView(state: .empty)
+
+            TopicToDiscoverNextCardView(
+                state: .init(
+                    TopicsToDiscoverNextFeatureStateContent(
+                        topicsToDiscoverNext: [
+                            .init(
+                                id: 4,
+                                progressId: "",
+                                theoryId: nil,
+                                title: "Pro data types",
+                                progress: TopicProgress(
+                                    id: "",
+                                    stagePosition: 0,
+                                    repeatedCount: 0,
+                                    isCompleted: false,
+                                    isSkipped: false,
+                                    capacity: 0.50
+                                )
                             )
-                        )
-                    ],
-                    isRefreshing: false
+                        ],
+                        isRefreshing: false
+                    )
                 )
             )
-        )
+            .preferredColorScheme(.dark)
+        }
+        .previewLayout(.sizeThatFits)
         .padding()
-        .preferredColorScheme(.dark)
     }
 }

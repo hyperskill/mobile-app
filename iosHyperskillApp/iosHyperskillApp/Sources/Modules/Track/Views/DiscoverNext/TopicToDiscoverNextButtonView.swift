@@ -82,7 +82,8 @@ struct TopicToDiscoverNextButtonView: View {
 
     // MARK: Private API
 
-    @ViewBuilder private func buildCompletenessBar(completenessPercentage: Float) -> some View {
+    @ViewBuilder
+    private func buildCompletenessBar(completenessPercentage: Float) -> some View {
         GeometryReader { geometry in
             Rectangle()
                 .stroke(lineWidth: 0)
@@ -94,7 +95,8 @@ struct TopicToDiscoverNextButtonView: View {
         }
     }
 
-    @ViewBuilder private var learnNextBadge: some View {
+    @ViewBuilder
+    private var learnNextBadge: some View {
         if isLearnNext {
             GeometryReader { geometry in
                 Text(Strings.Track.TopicsToDiscoverNext.learnNextBadge)
