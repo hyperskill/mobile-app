@@ -46,6 +46,8 @@ struct LazyAvatarView: View {
 
                 EmptyView()
                     .skeleton(with: isLoading)
+                    .appearance(type: .gradient())
+                    .animation(type: .linear(autoreverses: true))
             }
             .addBorder(
                 color: appearance.borderColor,

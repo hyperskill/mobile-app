@@ -14,6 +14,8 @@ struct SkeletonCircleView: View {
         EmptyView()
             .skeleton(with: true, size: appearance.size)
             .shape(type: .circle)
+            .appearance(type: .gradient())
+            .animation(type: .linear(autoreverses: true))
     }
 }
 
