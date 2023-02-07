@@ -2,6 +2,7 @@ package org.hyperskill.app.step.domain.interactor
 
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step.domain.model.supportedBlocksNames
 import org.hyperskill.app.step.domain.repository.StepRepository
 
@@ -17,6 +18,10 @@ class StepInteractor(
         kotlin.runCatching {
             return stepRepository.getSteps(stepIds)
         }
+
+    suspend fun viewStep(stepId: Long, stepContext: StepContext) {
+        stepRepository.viewStep(stepId, stepContext)
+    }
 
     suspend fun getNextRecommendedStepAndCompleteCurrentIfNeeded(currentStep: Step): Result<Step> =
         kotlin.runCatching {

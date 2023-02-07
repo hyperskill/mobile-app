@@ -1,6 +1,7 @@
 package org.hyperskill.app.step.domain.repository
 
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.StepContext
 
 interface StepRepository {
     suspend fun getStep(stepId: Long): Result<Step> =
@@ -20,4 +21,6 @@ interface StepRepository {
         kotlin.runCatching {
             getRecommendedStepsByTopicId(topicId).getOrThrow().first { it.isNext }
         }
+
+    suspend fun viewStep(stepId: Long, stepContext: StepContext)
 }
