@@ -1,5 +1,6 @@
 What to Test:
 1. Fix Streak not updates on Profile and Track screens ALTAPPS-476
-2. Display the topic progress in the widget ALTAPPS-541
-3. Topic completion ALTAPPS-542
-4. Fix incorrect presentations of topics in repetition list ALTAPPS-556
+2. Show Learn next topic on the Homescreen ALTAPPS-530
+3. Display the topic progress in the widget ALTAPPS-541
+4. Topic completion ALTAPPS-542
+5. Fix incorrect presentations of topics in repetition list ALTAPPS-556
