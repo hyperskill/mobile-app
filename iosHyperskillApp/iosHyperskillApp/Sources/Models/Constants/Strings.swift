@@ -169,6 +169,7 @@ enum Strings {
     enum Home {
         static let title = sharedStrings.home_title.localized()
         static let keepPracticing = sharedStrings.home_keep_practicing_text.localized()
+        static let topicsToDiscoverNextTitle = sharedStrings.home_topics_to_discover_next_title.localized()
     }
 
     // MARK: - Track -
@@ -190,6 +191,7 @@ enum Strings {
 
         enum TopicsToDiscoverNext {
             static let title = sharedStrings.track_topics_to_discover_next_block_title.localized()
+            static let learnNextBadge = sharedStrings.topics_widget_learn_next_badge.localized()
         }
 
         enum About {

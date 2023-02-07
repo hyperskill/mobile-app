@@ -84,12 +84,14 @@ struct TrackView: View {
                         subtitle: viewData.learningRole
                     )
 
-                    TrackTopicsToDiscoverNextBlockView(
-                        appearance: .init(spacing: appearance.spacingBetweenRelativeItems),
-                        state: viewModel.topicsToDiscoverNextStateKs,
-                        onTopicTapped: viewModel.doTheoryTopicPresentation(topicID:),
-                        onErrorButtonTapped: viewModel.doReloadTopicsToDiscoverNext
-                    )
+                    if !viewModel.topicsToDiscoverNextStateKs.isEmpty {
+                        TrackTopicsToDiscoverNextBlockView(
+                            appearance: .init(spacing: appearance.spacingBetweenRelativeItems),
+                            state: viewModel.topicsToDiscoverNextStateKs,
+                            onTopicTapped: viewModel.doTheoryTopicPresentation(topicID:),
+                            onErrorButtonTapped: viewModel.doReloadTopicsToDiscoverNext
+                        )
+                    }
 
                     TrackProgressBlockView(
                         appearance: .init(

@@ -62,6 +62,8 @@ import org.hyperskill.app.step.injection.StepDataComponent
 import org.hyperskill.app.step.injection.StepDataComponentImpl
 import org.hyperskill.app.step_completion.injection.StepCompletionComponent
 import org.hyperskill.app.step_completion.injection.StepCompletionComponentImpl
+import org.hyperskill.app.step_completion.injection.StepCompletionFlowDataComponent
+import org.hyperskill.app.step_completion.injection.StepCompletionFlowDataComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponentImpl
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
@@ -117,6 +119,9 @@ class AppGraphImpl(
 
     override val topicsRepetitionsFlowDataComponent: TopicsRepetitionsFlowDataComponent =
         TopicsRepetitionsFlowDataComponentImpl()
+
+    override val stepCompletionFlowDataComponent: StepCompletionFlowDataComponent =
+        StepCompletionFlowDataComponentImpl()
 
     override val sentryComponent: SentryComponent =
         SentryComponentImpl(sentryManager)

@@ -30,6 +30,7 @@ import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step.injection.StepDataComponent
 import org.hyperskill.app.step_completion.injection.StepCompletionComponent
+import org.hyperskill.app.step_completion.injection.StepCompletionFlowDataComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
@@ -57,6 +58,7 @@ interface AppGraph {
     val profileHypercoinsDataComponent: ProfileHypercoinsDataComponent
     val streakFlowDataComponent: StreakFlowDataComponent
     val topicsRepetitionsFlowDataComponent: TopicsRepetitionsFlowDataComponent
+    val stepCompletionFlowDataComponent: StepCompletionFlowDataComponent
 
     fun buildAuthSocialComponent(): AuthSocialComponent
     fun buildAuthCredentialsComponent(): AuthCredentialsComponent
