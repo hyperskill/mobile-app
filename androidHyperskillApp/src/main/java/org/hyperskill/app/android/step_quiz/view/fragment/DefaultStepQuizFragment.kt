@@ -256,7 +256,6 @@ abstract class DefaultStepQuizFragment :
             if (isResumed) {
                 viewBinding.root.snackbar(org.hyperskill.app.R.string.common_error)
             }
-            return@checkNotificationChannelAvailability
         }
         platformNotificationComponent.notificationInteractor.setDailyStudyRemindersEnabled(true)
         platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification()
