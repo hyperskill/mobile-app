@@ -76,6 +76,7 @@ struct TopicToDiscoverNextButtonView: View {
             }
         )
         .buttonStyle(appearance.buttonStyle)
+        // TODO: apply bounce animation to badge
         .overlay(learnNextBadge)
     }
 

@@ -4,6 +4,14 @@ import SwiftUI
 extension TopicToDiscoverNextCardView {
     struct Appearance {
         let skeletonHeight: CGFloat = 100
+
+        let backgroundSurfaceButtonStyle: OutlineButtonStyle = {
+            var defaultStyle = TopicToDiscoverNextButtonView.Appearance().buttonStyle
+
+            defaultStyle.backgroundColor = Color(ColorPalette.surface)
+
+            return defaultStyle
+        }()
     }
 }
 
@@ -11,32 +19,32 @@ struct TopicToDiscoverNextCardView: View {
     private(set) var appearance = Appearance()
 
     let state: TopicsToDiscoverNextFeatureStateKs
-    weak var delegate: (TopicToDiscoverNextCardDelegate)?
+    weak var delegate: TopicToDiscoverNextCardDelegate?
 
     var body: some View {
-        switch state {
-        case .idle, .loading:
-            SkeletonRoundedView()
-                .frame(height: appearance.skeletonHeight)
-        case .empty:
-            EmptyView()
-        case .error:
-            Button(
-                Strings.Placeholder.networkErrorButtonText,
-                action: {
-                    delegate?.doTopicToDiscoverNextCardReloadAction()
-                }
-            )
-            .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
-        case .content(let data):
-            VStack(alignment: .leading, spacing: LayoutInsets.largeInset) {
-                Text(Strings.Home.topicsToDiscoverNextTitle)
-                    .font(.subheadline)
-                    .foregroundColor(.secondaryText)
+        VStack(alignment: .leading, spacing: LayoutInsets.largeInset) {
+            Text(Strings.Home.topicsToDiscoverNextTitle)
+                .font(.subheadline)
+                .foregroundColor(.secondaryText)
 
+            switch state {
+            case .idle, .loading:
+                SkeletonRoundedView()
+                    .frame(height: appearance.skeletonHeight)
+            case .empty:
+                EmptyView()
+            case .error:
+                Button(
+                    Strings.Placeholder.networkErrorButtonText,
+                    action: {
+                        delegate?.doTopicToDiscoverNextCardReloadAction()
+                    }
+                )
+                .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
+            case .content(let data):
                 if let topic = data.topicsToDiscoverNext.first {
                     TopicToDiscoverNextButtonView(
-                        appearance: .init(buttonStyle: backgroundSurfaceButtonStyle),
+                        appearance: .init(buttonStyle: appearance.backgroundSurfaceButtonStyle),
                         topic: topic,
                         isLearnNext: true,
                         onTap: {
@@ -46,16 +54,6 @@ struct TopicToDiscoverNextCardView: View {
                 }
             }
         }
-    }
-
-    // MARK: Private API
-
-    private var backgroundSurfaceButtonStyle: OutlineButtonStyle {
-        var defaultStyle = TopicToDiscoverNextButtonView.Appearance().buttonStyle
-
-        defaultStyle.backgroundColor = Color(ColorPalette.surface)
-
-        return defaultStyle
     }
 }
 
