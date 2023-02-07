@@ -19,7 +19,10 @@ class StepReducer(
                 if (state is State.Idle ||
                     (message.forceUpdate && (state is State.Data || state is State.Error))
                 ) {
-                    State.Loading to setOf(Action.FetchStep(stepRoute))
+                    State.Loading to setOf(
+                        Action.FetchStep(stepRoute),
+                        Action.ViewStep(stepRoute.stepId, stepRoute.stepContext)
+                    )
                 } else {
                     null
                 }
@@ -38,8 +41,7 @@ class StepReducer(
                         StepViewedHyperskillAnalyticEvent(
                             stepRoute.analyticRoute
                         )
-                    ),
-                    Action.ViewStep(stepRoute.stepId, stepRoute.stepContext)
+                    )
                 )
             is Message.StepCompletionMessage ->
                 if (state is State.Data) {
