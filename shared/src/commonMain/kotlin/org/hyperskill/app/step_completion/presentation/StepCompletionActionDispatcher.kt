@@ -13,6 +13,7 @@ import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransa
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Action
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
 import org.hyperskill.app.topics.domain.interactor.TopicsInteractor
@@ -26,7 +27,8 @@ class StepCompletionActionDispatcher(
     private val analyticInteractor: AnalyticInteractor,
     private val resourceProvider: ResourceProvider,
     private val sentryInteractor: SentryInteractor,
-    notificationInteractor: NotificationInteractor
+    private val topicCompletedFlow: TopicCompletedFlow,
+    notificationInteractor: NotificationInteractor,
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
         notificationInteractor.solvedStepsSharedFlow
@@ -71,6 +73,8 @@ class StepCompletionActionDispatcher(
                     .getOrElse { return onNewMessage(Message.CheckTopicCompletionStatus.Error) }
 
                 if (topicIsCompleted) {
+                    topicCompletedFlow.notifyDataChanged(action.topicId)
+
                     val topicTitle = topicsInteractor
                         .getTopic(action.topicId)
                         .map { it.title }

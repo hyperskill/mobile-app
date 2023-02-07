@@ -7,7 +7,12 @@ extension TopicToDiscoverNextButtonView {
 
         let backgroundProgressColor = Color(ColorPalette.overlayGreenAlpha7)
 
-        let buttonStyle = OutlineButtonStyle(borderColor: .border, alignment: .leading, paddingEdgeSet: [])
+        var buttonStyle = OutlineButtonStyle(borderColor: .border, alignment: .leading, paddingEdgeSet: [])
+
+        let learnNextBadgeVerticalPadding: CGFloat = 4
+        let learnNextBadgeVerticalOffsetRatio = -0.25
+
+        let arrowIconSize: CGFloat = 32
     }
 }
 
@@ -16,13 +21,15 @@ struct TopicToDiscoverNextButtonView: View {
 
     let topic: Topic
 
+    let isLearnNext: Bool
+
     let onTap: () -> Void
 
     var body: some View {
         Button(
             action: onTap,
             label: {
-                HStack {
+                HStack(spacing: LayoutInsets.smallInset) {
                     Text(topic.title)
                         .font(.body)
                         .foregroundColor(.primaryText)
@@ -49,24 +56,64 @@ struct TopicToDiscoverNextButtonView: View {
                                 .font(.subheadline)
                                 .foregroundColor(Color(ColorPalette.secondary))
                         }
+
+                        if isLearnNext {
+                            Image(Images.Home.ProblemOfDay.arrowUncompleted)
+                                .renderingMode(.original)
+                                .resizable()
+                                .frame(widthHeight: appearance.arrowIconSize)
+                        }
                     }
                 }
                 .padding(.horizontal)
                 .frame(minHeight: appearance.buttonStyle.minHeight)
                 .background(
-                    GeometryReader { geometry in
-                        Rectangle()
-                            .stroke(lineWidth: 0)
-                            .background(appearance.backgroundProgressColor)
-                            .cornerRadius(appearance.buttonStyle.cornerRadius)
-                            .frame(
-                                width: geometry.size.width * CGFloat(topic.progress?.completenessPercentage ?? 0) / 100
-                            )
-                    }
+                    buildCompletenessBar(
+                        completenessPercentage:
+                            topic.progress?.completenessPercentage ?? 0
+                    )
                 )
             }
         )
         .buttonStyle(appearance.buttonStyle)
+        // TODO: apply bounce animation to badge
+        .overlay(learnNextBadge)
+    }
+
+    // MARK: Private API
+
+    @ViewBuilder
+    private func buildCompletenessBar(completenessPercentage: Float) -> some View {
+        GeometryReader { geometry in
+            Rectangle()
+                .stroke(lineWidth: 0)
+                .background(appearance.backgroundProgressColor)
+                .cornerRadius(appearance.buttonStyle.cornerRadius)
+                .frame(
+                    width: geometry.size.width * CGFloat(completenessPercentage) / 100
+                )
+        }
+    }
+
+    @ViewBuilder
+    private var learnNextBadge: some View {
+        if isLearnNext {
+            GeometryReader { geometry in
+                Text(Strings.Track.TopicsToDiscoverNext.learnNextBadge)
+                    .font(.caption)
+                    .foregroundColor(Color(ColorPalette.primary))
+                    .padding(.horizontal, LayoutInsets.smallInset)
+                    .padding(.vertical, appearance.learnNextBadgeVerticalPadding)
+                    .background(Color(ColorPalette.surface))
+                    .addBorder(color: Color(ColorPalette.primaryAlpha38))
+                    .offset(
+                        CGSize(
+                            width: LayoutInsets.defaultInset,
+                            height: geometry.size.height * appearance.learnNextBadgeVerticalOffsetRatio
+                        )
+                    )
+            }
+        }
     }
 }
 
@@ -84,10 +131,30 @@ struct TopicToDiscoverNextButtonView_Previews: PreviewProvider {
                         stagePosition: 0,
                         repeatedCount: 0,
                         isCompleted: false,
+                        isSkipped: false,
+                        capacity: 0.4
+                    )
+                ),
+                isLearnNext: true,
+                onTap: {}
+            )
+
+            TopicToDiscoverNextButtonView(
+                topic: .init(
+                    id: 4,
+                    progressId: "",
+                    theoryId: nil,
+                    title: "Pro data types",
+                    progress: TopicProgress(
+                        id: "",
+                        stagePosition: 0,
+                        repeatedCount: 0,
+                        isCompleted: false,
                         isSkipped: true,
                         capacity: 0
                     )
                 ),
+                isLearnNext: false,
                 onTap: {}
             )
 
@@ -106,24 +173,7 @@ struct TopicToDiscoverNextButtonView_Previews: PreviewProvider {
                         capacity: 0
                     )
                 ),
-                onTap: {}
-            )
-
-            TopicToDiscoverNextButtonView(
-                topic: .init(
-                    id: 4,
-                    progressId: "",
-                    theoryId: nil,
-                    title: "Pro data types",
-                    progress: TopicProgress(
-                        id: "",
-                        stagePosition: 0,
-                        repeatedCount: 0,
-                        isCompleted: false,
-                        isSkipped: false,
-                        capacity: 0.4
-                    )
-                ),
+                isLearnNext: false,
                 onTap: {}
             )
         }

@@ -90,6 +90,14 @@ struct HomeView: View {
                         )
                     }
 
+                    if !viewModel.topicsToDiscoverNextStateSk.isEmpty {
+                        TopicToDiscoverNextCardView(
+                            state: viewModel.topicsToDiscoverNextStateSk,
+                            delegate: viewModel
+                        )
+                        .padding(.top, LayoutInsets.defaultInset)
+                    }
+
                     let shouldShowContinueInWebButton = data.problemOfDayState is HomeFeatureProblemOfDayStateEmpty ||
                       data.problemOfDayState is HomeFeatureProblemOfDayStateSolved
 

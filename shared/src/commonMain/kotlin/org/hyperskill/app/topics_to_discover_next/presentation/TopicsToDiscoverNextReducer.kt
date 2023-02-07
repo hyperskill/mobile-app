@@ -40,7 +40,7 @@ class TopicsToDiscoverNextReducer(
                     else ->
                         null
                 }
-            is Message.TopicRepeated ->
+            is Message.TopicCompleted ->
                 if (state is State.Content) {
                     val newTopicsToDiscoverNext = state.topicsToDiscoverNext.filter { it.id != message.topicId }
                     if (newTopicsToDiscoverNext.isEmpty()) {

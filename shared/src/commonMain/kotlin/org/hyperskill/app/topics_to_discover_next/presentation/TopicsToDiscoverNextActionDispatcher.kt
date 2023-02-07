@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
-import org.hyperskill.app.topics_repetitions.domain.flow.TopicRepeatedFlow
+import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
 import org.hyperskill.app.topics_to_discover_next.domain.interactor.TopicsToDiscoverNextInteractor
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature.Action
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature.Message
@@ -16,12 +16,12 @@ class TopicsToDiscoverNextActionDispatcher(
     private val topicsToDiscoverNextInteractor: TopicsToDiscoverNextInteractor,
     private val sentryInteractor: SentryInteractor,
     private val analyticInteractor: AnalyticInteractor,
-    topicRepeatedFlow: TopicRepeatedFlow
+    topicCompletedFlow: TopicCompletedFlow
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
-        topicRepeatedFlow.observe()
-            .onEach { onNewMessage(Message.TopicRepeated(it)) }
+        topicCompletedFlow.observe()
+            .onEach { onNewMessage(Message.TopicCompleted(it)) }
             .launchIn(actionScope)
     }
 

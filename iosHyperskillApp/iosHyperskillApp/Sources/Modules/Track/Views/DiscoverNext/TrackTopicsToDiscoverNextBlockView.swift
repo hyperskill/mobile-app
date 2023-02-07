@@ -17,13 +17,6 @@ struct TrackTopicsToDiscoverNextBlockView: View {
     var onTopicTapped: ((Int64) -> Void)?
     var onErrorButtonTapped: (() -> Void)?
 
-    private var shouldHideView: Bool {
-        if case .empty = state {
-            return true
-        }
-        return false
-    }
-
     var body: some View {
         VStack(alignment: .leading, spacing: appearance.spacing) {
             Text(Strings.Track.TopicsToDiscoverNext.title)
@@ -49,15 +42,15 @@ struct TrackTopicsToDiscoverNextBlockView: View {
         .frame(maxWidth: .infinity)
         .padding(appearance.insets.edgeInsets)
         .background(BackgroundView(color: Color(ColorPalette.surface)))
-        .hidden(shouldHideView)
     }
 
     @ViewBuilder
     private func buildTopicsList(topics: [Topic]) -> some View {
         LazyVStack(spacing: appearance.spacing) {
-            ForEach(topics, id: \.id) { topic in
+            ForEach(Array(topics.enumerated()), id: \.element.id) { index, topic in
                 TopicToDiscoverNextButtonView(
                     topic: topic,
+                    isLearnNext: index == 0,
                     onTap: { onTopicTapped?(topic.id) }
                 )
             }

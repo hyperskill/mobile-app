@@ -17,6 +17,8 @@ struct OutlineButtonStyle: ButtonStyle {
     var alignment: Alignment = .center
     var paddingEdgeSet = Edge.Set.horizontal
 
+    var backgroundColor: Color = .clear
+
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .foregroundColor(foregroundColor)
@@ -24,6 +26,7 @@ struct OutlineButtonStyle: ButtonStyle {
             .frame(maxWidth: maxWidth, minHeight: minHeight, alignment: alignment)
             .contentShape(RoundedRectangle(cornerRadius: cornerRadius)) // Increase tap area for user interaction
             .padding(paddingEdgeSet)
+            .background(backgroundColor)
             .cornerRadius(cornerRadius)
             .overlay(RoundedRectangle(cornerRadius: cornerRadius).stroke(borderColor, lineWidth: borderWidth))
             .scaleEffect(configuration.isPressed ? bounceScale : 1)
