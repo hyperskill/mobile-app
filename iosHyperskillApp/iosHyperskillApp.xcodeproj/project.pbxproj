@@ -397,6 +397,7 @@
 		E9D2D670284E0A70000757AC /* StepQuizMatchingViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2D66F284E0A70000757AC /* StepQuizMatchingViewData.swift */; };
 		E9D2D673284E0A97000757AC /* StepQuizMatchingItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2D672284E0A97000757AC /* StepQuizMatchingItemView.swift */; };
 		E9D2D675284E0B30000757AC /* StepQuizMatchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2D674284E0B30000757AC /* StepQuizMatchingView.swift */; };
+		E9D458E429927C8900AAEBD9 /* lines_wrapper.js in Resources */ = {isa = PBXBuildFile; fileRef = E9D458E329927C8900AAEBD9 /* lines_wrapper.js */; };
 		E9D69A4028084FF7000E114E /* AuthCredentialsErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D69A3F28084FF7000E114E /* AuthCredentialsErrorView.swift */; };
 		E9D90905289814AA00D0EE91 /* NotificationsRegistrationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D90904289814AA00D0EE91 /* NotificationsRegistrationService.swift */; };
 		E9EF705128A7DB6500EA0C1C /* DailyStudyReminderLocalNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EF705028A7DB6500EA0C1C /* DailyStudyReminderLocalNotification.swift */; };
@@ -826,6 +827,7 @@
 		E9D2D66F284E0A70000757AC /* StepQuizMatchingViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingViewData.swift; sourceTree = "<group>"; };
 		E9D2D672284E0A97000757AC /* StepQuizMatchingItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingItemView.swift; sourceTree = "<group>"; };
 		E9D2D674284E0B30000757AC /* StepQuizMatchingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingView.swift; sourceTree = "<group>"; };
+		E9D458E329927C8900AAEBD9 /* lines_wrapper.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = lines_wrapper.js; sourceTree = "<group>"; };
 		E9D69A3F28084FF7000E114E /* AuthCredentialsErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsErrorView.swift; sourceTree = "<group>"; };
 		E9D90904289814AA00D0EE91 /* NotificationsRegistrationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsRegistrationService.swift; sourceTree = "<group>"; };
 		E9EF705028A7DB6500EA0C1C /* DailyStudyReminderLocalNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStudyReminderLocalNotification.swift; sourceTree = "<group>"; };
@@ -2105,6 +2107,7 @@
 				2C20FBB1284F4FEA006D879E /* highlight.js */,
 				2C20FBB5284F54DF006D879E /* jquery-3.4.1.min.js */,
 				2C20FBB3284F5145006D879E /* kotlin-playground-1.21.1.min.js */,
+				E9D458E329927C8900AAEBD9 /* lines_wrapper.js */,
 				2C20FBB7284F630C006D879E /* MathJax.js */,
 				2CE2817827E8EF1E00641E22 /* GoogleService-Info.plist */,
 				7555FF8C242A565B00829871 /* Info.plist */,
@@ -2683,6 +2686,7 @@
 				058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */,
 				2C98C7AA2850B93100857783 /* step.css in Resources */,
 				2C98C7AC2850B93100857783 /* bootstrap.css in Resources */,
+				E9D458E429927C8900AAEBD9 /* lines_wrapper.js in Resources */,
 				2C20FBB4284F5145006D879E /* kotlin-playground-1.21.1.min.js in Resources */,
 				2C98C7AB2850B93100857783 /* variables.css in Resources */,
 				2C2FD62028191FFE004E7AF6 /* Sentry-Info.plist in Resources */,

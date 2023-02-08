@@ -190,7 +190,7 @@ final class KotlinRunnableSamplesInjection: ContentProcessingInjection {
     }
 }
 
-/// Code syntax highlight with highlight.js
+/// Code syntax highlight with highlight.js and line_wrapper.js
 final class HightlightJSInjection: ContentProcessingInjection {
     var headScript: String {
         """
@@ -198,6 +198,7 @@ final class HightlightJSInjection: ContentProcessingInjection {
         <script>
         hljs.initHighlightingOnLoad();
         </script>
+        <script type="text/javascript" src="lines_wrapper.js"></script>
         """
     }
 
