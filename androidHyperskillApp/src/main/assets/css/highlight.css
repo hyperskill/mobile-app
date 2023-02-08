@@ -40,12 +40,13 @@ pre code>span {
 
 pre code>span::before {
   display: inline-block;
+  color: var(--black12);
   width: 1rem;
   padding-right: 0.5rem;
   margin-right: 0.5rem;
   text-align: right;
   content: counter(line);
-  border-right: 1px solid var(--black25);
+  border-right: 1px solid var(--black09);
 }
 
 code {

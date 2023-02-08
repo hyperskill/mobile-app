@@ -8,6 +8,11 @@
         background: #f7f9fa;
         border-color: var(--black07);
     }
+
+    pre code>span::before {
+        color: var(--black12);
+        border-color: var(--black09);
+    }
 }
 
 @media screen and (prefers-color-scheme: dark) {
@@ -19,6 +24,11 @@
         color: #f97a12;
         background: #1e1e1e;
         border-color: #ffffff1f;
+    }
+
+    pre code>span::before {
+        color: var(--black50);
+        border-color: var(--black75);
     }
 }
 
@@ -68,7 +78,8 @@ pre code>span::before {
     margin-right: 0.5rem;
     text-align: right;
     content: counter(line);
-    border-right: 1px solid var(--black25);
+    border-right: solid;
+    border-width: 1px;
 }
 
 code {
