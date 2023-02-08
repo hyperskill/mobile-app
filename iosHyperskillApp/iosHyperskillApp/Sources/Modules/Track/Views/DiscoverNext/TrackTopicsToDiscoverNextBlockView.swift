@@ -76,9 +76,6 @@ struct TrackTopicsToDiscoverNextBlockView_Previews: PreviewProvider {
                             theoryId: nil,
                             title: "Pro data types",
                             progress: TopicProgress(
-                                id: "",
-                                stagePosition: 0,
-                                repeatedCount: 0,
                                 isCompleted: false,
                                 isSkipped: true,
                                 capacity: 0
