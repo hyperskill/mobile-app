@@ -5,3 +5,4 @@ What to Test:
 4. Topic completion ALTAPPS-543
 5. SQL quiz ALTAPPS-550
 6. Fix incorrect presentations of topics in repetition list ALTAPPS-556
+7. Fix "Learn next" widget still shown if no topics to learn left ALTAPPS-582

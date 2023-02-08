@@ -4,3 +4,4 @@ What to Test:
 3. Display the topic progress in the widget ALTAPPS-541
 4. Topic completion ALTAPPS-542
 5. Fix incorrect presentations of topics in repetition list ALTAPPS-556
+6. Fix "Learn next" widget still shown if no topics to learn left ALTAPPS-582
