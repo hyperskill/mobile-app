@@ -17,7 +17,9 @@ data class TopicProgress(
     @SerialName("is_skipped")
     val isSkipped: Boolean,
     @SerialName("capacity")
-    val capacity: Float? = null
+    val capacity: Float? = null,
+    @SerialName("is_in_current_track")
+    val isInCurrentTrack: Boolean
 )
 
 val TopicProgress.completenessPercentage: Float
