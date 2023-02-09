@@ -31,12 +31,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name="org.hyperskill.app.android.notification.receiver.AlarmReceiver" />
-
-        <service
-            android:name="org.hyperskill.app.android.notification.service.NotificationAlarmService"
-            android:exported="true"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <receiver android:name=".notification.receiver.AlarmReceiver" />
 
         <service
             android:name="org.hyperskill.app.android.notification.service.BootCompleteService"
@@ -44,7 +39,7 @@
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <receiver
-            android:name="org.hyperskill.app.android.notification.receiver.BootCompleteReceiver"
+            android:name=".notification.receiver.RescheduleNotificationsReceiver"
             android:enabled="true"
             android:exported="false"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
