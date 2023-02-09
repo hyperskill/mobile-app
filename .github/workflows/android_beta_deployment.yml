@@ -1,11 +1,6 @@
 name: Android Beta Deployment
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    branches:
-      - 'release/**'
-      - 'hotfix/**'
   push:
     branches:
       - 'release/**'
@@ -20,12 +15,6 @@ defaults:
     shell: bash
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:        
-    - name: ref
-      run: echo "${{ github.ref }}"
-
   # Run Gradle Wrapper Validation Action to verify the wrapper's checksum
   gradle-wrapper-validation:
     name: Gradle Wrapper Validation
