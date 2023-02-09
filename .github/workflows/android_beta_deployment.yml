@@ -23,6 +23,7 @@ jobs:
   # Run Gradle Wrapper Validation Action to verify the wrapper's checksum
   gradle-wrapper-validation:
     name: Gradle Wrapper Validation
+    if: startsWith(github.ref, 'release/') || startsWith(github.ref, 'hotfix/')
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
