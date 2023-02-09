@@ -9,3 +9,4 @@ What to Test:
 8. Fix "Learn next" widget still shown if no topics to learn left ALTAPPS-582
 9. Fix unsupported problem not skiped in topic practice ALTAPPS-588
 10. Fix topic progress doesn't change on home screen without screen refreshing ALTAPPS-590
+11. Fix code text resets to empty when opening fullscreen code editor ALTAPPS-591
