@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
@@ -60,6 +61,9 @@ class MainActivity :
 
     private lateinit var analyticInteractor: AnalyticInteractor
 
+    private val notificationInteractor =
+        HyperskillApp.graph().platformNotificationComponent.notificationInteractor
+
     override val navigator by lazy {
         NestedAppNavigator(
             this,
@@ -104,6 +108,7 @@ class MainActivity :
         AppCompatDelegate.setDefaultNightMode(ThemeMapper.getAppCompatDelegate(profileSettings.theme))
 
         handleNewIntent(intent)
+        logNotificationAvailability()
     }
 
     private fun injectManual() {
@@ -186,5 +191,11 @@ class MainActivity :
                 // no op
             }
         }
+    }
+
+    private fun logNotificationAvailability() {
+        notificationInteractor.setNotificationsPermissionGranted(
+            NotificationManagerCompat.from(this).areNotificationsEnabled()
+        )
     }
 }

@@ -6,15 +6,14 @@ import androidx.core.app.JobIntentService
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.notification.NotificationDelegate
 
-@Deprecated("Replace with WorkManager")
-class BootCompleteService : JobIntentService() {
+class RescheduleNotificationsService : JobIntentService() {
     private lateinit var notificationDelegates: Set<@JvmSuppressWildcards NotificationDelegate>
 
     companion object {
         private const val JOB_ID = 1000
 
         fun enqueueWork(context: Context, intent: Intent) {
-            enqueueWork(context, BootCompleteService::class.java, JOB_ID, intent)
+            enqueueWork(context, RescheduleNotificationsService::class.java, JOB_ID, intent)
         }
     }
 
