@@ -7,6 +7,7 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
+import org.hyperskill.app.progresses.domain.flow.TopicProgressFlow
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
@@ -28,6 +29,7 @@ class StepCompletionActionDispatcher(
     private val resourceProvider: ResourceProvider,
     private val sentryInteractor: SentryInteractor,
     private val topicCompletedFlow: TopicCompletedFlow,
+    private val topicProgressFlow: TopicProgressFlow,
     notificationInteractor: NotificationInteractor,
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
@@ -67,12 +69,11 @@ class StepCompletionActionDispatcher(
                 onNewMessage(message)
             }
             is Action.CheckTopicCompletionStatus -> {
-                val topicIsCompleted = progressesInteractor
+                val topicProgress = progressesInteractor
                     .getTopicProgress(action.topicId)
-                    .map { it.isCompleted }
                     .getOrElse { return onNewMessage(Message.CheckTopicCompletionStatus.Error) }
 
-                if (topicIsCompleted) {
+                if (topicProgress.isCompleted) {
                     topicCompletedFlow.notifyDataChanged(action.topicId)
 
                     val topicTitle = topicsInteractor
@@ -89,6 +90,7 @@ class StepCompletionActionDispatcher(
                         )
                     )
                 } else {
+                    topicProgressFlow.notifyDataChanged(topicProgress)
                     onNewMessage(Message.CheckTopicCompletionStatus.Uncompleted)
                 }
             }

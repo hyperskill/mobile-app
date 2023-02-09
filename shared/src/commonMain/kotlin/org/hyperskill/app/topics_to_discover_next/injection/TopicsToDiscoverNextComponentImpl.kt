@@ -19,6 +19,7 @@ class TopicsToDiscoverNextComponentImpl(
             appGraph.buildTopicsToDiscoverNextDataComponent().topicsToDiscoverNextInteractor,
             appGraph.sentryComponent.sentryInteractor,
             appGraph.analyticComponent.analyticInteractor,
-            appGraph.stepCompletionFlowDataComponent.topicCompletedFlow
+            appGraph.stepCompletionFlowDataComponent.topicCompletedFlow,
+            appGraph.progressesFlowDataComponent.topicProgressFlow
         )
 }

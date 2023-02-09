@@ -23,6 +23,7 @@ class StepCompletionComponentImpl(
             appGraph.commonComponent.resourceProvider,
             appGraph.sentryComponent.sentryInteractor,
             appGraph.stepCompletionFlowDataComponent.topicCompletedFlow,
+            appGraph.progressesFlowDataComponent.topicProgressFlow,
             appGraph.buildNotificationComponent().notificationInteractor
         )
 }

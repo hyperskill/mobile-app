@@ -1,13 +1,15 @@
 package org.hyperskill.app.topics.domain.model
 
+import kotlin.math.round
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlin.math.round
 
 @Serializable
 data class TopicProgress(
     @SerialName("id")
     val id: String,
+    @SerialName("vid")
+    val vid: String,
     @SerialName("stage_position")
     val stagePosition: Int? = null,
     @SerialName("repeated_count")
@@ -21,6 +23,9 @@ data class TopicProgress(
     @SerialName("is_in_current_track")
     val isInCurrentTrack: Boolean
 )
+
+val TopicProgress.topicId: Long?
+    get() = vid.substringAfter("topic-").toLongOrNull()
 
 val TopicProgress.completenessPercentage: Float
     get() = if (isCompleted || isSkipped) {

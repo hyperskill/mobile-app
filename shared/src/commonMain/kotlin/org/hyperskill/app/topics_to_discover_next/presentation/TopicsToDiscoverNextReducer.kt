@@ -1,5 +1,6 @@
 package org.hyperskill.app.topics_to_discover_next.presentation
 
+import org.hyperskill.app.topics.domain.model.topicId
 import org.hyperskill.app.topics_to_discover_next.domain.analytic.TopicsToDiscoverNextClickedHyperskillAnalyticEvent
 import org.hyperskill.app.topics_to_discover_next.domain.model.TopicsToDiscoverNextScreen
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature.Action
@@ -48,6 +49,19 @@ class TopicsToDiscoverNextReducer(
                     } else {
                         state.copy(topicsToDiscoverNext = newTopicsToDiscoverNext) to emptySet()
                     }
+                } else {
+                    null
+                }
+            is Message.TopicProgressChanged ->
+                if (state is State.Content) {
+                    val newTopicsToDiscoverNext = state.topicsToDiscoverNext.map { topic ->
+                        if (topic.id == message.topicProgress.topicId) {
+                            topic.copy(progress = message.topicProgress)
+                        } else {
+                            topic
+                        }
+                    }
+                    state.copy(topicsToDiscoverNext = newTopicsToDiscoverNext) to emptySet()
                 } else {
                     null
                 }
