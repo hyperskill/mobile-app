@@ -10,9 +10,11 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
+import org.hyperskill.app.android.core.view.ui.navigation.requireMainRouter
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepBinding
 import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
+import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.step.view.dialog.TopicPracticeCompletedBottomSheet
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
@@ -92,7 +94,8 @@ class StepFragment :
                     }
 
                     StepCompletionFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
-                        requireRouter().newRootScreen(HomeScreen)
+                        requireRouter().backTo(MainScreen)
+                        parentFragmentManager.requireMainRouter().switch(HomeScreen)
                         childFragmentManager
                             .dismissDialogFragmentIfExists(TopicPracticeCompletedBottomSheet.Tag)
                     }
