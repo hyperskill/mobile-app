@@ -205,6 +205,13 @@
     <string name="settings_privacy_policy_url">https://hi.hyperskill.org/terms</string>
     <string name="settings_report_problem_url">https://support.hyperskill.org/hc/en-us/requests/new</string>
 
+    <!-- Debug menu -->
+    <string name="debug_menu_title">Debug</string>
+    <string name="debug_menu_section_api_header_title">API Base URL</string>
+    <string name="debug_menu_section_step_navigation_text_input_title">Enter step id</string>
+    <string name="debug_menu_section_step_navigation_button_text">Open step</string>
+    <string name="debug_menu_apply_settings_button_text">Apply</string>
+
     <!-- Placeholder -->
     <string name="placeholder_network_error_title">Oops! It seems like the network error.</string>
     <string name="placeholder_network_error_button_text">Reload</string>

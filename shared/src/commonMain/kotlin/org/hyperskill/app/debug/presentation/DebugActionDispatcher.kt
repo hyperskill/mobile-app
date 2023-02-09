@@ -6,7 +6,7 @@ import org.hyperskill.app.debug.presentation.DebugFeature.Action
 import org.hyperskill.app.debug.presentation.DebugFeature.Message
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
-class DebugActionDispatcher(
+internal class DebugActionDispatcher(
     config: ActionDispatcherOptions,
     private val debugInteractor: DebugInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {

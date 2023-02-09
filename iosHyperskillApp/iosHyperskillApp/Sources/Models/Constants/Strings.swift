@@ -259,6 +259,22 @@ enum Strings {
         }
     }
 
+    // MARK: - DebugMenu -
+
+    enum DebugMenu {
+        static let title = sharedStrings.debug_menu_title.localized()
+        static let applySettingsButton = sharedStrings.debug_menu_apply_settings_button_text.localized()
+
+        enum API {
+            static let headerTitle = sharedStrings.debug_menu_section_api_header_title.localized()
+        }
+
+        enum StepNavigation {
+            static let textFieldTitle = sharedStrings.debug_menu_section_step_navigation_text_input_title.localized()
+            static let buttonTitle = sharedStrings.debug_menu_section_step_navigation_button_text.localized()
+        }
+    }
+
     // MARK: - Streak -
 
     enum Streak {

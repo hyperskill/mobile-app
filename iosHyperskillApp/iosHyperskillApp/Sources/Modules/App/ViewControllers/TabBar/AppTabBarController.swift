@@ -31,7 +31,7 @@ final class AppTabBarController: UITabBarController {
                 case .profile:
                     return UIHostingController(rootView: ProfileAssembly.currentUser().makeModule())
                 case .debug:
-                    return UIViewController()
+                    return DebugAssembly().makeModule()
                 }
             }()
 
