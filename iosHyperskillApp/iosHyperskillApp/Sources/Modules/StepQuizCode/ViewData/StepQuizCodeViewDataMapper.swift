@@ -77,15 +77,7 @@ class StepQuizCodeViewDataMapper {
             samples: samples,
             executionTimeLimit: executionTimeLimit,
             executionMemoryLimit: executionMemoryLimit,
-            stepText: step.block.text,
-            stepStats: mapStepToStepStats(step)
-        )
-    }
-
-    func mapStepToStepStats(_ step: Step) -> String {
-        stepQuizStatsTextMapper.getFormattedStepQuizStats(
-            users: step.solvedBy,
-            millisSinceLastCompleted: step.millisSinceLastCompleted
+            stepText: step.block.text
         )
     }
 

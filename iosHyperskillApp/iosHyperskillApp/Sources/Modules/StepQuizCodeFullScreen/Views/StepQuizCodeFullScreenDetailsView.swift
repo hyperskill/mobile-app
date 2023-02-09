@@ -12,7 +12,6 @@ extension StepQuizCodeFullScreenDetailsView {
 struct StepQuizCodeFullScreenDetailsView: View {
     private(set) var appearance = Appearance()
 
-    let stepStats: String
     let stepText: String
 
     let samples: [StepQuizCodeViewData.Sample]
@@ -26,8 +25,6 @@ struct StepQuizCodeFullScreenDetailsView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: appearance.spacing) {
-                StepQuizStatsView(text: stepStats)
-
                 StepTextView(
                     text: stepText,
                     appearance: .init(
@@ -54,7 +51,6 @@ struct StepQuizCodeFullScreenDetailsView: View {
 struct StepQuizCodeFullScreenDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         StepQuizCodeFullScreenDetailsView(
-            stepStats: "2438 users solved this problem. Latest completion was about 13 hours ago.",
             stepText: """
 Enter only the name of the found functional interface with/without the package. Don't write any generic parameters.
 """,

@@ -51,6 +51,7 @@ struct StepView: View {
         case .data(let data):
             buildContent(data: data)
                 .navigationTitle(data.step.title)
+                .navigationBarTitleDisplayMode(.inline)
         }
     }
 

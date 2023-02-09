@@ -26,7 +26,7 @@ struct StepQuizCodeView: View {
             )
             .padding(.horizontal, -LayoutInsets.defaultInset)
 
-            StepQuizNameView(text: Strings.StepQuizCode.title, dividerLocation: .bottom)
+            StepQuizNameView(text: Strings.StepQuizCode.title)
 
             CodeEditor(
                 code: .constant(viewData.code),
