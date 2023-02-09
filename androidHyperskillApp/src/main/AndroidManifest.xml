@@ -34,17 +34,18 @@
         <receiver android:name=".notification.receiver.AlarmReceiver" />
 
         <service
-            android:name="org.hyperskill.app.android.notification.service.BootCompleteService"
+            android:name=".notification.service.RescheduleNotificationsService"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <receiver
             android:name=".notification.receiver.RescheduleNotificationsReceiver"
             android:enabled="true"
-            android:exported="false"
+            android:exported="true"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
         </receiver>
 
