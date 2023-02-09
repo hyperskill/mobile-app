@@ -24,6 +24,7 @@ enum Strings {
         static let home = sharedStrings.tab_bar_home_title.localized()
         static let track = sharedStrings.tab_bar_track_title.localized()
         static let profile = sharedStrings.tab_bar_profile_title.localized()
+        static let debug = sharedStrings.tab_bar_debug_title.localized()
     }
 
     // MARK: - Auth -

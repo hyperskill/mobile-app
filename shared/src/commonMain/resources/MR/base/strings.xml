@@ -142,6 +142,7 @@
     <string name="tab_bar_home_title">Home</string>
     <string name="tab_bar_track_title">Track</string>
     <string name="tab_bar_profile_title">Profile</string>
+    <string name="tab_bar_debug_title">Debug</string>
 
     <!-- Home -->
     <string name="home_title">Hello!</string>
