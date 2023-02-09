@@ -8,7 +8,7 @@ class BuildKonfig(
     endpointConfigType: EndpointConfigType
 ) {
     companion object {
-        val IS_DEBUG_CONTROLS_ENABLED: Boolean? = InternalBuildKonfig.IS_DEBUG_CONTROLS_ENABLED
+        val IS_INTERNAL_TESTING: Boolean? = InternalBuildKonfig.IS_INTERNAL_TESTING
     }
 
     val flavor: String =

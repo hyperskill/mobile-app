@@ -7,8 +7,8 @@ import org.hyperskill.app.debug.domain.model.EndpointConfigType
 
 interface DebugFeature {
     companion object {
-        fun isDebugFeatureAvailable(buildKonfig: BuildKonfig): Boolean =
-            BuildKonfig.IS_DEBUG_CONTROLS_ENABLED ?: (buildKonfig.buildVariant == BuildVariant.DEBUG)
+        fun isAvailable(buildKonfig: BuildKonfig): Boolean =
+            BuildKonfig.IS_INTERNAL_TESTING ?: (buildKonfig.buildVariant == BuildVariant.DEBUG)
     }
 
     sealed interface State {
