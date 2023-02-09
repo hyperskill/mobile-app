@@ -257,7 +257,6 @@ abstract class DefaultStepQuizFragment :
                 viewBinding.root.snackbar(org.hyperskill.app.R.string.common_error)
             }
         }
-        platformNotificationComponent.notificationInteractor.setDailyStudyRemindersEnabled(true)
         platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification()
     }
 
