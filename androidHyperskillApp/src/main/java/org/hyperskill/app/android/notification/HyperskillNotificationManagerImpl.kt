@@ -31,10 +31,18 @@ class HyperskillNotificationManagerImpl(
         notificationInteractor.setNotificationTimestamp(id, millis)
     }
 
-    override fun rescheduleActiveNotification(id: String) {
+    override fun rescheduleActiveNotification(id: String, nextMillis: Long?) {
         val millis = notificationInteractor.getNotificationTimestamp(id)
-        if (millis > 0L && millis > DateTimeHelper.nowUtc()) {
-            scheduleNotification(id, millis)
+        val nowUtc = DateTimeHelper.nowUtc()
+        when {
+            // saved schedule time is after now
+            millis > 0L && millis > nowUtc -> scheduleNotification(id, millis)
+            // saved schedule time is before now;
+            // use next millis is it is after now
+            nextMillis != null && nextMillis > 0 && nextMillis > nowUtc -> scheduleNotification(id, nextMillis)
+            else -> {
+                // no op
+            }
         }
     }
 
