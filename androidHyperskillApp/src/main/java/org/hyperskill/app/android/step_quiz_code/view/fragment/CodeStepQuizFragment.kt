@@ -41,7 +41,7 @@ class CodeStepQuizFragment :
 
     private var codeStepQuizFormDelegate: CodeStepQuizFormDelegate? = null
 
-    private lateinit var lang: String
+    private lateinit var langName: String
 
     override val quizViews: Array<View>
         get() = arrayOf(binding.stepQuizCodeContainer)
@@ -64,7 +64,7 @@ class CodeStepQuizFragment :
 
     override fun createStepQuizFormDelegate(containerBinding: FragmentStepQuizBinding): StepQuizFormDelegate {
         codeOptions = step.block.options
-        lang = codeOptions.limits!!.keys.first()
+        langName = codeOptions.limits!!.keys.first()
 
         val codeDetailsView = (viewBinding.root.parent.parent as View).findViewById<View>(R.id.stepQuizCodeSamples)
         codeDetailsView.isVisible = true
@@ -86,8 +86,8 @@ class CodeStepQuizFragment :
         val codeStepQuizFormDelegate = CodeStepQuizFormDelegate(
             containerBinding = containerBinding,
             codeLayout = binding.codeStepLayout,
-            lang = lang,
-            initialCode = codeOptions.codeTemplates?.get(lang) ?: "",
+            langName = langName,
+            initialCode = codeOptions.codeTemplates?.get(langName) ?: "",
             codeLayoutDelegate = codeLayoutDelegate,
             onFullscreenClicked = ::onFullScreenClicked,
             onQuizChanged = ::syncReplyState

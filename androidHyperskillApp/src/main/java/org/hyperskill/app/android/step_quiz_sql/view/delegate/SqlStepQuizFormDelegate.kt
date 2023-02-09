@@ -50,7 +50,7 @@ class SqlStepQuizFormDelegate(
 
         with(codeLayout) {
             isEnabled = true
-            lang = extensionForLanguage(ProgrammingLanguage.SQL.serverPrintableName)
+            langExtension = extensionForLanguage(ProgrammingLanguage.SQL.serverPrintableName)
         }
     }
 
