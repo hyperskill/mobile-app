@@ -34,7 +34,7 @@ class StepInteractor(
 
             while (!BlockName.supportedBlocksNames.contains(nextRecommendedStep.block.name) && nextRecommendedStep.canSkip) {
                 stepRepository
-                    .skipStep(currentStep.id)
+                    .skipStep(nextRecommendedStep.id)
                     .getOrThrow()
 
                 nextRecommendedStep = stepRepository
