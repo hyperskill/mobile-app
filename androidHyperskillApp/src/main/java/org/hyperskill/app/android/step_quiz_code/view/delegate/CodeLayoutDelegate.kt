@@ -17,7 +17,7 @@ class CodeLayoutDelegate(
      * if [code] is null then default code template for [lang] will be used
      */
     fun setLanguage(lang: String, code: String? = null) {
-        codeLayout.lang = extensionForLanguage(lang)
+        codeLayout.langExtension = extensionForLanguage(lang)
         codeLayout.setTextIfChanged(code ?: codeTemplates[lang] ?: "")
         codeToolbarAdapter?.setLanguage(lang)
     }

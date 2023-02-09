@@ -28,10 +28,10 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
     val text: CharSequence
         get() = codeEditor.text.toString()
 
-    var lang: String
-        get() = codeEditor.lang
+    var langExtension: String
+        get() = codeEditor.langExtension
         set(value) {
-            codeEditor.lang = value
+            codeEditor.langExtension = value
         }
 
     val indentSize: Int
