@@ -4,7 +4,7 @@ struct DebugStepNavigationView: View {
     @Binding var text: String
 
     var isOpenButtonEnabled: Bool
-    var openButtonTapped: () -> Void
+    var onOpenButtonTapped: () -> Void
 
     var body: some View {
         VStack(spacing: LayoutInsets.defaultInset) {
@@ -18,7 +18,7 @@ struct DebugStepNavigationView: View {
 
             Button(
                 Strings.DebugMenu.StepNavigation.buttonTitle,
-                action: openButtonTapped
+                action: onOpenButtonTapped
             )
             .disabled(!isOpenButtonEnabled)
             .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
@@ -31,7 +31,7 @@ struct DebugStepNavigationView_Previews: PreviewProvider {
         DebugStepNavigationView(
             text: .constant(""),
             isOpenButtonEnabled: true,
-            openButtonTapped: {}
+            onOpenButtonTapped: {}
         )
         .previewLayout(.sizeThatFits)
         .padding()

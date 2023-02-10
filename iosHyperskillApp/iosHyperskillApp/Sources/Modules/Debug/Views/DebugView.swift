@@ -76,7 +76,7 @@ struct DebugView: View {
                         set: { viewModel.doStepNavigationInputChange(text: $0) }
                     ),
                     isOpenButtonEnabled: data.isStepNavigationOpenButtonEnabled,
-                    openButtonTapped: viewModel.doStepNavigationOpenStep
+                    onOpenButtonTapped: viewModel.doStepNavigationOpenStep
                 )
                 .padding(.bottom, LayoutInsets.smallInset)
             }
