@@ -4,11 +4,13 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.debug.domain.interactor.DebugInteractor
 import org.hyperskill.app.debug.presentation.DebugFeature.Action
 import org.hyperskill.app.debug.presentation.DebugFeature.Message
+import org.hyperskill.app.main.domain.interactor.AppInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 internal class DebugActionDispatcher(
     config: ActionDispatcherOptions,
-    private val debugInteractor: DebugInteractor
+    private val debugInteractor: DebugInteractor,
+    private val appInteractor: AppInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
@@ -17,11 +19,14 @@ internal class DebugActionDispatcher(
                 onNewMessage(Message.FetchDebugSettingsSuccess(debugSettings))
             }
             is Action.UpdateEndpointConfig -> {
-                // TODO: Clear cache, sign out and what else...
-                debugInteractor.updateEndpointConfig(action.endpointConfigType)
+                appInteractor.doCurrentUserSignedOutCleanUp()
+
+                debugInteractor.updateEndpointConfig(action.endpointConfig)
                 onNewMessage(Message.ApplySettingsSuccess)
             }
-            else -> {}
+            else -> {
+                // no op
+            }
         }
     }
 }

@@ -312,6 +312,7 @@
 		2CEB50CE288AACEA0044F9AB /* StepQuizCodeFullScreenTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB50CD288AACEA0044F9AB /* StepQuizCodeFullScreenTab.swift */; };
 		2CEB50D0288AADA40044F9AB /* StepQuizCodeFullScreenDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB50CF288AADA40044F9AB /* StepQuizCodeFullScreenDetailsView.swift */; };
 		2CEB50D6288ACBD10044F9AB /* HSTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB50D5288ACBD10044F9AB /* HSTabBar.swift */; };
+		2CEDE70729965B4D0032D399 /* RestartApplicationLocalNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEDE70629965B4D0032D399 /* RestartApplicationLocalNotification.swift */; };
 		2CEEE03128916A3100282849 /* ProblemOfDayAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEE03028916A3100282849 /* ProblemOfDayAssembly.swift */; };
 		2CEEE03328916A3D00282849 /* ProblemOfDayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEE03228916A3D00282849 /* ProblemOfDayViewModel.swift */; };
 		2CEEE03528916A6800282849 /* ProblemOfDayOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEE03428916A6800282849 /* ProblemOfDayOutputProtocol.swift */; };
@@ -742,6 +743,7 @@
 		2CEB50CD288AACEA0044F9AB /* StepQuizCodeFullScreenTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeFullScreenTab.swift; sourceTree = "<group>"; };
 		2CEB50CF288AADA40044F9AB /* StepQuizCodeFullScreenDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeFullScreenDetailsView.swift; sourceTree = "<group>"; };
 		2CEB50D5288ACBD10044F9AB /* HSTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSTabBar.swift; sourceTree = "<group>"; };
+		2CEDE70629965B4D0032D399 /* RestartApplicationLocalNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestartApplicationLocalNotification.swift; sourceTree = "<group>"; };
 		2CEEE03028916A3100282849 /* ProblemOfDayAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDayAssembly.swift; sourceTree = "<group>"; };
 		2CEEE03228916A3D00282849 /* ProblemOfDayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDayViewModel.swift; sourceTree = "<group>"; };
 		2CEEE03428916A6800282849 /* ProblemOfDayOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDayOutputProtocol.swift; sourceTree = "<group>"; };
@@ -2526,6 +2528,7 @@
 			isa = PBXGroup;
 			children = (
 				E9EF705028A7DB6500EA0C1C /* DailyStudyReminderLocalNotification.swift */,
+				2CEDE70629965B4D0032D399 /* RestartApplicationLocalNotification.swift */,
 			);
 			path = ConcreteNotifications;
 			sourceTree = "<group>";
@@ -3128,6 +3131,7 @@
 				E99B218C2887EA14006A6154 /* StepQuizStringSkeletonView.swift in Sources */,
 				2C20FBC0284F65F6006D879E /* HTMLToAttributedStringConverter.swift in Sources */,
 				2CDA98412944512D00ADE539 /* ProfileSkeletonView.swift in Sources */,
+				2CEDE70729965B4D0032D399 /* RestartApplicationLocalNotification.swift in Sources */,
 				2CDA98432944524D00ADE539 /* HomeSkeletonView.swift in Sources */,
 				2C336D262865E39D00C91342 /* CodeInputAccessoryView.swift in Sources */,
 				2C20FBAC284F1964006D879E /* HTMLExtractor.swift in Sources */,

@@ -7,18 +7,21 @@ import org.hyperskill.app.debug.presentation.DebugActionDispatcher
 import org.hyperskill.app.debug.presentation.DebugFeature
 import org.hyperskill.app.debug.presentation.DebugReducer
 import org.hyperskill.app.debug.view.DebugViewStateMapper
+import org.hyperskill.app.main.domain.interactor.AppInteractor
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 object DebugFeatureBuilder {
     fun build(
-        debugInteractor: DebugInteractor
+        debugInteractor: DebugInteractor,
+        appInteractor: AppInteractor
     ): Feature<DebugFeature.ViewState, DebugFeature.Message, DebugFeature.Action> {
         val debugReducer = DebugReducer()
         val debugActionDispatcher = DebugActionDispatcher(
             ActionDispatcherOptions(),
-            debugInteractor
+            debugInteractor,
+            appInteractor
         )
 
         return ReduxFeature(DebugFeature.State.Idle, debugReducer)

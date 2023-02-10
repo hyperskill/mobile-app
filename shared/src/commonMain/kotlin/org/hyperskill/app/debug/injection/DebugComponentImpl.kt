@@ -9,7 +9,7 @@ import org.hyperskill.app.debug.domain.repository.DebugRepository
 import org.hyperskill.app.debug.presentation.DebugFeature
 import ru.nobird.app.presentation.redux.feature.Feature
 
-class DebugComponentImpl(appGraph: AppGraph) : DebugComponent {
+class DebugComponentImpl(private val appGraph: AppGraph) : DebugComponent {
     private val debugCacheDataSource: DebugCacheDataSource =
         DebugCacheDataSourceImpl(appGraph.commonComponent.settings)
     private val debugRepository: DebugRepository =
@@ -18,5 +18,8 @@ class DebugComponentImpl(appGraph: AppGraph) : DebugComponent {
         DebugInteractor(debugRepository)
 
     override val debugFeature: Feature<DebugFeature.ViewState, DebugFeature.Message, DebugFeature.Action>
-        get() = DebugFeatureBuilder.build(debugInteractor)
+        get() = DebugFeatureBuilder.build(
+            debugInteractor,
+            appGraph.buildMainDataComponent().appInteractor
+        )
 }

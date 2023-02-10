@@ -1,5 +1,6 @@
 import shared
 import SwiftUI
+import UIKit
 
 struct DebugView: View {
     @StateObject var viewModel: DebugViewModel
@@ -52,12 +53,12 @@ struct DebugView: View {
                 Picker(
                     Strings.DebugMenu.API.headerTitle,
                     selection: Binding<EndpointConfigType>(
-                        get: { data.selectedEndpointConfigType },
+                        get: { data.selectedEndpointConfig },
                         set: { viewModel.doSelectEndpointConfig($0) }
                     ),
                     content: {
-                        ForEach(data.availableEndpointConfigTypes, id: \.self) { type in
-                            if type != data.selectedEndpointConfigType {
+                        ForEach(data.availableEndpointConfigs, id: \.self) { type in
+                            if type != data.selectedEndpointConfig {
                                 Text(type.name)
                                     .navigationTitle(Strings.DebugMenu.API.headerTitle)
                             } else {
@@ -91,10 +92,28 @@ struct DebugView: View {
     private func handleViewAction(_ viewAction: DebugFeatureActionViewAction) {
         switch DebugFeatureActionViewActionKs(viewAction) {
         case .restartApplication:
-            break
+            displayRestartApplicationAlert()
         case .openStep(let data):
             stackRouter.pushViewController(StepAssembly(stepRoute: data.stepRoute).makeModule())
         }
+    }
+
+    private func displayRestartApplicationAlert() {
+        let alert = UIAlertController(
+            title: Strings.DebugMenu.RestartApplication.Alert.title,
+            message: Strings.DebugMenu.RestartApplication.Alert.message,
+            preferredStyle: .alert
+        )
+        alert.addAction(
+            UIAlertAction(
+                title: Strings.General.ok,
+                style: .default,
+                handler: { [weak viewModel] _ in
+                    viewModel?.doRestartApplication()
+                }
+            )
+        )
+        stackRouter.rootViewController?.present(alert, animated: true)
     }
 }
 

@@ -15,8 +15,8 @@ object DebugFeature {
         object Loading : State
         object Error : State
         data class Content(
-            val currentEndpointConfigType: EndpointConfigType,
-            val selectedEndpointConfigType: EndpointConfigType,
+            val currentEndpointConfig: EndpointConfigType,
+            val selectedEndpointConfig: EndpointConfigType,
             val stepNavigationInputText: String
         ) : State
     }
@@ -26,8 +26,8 @@ object DebugFeature {
         object Loading : ViewState
         object Error : ViewState
         data class Content(
-            val availableEndpointConfigTypes: List<EndpointConfigType>,
-            val selectedEndpointConfigType: EndpointConfigType,
+            val availableEndpointConfigs: List<EndpointConfigType>,
+            val selectedEndpointConfig: EndpointConfigType,
             val stepNavigationInputText: String,
             val isStepNavigationOpenButtonEnabled: Boolean,
             val isApplySettingsButtonAvailable: Boolean
@@ -39,7 +39,7 @@ object DebugFeature {
         data class FetchDebugSettingsSuccess(val debugSettings: DebugSettings) : Message
         object FetchDebugSettingsFailure : Message
 
-        data class SelectEndpointConfig(val endpointConfigType: EndpointConfigType) : Message
+        data class SelectEndpointConfig(val endpointConfig: EndpointConfigType) : Message
 
         /**
          * Step navigation
@@ -57,7 +57,7 @@ object DebugFeature {
 
     sealed interface Action {
         object FetchDebugSettings : Action
-        data class UpdateEndpointConfig(val endpointConfigType: EndpointConfigType) : Action
+        data class UpdateEndpointConfig(val endpointConfig: EndpointConfigType) : Action
 
         sealed interface ViewAction : Action {
             object RestartApplication : ViewAction

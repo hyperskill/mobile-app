@@ -11,11 +11,11 @@ internal object DebugViewStateMapper {
             is DebugFeature.State.Error -> DebugFeature.ViewState.Error
             is DebugFeature.State.Content -> {
                 DebugFeature.ViewState.Content(
-                    availableEndpointConfigTypes = EndpointConfigType.values().toList(),
-                    selectedEndpointConfigType = state.selectedEndpointConfigType,
+                    availableEndpointConfigs = EndpointConfigType.values().toList(),
+                    selectedEndpointConfig = state.selectedEndpointConfig,
                     stepNavigationInputText = state.stepNavigationInputText,
                     isStepNavigationOpenButtonEnabled = state.stepNavigationInputText.isNotBlank(),
-                    isApplySettingsButtonAvailable = state.selectedEndpointConfigType != state.currentEndpointConfigType
+                    isApplySettingsButtonAvailable = state.selectedEndpointConfig != state.currentEndpointConfig
                 )
             }
         }

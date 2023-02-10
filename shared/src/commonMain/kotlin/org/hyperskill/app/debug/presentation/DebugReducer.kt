@@ -18,8 +18,8 @@ internal class DebugReducer : StateReducer<State, Message, Action> {
             is Message.FetchDebugSettingsSuccess ->
                 if (state is State.Loading) {
                     State.Content(
-                        currentEndpointConfigType = message.debugSettings.endpointConfigType,
-                        selectedEndpointConfigType = message.debugSettings.endpointConfigType,
+                        currentEndpointConfig = message.debugSettings.endpointConfigType,
+                        selectedEndpointConfig = message.debugSettings.endpointConfigType,
                         stepNavigationInputText = ""
                     ) to emptySet()
                 } else {
@@ -33,7 +33,7 @@ internal class DebugReducer : StateReducer<State, Message, Action> {
                 }
             is Message.SelectEndpointConfig ->
                 if (state is State.Content) {
-                    state.copy(selectedEndpointConfigType = message.endpointConfigType) to emptySet()
+                    state.copy(selectedEndpointConfig = message.endpointConfig) to emptySet()
                 } else {
                     null
                 }
@@ -58,13 +58,15 @@ internal class DebugReducer : StateReducer<State, Message, Action> {
             // Apply settings
             is Message.ApplySettingsClicked ->
                 if (state is State.Content) {
-                    state to setOf(Action.UpdateEndpointConfig(state.selectedEndpointConfigType))
+                    state to setOf(Action.UpdateEndpointConfig(state.selectedEndpointConfig))
                 } else {
                     null
                 }
             is Message.ApplySettingsSuccess ->
                 if (state is State.Content) {
-                    state to setOf(Action.ViewAction.RestartApplication)
+                    state.copy(
+                        currentEndpointConfig = state.selectedEndpointConfig
+                    ) to setOf(Action.ViewAction.RestartApplication)
                 } else {
                     null
                 }

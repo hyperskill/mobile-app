@@ -211,6 +211,12 @@
     <string name="debug_menu_section_step_navigation_text_input_title">Enter step id</string>
     <string name="debug_menu_section_step_navigation_button_text">Open step</string>
     <string name="debug_menu_apply_settings_button_text">Apply</string>
+    <string name="debug_menu_restart_application_alert_title_ios">Restart Application</string>
+    <string name="debug_menu_restart_application_alert_message_ios">
+        The application needs to restart to update the configuration
+    </string>
+    <string name="debug_menu_restart_application_local_notification_title_ios">Configuration Update Completed</string>
+    <string name="debug_menu_restart_application_local_notification_body_ios">Tap to reopen the application</string>
 
     <!-- Placeholder -->
     <string name="placeholder_network_error_title">Oops! It seems like the network error.</string>

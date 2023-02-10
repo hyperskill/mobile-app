@@ -273,6 +273,18 @@ enum Strings {
             static let textFieldTitle = sharedStrings.debug_menu_section_step_navigation_text_input_title.localized()
             static let buttonTitle = sharedStrings.debug_menu_section_step_navigation_button_text.localized()
         }
+
+        enum RestartApplication {
+            enum Alert {
+                static let title = sharedStrings.debug_menu_restart_application_alert_title_ios.localized()
+                static let message = sharedStrings.debug_menu_restart_application_alert_message_ios.localized()
+            }
+
+            enum LocalNotification {
+                static let title = sharedStrings.debug_menu_restart_application_local_notification_title_ios.localized()
+                static let body = sharedStrings.debug_menu_restart_application_local_notification_body_ios.localized()
+            }
+        }
     }
 
     // MARK: - Streak -
