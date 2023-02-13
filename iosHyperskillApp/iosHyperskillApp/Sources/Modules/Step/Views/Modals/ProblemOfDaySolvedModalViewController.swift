@@ -34,7 +34,8 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
     }()
 
     private let earnedGemsText: String
-    private let onGoBackButtonTap: () -> Void
+
+    weak var delegate: ProblemOfDaySolvedModalViewControllerDelegate?
 
     override var shortFormHeight: PanModalHeight {
         let contentStackViewSize = contentStackView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
@@ -44,10 +45,9 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
 
     override var longFormHeight: PanModalHeight { shortFormHeight }
 
-    init(earnedGemsText: String, onGoBackButtonTap: @escaping () -> Void) {
+    init(earnedGemsText: String, delegate: ProblemOfDaySolvedModalViewControllerDelegate? = nil) {
         self.earnedGemsText = earnedGemsText
-        self.onGoBackButtonTap = onGoBackButtonTap
-
+        self.delegate = delegate
         super.init()
     }
 
@@ -64,6 +64,16 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
             self.panModalSetNeedsLayoutUpdate()
             self.panModalTransition(to: .shortForm)
         }
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        delegate?.problemOfDaySolvedModalViewControllerDidAppear(self)
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        delegate?.problemOfDaySolvedModalViewControllerDidDisappear(self)
     }
 
     // MARK: Private API
@@ -169,7 +179,7 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
 
     @objc
     private func goBackButtonTapped() {
-        onGoBackButtonTap()
+        delegate?.problemOfDaySolvedModalViewControllerDidTapGoToHomescreenButton(self)
         dismiss(animated: true)
     }
 }

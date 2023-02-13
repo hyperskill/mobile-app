@@ -67,14 +67,6 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
         )
     }
 
-    func doDailyStepCompletedModalGoBackAction() {
-        onNewMessage(
-            StepFeatureMessageStepCompletionMessage(
-                message: StepCompletionFeatureMessageProblemOfDaySolvedModalGoBackClicked()
-            )
-        )
-    }
-
     private func updateStepQuiz() {
         mainScheduler.schedule { [weak self] in
             guard let strongSelf = self,
@@ -166,8 +158,24 @@ extension StepViewModel: TopicCompletedModalViewControllerDelegate {
     }
 }
 
-extension StepViewModel {
-    func logDailyStepCompletedModalShownEvent() {
+// MARK: - StepViewModel: ProblemOfDaySolvedModalViewControllerDelegate -
+
+extension StepViewModel: ProblemOfDaySolvedModalViewControllerDelegate {
+    func problemOfDaySolvedModalViewControllerDidTapGoToHomescreenButton(
+        _ viewController: ProblemOfDaySolvedModalViewController
+    ) {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageProblemOfDaySolvedModalGoBackClicked()
+            )
+        )
+
+        viewController.dismiss(animated: true)
+    }
+
+    func problemOfDaySolvedModalViewControllerDidAppear(
+        _ viewController: ProblemOfDaySolvedModalViewController
+    ) {
         onNewMessage(
             StepFeatureMessageStepCompletionMessage(
                 message: StepCompletionFeatureMessageDailyStepCompletedModalShownEventMessage()
@@ -175,7 +183,9 @@ extension StepViewModel {
         )
     }
 
-    func logDailyStepCompletedModalHiddenEvent() {
+    func problemOfDaySolvedModalViewControllerDidDisappear(
+        _ viewController: ProblemOfDaySolvedModalViewController
+    ) {
         onNewMessage(
             StepFeatureMessageStepCompletionMessage(
                 message: StepCompletionFeatureMessageDailyStepCompletedModalHiddenEventMessage()

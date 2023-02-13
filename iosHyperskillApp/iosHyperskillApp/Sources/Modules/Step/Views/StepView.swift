@@ -176,17 +176,10 @@ extension StepView {
     }
 
     private func presentDailyStepCompletedModal(earnedGemsText: String) {
-        viewModel.logDailyStepCompletedModalShownEvent()
-
         let panModal = ProblemOfDaySolvedModalViewController(
             earnedGemsText: earnedGemsText,
-            onGoBackButtonTap: { [weak viewModel] in
-                viewModel?.doDailyStepCompletedModalGoBackAction()
-            }
+            delegate: viewModel
         )
-        panModal.onDisappear = { [weak viewModel] in
-            viewModel?.logDailyStepCompletedModalHiddenEvent()
-        }
 
         panModalPresenter.presentPanModal(panModal)
     }
