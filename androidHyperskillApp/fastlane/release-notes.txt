@@ -1,14 +1,14 @@
 What to Test:
-1. Fix Extra click needed to switch notifications on/off ALTAPPS-318
-2. Color of the logo icon in notifications ALTAPPS-319
-3. Fix incorrect time count to receiving new problem of the day ALTAPPS-427
-4. Fix sync time representation for problem of the day ALTAPPS-428
-5. Skeletons for Home, Track and Profile tabs ALTAPPS-459
-6. Fix incorrect step analytic route ALTAPPS-466
-7. New not completed streak icon in header ALTAPPS-475
-8. Theory button on the repetitions quiz screen ALTAPPS-479
-9. Fix hypercoins balance not updating after 1-day streak freeze purchased ALTAPPS-482
-10. Fix incorrect repetition stats diagram ALTAPPS-484
-11. Show gems count earned for solving daily step ALTAPPS-503
-12. Gems and streak on the Track screen ALTAPPS-519
-13. Fix crash ActivityNotFoundException ALTAPPS-522
+1. Fix Streak not updates on Profile and Track screens ALTAPPS-476
+2. Show Learn next topic on the Homescreen ALTAPPS-531
+3. Display the topic progress in the widget ALTAPPS-540
+4. Topic completion ALTAPPS-543
+5. SQL quiz ALTAPPS-550
+6. Fix incorrect presentations of topics in repetition list ALTAPPS-556
+7. Fix local notifications problems ALTAPPS-578
+8. Fix reset clears code editor without confirmation ALTAPPS-580
+9. Fix "Learn next" widget still shown if no topics to learn left ALTAPPS-582
+10. Fix unsupported problem not skiped in topic practice ALTAPPS-588
+11. Fix topic progress doesn't change on home screen without screen refreshing ALTAPPS-590
+12. Fix code text resets to empty when opening fullscreen code editor ALTAPPS-591
+13. Fix back navigation to Homescreen when topic completed ALTAPPS-592

@@ -61,6 +61,9 @@ abstract class DefaultStepQuizFragment :
     private var stepQuizButtonsViewStateDelegate: ViewStateDelegate<StepQuizButtonsState>? = null
     private val stepQuizFeedbackMapper = StepQuizFeedbackMapper()
 
+    private val platformNotificationComponent =
+        HyperskillApp.graph().platformNotificationComponent
+
     protected abstract val quizViews: Array<View>
     protected abstract val skeletonView: View
 
@@ -223,30 +226,38 @@ abstract class DefaultStepQuizFragment :
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(userPermissionRequestTextMapper.getTitle(action.userPermissionRequest))
             .setMessage(userPermissionRequestTextMapper.getMessage(action.userPermissionRequest))
-            .setPositiveButton(org.hyperskill.app.R.string.ok) { _, _ ->
-                stepQuizViewModel.onNewMessage(
-                    StepQuizFeature.Message.RequestUserPermissionResult(
-                        action.userPermissionRequest,
-                        isGranted = true
-                    )
-                )
-                NotificationManagerCompat.from(requireContext())
-                    .checkNotificationChannelAvailability(
-                        requireContext(),
-                        HyperskillNotificationChannel.DailyReminder
-                    ) {
-                        viewBinding.root.snackbar(org.hyperskill.app.R.string.common_error)
-                    }
+            .setPositiveButton(org.hyperskill.app.R.string.ok) { dialog, _ ->
+                onSendDailyStudyReminderAccepted(action.userPermissionRequest)
+                dialog.dismiss()
             }
-            .setNegativeButton(org.hyperskill.app.R.string.later) { _, _ ->
+            .setNegativeButton(org.hyperskill.app.R.string.later) { dialog, _ ->
                 stepQuizViewModel.onNewMessage(
                     StepQuizFeature.Message.RequestUserPermissionResult(
                         action.userPermissionRequest,
                         isGranted = false
                     )
                 )
+                dialog.dismiss()
             }
             .show()
+    }
+
+    private fun onSendDailyStudyReminderAccepted(userPermissionRequest: StepQuizUserPermissionRequest) {
+        stepQuizViewModel.onNewMessage(
+            StepQuizFeature.Message.RequestUserPermissionResult(
+                userPermissionRequest,
+                isGranted = true
+            )
+        )
+        NotificationManagerCompat.from(requireContext()).checkNotificationChannelAvailability(
+            requireContext(),
+            HyperskillNotificationChannel.DailyReminder
+        ) {
+            if (isResumed) {
+                viewBinding.root.snackbar(org.hyperskill.app.R.string.common_error)
+            }
+        }
+        platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification()
     }
 
     override fun render(state: StepQuizFeature.State) {

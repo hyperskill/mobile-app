@@ -214,7 +214,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
                 false,
                 onDetailsIsExpandedStateChanged = {}
             ),
-            codeToolbarAdapter = codeToolbarAdapter,
+            codeToolbarAdapter = codeToolbarAdapter
         )
 
         codeLayoutDelegate.setLanguage(lang, code)
@@ -229,6 +229,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
     }
 
     private fun onResetClick() {
+        syncCodeStateWithParent()
         (parentFragment as? Callback)?.onResetCodeClick()
     }
 
@@ -268,8 +269,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
 
     override fun onPause() {
         if (!isCodeSyncedAfterSubmissionClick) {
-            (parentFragment as? Callback)
-                ?.onSyncCodeStateWithParent(codeLayout.text.toString())
+            syncCodeStateWithParent()
         }
         super.onPause()
     }
@@ -363,10 +363,14 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
     }
 
     private fun submitCodeActionClick() {
-        (parentFragment as? Callback)
-            ?.onSyncCodeStateWithParent(codeLayout.text.toString(), onSubmitClicked = true)
+        syncCodeStateWithParent(onSubmitClicked = true)
         isCodeSyncedAfterSubmissionClick = true
         dismiss()
+    }
+
+    private fun syncCodeStateWithParent(onSubmitClicked: Boolean = false) {
+        (parentFragment as? Callback)
+            ?.onSyncCodeStateWithParent(codeLayout.text.toString(), onSubmitClicked)
     }
 
     interface Callback {

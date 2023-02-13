@@ -1,9 +1,9 @@
 What to Test:
-1. Fix Choice problem incorrect choice elements rendering with HTML-content ALTAPPS-414
-2. Fix incorrect time count to receiving new problem of the day ALTAPPS-427
-3. Fix sync time representation for problem of the day ALTAPPS-428
-4. Fix incorrect step analytic route ALTAPPS-466
-5. Fix hypercoins balance not updating after 1-day streak freeze purchased ALTAPPS-482
-6. Show gems count earned for solving daily step ALTAPPS-503
-7. New not completed streak icon in header ALTAPPS-517
-8. Gems and streak on the Track screen ALTAPPS-518
+1. Fix Streak not updates on Profile and Track screens ALTAPPS-476
+2. Show Learn next topic on the Homescreen ALTAPPS-530
+3. Display the topic progress in the widget ALTAPPS-541
+4. Topic completion ALTAPPS-542
+5. Fix incorrect presentations of topics in repetition list ALTAPPS-556
+6. Fix "Learn next" widget still shown if no topics to learn left ALTAPPS-582
+7. Fix unsupported problem not skiped in topic practice ALTAPPS-588
+8. Fix topic progress doesn't change on home screen without screen refreshing ALTAPPS-590

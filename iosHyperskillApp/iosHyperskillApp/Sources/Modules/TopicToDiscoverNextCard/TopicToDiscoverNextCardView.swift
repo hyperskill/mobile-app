@@ -77,12 +77,9 @@ struct TopicToDiscoverNextCardView_Previews: PreviewProvider {
                                 theoryId: nil,
                                 title: "Pro data types",
                                 progress: TopicProgress(
-                                    id: "",
-                                    stagePosition: 0,
-                                    repeatedCount: 0,
                                     isCompleted: false,
                                     isSkipped: false,
-                                    capacity: 0.50
+                                    capacity: 0.5
                                 )
                             )
                         ],

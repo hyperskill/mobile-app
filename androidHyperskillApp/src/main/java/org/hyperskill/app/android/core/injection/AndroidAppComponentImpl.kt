@@ -83,6 +83,8 @@ import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponentImpl
 import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponentImpl
+import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponent
+import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponentImpl
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
 import org.hyperskill.app.sentry.injection.SentryComponent
@@ -176,6 +178,9 @@ class AndroidAppComponentImpl(
 
     override val stepCompletionFlowDataComponent: StepCompletionFlowDataComponent =
         StepCompletionFlowDataComponentImpl()
+
+    override val progressesFlowDataComponent: ProgressesFlowDataComponent =
+        ProgressesFlowDataComponentImpl()
 
     override val sentryComponent: SentryComponent =
         SentryComponentImpl(SentryManagerImpl(commonComponent.buildKonfig))

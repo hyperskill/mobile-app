@@ -18,7 +18,7 @@ class CodeStepQuizFormDelegate(
     containerBinding: FragmentStepQuizBinding,
     private val codeLayout: CodeEditorLayout,
     initialCode: String,
-    private val lang: String,
+    private val langName: String,
     private val codeLayoutDelegate: CodeLayoutDelegate,
     private val onFullscreenClicked: (lang: String, code: String?) -> Unit,
     private val onQuizChanged: (Reply) -> Unit
@@ -47,15 +47,15 @@ class CodeStepQuizFormDelegate(
 
         with(codeLayoutDelegate) {
             setEnabled(true)
-            setLanguage(lang, code)
-            setDetailsContentData(lang)
+            setLanguage(langName, code)
+            setDetailsContentData(langName)
         }
 
         with(codeLayout.codeEditor) {
             isFocusable = false
             addTextChangedListener(textWatcher)
             codeLayout.codeEditor.setOnClickListener {
-                onFullscreenClicked(lang, code)
+                onFullscreenClicked(langName, this@CodeStepQuizFormDelegate.code)
             }
         }
     }
@@ -70,7 +70,7 @@ class CodeStepQuizFormDelegate(
     }
 
     override fun createReply(): Reply =
-        Reply(code = code, language = lang)
+        Reply(code = code, language = langName)
 
     override fun setState(state: StepQuizFeature.State.AttemptLoaded) {
         val submission = (state.submissionState as? StepQuizFeature.SubmissionState.Loaded)
@@ -82,8 +82,8 @@ class CodeStepQuizFormDelegate(
         codeLayoutDelegate.setEnabled(isEnabled)
 
         codeLayout.withoutTextChangeCallback(textWatcher) {
-            codeLayoutDelegate.setLanguage(lang, replyCode)
-            codeLayoutDelegate.setDetailsContentData(lang)
+            codeLayoutDelegate.setLanguage(langName, replyCode)
+            codeLayoutDelegate.setDetailsContentData(langName)
         }
     }
 
@@ -91,12 +91,12 @@ class CodeStepQuizFormDelegate(
         this.code = newCode
         if (onSubmitClicked) {
             codeLayout.withoutTextChangeCallback(textWatcher) {
-                codeLayoutDelegate.setLanguage(this.lang, code)
-                codeLayoutDelegate.setDetailsContentData(this.lang)
+                codeLayoutDelegate.setLanguage(this.langName, code)
+                codeLayoutDelegate.setDetailsContentData(this.langName)
             }
         } else {
-            codeLayoutDelegate.setLanguage(lang, code)
-            codeLayoutDelegate.setDetailsContentData(lang)
+            codeLayoutDelegate.setLanguage(langName, code)
+            codeLayoutDelegate.setDetailsContentData(langName)
         }
     }
 }

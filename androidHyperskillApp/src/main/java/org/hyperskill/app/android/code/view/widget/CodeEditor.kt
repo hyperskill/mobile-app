@@ -82,7 +82,7 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 
     private var isAttached = false
 
-    var lang = ""
+    var langExtension = ""
         set(value) {
             field = value
             afterTextChanged(editableText) // refresh highlight
@@ -134,7 +134,7 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
             highlightPublisher
                 .debounce(INPUT_DEBOUNCE_MS, TimeUnit.MILLISECONDS)
                 .flatMapMaybe {
-                    Maybe.fromCallable { prettifyParser.parse(lang, it.toString()) }
+                    Maybe.fromCallable { prettifyParser.parse(langExtension, it.toString()) }
                 }
                 .subscribe(spanPublisher::onNext) {
                     initListeners()
@@ -303,9 +303,9 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
     }
 
     private fun resolveAutocomplete() {
-        if (lang == null) return
+        if (langExtension == null) return
         codeToolbarAdapter?.apply {
-            autocomplete = codeAnalyzer.resolveAutocomplete(selectionStart, lang, text.toString())
+            autocomplete = codeAnalyzer.resolveAutocomplete(selectionStart, langExtension, text.toString())
         }
     }
 
