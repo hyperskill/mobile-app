@@ -2,11 +2,15 @@ package org.hyperskill.app.step_completion.presentation
 
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.datetime.Clock
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.notification.data.extension.NotificationExtensions
 import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
+import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
@@ -27,13 +31,38 @@ class StepCompletionActionDispatcher(
     private val analyticInteractor: AnalyticInteractor,
     private val resourceProvider: ResourceProvider,
     private val sentryInteractor: SentryInteractor,
-    private val topicCompletedFlow: TopicCompletedFlow,
-    notificationInteractor: NotificationInteractor,
+    private val profileInteractor: ProfileInteractor,
+    private val notificationInteractor: NotificationInteractor,
+    private val topicCompletedFlow: TopicCompletedFlow
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
         notificationInteractor.solvedStepsSharedFlow
-            .onEach { stepId ->
-                onNewMessage(Message.StepSolved(stepId))
+            .onEach { solvedStepId ->
+                if (notificationInteractor.isRequiredToAskUserToEnableDailyReminders()) {
+                    onNewMessage(Message.RequestDailyStudyRemindersPermission)
+                } else {
+                    val cachedProfile = profileInteractor
+                        .getCurrentProfile(sourceType = DataSourceType.CACHE)
+                        .getOrElse { return@onEach }
+
+                    if (cachedProfile.dailyStep == solvedStepId) {
+                        val currentProfileHypercoinsBalance = profileInteractor
+                            .getCurrentProfile(sourceType = DataSourceType.REMOTE)
+                            .map { it.gamification.hypercoinsBalance }
+                            .getOrElse { return@onEach }
+
+                        val gemsEarned = currentProfileHypercoinsBalance - cachedProfile.gamification.hypercoinsBalance
+
+                        profileInteractor.notifyHypercoinsBalanceChanged(currentProfileHypercoinsBalance)
+                        onNewMessage(
+                            Message.ShowProblemOfDaySolvedModal(
+                                earnedGemsText = resourceProvider.getQuantityString(SharedResources.plurals.earned_gems, gemsEarned, gemsEarned)
+                            )
+                        )
+                    } else {
+                        onNewMessage(Message.StepSolved(solvedStepId))
+                    }
+                }
             }
             .launchIn(actionScope)
     }
@@ -90,6 +119,18 @@ class StepCompletionActionDispatcher(
                     )
                 } else {
                     onNewMessage(Message.CheckTopicCompletionStatus.Uncompleted)
+                }
+            }
+            is Action.RequestDailyStudyRemindersPermissionResult -> {
+                if (action.isGranted) {
+                    notificationInteractor.setDailyStudyRemindersEnabled(true)
+                    notificationInteractor.setDailyStudyRemindersIntervalStartHour(
+                        NotificationExtensions.DAILY_REMINDERS_AFTER_STEP_SOLVED_START_HOUR
+                    )
+                } else {
+                    notificationInteractor.setLastTimeUserAskedToEnableDailyReminders(
+                        Clock.System.now().toEpochMilliseconds()
+                    )
                 }
             }
             is Action.LogAnalyticEvent ->

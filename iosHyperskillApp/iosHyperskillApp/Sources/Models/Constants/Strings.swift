@@ -71,6 +71,16 @@ enum Strings {
     enum Step {
         static let startPracticing = sharedStrings.step_start_practicing_text.localized()
         static let theory = sharedStrings.step_theory_text.localized()
+
+        enum ProblemOfDaySolvedModal {
+            static let title = sharedStrings.step_quiz_problem_of_day_solved_modal_title.localized()
+            static let text = sharedStrings.step_quiz_problem_of_day_solved_modal_text.localized()
+        }
+
+        enum DailyStudyRemindersPermissionAlert {
+            static let title = sharedStrings.after_daily_step_completed_dialog_title.localized()
+            static let message = sharedStrings.after_daily_step_completed_dialog_text.localized()
+        }
     }
 
     // MARK: - StepQuiz -
@@ -98,11 +108,6 @@ enum Strings {
             static let reportAlertText = sharedStrings.step_quiz_hints_report_alert_text.localized()
             static let showMore = sharedStrings.step_quiz_hints_show_more_text.localized()
         }
-
-        enum ProblemOfDaySolvedModal {
-            static let title = sharedStrings.step_quiz_problem_of_day_solved_modal_title.localized()
-            static let text = sharedStrings.step_quiz_problem_of_day_solved_modal_text.localized()
-        }
     }
 
     // MARK: - StepQuizChoice -
@@ -129,6 +134,11 @@ enum Strings {
         static let fullScreenCodeTab = sharedStrings.step_quiz_code_full_screen_code_tab.localized()
         static let emptyLang = sharedStrings.step_quiz_code_empty_lang.localized()
         static let reset = sharedStrings.step_quiz_code_reset.localized()
+
+        enum ResetCodePermissionAlert {
+            static let title = sharedStrings.reset_code_dialog_title.localized()
+            static let message = sharedStrings.reset_code_dialog_explanation.localized()
+        }
     }
 
     // MARK: - StepQuizSQL -

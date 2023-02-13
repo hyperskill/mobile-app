@@ -106,7 +106,7 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
 
     private func setupTitleView() {
         let label = UILabel()
-        label.text = Strings.StepQuiz.ProblemOfDaySolvedModal.title
+        label.text = Strings.Step.ProblemOfDaySolvedModal.title
         label.font = .preferredFont(forTextStyle: .largeTitle, compatibleWith: .init(legibilityWeight: .bold))
         label.textColor = .primaryText
         label.lineBreakMode = .byWordWrapping
@@ -117,7 +117,7 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
 
     private func setupTextView() {
         let label = UILabel()
-        label.text = Strings.StepQuiz.ProblemOfDaySolvedModal.text
+        label.text = Strings.Step.ProblemOfDaySolvedModal.text
         label.font = .preferredFont(forTextStyle: .headline)
         label.textColor = .primaryText
         label.lineBreakMode = .byWordWrapping

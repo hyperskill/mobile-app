@@ -105,6 +105,10 @@ struct StepView: View {
             )
         case .showTopicCompletedModal(let topicCompletedModalViewAction):
             presentTopicCompletedModal(modalText: topicCompletedModalViewAction.modalText)
+        case .requestDailyStudyRemindersPermission:
+            presentSendDailyStudyRemindersPermissionAlert()
+        case .showProblemOfDaySolvedModal(let showProblemOfDaySolvedModalViewAction):
+            presentDailyStepCompletedModal(earnedGemsText: showProblemOfDaySolvedModalViewAction.earnedGemsText)
         case .navigateTo(let navigateToViewAction):
             switch StepCompletionFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .back:
@@ -128,6 +132,38 @@ struct StepView: View {
     }
 }
 
+// MARK: - StepView (Alerts) -
+
+extension StepView {
+    private func presentSendDailyStudyRemindersPermissionAlert() {
+        let alert = UIAlertController(
+            title: Strings.Step.DailyStudyRemindersPermissionAlert.title,
+            message: Strings.Step.DailyStudyRemindersPermissionAlert.message,
+            preferredStyle: .alert
+        )
+        alert.addAction(
+            UIAlertAction(
+                title: Strings.General.ok,
+                style: .default,
+                handler: { [weak viewModel] _ in
+                    viewModel?.handleSendDailyStudyRemindersPermissionRequestResult(isGranted: true)
+                }
+            )
+        )
+        alert.addAction(
+            UIAlertAction(
+                title: Strings.General.later,
+                style: .cancel,
+                handler: { [weak viewModel] _ in
+                    viewModel?.handleSendDailyStudyRemindersPermissionRequestResult(isGranted: false)
+                }
+            )
+        )
+
+        modalRouter.presentAlert(alert)
+    }
+}
+
 // MARK: - StepView (Modals) -
 
 extension StepView {
@@ -137,6 +173,22 @@ extension StepView {
             delegate: viewModel
         )
         panModalPresenter.presentPanModal(modal)
+    }
+
+    private func presentDailyStepCompletedModal(earnedGemsText: String) {
+        viewModel.logDailyStepCompletedModalShownEvent()
+
+        let panModal = ProblemOfDaySolvedModalViewController(
+            earnedGemsText: earnedGemsText,
+            onGoBackButtonTap: { [weak viewModel] in
+                viewModel?.doDailyStepCompletedModalGoBackAction()
+            }
+        )
+        panModal.onDisappear = { [weak viewModel] in
+            viewModel?.logDailyStepCompletedModalHiddenEvent()
+        }
+
+        panModalPresenter.presentPanModal(panModal)
     }
 }
 
