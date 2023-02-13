@@ -57,7 +57,7 @@ internal class DebugReducer : StateReducer<State, Message, Action> {
                 }
             // Apply settings
             is Message.ApplySettingsClicked ->
-                if (state is State.Content) {
+                if (state is State.Content && state.currentEndpointConfig != state.selectedEndpointConfig) {
                     state to setOf(Action.UpdateEndpointConfig(state.selectedEndpointConfig))
                 } else {
                     null
