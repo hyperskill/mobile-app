@@ -6,8 +6,9 @@ What to Test:
 5. SQL quiz ALTAPPS-550
 6. Fix incorrect presentations of topics in repetition list ALTAPPS-556
 7. Fix local notifications problems ALTAPPS-578
-8. Fix "Learn next" widget still shown if no topics to learn left ALTAPPS-582
-9. Fix unsupported problem not skiped in topic practice ALTAPPS-588
-10. Fix topic progress doesn't change on home screen without screen refreshing ALTAPPS-590
-11. Fix code text resets to empty when opening fullscreen code editor ALTAPPS-591
-12. Fix back navigation to Homescreen when topic completed ALTAPPS-592
+8. Fix reset clears code editor without confirmation ALTAPPS-580
+9. Fix "Learn next" widget still shown if no topics to learn left ALTAPPS-582
+10. Fix unsupported problem not skiped in topic practice ALTAPPS-588
+11. Fix topic progress doesn't change on home screen without screen refreshing ALTAPPS-590
+12. Fix code text resets to empty when opening fullscreen code editor ALTAPPS-591
+13. Fix back navigation to Homescreen when topic completed ALTAPPS-592
