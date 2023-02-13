@@ -1,3 +1,4 @@
+import shared
 import SwiftUI
 
 extension TrackTopicsToDiscoverNextBlockView {
@@ -11,9 +12,10 @@ extension TrackTopicsToDiscoverNextBlockView {
 struct TrackTopicsToDiscoverNextBlockView: View {
     private(set) var appearance = Appearance()
 
-    var topics: [TrackViewData.TheoryTopic]
+    var state: TopicsToDiscoverNextFeatureStateKs
 
-    var onTopicTapped: ((TrackViewData.TheoryTopic) -> Void)?
+    var onTopicTapped: ((Int64) -> Void)?
+    var onErrorButtonTapped: (() -> Void)?
 
     var body: some View {
         VStack(alignment: .leading, spacing: appearance.spacing) {
@@ -22,27 +24,35 @@ struct TrackTopicsToDiscoverNextBlockView: View {
                 .foregroundColor(.primaryText)
                 .bold()
 
-            listView
+            switch state {
+            case .idle, .loading:
+                TrackTopicsToDiscoverNextSkeletonListView()
+            case .error:
+                Button(
+                    Strings.Placeholder.networkErrorButtonText,
+                    action: { onErrorButtonTapped?() }
+                )
+                .buttonStyle(OutlineButtonStyle())
+            case .empty:
+                EmptyView()
+            case .content(let data):
+                buildTopicsList(topics: data.topicsToDiscoverNext)
+            }
         }
         .frame(maxWidth: .infinity)
         .padding(appearance.insets.edgeInsets)
         .background(BackgroundView(color: Color(ColorPalette.surface)))
     }
 
-    private var listView: some View {
+    @ViewBuilder
+    private func buildTopicsList(topics: [Topic]) -> some View {
         LazyVStack(spacing: appearance.spacing) {
-            ForEach(topics) { topic in
-                Button(
-                    action: {
-                        onTopicTapped?(topic)
-                    },
-                    label: {
-                        Text(topic.title)
-                            .font(.body)
-                            .foregroundColor(.primaryText)
-                    }
+            ForEach(Array(topics.enumerated()), id: \.element.id) { index, topic in
+                TopicToDiscoverNextButtonView(
+                    topic: topic,
+                    isLearnNext: index == 0,
+                    onTap: { onTopicTapped?(topic.id) }
                 )
-                .buttonStyle(OutlineButtonStyle(borderColor: .border, alignment: .leading))
             }
         }
     }
@@ -50,13 +60,31 @@ struct TrackTopicsToDiscoverNextBlockView: View {
 
 struct TrackTopicsToDiscoverNextBlockView_Previews: PreviewProvider {
     static var previews: some View {
+        TrackTopicsToDiscoverNextBlockView(state: .loading)
+        TrackTopicsToDiscoverNextBlockView(state: .error)
+        TrackTopicsToDiscoverNextBlockView(state: .empty)
         TrackTopicsToDiscoverNextBlockView(
-            topics: [
-                .init(id: 1, title: "Basic data types"),
-                .init(id: 2, title: "Variables"),
-                .init(id: 3, title: "Integer arithmetic"),
-                .init(id: 4, title: "Basic data types")
-            ]
+            state: .content(
+                .init(
+                    topicsToDiscoverNext: [
+                        .init(id: 1, progressId: "", theoryId: nil, title: "Basic data types", progress: nil),
+                        .init(id: 2, progressId: "", theoryId: nil, title: "Variables", progress: nil),
+                        .init(id: 3, progressId: "", theoryId: nil, title: "Integer arithmetic", progress: nil),
+                        .init(
+                            id: 4,
+                            progressId: "",
+                            theoryId: nil,
+                            title: "Pro data types",
+                            progress: TopicProgress(
+                                isCompleted: false,
+                                isSkipped: true,
+                                capacity: 0
+                            )
+                        )
+                    ],
+                    isRefreshing: false
+                )
+            )
         )
     }
 }

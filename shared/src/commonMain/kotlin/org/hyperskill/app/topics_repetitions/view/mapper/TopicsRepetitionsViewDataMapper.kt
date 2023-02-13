@@ -1,15 +1,15 @@
 package org.hyperskill.app.topics_repetitions.view.mapper
 
-import kotlin.math.min
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.topics_repetitions.domain.model.TopicRepetition
-import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsActionDispatcher
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature
+import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Companion.TOPICS_PAGINATION_SIZE
 import org.hyperskill.app.topics_repetitions.view.model.RepetitionsStatus
 import org.hyperskill.app.topics_repetitions.view.model.ShowMoreButtonState
 import org.hyperskill.app.topics_repetitions.view.model.TopicToRepeat
 import org.hyperskill.app.topics_repetitions.view.model.TopicsRepetitionsViewData
+import kotlin.math.min
 
 class TopicsRepetitionsViewDataMapper(
     private val resourceProvider: ResourceProvider
@@ -55,10 +55,12 @@ class TopicsRepetitionsViewDataMapper(
             } else {
                 ShowMoreButtonState.EMPTY
             },
-            topicsToRepeatWillLoadedCount = min(
-                state.topicRepetitionStatistics.totalCount - state.topicsRepetitions.count(),
-                TopicsRepetitionsActionDispatcher.TOPICS_PAGINATION_SIZE
-            )
+            topicsToRepeatWillLoadedCount = if (!state.currentPageIsFilled) {
+                1
+            } else {
+                min(state.topicRepetitionStatistics.totalCount - state.topicsRepetitions.count(), TOPICS_PAGINATION_SIZE)
+            }
+
         )
 
     private fun mapRepetitionsCountToRepeatBlockTitle(repetitionsCount: Int): String =

@@ -48,7 +48,10 @@ struct ProfileView: View {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
         }
-        .onDisappear(perform: viewModel.stopListening)
+        .onDisappear {
+            viewModel.stopListening()
+            viewModel.onViewAction = nil
+        }
         .navigationViewStyle(StackNavigationViewStyle())
         .environmentObject(PanModalPresenter())
     }

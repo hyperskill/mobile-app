@@ -15,6 +15,8 @@ struct SkeletonRoundedView: View {
         EmptyView()
             .skeleton(with: true, size: appearance.size)
             .shape(type: .rounded(.radius(appearance.cornerRadius)))
+            .appearance(type: .gradient())
+            .animation(type: .linear(autoreverses: true))
     }
 }
 

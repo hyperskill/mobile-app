@@ -60,7 +60,7 @@ class CodeAnalyzer(private val autocompleteContainer: AutocompleteContainer) {
 
                 codeEditor.editableText.insert(start + count, " ".repeat(indent))
 
-                if (prev in brackets || indentation[codeEditor.lang]?.contains(prev) == true) {
+                if (prev in brackets || indentation[codeEditor.langExtension]?.contains(prev) == true) {
                     if (next != null && brackets[prev] == next) {
                         codeEditor.editableText.insert(
                             start + count + indent,

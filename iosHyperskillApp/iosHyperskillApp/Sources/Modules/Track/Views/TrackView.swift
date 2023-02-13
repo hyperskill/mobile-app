@@ -18,7 +18,7 @@ struct TrackView: View {
 
     @StateObject var viewModel: TrackViewModel
 
-    @StateObject var pushRouter: SwiftUIPushRouter
+    @StateObject var stackRouter: SwiftUIStackRouter
 
     var body: some View {
         ZStack {
@@ -41,7 +41,10 @@ struct TrackView: View {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
         }
-        .onDisappear(perform: viewModel.stopListening)
+        .onDisappear {
+            viewModel.stopListening()
+            viewModel.onViewAction = nil
+        }
     }
 
     // MARK: Private API
@@ -70,8 +73,7 @@ struct TrackView: View {
             let viewData = viewModel.makeViewData(
                 track: data.track,
                 trackProgress: data.trackProgress,
-                studyPlan: data.studyPlan,
-                topicsToDiscoverNext: data.topicsToDiscoverNext
+                studyPlan: data.studyPlan
             )
 
             ScrollView {
@@ -82,11 +84,12 @@ struct TrackView: View {
                         subtitle: viewData.learningRole
                     )
 
-                    if !viewData.topicsToDiscoverNext.isEmpty {
+                    if !viewModel.topicsToDiscoverNextStateKs.isEmpty {
                         TrackTopicsToDiscoverNextBlockView(
                             appearance: .init(spacing: appearance.spacingBetweenRelativeItems),
-                            topics: viewData.topicsToDiscoverNext,
-                            onTopicTapped: viewModel.doTheoryTopicPresentation(topic:)
+                            state: viewModel.topicsToDiscoverNextStateKs,
+                            onTopicTapped: viewModel.doTheoryTopicPresentation(topicID:),
+                            onErrorButtonTapped: viewModel.doReloadTopicsToDiscoverNext
                         )
                     }
 
@@ -134,16 +137,16 @@ struct TrackView: View {
             WebControllerManager.shared.presentWebControllerWithURLString(data.url)
         case .showGetMagicLinkError:
             ProgressHUD.showError()
-        case .navigateTo(let navigateToViewAction):
-            switch TrackFeatureActionViewActionNavigateToKs(navigateToViewAction) {
-            case .stepScreen(let data):
-                let assembly = StepAssembly(stepRoute: StepRouteLearn(stepId: data.stepId))
-                pushRouter.pushViewController(assembly.makeModule())
-            }
         case .gamificationToolbarViewAction(let gamificationToolbarViewAction):
             switch GamificationToolbarFeatureActionViewActionKs(gamificationToolbarViewAction.viewAction) {
             case .showProfileTab:
                 TabBarRouter(tab: .profile).route()
+            }
+        case .topicsToDiscoverNextViewAction(let topicsToDiscoverNextViewAction):
+            switch TopicsToDiscoverNextFeatureActionViewActionKs(topicsToDiscoverNextViewAction.viewAction) {
+            case .showStepScreen(let data):
+                let assembly = StepAssembly(stepRoute: StepRouteLearn(stepId: data.stepId))
+                stackRouter.pushViewController(assembly.makeModule())
             }
         }
     }

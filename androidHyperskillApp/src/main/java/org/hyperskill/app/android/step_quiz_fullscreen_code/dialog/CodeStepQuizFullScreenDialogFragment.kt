@@ -12,7 +12,6 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -20,6 +19,7 @@ import com.google.android.material.button.MaterialButton
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.code.presentation.model.ProgrammingLanguage
 import org.hyperskill.app.android.code.util.CodeToolbarUtil
 import org.hyperskill.app.android.code.view.adapter.CodeToolbarAdapter
 import org.hyperskill.app.android.code.view.widget.CodeEditorLayout
@@ -50,18 +50,15 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
         private const val CODE_TAB = 1
 
         fun newInstance(
-            lang: String,
-            code: String,
-            codeTemplates: Map<String, String>,
-            step: Step,
-            isShowRetryButton: Boolean
+            params: Params
         ): CodeStepQuizFullScreenDialogFragment =
             CodeStepQuizFullScreenDialogFragment().apply {
-                this.step = step
-                this.lang = lang
-                this.code = code
-                this.codeTemplates = codeTemplates
-                this.isShowRetryButton = isShowRetryButton
+                this.step = params.step
+                this.lang = params.lang
+                this.code = params.code
+                this.codeTemplates = params.codeTemplates
+                this.isShowRetryButton = params.isShowRetryButton
+                this.titleRes = params.titleRes
             }
     }
 
@@ -92,11 +89,12 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
     private var codeTemplates: Map<String, String> by argument()
     private var step: Step by argument(serializer = Step.serializer())
     private var isShowRetryButton: Boolean by argument()
-
-    internal lateinit var viewModelFactory: ViewModelProvider.Factory
+    private var titleRes: Int by argument()
 
     private lateinit var resourceProvider: ResourceProvider
     private var latexWebView: LatexWebView? = null
+
+    private var isCodeSyncedAfterSubmissionClick: Boolean = false
 
     private fun injectComponent() {
         resourceProvider = HyperskillApp.graph().commonComponent.resourceProvider
@@ -129,7 +127,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(viewBinding.fullScreenCenteredToolbar) {
-            centeredToolbarTitle.text = getString(org.hyperskill.app.R.string.step_quiz_code_write_program_text)
+            centeredToolbarTitle.text = getString(titleRes)
             centeredToolbar.inflateMenu(R.menu.code_playground_menu)
             centeredToolbar.setNavigationOnClickListener { dismiss() }
             centeredToolbar.apply {
@@ -216,7 +214,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
                 false,
                 onDetailsIsExpandedStateChanged = {}
             ),
-            codeToolbarAdapter = codeToolbarAdapter,
+            codeToolbarAdapter = codeToolbarAdapter
         )
 
         codeLayoutDelegate.setLanguage(lang, code)
@@ -231,6 +229,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
     }
 
     private fun onResetClick() {
+        syncCodeStateWithParent()
         (parentFragment as? Callback)?.onResetCodeClick()
     }
 
@@ -269,8 +268,9 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
     }
 
     override fun onPause() {
-        (parentFragment as? Callback)
-            ?.onSyncCodeStateWithParent(codeLayout.text.toString())
+        if (!isCodeSyncedAfterSubmissionClick) {
+            syncCodeStateWithParent()
+        }
         super.onPause()
     }
 
@@ -363,13 +363,33 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
     }
 
     private fun submitCodeActionClick() {
-        (parentFragment as? Callback)
-            ?.onSyncCodeStateWithParent(codeLayout.text.toString(), onSubmitClicked = true)
+        syncCodeStateWithParent(onSubmitClicked = true)
+        isCodeSyncedAfterSubmissionClick = true
         dismiss()
+    }
+
+    private fun syncCodeStateWithParent(onSubmitClicked: Boolean = false) {
+        (parentFragment as? Callback)
+            ?.onSyncCodeStateWithParent(codeLayout.text.toString(), onSubmitClicked)
     }
 
     interface Callback {
         fun onSyncCodeStateWithParent(code: String, onSubmitClicked: Boolean = false)
         fun onResetCodeClick()
+    }
+
+    data class Params(
+        val lang: String,
+        val code: String,
+        val codeTemplates: Map<String, String>,
+        val step: Step,
+        val isShowRetryButton: Boolean
+    ) {
+        val titleRes: Int
+            get() = if (lang == ProgrammingLanguage.SQL.serverPrintableName) {
+                org.hyperskill.app.R.string.step_quiz_sql_title
+            } else {
+                org.hyperskill.app.R.string.step_quiz_code_write_program_text
+            }
     }
 }

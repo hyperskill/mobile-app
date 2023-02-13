@@ -50,6 +50,8 @@ import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponentImpl
 import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponentImpl
+import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponent
+import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponentImpl
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
 import org.hyperskill.app.sentry.domain.model.manager.SentryManager
@@ -58,12 +60,20 @@ import org.hyperskill.app.sentry.injection.SentryComponentImpl
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step.injection.StepComponentImpl
+import org.hyperskill.app.step.injection.StepDataComponent
+import org.hyperskill.app.step.injection.StepDataComponentImpl
+import org.hyperskill.app.step_completion.injection.StepCompletionComponent
+import org.hyperskill.app.step_completion.injection.StepCompletionComponentImpl
+import org.hyperskill.app.step_completion.injection.StepCompletionFlowDataComponent
+import org.hyperskill.app.step_completion.injection.StepCompletionFlowDataComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponentImpl
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponentImpl
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponentImpl
+import org.hyperskill.app.streaks.injection.StreakFlowDataComponent
+import org.hyperskill.app.streaks.injection.StreakFlowDataComponentImpl
 import org.hyperskill.app.streaks.injection.StreaksDataComponent
 import org.hyperskill.app.streaks.injection.StreaksDataComponentImpl
 import org.hyperskill.app.topics.injection.TopicsDataComponent
@@ -72,6 +82,13 @@ import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponen
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponentImpl
+import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsFlowDataComponent
+import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsFlowDataComponentImpl
+import org.hyperskill.app.topics_to_discover_next.domain.model.TopicsToDiscoverNextScreen
+import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextComponent
+import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextComponentImpl
+import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextDataComponent
+import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextDataComponentImpl
 import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.track.injection.TrackComponentImpl
 import org.hyperskill.app.track.injection.TrackDataComponent
@@ -99,17 +116,26 @@ class AppGraphImpl(
     override val profileHypercoinsDataComponent: ProfileHypercoinsDataComponent =
         ProfileHypercoinsDataComponentImpl()
 
-    override val analyticComponent: AnalyticComponent =
-        AnalyticComponentImpl(this)
+    override val streakFlowDataComponent: StreakFlowDataComponent =
+        StreakFlowDataComponentImpl()
+
+    override val topicsRepetitionsFlowDataComponent: TopicsRepetitionsFlowDataComponent =
+        TopicsRepetitionsFlowDataComponentImpl()
+
+    override val stepCompletionFlowDataComponent: StepCompletionFlowDataComponent =
+        StepCompletionFlowDataComponentImpl()
+
+    override val progressesFlowDataComponent: ProgressesFlowDataComponent =
+        ProgressesFlowDataComponentImpl()
 
     override val sentryComponent: SentryComponent =
         SentryComponentImpl(sentryManager)
 
+    override val analyticComponent: AnalyticComponent =
+        AnalyticComponentImpl(this)
+
     override val mainComponent: MainComponent =
         MainComponentImpl(this)
-
-    override val topicsRepetitionsDataComponent: TopicsRepetitionsDataComponent =
-        TopicsRepetitionsDataComponentImpl(this)
 
     override fun buildAuthSocialComponent(): AuthSocialComponent =
         AuthSocialComponentImpl(
@@ -130,8 +156,11 @@ class AppGraphImpl(
             sentryComponent
         )
 
-    override fun buildStepComponent(): StepComponent =
-        StepComponentImpl(this)
+    override fun buildStepComponent(stepRoute: StepRoute): StepComponent =
+        StepComponentImpl(this, stepRoute)
+
+    override fun buildStepDataComponent(): StepDataComponent =
+        StepDataComponentImpl(this)
 
     override fun buildStepQuizComponent(stepRoute: StepRoute): StepQuizComponent =
         StepQuizComponentImpl(this, stepRoute)
@@ -187,6 +216,9 @@ class AppGraphImpl(
     override fun buildTopicsRepetitionsComponent(): TopicsRepetitionsComponent =
         TopicsRepetitionsComponentImpl(this)
 
+    override fun buildTopicsRepetitionsDataComponent(): TopicsRepetitionsDataComponent =
+        TopicsRepetitionsDataComponentImpl(this)
+
     override fun buildLearningActivitiesDataComponent(): LearningActivitiesDataComponent =
         LearningActivitiesDataComponentImpl(this)
 
@@ -210,4 +242,13 @@ class AppGraphImpl(
 
     override fun buildGamificationToolbarComponent(): GamificationToolbarComponent =
         GamificationToolbarComponentImpl(this)
+
+    override fun buildTopicsToDiscoverNextComponent(screen: TopicsToDiscoverNextScreen): TopicsToDiscoverNextComponent =
+        TopicsToDiscoverNextComponentImpl(this, screen)
+
+    override fun buildTopicsToDiscoverNextDataComponent(): TopicsToDiscoverNextDataComponent =
+        TopicsToDiscoverNextDataComponentImpl(this)
+
+    override fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent =
+        StepCompletionComponentImpl(this, stepRoute)
 }

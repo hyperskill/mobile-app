@@ -9,8 +9,17 @@ abstract class NotificationDelegate(
 
     abstract fun onNeedShowNotification()
 
+    /**
+     * @returns time to schedule next notification at
+     * or null if it should not be scheduled
+     * */
+    open fun getNextScheduledAt(): Long? = null
+
     fun rescheduleNotification() {
-        notificationManager.rescheduleActiveNotification(id)
+        notificationManager.rescheduleActiveNotification(
+            id = id,
+            nextMillis = getNextScheduledAt()
+        )
     }
 
     protected fun scheduleNotificationAt(timestamp: Long) {

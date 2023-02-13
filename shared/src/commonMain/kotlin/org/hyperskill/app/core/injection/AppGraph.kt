@@ -24,17 +24,26 @@ import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile.injection.ProfileHypercoinsDataComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponent
+import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.sentry.injection.SentryComponent
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.injection.StepComponent
+import org.hyperskill.app.step.injection.StepDataComponent
+import org.hyperskill.app.step_completion.injection.StepCompletionComponent
+import org.hyperskill.app.step_completion.injection.StepCompletionFlowDataComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
+import org.hyperskill.app.streaks.injection.StreakFlowDataComponent
 import org.hyperskill.app.streaks.injection.StreaksDataComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponent
+import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsFlowDataComponent
+import org.hyperskill.app.topics_to_discover_next.domain.model.TopicsToDiscoverNextScreen
+import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextComponent
+import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextDataComponent
 import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.track.injection.TrackDataComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
@@ -47,12 +56,16 @@ interface AppGraph {
     val analyticComponent: AnalyticComponent
     val sentryComponent: SentryComponent
     val submissionDataComponent: SubmissionDataComponent
-    val topicsRepetitionsDataComponent: TopicsRepetitionsDataComponent
     val profileHypercoinsDataComponent: ProfileHypercoinsDataComponent
+    val streakFlowDataComponent: StreakFlowDataComponent
+    val topicsRepetitionsFlowDataComponent: TopicsRepetitionsFlowDataComponent
+    val stepCompletionFlowDataComponent: StepCompletionFlowDataComponent
+    val progressesFlowDataComponent: ProgressesFlowDataComponent
 
     fun buildAuthSocialComponent(): AuthSocialComponent
     fun buildAuthCredentialsComponent(): AuthCredentialsComponent
-    fun buildStepComponent(): StepComponent
+    fun buildStepComponent(stepRoute: StepRoute): StepComponent
+    fun buildStepDataComponent(): StepDataComponent
     fun buildStepQuizComponent(stepRoute: StepRoute): StepQuizComponent
     fun buildProfileDataComponent(): ProfileDataComponent
     fun buildTrackComponent(): TrackComponent
@@ -72,6 +85,7 @@ interface AppGraph {
     fun buildReactionsDataComponent(): ReactionsDataComponent
     fun buildLikesDataComponent(): LikesDataComponent
     fun buildTopicsRepetitionsComponent(): TopicsRepetitionsComponent
+    fun buildTopicsRepetitionsDataComponent(): TopicsRepetitionsDataComponent
     fun buildLearningActivitiesDataComponent(): LearningActivitiesDataComponent
     fun buildTopicsDataComponent(): TopicsDataComponent
     fun buildProgressesDataComponent(): ProgressesDataComponent
@@ -79,4 +93,7 @@ interface AppGraph {
     fun buildItemsDataComponent(): ItemsDataComponent
     fun buildDebugComponent(): DebugComponent
     fun buildGamificationToolbarComponent(): GamificationToolbarComponent
+    fun buildTopicsToDiscoverNextComponent(screen: TopicsToDiscoverNextScreen): TopicsToDiscoverNextComponent
+    fun buildTopicsToDiscoverNextDataComponent(): TopicsToDiscoverNextDataComponent
+    fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent
 }

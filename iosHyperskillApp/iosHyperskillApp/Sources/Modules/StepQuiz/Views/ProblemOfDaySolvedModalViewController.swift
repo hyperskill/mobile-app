@@ -155,7 +155,7 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
 
     private func setupGoBackButton() {
         let button = UIKitRoundedRectangleButton(style: .violet)
-        button.setTitle(Strings.StepQuiz.ProblemOfDaySolvedModal.goButtonText, for: .normal)
+        button.setTitle(Strings.General.goToHomescreen, for: .normal)
         button.addTarget(self, action: #selector(goBackButtonTapped), for: .touchUpInside)
 
         contentStackView.addArrangedSubview(button)

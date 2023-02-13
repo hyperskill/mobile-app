@@ -68,6 +68,15 @@ object HyperskillSentryTransactionBuilder {
         )
 
     /**
+     * StepCompletionFeature
+     */
+    fun buildStepCompletionNextStepLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "step-completion-feature-next-step-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    /**
      * StepQuizFeature
      */
     fun buildStepQuizScreenRemoteDataLoading(): HyperskillSentryTransaction =
@@ -151,6 +160,21 @@ object HyperskillSentryTransactionBuilder {
     fun buildGamificationToolbarTrackScreenRemoteDataLoading(): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
             name = "navigation-bar-items-feature-track-screen-remote-data-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    /**
+     * TopicsToDiscoverNextFeature
+     */
+    fun buildTopicsToDiscoverNextHomeScreenRemoteDataLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "topics-to-discover-next-feature-home-screen-remote-data-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    fun buildTopicsToDiscoverNextTrackScreenRemoteDataLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "topics-to-discover-next-feature-track-screen-remote-data-loading",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
 }

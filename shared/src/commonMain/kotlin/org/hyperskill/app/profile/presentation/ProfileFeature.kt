@@ -80,6 +80,7 @@ interface ProfileFeature {
 
         object StepQuizSolved : Message
         data class HypercoinsBalanceChanged(val hypercoinsBalance: Int) : Message
+        data class StreakChanged(val streak: Streak?) : Message
 
         object ClickedViewFullProfile : Message
 

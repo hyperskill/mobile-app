@@ -4,24 +4,19 @@ import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.ImageLoader
 import coil.load
 import coil.size.Scale
-import kotlin.math.roundToInt
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.openUrl
-import org.hyperskill.app.android.core.view.ui.adapter.decoration.HorizontalMarginItemDecoration
-import org.hyperskill.app.android.core.view.ui.adapter.decoration.VerticalMarginItemDecoration
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireMainRouter
@@ -30,20 +25,20 @@ import org.hyperskill.app.android.databinding.FragmentTrackBinding
 import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.GamificationToolbarDelegate
 import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
 import org.hyperskill.app.android.step.view.screen.StepScreen
+import org.hyperskill.app.android.topics.view.delegate.TopicsToDiscoverNextDelegate
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.step.domain.model.StepRoute
-import org.hyperskill.app.topics.domain.model.Topic
+import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.presentation.TrackFeature
 import org.hyperskill.app.track.presentation.TrackViewModel
-import ru.nobird.android.ui.adapterdelegates.dsl.adapterDelegate
-import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
+import kotlin.math.roundToInt
 
 class TrackFragment :
     Fragment(R.layout.fragment_track),
@@ -61,9 +56,10 @@ class TrackFragment :
     private val viewStateDelegate: ViewStateDelegate<TrackFeature.TrackState> = ViewStateDelegate()
     private var gamificationToolbarDelegate: GamificationToolbarDelegate? = null
 
-    private val nextTopicsAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        DefaultDelegateAdapter<Topic>().apply {
-            addDelegate(nextTopicAdapterDelegate())
+    private val topicsDelegate: TopicsToDiscoverNextDelegate by lazy(LazyThreadSafetyMode.NONE) {
+        TopicsToDiscoverNextDelegate(loadingItems = 3) { topicId ->
+            val messageToWrap = TopicsToDiscoverNextFeature.Message.TopicToDiscoverNextClicked(topicId)
+            trackViewModel.onNewMessage(TrackFeature.Message.TopicsToDiscoverNextMessage(messageToWrap))
         }
     }
 
@@ -83,7 +79,7 @@ class TrackFragment :
         viewBinding.trackError.tryAgain.setOnClickListener {
             trackViewModel.onNewMessage(TrackFeature.Message.Initialize(forceUpdate = true))
         }
-        setupTopicsRecycler()
+        topicsDelegate.setup(requireContext(), viewBinding.trackNextTopicsRecyclerView)
         trackViewModel.onNewMessage(TrackFeature.Message.Initialize())
         trackViewModel.onNewMessage(TrackFeature.Message.ViewedEventMessage)
     }
@@ -97,9 +93,18 @@ class TrackFragment :
     private fun initViewStateDelegate() {
         with(viewStateDelegate) {
             addState<TrackFeature.TrackState.Idle>()
-            addState<TrackFeature.TrackState.Loading>(viewBinding.trackSkeleton.root)
+            addState<TrackFeature.TrackState.Loading>(
+                viewBinding.trackHeaderSkeleton.root,
+                viewBinding.trackFooterSkeleton.root
+            )
             addState<TrackFeature.TrackState.NetworkError>(viewBinding.trackError.root)
-            addState<TrackFeature.TrackState.Content>(viewBinding.trackContainer)
+            addState<TrackFeature.TrackState.Content>(
+                viewBinding.trackIconImageView,
+                viewBinding.trackNameTextView,
+                viewBinding.trackLearningTextView,
+                viewBinding.trackProgress.root,
+                viewBinding.trackAbout.root
+            )
         }
     }
 
@@ -122,8 +127,6 @@ class TrackFragment :
 
     override fun onAction(action: TrackFeature.Action.ViewAction) {
         when (action) {
-            is TrackFeature.Action.ViewAction.NavigateTo.StepScreen ->
-                requireRouter().navigateTo(StepScreen(StepRoute.Learn(action.stepId)))
             is TrackFeature.Action.ViewAction.OpenUrl ->
                 requireContext().openUrl(action.url)
             is TrackFeature.Action.ViewAction.ShowGetMagicLinkError ->
@@ -133,27 +136,14 @@ class TrackFragment :
                     is GamificationToolbarFeature.Action.ViewAction.ShowProfileTab ->
                         requireMainRouter().switch(ProfileScreen(isInitCurrent = true))
                 }
-        }
-    }
-
-    private fun setupTopicsRecycler() {
-        with(viewBinding.trackNextTopicsRecyclerView) {
-            adapter = nextTopicsAdapter
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            isNestedScrollingEnabled = false
-            val verticalMargin = resources.getDimensionPixelSize(R.dimen.track_next_topic_vertical_item_margin)
-            addItemDecoration(
-                VerticalMarginItemDecoration(
-                    verticalMargin = verticalMargin,
-                    firstItemTopMargin = verticalMargin,
-                    lastItemMargin = verticalMargin
-                )
-            )
-            addItemDecoration(
-                HorizontalMarginItemDecoration(
-                    resources.getDimensionPixelSize(R.dimen.track_next_topic_horizontal_item_margin)
-                )
-            )
+            is TrackFeature.Action.ViewAction.TopicsToDiscoverNextViewAction ->
+                when (action.viewAction) {
+                    is TopicsToDiscoverNextFeature.Action.ViewAction.ShowStepScreen -> {
+                        val viewAction =
+                            action.viewAction as TopicsToDiscoverNextFeature.Action.ViewAction.ShowStepScreen
+                        requireRouter().navigateTo(StepScreen(StepRoute.Learn(viewAction.stepId)))
+                    }
+                }
         }
     }
 
@@ -165,6 +155,7 @@ class TrackFragment :
             renderContent(trackState)
         }
         gamificationToolbarDelegate?.render(state.toolbarState)
+        renderNextTopics(state.topicsToDiscoverNextState)
     }
 
     private fun renderContent(content: TrackFeature.TrackState.Content) {
@@ -177,7 +168,6 @@ class TrackFragment :
         renderTrackCoverAndName(content.track)
         renderCards(content)
         renderAboutSection(content)
-        renderNextTopics(content.topicsToDiscoverNext)
     }
 
     private fun renderTrackCoverAndName(track: Track) {
@@ -192,7 +182,7 @@ class TrackFragment :
     }
 
     private fun renderCards(content: TrackFeature.TrackState.Content) {
-        with(viewBinding) {
+        with(viewBinding.trackProgress) {
             if (content.studyPlan != null) {
                 trackTimeToCompleteTextView.text =
                     if (content.studyPlan!!.hoursToReachTrack != 0) {
@@ -232,7 +222,7 @@ class TrackFragment :
     }
 
     private fun renderAboutSection(content: TrackFeature.TrackState.Content) {
-        with(viewBinding) {
+        with(viewBinding.trackAbout) {
             trackAboutUsefulnessTextView.text = "${content.trackProgress.averageRating}"
             val hoursToComplete = (content.track.secondsToComplete / 3600).roundToInt()
             trackAboutAllPerformTimeTextView.text = resources.getQuantityString(
@@ -271,28 +261,9 @@ class TrackFragment :
         }
     }
 
-    private fun renderNextTopics(topics: List<Topic>) {
-        viewBinding.trackTopicsLinearLayout.isVisible = topics.isNotEmpty()
-        if (topics.isNotEmpty()) {
-            nextTopicsAdapter.items = topics
-        }
+    private fun renderNextTopics(state: TopicsToDiscoverNextFeature.State) {
+        viewBinding.trackTopicsTitle.isVisible =
+            state is TopicsToDiscoverNextFeature.State.Content
+        topicsDelegate.render(state)
     }
-
-    private fun nextTopicAdapterDelegate() =
-        adapterDelegate<Topic, Topic>(
-            R.layout.item_track_next_topic
-        ) {
-            val title = itemView.findViewById<TextView>(R.id.nextTopicTitle)
-            itemView.setOnClickListener {
-                item?.let { topic ->
-                    trackViewModel.onNewMessage(
-                        TrackFeature.Message.TopicToDiscoverNextClicked(topicId = topic.id)
-                    )
-                }
-            }
-
-            onBind { topic ->
-                title.text = topic.title
-            }
-        }
 }

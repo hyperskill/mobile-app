@@ -29,7 +29,7 @@ jobs:
         uses: ./.github/actions/setup-android
 
       - name: Setup Pages
-        uses: actions/configure-pages@v2.1.3
+        uses: actions/configure-pages@v3.0.2
 
       - name: Build Documentation
         run: ./gradlew dokkaAnalytics
@@ -55,6 +55,6 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1.2.3
+        uses: actions/deploy-pages@v1.2.4
         with:
           artifact_name: 'github-pages-analytics'

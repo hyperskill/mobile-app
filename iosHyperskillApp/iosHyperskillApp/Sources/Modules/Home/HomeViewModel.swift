@@ -8,6 +8,7 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
 
     var homeStateKs: HomeFeatureHomeStateKs { .init(state.homeState) }
     var gamificationToolbarStateKs: GamificationToolbarFeatureStateKs { .init(state.toolbarState) }
+    var topicsToDiscoverNextStateSk: TopicsToDiscoverNextFeatureStateKs { .init(state.topicsToDiscoverNextState) }
 
     override init(feature: Presentation_reduxFeature, mainScheduler: AnySchedulerOf<RunLoop> = .main) {
         super.init(feature: feature, mainScheduler: mainScheduler)
@@ -113,5 +114,27 @@ extension HomeViewModel: ProblemOfDayOutputProtocol {
                 )
             )
         }
+    }
+}
+
+// MARK: - HomeViewModel: TopicToDiscoverNextCardDelegate -
+
+extension HomeViewModel: TopicToDiscoverNextCardDelegate {
+    func doTopicToDiscoverNextCardTapAction(topicID: Int64) {
+        onNewMessage(
+            HomeFeatureMessageTopicsToDiscoverNextMessage(
+                message: TopicsToDiscoverNextFeatureMessageTopicToDiscoverNextClicked(
+                    topicId: topicID
+                )
+            )
+        )
+    }
+
+    func doTopicToDiscoverNextCardReloadAction() {
+        onNewMessage(
+            HomeFeatureMessageTopicsToDiscoverNextMessage(
+                message: TopicsToDiscoverNextFeatureMessageInitialize(forceUpdate: true)
+            )
+        )
     }
 }

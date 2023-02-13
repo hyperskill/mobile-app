@@ -20,7 +20,7 @@ struct StepQuizActionButtons: View {
 
             if let continueButton {
                 StepQuizActionButton(
-                    state: .correct,
+                    state: continueButton.isLoading ? .correctLoading : .correct,
                     onTap: continueButton.action
                 )
             }
@@ -45,6 +45,7 @@ struct StepQuizActionButtons: View {
     }
 
     struct ContinueButton {
+        let isLoading: Bool
         let action: () -> Void
     }
 
@@ -80,8 +81,8 @@ extension StepQuizActionButtons {
         StepQuizActionButtons(retryButton: .init(style: .roundedRectangle, action: action))
     }
 
-    static func `continue`(action: @escaping () -> Void) -> StepQuizActionButtons {
-        StepQuizActionButtons(continueButton: .init(action: action))
+    static func `continue`(isLoading: Bool, action: @escaping () -> Void) -> StepQuizActionButtons {
+        StepQuizActionButtons(continueButton: .init(isLoading: isLoading, action: action))
     }
 
     static func retryLogoAndSubmit(
@@ -113,11 +114,11 @@ extension StepQuizActionButtons {
 
     static func retryLogoAndContinue(
         retryButtonAction: @escaping () -> Void,
-        continueButtonAction: @escaping () -> Void
+        continueButton: ContinueButton
     ) -> StepQuizActionButtons {
         StepQuizActionButtons(
             retryButton: .init(style: .logoOnly, action: retryButtonAction),
-            continueButton: .init(action: continueButtonAction)
+            continueButton: continueButton
         )
     }
 }
@@ -126,14 +127,15 @@ extension StepQuizActionButtons {
 
 struct StepQuizActionButtons_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
+        VStack {
             StepQuizActionButtons.submit(state: .default, action: {})
 
             StepQuizActionButtons.runSolution(state: .default, action: {})
 
             StepQuizActionButtons.retry {}
 
-            StepQuizActionButtons.continue {}
+            StepQuizActionButtons.continue(isLoading: false) {}
+            StepQuizActionButtons.continue(isLoading: true) {}
 
             StepQuizActionButtons.retryLogoAndSubmit(
                 retryButtonAction: {},
@@ -147,7 +149,19 @@ struct StepQuizActionButtons_Previews: PreviewProvider {
                 runSolutionButtonAction: {}
             )
 
-            StepQuizActionButtons.retryLogoAndContinue(retryButtonAction: {}, continueButtonAction: {})
+            StepQuizActionButtons.retryLogoAndContinue(
+                retryButtonAction: {},
+                continueButton: .init(isLoading: false, action: {})
+            )
+            StepQuizActionButtons.retryLogoAndContinue(
+                retryButtonAction: {},
+                continueButton: .init(isLoading: true, action: {})
+            )
+            StepQuizActionButtons.retryLogoAndContinue(
+                retryButtonAction: {},
+                continueButton: .init(isLoading: true, action: {})
+            )
+            .disabled(true)
         }
         .previewLayout(.sizeThatFits)
         .padding()

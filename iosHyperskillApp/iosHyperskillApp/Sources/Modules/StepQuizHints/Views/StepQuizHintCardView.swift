@@ -13,24 +13,16 @@ struct StepQuizHintCardView: View {
     private(set) var appearance = Appearance()
 
     let authorAvatarSource: String?
-
     let authorName: String
-
     let hintText: String
-
-    let hintHasReaction: Bool
+    let hintState: StepQuizHintsFeatureViewStateHintState
 
     let onReactionTapped: (ReactionType) -> Void
 
     let onReportTapped: () -> Void
-
     let onReportAlertAppeared: () -> Void
-
     let onReportAlertConfirmed: () -> Void
-
     let onReportAlertCanceled: () -> Void
-
-    let hasNextHints: Bool
 
     let onNextHintTapped: (() -> Void)
 
@@ -54,7 +46,7 @@ struct StepQuizHintCardView: View {
 
                 Spacer()
 
-                if !hintHasReaction {
+                if hintState == .reactToHint {
                     Button(Strings.StepQuiz.Hints.reportButton) {
                         isPresentingReportAlert = true
                         onReportTapped()
@@ -80,18 +72,18 @@ struct StepQuizHintCardView: View {
                 }
             }
 
-            if hintHasReaction {
-                if hasNextHints {
-                    StepQuizShowHintButton(text: Strings.StepQuiz.Hints.seeNextHint) {
-                        isShowingMore = false
-                        onNextHintTapped()
-                    }
-                } else {
+            if hintState == .seeNextHint {
+                StepQuizShowHintButton(text: Strings.StepQuiz.Hints.seeNextHint) {
+                    isShowingMore = false
+                    onNextHintTapped()
+                }
+            } else {
+                if hintState == .lastHint {
                     Text(Strings.StepQuiz.Hints.lastHint)
                         .font(.caption)
                         .foregroundColor(.secondaryText)
                 }
-            } else {
+
                 HStack(spacing: LayoutInsets.smallInset) {
                     Text(Strings.StepQuiz.Hints.helpfulQuestion)
                         .font(.caption)
@@ -145,13 +137,12 @@ struct StepQuizHintCardView_Previews: PreviewProvider {
                 authorAvatarSource: nil,
                 authorName: "Name Surname",
                 hintText: "Python is used for almost everything in programming.",
-                hintHasReaction: true,
+                hintState: .reactToHint,
                 onReactionTapped: { _ in },
                 onReportTapped: {},
                 onReportAlertAppeared: {},
                 onReportAlertConfirmed: {},
                 onReportAlertCanceled: {},
-                hasNextHints: true,
                 onNextHintTapped: {}
             )
 
@@ -159,13 +150,25 @@ struct StepQuizHintCardView_Previews: PreviewProvider {
                 authorAvatarSource: nil,
                 authorName: "Name Surname",
                 hintText: "Python is used for almost everything in programming.",
-                hintHasReaction: false,
+                hintState: .seeNextHint,
                 onReactionTapped: { _ in },
                 onReportTapped: {},
                 onReportAlertAppeared: {},
                 onReportAlertConfirmed: {},
                 onReportAlertCanceled: {},
-                hasNextHints: true,
+                onNextHintTapped: {}
+            )
+
+            StepQuizHintCardView(
+                authorAvatarSource: nil,
+                authorName: "Name Surname",
+                hintText: "Python is used for almost everything in programming.",
+                hintState: .lastHint,
+                onReactionTapped: { _ in },
+                onReportTapped: {},
+                onReportAlertAppeared: {},
+                onReportAlertConfirmed: {},
+                onReportAlertCanceled: {},
                 onNextHintTapped: {}
             )
         }

@@ -14,7 +14,7 @@ struct HomeView: View {
 
     @StateObject var viewModel: HomeViewModel
 
-    @StateObject var pushRouter: SwiftUIPushRouter
+    @StateObject var stackRouter: SwiftUIStackRouter
 
     var body: some View {
         ZStack {
@@ -42,7 +42,10 @@ struct HomeView: View {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
         }
-        .onDisappear(perform: viewModel.stopListening)
+        .onDisappear {
+            viewModel.stopListening()
+            viewModel.onViewAction = nil
+        }
     }
 
     // MARK: Private API
@@ -87,6 +90,14 @@ struct HomeView: View {
                         )
                     }
 
+                    if !viewModel.topicsToDiscoverNextStateSk.isEmpty {
+                        TopicToDiscoverNextCardView(
+                            state: viewModel.topicsToDiscoverNextStateSk,
+                            delegate: viewModel
+                        )
+                        .padding(.top, LayoutInsets.defaultInset)
+                    }
+
                     let shouldShowContinueInWebButton = data.problemOfDayState is HomeFeatureProblemOfDayStateEmpty ||
                       data.problemOfDayState is HomeFeatureProblemOfDayStateSolved
 
@@ -101,10 +112,8 @@ struct HomeView: View {
                     #if BETA_PROFILE || DEBUG
                     HomeDebugStepNavigationView(
                         onOpenStepTapped: { stepID in
-                            let assembly = StepAssembly(
-                                stepRoute: StepRouteLearn(stepId: Int64(stepID))
-                            )
-                            pushRouter.pushViewController(assembly.makeModule())
+                            let assembly = StepAssembly(stepRoute: StepRouteLearn(stepId: Int64(stepID)))
+                            stackRouter.pushViewController(assembly.makeModule())
                         }
                     )
                     #endif
@@ -127,11 +136,10 @@ struct HomeView: View {
         case .navigateTo(let navigateToViewAction):
             switch HomeFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .stepScreen(let data):
-                let assembly = StepAssembly(stepRoute: data.stepRoute)
-                pushRouter.pushViewController(assembly.makeModule())
+                displayStep(stepRoute: data.stepRoute)
             case .topicsRepetitionsScreen:
                 let assembly = TopicsRepetitionsAssembly()
-                pushRouter.pushViewController(assembly.makeModule())
+                stackRouter.pushViewController(assembly.makeModule())
             }
         case .openUrl(let data):
             ProgressHUD.showSuccess()
@@ -143,7 +151,17 @@ struct HomeView: View {
             case .showProfileTab:
                 TabBarRouter(tab: .profile).route()
             }
+        case .topicsToDiscoverNextViewAction(let topicsToDiscoverNextViewAction):
+            switch TopicsToDiscoverNextFeatureActionViewActionKs(topicsToDiscoverNextViewAction.viewAction) {
+            case .showStepScreen(let data):
+                displayStep(stepRoute: StepRouteLearn(stepId: data.stepId))
+            }
         }
+    }
+
+    private func displayStep(stepRoute: StepRoute) {
+        let assembly = StepAssembly(stepRoute: stepRoute)
+        stackRouter.pushViewController(assembly.makeModule())
     }
 }
 

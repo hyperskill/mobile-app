@@ -77,7 +77,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/action_button_height"
         style="@style/ThemeOverlay.Blue"
-        android:text="@string/step_quiz_problem_of_day_solved_modal_go_to_homescreen_button_text"
+        android:text="@string/go_to_homescreen"
         android:layout_marginTop="32dp"
         android:layout_marginHorizontal="20dp"
         app:layout_constraintBottom_toBottomOf="parent"

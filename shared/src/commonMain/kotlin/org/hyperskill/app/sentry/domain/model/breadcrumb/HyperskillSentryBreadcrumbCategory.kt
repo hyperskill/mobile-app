@@ -9,5 +9,6 @@ package org.hyperskill.app.sentry.domain.model.breadcrumb
 enum class HyperskillSentryBreadcrumbCategory(val stringValue: String) {
     APP_FEATURE("app_feature"),
     AUTH_SOCIAL("auth_social"),
-    AUTH_CREDENTIALS("auth_social_credentials")
+    AUTH_CREDENTIALS("auth_social_credentials"),
+    ANALYTIC_EVENT("analytic_event")
 }

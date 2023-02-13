@@ -144,14 +144,13 @@ class ProfileFragment :
 
             val notificationManager = NotificationManagerCompat.from(requireContext())
 
-            profileDailyRemindersSwitchCompat.isChecked = notificationManager.isChannelNotificationsEnabled(HyperskillNotificationChannel.DailyReminder.channelId) &&
+            val isDailyNotificationEnabled = notificationManager.isChannelNotificationsEnabled(HyperskillNotificationChannel.DailyReminder.channelId) &&
                 platformNotificationComponent.notificationInteractor.isDailyStudyRemindersEnabled()
-
-            profileScheduleTextView.isVisible = profileDailyRemindersSwitchCompat.isChecked
+            profileDailyRemindersSwitchCompat.isChecked = isDailyNotificationEnabled
+            profileScheduleTextView.isVisible = isDailyNotificationEnabled
 
             profileDailyRemindersSwitchCompat.setOnCheckedChangeListener { _, isChecked ->
                 onDailyReminderCheckChanged(isChecked, notificationManager)
-                profileScheduleTextView.isVisible = isChecked
             }
         }
     }
@@ -163,15 +162,17 @@ class ProfileFragment :
         if (isChecked) {
             platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification()
 
-            notificationManager.checkNotificationChannelAvailability(
+            val isEnabled = notificationManager.checkNotificationChannelAvailability(
                 requireContext(),
                 HyperskillNotificationChannel.DailyReminder
             ) {
                 viewBinding.root.snackbar(org.hyperskill.app.R.string.common_error)
             }
+            viewBinding.profileDailyReminder.profileDailyRemindersSwitchCompat.isChecked = isEnabled
+            viewBinding.profileDailyReminder.profileScheduleTextView.isVisible = isEnabled
+        } else {
+            viewBinding.profileDailyReminder.profileScheduleTextView.isVisible = false
         }
-
-        viewBinding.profileDailyReminder.profileScheduleTextView.isVisible = isChecked
     }
 
     private fun initProfileViewFullVersionTextView() {

@@ -65,8 +65,6 @@ interface StepQuizFeature {
             val replyValidation: ReplyValidationResult
         ) : Message
 
-        object ContinueClicked : Message
-
         data class SyncReply(val reply: Reply) : Message
 
         /**

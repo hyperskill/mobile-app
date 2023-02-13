@@ -1,3 +1,4 @@
+import shared
 import SwiftUI
 
 extension StepTheoryContentView {
@@ -11,44 +12,65 @@ struct StepTheoryContentView: View {
 
     @State var viewData: StepViewData
 
+    @State var isStepTextContentLoaded = false
+
+    let startPracticingButton: StartPracticingButton?
+
     var body: some View {
         ScrollView {
-            LazyVStack(alignment: .leading, spacing: appearance.interItemSpacing) {
+            VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
                 StepHeaderView(
                     title: viewData.formattedType,
                     timeToComplete: viewData.formattedTimeToComplete
                 )
 
-                // ALTAPPS-397: Hidden
-//                StepActionButton(
-//                    title: Strings.Step.startPracticing,
-//                    style: .greenOutline
-//                ) {
-//                    print("Start practicing tapped")
-//                }
+                buildStartPracticingButton(isFilled: false)
 
-                StepTextView(text: viewData.text)
+                StepTextView(
+                    text: viewData.text,
+                    onContentLoaded: {
+                        isStepTextContentLoaded = true
+                    }
+                )
 
-                // ALTAPPS-397: Hidden
-//                StepBottomControlsView(
-//                    commentStatisticsViewData: viewData.commentsStatistics,
-//                    onStartPracticingClick: {
-//                        print("Start practicing tapped")
-//                    },
-//                    onCommentStatisticClick: { commentStatistic in
-//                        print("Comment statistic clicked = \(commentStatistic)")
-//                    }
-//                )
+                buildStartPracticingButton(isFilled: true)
             }
             .padding()
         }
     }
 }
 
+// MARK: - StepTheoryContentView (StartPracticingButton) -
+
+extension StepTheoryContentView {
+    struct StartPracticingButton {
+        let isLoading: Bool
+        let action: () -> Void
+    }
+
+    @ViewBuilder
+    private func buildStartPracticingButton(isFilled: Bool) -> some View {
+        if let startPracticingButton, isStepTextContentLoaded {
+            StepActionButton(
+                title: Strings.Step.startPracticing,
+                style: isFilled ? .violetFilled : .violetOutline,
+                isLoading: startPracticingButton.isLoading,
+                onClick: startPracticingButton.action
+            )
+        }
+    }
+}
+
 #if DEBUG
-struct StepContentView_Previews: PreviewProvider {
+struct StepTheoryContentView_Previews: PreviewProvider {
     static var previews: some View {
-        StepTheoryContentView(viewData: .placeholder)
+        StepTheoryContentView(
+            viewData: .placeholder,
+            startPracticingButton: StepTheoryContentView.StartPracticingButton(
+                isLoading: false,
+                action: {}
+            )
+        )
     }
 }
 #endif

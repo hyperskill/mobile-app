@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDateTime
@@ -29,19 +28,21 @@ import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.step.domain.interactor.StepInteractor
+import org.hyperskill.app.topics_repetitions.domain.flow.TopicRepeatedFlow
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class HomeActionDispatcher(
     config: ActionDispatcherOptions,
-    private val homeInteractor: HomeInteractor,
+    homeInteractor: HomeInteractor,
     private val profileInteractor: ProfileInteractor,
     private val topicsRepetitionsInteractor: TopicsRepetitionsInteractor,
     private val stepInteractor: StepInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val urlPathProcessor: UrlPathProcessor,
-    private val dateFormatter: DateFormatter
+    private val dateFormatter: DateFormatter,
+    topicRepeatedFlow: TopicRepeatedFlow
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     private var isTimerLaunched: Boolean = false
 
@@ -59,17 +60,13 @@ class HomeActionDispatcher(
     }
 
     init {
-        actionScope.launch {
-            homeInteractor.solvedStepsSharedFlow.collect { id ->
-                onNewMessage(Message.StepQuizSolved(id))
-            }
-        }
+        homeInteractor.solvedStepsSharedFlow
+            .onEach { onNewMessage(Message.StepQuizSolved(it)) }
+            .launchIn(actionScope)
 
-        actionScope.launch {
-            topicsRepetitionsInteractor.topicRepeatedSharedFlow.collect {
-                onNewMessage(Message.TopicRepeated)
-            }
-        }
+        topicRepeatedFlow.observe()
+            .onEach { onNewMessage(Message.TopicRepeated) }
+            .launchIn(actionScope)
     }
 
     override suspend fun doSuspendableAction(action: Action) {
