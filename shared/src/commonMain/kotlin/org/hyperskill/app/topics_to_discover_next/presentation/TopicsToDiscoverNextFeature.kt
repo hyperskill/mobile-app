@@ -3,6 +3,7 @@ package org.hyperskill.app.topics_to_discover_next.presentation
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransaction
 import org.hyperskill.app.topics.domain.model.Topic
+import org.hyperskill.app.topics.domain.model.TopicProgress
 
 interface TopicsToDiscoverNextFeature {
     sealed interface State {
@@ -50,7 +51,11 @@ interface TopicsToDiscoverNextFeature {
 
         object PullToRefresh : Message
 
+        /**
+         * Flow Messages
+         */
         data class TopicCompleted(val topicId: Long) : Message
+        data class TopicProgressChanged(val topicProgress: TopicProgress) : Message
 
         /**
          * A message that indicates about click on topic.

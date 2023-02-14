@@ -21,7 +21,7 @@ final class AppTabBarController: UITabBarController {
     }
 
     private func setViewControllers() {
-        let viewControllers = AppTabItem.allCases.map { tabItem -> UIViewController in
+        let viewControllers = AppTabItem.availableItems.map { tabItem -> UIViewController in
             let rootViewController: UIViewController = {
                 switch tabItem {
                 case .home:
@@ -30,17 +30,14 @@ final class AppTabBarController: UITabBarController {
                     return TrackAssembly().makeModule()
                 case .profile:
                     return UIHostingController(rootView: ProfileAssembly.currentUser().makeModule())
+                case .debug:
+                    return DebugAssembly().makeModule()
                 }
             }()
+
             let navigationController = UINavigationController(rootViewController: rootViewController)
             navigationController.navigationBar.prefersLargeTitles = true
-
-            let tabBarItem = UITabBarItem(
-                title: tabItem.title,
-                image: UIImage(named: tabItem.imageName),
-                selectedImage: UIImage(named: tabItem.selectedImageName)
-            )
-            navigationController.tabBarItem = tabBarItem
+            navigationController.tabBarItem = tabItem.tabBarItem
 
             return navigationController
         }
@@ -48,6 +45,8 @@ final class AppTabBarController: UITabBarController {
         setViewControllers(viewControllers, animated: false)
     }
 }
+
+// MARK: - AppTabBarController: UITabBarControllerDelegate -
 
 extension AppTabBarController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
@@ -62,5 +61,36 @@ extension AppTabBarController: UITabBarControllerDelegate {
         )
 
         currentTabItem = selectedTabItem
+    }
+}
+
+// MARK: - AppTabItem (UITabBarItem) -
+
+private extension AppTabItem {
+    static var availableItems: [AppTabItem] {
+        var result = AppTabItem.allCases
+
+        if !ApplicationInfo.isDebugModeAvailable {
+            result.removeAll(where: { $0 == .debug })
+        }
+
+        return result
+    }
+
+    var tabBarItem: UITabBarItem {
+        switch self {
+        case .home, .track, .profile:
+            return UITabBarItem(
+                title: title,
+                image: UIImage(named: imageName),
+                selectedImage: UIImage(named: selectedImageName)
+            )
+        case .debug:
+            return UITabBarItem(
+                title: title,
+                image: UIImage(systemName: imageName),
+                selectedImage: UIImage(systemName: selectedImageName)
+            )
+        }
     }
 }

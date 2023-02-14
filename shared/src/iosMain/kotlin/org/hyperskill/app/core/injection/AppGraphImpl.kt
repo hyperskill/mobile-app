@@ -30,6 +30,8 @@ import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
 import org.hyperskill.app.magic_links.injection.MagicLinksDataComponentImpl
 import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainComponentImpl
+import org.hyperskill.app.main.injection.MainDataComponent
+import org.hyperskill.app.main.injection.MainDataComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.network.injection.NetworkComponentImpl
 import org.hyperskill.app.notification.injection.NotificationComponent
@@ -50,6 +52,8 @@ import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponentImpl
 import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponentImpl
+import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponent
+import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponentImpl
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
 import org.hyperskill.app.sentry.domain.model.manager.SentryManager
@@ -123,6 +127,9 @@ class AppGraphImpl(
     override val stepCompletionFlowDataComponent: StepCompletionFlowDataComponent =
         StepCompletionFlowDataComponentImpl()
 
+    override val progressesFlowDataComponent: ProgressesFlowDataComponent =
+        ProgressesFlowDataComponentImpl()
+
     override val sentryComponent: SentryComponent =
         SentryComponentImpl(sentryManager)
 
@@ -131,6 +138,9 @@ class AppGraphImpl(
 
     override val mainComponent: MainComponent =
         MainComponentImpl(this)
+
+    override fun buildMainDataComponent(): MainDataComponent =
+        MainDataComponentImpl(this)
 
     override fun buildAuthSocialComponent(): AuthSocialComponent =
         AuthSocialComponentImpl(

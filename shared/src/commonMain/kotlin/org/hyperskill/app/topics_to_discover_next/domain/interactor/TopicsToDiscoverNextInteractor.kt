@@ -59,9 +59,11 @@ class TopicsToDiscoverNextInteractor(
                 val topicsProgresses = topicsProgressesResult.await().getOrThrow()
 
                 val topicProgressById = topicsProgresses.associateBy { it.id }
-                val topicsWithProgresses = topics.map { it.copy(progress = topicProgressById[it.progressId]) }
+                val topicsWithCurrentTrackProgresses = topics
+                    .map { it.copy(progress = topicProgressById[it.progressId]) }
+                    .filter { it.progress?.isInCurrentTrack ?: false }
 
-                val topicsByStagePosition = topicsWithProgresses
+                val topicsByStagePosition = topicsWithCurrentTrackProgresses
                     .filter { it.progress?.stagePosition != null }
                     .groupBy { it.progress!!.stagePosition!! }
 
@@ -72,7 +74,7 @@ class TopicsToDiscoverNextInteractor(
                         .getValue(minStagePositionKey)
                         .take(TOPICS_TO_DISCOVER_NEXT_PREFIX_COUNT)
                 } else {
-                    topicsWithProgresses.take(TOPICS_TO_DISCOVER_NEXT_PREFIX_COUNT)
+                    topicsWithCurrentTrackProgresses.take(TOPICS_TO_DISCOVER_NEXT_PREFIX_COUNT)
                 }
             }
         }

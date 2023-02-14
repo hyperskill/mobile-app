@@ -127,9 +127,6 @@ struct TopicToDiscoverNextButtonView_Previews: PreviewProvider {
                     theoryId: nil,
                     title: "Pro data types",
                     progress: TopicProgress(
-                        id: "",
-                        stagePosition: 0,
-                        repeatedCount: 0,
                         isCompleted: false,
                         isSkipped: false,
                         capacity: 0.4
@@ -146,9 +143,6 @@ struct TopicToDiscoverNextButtonView_Previews: PreviewProvider {
                     theoryId: nil,
                     title: "Pro data types",
                     progress: TopicProgress(
-                        id: "",
-                        stagePosition: 0,
-                        repeatedCount: 0,
                         isCompleted: false,
                         isSkipped: true,
                         capacity: 0
@@ -165,9 +159,6 @@ struct TopicToDiscoverNextButtonView_Previews: PreviewProvider {
                     theoryId: nil,
                     title: "Pro data types",
                     progress: TopicProgress(
-                        id: "",
-                        stagePosition: 0,
-                        repeatedCount: 0,
                         isCompleted: true,
                         isSkipped: false,
                         capacity: 0

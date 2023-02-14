@@ -30,17 +30,13 @@ class AnalyticHyperskillEventProcessor(
 
             if (contextMap != null) {
                 contextMap[PARAM_PLATFORM] = platform.analyticName
-
-                if (platform.isIos) {
-                    contextMap[PARAM_IS_NOTIFICATIONS_ALLOW] = isNotificationsPermissionGranted
-                }
-
+                contextMap[PARAM_IS_NOTIFICATIONS_ALLOW] = isNotificationsPermissionGranted
                 resultParams[PARAM_CONTEXT] = contextMap
             }
         } else {
             resultParams[PARAM_CONTEXT] = mapOfNotNull(
                 PARAM_PLATFORM to platform.analyticName,
-                PARAM_IS_NOTIFICATIONS_ALLOW to if (platform.isIos) isNotificationsPermissionGranted else null
+                PARAM_IS_NOTIFICATIONS_ALLOW to isNotificationsPermissionGranted
             )
         }
 

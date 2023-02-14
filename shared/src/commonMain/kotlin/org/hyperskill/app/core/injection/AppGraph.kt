@@ -14,6 +14,7 @@ import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataCo
 import org.hyperskill.app.likes.injection.LikesDataComponent
 import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
 import org.hyperskill.app.main.injection.MainComponent
+import org.hyperskill.app.main.injection.MainDataComponent
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.notification.injection.NotificationComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
@@ -24,6 +25,7 @@ import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile.injection.ProfileHypercoinsDataComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponent
+import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.sentry.injection.SentryComponent
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -59,7 +61,9 @@ interface AppGraph {
     val streakFlowDataComponent: StreakFlowDataComponent
     val topicsRepetitionsFlowDataComponent: TopicsRepetitionsFlowDataComponent
     val stepCompletionFlowDataComponent: StepCompletionFlowDataComponent
+    val progressesFlowDataComponent: ProgressesFlowDataComponent
 
+    fun buildMainDataComponent(): MainDataComponent
     fun buildAuthSocialComponent(): AuthSocialComponent
     fun buildAuthCredentialsComponent(): AuthCredentialsComponent
     fun buildStepComponent(stepRoute: StepRoute): StepComponent

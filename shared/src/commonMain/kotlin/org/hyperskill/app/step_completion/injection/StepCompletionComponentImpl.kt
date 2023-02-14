@@ -24,6 +24,7 @@ class StepCompletionComponentImpl(
             appGraph.sentryComponent.sentryInteractor,
             appGraph.buildProfileDataComponent().profileInteractor,
             appGraph.buildNotificationComponent().notificationInteractor,
-            appGraph.stepCompletionFlowDataComponent.topicCompletedFlow
+            appGraph.stepCompletionFlowDataComponent.topicCompletedFlow,
+            appGraph.progressesFlowDataComponent.topicProgressFlow
         )
 }

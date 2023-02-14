@@ -10,6 +10,7 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.notification.data.extension.NotificationExtensions
 import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
+import org.hyperskill.app.progresses.domain.flow.TopicProgressFlow
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
@@ -33,7 +34,8 @@ class StepCompletionActionDispatcher(
     private val sentryInteractor: SentryInteractor,
     private val profileInteractor: ProfileInteractor,
     private val notificationInteractor: NotificationInteractor,
-    private val topicCompletedFlow: TopicCompletedFlow
+    private val topicCompletedFlow: TopicCompletedFlow,
+    private val topicProgressFlow: TopicProgressFlow
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
         notificationInteractor.solvedStepsSharedFlow
@@ -96,12 +98,11 @@ class StepCompletionActionDispatcher(
                 onNewMessage(message)
             }
             is Action.CheckTopicCompletionStatus -> {
-                val topicIsCompleted = progressesInteractor
+                val topicProgress = progressesInteractor
                     .getTopicProgress(action.topicId)
-                    .map { it.isCompleted }
                     .getOrElse { return onNewMessage(Message.CheckTopicCompletionStatus.Error) }
 
-                if (topicIsCompleted) {
+                if (topicProgress.isCompleted) {
                     topicCompletedFlow.notifyDataChanged(action.topicId)
 
                     val topicTitle = topicsInteractor
@@ -118,6 +119,7 @@ class StepCompletionActionDispatcher(
                         )
                     )
                 } else {
+                    topicProgressFlow.notifyDataChanged(topicProgress)
                     onNewMessage(Message.CheckTopicCompletionStatus.Uncompleted)
                 }
             }

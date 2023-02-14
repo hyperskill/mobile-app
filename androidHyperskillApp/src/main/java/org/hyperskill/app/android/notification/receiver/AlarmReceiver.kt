@@ -3,9 +3,8 @@ package org.hyperskill.app.android.notification.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import org.hyperskill.app.android.notification.service.NotificationAlarmService
+import org.hyperskill.app.android.HyperskillApp
 
-@Deprecated("Replace with WorkManager")
 class AlarmReceiver : BroadcastReceiver() {
     companion object {
         const val REQUEST_CODE = 151
@@ -16,6 +15,9 @@ class AlarmReceiver : BroadcastReceiver() {
     }
 
     override fun onReceive(context: Context, intent: Intent) {
-        NotificationAlarmService.enqueueWork(context, intent)
+        val notificationPublisher =
+            HyperskillApp.graph().platformNotificationComponent.notificationPublisher
+        val action = intent.action ?: return
+        notificationPublisher.onNeedShowNotificationWithId(action)
     }
 }
