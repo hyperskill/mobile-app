@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'shared'
-    spec.version                  = '1.8'
+    spec.version                  = '1.9'
     spec.homepage                 = 'https://github.com/hyperskill/mobile-app'
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
