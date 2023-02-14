@@ -31,6 +31,7 @@ final class NotificationsService {
 
     enum NotificationType: String {
         case dailyStudyReminder = "DailyStudyReminder"
+        case restartApplication = "RestartApplication"
     }
 }
 

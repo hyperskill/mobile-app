@@ -4,6 +4,7 @@ enum AppTabItem: CaseIterable {
     case home
     case track
     case profile
+    case debug
 
     var title: String {
         switch self {
@@ -13,6 +14,8 @@ enum AppTabItem: CaseIterable {
             return Strings.TabBar.track
         case .profile:
             return Strings.TabBar.profile
+        case .debug:
+            return Strings.TabBar.debug
         }
     }
 
@@ -24,6 +27,8 @@ enum AppTabItem: CaseIterable {
             return Images.TabBar.track
         case .profile:
             return Images.TabBar.profile
+        case .debug:
+            return Images.SystemSymbol.Hammer.hammerCircle
         }
     }
 
@@ -35,6 +40,8 @@ enum AppTabItem: CaseIterable {
             return Images.TabBar.trackFilled
         case .profile:
             return Images.TabBar.profileFilled
+        case .debug:
+            return Images.SystemSymbol.Hammer.hammerCircleFill
         }
     }
 }

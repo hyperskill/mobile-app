@@ -108,15 +108,6 @@ struct HomeView: View {
                         )
                         .buttonStyle(OutlineButtonStyle())
                     }
-
-                    #if BETA_PROFILE || DEBUG
-                    HomeDebugStepNavigationView(
-                        onOpenStepTapped: { stepID in
-                            let assembly = StepAssembly(stepRoute: StepRouteLearn(stepId: Int64(stepID)))
-                            stackRouter.pushViewController(assembly.makeModule())
-                        }
-                    )
-                    #endif
                 }
                 .padding()
                 .pullToRefresh(

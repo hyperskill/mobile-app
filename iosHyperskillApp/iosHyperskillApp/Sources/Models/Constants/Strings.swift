@@ -24,6 +24,7 @@ enum Strings {
         static let home = sharedStrings.tab_bar_home_title.localized()
         static let track = sharedStrings.tab_bar_track_title.localized()
         static let profile = sharedStrings.tab_bar_profile_title.localized()
+        static let debug = sharedStrings.tab_bar_debug_title.localized()
     }
 
     // MARK: - Auth -
@@ -255,6 +256,34 @@ enum Strings {
             static let light = sharedStrings.settings_theme_light.localized()
             static let dark = sharedStrings.settings_theme_dark.localized()
             static let system = sharedStrings.settings_theme_system.localized()
+        }
+    }
+
+    // MARK: - DebugMenu -
+
+    enum DebugMenu {
+        static let title = sharedStrings.debug_menu_title.localized()
+        static let applySettingsButton = sharedStrings.debug_menu_apply_settings_button_text.localized()
+
+        enum API {
+            static let headerTitle = sharedStrings.debug_menu_section_api_header_title.localized()
+        }
+
+        enum StepNavigation {
+            static let textFieldTitle = sharedStrings.debug_menu_section_step_navigation_text_input_title.localized()
+            static let buttonTitle = sharedStrings.debug_menu_section_step_navigation_button_text.localized()
+        }
+
+        enum RestartApplication {
+            enum Alert {
+                static let title = sharedStrings.debug_menu_restart_application_alert_title_ios.localized()
+                static let message = sharedStrings.debug_menu_restart_application_alert_message_ios.localized()
+            }
+
+            enum LocalNotification {
+                static let title = sharedStrings.debug_menu_restart_application_local_notification_title_ios.localized()
+                static let body = sharedStrings.debug_menu_restart_application_local_notification_body_ios.localized()
+            }
         }
     }
 

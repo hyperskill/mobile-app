@@ -142,8 +142,8 @@ buildkonfig {
 
         buildConfigField(
             type = BOOLEAN,
-            name = "IS_DEBUG_CONTROLS_ENABLED",
-            value = SystemProperties.isDebugControlsEnabled()?.toString(),
+            name = "IS_INTERNAL_TESTING",
+            value = SystemProperties.isInternalTesting()?.toString(),
             nullable = true
         )
 
