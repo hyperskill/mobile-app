@@ -3,7 +3,6 @@ package org.hyperskill.app.android.step_quiz.view.fragment
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -11,19 +10,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
-import org.hyperskill.app.android.core.extensions.checkNotificationChannelAvailability
 import org.hyperskill.app.android.core.view.ui.fragment.parentOfType
-import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
-import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFeedbackBlocksDelegate
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
-import org.hyperskill.app.android.step_quiz.view.dialog.CompletedStepOfTheDayDialogFragment
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizViewStateDelegateFactory
 import org.hyperskill.app.android.step_quiz.view.mapper.StepQuizFeedbackMapper
 import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
@@ -32,16 +28,13 @@ import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
-import org.hyperskill.app.step_quiz.domain.model.permissions.StepQuizUserPermissionRequest
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
 import org.hyperskill.app.step_quiz.presentation.StepQuizViewModel
-import org.hyperskill.app.step_quiz.view.mapper.StepQuizUserPermissionRequestTextMapper
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
-import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.app.presentation.redux.container.ReduxView
 
 abstract class DefaultStepQuizFragment :
@@ -49,7 +42,6 @@ abstract class DefaultStepQuizFragment :
     ReduxView<StepQuizFeature.State, StepQuizFeature.Action.ViewAction>,
     StepCompletionView {
 
-    private lateinit var userPermissionRequestTextMapper: StepQuizUserPermissionRequestTextMapper
     private lateinit var viewModelFactory: ViewModelProvider.Factory
 
     protected val viewBinding: FragmentStepQuizBinding by viewBinding(FragmentStepQuizBinding::bind)
@@ -75,7 +67,6 @@ abstract class DefaultStepQuizFragment :
     private fun injectComponent() {
         val stepQuizComponent = HyperskillApp.graph().buildStepQuizComponent(stepRoute)
         val platformStepQuizComponent = HyperskillApp.graph().buildPlatformStepQuizComponent(stepQuizComponent)
-        userPermissionRequestTextMapper = stepQuizComponent.stepQuizUserPermissionRequestTextMapper
         viewModelFactory = platformStepQuizComponent.reduxViewModelFactory
     }
 
@@ -175,76 +166,23 @@ abstract class DefaultStepQuizFragment :
             is StepQuizFeature.Action.ViewAction.ShowNetworkError -> {
                 view?.snackbar(messageRes = org.hyperskill.app.R.string.connection_error)
             }
-            is StepQuizFeature.Action.ViewAction.NavigateTo.Back -> {
-                requireRouter().exit()
-            }
-            is StepQuizFeature.Action.ViewAction.RequestUserPermission -> {
-                when (action.userPermissionRequest) {
-                    StepQuizUserPermissionRequest.RESET_CODE -> {
-                        requestResetCodeActionPermission(action)
-                    }
-                    StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS -> {
-                        requestSendDailyStudyRemindersPermission(action)
-                    }
-                }
-            }
-            is StepQuizFeature.Action.ViewAction.ShowProblemOfDaySolvedModal -> {
-                CompletedStepOfTheDayDialogFragment
-                    .newInstance(earnedGemsText = action.earnedGemsText)
-                    .showIfNotExists(childFragmentManager, CompletedStepOfTheDayDialogFragment.TAG)
+            is StepQuizFeature.Action.ViewAction.RequestResetCode -> {
+                requestResetCodeActionPermission()
             }
         }
     }
 
-    private fun requestResetCodeActionPermission(action: StepQuizFeature.Action.ViewAction.RequestUserPermission) {
+    private fun requestResetCodeActionPermission() {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle(userPermissionRequestTextMapper.getTitle(action.userPermissionRequest))
-            .setMessage(userPermissionRequestTextMapper.getMessage(action.userPermissionRequest))
+            .setTitle(SharedResources.strings.reset_code_dialog_title.resourceId)
+            .setMessage(SharedResources.strings.reset_code_dialog_explanation.resourceId)
             .setPositiveButton(org.hyperskill.app.R.string.yes) { _, _ ->
                 stepQuizViewModel.onNewMessage(
-                    StepQuizFeature.Message.RequestUserPermissionResult(
-                        action.userPermissionRequest,
-                        isGranted = true
-                    )
+                    StepQuizFeature.Message.RequestResetCodeResult(isGranted = true)
                 )
             }
             .setNegativeButton(org.hyperskill.app.R.string.cancel) { _, _ ->
-                stepQuizViewModel.onNewMessage(
-                    StepQuizFeature.Message.RequestUserPermissionResult(
-                        action.userPermissionRequest,
-                        isGranted = false
-                    )
-                )
-            }
-            .show()
-    }
-
-    private fun requestSendDailyStudyRemindersPermission(action: StepQuizFeature.Action.ViewAction.RequestUserPermission) {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(userPermissionRequestTextMapper.getTitle(action.userPermissionRequest))
-            .setMessage(userPermissionRequestTextMapper.getMessage(action.userPermissionRequest))
-            .setPositiveButton(org.hyperskill.app.R.string.ok) { _, _ ->
-                stepQuizViewModel.onNewMessage(
-                    StepQuizFeature.Message.RequestUserPermissionResult(
-                        action.userPermissionRequest,
-                        isGranted = true
-                    )
-                )
-                NotificationManagerCompat.from(requireContext())
-                    .checkNotificationChannelAvailability(
-                        requireContext(),
-                        HyperskillNotificationChannel.DailyReminder
-                    ) {
-                        viewBinding.root.snackbar(org.hyperskill.app.R.string.common_error)
-                    }
-            }
-            .setNegativeButton(org.hyperskill.app.R.string.later) { _, _ ->
-                stepQuizViewModel.onNewMessage(
-                    StepQuizFeature.Message.RequestUserPermissionResult(
-                        action.userPermissionRequest,
-                        isGranted = false
-                    )
-                )
+                StepQuizFeature.Message.RequestResetCodeResult(isGranted = false)
             }
             .show()
     }
