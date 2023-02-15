@@ -7,7 +7,6 @@ struct StepQuizNameView: View {
         Text(text)
             .font(.caption)
             .foregroundColor(.disabledText)
-            .padding(.top, LayoutInsets.smallInset)
     }
 }
 

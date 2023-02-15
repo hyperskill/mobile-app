@@ -25,13 +25,7 @@ struct StepQuizCodeFullScreenDetailsView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: appearance.spacing) {
-                StepTextView(
-                    text: stepText,
-                    appearance: .init(
-                        textFont: appearance.stepTextFont,
-                        textColor: appearance.stepTextColor
-                    )
-                )
+                StepTextView(text: stepText)
 
                 if !isDetailsEmpty {
                     StepQuizCodeDetailsView(

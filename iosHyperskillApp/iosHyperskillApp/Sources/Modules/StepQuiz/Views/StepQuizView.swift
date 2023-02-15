@@ -100,6 +100,7 @@ struct StepQuizView: View {
     ) -> some View {
         if let quizName {
             StepQuizNameView(text: quizName)
+                .padding(.top)
         }
 
         let attemptLoadedState: StepQuizFeatureStateAttemptLoaded? = {
