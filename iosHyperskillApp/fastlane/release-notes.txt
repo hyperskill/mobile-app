@@ -1,4 +1,5 @@
 What to Test:
-1. Debug menu ALTAPPS-509
-2. Show code blocks with line numbers in Step text <pre><code ALTAPPS-536
-3. Send step view and send context for submissions ALTAPPS-577
+1. Problem and Theory screens UI improvements ALTAPPS-481
+2. Debug menu ALTAPPS-509
+3. Show code blocks with line numbers in Step text <pre><code ALTAPPS-536
+4. Send step view and send context for submissions ALTAPPS-577
