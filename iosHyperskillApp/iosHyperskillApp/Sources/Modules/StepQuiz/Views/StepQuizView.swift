@@ -5,9 +5,6 @@ import UIKit
 extension StepQuizView {
     struct Appearance {
         let interItemSpacing = LayoutInsets.defaultInset
-
-        let stepTextFont = UIFont.preferredFont(forTextStyle: .subheadline)
-        let stepTextColor = UIColor.primaryText
     }
 }
 
@@ -68,19 +65,11 @@ struct StepQuizView: View {
 
             ScrollView {
                 VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
-                    StepQuizStatsView(text: viewData.formattedStats)
-
                     if case .unsupported = viewData.quizType {
                         StepQuizStatusView(state: .unsupportedQuiz)
                     }
 
-                    StepTextView(
-                        text: viewData.stepText,
-                        appearance: .init(
-                            textFont: appearance.stepTextFont,
-                            textColor: appearance.stepTextColor
-                        )
-                    )
+                    StepTextView(text: viewData.stepText)
 
                     if viewData.stepHasHints {
                         StepQuizHintsAssembly(stepID: viewModel.step.id).makeModule()
@@ -91,6 +80,7 @@ struct StepQuizView: View {
                         step: viewModel.step,
                         quizName: viewData.quizName,
                         quizType: viewData.quizType,
+                        formattedStats: viewData.formattedStats,
                         feedbackHintText: viewData.feedbackHintText
                     )
                 }
@@ -105,10 +95,12 @@ struct StepQuizView: View {
         step: Step,
         quizName: String?,
         quizType: StepQuizChildQuizType,
+        formattedStats: String,
         feedbackHintText: String?
     ) -> some View {
         if let quizName {
             StepQuizNameView(text: quizName)
+                .padding(.top)
         }
 
         let attemptLoadedState: StepQuizFeatureStateAttemptLoaded? = {
@@ -125,6 +117,7 @@ struct StepQuizView: View {
                 // it's rendered before step text
             } else {
                 buildChildQuiz(quizType: quizType, step: step, attemptLoadedState: attemptLoadedState)
+                StepQuizStatsView(text: formattedStats)
                 buildQuizStatusView(state: state, attemptLoadedState: attemptLoadedState)
 
                 if let feedbackHintText {

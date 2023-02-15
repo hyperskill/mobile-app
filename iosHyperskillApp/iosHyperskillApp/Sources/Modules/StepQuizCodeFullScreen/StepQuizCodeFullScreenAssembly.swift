@@ -64,8 +64,7 @@ extension StepQuizCodeFullScreenAssembly {
                 executionMemoryLimit: "Memory limit: 256 MB",
                 stepText: """
 Enter only the name of the found functional interface with/without the package. Don't write any generic parameters.
-""",
-                stepStats: "2438 users solved this problem. Latest completion was about 13 hours ago."
+"""
             ),
             provideModuleInputCallback: { _ in }
         )

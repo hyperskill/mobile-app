@@ -19,10 +19,7 @@ struct StepTheoryContentView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
-                StepHeaderView(
-                    title: viewData.formattedType,
-                    timeToComplete: viewData.formattedTimeToComplete
-                )
+                StepHeaderView(timeToComplete: viewData.formattedTimeToComplete)
 
                 buildStartPracticingButton(isFilled: false)
 

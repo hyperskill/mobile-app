@@ -34,8 +34,7 @@ final class StepQuizSQLAssembly: StepQuizChildQuizAssembly {
             reply: reply,
             viewDataMapper: StepQuizSQLViewDataMapper(
                 formatter: Formatter(resourceProvider: commonComponent.resourceProvider),
-                resourceProvider: commonComponent.resourceProvider,
-                stepQuizStatsTextMapper: StepQuizStatsTextMapper(resourceProvider: commonComponent.resourceProvider)
+                resourceProvider: commonComponent.resourceProvider
             ),
             provideModuleInputCallback: provideModuleInputCallback
         )

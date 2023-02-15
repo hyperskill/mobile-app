@@ -5,16 +5,12 @@ class StepQuizCodeViewDataMapper {
     private let formatter: Formatter
     private let resourceProvider: ResourceProvider
 
-    private let stepQuizStatsTextMapper: StepQuizStatsTextMapper
-
     init(
         formatter: Formatter,
-        resourceProvider: ResourceProvider,
-        stepQuizStatsTextMapper: StepQuizStatsTextMapper
+        resourceProvider: ResourceProvider
     ) {
         self.formatter = formatter
         self.resourceProvider = resourceProvider
-        self.stepQuizStatsTextMapper = stepQuizStatsTextMapper
     }
 
     func mapCodeDataToViewData(step: Step, reply: Reply?) -> StepQuizCodeViewData {
@@ -77,15 +73,7 @@ class StepQuizCodeViewDataMapper {
             samples: samples,
             executionTimeLimit: executionTimeLimit,
             executionMemoryLimit: executionMemoryLimit,
-            stepText: step.block.text,
-            stepStats: mapStepToStepStats(step)
-        )
-    }
-
-    func mapStepToStepStats(_ step: Step) -> String {
-        stepQuizStatsTextMapper.getFormattedStepQuizStats(
-            users: step.solvedBy,
-            millisSinceLastCompleted: step.millisSinceLastCompleted
+            stepText: step.block.text
         )
     }
 

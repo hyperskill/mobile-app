@@ -15,6 +15,7 @@ struct StepView: View {
             buildBody()
         }
         .navigationBarHidden(false)
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)

@@ -36,7 +36,7 @@ struct StepQuizStatusView: View {
                 .font(.body)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(state.paddingEdgeSet)
+        .padding()
         .background(state.backgroundColor)
         .cornerRadius(appearance.cornerRadius)
     }
@@ -101,19 +101,8 @@ struct StepQuizStatusView: View {
             switch self {
             case .correct:
                 return Color(ColorPalette.green200Alpha12)
-            case .wrong:
-                return .clear
-            case .evaluation, .loading, .unsupportedQuiz, .invalidReply:
+            case .evaluation, .loading, .unsupportedQuiz, .invalidReply, .wrong:
                 return Color(ColorPalette.blue200Alpha12)
-            }
-        }
-
-        fileprivate var paddingEdgeSet: Edge.Set {
-            switch self {
-            case .correct, .evaluation, .loading, .unsupportedQuiz, .invalidReply:
-                return .all
-            case .wrong:
-                return .vertical
             }
         }
     }
