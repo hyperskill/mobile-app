@@ -28,7 +28,6 @@ struct StepQuizCodeFullScreenView: View {
                 TabView(selection: $selectedTab) {
                     TabNavigationLazyView(
                         StepQuizCodeFullScreenDetailsView(
-                            stepStats: viewData.stepStats,
                             stepText: viewData.stepText,
                             samples: viewData.samples,
                             executionTimeLimit: viewData.executionTimeLimit,

@@ -2,11 +2,7 @@ import SwiftUI
 
 extension StepQuizStatsView {
     struct Appearance {
-        let interItemSpacing = LayoutInsets.smallInset
-
-        let iconWidthHeight: CGFloat = 12
-
-        let primaryColor = Color.secondaryText
+        let primaryColor = Color.disabledText
     }
 }
 
@@ -16,17 +12,9 @@ struct StepQuizStatsView: View {
     var text: String
 
     var body: some View {
-        HStack(spacing: appearance.interItemSpacing) {
-            Image(Images.Step.clock)
-                .renderingMode(.template)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(widthHeight: appearance.iconWidthHeight)
-
-            Text(text)
-                .font(.subheadline)
-        }
-        .foregroundColor(appearance.primaryColor)
+        Text(text)
+            .font(.subheadline)
+            .foregroundColor(appearance.primaryColor)
     }
 }
 

@@ -6,7 +6,6 @@ import shared
 struct StepViewData {
     let title: String
 
-    let formattedType: String
     let formattedTimeToComplete: String
 
     var text: String
@@ -19,7 +18,6 @@ extension StepViewData {
     static var placeholder: StepViewData {
         StepViewData(
             title: "Introduction to Kotlin",
-            formattedType: "Theory",
             formattedTimeToComplete: "6 minutes remaining",
             text: """
 <h5 style=\"text-align: center;\">What is Kotlin?</h5>\n\n<p><strong>Kotlin</strong> is a highly effective modern \
