@@ -77,6 +77,7 @@ kotlin {
                 implementation(libs.kit.view.redux)
                 implementation(libs.android.lifecycle.viewmodel.ktx)
                 implementation(libs.android.sentry.okhttp)
+                implementation(libs.android.lifecycle.runtime)
             }
         }
         val androidTest by getting {

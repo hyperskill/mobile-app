@@ -3,17 +3,21 @@ package org.hyperskill.app.android.debug_menu.fragment
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import com.google.accompanist.themeadapter.material.MdcTheme
 import org.hyperskill.app.android.HyperskillApp
+import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
+import org.hyperskill.app.android.debug_menu.ui.DebugScreen
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.debug.presentation.DebugFeature
 import org.hyperskill.app.debug.presentation.DebugViewModel
 
-class DebugFragment : Fragment() {
+class DebugFragment : Fragment(R.layout.fragment_debug) {
 
     companion object {
         fun newInstance() =
@@ -36,6 +40,11 @@ class DebugFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        (view as ComposeView).setContent {
+            MdcTheme {
+                DebugScreen(debugViewModel)
+            }
+        }
         debugViewModel.handleActions(viewLifecycleOwner, block = ::handleAction)
     }
 
