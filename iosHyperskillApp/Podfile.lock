@@ -6,9 +6,9 @@ PODS:
   - AppAuth/ExternalUserAgent (1.6.0):
     - AppAuth/Core
   - Atributika (4.10.1)
-  - CocoaLumberjack (3.7.4):
-    - CocoaLumberjack/Core (= 3.7.4)
-  - CocoaLumberjack/Core (3.7.4)
+  - CocoaLumberjack (3.8.0):
+    - CocoaLumberjack/Core (= 3.8.0)
+  - CocoaLumberjack/Core (3.8.0)
   - CombineSchedulers (0.8.0)
   - Gifu (3.3.1)
   - GoogleSignIn (6.1.0):
@@ -61,7 +61,7 @@ DEPENDENCIES:
   - SwiftLint (= 0.50.1)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  trunk:
     - AppAuth
     - Atributika
     - CocoaLumberjack
@@ -104,7 +104,7 @@ CHECKOUT OPTIONS:
     :commit: da5080c9b736e4942c725ecdec0e7c21c7263dfa
     :git: https://github.com/ivan-magda/combine-schedulers.git
   Highlightr:
-    :commit: 048188df13e145657554a53a24882df5461fc96a
+    :commit: 628094ff81cdebf31da6bf31be4b4ac758c127a4
     :git: https://github.com/raspu/Highlightr.git
   NukeUI:
     :git: https://github.com/kean/NukeUI.git
@@ -113,13 +113,13 @@ CHECKOUT OPTIONS:
     :commit: 32fc8b5868b0254a2025c9c01b24c0e4b3fe537d
     :git: https://github.com/ivan-magda/PanModal.git
   SVGKit:
-    :commit: 938553e48fff5d11774a3acc6b5ed271b57f7200
+    :commit: 7b51bfe8f53d8a10ab5a6b94121ff71f1215bf82
     :git: https://github.com/SVGKit/SVGKit.git
 
 SPEC CHECKSUMS:
   AppAuth: 8fca6b5563a5baef2c04bee27538025e4ceb2add
   Atributika: 47e778507cfb3cd2c996278b0285221a62e97d71
-  CocoaLumberjack: 543c79c114dadc3b1aba95641d8738b06b05b646
+  CocoaLumberjack: 78abfb691154e2a9df8ded4350d504ee19d90732
   CombineSchedulers: 80f670c732b4754eb011cd1147d9a08654b1c463
   Gifu: 416d4e38c4c2fed012f019e0a1d3ffcb58e5b842
   GoogleSignIn: c90b5bec45e780f54c6a8e1e3c182a86e3dda69d
@@ -141,6 +141,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftLint: 6b0cf1f4d619808dbc16e4fab064ce6fc79f090b
 
-PODFILE CHECKSUM: eb00e631e389f82413d2f9d9d4c56cf8b51a260b
+PODFILE CHECKSUM: 4fe8e136e1a97962c6c9feff38a53b554d7d2cf5
 
 COCOAPODS: 1.11.3
