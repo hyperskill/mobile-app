@@ -117,7 +117,7 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                 )
                 state to setOf(Action.LogAnalyticEvent(event))
             }
-            Message.TopicCompletedModalHiddenEventMessage -> {
+            is Message.TopicCompletedModalHiddenEventMessage -> {
                 val event = StepCompletionTopicCompletedModalHiddenHyperskillAnalyticEvent(
                     route = stepRoute.analyticRoute
                 )

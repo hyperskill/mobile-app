@@ -58,7 +58,11 @@ class StepCompletionActionDispatcher(
                         profileInteractor.notifyHypercoinsBalanceChanged(currentProfileHypercoinsBalance)
                         onNewMessage(
                             Message.ShowProblemOfDaySolvedModal(
-                                earnedGemsText = resourceProvider.getQuantityString(SharedResources.plurals.earned_gems, gemsEarned, gemsEarned)
+                                earnedGemsText = resourceProvider.getQuantityString(
+                                    SharedResources.plurals.earned_gems,
+                                    gemsEarned,
+                                    gemsEarned
+                                )
                             )
                         )
                     } else {
@@ -86,10 +90,12 @@ class StepCompletionActionDispatcher(
                             sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                             Message.FetchNextRecommendedStepResult.Error(
                                 when (action.currentStep.type) {
-                                    Step.Type.THEORY ->
-                                        resourceProvider.getString(SharedResources.strings.step_theory_failed_to_start_practicing)
-                                    Step.Type.PRACTICE ->
-                                        resourceProvider.getString(SharedResources.strings.step_theory_failed_to_continue_practicing)
+                                    Step.Type.THEORY -> resourceProvider.getString(
+                                        SharedResources.strings.step_theory_failed_to_start_practicing
+                                    )
+                                    Step.Type.PRACTICE -> resourceProvider.getString(
+                                        SharedResources.strings.step_theory_failed_to_continue_practicing
+                                    )
                                 }
                             )
                         }

@@ -180,6 +180,5 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
     @objc
     private func goBackButtonTapped() {
         delegate?.problemOfDaySolvedModalViewControllerDidTapGoToHomescreenButton(self)
-        dismiss(animated: true)
     }
 }
