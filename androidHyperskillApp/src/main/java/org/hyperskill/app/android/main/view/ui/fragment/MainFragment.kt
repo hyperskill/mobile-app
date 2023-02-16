@@ -10,6 +10,7 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.navigation.MainNavigationContainer
 import org.hyperskill.app.android.databinding.FragmentMainBinding
+import org.hyperskill.app.android.debug_menu.navigation.DebugScreen
 import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
@@ -44,6 +45,8 @@ class MainFragment : Fragment(R.layout.fragment_main), MainNavigationContainer {
                             R.id.track_tab
                         Tabs.PROFILE ->
                             R.id.profile_tab
+                        Tabs.DEBUG ->
+                            R.id.debug_tab
                     }
             }
         )
@@ -89,6 +92,9 @@ class MainFragment : Fragment(R.layout.fragment_main), MainNavigationContainer {
                 }
                 R.id.profile_tab -> {
                     router.switch(ProfileScreen(isInitCurrent = true))
+                }
+                R.id.debug_tab -> {
+                    router.switch(DebugScreen)
                 }
             }
             return@setOnItemSelectedListener true
