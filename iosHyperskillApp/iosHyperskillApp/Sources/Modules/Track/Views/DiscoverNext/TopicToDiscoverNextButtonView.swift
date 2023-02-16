@@ -10,7 +10,7 @@ extension TopicToDiscoverNextButtonView {
         var buttonStyle = OutlineButtonStyle(borderColor: .border, alignment: .leading, paddingEdgeSet: [])
 
         let learnNextBadgeVerticalPadding: CGFloat = 4
-        let learnNextBadgeVerticalOffsetRatio = -0.25
+        let learnNextBadgeVerticalOffsetRatio = -0.125
 
         let arrowIconSize: CGFloat = 32
     }
@@ -65,7 +65,7 @@ struct TopicToDiscoverNextButtonView: View {
                         }
                     }
                 }
-                .padding(.horizontal)
+                .padding()
                 .frame(minHeight: appearance.buttonStyle.minHeight)
                 .background(
                     buildCompletenessBar(
@@ -125,7 +125,7 @@ struct TopicToDiscoverNextButtonView_Previews: PreviewProvider {
                     id: 4,
                     progressId: "",
                     theoryId: nil,
-                    title: "Pro data types",
+                    title: "Introduction to operation systems",
                     progress: TopicProgress(
                         isCompleted: false,
                         isSkipped: false,

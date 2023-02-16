@@ -3,7 +3,7 @@ import SwiftUI
 
 extension TopicToDiscoverNextCardView {
     struct Appearance {
-        let skeletonHeight: CGFloat = 44
+        let skeletonHeight: CGFloat = 70
 
         let topicButtonStyle: OutlineButtonStyle = {
             var defaultStyle = TopicToDiscoverNextButtonView.Appearance().buttonStyle
