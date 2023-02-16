@@ -25,7 +25,8 @@ dependencies {
     ktlintRuleset(libs.ktlintRules)
 }
 
-version = appVersions.versions.versionName.get()
+// Don't change version, because this forces iOS dependencies reinstall -> CI/CD execution time increases.
+version = "1.0"
 
 kotlin {
     android()
@@ -214,6 +215,7 @@ tasks.register("dokkaAnalytics", DokkaTask::class.java) {
     outputDirectory.set(buildDir.resolve("dokka/analytics"))
 
     moduleName.set("Hyperskill Mobile Analytics")
+    moduleVersion.set(appVersions.versions.versionName.get())
 
     pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
         footerMessage = "© ${Year.now().value} Hyperskill"
