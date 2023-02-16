@@ -8,6 +8,11 @@ inputs:
   google-cloud-storage-code-signing-certificates-key:
     description: 'gc_keys.json file base64 content for code signing APIs communication'
     required: false
+  cache-cocoapods-repo-on-pods-cache-miss:
+    description: 'Should cache CocoaPods repository on Pods cache miss'
+    required: false
+    default: true
+    # default: false
 
 outputs:
   is-git-crypt-unlocked:
@@ -107,12 +112,29 @@ runs:
         restore-keys: |
           ${{ runner.os }}-pods-
 
+    # Restore CocoaPods repository cache
+    - name: Restore CocoaPods Repository Cache
+      if: steps.cache-pods.outputs.cache-hit != 'true'
+      id: restore-cocoapods-repo-cache
+      uses: actions/cache/restore@v3
+      with:
+        path: ~/.cocoapods
+        key: ${{ runner.os }}-cocoapods-repo
+
     # Install Pods if cache miss occurred
     - name: Install Pods
       if: steps.cache-pods.outputs.cache-hit != 'true'
       working-directory: './iosHyperskillApp'
       run: bundle exec pod install --repo-update
       shell: bash
+
+    # Save CocoaPods repository cache
+    - name: Save CocoaPods Repository Cache
+      if: ${{ inputs.cache-cocoapods-repo-on-pods-cache-miss == 'true' && steps.cache-pods.outputs.cache-hit != 'true' }}
+      uses: actions/cache/save@v3
+      with:
+        path: ~/.cocoapods
+        key: ${{ runner.os }}-cocoapods-repo
       
     # Generate gc_keys.json file from base64 file contents for code signing APIs communication
     - name: Generate Google Cloud Storage keys file
