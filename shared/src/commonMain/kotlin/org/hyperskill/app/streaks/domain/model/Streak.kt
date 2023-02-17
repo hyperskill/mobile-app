@@ -16,6 +16,10 @@ data class Streak(
     val maxStreak: Int,
     @SerialName("is_new_record")
     val isNewRecord: Boolean,
+    @SerialName("can_freeze")
+    val canFreeze: Boolean,
+    @SerialName("can_buy_freeze")
+    val canBuyFreeze: Boolean,
     @SerialName("history")
     val history: List<HistoricalStreak>
 ) {
