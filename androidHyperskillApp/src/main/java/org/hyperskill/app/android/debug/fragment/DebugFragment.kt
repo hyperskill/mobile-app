@@ -29,7 +29,7 @@ class DebugFragment : Fragment(R.layout.fragment_debug) {
                 )
             )
         )
-        fun newInstance() =
+        fun newInstance(): Fragment =
             DebugFragment()
     }
 
