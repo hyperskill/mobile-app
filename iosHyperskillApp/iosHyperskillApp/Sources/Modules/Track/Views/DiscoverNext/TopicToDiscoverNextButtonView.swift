@@ -10,7 +10,7 @@ extension TopicToDiscoverNextButtonView {
         var buttonStyle = OutlineButtonStyle(borderColor: .border, alignment: .leading, paddingEdgeSet: [])
 
         let learnNextBadgeVerticalPadding: CGFloat = 4
-        let learnNextBadgeVerticalOffsetRatio = -0.125
+        let learnNextBadgeVerticalOffsetRatio = -0.5
 
         let arrowIconSize: CGFloat = 32
     }
@@ -24,6 +24,8 @@ struct TopicToDiscoverNextButtonView: View {
     let isLearnNext: Bool
 
     let onTap: () -> Void
+
+    @State private var badgeViewSize = CGSize.zero
 
     var body: some View {
         Button(
@@ -77,7 +79,7 @@ struct TopicToDiscoverNextButtonView: View {
         )
         .buttonStyle(appearance.buttonStyle)
         // TODO: apply bounce animation to badge
-        .overlay(learnNextBadge)
+        .overlay(learnNextBadge, alignment: .topLeading)
     }
 
     // MARK: Private API
@@ -98,21 +100,20 @@ struct TopicToDiscoverNextButtonView: View {
     @ViewBuilder
     private var learnNextBadge: some View {
         if isLearnNext {
-            GeometryReader { geometry in
-                Text(Strings.Track.TopicsToDiscoverNext.learnNextBadge)
-                    .font(.caption)
-                    .foregroundColor(Color(ColorPalette.primary))
-                    .padding(.horizontal, LayoutInsets.smallInset)
-                    .padding(.vertical, appearance.learnNextBadgeVerticalPadding)
-                    .background(Color(ColorPalette.surface))
-                    .addBorder(color: Color(ColorPalette.primaryAlpha38))
-                    .offset(
-                        CGSize(
-                            width: LayoutInsets.defaultInset,
-                            height: geometry.size.height * appearance.learnNextBadgeVerticalOffsetRatio
-                        )
+            Text(Strings.Track.TopicsToDiscoverNext.learnNextBadge)
+                .font(.caption)
+                .foregroundColor(Color(ColorPalette.primary))
+                .padding(.horizontal, LayoutInsets.smallInset)
+                .padding(.vertical, appearance.learnNextBadgeVerticalPadding)
+                .background(Color(ColorPalette.surface))
+                .addBorder(color: Color(ColorPalette.primaryAlpha38))
+                .measureSize { badgeViewSize = $0 }
+                .offset(
+                    CGSize(
+                        width: LayoutInsets.defaultInset,
+                        height: badgeViewSize.height * appearance.learnNextBadgeVerticalOffsetRatio
                     )
-            }
+                )
         }
     }
 }
