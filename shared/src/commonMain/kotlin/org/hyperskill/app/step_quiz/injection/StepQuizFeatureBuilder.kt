@@ -2,8 +2,6 @@ package org.hyperskill.app.step_quiz.injection
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.core.view.mapper.ResourceProvider
-import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -22,10 +20,8 @@ object StepQuizFeatureBuilder {
         stepQuizInteractor: StepQuizInteractor,
         stepQuizReplyValidator: StepQuizReplyValidator,
         profileInteractor: ProfileInteractor,
-        notificationInteractor: NotificationInteractor,
         analyticInteractor: AnalyticInteractor,
-        sentryInteractor: SentryInteractor,
-        resourceProvider: ResourceProvider,
+        sentryInteractor: SentryInteractor
     ): Feature<StepQuizFeature.State, StepQuizFeature.Message, StepQuizFeature.Action> {
         val stepQuizReducer = StepQuizReducer(stepRoute)
         val stepQuizActionDispatcher = StepQuizActionDispatcher(
@@ -33,10 +29,8 @@ object StepQuizFeatureBuilder {
             stepQuizInteractor,
             stepQuizReplyValidator,
             profileInteractor,
-            notificationInteractor,
             analyticInteractor,
-            sentryInteractor,
-            resourceProvider
+            sentryInteractor
         )
 
         return ReduxFeature(

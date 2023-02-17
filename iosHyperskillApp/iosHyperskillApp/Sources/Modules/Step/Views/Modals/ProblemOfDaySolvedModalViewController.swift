@@ -34,7 +34,8 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
     }()
 
     private let earnedGemsText: String
-    private let onGoBackButtonTap: () -> Void
+
+    weak var delegate: ProblemOfDaySolvedModalViewControllerDelegate?
 
     override var shortFormHeight: PanModalHeight {
         let contentStackViewSize = contentStackView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
@@ -44,10 +45,9 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
 
     override var longFormHeight: PanModalHeight { shortFormHeight }
 
-    init(earnedGemsText: String, onGoBackButtonTap: @escaping () -> Void) {
+    init(earnedGemsText: String, delegate: ProblemOfDaySolvedModalViewControllerDelegate? = nil) {
         self.earnedGemsText = earnedGemsText
-        self.onGoBackButtonTap = onGoBackButtonTap
-
+        self.delegate = delegate
         super.init()
     }
 
@@ -64,6 +64,16 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
             self.panModalSetNeedsLayoutUpdate()
             self.panModalTransition(to: .shortForm)
         }
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        delegate?.problemOfDaySolvedModalViewControllerDidAppear(self)
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        delegate?.problemOfDaySolvedModalViewControllerDidDisappear(self)
     }
 
     // MARK: Private API
@@ -106,7 +116,7 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
 
     private func setupTitleView() {
         let label = UILabel()
-        label.text = Strings.StepQuiz.ProblemOfDaySolvedModal.title
+        label.text = Strings.Step.ProblemOfDaySolvedModal.title
         label.font = .preferredFont(forTextStyle: .largeTitle, compatibleWith: .init(legibilityWeight: .bold))
         label.textColor = .primaryText
         label.lineBreakMode = .byWordWrapping
@@ -117,7 +127,7 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
 
     private func setupTextView() {
         let label = UILabel()
-        label.text = Strings.StepQuiz.ProblemOfDaySolvedModal.text
+        label.text = Strings.Step.ProblemOfDaySolvedModal.text
         label.font = .preferredFont(forTextStyle: .headline)
         label.textColor = .primaryText
         label.lineBreakMode = .byWordWrapping
@@ -169,7 +179,6 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
 
     @objc
     private func goBackButtonTapped() {
-        onGoBackButtonTap()
-        dismiss(animated: true)
+        delegate?.problemOfDaySolvedModalViewControllerDidTapGoToHomescreenButton(self)
     }
 }
