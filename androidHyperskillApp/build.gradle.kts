@@ -138,6 +138,11 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             applyFlavorConfigsFromFile(this)
         }
+        create("internalRelease") {
+            initWith(getByName("release"))
+            signingConfig = signingConfigs.getByName("release")
+            matchingFallbacks.add("release")
+        }
     }
 
     buildFeatures {

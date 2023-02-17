@@ -10,7 +10,7 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.navigation.MainNavigationContainer
 import org.hyperskill.app.android.databinding.FragmentMainBinding
-import org.hyperskill.app.android.debug_menu.navigation.DebugScreen
+import org.hyperskill.app.android.debug.DebugScreen
 import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.profile.view.navigation.ProfileScreen

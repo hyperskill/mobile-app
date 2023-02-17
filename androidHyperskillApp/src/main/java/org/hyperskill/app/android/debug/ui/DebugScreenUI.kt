@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.debug_menu.ui
+package org.hyperskill.app.android.debug.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

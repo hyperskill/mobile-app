@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.debug_menu.fragment
+package org.hyperskill.app.android.debug.fragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,7 +11,7 @@ import com.google.accompanist.themeadapter.material.MdcTheme
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
-import org.hyperskill.app.android.debug_menu.ui.DebugScreen
+import org.hyperskill.app.android.debug.ui.DebugScreen
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.debug.presentation.DebugFeature
@@ -20,6 +20,15 @@ import org.hyperskill.app.debug.presentation.DebugViewModel
 class DebugFragment : Fragment(R.layout.fragment_debug) {
 
     companion object {
+        @Deprecated(
+            "Should not be accessed directly, only through DebugScreen",
+            replaceWith = ReplaceWith(
+                "DebugScreen",
+                imports = arrayOf(
+                    "org.hyperskill.app.android.debug.DebugScreen"
+                )
+            )
+        )
         fun newInstance() =
             DebugFragment()
     }
