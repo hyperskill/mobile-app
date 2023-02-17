@@ -8,11 +8,6 @@ inputs:
   google-cloud-storage-code-signing-certificates-key:
     description: 'gc_keys.json file base64 content for code signing APIs communication'
     required: false
-  cache-cocoapods-repo-on-pods-cache-miss:
-    description: 'Should cache CocoaPods repository on Pods cache miss'
-    required: false
-    default: true
-    # default: false
 
 outputs:
   is-git-crypt-unlocked:
@@ -32,7 +27,7 @@ runs:
       shell: bash
       env:
         HOMEBREW_NO_INSTALL_CLEANUP: true
-    
+
     # Generate git-crypt.key file from base64 file content and decrypt
     - name: git-crypt unlock secrets
       id: git-crypt-unlock
@@ -51,20 +46,20 @@ runs:
           echo "value=$(echo true)" >> $GITHUB_OUTPUT
         fi
       shell: bash
-        
+
     - name: Setup Ruby
       uses: ruby/setup-ruby@v1.118.0
       with:
         ruby-version: '3.1.0'
         bundler-cache: true
         working-directory: './iosHyperskillApp'
-        
+
     - name: Setup Java JDK
       uses: actions/setup-java@v3.6.0
       with:
         java-version: '11'
         distribution: 'temurin'
-        
+
     # Cache Gradle dependencies
     - name: Setup Gradle Dependencies Cache
       uses: actions/cache@v3.0.11
@@ -73,7 +68,7 @@ runs:
         key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle', '**/*.gradle.kts') }}
         restore-keys: |
           ${{ runner.os }}-gradle-caches-
-        
+
     # Cache Gradle Wrapper
     - name: Setup Gradle Wrapper Cache
       uses: actions/cache@v3.0.11
@@ -82,7 +77,7 @@ runs:
         key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle*properties') }}
         restore-keys: |
           ${{ runner.os }}-gradle-wrapper-
-          
+
     # Cache Kotlin/Native compiler
     - name: Setup Kotlin/Native Compiler Cache
       uses: actions/cache@v3.0.11
@@ -112,14 +107,17 @@ runs:
         restore-keys: |
           ${{ runner.os }}-pods-
 
-    # Restore CocoaPods repository cache
-    - name: Restore CocoaPods Repository Cache
+    # Cache CocoaPods
+    - name: Cache CocoaPods
       if: steps.cache-pods.outputs.cache-hit != 'true'
-      id: restore-cocoapods-repo-cache
-      uses: actions/cache/restore@v3
+      uses: actions/cache@v3.0.11
       with:
-        path: ~/.cocoapods
-        key: ${{ runner.os }}-cocoapods-repo
+        path: |
+          ~/.cocoapods
+          ~/Library/Caches/CocoaPods
+        key: ${{ runner.os }}-cocoapods-${{ hashFiles('iosHyperskillApp/Podfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-cocoapods-
 
     # Install Pods if cache miss occurred
     - name: Install Pods
@@ -128,14 +126,6 @@ runs:
       run: bundle exec pod install
       shell: bash
 
-    # Save CocoaPods repository cache
-    - name: Save CocoaPods Repository Cache
-      if: ${{ inputs.cache-cocoapods-repo-on-pods-cache-miss == 'true' && steps.cache-pods.outputs.cache-hit != 'true' }}
-      uses: actions/cache/save@v3
-      with:
-        path: ~/.cocoapods
-        key: ${{ runner.os }}-cocoapods-repo
-      
     # Generate gc_keys.json file from base64 file contents for code signing APIs communication
     - name: Generate Google Cloud Storage keys file
       working-directory: './iosHyperskillApp'
