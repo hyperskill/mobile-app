@@ -5,7 +5,7 @@ struct TrackTopicsToDiscoverNextSkeletonListView: View {
         VStack(spacing: LayoutInsets.defaultInset) {
             ForEach(0..<3) { _ in
                 SkeletonRoundedView()
-                    .frame(height: 44)
+                    .frame(height: 64)
             }
         }
     }

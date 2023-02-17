@@ -2,7 +2,6 @@ package org.hyperskill.app.profile.injection
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.items.domain.interactor.ItemsInteractor
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.products.domain.interactor.ProductsInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
@@ -24,7 +23,6 @@ object ProfileFeatureBuilder {
         streaksInteractor: StreaksInteractor,
         streakFlow: StreakFlow,
         productsInteractor: ProductsInteractor,
-        itemsInteractor: ItemsInteractor,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
         urlPathProcessor: UrlPathProcessor
@@ -35,7 +33,6 @@ object ProfileFeatureBuilder {
             profileInteractor,
             streaksInteractor,
             productsInteractor,
-            itemsInteractor,
             analyticInteractor,
             sentryInteractor,
             urlPathProcessor,
