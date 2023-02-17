@@ -70,7 +70,6 @@ interface StepQuizFeature {
         /**
          * Reset code
          */
-        object RequestResetCode : Message
         data class RequestResetCodeResult(val isGranted: Boolean) : Message
 
         /**

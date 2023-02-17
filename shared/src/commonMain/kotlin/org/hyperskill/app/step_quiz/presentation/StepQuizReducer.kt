@@ -148,8 +148,6 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                 } else {
                     null
                 }
-            is Message.RequestResetCode ->
-                state to setOf(Action.ViewAction.RequestResetCode)
             is Message.RequestResetCodeResult ->
                 if (state is State.AttemptLoaded && message.isGranted) {
                     State.AttemptLoading(oldState = state) to setOf(
