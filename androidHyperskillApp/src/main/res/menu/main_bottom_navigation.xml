@@ -15,5 +15,6 @@
     <item
         android:id="@+id/debug_tab"
         android:icon="@drawable/ic_debug"
-        android:title="@string/tab_bar_debug_title" />
+        android:title="@string/tab_bar_debug_title"
+        android:visible="false" />
 </menu>

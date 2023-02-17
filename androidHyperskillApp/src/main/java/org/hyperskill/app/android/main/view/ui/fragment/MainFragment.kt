@@ -15,6 +15,8 @@ import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
 import org.hyperskill.app.android.track.view.navigation.TrackScreen
+import org.hyperskill.app.config.BuildKonfig
+import org.hyperskill.app.debug.presentation.DebugFeature
 import org.hyperskill.app.main.domain.analytic.AppClickedBottomNavigationItemHyperskillAnalyticEvent
 import ru.nobird.android.view.navigation.navigator.RetainedAppNavigator
 import ru.nobird.android.view.navigation.router.RetainedRouter
@@ -53,6 +55,9 @@ class MainFragment : Fragment(R.layout.fragment_main), MainNavigationContainer {
     }
 
     private lateinit var analytic: Analytic
+    private val buildKonfig: BuildKonfig by lazy(LazyThreadSafetyMode.NONE) {
+        HyperskillApp.graph().commonComponent.buildKonfig
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,6 +76,9 @@ class MainFragment : Fragment(R.layout.fragment_main), MainNavigationContainer {
         if (savedInstanceState == null && childFragmentManager.fragments.isEmpty()) {
             router.switch(HomeScreen)
         }
+
+        viewBinding.mainBottomNavigation.menu.findItem(R.id.debug_tab).isVisible =
+            DebugFeature.isAvailable(buildKonfig)
 
         viewBinding.mainBottomNavigation.setOnItemSelectedListener { item ->
             logClickedBottomNavigationItemEvent(
