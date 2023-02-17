@@ -38,7 +38,7 @@ class ExpandableTextView
 constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0,
+    defStyleAttr: Int = 0
 ) : AppCompatTextView(context, attrs, defStyleAttr) {
 
     companion object {
@@ -184,13 +184,13 @@ constructor(
             }
             addListener(
                 object : AnimatorListenerAdapter() {
-                    override fun onAnimationStart(animation: Animator?) {
+                    override fun onAnimationStart(animation: Animator) {
                         super.onAnimationStart(animation)
                         collapsed = !collapsed
                         text = originalText
                     }
 
-                    override fun onAnimationEnd(animation: Animator?) {
+                    override fun onAnimationEnd(animation: Animator) {
                         super.onAnimationEnd(animation)
                         text = if (collapsed) collapsedDisplayedText else originalText
                         val newLayoutParams = layoutParams.apply {
@@ -234,7 +234,7 @@ constructor(
     // sanity check before applying the text. Most of the time, the loop doesn't happen
     private fun maybeRemoveEndingCharacters(
         staticLayout: StaticLayout,
-        span: SpannableStringBuilder,
+        span: SpannableStringBuilder
     ): SpannableStringBuilder {
         val textWidth = staticLayout.width
         val dynamicLayout = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -259,7 +259,7 @@ constructor(
 
     private fun updateCollapsedDisplayedText(
         actionTextChanged: Boolean,
-        textWidth: Int = measuredWidth - compoundPaddingStart - compoundPaddingEnd,
+        textWidth: Int = measuredWidth - compoundPaddingStart - compoundPaddingEnd
     ) {
         if (textWidth <= 0) return
         val collapsedStaticLayout = getStaticLayout(limitedMaxLines, originalText, textWidth)

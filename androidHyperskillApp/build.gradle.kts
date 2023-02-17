@@ -55,6 +55,16 @@ dependencies {
     implementation(libs.android.splashscreen)
     implementation(libs.android.timepicker)
 
+    implementation(platform(libs.compose.bom))
+    implementation(libs.compose.ui)
+    implementation(libs.compose.foundation)
+    implementation(libs.compose.preview)
+    implementation(libs.compose.material)
+    debugImplementation(libs.compose.tooling)
+    implementation(libs.accompanist.themeadapter)
+    implementation(libs.compose.viewmodel)
+    implementation(libs.compose.lifecycle)
+
     coreLibraryDesugaring(libs.android.desugar.jdk)
 }
 
@@ -128,10 +138,20 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             applyFlavorConfigsFromFile(this)
         }
+        create("internalRelease") {
+            initWith(getByName("release"))
+            signingConfig = signingConfigs.getByName("release")
+            matchingFallbacks.add("release")
+        }
     }
 
     buildFeatures {
         viewBinding = true
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.4.0-alpha02"
     }
 
     compileOptions {
