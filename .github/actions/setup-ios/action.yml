@@ -27,7 +27,7 @@ runs:
       shell: bash
       env:
         HOMEBREW_NO_INSTALL_CLEANUP: true
-    
+
     # Generate git-crypt.key file from base64 file content and decrypt
     - name: git-crypt unlock secrets
       id: git-crypt-unlock
@@ -46,41 +46,41 @@ runs:
           echo "value=$(echo true)" >> $GITHUB_OUTPUT
         fi
       shell: bash
-        
+
     - name: Setup Ruby
       uses: ruby/setup-ruby@v1.118.0
       with:
         ruby-version: '3.1.0'
         bundler-cache: true
         working-directory: './iosHyperskillApp'
-        
+
     - name: Setup Java JDK
       uses: actions/setup-java@v3.6.0
       with:
         java-version: '11'
         distribution: 'temurin'
-        
+
     # Cache Gradle dependencies
     - name: Setup Gradle Dependencies Cache
-      uses: actions/cache@v3.0.11
+      uses: actions/cache@v3.2.5
       with:
         path: ~/.gradle/caches
         key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle', '**/*.gradle.kts') }}
         restore-keys: |
           ${{ runner.os }}-gradle-caches-
-        
+
     # Cache Gradle Wrapper
     - name: Setup Gradle Wrapper Cache
-      uses: actions/cache@v3.0.11
+      uses: actions/cache@v3.2.5
       with:
         path: ~/.gradle/wrapper
         key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle*properties') }}
         restore-keys: |
           ${{ runner.os }}-gradle-wrapper-
-          
+
     # Cache Kotlin/Native compiler
     - name: Setup Kotlin/Native Compiler Cache
-      uses: actions/cache@v3.0.11
+      uses: actions/cache@v3.2.5
       with:
         path: ~/.konan
         key: ${{ runner.os }}-kotlin-native-compiler-${{ hashFiles('gradle/libs.versions.toml') }}
@@ -99,7 +99,7 @@ runs:
 
     # Cache Pods dependencies
     - name: Cache Pods
-      uses: actions/cache@v3.0.11
+      uses: actions/cache@v3.2.5
       id: cache-pods
       with:
         path: './iosHyperskillApp/Pods'
@@ -107,13 +107,25 @@ runs:
         restore-keys: |
           ${{ runner.os }}-pods-
 
+    # Cache CocoaPods
+    - name: Cache CocoaPods
+      if: steps.cache-pods.outputs.cache-hit != 'true'
+      uses: actions/cache@v3.2.5
+      with:
+        path: |
+          ~/.cocoapods
+          ~/Library/Caches/CocoaPods
+        key: ${{ runner.os }}-cocoapods-${{ hashFiles('iosHyperskillApp/Podfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-cocoapods-
+
     # Install Pods if cache miss occurred
     - name: Install Pods
       if: steps.cache-pods.outputs.cache-hit != 'true'
       working-directory: './iosHyperskillApp'
-      run: bundle exec pod install --repo-update
+      run: bundle exec pod install
       shell: bash
-      
+
     # Generate gc_keys.json file from base64 file contents for code signing APIs communication
     - name: Generate Google Cloud Storage keys file
       working-directory: './iosHyperskillApp'
