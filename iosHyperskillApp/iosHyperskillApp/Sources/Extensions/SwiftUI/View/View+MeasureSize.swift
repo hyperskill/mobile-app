@@ -1,6 +1,6 @@
 import SwiftUI
 
-fileprivate struct SizePreferenceKey: PreferenceKey {
+private struct SizePreferenceKey: PreferenceKey {
     static var defaultValue: CGSize = .zero
 
     static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
@@ -8,7 +8,7 @@ fileprivate struct SizePreferenceKey: PreferenceKey {
     }
 }
 
-fileprivate struct MeasureSizeModifier: ViewModifier {
+private struct MeasureSizeModifier: ViewModifier {
     func body(content: Content) -> some View {
         content.background(GeometryReader { geometry in
             Color.clear.preference(
