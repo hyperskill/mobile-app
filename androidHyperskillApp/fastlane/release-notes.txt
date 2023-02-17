@@ -1,3 +1,6 @@
 What to Test:
-1. Show code blocks with line numbers in Step text <pre><code ALTAPPS-536
-2. Send step view and send context for submissions ALTAPPS-577
+1. Debug menu ALTAPPS-510
+2. Show code blocks with line numbers in Step text <pre><code ALTAPPS-536
+3. Refactor solved steps flow ALTAPPS-570
+4. Send step view and send context for submissions ALTAPPS-577
+5. Fix incorrect 1-day streak freeze state ALTAPPS-594
