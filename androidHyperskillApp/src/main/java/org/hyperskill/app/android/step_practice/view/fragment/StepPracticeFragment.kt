@@ -63,11 +63,16 @@ class StepPracticeFragment : Fragment(R.layout.fragment_step_practice), StepComp
             }
             stepQuizToolbarTitle.text = step.title
         }
-        viewBinding.stepPracticeCompletion.text = resourceProvider.getString(
-            SharedResources.strings.step_quiz_stats_text,
-            step.solvedBy.toString(),
-            DateFormatter.formatTimeDistance(step.millisSinceLastCompleted)
-        )
+        with(viewBinding.stepPracticeCompletion) {
+            text = step.millisSinceLastCompleted?.let {
+                resourceProvider.getString(
+                    SharedResources.strings.step_quiz_stats_text,
+                    step.solvedBy.toString(),
+                    DateFormatter.formatTimeDistance(it)
+                )
+            }
+            isVisible = step.millisSinceLastCompleted != null
+        }
         initStepTheoryFragment(step)
         setStepQuizFragment(step, stepRoute)
         setStepHintsFragment(step)

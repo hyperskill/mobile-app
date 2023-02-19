@@ -173,12 +173,17 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
             (textHeader as ViewGroup).addView(it)
         }
 
-        instructionsLayout.findViewById<AppCompatTextView>(R.id.stepQuizCodeFullscreenInstructionPracticeCompletion).text =
+        val instructionPracticeCompletionTextView =
+            instructionsLayout.findViewById<AppCompatTextView>(R.id.stepQuizCodeFullscreenInstructionPracticeCompletion)
+        instructionPracticeCompletionTextView.text = step.millisSinceLastCompleted?.let {
             resourceProvider.getString(
                 SharedResources.strings.step_quiz_stats_text,
                 step.solvedBy.toString(),
-                DateFormatter.formatTimeDistance(step.millisSinceLastCompleted)
+                DateFormatter.formatTimeDistance(it)
             )
+        }
+        instructionPracticeCompletionTextView.isVisible = step.millisSinceLastCompleted != null
+
         instructionsLayout.findViewById<LatexView>(R.id.stepQuizCodeFullscreenInstructionTextHeader)
             .setText(text)
 
