@@ -10,14 +10,10 @@ data class TopicRepetition(
     val id: Long,
     @SerialName("topic_id")
     val topicId: Long,
-    @SerialName("next_repeat_at")
-    val nextRepeatAt: Instant,
     @SerialName("steps")
     val steps: List<Long>,
     @SerialName("topic_title")
     val topicTitle: String,
-    @SerialName("theory_step")
-    val theoryStep: Long,
     @SerialName("is_in_current_track")
     val isInCurrentTrack: Boolean,
     @SerialName("repeated_count")
