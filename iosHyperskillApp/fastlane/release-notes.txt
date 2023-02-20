@@ -6,3 +6,4 @@ What to Test:
 5. Send step view and send context for submissions ALTAPPS-577
 6. Fix topic name doesn't fit to widget size ALTAPPS-584
 7. Fix incorrect 1-day streak freeze state ALTAPPS-594
+8. Fix content not loading on Home screen ALTAPPS-616
