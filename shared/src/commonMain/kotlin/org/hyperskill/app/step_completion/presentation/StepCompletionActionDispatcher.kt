@@ -1,5 +1,6 @@
 package org.hyperskill.app.step_completion.presentation
 
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.datetime.Clock
@@ -113,13 +114,17 @@ class StepCompletionActionDispatcher(
                 if (topicProgress.isCompleted) {
                     topicCompletedFlow.notifyDataChanged(action.topicId)
 
-                    val topicTitle = topicsInteractor
-                        .getTopic(action.topicId)
+                    val topicTitleResult = actionScope.async {
+                        topicsInteractor.getTopic(action.topicId)
+                    }
+                    val nextStepIdResult = actionScope.async {
+                        topicsToDiscoverNextInteractor.getNextTopicToDiscover()
+                    }
+
+                    val topicTitle = topicTitleResult.await()
                         .map { it.title }
                         .getOrElse { return onNewMessage(Message.CheckTopicCompletionStatus.Error) }
-
-                    val nextStepId = topicsToDiscoverNextInteractor
-                        .getNextTopicToDiscover()
+                    val nextStepId = nextStepIdResult.await()
                         .getOrNull()
                         ?.theoryId
 
