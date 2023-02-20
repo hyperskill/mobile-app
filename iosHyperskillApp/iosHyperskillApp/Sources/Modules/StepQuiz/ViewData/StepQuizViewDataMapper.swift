@@ -13,7 +13,7 @@ final class StepQuizViewDataMapper {
 
     func mapStepDataToViewData(step: Step, state: StepQuizFeatureState) -> StepQuizViewData {
         let formattedStats = stepQuizStatsTextMapper.getFormattedStepQuizStats(
-            users: step.solvedBy,
+            solvedByUsersCount: step.solvedBy,
             millisSinceLastCompleted: step.millisSinceLastCompleted
         )
 
