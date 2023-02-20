@@ -1,8 +1,10 @@
 package org.hyperskill.app.android.debug.fragment
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -63,13 +65,21 @@ class DebugFragment : Fragment(R.layout.fragment_debug) {
                 requireRouter().navigateTo(StepScreen(action.stepRoute))
             }
             DebugFeature.Action.ViewAction.RestartApplication -> {
-                val context = requireContext()
-                val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
-                val componentName = intent?.component
-                val mainIntent = Intent.makeRestartActivityTask(componentName)
-                context.startActivity(mainIntent)
-                Runtime.getRuntime().exit(0)
+                Toast.makeText(
+                    requireContext(),
+                    R.string.debug_restarting_message,
+                    Toast.LENGTH_SHORT
+                ).show()
+                view?.postDelayed({ triggerApplicationRestart(requireContext()) }, 1500)
             }
         }
+    }
+
+    private fun triggerApplicationRestart(context: Context) {
+        val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
+        val componentName = intent?.component
+        val mainIntent = Intent.makeRestartActivityTask(componentName)
+        context.startActivity(mainIntent)
+        Runtime.getRuntime().exit(0)
     }
 }
