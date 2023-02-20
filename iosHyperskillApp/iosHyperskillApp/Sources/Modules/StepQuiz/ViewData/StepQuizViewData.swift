@@ -1,7 +1,7 @@
 import Foundation
 
 struct StepQuizViewData {
-    let formattedStats: String
+    let formattedStats: String?
 
     let stepText: String
 

@@ -95,7 +95,7 @@ struct StepQuizView: View {
         step: Step,
         quizName: String?,
         quizType: StepQuizChildQuizType,
-        formattedStats: String,
+        formattedStats: String?,
         feedbackHintText: String?
     ) -> some View {
         if let quizName {
@@ -117,7 +117,9 @@ struct StepQuizView: View {
                 // it's rendered before step text
             } else {
                 buildChildQuiz(quizType: quizType, step: step, attemptLoadedState: attemptLoadedState)
-                StepQuizStatsView(text: formattedStats)
+                if let formattedStats {
+                    StepQuizStatsView(text: formattedStats)
+                }
                 buildQuizStatusView(state: state, attemptLoadedState: attemptLoadedState)
 
                 if let feedbackHintText {
