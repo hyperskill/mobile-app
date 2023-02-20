@@ -1,6 +1,7 @@
 package org.hyperskill.app.step_completion.presentation
 
 import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.datetime.Clock
@@ -114,29 +115,31 @@ class StepCompletionActionDispatcher(
                 if (topicProgress.isCompleted) {
                     topicCompletedFlow.notifyDataChanged(action.topicId)
 
-                    val topicTitleResult = actionScope.async {
-                        topicsInteractor.getTopic(action.topicId)
-                    }
-                    val nextStepIdResult = actionScope.async {
-                        topicsToDiscoverNextInteractor.getNextTopicToDiscover()
-                    }
+                    coroutineScope {
+                        val topicTitleResult = async {
+                            topicsInteractor.getTopic(action.topicId)
+                        }
+                        val nextStepIdResult = async {
+                            topicsToDiscoverNextInteractor.getNextTopicToDiscover()
+                        }
 
-                    val topicTitle = topicTitleResult.await()
-                        .map { it.title }
-                        .getOrElse { return onNewMessage(Message.CheckTopicCompletionStatus.Error) }
-                    val nextStepId = nextStepIdResult.await()
-                        .getOrNull()
-                        ?.theoryId
+                        val topicTitle = topicTitleResult.await()
+                            .map { it.title }
+                            .getOrElse { return@getOrElse onNewMessage(Message.CheckTopicCompletionStatus.Error) }
+                        val nextStepId = nextStepIdResult.await()
+                            .getOrNull()
+                            ?.theoryId
 
-                    onNewMessage(
-                        Message.CheckTopicCompletionStatus.Completed(
-                            modalText = resourceProvider.getString(
-                                SharedResources.strings.step_quiz_topic_completed_modal_text,
-                                topicTitle
-                            ),
-                            nextStepId = nextStepId
+                        onNewMessage(
+                            Message.CheckTopicCompletionStatus.Completed(
+                                modalText = resourceProvider.getString(
+                                    SharedResources.strings.step_quiz_topic_completed_modal_text,
+                                    topicTitle
+                                ),
+                                nextStepId = nextStepId
+                            )
                         )
-                    )
+                    }
                 } else {
                     topicProgressFlow.notifyDataChanged(topicProgress)
                     onNewMessage(Message.CheckTopicCompletionStatus.Uncompleted)

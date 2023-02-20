@@ -20,7 +20,8 @@ interface StepCompletionFeature {
     data class State(
         val currentStep: Step,
         val continueButtonAction: ContinueButtonAction,
-        val isPracticingLoading: Boolean = false
+        val isPracticingLoading: Boolean = false,
+        val nextStepRoute: StepRoute? = null
     )
 
     sealed interface ContinueButtonAction {
@@ -48,7 +49,7 @@ interface StepCompletionFeature {
         }
 
         object TopicCompletedModalGoToHomeScreenClicked : Message
-        data class TopicCompletedModalContinueNextTopicClicked(val nextStepRoute: StepRoute) : Message
+        object TopicCompletedModalContinueNextTopicClicked : Message
 
         sealed interface FetchNextRecommendedStepResult : Message {
             data class Success(val newStepRoute: StepRoute) : FetchNextRecommendedStepResult
@@ -89,7 +90,7 @@ interface StepCompletionFeature {
         data class RequestDailyStudyRemindersPermissionResult(val isGranted: Boolean) : Action
 
         sealed interface ViewAction : Action {
-            data class ShowTopicCompletedModal(val modalText: String, val nextStepId: Long?) : ViewAction
+            data class ShowTopicCompletedModal(val modalText: String, val isNextStepAvailable: Boolean) : ViewAction
 
             data class ShowProblemOfDaySolvedModal(val earnedGemsText: String) : ViewAction
 

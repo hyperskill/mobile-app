@@ -65,8 +65,9 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
             is Message.CheckTopicCompletionStatus.Completed ->
                 state.copy(
                     continueButtonAction = ContinueButtonAction.NavigateToHomeScreen,
-                    isPracticingLoading = false
-                ) to setOf(Action.ViewAction.ShowTopicCompletedModal(message.modalText, message.nextStepId))
+                    isPracticingLoading = false,
+                    nextStepRoute = message.nextStepId?.let { StepRoute.Learn(it) }
+                ) to setOf(Action.ViewAction.ShowTopicCompletedModal(message.modalText, message.nextStepId != null))
             is Message.CheckTopicCompletionStatus.Uncompleted ->
                 state.copy(isPracticingLoading = false) to emptySet()
             is Message.CheckTopicCompletionStatus.Error ->
@@ -84,14 +85,18 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                     )
                 )
             is Message.TopicCompletedModalContinueNextTopicClicked ->
-                state to setOf(
-                    Action.ViewAction.ReloadStep(message.nextStepRoute),
-                    Action.LogAnalyticEvent(
-                        StepCompletionTopicCompletedModalClickedContinueNextTopicHyperskillAnalyticEvent(
-                            route = stepRoute.analyticRoute
+                if (state.nextStepRoute != null) {
+                    state to setOf(
+                        Action.ViewAction.ReloadStep(state.nextStepRoute),
+                        Action.LogAnalyticEvent(
+                            StepCompletionTopicCompletedModalClickedContinueNextTopicHyperskillAnalyticEvent(
+                                route = stepRoute.analyticRoute
+                            )
                         )
                     )
-                )
+                } else {
+                    null
+                }
             is Message.RequestDailyStudyRemindersPermission ->
                 state to setOf(
                     Action.LogAnalyticEvent(
