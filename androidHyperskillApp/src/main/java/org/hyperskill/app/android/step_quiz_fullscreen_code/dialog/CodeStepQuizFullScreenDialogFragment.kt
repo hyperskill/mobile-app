@@ -172,11 +172,12 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
         }
 
         // ALTAPPS-571: Delete this (Problem and Theory screens improvements)
-        val instructionPracticeCompletionTextView =
-            instructionsLayout.findViewById<AppCompatTextView>(R.id.stepQuizCodeFullscreenInstructionPracticeCompletion)
-        instructionPracticeCompletionTextView.text =
-            stepQuizStatsTextMapper?.getFormattedStepQuizStats(step.solvedBy, step.millisSinceLastCompleted)
-        instructionPracticeCompletionTextView.isVisible = instructionPracticeCompletionTextView.text.isNotBlank()
+        instructionsLayout.findViewById<AppCompatTextView>(R.id.stepQuizCodeFullscreenInstructionPracticeCompletion).apply {
+            val stepQuizStats =
+                stepQuizStatsTextMapper?.getFormattedStepQuizStats(step.solvedBy, step.millisSinceLastCompleted)
+            this.text = stepQuizStats
+            this.isVisible = stepQuizStats != null
+        }
 
         instructionsLayout.findViewById<LatexView>(R.id.stepQuizCodeFullscreenInstructionTextHeader)
             .setText(text)

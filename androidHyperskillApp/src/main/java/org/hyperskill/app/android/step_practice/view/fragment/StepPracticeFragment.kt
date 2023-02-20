@@ -63,8 +63,10 @@ class StepPracticeFragment : Fragment(R.layout.fragment_step_practice), StepComp
             stepQuizToolbarTitle.text = step.title
         }
         with(viewBinding.stepPracticeCompletion) {
-            text = stepQuizStatsTextMapper?.getFormattedStepQuizStats(step.solvedBy, step.millisSinceLastCompleted)
-            isVisible = text.isNotBlank()
+            val stepQuizStats =
+                stepQuizStatsTextMapper?.getFormattedStepQuizStats(step.solvedBy, step.millisSinceLastCompleted)
+            this.text = stepQuizStats
+            isVisible = stepQuizStats != null
         }
         initStepTheoryFragment(step)
         setStepQuizFragment(step, stepRoute)
