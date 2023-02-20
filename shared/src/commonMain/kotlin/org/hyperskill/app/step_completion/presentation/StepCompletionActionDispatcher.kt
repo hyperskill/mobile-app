@@ -22,6 +22,7 @@ import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Action
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
 import org.hyperskill.app.topics.domain.interactor.TopicsInteractor
+import org.hyperskill.app.topics_to_discover_next.domain.interactor.TopicsToDiscoverNextInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class StepCompletionActionDispatcher(
@@ -34,6 +35,7 @@ class StepCompletionActionDispatcher(
     private val sentryInteractor: SentryInteractor,
     private val profileInteractor: ProfileInteractor,
     private val notificationInteractor: NotificationInteractor,
+    private val topicsToDiscoverNextInteractor: TopicsToDiscoverNextInteractor,
     private val topicCompletedFlow: TopicCompletedFlow,
     private val topicProgressFlow: TopicProgressFlow
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
@@ -116,12 +118,18 @@ class StepCompletionActionDispatcher(
                         .map { it.title }
                         .getOrElse { return onNewMessage(Message.CheckTopicCompletionStatus.Error) }
 
+                    val nextStepId = topicsToDiscoverNextInteractor
+                        .getNextTopicToDiscover()
+                        .getOrNull()
+                        ?.theoryId
+
                     onNewMessage(
                         Message.CheckTopicCompletionStatus.Completed(
-                            resourceProvider.getString(
+                            modalText = resourceProvider.getString(
                                 SharedResources.strings.step_quiz_topic_completed_modal_text,
                                 topicTitle
-                            )
+                            ),
+                            nextStepId = nextStepId
                         )
                     )
                 } else {

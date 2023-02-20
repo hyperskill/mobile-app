@@ -42,12 +42,13 @@ interface StepCompletionFeature {
          */
 
         sealed interface CheckTopicCompletionStatus : Message {
-            data class Completed(val modalText: String) : CheckTopicCompletionStatus
+            data class Completed(val modalText: String, val nextStepId: Long?) : CheckTopicCompletionStatus
             object Uncompleted : CheckTopicCompletionStatus
             object Error : CheckTopicCompletionStatus
         }
 
         object TopicCompletedModalGoToHomeScreenClicked : Message
+        data class TopicCompletedModalContinueNextTopicClicked(val nextStepRoute: StepRoute) : Message
 
         sealed interface FetchNextRecommendedStepResult : Message {
             data class Success(val newStepRoute: StepRoute) : FetchNextRecommendedStepResult
@@ -88,7 +89,7 @@ interface StepCompletionFeature {
         data class RequestDailyStudyRemindersPermissionResult(val isGranted: Boolean) : Action
 
         sealed interface ViewAction : Action {
-            data class ShowTopicCompletedModal(val modalText: String) : ViewAction
+            data class ShowTopicCompletedModal(val modalText: String, val nextStepId: Long?) : ViewAction
 
             data class ShowProblemOfDaySolvedModal(val earnedGemsText: String) : ViewAction
 

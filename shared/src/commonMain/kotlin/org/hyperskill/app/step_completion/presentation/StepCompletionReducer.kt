@@ -15,6 +15,7 @@ import org.hyperskill.app.step_completion.domain.analytic.daily_notifications_no
 import org.hyperskill.app.step_completion.domain.analytic.daily_step_completed_modal.StepCompletionDailyStepCompletedModalClickedGoBackHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.daily_step_completed_modal.StepCompletionDailyStepCompletedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.daily_step_completed_modal.StepCompletionDailyStepCompletedModalShownHyperskillAnalyticEvent
+import org.hyperskill.app.step_completion.domain.analytic.topic_completed_modal.StepCompletionTopicCompletedModalClickedContinueNextTopicHyperskillAnalyticEvent
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<State, Message, Action> {
@@ -65,7 +66,7 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                 state.copy(
                     continueButtonAction = ContinueButtonAction.NavigateToHomeScreen,
                     isPracticingLoading = false
-                ) to setOf(Action.ViewAction.ShowTopicCompletedModal(message.modalText))
+                ) to setOf(Action.ViewAction.ShowTopicCompletedModal(message.modalText, message.nextStepId))
             is Message.CheckTopicCompletionStatus.Uncompleted ->
                 state.copy(isPracticingLoading = false) to emptySet()
             is Message.CheckTopicCompletionStatus.Error ->
@@ -78,6 +79,15 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                     Action.ViewAction.NavigateTo.HomeScreen,
                     Action.LogAnalyticEvent(
                         StepCompletionTopicCompletedModalClickedGoToHomeScreenHyperskillAnalyticEvent(
+                            route = stepRoute.analyticRoute
+                        )
+                    )
+                )
+            is Message.TopicCompletedModalContinueNextTopicClicked ->
+                state to setOf(
+                    Action.ViewAction.ReloadStep(message.nextStepRoute),
+                    Action.LogAnalyticEvent(
+                        StepCompletionTopicCompletedModalClickedContinueNextTopicHyperskillAnalyticEvent(
                             route = stepRoute.analyticRoute
                         )
                     )
