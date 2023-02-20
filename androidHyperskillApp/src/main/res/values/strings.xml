@@ -19,6 +19,6 @@
     <string name="other_channel_name">Other</string>
     <string name="daily_reminder_channel_name">Daily reminders</string>
 
-    <string name="debug_restarting_message">The app is going tto be restarted</string>
+    <string name="debug_restarting_message">The app is going to be restarted</string>
 
 </resources>
