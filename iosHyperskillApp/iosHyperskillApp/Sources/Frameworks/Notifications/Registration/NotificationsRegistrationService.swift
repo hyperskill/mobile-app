@@ -134,9 +134,13 @@ extension NotificationsRegistrationService {
     private func handleFirebaseMessagingRegistrationTokenRefreshed() {
         Messaging.messaging().token { (token, error) in
             if let error = error {
+                #if DEBUG
                 print("NotificationsRegistrationService: error fetching FCM token: \(error)")
+                #endif
             } else if let token = token {
+                #if DEBUG
                 print("NotificationsRegistrationService: FCM token: \(token)")
+                #endif
             }
         }
     }
