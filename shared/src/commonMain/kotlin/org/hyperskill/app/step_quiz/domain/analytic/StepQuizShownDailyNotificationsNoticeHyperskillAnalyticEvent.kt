@@ -1,4 +1,4 @@
-package org.hyperskill.app.step_completion.domain.analytic.daily_step_completed_modal
+package org.hyperskill.app.step_quiz.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -7,24 +7,24 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents click on the "Go back" button analytic event.
+ * Represents a shown analytic event of the prompt to receive daily study reminders.
  *
  * JSON payload:
  * ```
  * {
  *     "route": "/learn/step/1",
- *     "action": "click",
- *     "part": "daily_step_completed_modal",
- *     "target": "go_back"
+ *     "action": "hidden",
+ *     "part": "notice",
+ *     "target": "daily_notifications_notice"
  * }
  * ```
  * @see HyperskillAnalyticEvent
  */
-class StepCompletionDailyStepCompletedModalClickedGoBackHyperskillAnalyticEvent(
-    route: HyperskillAnalyticRoute
+class StepQuizShownDailyNotificationsNoticeHyperskillAnalyticEvent(
+    route: HyperskillAnalyticRoute,
 ) : HyperskillAnalyticEvent(
     route,
-    HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.DAILY_STEP_COMPLETED_MODAL,
-    HyperskillAnalyticTarget.GO_BACK
+    HyperskillAnalyticAction.SHOWN,
+    HyperskillAnalyticPart.NOTICE,
+    HyperskillAnalyticTarget.DAILY_NOTIFICATIONS_NOTICE
 )

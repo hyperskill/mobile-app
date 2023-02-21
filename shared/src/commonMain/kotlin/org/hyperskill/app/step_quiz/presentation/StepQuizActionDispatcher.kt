@@ -1,13 +1,20 @@
 package org.hyperskill.app.step_quiz.presentation
 
+import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import org.hyperskill.app.SharedResources
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.notification.data.extension.NotificationExtensions
+import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
+import org.hyperskill.app.step_quiz.domain.model.permissions.StepQuizUserPermissionRequest
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.domain.validation.StepQuizReplyValidator
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Action
@@ -19,9 +26,43 @@ class StepQuizActionDispatcher(
     private val stepQuizInteractor: StepQuizInteractor,
     private val stepQuizReplyValidator: StepQuizReplyValidator,
     private val profileInteractor: ProfileInteractor,
+    private val notificationInteractor: NotificationInteractor,
     private val analyticInteractor: AnalyticInteractor,
-    private val sentryInteractor: SentryInteractor
+    private val sentryInteractor: SentryInteractor,
+    private val resourceProvider: ResourceProvider
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
+
+    init {
+        // TODO: ALTAPPS-570 Move solvedStepsSharedFlow processing logic to StepCompletionFeature
+        actionScope.launch {
+            notificationInteractor.solvedStepsSharedFlow.collect { solvedStepId ->
+                if (notificationInteractor.isRequiredToAskUserToEnableDailyReminders()) {
+                    onNewMessage(Message.RequestUserPermission(StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS))
+                } else {
+                    val cachedProfile = profileInteractor
+                        .getCurrentProfile(sourceType = DataSourceType.CACHE)
+                        .getOrElse { return@collect }
+
+                    if (cachedProfile.dailyStep == solvedStepId) {
+                        val currentProfileHypercoinsBalance = profileInteractor
+                            .getCurrentProfile(sourceType = DataSourceType.REMOTE)
+                            .map { it.gamification.hypercoinsBalance }
+                            .getOrElse { return@collect }
+
+                        val gemsEarned = currentProfileHypercoinsBalance - cachedProfile.gamification.hypercoinsBalance
+
+                        profileInteractor.notifyHypercoinsBalanceChanged(currentProfileHypercoinsBalance)
+                        onNewMessage(
+                            Message.ShowProblemOfDaySolvedModal(
+                                earnedGemsText = resourceProvider.getQuantityString(SharedResources.plurals.earned_gems, gemsEarned, gemsEarned)
+                            )
+                        )
+                    }
+                }
+            }
+        }
+    }
+
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchAttempt -> {
@@ -152,6 +193,23 @@ class StepQuizActionDispatcher(
                             onNewMessage(Message.CreateSubmissionNetworkError)
                         }
                     )
+            }
+            is Action.RequestUserPermissionResult -> {
+                when (action.userPermissionRequest) {
+                    StepQuizUserPermissionRequest.RESET_CODE -> {}
+                    StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS -> {
+                        if (action.isGranted) {
+                            notificationInteractor.setDailyStudyRemindersEnabled(true)
+                            notificationInteractor.setDailyStudyRemindersIntervalStartHour(
+                                NotificationExtensions.DAILY_REMINDERS_AFTER_STEP_SOLVED_START_HOUR
+                            )
+                        } else {
+                            notificationInteractor.setLastTimeUserAskedToEnableDailyReminders(
+                                Clock.System.now().toEpochMilliseconds()
+                            )
+                        }
+                    }
+                }
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)

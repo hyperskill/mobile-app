@@ -11,7 +11,6 @@ final class StepAssembly: UIKitAssembly {
     func makeModule() -> UIViewController {
         let commonComponent = AppGraphBridge.sharedAppGraph.commonComponent
         let stepComponent = AppGraphBridge.sharedAppGraph.buildStepComponent(stepRoute: stepRoute)
-        let notificationComponent = AppGraphBridge.sharedAppGraph.buildNotificationComponent()
 
         let viewModel = StepViewModel(
             stepRoute: self.stepRoute,
@@ -20,10 +19,6 @@ final class StepAssembly: UIKitAssembly {
                 resourceProvider: commonComponent.resourceProvider,
                 commentThreadTitleMapper: stepComponent.commentThreadTitleMapper
             ),
-            notificationService: NotificationsService(
-                notificationInteractor: notificationComponent.notificationInteractor
-            ),
-            notificationsRegistrationService: .shared,
             feature: stepComponent.stepFeature
         )
 

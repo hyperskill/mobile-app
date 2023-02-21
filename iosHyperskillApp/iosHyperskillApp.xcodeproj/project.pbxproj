@@ -406,7 +406,6 @@
 		E9D458E429927C8900AAEBD9 /* lines_wrapper.js in Resources */ = {isa = PBXBuildFile; fileRef = E9D458E329927C8900AAEBD9 /* lines_wrapper.js */; };
 		E9D69A4028084FF7000E114E /* AuthCredentialsErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D69A3F28084FF7000E114E /* AuthCredentialsErrorView.swift */; };
 		E9D90905289814AA00D0EE91 /* NotificationsRegistrationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D90904289814AA00D0EE91 /* NotificationsRegistrationService.swift */; };
-		E9E7FEE0299A21AA00CAE814 /* ProblemOfDaySolvedModalViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E7FEDF299A21AA00CAE814 /* ProblemOfDaySolvedModalViewControllerDelegate.swift */; };
 		E9EF705128A7DB6500EA0C1C /* DailyStudyReminderLocalNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EF705028A7DB6500EA0C1C /* DailyStudyReminderLocalNotification.swift */; };
 		E9F27D782906447A007F16D7 /* StepQuizHintCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F27D772906447A007F16D7 /* StepQuizHintCardView.swift */; };
 		E9F2CC5329223C0200691540 /* RemoveBackButtonTitleHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F2CC5229223C0200691540 /* RemoveBackButtonTitleHostingController.swift */; };
@@ -844,7 +843,6 @@
 		E9D458E329927C8900AAEBD9 /* lines_wrapper.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = lines_wrapper.js; sourceTree = "<group>"; };
 		E9D69A3F28084FF7000E114E /* AuthCredentialsErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsErrorView.swift; sourceTree = "<group>"; };
 		E9D90904289814AA00D0EE91 /* NotificationsRegistrationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsRegistrationService.swift; sourceTree = "<group>"; };
-		E9E7FEDF299A21AA00CAE814 /* ProblemOfDaySolvedModalViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDaySolvedModalViewControllerDelegate.swift; sourceTree = "<group>"; };
 		E9EF705028A7DB6500EA0C1C /* DailyStudyReminderLocalNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStudyReminderLocalNotification.swift; sourceTree = "<group>"; };
 		E9F27D772906447A007F16D7 /* StepQuizHintCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizHintCardView.swift; sourceTree = "<group>"; };
 		E9F2CC5229223C0200691540 /* RemoveBackButtonTitleHostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveBackButtonTitleHostingController.swift; sourceTree = "<group>"; };
@@ -1368,6 +1366,7 @@
 		2C41127528376ECE004948A3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E9ACD3402937342F0005E05B /* ProblemOfDaySolvedModalViewController.swift */,
 				2CA7614A2926272500987B66 /* StepQuizFeedbackView.swift */,
 				E99B21802887E535006A6154 /* StepQuizSkeletonViewFactory.swift */,
 				E99D4CEE2826B91100B49D52 /* StepQuizStatusView.swift */,
@@ -2047,8 +2046,6 @@
 		2CD0BA05298B985A0037479A /* Modals */ = {
 			isa = PBXGroup;
 			children = (
-				E9ACD3402937342F0005E05B /* ProblemOfDaySolvedModalViewController.swift */,
-				E9E7FEDF299A21AA00CAE814 /* ProblemOfDaySolvedModalViewControllerDelegate.swift */,
 				E97BEA1D2977D26F00348EEC /* TopicCompletedModalViewController.swift */,
 				E9CC6C0329893D8400D8D070 /* TopicCompletedModalViewControllerDelegate.swift */,
 			);
@@ -3176,7 +3173,6 @@
 				2C9CC1BD280920B5006604D7 /* KeyboardManager.swift in Sources */,
 				2C32375328380C340062CAF6 /* NavigationToolbarInfoItem.swift in Sources */,
 				2C8409532805BF3C009C6BE9 /* StepTheoryContentView.swift in Sources */,
-				E9E7FEE0299A21AA00CAE814 /* ProblemOfDaySolvedModalViewControllerDelegate.swift in Sources */,
 				E9102759288D1BDB00FF4564 /* ProblemOfDayViewDataMapper.swift in Sources */,
 				2CCCA39D2862E44B00D98089 /* StepQuizStringAssembly.swift in Sources */,
 				2CA5F8F32994CB870013B854 /* DebugStepNavigationView.swift in Sources */,
@@ -3235,7 +3231,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 62;
+				CURRENT_PROJECT_VERSION = 67;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 3DWS674B2M;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -3256,7 +3252,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 62;
+				CURRENT_PROJECT_VERSION = 67;
 				DEVELOPMENT_TEAM = 3DWS674B2M;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.4;

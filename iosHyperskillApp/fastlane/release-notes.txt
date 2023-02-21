@@ -1,9 +1,8 @@
 What to Test:
-1. Fix Streak not updates on Profile and Track screens ALTAPPS-476
-2. Show Learn next topic on the Homescreen ALTAPPS-530
-3. Display the topic progress in the widget ALTAPPS-541
-4. Topic completion ALTAPPS-542
-5. Fix incorrect presentations of topics in repetition list ALTAPPS-556
-6. Fix "Learn next" widget still shown if no topics to learn left ALTAPPS-582
-7. Fix unsupported problem not skiped in topic practice ALTAPPS-588
-8. Fix topic progress doesn't change on home screen without screen refreshing ALTAPPS-590
+1. Problem and Theory screens UI improvements ALTAPPS-481
+2. Debug menu ALTAPPS-509
+3. Show code blocks with line numbers in Step text <pre><code ALTAPPS-536
+4. Send step view and send context for submissions ALTAPPS-577
+5. Fix topic name doesn't fit to widget size ALTAPPS-584
+6. Fix incorrect 1-day streak freeze state ALTAPPS-594
+7. Fix content not loading on Home screen ALTAPPS-616

@@ -1,4 +1,4 @@
-package org.hyperskill.app.step_completion.domain.analytic.daily_notifications_notice
+package org.hyperskill.app.step_quiz.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -20,7 +20,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * ```
  * @see HyperskillAnalyticEvent
  */
-class StepCompletionHiddenDailyNotificationsNoticeHyperskillAnalyticEvent(
+class StepQuizHiddenDailyNotificationsNoticeHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute,
     isAgreed: Boolean
 ) : HyperskillAnalyticEvent(

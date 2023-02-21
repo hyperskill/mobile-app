@@ -1,6 +1,7 @@
 package org.hyperskill.app.android.step_quiz_text.view.delegate
 
 import android.text.InputType
+import android.text.InputType.TYPE_NUMBER_FLAG_SIGNED
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.core.widget.doAfterTextChanged
@@ -30,7 +31,9 @@ class TextStepQuizFormDelegate(
                     InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE to org.hyperskill.app.R.string.step_quiz_string_title
 
                 BlockName.NUMBER ->
-                    InputType.TYPE_CLASS_NUMBER to org.hyperskill.app.R.string.step_quiz_number_title
+                    InputType.TYPE_CLASS_NUMBER or
+                        InputType.TYPE_NUMBER_FLAG_DECIMAL or
+                        TYPE_NUMBER_FLAG_SIGNED to org.hyperskill.app.R.string.step_quiz_number_title
 
                 BlockName.MATH ->
                     InputType.TYPE_CLASS_TEXT to org.hyperskill.app.R.string.step_quiz_math_title

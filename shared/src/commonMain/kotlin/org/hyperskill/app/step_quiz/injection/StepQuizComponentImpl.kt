@@ -11,6 +11,7 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.remote.AttemptRemoteDataSourceImpl
 import org.hyperskill.app.step_quiz.view.mapper.StepQuizStatsTextMapper
 import org.hyperskill.app.step_quiz.view.mapper.StepQuizTitleMapper
+import org.hyperskill.app.step_quiz.view.mapper.StepQuizUserPermissionRequestTextMapper
 import ru.nobird.app.presentation.redux.feature.Feature
 
 class StepQuizComponentImpl(
@@ -25,6 +26,9 @@ class StepQuizComponentImpl(
 
     override val stepQuizTitleMapper: StepQuizTitleMapper
         get() = StepQuizTitleMapper(appGraph.commonComponent.resourceProvider)
+
+    override val stepQuizUserPermissionRequestTextMapper: StepQuizUserPermissionRequestTextMapper
+        get() = StepQuizUserPermissionRequestTextMapper(appGraph.commonComponent.resourceProvider)
 
     private val attemptRemoteDataSource: AttemptRemoteDataSource = AttemptRemoteDataSourceImpl(
         appGraph.networkComponent.authorizedHttpClient
@@ -44,7 +48,9 @@ class StepQuizComponentImpl(
             stepQuizInteractor,
             stepQuizReplyValidator,
             appGraph.buildProfileDataComponent().profileInteractor,
+            appGraph.buildNotificationComponent().notificationInteractor,
             appGraph.analyticComponent.analyticInteractor,
-            appGraph.sentryComponent.sentryInteractor
+            appGraph.sentryComponent.sentryInteractor,
+            appGraph.commonComponent.resourceProvider
         )
 }

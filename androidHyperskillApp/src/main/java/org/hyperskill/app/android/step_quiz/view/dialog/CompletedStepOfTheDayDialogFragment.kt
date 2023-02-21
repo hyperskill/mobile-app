@@ -14,9 +14,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentCompletedDailyStepBinding
-import org.hyperskill.app.step.presentation.StepFeature
-import org.hyperskill.app.step.presentation.StepViewModel
-import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
+import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
+import org.hyperskill.app.step_quiz.presentation.StepQuizViewModel
 import ru.nobird.android.view.base.ui.extension.argument
 
 class CompletedStepOfTheDayDialogFragment : BottomSheetDialogFragment() {
@@ -30,7 +29,7 @@ class CompletedStepOfTheDayDialogFragment : BottomSheetDialogFragment() {
     }
 
     // View model should be created in parent fragment
-    private val stepViewModel: StepViewModel by viewModels(ownerProducer = ::requireParentFragment)
+    private val stepQuizViewModel: StepQuizViewModel by viewModels(ownerProducer = ::requireParentFragment)
 
     private val viewBinding: FragmentCompletedDailyStepBinding by viewBinding(FragmentCompletedDailyStepBinding::bind)
 
@@ -46,10 +45,8 @@ class CompletedStepOfTheDayDialogFragment : BottomSheetDialogFragment() {
             dialog.setOnShowListener {
                 dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
                 if (savedInstanceState == null) {
-                    stepViewModel.onNewMessage(
-                        StepFeature.Message.StepCompletionMessage(
-                            StepCompletionFeature.Message.DailyStepCompletedModalShownEventMessage
-                        )
+                    stepQuizViewModel.onNewMessage(
+                        StepQuizFeature.Message.DailyStepCompletedModalShownEventMessage
                     )
                 }
             }
@@ -71,10 +68,8 @@ class CompletedStepOfTheDayDialogFragment : BottomSheetDialogFragment() {
         with(viewBinding) {
             completedDailyStepEarnedGemsTextView.text = earnedGemsText
             completedDailyStepGoBackButton.setOnClickListener {
-                stepViewModel.onNewMessage(
-                    StepFeature.Message.StepCompletionMessage(
-                        StepCompletionFeature.Message.ProblemOfDaySolvedModalGoBackClicked
-                    )
+                stepQuizViewModel.onNewMessage(
+                    StepQuizFeature.Message.ProblemOfDaySolvedModalGoBackClicked
                 )
                 dismiss()
             }
@@ -83,10 +78,8 @@ class CompletedStepOfTheDayDialogFragment : BottomSheetDialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        stepViewModel.onNewMessage(
-            StepFeature.Message.StepCompletionMessage(
-                StepCompletionFeature.Message.DailyStepCompletedModalHiddenEventMessage
-            )
+        stepQuizViewModel.onNewMessage(
+            StepQuizFeature.Message.DailyStepCompletedModalHiddenEventMessage
         )
     }
 }
