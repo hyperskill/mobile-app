@@ -7,12 +7,6 @@ import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedCodeDetailsHy
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRetryHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRunHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedSendHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.StepQuizHiddenDailyNotificationsNoticeHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.StepQuizShownDailyNotificationsNoticeHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.daily_step_completed_modal.StepQuizDailyStepCompletedModalClickedGoBackHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.daily_step_completed_modal.StepQuizDailyStepCompletedModalHiddenHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.daily_step_completed_modal.StepQuizDailyStepCompletedModalShownHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.model.permissions.StepQuizUserPermissionRequest
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
@@ -54,7 +48,7 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                 if (state is State.AttemptLoaded) {
                     if (state.step.block.name == BlockName.CODE || state.step.block.name == BlockName.SQL) {
                         state to setOf(
-                            Action.ViewAction.RequestUserPermission(StepQuizUserPermissionRequest.RESET_CODE)
+                            Action.ViewAction.RequestResetCode
                         )
                     } else {
                         State.AttemptLoading(oldState = state) to setOf(
@@ -154,61 +148,15 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                 } else {
                     null
                 }
-            is Message.RequestUserPermission ->
-                if (state is State.AttemptLoaded) {
-                    val logAnalyticEventAction = when (message.userPermissionRequest) {
-                        StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS ->
-                            Action.LogAnalyticEvent(
-                                StepQuizShownDailyNotificationsNoticeHyperskillAnalyticEvent(stepRoute.analyticRoute)
-                            )
-                        else -> null
-                    }
-                    state to setOfNotNull(
-                        Action.ViewAction.RequestUserPermission(message.userPermissionRequest),
-                        logAnalyticEventAction
-                    )
-                } else {
-                    null
-                }
-            is Message.RequestUserPermissionResult ->
-                if (state is State.AttemptLoaded) {
-                    when (message.userPermissionRequest) {
-                        StepQuizUserPermissionRequest.RESET_CODE -> if (message.isGranted) {
-                            State.AttemptLoading(oldState = state) to setOf(
-                                Action.CreateAttempt(
-                                    state.step,
-                                    state.attempt,
-                                    state.submissionState,
-                                    shouldResetReply = true
-                                )
-                            )
-                        } else {
-                            null
-                        }
-                        StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS -> {
-                            val analyticEvent = StepQuizHiddenDailyNotificationsNoticeHyperskillAnalyticEvent(
-                                route = stepRoute.analyticRoute,
-                                isAgreed = message.isGranted
-                            )
-                            state to setOf(
-                                Action.RequestUserPermissionResult(message.userPermissionRequest, message.isGranted),
-                                Action.LogAnalyticEvent(analyticEvent)
-                            )
-                        }
-                    }
-                } else {
-                    null
-                }
-            is Message.ShowProblemOfDaySolvedModal ->
-                state to setOf(Action.ViewAction.ShowProblemOfDaySolvedModal(message.earnedGemsText))
-            is Message.ProblemOfDaySolvedModalGoBackClicked ->
-                if (state is State.AttemptLoaded) {
-                    val event = StepQuizDailyStepCompletedModalClickedGoBackHyperskillAnalyticEvent(
-                        stepRoute.analyticRoute
-                    )
-                    state to setOf(
-                        Action.LogAnalyticEvent(event),
-                        Action.ViewAction.NavigateTo.Back
+            is Message.RequestResetCodeResult ->
+                if (state is State.AttemptLoaded && message.isGranted) {
+                    State.AttemptLoading(oldState = state) to setOf(
+                        Action.CreateAttempt(
+                            state.step,
+                            state.attempt,
+                            state.submissionState,
+                            shouldResetReply = true
+                        )
                     )
                 } else {
                     null
@@ -223,20 +171,6 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
             is Message.ClickedRetryEventMessage ->
                 if (state is State.AttemptLoaded) {
                     val event = StepQuizClickedRetryHyperskillAnalyticEvent(stepRoute.analyticRoute)
-                    state to setOf(Action.LogAnalyticEvent(event))
-                } else {
-                    null
-                }
-            is Message.DailyStepCompletedModalShownEventMessage ->
-                if (state is State.AttemptLoaded) {
-                    val event = StepQuizDailyStepCompletedModalShownHyperskillAnalyticEvent(stepRoute.analyticRoute)
-                    state to setOf(Action.LogAnalyticEvent(event))
-                } else {
-                    null
-                }
-            is Message.DailyStepCompletedModalHiddenEventMessage ->
-                if (state is State.AttemptLoaded) {
-                    val event = StepQuizDailyStepCompletedModalHiddenHyperskillAnalyticEvent(stepRoute.analyticRoute)
                     state to setOf(Action.LogAnalyticEvent(event))
                 } else {
                     null

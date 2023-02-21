@@ -10,15 +10,22 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
 
     private let viewDataMapper: StepViewDataMapper
 
+    private let notificationService: NotificationsService
+    private let notificationsRegistrationService: NotificationsRegistrationService
+
     var stateKs: StepFeatureStateKs { .init(state) }
 
     init(
         stepRoute: StepRoute,
         viewDataMapper: StepViewDataMapper,
+        notificationService: NotificationsService,
+        notificationsRegistrationService: NotificationsRegistrationService,
         feature: Presentation_reduxFeature
     ) {
         self.stepRoute = stepRoute
         self.viewDataMapper = viewDataMapper
+        self.notificationService = notificationService
+        self.notificationsRegistrationService = notificationsRegistrationService
         super.init(feature: feature)
     }
 
@@ -73,6 +80,33 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
         }
     }
 
+    // MARK: StepQuizUserPermissionRequest
+
+    func handleSendDailyStudyRemindersPermissionRequestResult(isGranted: Bool) {
+        let message = StepCompletionFeatureMessageRequestDailyStudyRemindersPermissionResult(
+            isGranted: isGranted
+        )
+
+        if isGranted {
+            Task(priority: .userInitiated) {
+                let isNotificationPermissionGranted =
+                  await notificationsRegistrationService.requestAuthorizationIfNeeded()
+
+                await MainActor.run {
+                    onNewMessage(StepFeatureMessageStepCompletionMessage(message: message))
+
+                    if isNotificationPermissionGranted {
+                        notificationService.scheduleDailyStudyReminderLocalNotifications(
+                            analyticRoute: HyperskillAnalyticRoute.Learn.LearnStep(stepId: stepRoute.stepId)
+                        )
+                    }
+                }
+            }
+        } else {
+            onNewMessage(StepFeatureMessageStepCompletionMessage(message: message))
+        }
+    }
+
     // MARK: Analytic
 
     func logViewedEvent() {
@@ -119,6 +153,42 @@ extension StepViewModel: TopicCompletedModalViewControllerDelegate {
         onNewMessage(
             StepFeatureMessageStepCompletionMessage(
                 message: StepCompletionFeatureMessageTopicCompletedModalHiddenEventMessage()
+            )
+        )
+    }
+}
+
+// MARK: - StepViewModel: ProblemOfDaySolvedModalViewControllerDelegate -
+
+extension StepViewModel: ProblemOfDaySolvedModalViewControllerDelegate {
+    func problemOfDaySolvedModalViewControllerDidTapGoToHomescreenButton(
+        _ viewController: ProblemOfDaySolvedModalViewController
+    ) {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageProblemOfDaySolvedModalGoBackClicked()
+            )
+        )
+
+        viewController.dismiss(animated: true)
+    }
+
+    func problemOfDaySolvedModalViewControllerDidAppear(
+        _ viewController: ProblemOfDaySolvedModalViewController
+    ) {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageDailyStepCompletedModalShownEventMessage()
+            )
+        )
+    }
+
+    func problemOfDaySolvedModalViewControllerDidDisappear(
+        _ viewController: ProblemOfDaySolvedModalViewController
+    ) {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageDailyStepCompletedModalHiddenEventMessage()
             )
         )
     }
