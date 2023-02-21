@@ -3,7 +3,7 @@ import Foundation
 import shared
 import UserNotifications
 
-final class NotificationsRegistrationService {
+final class NotificationsRegistrationService: NSObject {
     static let shared = NotificationsRegistrationService(
         analyticInteractor: AppGraphBridge.sharedAppGraph.analyticComponent.analyticInteractor
     )
@@ -17,7 +17,11 @@ final class NotificationsRegistrationService {
 
     private init(analyticInteractor: AnalyticInteractor) {
         self.analyticInteractor = analyticInteractor
+
+        super.init()
+
         addObservers()
+        Messaging.messaging().delegate = self
     }
 
     // MARK: Public API
@@ -129,20 +133,15 @@ extension NotificationsRegistrationService {
     private func setAPNsDeviceTokenToFirebaseMessaging(_ apnsToken: Data) {
         Messaging.messaging().apnsToken = apnsToken
     }
+}
 
-    @objc
-    private func handleFirebaseMessagingRegistrationTokenRefreshed() {
-        Messaging.messaging().token { (token, error) in
-            if let error = error {
-                #if DEBUG
-                print("NotificationsRegistrationService: error fetching FCM token: \(error)")
-                #endif
-            } else if let token = token {
-                #if DEBUG
-                print("NotificationsRegistrationService: FCM token: \(token)")
-                #endif
-            }
-        }
+// MARK: - NotificationsRegistrationService: MessagingDelegate -
+
+extension NotificationsRegistrationService: MessagingDelegate {
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        #if DEBUG
+        print("NotificationsRegistrationService: FCM token: \(String(describing: Messaging.messaging().fcmToken))")
+        #endif
     }
 }
 
@@ -162,13 +161,6 @@ extension NotificationsRegistrationService {
             selector: #selector(handleApplicationDidEnterBackground),
             name: UIApplication.didEnterBackgroundNotification,
             object: UIApplication.shared
-        )
-        // FirebaseMessaging
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleFirebaseMessagingRegistrationTokenRefreshed),
-            name: .MessagingRegistrationTokenRefreshed,
-            object: nil
         )
     }
 
