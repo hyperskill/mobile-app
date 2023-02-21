@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.button.MaterialButton
-import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.code.presentation.model.ProgrammingLanguage
@@ -32,9 +31,8 @@ import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeLayoutDelegat
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeQuizInstructionDelegate
 import org.hyperskill.app.android.step_quiz_fullscreen_code.adapter.CodeStepQuizFullScreenPagerAdapter
 import org.hyperskill.app.android.view.base.ui.extension.setOnKeyboardOpenListener
-import org.hyperskill.app.core.view.mapper.DateFormatter
-import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step_quiz.view.mapper.StepQuizStatsTextMapper
 import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.base.ui.extension.hideKeyboard
 
@@ -91,13 +89,13 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
     private var isShowRetryButton: Boolean by argument()
     private var titleRes: Int by argument()
 
-    private lateinit var resourceProvider: ResourceProvider
+    private var stepQuizStatsTextMapper: StepQuizStatsTextMapper? = null
     private var latexWebView: LatexWebView? = null
 
     private var isCodeSyncedAfterSubmissionClick: Boolean = false
 
     private fun injectComponent() {
-        resourceProvider = HyperskillApp.graph().commonComponent.resourceProvider
+        stepQuizStatsTextMapper = StepQuizStatsTextMapper(HyperskillApp.graph().commonComponent.resourceProvider)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -173,12 +171,14 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
             (textHeader as ViewGroup).addView(it)
         }
 
-        instructionsLayout.findViewById<AppCompatTextView>(R.id.stepQuizCodeFullscreenInstructionPracticeCompletion).text =
-            resourceProvider.getString(
-                SharedResources.strings.step_quiz_stats_text,
-                step.solvedBy.toString(),
-                DateFormatter.formatTimeDistance(step.millisSinceLastCompleted)
-            )
+        // ALTAPPS-571: Delete this (Problem and Theory screens improvements)
+        instructionsLayout.findViewById<AppCompatTextView>(R.id.stepQuizCodeFullscreenInstructionPracticeCompletion).apply {
+            val stepQuizStats =
+                stepQuizStatsTextMapper?.getFormattedStepQuizStats(step.solvedBy, step.millisSinceLastCompleted)
+            this.text = stepQuizStats
+            this.isVisible = stepQuizStats != null
+        }
+
         instructionsLayout.findViewById<LatexView>(R.id.stepQuizCodeFullscreenInstructionTextHeader)
             .setText(text)
 

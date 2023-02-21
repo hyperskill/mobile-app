@@ -34,6 +34,9 @@ class StepActionDispatcher(
                         }
                     )
             }
+            is Action.ViewStep -> {
+                stepInteractor.viewStep(action.stepId, action.stepContext)
+            }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
             else -> {}

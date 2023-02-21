@@ -30,6 +30,8 @@ import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
 import org.hyperskill.app.magic_links.injection.MagicLinksDataComponentImpl
 import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainComponentImpl
+import org.hyperskill.app.main.injection.MainDataComponent
+import org.hyperskill.app.main.injection.MainDataComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.network.injection.NetworkComponentImpl
 import org.hyperskill.app.notification.injection.NotificationComponent
@@ -136,6 +138,9 @@ class AppGraphImpl(
 
     override val mainComponent: MainComponent =
         MainComponentImpl(this)
+
+    override fun buildMainDataComponent(): MainDataComponent =
+        MainDataComponentImpl(this)
 
     override fun buildAuthSocialComponent(): AuthSocialComponent =
         AuthSocialComponentImpl(

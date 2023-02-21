@@ -16,6 +16,8 @@ enum ApplicationInfo {
     static let credentialsClientSecret = endpointConfigInfo.credentialsClientSecret
 
     static let flavor = buildKonfig.flavor
+
+    static let isDebugModeAvailable: Bool = DebugFeature.shared.isAvailable(buildKonfig: buildKonfig)
 }
 
 enum BuildType: String {

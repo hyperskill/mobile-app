@@ -1,5 +1,5 @@
-install! "cocoapods", :deterministic_uuids => false
-source "https://github.com/CocoaPods/Specs.git"
+install! "cocoapods", :deterministic_uuids => false, :warn_for_unused_master_specs_repo => false
+source "https://cdn.cocoapods.org/"
 
 inhibit_all_warnings!
 use_frameworks!

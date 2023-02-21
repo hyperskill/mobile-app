@@ -10,10 +10,13 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.navigation.MainNavigationContainer
 import org.hyperskill.app.android.databinding.FragmentMainBinding
+import org.hyperskill.app.android.debug.DebugScreen
 import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
 import org.hyperskill.app.android.track.view.navigation.TrackScreen
+import org.hyperskill.app.config.BuildKonfig
+import org.hyperskill.app.debug.presentation.DebugFeature
 import org.hyperskill.app.main.domain.analytic.AppClickedBottomNavigationItemHyperskillAnalyticEvent
 import ru.nobird.android.view.navigation.navigator.RetainedAppNavigator
 import ru.nobird.android.view.navigation.router.RetainedRouter
@@ -44,12 +47,17 @@ class MainFragment : Fragment(R.layout.fragment_main), MainNavigationContainer {
                             R.id.track_tab
                         Tabs.PROFILE ->
                             R.id.profile_tab
+                        Tabs.DEBUG ->
+                            R.id.debug_tab
                     }
             }
         )
     }
 
     private lateinit var analytic: Analytic
+    private val buildKonfig: BuildKonfig by lazy(LazyThreadSafetyMode.NONE) {
+        HyperskillApp.graph().commonComponent.buildKonfig
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +76,9 @@ class MainFragment : Fragment(R.layout.fragment_main), MainNavigationContainer {
         if (savedInstanceState == null && childFragmentManager.fragments.isEmpty()) {
             router.switch(HomeScreen)
         }
+
+        viewBinding.mainBottomNavigation.menu.findItem(R.id.debug_tab).isVisible =
+            DebugFeature.isAvailable(buildKonfig)
 
         viewBinding.mainBottomNavigation.setOnItemSelectedListener { item ->
             logClickedBottomNavigationItemEvent(
@@ -89,6 +100,9 @@ class MainFragment : Fragment(R.layout.fragment_main), MainNavigationContainer {
                 }
                 R.id.profile_tab -> {
                     router.switch(ProfileScreen(isInitCurrent = true))
+                }
+                R.id.debug_tab -> {
+                    router.switch(DebugScreen)
                 }
             }
             return@setOnItemSelectedListener true

@@ -7,6 +7,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 @Serializable
 sealed interface StepRoute {
     val analyticRoute: HyperskillAnalyticRoute
+    val stepContext: StepContext
     val stepId: Long
 
     @Serializable
@@ -14,6 +15,9 @@ sealed interface StepRoute {
         @Transient
         override val analyticRoute: HyperskillAnalyticRoute =
             HyperskillAnalyticRoute.Learn.Step(stepId)
+        @Transient
+        override val stepContext: StepContext =
+            StepContext.DEFAULT
     }
 
     @Serializable
@@ -21,6 +25,9 @@ sealed interface StepRoute {
         @Transient
         override val analyticRoute: HyperskillAnalyticRoute =
             HyperskillAnalyticRoute.Learn.Daily(stepId)
+        @Transient
+        override val stepContext: StepContext =
+            StepContext.DEFAULT
     }
 
     @Serializable
@@ -28,5 +35,8 @@ sealed interface StepRoute {
         @Transient
         override val analyticRoute: HyperskillAnalyticRoute =
             HyperskillAnalyticRoute.Repeat.Step(stepId)
+        @Transient
+        override val stepContext: StepContext =
+            StepContext.REPETITION
     }
 }

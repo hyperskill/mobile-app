@@ -11,8 +11,7 @@ final class StepQuizSQLViewDataMapper: StepQuizCodeViewDataMapper {
             samples: [],
             executionTimeLimit: nil,
             executionMemoryLimit: nil,
-            stepText: step.block.text,
-            stepStats: mapStepToStepStats(step)
+            stepText: step.block.text
         )
     }
 }

@@ -2,11 +2,11 @@ package org.hyperskill.app.main.presentation
 
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.main.domain.interactor.AppInteractor
 import org.hyperskill.app.main.presentation.AppFeature.Action
 import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
@@ -17,9 +17,9 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class AppActionDispatcher(
     config: ActionDispatcherOptions,
+    private val appInteractor: AppInteractor,
     private val authInteractor: AuthInteractor,
     private val profileInteractor: ProfileInteractor,
-    private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
@@ -31,10 +31,7 @@ class AppActionDispatcher(
                         authInteractor.clearCache()
                     }
                     UserDeauthorized.Reason.SIGN_OUT -> {
-                        analyticInteractor.flushEvents()
-
-                        authInteractor.clearCache()
-                        profileInteractor.clearCache()
+                        appInteractor.doCurrentUserSignedOutCleanUp()
                     }
                 }
 

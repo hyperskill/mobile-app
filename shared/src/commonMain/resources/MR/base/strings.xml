@@ -142,6 +142,7 @@
     <string name="tab_bar_home_title">Home</string>
     <string name="tab_bar_track_title">Track</string>
     <string name="tab_bar_profile_title">Profile</string>
+    <string name="tab_bar_debug_title">Debug</string>
 
     <!-- Home -->
     <string name="home_title">Hello!</string>
@@ -203,6 +204,19 @@
     <string name="settings_terms_of_service_url">https://www.jetbrains.com/legal/terms/jetbrains-academy.html</string>
     <string name="settings_privacy_policy_url">https://hi.hyperskill.org/terms</string>
     <string name="settings_report_problem_url">https://support.hyperskill.org/hc/en-us/requests/new</string>
+
+    <!-- Debug menu -->
+    <string name="debug_menu_title">Debug</string>
+    <string name="debug_menu_section_api_header_title">API Base URL</string>
+    <string name="debug_menu_section_step_navigation_text_input_title">Enter step id</string>
+    <string name="debug_menu_section_step_navigation_button_text">Open step</string>
+    <string name="debug_menu_apply_settings_button_text">Apply</string>
+    <string name="debug_menu_restart_application_alert_title_ios">Restart Application</string>
+    <string name="debug_menu_restart_application_alert_message_ios">
+        The application needs to restart to update the configuration
+    </string>
+    <string name="debug_menu_restart_application_local_notification_title_ios">Configuration Update Completed</string>
+    <string name="debug_menu_restart_application_local_notification_body_ios">Tap to reopen the application</string>
 
     <!-- Placeholder -->
     <string name="placeholder_network_error_title">Oops! It seems like the network error.</string>

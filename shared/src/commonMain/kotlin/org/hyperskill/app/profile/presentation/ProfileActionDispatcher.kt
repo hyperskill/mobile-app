@@ -7,8 +7,6 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.items.domain.interactor.ItemsInteractor
-import org.hyperskill.app.items.domain.model.Item
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.products.domain.interactor.ProductsInteractor
 import org.hyperskill.app.products.domain.model.Product
@@ -19,6 +17,7 @@ import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.streaks.domain.flow.StreakFlow
 import org.hyperskill.app.streaks.domain.interactor.StreaksInteractor
+import org.hyperskill.app.streaks.domain.model.Streak
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class ProfileActionDispatcher(
@@ -26,7 +25,6 @@ class ProfileActionDispatcher(
     private val profileInteractor: ProfileInteractor,
     private val streaksInteractor: StreaksInteractor,
     private val productsInteractor: ProductsInteractor,
-    private val itemsInteractor: ItemsInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val urlPathProcessor: UrlPathProcessor,
@@ -66,14 +64,12 @@ class ProfileActionDispatcher(
 
                 val streakResult = actionScope.async { streaksInteractor.getUserStreak(currentProfile.id) }
                 val streakFreezeProductResult = actionScope.async { productsInteractor.getStreakFreezeProduct() }
-                val itemsResult = actionScope.async { itemsInteractor.getItems() }
 
                 val streak = streakResult.await().getOrElse {
                     sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                     return onNewMessage(Message.ProfileLoaded.Error)
                 }
                 val streakFreezeProduct = streakFreezeProductResult.await().getOrNull()
-                val items = itemsResult.await().getOrNull()
 
                 sentryInteractor.finishTransaction(sentryTransaction)
 
@@ -83,7 +79,7 @@ class ProfileActionDispatcher(
                     Message.ProfileLoaded.Success(
                         profile = currentProfile,
                         streak = streak,
-                        streakFreezeState = getStreakFreezeState(streakFreezeProduct, items, currentProfile.gamification.hypercoinsBalance)
+                        streakFreezeState = getStreakFreezeState(streakFreezeProduct, streak)
                     )
                 )
             }
@@ -124,11 +120,11 @@ class ProfileActionDispatcher(
                 }
             )
 
-    private fun getStreakFreezeState(streakFreezeProduct: Product?, items: List<Item>?, hypercoinsBalance: Int): ProfileFeature.StreakFreezeState? =
+    private fun getStreakFreezeState(streakFreezeProduct: Product?, streak: Streak?): ProfileFeature.StreakFreezeState? =
         when {
-            streakFreezeProduct == null || items == null -> null
-            items.any { it.productId == streakFreezeProduct.id && it.usedAt == null } -> ProfileFeature.StreakFreezeState.AlreadyHave
-            hypercoinsBalance >= streakFreezeProduct.price -> ProfileFeature.StreakFreezeState.CanBuy(streakFreezeProduct.id, streakFreezeProduct.price)
+            streakFreezeProduct == null || streak == null -> null
+            streak.canFreeze -> ProfileFeature.StreakFreezeState.AlreadyHave
+            streak.canBuyFreeze -> ProfileFeature.StreakFreezeState.CanBuy(streakFreezeProduct.id, streakFreezeProduct.price)
             else -> ProfileFeature.StreakFreezeState.NotEnoughGems(streakFreezeProduct.price)
         }
 }

@@ -59,6 +59,8 @@ final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, A
                 return .track
             case .profile:
                 return .profile
+            case .debug:
+                return .debug
             }
         }
 

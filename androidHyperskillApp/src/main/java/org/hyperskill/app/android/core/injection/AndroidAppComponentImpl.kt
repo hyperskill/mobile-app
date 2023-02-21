@@ -53,6 +53,8 @@ import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
 import org.hyperskill.app.magic_links.injection.MagicLinksDataComponentImpl
 import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainComponentImpl
+import org.hyperskill.app.main.injection.MainDataComponent
+import org.hyperskill.app.main.injection.MainDataComponentImpl
 import org.hyperskill.app.main.injection.PlatformMainComponent
 import org.hyperskill.app.main.injection.PlatformMainComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
@@ -193,6 +195,9 @@ class AndroidAppComponentImpl(
 
     override fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent =
         PlatformAuthSocialWebViewComponentImpl()
+
+    override fun buildMainDataComponent(): MainDataComponent =
+        MainDataComponentImpl(this)
 
     /**
      * Auth social component

@@ -27,7 +27,7 @@ platform :android do
     UI.user_error!("Required firebase_cli_token: a refresh token to communicate with Firebase") if firebase_cli_token.nil?
 
     gradle(
-      task: "clean assembleRelease",
+      task: "clean assembleInternalRelease",
       gradle_path: gradle_path,
     )
 

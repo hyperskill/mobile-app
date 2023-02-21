@@ -11,7 +11,6 @@ class ProfileComponentImpl(private val appGraph: AppGraph) : ProfileComponent {
             appGraph.buildStreaksDataComponent().streaksInteractor,
             appGraph.streakFlowDataComponent.streakFlow,
             appGraph.buildProductsDataComponent().productsInteractor,
-            appGraph.buildItemsDataComponent().itemsInteractor,
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor,
             appGraph.buildMagicLinksDataComponent().urlPathProcessor

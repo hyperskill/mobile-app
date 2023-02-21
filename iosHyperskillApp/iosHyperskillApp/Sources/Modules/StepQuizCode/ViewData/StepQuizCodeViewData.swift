@@ -13,7 +13,6 @@ struct StepQuizCodeViewData {
     let executionMemoryLimit: String?
 
     let stepText: String
-    let stepStats: String
 
     struct Sample: Hashable {
         let inputTitle: String

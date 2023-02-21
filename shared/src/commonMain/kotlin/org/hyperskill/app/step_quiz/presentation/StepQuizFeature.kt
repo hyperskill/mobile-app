@@ -3,6 +3,7 @@ package org.hyperskill.app.step_quiz.presentation
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.permissions.StepQuizUserPermissionRequest
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
@@ -103,7 +104,12 @@ interface StepQuizFeature {
             val shouldResetReply: Boolean
         ) : Action
         data class CreateSubmissionValidateReply(val step: Step, val reply: Reply) : Action
-        data class CreateSubmission(val step: Step, val attemptId: Long, val submission: Submission) : Action
+        data class CreateSubmission(
+            val step: Step,
+            val stepContext: StepContext,
+            val attemptId: Long,
+            val submission: Submission
+        ) : Action
 
         data class RequestUserPermissionResult(
             val userPermissionRequest: StepQuizUserPermissionRequest,

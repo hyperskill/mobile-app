@@ -2,6 +2,7 @@ package org.hyperskill.app.step.data.repository
 
 import org.hyperskill.app.step.data.source.StepRemoteDataSource
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step.domain.repository.StepRepository
 
 class StepRepositoryImpl(
@@ -18,4 +19,8 @@ class StepRepositoryImpl(
 
     override suspend fun getRecommendedStepsByTopicId(topicId: Long): Result<List<Step>> =
         stepRemoteDataSource.getRecommendedStepsByTopicId(topicId)
+
+    override suspend fun viewStep(stepId: Long, stepContext: StepContext) {
+        stepRemoteDataSource.viewStep(stepId, stepContext)
+    }
 }
