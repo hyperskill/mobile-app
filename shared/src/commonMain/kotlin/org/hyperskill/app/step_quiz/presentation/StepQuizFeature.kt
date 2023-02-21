@@ -5,6 +5,7 @@ import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
+import org.hyperskill.app.step_quiz.domain.model.permissions.StepQuizUserPermissionRequest
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
@@ -68,15 +69,29 @@ interface StepQuizFeature {
         data class SyncReply(val reply: Reply) : Message
 
         /**
-         * Reset code
+         * Request user permission
          */
-        data class RequestResetCodeResult(val isGranted: Boolean) : Message
+        data class RequestUserPermission(val userPermissionRequest: StepQuizUserPermissionRequest) : Message
+        data class RequestUserPermissionResult(
+            val userPermissionRequest: StepQuizUserPermissionRequest,
+            val isGranted: Boolean
+        ) : Message
+
+        /**
+         * Show problem of day solve modal
+         */
+
+        data class ShowProblemOfDaySolvedModal(val earnedGemsText: String) : Message
+
+        object ProblemOfDaySolvedModalGoBackClicked : Message
 
         /**
          * Analytic
          */
         object ClickedCodeDetailsEventMessage : Message
         object ClickedRetryEventMessage : Message
+        object DailyStepCompletedModalShownEventMessage : Message
+        object DailyStepCompletedModalHiddenEventMessage : Message
     }
 
     sealed interface Action {
@@ -96,6 +111,11 @@ interface StepQuizFeature {
             val submission: Submission
         ) : Action
 
+        data class RequestUserPermissionResult(
+            val userPermissionRequest: StepQuizUserPermissionRequest,
+            val isGranted: Boolean
+        ) : Action
+
         /**
          * Analytic
          */
@@ -104,7 +124,13 @@ interface StepQuizFeature {
         sealed interface ViewAction : Action {
             object ShowNetworkError : ViewAction // error
 
-            object RequestResetCode : ViewAction
+            data class RequestUserPermission(val userPermissionRequest: StepQuizUserPermissionRequest) : ViewAction
+
+            data class ShowProblemOfDaySolvedModal(val earnedGemsText: String) : ViewAction
+
+            sealed interface NavigateTo : ViewAction {
+                object Back : NavigateTo
+            }
         }
     }
 }

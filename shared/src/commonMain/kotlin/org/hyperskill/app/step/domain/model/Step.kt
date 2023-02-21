@@ -32,7 +32,7 @@ data class Step(
     @SerialName("seconds_to_complete")
     val secondsToComplete: Float?,
     @SerialName("last_completed_at")
-    val lastCompletedAt: Instant
+    val lastCompletedAt: Instant? = null
 ) {
     @Serializable
     enum class Type {
@@ -42,6 +42,6 @@ data class Step(
         PRACTICE
     }
 
-    val millisSinceLastCompleted: Long
-        get() = (Clock.System.now() - lastCompletedAt).inWholeMilliseconds
+    val millisSinceLastCompleted: Long?
+        get() = lastCompletedAt?.let { (Clock.System.now() - it).inWholeMilliseconds }
 }

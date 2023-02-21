@@ -5,12 +5,14 @@ import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
+import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import org.hyperskill.app.step.data.source.StepRemoteDataSource
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step.remote.model.StepResponse
+import org.hyperskill.app.step.remote.model.ViewsRequest
 
 class StepRemoteDataSourceImpl(
     private val httpClient: HttpClient
@@ -47,8 +49,7 @@ class StepRemoteDataSourceImpl(
             httpClient
                 .post("/api/views") {
                     contentType(ContentType.Application.Json)
-                    parameter("step", stepId)
-                    parameter("context", stepContext)
+                    setBody(ViewsRequest(stepId, stepContext))
                 }
         }
     }

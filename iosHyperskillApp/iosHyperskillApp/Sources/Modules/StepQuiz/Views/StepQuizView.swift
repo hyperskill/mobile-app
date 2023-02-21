@@ -95,7 +95,7 @@ struct StepQuizView: View {
         step: Step,
         quizName: String?,
         quizType: StepQuizChildQuizType,
-        formattedStats: String,
+        formattedStats: String?,
         feedbackHintText: String?
     ) -> some View {
         if let quizName {
@@ -117,7 +117,9 @@ struct StepQuizView: View {
                 // it's rendered before step text
             } else {
                 buildChildQuiz(quizType: quizType, step: step, attemptLoadedState: attemptLoadedState)
-                StepQuizStatsView(text: formattedStats)
+                if let formattedStats {
+                    StepQuizStatsView(text: formattedStats)
+                }
                 buildQuizStatusView(state: state, attemptLoadedState: attemptLoadedState)
 
                 if let feedbackHintText {
@@ -240,8 +242,22 @@ struct StepQuizView: View {
         switch StepQuizFeatureActionViewActionKs(viewAction) {
         case .showNetworkError:
             ProgressHUD.showError(status: Strings.General.connectionError)
-        case .requestResetCode:
-            presentResetCodePermissionAlert()
+        case .requestUserPermission(let requestUserPermissionViewAction):
+            switch requestUserPermissionViewAction.userPermissionRequest {
+            case StepQuizUserPermissionRequest.resetCode:
+                presentResetCodePermissionAlert()
+            case StepQuizUserPermissionRequest.sendDailyStudyReminders:
+                presentSendDailyStudyRemindersPermissionAlert()
+            default:
+                break
+            }
+        case .showProblemOfDaySolvedModal(let showProblemOfDaySolvedModalViewAction):
+            presentDailyStepCompletedModal(earnedGemsText: showProblemOfDaySolvedModalViewAction.earnedGemsText)
+        case .navigateTo(let viewActionNavigateTo):
+            switch StepQuizFeatureActionViewActionNavigateToKs(viewActionNavigateTo) {
+            case .back:
+                stackRouter.popViewController()
+            }
         }
     }
 }
@@ -251,8 +267,8 @@ struct StepQuizView: View {
 extension StepQuizView {
     private func presentResetCodePermissionAlert() {
         let alert = UIAlertController(
-            title: Strings.StepQuizCode.ResetCodePermissionAlert.title,
-            message: Strings.StepQuizCode.ResetCodePermissionAlert.message,
+            title: viewModel.makeUserPermissionRequestTitle(StepQuizUserPermissionRequest.resetCode),
+            message: viewModel.makeUserPermissionRequestMessage(StepQuizUserPermissionRequest.resetCode),
             preferredStyle: .alert
         )
         alert.addAction(
@@ -275,5 +291,53 @@ extension StepQuizView {
         )
 
         modalRouter.presentAlert(alert)
+    }
+
+    private func presentSendDailyStudyRemindersPermissionAlert() {
+        let alert = UIAlertController(
+            title: viewModel.makeUserPermissionRequestTitle(StepQuizUserPermissionRequest.sendDailyStudyReminders),
+            message: viewModel.makeUserPermissionRequestMessage(StepQuizUserPermissionRequest.sendDailyStudyReminders),
+            preferredStyle: .alert
+        )
+        alert.addAction(
+            UIAlertAction(
+                title: Strings.General.ok,
+                style: .default,
+                handler: { [weak viewModel] _ in
+                    viewModel?.handleSendDailyStudyRemindersPermissionRequestResult(isGranted: true)
+                }
+            )
+        )
+        alert.addAction(
+            UIAlertAction(
+                title: Strings.General.later,
+                style: .cancel,
+                handler: { [weak viewModel] _ in
+                    viewModel?.handleSendDailyStudyRemindersPermissionRequestResult(isGranted: false)
+                }
+            )
+        )
+
+        modalRouter.presentAlert(alert)
+    }
+}
+
+// MARK: - StepQuizView (Modals) -
+
+extension StepQuizView {
+    private func presentDailyStepCompletedModal(earnedGemsText: String) {
+        viewModel.logDailyStepCompletedModalShownEvent()
+
+        let panModal = ProblemOfDaySolvedModalViewController(
+            earnedGemsText: earnedGemsText,
+            onGoBackButtonTap: { [weak viewModel] in
+                viewModel?.doGoBackAction()
+            }
+        )
+        panModal.onDisappear = { [weak viewModel] in
+            viewModel?.logDailyStepCompletedModalHiddenEvent()
+        }
+
+        panModalPresenter.presentPanModal(panModal)
     }
 }

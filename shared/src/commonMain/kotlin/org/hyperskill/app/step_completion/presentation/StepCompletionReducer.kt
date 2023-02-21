@@ -10,11 +10,6 @@ import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Act
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.ContinueButtonAction
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.State
-import org.hyperskill.app.step_completion.domain.analytic.daily_notifications_notice.StepCompletionHiddenDailyNotificationsNoticeHyperskillAnalyticEvent
-import org.hyperskill.app.step_completion.domain.analytic.daily_notifications_notice.StepCompletionShownDailyNotificationsNoticeHyperskillAnalyticEvent
-import org.hyperskill.app.step_completion.domain.analytic.daily_step_completed_modal.StepCompletionDailyStepCompletedModalClickedGoBackHyperskillAnalyticEvent
-import org.hyperskill.app.step_completion.domain.analytic.daily_step_completed_modal.StepCompletionDailyStepCompletedModalHiddenHyperskillAnalyticEvent
-import org.hyperskill.app.step_completion.domain.analytic.daily_step_completed_modal.StepCompletionDailyStepCompletedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.topic_completed_modal.StepCompletionTopicCompletedModalClickedContinueNextTopicHyperskillAnalyticEvent
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
@@ -97,32 +92,13 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                 } else {
                     null
                 }
-            is Message.RequestDailyStudyRemindersPermission ->
-                state to setOf(
-                    Action.LogAnalyticEvent(
-                        StepCompletionShownDailyNotificationsNoticeHyperskillAnalyticEvent(stepRoute.analyticRoute)
-                    ),
-                    Action.ViewAction.RequestDailyStudyRemindersPermission
-                )
-            is Message.RequestDailyStudyRemindersPermissionResult -> {
-                val analyticEvent = StepCompletionHiddenDailyNotificationsNoticeHyperskillAnalyticEvent(
-                    route = stepRoute.analyticRoute,
-                    isAgreed = message.isGranted
-                )
-                state to setOf(
-                    Action.RequestDailyStudyRemindersPermissionResult(message.isGranted),
-                    Action.LogAnalyticEvent(analyticEvent)
-                )
-            }
             is Message.StepSolved ->
                 if (!state.isPracticingLoading &&
                     stepRoute is StepRoute.Learn &&
                     message.stepId == state.currentStep.id &&
                     state.currentStep.topic != null
                 ) {
-                    state.copy(isPracticingLoading = true) to setOf(
-                        Action.CheckTopicCompletionStatus(state.currentStep.topic)
-                    )
+                    state.copy(isPracticingLoading = true) to setOf(Action.CheckTopicCompletionStatus(state.currentStep.topic))
                 } else {
                     null
                 }
@@ -138,28 +114,5 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                 )
                 state to setOf(Action.LogAnalyticEvent(event))
             }
-            is Message.DailyStepCompletedModalShownEventMessage ->
-                state to setOf(
-                    Action.LogAnalyticEvent(
-                        StepCompletionDailyStepCompletedModalShownHyperskillAnalyticEvent(stepRoute.analyticRoute)
-                    )
-                )
-            is Message.DailyStepCompletedModalHiddenEventMessage ->
-                state to setOf(
-                    Action.LogAnalyticEvent(
-                        StepCompletionDailyStepCompletedModalHiddenHyperskillAnalyticEvent(stepRoute.analyticRoute)
-                    )
-                )
-            is Message.ShowProblemOfDaySolvedModal ->
-                state to setOf(Action.ViewAction.ShowProblemOfDaySolvedModal(message.earnedGemsText))
-            is Message.ProblemOfDaySolvedModalGoBackClicked ->
-                state to setOf(
-                    Action.LogAnalyticEvent(
-                        StepCompletionDailyStepCompletedModalClickedGoBackHyperskillAnalyticEvent(
-                            stepRoute.analyticRoute
-                        )
-                    ),
-                    Action.ViewAction.NavigateTo.Back
-                )
         } ?: (state to emptySet())
 }

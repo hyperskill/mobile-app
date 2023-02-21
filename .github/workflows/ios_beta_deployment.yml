@@ -49,6 +49,7 @@ jobs:
       working-directory: './iosHyperskillApp'
       run: bundle exec fastlane beta install_pods:false
       env:
+        HYPERSKILL_IS_INTERNAL_TESTING: true
         FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 60
         IS_GIT_CRYPT_UNLOCKED: ${{ steps.setup.outputs.is-git-crypt-unlocked }}
         KEYCHAIN_NAME: ${{ secrets.KEYCHAIN_NAME }}
