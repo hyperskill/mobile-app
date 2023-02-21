@@ -22,11 +22,11 @@ final class NotificationsService {
     }
 
     func handleLaunchOptions(_ launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
-        guard let localNotification = launchOptions?[.localNotification] as? UILocalNotification else {
-            return
+        if let localNotification = launchOptions?[.localNotification] as? UILocalNotification {
+            handleLocalNotification(with: localNotification.userInfo)
+        } else if let remoteNotificationUserInfo = launchOptions?[.remoteNotification] as? NotificationUserInfo {
+            handleRemoteNotification(with: remoteNotificationUserInfo)
         }
-
-        handleLocalNotification(with: localNotification.userInfo)
     }
 
     enum NotificationType: String {
@@ -46,7 +46,9 @@ extension NotificationsService {
         do {
             try await self.localNotificationsService.scheduleNotification(localNotification)
         } catch {
+            #if DEBUG
             print("NotificationsService :: failed schedule local notification with error: \(error)")
+            #endif
         }
     }
 
@@ -118,5 +120,15 @@ extension NotificationsService {
     enum PayloadKey: String {
         case type
         case id
+    }
+}
+
+// MARK: - NotificationsService (RemoteNotifications) -
+
+extension NotificationsService {
+    func handleRemoteNotification(with userInfo: NotificationUserInfo) {
+        #if DEBUG
+        print("NotificationsService: did receive remote notification with userInfo: \(userInfo)")
+        #endif
     }
 }
