@@ -149,7 +149,6 @@ extension NotificationsRegistrationService: MessagingDelegate {
 
 extension NotificationsRegistrationService {
     private func addObservers() {
-        // UIApplication lifecycle
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleApplicationDidBecomeActive),
