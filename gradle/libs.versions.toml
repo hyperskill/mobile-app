@@ -64,8 +64,13 @@ android-test-junit = { module = "junit:junit", version = "4.13.2" }
 android-test-runner = { module = "androidx.test:runner", version = "1.4.0" }
 android-test-robolectric = { module = "org.robolectric:robolectric", version = "4.7.1" }
 
-gms-services = { module = "com.google.android.gms:play-services-base", version = "18.1.0" }
-gms-login = { module = "com.google.android.gms:play-services-auth", version = "20.4.0" }
+plugin-googleServises = { module = "com.google.gms:google-services", version = "4.3.15" }
+gms-play-services = { module = "com.google.android.gms:play-services-base", version = "18.1.0" }
+gms-play-login = { module = "com.google.android.gms:play-services-auth", version = "20.4.0" }
+
+firebase-bom = { module = "com.google.firebase:firebase-bom", version = "31.2.2" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging-ktx" }
+
 viewbinding = { module = "com.github.kirich1409:viewbindingpropertydelegate", version = "1.5.6" }
 
 mokoResources-main = { module = "dev.icerock.moko:resources", version.ref = "mokoResources" }
@@ -109,3 +114,5 @@ accompanist-themeadapter = { module = "com.google.accompanist:accompanist-themea
 [bundles]
 ktor-common = ['ktor-core', 'ktor-serialization', 'ktor-logging', 'ktor-contentNegotiation', 'ktor-serialization-json']
 android-test = ['android-test-junit', 'android-test-runner', 'android-test-robolectric']
+play-servises = ['gms-play-services', 'gms-play-login']
+firebase = ['firebase-bom', 'firebase-messaging']
