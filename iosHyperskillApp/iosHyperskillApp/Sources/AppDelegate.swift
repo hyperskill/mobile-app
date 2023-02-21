@@ -1,3 +1,4 @@
+import FirebaseCore
 import GoogleSignIn
 import SwiftUI
 import UIKit
@@ -26,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AppAppearance.themeApplication(window: window.require())
         ApplicationThemeService.default.applyDefaultTheme()
 
+        FirebaseApp.configure()
         SentryManager.shared.setup()
         ProgressHUD.configure()
         KeyboardManager.configure()
