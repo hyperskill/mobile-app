@@ -90,7 +90,10 @@ class StepCompletionActionDispatcher(
 
                         val topicTitle = topicTitleResult.await()
                             .map { it.title }
-                            .getOrElse { return@getOrElse onNewMessage(Message.CheckTopicCompletionStatus.Error) }
+                            .getOrElse {
+                                onNewMessage(Message.CheckTopicCompletionStatus.Error)
+                                return@coroutineScope
+                            }
                         val nextStepId = nextStepIdResult.await()
                             .getOrNull()
                             ?.theoryId
