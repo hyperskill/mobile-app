@@ -81,20 +81,20 @@ class StepCompletionActionDispatcher(
                     topicCompletedFlow.notifyDataChanged(action.topicId)
 
                     coroutineScope {
-                        val topicTitleResult = async {
+                        val topicResult = async {
                             topicsInteractor.getTopic(action.topicId)
                         }
-                        val nextStepIdResult = async {
+                        val nextTopicToDiscoverResult = async {
                             topicsToDiscoverNextInteractor.getNextTopicToDiscover()
                         }
 
-                        val topicTitle = topicTitleResult.await()
+                        val topicTitle = topicResult.await()
                             .map { it.title }
                             .getOrElse {
                                 onNewMessage(Message.CheckTopicCompletionStatus.Error)
                                 return@coroutineScope
                             }
-                        val nextStepId = nextStepIdResult.await()
+                        val nextStepId = nextTopicToDiscoverResult.await()
                             .getOrNull()
                             ?.theoryId
 
