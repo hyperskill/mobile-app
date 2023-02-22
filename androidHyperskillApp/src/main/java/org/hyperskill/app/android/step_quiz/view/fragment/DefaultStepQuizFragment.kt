@@ -3,6 +3,7 @@ package org.hyperskill.app.android.step_quiz.view.fragment
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.children
 import androidx.core.view.isVisible
@@ -39,6 +40,7 @@ import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
 import org.hyperskill.app.step_quiz.presentation.StepQuizViewModel
+import org.hyperskill.app.step_quiz.view.mapper.StepQuizStatsTextMapper
 import org.hyperskill.app.step_quiz.view.mapper.StepQuizUserPermissionRequestTextMapper
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
@@ -51,6 +53,10 @@ abstract class DefaultStepQuizFragment :
 
     private lateinit var userPermissionRequestTextMapper: StepQuizUserPermissionRequestTextMapper
     private lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val stepQuizStatsTextMapper: StepQuizStatsTextMapper? by lazy(LazyThreadSafetyMode.NONE) {
+        StepQuizStatsTextMapper(HyperskillApp.graph().commonComponent.resourceProvider)
+    }
 
     protected val viewBinding: FragmentStepQuizBinding by viewBinding(FragmentStepQuizBinding::bind)
     private val stepQuizViewModel: StepQuizViewModel by viewModels { viewModelFactory }
@@ -89,6 +95,7 @@ abstract class DefaultStepQuizFragment :
         stepQuizFormDelegate = createStepQuizFormDelegate().also { delegate ->
             delegate.customizeSubmissionButton(viewBinding.stepQuizButtons.stepQuizSubmitButton)
         }
+        renderStatistics(viewBinding.stepQuizStatistics, step)
         initButtonsViewStateDelegate()
         setupQuizButtons()
 
@@ -97,6 +104,13 @@ abstract class DefaultStepQuizFragment :
         }
 
         stepQuizViewModel.onNewMessage(StepQuizFeature.Message.InitWithStep(step))
+    }
+
+    private fun renderStatistics(textView: TextView, step: Step) {
+        val stepQuizStats =
+            stepQuizStatsTextMapper?.getFormattedStepQuizStats(step.solvedBy, step.millisSinceLastCompleted)
+        textView.text = stepQuizStats
+        textView.isVisible = stepQuizStats != null
     }
 
     private fun initButtonsViewStateDelegate() {
