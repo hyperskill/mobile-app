@@ -86,7 +86,7 @@ abstract class DefaultStepQuizFragment :
         super.onViewCreated(view, savedInstanceState)
         viewStateDelegate = StepQuizViewStateDelegateFactory.create(viewBinding, skeletonView, *quizViews)
         stepQuizFeedbackBlocksDelegate = StepQuizFeedbackBlocksDelegate(requireContext(), viewBinding.stepQuizFeedbackBlocks)
-        stepQuizFormDelegate = createStepQuizFormDelegate(viewBinding).also { delegate ->
+        stepQuizFormDelegate = createStepQuizFormDelegate().also { delegate ->
             delegate.customizeSubmissionButton(viewBinding.stepQuizButtons.stepQuizSubmitButton)
         }
         initButtonsViewStateDelegate()
@@ -143,7 +143,7 @@ abstract class DefaultStepQuizFragment :
         stepQuizFormDelegate = null
     }
 
-    protected abstract fun createStepQuizFormDelegate(containerBinding: FragmentStepQuizBinding): StepQuizFormDelegate
+    protected abstract fun createStepQuizFormDelegate(): StepQuizFormDelegate
 
     protected open fun onNewState(state: StepQuizFeature.State) {}
 

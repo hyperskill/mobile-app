@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import androidx.fragment.app.Fragment
-import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizTableBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.fragment.DefaultStepQuizFragment
@@ -49,7 +48,7 @@ class TableStepQuizFragment :
         super.onDestroyView()
     }
 
-    override fun createStepQuizFormDelegate(containerBinding: FragmentStepQuizBinding): StepQuizFormDelegate {
+    override fun createStepQuizFormDelegate(): StepQuizFormDelegate {
         tableStepQuizFormDelegate = TableStepQuizFormDelegate(binding, childFragmentManager, onQuizChanged = ::syncReplyState)
         return tableStepQuizFormDelegate
     }

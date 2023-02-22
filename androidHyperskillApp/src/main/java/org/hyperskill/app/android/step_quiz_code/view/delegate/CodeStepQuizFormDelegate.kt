@@ -3,20 +3,16 @@ package org.hyperskill.app.android.step_quiz_code.view.delegate
 import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
-import android.view.ViewGroup
 import com.google.android.material.button.MaterialButton
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.code.view.widget.CodeEditorLayout
 import org.hyperskill.app.android.code.view.widget.withoutTextChangeCallback
-import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
 
 class CodeStepQuizFormDelegate(
-    containerBinding: FragmentStepQuizBinding,
     private val codeLayout: CodeEditorLayout,
     initialCode: String,
     private val langName: String,
@@ -38,12 +34,6 @@ class CodeStepQuizFormDelegate(
     }
 
     init {
-        (
-            (containerBinding.root.parent.parent as View).findViewById<View>(R.id.stepQuizDescriptionDivider)
-                .layoutParams as ViewGroup.MarginLayoutParams
-            )
-            .setMargins(0, 0, 0, 0)
-
         with(codeLayoutDelegate) {
             setEnabled(true)
             setLanguage(langName, code)
