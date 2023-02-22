@@ -8,7 +8,6 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
-import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireMainRouter
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
@@ -96,8 +95,6 @@ class StepFragment :
                     StepCompletionFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
                         requireRouter().backTo(MainScreen)
                         parentFragmentManager.requireMainRouter().switch(HomeScreen)
-                        childFragmentManager
-                            .dismissDialogFragmentIfExists(TopicPracticeCompletedBottomSheet.Tag)
                     }
 
                     is StepCompletionFeature.Action.ViewAction.ReloadStep -> {
@@ -109,8 +106,15 @@ class StepFragment :
                     }
 
                     is StepCompletionFeature.Action.ViewAction.ShowTopicCompletedModal -> {
-                        TopicPracticeCompletedBottomSheet.newInstance(stepCompletionAction.modalText)
-                            .showIfNotExists(childFragmentManager, TopicPracticeCompletedBottomSheet.Tag)
+                        TopicPracticeCompletedBottomSheet
+                            .newInstance(
+                                stepCompletionAction.modalText,
+                                stepCompletionAction.isNextStepAvailable
+                            )
+                            .showIfNotExists(
+                                childFragmentManager,
+                                TopicPracticeCompletedBottomSheet.Tag
+                            )
                     }
                 }
             }
