@@ -71,6 +71,7 @@
     <string name="step_quiz_problem_of_day_solved_modal_title">Problem of the day solved!</string>
     <string name="step_quiz_problem_of_day_solved_modal_text">Solve another one tomorrow to get more</string>
     <string name="step_quiz_topic_completed_modal_text">You completed %s</string>
+    <string name="step_quiz_topic_completed_continue_with_next_topic_button_text">Continue with next topic</string>
 
     <!-- Step quiz hint -->
     <string name="step_quiz_hints_show_button_text">See hint</string>
