@@ -18,7 +18,9 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/step_content_padding">
+            android:padding="@dimen/step_content_padding"
+            android:background="?colorSurface"
+            >
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/stepTheoryTimeToComplete"
