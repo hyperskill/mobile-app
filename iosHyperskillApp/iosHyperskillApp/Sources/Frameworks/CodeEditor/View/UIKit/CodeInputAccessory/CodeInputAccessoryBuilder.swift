@@ -10,7 +10,12 @@ enum CodeInputAccessoryBuilder {
     ) -> UIView {
         let symbols = CodeInputAccessorySymbols.symbols(for: language)
 
-        var buttons = [CodeInputAccessoryButtonData(title: "Tab", action: tabAction)]
+        var buttons = [
+            CodeInputAccessoryButtonData(title: "Tab", action: tabAction),
+            CodeInputAccessoryButtonData(title: "📋", action: {
+                insertStringAction(UIPasteboard.general.string ?? "")
+            })
+        ]
 
         for symbol in symbols {
             let button = CodeInputAccessoryButtonData(title: symbol, action: { insertStringAction(symbol) })
