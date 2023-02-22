@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.view.ContextThemeWrapper
+import androidx.core.view.isVisible
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -22,13 +23,18 @@ class TopicPracticeCompletedBottomSheet : BottomSheetDialogFragment() {
     companion object {
         const val Tag = "TopicPracticeCompletedBottomSheet"
 
-        fun newInstance(title: String): TopicPracticeCompletedBottomSheet =
+        fun newInstance(
+            title: String,
+            isNextStepAvailable: Boolean
+        ): TopicPracticeCompletedBottomSheet =
             TopicPracticeCompletedBottomSheet().apply {
                 this.title = title
+                this.isNextStepAvailable = isNextStepAvailable
             }
     }
 
     private var title: String by argument()
+    private var isNextStepAvailable: Boolean by argument()
 
     private val viewBinding: FragmentTopicPracticeCompletedBinding by viewBinding(FragmentTopicPracticeCompletedBinding::bind)
 
@@ -66,8 +72,29 @@ class TopicPracticeCompletedBottomSheet : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(viewBinding) {
             completedDailyStepDescriptionTextView.text = title
+
+            completedDailyStepGoBackButton.isVisible = isNextStepAvailable
             completedDailyStepGoBackButton.setOnClickListener {
+                dismiss()
                 onNewMessage(StepCompletionFeature.Message.TopicCompletedModalGoToHomeScreenClicked)
+            }
+
+            completedDailyStepPrimaryButton.setText(
+                if (isNextStepAvailable) {
+                    org.hyperskill.app.R.string.step_quiz_topic_completed_continue_with_next_topic_button_text
+                } else {
+                    org.hyperskill.app.R.string.go_to_homescreen
+                }
+            )
+            completedDailyStepPrimaryButton.setOnClickListener {
+                dismiss()
+                onNewMessage(
+                    if (isNextStepAvailable) {
+                        StepCompletionFeature.Message.TopicCompletedModalContinueNextTopicClicked
+                    } else {
+                        StepCompletionFeature.Message.TopicCompletedModalGoToHomeScreenClicked
+                    }
+                )
             }
         }
     }
