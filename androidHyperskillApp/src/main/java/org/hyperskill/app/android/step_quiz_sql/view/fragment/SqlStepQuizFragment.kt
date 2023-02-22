@@ -55,7 +55,6 @@ class SqlStepQuizFragment : DefaultStepQuizFragment(), CodeStepQuizFullScreenDia
 
     override fun createStepQuizFormDelegate(containerBinding: FragmentStepQuizBinding): StepQuizFormDelegate {
         val codeStepQuizFormDelegate = SqlStepQuizFormDelegate(
-            containerBinding = containerBinding,
             codeLayout = binding.codeStepLayout,
             sqlCodeTemplate = getSqlCodeTemplate(step),
             onFullscreenClicked = ::onFullScreenClicked,

@@ -46,5 +46,5 @@ class MatchingStepQuizFragment :
     }
 
     override fun createStepQuizFormDelegate(containerBinding: FragmentStepQuizBinding): StepQuizFormDelegate =
-        MatchingStepQuizFormDelegate(containerBinding, binding, onQuizChanged = ::syncReplyState)
+        MatchingStepQuizFormDelegate(binding, onQuizChanged = ::syncReplyState)
 }

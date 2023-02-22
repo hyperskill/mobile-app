@@ -1,12 +1,10 @@
 package org.hyperskill.app.android.step_quiz_text.view.delegate
 
+import android.content.Context
 import android.text.InputType
 import android.text.InputType.TYPE_NUMBER_FLAG_SIGNED
 import android.widget.TextView
-import androidx.annotation.StringRes
 import androidx.core.widget.doAfterTextChanged
-import org.hyperskill.app.android.R
-import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizTextBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.step.domain.model.BlockName
@@ -16,38 +14,45 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 
 class TextStepQuizFormDelegate(
-    containerBinding: FragmentStepQuizBinding,
     binding: LayoutStepQuizTextBinding,
     private val stepBlockName: String?,
     private val onQuizChanged: (Reply) -> Unit
 ) : StepQuizFormDelegate {
     private val quizTextField = binding.stringStepQuizFieldEditText as TextView
-    private val quizDescription = containerBinding.stepQuizDescription
-
     init {
-        val (inputType, @StringRes descriptionTextRes) =
+        quizTextField.inputType =
             when (val blockName = stepBlockName) {
                 BlockName.STRING ->
-                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE to org.hyperskill.app.R.string.step_quiz_string_title
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
 
                 BlockName.NUMBER ->
                     InputType.TYPE_CLASS_NUMBER or
                         InputType.TYPE_NUMBER_FLAG_DECIMAL or
-                        TYPE_NUMBER_FLAG_SIGNED to org.hyperskill.app.R.string.step_quiz_number_title
+                        TYPE_NUMBER_FLAG_SIGNED
 
                 BlockName.MATH ->
-                    InputType.TYPE_CLASS_TEXT to org.hyperskill.app.R.string.step_quiz_math_title
+                    InputType.TYPE_CLASS_TEXT
 
-                else ->
-                    throw IllegalArgumentException("Unsupported block type = $blockName")
+                else -> unsupportedBlockError(blockName)
             }
 
-        quizTextField.inputType = inputType
-        quizDescription.setText(descriptionTextRes)
         quizTextField.doAfterTextChanged {
             onQuizChanged(createReply())
         }
     }
+
+    override fun getQuizDescription(
+        context: Context,
+        state: StepQuizFeature.State.AttemptLoaded
+    ): String =
+        context.getString(
+            when (val blockName = stepBlockName) {
+                BlockName.STRING -> org.hyperskill.app.R.string.step_quiz_string_title
+                BlockName.NUMBER -> org.hyperskill.app.R.string.step_quiz_number_title
+                BlockName.MATH -> org.hyperskill.app.R.string.step_quiz_math_title
+                else -> unsupportedBlockError(blockName)
+            }
+        )
 
     override fun createReply(): Reply =
         quizTextField.text.toString().let { value ->
@@ -81,4 +86,7 @@ class TextStepQuizFormDelegate(
         quizTextField.isEnabled = StepQuizResolver.isQuizEnabled(state)
         quizTextField.setTextIfChanged(text)
     }
+
+    private fun unsupportedBlockError(blockName: String?): Nothing =
+        error("Unsupported block type = $blockName")
 }

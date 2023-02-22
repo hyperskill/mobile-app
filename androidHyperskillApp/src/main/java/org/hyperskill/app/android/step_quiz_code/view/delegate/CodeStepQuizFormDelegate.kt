@@ -1,5 +1,6 @@
 package org.hyperskill.app.android.step_quiz_code.view.delegate
 
+import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -43,8 +44,6 @@ class CodeStepQuizFormDelegate(
             )
             .setMargins(0, 0, 0, 0)
 
-        containerBinding.stepQuizDescription.setText(org.hyperskill.app.R.string.step_quiz_code_write_program_text)
-
         with(codeLayoutDelegate) {
             setEnabled(true)
             setLanguage(langName, code)
@@ -59,6 +58,12 @@ class CodeStepQuizFormDelegate(
             }
         }
     }
+
+    override fun getQuizDescription(
+        context: Context,
+        state: StepQuizFeature.State.AttemptLoaded
+    ): String =
+        context.getString(org.hyperskill.app.R.string.step_quiz_code_write_program_text)
 
     override fun customizeSubmissionButton(button: MaterialButton) {
         with(button) {

@@ -50,7 +50,7 @@ class TableStepQuizFragment :
     }
 
     override fun createStepQuizFormDelegate(containerBinding: FragmentStepQuizBinding): StepQuizFormDelegate {
-        tableStepQuizFormDelegate = TableStepQuizFormDelegate(containerBinding, binding, childFragmentManager, onQuizChanged = ::syncReplyState)
+        tableStepQuizFormDelegate = TableStepQuizFormDelegate(binding, childFragmentManager, onQuizChanged = ::syncReplyState)
         return tableStepQuizFormDelegate
     }
 

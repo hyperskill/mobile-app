@@ -1,9 +1,7 @@
 package org.hyperskill.app.android.step_quiz_choice.view.delegate
 
-import androidx.annotation.StringRes
+import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager
-import org.hyperskill.app.android.R
-import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizChoiceBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz_choice.view.adapter.ChoiceMultipleSelectionAdapterDelegate
@@ -18,12 +16,10 @@ import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.app.core.model.safeCast
 
 class ChoiceStepQuizFormDelegate(
-    containerBinding: FragmentStepQuizBinding,
     binding: LayoutStepQuizChoiceBinding,
     private val onQuizChanged: (Reply) -> Unit
 ) : StepQuizFormDelegate {
 
-    private val quizDescription = containerBinding.stepQuizDescription
     private val choiceStepQuizOptionsMapper = ChoiceStepQuizOptionsMapper()
     private var choicesAdapter: DefaultDelegateAdapter<Choice> = DefaultDelegateAdapter()
 
@@ -38,15 +34,6 @@ class ChoiceStepQuizFormDelegate(
 
     override fun setState(state: StepQuizFeature.State.AttemptLoaded) {
         val dataset = state.attempt.dataset ?: return
-
-        @StringRes
-        val descriptionRes =
-            if (dataset.isMultipleChoice) {
-                org.hyperskill.app.R.string.step_quiz_choice_multiple_choice_title
-            } else {
-                org.hyperskill.app.R.string.step_quiz_choice_single_choice_title
-            }
-        quizDescription.setText(descriptionRes)
 
         val submission = (state.submissionState as? StepQuizFeature.SubmissionState.Loaded)
             ?.submission
@@ -69,6 +56,18 @@ class ChoiceStepQuizFormDelegate(
             StepQuizResolver.isQuizEnabled(state)
         )
     }
+
+    override fun getQuizDescription(
+        context: Context,
+        state: StepQuizFeature.State.AttemptLoaded
+    ): String =
+        context.getString(
+            if (requireNotNull(state.attempt.dataset?.isMultipleChoice)) {
+                org.hyperskill.app.R.string.step_quiz_choice_multiple_choice_title
+            } else {
+                org.hyperskill.app.R.string.step_quiz_choice_single_choice_title
+            }
+        )
 
     override fun createReply(): Reply =
         Reply(choices = choicesAdapter.items.map { ChoiceAnswer.Choice(it.isSelected) })

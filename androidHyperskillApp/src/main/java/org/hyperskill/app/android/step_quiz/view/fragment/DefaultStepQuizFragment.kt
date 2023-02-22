@@ -271,6 +271,8 @@ abstract class DefaultStepQuizFragment :
         }
 
         if (state is StepQuizFeature.State.AttemptLoaded) {
+            viewBinding.stepQuizDescription.text =
+                stepQuizFormDelegate?.getQuizDescription(requireContext(), state)
             stepQuizFormDelegate?.setState(state)
             stepQuizFeedbackBlocksDelegate?.setState(stepQuizFeedbackMapper.mapToStepQuizFeedbackState(step.block.name, state))
             viewBinding.stepQuizButtons.stepQuizSubmitButton.isEnabled = StepQuizResolver.isQuizEnabled(state)
