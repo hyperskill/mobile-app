@@ -1,8 +1,9 @@
+import FirebaseMessaging
 import Foundation
 import shared
 import UserNotifications
 
-final class NotificationsRegistrationService {
+final class NotificationsRegistrationService: NSObject {
     static let shared = NotificationsRegistrationService(
         analyticInteractor: AppGraphBridge.sharedAppGraph.analyticComponent.analyticInteractor
     )
@@ -16,7 +17,11 @@ final class NotificationsRegistrationService {
 
     private init(analyticInteractor: AnalyticInteractor) {
         self.analyticInteractor = analyticInteractor
+
+        super.init()
+
         addObservers()
+        Messaging.messaging().delegate = self
     }
 
     // MARK: Public API
@@ -53,6 +58,10 @@ final class NotificationsRegistrationService {
 
                     logSystemNoticeHiddenEvent(isAllowed: isGranted)
 
+                    if isGranted {
+                        registerForRemoteNotifications()
+                    }
+
                     await resumeRequestAuthorizationContinuation(isGranted: isGranted)
                 } catch {
                     #if DEBUG
@@ -76,6 +85,63 @@ final class NotificationsRegistrationService {
         requestAuthorizationContinuation = nil
 
         applicationOpenedSettings = false
+    }
+}
+
+// MARK: - NotificationsRegistrationService (APNs) -
+
+extension NotificationsRegistrationService {
+    func renewAPNsDeviceToken() {
+        Task {
+            let permissionStatus = await NotificationPermissionStatus.current
+            postCurrentPermissionStatus(permissionStatus)
+
+            if permissionStatus.isRegistered {
+                registerForRemoteNotifications()
+            }
+        }
+    }
+
+    /// Handles when the app successfully registered with APNs.
+    /// - Parameter deviceToken: A globally unique token that identifies this device to APNs.
+    func handleApplicationDidRegisterForRemoteNotificationsWithDeviceToken(_ deviceToken: Data) {
+        #if DEBUG
+        print("NotificationsRegistrationService: did register for remote notifications")
+        #endif
+        setAPNsDeviceTokenToFirebaseMessaging(deviceToken)
+        postCurrentPermissionStatus()
+    }
+
+    /// Handles when Apple Push Notification service cannot successfully complete the registration process.
+    /// - Parameter error: An error that encapsulates information why registration did not succeed.
+    func handleApplicationDidFailToRegisterForRemoteNotificationsWithError(_ error: Error) {
+        #if DEBUG
+        print("NotificationsRegistrationService: did fail to register for remote notifications with error: \(error)")
+        #endif
+        postCurrentPermissionStatus()
+    }
+
+    /// Initiates the registration process with APNs.
+    private func registerForRemoteNotifications() {
+        DispatchQueue.main.async {
+            UIApplication.shared.registerForRemoteNotifications()
+        }
+    }
+
+    // MARK: FirebaseMessaging
+
+    private func setAPNsDeviceTokenToFirebaseMessaging(_ apnsToken: Data) {
+        Messaging.messaging().apnsToken = apnsToken
+    }
+}
+
+// MARK: - NotificationsRegistrationService: MessagingDelegate -
+
+extension NotificationsRegistrationService: MessagingDelegate {
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        #if DEBUG
+        print("NotificationsRegistrationService: FCM token: \(String(describing: Messaging.messaging().fcmToken))")
+        #endif
     }
 }
 
