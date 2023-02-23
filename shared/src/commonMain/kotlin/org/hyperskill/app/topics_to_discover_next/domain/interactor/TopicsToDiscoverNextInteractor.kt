@@ -9,12 +9,14 @@ import org.hyperskill.app.profile.domain.repository.ProfileRepository
 import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
 import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.topics.domain.repository.TopicsRepository
+import org.hyperskill.app.track.domain.interactor.TrackInteractor
 
 class TopicsToDiscoverNextInteractor(
     private val profileRepository: ProfileRepository,
     private val learningActivitiesRepository: LearningActivitiesRepository,
     private val topicsRepository: TopicsRepository,
-    private val progressesRepository: ProgressesRepository
+    private val progressesRepository: ProgressesRepository,
+    private val trackInteractor: TrackInteractor
 ) {
 
     companion object {
@@ -38,12 +40,19 @@ class TopicsToDiscoverNextInteractor(
                     .getCurrentProfile(primarySourceType = DataSourceType.CACHE)
                     .getOrThrow()
 
-                if (currentProfile.isCurrentTrackCompleted) {
+                if (currentProfile.isCurrentTrackCompleted || currentProfile.trackId == null) {
                     return@runCatching emptyList()
                 }
 
+                val studyPlan = trackInteractor
+                    .getStudyPlanByTrackId(currentProfile.trackId)
+                    .getOrThrow()
+
                 val learningActivities = learningActivitiesRepository
-                    .getUncompletedTopicsLearningActivities(pageSize = LEARNING_ACTIVITIES_PAGE_SIZE)
+                    .getUncompletedTopicsLearningActivities(
+                        studyPlanId = studyPlan.id,
+                        pageSize = LEARNING_ACTIVITIES_PAGE_SIZE
+                    )
                     .map { it.learningActivities }
                     .getOrThrow()
 
