@@ -7,6 +7,13 @@ struct UIViewControllerEventsWrapper: UIViewControllerRepresentable {
     var onViewWillDisappear: (() -> Void)?
     var onViewDidDisappear: (() -> Void)?
 
+    static func dismantleUIViewController(_ uiViewController: ViewRelatedEventsViewController, coordinator: ()) {
+        uiViewController.onViewWillAppear = nil
+        uiViewController.onViewDidAppear = nil
+        uiViewController.onViewWillDisappear = nil
+        uiViewController.onViewDidDisappear = nil
+    }
+
     func makeUIViewController(context: Context) -> ViewRelatedEventsViewController {
         ViewRelatedEventsViewController()
     }

@@ -30,6 +30,15 @@ struct CodeEditor: UIViewRepresentable {
 
     // MARK: UIViewRepresentable
 
+    static func dismantleUIView(_ uiView: CodeEditorView, coordinator: Coordinator) {
+        uiView.delegate = nil
+
+        coordinator.onCodeDidChange = nil
+        coordinator.onDidBeginEditing = nil
+        coordinator.onDidEndEditing = nil
+        coordinator.suggestionsPresentationContextProvider = nil
+    }
+
     func makeCoordinator() -> Coordinator {
         Coordinator(suggestionsPresentationContextProvider: suggestionsPresentationContextProvider)
     }
@@ -87,7 +96,7 @@ struct CodeEditor: UIViewRepresentable {
 
 extension CodeEditor {
     class Coordinator: NSObject, CodeEditorViewDelegate {
-        private let suggestionsPresentationContextProvider: CodeEditorSuggestionsPresentationContextProviding?
+        fileprivate var suggestionsPresentationContextProvider: CodeEditorSuggestionsPresentationContextProviding?
 
         var onCodeDidChange: ((String) -> Void)?
 

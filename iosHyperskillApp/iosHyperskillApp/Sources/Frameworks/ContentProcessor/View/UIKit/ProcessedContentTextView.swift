@@ -29,12 +29,14 @@ final class ProcessedContentTextView: UIView {
     }()
 
     private lazy var attributedLabel: AttributedLabel = {
-        let label = AttributedLabel()
-        label.font = self.appearance.font
-        label.textColor = self.appearance.textColor
-        label.onClick = self.handleAttributedLabelClicked
-        label.numberOfLines = 0
-        return label
+        let attributedLabel = AttributedLabel()
+        attributedLabel.font = self.appearance.font
+        attributedLabel.textColor = self.appearance.textColor
+        attributedLabel.onClick = { [weak self] (label, detection) in
+            self?.handleAttributedLabelClicked(label: label, detection: detection)
+        }
+        attributedLabel.numberOfLines = 0
+        return attributedLabel
     }()
 
     private var didSetupLabel = false
