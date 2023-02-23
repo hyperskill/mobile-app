@@ -6,6 +6,9 @@ extension CodeInputAccessoryView {
         let hideKeyboardImageViewTintColor = UIColor.disabledText
         let hideKeyboardImageViewInsets = LayoutInsets(top: 4, leading: 4, bottom: 4, trailing: 8)
 
+        let pasteButtonTintColor = UIColor.disabledText
+        let pasteButtonInsets = LayoutInsets(top: 8, leading: 4, bottom: 8, trailing: 8)
+
         let collectionViewInsets = LayoutInsets(top: 4, leading: 8, bottom: 4, trailing: 0)
         let collectionViewLayoutSectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 4)
         let collectionViewLayoutMinimumInteritemSpacing: CGFloat = 4
@@ -23,6 +26,8 @@ final class CodeInputAccessoryView: UIView {
 
     private let hideKeyboardAction: (() -> Void)?
 
+    private weak var pasteConfigurationSupporting: UIPasteConfigurationSupporting?
+
     private lazy var hideKeyboardImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(systemName: "keyboard.chevron.compact.down"))
         imageView.tintColor = appearance.hideKeyboardImageViewTintColor
@@ -34,6 +39,31 @@ final class CodeInputAccessoryView: UIView {
         )
         imageView.addGestureRecognizer(tapGestureRecognizer)
         return imageView
+    }()
+
+    private lazy var pasteControlView: UIView = {
+        if #available(iOS 16, *) {
+            let configuration = UIPasteControl.Configuration()
+            configuration.displayMode = .iconOnly
+            configuration.baseBackgroundColor = appearance.backgroundColor
+            configuration.baseForegroundColor = appearance.hideKeyboardImageViewTintColor
+
+            let pasteButton = UIPasteControl(configuration: configuration)
+            pasteButton.target = pasteConfigurationSupporting
+            return pasteButton
+        } else {
+            let imageView = UIImageView(image: UIImage(systemName: "doc.on.clipboard"))
+            imageView.tintColor = appearance.pasteButtonTintColor
+            imageView.contentMode = .scaleAspectFit
+            imageView.isUserInteractionEnabled = true
+
+            let tapGestureRecognizer = UITapGestureRecognizer(
+                target: self,
+                action: #selector(didTapUIPasteControlView)
+            )
+            imageView.addGestureRecognizer(tapGestureRecognizer)
+            return imageView
+        }
     }()
 
     private lazy var collectionView: UICollectionView = {
@@ -62,12 +92,14 @@ final class CodeInputAccessoryView: UIView {
         appearance: Appearance = Appearance(),
         buttons: [CodeInputAccessoryButtonData] = [],
         size: CodeInputAccessorySize = .small,
-        hideKeyboardAction: @escaping () -> Void
+        hideKeyboardAction: @escaping () -> Void,
+        pasteConfigurationSupporting: UIPasteConfigurationSupporting
     ) {
         self.appearance = appearance
         self.buttons = buttons
         self.size = size
         self.hideKeyboardAction = hideKeyboardAction
+        self.pasteConfigurationSupporting = pasteConfigurationSupporting
         super.init(frame: frame)
 
         setupView()
@@ -84,6 +116,14 @@ final class CodeInputAccessoryView: UIView {
     private func didTapHideKeyboardImageView(recognizer: UIGestureRecognizer) {
         hideKeyboardAction?()
     }
+
+    @objc
+    private func didTapUIPasteControlView(recognizer: UIGestureRecognizer) {
+        let itemProviders = UIPasteboard.general.itemProviders
+        if let pasteConfigurationSupporting, pasteConfigurationSupporting.canPaste?(itemProviders) == true {
+            pasteConfigurationSupporting.paste?(itemProviders: itemProviders)
+        }
+    }
 }
 
 // MARK: - CodeInputAccessoryView: ProgrammaticallyInitializableViewProtocol -
@@ -95,6 +135,7 @@ extension CodeInputAccessoryView: ProgrammaticallyInitializableViewProtocol {
 
     func addSubviews() {
         addSubview(hideKeyboardImageView)
+        addSubview(pasteControlView)
         addSubview(collectionView)
     }
 
@@ -107,10 +148,17 @@ extension CodeInputAccessoryView: ProgrammaticallyInitializableViewProtocol {
             make.width.equalTo(hideKeyboardImageView.snp.height)
         }
 
+        pasteControlView.translatesAutoresizingMaskIntoConstraints = false
+        pasteControlView.snp.makeConstraints { make in
+            make.top.bottom.equalToSuperview().inset(appearance.pasteButtonInsets.uiEdgeInsets)
+            make.leading.equalTo(hideKeyboardImageView.snp.trailing).offset(appearance.pasteButtonInsets.leading)
+            make.width.equalTo(pasteControlView.snp.height)
+        }
+
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.snp.makeConstraints { make in
             make.top.bottom.trailing.equalToSuperview().inset(appearance.collectionViewInsets.uiEdgeInsets)
-            make.leading.equalTo(hideKeyboardImageView.snp.trailing).offset(appearance.collectionViewInsets.leading)
+            make.leading.equalTo(pasteControlView.snp.trailing).offset(appearance.collectionViewInsets.leading)
         }
     }
 }
