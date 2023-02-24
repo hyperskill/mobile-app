@@ -7,16 +7,16 @@ import org.hyperskill.app.learning_activities.domain.repository.LearningActiviti
 import org.hyperskill.app.profile.domain.model.isCurrentTrackCompleted
 import org.hyperskill.app.profile.domain.repository.ProfileRepository
 import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
+import org.hyperskill.app.study_plan.domain.interactor.StudyPlanInteractor
 import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.topics.domain.repository.TopicsRepository
-import org.hyperskill.app.track.domain.interactor.TrackInteractor
 
 class TopicsToDiscoverNextInteractor(
     private val profileRepository: ProfileRepository,
     private val learningActivitiesRepository: LearningActivitiesRepository,
     private val topicsRepository: TopicsRepository,
     private val progressesRepository: ProgressesRepository,
-    private val trackInteractor: TrackInteractor
+    private val studyPlanInteractor: StudyPlanInteractor
 ) {
 
     companion object {
@@ -36,17 +36,15 @@ class TopicsToDiscoverNextInteractor(
     suspend fun getTopicsToDiscoverNext(): Result<List<Topic>> =
         coroutineScope {
             kotlin.runCatching {
-                val currentProfile = profileRepository
-                    .getCurrentProfile(primarySourceType = DataSourceType.CACHE)
-                    .getOrThrow()
+                val studyPlanResult = async { studyPlanInteractor.getCurrentStudyPlan() }
+                val currentProfileResult = async { profileRepository.getCurrentProfile(primarySourceType = DataSourceType.CACHE) }
 
-                if (currentProfile.isCurrentTrackCompleted || currentProfile.trackId == null) {
+                val studyPlan = studyPlanResult.await().getOrNull()
+                val currentProfile = currentProfileResult.await().getOrThrow()
+
+                if (currentProfile.isCurrentTrackCompleted || studyPlan == null) {
                     return@runCatching emptyList()
                 }
-
-                val studyPlan = trackInteractor
-                    .getStudyPlanByTrackId(currentProfile.trackId)
-                    .getOrThrow()
 
                 val learningActivities = learningActivitiesRepository
                     .getUncompletedTopicsLearningActivities(
