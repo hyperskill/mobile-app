@@ -51,6 +51,7 @@ class DailyStudyReminderNotificationDelegate(
             .setColor(ContextCompat.getColor(context, org.hyperskill.app.R.color.color_primary))
             .setContentIntent(pendingIntent)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setAutoCancel(true)
 
         showNotification(NotificationId, notification.build())
 
