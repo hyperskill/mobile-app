@@ -6,8 +6,7 @@ extension CodeInputAccessoryView {
         let hideKeyboardImageViewTintColor = UIColor.disabledText
         let hideKeyboardImageViewInsets = LayoutInsets(top: 4, leading: 4, bottom: 4, trailing: 8)
 
-        let pasteButtonTintColor = UIColor.disabledText
-        let pasteButtonInsets = LayoutInsets(top: 8, leading: 4, bottom: 8, trailing: 8)
+        let pasteButtonInsets = LayoutInsets(top: 4, leading: 4, bottom: 4, trailing: 8)
 
         let collectionViewInsets = LayoutInsets(top: 4, leading: 8, bottom: 4, trailing: 0)
         let collectionViewLayoutSectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 4)
@@ -41,30 +40,9 @@ final class CodeInputAccessoryView: UIView {
         return imageView
     }()
 
-    private lazy var pasteControlView: UIView = {
-        if #available(iOS 16, *) {
-            let configuration = UIPasteControl.Configuration()
-            configuration.displayMode = .iconOnly
-            configuration.baseBackgroundColor = appearance.backgroundColor
-            configuration.baseForegroundColor = appearance.hideKeyboardImageViewTintColor
-
-            let pasteButton = UIPasteControl(configuration: configuration)
-            pasteButton.target = pasteConfigurationSupporting
-            return pasteButton
-        } else {
-            let imageView = UIImageView(image: UIImage(systemName: "doc.on.clipboard"))
-            imageView.tintColor = appearance.pasteButtonTintColor
-            imageView.contentMode = .scaleAspectFit
-            imageView.isUserInteractionEnabled = true
-
-            let tapGestureRecognizer = UITapGestureRecognizer(
-                target: self,
-                action: #selector(didTapUIPasteControlView)
-            )
-            imageView.addGestureRecognizer(tapGestureRecognizer)
-            return imageView
-        }
-    }()
+    private lazy var pasteControlView = CodeInputPasteControl(
+        pasteConfigurationSupporting: pasteConfigurationSupporting
+    )
 
     private lazy var collectionView: UICollectionView = {
         let collectionViewLayout = UICollectionViewFlowLayout()
@@ -115,14 +93,6 @@ final class CodeInputAccessoryView: UIView {
     @objc
     private func didTapHideKeyboardImageView(recognizer: UIGestureRecognizer) {
         hideKeyboardAction?()
-    }
-
-    @objc
-    private func didTapUIPasteControlView(recognizer: UIGestureRecognizer) {
-        let itemProviders = UIPasteboard.general.itemProviders
-        if let pasteConfigurationSupporting, pasteConfigurationSupporting.canPaste?(itemProviders) == true {
-            pasteConfigurationSupporting.paste?(itemProviders: itemProviders)
-        }
     }
 }
 
