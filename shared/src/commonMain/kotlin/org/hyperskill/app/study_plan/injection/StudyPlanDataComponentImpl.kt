@@ -11,7 +11,9 @@ class StudyPlanDataComponentImpl(appGraph: AppGraph) : StudyPlanDataComponent {
     private val studyPlanRemoteDataSource: StudyPlanRemoteDataSource = StudyPlanRemoteDataSourceImpl(
         appGraph.networkComponent.authorizedHttpClient
     )
-    private val studyPlanRepository: StudyPlanRepository = StudyPlanRepositoryImpl(studyPlanRemoteDataSource)
+
+    override val studyPlanRepository: StudyPlanRepository
+        get() = StudyPlanRepositoryImpl(studyPlanRemoteDataSource)
 
     override val studyPlanInteractor: StudyPlanInteractor
         get() = StudyPlanInteractor(studyPlanRepository)
