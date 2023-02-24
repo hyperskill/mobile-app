@@ -6,7 +6,8 @@ enum CodeInputAccessoryBuilder {
         language: CodeLanguage,
         tabAction: @escaping () -> Void,
         insertStringAction: @escaping (String) -> Void,
-        hideKeyboardAction: @escaping () -> Void
+        hideKeyboardAction: @escaping () -> Void,
+        pasteConfigurationSupporting: UIPasteConfigurationSupporting
     ) -> UIView {
         let symbols = CodeInputAccessorySymbols.symbols(for: language)
 
@@ -24,7 +25,8 @@ enum CodeInputAccessoryBuilder {
             frame: frame,
             buttons: buttons,
             size: size,
-            hideKeyboardAction: { hideKeyboardAction() }
+            hideKeyboardAction: { hideKeyboardAction() },
+            pasteConfigurationSupporting: pasteConfigurationSupporting
         )
 
         return accessoryView
