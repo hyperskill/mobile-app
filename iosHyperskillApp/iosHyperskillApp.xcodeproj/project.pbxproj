@@ -281,6 +281,8 @@
 		2CD3652528796C4300D61855 /* ProfileViewDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD3652428796C4300D61855 /* ProfileViewDataMapper.swift */; };
 		2CD3652828797D3600D61855 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD3652728797D3600D61855 /* Formatter.swift */; };
 		2CD3652C287987FA00D61855 /* ProfileSocialAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD3652B287987FA00D61855 /* ProfileSocialAccount.swift */; };
+		2CD4148329A8C98000ACA855 /* OpaqueUIPasteControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD4148229A8C98000ACA855 /* OpaqueUIPasteControl.swift */; };
+		2CD4148729A8D92000ACA855 /* CodeInputPasteControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD4148629A8D92000ACA855 /* CodeInputPasteControl.swift */; };
 		2CD48D852858638A00CFCC4A /* StepQuizAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD48D842858638A00CFCC4A /* StepQuizAssembly.swift */; };
 		2CD48D872858639500CFCC4A /* StepQuizViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD48D862858639500CFCC4A /* StepQuizViewModel.swift */; };
 		2CD48D892858657100CFCC4A /* StepQuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD48D882858657100CFCC4A /* StepQuizView.swift */; };
@@ -408,7 +410,7 @@
 		E9D90905289814AA00D0EE91 /* NotificationsRegistrationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D90904289814AA00D0EE91 /* NotificationsRegistrationService.swift */; };
 		E9EF705128A7DB6500EA0C1C /* DailyStudyReminderLocalNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EF705028A7DB6500EA0C1C /* DailyStudyReminderLocalNotification.swift */; };
 		E9F27D782906447A007F16D7 /* StepQuizHintCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F27D772906447A007F16D7 /* StepQuizHintCardView.swift */; };
-		E9F2CC5329223C0200691540 /* RemoveBackButtonTitleHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F2CC5229223C0200691540 /* RemoveBackButtonTitleHostingController.swift */; };
+		E9F2CC5329223C0200691540 /* StyledHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F2CC5229223C0200691540 /* StyledHostingController.swift */; };
 		E9F2CC552922694F00691540 /* TopicsRepetitionsChartBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F2CC542922694F00691540 /* TopicsRepetitionsChartBar.swift */; };
 		E9F504CC2912842D00B788C7 /* StepQuizHintsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F504CB2912842D00B788C7 /* StepQuizHintsView.swift */; };
 		E9F504CE2912891900B788C7 /* StepQuizHintsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F504CD2912891900B788C7 /* StepQuizHintsViewModel.swift */; };
@@ -714,6 +716,8 @@
 		2CD3652428796C4300D61855 /* ProfileViewDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewDataMapper.swift; sourceTree = "<group>"; };
 		2CD3652728797D3600D61855 /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
 		2CD3652B287987FA00D61855 /* ProfileSocialAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSocialAccount.swift; sourceTree = "<group>"; };
+		2CD4148229A8C98000ACA855 /* OpaqueUIPasteControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpaqueUIPasteControl.swift; sourceTree = "<group>"; };
+		2CD4148629A8D92000ACA855 /* CodeInputPasteControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeInputPasteControl.swift; sourceTree = "<group>"; };
 		2CD48D842858638A00CFCC4A /* StepQuizAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizAssembly.swift; sourceTree = "<group>"; };
 		2CD48D862858639500CFCC4A /* StepQuizViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizViewModel.swift; sourceTree = "<group>"; };
 		2CD48D882858657100CFCC4A /* StepQuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizView.swift; sourceTree = "<group>"; };
@@ -845,7 +849,7 @@
 		E9D90904289814AA00D0EE91 /* NotificationsRegistrationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsRegistrationService.swift; sourceTree = "<group>"; };
 		E9EF705028A7DB6500EA0C1C /* DailyStudyReminderLocalNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStudyReminderLocalNotification.swift; sourceTree = "<group>"; };
 		E9F27D772906447A007F16D7 /* StepQuizHintCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizHintCardView.swift; sourceTree = "<group>"; };
-		E9F2CC5229223C0200691540 /* RemoveBackButtonTitleHostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveBackButtonTitleHostingController.swift; sourceTree = "<group>"; };
+		E9F2CC5229223C0200691540 /* StyledHostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyledHostingController.swift; sourceTree = "<group>"; };
 		E9F2CC542922694F00691540 /* TopicsRepetitionsChartBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsRepetitionsChartBar.swift; sourceTree = "<group>"; };
 		E9F504CB2912842D00B788C7 /* StepQuizHintsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizHintsView.swift; sourceTree = "<group>"; };
 		E9F504CD2912891900B788C7 /* StepQuizHintsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizHintsViewModel.swift; sourceTree = "<group>"; };
@@ -1333,6 +1337,7 @@
 				2C336D212865E37800C91342 /* CodeInputAccessoryButtonData.swift */,
 				2C336D232865E38B00C91342 /* CodeInputAccessoryCollectionViewCell.swift */,
 				2C336D252865E39D00C91342 /* CodeInputAccessoryView.swift */,
+				2CD4148829A8D92B00ACA855 /* PasteControl */,
 			);
 			path = Toolbar;
 			sourceTree = "<group>";
@@ -2034,8 +2039,8 @@
 				2C20FBBF284F65F6006D879E /* HTMLToAttributedStringConverter.swift */,
 				2C725B602809125700A49043 /* LayoutInsets.swift */,
 				E9C3506C2886B0FE0080D277 /* MainBundleInfo.swift */,
-				E9F2CC5229223C0200691540 /* RemoveBackButtonTitleHostingController.swift */,
 				2C863D922804279E0021EFED /* Require.swift */,
+				E9F2CC5229223C0200691540 /* StyledHostingController.swift */,
 				2CB1962328EF27F30075F7EF /* UIKitViewControllerPreview.swift */,
 				2C20FBC8284F6F97006D879E /* UnitConverters.swift */,
 				2CCF3B5728004FC40075D12C /* UserAgentBuilder.swift */,
@@ -2069,6 +2074,15 @@
 				2C8E66D42878771B00D3928D /* ProfilePresentationDescription.swift */,
 			);
 			path = Assembly;
+			sourceTree = "<group>";
+		};
+		2CD4148829A8D92B00ACA855 /* PasteControl */ = {
+			isa = PBXGroup;
+			children = (
+				2CD4148629A8D92000ACA855 /* CodeInputPasteControl.swift */,
+				2CD4148229A8C98000ACA855 /* OpaqueUIPasteControl.swift */,
+			);
+			path = PasteControl;
 			sourceTree = "<group>";
 		};
 		2CD48D8C28586B5C00CFCC4A /* ViewData */ = {
@@ -2823,7 +2837,7 @@
 				E9886D3228ABCE5C003724F9 /* OnboardingOutputProtocol.swift in Sources */,
 				2C5CBBE12948EBEA00113007 /* StepQuizSQLViewDataMapper.swift in Sources */,
 				2CF4341228126C79002893CD /* View+EndEditing.swift in Sources */,
-				E9F2CC5329223C0200691540 /* RemoveBackButtonTitleHostingController.swift in Sources */,
+				E9F2CC5329223C0200691540 /* StyledHostingController.swift in Sources */,
 				E94F4C152923B46200DE0F7F /* TopicsRepetitionsChartAxis.swift in Sources */,
 				E9102757288D19E100FF4564 /* ProblemOfDayViewData.swift in Sources */,
 				2CA3B0362888955F00EEF716 /* StepQuizCodeSkeletonView.swift in Sources */,
@@ -3025,6 +3039,7 @@
 				2C079687285CFFF500EE0487 /* StepQuizSortingAssembly.swift in Sources */,
 				2C58DE2B2803DEE2002A2774 /* VerticalCenteredScrollView.swift in Sources */,
 				2CD48D892858657100CFCC4A /* StepQuizView.swift in Sources */,
+				2CD4148729A8D92000ACA855 /* CodeInputPasteControl.swift in Sources */,
 				2C8E4FA12848BF1F0011ADFA /* StepQuizTableSelectColumnsViewController.swift in Sources */,
 				2C1AE99D29926C02008122D9 /* TopicsToDiscoverNextFeatureStateKsExtensions.swift in Sources */,
 				2C1F5877280D2B4800372A37 /* ApplicationInfo.swift in Sources */,
@@ -3171,6 +3186,7 @@
 				E9FAF38F299F61AE001FC596 /* View+MeasureSize.swift in Sources */,
 				2C96744428883E710091B6C9 /* BlockOptionsExtensions.swift in Sources */,
 				2C9CC1BD280920B5006604D7 /* KeyboardManager.swift in Sources */,
+				2CD4148329A8C98000ACA855 /* OpaqueUIPasteControl.swift in Sources */,
 				2C32375328380C340062CAF6 /* NavigationToolbarInfoItem.swift in Sources */,
 				2C8409532805BF3C009C6BE9 /* StepTheoryContentView.swift in Sources */,
 				E9102759288D1BDB00FF4564 /* ProblemOfDayViewDataMapper.swift in Sources */,

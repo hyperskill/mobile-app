@@ -15,6 +15,15 @@ struct StepTextView: UIViewRepresentable {
 
     // MARK: UIViewRepresentable
 
+    static func dismantleUIView(_ uiView: StepTextUIKitView, coordinator: Coordinator) {
+        uiView.processedContentView.delegate = nil
+
+        coordinator.onContentLoaded = nil
+        coordinator.onHeightUpdated = nil
+        coordinator.onOpenImageURL = nil
+        coordinator.onOpenLink = nil
+    }
+
     func makeCoordinator() -> Coordinator {
         Coordinator()
     }

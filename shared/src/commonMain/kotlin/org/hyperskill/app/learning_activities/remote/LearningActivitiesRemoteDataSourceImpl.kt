@@ -15,6 +15,7 @@ class LearningActivitiesRemoteDataSourceImpl(
     private val httpClient: HttpClient
 ) : LearningActivitiesRemoteDataSource {
     override suspend fun getUncompletedTopicsLearningActivities(
+        studyPlanId: Long,
         pageSize: Int,
         page: Int
     ): Result<LearningActivitiesResponse> =
@@ -22,6 +23,7 @@ class LearningActivitiesRemoteDataSourceImpl(
             httpClient
                 .get("/api/learning-activities") {
                     contentType(ContentType.Application.Json)
+                    parameter("study_plan", studyPlanId)
                     parameter("page_size", pageSize)
                     parameter("page", page)
                     parameter("state", LearningActivityState.TODO.value)
