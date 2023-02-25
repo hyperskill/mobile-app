@@ -1,6 +1,5 @@
 package org.hyperskill.app.android.step_quiz_sql.view.delegate
 
-import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import com.google.android.material.button.MaterialButton
@@ -50,12 +49,6 @@ class SqlStepQuizFormDelegate(
             langExtension = extensionForLanguage(ProgrammingLanguage.SQL.serverPrintableName)
         }
     }
-
-    override fun getQuizDescription(
-        context: Context,
-        state: StepQuizFeature.State.AttemptLoaded
-    ): String =
-        context.getString(org.hyperskill.app.R.string.step_quiz_sql_title)
 
     override fun customizeSubmissionButton(button: MaterialButton) {
         with(button) {

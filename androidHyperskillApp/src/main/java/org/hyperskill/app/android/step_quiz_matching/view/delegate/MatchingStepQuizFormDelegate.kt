@@ -1,6 +1,5 @@
 package org.hyperskill.app.android.step_quiz_matching.view.delegate
 
-import android.content.Context
 import android.util.TypedValue
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -58,12 +57,6 @@ class MatchingStepQuizFormDelegate(
                 ?.supportsChangeAnimations = false
         }
     }
-
-    override fun getQuizDescription(
-        context: Context,
-        state: StepQuizFeature.State.AttemptLoaded
-    ): String =
-        context.getString(org.hyperskill.app.R.string.step_quiz_matching_title)
 
     private fun moveOption(position: Int, direction: MatchingItemOptionAdapterDelegate.SortingDirection) {
         val targetPosition =

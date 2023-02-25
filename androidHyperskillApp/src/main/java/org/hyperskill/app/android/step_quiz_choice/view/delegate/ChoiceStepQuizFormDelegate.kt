@@ -1,6 +1,5 @@
 package org.hyperskill.app.android.step_quiz_choice.view.delegate
 
-import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.hyperskill.app.android.databinding.LayoutStepQuizChoiceBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
@@ -56,18 +55,6 @@ class ChoiceStepQuizFormDelegate(
             StepQuizResolver.isQuizEnabled(state)
         )
     }
-
-    override fun getQuizDescription(
-        context: Context,
-        state: StepQuizFeature.State.AttemptLoaded
-    ): String =
-        context.getString(
-            if (requireNotNull(state.attempt.dataset?.isMultipleChoice)) {
-                org.hyperskill.app.R.string.step_quiz_choice_multiple_choice_title
-            } else {
-                org.hyperskill.app.R.string.step_quiz_choice_single_choice_title
-            }
-        )
 
     override fun createReply(): Reply =
         Reply(choices = choicesAdapter.items.map { ChoiceAnswer.Choice(it.isSelected) })

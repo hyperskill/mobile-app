@@ -1,6 +1,5 @@
 package org.hyperskill.app.android.step_quiz_text.view.delegate
 
-import android.content.Context
 import android.text.InputType
 import android.text.InputType.TYPE_NUMBER_FLAG_SIGNED
 import android.widget.TextView
@@ -40,19 +39,6 @@ class TextStepQuizFormDelegate(
             onQuizChanged(createReply())
         }
     }
-
-    override fun getQuizDescription(
-        context: Context,
-        state: StepQuizFeature.State.AttemptLoaded
-    ): String =
-        context.getString(
-            when (val blockName = stepBlockName) {
-                BlockName.STRING -> org.hyperskill.app.R.string.step_quiz_string_title
-                BlockName.NUMBER -> org.hyperskill.app.R.string.step_quiz_number_title
-                BlockName.MATH -> org.hyperskill.app.R.string.step_quiz_math_title
-                else -> unsupportedBlockError(blockName)
-            }
-        )
 
     override fun createReply(): Reply =
         quizTextField.text.toString().let { value ->

@@ -1,6 +1,5 @@
 package org.hyperskill.app.android.step_quiz_sorting.view.delegate
 
-import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import org.hyperskill.app.android.databinding.LayoutStepQuizSortingBinding
@@ -35,12 +34,6 @@ class SortingStepQuizFormDelegate(
                 ?.supportsChangeAnimations = false
         }
     }
-
-    override fun getQuizDescription(
-        context: Context,
-        state: StepQuizFeature.State.AttemptLoaded
-    ): String =
-        context.getString(org.hyperskill.app.R.string.step_quiz_sorting_title)
 
     private fun moveSortingOption(position: Int, direction: SortingOptionAdapterDelegate.SortingDirection) {
         val targetPosition =
