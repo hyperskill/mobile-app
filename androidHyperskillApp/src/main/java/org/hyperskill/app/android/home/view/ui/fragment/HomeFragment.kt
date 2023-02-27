@@ -52,7 +52,14 @@ class HomeFragment :
     private val homeViewModel: HomeViewModel by reduxViewModel(this) { viewModelFactory }
     private val viewStateDelegate: ViewStateDelegate<HomeFeature.HomeState> = ViewStateDelegate()
 
-    private var problemOfDayCardFormDelegate: ProblemOfDayCardFormDelegate? = null
+    private val problemOfDayCardFormDelegate: ProblemOfDayCardFormDelegate by lazy(LazyThreadSafetyMode.NONE) {
+        ProblemOfDayCardFormDelegate(
+            onCardClicked = ::onProblemOfDayCardActionButtonClicked,
+            onReloadClick = {
+                homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = true))
+            }
+        )
+    }
     private val topicsRepetitionDelegate: TopicsRepetitionCardFormDelegate by lazy(LazyThreadSafetyMode.NONE) {
         TopicsRepetitionCardFormDelegate()
     }
@@ -85,6 +92,7 @@ class HomeFragment :
         super.onViewCreated(view, savedInstanceState)
         initViewStateDelegate()
         initGamificationToolbarDelegate()
+        problemOfDayCardFormDelegate.setup(viewBinding.homeScreenProblemOfDayCard)
         topicsToDiscoverNextDelegate.setup(
             requireContext(),
             viewBinding.homeTopicsToDiscoverNext.homeTopicsToDiscoverNextRecycler
@@ -110,7 +118,6 @@ class HomeFragment :
         super.onDestroy()
         requireActivity().lifecycle.removeObserver(onForegroundObserver)
         gamificationToolbarDelegate = null
-        problemOfDayCardFormDelegate = null
     }
 
     private fun injectComponents() {
@@ -193,13 +200,8 @@ class HomeFragment :
 
         val homeState = state.homeState
         if (homeState is HomeFeature.HomeState.Content) {
-            if (homeState.isLoadingMagicLink) {
-                LoadingProgressDialogFragment.newInstance()
-                    .showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
-            } else {
-                childFragmentManager.dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
-            }
-            renderProblemOfDayCardDelegate(homeState.problemOfDayState)
+            renderMagicLinkState(homeState.isLoadingMagicLink)
+            renderProblemOfDay(viewBinding, homeState.problemOfDayState)
             renderTopicsRepetition(homeState.repetitionsState)
         }
 
@@ -207,19 +209,20 @@ class HomeFragment :
         renderTopicsToDiscoverNext(state.topicsToDiscoverNextState)
     }
 
-    private fun renderProblemOfDayCardDelegate(state: HomeFeature.ProblemOfDayState) {
-        problemOfDayCardFormDelegate = ProblemOfDayCardFormDelegate(
-            requireContext(),
-            viewBinding.homeScreenProblemOfDayCard,
-            state,
-            ::onProblemOfDayCardActionButtonClicked
-        )
-
-        if (state is HomeFeature.ProblemOfDayState.Solved || state is HomeFeature.ProblemOfDayState.Empty) {
-            viewBinding.homeScreenKeepLearningInWebButton.visibility = View.VISIBLE
+    private fun renderMagicLinkState(isLoadingMagicLink: Boolean) {
+        if (isLoadingMagicLink) {
+            LoadingProgressDialogFragment.newInstance()
+                .showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
         } else {
-            viewBinding.homeScreenKeepLearningInWebButton.visibility = View.GONE
+            childFragmentManager
+                .dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
         }
+    }
+
+    private fun renderProblemOfDay(viewBinding: FragmentHomeBinding, state: HomeFeature.ProblemOfDayState) {
+        problemOfDayCardFormDelegate.render(requireContext(), viewBinding.homeScreenProblemOfDayCard, state)
+        viewBinding.homeScreenKeepLearningInWebButton.isVisible =
+            state is HomeFeature.ProblemOfDayState.Solved || state is HomeFeature.ProblemOfDayState.Empty
     }
 
     private fun renderTopicsRepetition(repetitionsState: HomeFeature.RepetitionsState) {
