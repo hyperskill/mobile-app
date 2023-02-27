@@ -3,6 +3,7 @@ package org.hyperskill.app.android.step_quiz.view.fragment
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.children
 import androidx.core.view.isVisible
@@ -39,6 +40,8 @@ import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
 import org.hyperskill.app.step_quiz.presentation.StepQuizViewModel
+import org.hyperskill.app.step_quiz.view.mapper.StepQuizStatsTextMapper
+import org.hyperskill.app.step_quiz.view.mapper.StepQuizTitleMapper
 import org.hyperskill.app.step_quiz.view.mapper.StepQuizUserPermissionRequestTextMapper
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
@@ -49,17 +52,24 @@ abstract class DefaultStepQuizFragment :
     ReduxView<StepQuizFeature.State, StepQuizFeature.Action.ViewAction>,
     StepCompletionView {
 
-    private lateinit var userPermissionRequestTextMapper: StepQuizUserPermissionRequestTextMapper
     private lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    protected val viewBinding: FragmentStepQuizBinding by viewBinding(FragmentStepQuizBinding::bind)
     private val stepQuizViewModel: StepQuizViewModel by viewModels { viewModelFactory }
 
+    protected val viewBinding: FragmentStepQuizBinding by viewBinding(FragmentStepQuizBinding::bind)
+
     private var viewStateDelegate: ViewStateDelegate<StepQuizFeature.State>? = null
+
     private var stepQuizFeedbackBlocksDelegate: StepQuizFeedbackBlocksDelegate? = null
     private var stepQuizFormDelegate: StepQuizFormDelegate? = null
     private var stepQuizButtonsViewStateDelegate: ViewStateDelegate<StepQuizButtonsState>? = null
-    private val stepQuizFeedbackMapper = StepQuizFeedbackMapper()
+
+    private var userPermissionRequestTextMapper: StepQuizUserPermissionRequestTextMapper? = null
+    private var stepQuizStatsTextMapper: StepQuizStatsTextMapper? = null
+    private var stepQuizTitleMapper: StepQuizTitleMapper? = null
+    private val stepQuizFeedbackMapper by lazy(LazyThreadSafetyMode.NONE) {
+        StepQuizFeedbackMapper()
+    }
 
     private val platformNotificationComponent =
         HyperskillApp.graph().platformNotificationComponent
@@ -79,6 +89,8 @@ abstract class DefaultStepQuizFragment :
         val stepQuizComponent = HyperskillApp.graph().buildStepQuizComponent(stepRoute)
         val platformStepQuizComponent = HyperskillApp.graph().buildPlatformStepQuizComponent(stepQuizComponent)
         userPermissionRequestTextMapper = stepQuizComponent.stepQuizUserPermissionRequestTextMapper
+        stepQuizStatsTextMapper = stepQuizComponent.stepQuizStatsTextMapper
+        stepQuizTitleMapper = stepQuizComponent.stepQuizTitleMapper
         viewModelFactory = platformStepQuizComponent.reduxViewModelFactory
     }
 
@@ -86,9 +98,10 @@ abstract class DefaultStepQuizFragment :
         super.onViewCreated(view, savedInstanceState)
         viewStateDelegate = StepQuizViewStateDelegateFactory.create(viewBinding, skeletonView, *quizViews)
         stepQuizFeedbackBlocksDelegate = StepQuizFeedbackBlocksDelegate(requireContext(), viewBinding.stepQuizFeedbackBlocks)
-        stepQuizFormDelegate = createStepQuizFormDelegate(viewBinding).also { delegate ->
+        stepQuizFormDelegate = createStepQuizFormDelegate().also { delegate ->
             delegate.customizeSubmissionButton(viewBinding.stepQuizButtons.stepQuizSubmitButton)
         }
+        renderStatistics(viewBinding.stepQuizStatistics, step)
         initButtonsViewStateDelegate()
         setupQuizButtons()
 
@@ -97,6 +110,13 @@ abstract class DefaultStepQuizFragment :
         }
 
         stepQuizViewModel.onNewMessage(StepQuizFeature.Message.InitWithStep(step))
+    }
+
+    private fun renderStatistics(textView: TextView, step: Step) {
+        val stepQuizStats =
+            stepQuizStatsTextMapper?.getFormattedStepQuizStats(step.solvedBy, step.millisSinceLastCompleted)
+        textView.text = stepQuizStats
+        textView.isVisible = stepQuizStats != null
     }
 
     private fun initButtonsViewStateDelegate() {
@@ -143,7 +163,7 @@ abstract class DefaultStepQuizFragment :
         stepQuizFormDelegate = null
     }
 
-    protected abstract fun createStepQuizFormDelegate(containerBinding: FragmentStepQuizBinding): StepQuizFormDelegate
+    protected abstract fun createStepQuizFormDelegate(): StepQuizFormDelegate
 
     protected open fun onNewState(state: StepQuizFeature.State) {}
 
@@ -201,8 +221,8 @@ abstract class DefaultStepQuizFragment :
 
     private fun requestResetCodeActionPermission(action: StepQuizFeature.Action.ViewAction.RequestUserPermission) {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle(userPermissionRequestTextMapper.getTitle(action.userPermissionRequest))
-            .setMessage(userPermissionRequestTextMapper.getMessage(action.userPermissionRequest))
+            .setTitle(userPermissionRequestTextMapper?.getTitle(action.userPermissionRequest))
+            .setMessage(userPermissionRequestTextMapper?.getMessage(action.userPermissionRequest))
             .setPositiveButton(org.hyperskill.app.R.string.yes) { _, _ ->
                 stepQuizViewModel.onNewMessage(
                     StepQuizFeature.Message.RequestUserPermissionResult(
@@ -224,8 +244,8 @@ abstract class DefaultStepQuizFragment :
 
     private fun requestSendDailyStudyRemindersPermission(action: StepQuizFeature.Action.ViewAction.RequestUserPermission) {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle(userPermissionRequestTextMapper.getTitle(action.userPermissionRequest))
-            .setMessage(userPermissionRequestTextMapper.getMessage(action.userPermissionRequest))
+            .setTitle(userPermissionRequestTextMapper?.getTitle(action.userPermissionRequest))
+            .setMessage(userPermissionRequestTextMapper?.getMessage(action.userPermissionRequest))
             .setPositiveButton(org.hyperskill.app.R.string.ok) { dialog, _ ->
                 onSendDailyStudyReminderAccepted(action.userPermissionRequest)
                 dialog.dismiss()
@@ -271,6 +291,12 @@ abstract class DefaultStepQuizFragment :
         }
 
         if (state is StepQuizFeature.State.AttemptLoaded) {
+            viewBinding.stepQuizDescription.text =
+                stepQuizTitleMapper?.getStepQuizTitle(
+                    blockName = step.block.name,
+                    isMultipleChoice = state.attempt.dataset?.isMultipleChoice,
+                    isCheckbox = state.attempt.dataset?.isCheckbox
+                )
             stepQuizFormDelegate?.setState(state)
             stepQuizFeedbackBlocksDelegate?.setState(stepQuizFeedbackMapper.mapToStepQuizFeedbackState(step.block.name, state))
             viewBinding.stepQuizButtons.stepQuizSubmitButton.isEnabled = StepQuizResolver.isQuizEnabled(state)
