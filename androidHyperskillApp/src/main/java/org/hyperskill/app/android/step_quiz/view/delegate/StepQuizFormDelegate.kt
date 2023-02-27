@@ -5,6 +5,7 @@ import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 
 interface StepQuizFormDelegate {
+
     fun setState(state: StepQuizFeature.State.AttemptLoaded)
 
     /**

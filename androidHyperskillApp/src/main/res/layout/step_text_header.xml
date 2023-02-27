@@ -9,6 +9,5 @@
     android:textIsSelectable="true"
 
     android:layout_gravity="top"
-    android:padding="20dp"
 
     app:webViewId="@id/latex_webview" />

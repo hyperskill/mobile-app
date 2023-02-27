@@ -9,7 +9,6 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.RelativeLayout
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -169,14 +168,6 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
 
         latexWebView?.let {
             (textHeader as ViewGroup).addView(it)
-        }
-
-        // ALTAPPS-571: Delete this (Problem and Theory screens improvements)
-        instructionsLayout.findViewById<AppCompatTextView>(R.id.stepQuizCodeFullscreenInstructionPracticeCompletion).apply {
-            val stepQuizStats =
-                stepQuizStatsTextMapper?.getFormattedStepQuizStats(step.solvedBy, step.millisSinceLastCompleted)
-            this.text = stepQuizStats
-            this.isVisible = stepQuizStats != null
         }
 
         instructionsLayout.findViewById<LatexView>(R.id.stepQuizCodeFullscreenInstructionTextHeader)

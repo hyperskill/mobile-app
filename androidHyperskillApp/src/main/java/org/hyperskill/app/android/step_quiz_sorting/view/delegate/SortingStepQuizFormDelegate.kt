@@ -2,8 +2,6 @@ package org.hyperskill.app.android.step_quiz_sorting.view.delegate
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
-import org.hyperskill.app.android.R
-import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizSortingBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz_sorting.view.adapter.SortingOptionAdapterDelegate
@@ -16,19 +14,15 @@ import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.app.core.model.swap
 
 class SortingStepQuizFormDelegate(
-    containerBinding: FragmentStepQuizBinding,
     binding: LayoutStepQuizSortingBinding,
     private val onQuizChanged: (Reply) -> Unit
 ) : StepQuizFormDelegate {
-    private val quizDescription = containerBinding.stepQuizDescription
 
     private val optionsAdapter = DefaultDelegateAdapter<SortingOption>()
 
     private val sortingOptionMapper = SortingOptionMapper()
 
     init {
-        quizDescription.setText(org.hyperskill.app.R.string.step_quiz_sorting_title)
-
         optionsAdapter += SortingOptionAdapterDelegate(optionsAdapter, ::moveSortingOption)
 
         with(binding.sortingRecycler) {

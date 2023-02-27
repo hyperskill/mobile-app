@@ -6,7 +6,6 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizCodeBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.fragment.DefaultStepQuizFragment
@@ -62,7 +61,7 @@ class CodeStepQuizFragment :
         super.onDestroyView()
     }
 
-    override fun createStepQuizFormDelegate(containerBinding: FragmentStepQuizBinding): StepQuizFormDelegate {
+    override fun createStepQuizFormDelegate(): StepQuizFormDelegate {
         codeOptions = step.block.options
         langName = codeOptions.limits!!.keys.first()
 
@@ -84,7 +83,6 @@ class CodeStepQuizFragment :
         )
 
         val codeStepQuizFormDelegate = CodeStepQuizFormDelegate(
-            containerBinding = containerBinding,
             codeLayout = binding.codeStepLayout,
             langName = langName,
             initialCode = codeOptions.codeTemplates?.get(langName) ?: "",
