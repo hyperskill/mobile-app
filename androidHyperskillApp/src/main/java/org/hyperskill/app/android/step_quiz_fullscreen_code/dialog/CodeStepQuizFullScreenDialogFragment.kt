@@ -171,14 +171,6 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
             (textHeader as ViewGroup).addView(it)
         }
 
-        // ALTAPPS-571: Delete this (Problem and Theory screens improvements)
-        instructionsLayout.findViewById<AppCompatTextView>(R.id.stepQuizCodeFullscreenInstructionPracticeCompletion).apply {
-            val stepQuizStats =
-                stepQuizStatsTextMapper?.getFormattedStepQuizStats(step.solvedBy, step.millisSinceLastCompleted)
-            this.text = stepQuizStats
-            this.isVisible = stepQuizStats != null
-        }
-
         instructionsLayout.findViewById<LatexView>(R.id.stepQuizCodeFullscreenInstructionTextHeader)
             .setText(text)
 
