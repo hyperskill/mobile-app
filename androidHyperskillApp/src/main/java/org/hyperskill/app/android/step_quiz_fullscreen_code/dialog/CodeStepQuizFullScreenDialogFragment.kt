@@ -9,7 +9,6 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.RelativeLayout
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
