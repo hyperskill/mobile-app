@@ -206,6 +206,15 @@ enum Strings {
         }
     }
 
+    // MARK: - StudyPlan -
+
+    enum StudyPlan {
+        enum IdeRequiredModal {
+            static let title = sharedStrings.study_plan_ide_required_modal_title.localized()
+            static let text = sharedStrings.study_plan_ide_required_modal_text.localized()
+        }
+    }
+
     // MARK: - Profile -
 
     enum Profile {

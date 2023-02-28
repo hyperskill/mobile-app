@@ -87,6 +87,14 @@ enum Images {
         }
     }
 
+    // MARK: - StudyPlan -
+
+    enum StudyPlan {
+        enum IdeRequiredModal {
+            static let monitor = "study-plan-ide-required-modal-monitor"
+        }
+    }
+
     // MARK: - Placeholder -
 
     enum Placeholder {

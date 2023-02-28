@@ -162,6 +162,10 @@
     <string name="track_topics_to_discover_next_block_title">Theory to discover next</string>
     <string name="track_progress_block_title">Progress</string>
 
+    <!-- Study plan -->
+    <string name="study_plan_ide_required_modal_title">IDE required</string>
+    <string name="study_plan_ide_required_modal_text">To proceed, you need an IDE. Please continue learning on a computer.\n\nIf this is not an option for you right now, check out the available activities on your home screen.</string>
+
     <!-- Profile -->
     <string name="profile_title">Profile</string>
     <string name="profile_about_me_text">About me</string>
