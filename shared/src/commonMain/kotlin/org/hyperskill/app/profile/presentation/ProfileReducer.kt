@@ -42,7 +42,11 @@ class ProfileReducer : StateReducer<State, Message, Action> {
             is Message.PullToRefresh ->
                 if (state is State.Content && !state.isRefreshing) {
                     state.copy(isRefreshing = true) to setOf(
-                        if (message.isRefreshCurrent) Action.FetchCurrentProfile else Action.FetchProfile(message.profileId!!),
+                        if (message.isRefreshCurrent) {
+                            Action.FetchCurrentProfile
+                        } else {
+                            Action.FetchProfile(message.profileId!!)
+                        },
                         Action.LogAnalyticEvent(ProfileClickedPullToRefreshHyperskillAnalyticEvent())
                     )
                 } else {
@@ -67,12 +71,18 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                             state.streakFreezeState is ProfileFeature.StreakFreezeState.NotEnoughGems &&
                             state.streakFreezeState.price <= message.hypercoinsBalance
                         )  {
-                            ProfileFeature.StreakFreezeState.CanBuy(state.streakFreezeState.streakFreezeProductId, state.streakFreezeState.price)
+                            ProfileFeature.StreakFreezeState.CanBuy(
+                                state.streakFreezeState.streakFreezeProductId,
+                                state.streakFreezeState.price
+                            )
                         } else if (
                             state.streakFreezeState is ProfileFeature.StreakFreezeState.CanBuy &&
                             state.streakFreezeState.price > message.hypercoinsBalance
                         ) {
-                            ProfileFeature.StreakFreezeState.NotEnoughGems(state.streakFreezeState.streakFreezeProductId, state.streakFreezeState.price)
+                            ProfileFeature.StreakFreezeState.NotEnoughGems(
+                                state.streakFreezeState.streakFreezeProductId,
+                                state.streakFreezeState.price
+                            )
                         } else {
                             state.streakFreezeState
                         }
@@ -183,14 +193,18 @@ class ProfileReducer : StateReducer<State, Message, Action> {
             is Message.ClickedSettingsEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(ProfileClickedSettingsHyperskillAnalyticEvent()))
             is Message.ClickedDailyStudyRemindsEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(ProfileClickedDailyStudyRemindsHyperskillAnalyticEvent(message.isEnabled)))
+                state to setOf(
+                    Action.LogAnalyticEvent(ProfileClickedDailyStudyRemindsHyperskillAnalyticEvent(message.isEnabled))
+                )
             is Message.ClickedDailyStudyRemindsTimeEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(ProfileClickedDailyStudyRemindsTimeHyperskillAnalyticEvent()))
             is Message.StreakFreezeModalShownEventMessage ->
                 if (state is State.Content && state.streakFreezeState != null) {
                     state to setOf(
                         Action.LogAnalyticEvent(
-                            StreakFreezeModalShownHyperskillAnalyticEvent(mapContentStateToStreakFreezeAnalyticState(state.streakFreezeState))
+                            StreakFreezeModalShownHyperskillAnalyticEvent(
+                                mapContentStateToStreakFreezeAnalyticState(state.streakFreezeState)
+                            )
                         )
                     )
                 } else {
@@ -200,7 +214,9 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                 state to setOf(Action.LogAnalyticEvent(StreakFreezeModalHiddenHyperskillAnalyticEvent()))
         } ?: (state to emptySet())
 
-    private fun mapContentStateToStreakFreezeAnalyticState(streakFreezeState: ProfileFeature.StreakFreezeState): StreakFreezeAnalyticState =
+    private fun mapContentStateToStreakFreezeAnalyticState(
+        streakFreezeState: ProfileFeature.StreakFreezeState
+    ): StreakFreezeAnalyticState =
         when (streakFreezeState) {
             ProfileFeature.StreakFreezeState.AlreadyHave -> StreakFreezeAnalyticState.ALREADY_HAVE
             is ProfileFeature.StreakFreezeState.CanBuy -> StreakFreezeAnalyticState.CAN_BUY
