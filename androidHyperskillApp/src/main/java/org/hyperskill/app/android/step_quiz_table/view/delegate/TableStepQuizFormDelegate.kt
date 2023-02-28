@@ -2,8 +2,6 @@ package org.hyperskill.app.android.step_quiz_table.view.delegate
 
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import org.hyperskill.app.android.R
-import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizTableBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz_table.view.adapter.TableSelectionItemAdapterDelegate
@@ -21,12 +19,10 @@ import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.app.core.model.mutate
 
 class TableStepQuizFormDelegate(
-    containerBinding: FragmentStepQuizBinding,
     binding: LayoutStepQuizTableBinding,
     private val fragmentManager: FragmentManager,
     private val onQuizChanged: (Reply) -> Unit
 ) : StepQuizFormDelegate {
-    private val quizDescription = containerBinding.stepQuizDescription
 
     private val tableAdapter = DefaultDelegateAdapter<TableSelectionItem>()
 
@@ -35,8 +31,6 @@ class TableStepQuizFormDelegate(
     private var isCheckBox: Boolean = false
 
     init {
-        quizDescription.setText(org.hyperskill.app.R.string.step_quiz_table_single_choice_title)
-
         tableAdapter += TableSelectionItemAdapterDelegate() { index, rowTitle, chosenColumns ->
             TableColumnSelectionBottomSheetDialogFragment
                 .newInstance(index, rowTitle, chosenColumns, isCheckBox)

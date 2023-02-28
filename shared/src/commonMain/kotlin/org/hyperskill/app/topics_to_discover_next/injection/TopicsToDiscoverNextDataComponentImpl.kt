@@ -9,6 +9,7 @@ class TopicsToDiscoverNextDataComponentImpl(private val appGraph: AppGraph) : To
             appGraph.buildProfileDataComponent().profileRepository,
             appGraph.buildLearningActivitiesDataComponent().learningActivitiesRepository,
             appGraph.buildTopicsDataComponent().topicsRepository,
-            appGraph.buildProgressesDataComponent().progressesRepository
+            appGraph.buildProgressesDataComponent().progressesRepository,
+            appGraph.buildStudyPlanDataComponent().studyPlanRepository
         )
 }

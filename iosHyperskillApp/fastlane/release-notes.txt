@@ -1,8 +1,4 @@
 What to Test:
-1. Problem and Theory screens UI improvements ALTAPPS-481
-2. Debug menu ALTAPPS-509
-3. Show code blocks with line numbers in Step text <pre><code ALTAPPS-536
-4. Send step view and send context for submissions ALTAPPS-577
-5. Fix topic name doesn't fit to widget size ALTAPPS-584
-6. Fix incorrect 1-day streak freeze state ALTAPPS-594
-7. Fix content not loading on Home screen ALTAPPS-616
+1. Fullscreen code editor add "Paste" button to the input accessory view ALTAPPS-464
+2. Topic completion bottom sheet add continue with next topic button ALTAPPS-599
+3. Fix different next topics in web and mobile ALTAPPS-609

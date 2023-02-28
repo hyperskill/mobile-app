@@ -5,11 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <include
+        android:id="@+id/stepQuizCodeDetailsTopDivider"
+        layout="@layout/view_divider_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="?dividerVerticalSize"/>
+
     <FrameLayout
         android:id="@+id/stepQuizCodeDetailsFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@color/color_background">
+        android:background="@color/color_background"
+        android:layout_below="@+id/stepQuizCodeDetailsTopDivider">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="16dp"
@@ -56,6 +63,7 @@
         android:layout_below="@id/stepQuizCodeDetailsDivider"
         android:background="@color/color_background"
         android:visibility="gone"
+        tools:visibility="visible"
         tools:itemCount="1"
         tools:listitem="@layout/item_step_quiz_code_detail_sample" />
 

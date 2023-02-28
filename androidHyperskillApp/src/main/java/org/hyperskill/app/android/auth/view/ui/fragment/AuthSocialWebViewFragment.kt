@@ -79,7 +79,15 @@ class AuthSocialWebViewFragment :
                     provider,
                     networkEndpointConfigInfo
                 )
-                it.settings.javaScriptEnabled = true
+                it.settings.apply {
+                    javaScriptEnabled = true
+
+                    /**
+                     * Google disable authentication from webView
+                     * Remove "wv" substring (means "webView") from userAgent to be able to login via Google
+                     * */
+                    userAgentString = userAgentString?.replace("wv", "")
+                }
             }
         }
         webView?.let { binding.containerView.addView(it) }
