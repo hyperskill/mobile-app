@@ -339,4 +339,8 @@
 
     <!--Topics widget-->
     <string name="topics_widget_learn_next_badge">Learn next</string>
+
+    <!--Unsupported stage bottom sheet-->
+    <string name="unsupported_stage_dialog_title">IDE required</string>
+    <string name="unsupported_stage_dialog_description">To proceed, you need an IDE. Please continue learning on a computer.\n\n If this is not an option for you right now, check out the available activities on your home screen.</string>
 </resources>
