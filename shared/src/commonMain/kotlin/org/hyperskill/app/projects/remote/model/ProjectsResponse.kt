@@ -1,13 +1,13 @@
-package org.hyperskill.app.project.remote.model
+package org.hyperskill.app.projects.remote.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.hyperskill.app.core.remote.Meta
 import org.hyperskill.app.core.remote.MetaResponse
-import org.hyperskill.app.project.domain.model.Project
+import org.hyperskill.app.projects.domain.model.Project
 
 @Serializable
-class ProjectResponse(
+class ProjectsResponse(
     @SerialName("meta")
     override val meta: Meta,
 

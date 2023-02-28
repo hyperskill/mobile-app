@@ -7,8 +7,10 @@ import io.ktor.client.request.parameter
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import org.hyperskill.app.progresses.data.source.ProgressesRemoteDataSource
+import org.hyperskill.app.progresses.remote.model.ProjectProgressResponse
 import org.hyperskill.app.progresses.remote.model.TopicProgressesResponse
 import org.hyperskill.app.progresses.remote.model.TrackProgressesResponse
+import org.hyperskill.app.projects.domain.model.ProjectProgress
 import org.hyperskill.app.topics.domain.model.TopicProgress
 import org.hyperskill.app.track.domain.model.TrackProgress
 
@@ -31,5 +33,14 @@ class ProgressesRemoteDataSourceImpl(
                     contentType(ContentType.Application.Json)
                     parameter("ids", topicsIds.joinToString(separator = ",") { "topic-$it" })
                 }.body<TopicProgressesResponse>().progresses
+        }
+
+    override suspend fun getProjectsProgresses(projectsIds: List<Long>): Result<List<ProjectProgress>> =
+        kotlin.runCatching {
+            httpClient
+                .get("/api/progresses") {
+                    contentType(ContentType.Application.Json)
+                    parameter("ids", projectsIds.joinToString(separator = ",") { "project-$it" })
+                }.body<ProjectProgressResponse>().progresses
         }
 }
