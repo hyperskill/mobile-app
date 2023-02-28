@@ -2,10 +2,8 @@ package org.hyperskill.app.android.step_quiz.view.fragment
 
 import android.os.Bundle
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -22,6 +20,7 @@ import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
+import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizButtonsDelegate
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFeedbackBlocksDelegate
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.dialog.CompletedStepOfTheDayDialogFragment
@@ -29,16 +28,13 @@ import org.hyperskill.app.android.step_quiz.view.factory.StepQuizViewStateDelega
 import org.hyperskill.app.android.step_quiz.view.mapper.StepQuizFeedbackMapper
 import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
-import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
 import org.hyperskill.app.step_quiz.domain.model.permissions.StepQuizUserPermissionRequest
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
-import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
-import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
 import org.hyperskill.app.step_quiz.presentation.StepQuizViewModel
 import org.hyperskill.app.step_quiz.view.mapper.StepQuizStatsTextMapper
 import org.hyperskill.app.step_quiz.view.mapper.StepQuizTitleMapper
@@ -62,7 +58,7 @@ abstract class DefaultStepQuizFragment :
 
     private var stepQuizFeedbackBlocksDelegate: StepQuizFeedbackBlocksDelegate? = null
     private var stepQuizFormDelegate: StepQuizFormDelegate? = null
-    private var stepQuizButtonsViewStateDelegate: ViewStateDelegate<StepQuizButtonsState>? = null
+    private var stepQuizButtonsDelegate: StepQuizButtonsDelegate? = null
 
     private var userPermissionRequestTextMapper: StepQuizUserPermissionRequestTextMapper? = null
     private var stepQuizStatsTextMapper: StepQuizStatsTextMapper? = null
@@ -102,8 +98,7 @@ abstract class DefaultStepQuizFragment :
             delegate.customizeSubmissionButton(viewBinding.stepQuizButtons.stepQuizSubmitButton)
         }
         renderStatistics(viewBinding.stepQuizStatistics, step)
-        initButtonsViewStateDelegate()
-        setupQuizButtons()
+        initStepQuizButtonsDelegate()
 
         viewBinding.stepQuizNetworkError.tryAgain.setOnClickListener {
             stepQuizViewModel.onNewMessage(StepQuizFeature.Message.InitWithStep(step, forceUpdate = true))
@@ -119,46 +114,22 @@ abstract class DefaultStepQuizFragment :
         textView.isVisible = stepQuizStats != null
     }
 
-    private fun initButtonsViewStateDelegate() {
-        stepQuizButtonsViewStateDelegate = ViewStateDelegate<StepQuizButtonsState>().apply {
-            addState<StepQuizButtonsState.Submit>(viewBinding.stepQuizButtons.stepQuizSubmitButton)
-            addState<StepQuizButtonsState.Retry>(viewBinding.stepQuizButtons.stepQuizRetryButton)
-            addState<StepQuizButtonsState.Continue>(
-                viewBinding.stepQuizButtons.stepQuizContinueButton,
-                viewBinding.stepQuizButtons.stepQuizContinueFrame
-            )
-            addState<StepQuizButtonsState.RetryLogoAndSubmit>(
-                viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton,
-                viewBinding.stepQuizButtons.stepQuizSubmitButton
-            )
-            addState<StepQuizButtonsState.RetryLogoAndContinue>(
-                viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton,
-                viewBinding.stepQuizButtons.stepQuizContinueButton,
-                viewBinding.stepQuizButtons.stepQuizContinueFrame
-            )
-        }
-    }
-
-    private fun setupQuizButtons() {
-        viewBinding.stepQuizButtons.stepQuizSubmitButton.setOnClickListener {
-            onSubmitButtonClicked()
-        }
-        viewBinding.stepQuizButtons.stepQuizRetryButton.setOnClickListener {
-            onRetryButtonClicked()
-        }
-        viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton.setOnClickListener {
-            onRetryButtonClicked()
-        }
-        viewBinding.stepQuizButtons.stepQuizContinueButton.setOnClickListener {
-            parentOfType(StepCompletionHost::class.java)
-                ?.onNewMessage(StepCompletionFeature.Message.ContinuePracticingClicked)
-        }
+    private fun initStepQuizButtonsDelegate() {
+        stepQuizButtonsDelegate = StepQuizButtonsDelegate(
+            binding = viewBinding.stepQuizButtons,
+            onSubmitButtonClicked = ::onSubmitButtonClicked,
+            onRetryButtonClicked = ::onRetryButtonClicked,
+            onContinueClick = {
+                parentOfType(StepCompletionHost::class.java)
+                    ?.onNewMessage(StepCompletionFeature.Message.ContinuePracticingClicked)
+            }
+        )
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         viewStateDelegate = null
-        stepQuizButtonsViewStateDelegate = null
+        stepQuizButtonsDelegate = null
         stepQuizFeedbackBlocksDelegate = null
         stepQuizFormDelegate = null
     }
@@ -283,13 +254,6 @@ abstract class DefaultStepQuizFragment :
     override fun render(state: StepQuizFeature.State) {
         viewStateDelegate?.switchState(state)
 
-        val stepQuizButtonsLinearLayout = view?.findViewById<LinearLayout>(R.id.stepQuizButtons)
-        if (stepQuizButtonsLinearLayout != null) {
-            for (childView in stepQuizButtonsLinearLayout.children) {
-                childView.isEnabled = !StepQuizResolver.isQuizLoading(state)
-            }
-        }
-
         if (state is StepQuizFeature.State.AttemptLoaded) {
             viewBinding.stepQuizDescription.text =
                 stepQuizTitleMapper?.getStepQuizTitle(
@@ -299,49 +263,28 @@ abstract class DefaultStepQuizFragment :
                 )
             stepQuizFormDelegate?.setState(state)
             stepQuizFeedbackBlocksDelegate?.setState(stepQuizFeedbackMapper.mapToStepQuizFeedbackState(step.block.name, state))
-            viewBinding.stepQuizButtons.stepQuizSubmitButton.isEnabled = StepQuizResolver.isQuizEnabled(state)
-
-            when (val submissionState = state.submissionState) {
-                is StepQuizFeature.SubmissionState.Loaded -> {
-                    val buttonsState = when (submissionState.submission.status) {
-                        SubmissionStatus.WRONG -> when {
-                            step.block.name == BlockName.CODE || step.block.name == BlockName.SQL ->
-                                StepQuizButtonsState.RetryLogoAndSubmit
-                            StepQuizResolver.isNeedRecreateAttemptForNewSubmission(step) ->
-                                StepQuizButtonsState.Retry
-                            else -> StepQuizButtonsState.Submit
-                        }
-                        SubmissionStatus.CORRECT -> {
-                            if (StepQuizResolver.isQuizRetriable(step)) {
-                                StepQuizButtonsState.RetryLogoAndContinue
-                            } else {
-                                StepQuizButtonsState.Continue
-                            }
-                        }
-                        else -> StepQuizButtonsState.Submit
-                    }
-                    stepQuizButtonsViewStateDelegate?.switchState(buttonsState)
-
-                    val replyValidation = submissionState.replyValidation
-                    if (replyValidation is ReplyValidationResult.Error) {
-                        stepQuizFeedbackBlocksDelegate?.setState(StepQuizFeedbackState.Validation(replyValidation.message))
-                    }
-                }
-                is StepQuizFeature.SubmissionState.Empty -> {
-                    stepQuizButtonsViewStateDelegate?.switchState(StepQuizButtonsState.Submit)
-                }
-            }
+            stepQuizButtonsDelegate?.render(state)
+            renderFeedback(state)
         }
 
         onNewState(state)
     }
 
+    private fun renderFeedback(state: StepQuizFeature.State.AttemptLoaded) {
+        val submissionState = state.submissionState
+        if (submissionState is StepQuizFeature.SubmissionState.Loaded) {
+            val replyValidation = submissionState.replyValidation
+            if (replyValidation is ReplyValidationResult.Error) {
+                stepQuizFeedbackBlocksDelegate?.setState(
+                    StepQuizFeedbackState.Validation(replyValidation.message)
+                )
+            }
+        }
+    }
+
     final override fun render(isPracticingLoading: Boolean) {
         if (isResumed) {
-            with(viewBinding) {
-                stepQuizButtons.stepQuizContinueButtonShimmer.isVisible = isPracticingLoading
-                stepQuizButtons.stepQuizContinueButton.isEnabled = !isPracticingLoading
-            }
+            stepQuizButtonsDelegate?.renderPracticeLoading(isPracticingLoading)
         }
     }
 
@@ -355,13 +298,5 @@ abstract class DefaultStepQuizFragment :
      */
     protected fun logAnalyticEventMessage(message: StepQuizFeature.Message) {
         stepQuizViewModel.onNewMessage(message)
-    }
-
-    private sealed interface StepQuizButtonsState {
-        object Submit : StepQuizButtonsState
-        object Retry : StepQuizButtonsState
-        object Continue : StepQuizButtonsState
-        object RetryLogoAndSubmit : StepQuizButtonsState
-        object RetryLogoAndContinue : StepQuizButtonsState
     }
 }
