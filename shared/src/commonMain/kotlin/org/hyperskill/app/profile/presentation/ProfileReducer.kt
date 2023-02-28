@@ -62,7 +62,20 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                             gamification = state.profile.gamification.copy(
                                 hypercoinsBalance = message.hypercoinsBalance
                             )
-                        )
+                        ),
+                        streakFreezeState = if (
+                            state.streakFreezeState is ProfileFeature.StreakFreezeState.NotEnoughGems &&
+                            state.streakFreezeState.price <= message.hypercoinsBalance
+                        )  {
+                            ProfileFeature.StreakFreezeState.CanBuy(state.streakFreezeState.streakFreezeProductId, state.streakFreezeState.price)
+                        } else if (
+                            state.streakFreezeState is ProfileFeature.StreakFreezeState.CanBuy &&
+                            state.streakFreezeState.price > message.hypercoinsBalance
+                        ) {
+                            ProfileFeature.StreakFreezeState.NotEnoughGems(state.streakFreezeState.streakFreezeProductId, state.streakFreezeState.price)
+                        } else {
+                            state.streakFreezeState
+                        }
                     ) to emptySet()
                 } else {
                     null

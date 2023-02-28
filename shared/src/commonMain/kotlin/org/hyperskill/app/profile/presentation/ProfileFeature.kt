@@ -51,7 +51,10 @@ interface ProfileFeature {
         ) : StreakFreezeState
 
         @Serializable
-        data class NotEnoughGems(val price: Int) : StreakFreezeState
+        data class NotEnoughGems(
+            val streakFreezeProductId: Long,
+            val price: Int
+        ) : StreakFreezeState
 
         @Serializable
         object AlreadyHave : StreakFreezeState
