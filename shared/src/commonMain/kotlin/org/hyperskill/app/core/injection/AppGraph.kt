@@ -29,6 +29,7 @@ import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponent
 import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.sentry.injection.SentryComponent
+import org.hyperskill.app.stages.injection.StagesDataComponent
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step.injection.StepDataComponent
@@ -102,4 +103,5 @@ interface AppGraph {
     fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent
     fun buildStudyPlanDataComponent(): StudyPlanDataComponent
     fun buildProjectsDataComponent(): ProjectsDataComponent
+    fun buildStagesDataComponent(): StagesDataComponent
 }

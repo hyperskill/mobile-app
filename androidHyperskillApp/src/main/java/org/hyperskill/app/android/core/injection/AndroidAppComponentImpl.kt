@@ -93,6 +93,8 @@ import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
 import org.hyperskill.app.sentry.injection.SentryComponent
 import org.hyperskill.app.sentry.injection.SentryComponentImpl
+import org.hyperskill.app.stages.injection.StagesDataComponent
+import org.hyperskill.app.stages.injection.StagesDataComponentImpl
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.injection.PlatformStepComponent
@@ -419,4 +421,7 @@ class AndroidAppComponentImpl(
 
     override fun buildProjectsDataComponent(): ProjectsDataComponent =
         ProjectsDataComponentImpl(this)
+
+    override fun buildStagesDataComponent(): StagesDataComponent =
+        StagesDataComponentImpl(this)
 }

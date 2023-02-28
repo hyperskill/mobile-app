@@ -61,6 +61,8 @@ import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
 import org.hyperskill.app.sentry.domain.model.manager.SentryManager
 import org.hyperskill.app.sentry.injection.SentryComponent
 import org.hyperskill.app.sentry.injection.SentryComponentImpl
+import org.hyperskill.app.stages.injection.StagesDataComponent
+import org.hyperskill.app.stages.injection.StagesDataComponentImpl
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step.injection.StepComponentImpl
@@ -266,4 +268,7 @@ class AppGraphImpl(
 
     override fun buildProjectsDataComponent(): ProjectsDataComponent =
         ProjectsDataComponentImpl(this)
+
+    override fun buildStagesDataComponent(): StagesDataComponent =
+        StagesDataComponentImpl(this)
 }
