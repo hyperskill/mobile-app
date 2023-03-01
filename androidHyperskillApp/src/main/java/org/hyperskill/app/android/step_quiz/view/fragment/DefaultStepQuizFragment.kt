@@ -83,7 +83,7 @@ abstract class DefaultStepQuizFragment :
 
     private fun injectComponent() {
         val stepQuizComponent = HyperskillApp.graph().buildStepQuizComponent(stepRoute)
-        val platformStepQuizComponent = HyperskillApp.graph().buildPlatformStepQuizComponent(stepQuizComponent)
+        val platformStepQuizComponent = HyperskillApp.graph().buildPlatformStepQuizComponent(step, stepQuizComponent)
         userPermissionRequestTextMapper = stepQuizComponent.stepQuizUserPermissionRequestTextMapper
         stepQuizStatsTextMapper = stepQuizComponent.stepQuizStatsTextMapper
         stepQuizTitleMapper = stepQuizComponent.stepQuizTitleMapper
@@ -103,8 +103,6 @@ abstract class DefaultStepQuizFragment :
         viewBinding.stepQuizNetworkError.tryAgain.setOnClickListener {
             stepQuizViewModel.onNewMessage(StepQuizFeature.Message.InitWithStep(step, forceUpdate = true))
         }
-
-        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.InitWithStep(step))
     }
 
     private fun renderStatistics(textView: TextView, step: Step) {
@@ -145,13 +143,7 @@ abstract class DefaultStepQuizFragment :
     }
 
     protected fun onRetryButtonClicked() {
-        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ClickedRetryEventMessage)
-        stepQuizViewModel.onNewMessage(
-            StepQuizFeature.Message.CreateAttemptClicked(
-                step = step,
-                shouldResetReply = true
-            )
-        )
+        stepQuizViewModel.onRetryButtonClicked()
     }
 
     override fun onStart() {

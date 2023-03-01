@@ -44,7 +44,7 @@ interface AndroidAppComponent : AppGraph {
     fun buildPlatformAuthSocialComponent(authSocialComponent: AuthSocialComponent): PlatformAuthSocialComponent
     fun buildPlatformAuthCredentialsComponent(authCredentialsComponent: AuthCredentialsComponent): PlatformAuthCredentialsComponent
     fun buildPlatformStepComponent(stepComponent: StepComponent): PlatformStepComponent
-    fun buildPlatformStepQuizComponent(stepQuizComponent: StepQuizComponent): PlatformStepQuizComponent
+    fun buildPlatformStepQuizComponent(step: Step, stepQuizComponent: StepQuizComponent): PlatformStepQuizComponent
     fun buildPlatformStepQuizHintsComponent(step: Step): PlatformStepQuizHintsComponent
     fun buildPlatformLatexComponent(): PlatformLatexComponent
     fun buildPlatformCodeEditorComponent(): PlatformCodeEditorComponent

@@ -250,8 +250,11 @@ class AndroidAppComponentImpl(
     override fun buildStepQuizComponent(stepRoute: StepRoute): StepQuizComponent =
         StepQuizComponentImpl(this, stepRoute)
 
-    override fun buildPlatformStepQuizComponent(stepQuizComponent: StepQuizComponent): PlatformStepQuizComponent =
-        PlatformStepQuizComponentImpl(stepQuizComponent)
+    override fun buildPlatformStepQuizComponent(
+        step: Step,
+        stepQuizComponent: StepQuizComponent
+    ): PlatformStepQuizComponent =
+        PlatformStepQuizComponentImpl(step, stepQuizComponent)
 
     /**
      * Latex component
