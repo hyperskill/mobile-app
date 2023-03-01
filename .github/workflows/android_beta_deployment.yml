@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v3.3.0
         
       - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v1.0.5
+        uses: gradle/wrapper-validation-action@v1.0.6
 
   # Build and submit to the Firebase App Distribution
   deployment:

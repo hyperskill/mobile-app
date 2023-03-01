@@ -73,7 +73,7 @@ final class StepQuizFeedbackUIKitView: UIView {
             ]
         )
 
-        let processedContentView = ProcessedContentView.init(
+        let processedContentView = ProcessedContentView(
             frame: .zero,
             appearance: processedContentViewAppearance,
             contentProcessor: contentProcessor,

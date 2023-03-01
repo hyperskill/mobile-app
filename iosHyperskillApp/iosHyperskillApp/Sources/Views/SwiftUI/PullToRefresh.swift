@@ -10,6 +10,11 @@ private struct PullToRefresh: UIViewRepresentable {
 
     // MARK: UIViewRepresentable
 
+    static func dismantleUIView(_ uiView: UIKitIntrospectionView, coordinator: Coordinator) {
+        uiView.moveToWindowHandler = nil
+        coordinator.onRefresh = nil
+    }
+
     func makeCoordinator() -> Coordinator {
         Coordinator(isShowing: $isShowing, onRefresh: onRefresh)
     }
@@ -24,21 +29,26 @@ private struct PullToRefresh: UIViewRepresentable {
         /// To workaround this, we wait until the runloop is done inserting the introspection view in the hierarchy, then run the selector.
         /// Finding the target view fails silently if the selector yield no result. This happens when `updateUIView`
         /// gets called when the introspection view gets removed from the hierarchy.
+        let coordinator = context.coordinator
         if context.coordinator.refreshControl == nil {
-            uiView.moveToWindowHandler = {
+            uiView.moveToWindowHandler = { [weak uiView, weak coordinator] in
                 DispatchQueue.main.async {
-                    updateRefreshControl(uiView, context: context)
+                    guard let uiView, let coordinator else {
+                        return
+                    }
+
+                    updateRefreshControl(uiView, coordinator: coordinator)
                 }
             }
         } else {
-            updateRefreshControl(uiView, context: context)
+            updateRefreshControl(uiView, coordinator: coordinator)
         }
     }
 
-    private func updateRefreshControl(_ uiView: UIKitIntrospectionView, context: Context) {
+    private func updateRefreshControl(_ uiView: UIKitIntrospectionView, coordinator: Coordinator) {
         // View disappeared -> endRefreshing
         if uiView.superview == nil {
-            context.coordinator.refreshControl?.endRefreshing()
+            coordinator.refreshControl?.endRefreshing()
         }
 
         guard let scrollView = uiView.findAncestor(ofType: UIScrollView.self) else {
@@ -52,17 +62,17 @@ private struct PullToRefresh: UIViewRepresentable {
                 refreshControl.endRefreshing()
             }
 
-            context.coordinator.refreshControl = refreshControl
+            coordinator.refreshControl = refreshControl
         } else {
             let refreshControl = UIRefreshControl()
             refreshControl.addTarget(
-                context.coordinator,
+                coordinator,
                 action: #selector(Coordinator.refreshControlValueChanged),
                 for: .valueChanged
             )
 
             scrollView.refreshControl = refreshControl
-            context.coordinator.refreshControl = refreshControl
+            coordinator.refreshControl = refreshControl
         }
     }
 }
@@ -73,7 +83,7 @@ extension PullToRefresh {
     class Coordinator {
         let isShowing: Binding<Bool>
 
-        let onRefresh: () -> Void
+        var onRefresh: (() -> Void)?
 
         weak var refreshControl: UIRefreshControl?
 
@@ -85,7 +95,7 @@ extension PullToRefresh {
         @objc
         func refreshControlValueChanged() {
             isShowing.wrappedValue = true
-            onRefresh()
+            onRefresh?()
         }
     }
 }

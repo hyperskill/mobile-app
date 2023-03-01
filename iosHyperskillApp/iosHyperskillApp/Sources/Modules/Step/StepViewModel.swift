@@ -141,6 +141,18 @@ extension StepViewModel: TopicCompletedModalViewControllerDelegate {
         viewController.dismiss(animated: true)
     }
 
+    func topicCompletedModalViewControllerDidTapContinueWithNextTopicButton(
+        _ viewController: TopicCompletedModalViewController
+    ) {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageTopicCompletedModalContinueNextTopicClicked()
+            )
+        )
+
+        viewController.dismiss(animated: true)
+    }
+
     func topicCompletedModalViewControllerDidAppear(_ viewController: TopicCompletedModalViewController) {
         onNewMessage(
             StepFeatureMessageStepCompletionMessage(

@@ -109,6 +109,11 @@ enum Strings {
             static let reportAlertText = sharedStrings.step_quiz_hints_report_alert_text.localized()
             static let showMore = sharedStrings.step_quiz_hints_show_more_text.localized()
         }
+
+        enum TopicCompletedModal {
+            static let continueWithNextTopicButtonText =
+                sharedStrings.step_quiz_topic_completed_continue_with_next_topic_button_text.localized()
+        }
     }
 
     // MARK: - StepQuizChoice -

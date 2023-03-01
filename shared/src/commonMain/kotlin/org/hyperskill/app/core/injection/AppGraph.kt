@@ -38,6 +38,7 @@ import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import org.hyperskill.app.streaks.injection.StreakFlowDataComponent
 import org.hyperskill.app.streaks.injection.StreaksDataComponent
+import org.hyperskill.app.study_plan.injection.StudyPlanDataComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponent
@@ -98,4 +99,5 @@ interface AppGraph {
     fun buildTopicsToDiscoverNextComponent(screen: TopicsToDiscoverNextScreen): TopicsToDiscoverNextComponent
     fun buildTopicsToDiscoverNextDataComponent(): TopicsToDiscoverNextDataComponent
     fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent
+    fun buildStudyPlanDataComponent(): StudyPlanDataComponent
 }

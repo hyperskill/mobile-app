@@ -15,6 +15,7 @@ import org.hyperskill.app.step_completion.domain.analytic.daily_notifications_no
 import org.hyperskill.app.step_completion.domain.analytic.daily_step_completed_modal.StepCompletionDailyStepCompletedModalClickedGoBackHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.daily_step_completed_modal.StepCompletionDailyStepCompletedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.daily_step_completed_modal.StepCompletionDailyStepCompletedModalShownHyperskillAnalyticEvent
+import org.hyperskill.app.step_completion.domain.analytic.topic_completed_modal.StepCompletionTopicCompletedModalClickedContinueNextTopicHyperskillAnalyticEvent
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<State, Message, Action> {
@@ -64,8 +65,9 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
             is Message.CheckTopicCompletionStatus.Completed ->
                 state.copy(
                     continueButtonAction = ContinueButtonAction.NavigateToHomeScreen,
-                    isPracticingLoading = false
-                ) to setOf(Action.ViewAction.ShowTopicCompletedModal(message.modalText))
+                    isPracticingLoading = false,
+                    nextStepRoute = message.nextStepId?.let { StepRoute.Learn(it) }
+                ) to setOf(Action.ViewAction.ShowTopicCompletedModal(message.modalText, message.nextStepId != null))
             is Message.CheckTopicCompletionStatus.Uncompleted ->
                 state.copy(isPracticingLoading = false) to emptySet()
             is Message.CheckTopicCompletionStatus.Error ->
@@ -99,6 +101,19 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                     Action.LogAnalyticEvent(analyticEvent)
                 )
             }
+            is Message.TopicCompletedModalContinueNextTopicClicked ->
+                if (state.nextStepRoute != null) {
+                    state to setOf(
+                        Action.ViewAction.ReloadStep(state.nextStepRoute),
+                        Action.LogAnalyticEvent(
+                            StepCompletionTopicCompletedModalClickedContinueNextTopicHyperskillAnalyticEvent(
+                                route = stepRoute.analyticRoute
+                            )
+                        )
+                    )
+                } else {
+                    null
+                }
             is Message.StepSolved ->
                 if (!state.isPracticingLoading &&
                     stepRoute is StepRoute.Learn &&

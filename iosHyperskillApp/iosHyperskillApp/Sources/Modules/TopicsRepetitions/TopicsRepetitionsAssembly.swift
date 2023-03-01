@@ -15,7 +15,10 @@ class TopicsRepetitionsAssembly: UIKitAssembly {
             dataMapper: topicsRepetitionsComponent.topicsRepetitionsViewDataMapper
         )
 
-        let viewController = RemoveBackButtonTitleHostingController(rootView: topicsRepetitionsView)
+        let viewController = StyledHostingController(
+            rootView: topicsRepetitionsView,
+            appearance: .withoutBackButtonTitle
+        )
 
         stackRouter.rootViewController = viewController
 

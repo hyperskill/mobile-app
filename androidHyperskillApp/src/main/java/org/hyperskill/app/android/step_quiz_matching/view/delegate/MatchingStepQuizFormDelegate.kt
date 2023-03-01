@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizSortingBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz_matching.view.adapter.MatchingItemOptionAdapterDelegate
@@ -19,11 +18,10 @@ import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.app.core.model.swap
 
 class MatchingStepQuizFormDelegate(
-    containerBinding: FragmentStepQuizBinding,
     binding: LayoutStepQuizSortingBinding,
     private val onQuizChanged: (Reply) -> Unit
 ) : StepQuizFormDelegate {
-    private val quizDescription = containerBinding.stepQuizDescription
+
     private val optionsAdapter = DefaultDelegateAdapter<MatchingItem>()
     private val matchingItemMapper = MatchingItemMapper()
 
@@ -32,8 +30,6 @@ class MatchingStepQuizFormDelegate(
     }
 
     init {
-        quizDescription.setText(org.hyperskill.app.R.string.step_quiz_matching_title)
-
         optionsAdapter += MatchingItemTitleAdapterDelegate()
         optionsAdapter += MatchingItemOptionAdapterDelegate(optionsAdapter, ::moveOption)
 

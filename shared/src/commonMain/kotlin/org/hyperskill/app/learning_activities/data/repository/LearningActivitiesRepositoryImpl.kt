@@ -8,8 +8,9 @@ class LearningActivitiesRepositoryImpl(
     private val learningActivitiesRemoteDataSource: LearningActivitiesRemoteDataSource
 ) : LearningActivitiesRepository {
     override suspend fun getUncompletedTopicsLearningActivities(
+        studyPlanId: Long,
         pageSize: Int,
         page: Int
     ): Result<LearningActivitiesResponse> =
-        learningActivitiesRemoteDataSource.getUncompletedTopicsLearningActivities(pageSize, page)
+        learningActivitiesRemoteDataSource.getUncompletedTopicsLearningActivities(studyPlanId, pageSize, page)
 }

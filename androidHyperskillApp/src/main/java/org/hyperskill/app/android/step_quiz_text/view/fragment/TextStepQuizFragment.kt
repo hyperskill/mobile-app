@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import androidx.fragment.app.Fragment
-import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizTextBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.fragment.DefaultStepQuizFragment
@@ -45,6 +44,6 @@ class TextStepQuizFragment :
         super.onDestroyView()
     }
 
-    override fun createStepQuizFormDelegate(containerBinding: FragmentStepQuizBinding): StepQuizFormDelegate =
-        TextStepQuizFormDelegate(containerBinding, binding, step.block.name, onQuizChanged = ::syncReplyState)
+    override fun createStepQuizFormDelegate(): StepQuizFormDelegate =
+        TextStepQuizFormDelegate(binding, step.block.name, onQuizChanged = ::syncReplyState)
 }

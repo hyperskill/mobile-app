@@ -1,4 +1,4 @@
-package org.hyperskill.app.track.domain.model
+package org.hyperskill.app.study_plan.domain.model
 
 import kotlin.math.roundToInt
 import kotlinx.serialization.SerialName

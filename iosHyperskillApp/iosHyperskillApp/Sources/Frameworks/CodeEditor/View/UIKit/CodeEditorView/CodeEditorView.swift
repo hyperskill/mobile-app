@@ -157,7 +157,8 @@ final class CodeEditorView: UIView {
             },
             hideKeyboardAction: { [weak self] in
                 self?.codeTextView.resignFirstResponder()
-            }
+            },
+            pasteConfigurationSupporting: codeTextView
         )
     }
 

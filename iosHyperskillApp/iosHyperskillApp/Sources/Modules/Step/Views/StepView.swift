@@ -105,7 +105,10 @@ struct StepView: View {
                 animated: false
             )
         case .showTopicCompletedModal(let topicCompletedModalViewAction):
-            presentTopicCompletedModal(modalText: topicCompletedModalViewAction.modalText)
+            presentTopicCompletedModal(
+                modalText: topicCompletedModalViewAction.modalText,
+                isNextStepAvailable: topicCompletedModalViewAction.isNextStepAvailable
+            )
         case .requestDailyStudyRemindersPermission:
             presentSendDailyStudyRemindersPermissionAlert()
         case .showProblemOfDaySolvedModal(let showProblemOfDaySolvedModalViewAction):
@@ -168,9 +171,10 @@ extension StepView {
 // MARK: - StepView (Modals) -
 
 extension StepView {
-    private func presentTopicCompletedModal(modalText: String) {
+    private func presentTopicCompletedModal(modalText: String, isNextStepAvailable: Bool) {
         let modal = TopicCompletedModalViewController(
             modalText: modalText,
+            isNextStepAvailable: isNextStepAvailable,
             delegate: viewModel
         )
         panModalPresenter.presentPanModal(modal)

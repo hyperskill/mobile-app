@@ -105,8 +105,6 @@ class StepFragment :
                     StepCompletionFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
                         requireRouter().backTo(MainScreen)
                         parentFragmentManager.requireMainRouter().switch(HomeScreen)
-                        childFragmentManager
-                            .dismissDialogFragmentIfExists(TopicPracticeCompletedBottomSheet.Tag)
                     }
 
                     is StepCompletionFeature.Action.ViewAction.ReloadStep -> {
@@ -118,8 +116,15 @@ class StepFragment :
                     }
 
                     is StepCompletionFeature.Action.ViewAction.ShowTopicCompletedModal -> {
-                        TopicPracticeCompletedBottomSheet.newInstance(stepCompletionAction.modalText)
-                            .showIfNotExists(childFragmentManager, TopicPracticeCompletedBottomSheet.Tag)
+                        TopicPracticeCompletedBottomSheet
+                            .newInstance(
+                                stepCompletionAction.modalText,
+                                stepCompletionAction.isNextStepAvailable
+                            )
+                            .showIfNotExists(
+                                childFragmentManager,
+                                TopicPracticeCompletedBottomSheet.Tag
+                            )
                     }
                     StepCompletionFeature.Action.ViewAction.RequestDailyStudyRemindersPermission -> {
                         requestSendDailyStudyRemindersPermission()

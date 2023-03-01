@@ -7,8 +7,9 @@ class LearningActivitiesInteractor(
     private val learningActivitiesRepository: LearningActivitiesRepository
 ) {
     suspend fun getUncompletedTopicsLearningActivities(
+        studyPlanId: Long,
         pageSize: Int = 10,
         page: Int = 1
     ): Result<LearningActivitiesResponse> =
-        learningActivitiesRepository.getUncompletedTopicsLearningActivities(pageSize, page)
+        learningActivitiesRepository.getUncompletedTopicsLearningActivities(studyPlanId, pageSize, page)
 }

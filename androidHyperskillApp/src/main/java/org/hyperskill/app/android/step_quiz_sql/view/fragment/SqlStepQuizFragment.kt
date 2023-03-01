@@ -6,7 +6,6 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import org.hyperskill.app.android.code.presentation.model.ProgrammingLanguage
-import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizSqlBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.fragment.DefaultStepQuizFragment
@@ -53,9 +52,8 @@ class SqlStepQuizFragment : DefaultStepQuizFragment(), CodeStepQuizFullScreenDia
         super.onDestroyView()
     }
 
-    override fun createStepQuizFormDelegate(containerBinding: FragmentStepQuizBinding): StepQuizFormDelegate {
+    override fun createStepQuizFormDelegate(): StepQuizFormDelegate {
         val codeStepQuizFormDelegate = SqlStepQuizFormDelegate(
-            containerBinding = containerBinding,
             codeLayout = binding.codeStepLayout,
             sqlCodeTemplate = getSqlCodeTemplate(step),
             onFullscreenClicked = ::onFullScreenClicked,

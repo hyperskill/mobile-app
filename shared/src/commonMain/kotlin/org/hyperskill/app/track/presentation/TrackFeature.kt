@@ -5,7 +5,7 @@ import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
-import org.hyperskill.app.track.domain.model.StudyPlan
+import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.domain.model.TrackProgress
 

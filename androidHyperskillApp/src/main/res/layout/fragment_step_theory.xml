@@ -18,29 +18,21 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/step_content_padding">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/stepTheorySubtitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/step_theory_text"
-                android:textAppearance="?textAppearanceSubtitle1"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Theory" />
+            android:padding="@dimen/step_content_padding"
+            android:background="?colorSurface"
+            >
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/stepTheoryTimeToComplete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawablePadding="4dp"
+                android:drawablePadding="7dp"
                 android:gravity="center_vertical"
                 android:textAppearance="?textAppearanceBody2"
-                android:textColor="?android:textColorSecondary"
-                app:layout_constraintLeft_toLeftOf="@id/stepTheorySubtitle"
-                app:layout_constraintTop_toBottomOf="@id/stepTheorySubtitle"
-                tools:drawableStart="@drawable/ic_time"
+                android:textColor="@color/color_on_surface_alpha_60"
+                app:drawableStartCompat="@drawable/ic_time"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="3 minutes reading" />
 
             <com.google.android.material.button.MaterialButton

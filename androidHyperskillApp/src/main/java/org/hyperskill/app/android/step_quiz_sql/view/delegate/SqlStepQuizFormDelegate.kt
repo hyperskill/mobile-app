@@ -8,7 +8,6 @@ import org.hyperskill.app.android.code.presentation.model.ProgrammingLanguage
 import org.hyperskill.app.android.code.presentation.model.extensionForLanguage
 import org.hyperskill.app.android.code.view.widget.CodeEditorLayout
 import org.hyperskill.app.android.code.view.widget.withoutTextChangeCallback
-import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
@@ -17,7 +16,6 @@ import ru.nobird.app.core.model.safeCast
 
 class SqlStepQuizFormDelegate(
     private val sqlCodeTemplate: String?,
-    containerBinding: FragmentStepQuizBinding,
     private val codeLayout: CodeEditorLayout,
     private val onFullscreenClicked: (lang: String, code: String?) -> Unit,
     private val onQuizChanged: (Reply) -> Unit
@@ -37,8 +35,6 @@ class SqlStepQuizFormDelegate(
     }
 
     init {
-        containerBinding.stepQuizDescription.setText(org.hyperskill.app.R.string.step_quiz_sql_title)
-
         with(codeLayout.codeEditor) {
             isFocusable = false
 

@@ -19,6 +19,15 @@ struct SwiftUIProcessedContentView: UIViewRepresentable {
 
     // MARK: UIViewRepresentable
 
+    static func dismantleUIView(_ uiView: ProcessedContentView, coordinator: Coordinator) {
+        uiView.delegate = nil
+
+        coordinator.onContentLoaded = nil
+        coordinator.onHeightUpdated = nil
+        coordinator.onOpenImageURL = nil
+        coordinator.onOpenLink = nil
+    }
+
     func makeCoordinator() -> Coordinator {
         Coordinator()
     }
@@ -64,8 +73,8 @@ extension SwiftUIProcessedContentView {
         }
 
         func processedContentView(_ view: ProcessedContentView, didReportNewHeight height: Int) {
-            mainScheduler.schedule {
-                self.onHeightUpdated?(height)
+            mainScheduler.schedule { [weak self] in
+                self?.onHeightUpdated?(height)
             }
         }
 

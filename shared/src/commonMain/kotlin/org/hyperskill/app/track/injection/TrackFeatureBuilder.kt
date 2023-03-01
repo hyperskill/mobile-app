@@ -9,6 +9,7 @@ import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.study_plan.domain.interactor.StudyPlanInteractor
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextActionDispatcher
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextReducer
@@ -25,6 +26,7 @@ import ru.nobird.app.presentation.redux.feature.ReduxFeature
 object TrackFeatureBuilder {
     fun build(
         trackInteractor: TrackInteractor,
+        studyPlanInteractor: StudyPlanInteractor,
         profileInteractor: ProfileInteractor,
         progressesInteractor: ProgressesInteractor,
         analyticInteractor: AnalyticInteractor,
@@ -39,6 +41,7 @@ object TrackFeatureBuilder {
         val trackActionDispatcher = TrackActionDispatcher(
             ActionDispatcherOptions(),
             trackInteractor,
+            studyPlanInteractor,
             profileInteractor,
             progressesInteractor,
             analyticInteractor,

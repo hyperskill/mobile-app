@@ -24,32 +24,19 @@
             android:background="?colorSurface"
             android:orientation="vertical">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/stepPracticeCompletion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginHorizontal="20dp"
-                android:drawablePadding="4dp"
-                android:gravity="center_vertical"
-                android:textAppearance="?textAppearanceBody2"
-                android:textColor="?android:textColorSecondary"
-                app:layout_constraintLeft_toLeftOf="@id/stepTheorySubtitle"
-                app:layout_constraintTop_toBottomOf="@id/stepTheorySubtitle"
-                tools:drawableStart="@drawable/ic_time"
-                tools:text="3 minutes reading" />
-
             <FrameLayout
                 android:id="@+id/stepTheoryContainer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                />
 
             <FrameLayout
                 android:id="@+id/stepQuizHints"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="20dp"
-                android:paddingBottom="20dp"
+                android:paddingBottom="28dp"
                 android:visibility="gone"
                 />
 
@@ -58,20 +45,17 @@
                 android:id="@+id/stepQuizCodeSamples"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                layout="@layout/layout_step_quiz_code_details" />
-
-            <include
-                android:id="@+id/stepQuizDescriptionDivider"
-                layout="@layout/view_divider_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="?dividerVerticalSize"
-                android:layout_marginHorizontal="20dp" />
+                layout="@layout/layout_step_quiz_code_details"
+                tools:visibility="visible"
+                android:layout_marginBottom="20dp"
+                />
 
             <FrameLayout
                 android:id="@+id/stepQuizContainer"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                />
 
             <include
                 layout="@layout/view_divider_vertical"

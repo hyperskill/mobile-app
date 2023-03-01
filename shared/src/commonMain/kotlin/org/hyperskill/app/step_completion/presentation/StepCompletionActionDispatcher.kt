@@ -1,5 +1,7 @@
 package org.hyperskill.app.step_completion.presentation
 
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.datetime.Clock
@@ -22,6 +24,7 @@ import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Action
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
 import org.hyperskill.app.topics.domain.interactor.TopicsInteractor
+import org.hyperskill.app.topics_to_discover_next.domain.interactor.TopicsToDiscoverNextInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class StepCompletionActionDispatcher(
@@ -32,6 +35,7 @@ class StepCompletionActionDispatcher(
     private val analyticInteractor: AnalyticInteractor,
     private val resourceProvider: ResourceProvider,
     private val sentryInteractor: SentryInteractor,
+    private val topicsToDiscoverNextInteractor: TopicsToDiscoverNextInteractor,
     private val profileInteractor: ProfileInteractor,
     private val notificationInteractor: NotificationInteractor,
     private val topicCompletedFlow: TopicCompletedFlow,
@@ -111,19 +115,34 @@ class StepCompletionActionDispatcher(
                 if (topicProgress.isCompleted) {
                     topicCompletedFlow.notifyDataChanged(action.topicId)
 
-                    val topicTitle = topicsInteractor
-                        .getTopic(action.topicId)
-                        .map { it.title }
-                        .getOrElse { return onNewMessage(Message.CheckTopicCompletionStatus.Error) }
+                    coroutineScope {
+                        val topicResult = async {
+                            topicsInteractor.getTopic(action.topicId)
+                        }
+                        val nextTopicToDiscoverResult = async {
+                            topicsToDiscoverNextInteractor.getNextTopicToDiscover()
+                        }
 
-                    onNewMessage(
-                        Message.CheckTopicCompletionStatus.Completed(
-                            resourceProvider.getString(
-                                SharedResources.strings.step_quiz_topic_completed_modal_text,
-                                topicTitle
+                        val topicTitle = topicResult.await()
+                            .map { it.title }
+                            .getOrElse {
+                                onNewMessage(Message.CheckTopicCompletionStatus.Error)
+                                return@coroutineScope
+                            }
+                        val nextStepId = nextTopicToDiscoverResult.await()
+                            .getOrNull()
+                            ?.theoryId
+
+                        onNewMessage(
+                            Message.CheckTopicCompletionStatus.Completed(
+                                modalText = resourceProvider.getString(
+                                    SharedResources.strings.step_quiz_topic_completed_modal_text,
+                                    topicTitle
+                                ),
+                                nextStepId = nextStepId
                             )
                         )
-                    )
+                    }
                 } else {
                     topicProgressFlow.notifyDataChanged(topicProgress)
                     onNewMessage(Message.CheckTopicCompletionStatus.Uncompleted)

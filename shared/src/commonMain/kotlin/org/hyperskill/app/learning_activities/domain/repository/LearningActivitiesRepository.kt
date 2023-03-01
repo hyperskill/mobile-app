@@ -4,6 +4,7 @@ import org.hyperskill.app.learning_activities.remote.model.LearningActivitiesRes
 
 interface LearningActivitiesRepository {
     suspend fun getUncompletedTopicsLearningActivities(
+        studyPlanId: Long,
         pageSize: Int = 10,
         page: Int = 1
     ): Result<LearningActivitiesResponse>
