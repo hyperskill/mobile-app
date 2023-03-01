@@ -2,6 +2,7 @@ package org.hyperskill.app.stages.domain.interactor
 
 import org.hyperskill.app.stages.domain.model.Stage
 import org.hyperskill.app.stages.domain.repository.StagesRepository
+import org.hyperskill.app.stages.domain.repository.getStage
 
 class StagesInteractor(
     private val stagesRepository: StagesRepository

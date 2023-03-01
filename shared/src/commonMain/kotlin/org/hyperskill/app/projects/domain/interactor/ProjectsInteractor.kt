@@ -2,6 +2,7 @@ package org.hyperskill.app.projects.domain.interactor
 
 import org.hyperskill.app.projects.domain.model.Project
 import org.hyperskill.app.projects.domain.repository.ProjectsRepository
+import org.hyperskill.app.projects.domain.repository.getProject
 
 class ProjectsInteractor(
     private val projectsRepository: ProjectsRepository
