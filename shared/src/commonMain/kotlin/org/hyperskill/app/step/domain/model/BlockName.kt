@@ -7,6 +7,7 @@ object BlockName {
     const val MATCHING = "matching"
     const val MATH = "math"
     const val NUMBER = "number"
+    const val PYCHARM = "pycharm"
     const val SORTING = "sorting"
     const val SQL = "sql"
     const val STRING = "string"
