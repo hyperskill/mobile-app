@@ -7,7 +7,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents click on the problem of the day card analytic event.
+ * Represents click on the problem of the day card's reload button analytic event.
  *
  * JSON payload:
  * ```
@@ -15,7 +15,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *     "route": "/home",
  *     "action": "click",
  *     "part": "problem_of_the_day_card",
- *     "target": "continue",
+ *     "target": "reload"
  *     "context":
  *     {
  *         "is_completed": false
@@ -24,15 +24,14 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * ```
  * @see HyperskillAnalyticEvent
  */
-class HomeClickedProblemOfDayCardHyperskillAnalyticEvent(
+class HomeClickedProblemOfDayCardReloadHyperskillAnalyticEvent(
     val isCompleted: Boolean
 ) : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Home(),
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.PROBLEM_OF_THE_DAY_CARD,
-    HyperskillAnalyticTarget.CONTINUE
+    HyperskillAnalyticTarget.RELOAD
 ) {
-
     override val params: Map<String, Any>
         get() = super.params + mapOf(
             PARAM_CONTEXT to
