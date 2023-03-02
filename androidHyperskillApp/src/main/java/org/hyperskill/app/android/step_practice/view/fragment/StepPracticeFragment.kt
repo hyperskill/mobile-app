@@ -21,7 +21,7 @@ import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 
 class StepPracticeFragment : Fragment(R.layout.fragment_step_practice), StepCompletionView {
     companion object {
-        private const val STEP_CONTENT_FRAGMENT_TAG = "step_content"
+        private const val STEP_DESCRIPTION_FRAGMENT_TAG = "step_content"
         private const val STEP_QUIZ_FRAGMENT_TAG = "step_quiz"
         private const val STEP_HINTS_FRAGMENT_TAG = "step_hints"
 
@@ -59,7 +59,7 @@ class StepPracticeFragment : Fragment(R.layout.fragment_step_practice), StepComp
     }
 
     private fun initStepTheoryFragment(step: Step) {
-        setChildFragment(R.id.stepTheoryContainer, STEP_CONTENT_FRAGMENT_TAG) {
+        setChildFragment(R.id.stepDescriptionContainer, STEP_DESCRIPTION_FRAGMENT_TAG) {
             TextStepContentFragment.newInstance(step)
         }
     }

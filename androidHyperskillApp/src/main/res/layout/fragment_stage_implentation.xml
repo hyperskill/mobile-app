@@ -7,11 +7,11 @@
     android:orientation="vertical">
 
     <include
-        android:id="@+id/stepPracticeAppBar"
-        layout="@layout/view_step_quiz_appbar" />
+        android:id="@+id/stageImplementationAppBar"
+        layout="@layout/view_stage_implementation_appbar" />
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/stepPracticeContainer"
+        android:id="@+id/stagePracticeContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
@@ -24,15 +24,25 @@
             android:background="?colorSurface"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/stageImplementationTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?textAppearanceSubtitle1"
+                tools:text="Simple Chatty Bot"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                />
+
             <FrameLayout
-                android:id="@+id/stepDescriptionContainer"
+                android:id="@+id/stageDescriptionContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="20dp"
                 />
 
             <FrameLayout
-                android:id="@+id/stepQuizHints"
+                android:id="@+id/stageQuizHints"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="20dp"
@@ -42,7 +52,7 @@
 
             <include
                 android:visibility="gone"
-                android:id="@+id/stepQuizCodeSamples"
+                android:id="@+id/stageQuizCodeSamples"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 layout="@layout/layout_step_quiz_code_details"
@@ -51,7 +61,7 @@
                 />
 
             <FrameLayout
-                android:id="@+id/stepQuizContainer"
+                android:id="@+id/stageQuizContainer"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -64,4 +74,25 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.core.widget.NestedScrollView>
+
+    <include
+        android:id="@+id/stageImplementationError"
+        layout="@layout/error_no_connection_with_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        />
+
+    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+        android:id="@+id/stageImplementationProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
+        />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
