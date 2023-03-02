@@ -56,7 +56,7 @@ class HomeFragment :
         ProblemOfDayCardFormDelegate(
             onCardClicked = ::onProblemOfDayCardActionButtonClicked,
             onReloadClick = {
-                homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = true))
+                homeViewModel.onNewMessage(HomeFeature.Message.ClickedProblemOfDayCardReload)
             }
         )
     }
