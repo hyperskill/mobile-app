@@ -32,6 +32,7 @@ interface ProfileFeature {
             val profile: Profile,
             val streak: Streak?,
             val streakFreezeState: StreakFreezeState?,
+            val dailyStudyRemindersState: DailyStudyRemindersState,
             val isRefreshing: Boolean = false,
             val isLoadingMagicLink: Boolean = false
         ) : State
@@ -41,6 +42,11 @@ interface ProfileFeature {
          */
         object Error : State
     }
+
+    data class DailyStudyRemindersState(
+        val isEnabled: Boolean,
+        val intervalStartHour: Int
+    )
 
     @Serializable
     sealed interface StreakFreezeState {
@@ -71,7 +77,8 @@ interface ProfileFeature {
             data class Success(
                 val profile: Profile,
                 val streak: Streak?,
-                val streakFreezeState: StreakFreezeState?
+                val streakFreezeState: StreakFreezeState?,
+                val dailyStudyRemindersState: DailyStudyRemindersState
             ) : ProfileLoaded
             object Error : ProfileLoaded
         }
@@ -100,13 +107,16 @@ interface ProfileFeature {
             object Error : StreakFreezeBought
         }
 
+        data class DailyStudyRemindersIsEnabledClicked(val isEnabled: Boolean) : Message
+        data class DailyStudyRemindersIntervalStartHourChanged(val startHour: Int) : Message
+        data class DailyStudyRemindersIsEnabledChanged(val isEnabled: Boolean) : Message
+        object DailyStudyRemindsTimeClicked : Message
+
         /**
          * Analytic
          */
         object ViewedEventMessage : Message
         object ClickedSettingsEventMessage : Message
-        data class ClickedDailyStudyRemindsEventMessage(val isEnabled: Boolean) : Message
-        object ClickedDailyStudyRemindsTimeEventMessage : Message
         object StreakFreezeModalShownEventMessage : Message
         object StreakFreezeModalHiddenEventMessage : Message
     }
@@ -116,6 +126,9 @@ interface ProfileFeature {
         object FetchCurrentProfile : Action
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
+
+        data class SaveDailyStudyRemindersIsEnabled(val isEnabled: Boolean) : Action
+        data class SaveDailyStudyRemindersIntervalStartHour(val startHour: Int) : Action
 
         data class GetMagicLink(val path: HyperskillUrlPath) : Action
 
@@ -127,6 +140,8 @@ interface ProfileFeature {
         sealed interface ViewAction : Action {
             data class OpenUrl(val url: String) : ViewAction
             object ShowGetMagicLinkError : ViewAction
+
+            data class ShowRemindersIntervalDialog(val currentIntervalStartHour: Int) : ViewAction
 
             data class ShowStreakFreezeModal(val streakFreezeState: StreakFreezeState) : ViewAction
             object HideStreakFreezeModal : ViewAction

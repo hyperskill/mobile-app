@@ -4,12 +4,14 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.datetime.Clock
 import org.hyperskill.app.notification.data.extension.NotificationExtensions
 import org.hyperskill.app.notification.data.model.NotificationDescription
+import org.hyperskill.app.notification.domain.flow.DailyStudyRemindersEnabledFlow
 import org.hyperskill.app.notification.domain.repository.NotificationRepository
 import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
 
 class NotificationInteractor(
     private val notificationRepository: NotificationRepository,
-    private val submissionRepository: SubmissionRepository
+    private val submissionRepository: SubmissionRepository,
+    private val dailyStudyRemindersEnabledFlow: DailyStudyRemindersEnabledFlow
 ) {
     val solvedStepsSharedFlow: SharedFlow<Long> = submissionRepository.solvedStepsMutableSharedFlow
 
@@ -23,8 +25,10 @@ class NotificationInteractor(
     fun isDailyStudyRemindersEnabled(): Boolean =
         notificationRepository.isDailyStudyRemindersEnabled()
 
-    fun setDailyStudyRemindersEnabled(enabled: Boolean) {
+    internal suspend fun setDailyStudyRemindersEnabled(enabled: Boolean) {
         notificationRepository.setDailyStudyRemindersEnabled(enabled)
+
+        dailyStudyRemindersEnabledFlow.notifyDataChanged(enabled)
     }
 
     fun getNotificationTimestamp(key: String): Long =

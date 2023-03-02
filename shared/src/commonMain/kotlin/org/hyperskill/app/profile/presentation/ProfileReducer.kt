@@ -36,7 +36,12 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                 }
             }
             is Message.ProfileLoaded.Success ->
-                State.Content(message.profile, message.streak, message.streakFreezeState) to emptySet()
+                State.Content(
+                    message.profile,
+                    message.streak,
+                    message.streakFreezeState,
+                    message.dailyStudyRemindersState
+                ) to emptySet()
             is Message.ProfileLoaded.Error ->
                 State.Error to emptySet()
             is Message.PullToRefresh ->
@@ -188,16 +193,52 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
+            is Message.DailyStudyRemindersIsEnabledClicked ->
+                if (state is State.Content) {
+                    state.copy(
+                        dailyStudyRemindersState = state.dailyStudyRemindersState.copy(isEnabled = message.isEnabled)
+                    ) to setOf(
+                        Action.SaveDailyStudyRemindersIsEnabled(message.isEnabled),
+                        Action.LogAnalyticEvent(
+                            ProfileClickedDailyStudyRemindsHyperskillAnalyticEvent(message.isEnabled)
+                        )
+                    )
+                } else {
+                    null
+                }
+            is Message.DailyStudyRemindersIsEnabledChanged ->
+                if (state is State.Content) {
+                    state.copy(
+                        dailyStudyRemindersState = state.dailyStudyRemindersState.copy(isEnabled = message.isEnabled)
+                    ) to emptySet()
+                } else {
+                    null
+                }
+            is Message.DailyStudyRemindersIntervalStartHourChanged ->
+                if (state is State.Content && state.dailyStudyRemindersState.isEnabled) {
+                    state.copy(
+                        dailyStudyRemindersState = state.dailyStudyRemindersState.copy(
+                            intervalStartHour = message.startHour
+                        )
+                    ) to setOf(
+                        Action.SaveDailyStudyRemindersIntervalStartHour(message.startHour)
+                    )
+                } else {
+                    null
+                }
+            is Message.DailyStudyRemindsTimeClicked ->
+                if (state is State.Content) {
+                    state to setOf(
+                        Action.ViewAction.ShowRemindersIntervalDialog(state.dailyStudyRemindersState.intervalStartHour),
+                        Action.LogAnalyticEvent(ProfileClickedDailyStudyRemindsTimeHyperskillAnalyticEvent())
+                    )
+                } else {
+                    null
+                }
             is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(ProfileViewedHyperskillAnalyticEvent()))
             is Message.ClickedSettingsEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(ProfileClickedSettingsHyperskillAnalyticEvent()))
-            is Message.ClickedDailyStudyRemindsEventMessage ->
-                state to setOf(
-                    Action.LogAnalyticEvent(ProfileClickedDailyStudyRemindsHyperskillAnalyticEvent(message.isEnabled))
-                )
-            is Message.ClickedDailyStudyRemindsTimeEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(ProfileClickedDailyStudyRemindsTimeHyperskillAnalyticEvent()))
             is Message.StreakFreezeModalShownEventMessage ->
                 if (state is State.Content && state.streakFreezeState != null) {
                     state to setOf(

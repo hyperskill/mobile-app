@@ -3,6 +3,7 @@ package org.hyperskill.app.android.profile.view.fragment
 import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -64,8 +65,7 @@ class ProfileFragment :
 
     private var streakFormDelegate: StreakCardFormDelegate? = null
 
-    private val platformNotificationComponent =
-        HyperskillApp.graph().platformNotificationComponent
+    private val platformNotificationComponent = HyperskillApp.graph().platformNotificationComponent
 
     private val imageLoader: ImageLoader by lazy(LazyThreadSafetyMode.NONE) {
         HyperskillApp.graph().imageLoadingComponent.imageLoader
@@ -132,36 +132,22 @@ class ProfileFragment :
     private fun initRemindersSchedule() {
         with(viewBinding.profileDailyReminder) {
             profileScheduleTextView.setOnClickListener {
-                profileViewModel.onNewMessage(ProfileFeature.Message.ClickedDailyStudyRemindsTimeEventMessage)
-                TimeIntervalPickerDialogFragment
-                    .newInstance()
-                    .showIfNotExists(childFragmentManager, TimeIntervalPickerDialogFragment.TAG)
+                profileViewModel.onNewMessage(ProfileFeature.Message.DailyStudyRemindsTimeClicked)
             }
 
-            profileScheduleTextView.text = getScheduleTimeText(
-                time = platformNotificationComponent.notificationInteractor.getDailyStudyRemindersIntervalStartHour()
-            )
-
-            val notificationManager = NotificationManagerCompat.from(requireContext())
-
-            val isDailyNotificationEnabled = notificationManager.isChannelNotificationsEnabled(HyperskillNotificationChannel.DailyReminder.channelId) &&
-                platformNotificationComponent.notificationInteractor.isDailyStudyRemindersEnabled()
-            profileDailyRemindersSwitchCompat.isChecked = isDailyNotificationEnabled
-            profileScheduleTextView.isVisible = isDailyNotificationEnabled
-
-            profileDailyRemindersSwitchCompat.setOnCheckedChangeListener { _, isChecked ->
-                onDailyReminderCheckChanged(isChecked, notificationManager)
+            profileDailyRemindersSwitchCompat.setOnClickListener {
+                onDailyReminderCheckClicked((it as? SwitchCompat)?.isChecked ?: false)
             }
         }
     }
 
-    private fun onDailyReminderCheckChanged(isChecked: Boolean, notificationManager: NotificationManagerCompat) {
-        profileViewModel.onNewMessage(ProfileFeature.Message.ClickedDailyStudyRemindsEventMessage(isChecked))
-        platformNotificationComponent.notificationInteractor.setDailyStudyRemindersEnabled(isChecked)
+    private fun onDailyReminderCheckClicked(isChecked: Boolean) {
+        profileViewModel.onNewMessage(ProfileFeature.Message.DailyStudyRemindersIsEnabledClicked(isChecked))
 
         if (isChecked) {
             platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification()
 
+            val notificationManager = NotificationManagerCompat.from(requireContext())
             val isEnabled = notificationManager.checkNotificationChannelAvailability(
                 requireContext(),
                 HyperskillNotificationChannel.DailyReminder
@@ -203,9 +189,8 @@ class ProfileFragment :
     }
 
     override fun onTimeIntervalPicked(chosenInterval: Int) {
-        platformNotificationComponent.notificationInteractor.setDailyStudyRemindersIntervalStartHour(chosenInterval)
+        profileViewModel.onNewMessage(ProfileFeature.Message.DailyStudyRemindersIntervalStartHourChanged(chosenInterval))
         platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification()
-        viewBinding.profileDailyReminder.profileScheduleTextView.text = getScheduleTimeText(chosenInterval)
     }
 
     override fun onAction(action: ProfileFeature.Action.ViewAction) {
@@ -219,6 +204,11 @@ class ProfileFragment :
             is ProfileFeature.Action.ViewAction.ShowStreakFreezeModal -> {
                 StreakFreezeDialogFragment.newInstance(action.streakFreezeState)
                     .showIfNotExists(childFragmentManager, StreakFreezeDialogFragment.Tag)
+            }
+            is ProfileFeature.Action.ViewAction.ShowRemindersIntervalDialog -> {
+                TimeIntervalPickerDialogFragment
+                    .newInstance(action.currentIntervalStartHour)
+                    .showIfNotExists(childFragmentManager, TimeIntervalPickerDialogFragment.TAG)
             }
             ProfileFeature.Action.ViewAction.HideStreakFreezeModal -> {
                 childFragmentManager
@@ -260,6 +250,7 @@ class ProfileFragment :
 
         renderStatistics(content.profile)
         renderNameProfileBadge(content.profile)
+        renderRemindersSchedule(content.dailyStudyRemindersState)
         renderAboutMeSection(content.profile)
         renderBioSection(content.profile)
         renderExperienceSection(content.profile)
@@ -286,6 +277,21 @@ class ProfileFragment :
                     resources.getString(org.hyperskill.app.R.string.profile_role_learner_text)
                 }
             )
+        }
+    }
+
+    private fun renderRemindersSchedule(remindersState: ProfileFeature.DailyStudyRemindersState) {
+        with(viewBinding.profileDailyReminder) {
+            profileScheduleTextView.text = getScheduleTimeText(
+                time = remindersState.intervalStartHour
+            )
+
+            val notificationManager = NotificationManagerCompat.from(requireContext())
+            val isDailyNotificationEnabled = notificationManager.isChannelNotificationsEnabled(
+                HyperskillNotificationChannel.DailyReminder.channelId
+            ) && remindersState.isEnabled
+            profileDailyRemindersSwitchCompat.isChecked = isDailyNotificationEnabled
+            profileScheduleTextView.isVisible = isDailyNotificationEnabled
         }
     }
 

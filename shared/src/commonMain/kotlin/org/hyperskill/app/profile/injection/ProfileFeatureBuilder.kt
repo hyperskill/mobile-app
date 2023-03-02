@@ -3,6 +3,8 @@ package org.hyperskill.app.profile.injection
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
+import org.hyperskill.app.notification.domain.flow.DailyStudyRemindersEnabledFlow
+import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
 import org.hyperskill.app.products.domain.interactor.ProductsInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.profile.presentation.ProfileActionDispatcher
@@ -21,11 +23,13 @@ object ProfileFeatureBuilder {
     fun build(
         profileInteractor: ProfileInteractor,
         streaksInteractor: StreaksInteractor,
-        streakFlow: StreakFlow,
         productsInteractor: ProductsInteractor,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
-        urlPathProcessor: UrlPathProcessor
+        notificationInteractor: NotificationInteractor,
+        urlPathProcessor: UrlPathProcessor,
+        streakFlow: StreakFlow,
+        dailyStudyRemindersEnabledFlow: DailyStudyRemindersEnabledFlow
     ): Feature<State, Message, Action> {
         val profileReducer = ProfileReducer()
         val profileActionDispatcher = ProfileActionDispatcher(
@@ -35,8 +39,10 @@ object ProfileFeatureBuilder {
             productsInteractor,
             analyticInteractor,
             sentryInteractor,
+            notificationInteractor,
             urlPathProcessor,
-            streakFlow
+            streakFlow,
+            dailyStudyRemindersEnabledFlow
         )
 
         return ReduxFeature(State.Idle, profileReducer)

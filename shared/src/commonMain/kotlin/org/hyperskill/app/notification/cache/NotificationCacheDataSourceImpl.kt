@@ -3,6 +3,7 @@ package org.hyperskill.app.notification.cache
 import com.russhwolf.settings.Settings
 import org.hyperskill.app.SharedResources.strings
 import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.notification.data.extension.NotificationExtensions
 import org.hyperskill.app.notification.data.model.NotificationDescription
 import org.hyperskill.app.notification.data.source.NotificationCacheDataSource
 
@@ -34,7 +35,7 @@ class NotificationCacheDataSourceImpl(
     override fun getDailyStudyRemindersIntervalStartHour(): Int =
         settings.getInt(
             NotificationCacheKeyValues.NOTIFICATIONS_DAILY_REMINDER_START_HOUR,
-            NotificationCacheKeyValues.NOTIFICATION_DAILY_REMINDER_DEFAULT_START_HOUR
+            NotificationExtensions.DAILY_REMINDERS_AFTER_STEP_SOLVED_START_HOUR
         )
 
     override fun setDailyStudyRemindersIntervalStartHour(hour: Int) {

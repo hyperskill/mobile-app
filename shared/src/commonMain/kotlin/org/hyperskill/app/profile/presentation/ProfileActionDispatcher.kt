@@ -8,6 +8,8 @@ import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
+import org.hyperskill.app.notification.domain.flow.DailyStudyRemindersEnabledFlow
+import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
 import org.hyperskill.app.products.domain.interactor.ProductsInteractor
 import org.hyperskill.app.products.domain.model.Product
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
@@ -27,8 +29,10 @@ class ProfileActionDispatcher(
     private val productsInteractor: ProductsInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
+    private val notificationInteractor: NotificationInteractor,
     private val urlPathProcessor: UrlPathProcessor,
-    private val streakFlow: StreakFlow
+    private val streakFlow: StreakFlow,
+    dailyStudyRemindersEnabledFlow: DailyStudyRemindersEnabledFlow
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
@@ -45,6 +49,12 @@ class ProfileActionDispatcher(
         streakFlow.observe()
             .onEach { streak ->
                 onNewMessage(Message.StreakChanged(streak))
+            }
+            .launchIn(actionScope)
+
+        dailyStudyRemindersEnabledFlow.observe()
+            .onEach { isDailyStudyRemindersEnabled ->
+                onNewMessage(Message.DailyStudyRemindersIsEnabledChanged(isDailyStudyRemindersEnabled))
             }
             .launchIn(actionScope)
     }
@@ -79,7 +89,11 @@ class ProfileActionDispatcher(
                     Message.ProfileLoaded.Success(
                         profile = currentProfile,
                         streak = streak,
-                        streakFreezeState = getStreakFreezeState(streakFreezeProduct, streak)
+                        streakFreezeState = getStreakFreezeState(streakFreezeProduct, streak),
+                        dailyStudyRemindersState = ProfileFeature.DailyStudyRemindersState(
+                            isEnabled = notificationInteractor.isDailyStudyRemindersEnabled(),
+                            intervalStartHour = notificationInteractor.getDailyStudyRemindersIntervalStartHour()
+                        )
                     )
                 )
             }
@@ -97,6 +111,12 @@ class ProfileActionDispatcher(
                     }
 
                 onNewMessage(Message.StreakFreezeBought.Success)
+            }
+            is Action.SaveDailyStudyRemindersIsEnabled -> {
+                notificationInteractor.setDailyStudyRemindersEnabled(action.isEnabled)
+            }
+            is Action.SaveDailyStudyRemindersIntervalStartHour -> {
+                notificationInteractor.setDailyStudyRemindersIntervalStartHour(action.startHour)
             }
             is Action.FetchProfile -> {
                 // TODO add code when GET on any profile is implemented
