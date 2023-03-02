@@ -110,13 +110,13 @@ interface ProfileFeature {
         data class DailyStudyRemindersIsEnabledClicked(val isEnabled: Boolean) : Message
         data class DailyStudyRemindersIntervalStartHourChanged(val startHour: Int) : Message
         data class DailyStudyRemindersIsEnabledChanged(val isEnabled: Boolean) : Message
-        object DailyStudyRemindsTimeClicked : Message
 
         /**
          * Analytic
          */
         object ViewedEventMessage : Message
         object ClickedSettingsEventMessage : Message
+        object ClickedDailyStudyRemindsTimeEventMessage : Message
         object StreakFreezeModalShownEventMessage : Message
         object StreakFreezeModalHiddenEventMessage : Message
     }
@@ -140,8 +140,6 @@ interface ProfileFeature {
         sealed interface ViewAction : Action {
             data class OpenUrl(val url: String) : ViewAction
             object ShowGetMagicLinkError : ViewAction
-
-            data class ShowRemindersIntervalDialog(val currentIntervalStartHour: Int) : ViewAction
 
             data class ShowStreakFreezeModal(val streakFreezeState: StreakFreezeState) : ViewAction
             object HideStreakFreezeModal : ViewAction

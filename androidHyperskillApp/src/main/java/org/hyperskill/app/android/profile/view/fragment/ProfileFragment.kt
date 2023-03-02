@@ -132,7 +132,11 @@ class ProfileFragment :
     private fun initRemindersSchedule() {
         with(viewBinding.profileDailyReminder) {
             profileScheduleTextView.setOnClickListener {
-                profileViewModel.onNewMessage(ProfileFeature.Message.DailyStudyRemindsTimeClicked)
+                profileViewModel.onNewMessage(ProfileFeature.Message.ClickedDailyStudyRemindsTimeEventMessage)
+
+                TimeIntervalPickerDialogFragment
+                    .newInstance()
+                    .showIfNotExists(childFragmentManager, TimeIntervalPickerDialogFragment.TAG)
             }
 
             profileDailyRemindersSwitchCompat.setOnClickListener {
@@ -204,11 +208,6 @@ class ProfileFragment :
             is ProfileFeature.Action.ViewAction.ShowStreakFreezeModal -> {
                 StreakFreezeDialogFragment.newInstance(action.streakFreezeState)
                     .showIfNotExists(childFragmentManager, StreakFreezeDialogFragment.Tag)
-            }
-            is ProfileFeature.Action.ViewAction.ShowRemindersIntervalDialog -> {
-                TimeIntervalPickerDialogFragment
-                    .newInstance(action.currentIntervalStartHour)
-                    .showIfNotExists(childFragmentManager, TimeIntervalPickerDialogFragment.TAG)
             }
             ProfileFeature.Action.ViewAction.HideStreakFreezeModal -> {
                 childFragmentManager

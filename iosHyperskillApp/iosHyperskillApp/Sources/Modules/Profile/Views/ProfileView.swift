@@ -43,7 +43,6 @@ struct ProfileView: View {
         .sheet(isPresented: $presentingSettings) {
             ProfileSettingsAssembly().makeModule()
         }
-        .onAppear(perform: viewModel.determineCurrentNotificationPermissionStatus)
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
@@ -79,7 +78,10 @@ struct ProfileView: View {
                 let _ = ProgressHUD.show()
             }
 
-            let viewData = viewModel.makeViewData(data.profile)
+            let viewData = viewModel.makeViewData(
+                profile: data.profile,
+                remindersState: data.dailyStudyRemindersState
+            )
 
             ScrollView {
                 VStack(spacing: appearance.spacingBetweenContainers) {
@@ -118,6 +120,7 @@ struct ProfileView: View {
                         onSelectedHourChanged: viewModel.setDailyStudyRemindersStartHour(startHour:),
                         onSelectedHourTapped: viewModel.logClickedDailyStudyRemindsTimeEvent
                     )
+                    .onAppear(perform: viewModel.determineCurrentNotificationPermissionStatus)
 
                     ProfileAboutView(
                         appearance: .init(cornerRadius: appearance.cornerRadius),

@@ -77,11 +77,11 @@ final class ProfileViewModel: FeatureViewModel<
         }
     }
 
-    func makeViewData(_ profile: Profile) -> ProfileViewData {
+    func makeViewData(profile: Profile, remindersState: ProfileFeatureDailyStudyRemindersState) -> ProfileViewData {
         viewDataMapper.mapProfileToViewData(
             profile,
-            isDailyStudyRemindersEnabled: notificationInteractor.isDailyStudyRemindersEnabled(),
-            dailyStudyRemindersStartHour: Int(notificationInteractor.getDailyStudyRemindersIntervalStartHour())
+            isDailyStudyRemindersEnabled: remindersState.isEnabled,
+            dailyStudyRemindersStartHour: Int(remindersState.intervalStartHour)
         )
     }
 
@@ -121,36 +121,36 @@ final class ProfileViewModel: FeatureViewModel<
     // MARK: Daily study reminders
 
     func setDailyStudyRemindersEnabled(_ isEnabled: Bool) {
-        logClickedDailyStudyRemindsEvent(isEnabled: isEnabled)
-
-        // Animate toggle state change
-        notificationInteractor.setDailyStudyRemindersEnabled(enabled: isEnabled)
-        objectWillChange.send()
-
         if isEnabled {
             Task(priority: .userInitiated) {
                 let isGranted = await notificationsRegistrationService.requestAuthorizationIfNeeded()
 
                 await MainActor.run {
                     if isGranted {
-                        notificationInteractor.setDailyStudyRemindersEnabled(enabled: true)
+                        onNewMessage(
+                            ProfileFeatureMessageDailyStudyRemindersIsEnabledClicked(isEnabled: true)
+                        )
                         notificationService.scheduleDailyStudyReminderLocalNotifications(
                             analyticRoute: HyperskillAnalyticRoute.Profile()
                         )
                     } else {
-                        handleUserDeclinedDailyStudyReminders()
+                        onNewMessage(
+                            ProfileFeatureMessageDailyStudyRemindersIsEnabledClicked(isEnabled: false)
+                        )
                     }
-
-                    objectWillChange.send()
                 }
             }
         } else {
-            handleUserDeclinedDailyStudyReminders()
+            onNewMessage(
+                ProfileFeatureMessageDailyStudyRemindersIsEnabledClicked(isEnabled: false)
+            )
         }
     }
 
     func setDailyStudyRemindersStartHour(startHour: Int) {
-        notificationInteractor.setDailyStudyRemindersIntervalStartHour(hour: Int32(startHour))
+        onNewMessage(
+            ProfileFeatureMessageDailyStudyRemindersIntervalStartHourChanged(startHour: Int32(startHour))
+        )
         notificationService.scheduleDailyStudyReminderLocalNotifications(
             analyticRoute: HyperskillAnalyticRoute.Profile()
         )
@@ -166,19 +166,17 @@ final class ProfileViewModel: FeatureViewModel<
 
             if permissionStatus == .denied {
                 await MainActor.run {
-                    handleUserDeclinedDailyStudyReminders(shouldEmitObjectChange: true)
+                    handleUserDeclinedDailyStudyReminders()
                 }
             }
         }
     }
 
-    private func handleUserDeclinedDailyStudyReminders(shouldEmitObjectChange: Bool = false) {
-        notificationInteractor.setDailyStudyRemindersEnabled(enabled: false)
+    private func handleUserDeclinedDailyStudyReminders() {
+        onNewMessage(
+            ProfileFeatureMessageDailyStudyRemindersIsEnabledChanged(isEnabled: false)
+        )
         notificationService.removeDailyStudyReminderLocalNotifications()
-
-        if shouldEmitObjectChange {
-            objectWillChange.send()
-        }
     }
 
     @objc
@@ -189,7 +187,7 @@ final class ProfileViewModel: FeatureViewModel<
         }
 
         if permissionStatus == .denied {
-            handleUserDeclinedDailyStudyReminders(shouldEmitObjectChange: true)
+            handleUserDeclinedDailyStudyReminders()
         }
     }
 
@@ -201,10 +199,6 @@ final class ProfileViewModel: FeatureViewModel<
 
     func logClickedSettingsEvent() {
         onNewMessage(ProfileFeatureMessageClickedSettingsEventMessage())
-    }
-
-    private func logClickedDailyStudyRemindsEvent(isEnabled: Bool) {
-        onNewMessage(ProfileFeatureMessageClickedDailyStudyRemindsEventMessage(isEnabled: isEnabled))
     }
 
     func logClickedDailyStudyRemindsTimeEvent() {
