@@ -29,6 +29,7 @@ import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponent
 import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.sentry.injection.SentryComponent
+import org.hyperskill.app.stage_implement.injection.StageImplementComponent
 import org.hyperskill.app.stages.injection.StagesDataComponent
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.injection.StepComponent
@@ -66,12 +67,23 @@ interface AppGraph {
     val stepCompletionFlowDataComponent: StepCompletionFlowDataComponent
     val progressesFlowDataComponent: ProgressesFlowDataComponent
 
-    fun buildMainDataComponent(): MainDataComponent
+    /**
+     * Auth components
+     */
     fun buildAuthSocialComponent(): AuthSocialComponent
     fun buildAuthCredentialsComponent(): AuthCredentialsComponent
+
+    /**
+     * Step components
+     */
     fun buildStepComponent(stepRoute: StepRoute): StepComponent
     fun buildStepDataComponent(): StepDataComponent
     fun buildStepQuizComponent(stepRoute: StepRoute): StepQuizComponent
+    fun buildStepQuizHintsComponent(): StepQuizHintsComponent
+    fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent
+    fun buildStageImplementComponent(stepRoute: StepRoute): StageImplementComponent
+
+    fun buildMainDataComponent(): MainDataComponent
     fun buildProfileDataComponent(): ProfileDataComponent
     fun buildTrackComponent(): TrackComponent
     fun buildTrackDataComponent(): TrackDataComponent
@@ -83,7 +95,6 @@ interface AppGraph {
     fun buildPlaceholderNewUserComponent(): PlaceholderNewUserComponent
     fun buildUserStorageComponent(): UserStorageComponent
     fun buildCommentsDataComponent(): CommentsDataComponent
-    fun buildStepQuizHintsComponent(): StepQuizHintsComponent
     fun buildStreaksDataComponent(): StreaksDataComponent
     fun buildMagicLinksDataComponent(): MagicLinksDataComponent
     fun buildDiscussionsDataComponent(): DiscussionsDataComponent
@@ -100,7 +111,6 @@ interface AppGraph {
     fun buildGamificationToolbarComponent(): GamificationToolbarComponent
     fun buildTopicsToDiscoverNextComponent(screen: TopicsToDiscoverNextScreen): TopicsToDiscoverNextComponent
     fun buildTopicsToDiscoverNextDataComponent(): TopicsToDiscoverNextDataComponent
-    fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent
     fun buildStudyPlanDataComponent(): StudyPlanDataComponent
     fun buildProjectsDataComponent(): ProjectsDataComponent
     fun buildStagesDataComponent(): StagesDataComponent

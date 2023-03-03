@@ -93,6 +93,8 @@ import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
 import org.hyperskill.app.sentry.injection.SentryComponent
 import org.hyperskill.app.sentry.injection.SentryComponentImpl
+import org.hyperskill.app.stage_implement.injection.StageImplementComponent
+import org.hyperskill.app.stage_implement.injection.StageImplementComponentImpl
 import org.hyperskill.app.stages.injection.StagesDataComponent
 import org.hyperskill.app.stages.injection.StagesDataComponentImpl
 import org.hyperskill.app.step.domain.model.Step
@@ -270,6 +272,27 @@ class AndroidAppComponentImpl(
         PlatformCodeEditorComponentImpl(application)
 
     /**
+     * Step quiz hints component
+     */
+    override fun buildStepQuizHintsComponent(): StepQuizHintsComponent =
+        StepQuizHintsComponentImpl(this)
+
+    override fun buildPlatformStepQuizHintsComponent(step: Step): PlatformStepQuizHintsComponent =
+        PlatformStepQuizHintsComponentImpl(this, step)
+
+    /**
+     * Step completion component
+     */
+    override fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent =
+        StepCompletionComponentImpl(this, stepRoute)
+
+    /**
+     * Stage implement component
+     */
+    override fun buildStageImplementComponent(stepRoute: StepRoute): StageImplementComponent =
+        StageImplementComponentImpl(this, stepRoute)
+
+    /**
      * Track component
      */
     override fun buildTrackComponent(): TrackComponent =
@@ -348,15 +371,6 @@ class AndroidAppComponentImpl(
         TopicsRepetitionsDataComponentImpl(this)
 
     /**
-     * Step quiz hints component
-     */
-    override fun buildStepQuizHintsComponent(): StepQuizHintsComponent =
-        StepQuizHintsComponentImpl(this)
-
-    override fun buildPlatformStepQuizHintsComponent(step: Step): PlatformStepQuizHintsComponent =
-        PlatformStepQuizHintsComponentImpl(this, step)
-
-    /**
      * Debug component
      */
     override fun buildPlatformDebugComponent(debugComponent: DebugComponent): PlatformDebugComponent =
@@ -412,9 +426,6 @@ class AndroidAppComponentImpl(
 
     override fun buildGamificationToolbarComponent(): GamificationToolbarComponent =
         GamificationToolbarComponentImpl(this)
-
-    override fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent =
-        StepCompletionComponentImpl(this, stepRoute)
 
     override fun buildStudyPlanDataComponent(): StudyPlanDataComponent =
         StudyPlanDataComponentImpl(this)

@@ -20,6 +20,15 @@ object StageImplementFeature {
 
     sealed interface ViewState {
         object Idle : ViewState
+        object Loading : ViewState
+        object Deprecated : ViewState
+        object Unsupported : ViewState
+        object NetworkError : ViewState
+        data class Content(
+            val project: Project,
+            val stage: Stage,
+            val step: Step
+        ) : ViewState
     }
 
     sealed interface Message {
