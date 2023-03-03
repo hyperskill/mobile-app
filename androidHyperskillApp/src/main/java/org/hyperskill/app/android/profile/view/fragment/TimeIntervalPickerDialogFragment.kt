@@ -1,7 +1,6 @@
 package org.hyperskill.app.android.profile.view.fragment
 
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -56,11 +55,5 @@ class TimeIntervalPickerDialogFragment : DialogFragment() {
             }
             .setNegativeButton(org.hyperskill.app.R.string.cancel, null)
             .create()
-    }
-
-    override fun onCancel(dialog: DialogInterface) {
-        super.onCancel(dialog)
-        // explicitly click Negative or cancel by back button || touch outside
-        callback.onTimeIntervalPicked(picker.value)
     }
 }

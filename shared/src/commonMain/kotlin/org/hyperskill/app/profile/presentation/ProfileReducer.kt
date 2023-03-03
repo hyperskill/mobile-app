@@ -210,9 +210,7 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                 if (state is State.Content) {
                     state.copy(
                         dailyStudyRemindersState = state.dailyStudyRemindersState.copy(isEnabled = message.isEnabled)
-                    ) to setOf(
-                        Action.SaveDailyStudyRemindersIsEnabled(message.isEnabled)
-                    )
+                    ) to emptySet()
                 } else {
                     null
                 }

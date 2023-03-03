@@ -176,6 +176,7 @@ final class ProfileViewModel: FeatureViewModel<
         onNewMessage(
             ProfileFeatureMessageDailyStudyRemindersIsEnabledChanged(isEnabled: false)
         )
+        notificationInteractor.setDailyStudyRemindersEnabled(enabled: false)
         notificationService.removeDailyStudyReminderLocalNotifications()
     }
 

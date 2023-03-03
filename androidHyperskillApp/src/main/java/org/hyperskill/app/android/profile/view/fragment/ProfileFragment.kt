@@ -65,7 +65,8 @@ class ProfileFragment :
 
     private var streakFormDelegate: StreakCardFormDelegate? = null
 
-    private val platformNotificationComponent = HyperskillApp.graph().platformNotificationComponent
+    private val platformNotificationComponent =
+        HyperskillApp.graph().platformNotificationComponent
 
     private val imageLoader: ImageLoader by lazy(LazyThreadSafetyMode.NONE) {
         HyperskillApp.graph().imageLoadingComponent.imageLoader
@@ -133,7 +134,6 @@ class ProfileFragment :
         with(viewBinding.profileDailyReminder) {
             profileScheduleTextView.setOnClickListener {
                 profileViewModel.onNewMessage(ProfileFeature.Message.ClickedDailyStudyRemindsTimeEventMessage)
-
                 TimeIntervalPickerDialogFragment
                     .newInstance()
                     .showIfNotExists(childFragmentManager, TimeIntervalPickerDialogFragment.TAG)
