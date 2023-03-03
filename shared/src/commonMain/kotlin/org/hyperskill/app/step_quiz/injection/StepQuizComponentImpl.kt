@@ -51,7 +51,6 @@ class StepQuizComponentImpl(
             appGraph.buildNotificationComponent().notificationInteractor,
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor,
-            appGraph.commonComponent.resourceProvider,
-            appGraph.notificationFlowDataComponent.dailyStudyRemindersEnabledFlow
+            appGraph.commonComponent.resourceProvider
         )
 }

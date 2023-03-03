@@ -8,7 +8,6 @@ import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.notification.data.extension.NotificationExtensions
-import org.hyperskill.app.notification.domain.flow.DailyStudyRemindersEnabledFlow
 import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
@@ -30,8 +29,7 @@ class StepQuizActionDispatcher(
     private val notificationInteractor: NotificationInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
-    private val resourceProvider: ResourceProvider,
-    private val dailyStudyRemindersEnabledFlow: DailyStudyRemindersEnabledFlow
+    private val resourceProvider: ResourceProvider
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
@@ -210,7 +208,6 @@ class StepQuizActionDispatcher(
                                 Clock.System.now().toEpochMilliseconds()
                             )
                         }
-                        dailyStudyRemindersEnabledFlow.notifyDataChanged(action.isGranted)
                     }
                 }
             }

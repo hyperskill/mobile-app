@@ -165,18 +165,14 @@ final class ProfileViewModel: FeatureViewModel<
             let permissionStatus = await NotificationPermissionStatus.current
 
             if permissionStatus == .denied {
-                await MainActor.run {
-                    handleUserDeclinedDailyStudyReminders()
-                }
+                await handleUserDeclinedDailyStudyReminders()
             }
         }
     }
 
-    private func handleUserDeclinedDailyStudyReminders() {
-        onNewMessage(
-            ProfileFeatureMessageDailyStudyRemindersIsEnabledChanged(isEnabled: false)
-        )
-        notificationInteractor.setDailyStudyRemindersEnabled(enabled: false)
+    @MainActor
+    private func handleUserDeclinedDailyStudyReminders() async {
+        try? await notificationInteractor.setDailyStudyRemindersEnabled(enabled: false)
         notificationService.removeDailyStudyReminderLocalNotifications()
     }
 
@@ -188,7 +184,9 @@ final class ProfileViewModel: FeatureViewModel<
         }
 
         if permissionStatus == .denied {
-            handleUserDeclinedDailyStudyReminders()
+            Task {
+                await handleUserDeclinedDailyStudyReminders()
+            }
         }
     }
 
