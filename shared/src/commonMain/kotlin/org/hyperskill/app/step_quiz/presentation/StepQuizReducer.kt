@@ -52,7 +52,7 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                 }
             is Message.CreateAttemptClicked ->
                 if (state is State.AttemptLoaded) {
-                    if (state.step.block.name == BlockName.CODE || state.step.block.name == BlockName.SQL) {
+                    if (BlockName.codeRelatedBlocksNames.contains(state.step.block.name)) {
                         state to setOf(
                             Action.ViewAction.RequestUserPermission(StepQuizUserPermissionRequest.RESET_CODE)
                         )
@@ -89,7 +89,7 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
             is Message.CreateSubmissionClicked ->
                 if (state is State.AttemptLoaded) {
                     val analyticEvent =
-                        if (message.step.block.name == BlockName.CODE || message.step.block.name == BlockName.SQL) {
+                        if (BlockName.codeRelatedBlocksNames.contains(state.step.block.name)) {
                             StepQuizClickedRunHyperskillAnalyticEvent(stepRoute.analyticRoute)
                         } else {
                             StepQuizClickedSendHyperskillAnalyticEvent(stepRoute.analyticRoute)

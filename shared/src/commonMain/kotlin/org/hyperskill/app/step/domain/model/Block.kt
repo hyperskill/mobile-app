@@ -10,9 +10,7 @@ data class Block(
     @SerialName("text")
     val text: String,
     @SerialName("options")
-    val options: Options,
-    @SerialName("table_of_contents")
-    val tableOfContents: List<TableOfContentsEntry>
+    val options: Options
 ) {
     @Serializable
     data class Options(

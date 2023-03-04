@@ -14,6 +14,9 @@ object BlockName {
     const val TABLE = "table"
     const val TEXT = "text"
     const val VIDEO = "video"
+
+    internal val codeRelatedBlocksNames: Set<String> =
+        setOf(CODE, PYCHARM, SQL)
 }
 
 expect val BlockName.supportedBlocksNames: Set<String>

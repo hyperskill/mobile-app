@@ -44,7 +44,11 @@ sealed interface StepRoute {
     }
 
     @Serializable
-    class StageImplement(val projectId: Long, val stageId: Long) : StepRoute {
+    class StageImplement(
+        override val stepId: Long,
+        val projectId: Long,
+        val stageId: Long,
+    ) : StepRoute {
         @Transient
         override val analyticRoute: HyperskillAnalyticRoute =
             HyperskillAnalyticRoute.Projects.Stages.Implement(projectId, stageId)
@@ -52,9 +56,5 @@ sealed interface StepRoute {
         @Transient
         override val stepContext: StepContext =
             StepContext.DEFAULT
-
-        @Transient
-        override val stepId: Long =
-            -1
     }
 }

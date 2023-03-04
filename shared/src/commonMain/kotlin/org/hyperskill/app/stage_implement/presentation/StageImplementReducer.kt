@@ -3,12 +3,9 @@ package org.hyperskill.app.stage_implement.presentation
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.Action
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.Message
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.State
-import org.hyperskill.app.step.domain.model.StepRoute
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
-internal class StageImplementReducer(
-    private val stepRoute: StepRoute.StageImplement
-) : StateReducer<State, Message, Action> {
+internal class StageImplementReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
             is Message.Initialize -> {
@@ -16,7 +13,7 @@ internal class StageImplementReducer(
                     (message.forceUpdate && state is State.NetworkError)
                 ) {
                     State.Loading to setOf(
-                        Action.FetchStageImplement(projectId = stepRoute.projectId, stageId = stepRoute.stageId),
+                        Action.FetchStageImplement(projectId = message.projectId, stageId = message.stageId),
                         // TODO: View event
                     )
                 } else {

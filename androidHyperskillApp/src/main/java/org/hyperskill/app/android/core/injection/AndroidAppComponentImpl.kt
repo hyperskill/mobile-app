@@ -289,8 +289,8 @@ class AndroidAppComponentImpl(
     /**
      * Stage implement component
      */
-    override fun buildStageImplementComponent(stepRoute: StepRoute): StageImplementComponent =
-        StageImplementComponentImpl(this, stepRoute)
+    override fun buildStageImplementComponent(): StageImplementComponent =
+        StageImplementComponentImpl(this)
 
     /**
      * Track component

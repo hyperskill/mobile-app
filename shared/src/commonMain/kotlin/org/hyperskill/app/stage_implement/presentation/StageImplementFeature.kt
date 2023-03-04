@@ -3,6 +3,7 @@ package org.hyperskill.app.stage_implement.presentation
 import org.hyperskill.app.projects.domain.model.Project
 import org.hyperskill.app.stages.domain.model.Stage
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.StepRoute
 
 object StageImplementFeature {
     internal sealed interface State {
@@ -25,14 +26,19 @@ object StageImplementFeature {
         object Unsupported : ViewState
         object NetworkError : ViewState
         data class Content(
-            val project: Project,
-            val stage: Stage,
-            val step: Step
+            val stepRoute: StepRoute,
+            val navigationTitle: String,
+            val stageTitle: String
         ) : ViewState
     }
 
     sealed interface Message {
-        data class Initialize(val forceUpdate: Boolean = false) : Message
+        data class Initialize(
+            val projectId: Long,
+            val stageId: Long,
+            val forceUpdate: Boolean = false
+        ) : Message
+
         sealed interface FetchStageImplementResult : Message {
             object Deprecated : FetchStageImplementResult
             object Unsupported : FetchStageImplementResult
