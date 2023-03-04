@@ -72,6 +72,7 @@ class DebugFragment : Fragment(R.layout.fragment_debug) {
                 ).show()
                 view?.postDelayed({ triggerApplicationRestart(requireContext()) }, 1500)
             }
+            is DebugFeature.Action.ViewAction.OpenStageImplement -> TODO()
         }
     }
 

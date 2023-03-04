@@ -17,8 +17,15 @@ object DebugFeature {
         data class Content(
             val currentEndpointConfig: EndpointConfigType,
             val selectedEndpointConfig: EndpointConfigType,
-            val stepNavigationInputText: String
-        ) : State
+            val navigationInput: NavigationInput = NavigationInput()
+        ) : State {
+            data class NavigationInput(
+                val stepId: String = "",
+                val stageImplement: StageImplement = StageImplement()
+            ) {
+                data class StageImplement(val projectId: String = "", val stageId: String = "")
+            }
+        }
     }
 
     sealed interface ViewState {
@@ -28,10 +35,17 @@ object DebugFeature {
         data class Content(
             val availableEndpointConfigs: List<EndpointConfigType>,
             val selectedEndpointConfig: EndpointConfigType,
-            val stepNavigationInputText: String,
-            val isStepNavigationOpenButtonEnabled: Boolean,
-            val isApplySettingsButtonAvailable: Boolean
-        ) : ViewState
+            val isApplySettingsButtonAvailable: Boolean,
+            val navigationInput: NavigationInput
+        ) : ViewState {
+            data class NavigationInput(
+                val step: Step,
+                val stageImplement: StageImplement
+            ) {
+                data class Step(val stepId: String, val isOpenEnabled: Boolean)
+                data class StageImplement(val projectId: String, val stageId: String, val isOpenEnabled: Boolean)
+            }
+        }
     }
 
     sealed interface Message {
@@ -48,6 +62,12 @@ object DebugFeature {
         object StepNavigationOpenClicked : Message
 
         /**
+         * Stage implement navigation
+         */
+        data class StageImplementNavigationInputChanged(val projectId: String, val stageId: String) : Message
+        object StageImplementNavigationOpenClicked : Message
+
+        /**
          * Click on apply button
          */
         object ApplySettingsClicked : Message
@@ -62,6 +82,7 @@ object DebugFeature {
         sealed interface ViewAction : Action {
             object RestartApplication : ViewAction
             data class OpenStep(val stepRoute: StepRoute) : ViewAction
+            data class OpenStageImplement(val projectId: Long, val stageId: Long) : ViewAction
         }
     }
 }

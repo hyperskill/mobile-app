@@ -211,8 +211,13 @@
     <!-- Debug menu -->
     <string name="debug_menu_title">Debug</string>
     <string name="debug_menu_section_api_header_title">API Base URL</string>
+    <string name="debug_menu_section_step_navigation_header_title">Step Navigation</string>
     <string name="debug_menu_section_step_navigation_text_input_title">Enter step id</string>
     <string name="debug_menu_section_step_navigation_button_text">Open step</string>
+    <string name="debug_menu_section_stage_implement_header_title">Stage Implement Navigation</string>
+    <string name="debug_menu_section_stage_implement_project_id_text_input_title">Enter project id</string>
+    <string name="debug_menu_section_stage_implement_stage_id_text_input_title">Enter stage id</string>
+    <string name="debug_menu_section_stage_implement_button_text">Open stage implement</string>
     <string name="debug_menu_apply_settings_button_text">Apply</string>
     <string name="debug_menu_restart_application_alert_title_ios">Restart Application</string>
     <string name="debug_menu_restart_application_alert_message_ios">

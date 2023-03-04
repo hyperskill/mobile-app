@@ -42,6 +42,36 @@ final class DebugViewModel: FeatureViewModel<
         onNewMessage(DebugFeatureMessageStepNavigationOpenClicked())
     }
 
+    func doStageImplementNavigationInputChange(projectIdText: String) {
+        guard case .content(let debugFeatureViewStateContent) = stateKs else {
+            return
+        }
+
+        onNewMessage(
+            DebugFeatureMessageStageImplementNavigationInputChanged(
+                projectId: projectIdText,
+                stageId: debugFeatureViewStateContent.navigationInput.stageImplement.stageId
+            )
+        )
+    }
+
+    func doStageImplementNavigationInputChange(stageIdText: String) {
+        guard case .content(let debugFeatureViewStateContent) = stateKs else {
+            return
+        }
+
+        onNewMessage(
+            DebugFeatureMessageStageImplementNavigationInputChanged(
+                projectId: debugFeatureViewStateContent.navigationInput.stageImplement.projectId,
+                stageId: stageIdText
+            )
+        )
+    }
+
+    func doStageImplementNavigationOpen() {
+        onNewMessage(DebugFeatureMessageStageImplementNavigationOpenClicked())
+    }
+
     func doApplySettings() {
         onNewMessage(DebugFeatureMessageApplySettingsClicked())
     }
