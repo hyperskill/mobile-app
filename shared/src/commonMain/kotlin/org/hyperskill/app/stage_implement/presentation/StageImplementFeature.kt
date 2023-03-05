@@ -51,11 +51,15 @@ object StageImplementFeature {
             ) : FetchStageImplementResult
         }
 
-        object DeprecatedButtonClicked : Message
+        object ProjectDeprecatedButtonClicked : Message
 
         /**
-         * Analytic
+         * Unsupported modal
          */
+        object UnsupportedModalShownEventMessage : Message
+        object UnsupportedModalHiddenEventMessage : Message
+        object UnsupportedModalGoToHomeScreenClicked : Message
+
         object ViewedEventMessage : Message
     }
 
@@ -65,8 +69,11 @@ object StageImplementFeature {
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
         sealed interface ViewAction : Action {
+            object ShowUnsupportedModal : ViewAction
+
             sealed interface NavigateTo : ViewAction {
                 object Back : NavigateTo
+                object HomeScreen : NavigateTo
             }
         }
     }
