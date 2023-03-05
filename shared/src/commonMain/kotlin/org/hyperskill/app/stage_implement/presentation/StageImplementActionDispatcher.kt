@@ -5,6 +5,8 @@ import kotlinx.coroutines.coroutineScope
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.projects.domain.interactor.ProjectsInteractor
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.Action
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.Message
 import org.hyperskill.app.stages.domain.interactor.StagesInteractor
@@ -16,44 +18,27 @@ internal class StageImplementActionDispatcher(
     config: ActionDispatcherOptions,
     private val projectsInteractor: ProjectsInteractor,
     private val stagesInteractor: StagesInteractor,
-    private val stepsInteractor: StepInteractor,
-    private val analyticInteractor: AnalyticInteractor
+    private val stepInteractor: StepInteractor,
+    private val analyticInteractor: AnalyticInteractor,
+    private val sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
-        // TODO: Sentry
         when (action) {
-            is Action.FetchStageImplement -> coroutineScope {
-                val projectResult = async { projectsInteractor.getProject(action.projectId) }
-                val stageResult = async { stagesInteractor.getStage(action.stageId) }
+            is Action.FetchStageImplement -> {
+                val sentryTransaction = HyperskillSentryTransactionBuilder.buildStageImplementScreenRemoteDataLoading()
+                sentryInteractor.startTransaction(sentryTransaction)
 
-                val project = projectResult.await()
-                    .getOrElse {
-                        onNewMessage(Message.FetchStageImplementResult.NetworkError)
-                        return@coroutineScope
-                    }
-                if (project.isDeprecated) {
-                    onNewMessage(Message.FetchStageImplementResult.Deprecated(project))
-                    return@coroutineScope
-                }
-
-                val stage = stageResult.await()
-                    .getOrElse {
-                        onNewMessage(Message.FetchStageImplementResult.NetworkError)
-                        return@coroutineScope
-                    }
-
-                val step = stepsInteractor
-                    .getStep(stage.stepId)
-                    .getOrElse {
-                        onNewMessage(Message.FetchStageImplementResult.NetworkError)
-                        return@coroutineScope
-                    }
-
-                if (step.isIdeRequired()) {
-                    onNewMessage(Message.FetchStageImplementResult.Unsupported)
-                } else {
-                    onNewMessage(Message.FetchStageImplementResult.Success(project, stage, step))
-                }
+                fetchStageImplement(action.projectId, action.stageId)
+                    .fold(
+                        onSuccess = { message ->
+                            sentryInteractor.finishTransaction(sentryTransaction)
+                            onNewMessage(message)
+                        },
+                        onFailure = { exception ->
+                            sentryInteractor.finishTransaction(sentryTransaction, exception)
+                            onNewMessage(Message.FetchStageImplementResult.NetworkError)
+                        }
+                    )
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
@@ -62,4 +47,34 @@ internal class StageImplementActionDispatcher(
             }
         }
     }
+
+    private suspend fun fetchStageImplement(
+        projectId: Long,
+        stageId: Long
+    ): Result<Message.FetchStageImplementResult> =
+        coroutineScope {
+            kotlin.runCatching {
+                val projectResult = async { projectsInteractor.getProject(projectId) }
+                val stageResult = async { stagesInteractor.getStage(stageId) }
+
+                val project = projectResult.await()
+                    .getOrThrow()
+                if (project.isDeprecated) {
+                    return@runCatching Message.FetchStageImplementResult.Deprecated(project)
+                }
+
+                val stage = stageResult.await()
+                    .getOrThrow()
+
+                val step = stepInteractor
+                    .getStep(stage.stepId)
+                    .getOrThrow()
+
+                if (step.isIdeRequired()) {
+                    return@runCatching Message.FetchStageImplementResult.Unsupported
+                } else {
+                    return@runCatching Message.FetchStageImplementResult.Success(project, stage, step)
+                }
+            }
+        }
 }
