@@ -52,6 +52,11 @@ object StageImplementFeature {
         }
 
         object DeprecatedButtonClicked : Message
+
+        /**
+         * Analytic
+         */
+        object ViewedEventMessage : Message
     }
 
     sealed interface Action {

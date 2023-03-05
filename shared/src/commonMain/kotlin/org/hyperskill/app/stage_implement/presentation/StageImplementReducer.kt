@@ -2,6 +2,7 @@ package org.hyperskill.app.stage_implement.presentation
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.stage_implement.domain.analytic.StageImplementClickedDeprecatedButtonHyperskillAnalyticEvent
+import org.hyperskill.app.stage_implement.domain.analytic.StageImplementViewedHyperskillAnalyticEvent
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.Action
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.Message
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.State
@@ -22,8 +23,7 @@ internal class StageImplementReducer(
                     )
 
                     State.Loading to setOf(
-                        Action.FetchStageImplement(projectId = message.projectId, stageId = message.stageId),
-                        // TODO: View event
+                        Action.FetchStageImplement(projectId = message.projectId, stageId = message.stageId)
                     )
                 } else {
                     null
@@ -48,6 +48,10 @@ internal class StageImplementReducer(
                     }
                 } else {
                     null
+                }
+            is Message.ViewedEventMessage ->
+                analyticRoute?.let {
+                    state to setOf(Action.LogAnalyticEvent(StageImplementViewedHyperskillAnalyticEvent(it)))
                 }
         } ?: (state to emptySet())
 }
