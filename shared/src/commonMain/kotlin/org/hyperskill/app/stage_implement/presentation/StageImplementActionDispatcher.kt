@@ -2,6 +2,7 @@ package org.hyperskill.app.stage_implement.presentation
 
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.projects.domain.interactor.ProjectsInteractor
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.Action
@@ -15,7 +16,8 @@ internal class StageImplementActionDispatcher(
     config: ActionDispatcherOptions,
     private val projectsInteractor: ProjectsInteractor,
     private val stagesInteractor: StagesInteractor,
-    private val stepsInteractor: StepInteractor
+    private val stepsInteractor: StepInteractor,
+    private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         // TODO: Sentry
@@ -30,7 +32,7 @@ internal class StageImplementActionDispatcher(
                         return@coroutineScope
                     }
                 if (project.isDeprecated) {
-                    onNewMessage(Message.FetchStageImplementResult.Deprecated)
+                    onNewMessage(Message.FetchStageImplementResult.Deprecated(project))
                     return@coroutineScope
                 }
 
@@ -52,6 +54,11 @@ internal class StageImplementActionDispatcher(
                 } else {
                     onNewMessage(Message.FetchStageImplementResult.Success(project, stage, step))
                 }
+            }
+            is Action.LogAnalyticEvent ->
+                analyticInteractor.logEvent(action.analyticEvent)
+            else -> {
+                // no op
             }
         }
     }

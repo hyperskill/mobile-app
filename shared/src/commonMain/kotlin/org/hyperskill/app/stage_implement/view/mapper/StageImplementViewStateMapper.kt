@@ -15,7 +15,13 @@ internal class StageImplementViewStateMapper(
             is StageImplementFeature.State.Loading ->
                 StageImplementFeature.ViewState.Loading
             is StageImplementFeature.State.Deprecated ->
-                StageImplementFeature.ViewState.Deprecated
+                StageImplementFeature.ViewState.Deprecated(
+                    message = resourceProvider.getString(
+                        SharedResources.strings.stage_implement_project_deprecated_text,
+                        state.project.title
+                    ),
+                    ctaButtonText = resourceProvider.getString(SharedResources.strings.back)
+                )
             is StageImplementFeature.State.Unsupported ->
                 StageImplementFeature.ViewState.Unsupported
             is StageImplementFeature.State.NetworkError ->

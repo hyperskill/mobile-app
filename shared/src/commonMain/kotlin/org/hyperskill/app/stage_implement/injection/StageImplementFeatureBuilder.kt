@@ -1,5 +1,6 @@
 package org.hyperskill.app.stage_implement.injection
 
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.core.view.mapper.ResourceProvider
@@ -19,6 +20,7 @@ internal object StageImplementFeatureBuilder {
         projectsInteractor: ProjectsInteractor,
         stagesInteractor: StagesInteractor,
         stepInteractor: StepInteractor,
+        analyticInteractor: AnalyticInteractor,
         resourceProvider: ResourceProvider
     ): Feature<StageImplementFeature.ViewState, StageImplementFeature.Message, StageImplementFeature.Action> {
         val stageImplementReducer = StageImplementReducer()
@@ -27,7 +29,8 @@ internal object StageImplementFeatureBuilder {
             ActionDispatcherOptions(),
             projectsInteractor,
             stagesInteractor,
-            stepInteractor
+            stepInteractor,
+            analyticInteractor
         )
 
         val stageImplementViewStateMapper = StageImplementViewStateMapper(resourceProvider)

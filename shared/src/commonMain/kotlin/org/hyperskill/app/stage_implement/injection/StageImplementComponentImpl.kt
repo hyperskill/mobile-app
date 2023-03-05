@@ -10,6 +10,7 @@ class StageImplementComponentImpl(private val appGraph: AppGraph) : StageImpleme
             appGraph.buildProjectsDataComponent().projectsInteractor,
             appGraph.buildStagesDataComponent().stagesInteractor,
             appGraph.buildStepDataComponent().stepInteractor,
+            appGraph.analyticComponent.analyticInteractor,
             appGraph.commonComponent.resourceProvider
         )
 }

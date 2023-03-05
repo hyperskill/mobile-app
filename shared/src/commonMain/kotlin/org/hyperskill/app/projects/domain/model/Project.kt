@@ -8,6 +8,8 @@ import kotlinx.serialization.Transient
 data class Project(
     @SerialName("id")
     val id: Long,
+    @SerialName("title")
+    val title: String,
     @SerialName("is_deprecated")
     val isDeprecated: Boolean = false,
     @SerialName("progress_id")

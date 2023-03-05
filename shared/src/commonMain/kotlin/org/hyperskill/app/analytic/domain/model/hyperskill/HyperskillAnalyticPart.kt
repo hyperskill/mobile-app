@@ -24,5 +24,6 @@ enum class HyperskillAnalyticPart(val partName: String) {
     MODAL("modal"),
     TRACK_MODAL("track_modal"),
     STREAK_WIDGET("streak_widget"),
-    STREAK_FREEZE_MODAL("streak_freeze_modal")
+    STREAK_FREEZE_MODAL("streak_freeze_modal"),
+    DEPRECATED("deprecated")
 }

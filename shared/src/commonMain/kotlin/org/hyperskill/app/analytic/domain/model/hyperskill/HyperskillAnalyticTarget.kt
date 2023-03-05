@@ -18,6 +18,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     DONE("done"),
     YES("yes"),
     NO("no"),
+    BACK("back"),
     THEME("theme"),
     JETBRAINS_TERMS_OF_SERVICE("jetbrains_terms_of_service"),
     HYPERSKILL_TERMS_OF_SERVICE("hyperskill_terms_of_service"),
