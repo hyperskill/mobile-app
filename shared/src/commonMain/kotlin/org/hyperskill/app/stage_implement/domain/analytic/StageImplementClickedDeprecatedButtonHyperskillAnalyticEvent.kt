@@ -25,6 +25,6 @@ class StageImplementClickedDeprecatedButtonHyperskillAnalyticEvent(
 ) : HyperskillAnalyticEvent(
     route,
     HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.DEPRECATED,
+    HyperskillAnalyticPart.STAGE_IMPLEMENT_DEPRECATED_PLACEHOLDER,
     HyperskillAnalyticTarget.BACK
 )
