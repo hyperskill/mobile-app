@@ -3,7 +3,10 @@ import UIKit
 
 protocol StackRouterProtocol: AnyObject {
     func pushViewController(_ viewController: UIViewController, animated: Bool)
+
     func popViewController(animated: Bool)
+    func popToRootViewController(animated: Bool)
+
     func replaceTopViewController(_ newTopViewController: UIViewController, animated: Bool)
 }
 
@@ -14,6 +17,10 @@ extension StackRouterProtocol {
 
     func popViewController() {
         popViewController(animated: true)
+    }
+
+    func popToRootViewController() {
+        popToRootViewController(animated: true)
     }
 }
 
@@ -44,6 +51,10 @@ class StackRouter: StackRouterProtocol {
 
     func popViewController(animated: Bool) {
         navigationController?.popViewController(animated: animated)
+    }
+
+    func popToRootViewController(animated: Bool) {
+        navigationController?.popToRootViewController(animated: animated)
     }
 
     func replaceTopViewController(_ newTopViewController: UIViewController, animated: Bool) {
