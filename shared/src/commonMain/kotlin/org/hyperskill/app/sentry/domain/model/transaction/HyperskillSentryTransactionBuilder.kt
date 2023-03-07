@@ -125,6 +125,15 @@ object HyperskillSentryTransactionBuilder {
         )
 
     /**
+     * StageImplementFeature
+     */
+    fun buildStageImplementScreenRemoteDataLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "stage-implement-feature-screen-remote-data-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    /**
      * TopicsRepetitionsFeature
      */
     fun buildTopicsRepetitionsScreenRemoteDataLoading(): HyperskillSentryTransaction =

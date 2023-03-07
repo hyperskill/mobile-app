@@ -8,6 +8,8 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.encodeToJsonElement
 import org.hyperskill.app.network.injection.NetworkModule
+import org.hyperskill.app.step.domain.model.Block
+import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step_quiz.domain.model.submissions.Cell
 import org.hyperskill.app.step_quiz.domain.model.submissions.ChoiceAnswer
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
@@ -120,6 +122,72 @@ class ReplySerializationTest {
                     )
                 )
             )
+        }
+        assertEquals(expected, encodedValue)
+    }
+
+    @Test
+    fun replySerializationPyCharmReplyTest() {
+        val step = Step(
+            id = 1,
+            title = "",
+            type = Step.Type.PRACTICE,
+            block = Block(
+                name = "pycharm",
+                text = "",
+                options = Block.Options(
+                    files = listOf(
+                        Block.Options.File(
+                            name = "src/Zookeeper.kt",
+                            isVisible = true,
+                            text = "test visible text"
+                        ),
+                        Block.Options.File(
+                            name = "test/ZookeeperTest.kt",
+                            isVisible = false,
+                            text = "test hidden text"
+                        )
+                    )
+                )
+            ),
+            commentsStatistics = emptyList(),
+            solvedBy = 0,
+            isCompleted = false,
+            isNext = false,
+            canSkip = false,
+            secondsToComplete = null,
+            checkProfile = "hyperskill_java"
+        )
+
+        val json = NetworkModule.provideJson()
+
+        val encodedValue = json.encodeToJsonElement(
+            Reply.pycharm(step, "pycharm code")
+        )
+        val expected = buildJsonObject {
+            put("score", JsonPrimitive(""))
+            put(
+                "solution",
+                JsonArray(
+                    listOf(
+                        JsonObject(
+                            mapOf(
+                                "name" to JsonPrimitive("src/Zookeeper.kt"),
+                                "is_visible" to JsonPrimitive(true),
+                                "text" to JsonPrimitive("pycharm code")
+                            )
+                        ),
+                        JsonObject(
+                            mapOf(
+                                "name" to JsonPrimitive("test/ZookeeperTest.kt"),
+                                "is_visible" to JsonPrimitive(false),
+                                "text" to JsonPrimitive("test hidden text")
+                            )
+                        )
+                    )
+                )
+            )
+            put("check_profile", JsonPrimitive("hyperskill_java"))
         }
         assertEquals(expected, encodedValue)
     }

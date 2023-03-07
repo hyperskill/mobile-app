@@ -29,6 +29,8 @@ data class Step(
     val isNext: Boolean,
     @SerialName("can_skip")
     val canSkip: Boolean,
+    @SerialName("check_profile")
+    val checkProfile: String = "",
     @SerialName("seconds_to_complete")
     val secondsToComplete: Float?,
     @SerialName("last_completed_at")
@@ -44,4 +46,18 @@ data class Step(
 
     val millisSinceLastCompleted: Long?
         get() = lastCompletedAt?.let { (Clock.System.now() - it).inWholeMilliseconds }
+}
+
+/**
+ * pycharm step has an IDE requirement if visible_files_count > 1 OR
+ * visible_files_count <= 1 and check_profile is empty
+ */
+internal fun Step.isIdeRequired(): Boolean {
+    if (block.name != BlockName.PYCHARM) {
+        return false
+    }
+
+    val visibleFilesCount = block.options.files?.count { it.isVisible } ?: 0
+
+    return visibleFilesCount > 1 || (visibleFilesCount <= 1 && checkProfile.isEmpty())
 }

@@ -41,6 +41,11 @@ struct HomeView: View {
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
+
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+//                let assembly = StageImplementAssembly(projectID: 71, stageID: 390)
+//                stackRouter.pushViewController(assembly.makeModule())
+//            }
         }
         .onDisappear {
             viewModel.stopListening()

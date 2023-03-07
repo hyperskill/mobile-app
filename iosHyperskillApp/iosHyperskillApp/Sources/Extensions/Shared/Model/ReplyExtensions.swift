@@ -14,7 +14,10 @@ extension Reply {
         code: String? = nil,
         blanks: [String]? = nil,
         files: [String]? = nil,
-        solveSql: String? = nil
+        solveSql: String? = nil,
+        score: String? = nil,
+        solution: [PyCharmFile]? = nil,
+        checkProfile: String? = nil
     ) {
         let choicesAnswer: [ChoiceAnswer]? = {
             if let sortingChoices = sortingChoices {
@@ -36,7 +39,10 @@ extension Reply {
             code: code,
             blanks: blanks,
             files: files,
-            solveSql: solveSql
+            solveSql: solveSql,
+            score: score,
+            solution: solution,
+            checkProfile: checkProfile
         )
     }
 }

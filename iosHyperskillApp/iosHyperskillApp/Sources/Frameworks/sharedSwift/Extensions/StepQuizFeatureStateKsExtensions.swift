@@ -1,7 +1,6 @@
 import Foundation
 import shared
 
-#warning("TODO: Replce with source code generator Sourcery")
 extension StepQuizFeatureStateKs: Equatable {
     public static func == (lhs: StepQuizFeatureStateKs, rhs: StepQuizFeatureStateKs) -> Bool {
         switch (lhs, rhs) {
@@ -59,7 +58,6 @@ extension StepQuizFeatureStateKs: Equatable {
     }
 }
 
-#warning("TODO: Replce with source code generator Sourcery")
 extension StepQuizFeatureSubmissionStateKs: Equatable {
     public static func == (lhs: StepQuizFeatureSubmissionStateKs, rhs: StepQuizFeatureSubmissionStateKs) -> Bool {
         switch (lhs, rhs) {

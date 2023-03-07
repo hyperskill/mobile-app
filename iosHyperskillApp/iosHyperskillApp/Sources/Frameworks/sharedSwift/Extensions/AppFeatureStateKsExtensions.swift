@@ -1,7 +1,6 @@
 import Foundation
 import shared
 
-#warning("TODO: Replce with source code generator Sourcery")
 extension AppFeatureStateKs: Equatable {
     public static func == (lhs: AppFeatureStateKs, rhs: AppFeatureStateKs) -> Bool {
         switch (lhs, rhs) {

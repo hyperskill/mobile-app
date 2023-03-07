@@ -67,24 +67,38 @@ struct DebugView: View {
                         }
                     }
                 )
+
+                if data.isApplySettingsButtonAvailable {
+                    Section {
+                        Button(Strings.DebugMenu.applySettingsButton, action: viewModel.doApplySettings)
+                    }
+                }
             }
 
-            Section {
+            Section(header: Text(Strings.DebugMenu.StepNavigation.headerTitle)) {
                 DebugStepNavigationView(
                     text: Binding<String>(
-                        get: { data.stepNavigationInputText },
+                        get: { data.navigationInput.step.stepId },
                         set: { viewModel.doStepNavigationInputChange(text: $0) }
                     ),
-                    isOpenButtonEnabled: data.isStepNavigationOpenButtonEnabled,
+                    isOpenButtonEnabled: data.navigationInput.step.isOpenEnabled,
                     onOpenButtonTapped: viewModel.doStepNavigationOpenStep
                 )
-                .padding(.bottom, LayoutInsets.smallInset)
             }
 
-            if data.isApplySettingsButtonAvailable {
-                Section {
-                    Button(Strings.DebugMenu.applySettingsButton, action: viewModel.doApplySettings)
-                }
+            Section(header: Text(Strings.DebugMenu.StageImplement.headerTitle)) {
+                DebugStageImplementNavigationView(
+                    projectIdText: Binding<String>(
+                        get: { data.navigationInput.stageImplement.projectId },
+                        set: { viewModel.doStageImplementNavigationInputChange(projectIdText: $0) }
+                    ),
+                    stageIdText: Binding<String>(
+                        get: { data.navigationInput.stageImplement.stageId },
+                        set: { viewModel.doStageImplementNavigationInputChange(stageIdText: $0) }
+                    ),
+                    isOpenButtonEnabled: data.navigationInput.stageImplement.isOpenEnabled,
+                    onOpenButtonTapped: viewModel.doStageImplementNavigationOpen
+                )
             }
         }
     }
@@ -95,6 +109,9 @@ struct DebugView: View {
             displayRestartApplicationAlert()
         case .openStep(let data):
             stackRouter.pushViewController(StepAssembly(stepRoute: data.stepRoute).makeModule())
+        case .openStageImplement(let data):
+            let assembly = StageImplementAssembly(projectID: data.projectId, stageID: data.stageId)
+            stackRouter.pushViewController(assembly.makeModule())
         }
     }
 

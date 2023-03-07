@@ -2,6 +2,7 @@ package org.hyperskill.app.progresses.data.repository
 
 import org.hyperskill.app.progresses.data.source.ProgressesRemoteDataSource
 import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
+import org.hyperskill.app.projects.domain.model.ProjectProgress
 import org.hyperskill.app.topics.domain.model.TopicProgress
 import org.hyperskill.app.track.domain.model.TrackProgress
 
@@ -13,4 +14,7 @@ class ProgressesRepositoryImpl(
 
     override suspend fun getTopicsProgresses(topicsIds: List<Long>): Result<List<TopicProgress>> =
         progressesRemoteDataSource.getTopicsProgresses(topicsIds)
+
+    override suspend fun getProjectsProgresses(projectsIds: List<Long>): Result<List<ProjectProgress>> =
+        progressesRemoteDataSource.getProjectsProgresses(projectsIds)
 }
