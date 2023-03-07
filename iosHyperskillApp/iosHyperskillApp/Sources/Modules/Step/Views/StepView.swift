@@ -4,9 +4,9 @@ import SwiftUI
 struct StepView: View {
     @StateObject var viewModel: StepViewModel
 
-    @StateObject var stackRouter: SwiftUIStackRouter
-    @StateObject var modalRouter: SwiftUIModalRouter
-    @StateObject var panModalPresenter: PanModalPresenter
+    @ObservedObject var stackRouter: SwiftUIStackRouter
+    @ObservedObject var modalRouter: SwiftUIModalRouter
+    @ObservedObject var panModalPresenter: PanModalPresenter
 
     var body: some View {
         ZStack {

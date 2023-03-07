@@ -1,29 +1,22 @@
 import shared
 import SwiftUI
 
-final class StepSwiftUIAssembly: Assembly {
+final class StepAssembly: Assembly, UIKitAssembly {
     private let stepRoute: StepRoute
 
     private weak var rootViewController: UIViewController?
 
-    init(stepRoute: StepRoute, rootViewController: UIViewController?) {
+    init(stepRoute: StepRoute, rootViewController: UIViewController? = nil) {
         self.stepRoute = stepRoute
         self.rootViewController = rootViewController
     }
 
-    func makeModule() -> StepView {
-        let commonComponent = AppGraphBridge.sharedAppGraph.commonComponent
-        let stepComponent = AppGraphBridge.sharedAppGraph.buildStepComponent(stepRoute: stepRoute)
+    static func stageImplement(stepRoute: StepRoute, rootViewController: UIViewController?) -> Self {
+        self.init(stepRoute: stepRoute, rootViewController: rootViewController)
+    }
 
-        let viewModel = StepViewModel(
-            stepRoute: stepRoute,
-            viewDataMapper: StepViewDataMapper(
-                formatter: Formatter(resourceProvider: commonComponent.resourceProvider),
-                resourceProvider: commonComponent.resourceProvider,
-                commentThreadTitleMapper: stepComponent.commentThreadTitleMapper
-            ),
-            feature: stepComponent.stepFeature
-        )
+    func makeModule() -> StepView {
+        let viewModel = makeViewModel()
 
         let stackRouter = SwiftUIStackRouter(rootViewController: rootViewController)
         let modalRouter = SwiftUIModalRouter(rootViewController: rootViewController)
@@ -35,31 +28,13 @@ final class StepSwiftUIAssembly: Assembly {
             panModalPresenter: PanModalPresenter()
         )
     }
-}
-
-final class StepAssembly: UIKitAssembly {
-    private let stepRoute: StepRoute
-
-    init(stepRoute: StepRoute) {
-        self.stepRoute = stepRoute
-    }
 
     func makeModule() -> UIViewController {
-        let commonComponent = AppGraphBridge.sharedAppGraph.commonComponent
-        let stepComponent = AppGraphBridge.sharedAppGraph.buildStepComponent(stepRoute: stepRoute)
-
-        let viewModel = StepViewModel(
-            stepRoute: self.stepRoute,
-            viewDataMapper: StepViewDataMapper(
-                formatter: Formatter(resourceProvider: commonComponent.resourceProvider),
-                resourceProvider: commonComponent.resourceProvider,
-                commentThreadTitleMapper: stepComponent.commentThreadTitleMapper
-            ),
-            feature: stepComponent.stepFeature
-        )
+        let viewModel = makeViewModel()
 
         let stackRouter = SwiftUIStackRouter()
         let modalRouter = SwiftUIModalRouter()
+
         let stepView = StepView(
             viewModel: viewModel,
             stackRouter: stackRouter,
@@ -72,5 +47,20 @@ final class StepAssembly: UIKitAssembly {
         stackRouter.rootViewController = hostingController
 
         return hostingController
+    }
+
+    private func makeViewModel() -> StepViewModel {
+        let commonComponent = AppGraphBridge.sharedAppGraph.commonComponent
+        let stepComponent = AppGraphBridge.sharedAppGraph.buildStepComponent(stepRoute: stepRoute)
+
+        return StepViewModel(
+            stepRoute: stepRoute,
+            viewDataMapper: StepViewDataMapper(
+                formatter: Formatter(resourceProvider: commonComponent.resourceProvider),
+                resourceProvider: commonComponent.resourceProvider,
+                commentThreadTitleMapper: stepComponent.commentThreadTitleMapper
+            ),
+            feature: stepComponent.stepFeature
+        )
     }
 }

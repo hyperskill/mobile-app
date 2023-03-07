@@ -4,7 +4,7 @@ import SwiftUI
 struct StageImplementView: View {
     @StateObject var viewModel: StageImplementViewModel
 
-    @StateObject var stackRouter: SwiftUIStackRouter
+    @ObservedObject var stackRouter: SwiftUIStackRouter
 
     var body: some View {
         ZStack {
@@ -62,7 +62,7 @@ struct StageImplementView: View {
                         .foregroundColor(.primaryText)
                         .padding([.horizontal, .top])
 
-                    StepSwiftUIAssembly(
+                    StepAssembly.stageImplement(
                         stepRoute: data.stepRoute,
                         rootViewController: stackRouter.rootViewController
                     )
@@ -91,7 +91,11 @@ struct StageImplementView: View {
 
 struct StageImplementView_Previews: PreviewProvider {
     static var previews: some View {
-        //StageImplementView()
-        Text("")
+        UIKitViewControllerPreview {
+            StageImplementAssembly(
+                projectID: 71,
+                stageID: 390
+            ).makeModule()
+        }
     }
 }

@@ -75,4 +75,9 @@ class SwiftUIStackRouter: StackRouter, ObservableObject {
         let hostingController = UIHostingController(rootView: view)
         pushViewController(hostingController, animated: animated)
     }
+
+    func replaceTopView(_ view: some View, animated: Bool = true) {
+        let hostingController = UIHostingController(rootView: view)
+        replaceTopViewController(hostingController, animated: animated)
+    }
 }
