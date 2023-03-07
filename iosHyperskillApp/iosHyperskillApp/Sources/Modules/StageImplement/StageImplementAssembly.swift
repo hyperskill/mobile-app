@@ -11,7 +11,10 @@ final class StageImplementAssembly: UIKitAssembly {
     }
 
     func makeModule() -> UIViewController {
-        let stageImplementComponent = AppGraphBridge.sharedAppGraph.buildStageImplementComponent()
+        let stageImplementComponent = AppGraphBridge.sharedAppGraph.buildStageImplementComponent(
+            projectId: projectID,
+            stageId: stageID
+        )
 
         let stageImplementViewModel = StageImplementViewModel(
             projectID: projectID,
