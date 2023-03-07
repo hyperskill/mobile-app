@@ -3,7 +3,6 @@ package org.hyperskill.app.android.profile.view.fragment
 import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.widget.SwitchCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -24,9 +23,9 @@ import org.hyperskill.app.android.core.view.ui.navigation.requireMainRouter
 import org.hyperskill.app.android.databinding.FragmentProfileBinding
 import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
-import org.hyperskill.app.android.profile_settings.view.dialog.ProfileSettingsDialogFragment
 import org.hyperskill.app.android.profile.view.delegate.StreakCardFormDelegate
 import org.hyperskill.app.android.profile.view.dialog.StreakFreezeDialogFragment
+import org.hyperskill.app.android.profile_settings.view.dialog.ProfileSettingsDialogFragment
 import org.hyperskill.app.android.view.base.ui.extension.redirectToUsernamePage
 import org.hyperskill.app.android.view.base.ui.extension.setElevationOnCollapsed
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
@@ -70,6 +69,10 @@ class ProfileFragment :
 
     private val imageLoader: ImageLoader by lazy(LazyThreadSafetyMode.NONE) {
         HyperskillApp.graph().imageLoadingComponent.imageLoader
+    }
+
+    private val notificationManager: NotificationManagerCompat by lazy(LazyThreadSafetyMode.NONE) {
+        NotificationManagerCompat.from(requireContext())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -139,19 +142,21 @@ class ProfileFragment :
                     .showIfNotExists(childFragmentManager, TimeIntervalPickerDialogFragment.TAG)
             }
 
-            profileDailyRemindersSwitchCompat.setOnClickListener {
-                onDailyReminderCheckClicked((it as? SwitchCompat)?.isChecked ?: false)
+            profileDailyRemindersSwitchCompat.setOnCheckedChangeListener { _, isChecked ->
+                onDailyReminderCheckClicked(
+                    isChecked = isChecked,
+                    notificationManager = notificationManager
+                )
             }
         }
     }
 
-    private fun onDailyReminderCheckClicked(isChecked: Boolean) {
+    private fun onDailyReminderCheckClicked(isChecked: Boolean, notificationManager: NotificationManagerCompat) {
         profileViewModel.onNewMessage(ProfileFeature.Message.DailyStudyRemindersIsEnabledClicked(isChecked))
 
         if (isChecked) {
             platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification()
 
-            val notificationManager = NotificationManagerCompat.from(requireContext())
             val isEnabled = notificationManager.checkNotificationChannelAvailability(
                 requireContext(),
                 HyperskillNotificationChannel.DailyReminder
@@ -249,7 +254,7 @@ class ProfileFragment :
 
         renderStatistics(content.profile)
         renderNameProfileBadge(content.profile)
-        renderRemindersSchedule(content.dailyStudyRemindersState)
+        renderRemindersSchedule(content.dailyStudyRemindersState, notificationManager)
         renderAboutMeSection(content.profile)
         renderBioSection(content.profile)
         renderExperienceSection(content.profile)
@@ -279,13 +284,12 @@ class ProfileFragment :
         }
     }
 
-    private fun renderRemindersSchedule(remindersState: ProfileFeature.DailyStudyRemindersState) {
+    private fun renderRemindersSchedule(remindersState: ProfileFeature.DailyStudyRemindersState, notificationManager: NotificationManagerCompat) {
         with(viewBinding.profileDailyReminder) {
             profileScheduleTextView.text = getScheduleTimeText(
                 time = remindersState.intervalStartHour
             )
 
-            val notificationManager = NotificationManagerCompat.from(requireContext())
             val isDailyNotificationEnabled = notificationManager.isChannelNotificationsEnabled(
                 HyperskillNotificationChannel.DailyReminder.channelId
             ) && remindersState.isEnabled
