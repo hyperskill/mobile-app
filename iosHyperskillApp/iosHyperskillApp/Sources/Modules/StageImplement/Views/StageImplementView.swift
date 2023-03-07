@@ -5,6 +5,7 @@ struct StageImplementView: View {
     @StateObject var viewModel: StageImplementViewModel
 
     @ObservedObject var stackRouter: SwiftUIStackRouter
+    @ObservedObject var panModalPresenter: PanModalPresenter
 
     var body: some View {
         ZStack {
@@ -76,14 +77,23 @@ struct StageImplementView: View {
     private func handleViewAction(_ viewAction: StageImplementFeatureActionViewAction) {
         switch StageImplementFeatureActionViewActionKs(viewAction) {
         case .showUnsupportedModal:
-            #warning("showUnsupportedModal has not been implemented")
+            let panModal = StageImplementUnsupportedModalViewController(delegate: viewModel)
+            panModalPresenter.presentPanModal(panModal)
         case .navigateTo(let navigateToViewAction):
             switch StageImplementFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .back:
                 stackRouter.popViewController()
             case .homeScreen:
-                stackRouter.popToRootViewController()
-                TabBarRouter(tab: .home).route()
+                let isDismissed = panModalPresenter.dismissPanModal(
+                    animated: true,
+                    completion: {
+                        TabBarRouter(tab: .home).route()
+                    }
+                )
+
+                if !isDismissed {
+                    TabBarRouter(tab: .home).route()
+                }
             }
         }
     }
