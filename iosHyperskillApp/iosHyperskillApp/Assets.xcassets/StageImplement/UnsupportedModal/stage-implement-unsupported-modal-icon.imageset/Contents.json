@@ -1,0 +1,15 @@
+{
+  "images" : [
+    {
+      "filename" : "study-plan-ide-required-modal-monitor-light.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
+  }
+}

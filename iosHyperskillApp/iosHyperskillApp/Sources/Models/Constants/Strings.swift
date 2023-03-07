@@ -170,6 +170,15 @@ enum Strings {
         static let placeholder = sharedStrings.step_quiz_text_field_hint.localized()
     }
 
+    // MARK: - StageImplement -
+
+    enum StageImplement {
+        enum UnsupportedModal {
+            static let title = sharedStrings.stage_implement_unsupported_modal_title.localized()
+            static let description = sharedStrings.stage_implement_unsupported_modal_description.localized()
+        }
+    }
+
     // MARK: - Home -
 
     enum Home {
