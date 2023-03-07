@@ -143,6 +143,11 @@
     <!-- Stage implement -->
     <string name="stage_implement_title">Work on project. Stage %d/%d</string>
     <string name="stage_implement_project_deprecated_text">The project "%s" has been deleted</string>
+    <string name="stage_implement_unsupported_modal_title">IDE required</string>
+    <string name="stage_implement_unsupported_modal_description">To proceed, you need an IDE. Please continue learning
+        on a computer.\n\nIf this is not an option for you right now, check out the available activities on your home
+        screen.
+    </string>
 
     <!-- Tab bar -->
     <string name="tab_bar_home_title">Home</string>
@@ -166,10 +171,6 @@
     <string name="track_continue_in_web_text">Continue learning on the web</string>
     <string name="track_topics_to_discover_next_block_title">Theory to discover next</string>
     <string name="track_progress_block_title">Progress</string>
-
-    <!-- Study plan -->
-    <string name="study_plan_ide_required_modal_title">IDE required</string>
-    <string name="study_plan_ide_required_modal_text">To proceed, you need an IDE. Please continue learning on a computer.\n\nIf this is not an option for you right now, check out the available activities on your home screen.</string>
 
     <!-- Profile -->
     <string name="profile_title">Profile</string>

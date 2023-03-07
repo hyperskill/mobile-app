@@ -174,8 +174,8 @@ enum Strings {
 
     enum StageImplement {
         enum UnsupportedModal {
-            static let title = sharedStrings.study_plan_ide_required_modal_title.localized()
-            static let description = sharedStrings.study_plan_ide_required_modal_text.localized()
+            static let title = sharedStrings.stage_implement_unsupported_modal_title.localized()
+            static let description = sharedStrings.stage_implement_unsupported_modal_description.localized()
         }
     }
 
