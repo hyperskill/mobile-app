@@ -1,11 +1,12 @@
 package org.hyperskill.app.android.step_quiz_sql.view.fragment
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import org.hyperskill.app.android.code.presentation.model.ProgrammingLanguage
+import org.hyperskill.app.android.databinding.LayoutStepQuizDescriptionBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizSqlBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.fragment.DefaultStepQuizFragment
@@ -40,10 +41,14 @@ class SqlStepQuizFragment : DefaultStepQuizFragment(), CodeStepQuizFullScreenDia
     override val skeletonView: View
         get() = binding.stepQuizCodeSkeleton.root
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        _binding = LayoutStepQuizSqlBinding.inflate(LayoutInflater.from(requireContext()), viewBinding.root, false)
-        viewBinding.root.addView(binding.root)
-        super.onViewCreated(view, savedInstanceState)
+    override val descriptionBinding: LayoutStepQuizDescriptionBinding
+        get() = binding.sqlStepDescription
+
+    override fun createStepView(layoutInflater: LayoutInflater, parent: ViewGroup): View {
+        val binding = LayoutStepQuizSqlBinding.inflate(layoutInflater, parent, false).also {
+            _binding = it
+        }
+        return binding.root
     }
 
     override fun onDestroyView() {
