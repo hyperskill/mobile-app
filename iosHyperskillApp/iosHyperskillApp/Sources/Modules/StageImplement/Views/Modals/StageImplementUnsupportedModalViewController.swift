@@ -2,7 +2,7 @@ import PanModal
 import SnapKit
 import UIKit
 
-extension IdeRequiredModalViewController {
+extension StageImplementUnsupportedModalViewController {
     struct Appearance {
         let backgroundColor = UIColor.systemBackground
 
@@ -18,7 +18,7 @@ extension IdeRequiredModalViewController {
     }
 }
 
-final class IdeRequiredModalViewController: PanModalPresentableViewController {
+final class StageImplementUnsupportedModalViewController: PanModalPresentableViewController {
     private(set) var appearance = Appearance()
 
     private lazy var contentStackView: UIStackView = {
@@ -30,7 +30,7 @@ final class IdeRequiredModalViewController: PanModalPresentableViewController {
         return stackView
     }()
 
-    weak var delegate: IdeRequiredModalViewControllerDelegate?
+    weak var delegate: StageImplementUnsupportedModalViewControllerDelegate?
 
     override var shortFormHeight: PanModalHeight {
         let contentStackViewSize = contentStackView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
@@ -42,7 +42,7 @@ final class IdeRequiredModalViewController: PanModalPresentableViewController {
 
     override var longFormHeight: PanModalHeight { shortFormHeight }
 
-    init(delegate: IdeRequiredModalViewControllerDelegate? = nil) {
+    init(delegate: StageImplementUnsupportedModalViewControllerDelegate? = nil) {
         self.delegate = delegate
         super.init()
     }
@@ -63,12 +63,12 @@ final class IdeRequiredModalViewController: PanModalPresentableViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        delegate?.ideRequiredModalViewControllerDidAppear(self)
+        delegate?.stageImplementUnsupportedModalViewControllerViewControllerDidAppear(self)
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        delegate?.ideRequiredModalViewControllerDidDisappear(self)
+        delegate?.stageImplementUnsupportedModalViewControllerDidDisappear(self)
     }
 
     // MARK: Private API
@@ -151,6 +151,6 @@ final class IdeRequiredModalViewController: PanModalPresentableViewController {
 
     @objc
     private func goToHomescreenButtonTapped() {
-        delegate?.ideRequiredModalViewControllerDidTapGoToHomescreenButton(self)
+        delegate?.stageImplementUnsupportedModalViewControllerDidTapGoToHomescreenButton(self)
     }
 }
