@@ -70,6 +70,14 @@ enum Images {
         }
     }
 
+    // MARK: - StageImplement -
+
+    enum StageImplement {
+        enum UnsupportedModal {
+            static let icon = "stage-implement-unsupported-modal-icon"
+        }
+    }
+
     // MARK: - Track -
 
     enum Track {
@@ -84,14 +92,6 @@ enum Images {
             static let rating = "track-about-stat-item-star"
             static let project = "track-about-stat-item-project"
             static let topic = "track-about-stat-item-topic"
-        }
-    }
-
-    // MARK: - StudyPlan -
-
-    enum StudyPlan {
-        enum IdeRequiredModal {
-            static let monitor = "study-plan-ide-required-modal-monitor"
         }
     }
 

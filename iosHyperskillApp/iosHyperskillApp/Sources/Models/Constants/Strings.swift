@@ -170,6 +170,15 @@ enum Strings {
         static let placeholder = sharedStrings.step_quiz_text_field_hint.localized()
     }
 
+    // MARK: - StageImplement -
+
+    enum StageImplement {
+        enum UnsupportedModal {
+            static let title = sharedStrings.study_plan_ide_required_modal_title.localized()
+            static let description = sharedStrings.study_plan_ide_required_modal_text.localized()
+        }
+    }
+
     // MARK: - Home -
 
     enum Home {
@@ -203,15 +212,6 @@ enum Strings {
         enum About {
             static let title = sharedStrings.track_about_text.localized()
             static let continueInWebButton = sharedStrings.track_continue_in_web_text.localized()
-        }
-    }
-
-    // MARK: - StudyPlan -
-
-    enum StudyPlan {
-        enum IdeRequiredModal {
-            static let title = sharedStrings.study_plan_ide_required_modal_title.localized()
-            static let text = sharedStrings.study_plan_ide_required_modal_text.localized()
         }
     }
 
