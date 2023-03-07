@@ -2,27 +2,32 @@ package org.hyperskill.app.android.problem_of_day.view.delegate
 
 import android.content.Context
 import android.view.View
+import androidx.core.view.isVisible
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.LayoutProblemOfTheDayCardBinding
 import org.hyperskill.app.home.presentation.HomeFeature
 
 class ProblemOfDayCardFormDelegate(
-    private val context: Context,
-    private val binding: LayoutProblemOfTheDayCardBinding,
-    private val state: HomeFeature.ProblemOfDayState,
-    private val onActionButtonClick: (Long) -> Unit
+    private val onCardClicked: (Long) -> Unit,
+    private val onReloadClick: () -> Unit
 ) {
     companion object {
         const val EMPTY_CARD_STATE_ALPHA = 0.49F
     }
 
-    init {
-        setCardState(state)
+    fun setup(binding: LayoutProblemOfTheDayCardBinding) {
+        binding.problemOfDayReloadButton.setOnClickListener {
+            onReloadClick()
+        }
     }
 
-    private fun setCardState(cardState: HomeFeature.ProblemOfDayState) {
+    fun render(
+        context: Context,
+        binding: LayoutProblemOfTheDayCardBinding,
+        state: HomeFeature.ProblemOfDayState
+    ) {
         with(binding) {
-            when (cardState) {
+            when (state) {
                 is HomeFeature.ProblemOfDayState.Empty -> {
                     root.isClickable = false
 
@@ -34,19 +39,20 @@ class ProblemOfDayCardFormDelegate(
 
                     problemOfDayDescriptionTextView.setText(org.hyperskill.app.R.string.problem_of_day_no_problems_to_solve)
 
-                    topicsRepetitionArrowImageView.setImageResource(R.drawable.ic_home_screen_arrow_button)
-
                     problemOfDayHexogens.setImageResource(R.drawable.bg_hexogens_static)
 
-                    problemOfDayTitleTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_task_day, 0, 0, 0)
+                    problemOfDayTitleTextView.setCompoundDrawablesWithIntrinsicBounds(
+                        /*left =*/ R.drawable.ic_task_day,
+                        0,
+                        /*right =*/ R.drawable.ic_home_screen_arrow_button,
+                        0
+                    )
                     problemOfDayTitleTextView.setText(org.hyperskill.app.R.string.problem_of_day_title_uncompleted)
                 }
                 is HomeFeature.ProblemOfDayState.Solved -> {
-                    state as HomeFeature.ProblemOfDayState.Solved
-
                     root.isClickable = true
                     root.setOnClickListener {
-                        onActionButtonClick(cardState.step.id)
+                        onCardClicked(state.step.id)
                     }
 
                     problemOfDayTimeToSolveTextView.visibility = View.GONE
@@ -57,21 +63,20 @@ class ProblemOfDayCardFormDelegate(
 
                     problemOfDayDescriptionTextView.setText(org.hyperskill.app.R.string.problem_of_day_get_back)
 
-                    topicsRepetitionArrowImageView.setImageResource(R.drawable.ic_home_screen_success_arrow_button)
-
                     problemOfDayHexogens.setImageResource(R.drawable.bg_hexogens_static_solved)
 
-                    problemOfDayTitleTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_checkmark, 0, 0, 0)
+                    problemOfDayTitleTextView.setCompoundDrawablesWithIntrinsicBounds(
+                        /*left =*/ R.drawable.ic_checkmark,
+                        0,
+                        /*right =*/ R.drawable.ic_home_screen_success_arrow_button,
+                        0
+                    )
                     problemOfDayTitleTextView.setText(org.hyperskill.app.R.string.problem_of_day_title_completed)
-
-                    problemOfDayNextProblemInCounterView.text = state.nextProblemIn
                 }
                 is HomeFeature.ProblemOfDayState.NeedToSolve -> {
-                    state as HomeFeature.ProblemOfDayState.NeedToSolve
-
                     root.isClickable = true
                     root.setOnClickListener {
-                        onActionButtonClick(cardState.step.id)
+                        onCardClicked(state.step.id)
                     }
 
                     if (state.step.secondsToComplete != null) {
@@ -93,15 +98,45 @@ class ProblemOfDayCardFormDelegate(
 
                     problemOfDayDescriptionTextView.setText(org.hyperskill.app.R.string.problem_of_day_solve_a_random_problem)
 
-                    topicsRepetitionArrowImageView.setImageResource(R.drawable.ic_home_screen_arrow_button)
-
                     problemOfDayHexogens.setImageResource(R.drawable.bg_hexogens_static)
 
-                    problemOfDayTitleTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_task_day, 0, 0, 0)
+                    problemOfDayTitleTextView.setCompoundDrawablesWithIntrinsicBounds(
+                        /*left =*/ R.drawable.ic_task_day,
+                        0,
+                        /*right =*/ R.drawable.ic_home_screen_arrow_button,
+                        0
+                    )
                     problemOfDayTitleTextView.setText(org.hyperskill.app.R.string.problem_of_day_title_uncompleted)
-
-                    problemOfDayNextProblemInCounterView.text = state.nextProblemIn
                 }
+            }
+        }
+        renderFooter(binding, state)
+    }
+
+    private fun renderFooter(
+        binding: LayoutProblemOfTheDayCardBinding,
+        state: HomeFeature.ProblemOfDayState
+    ) {
+        val needToRefresh = when (state) {
+            HomeFeature.ProblemOfDayState.Empty -> false
+            is HomeFeature.ProblemOfDayState.NeedToSolve -> state.needToRefresh
+            is HomeFeature.ProblemOfDayState.Solved -> state.needToRefresh
+        }
+        val nextProblemIn = when (state) {
+            HomeFeature.ProblemOfDayState.Empty -> null
+            is HomeFeature.ProblemOfDayState.NeedToSolve -> state.nextProblemIn
+            is HomeFeature.ProblemOfDayState.Solved -> state.nextProblemIn
+        }
+        with(binding) {
+            problemOfDayNextProblemInFrameLayout.isVisible =
+                needToRefresh || nextProblemIn != null
+
+            problemOfDayReloadButton.isVisible = needToRefresh
+
+            val isNextProblemInVisible = !needToRefresh && nextProblemIn != null
+            nextProblemInLayout.isVisible = isNextProblemInVisible
+            if (isNextProblemInVisible) {
+                problemOfDayNextProblemInCounterView.text = nextProblemIn
             }
         }
     }
