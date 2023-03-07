@@ -336,6 +336,9 @@
 		2CF72AA32847757300E1C192 /* StepQuizTableViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF72AA22847757300E1C192 /* StepQuizTableViewData.swift */; };
 		2CF72AA5284775BF00E1C192 /* StepQuizTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF72AA4284775BF00E1C192 /* StepQuizTableView.swift */; };
 		2CF72AA828477E0600E1C192 /* StepQuizTableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF72AA728477E0600E1C192 /* StepQuizTableRowView.swift */; };
+		2CF87DA229B718800092FF83 /* IntrospectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF87DA129B718800092FF83 /* IntrospectViewController.swift */; };
+		2CF87DA729B71D150092FF83 /* IntrospectTestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF87DA629B71D150092FF83 /* IntrospectTestUtils.swift */; };
+		2CF87DA929B71D500092FF83 /* IntrospectViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF87DA829B71D500092FF83 /* IntrospectViewControllerTests.swift */; };
 		2CFCACF4287C4CAC0098EA0B /* TrackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFCACF3287C4CAB0098EA0B /* TrackViewModel.swift */; };
 		2CFCACF6287C5D510098EA0B /* TrackViewDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFCACF5287C5D510098EA0B /* TrackViewDataMapper.swift */; };
 		2CFD7C68292542FB00902748 /* StepFeatureStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFD7C67292542FB00902748 /* StepFeatureStateKsExtensions.swift */; };
@@ -780,6 +783,9 @@
 		2CF72AA22847757300E1C192 /* StepQuizTableViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableViewData.swift; sourceTree = "<group>"; };
 		2CF72AA4284775BF00E1C192 /* StepQuizTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableView.swift; sourceTree = "<group>"; };
 		2CF72AA728477E0600E1C192 /* StepQuizTableRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableRowView.swift; sourceTree = "<group>"; };
+		2CF87DA129B718800092FF83 /* IntrospectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrospectViewController.swift; sourceTree = "<group>"; };
+		2CF87DA629B71D150092FF83 /* IntrospectTestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrospectTestUtils.swift; sourceTree = "<group>"; };
+		2CF87DA829B71D500092FF83 /* IntrospectViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrospectViewControllerTests.swift; sourceTree = "<group>"; };
 		2CFCACF3287C4CAB0098EA0B /* TrackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewModel.swift; sourceTree = "<group>"; };
 		2CFCACF5287C5D510098EA0B /* TrackViewDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewDataMapper.swift; sourceTree = "<group>"; };
 		2CFD7C67292542FB00902748 /* StepFeatureStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepFeatureStateKsExtensions.swift; sourceTree = "<group>"; };
@@ -1678,6 +1684,7 @@
 			children = (
 				2C1F587F280D305C00372A37 /* CollectionsTests */,
 				2C1F587C280D2F6600372A37 /* ExtensionsTests */,
+				2CF87DA329B71BB50092FF83 /* IntrospectTests */,
 			);
 			path = iosHyperskillAppTests;
 			sourceTree = "<group>";
@@ -1998,11 +2005,11 @@
 				2C08A938287866A200F1DCA2 /* LazyAvatarView.swift */,
 				2C32375228380C340062CAF6 /* NavigationToolbarInfoItem.swift */,
 				E9C3506E2886D0600080D277 /* OpenURLInsideAppButton.swift */,
-				2C5215A9291E5B63006C2427 /* PullToRefresh.swift */,
 				E9101712283296F3002E70F5 /* RadioButton.swift */,
 				E996D41129221F6200A47498 /* ShowMoreButton.swift */,
 				2C8E66D8287896CF00D3928D /* TabNavigationLazyView.swift */,
 				2C58DE2A2803DEE2002A2774 /* VerticalCenteredScrollView.swift */,
+				2CF87DA029B717E20092FF83 /* Introspect */,
 				2C82BA302844AFED004C9013 /* PlaceholderView */,
 				2C60F1B428880AA600B66C78 /* Skeletons */,
 				2CA8E08E281039EB00154088 /* Styles */,
@@ -2355,6 +2362,24 @@
 				2CF72AA4284775BF00E1C192 /* StepQuizTableView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		2CF87DA029B717E20092FF83 /* Introspect */ = {
+			isa = PBXGroup;
+			children = (
+				2CF87DA129B718800092FF83 /* IntrospectViewController.swift */,
+				2C5215A9291E5B63006C2427 /* PullToRefresh.swift */,
+			);
+			path = Introspect;
+			sourceTree = "<group>";
+		};
+		2CF87DA329B71BB50092FF83 /* IntrospectTests */ = {
+			isa = PBXGroup;
+			children = (
+				2CF87DA629B71D150092FF83 /* IntrospectTestUtils.swift */,
+				2CF87DA829B71D500092FF83 /* IntrospectViewControllerTests.swift */,
+			);
+			path = IntrospectTests;
 			sourceTree = "<group>";
 		};
 		2CFCACF7287C5D580098EA0B /* ViewData */ = {
@@ -2857,8 +2882,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CF87DA729B71D150092FF83 /* IntrospectTestUtils.swift in Sources */,
 				2C919E3327EEF92F0022A2F2 /* LinkedListTests.swift in Sources */,
 				2C919E3727EF00950022A2F2 /* QueueTests.swift in Sources */,
+				2CF87DA929B71D500092FF83 /* IntrospectViewControllerTests.swift in Sources */,
 				2C1F587E280D2F9200372A37 /* URLExtensionsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3056,6 +3083,7 @@
 				2C1F5888280D5D6200372A37 /* SocialAuthSDKProvider.swift in Sources */,
 				E95D0F302941DF000074C9F3 /* AuthNewUserPlaceholderTrackCardView.swift in Sources */,
 				2CAE8CF728052F9600E6C83D /* StepHeaderView.swift in Sources */,
+				2CF87DA229B718800092FF83 /* IntrospectViewController.swift in Sources */,
 				2C96744228883A180091B6C9 /* StepQuizCodeViewDataMapper.swift in Sources */,
 				2C9E5E8629B215CA003AEC16 /* StageImplementViewModel.swift in Sources */,
 				2C0EC2DF28F9E92D004A36B2 /* ModalRouter.swift in Sources */,
