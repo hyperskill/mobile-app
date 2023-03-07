@@ -1,6 +1,7 @@
 package org.hyperskill.app.stage_implement.injection
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.core.view.mapper.ResourceProvider
@@ -18,6 +19,8 @@ import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 internal object StageImplementFeatureBuilder {
     fun build(
+        projectId: Long,
+        stageId: Long,
         projectsInteractor: ProjectsInteractor,
         stagesInteractor: StagesInteractor,
         stepInteractor: StepInteractor,
@@ -25,7 +28,8 @@ internal object StageImplementFeatureBuilder {
         sentryInteractor: SentryInteractor,
         resourceProvider: ResourceProvider
     ): Feature<StageImplementFeature.ViewState, StageImplementFeature.Message, StageImplementFeature.Action> {
-        val stageImplementReducer = StageImplementReducer()
+        val analyticRoute = HyperskillAnalyticRoute.Projects.Stages.Implement(projectId = projectId, stageId = stageId)
+        val stageImplementReducer = StageImplementReducer(analyticRoute)
 
         val stageImplementActionDispatcher = StageImplementActionDispatcher(
             ActionDispatcherOptions(),
