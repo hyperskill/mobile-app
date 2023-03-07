@@ -81,7 +81,7 @@ interface AppGraph {
     fun buildStepQuizComponent(stepRoute: StepRoute): StepQuizComponent
     fun buildStepQuizHintsComponent(): StepQuizHintsComponent
     fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent
-    fun buildStageImplementComponent(): StageImplementComponent
+    fun buildStageImplementComponent(projectId: Long, stageId: Long): StageImplementComponent
 
     fun buildMainDataComponent(): MainDataComponent
     fun buildProfileDataComponent(): ProfileDataComponent

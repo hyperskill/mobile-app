@@ -184,8 +184,8 @@ class AppGraphImpl(
     override fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent =
         StepCompletionComponentImpl(this, stepRoute)
 
-    override fun buildStageImplementComponent(): StageImplementComponent =
-        StageImplementComponentImpl(this)
+    override fun buildStageImplementComponent(projectId: Long, stageId: Long): StageImplementComponent =
+        StageImplementComponentImpl(this, projectId = projectId, stageId = stageId)
 
     override fun buildProfileDataComponent(): ProfileDataComponent =
         ProfileDataComponentImpl(this)

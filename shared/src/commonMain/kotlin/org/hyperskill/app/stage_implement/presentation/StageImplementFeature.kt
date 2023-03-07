@@ -2,7 +2,7 @@ package org.hyperskill.app.stage_implement.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.projects.domain.model.Project
-import org.hyperskill.app.stage_implement.domain.analytic.StageImplementClickedDeprecatedButtonHyperskillAnalyticEvent
+import org.hyperskill.app.stage_implement.domain.analytic.StageImplementClickedProjectDeprecatedButtonHyperskillAnalyticEvent
 import org.hyperskill.app.stage_implement.domain.analytic.StageImplementUnsupportedModalClickedGoToHomeScreenHyperskillAnalyticEvent
 import org.hyperskill.app.stage_implement.domain.analytic.StageImplementUnsupportedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.stage_implement.domain.analytic.StageImplementUnsupportedModalShownHyperskillAnalyticEvent
@@ -175,7 +175,7 @@ object StageImplementFeature {
          *
          * @see ViewState.Deprecated
          * @see Action.ViewAction.NavigateTo.Back
-         * @see StageImplementClickedDeprecatedButtonHyperskillAnalyticEvent
+         * @see StageImplementClickedProjectDeprecatedButtonHyperskillAnalyticEvent
          */
         object ProjectDeprecatedButtonClicked : Message
 
