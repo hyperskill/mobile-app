@@ -9,6 +9,7 @@
     <string name="no">No</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
+    <string name="back">Back</string>
     <string name="later">Later</string>
     <string name="good_job">Good job!</string>
     <string name="go_to_homescreen">Go to Homescreen</string>
@@ -139,6 +140,10 @@
     <!-- Step quiz code -->
     <string name="step_quiz_sql_title">Write an SQL statement</string>
 
+    <!-- Stage implement -->
+    <string name="stage_implement_title">Work on project. Stage %d/%d</string>
+    <string name="stage_implement_project_deprecated_text">The project "%s" has been deleted</string>
+
     <!-- Tab bar -->
     <string name="tab_bar_home_title">Home</string>
     <string name="tab_bar_track_title">Track</string>
@@ -209,8 +214,13 @@
     <!-- Debug menu -->
     <string name="debug_menu_title">Debug</string>
     <string name="debug_menu_section_api_header_title">API Base URL</string>
+    <string name="debug_menu_section_step_navigation_header_title">Step Navigation</string>
     <string name="debug_menu_section_step_navigation_text_input_title">Enter step id</string>
     <string name="debug_menu_section_step_navigation_button_text">Open step</string>
+    <string name="debug_menu_section_stage_implement_header_title">Stage Implement Navigation</string>
+    <string name="debug_menu_section_stage_implement_project_id_text_input_title">Enter project id</string>
+    <string name="debug_menu_section_stage_implement_stage_id_text_input_title">Enter stage id</string>
+    <string name="debug_menu_section_stage_implement_button_text">Open stage implement</string>
     <string name="debug_menu_apply_settings_button_text">Apply</string>
     <string name="debug_menu_restart_application_alert_title_ios">Restart Application</string>
     <string name="debug_menu_restart_application_alert_message_ios">

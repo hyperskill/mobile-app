@@ -2,6 +2,7 @@ package org.hyperskill.app.step_quiz.presentation
 
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.isIdeRequired
 import org.hyperskill.app.step.domain.model.supportedBlocksNames
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 
@@ -56,6 +57,7 @@ object StepQuizResolver {
         when (step.block.name) {
             BlockName.CODE,
             BlockName.SQL,
+            BlockName.PYCHARM,
             BlockName.MATH ->
                 true
             else ->
@@ -63,5 +65,5 @@ object StepQuizResolver {
         }
 
     fun isQuizSupportable(step: Step): Boolean =
-        BlockName.supportedBlocksNames.contains(step.block.name)
+        BlockName.supportedBlocksNames.contains(step.block.name) && !step.isIdeRequired()
 }

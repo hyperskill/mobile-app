@@ -191,6 +191,7 @@
 		2C919E3327EEF92F0022A2F2 /* LinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C919E3227EEF92F0022A2F2 /* LinkedListTests.swift */; };
 		2C919E3527EEFF110022A2F2 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C919E3427EEFF110022A2F2 /* Queue.swift */; };
 		2C919E3727EF00950022A2F2 /* QueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C919E3627EF00950022A2F2 /* QueueTests.swift */; };
+		2C93AF2729B3BF00004639E0 /* DebugStageImplementNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93AF2629B3BF00004639E0 /* DebugStageImplementNavigationView.swift */; };
 		2C93C2D2292E574F004D1861 /* HyperskillSentryLevel+SentryLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93C2D1292E574F004D1861 /* HyperskillSentryLevel+SentryLevel.swift */; };
 		2C93C2D4292E5905004D1861 /* HyperskillSentryBreadcrumb+SentryBreadcrumb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93C2D3292E5905004D1861 /* HyperskillSentryBreadcrumb+SentryBreadcrumb.swift */; };
 		2C93C2D8292EBBB5004D1861 /* AuthSocialFeatureStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93C2D7292EBBB5004D1861 /* AuthSocialFeatureStateKsExtensions.swift */; };
@@ -626,6 +627,7 @@
 		2C919E3227EEF92F0022A2F2 /* LinkedListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedListTests.swift; sourceTree = "<group>"; };
 		2C919E3427EEFF110022A2F2 /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		2C919E3627EF00950022A2F2 /* QueueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueTests.swift; sourceTree = "<group>"; };
+		2C93AF2629B3BF00004639E0 /* DebugStageImplementNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugStageImplementNavigationView.swift; sourceTree = "<group>"; };
 		2C93C2D1292E574F004D1861 /* HyperskillSentryLevel+SentryLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HyperskillSentryLevel+SentryLevel.swift"; sourceTree = "<group>"; };
 		2C93C2D3292E5905004D1861 /* HyperskillSentryBreadcrumb+SentryBreadcrumb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HyperskillSentryBreadcrumb+SentryBreadcrumb.swift"; sourceTree = "<group>"; };
 		2C93C2D7292EBBB5004D1861 /* AuthSocialFeatureStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialFeatureStateKsExtensions.swift; sourceTree = "<group>"; };
@@ -1843,6 +1845,7 @@
 		2CA5F8F12994CB6E0013B854 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2C93AF2629B3BF00004639E0 /* DebugStageImplementNavigationView.swift */,
 				2CA5F8F22994CB870013B854 /* DebugStepNavigationView.swift */,
 				2CA5F8EB2994C3AB0013B854 /* DebugView.swift */,
 			);
@@ -2827,6 +2830,7 @@
 				E9F27D782906447A007F16D7 /* StepQuizHintCardView.swift in Sources */,
 				E9FB89A72893CD2C0011EFFB /* LocalNotificationsService.swift in Sources */,
 				2CC78D0928C74E7D0006EF91 /* UIViewControllerEventsWrapper.swift in Sources */,
+				2C93AF2729B3BF00004639E0 /* DebugStageImplementNavigationView.swift in Sources */,
 				2CA5F8F02994C4A90013B854 /* DebugAssembly.swift in Sources */,
 				2CCCA39F2862E45300D98089 /* StepQuizStringViewModel.swift in Sources */,
 				2C96742E288824230091B6C9 /* StepQuizCodeAssembly.swift in Sources */,
