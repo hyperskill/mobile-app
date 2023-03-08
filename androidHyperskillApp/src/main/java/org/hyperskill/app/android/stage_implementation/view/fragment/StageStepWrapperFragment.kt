@@ -10,6 +10,7 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
+import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStageStepWrapperBinding
 import org.hyperskill.app.android.step.view.delegate.StepDelegate
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
@@ -84,7 +85,12 @@ class StageStepWrapperFragment :
                 viewBinding.stagePracticeContainer
             )
         }
-        viewBinding.stageImplementationAppBar.stageImplementationToolbarTitle.text = navigationTitle
+        with(viewBinding.stageImplementationAppBar) {
+            stageImplementationToolbarTitle.text = navigationTitle
+            stageImplementationToolbar.setNavigationOnClickListener {
+                requireRouter().exit()
+            }
+        }
         viewBinding.stageImplementationTitle.text = stageTitle
         StepDelegate.init(viewBinding.stageImplementationError, stepViewModel::onNewMessage)
     }
