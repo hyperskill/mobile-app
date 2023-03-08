@@ -95,6 +95,8 @@ import org.hyperskill.app.sentry.injection.SentryComponent
 import org.hyperskill.app.sentry.injection.SentryComponentImpl
 import org.hyperskill.app.stage_implement.injection.StageImplementComponent
 import org.hyperskill.app.stage_implement.injection.StageImplementComponentImpl
+import org.hyperskill.app.stage_implementation.injection.PlatformStageImplementationComponent
+import org.hyperskill.app.stage_implementation.injection.PlatformStageImplementationComponentImpl
 import org.hyperskill.app.stages.injection.StagesDataComponent
 import org.hyperskill.app.stages.injection.StagesDataComponentImpl
 import org.hyperskill.app.step.domain.model.Step
@@ -291,6 +293,16 @@ class AndroidAppComponentImpl(
      */
     override fun buildStageImplementComponent(projectId: Long, stageId: Long): StageImplementComponent =
         StageImplementComponentImpl(this, projectId = projectId, stageId = stageId)
+
+    override fun buildPlatformStageImplementationComponent(
+        projectId: Long,
+        stageId: Long
+    ): PlatformStageImplementationComponent =
+        PlatformStageImplementationComponentImpl(
+            projectId = projectId,
+            stageId = stageId,
+            stageImplementationComponent = buildStageImplementComponent(projectId, stageId)
+        )
 
     /**
      * Track component
