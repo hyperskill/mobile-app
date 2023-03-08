@@ -13,9 +13,7 @@ class StageImplementComponentImpl(
         get() = StageImplementFeatureBuilder.build(
             projectId,
             stageId,
-            appGraph.buildProjectsDataComponent().projectsInteractor,
             appGraph.buildStagesDataComponent().stagesInteractor,
-            appGraph.buildStepDataComponent().stepInteractor,
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor,
             appGraph.commonComponent.resourceProvider

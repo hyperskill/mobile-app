@@ -35,12 +35,15 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                 }
             is Message.FetchAttemptSuccess ->
                 if (state is State.Loading) {
-                    State.AttemptLoaded(
-                        message.step,
-                        message.attempt,
-                        message.submissionState,
-                        message.currentProfile
-                    ) to emptySet()
+                    if (StepQuizResolver.isIdeRequired(message.step, message.submissionState)) {
+                        State.Unsupported to emptySet()
+                    } else {
+                        State.AttemptLoaded(
+                            message.step,
+                            message.attempt,
+                            message.submissionState
+                        ) to emptySet()
+                    }
                 } else {
                     null
                 }
@@ -74,8 +77,7 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                     State.AttemptLoaded(
                         message.step,
                         message.attempt,
-                        message.submissionState,
-                        message.currentProfile
+                        message.submissionState
                     ) to emptySet()
                 } else {
                     null

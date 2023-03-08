@@ -142,7 +142,6 @@
 
     <!-- Stage implement -->
     <string name="stage_implement_title">Work on project. Stage %d/%d</string>
-    <string name="stage_implement_project_deprecated_text">The project "%s" has been deleted</string>
 
     <!-- Tab bar -->
     <string name="tab_bar_home_title">Home</string>

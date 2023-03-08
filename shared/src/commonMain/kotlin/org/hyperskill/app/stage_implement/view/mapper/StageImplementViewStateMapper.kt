@@ -14,23 +14,13 @@ internal class StageImplementViewStateMapper(
                 StageImplementFeature.ViewState.Idle
             is StageImplementFeature.State.Loading ->
                 StageImplementFeature.ViewState.Loading
-            is StageImplementFeature.State.Deprecated ->
-                StageImplementFeature.ViewState.Deprecated(
-                    message = resourceProvider.getString(
-                        SharedResources.strings.stage_implement_project_deprecated_text,
-                        state.project.title
-                    ),
-                    ctaButtonText = resourceProvider.getString(SharedResources.strings.back)
-                )
-            is StageImplementFeature.State.Unsupported ->
-                StageImplementFeature.ViewState.Unsupported
             is StageImplementFeature.State.NetworkError ->
                 StageImplementFeature.ViewState.NetworkError
             is StageImplementFeature.State.Content ->
                 StageImplementFeature.ViewState.Content(
                     stepRoute = StepRoute.StageImplement(
-                        stepId = state.step.id,
-                        projectId = state.project.id,
+                        stepId = state.stage.stepId,
+                        projectId = state.projectId,
                         stageId = state.stage.id
                     ),
                     navigationTitle = resourceProvider.getString(
