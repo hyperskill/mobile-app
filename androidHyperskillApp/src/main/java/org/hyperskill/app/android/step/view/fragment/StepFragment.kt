@@ -9,25 +9,18 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
-import org.hyperskill.app.android.core.view.ui.navigation.requireMainRouter
-import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepBinding
-import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
-import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
-import org.hyperskill.app.android.step.view.dialog.TopicPracticeCompletedBottomSheet
+import org.hyperskill.app.android.step.view.delegate.StepDelegate
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
-import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.step_practice.view.fragment.StepPracticeFragment
 import org.hyperskill.app.android.step_theory.view.fragment.StepTheoryFragment
-import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step.presentation.StepViewModel
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
-import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -50,8 +43,7 @@ class StepFragment :
 
     private val viewBinding: FragmentStepBinding by viewBinding(FragmentStepBinding::bind)
     private val stepViewModel: StepViewModel by reduxViewModel(this) { viewModelFactory }
-    private val viewStateDelegate: ViewStateDelegate<StepFeature.State> = ViewStateDelegate()
-
+    private var viewStateDelegate: ViewStateDelegate<StepFeature.State>? = null
     private var stepRoute: StepRoute by argument(serializer = StepRoute.serializer())
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,13 +52,8 @@ class StepFragment :
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         initViewStateDelegate()
-        viewBinding.stepError.tryAgain.setOnClickListener {
-            stepViewModel.onNewMessage(StepFeature.Message.Initialize(forceUpdate = true))
-        }
-        stepViewModel.onNewMessage(StepFeature.Message.Initialize())
-        stepViewModel.onNewMessage(StepFeature.Message.ViewedEventMessage)
+        StepDelegate.init(viewBinding.stepError, stepViewModel::onNewMessage)
     }
 
     private fun injectComponent() {
@@ -76,58 +63,30 @@ class StepFragment :
     }
 
     private fun initViewStateDelegate() {
-        with(viewStateDelegate) {
+        viewStateDelegate = ViewStateDelegate<StepFeature.State>().apply {
             addState<StepFeature.State.Idle>()
-            addState<StepFeature.State.Loading>(viewBinding.stepProgress) // TODO Replace progress bar with skeletons
+            addState<StepFeature.State.Loading>(viewBinding.stepProgress)
             addState<StepFeature.State.Error>(viewBinding.stepError.root)
             addState<StepFeature.State.Data>(viewBinding.stepContainer)
         }
     }
 
     override fun onAction(action: StepFeature.Action.ViewAction) {
-        when (action) {
-            is StepFeature.Action.ViewAction.StepCompletionViewAction -> {
-                when (val stepCompletionAction = action.viewAction) {
-                    StepCompletionFeature.Action.ViewAction.NavigateTo.Back -> {
-                        requireRouter().exit()
-                    }
-
-                    StepCompletionFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
-                        requireRouter().backTo(MainScreen)
-                        parentFragmentManager.requireMainRouter().switch(HomeScreen)
-                    }
-
-                    is StepCompletionFeature.Action.ViewAction.ReloadStep -> {
-                        requireRouter().replaceScreen(StepScreen(stepCompletionAction.stepRoute))
-                    }
-
-                    is StepCompletionFeature.Action.ViewAction.ShowStartPracticingError -> {
-                        view?.snackbar(stepCompletionAction.message)
-                    }
-
-                    is StepCompletionFeature.Action.ViewAction.ShowTopicCompletedModal -> {
-                        TopicPracticeCompletedBottomSheet
-                            .newInstance(
-                                stepCompletionAction.modalText,
-                                stepCompletionAction.isNextStepAvailable
-                            )
-                            .showIfNotExists(
-                                childFragmentManager,
-                                TopicPracticeCompletedBottomSheet.Tag
-                            )
-                    }
-                }
-            }
-        }
+        StepDelegate.onAction(fragment = this, action)
     }
 
     override fun render(state: StepFeature.State) {
-        viewStateDelegate.switchState(state)
+        viewStateDelegate?.switchState(state)
         if (state is StepFeature.State.Data) {
             initStepContainer(state)
             (childFragmentManager.findFragmentByTag(STEP_TAG) as? StepCompletionView)
                 ?.render(state.stepCompletionState.isPracticingLoading)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewStateDelegate = null
     }
 
     override fun onNewMessage(message: StepCompletionFeature.Message) {
