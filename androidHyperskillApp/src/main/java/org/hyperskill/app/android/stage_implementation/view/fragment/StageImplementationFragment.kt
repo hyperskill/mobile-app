@@ -5,7 +5,9 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.HyperskillApp
-import org.hyperskill.app.android.databinding.FragmentStageImplentationBinding
+import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
+import org.hyperskill.app.android.databinding.FragmentStageImplementationBinding
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature
 import org.hyperskill.app.stage_implementation.presentation.StageImplementationViewModel
@@ -83,11 +85,15 @@ class StageImplementationFragment :
     }
 
     override fun render(state: StageImplementFeature.ViewState) {
-        when (state) {
-            is StageImplementFeature.ViewState.Content -> TODO()
-            StageImplementFeature.ViewState.Idle -> TODO()
-            StageImplementFeature.ViewState.Loading -> TODO()
-            StageImplementFeature.ViewState.NetworkError -> TODO()
+        viewStateDelegate?.switchState(state)
+        if (state is StageImplementFeature.ViewState.Content) {
+            setChildFragment(R.id.stageContainer, STEP_TAG) {
+                StageStepWrapperFragment.newInstance(
+                    stepRoute = state.stepRoute,
+                    navigationTitle = state.navigationTitle,
+                    stageTitle = state.stageTitle
+                )
+            }
         }
     }
 }
