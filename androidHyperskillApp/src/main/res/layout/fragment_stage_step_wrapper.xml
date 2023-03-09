@@ -29,6 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?textAppearanceSubtitle1"
+                android:fontFamily="@font/roboto_bold"
                 tools:text="Simple Chatty Bot"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
