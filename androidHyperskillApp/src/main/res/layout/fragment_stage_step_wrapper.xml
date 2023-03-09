@@ -46,18 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="20dp"
-                android:paddingBottom="28dp"
                 android:visibility="gone"
-                />
-
-            <include
-                android:visibility="gone"
-                android:id="@+id/stageQuizCodeSamples"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                layout="@layout/layout_step_quiz_code_details"
-                tools:visibility="visible"
-                android:layout_marginBottom="20dp"
                 />
 
             <FrameLayout
