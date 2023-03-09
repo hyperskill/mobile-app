@@ -69,7 +69,7 @@ class ProfileActionDispatcher(
                     .getCurrentProfile(sourceType = DataSourceType.REMOTE)
                     .getOrElse {
                         sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                        return onNewMessage(Message.ProfileLoaded.Error)
+                        return onNewMessage(Message.ProfileFetchResult.Error)
                     }
 
                 val streakResult = actionScope.async { streaksInteractor.getUserStreak(currentProfile.id) }
@@ -77,7 +77,7 @@ class ProfileActionDispatcher(
 
                 val streak = streakResult.await().getOrElse {
                     sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                    return onNewMessage(Message.ProfileLoaded.Error)
+                    return onNewMessage(Message.ProfileFetchResult.Error)
                 }
                 val streakFreezeProduct = streakFreezeProductResult.await().getOrNull()
 
@@ -86,13 +86,13 @@ class ProfileActionDispatcher(
                 streakFlow.notifyDataChanged(streak)
 
                 onNewMessage(
-                    Message.ProfileLoaded.Success(
+                    Message.ProfileFetchResult.Success(
                         profile = currentProfile,
                         streak = streak,
                         streakFreezeState = getStreakFreezeState(streakFreezeProduct, streak),
                         dailyStudyRemindersState = ProfileFeature.DailyStudyRemindersState(
                             isEnabled = notificationInteractor.isDailyStudyRemindersEnabled(),
-                            intervalStartHour = notificationInteractor.getDailyStudyRemindersIntervalStartHour()
+                            startHour = notificationInteractor.getDailyStudyRemindersIntervalStartHour()
                         )
                     )
                 )
@@ -100,7 +100,7 @@ class ProfileActionDispatcher(
             is Action.BuyStreakFreeze -> {
                 productsInteractor.buyStreakFreeze(action.streakFreezeProductId)
                     .getOrElse {
-                        return onNewMessage(Message.StreakFreezeBought.Error)
+                        return onNewMessage(Message.BuyStreakFreezeResult.Error)
                     }
 
                 profileInteractor
@@ -110,7 +110,7 @@ class ProfileActionDispatcher(
                         profileInteractor.notifyHypercoinsBalanceChanged(oldBalance - action.streakFreezePrice)
                     }
 
-                onNewMessage(Message.StreakFreezeBought.Success)
+                onNewMessage(Message.BuyStreakFreezeResult.Success)
             }
             is Action.SaveDailyStudyRemindersIsEnabled -> {
                 notificationInteractor.setDailyStudyRemindersEnabled(action.isEnabled)

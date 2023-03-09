@@ -1,8 +1,9 @@
 package org.hyperskill.app.notification.domain.interactor
 
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.datetime.Clock
-import org.hyperskill.app.notification.data.extension.NotificationExtensions
 import org.hyperskill.app.notification.data.model.NotificationDescription
 import org.hyperskill.app.notification.domain.flow.DailyStudyRemindersEnabledFlow
 import org.hyperskill.app.notification.domain.repository.NotificationRepository
@@ -13,6 +14,11 @@ class NotificationInteractor(
     private val submissionRepository: SubmissionRepository,
     private val dailyStudyRemindersEnabledFlow: DailyStudyRemindersEnabledFlow
 ) {
+    companion object {
+        private val TWO_DAYS_IN_MILLIS = 2.toDuration(DurationUnit.DAYS).inWholeMilliseconds
+        private const val MAX_USER_ASKED_TO_ENABLE_DAILY_REMINDERS_COUNT = 3
+    }
+
     val solvedStepsSharedFlow: SharedFlow<Long> = submissionRepository.solvedStepsMutableSharedFlow
 
     fun isNotificationsPermissionGranted(): Boolean =
@@ -58,8 +64,12 @@ class NotificationInteractor(
         }
 
         val lastTimeAsked = notificationRepository.getLastTimeUserAskedToEnableDailyReminders() ?: return true
+        val isTwoDaysPassed = (lastTimeAsked + TWO_DAYS_IN_MILLIS) <= Clock.System.now().toEpochMilliseconds()
 
-        return lastTimeAsked + NotificationExtensions.TWO_DAYS_IN_MILLIS <= Clock.System.now().toEpochMilliseconds() && getUserAskedToEnableDailyRemindersCount() < 3
+        val isNotReachedMaxUserAskedCount =
+            getUserAskedToEnableDailyRemindersCount() < MAX_USER_ASKED_TO_ENABLE_DAILY_REMINDERS_COUNT
+
+        return isTwoDaysPassed && isNotReachedMaxUserAskedCount
     }
 
     fun setLastTimeUserAskedToEnableDailyReminders(timestamp: Long) {

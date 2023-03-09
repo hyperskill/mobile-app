@@ -3,7 +3,6 @@ package org.hyperskill.app.notification.cache
 import com.russhwolf.settings.Settings
 import org.hyperskill.app.SharedResources.strings
 import org.hyperskill.app.core.view.mapper.ResourceProvider
-import org.hyperskill.app.notification.data.extension.NotificationExtensions
 import org.hyperskill.app.notification.data.model.NotificationDescription
 import org.hyperskill.app.notification.data.source.NotificationCacheDataSource
 
@@ -19,10 +18,10 @@ class NotificationCacheDataSourceImpl(
     }
 
     override fun isDailyStudyRemindersEnabled(): Boolean =
-        settings.getBoolean(NotificationCacheKeyValues.NOTIFICATIONS_DAILY_REMINDER_ENABLED, false)
+        settings.getBoolean(NotificationCacheKeyValues.DAILY_STUDY_REMINDERS_ENABLED, false)
 
     override fun setDailyStudyRemindersEnabled(isEnabled: Boolean) {
-        settings.putBoolean(NotificationCacheKeyValues.NOTIFICATIONS_DAILY_REMINDER_ENABLED, isEnabled)
+        settings.putBoolean(NotificationCacheKeyValues.DAILY_STUDY_REMINDERS_ENABLED, isEnabled)
     }
 
     override fun getNotificationTimestamp(key: String): Long =
@@ -34,12 +33,12 @@ class NotificationCacheDataSourceImpl(
 
     override fun getDailyStudyRemindersIntervalStartHour(): Int =
         settings.getInt(
-            NotificationCacheKeyValues.NOTIFICATIONS_DAILY_REMINDER_START_HOUR,
-            NotificationExtensions.DAILY_REMINDERS_AFTER_STEP_SOLVED_START_HOUR
+            NotificationCacheKeyValues.DAILY_STUDY_REMINDERS_START_HOUR,
+            NotificationCacheKeyValues.DAILY_STUDY_REMINDERS_START_HOUR_DEFAULT
         )
 
     override fun setDailyStudyRemindersIntervalStartHour(hour: Int) {
-        settings.putInt(NotificationCacheKeyValues.NOTIFICATIONS_DAILY_REMINDER_START_HOUR, hour)
+        settings.putInt(NotificationCacheKeyValues.DAILY_STUDY_REMINDERS_START_HOUR, hour)
     }
 
     override fun getRandomDailyStudyRemindersNotificationDescription(): NotificationDescription =
@@ -123,19 +122,19 @@ class NotificationCacheDataSourceImpl(
         )
 
     override fun getLastTimeUserAskedToEnableDailyReminders(): Long? =
-        settings.getLongOrNull(NotificationCacheKeyValues.NOTIFICATION_LAST_TIME_USER_ASKED_TO_ENABLE_DAILY_REMINDERS)
+        settings.getLongOrNull(NotificationCacheKeyValues.DAILY_STUDY_REMINDERS_LAST_TIME_USER_ASKED_TO_ENABLE)
 
     override fun setLastTimeUserAskedToEnableDailyReminders(timestamp: Long) {
         settings.putLong(
-            NotificationCacheKeyValues.NOTIFICATION_LAST_TIME_USER_ASKED_TO_ENABLE_DAILY_REMINDERS,
+            NotificationCacheKeyValues.DAILY_STUDY_REMINDERS_LAST_TIME_USER_ASKED_TO_ENABLE,
             timestamp
         )
         settings.putLong(
-            NotificationCacheKeyValues.NOTIFICATION_USER_ASKED_TO_ENABLE_DAILY_REMINDERS_COUNT,
+            NotificationCacheKeyValues.DAILY_STUDY_REMINDERS_USER_ASKED_TO_ENABLE_COUNT,
             getUserAskedToEnableDailyRemindersCount() + 1
         )
     }
 
     override fun getUserAskedToEnableDailyRemindersCount(): Long =
-        settings.getLong(NotificationCacheKeyValues.NOTIFICATION_USER_ASKED_TO_ENABLE_DAILY_REMINDERS_COUNT, 0)
+        settings.getLong(NotificationCacheKeyValues.DAILY_STUDY_REMINDERS_USER_ASKED_TO_ENABLE_COUNT, 0)
 }

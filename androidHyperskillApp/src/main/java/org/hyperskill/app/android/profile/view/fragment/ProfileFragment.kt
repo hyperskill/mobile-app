@@ -152,7 +152,7 @@ class ProfileFragment :
     }
 
     private fun onDailyReminderCheckClicked(isChecked: Boolean, notificationManager: NotificationManagerCompat) {
-        profileViewModel.onNewMessage(ProfileFeature.Message.DailyStudyRemindersIsEnabledClicked(isChecked))
+        profileViewModel.onNewMessage(ProfileFeature.Message.DailyStudyRemindersToggleClicked(isChecked))
 
         if (isChecked) {
             platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification()
@@ -287,7 +287,7 @@ class ProfileFragment :
     private fun renderRemindersSchedule(remindersState: ProfileFeature.DailyStudyRemindersState, notificationManager: NotificationManagerCompat) {
         with(viewBinding.profileDailyReminder) {
             profileScheduleTextView.text = getScheduleTimeText(
-                time = remindersState.intervalStartHour
+                time = remindersState.startHour
             )
 
             val isDailyNotificationEnabled = notificationManager.isChannelNotificationsEnabled(

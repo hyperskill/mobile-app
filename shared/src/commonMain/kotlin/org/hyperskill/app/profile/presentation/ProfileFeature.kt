@@ -43,25 +43,48 @@ interface ProfileFeature {
         object Error : State
     }
 
-    data class DailyStudyRemindersState(
-        val isEnabled: Boolean,
-        val intervalStartHour: Int
-    )
+    /**
+     * Represents a daily study reminders state.
+     *
+     * @property isEnabled A boolean flag that indicates about is daily study reminders enabled.
+     * This flag doesn't checks if user granted a runtime permission to show notifications.
+     *
+     * @property startHour A start hour of daily study reminders interval when notifications will be shown.
+     */
+    data class DailyStudyRemindersState(val isEnabled: Boolean, val startHour: Int)
 
+    /**
+     * Represents an available streak freeze states.
+     */
     @Serializable
     sealed interface StreakFreezeState {
+        /**
+         * Represents a state when user can buy a streak freeze.
+         *
+         * @property streakFreezeProductId A streak freeze product id.
+         * @property price A price of streak freeze.
+         */
         @Serializable
         data class CanBuy(
             val streakFreezeProductId: Long,
             val price: Int
         ) : StreakFreezeState
 
+        /**
+         * Represents a state when user can't buy a streak freeze because of not enough gems.
+         *
+         * @property streakFreezeProductId A streak freeze product id.
+         * @property price A price of streak freeze.
+         */
         @Serializable
         data class NotEnoughGems(
             val streakFreezeProductId: Long,
             val price: Int
         ) : StreakFreezeState
 
+        /**
+         * Represents a state when user can't buy a streak freeze because of already have one.
+         */
         @Serializable
         object AlreadyHave : StreakFreezeState
     }
@@ -73,14 +96,33 @@ interface ProfileFeature {
             val forceUpdate: Boolean = false
         ) : Message
 
-        sealed interface ProfileLoaded : Message {
+        /**
+         * Represents an available profile fetch results.
+         *
+         * @see Initialize
+         * @see Action.FetchProfile
+         * @see Action.FetchCurrentProfile
+         */
+        sealed interface ProfileFetchResult : Message {
+            /**
+             * Represents a result when profile successfully fetched.
+             *
+             * @property profile User profile model.
+             * @property streak User profile streak.
+             * @property streakFreezeState A streak freeze state.
+             * @property dailyStudyRemindersState A daily study reminders state.
+             */
             data class Success(
                 val profile: Profile,
                 val streak: Streak?,
                 val streakFreezeState: StreakFreezeState?,
                 val dailyStudyRemindersState: DailyStudyRemindersState
-            ) : ProfileLoaded
-            object Error : ProfileLoaded
+            ) : ProfileFetchResult
+
+            /**
+             * Represents a result when profile failed to fetch.
+             */
+            object Error : ProfileFetchResult
         }
 
         data class PullToRefresh(
@@ -88,12 +130,11 @@ interface ProfileFeature {
             val profileId: Long? = null
         ) : Message
 
-        object StepQuizSolved : Message
-        data class HypercoinsBalanceChanged(val hypercoinsBalance: Int) : Message
-        data class StreakChanged(val streak: Streak?) : Message
-
         object ClickedViewFullProfile : Message
 
+        /**
+         * Magic links messages.
+         */
         data class GetMagicLinkReceiveSuccess(val url: String) : Message
         object GetMagicLinkReceiveFailure : Message
 
@@ -102,14 +143,29 @@ interface ProfileFeature {
          */
         object StreakFreezeCardButtonClicked : Message
         object StreakFreezeModalButtonClicked : Message
-        sealed interface StreakFreezeBought : Message {
-            object Success : StreakFreezeBought
-            object Error : StreakFreezeBought
+        /**
+         * Represents an available streak freeze buy results.
+         *
+         * @see Action.BuyStreakFreeze
+         */
+        sealed interface BuyStreakFreezeResult : Message {
+            object Success : BuyStreakFreezeResult
+            object Error : BuyStreakFreezeResult
         }
 
-        data class DailyStudyRemindersIsEnabledClicked(val isEnabled: Boolean) : Message
+        /**
+         * DailyStudyReminders
+         */
+        data class DailyStudyRemindersToggleClicked(val isEnabled: Boolean) : Message
         data class DailyStudyRemindersIntervalStartHourChanged(val startHour: Int) : Message
         data class DailyStudyRemindersIsEnabledChanged(val isEnabled: Boolean) : Message
+
+        /**
+         * Flow messages.
+         */
+        object StepQuizSolved : Message
+        data class HypercoinsBalanceChanged(val hypercoinsBalance: Int) : Message
+        data class StreakChanged(val streak: Streak?) : Message
 
         /**
          * Analytic

@@ -1,7 +1,7 @@
 package org.hyperskill.app.profile.presentation
 
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
-import org.hyperskill.app.profile.domain.analytic.ProfileClickedDailyStudyRemindsHyperskillAnalyticEvent
+import org.hyperskill.app.profile.domain.analytic.ProfileClickedDailyStudyRemindsToggleHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.ProfileClickedDailyStudyRemindsTimeHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.ProfileClickedPullToRefreshHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.ProfileClickedSettingsHyperskillAnalyticEvent
@@ -35,14 +35,14 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
-            is Message.ProfileLoaded.Success ->
+            is Message.ProfileFetchResult.Success ->
                 State.Content(
                     message.profile,
                     message.streak,
                     message.streakFreezeState,
                     message.dailyStudyRemindersState
                 ) to emptySet()
-            is Message.ProfileLoaded.Error ->
+            is Message.ProfileFetchResult.Error ->
                 State.Error to emptySet()
             is Message.PullToRefresh ->
                 if (state is State.Content && !state.isRefreshing) {
@@ -75,7 +75,7 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                         streakFreezeState = if (
                             state.streakFreezeState is ProfileFeature.StreakFreezeState.NotEnoughGems &&
                             state.streakFreezeState.price <= message.hypercoinsBalance
-                        )  {
+                        ) {
                             ProfileFeature.StreakFreezeState.CanBuy(
                                 state.streakFreezeState.streakFreezeProductId,
                                 state.streakFreezeState.price
@@ -178,7 +178,7 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
-            is Message.StreakFreezeBought.Success ->
+            is Message.BuyStreakFreezeResult.Success ->
                 if (state is State.Content) {
                     state.copy(streakFreezeState = ProfileFeature.StreakFreezeState.AlreadyHave) to setOf(
                         Action.ViewAction.ShowStreakFreezeBuyingStatus.Success,
@@ -187,20 +187,20 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
-            is Message.StreakFreezeBought.Error ->
+            is Message.BuyStreakFreezeResult.Error ->
                 if (state is State.Content) {
                     state to setOf(Action.ViewAction.ShowStreakFreezeBuyingStatus.Error)
                 } else {
                     null
                 }
-            is Message.DailyStudyRemindersIsEnabledClicked ->
+            is Message.DailyStudyRemindersToggleClicked ->
                 if (state is State.Content) {
                     state.copy(
                         dailyStudyRemindersState = state.dailyStudyRemindersState.copy(isEnabled = message.isEnabled)
                     ) to setOf(
                         Action.SaveDailyStudyRemindersIsEnabled(message.isEnabled),
                         Action.LogAnalyticEvent(
-                            ProfileClickedDailyStudyRemindsHyperskillAnalyticEvent(message.isEnabled)
+                            ProfileClickedDailyStudyRemindsToggleHyperskillAnalyticEvent(message.isEnabled)
                         )
                     )
                 } else {
@@ -218,7 +218,7 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                 if (state is State.Content && state.dailyStudyRemindersState.isEnabled) {
                     state.copy(
                         dailyStudyRemindersState = state.dailyStudyRemindersState.copy(
-                            intervalStartHour = message.startHour
+                            startHour = message.startHour
                         )
                     ) to setOf(
                         Action.SaveDailyStudyRemindersIntervalStartHour(message.startHour)
