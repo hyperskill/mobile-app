@@ -16,7 +16,7 @@ class HyperskillSentryBreadcrumbAnalyticEventMapperTest {
         val breadcrumb = HyperskillSentryBreadcrumbAnalyticEventMapper.mapAnalyticEvent(analyticEvent)
 
         assertEquals(HyperskillSentryBreadcrumbCategory.ANALYTIC_EVENT.stringValue, breadcrumb.category)
-        assertEquals("ProfileClickedDailyStudyRemindsHyperskillAnalyticEvent", breadcrumb.message)
+        assertEquals("ProfileClickedDailyStudyRemindsToggleHyperskillAnalyticEvent", breadcrumb.message)
         assertEquals(HyperskillSentryLevel.INFO, breadcrumb.level)
         // data
         assertEquals("/profile", breadcrumb.data!!["route"])
