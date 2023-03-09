@@ -75,7 +75,6 @@ class SqlStepQuizFragment : DefaultStepQuizFragment(), CodeStepQuizFullScreenDia
                 CodeStepQuizFullScreenDialogFragment.Params(
                     lang = lang,
                     code = code ?: initialCode,
-                    initialCode = initialCode,
                     step = step,
                     isShowRetryButton = viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton.isVisible
                 )

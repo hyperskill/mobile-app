@@ -12,8 +12,8 @@ import org.hyperskill.app.android.step_quiz.view.fragment.DefaultStepQuizFragmen
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeLayoutDelegate
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeQuizInstructionDelegate
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeStepQuizFormDelegate
-import org.hyperskill.app.android.step_quiz_code.view.model.CodeStepQuizConfig
 import org.hyperskill.app.android.step_quiz_code.view.model.CodeStepQuizConfigFactory
+import org.hyperskill.app.android.step_quiz_code.view.model.config.CodeStepQuizConfig
 import org.hyperskill.app.android.step_quiz_fullscreen_code.dialog.CodeStepQuizFullScreenDialogFragment
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -68,8 +68,7 @@ class CodeStepQuizFragment :
     override fun createStepQuizFormDelegate(): StepQuizFormDelegate {
         val codeLayoutDelegate = CodeLayoutDelegate(
             codeLayout = binding.codeStepLayout,
-            step = step,
-            initialCode = config.initialCode,
+            config = config,
             codeQuizInstructionDelegate = CodeQuizInstructionDelegate(
                 binding.codeStepSamples.root,
                 true,
@@ -96,7 +95,7 @@ class CodeStepQuizFragment :
         if (state is StepQuizFeature.State.AttemptLoaded) {
             val submission = (state.submissionState as? StepQuizFeature.SubmissionState.Loaded)
                 ?.submission
-            val replyCode = submission?.reply?.code
+            val replyCode = config.getCode(submission)
             val fullScreenFragment = childFragmentManager
                 .findFragmentByTag(CodeStepQuizFullScreenDialogFragment.TAG) as? CodeStepQuizFullScreenDialogFragment
             fullScreenFragment?.onNewCode(replyCode)
@@ -120,7 +119,6 @@ class CodeStepQuizFragment :
                 CodeStepQuizFullScreenDialogFragment.Params(
                     lang = lang,
                     code = code,
-                    initialCode = config.initialCode,
                     step = step,
                     isShowRetryButton = viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton.isVisible
                 )

@@ -1,5 +1,8 @@
 package org.hyperskill.app.android.step_quiz_code.view.model
 
+import org.hyperskill.app.android.step_quiz_code.view.model.config.CodeStepQuizConfig
+import org.hyperskill.app.android.step_quiz_code.view.model.config.CommonCodeQuizConfig
+import org.hyperskill.app.android.step_quiz_code.view.model.config.PycharmCodeQuizConfig
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
 

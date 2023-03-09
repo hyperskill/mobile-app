@@ -1,5 +1,6 @@
-package org.hyperskill.app.android.step_quiz_code.view.model
+package org.hyperskill.app.android.step_quiz_code.view.model.config
 
+import org.hyperskill.app.android.step_quiz_code.view.model.CodeDetail
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.pycharmCode
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
@@ -12,6 +13,9 @@ class PycharmCodeQuizConfig(private val step: Step) : CodeStepQuizConfig {
 
     override val initialCode: String =
         step.pycharmCode() ?: ""
+
+    override val codeDetails: List<CodeDetail> =
+        emptyList()
 
     override fun createReply(code: String?): Reply =
         Reply.pycharm(step = step, pycharmCode = code)
