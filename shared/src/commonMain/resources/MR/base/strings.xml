@@ -11,7 +11,7 @@
     <string name="ok">OK</string>
     <string name="later">Later</string>
     <string name="good_job">Good job!</string>
-    <string name="go_to_homescreen">Go to Homescreen</string>
+    <string name="go_to_homescreen">Go to home</string>
 
     <!-- Users list -->
     <string name="user_list_search_button_title">Search</string>
