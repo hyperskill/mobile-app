@@ -7,6 +7,7 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.code.view.widget.CodeEditorLayout
 import org.hyperskill.app.android.code.view.widget.withoutTextChangeCallback
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
+import org.hyperskill.app.android.step_quiz_code.view.model.CodeStepQuizConfig
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver

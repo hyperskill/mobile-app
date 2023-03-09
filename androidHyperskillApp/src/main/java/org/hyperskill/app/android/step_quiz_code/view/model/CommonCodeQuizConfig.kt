@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.step_quiz_code.view.delegate
+package org.hyperskill.app.android.step_quiz_code.view.model
 
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply

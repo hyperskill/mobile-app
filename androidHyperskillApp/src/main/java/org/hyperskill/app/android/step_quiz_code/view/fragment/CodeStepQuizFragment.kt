@@ -11,9 +11,9 @@ import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.fragment.DefaultStepQuizFragment
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeLayoutDelegate
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeQuizInstructionDelegate
-import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeStepQuizConfig
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeStepQuizFormDelegate
-import org.hyperskill.app.android.step_quiz_code.view.delegate.CommonCodeQuizConfig
+import org.hyperskill.app.android.step_quiz_code.view.model.CodeStepQuizConfig
+import org.hyperskill.app.android.step_quiz_code.view.model.CodeStepQuizConfigFactory
 import org.hyperskill.app.android.step_quiz_fullscreen_code.dialog.CodeStepQuizFullScreenDialogFragment
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -38,7 +38,7 @@ class CodeStepQuizFragment :
     private val binding get() = _binding!!
 
     private val config: CodeStepQuizConfig by lazy(LazyThreadSafetyMode.NONE) {
-        CommonCodeQuizConfig(step)
+        CodeStepQuizConfigFactory.create(step)
     }
 
     private var codeStepQuizFormDelegate: CodeStepQuizFormDelegate? = null
