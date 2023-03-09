@@ -53,7 +53,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
                 this.step = params.step
                 this.lang = params.lang
                 this.code = params.code
-                this.codeTemplates = params.codeTemplates
+                this.initialCode = params.initialCode
                 this.isShowRetryButton = params.isShowRetryButton
                 this.titleRes = params.titleRes
             }
@@ -83,7 +83,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
 
     private var lang: String by argument()
     private var code: String by argument()
-    private var codeTemplates: Map<String, String> by argument()
+    private var initialCode: String by argument()
     private var step: Step by argument(serializer = Step.serializer())
     private var isShowRetryButton: Boolean by argument()
     private var titleRes: Int by argument()
@@ -199,7 +199,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
         codeLayoutDelegate = CodeLayoutDelegate(
             codeLayout = codeLayout,
             step = step,
-            codeTemplates = codeTemplates,
+            initialCode = initialCode,
             codeQuizInstructionDelegate = CodeQuizInstructionDelegate(
                 instructionsLayout.findViewById(R.id.stepQuizCodeFullscreenInstructionDetails),
                 false,
@@ -266,7 +266,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
     }
 
     fun onNewCode(code: String?) {
-        this.code = code ?: codeTemplates[lang] ?: ""
+        this.code = code ?: initialCode
         codeLayoutDelegate.setLanguage(lang, code)
     }
 
@@ -372,7 +372,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
     data class Params(
         val lang: String,
         val code: String,
-        val codeTemplates: Map<String, String>,
+        val initialCode: String,
         val step: Step,
         val isShowRetryButton: Boolean
     ) {

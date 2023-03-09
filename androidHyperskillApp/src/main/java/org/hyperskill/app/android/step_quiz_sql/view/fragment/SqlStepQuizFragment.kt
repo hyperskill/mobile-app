@@ -69,12 +69,13 @@ class SqlStepQuizFragment : DefaultStepQuizFragment(), CodeStepQuizFullScreenDia
     }
 
     private fun onFullScreenClicked(lang: String, code: String?) {
+        val initialCode = getSqlCodeTemplate(step)
         CodeStepQuizFullScreenDialogFragment
             .newInstance(
                 CodeStepQuizFullScreenDialogFragment.Params(
                     lang = lang,
-                    code = code ?: getSqlCodeTemplate(step),
-                    codeTemplates = step.block.options.codeTemplates ?: emptyMap(),
+                    code = code ?: initialCode,
+                    initialCode = initialCode,
                     step = step,
                     isShowRetryButton = viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton.isVisible
                 )

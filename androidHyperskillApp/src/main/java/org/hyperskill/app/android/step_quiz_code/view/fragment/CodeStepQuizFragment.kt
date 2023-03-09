@@ -11,9 +11,10 @@ import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.fragment.DefaultStepQuizFragment
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeLayoutDelegate
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeQuizInstructionDelegate
+import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeStepQuizConfig
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeStepQuizFormDelegate
+import org.hyperskill.app.android.step_quiz_code.view.delegate.CommonCodeQuizConfig
 import org.hyperskill.app.android.step_quiz_fullscreen_code.dialog.CodeStepQuizFullScreenDialogFragment
-import org.hyperskill.app.step.domain.model.Block
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
@@ -36,11 +37,11 @@ class CodeStepQuizFragment :
     private var _binding: LayoutStepQuizCodeBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var codeOptions: Block.Options
+    private val config: CodeStepQuizConfig by lazy(LazyThreadSafetyMode.NONE) {
+        CommonCodeQuizConfig(step)
+    }
 
     private var codeStepQuizFormDelegate: CodeStepQuizFormDelegate? = null
-
-    private lateinit var langName: String
 
     override val quizViews: Array<View>
         get() = arrayOf(binding.stepQuizCodeContainer)
@@ -65,13 +66,10 @@ class CodeStepQuizFragment :
     }
 
     override fun createStepQuizFormDelegate(): StepQuizFormDelegate {
-        codeOptions = step.block.options
-        langName = codeOptions.limits!!.keys.first()
-
         val codeLayoutDelegate = CodeLayoutDelegate(
             codeLayout = binding.codeStepLayout,
             step = step,
-            codeTemplates = codeOptions.codeTemplates!!,
+            initialCode = config.initialCode,
             codeQuizInstructionDelegate = CodeQuizInstructionDelegate(
                 binding.codeStepSamples.root,
                 true,
@@ -84,9 +82,8 @@ class CodeStepQuizFragment :
 
         val codeStepQuizFormDelegate = CodeStepQuizFormDelegate(
             codeLayout = binding.codeStepLayout,
-            langName = langName,
-            initialCode = codeOptions.codeTemplates?.get(langName) ?: "",
             codeLayoutDelegate = codeLayoutDelegate,
+            codeStepQuizConfig = config,
             onFullscreenClicked = ::onFullScreenClicked,
             onQuizChanged = ::syncReplyState
         )
@@ -117,13 +114,13 @@ class CodeStepQuizFragment :
         onRetryButtonClicked()
     }
 
-    private fun onFullScreenClicked(lang: String, code: String?) {
+    private fun onFullScreenClicked(lang: String, code: String) {
         CodeStepQuizFullScreenDialogFragment
             .newInstance(
                 CodeStepQuizFullScreenDialogFragment.Params(
                     lang = lang,
-                    code = code ?: codeOptions.codeTemplates?.get(lang) ?: "",
-                    codeTemplates = codeOptions.codeTemplates!!,
+                    code = code,
+                    initialCode = config.initialCode,
                     step = step,
                     isShowRetryButton = viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton.isVisible
                 )

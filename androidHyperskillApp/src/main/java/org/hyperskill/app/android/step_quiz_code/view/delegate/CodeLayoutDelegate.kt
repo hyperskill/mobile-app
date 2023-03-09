@@ -8,7 +8,7 @@ import org.hyperskill.app.step.domain.model.Step
 class CodeLayoutDelegate(
     private val codeLayout: CodeEditorLayout,
     private val step: Step,
-    private val codeTemplates: Map<String, String>,
+    private val initialCode: String,
     private val codeQuizInstructionDelegate: CodeQuizInstructionDelegate,
     private var codeToolbarAdapter: CodeToolbarAdapter?
 ) {
@@ -18,7 +18,7 @@ class CodeLayoutDelegate(
      */
     fun setLanguage(lang: String, code: String? = null) {
         codeLayout.langExtension = extensionForLanguage(lang)
-        codeLayout.setTextIfChanged(code ?: codeTemplates[lang] ?: "")
+        codeLayout.setTextIfChanged(code ?: initialCode)
         codeToolbarAdapter?.setLanguage(lang)
     }
 
