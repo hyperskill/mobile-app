@@ -22,7 +22,16 @@ struct ProfileView: View {
 
     var body: some View {
         ZStack {
-            UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
+            UIViewControllerEventsWrapper(
+                onViewDidAppear: { [weak viewModel] in
+                    guard let strongViewModel = viewModel else {
+                        return
+                    }
+
+                    strongViewModel.logViewedEvent()
+                    strongViewModel.determineCurrentNotificationPermissionStatus()
+                }
+            )
 
             BackgroundView(color: appearance.backgroundColor)
 
@@ -80,7 +89,7 @@ struct ProfileView: View {
 
             let viewData = viewModel.makeViewData(
                 profile: data.profile,
-                remindersState: data.dailyStudyRemindersState
+                dailyStudyRemindersState: data.dailyStudyRemindersState
             )
 
             ScrollView {
@@ -117,10 +126,9 @@ struct ProfileView: View {
                         isActivated: viewData.isDailyStudyRemindersEnabled,
                         selectedHour: viewData.dailyStudyRemindersStartHour,
                         onIsActivatedChanged: viewModel.setDailyStudyRemindersEnabled(_:),
-                        onSelectedHourChanged: viewModel.setDailyStudyRemindersStartHour(startHour:),
+                        onSelectedHourChanged: viewModel.setDailyStudyRemindersStartHour(_:),
                         onSelectedHourTapped: viewModel.logClickedDailyStudyRemindsTimeEvent
                     )
-                    .onAppear(perform: viewModel.determineCurrentNotificationPermissionStatus)
 
                     ProfileAboutView(
                         appearance: .init(cornerRadius: appearance.cornerRadius),
