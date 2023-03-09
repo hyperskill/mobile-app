@@ -35,7 +35,7 @@ class TextStepQuizFragment :
         get() = binding.stringStepQuizSkeleton.root
 
     override val descriptionBinding: LayoutStepQuizDescriptionBinding
-        get() = binding.codeStepDescription
+        get() = binding.stringStepDescription
 
     override fun createStepView(layoutInflater: LayoutInflater, parent: ViewGroup): View {
         val binding = LayoutStepQuizTextBinding.inflate(layoutInflater, parent, false).also {
