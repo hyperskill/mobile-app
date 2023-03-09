@@ -1,12 +1,12 @@
 package org.hyperskill.app.android.step_quiz_code.view.fragment
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.LayoutStepQuizCodeBinding
+import org.hyperskill.app.android.databinding.LayoutStepQuizDescriptionBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.fragment.DefaultStepQuizFragment
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeLayoutDelegate
@@ -48,11 +48,14 @@ class CodeStepQuizFragment :
     override val skeletonView: View
         get() = binding.stepQuizCodeSkeleton.root
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        _binding = LayoutStepQuizCodeBinding.inflate(LayoutInflater.from(requireContext()), viewBinding.root, false)
-        viewBinding.root.addView(binding.root)
+    override val descriptionBinding: LayoutStepQuizDescriptionBinding
+        get() = binding.codeStepDescription
 
-        super.onViewCreated(view, savedInstanceState)
+    override fun createStepView(layoutInflater: LayoutInflater, parent: ViewGroup): View {
+        val binding = LayoutStepQuizCodeBinding.inflate(layoutInflater, parent, false).also {
+            _binding = it
+        }
+        return binding.root
     }
 
     override fun onDestroyView() {
@@ -65,15 +68,12 @@ class CodeStepQuizFragment :
         codeOptions = step.block.options
         langName = codeOptions.limits!!.keys.first()
 
-        val codeDetailsView = (viewBinding.root.parent.parent as View).findViewById<View>(R.id.stepQuizCodeSamples)
-        codeDetailsView.isVisible = true
-
         val codeLayoutDelegate = CodeLayoutDelegate(
             codeLayout = binding.codeStepLayout,
             step = step,
             codeTemplates = codeOptions.codeTemplates!!,
             codeQuizInstructionDelegate = CodeQuizInstructionDelegate(
-                codeDetailsView,
+                binding.codeStepSamples.root,
                 true,
                 onDetailsIsExpandedStateChanged = {
                     logAnalyticEventMessage(StepQuizFeature.Message.ClickedCodeDetailsEventMessage)

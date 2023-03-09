@@ -1,7 +1,9 @@
 package org.hyperskill.app.android.step_quiz.view.fragment
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.app.NotificationManagerCompat
@@ -19,6 +21,7 @@ import org.hyperskill.app.android.core.extensions.checkNotificationChannelAvaila
 import org.hyperskill.app.android.core.view.ui.fragment.parentOfType
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
+import org.hyperskill.app.android.databinding.LayoutStepQuizDescriptionBinding
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
@@ -76,6 +79,7 @@ abstract class DefaultStepQuizFragment :
 
     protected abstract val quizViews: Array<View>
     protected abstract val skeletonView: View
+    protected abstract val descriptionBinding: LayoutStepQuizDescriptionBinding
 
     protected var step: Step by argument(serializer = Step.serializer())
     protected var stepRoute: StepRoute by argument(serializer = StepRoute.serializer())
@@ -94,10 +98,20 @@ abstract class DefaultStepQuizFragment :
         viewModelFactory = platformStepQuizComponent.reduxViewModelFactory
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    final override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewStateDelegate = StepQuizViewStateDelegateFactory.create(viewBinding, skeletonView, *quizViews)
-        stepQuizFeedbackBlocksDelegate = StepQuizFeedbackBlocksDelegate(requireContext(), viewBinding.stepQuizFeedbackBlocks)
+
+        val stepView = createStepView(LayoutInflater.from(requireContext()), viewBinding.root)
+        viewBinding.root.addView(stepView)
+
+        viewStateDelegate = StepQuizViewStateDelegateFactory.create(
+            fragmentStepQuizBinding = viewBinding,
+            descriptionBinding = descriptionBinding,
+            skeletonView = skeletonView,
+            quizViews = quizViews
+        )
+        stepQuizFeedbackBlocksDelegate =
+            StepQuizFeedbackBlocksDelegate(requireContext(), viewBinding.stepQuizFeedbackBlocks)
         stepQuizFormDelegate = createStepQuizFormDelegate().also { delegate ->
             delegate.customizeSubmissionButton(viewBinding.stepQuizButtons.stepQuizSubmitButton)
         }
@@ -162,6 +176,8 @@ abstract class DefaultStepQuizFragment :
         stepQuizFeedbackBlocksDelegate = null
         stepQuizFormDelegate = null
     }
+
+    protected abstract fun createStepView(layoutInflater: LayoutInflater, parent: ViewGroup): View
 
     protected abstract fun createStepQuizFormDelegate(): StepQuizFormDelegate
 
@@ -242,7 +258,9 @@ abstract class DefaultStepQuizFragment :
             .show()
     }
 
-    private fun requestSendDailyStudyRemindersPermission(action: StepQuizFeature.Action.ViewAction.RequestUserPermission) {
+    private fun requestSendDailyStudyRemindersPermission(
+        action: StepQuizFeature.Action.ViewAction.RequestUserPermission
+    ) {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(userPermissionRequestTextMapper?.getTitle(action.userPermissionRequest))
             .setMessage(userPermissionRequestTextMapper?.getMessage(action.userPermissionRequest))
@@ -291,14 +309,16 @@ abstract class DefaultStepQuizFragment :
         }
 
         if (state is StepQuizFeature.State.AttemptLoaded) {
-            viewBinding.stepQuizDescription.text =
+            descriptionBinding.stepQuizDescription.text =
                 stepQuizTitleMapper?.getStepQuizTitle(
                     blockName = step.block.name,
                     isMultipleChoice = state.attempt.dataset?.isMultipleChoice,
                     isCheckbox = state.attempt.dataset?.isCheckbox
                 )
             stepQuizFormDelegate?.setState(state)
-            stepQuizFeedbackBlocksDelegate?.setState(stepQuizFeedbackMapper.mapToStepQuizFeedbackState(step.block.name, state))
+            stepQuizFeedbackBlocksDelegate?.setState(
+                stepQuizFeedbackMapper.mapToStepQuizFeedbackState(step.block.name, state)
+            )
             viewBinding.stepQuizButtons.stepQuizSubmitButton.isEnabled = StepQuizResolver.isQuizEnabled(state)
 
             when (val submissionState = state.submissionState) {
@@ -324,7 +344,9 @@ abstract class DefaultStepQuizFragment :
 
                     val replyValidation = submissionState.replyValidation
                     if (replyValidation is ReplyValidationResult.Error) {
-                        stepQuizFeedbackBlocksDelegate?.setState(StepQuizFeedbackState.Validation(replyValidation.message))
+                        stepQuizFeedbackBlocksDelegate?.setState(
+                            StepQuizFeedbackState.Validation(replyValidation.message)
+                        )
                     }
                 }
                 is StepQuizFeature.SubmissionState.Empty -> {

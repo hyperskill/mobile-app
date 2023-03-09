@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -36,18 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="20dp"
-                android:paddingBottom="28dp"
                 android:visibility="gone"
-                />
-
-            <include
-                android:visibility="gone"
-                android:id="@+id/stepQuizCodeSamples"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                layout="@layout/layout_step_quiz_code_details"
-                tools:visibility="visible"
-                android:layout_marginBottom="20dp"
                 />
 
             <FrameLayout
@@ -55,11 +43,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                />
-
-            <include
-                layout="@layout/view_divider_vertical"
-                android:visibility="gone"
                 />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
