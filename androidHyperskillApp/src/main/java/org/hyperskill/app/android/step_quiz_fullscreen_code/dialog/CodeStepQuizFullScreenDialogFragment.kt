@@ -88,8 +88,9 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
     private var isShowRetryButton: Boolean by argument()
     private var titleRes: Int by argument()
 
-    private val config: CodeStepQuizConfig =
+    private val config: CodeStepQuizConfig by lazy(LazyThreadSafetyMode.NONE) {
         CodeStepQuizConfigFactory.create(step)
+    }
 
     private var stepQuizStatsTextMapper: StepQuizStatsTextMapper? = null
     private var latexWebView: LatexWebView? = null
