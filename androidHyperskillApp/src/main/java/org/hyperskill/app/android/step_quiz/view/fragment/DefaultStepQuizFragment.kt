@@ -19,6 +19,7 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.extensions.checkNotificationChannelAvailability
 import org.hyperskill.app.android.core.view.ui.fragment.parentOfType
+import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizDescriptionBinding
@@ -31,6 +32,7 @@ import org.hyperskill.app.android.step_quiz.view.dialog.CompletedStepOfTheDayDia
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizViewStateDelegateFactory
 import org.hyperskill.app.android.step_quiz.view.mapper.StepQuizFeedbackMapper
 import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
+import org.hyperskill.app.android.step_quiz_hints.fragment.StepQuizHintsFragment
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
@@ -46,6 +48,7 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizViewModel
 import org.hyperskill.app.step_quiz.view.mapper.StepQuizStatsTextMapper
 import org.hyperskill.app.step_quiz.view.mapper.StepQuizTitleMapper
 import org.hyperskill.app.step_quiz.view.mapper.StepQuizUserPermissionRequestTextMapper
+import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.app.presentation.redux.container.ReduxView
@@ -54,6 +57,10 @@ abstract class DefaultStepQuizFragment :
     Fragment(R.layout.fragment_step_quiz),
     ReduxView<StepQuizFeature.State, StepQuizFeature.Action.ViewAction>,
     StepCompletionView {
+
+    companion object {
+        private const val STEP_HINTS_FRAGMENT_TAG = "step_hints"
+    }
 
     private lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -313,6 +320,7 @@ abstract class DefaultStepQuizFragment :
                 stepQuizFeedbackBlocksDelegate?.setState(StepQuizFeedbackState.Unsupported)
             }
             is StepQuizFeature.State.AttemptLoaded -> {
+                setStepHintsFragment(step)
                 renderAttemptLoaded(state)
             }
             else -> {
@@ -366,6 +374,16 @@ abstract class DefaultStepQuizFragment :
             }
             is StepQuizFeature.SubmissionState.Empty -> {
                 stepQuizButtonsViewStateDelegate?.switchState(StepQuizButtonsState.Submit)
+            }
+        }
+    }
+
+    private fun setStepHintsFragment(step: Step) {
+        val isFeatureEnabled = StepQuizHintsFeature.isHintsFeatureAvailable(step)
+        viewBinding.stepQuizHints.isVisible = isFeatureEnabled
+        if (isFeatureEnabled) {
+            setChildFragment(R.id.stepQuizHints, STEP_HINTS_FRAGMENT_TAG) {
+                StepQuizHintsFragment.newInstance(step)
             }
         }
     }

@@ -2,7 +2,6 @@ package org.hyperskill.app.android.stage_implementation.view.fragment
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -17,13 +16,11 @@ import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step_content_text.view.fragment.TextStepContentFragment
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizFragmentFactory
-import org.hyperskill.app.android.step_quiz_hints.fragment.StepQuizHintsFragment
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step.presentation.StepViewModel
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
-import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -37,7 +34,6 @@ class StageStepWrapperFragment :
     companion object {
         private const val STEP_DESCRIPTION_FRAGMENT_TAG = "step_content"
         private const val STEP_QUIZ_FRAGMENT_TAG = "step_quiz"
-        private const val STEP_HINTS_FRAGMENT_TAG = "step_hints"
 
         fun newInstance(
             stepRoute: StepRoute,
@@ -107,7 +103,6 @@ class StageStepWrapperFragment :
                 ?.render(state.stepCompletionState.isPracticingLoading)
             initStepTheoryFragment(state.step)
             initStepQuizFragment(state.step, stepRoute)
-            initStepHintsFragment(state.step)
         }
     }
 
@@ -120,16 +115,6 @@ class StageStepWrapperFragment :
     private fun initStepQuizFragment(step: Step, stepRoute: StepRoute) {
         setChildFragment(R.id.stageQuizContainer, STEP_QUIZ_FRAGMENT_TAG) {
             StepQuizFragmentFactory.getQuizFragment(step, stepRoute)
-        }
-    }
-
-    private fun initStepHintsFragment(step: Step) {
-        val isFeatureEnabled = StepQuizHintsFeature.isHintsFeatureAvailable(step)
-        viewBinding.stageHints.isVisible = isFeatureEnabled
-        if (isFeatureEnabled) {
-            setChildFragment(R.id.stageHints, STEP_HINTS_FRAGMENT_TAG) {
-                StepQuizHintsFragment.newInstance(step)
-            }
         }
     }
 
