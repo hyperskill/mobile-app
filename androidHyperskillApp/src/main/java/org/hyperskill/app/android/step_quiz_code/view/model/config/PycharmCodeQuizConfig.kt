@@ -21,5 +21,5 @@ class PycharmCodeQuizConfig(private val step: Step) : CodeStepQuizConfig {
         Reply.pycharm(step = step, pycharmCode = code)
 
     override fun getCode(submission: Submission?): String =
-        submission?.reply?.pycharmCode() ?: ""
+        submission?.reply?.pycharmCode() ?: initialCode
 }
