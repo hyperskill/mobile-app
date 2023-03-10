@@ -189,7 +189,7 @@ struct StepQuizView: View {
         }()
 
         if submissionStatus == SubmissionStatus.wrong {
-            if quizType.isCodeOrSQL {
+            if quizType.isCodeRelated {
                 StepQuizActionButtons.retryLogoAndRunSolution(
                     retryButtonAction: viewModel.doQuizRetryAction,
                     runSolutionButtonState: .init(submissionStatus: submissionStatus),
@@ -224,7 +224,7 @@ struct StepQuizView: View {
                 .disabled(StepQuizResolver.shared.isQuizLoading(state: state))
             }
         } else {
-            if quizType.isCodeOrSQL {
+            if quizType.isCodeRelated {
                 StepQuizActionButtons.runSolution(
                     state: .init(submissionStatus: submissionStatus),
                     action: viewModel.doMainQuizAction

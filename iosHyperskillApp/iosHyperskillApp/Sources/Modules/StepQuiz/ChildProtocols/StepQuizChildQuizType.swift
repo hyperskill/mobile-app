@@ -14,7 +14,7 @@ enum StepQuizChildQuizType {
     case math
     case unsupported(blockName: String)
 
-    var isCodeOrSQL: Bool {
+    var isCodeRelated: Bool {
         switch self {
         case .code, .sql, .pycharm:
             return true
