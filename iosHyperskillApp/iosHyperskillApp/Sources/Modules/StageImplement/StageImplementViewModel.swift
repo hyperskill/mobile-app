@@ -34,33 +34,7 @@ final class StageImplementViewModel: FeatureViewModel<
         )
     }
 
-    func doDeprecatedButtonClicked() {
-        onNewMessage(StageImplementFeatureMessageProjectDeprecatedButtonClicked())
-    }
-
     func logViewedEvent() {
         onNewMessage(StageImplementFeatureMessageViewedEventMessage())
-    }
-}
-
-// MARK: - StageImplementViewModel: StageImplementUnsupportedModalViewControllerDelegate -
-
-extension StageImplementViewModel: StageImplementUnsupportedModalViewControllerDelegate {
-    func stageImplementUnsupportedModalViewControllerViewControllerDidAppear(
-        _ viewController: StageImplementUnsupportedModalViewController
-    ) {
-        onNewMessage(StageImplementFeatureMessageUnsupportedModalShownEventMessage())
-    }
-
-    func stageImplementUnsupportedModalViewControllerDidDisappear(
-        _ viewController: StageImplementUnsupportedModalViewController
-    ) {
-        onNewMessage(StageImplementFeatureMessageUnsupportedModalHiddenEventMessage())
-    }
-
-    func stageImplementUnsupportedModalViewControllerDidTapGoToHomescreenButton(
-        _ viewController: StageImplementUnsupportedModalViewController
-    ) {
-        onNewMessage(StageImplementFeatureMessageUnsupportedModalGoToHomeScreenClicked())
     }
 }

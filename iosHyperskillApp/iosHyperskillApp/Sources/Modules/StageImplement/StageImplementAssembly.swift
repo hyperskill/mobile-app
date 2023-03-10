@@ -23,12 +23,10 @@ final class StageImplementAssembly: UIKitAssembly {
         )
 
         let stackRouter = SwiftUIStackRouter()
-        let panModalPresenter = PanModalPresenter()
 
         let stageImplementView = StageImplementView(
             viewModel: stageImplementViewModel,
-            stackRouter: stackRouter,
-            panModalPresenter: panModalPresenter
+            stackRouter: stackRouter
         )
 
         let hostingController = StyledHostingController(
@@ -37,7 +35,6 @@ final class StageImplementAssembly: UIKitAssembly {
         )
 
         stackRouter.rootViewController = hostingController
-        panModalPresenter.rootViewController = hostingController
 
         return hostingController
     }
