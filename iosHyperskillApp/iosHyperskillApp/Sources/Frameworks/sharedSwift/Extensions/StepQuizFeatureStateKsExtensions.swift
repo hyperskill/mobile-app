@@ -10,6 +10,8 @@ extension StepQuizFeatureStateKs: Equatable {
             return true
         case (.networkError, .networkError):
             return true
+        case (.unsupported, .unsupported):
+            return true
         case (.attemptLoading(let lhsData), .attemptLoading(let rhsData)):
             return lhsData.isEqual(rhsData)
         case (.attemptLoaded(let lhsData), .attemptLoaded(let rhsData)):
@@ -53,6 +55,26 @@ extension StepQuizFeatureStateKs: Equatable {
         case (.idle, .attemptLoaded):
             return false
         case (.idle, .networkError):
+            return false
+        case (.attemptLoaded, .unsupported):
+            return false
+        case (.attemptLoading, .unsupported):
+            return false
+        case (.unsupported, .attemptLoaded):
+            return false
+        case (.unsupported, .attemptLoading):
+            return false
+        case (.unsupported, .idle):
+            return false
+        case (.unsupported, .loading):
+            return false
+        case (.unsupported, .networkError):
+            return false
+        case (.networkError, .unsupported):
+            return false
+        case (.loading, .unsupported):
+            return false
+        case (.idle, .unsupported):
             return false
         }
     }

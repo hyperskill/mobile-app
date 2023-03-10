@@ -41,6 +41,7 @@ object StepQuizResolver {
             StepQuizFeature.State.Idle -> false
             StepQuizFeature.State.Loading -> true
             StepQuizFeature.State.NetworkError -> false
+            StepQuizFeature.State.Unsupported -> false
         }
 
     fun isNeedRecreateAttemptForNewSubmission(step: Step): Boolean =
@@ -66,4 +67,20 @@ object StepQuizResolver {
 
     fun isQuizSupportable(step: Step): Boolean =
         BlockName.supportedBlocksNames.contains(step.block.name) && !step.isIdeRequired()
+
+    internal fun isIdeRequired(step: Step, submissionState: StepQuizFeature.SubmissionState): Boolean {
+        if (step.isIdeRequired()) {
+            return true
+        } else if (step.block.name == BlockName.PYCHARM) {
+            val reply = when (submissionState) {
+                is StepQuizFeature.SubmissionState.Empty -> submissionState.reply
+                is StepQuizFeature.SubmissionState.Loaded -> submissionState.submission.reply
+            } ?: return false
+
+            val visibleFilesCount = reply.solution?.count { it.isVisible } ?: 0
+
+            return visibleFilesCount > 1 || (visibleFilesCount <= 1 && reply.checkProfile?.isEmpty() == true)
+        }
+        return false
+    }
 }
