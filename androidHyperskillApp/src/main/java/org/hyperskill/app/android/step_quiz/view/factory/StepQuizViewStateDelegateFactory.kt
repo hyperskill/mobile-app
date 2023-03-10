@@ -16,8 +16,14 @@ object StepQuizViewStateDelegateFactory {
         ViewStateDelegate<StepQuizFeature.State>()
             .apply {
                 addState<StepQuizFeature.State.Idle>()
+                addState<StepQuizFeature.State.Unsupported>(
+                    fragmentStepQuizBinding.stepQuizFeedbackBlocks.root
+                )
                 addState<StepQuizFeature.State.Loading>(skeletonView, descriptionBinding.stepQuizDescriptionSkeleton)
-                addState<StepQuizFeature.State.AttemptLoading>(skeletonView, descriptionBinding.stepQuizDescriptionSkeleton)
+                addState<StepQuizFeature.State.AttemptLoading>(
+                    skeletonView,
+                    descriptionBinding.stepQuizDescriptionSkeleton
+                )
                 addState<StepQuizFeature.State.AttemptLoaded>(
                     fragmentStepQuizBinding.stepQuizFeedbackBlocks.root,
                     descriptionBinding.stepQuizDescription,

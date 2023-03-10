@@ -308,54 +308,66 @@ abstract class DefaultStepQuizFragment :
             }
         }
 
-        if (state is StepQuizFeature.State.AttemptLoaded) {
-            descriptionBinding.stepQuizDescription.text =
-                stepQuizTitleMapper?.getStepQuizTitle(
-                    blockName = step.block.name,
-                    isMultipleChoice = state.attempt.dataset?.isMultipleChoice,
-                    isCheckbox = state.attempt.dataset?.isCheckbox
-                )
-            stepQuizFormDelegate?.setState(state)
-            stepQuizFeedbackBlocksDelegate?.setState(
-                stepQuizFeedbackMapper.mapToStepQuizFeedbackState(step.block.name, state)
-            )
-            viewBinding.stepQuizButtons.stepQuizSubmitButton.isEnabled = StepQuizResolver.isQuizEnabled(state)
-
-            when (val submissionState = state.submissionState) {
-                is StepQuizFeature.SubmissionState.Loaded -> {
-                    val buttonsState = when (submissionState.submission.status) {
-                        SubmissionStatus.WRONG -> when {
-                            step.block.name == BlockName.CODE || step.block.name == BlockName.SQL ->
-                                StepQuizButtonsState.RetryLogoAndSubmit
-                            StepQuizResolver.isNeedRecreateAttemptForNewSubmission(step) ->
-                                StepQuizButtonsState.Retry
-                            else -> StepQuizButtonsState.Submit
-                        }
-                        SubmissionStatus.CORRECT -> {
-                            if (StepQuizResolver.isQuizRetriable(step)) {
-                                StepQuizButtonsState.RetryLogoAndContinue
-                            } else {
-                                StepQuizButtonsState.Continue
-                            }
-                        }
-                        else -> StepQuizButtonsState.Submit
-                    }
-                    stepQuizButtonsViewStateDelegate?.switchState(buttonsState)
-
-                    val replyValidation = submissionState.replyValidation
-                    if (replyValidation is ReplyValidationResult.Error) {
-                        stepQuizFeedbackBlocksDelegate?.setState(
-                            StepQuizFeedbackState.Validation(replyValidation.message)
-                        )
-                    }
-                }
-                is StepQuizFeature.SubmissionState.Empty -> {
-                    stepQuizButtonsViewStateDelegate?.switchState(StepQuizButtonsState.Submit)
-                }
+        when (state) {
+            StepQuizFeature.State.Unsupported -> {
+                stepQuizFeedbackBlocksDelegate?.setState(StepQuizFeedbackState.Unsupported)
+            }
+            is StepQuizFeature.State.AttemptLoaded -> {
+                renderAttemptLoaded(state)
+            }
+            else -> {
+                // no op
             }
         }
 
         onNewState(state)
+    }
+
+    private fun renderAttemptLoaded(state: StepQuizFeature.State.AttemptLoaded) {
+        descriptionBinding.stepQuizDescription.text =
+            stepQuizTitleMapper?.getStepQuizTitle(
+                blockName = step.block.name,
+                isMultipleChoice = state.attempt.dataset?.isMultipleChoice,
+                isCheckbox = state.attempt.dataset?.isCheckbox
+            )
+        stepQuizFormDelegate?.setState(state)
+        stepQuizFeedbackBlocksDelegate?.setState(
+            stepQuizFeedbackMapper.mapToStepQuizFeedbackState(step.block.name, state)
+        )
+        viewBinding.stepQuizButtons.stepQuizSubmitButton.isEnabled = StepQuizResolver.isQuizEnabled(state)
+
+        when (val submissionState = state.submissionState) {
+            is StepQuizFeature.SubmissionState.Loaded -> {
+                val buttonsState = when (submissionState.submission.status) {
+                    SubmissionStatus.WRONG -> when {
+                        step.block.name == BlockName.CODE || step.block.name == BlockName.SQL ->
+                            StepQuizButtonsState.RetryLogoAndSubmit
+                        StepQuizResolver.isNeedRecreateAttemptForNewSubmission(step) ->
+                            StepQuizButtonsState.Retry
+                        else -> StepQuizButtonsState.Submit
+                    }
+                    SubmissionStatus.CORRECT -> {
+                        if (StepQuizResolver.isQuizRetriable(step)) {
+                            StepQuizButtonsState.RetryLogoAndContinue
+                        } else {
+                            StepQuizButtonsState.Continue
+                        }
+                    }
+                    else -> StepQuizButtonsState.Submit
+                }
+                stepQuizButtonsViewStateDelegate?.switchState(buttonsState)
+
+                val replyValidation = submissionState.replyValidation
+                if (replyValidation is ReplyValidationResult.Error) {
+                    stepQuizFeedbackBlocksDelegate?.setState(
+                        StepQuizFeedbackState.Validation(replyValidation.message)
+                    )
+                }
+            }
+            is StepQuizFeature.SubmissionState.Empty -> {
+                stepQuizButtonsViewStateDelegate?.switchState(StepQuizButtonsState.Submit)
+            }
+        }
     }
 
     final override fun render(isPracticingLoading: Boolean) {
