@@ -12,6 +12,7 @@ import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStageStepWrapperBinding
 import org.hyperskill.app.android.step.view.delegate.StepDelegate
+import org.hyperskill.app.android.step.view.fragment.StepFragment
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step_content_text.view.fragment.TextStepContentFragment
@@ -26,6 +27,14 @@ import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
+/**
+ * A wrapper fragment around StepQuiz.
+ * Analog of [StepFragment] with special ui for StageImplementation.
+ * Able to launch only stepQuiz, not a stepTheory.
+ *
+ * Should not be used directly, only via [StageImplementationFragment]
+ */
+@Deprecated("Should not be used directly, only via StageImplementationFragment")
 class StageStepWrapperFragment :
     Fragment(R.layout.fragment_stage_step_wrapper),
     ReduxView<StepFeature.State, StepFeature.Action.ViewAction>,
@@ -35,6 +44,7 @@ class StageStepWrapperFragment :
         private const val STEP_DESCRIPTION_FRAGMENT_TAG = "step_content"
         private const val STEP_QUIZ_FRAGMENT_TAG = "step_quiz"
 
+        @Suppress("DEPRECATION")
         fun newInstance(
             stepRoute: StepRoute,
             navigationTitle: String,

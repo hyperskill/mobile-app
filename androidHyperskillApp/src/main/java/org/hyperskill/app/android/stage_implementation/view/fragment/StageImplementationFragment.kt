@@ -16,6 +16,9 @@ import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
+/**
+ * A main entry point for StageImplementation
+ */
 class StageImplementationFragment :
     Fragment(R.layout.fragment_stage_implementation),
     ReduxView<StageImplementFeature.ViewState, StageImplementFeature.Action.ViewAction> {
@@ -84,6 +87,7 @@ class StageImplementationFragment :
         // no op
     }
 
+    @Suppress("DEPRECATION")
     override fun render(state: StageImplementFeature.ViewState) {
         viewStateDelegate?.switchState(state)
         if (state is StageImplementFeature.ViewState.Content) {
