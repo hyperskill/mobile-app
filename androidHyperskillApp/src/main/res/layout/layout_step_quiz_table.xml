@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_marginVertical="20dp"
 
-    app:layout_constraintBottom_toTopOf="@id/stepQuizFeedbackBlocks"
+    app:layout_constraintBottom_toTopOf="@id/stepQuizStatistics"
 
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
