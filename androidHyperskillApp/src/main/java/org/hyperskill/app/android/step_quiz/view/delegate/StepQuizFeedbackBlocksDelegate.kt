@@ -44,11 +44,11 @@ class StepQuizFeedbackBlocksDelegate(
             )
         }
 
-        val evaluationDrawable = AnimationDrawable()
-        evaluationDrawable.addFrame(context.getDrawableCompat(R.drawable.ic_step_quiz_evaluation_frame_1), EVALUATION_FRAME_DURATION_MS)
-        evaluationDrawable.addFrame(context.getDrawableCompat(R.drawable.ic_step_quiz_evaluation_frame_2), EVALUATION_FRAME_DURATION_MS)
-        evaluationDrawable.addFrame(context.getDrawableCompat(R.drawable.ic_step_quiz_evaluation_frame_3), EVALUATION_FRAME_DURATION_MS)
-        evaluationDrawable.isOneShot = false
+        getEvaluationDrawable(context).let { evaluationDrawable ->
+            layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackEvaluation
+                .setCompoundDrawablesWithIntrinsicBounds(evaluationDrawable, null, null, null)
+            evaluationDrawable.start()
+        }
 
         with(layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackBody) {
             webViewClient =
@@ -82,4 +82,21 @@ class StepQuizFeedbackBlocksDelegate(
         layoutStepQuizFeedbackBlockBinding.stepQuizFeedback.isVisible = hint != null
         layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackBody.setText(hint)
     }
+
+    private fun getEvaluationDrawable(context: Context): AnimationDrawable =
+        AnimationDrawable().apply {
+            addFrame(
+                context.getDrawableCompat(R.drawable.ic_step_quiz_evaluation_frame_1),
+                EVALUATION_FRAME_DURATION_MS
+            )
+            addFrame(
+                context.getDrawableCompat(R.drawable.ic_step_quiz_evaluation_frame_2),
+                EVALUATION_FRAME_DURATION_MS
+            )
+            addFrame(
+                context.getDrawableCompat(R.drawable.ic_step_quiz_evaluation_frame_3),
+                EVALUATION_FRAME_DURATION_MS
+            )
+            isOneShot = false
+        }
 }
