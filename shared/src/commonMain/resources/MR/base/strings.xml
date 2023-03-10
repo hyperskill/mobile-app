@@ -142,6 +142,11 @@
 
     <!-- Stage implement -->
     <string name="stage_implement_title">Work on project. Stage %d/%d</string>
+    <string name="stage_implement_unsupported_modal_title">IDE required</string>
+    <string name="stage_implement_unsupported_modal_description">To proceed, you need an IDE. Please continue learning
+        on a computer.\n\nIf this is not an option for you right now, check out the available activities on your home
+        screen.
+    </string>
 
     <!-- Tab bar -->
     <string name="tab_bar_home_title">Home</string>

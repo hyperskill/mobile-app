@@ -109,8 +109,9 @@ struct DebugView: View {
             displayRestartApplicationAlert()
         case .openStep(let data):
             stackRouter.pushViewController(StepAssembly(stepRoute: data.stepRoute).makeModule())
-        case .openStageImplement:
-            break
+        case .openStageImplement(let data):
+            let assembly = StageImplementAssembly(projectID: data.projectId, stageID: data.stageId)
+            stackRouter.pushViewController(assembly.makeModule())
         }
     }
 

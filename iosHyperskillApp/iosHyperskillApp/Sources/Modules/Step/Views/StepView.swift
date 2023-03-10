@@ -4,9 +4,9 @@ import SwiftUI
 struct StepView: View {
     @StateObject var viewModel: StepViewModel
 
-    @StateObject var stackRouter: SwiftUIStackRouter
-    @StateObject var modalRouter: SwiftUIModalRouter
-    @StateObject var panModalPresenter: PanModalPresenter
+    @ObservedObject var stackRouter: SwiftUIStackRouter
+    @ObservedObject var modalRouter: SwiftUIModalRouter
+    @ObservedObject var panModalPresenter: PanModalPresenter
 
     var body: some View {
         ZStack {
@@ -51,7 +51,9 @@ struct StepView: View {
             )
         case .data(let data):
             buildContent(data: data)
-                .navigationTitle(data.step.title)
+                .if(!viewModel.isStageImplement) {
+                    $0.navigationTitle(data.step.title)
+                }
         }
     }
 

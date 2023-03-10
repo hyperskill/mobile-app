@@ -1,8 +1,8 @@
 import Foundation
 import shared
 
-extension AppFeatureStateKs: Equatable {
-    public static func == (lhs: AppFeatureStateKs, rhs: AppFeatureStateKs) -> Bool {
+extension StageImplementFeatureViewStateKs: Equatable {
+    public static func == (lhs: StageImplementFeatureViewStateKs, rhs: StageImplementFeatureViewStateKs) -> Bool {
         switch (lhs, rhs) {
         case (.idle, .idle):
             return true
@@ -10,31 +10,31 @@ extension AppFeatureStateKs: Equatable {
             return true
         case (.networkError, .networkError):
             return true
-        case (.ready(let lhsData), .ready(let rhsData)):
+        case (.content(let lhsData), .content(let rhsData)):
             return lhsData.isEqual(rhsData)
-        case (.ready, .idle):
+        case (.content, .idle):
             return false
-        case (.ready, .loading):
+        case (.content, .loading):
             return false
-        case (.ready, .networkError):
+        case (.content, .networkError):
+            return false
+        case (.networkError, .content):
             return false
         case (.networkError, .idle):
             return false
         case (.networkError, .loading):
             return false
-        case (.networkError, .ready):
+        case (.loading, .content):
             return false
         case (.loading, .idle):
             return false
         case (.loading, .networkError):
             return false
-        case (.loading, .ready):
+        case (.idle, .content):
             return false
         case (.idle, .loading):
             return false
         case (.idle, .networkError):
-            return false
-        case (.idle, .ready):
             return false
         }
     }
