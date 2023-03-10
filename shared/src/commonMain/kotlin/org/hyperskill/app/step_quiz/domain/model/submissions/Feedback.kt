@@ -26,4 +26,5 @@ data class FeedbackRejectedSubmission(
     val message: String = ""
 )
 
-fun FeedbackRejectedSubmission.formattedText(): String = "$title\n\n$message".trim()
+fun FeedbackRejectedSubmission.formattedText(): String =
+    "$title\n\n$message".trim()
