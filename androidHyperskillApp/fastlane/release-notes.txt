@@ -1,3 +1,5 @@
 What to Test:
 1. Fix streak freeze state synchronization ALTAPPS-567
 2. Android add reloadButton on ProblemOfDayCard ALTAPPS-523
+3. Daily-learning notifications toggle fix ALTAPPS-618
+4. Re-name Homescreen to Home ALTAPPS-641

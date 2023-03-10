@@ -1,2 +1,4 @@
 What to Test:
 1. Fix streak freeze state synchronization ALTAPPS-567
+2. Daily-learning notifications toggle fix ALTAPPS-618
+3. Re-name Homescreen to Home ALTAPPS-641
