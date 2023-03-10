@@ -7,7 +7,7 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
-import org.hyperskill.app.notification.data.extension.NotificationExtensions
+import org.hyperskill.app.notification.cache.NotificationCacheKeyValues
 import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
@@ -201,7 +201,7 @@ class StepQuizActionDispatcher(
                         if (action.isGranted) {
                             notificationInteractor.setDailyStudyRemindersEnabled(true)
                             notificationInteractor.setDailyStudyRemindersIntervalStartHour(
-                                NotificationExtensions.DAILY_REMINDERS_AFTER_STEP_SOLVED_START_HOUR
+                                NotificationCacheKeyValues.DAILY_STUDY_REMINDERS_START_HOUR_AFTER_STEP_SOLVED
                             )
                         } else {
                             notificationInteractor.setLastTimeUserAskedToEnableDailyReminders(

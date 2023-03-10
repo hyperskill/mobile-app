@@ -5,7 +5,8 @@ final class ProfileViewDataMapper {
     func mapProfileToViewData(
         _ profile: Profile,
         isDailyStudyRemindersEnabled: Bool,
-        dailyStudyRemindersStartHour: Int
+        dailyStudyRemindersStartHour: Int,
+        notificationPermissionStatus: NotificationPermissionStatus?
     ) -> ProfileViewData {
         let role = profile.isStaff ? Strings.Profile.roleStaff : Strings.Profile.roleLearner
 
@@ -58,6 +59,9 @@ final class ProfileViewDataMapper {
             return result
         }()
 
+        let isDailyStudyRemindersFullyEnabled =
+          isDailyStudyRemindersEnabled && notificationPermissionStatus?.isRegistered ?? false
+
         return ProfileViewData(
             avatarSource: profile.avatar.trimmedNonEmptyOrNil(),
             fullname: profile.fullname,
@@ -67,7 +71,7 @@ final class ProfileViewDataMapper {
             bio: profile.bio.trimmedNonEmptyOrNil(),
             experience: profile.experience.trimmedNonEmptyOrNil(),
             socialAccounts: socialAccounts,
-            isDailyStudyRemindersEnabled: isDailyStudyRemindersEnabled,
+            isDailyStudyRemindersEnabled: isDailyStudyRemindersFullyEnabled,
             dailyStudyRemindersStartHour: dailyStudyRemindersStartHour
         )
     }

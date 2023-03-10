@@ -1,13 +1,11 @@
 package org.hyperskill.app.android.profile.view.fragment
 
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.shawnlin.numberpicker.NumberPicker
 import org.hyperskill.app.android.HyperskillApp
-import org.hyperskill.app.android.R
 import org.hyperskill.app.android.notification.injection.PlatformNotificationComponent
 import org.hyperskill.app.android.view.base.ui.extension.TimeIntervalUtil
 import ru.nobird.android.view.base.ui.extension.resolveColorAttribute
@@ -29,11 +27,6 @@ class TimeIntervalPickerDialogFragment : DialogFragment() {
     private lateinit var picker: NumberPicker
 
     private lateinit var callback: Callback
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        platformNotificationComponent.notificationInteractor.setDailyStudyRemindersIntervalStartHour(picker.value)
-    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         picker = NumberPicker(context)
@@ -62,11 +55,5 @@ class TimeIntervalPickerDialogFragment : DialogFragment() {
             }
             .setNegativeButton(org.hyperskill.app.R.string.cancel, null)
             .create()
-    }
-
-    override fun onCancel(dialog: DialogInterface) {
-        super.onCancel(dialog)
-        // explicitly click Negative or cancel by back button || touch outside
-        callback.onTimeIntervalPicked(picker.value)
     }
 }
