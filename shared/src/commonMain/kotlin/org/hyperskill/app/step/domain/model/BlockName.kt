@@ -15,7 +15,7 @@ object BlockName {
     const val TEXT = "text"
     const val VIDEO = "video"
 
-    internal val codeRelatedBlocksNames: Set<String> =
+    val codeRelatedBlocksNames: Set<String> =
         setOf(CODE, PYCHARM, SQL)
 }
 

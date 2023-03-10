@@ -348,7 +348,7 @@ abstract class DefaultStepQuizFragment :
             is StepQuizFeature.SubmissionState.Loaded -> {
                 val buttonsState = when (submissionState.submission.status) {
                     SubmissionStatus.WRONG -> when {
-                        step.block.name == BlockName.CODE || step.block.name == BlockName.SQL ->
+                        step.block.name in BlockName.codeRelatedBlocksNames ->
                             StepQuizButtonsState.RetryLogoAndSubmit
                         StepQuizResolver.isNeedRecreateAttemptForNewSubmission(step) ->
                             StepQuizButtonsState.Retry
