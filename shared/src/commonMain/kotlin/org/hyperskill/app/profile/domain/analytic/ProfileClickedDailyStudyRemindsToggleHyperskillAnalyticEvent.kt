@@ -24,7 +24,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * ```
  * @see HyperskillAnalyticEvent
  */
-class ProfileClickedDailyStudyRemindsHyperskillAnalyticEvent(
+class ProfileClickedDailyStudyRemindsToggleHyperskillAnalyticEvent(
     val isEnabled: Boolean
 ) : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Profile(),

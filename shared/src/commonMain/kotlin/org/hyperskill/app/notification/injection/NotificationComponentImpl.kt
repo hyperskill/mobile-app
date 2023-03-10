@@ -15,5 +15,9 @@ class NotificationComponentImpl(appGraph: AppGraph) : NotificationComponent {
         NotificationRepositoryImpl(notificationCacheDataSource)
 
     override val notificationInteractor: NotificationInteractor =
-        NotificationInteractor(notificationRepository, appGraph.submissionDataComponent.submissionRepository)
+        NotificationInteractor(
+            notificationRepository,
+            appGraph.submissionDataComponent.submissionRepository,
+            appGraph.notificationFlowDataComponent.dailyStudyRemindersEnabledFlow
+        )
 }
