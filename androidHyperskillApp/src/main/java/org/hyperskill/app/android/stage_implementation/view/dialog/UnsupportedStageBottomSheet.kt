@@ -18,10 +18,14 @@ import org.hyperskill.app.android.databinding.FragmentUnsupportedStageBinding
 
 class UnsupportedStageBottomSheet : BottomSheetDialogFragment() {
 
+    @Suppress("unused")
     companion object {
         const val TAG: String = "UnsupportedStageBottomSheet"
 
-        fun newInstance(): UnsupportedStageBottomSheet =
+        /**
+         * Caller should implement [Callback] interface.
+         */
+        fun Callback.newInstance(): UnsupportedStageBottomSheet =
             UnsupportedStageBottomSheet()
     }
 
@@ -37,7 +41,7 @@ class UnsupportedStageBottomSheet : BottomSheetDialogFragment() {
             dialog.setOnShowListener {
                 dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
                 if (savedInstanceState == null) {
-                    onNewMessage(/*TODO: Add onShowMessage, see ALTAPPS-635*/)
+                    (parentFragment as? Callback)?.onShow()
                 }
             }
         }
@@ -57,17 +61,21 @@ class UnsupportedStageBottomSheet : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewBinding.unsupportedStageGoHomeButton.setOnClickListener {
-            onNewMessage(/*TODO: Add onHomeButtonCLicked message, see ALTAPPS-635*/)
+            (parentFragment as? Callback)?.onHomeClick()
         }
     }
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        onNewMessage(/*TODO: Add onHiddenMessage, see ALTAPPS-635*/)
+        (parentFragment as? Callback)?.onDismiss()
     }
 
-    private fun onNewMessage() {
-        TODO("onNewMessage is not implemented yet")
+    interface Callback {
+        fun onShow()
+
+        fun onDismiss()
+
+        fun onHomeClick()
     }
 }
 
