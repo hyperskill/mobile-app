@@ -6,4 +6,6 @@ sealed class StepQuizFeedbackState {
     data class Wrong(val hint: String?) : StepQuizFeedbackState()
     object Evaluation : StepQuizFeedbackState()
     data class Validation(val message: String) : StepQuizFeedbackState()
+
+    data class RejectedSubmission(val message: String)  : StepQuizFeedbackState()
 }
