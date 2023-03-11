@@ -83,7 +83,7 @@ fun FindStage(
                 .padding(top = Dp(20f))
                 .height(dimensionResource(id = R.dimen.action_button_height))
         ) {
-            Text(text = stringResource(id = org.hyperskill.app.R.string.debug_menu_section_step_navigation_button_text))
+            Text(text = stringResource(id = org.hyperskill.app.R.string.debug_menu_section_stage_implement_button_text))
         }
     }
 }
