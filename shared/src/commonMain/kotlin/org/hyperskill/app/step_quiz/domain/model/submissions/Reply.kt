@@ -2,6 +2,7 @@ package org.hyperskill.app.step_quiz.domain.model.submissions
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import org.hyperskill.app.step.domain.model.Step
 
 /**
  * TODO: replace with a sealed hierarchy on mobile side to avoid invalid Reply state
@@ -29,11 +30,33 @@ data class Reply(
     @SerialName("files")
     val files: List<String>? = null,
     @SerialName("solve_sql")
-    val solveSql: String? = null
+    val solveSql: String? = null,
+    @SerialName("score")
+    val score: String? = null,
+    @SerialName("solution")
+    val solution: List<PyCharmFile>? = null,
+    @SerialName("check_profile")
+    val checkProfile: String? = null
 ) {
 
     companion object {
         fun sql(sqlCode: String?): Reply =
             Reply(solveSql = sqlCode)
+
+        fun pycharm(step: Step, pycharmCode: String?): Reply =
+            Reply(
+                score = "",
+                solution = step.block.options.files?.map { file ->
+                    PyCharmFile(
+                        name = file.name,
+                        isVisible = file.isVisible,
+                        text = if (file.isVisible) pycharmCode ?: "" else file.text
+                    )
+                },
+                checkProfile = step.checkProfile
+            )
     }
 }
+
+fun Reply.pycharmCode(): String? =
+    solution?.first { it.isVisible }?.text

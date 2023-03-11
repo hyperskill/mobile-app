@@ -1,32 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
+    android:orientation="vertical"
     android:layout_margin="20dp"
-
     app:layout_constraintVertical_bias="0"
-
     app:layout_constraintBottom_toTopOf="@id/stepQuizStatistics"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/stepQuizDescriptionBarrier">
+    app:layout_constraintTop_toBottomOf="@+id/stepQuizHints" >
+
+    <include
+        android:id="@+id/sortingStepDescription"
+        layout="@layout/layout_step_quiz_description"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="20dp"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/sortingRecycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        tools:listitem="@layout/item_step_quiz_sorting" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        tools:listitem="@layout/item_step_quiz_sorting"
+        />
 
     <include
-        android:layout_marginTop="4dp"
         android:id="@+id/sortingSkeleton"
         layout="@layout/layout_step_quiz_sorting_skeleton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"/>
 
-</FrameLayout>
+</LinearLayout>

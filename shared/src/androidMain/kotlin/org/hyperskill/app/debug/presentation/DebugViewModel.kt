@@ -29,4 +29,12 @@ class DebugViewModel(
     fun onStepIdChanged(stepId: String) {
         onNewMessage(Message.StepNavigationInputTextChanged(stepId))
     }
+
+    fun onFindStageInputChanged(projectId: String, stageId: String) {
+        onNewMessage(Message.StageImplementNavigationInputChanged(projectId = projectId, stageId = stageId))
+    }
+
+    fun onOpenStageClick() {
+        onNewMessage(Message.StageImplementNavigationOpenClicked)
+    }
 }

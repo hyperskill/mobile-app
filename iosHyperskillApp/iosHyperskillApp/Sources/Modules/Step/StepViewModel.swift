@@ -12,6 +12,8 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
 
     var stateKs: StepFeatureStateKs { .init(state) }
 
+    var isStageImplement: Bool { stepRoute is StepRouteStageImplement }
+
     init(
         stepRoute: StepRoute,
         viewDataMapper: StepViewDataMapper,

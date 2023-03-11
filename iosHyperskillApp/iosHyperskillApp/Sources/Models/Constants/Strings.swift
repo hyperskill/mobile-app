@@ -170,6 +170,15 @@ enum Strings {
         static let placeholder = sharedStrings.step_quiz_text_field_hint.localized()
     }
 
+    // MARK: - StageImplement -
+
+    enum StageImplement {
+        enum UnsupportedModal {
+            static let title = sharedStrings.stage_implement_unsupported_modal_title.localized()
+            static let description = sharedStrings.stage_implement_unsupported_modal_description.localized()
+        }
+    }
+
     // MARK: - Home -
 
     enum Home {
@@ -275,8 +284,18 @@ enum Strings {
         }
 
         enum StepNavigation {
+            static let headerTitle = sharedStrings.debug_menu_section_step_navigation_header_title.localized()
             static let textFieldTitle = sharedStrings.debug_menu_section_step_navigation_text_input_title.localized()
             static let buttonTitle = sharedStrings.debug_menu_section_step_navigation_button_text.localized()
+        }
+
+        enum StageImplement {
+            static let headerTitle = sharedStrings.debug_menu_section_stage_implement_header_title.localized()
+            static let projectIdTextFieldTitle =
+              sharedStrings.debug_menu_section_stage_implement_project_id_text_input_title.localized()
+            static let stageIdTextFieldTitle =
+              sharedStrings.debug_menu_section_stage_implement_stage_id_text_input_title.localized()
+            static let buttonTitle = sharedStrings.debug_menu_section_stage_implement_button_text.localized()
         }
 
         enum RestartApplication {

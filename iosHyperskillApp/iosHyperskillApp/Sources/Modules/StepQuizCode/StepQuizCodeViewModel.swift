@@ -10,7 +10,7 @@ class StepQuizCodeViewModel: ObservableObject {
 
     private let provideModuleInputCallback: (StepQuizChildQuizInputProtocol?) -> Void
 
-    private let step: Step
+    let step: Step
     private let dataset: Dataset
     private let reply: Reply?
 

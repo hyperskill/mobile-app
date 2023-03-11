@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -38,7 +40,11 @@ fun DebugScreen(viewModel: DebugViewModel) {
                 isApplyEndpointButtonVisible = state.isApplySettingsButtonAvailable,
                 onApplyEndpointClick = viewModel::onApplyConfigClicked,
                 onOpenStepClick = viewModel::onOpenStepClicked,
-                onStepIdChanged = viewModel::onStepIdChanged
+                onStepIdChanged = viewModel::onStepIdChanged,
+                onFindStageInputChanged = { input ->
+                    viewModel.onFindStageInputChanged(projectId = input.projectId, stageId = input.stageId)
+                },
+                onOpenStageClick = viewModel::onOpenStageClick
             )
         }
         DebugFeature.ViewState.Error,
@@ -57,10 +63,15 @@ fun DebugScreen(
     isApplyEndpointButtonVisible: Boolean,
     onApplyEndpointClick: () -> Unit,
     onOpenStepClick: () -> Unit,
-    onStepIdChanged: (String) -> Unit
+    onStepIdChanged: (String) -> Unit,
+    onFindStageInputChanged: (FindStageInput) -> Unit,
+    onOpenStageClick: () -> Unit
 ) {
+    val scrollState = rememberScrollState()
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(scrollState)
     ) {
         TopAppBar(
             title = {
@@ -83,6 +94,7 @@ fun DebugScreen(
                 onApplyClick = onApplyEndpointClick
             )
             FindStep(onApplyClick = onOpenStepClick, onStepIdChanged = onStepIdChanged)
+            FindStage(onInputChanged = onFindStageInputChanged, onApplyClick = onOpenStageClick)
         }
     }
 }
@@ -103,7 +115,9 @@ fun DebugScreenPreview() {
             onOpenStepClick = {},
             onStepIdChanged = {},
             onApplyEndpointClick = {},
-            isApplyEndpointButtonVisible = true
+            isApplyEndpointButtonVisible = true,
+            onFindStageInputChanged = {},
+            onOpenStageClick = {}
         )
     }
 }

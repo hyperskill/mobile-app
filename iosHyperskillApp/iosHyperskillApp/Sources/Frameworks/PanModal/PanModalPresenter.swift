@@ -4,16 +4,21 @@ import PanModal
 final class PanModalPresenter: ObservableObject {
     private let sourcelessRouter: SourcelessRouter
 
-    init(sourcelessRouter: SourcelessRouter = SourcelessRouter()) {
+    weak var rootViewController: UIViewController?
+
+    init(sourcelessRouter: SourcelessRouter = SourcelessRouter(), rootViewController: UIViewController? = nil) {
         self.sourcelessRouter = sourcelessRouter
+        self.rootViewController = rootViewController
     }
 
     func presentPanModal(_ panModal: PanModalPresentableViewController) {
-        guard let currentPresentedViewController = sourcelessRouter.currentPresentedViewController() else {
-            return
+        let presentationViewController = rootViewController ?? sourcelessRouter.currentPresentedViewController()
+
+        guard let presentationViewController else {
+            return assertionFailure("PanModalPresenter :: presentationViewController is nil")
         }
 
-        currentPresentedViewController.presentIfPanModalWithCustomModalPresentationStyle(panModal)
+        presentationViewController.presentIfPanModalWithCustomModalPresentationStyle(panModal)
     }
 
     @discardableResult

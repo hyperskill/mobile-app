@@ -14,6 +14,7 @@ extension Step {
         isCompleted: Bool = false,
         isNext: Bool = false,
         canSkip: Bool = true,
+        checkProfile: String = "",
         secondsToComplete: Float? = nil,
         lastCompletedAt: Kotlinx_datetimeInstant = .fromSwiftCurrentDate()
     ) {
@@ -29,6 +30,7 @@ extension Step {
             isCompleted: isCompleted,
             isNext: isNext,
             canSkip: canSkip,
+            checkProfile: checkProfile,
             secondsToComplete: secondsToComplete != nil ? KotlinFloat(value: secondsToComplete.require()) : nil,
             lastCompletedAt: lastCompletedAt
         )

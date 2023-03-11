@@ -1,35 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/stepQuizChoiceContainer"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="8dp"
-
-    android:layout_marginBottom="20dp"
+    android:orientation="vertical"
+    android:layout_marginVertical="20dp"
     app:layout_constraintBottom_toTopOf="@id/stepQuizStatistics"
-    app:layout_constraintTop_toBottomOf="@+id/stepQuizDescriptionBarrier"
+    app:layout_constraintTop_toBottomOf="@+id/stepQuizHints"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-
     app:layout_constraintVertical_bias="0">
+
+    <include
+        android:id="@+id/stepQuizChoiceDescription"
+        layout="@layout/layout_step_quiz_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="4dp"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/stepQuizChoiceRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        tools:listitem="@layout/item_step_quiz_single_choice" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        tools:listitem="@layout/item_step_quiz_single_choice"
+        android:layout_marginHorizontal="8dp"
+        />
 
     <include
-        android:layout_marginTop="8dp"
-        android:layout_marginHorizontal="12dp"
+        android:id="@+id/stepQuizChoiceSkeleton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        layout="@layout/layout_step_quiz_choice_skeleton"
+        android:layout_marginTop="8dp"
+        android:layout_marginHorizontal="8dp"
         app:layout_constraintTop_toBottomOf="@+id/stepQuizDescriptionSkeleton"
-        android:id="@+id/stepQuizChoiceSkeleton"
-        layout="@layout/layout_step_quiz_choice_skeleton" />
+        />
 
-</FrameLayout>
+</LinearLayout>

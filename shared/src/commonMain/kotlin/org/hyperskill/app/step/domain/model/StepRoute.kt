@@ -15,6 +15,7 @@ sealed interface StepRoute {
         @Transient
         override val analyticRoute: HyperskillAnalyticRoute =
             HyperskillAnalyticRoute.Learn.Step(stepId)
+
         @Transient
         override val stepContext: StepContext =
             StepContext.DEFAULT
@@ -25,6 +26,7 @@ sealed interface StepRoute {
         @Transient
         override val analyticRoute: HyperskillAnalyticRoute =
             HyperskillAnalyticRoute.Learn.Daily(stepId)
+
         @Transient
         override val stepContext: StepContext =
             StepContext.DEFAULT
@@ -35,8 +37,24 @@ sealed interface StepRoute {
         @Transient
         override val analyticRoute: HyperskillAnalyticRoute =
             HyperskillAnalyticRoute.Repeat.Step(stepId)
+
         @Transient
         override val stepContext: StepContext =
             StepContext.REPETITION
+    }
+
+    @Serializable
+    class StageImplement(
+        override val stepId: Long,
+        val projectId: Long,
+        val stageId: Long,
+    ) : StepRoute {
+        @Transient
+        override val analyticRoute: HyperskillAnalyticRoute =
+            HyperskillAnalyticRoute.Projects.Stages.Implement(projectId, stageId)
+
+        @Transient
+        override val stepContext: StepContext =
+            StepContext.DEFAULT
     }
 }
