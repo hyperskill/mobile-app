@@ -50,8 +50,8 @@ class UnsupportedStageBottomSheet : BottomSheetDialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.wrapWithTheme(requireActivity())
+    ): View? =
+        inflater.wrapWithTheme(requireActivity())
             .inflate(
                 R.layout.fragment_unsupported_stage,
                 container,
