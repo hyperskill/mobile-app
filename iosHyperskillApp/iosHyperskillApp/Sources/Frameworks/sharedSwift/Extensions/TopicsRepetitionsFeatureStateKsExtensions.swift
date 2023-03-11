@@ -1,7 +1,6 @@
 import Foundation
 import shared
 
-#warning("TODO: Replce with source code generator Sourcery")
 extension TopicsRepetitionsFeatureStateKs: Equatable {
     public static func == (lhs: TopicsRepetitionsFeatureStateKs, rhs: TopicsRepetitionsFeatureStateKs) -> Bool {
         switch (lhs, rhs) {

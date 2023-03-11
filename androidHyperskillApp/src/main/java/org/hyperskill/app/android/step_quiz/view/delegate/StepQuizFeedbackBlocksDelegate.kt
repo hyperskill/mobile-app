@@ -24,22 +24,21 @@ class StepQuizFeedbackBlocksDelegate(
     init {
         with(viewStateDelegate) {
             addState<StepQuizFeedbackState.Idle>()
+            addState<StepQuizFeedbackState.Unsupported>(
+                layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackUnsupported
+            )
             addState<StepQuizFeedbackState.Evaluation>(
-                layoutStepQuizFeedbackBlockBinding.root,
                 layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackEvaluation
             )
             addState<StepQuizFeedbackState.Correct>(
-                layoutStepQuizFeedbackBlockBinding.root,
                 layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackCorrect,
                 layoutStepQuizFeedbackBlockBinding.stepQuizFeedback
             )
             addState<StepQuizFeedbackState.Wrong>(
-                layoutStepQuizFeedbackBlockBinding.root,
                 layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackWrong,
                 layoutStepQuizFeedbackBlockBinding.stepQuizFeedback
             )
             addState<StepQuizFeedbackState.Validation>(
-                layoutStepQuizFeedbackBlockBinding.root,
                 layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackValidation
             )
         }

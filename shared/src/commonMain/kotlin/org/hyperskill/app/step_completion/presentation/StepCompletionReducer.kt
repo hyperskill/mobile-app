@@ -92,6 +92,8 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                 } else {
                     null
                 }
+            // TODO: ALTAPPS-596: Project stage completion
+            // TODO: ALTAPPS-610: Progress page
             is Message.StepSolved ->
                 if (!state.isPracticingLoading &&
                     stepRoute is StepRoute.Learn &&

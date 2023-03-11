@@ -2,6 +2,7 @@ package org.hyperskill.app.debug.view
 
 import org.hyperskill.app.debug.domain.model.EndpointConfigType
 import org.hyperskill.app.debug.presentation.DebugFeature
+import org.hyperskill.app.debug.presentation.DebugFeature.ViewState.Content.NavigationInput
 
 internal object DebugViewStateMapper {
     fun mapState(state: DebugFeature.State): DebugFeature.ViewState =
@@ -13,9 +14,19 @@ internal object DebugViewStateMapper {
                 DebugFeature.ViewState.Content(
                     availableEndpointConfigs = EndpointConfigType.values().toList(),
                     selectedEndpointConfig = state.selectedEndpointConfig,
-                    stepNavigationInputText = state.stepNavigationInputText,
-                    isStepNavigationOpenButtonEnabled = state.stepNavigationInputText.isNotBlank(),
-                    isApplySettingsButtonAvailable = state.selectedEndpointConfig != state.currentEndpointConfig
+                    isApplySettingsButtonAvailable = state.selectedEndpointConfig != state.currentEndpointConfig,
+                    navigationInput = NavigationInput(
+                        step = NavigationInput.Step(
+                            stepId = state.navigationInput.stepId,
+                            isOpenEnabled = state.navigationInput.stepId.isNotBlank()
+                        ),
+                        stageImplement = NavigationInput.StageImplement(
+                            projectId = state.navigationInput.stageImplement.projectId,
+                            stageId = state.navigationInput.stageImplement.stageId,
+                            isOpenEnabled = state.navigationInput.stageImplement.projectId.isNotBlank() &&
+                                state.navigationInput.stageImplement.stageId.isNotBlank()
+                        )
+                    )
                 )
             }
         }

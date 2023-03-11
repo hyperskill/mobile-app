@@ -10,7 +10,8 @@ extension Block.Options {
         executionMemoryLimit: Int? = nil,
         limits: [String: Limit]? = nil,
         codeTemplates: [String: String]? = nil,
-        samples: [[String]]? = nil
+        samples: [[String]]? = nil,
+        files: [Block.OptionsFile]? = nil
     ) {
         let isMultipleChoice: KotlinBoolean? = {
             if let isMultipleChoice = isMultipleChoice {
@@ -48,7 +49,8 @@ extension Block.Options {
             executionMemoryLimit: executionMemoryLimit,
             limits: limits,
             codeTemplates: codeTemplates,
-            samples: samples
+            samples: samples,
+            files: files
         )
     }
 }

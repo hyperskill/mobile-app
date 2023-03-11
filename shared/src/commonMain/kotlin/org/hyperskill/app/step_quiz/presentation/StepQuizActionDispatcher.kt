@@ -82,7 +82,7 @@ class StepQuizActionDispatcher(
                     .fold(
                         onSuccess = { attempt ->
                             val message = getSubmissionState(attempt.id, action.step.id, currentProfile.id).fold(
-                                onSuccess = { Message.FetchAttemptSuccess(action.step, attempt, it, currentProfile) },
+                                onSuccess = { Message.FetchAttemptSuccess(action.step, attempt, it) },
                                 onFailure = {
                                     Message.FetchAttemptError(it)
                                 }
@@ -100,13 +100,6 @@ class StepQuizActionDispatcher(
                 onNewMessage(message)
             }
             is Action.CreateAttempt -> {
-                val currentProfile = profileInteractor
-                    .getCurrentProfile(sourceType = DataSourceType.CACHE)
-                    .getOrElse {
-                        onNewMessage(Message.CreateAttemptError)
-                        return
-                    }
-
                 if (StepQuizResolver.isNeedRecreateAttemptForNewSubmission(action.step)) {
                     val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepQuizCreateAttempt()
                     sentryInteractor.startTransaction(sentryTransaction)
@@ -126,8 +119,7 @@ class StepQuizActionDispatcher(
                                         attempt = it,
                                         submissionState = StepQuizFeature.SubmissionState.Empty(
                                             reply = if (action.shouldResetReply) null else reply
-                                        ),
-                                        currentProfile = currentProfile
+                                        )
                                     )
                                 )
                             },
@@ -151,7 +143,7 @@ class StepQuizActionDispatcher(
                         ?.let { StepQuizFeature.SubmissionState.Loaded(it) }
                         ?: StepQuizFeature.SubmissionState.Empty()
 
-                    onNewMessage(Message.CreateAttemptSuccess(action.step, action.attempt, submissionState, currentProfile))
+                    onNewMessage(Message.CreateAttemptSuccess(action.step, action.attempt, submissionState))
                 }
             }
             is Action.CreateSubmissionValidateReply -> {
