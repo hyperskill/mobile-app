@@ -5,6 +5,7 @@ actual val BlockName.supportedBlocksNames: Set<String>
         CHOICE,
         CODE,
         SQL,
+        PYCHARM,
         MATCHING,
         SORTING,
         TABLE,

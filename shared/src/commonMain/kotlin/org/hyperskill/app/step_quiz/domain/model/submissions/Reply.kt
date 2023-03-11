@@ -57,3 +57,6 @@ data class Reply(
             )
     }
 }
+
+fun Reply.pycharmCode(): String? =
+    solution?.first { it.isVisible }?.text

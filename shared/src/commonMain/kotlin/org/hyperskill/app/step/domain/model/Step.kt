@@ -61,3 +61,6 @@ internal fun Step.isIdeRequired(): Boolean {
 
     return visibleFilesCount > 1 || (visibleFilesCount <= 1 && checkProfile.isEmpty())
 }
+
+fun Step.pycharmCode(): String? =
+    block.options.files?.first { it.isVisible }?.text

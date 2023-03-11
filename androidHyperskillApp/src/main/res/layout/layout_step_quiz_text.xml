@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:layout_margin="20dp"
-
-    app:layout_constraintBottom_toTopOf="@+id/stepQuizFeedbackBlocks"
+    app:layout_constraintBottom_toTopOf="@id/stepQuizFeedbackBlocks"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/stepQuizDescriptionBarrier"
-
+    app:layout_constraintTop_toBottomOf="@+id/stepQuizHints"
     app:layout_constraintVertical_bias="0">
+
+    <include
+        android:id="@+id/stringStepDescription"
+        layout="@layout/layout_step_quiz_description"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="20dp"
+        />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/stringStepQuizField"
         style="@style/Widget.AppTheme.TextInputLayouts.InputText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-
         app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
-
             android:id="@+id/stringStepQuizFieldEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:fontFamily="@font/roboto"
-
             android:gravity="start"
 
             android:hint="@string/step_quiz_text_field_hint"
@@ -46,6 +47,7 @@
         android:id="@+id/stringStepQuizSkeleton"
         layout="@layout/layout_step_quiz_text_skeleton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        />
 
-</FrameLayout>
+</LinearLayout>
