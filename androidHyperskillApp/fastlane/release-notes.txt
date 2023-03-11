@@ -5,3 +5,4 @@ What to Test:
 4. Re-name Homescreen to Home ALTAPPS-641
 5. Sorting problem overlays step stats ALTAPPS-636
 6. Evaluation animation is no working ALTAPPS-640
+7. Stage implementation ALTAPPS-632
