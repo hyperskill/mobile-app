@@ -101,7 +101,9 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
 
 extension HomeViewModel: ProblemOfDayOutputProtocol {
     func handleProblemOfDayReloadRequested() {
-        doLoadContent(forceUpdate: true)
+        onNewMessage(
+            HomeFeatureMessageClickedProblemOfDayCardReload()
+        )
     }
 
     func handleProblemOfDayOpenStepRequested(stepID: Int) {

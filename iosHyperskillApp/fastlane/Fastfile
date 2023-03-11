@@ -1,4 +1,4 @@
-fastlane_version "2.212.0"
+fastlane_version "2.212.1"
 
 default_platform(:ios)
 
@@ -211,7 +211,6 @@ platform :ios do
       skip_archive: true,
       skip_codesigning: true,
       suppress_xcode_output: false,
-      build_timing_summary: true,
     )
 
     vs = make_version_string(

@@ -9,10 +9,12 @@ class ProfileComponentImpl(private val appGraph: AppGraph) : ProfileComponent {
         get() = ProfileFeatureBuilder.build(
             appGraph.buildProfileDataComponent().profileInteractor,
             appGraph.buildStreaksDataComponent().streaksInteractor,
-            appGraph.streakFlowDataComponent.streakFlow,
             appGraph.buildProductsDataComponent().productsInteractor,
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor,
-            appGraph.buildMagicLinksDataComponent().urlPathProcessor
+            appGraph.buildNotificationComponent().notificationInteractor,
+            appGraph.buildMagicLinksDataComponent().urlPathProcessor,
+            appGraph.streakFlowDataComponent.streakFlow,
+            appGraph.notificationFlowDataComponent.dailyStudyRemindersEnabledFlow
         )
 }

@@ -36,6 +36,8 @@ import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.network.injection.NetworkComponentImpl
 import org.hyperskill.app.notification.injection.NotificationComponent
 import org.hyperskill.app.notification.injection.NotificationComponentImpl
+import org.hyperskill.app.notification.injection.NotificationFlowDataComponent
+import org.hyperskill.app.notification.injection.NotificationFlowDataComponentImpl
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponentImpl
 import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponent
@@ -137,6 +139,9 @@ class AppGraphImpl(
 
     override val progressesFlowDataComponent: ProgressesFlowDataComponent =
         ProgressesFlowDataComponentImpl()
+
+    override val notificationFlowDataComponent: NotificationFlowDataComponent =
+        NotificationFlowDataComponentImpl()
 
     override val sentryComponent: SentryComponent =
         SentryComponentImpl(sentryManager)
