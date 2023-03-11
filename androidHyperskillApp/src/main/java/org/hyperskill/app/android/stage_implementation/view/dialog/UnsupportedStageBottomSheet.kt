@@ -57,7 +57,6 @@ class UnsupportedStageBottomSheet : BottomSheetDialogFragment() {
                 container,
                 false
             )
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewBinding.unsupportedStageGoHomeButton.setOnClickListener {
