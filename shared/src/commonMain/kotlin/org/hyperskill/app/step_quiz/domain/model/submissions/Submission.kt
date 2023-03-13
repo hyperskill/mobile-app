@@ -21,7 +21,7 @@ data class Submission(
     @SerialName("reply")
     val reply: Reply? = null,
     @SerialName("attempt")
-    val attempt: Long = 0
-//    @SerialName("feedback")
-//    val feedback: Feedback? = null
+    val attempt: Long = 0,
+    @SerialName("feedback")
+    val feedback: Feedback? = null
 )

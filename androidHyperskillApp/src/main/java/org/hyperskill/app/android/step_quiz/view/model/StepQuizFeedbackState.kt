@@ -8,4 +8,6 @@ sealed class StepQuizFeedbackState {
     data class Validation(val message: String) : StepQuizFeedbackState()
 
     object Unsupported : StepQuizFeedbackState()
+
+    data class RejectedSubmission(val message: String)  : StepQuizFeedbackState()
 }
