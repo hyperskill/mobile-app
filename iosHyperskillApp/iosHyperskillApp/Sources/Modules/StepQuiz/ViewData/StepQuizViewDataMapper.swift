@@ -12,6 +12,24 @@ final class StepQuizViewDataMapper {
     }
 
     func mapStepDataToViewData(step: Step, state: StepQuizFeatureState) -> StepQuizViewData {
+        let quizType: StepQuizChildQuizType = {
+            if state is StepQuizFeatureStateUnsupported {
+                return .unsupported(blockName: step.block.name)
+            }
+            return StepQuizChildQuizType(step: step)
+        }()
+
+        if case .unsupported = quizType {
+            return StepQuizViewData(
+                formattedStats: nil,
+                stepText: step.block.text,
+                quizType: quizType,
+                quizName: nil,
+                feedbackHintText: nil,
+                stepHasHints: false
+            )
+        }
+
         let formattedStats = stepQuizStatsTextMapper.getFormattedStepQuizStats(
             solvedByUsersCount: step.solvedBy,
             millisSinceLastCompleted: step.millisSinceLastCompleted
@@ -64,7 +82,7 @@ final class StepQuizViewDataMapper {
         return StepQuizViewData(
             formattedStats: formattedStats,
             stepText: step.block.text,
-            quizType: StepQuizChildQuizType(step: step),
+            quizType: quizType,
             quizName: quizName,
             feedbackHintText: feedbackHintText,
             stepHasHints: stepHasHints

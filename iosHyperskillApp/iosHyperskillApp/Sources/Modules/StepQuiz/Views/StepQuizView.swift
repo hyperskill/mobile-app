@@ -67,22 +67,24 @@ struct StepQuizView: View {
                 VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
                     if case .unsupported = viewData.quizType {
                         StepQuizStatusView(state: .unsupportedQuiz)
+
+                        StepTextView(text: viewData.stepText)
+                    } else {
+                        StepTextView(text: viewData.stepText)
+
+                        if viewData.stepHasHints {
+                            StepQuizHintsAssembly(stepID: viewModel.step.id).makeModule()
+                        }
+
+                        buildQuizContent(
+                            state: viewModel.state,
+                            step: viewModel.step,
+                            quizName: viewData.quizName,
+                            quizType: viewData.quizType,
+                            formattedStats: viewData.formattedStats,
+                            feedbackHintText: viewData.feedbackHintText
+                        )
                     }
-
-                    StepTextView(text: viewData.stepText)
-
-                    if viewData.stepHasHints {
-                        StepQuizHintsAssembly(stepID: viewModel.step.id).makeModule()
-                    }
-
-                    buildQuizContent(
-                        state: viewModel.state,
-                        step: viewModel.step,
-                        quizName: viewData.quizName,
-                        quizType: viewData.quizType,
-                        formattedStats: viewData.formattedStats,
-                        feedbackHintText: viewData.feedbackHintText
-                    )
                 }
                 .padding()
             }
@@ -187,7 +189,7 @@ struct StepQuizView: View {
         }()
 
         if submissionStatus == SubmissionStatus.wrong {
-            if quizType.isCodeOrSQL {
+            if quizType.isCodeRelated {
                 StepQuizActionButtons.retryLogoAndRunSolution(
                     retryButtonAction: viewModel.doQuizRetryAction,
                     runSolutionButtonState: .init(submissionStatus: submissionStatus),
@@ -222,7 +224,7 @@ struct StepQuizView: View {
                 .disabled(StepQuizResolver.shared.isQuizLoading(state: state))
             }
         } else {
-            if quizType.isCodeOrSQL {
+            if quizType.isCodeRelated {
                 StepQuizActionButtons.runSolution(
                     state: .init(submissionStatus: submissionStatus),
                     action: viewModel.doMainQuizAction

@@ -34,6 +34,20 @@ sealed class HyperskillAnalyticRoute {
         }
     }
 
+    sealed class Projects(projectId: Long) : HyperskillAnalyticRoute() {
+        override val path: String = "/projects/$projectId"
+
+        sealed class Stages(projectId: Long, stageId: Long) : Projects(projectId) {
+            override val path: String =
+                "${super.path}/stages/$stageId"
+
+            class Implement(projectId: Long, stageId: Long) : Stages(projectId, stageId) {
+                override val path: String =
+                    "${super.path}/implement"
+            }
+        }
+    }
+
     class Home : HyperskillAnalyticRoute() {
         override val path: String = "/home"
     }

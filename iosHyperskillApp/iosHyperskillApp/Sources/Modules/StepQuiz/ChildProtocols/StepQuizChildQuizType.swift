@@ -5,6 +5,7 @@ enum StepQuizChildQuizType {
     case choice
     case code
     case sql
+    case pycharm
     case matching
     case sorting
     case table
@@ -13,9 +14,9 @@ enum StepQuizChildQuizType {
     case math
     case unsupported(blockName: String)
 
-    var isCodeOrSQL: Bool {
+    var isCodeRelated: Bool {
         switch self {
-        case .code, .sql:
+        case .code, .sql, .pycharm:
             return true
         default:
             return false
@@ -31,6 +32,8 @@ enum StepQuizChildQuizType {
                 self = .code
             case BlockName.shared.SQL:
                 self = .sql
+            case BlockName.shared.PYCHARM:
+                self = .pycharm
             case BlockName.shared.MATCHING:
                 self = .matching
             case BlockName.shared.SORTING:

@@ -1,7 +1,6 @@
 import Foundation
 import shared
 
-#warning("TODO: Replce with source code generator Sourcery")
 extension StepQuizFeatureStateKs: Equatable {
     public static func == (lhs: StepQuizFeatureStateKs, rhs: StepQuizFeatureStateKs) -> Bool {
         switch (lhs, rhs) {
@@ -10,6 +9,8 @@ extension StepQuizFeatureStateKs: Equatable {
         case (.loading, .loading):
             return true
         case (.networkError, .networkError):
+            return true
+        case (.unsupported, .unsupported):
             return true
         case (.attemptLoading(let lhsData), .attemptLoading(let rhsData)):
             return lhsData.isEqual(rhsData)
@@ -55,11 +56,30 @@ extension StepQuizFeatureStateKs: Equatable {
             return false
         case (.idle, .networkError):
             return false
+        case (.attemptLoaded, .unsupported):
+            return false
+        case (.attemptLoading, .unsupported):
+            return false
+        case (.unsupported, .attemptLoaded):
+            return false
+        case (.unsupported, .attemptLoading):
+            return false
+        case (.unsupported, .idle):
+            return false
+        case (.unsupported, .loading):
+            return false
+        case (.unsupported, .networkError):
+            return false
+        case (.networkError, .unsupported):
+            return false
+        case (.loading, .unsupported):
+            return false
+        case (.idle, .unsupported):
+            return false
         }
     }
 }
 
-#warning("TODO: Replce with source code generator Sourcery")
 extension StepQuizFeatureSubmissionStateKs: Equatable {
     public static func == (lhs: StepQuizFeatureSubmissionStateKs, rhs: StepQuizFeatureSubmissionStateKs) -> Bool {
         switch (lhs, rhs) {

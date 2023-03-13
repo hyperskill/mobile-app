@@ -36,13 +36,18 @@ class StepReducer(
             is Message.StepLoaded.Error ->
                 State.Error to emptySet()
             is Message.ViewedEventMessage ->
-                state to setOf(
-                    Action.LogAnalyticEvent(
-                        StepViewedHyperskillAnalyticEvent(
-                            stepRoute.analyticRoute
+                if (stepRoute is StepRoute.StageImplement) {
+                    // Fix duplicate analytic events -> StageImplementFeature sends this event
+                    null
+                } else {
+                    state to setOf(
+                        Action.LogAnalyticEvent(
+                            StepViewedHyperskillAnalyticEvent(
+                                stepRoute.analyticRoute
+                            )
                         )
                     )
-                )
+                }
             is Message.StepCompletionMessage ->
                 if (state is State.Data) {
                     val (stepCompletionState, stepCompletionActions) =

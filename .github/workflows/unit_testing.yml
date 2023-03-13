@@ -1,11 +1,6 @@
 name: Unit testing
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    branches:
-      - 'feature/**'
-      - 'dependabot/bundler/**'
   push:
     branches:
       - 'feature/**'

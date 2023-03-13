@@ -53,6 +53,15 @@ enum StepQuizChildQuizViewFactory {
                 moduleOutput: moduleOutput
             )
             .makeModule()
+        case .pycharm:
+            StepQuizPyCharmAssembly(
+                step: step,
+                dataset: dataset,
+                reply: reply,
+                provideModuleInputCallback: provideModuleInputCallback,
+                moduleOutput: moduleOutput
+            )
+            .makeModule()
         case .matching:
             StepQuizMatchingAssembly(
                 step: step,

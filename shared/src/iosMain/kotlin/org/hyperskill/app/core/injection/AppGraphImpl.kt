@@ -56,11 +56,17 @@ import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponentImpl
 import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponentImpl
+import org.hyperskill.app.projects.injection.ProjectsDataComponent
+import org.hyperskill.app.projects.injection.ProjectsDataComponentImpl
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
 import org.hyperskill.app.sentry.domain.model.manager.SentryManager
 import org.hyperskill.app.sentry.injection.SentryComponent
 import org.hyperskill.app.sentry.injection.SentryComponentImpl
+import org.hyperskill.app.stage_implement.injection.StageImplementComponent
+import org.hyperskill.app.stage_implement.injection.StageImplementComponentImpl
+import org.hyperskill.app.stages.injection.StagesDataComponent
+import org.hyperskill.app.stages.injection.StagesDataComponentImpl
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step.injection.StepComponentImpl
@@ -177,6 +183,15 @@ class AppGraphImpl(
     override fun buildStepQuizComponent(stepRoute: StepRoute): StepQuizComponent =
         StepQuizComponentImpl(this, stepRoute)
 
+    override fun buildStepQuizHintsComponent(): StepQuizHintsComponent =
+        StepQuizHintsComponentImpl(this)
+
+    override fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent =
+        StepCompletionComponentImpl(this, stepRoute)
+
+    override fun buildStageImplementComponent(projectId: Long, stageId: Long): StageImplementComponent =
+        StageImplementComponentImpl(this, projectId = projectId, stageId = stageId)
+
     override fun buildProfileDataComponent(): ProfileDataComponent =
         ProfileDataComponentImpl(this)
 
@@ -209,9 +224,6 @@ class AppGraphImpl(
 
     override fun buildCommentsDataComponent(): CommentsDataComponent =
         CommentsDataComponentImpl(this)
-
-    override fun buildStepQuizHintsComponent(): StepQuizHintsComponent =
-        StepQuizHintsComponentImpl(this)
 
     override fun buildMagicLinksDataComponent(): MagicLinksDataComponent =
         MagicLinksDataComponentImpl(this)
@@ -261,9 +273,12 @@ class AppGraphImpl(
     override fun buildTopicsToDiscoverNextDataComponent(): TopicsToDiscoverNextDataComponent =
         TopicsToDiscoverNextDataComponentImpl(this)
 
-    override fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent =
-        StepCompletionComponentImpl(this, stepRoute)
-
     override fun buildStudyPlanDataComponent(): StudyPlanDataComponent =
         StudyPlanDataComponentImpl(this)
+
+    override fun buildProjectsDataComponent(): ProjectsDataComponent =
+        ProjectsDataComponentImpl(this)
+
+    override fun buildStagesDataComponent(): StagesDataComponent =
+        StagesDataComponentImpl(this)
 }

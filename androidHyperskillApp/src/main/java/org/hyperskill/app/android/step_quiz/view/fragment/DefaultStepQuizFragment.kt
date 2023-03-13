@@ -1,7 +1,9 @@
 package org.hyperskill.app.android.step_quiz.view.fragment
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.app.NotificationManagerCompat
@@ -17,8 +19,10 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.extensions.checkNotificationChannelAvailability
 import org.hyperskill.app.android.core.view.ui.fragment.parentOfType
+import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
+import org.hyperskill.app.android.databinding.LayoutStepQuizDescriptionBinding
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
@@ -28,6 +32,7 @@ import org.hyperskill.app.android.step_quiz.view.dialog.CompletedStepOfTheDayDia
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizViewStateDelegateFactory
 import org.hyperskill.app.android.step_quiz.view.mapper.StepQuizFeedbackMapper
 import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
+import org.hyperskill.app.android.step_quiz_hints.fragment.StepQuizHintsFragment
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
@@ -43,6 +48,7 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizViewModel
 import org.hyperskill.app.step_quiz.view.mapper.StepQuizStatsTextMapper
 import org.hyperskill.app.step_quiz.view.mapper.StepQuizTitleMapper
 import org.hyperskill.app.step_quiz.view.mapper.StepQuizUserPermissionRequestTextMapper
+import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.app.presentation.redux.container.ReduxView
@@ -51,6 +57,10 @@ abstract class DefaultStepQuizFragment :
     Fragment(R.layout.fragment_step_quiz),
     ReduxView<StepQuizFeature.State, StepQuizFeature.Action.ViewAction>,
     StepCompletionView {
+
+    companion object {
+        private const val STEP_HINTS_FRAGMENT_TAG = "step_hints"
+    }
 
     private lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -76,6 +86,7 @@ abstract class DefaultStepQuizFragment :
 
     protected abstract val quizViews: Array<View>
     protected abstract val skeletonView: View
+    protected abstract val descriptionBinding: LayoutStepQuizDescriptionBinding
 
     protected var step: Step by argument(serializer = Step.serializer())
     protected var stepRoute: StepRoute by argument(serializer = StepRoute.serializer())
@@ -94,10 +105,20 @@ abstract class DefaultStepQuizFragment :
         viewModelFactory = platformStepQuizComponent.reduxViewModelFactory
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    final override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewStateDelegate = StepQuizViewStateDelegateFactory.create(viewBinding, skeletonView, *quizViews)
-        stepQuizFeedbackBlocksDelegate = StepQuizFeedbackBlocksDelegate(requireContext(), viewBinding.stepQuizFeedbackBlocks)
+
+        val stepView = createStepView(LayoutInflater.from(requireContext()), viewBinding.root)
+        viewBinding.root.addView(stepView)
+
+        viewStateDelegate = StepQuizViewStateDelegateFactory.create(
+            fragmentStepQuizBinding = viewBinding,
+            descriptionBinding = descriptionBinding,
+            skeletonView = skeletonView,
+            quizViews = quizViews
+        )
+        stepQuizFeedbackBlocksDelegate =
+            StepQuizFeedbackBlocksDelegate(requireContext(), viewBinding.stepQuizFeedbackBlocks)
         stepQuizFormDelegate = createStepQuizFormDelegate().also { delegate ->
             delegate.customizeSubmissionButton(viewBinding.stepQuizButtons.stepQuizSubmitButton)
         }
@@ -162,6 +183,8 @@ abstract class DefaultStepQuizFragment :
         stepQuizFeedbackBlocksDelegate = null
         stepQuizFormDelegate = null
     }
+
+    protected abstract fun createStepView(layoutInflater: LayoutInflater, parent: ViewGroup): View
 
     protected abstract fun createStepQuizFormDelegate(): StepQuizFormDelegate
 
@@ -242,7 +265,9 @@ abstract class DefaultStepQuizFragment :
             .show()
     }
 
-    private fun requestSendDailyStudyRemindersPermission(action: StepQuizFeature.Action.ViewAction.RequestUserPermission) {
+    private fun requestSendDailyStudyRemindersPermission(
+        action: StepQuizFeature.Action.ViewAction.RequestUserPermission
+    ) {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(userPermissionRequestTextMapper?.getTitle(action.userPermissionRequest))
             .setMessage(userPermissionRequestTextMapper?.getMessage(action.userPermissionRequest))
@@ -290,50 +315,77 @@ abstract class DefaultStepQuizFragment :
             }
         }
 
-        if (state is StepQuizFeature.State.AttemptLoaded) {
-            viewBinding.stepQuizDescription.text =
-                stepQuizTitleMapper?.getStepQuizTitle(
-                    blockName = step.block.name,
-                    isMultipleChoice = state.attempt.dataset?.isMultipleChoice,
-                    isCheckbox = state.attempt.dataset?.isCheckbox
-                )
-            stepQuizFormDelegate?.setState(state)
-            stepQuizFeedbackBlocksDelegate?.setState(stepQuizFeedbackMapper.mapToStepQuizFeedbackState(step.block.name, state))
-            viewBinding.stepQuizButtons.stepQuizSubmitButton.isEnabled = StepQuizResolver.isQuizEnabled(state)
-
-            when (val submissionState = state.submissionState) {
-                is StepQuizFeature.SubmissionState.Loaded -> {
-                    val buttonsState = when (submissionState.submission.status) {
-                        SubmissionStatus.WRONG -> when {
-                            step.block.name == BlockName.CODE || step.block.name == BlockName.SQL ->
-                                StepQuizButtonsState.RetryLogoAndSubmit
-                            StepQuizResolver.isNeedRecreateAttemptForNewSubmission(step) ->
-                                StepQuizButtonsState.Retry
-                            else -> StepQuizButtonsState.Submit
-                        }
-                        SubmissionStatus.CORRECT -> {
-                            if (StepQuizResolver.isQuizRetriable(step)) {
-                                StepQuizButtonsState.RetryLogoAndContinue
-                            } else {
-                                StepQuizButtonsState.Continue
-                            }
-                        }
-                        else -> StepQuizButtonsState.Submit
-                    }
-                    stepQuizButtonsViewStateDelegate?.switchState(buttonsState)
-
-                    val replyValidation = submissionState.replyValidation
-                    if (replyValidation is ReplyValidationResult.Error) {
-                        stepQuizFeedbackBlocksDelegate?.setState(StepQuizFeedbackState.Validation(replyValidation.message))
-                    }
-                }
-                is StepQuizFeature.SubmissionState.Empty -> {
-                    stepQuizButtonsViewStateDelegate?.switchState(StepQuizButtonsState.Submit)
-                }
+        when (state) {
+            StepQuizFeature.State.Unsupported -> {
+                stepQuizFeedbackBlocksDelegate?.setState(StepQuizFeedbackState.Unsupported)
+            }
+            is StepQuizFeature.State.AttemptLoaded -> {
+                setStepHintsFragment(step)
+                renderAttemptLoaded(state)
+            }
+            else -> {
+                // no op
             }
         }
 
         onNewState(state)
+    }
+
+    private fun renderAttemptLoaded(state: StepQuizFeature.State.AttemptLoaded) {
+        descriptionBinding.stepQuizDescription.text =
+            stepQuizTitleMapper?.getStepQuizTitle(
+                blockName = step.block.name,
+                isMultipleChoice = state.attempt.dataset?.isMultipleChoice,
+                isCheckbox = state.attempt.dataset?.isCheckbox
+            )
+        stepQuizFormDelegate?.setState(state)
+        stepQuizFeedbackBlocksDelegate?.setState(
+            stepQuizFeedbackMapper.mapToStepQuizFeedbackState(step.block.name, state)
+        )
+        viewBinding.stepQuizButtons.stepQuizSubmitButton.isEnabled = StepQuizResolver.isQuizEnabled(state)
+
+        when (val submissionState = state.submissionState) {
+            is StepQuizFeature.SubmissionState.Loaded -> {
+                val buttonsState = when (submissionState.submission.status) {
+                    SubmissionStatus.WRONG -> when {
+                        step.block.name in BlockName.codeRelatedBlocksNames ->
+                            StepQuizButtonsState.RetryLogoAndSubmit
+                        StepQuizResolver.isNeedRecreateAttemptForNewSubmission(step) ->
+                            StepQuizButtonsState.Retry
+                        else -> StepQuizButtonsState.Submit
+                    }
+                    SubmissionStatus.CORRECT -> {
+                        if (StepQuizResolver.isQuizRetriable(step)) {
+                            StepQuizButtonsState.RetryLogoAndContinue
+                        } else {
+                            StepQuizButtonsState.Continue
+                        }
+                    }
+                    else -> StepQuizButtonsState.Submit
+                }
+                stepQuizButtonsViewStateDelegate?.switchState(buttonsState)
+
+                val replyValidation = submissionState.replyValidation
+                if (replyValidation is ReplyValidationResult.Error) {
+                    stepQuizFeedbackBlocksDelegate?.setState(
+                        StepQuizFeedbackState.Validation(replyValidation.message)
+                    )
+                }
+            }
+            is StepQuizFeature.SubmissionState.Empty -> {
+                stepQuizButtonsViewStateDelegate?.switchState(StepQuizButtonsState.Submit)
+            }
+        }
+    }
+
+    private fun setStepHintsFragment(step: Step) {
+        val isFeatureEnabled = StepQuizHintsFeature.isHintsFeatureAvailable(step)
+        viewBinding.stepQuizHints.isVisible = isFeatureEnabled
+        if (isFeatureEnabled) {
+            setChildFragment(R.id.stepQuizHints, STEP_HINTS_FRAGMENT_TAG) {
+                StepQuizHintsFragment.newInstance(step)
+            }
+        }
     }
 
     final override fun render(isPracticingLoading: Boolean) {
