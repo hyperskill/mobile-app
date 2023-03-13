@@ -23,5 +23,5 @@ data class Submission(
     @SerialName("attempt")
     val attempt: Long = 0,
     @SerialName("feedback")
-    val feedback: FeedbackRejectedSubmission? = null
+    val feedback: Feedback? = null
 )

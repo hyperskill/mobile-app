@@ -13,18 +13,17 @@ sealed interface Feedback {
 
     @Serializable
     data class Object(
+        @SerialName("title")
+        val title: String = "",
         @SerialName("message")
-        val message: String
+        val message: String = ""
     ) : Feedback
 }
 
-@Serializable
-data class FeedbackRejectedSubmission(
-    @SerialName("title")
-    val title: String = "",
-    @SerialName("message")
-    val message: String = ""
-)
-
-fun FeedbackRejectedSubmission.formattedText(): String =
-    "$title\n\n$message".trim()
+fun Feedback.formattedText(): String =
+    when (this) {
+        is Feedback.Object -> {
+            "$title\n\n$message".trim()
+        }
+        is Feedback.Text -> this.text
+    }
