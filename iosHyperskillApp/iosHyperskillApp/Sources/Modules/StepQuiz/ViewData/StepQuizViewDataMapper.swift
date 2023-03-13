@@ -55,11 +55,22 @@ final class StepQuizViewDataMapper {
         }()
 
         let feedbackHintText: String? = {
-            guard let submissionLoaded = attemptLoadedState?.submissionState as? StepQuizFeatureSubmissionStateLoaded,
-                  let hint = submissionLoaded.submission.hint else {
+            guard
+                let submissionStateLoaded = attemptLoadedState?.submissionState as? StepQuizFeatureSubmissionStateLoaded
+            else {
                 return nil
             }
-            return hint.isEmpty ? nil : hint
+
+            #warning("Support submission rejected status")
+            if submissionStateLoaded.submission.status == nil,
+               let feedback = submissionStateLoaded.submission.feedback {
+                let formattedText = FeedbackKt.formattedText(feedback)
+                return formattedText.isEmpty ? nil : formattedText
+            } else if let hint = submissionStateLoaded.submission.hint {
+                return hint.isEmpty ? nil : hint
+            } else {
+                return nil
+            }
         }()
 
         let stepHasHints: Bool = {

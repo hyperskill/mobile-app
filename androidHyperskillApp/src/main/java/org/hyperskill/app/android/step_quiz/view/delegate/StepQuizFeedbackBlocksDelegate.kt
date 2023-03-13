@@ -41,6 +41,10 @@ class StepQuizFeedbackBlocksDelegate(
             addState<StepQuizFeedbackState.Validation>(
                 layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackValidation
             )
+            addState<StepQuizFeedbackState.RejectedSubmission>(
+                layoutStepQuizFeedbackBlockBinding.root,
+                layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackValidation
+            )
         }
 
         getEvaluationDrawable(context).let { evaluationDrawable ->
@@ -66,8 +70,12 @@ class StepQuizFeedbackBlocksDelegate(
             is StepQuizFeedbackState.Wrong -> {
                 setHint(layoutStepQuizFeedbackBlockBinding, state.hint)
             }
-            is StepQuizFeedbackState.Validation ->
+            is StepQuizFeedbackState.Validation -> {
                 layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackValidation.text = state.message
+            }
+            is StepQuizFeedbackState.RejectedSubmission -> {
+                layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackValidation.text = state.message
+            }
             else -> {
                 // no op
             }
