@@ -63,7 +63,8 @@ final class StepQuizViewDataMapper {
 
             #warning("Support submission rejected status")
             if submissionStateLoaded.submission.status == nil,
-               let formattedText = submissionStateLoaded.submission.feedback?.formattedText() {
+               let feedback = submissionStateLoaded.submission.feedback {
+                let formattedText = FeedbackKt.formattedText(feedback)
                 return formattedText.isEmpty ? nil : formattedText
             } else if let hint = submissionStateLoaded.submission.hint {
                 return hint.isEmpty ? nil : hint
