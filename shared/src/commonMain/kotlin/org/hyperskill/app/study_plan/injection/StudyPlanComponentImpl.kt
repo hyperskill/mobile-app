@@ -6,5 +6,7 @@ import ru.nobird.app.presentation.redux.feature.Feature
 
 class StudyPlanComponentImpl(private val appGraph: AppGraph) : StudyPlanComponent {
     override val studyPlanFeature: Feature<StudyPlanFeature.State, StudyPlanFeature.Message, StudyPlanFeature.Action>
-        get() = StudyPlanFeatureBuilder.build()
+        get() = StudyPlanFeatureBuilder.build(
+            studyPlanInteractor = appGraph.buildStudyPlanDataComponent().studyPlanInteractor
+        )
 }
