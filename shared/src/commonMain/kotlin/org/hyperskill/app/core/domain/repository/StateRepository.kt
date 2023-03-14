@@ -65,7 +65,7 @@ abstract class StateRepository<State : Any>(
      */
     suspend fun reloadState(): Result<State> =
         mutex.withLock {
-            return loadAndAssignState()
+            loadAndAssignState()
         }
 
     /**
