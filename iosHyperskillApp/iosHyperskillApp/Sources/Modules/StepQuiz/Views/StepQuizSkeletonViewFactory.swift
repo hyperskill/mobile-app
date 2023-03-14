@@ -8,7 +8,7 @@ enum StepQuizSkeletonViewFactory {
             StepQuizChoiceSkeletonView()
         case .code:
             StepQuizCodeSkeletonView()
-        case .sql:
+        case .sql, .pycharm:
             StepQuizSQLSkeletonView()
         case .matching:
             StepQuizMatchingSkeletonView()

@@ -3,7 +3,7 @@ package org.hyperskill
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
-import org.hyperskill.app.profile.domain.analytic.ProfileClickedDailyStudyRemindsHyperskillAnalyticEvent
+import org.hyperskill.app.profile.domain.analytic.ProfileClickedDailyStudyRemindsToggleHyperskillAnalyticEvent
 import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcrumbAnalyticEventMapper
 import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcrumbCategory
 import org.hyperskill.app.sentry.domain.model.level.HyperskillSentryLevel
@@ -11,12 +11,12 @@ import org.hyperskill.app.sentry.domain.model.level.HyperskillSentryLevel
 class HyperskillSentryBreadcrumbAnalyticEventMapperTest {
     @Test
     fun testMapAnalyticEventToBreadcrumb() {
-        val analyticEvent = ProfileClickedDailyStudyRemindsHyperskillAnalyticEvent(isEnabled = true)
+        val analyticEvent = ProfileClickedDailyStudyRemindsToggleHyperskillAnalyticEvent(isEnabled = true)
 
         val breadcrumb = HyperskillSentryBreadcrumbAnalyticEventMapper.mapAnalyticEvent(analyticEvent)
 
         assertEquals(HyperskillSentryBreadcrumbCategory.ANALYTIC_EVENT.stringValue, breadcrumb.category)
-        assertEquals("ProfileClickedDailyStudyRemindsHyperskillAnalyticEvent", breadcrumb.message)
+        assertEquals("ProfileClickedDailyStudyRemindsToggleHyperskillAnalyticEvent", breadcrumb.message)
         assertEquals(HyperskillSentryLevel.INFO, breadcrumb.level)
         // data
         assertEquals("/profile", breadcrumb.data!!["route"])

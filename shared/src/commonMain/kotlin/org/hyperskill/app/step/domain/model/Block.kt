@@ -10,9 +10,7 @@ data class Block(
     @SerialName("text")
     val text: String,
     @SerialName("options")
-    val options: Options,
-    @SerialName("table_of_contents")
-    val tableOfContents: List<TableOfContentsEntry>
+    val options: Options
 ) {
     @Serializable
     data class Options(
@@ -31,6 +29,18 @@ data class Block(
         @SerialName("code_templates")
         val codeTemplates: Map<String, String>? = null,
         @SerialName("samples")
-        val samples: List<List<String>>? = null
-    )
+        val samples: List<List<String>>? = null,
+        @SerialName("files")
+        val files: List<File>? = null
+    ) {
+        @Serializable
+        data class File(
+            @SerialName("name")
+            val name: String,
+            @SerialName("is_visible")
+            val isVisible: Boolean,
+            @SerialName("text")
+            val text: String
+        )
+    }
 }

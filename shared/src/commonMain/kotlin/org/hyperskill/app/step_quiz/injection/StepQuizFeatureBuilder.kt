@@ -25,7 +25,7 @@ object StepQuizFeatureBuilder {
         notificationInteractor: NotificationInteractor,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
-        resourceProvider: ResourceProvider,
+        resourceProvider: ResourceProvider
     ): Feature<StepQuizFeature.State, StepQuizFeature.Message, StepQuizFeature.Action> {
         val stepQuizReducer = StepQuizReducer(stepRoute)
         val stepQuizActionDispatcher = StepQuizActionDispatcher(

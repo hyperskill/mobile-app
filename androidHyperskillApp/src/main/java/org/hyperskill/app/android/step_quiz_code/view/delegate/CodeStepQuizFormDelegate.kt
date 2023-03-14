@@ -7,20 +7,20 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.code.view.widget.CodeEditorLayout
 import org.hyperskill.app.android.code.view.widget.withoutTextChangeCallback
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
+import org.hyperskill.app.android.step_quiz_code.view.model.config.CodeStepQuizConfig
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
 
 class CodeStepQuizFormDelegate(
     private val codeLayout: CodeEditorLayout,
-    initialCode: String,
-    private val langName: String,
     private val codeLayoutDelegate: CodeLayoutDelegate,
-    private val onFullscreenClicked: (lang: String, code: String?) -> Unit,
+    private val codeStepQuizConfig: CodeStepQuizConfig,
+    private val onFullscreenClicked: (lang: String, code: String) -> Unit,
     private val onQuizChanged: (Reply) -> Unit
 ) : StepQuizFormDelegate {
 
-    private var code: String? = initialCode
+    private var code: String? = codeStepQuizConfig.initialCode
     private var textWatcher: TextWatcher = object : TextWatcher {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
@@ -28,22 +28,25 @@ class CodeStepQuizFormDelegate(
 
         override fun afterTextChanged(p0: Editable?) {
             code = p0?.toString()
-            onQuizChanged(createReply())
+            onQuizChanged(codeStepQuizConfig.createReply(code))
         }
     }
 
     init {
         with(codeLayoutDelegate) {
             setEnabled(true)
-            setLanguage(langName, code)
-            setDetailsContentData(langName)
+            setLanguage(codeStepQuizConfig.langName, code)
+            setDetailsContentData(codeStepQuizConfig.langName)
         }
 
         with(codeLayout.codeEditor) {
             isFocusable = false
             addTextChangedListener(textWatcher)
             codeLayout.codeEditor.setOnClickListener {
-                onFullscreenClicked(langName, this@CodeStepQuizFormDelegate.code)
+                onFullscreenClicked(
+                    codeStepQuizConfig.langName,
+                    this@CodeStepQuizFormDelegate.code ?: codeStepQuizConfig.initialCode
+                )
             }
         }
     }
@@ -53,25 +56,27 @@ class CodeStepQuizFormDelegate(
             setText(org.hyperskill.app.R.string.step_quiz_code_run_solution_button_text)
             setIconResource(R.drawable.ic_run)
             iconPadding =
-                context.resources.getDimensionPixelSize(R.dimen.step_quiz_fullscreen_code_layout_action_button_icon_padding)
+                context.resources.getDimensionPixelSize(
+                    R.dimen.step_quiz_fullscreen_code_layout_action_button_icon_padding
+                )
         }
     }
 
     override fun createReply(): Reply =
-        Reply(code = code, language = langName)
+        codeStepQuizConfig.createReply(code)
 
     override fun setState(state: StepQuizFeature.State.AttemptLoaded) {
         val submission = (state.submissionState as? StepQuizFeature.SubmissionState.Loaded)
             ?.submission
-        val replyCode = submission?.reply?.code
+        val replyCode = codeStepQuizConfig.getCode(submission)
         this.code = replyCode
 
         val isEnabled = StepQuizResolver.isQuizEnabled(state)
         codeLayoutDelegate.setEnabled(isEnabled)
 
         codeLayout.withoutTextChangeCallback(textWatcher) {
-            codeLayoutDelegate.setLanguage(langName, replyCode)
-            codeLayoutDelegate.setDetailsContentData(langName)
+            codeLayoutDelegate.setLanguage(codeStepQuizConfig.langName, replyCode)
+            codeLayoutDelegate.setDetailsContentData(codeStepQuizConfig.langName)
         }
     }
 
@@ -79,12 +84,12 @@ class CodeStepQuizFormDelegate(
         this.code = newCode
         if (onSubmitClicked) {
             codeLayout.withoutTextChangeCallback(textWatcher) {
-                codeLayoutDelegate.setLanguage(this.langName, code)
-                codeLayoutDelegate.setDetailsContentData(this.langName)
+                codeLayoutDelegate.setLanguage(codeStepQuizConfig.langName, code)
+                codeLayoutDelegate.setDetailsContentData(codeStepQuizConfig.langName)
             }
         } else {
-            codeLayoutDelegate.setLanguage(langName, code)
-            codeLayoutDelegate.setDetailsContentData(langName)
+            codeLayoutDelegate.setLanguage(codeStepQuizConfig.langName, code)
+            codeLayoutDelegate.setDetailsContentData(codeStepQuizConfig.langName)
         }
     }
 }

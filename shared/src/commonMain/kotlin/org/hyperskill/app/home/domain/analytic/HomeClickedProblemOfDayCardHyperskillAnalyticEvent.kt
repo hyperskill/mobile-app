@@ -32,10 +32,10 @@ class HomeClickedProblemOfDayCardHyperskillAnalyticEvent(
     HyperskillAnalyticPart.PROBLEM_OF_THE_DAY_CARD,
     HyperskillAnalyticTarget.CONTINUE
 ) {
-    companion object {
-        private const val PARAM_IS_COMPLETED = "is_completed"
-    }
 
     override val params: Map<String, Any>
-        get() = super.params + mapOf(PARAM_CONTEXT to mapOf(PARAM_IS_COMPLETED to isCompleted))
+        get() = super.params + mapOf(
+            PARAM_CONTEXT to
+                mapOf(HomeHyperskillAnalyticParams.PARAM_IS_COMPLETED to isCompleted)
+        )
 }

@@ -1,4 +1,6 @@
 What to Test:
-1. Fullscreen code editor add "Paste" button to the input accessory view ALTAPPS-464
-2. Topic completion bottom sheet add continue with next topic button ALTAPPS-599
-3. Fix different next topics in web and mobile ALTAPPS-609
+1. Fix streak freeze state synchronization ALTAPPS-567
+2. Daily-learning notifications toggle fix ALTAPPS-618
+3. Re-name Homescreen to Home ALTAPPS-641
+4. Stage implementation ALTAPPS-633
+5. Handle rejected submission feedback ALTAPPS-643

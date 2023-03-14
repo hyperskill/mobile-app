@@ -108,6 +108,7 @@ interface HomeFeature {
 
         object ClickedContinueLearningOnWeb : Message
         object ClickedTopicsRepetitionsCard : Message
+        object ClickedProblemOfDayCardReload : Message
 
         data class GetMagicLinkReceiveSuccess(val url: String) : Message
         object GetMagicLinkReceiveFailure : Message

@@ -44,7 +44,7 @@ class StepQuizReplyValidator(private val resourceProvider: ResourceProvider) {
                     return ReplyValidationResult.Error(getErrorMessage(stepBlockName))
                 }
             }
-            BlockName.CODE, BlockName.SQL -> return ReplyValidationResult.Success
+            BlockName.CODE, BlockName.SQL, BlockName.PYCHARM -> return ReplyValidationResult.Success
             else -> throw IllegalArgumentException("Unsupported block type = $stepBlockName")
         }
 

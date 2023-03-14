@@ -24,31 +24,33 @@ class StepQuizFeedbackBlocksDelegate(
     init {
         with(viewStateDelegate) {
             addState<StepQuizFeedbackState.Idle>()
+            addState<StepQuizFeedbackState.Unsupported>(
+                layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackUnsupported
+            )
             addState<StepQuizFeedbackState.Evaluation>(
-                layoutStepQuizFeedbackBlockBinding.root,
                 layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackEvaluation
             )
             addState<StepQuizFeedbackState.Correct>(
-                layoutStepQuizFeedbackBlockBinding.root,
                 layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackCorrect,
                 layoutStepQuizFeedbackBlockBinding.stepQuizFeedback
             )
             addState<StepQuizFeedbackState.Wrong>(
-                layoutStepQuizFeedbackBlockBinding.root,
                 layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackWrong,
                 layoutStepQuizFeedbackBlockBinding.stepQuizFeedback
             )
             addState<StepQuizFeedbackState.Validation>(
-                layoutStepQuizFeedbackBlockBinding.root,
+                layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackValidation
+            )
+            addState<StepQuizFeedbackState.RejectedSubmission>(
                 layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackValidation
             )
         }
 
-        val evaluationDrawable = AnimationDrawable()
-        evaluationDrawable.addFrame(context.getDrawableCompat(R.drawable.ic_step_quiz_evaluation_frame_1), EVALUATION_FRAME_DURATION_MS)
-        evaluationDrawable.addFrame(context.getDrawableCompat(R.drawable.ic_step_quiz_evaluation_frame_2), EVALUATION_FRAME_DURATION_MS)
-        evaluationDrawable.addFrame(context.getDrawableCompat(R.drawable.ic_step_quiz_evaluation_frame_3), EVALUATION_FRAME_DURATION_MS)
-        evaluationDrawable.isOneShot = false
+        getEvaluationDrawable(context).let { evaluationDrawable ->
+            layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackEvaluation
+                .setCompoundDrawablesWithIntrinsicBounds(evaluationDrawable, null, null, null)
+            evaluationDrawable.start()
+        }
 
         with(layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackBody) {
             webViewClient =
@@ -67,8 +69,12 @@ class StepQuizFeedbackBlocksDelegate(
             is StepQuizFeedbackState.Wrong -> {
                 setHint(layoutStepQuizFeedbackBlockBinding, state.hint)
             }
-            is StepQuizFeedbackState.Validation ->
+            is StepQuizFeedbackState.Validation -> {
                 layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackValidation.text = state.message
+            }
+            is StepQuizFeedbackState.RejectedSubmission -> {
+                layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackValidation.text = state.message
+            }
             else -> {
                 // no op
             }
@@ -82,4 +88,21 @@ class StepQuizFeedbackBlocksDelegate(
         layoutStepQuizFeedbackBlockBinding.stepQuizFeedback.isVisible = hint != null
         layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackBody.setText(hint)
     }
+
+    private fun getEvaluationDrawable(context: Context): AnimationDrawable =
+        AnimationDrawable().apply {
+            addFrame(
+                context.getDrawableCompat(R.drawable.ic_step_quiz_evaluation_frame_1),
+                EVALUATION_FRAME_DURATION_MS
+            )
+            addFrame(
+                context.getDrawableCompat(R.drawable.ic_step_quiz_evaluation_frame_2),
+                EVALUATION_FRAME_DURATION_MS
+            )
+            addFrame(
+                context.getDrawableCompat(R.drawable.ic_step_quiz_evaluation_frame_3),
+                EVALUATION_FRAME_DURATION_MS
+            )
+            isOneShot = false
+        }
 }

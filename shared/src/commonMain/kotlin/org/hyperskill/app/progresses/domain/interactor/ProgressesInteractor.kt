@@ -1,6 +1,7 @@
 package org.hyperskill.app.progresses.domain.interactor
 
 import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
+import org.hyperskill.app.projects.domain.model.ProjectProgress
 import org.hyperskill.app.topics.domain.model.TopicProgress
 import org.hyperskill.app.track.domain.model.TrackProgress
 
@@ -18,4 +19,10 @@ class ProgressesInteractor(
 
     suspend fun getTopicProgress(topicId: Long): Result<TopicProgress> =
         progressesRepository.getTopicProgress(topicId)
+
+    suspend fun getProjectsProgresses(projectsIds: List<Long>): Result<List<ProjectProgress>> =
+        progressesRepository.getProjectsProgresses(projectsIds)
+
+    suspend fun getProjectProgress(projectId: Long): Result<ProjectProgress> =
+        progressesRepository.getProjectProgress(projectId)
 }

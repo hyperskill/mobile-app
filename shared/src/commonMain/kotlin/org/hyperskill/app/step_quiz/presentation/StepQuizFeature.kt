@@ -1,7 +1,6 @@
 package org.hyperskill.app.step_quiz.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
-import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
@@ -14,12 +13,12 @@ interface StepQuizFeature {
     sealed interface State {
         object Idle : State
         object Loading : State
+        object Unsupported : State
         data class AttemptLoading(val oldState: AttemptLoaded) : State
         data class AttemptLoaded(
             val step: Step,
             val attempt: Attempt,
-            val submissionState: SubmissionState,
-            val currentProfile: Profile
+            val submissionState: SubmissionState
         ) : State
 
         object NetworkError : State
@@ -37,8 +36,7 @@ interface StepQuizFeature {
         data class FetchAttemptSuccess(
             val step: Step,
             val attempt: Attempt,
-            val submissionState: SubmissionState,
-            val currentProfile: Profile
+            val submissionState: SubmissionState
         ) : Message
         data class FetchAttemptError(val throwable: Throwable) : Message
 
@@ -49,8 +47,7 @@ interface StepQuizFeature {
         data class CreateAttemptSuccess(
             val step: Step,
             val attempt: Attempt,
-            val submissionState: SubmissionState,
-            val currentProfile: Profile
+            val submissionState: SubmissionState
         ) : Message
         object CreateAttemptError : Message
 
