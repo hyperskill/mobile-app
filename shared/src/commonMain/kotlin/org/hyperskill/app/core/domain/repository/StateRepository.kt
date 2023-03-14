@@ -5,7 +5,15 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
-abstract class SingleEntityRepository<State : Any> {
+/**
+ * Thread safe repository that allows to
+ * get, update, reload and subscribe to change of
+ * some state between multiple app modules
+ *
+ * @param State type of state to store
+ * @property stateHolder holder of state (in-memory, SharedPreferences etc.)
+ */
+abstract class StateRepository<State : Any> {
     private val mutex = Mutex()
 
     private val mutableSharedFlow = MutableSharedFlow<State>()
@@ -56,11 +64,10 @@ abstract class SingleEntityRepository<State : Any> {
      *
      * @return result of state loading
      */
-    suspend fun reloadState(): Result<State> {
+    suspend fun reloadState(): Result<State> =
         mutex.withLock {
             return loadAndAssignState()
         }
-    }
 
     /**
      * Loads state and assign it on success
