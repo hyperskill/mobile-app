@@ -12,12 +12,15 @@ class StudyPlanReducer : StateReducer<State, Message, Action> {
                 state.copy(contentStatus = StudyPlanFeature.ContentStatus.LOADING) to setOf(Action.FetchStudyPlan)
             }
             is StudyPlanFeature.StudyPlanFetchResult.Success -> {
-                state.copy(
-                    studyPlan = message.studyPlan,
-                    contentStatus = StudyPlanFeature.ContentStatus.SUCCESS
-                ) to emptySet()
+                state.copy(studyPlan = message.studyPlan) to
+                    setOf(Action.FetchSections(message.studyPlan.sections))
             }
-            StudyPlanFeature.StudyPlanFetchResult.Failed -> {
+            is StudyPlanFeature.StudyPlanSectionsFetchResult.Success -> {
+                state.copy(studyPlanSections = message.sections.filter { it.isVisible }) to
+                    emptySet()
+            }
+            StudyPlanFeature.StudyPlanFetchResult.Failed,
+            StudyPlanFeature.StudyPlanSectionsFetchResult.Failed -> {
                 state.copy(contentStatus = StudyPlanFeature.ContentStatus.ERROR) to emptySet()
             }
         }

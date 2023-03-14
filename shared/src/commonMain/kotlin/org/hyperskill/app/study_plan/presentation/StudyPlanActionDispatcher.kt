@@ -14,11 +14,20 @@ class StudyPlanActionDispatcher(
         when (action) {
             Action.FetchStudyPlan -> {
                 studyPlanInteractor.getCurrentStudyPlan()
+                    .onSuccess { studyPlan ->
+                        onNewMessage(StudyPlanFeature.StudyPlanFetchResult.Success(studyPlan))
+                    }
                     .onFailure {
                         onNewMessage(StudyPlanFeature.StudyPlanFetchResult.Failed)
                     }
-                    .onSuccess { studyPlan ->
-                        onNewMessage(StudyPlanFeature.StudyPlanFetchResult.Success(studyPlan))
+            }
+            is Action.FetchSections -> {
+                studyPlanInteractor.getStudyPlanSections(action.sectionsIds)
+                    .onSuccess { sections ->
+                        onNewMessage(StudyPlanFeature.StudyPlanSectionsFetchResult.Success(sections))
+                    }
+                    .onFailure {
+                        onNewMessage(StudyPlanFeature.StudyPlanSectionsFetchResult.Failed)
                     }
             }
         }
