@@ -13,14 +13,15 @@ import kotlinx.coroutines.sync.withLock
  * @param State type of state to store
  * @property stateHolder holder of state (in-memory, SharedPreferences etc.)
  */
-abstract class StateRepository<State : Any>(
-    private val stateHolder: StateHolder<State> = InMemoryStateHolder()
-) {
+abstract class StateRepository<State : Any> {
     private val mutex = Mutex()
 
     private val mutableSharedFlow = MutableSharedFlow<State>()
 
     protected abstract suspend fun loadState(): Result<State>
+
+    protected open val stateHolder: StateHolder<State> =
+        InMemoryStateHolder()
 
     /**
      * Load state if needed and return in-memory value
