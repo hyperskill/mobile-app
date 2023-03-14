@@ -5,9 +5,9 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
-abstract class SingleEntityRepository<State> {
-    private var state: State? = null
-
+abstract class SingleEntityRepository<State : Any>(
+    private val stateHolder: StateHolder<State> = InMemoryStateHolder()
+) {
     private val mutex = Mutex()
 
     private val mutableSharedFlow = MutableSharedFlow<State>()
@@ -21,7 +21,7 @@ abstract class SingleEntityRepository<State> {
      */
     suspend fun getState(): Result<State> =
         mutex.withLock {
-            val currentState = state
+            val currentState = stateHolder.getState()
 
             if (currentState != null) {
                 return Result.success(currentState)
@@ -45,7 +45,7 @@ abstract class SingleEntityRepository<State> {
      */
     suspend fun updateState(newState: State) {
         mutex.withLock {
-            state = newState
+            stateHolder.setState(newState)
             mutableSharedFlow.emit(newState)
         }
     }
@@ -68,7 +68,7 @@ abstract class SingleEntityRepository<State> {
      */
     private suspend fun loadAndAssignState(): Result<State> =
         loadState().onSuccess {
-            state = it
+            stateHolder.setState(it)
             mutableSharedFlow.emit(it)
         }
 }
