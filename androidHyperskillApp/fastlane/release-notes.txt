@@ -7,3 +7,4 @@ What to Test:
 6. Evaluation animation is no working ALTAPPS-640
 7. Stage implementation ALTAPPS-632
 8. Handle rejected submission feedback ALTAPPS-643
+9. Evaluation block dissapeared on submission ALTAPPS-659
