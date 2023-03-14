@@ -42,7 +42,6 @@ class StepQuizFeedbackBlocksDelegate(
                 layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackValidation
             )
             addState<StepQuizFeedbackState.RejectedSubmission>(
-                layoutStepQuizFeedbackBlockBinding.root,
                 layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackValidation
             )
         }
