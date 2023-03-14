@@ -5,14 +5,15 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
-abstract class SingleEntityRepository<State : Any>(
-    private val stateHolder: StateHolder<State> = InMemoryStateHolder()
-) {
+abstract class SingleEntityRepository<State : Any> {
     private val mutex = Mutex()
 
     private val mutableSharedFlow = MutableSharedFlow<State>()
 
     protected abstract suspend fun loadState(): Result<State>
+
+    protected open val stateHolder: StateHolder<State> =
+        InMemoryStateHolder()
 
     /**
      * Load state if needed and return in-memory value
