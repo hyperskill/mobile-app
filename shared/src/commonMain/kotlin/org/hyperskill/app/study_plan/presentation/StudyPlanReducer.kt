@@ -28,6 +28,8 @@ internal class StudyPlanReducer : StateReducer<State, Message, Action> {
             StudyPlanFeature.SectionsFetchResult.Failed -> {
                 state.copy(sectionsStatus = StudyPlanFeature.ContentStatus.ERROR) to emptySet()
             }
+            is Message.SectionExpanseChanged ->
+                handleSectionExpanseChanged(state, message)
         }
 
     private fun handleSectionsFetchSuccess(
@@ -93,6 +95,52 @@ internal class StudyPlanReducer : StateReducer<State, Message, Action> {
                 StudyPlanFeature.ContentStatus.ERROR
             )
         ) to emptySet()
+
+    private fun handleSectionExpanseChanged(
+        state: State,
+        message: Message.SectionExpanseChanged
+    ): StudyPlanReducerResult {
+        val section =
+            state.studyPlanSections[message.sectionId] ?: return state to emptySet()
+
+        val sectionUpdatedState = state.copy(
+            studyPlanSections = state.studyPlanSections.set(
+                message.sectionId,
+                section.copy(isExpanded = message.isExpanded)
+            )
+        )
+
+        return if (message.isExpanded) {
+            when (state.sectionsContentStatuses[message.sectionId]) {
+                StudyPlanFeature.ContentStatus.IDLE,
+                StudyPlanFeature.ContentStatus.ERROR,
+                null -> {
+                    fetchActivities(sectionUpdatedState, message.sectionId, section.studyPlanSection.activities)
+                }
+
+                // activities are loading at the moment or already loaded
+                StudyPlanFeature.ContentStatus.LOADING,
+                StudyPlanFeature.ContentStatus.LOADED -> {
+                    sectionUpdatedState to emptySet()
+                }
+            }
+        } else {
+            sectionUpdatedState to emptySet()
+        }
+    }
+
+    private fun fetchActivities(state: State, sectionId: Long, activitiesIds: List<Long>): StudyPlanReducerResult =
+        state.copy(
+            sectionsContentStatuses = state.sectionsContentStatuses.set(
+                sectionId,
+                StudyPlanFeature.ContentStatus.LOADING
+            )
+        ) to setOf(
+            Action.FetchActivities(
+                sectionId = sectionId,
+                activitiesIds = activitiesIds
+            )
+        )
 
     private fun <K, V> Map<K, V>.set(key: K, value: V): Map<K, V> =
         this.toMutableMap().apply {
