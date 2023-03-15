@@ -49,6 +49,7 @@ class StepQuizComponentImpl(
             stepQuizReplyValidator,
             appGraph.buildProfileDataComponent().profileInteractor,
             appGraph.buildNotificationComponent().notificationInteractor,
+            appGraph.subscriptionsDataComponent.currentSubscriptionStateRepository,
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor,
             appGraph.commonComponent.resourceProvider

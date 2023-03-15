@@ -5,7 +5,7 @@ import org.hyperskill.app.comments.domain.interactor.CommentsInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.likes.domain.interactor.LikesInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
-import org.hyperskill.app.profile.domain.model.isFreemiumEnabled
+import org.hyperskill.app.profile.domain.model.isFreemiumFeatureEnabled
 import org.hyperskill.app.reactions.domain.interactor.ReactionsInteractor
 import org.hyperskill.app.reactions.domain.model.ReactionType
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
@@ -42,7 +42,7 @@ internal class StepQuizHintsActionDispatcher(
 
                 val isFreemiumFeatureEnabled = profileInteractor
                     .getCurrentProfile()
-                    .getOrNull()?.isFreemiumEnabled ?: false
+                    .getOrNull()?.isFreemiumFeatureEnabled ?: false
                 val isFreeSubscription = currentSubscriptionStateRepository
                     .getState()
                     .getOrNull()?.isFree ?: false

@@ -62,6 +62,11 @@ interface StepQuizFeature {
             val reply: Reply,
             val replyValidation: ReplyValidationResult
         ) : Message
+        sealed interface CreateSubmissionCheckLimitResult : Message {
+            data class SubmisssionAvailable(val step: Step, val reply: Reply) : CreateSubmissionCheckLimitResult
+            object LimitExceeded : CreateSubmissionCheckLimitResult
+            object NetworkError : CreateSubmissionCheckLimitResult
+        }
 
         data class SyncReply(val reply: Reply) : Message
 
@@ -100,6 +105,7 @@ interface StepQuizFeature {
             val submissionState: SubmissionState,
             val shouldResetReply: Boolean
         ) : Action
+        data class CreateSubmissionCheckLimit(val step: Step, val reply: Reply) : Action
         data class CreateSubmissionValidateReply(val step: Step, val reply: Reply) : Action
         data class CreateSubmission(
             val step: Step,
@@ -124,6 +130,8 @@ interface StepQuizFeature {
             data class RequestUserPermission(val userPermissionRequest: StepQuizUserPermissionRequest) : ViewAction
 
             data class ShowProblemOfDaySolvedModal(val earnedGemsText: String) : ViewAction
+
+            object ShowLimitExceededModal : ViewAction
 
             sealed interface NavigateTo : ViewAction {
                 object Back : NavigateTo

@@ -12,6 +12,7 @@ import org.hyperskill.app.step_quiz.domain.validation.StepQuizReplyValidator
 import org.hyperskill.app.step_quiz.presentation.StepQuizActionDispatcher
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizReducer
+import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
@@ -23,6 +24,7 @@ object StepQuizFeatureBuilder {
         stepQuizReplyValidator: StepQuizReplyValidator,
         profileInteractor: ProfileInteractor,
         notificationInteractor: NotificationInteractor,
+        currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
         resourceProvider: ResourceProvider
@@ -34,6 +36,7 @@ object StepQuizFeatureBuilder {
             stepQuizReplyValidator,
             profileInteractor,
             notificationInteractor,
+            currentSubscriptionStateRepository,
             analyticInteractor,
             sentryInteractor,
             resourceProvider

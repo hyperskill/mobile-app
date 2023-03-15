@@ -97,12 +97,23 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                             StepQuizClickedSendHyperskillAnalyticEvent(stepRoute.analyticRoute)
                         }
                     state to setOf(
-                        Action.CreateSubmissionValidateReply(message.step, message.reply),
+                        when (stepRoute) {
+                            is StepRoute.LearnDaily, is StepRoute.Repeat ->
+                                Action.CreateSubmissionValidateReply(message.step, message.reply)
+                            else ->
+                                Action.CreateSubmissionCheckLimit(message.step, message.reply)
+                        },
                         Action.LogAnalyticEvent(analyticEvent)
                     )
                 } else {
                     null
                 }
+            is Message.CreateSubmissionCheckLimitResult.SubmisssionAvailable ->
+                state to setOf(Action.CreateSubmissionValidateReply(message.step, message.reply))
+            is Message.CreateSubmissionCheckLimitResult.LimitExceeded ->
+                state to setOf(Action.ViewAction.ShowLimitExceededModal)
+            is Message.CreateSubmissionCheckLimitResult.NetworkError ->
+                state to setOf(Action.ViewAction.ShowNetworkError)
             is Message.CreateSubmissionReplyValidationResult ->
                 if (state is State.AttemptLoaded) {
                     when (message.replyValidation) {

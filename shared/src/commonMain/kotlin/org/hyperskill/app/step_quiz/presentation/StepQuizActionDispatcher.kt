@@ -10,6 +10,7 @@ import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.notification.cache.NotificationCacheKeyValues
 import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.profile.domain.model.isFreemiumFeatureEnabled
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
@@ -19,6 +20,8 @@ import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.domain.validation.StepQuizReplyValidator
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Action
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Message
+import org.hyperskill.app.subscriptions.domain.model.isFree
+import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class StepQuizActionDispatcher(
@@ -27,6 +30,7 @@ class StepQuizActionDispatcher(
     private val stepQuizReplyValidator: StepQuizReplyValidator,
     private val profileInteractor: ProfileInteractor,
     private val notificationInteractor: NotificationInteractor,
+    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val resourceProvider: ResourceProvider
@@ -145,6 +149,34 @@ class StepQuizActionDispatcher(
 
                     onNewMessage(Message.CreateAttemptSuccess(action.step, action.attempt, submissionState))
                 }
+            }
+            is Action.CreateSubmissionCheckLimit -> {
+                val isFreemiumFeatureEnabled = profileInteractor
+                    .getCurrentProfile()
+                    .getOrElse {
+                        return onNewMessage(
+                            Message.CreateSubmissionCheckLimitResult.NetworkError
+                        )
+                    }
+                    .isFreemiumFeatureEnabled
+
+                if (isFreemiumFeatureEnabled) {
+                    val subscription = currentSubscriptionStateRepository
+                        .getState()
+                        .getOrElse {
+                            return onNewMessage(
+                                Message.CreateSubmissionCheckLimitResult.NetworkError
+                            )
+                        }
+
+                    if (subscription.isFree && subscription.stepsLimitLeft == 0) {
+                        return onNewMessage(Message.CreateSubmissionCheckLimitResult.LimitExceeded)
+                    }
+                }
+
+                onNewMessage(
+                    Message.CreateSubmissionCheckLimitResult.SubmisssionAvailable(action.step, action.reply)
+                )
             }
             is Action.CreateSubmissionValidateReply -> {
                 val validationResult = stepQuizReplyValidator.validate(action.reply, action.step.block.name)

@@ -53,5 +53,5 @@ internal val Profile.isNewUser: Boolean
 internal val Profile.isCurrentTrackCompleted: Boolean
     get() = trackId?.let { completedTracks.contains(it) } ?: false
 
-val Profile.isFreemiumEnabled: Boolean
+val Profile.isFreemiumFeatureEnabled: Boolean
     get() = features.get("subscriptions.freemium") ?: false
