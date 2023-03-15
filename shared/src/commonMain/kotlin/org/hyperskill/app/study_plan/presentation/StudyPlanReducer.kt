@@ -22,9 +22,10 @@ internal class StudyPlanReducer : StateReducer<State, Message, Action> {
                 handleSectionsFetchSuccess(state, message)
             is StudyPlanFeature.LearningActivitiesFetchResult.Success ->
                 handleLearningActivitiesFetchSuccess(state, message)
+            is StudyPlanFeature.LearningActivitiesFetchResult.Failed ->
+                handleLearningActivitiesFetchFailed(state, message)
             StudyPlanFeature.StudyPlanFetchResult.Failed,
-            StudyPlanFeature.SectionsFetchResult.Failed,
-            StudyPlanFeature.LearningActivitiesFetchResult.Failed -> {
+            StudyPlanFeature.SectionsFetchResult.Failed -> {
                 state.copy(sectionsStatus = StudyPlanFeature.ContentStatus.ERROR) to emptySet()
             }
         }
@@ -70,9 +71,31 @@ internal class StudyPlanReducer : StateReducer<State, Message, Action> {
         val currentSectionActivities = state.activities.getOrElse(message.sectionId) { emptyList() }
         val filteredActivities = message.activities.dropWhile { it.state != TargetState.TODO }
         val actualSectionActivities = filteredActivities.union(currentSectionActivities)
-        val actualSectionEntry = message.sectionId to actualSectionActivities
+        val actualActivities =
+            state.activities + (message.sectionId to actualSectionActivities)
+
         return state.copy(
-            activities = state.activities + actualSectionEntry
+            activities = actualActivities,
+            sectionsContentStatuses = state.sectionsContentStatuses.set(
+                message.sectionId,
+                StudyPlanFeature.ContentStatus.LOADED
+            )
         ) to emptySet()
     }
+
+    private fun handleLearningActivitiesFetchFailed(
+        state: State,
+        message: StudyPlanFeature.LearningActivitiesFetchResult.Failed
+    ): StudyPlanReducerResult =
+        state.copy(
+            sectionsContentStatuses = state.sectionsContentStatuses.set(
+                message.sectionId,
+                StudyPlanFeature.ContentStatus.ERROR
+            )
+        ) to emptySet()
+
+    private fun <K, V> Map<K, V>.set(key: K, value: V): Map<K, V> =
+        this.toMutableMap().apply {
+            this[key] = value
+        }
 }

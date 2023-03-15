@@ -43,6 +43,11 @@ object StudyPlanFeature {
 
     sealed interface Message {
         object Initialize : Message
+
+        data class SectionExpanseChanged(
+            val sectionId: Long,
+            val isExpanded: Boolean
+        ) : Message
     }
 
     internal sealed interface StudyPlanFetchResult : Message {
@@ -63,7 +68,7 @@ object StudyPlanFeature {
             val activities: List<LearningActivity>
         ) : LearningActivitiesFetchResult
 
-        object Failed : LearningActivitiesFetchResult
+        data class Failed(val sectionId: Long) : LearningActivitiesFetchResult
     }
 
     sealed interface Action {

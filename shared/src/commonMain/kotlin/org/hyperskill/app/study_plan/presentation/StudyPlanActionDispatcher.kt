@@ -38,7 +38,7 @@ class StudyPlanActionDispatcher(
                         )
                     }
                     .onFailure {
-                        onNewMessage(StudyPlanFeature.LearningActivitiesFetchResult.Failed)
+                        onNewMessage(StudyPlanFeature.LearningActivitiesFetchResult.Failed(action.sectionId))
                     }
             }
         }
