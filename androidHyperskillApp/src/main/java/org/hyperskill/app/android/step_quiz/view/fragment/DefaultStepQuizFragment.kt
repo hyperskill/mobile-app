@@ -383,7 +383,7 @@ abstract class DefaultStepQuizFragment :
         viewBinding.stepQuizHints.isVisible = isFeatureEnabled
         if (isFeatureEnabled) {
             setChildFragment(R.id.stepQuizHints, STEP_HINTS_FRAGMENT_TAG) {
-                StepQuizHintsFragment.newInstance(step)
+                StepQuizHintsFragment.newInstance(stepRoute, step)
             }
         }
     }

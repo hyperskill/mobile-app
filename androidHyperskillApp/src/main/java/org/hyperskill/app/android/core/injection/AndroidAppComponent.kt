@@ -26,6 +26,7 @@ import org.hyperskill.app.profile_settings.injection.PlatformProfileSettingsComp
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.stage_implementation.injection.PlatformStageImplementationComponent
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.injection.PlatformStepComponent
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponent
@@ -46,7 +47,7 @@ interface AndroidAppComponent : AppGraph {
     fun buildPlatformAuthCredentialsComponent(authCredentialsComponent: AuthCredentialsComponent): PlatformAuthCredentialsComponent
     fun buildPlatformStepComponent(stepComponent: StepComponent): PlatformStepComponent
     fun buildPlatformStepQuizComponent(stepQuizComponent: StepQuizComponent): PlatformStepQuizComponent
-    fun buildPlatformStepQuizHintsComponent(step: Step): PlatformStepQuizHintsComponent
+    fun buildPlatformStepQuizHintsComponent(stepRoute: StepRoute, step: Step): PlatformStepQuizHintsComponent
     fun buildPlatformLatexComponent(): PlatformLatexComponent
     fun buildPlatformCodeEditorComponent(): PlatformCodeEditorComponent
     fun buildPlatformTrackComponent(trackComponent: TrackComponent): PlatformTrackComponent

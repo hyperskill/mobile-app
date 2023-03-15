@@ -188,8 +188,8 @@ class AppGraphImpl(
     override fun buildStepQuizComponent(stepRoute: StepRoute): StepQuizComponent =
         StepQuizComponentImpl(this, stepRoute)
 
-    override fun buildStepQuizHintsComponent(): StepQuizHintsComponent =
-        StepQuizHintsComponentImpl(this)
+    override fun buildStepQuizHintsComponent(stepRoute: StepRoute): StepQuizHintsComponent =
+        StepQuizHintsComponentImpl(this, stepRoute)
 
     override fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent =
         StepCompletionComponentImpl(this, stepRoute)

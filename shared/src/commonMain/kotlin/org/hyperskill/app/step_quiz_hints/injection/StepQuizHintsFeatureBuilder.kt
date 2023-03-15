@@ -8,11 +8,13 @@ import org.hyperskill.app.likes.domain.interactor.LikesInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.reactions.domain.interactor.ReactionsInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz_hints.domain.interactor.StepQuizHintsInteractor
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsActionDispatcher
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
 import org.hyperskill.app.step_quiz_hints.view.mapper.StepQuizHintsViewStateMapper
+import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import org.hyperskill.app.user_storage.domain.interactor.UserStorageInteractor
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
@@ -20,16 +22,18 @@ import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 object StepQuizHintsFeatureBuilder {
     fun build(
+        stepRoute: StepRoute,
         stepQuizHintsInteractor: StepQuizHintsInteractor,
         profileInteractor: ProfileInteractor,
         likesInteractor: LikesInteractor,
         commentsInteractor: CommentsInteractor,
         reactionsInteractor: ReactionsInteractor,
         userStorageInteractor: UserStorageInteractor,
+        currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor
     ): Feature<StepQuizHintsFeature.ViewState, StepQuizHintsFeature.Message, StepQuizHintsFeature.Action> {
-        val stepQuizHintsReducer = StepQuizHintsReducer()
+        val stepQuizHintsReducer = StepQuizHintsReducer(stepRoute)
 
         val stepQuizHintsDispatcher = StepQuizHintsActionDispatcher(
             ActionDispatcherOptions(),
@@ -39,6 +43,7 @@ object StepQuizHintsFeatureBuilder {
             commentsInteractor,
             reactionsInteractor,
             userStorageInteractor,
+            currentSubscriptionStateRepository,
             analyticInteractor,
             sentryInteractor
         )

@@ -1,8 +1,8 @@
 package org.hyperskill.app.step_quiz_hints.presentation
 
-import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 import org.hyperskill.app.reactions.domain.model.ReactionType
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz_hints.domain.analytic.StepQuizHintsClickedHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_hints.domain.analytic.StepQuizHintsHiddenReportHintNoticeHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_hints.domain.analytic.StepQuizHintsShownReportHintNoticeHyperskillAnalyticEvent
@@ -11,7 +11,7 @@ import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.Mess
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
-internal class StepQuizHintsReducer : StateReducer<State, Message, Action> {
+internal class StepQuizHintsReducer(private val stepRoute: StepRoute) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
             is Message.InitWithStepId ->
@@ -26,7 +26,7 @@ internal class StepQuizHintsReducer : StateReducer<State, Message, Action> {
                         hintsIds = message.hintsIds,
                         currentHint = message.lastSeenHint,
                         hintHasReaction = message.lastSeenHintHasReaction,
-                        isDailyStep = message.isDailyStep,
+                        isFreemium = message.isFreemium,
                         stepId = message.stepId
                     ) to emptySet()
                 } else {
@@ -65,7 +65,7 @@ internal class StepQuizHintsReducer : StateReducer<State, Message, Action> {
                         ),
                         Action.LogAnalyticEvent(
                             StepQuizHintsClickedHyperskillAnalyticEvent(
-                                resolveAnalyticRoute(state.currentHint.targetId, state.isDailyStep),
+                                stepRoute.analyticRoute,
                                 when (message.reaction) {
                                     ReactionType.HELPFUL -> HyperskillAnalyticTarget.YES
                                     ReactionType.UNHELPFUL -> HyperskillAnalyticTarget.NO
@@ -95,10 +95,15 @@ internal class StepQuizHintsReducer : StateReducer<State, Message, Action> {
                         val hintsIds = state.hintsIds.toMutableList()
                         val nextHintId = hintsIds.removeLast()
                         State.Loading() to setOf(
-                            Action.FetchNextHint(nextHintId, hintsIds, state.isDailyStep, state.stepId),
+                            Action.FetchNextHint(
+                                nextHintId,
+                                hintsIds,
+                                state.isFreemium,
+                                state.stepId
+                            ),
                             Action.LogAnalyticEvent(
                                 StepQuizHintsClickedHyperskillAnalyticEvent(
-                                    resolveAnalyticRoute(state.stepId, state.isDailyStep),
+                                    stepRoute.analyticRoute,
                                     when (state.currentHint) {
                                         null -> HyperskillAnalyticTarget.SEE_HINT
                                         else -> HyperskillAnalyticTarget.SEE_NEXT_HINT
@@ -112,7 +117,7 @@ internal class StepQuizHintsReducer : StateReducer<State, Message, Action> {
                             Action.FetchNextHint(
                                 nextHintId = state.nextHintId,
                                 remainingHintsIds = state.hintsIds,
-                                isDailyStep = state.isDailyStep,
+                                isFreemium = state.isFreemium,
                                 stepId = state.stepId
                             )
                         )
@@ -127,7 +132,7 @@ internal class StepQuizHintsReducer : StateReducer<State, Message, Action> {
                         hintsIds = message.remainingHintsIds,
                         currentHint = message.nextHint,
                         hintHasReaction = false,
-                        isDailyStep = message.isDailyStep,
+                        isFreemium = message.isFreemium,
                         stepId = message.stepId
                     ) to emptySet()
                 } else {
@@ -138,7 +143,7 @@ internal class StepQuizHintsReducer : StateReducer<State, Message, Action> {
                     State.NetworkError(
                         nextHintId = message.nextHintId,
                         hintsIds = message.remainingHintsIds,
-                        isDailyStep = message.isDailyStep,
+                        isFreemium = message.isFreemium,
                         stepId = message.stepId
                     ) to emptySet()
                 } else {
@@ -149,7 +154,7 @@ internal class StepQuizHintsReducer : StateReducer<State, Message, Action> {
                     state to setOf(
                         Action.LogAnalyticEvent(
                             StepQuizHintsHiddenReportHintNoticeHyperskillAnalyticEvent(
-                                resolveAnalyticRoute(state.currentHint.targetId, state.isDailyStep),
+                                stepRoute.analyticRoute,
                                 isReported = message.isReported
                             )
                         )
@@ -162,7 +167,7 @@ internal class StepQuizHintsReducer : StateReducer<State, Message, Action> {
                     state to setOf(
                         Action.LogAnalyticEvent(
                             StepQuizHintsClickedHyperskillAnalyticEvent(
-                                resolveAnalyticRoute(state.stepId, state.isDailyStep),
+                                stepRoute.analyticRoute,
                                 HyperskillAnalyticTarget.REPORT,
                                 commentId = state.currentHint.id
                             )
@@ -175,17 +180,11 @@ internal class StepQuizHintsReducer : StateReducer<State, Message, Action> {
                 if (state is State.Content) {
                     state to setOf(
                         Action.LogAnalyticEvent(
-                            StepQuizHintsShownReportHintNoticeHyperskillAnalyticEvent(
-                                resolveAnalyticRoute(state.stepId, state.isDailyStep)
-                            )
+                            StepQuizHintsShownReportHintNoticeHyperskillAnalyticEvent(stepRoute.analyticRoute)
                         )
                     )
                 } else {
                     null
                 }
         } ?: (state to emptySet())
-
-    private fun resolveAnalyticRoute(stepId: Long, isDailyStep: Boolean): HyperskillAnalyticRoute =
-        if (isDailyStep) HyperskillAnalyticRoute.Learn.Daily(stepId)
-        else HyperskillAnalyticRoute.Learn.Step(stepId)
 }

@@ -286,11 +286,11 @@ class AndroidAppComponentImpl(
     /**
      * Step quiz hints component
      */
-    override fun buildStepQuizHintsComponent(): StepQuizHintsComponent =
-        StepQuizHintsComponentImpl(this)
+    override fun buildStepQuizHintsComponent(stepRoute: StepRoute): StepQuizHintsComponent =
+        StepQuizHintsComponentImpl(this, stepRoute)
 
-    override fun buildPlatformStepQuizHintsComponent(step: Step): PlatformStepQuizHintsComponent =
-        PlatformStepQuizHintsComponentImpl(this, step)
+    override fun buildPlatformStepQuizHintsComponent(stepRoute: StepRoute, step: Step): PlatformStepQuizHintsComponent =
+        PlatformStepQuizHintsComponentImpl(this, stepRoute, step)
 
     /**
      * Step completion component

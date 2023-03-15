@@ -24,14 +24,14 @@ object StepQuizHintsFeature {
          * @property hintsIds remaining hints to be displayed
          * @property currentHint current hint to be displayed
          * @property hintHasReaction flag true, if user created reaction or reported hint
-         * @property isDailyStep used for analytic route
+         * @property isFreemium used for showing only one hint for freemium
          * @property stepId used for analytic route
          */
         data class Content(
             val hintsIds: List<Long>,
             val currentHint: Comment?,
             val hintHasReaction: Boolean,
-            val isDailyStep: Boolean,
+            val isFreemium: Boolean,
             val stepId: Long
         ) : State
 
@@ -40,13 +40,13 @@ object StepQuizHintsFeature {
          *
          * @property nextHintId next hint to be loaded
          * @property hintsIds remaining hints to be displayed
-         * @property isDailyStep used for analytic route
+         * @property isFreemium used for showing only one hint for freemium
          * @property stepId used for analytic route
          */
         data class NetworkError(
             val nextHintId: Long,
             val hintsIds: List<Long>,
-            val isDailyStep: Boolean,
+            val isFreemium: Boolean,
             val stepId: Long
         ) : State
     }
@@ -89,14 +89,14 @@ object StepQuizHintsFeature {
          * Message to fill state with ready data
          *
          * @property hintsIds  hints ids to be displayed
-         * @property isDailyStep used for analytic route
+         * @property isFreemium used for showing only one hint for freemium
          * @property stepId used for analytic route
          */
         data class HintsIdsLoaded(
             val hintsIds: List<Long>,
             val lastSeenHint: Comment?,
             val lastSeenHintHasReaction: Boolean,
-            val isDailyStep: Boolean,
+            val isFreemium: Boolean,
             val stepId: Long
         ) : Message
 
@@ -142,13 +142,13 @@ object StepQuizHintsFeature {
          *
          * @property nextHint new loaded hint
          * @property remainingHintsIds next hints ids to be displayed
-         * @property isDailyStep used for analytic route
+         * @property isFreemium used for showing only one hint for freemium
          * @property stepId used for analytic route
          */
         data class NextHintLoaded(
             val nextHint: Comment,
             val remainingHintsIds: List<Long>,
-            val isDailyStep: Boolean,
+            val isFreemium: Boolean,
             val stepId: Long
         ) : Message
 
@@ -157,13 +157,13 @@ object StepQuizHintsFeature {
          *
          * @property nextHintId next hint to be loaded
          * @property remainingHintsIds remaining hints ids
-         * @property isDailyStep used for analytic route
+         * @property isFreemium used for showing only one hint for freemium
          * @property stepId used for analytic route
          */
         data class NextHintLoadingError(
             val nextHintId: Long,
             val remainingHintsIds: List<Long>,
-            val isDailyStep: Boolean,
+            val isFreemium: Boolean,
             val stepId: Long
         ) : Message
 
@@ -205,13 +205,13 @@ object StepQuizHintsFeature {
          *
          * @property nextHintId hint ID to load hint details
          * @property remainingHintsIds next hints ids to be displayed
-         * @property isDailyStep used for analytic route
+         * @property isFreemium used for showing only one hint for freemium
          * @property stepId used for analytic route
          */
         data class FetchNextHint(
             val nextHintId: Long,
             val remainingHintsIds: List<Long>,
-            val isDailyStep: Boolean,
+            val isFreemium: Boolean,
             val stepId: Long
         ) : Action
 

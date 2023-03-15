@@ -25,7 +25,7 @@ internal object StepQuizHintsViewStateMapper {
                                 !state.hintHasReaction -> {
                                     StepQuizHintsFeature.ViewState.HintState.REACT_TO_HINT
                                 }
-                                state.hintHasReaction && state.hintsIds.isNotEmpty() -> {
+                                state.hintHasReaction && state.hintsIds.isNotEmpty() && !state.isFreemium -> {
                                     StepQuizHintsFeature.ViewState.HintState.SEE_NEXT_HINT
                                 }
                                 else -> StepQuizHintsFeature.ViewState.HintState.LAST_HINT

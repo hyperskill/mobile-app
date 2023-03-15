@@ -15,3 +15,6 @@ data class Subscription(
     @SerialName("steps_limit_reset_time")
     val stepsLimitResetTime: Instant?
 )
+
+val Subscription.isFree: Boolean
+    get() = type == SubscriptionType.FREE
