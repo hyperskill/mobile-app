@@ -7,10 +7,10 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.notification.cache.NotificationCacheKeyValues
 import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
-import org.hyperskill.app.profile.domain.model.isFreemiumFeatureEnabled
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
@@ -31,6 +31,7 @@ class StepQuizActionDispatcher(
     private val profileInteractor: ProfileInteractor,
     private val notificationInteractor: NotificationInteractor,
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
+    private val freemiumInteractor: FreemiumInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val resourceProvider: ResourceProvider
@@ -151,16 +152,15 @@ class StepQuizActionDispatcher(
                 }
             }
             is Action.CreateSubmissionCheckLimit -> {
-                val isFreemiumFeatureEnabled = profileInteractor
-                    .getCurrentProfile()
+                val isFreemiumEnabled = freemiumInteractor
+                    .isFreemiumEnabled()
                     .getOrElse {
                         return onNewMessage(
                             Message.CreateSubmissionCheckLimitResult.NetworkError
                         )
                     }
-                    .isFreemiumFeatureEnabled
 
-                if (isFreemiumFeatureEnabled) {
+                if (isFreemiumEnabled) {
                     val subscription = currentSubscriptionStateRepository
                         .getState()
                         .getOrElse {

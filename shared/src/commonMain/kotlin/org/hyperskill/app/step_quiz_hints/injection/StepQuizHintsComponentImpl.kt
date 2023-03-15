@@ -18,12 +18,11 @@ class StepQuizHintsComponentImpl(private val appGraph: AppGraph, private val ste
         get() = StepQuizHintsFeatureBuilder.build(
             stepRoute,
             stepQuizHintsInteractor,
-            appGraph.buildProfileDataComponent().profileInteractor,
             appGraph.buildLikesDataComponent().likesInteractor,
             appGraph.buildCommentsDataComponent().commentsInteractor,
             appGraph.buildReactionsDataComponent().reactionsInteractor,
             appGraph.buildUserStorageComponent().userStorageInteractor,
-            appGraph.subscriptionsDataComponent.currentSubscriptionStateRepository,
+            appGraph.buildFreemiumDataComponent().freemiumInteractor,
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor
         )

@@ -7,6 +7,7 @@ import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.comments.injection.CommentsDataComponent
 import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
+import org.hyperskill.app.freemium.injection.FreemiumDataComponent
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.items.injection.ItemsDataComponent
@@ -118,4 +119,5 @@ interface AppGraph {
     fun buildStudyPlanDataComponent(): StudyPlanDataComponent
     fun buildProjectsDataComponent(): ProjectsDataComponent
     fun buildStagesDataComponent(): StagesDataComponent
+    fun buildFreemiumDataComponent(): FreemiumDataComponent
 }

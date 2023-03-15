@@ -50,6 +50,7 @@ class StepQuizComponentImpl(
             appGraph.buildProfileDataComponent().profileInteractor,
             appGraph.buildNotificationComponent().notificationInteractor,
             appGraph.subscriptionsDataComponent.currentSubscriptionStateRepository,
+            appGraph.buildFreemiumDataComponent().freemiumInteractor,
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor,
             appGraph.commonComponent.resourceProvider
