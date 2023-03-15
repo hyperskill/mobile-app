@@ -224,6 +224,7 @@ abstract class DefaultStepQuizFragment :
             is StepQuizFeature.Action.ViewAction.NavigateTo.Back -> {
                 requireRouter().exit()
             }
+            is StepQuizFeature.Action.ViewAction.NavigateTo.Home -> TODO()
             is StepQuizFeature.Action.ViewAction.RequestUserPermission -> {
                 when (action.userPermissionRequest) {
                     StepQuizUserPermissionRequest.RESET_CODE -> {
@@ -239,7 +240,7 @@ abstract class DefaultStepQuizFragment :
                     .newInstance(earnedGemsText = action.earnedGemsText)
                     .showIfNotExists(childFragmentManager, CompletedStepOfTheDayDialogFragment.TAG)
             }
-            StepQuizFeature.Action.ViewAction.ShowLimitExceededModal -> TODO()
+            StepQuizFeature.Action.ViewAction.ShowDailyLimitReachedModal -> TODO()
         }
     }
 

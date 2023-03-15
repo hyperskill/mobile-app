@@ -64,7 +64,6 @@ interface StepQuizFeature {
         ) : Message
         sealed interface CreateSubmissionCheckLimitResult : Message {
             data class SubmisssionAvailable(val step: Step, val reply: Reply) : CreateSubmissionCheckLimitResult
-            object LimitExceeded : CreateSubmissionCheckLimitResult
             object NetworkError : CreateSubmissionCheckLimitResult
         }
 
@@ -88,12 +87,22 @@ interface StepQuizFeature {
         object ProblemOfDaySolvedModalGoBackClicked : Message
 
         /**
+         * Daily limit reached modal
+         */
+
+        object ShowDailyLimitReachedModal : Message
+
+        object DailyLimitReachedModalGoToHomeScreenClicked : Message
+
+        /**
          * Analytic
          */
         object ClickedCodeDetailsEventMessage : Message
         object ClickedRetryEventMessage : Message
         object DailyStepCompletedModalShownEventMessage : Message
         object DailyStepCompletedModalHiddenEventMessage : Message
+        object DailyLimitReachedModalShownEventMessage : Message
+        object DailyLimitReachedModalHiddenEventMessage : Message
     }
 
     sealed interface Action {
@@ -131,10 +140,12 @@ interface StepQuizFeature {
 
             data class ShowProblemOfDaySolvedModal(val earnedGemsText: String) : ViewAction
 
-            object ShowLimitExceededModal : ViewAction
+            object ShowDailyLimitReachedModal : ViewAction
 
             sealed interface NavigateTo : ViewAction {
                 object Back : NavigateTo
+
+                object Home : NavigateTo
             }
         }
     }

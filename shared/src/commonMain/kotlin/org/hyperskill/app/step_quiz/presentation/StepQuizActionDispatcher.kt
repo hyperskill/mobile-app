@@ -170,7 +170,7 @@ class StepQuizActionDispatcher(
                         }
 
                     if (subscription.isFree && subscription.stepsLimitLeft == 0) {
-                        return onNewMessage(Message.CreateSubmissionCheckLimitResult.LimitExceeded)
+                        return onNewMessage(Message.ShowDailyLimitReachedModal)
                     }
                 }
 

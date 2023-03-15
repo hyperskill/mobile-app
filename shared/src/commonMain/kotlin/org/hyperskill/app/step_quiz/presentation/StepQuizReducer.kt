@@ -9,6 +9,9 @@ import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRunHyperskill
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedSendHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizHiddenDailyNotificationsNoticeHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizShownDailyNotificationsNoticeHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.daily_limit_reached_modal.DailyLimitReachedModalClickedGoToHomeScreenHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.daily_limit_reached_modal.DailyLimitReachedModalHiddenHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.daily_limit_reached_modal.DailyLimitReachedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.daily_step_completed_modal.StepQuizDailyStepCompletedModalClickedGoBackHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.daily_step_completed_modal.StepQuizDailyStepCompletedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.daily_step_completed_modal.StepQuizDailyStepCompletedModalShownHyperskillAnalyticEvent
@@ -110,8 +113,6 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                 }
             is Message.CreateSubmissionCheckLimitResult.SubmisssionAvailable ->
                 state to setOf(Action.CreateSubmissionValidateReply(message.step, message.reply))
-            is Message.CreateSubmissionCheckLimitResult.LimitExceeded ->
-                state to setOf(Action.ViewAction.ShowLimitExceededModal)
             is Message.CreateSubmissionCheckLimitResult.NetworkError ->
                 state to setOf(Action.ViewAction.ShowNetworkError)
             is Message.CreateSubmissionReplyValidationResult ->
@@ -226,6 +227,15 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                 } else {
                     null
                 }
+            is Message.ShowDailyLimitReachedModal ->
+                state to setOf(Action.ViewAction.ShowDailyLimitReachedModal)
+            is Message.DailyLimitReachedModalGoToHomeScreenClicked ->
+                state to setOf(
+                    Action.ViewAction.NavigateTo.Home,
+                    Action.LogAnalyticEvent(
+                        DailyLimitReachedModalClickedGoToHomeScreenHyperskillAnalyticEvent(stepRoute.analyticRoute)
+                    )
+                )
             is Message.ClickedCodeDetailsEventMessage ->
                 if (state is State.AttemptLoaded) {
                     val event = StepQuizClickedCodeDetailsHyperskillAnalyticEvent(stepRoute.analyticRoute)
@@ -254,6 +264,18 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                 } else {
                     null
                 }
+            is Message.DailyLimitReachedModalShownEventMessage ->
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        DailyLimitReachedModalShownHyperskillAnalyticEvent(stepRoute.analyticRoute)
+                    )
+                )
+            is Message.DailyLimitReachedModalHiddenEventMessage ->
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        DailyLimitReachedModalHiddenHyperskillAnalyticEvent(stepRoute.analyticRoute)
+                    )
+                )
         } ?: (state to emptySet())
 
     private fun createLocalSubmission(oldState: State.AttemptLoaded, reply: Reply): Submission {
