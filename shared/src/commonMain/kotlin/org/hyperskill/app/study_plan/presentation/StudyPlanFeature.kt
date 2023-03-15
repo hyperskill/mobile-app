@@ -6,27 +6,40 @@ import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 
 object StudyPlanFeature {
 
-    data class State(
+    internal data class State(
         val studyPlan: StudyPlan? = null,
-        val studyPlanSections: List<StudyPlanSection> = emptyList(),
+
+        val studyPlanSections: Map<Long, StudyPlanSectionInfo> = emptyMap(),
 
         /**
          * Describes status of sections loading, including [studyPlan] loading
          */
-        val sectionsStatus: SectionsStatus = SectionsStatus.IDLE,
+        val sectionsStatus: ContentStatus = ContentStatus.IDLE,
 
         /**
          * Map of sections ids to section's activities
          */
-        val activities: Map<Long, Set<LearningActivity>> = mapOf()
+        val activities: Map<Long, Set<LearningActivity>> = mapOf(),
+
+        /**
+         * Describes status of section's activities loading
+         * Key is a section id
+         * Value is a status of section content loading
+         */
+        val sectionsContentStatuses: Map<Long, ContentStatus> = mapOf()
     )
 
-    enum class SectionsStatus {
+    enum class ContentStatus {
         IDLE,
         LOADING,
         ERROR,
-        SUCCESS
+        LOADED
     }
+
+    data class StudyPlanSectionInfo(
+        val studyPlanSection: StudyPlanSection,
+        val isExpanded: Boolean
+    )
 
     sealed interface Message {
         object Initialize : Message
