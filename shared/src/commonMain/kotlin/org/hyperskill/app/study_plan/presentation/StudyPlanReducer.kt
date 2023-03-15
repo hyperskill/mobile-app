@@ -39,7 +39,7 @@ internal class StudyPlanReducer : StateReducer<State, Message, Action> {
         val studyPlanSections = visibleSections.mapIndexed { index, studyPlanSection ->
             studyPlanSection.id to StudyPlanFeature.StudyPlanSectionInfo(
                 studyPlanSection = studyPlanSection,
-                isExpanded = index == 0 //Expand first section
+                isExpanded = index == 0 // Expand first section
             )
         }.toMap()
 

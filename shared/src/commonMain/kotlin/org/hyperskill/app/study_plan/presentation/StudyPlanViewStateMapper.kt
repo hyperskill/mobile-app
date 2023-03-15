@@ -26,8 +26,8 @@ internal object StudyPlanViewStateMapper {
     private fun getSectionContent(
         sectionInfo: StudyPlanFeature.StudyPlanSectionInfo,
         state: StudyPlanFeature.State
-    ): SectionContent {
-        return if (sectionInfo.isExpanded) {
+    ): SectionContent =
+        if (sectionInfo.isExpanded) {
             val contentStatus = state.sectionsContentStatuses.getOrElse(sectionInfo.studyPlanSection.id) {
                 StudyPlanFeature.ContentStatus.IDLE
             }
@@ -51,5 +51,4 @@ internal object StudyPlanViewStateMapper {
         } else {
             SectionContent.Collapsed
         }
-    }
 }
