@@ -1,8 +1,9 @@
 package org.hyperskill.app.study_plan.domain.model
 
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@kotlinx.serialization.Serializable
+@Serializable
 data class StudyPlanSection(
     @SerialName("id")
     val id: Long,
@@ -23,5 +24,7 @@ data class StudyPlanSection(
     @SerialName("completed_topics_count")
     val completedTopicsCount: Int,
     @SerialName("seconds_to_complete")
-    val secondsToComplete: Float
+    val secondsToComplete: Float,
+    @SerialName("activities")
+    val activities: List<Long>
 )

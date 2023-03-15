@@ -24,10 +24,21 @@ class StudyPlanActionDispatcher(
             is Action.FetchSections -> {
                 studyPlanInteractor.getStudyPlanSections(action.sectionsIds)
                     .onSuccess { sections ->
-                        onNewMessage(StudyPlanFeature.StudyPlanSectionsFetchResult.Success(sections))
+                        onNewMessage(StudyPlanFeature.SectionsFetchResult.Success(sections))
                     }
                     .onFailure {
-                        onNewMessage(StudyPlanFeature.StudyPlanSectionsFetchResult.Failed)
+                        onNewMessage(StudyPlanFeature.SectionsFetchResult.Failed)
+                    }
+            }
+            is Action.FetchActivities -> {
+                studyPlanInteractor.getLearningActivities(action.activitiesIds)
+                    .onSuccess { learningActivities ->
+                        onNewMessage(
+                            StudyPlanFeature.LearningActivitiesFetchResult.Success(action.sectionId, learningActivities)
+                        )
+                    }
+                    .onFailure {
+                        onNewMessage(StudyPlanFeature.LearningActivitiesFetchResult.Failed)
                     }
             }
         }
