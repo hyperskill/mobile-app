@@ -34,7 +34,7 @@ internal class StudyPlanReducer : StateReducer<State, Message, Action> {
 
     private fun handleSectionsFetchSuccess(
         state: State,
-        message:  StudyPlanFeature.SectionsFetchResult.Success
+        message: StudyPlanFeature.SectionsFetchResult.Success
     ): StudyPlanReducerResult {
         val visibleSections = message.sections.filter { it.isVisible }
         val firstVisibleSection = visibleSections.firstOrNull()
@@ -46,24 +46,16 @@ internal class StudyPlanReducer : StateReducer<State, Message, Action> {
             )
         }.toMap()
 
-        val sectionsContentStatuses = if (firstVisibleSection != null) {
-            mapOf(firstVisibleSection.id to StudyPlanFeature.ContentStatus.LOADING)
-        } else {
-            emptyMap()
-        }
-
-        val fetchFirstSectionActivitiesAction = firstVisibleSection?.let { firstSection ->
-            Action.FetchActivities(
-                sectionId = firstSection.id,
-                activitiesIds = firstSection.activities
-            )
-        }
-
-        return state.copy(
+        val loadedSectionsState =  state.copy(
             studyPlanSections = studyPlanSections,
-            sectionsStatus = StudyPlanFeature.ContentStatus.LOADED,
-            sectionsContentStatuses = sectionsContentStatuses
-        ) to setOfNotNull(fetchFirstSectionActivitiesAction)
+            sectionsStatus = StudyPlanFeature.ContentStatus.LOADED
+        )
+
+        return if (firstVisibleSection != null) {
+            fetchActivities(loadedSectionsState, firstVisibleSection.id, firstVisibleSection.activities)
+        } else {
+            loadedSectionsState to emptySet()
+        }
     }
 
     private fun handleLearningActivitiesFetchSuccess(
