@@ -44,6 +44,8 @@ import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponentImpl
 import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponent
 import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponentImpl
+import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
+import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponentImpl
 import org.hyperskill.app.products.injection.ProductsDataComponent
 import org.hyperskill.app.products.injection.ProductsDataComponentImpl
 import org.hyperskill.app.profile.injection.ProfileComponent
@@ -291,4 +293,7 @@ class AppGraphImpl(
 
     override fun buildFreemiumDataComponent(): FreemiumDataComponent =
         FreemiumDataComponentImpl(this)
+
+    override fun buildProblemsLimitComponent(): ProblemsLimitComponent =
+        ProblemsLimitComponentImpl(this)
 }

@@ -21,6 +21,7 @@ import org.hyperskill.app.notification.injection.NotificationComponent
 import org.hyperskill.app.notification.injection.NotificationFlowDataComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponent
+import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.products.injection.ProductsDataComponent
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponent
@@ -120,4 +121,5 @@ interface AppGraph {
     fun buildProjectsDataComponent(): ProjectsDataComponent
     fun buildStagesDataComponent(): StagesDataComponent
     fun buildFreemiumDataComponent(): FreemiumDataComponent
+    fun buildProblemsLimitComponent(): ProblemsLimitComponent
 }

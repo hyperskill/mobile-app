@@ -3,13 +3,17 @@ package org.hyperskill.app.core.view.mapper
 import org.hyperskill.app.SharedResources
 import kotlin.math.max
 import kotlin.math.roundToLong
+import kotlin.time.Duration
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
 class DateFormatter(private val resourceProvider: ResourceProvider) {
     companion object {
-        private val SECONDS_PER_HOUR = 1.toDuration(DurationUnit.HOURS).inWholeSeconds
-        private val SECONDS_PER_MINUTE = 1.toDuration(DurationUnit.MINUTES).inWholeSeconds
+        private val DURATION_ONE_HOUR = 1.toDuration(DurationUnit.HOURS)
+        private val DURATION_ONE_MINUTE = 1.toDuration(DurationUnit.MINUTES)
+
+        private val SECONDS_PER_HOUR = DURATION_ONE_HOUR.inWholeSeconds
+        private val SECONDS_PER_MINUTE = DURATION_ONE_MINUTE.inWholeSeconds
 
         val THIRTY_SEC_IN_MILLIS: Long = 30.toDuration(DurationUnit.SECONDS).inWholeMilliseconds
         val ONE_MINUTE_IN_MILLIS: Long = 1.toDuration(DurationUnit.MINUTES).inWholeMilliseconds
@@ -100,4 +104,25 @@ class DateFormatter(private val resourceProvider: ResourceProvider) {
 
         return result
     }
+
+    /**
+     * Format hours or minutes count with localized and pluralized suffix;
+     * 02:03:10 -> "2 hours", 00:12:56 -> "12 minutes"
+     * @param duration Duration to format
+     *
+     */
+    fun hoursOrMinutesCount(duration: Duration): String =
+        if (duration > DURATION_ONE_HOUR) {
+            resourceProvider.getQuantityString(
+                SharedResources.plurals.hours,
+                duration.inWholeHours.toInt(),
+                duration.inWholeHours.toInt()
+            )
+        } else {
+            resourceProvider.getQuantityString(
+                SharedResources.plurals.minutes,
+                duration.inWholeMinutes.toInt(),
+                duration.inWholeMinutes.toInt()
+            )
+        }
 }

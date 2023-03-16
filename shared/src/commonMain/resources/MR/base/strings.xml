@@ -364,7 +364,7 @@
     <string name="problems_limit_reached_modal_text">You\'ve solved 5 problems today. Great job! Tomorrow new problems will be available to you.</string>
 
     <!--  Problems limit widget  -->
-    <string name="problems_limit_widget_problems_limit">problems limit</string>
+    <string name="problems_limit_widget_problems_limit">%d/%d problems limit</string>
     <string name="problems_limit_widget_update_in">Update in</string>
 
 </resources>
