@@ -29,7 +29,7 @@ internal class StudyPlanReducer : StateReducer<State, Message, Action> {
                 state.copy(sectionsStatus = StudyPlanFeature.ContentStatus.ERROR) to emptySet()
             }
             is Message.SectionExpanseChanged ->
-                handleSectionExpanseChanged(state, message)
+                changeSectionExpanse(state, message.sectionId, message.isExpanded)
         }
 
     private fun handleSectionsFetchSuccess(
@@ -39,13 +39,13 @@ internal class StudyPlanReducer : StateReducer<State, Message, Action> {
         val visibleSections = message.sections.filter { it.isVisible }
         val firstVisibleSection = visibleSections.firstOrNull()
 
-        val studyPlanSections = visibleSections.mapIndexed { index, studyPlanSection ->
+        val studyPlanSections = visibleSections.associate { studyPlanSection ->
             studyPlanSection.id to StudyPlanFeature.StudyPlanSectionInfo(
                 studyPlanSection = studyPlanSection,
-                isExpanded = index == 0, // Expand first section
+                isExpanded = false,
                 contentStatus = StudyPlanFeature.ContentStatus.IDLE
             )
-        }.toMap()
+        }
 
         val loadedSectionsState = state.copy(
             studyPlanSections = studyPlanSections,
@@ -53,7 +53,7 @@ internal class StudyPlanReducer : StateReducer<State, Message, Action> {
         )
 
         return if (firstVisibleSection != null) {
-            fetchActivities(loadedSectionsState, firstVisibleSection.id, firstVisibleSection.activities)
+            changeSectionExpanse(loadedSectionsState, firstVisibleSection.id, isExpanded = true)
         } else {
             loadedSectionsState to emptySet()
         }
@@ -87,51 +87,46 @@ internal class StudyPlanReducer : StateReducer<State, Message, Action> {
             }
         ) to emptySet()
 
-    private fun handleSectionExpanseChanged(
+    private fun changeSectionExpanse(
         state: State,
-        message: Message.SectionExpanseChanged
+        sectionId: Long,
+        isExpanded: Boolean
     ): StudyPlanReducerResult {
         val section =
-            state.studyPlanSections[message.sectionId] ?: return state to emptySet()
+            state.studyPlanSections[sectionId] ?: return state to emptySet()
 
-        val sectionUpdatedState = state.copy(
-            studyPlanSections = state.studyPlanSections.set(
-                message.sectionId,
-                section.copy(isExpanded = message.isExpanded)
+        fun updateSectionState(contentStatus: StudyPlanFeature.ContentStatus = section.contentStatus) =
+            state.copy(
+                studyPlanSections = state.studyPlanSections.update(
+                    sectionId,
+                    section.copy(isExpanded = isExpanded, contentStatus = contentStatus)
+                )
             )
-        )
 
-        return if (message.isExpanded) {
+        return if (isExpanded) {
             when (section.contentStatus) {
                 StudyPlanFeature.ContentStatus.IDLE,
                 StudyPlanFeature.ContentStatus.ERROR -> {
-                    fetchActivities(sectionUpdatedState, message.sectionId, section.studyPlanSection.activities)
+                    updateSectionState(StudyPlanFeature.ContentStatus.LOADING) to setOf(
+                        Action.FetchActivities(
+                            sectionId = sectionId,
+                            activitiesIds = section.studyPlanSection.activities
+                        )
+                    )
                 }
 
                 // activities are loading at the moment or already loaded
                 StudyPlanFeature.ContentStatus.LOADING,
                 StudyPlanFeature.ContentStatus.LOADED -> {
-                    sectionUpdatedState to emptySet()
+                    updateSectionState() to emptySet()
                 }
             }
         } else {
-            sectionUpdatedState to emptySet()
+            updateSectionState() to emptySet()
         }
     }
 
-    private fun fetchActivities(state: State, sectionId: Long, activitiesIds: List<Long>): StudyPlanReducerResult =
-        state.copy(
-            studyPlanSections = state.studyPlanSections.update(sectionId) { sectionInfo ->
-                sectionInfo.copy(contentStatus = StudyPlanFeature.ContentStatus.LOADING)
-            }
-        ) to setOf(
-            Action.FetchActivities(
-                sectionId = sectionId,
-                activitiesIds = activitiesIds
-            )
-        )
-
-    private fun <K, V> Map<K, V>.set(key: K, value: V): Map<K, V> =
+    private fun <K, V> Map<K, V>.update(key: K, value: V): Map<K, V> =
         this.toMutableMap().apply {
             this[key] = value
         }
@@ -143,7 +138,7 @@ internal class StudyPlanReducer : StateReducer<State, Message, Action> {
         val section = this[key]
         return if (section != null) {
             val newValue = block(section)
-            this.set(key, newValue)
+            this.update(key, newValue)
         } else {
             this
         }
