@@ -179,10 +179,8 @@ class StudyPlanTest {
 
             val expectedViewStateSections = StudyPlanViewState.Content(
                 sections = listOf(
-                    StudyPlanViewState.Section(
-                        id = givenSection.studyPlanSection.id,
-                        title = givenSection.studyPlanSection.title,
-                        subtitle = givenSection.studyPlanSection.subtitle,
+                    contentViewState(
+                        section = section,
                         content = StudyPlanViewState.SectionContent.Collapsed
                     )
                 )
@@ -209,12 +207,10 @@ class StudyPlanTest {
 
         val viewState = StudyPlanViewStateMapper.map(state)
 
-        val expectedViewStateSections = StudyPlanViewState.Content(
+        val expectedViewState = StudyPlanViewState.Content(
             sections = listOf(
-                StudyPlanViewState.Section(
-                    id = section.studyPlanSection.id,
-                    title = section.studyPlanSection.title,
-                    subtitle = section.studyPlanSection.subtitle,
+                contentViewState(
+                    section = section.studyPlanSection,
                     content = StudyPlanViewState.SectionContent.Content(
                         listOf(StudyPlanViewState.SectionItem(id = activityId))
                     )
@@ -222,8 +218,48 @@ class StudyPlanTest {
             )
         )
 
-        assertEquals(expectedViewStateSections, viewState)
+        assertEquals(expectedViewState, viewState)
     }
+
+    @Test
+    fun `Loaded section activities should be a section items in viewState`() {
+        val sectionId = 0L
+        val activityId = 0L
+
+        val section = StudyPlanFeature.StudyPlanSectionInfo(
+            studyPlanSection = studyPlanSectionStub(sectionId),
+            contentStatus = StudyPlanFeature.ContentStatus.LOADED,
+            isExpanded = true
+        )
+        val state = StudyPlanFeature.State(
+            studyPlanSections = mapOf(sectionId to section),
+            sectionsStatus = StudyPlanFeature.ContentStatus.LOADED,
+            activities = mapOf(sectionId to setOf(stubLearningActivity(activityId)))
+        )
+
+        val viewState = StudyPlanViewStateMapper.map(state)
+
+        val expectedViewState = StudyPlanViewState.Content(
+            sections = listOf(
+                contentViewState(
+                    section = section.studyPlanSection,
+                    content = StudyPlanViewState.SectionContent.Content(
+                        listOf(StudyPlanViewState.SectionItem(id = activityId))
+                    )
+                )
+            )
+        )
+
+        assertEquals(expectedViewState, viewState)
+    }
+
+    private fun contentViewState(section: StudyPlanSection, content: StudyPlanViewState.SectionContent) =
+        StudyPlanViewState.Section(
+            id = section.id,
+            title = section.title,
+            subtitle = section.subtitle,
+            content = content
+        )
 
     private fun studyPlanSectionStub(
         id: Long,
