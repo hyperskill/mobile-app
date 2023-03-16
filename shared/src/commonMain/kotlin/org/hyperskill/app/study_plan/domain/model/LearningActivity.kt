@@ -12,5 +12,5 @@ data class LearningActivity(
     @SerialName("target_id")
     val targetId: Long,
     @SerialName("type")
-    val type: TargetType
+    val type: LearningActivityType
 )
