@@ -21,15 +21,13 @@ sealed interface StudyPlanViewState {
     sealed interface SectionContent {
         object Collapsed : SectionContent
 
-        sealed interface Expanded : SectionContent
+        object Loading : SectionContent
 
-        object Loading : Expanded
-
-        object Error : Expanded
+        object Error : SectionContent
 
         data class Content(
             val sectionItems: List<SectionItem>
-        ) : Expanded
+        ) : SectionContent
     }
 
     data class SectionItem(
