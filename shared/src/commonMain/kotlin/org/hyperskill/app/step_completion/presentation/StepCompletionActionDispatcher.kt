@@ -8,6 +8,7 @@ import org.hyperskill.app.SharedResources
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
 import org.hyperskill.app.progresses.domain.flow.TopicProgressFlow
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
@@ -19,6 +20,7 @@ import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Action
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
+import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import org.hyperskill.app.topics.domain.interactor.TopicsInteractor
 import org.hyperskill.app.topics_to_discover_next.domain.interactor.TopicsToDiscoverNextInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
@@ -32,6 +34,8 @@ class StepCompletionActionDispatcher(
     private val resourceProvider: ResourceProvider,
     private val sentryInteractor: SentryInteractor,
     private val topicsToDiscoverNextInteractor: TopicsToDiscoverNextInteractor,
+    private val freemiumInteractor: FreemiumInteractor,
+    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val topicCompletedFlow: TopicCompletedFlow,
     private val topicProgressFlow: TopicProgressFlow,
     notificationInteractor: NotificationInteractor,
@@ -113,6 +117,14 @@ class StepCompletionActionDispatcher(
                     onNewMessage(Message.CheckTopicCompletionStatus.Uncompleted)
                 }
             }
+            is Action.UpdateProblemsLimit ->
+                if (freemiumInteractor.isFreemiumEnabled().getOrDefault(false)) {
+                    currentSubscriptionStateRepository.getState().getOrNull()?.let {
+                        currentSubscriptionStateRepository.updateState(
+                            it.copy(stepsLimitLeft = it.stepsLimitLeft?.dec())
+                        )
+                    }
+                }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
             else -> {}

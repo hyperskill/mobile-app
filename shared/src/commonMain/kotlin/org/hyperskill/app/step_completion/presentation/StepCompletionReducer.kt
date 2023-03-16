@@ -100,7 +100,10 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                     message.stepId == state.currentStep.id &&
                     state.currentStep.topic != null
                 ) {
-                    state.copy(isPracticingLoading = true) to setOf(Action.CheckTopicCompletionStatus(state.currentStep.topic))
+                    state.copy(isPracticingLoading = true) to setOf(
+                        Action.CheckTopicCompletionStatus(state.currentStep.topic),
+                        Action.UpdateProblemsLimit
+                    )
                 } else {
                     null
                 }
