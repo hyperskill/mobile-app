@@ -9,9 +9,9 @@ import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRunHyperskill
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedSendHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizHiddenDailyNotificationsNoticeHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizShownDailyNotificationsNoticeHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.daily_limit_reached_modal.DailyLimitReachedModalClickedGoToHomeScreenHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.daily_limit_reached_modal.DailyLimitReachedModalHiddenHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.daily_limit_reached_modal.DailyLimitReachedModalShownHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.daily_limit_reached_modal.DailyProblemsLimitReachedModalClickedGoToHomeScreenHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.daily_limit_reached_modal.DailyProblemsLimitReachedModalHiddenHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.daily_limit_reached_modal.DailyProblemsLimitReachedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.daily_step_completed_modal.StepQuizDailyStepCompletedModalClickedGoBackHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.daily_step_completed_modal.StepQuizDailyStepCompletedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.daily_step_completed_modal.StepQuizDailyStepCompletedModalShownHyperskillAnalyticEvent
@@ -227,13 +227,13 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                 } else {
                     null
                 }
-            is Message.ShowDailyLimitReachedModal ->
-                state to setOf(Action.ViewAction.ShowDailyLimitReachedModal)
-            is Message.DailyLimitReachedModalGoToHomeScreenClicked ->
+            is Message.ShowDailyProblemsLimitReachedModal ->
+                state to setOf(Action.ViewAction.ShowDailyProblemsLimitReachedModal)
+            is Message.DailyProblemsLimitReachedModalGoToHomeScreenClicked ->
                 state to setOf(
                     Action.ViewAction.NavigateTo.Home,
                     Action.LogAnalyticEvent(
-                        DailyLimitReachedModalClickedGoToHomeScreenHyperskillAnalyticEvent(stepRoute.analyticRoute)
+                        DailyProblemsLimitReachedModalClickedGoToHomeScreenHyperskillAnalyticEvent(stepRoute.analyticRoute)
                     )
                 )
             is Message.ClickedCodeDetailsEventMessage ->
@@ -264,16 +264,16 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                 } else {
                     null
                 }
-            is Message.DailyLimitReachedModalShownEventMessage ->
+            is Message.DailyProblemsLimitReachedModalShownEventMessage ->
                 state to setOf(
                     Action.LogAnalyticEvent(
-                        DailyLimitReachedModalShownHyperskillAnalyticEvent(stepRoute.analyticRoute)
+                        DailyProblemsLimitReachedModalShownHyperskillAnalyticEvent(stepRoute.analyticRoute)
                     )
                 )
-            is Message.DailyLimitReachedModalHiddenEventMessage ->
+            is Message.DailyProblemsLimitReachedModalHiddenEventMessage ->
                 state to setOf(
                     Action.LogAnalyticEvent(
-                        DailyLimitReachedModalHiddenHyperskillAnalyticEvent(stepRoute.analyticRoute)
+                        DailyProblemsLimitReachedModalHiddenHyperskillAnalyticEvent(stepRoute.analyticRoute)
                     )
                 )
         } ?: (state to emptySet())
