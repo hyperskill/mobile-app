@@ -8,6 +8,8 @@ import org.hyperskill.app.study_plan.domain.model.StudyPlanStatus
 import org.hyperskill.app.study_plan.domain.model.TargetState
 import org.hyperskill.app.study_plan.presentation.StudyPlanFeature
 import org.hyperskill.app.study_plan.presentation.StudyPlanReducer
+import org.hyperskill.app.study_plan.presentation.StudyPlanViewState
+import org.hyperskill.app.study_plan.presentation.StudyPlanViewStateMapper
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
@@ -148,6 +150,79 @@ class StudyPlanTest {
         val resultActivitiesIds = secondState.activities[sectionId]?.map { it.id }
 
         assertEquals(expectedActivitiesIds, resultActivitiesIds)
+    }
+
+    @Test
+    fun `Collapsed section or IDLE state section should be collapsed in view state`() {
+        val sectionId = 0L
+        val section = studyPlanSectionStub(id = sectionId)
+
+        val collapsedSection = StudyPlanFeature.StudyPlanSectionInfo(
+            studyPlanSection = section,
+            contentStatus = StudyPlanFeature.ContentStatus.LOADED,
+            isExpanded = false
+        )
+
+        val idleSection = StudyPlanFeature.StudyPlanSectionInfo(
+            studyPlanSection = section,
+            contentStatus = StudyPlanFeature.ContentStatus.LOADED,
+            isExpanded = false
+        )
+
+        listOf(collapsedSection, idleSection).forEach { givenSection ->
+            val state = StudyPlanFeature.State(
+                studyPlanSections = mapOf(sectionId to givenSection),
+                sectionsStatus = StudyPlanFeature.ContentStatus.LOADED
+            )
+
+            val viewState = StudyPlanViewStateMapper.map(state)
+
+            val expectedViewStateSections = StudyPlanViewState.Content(
+                sections = listOf(
+                    StudyPlanViewState.Section(
+                        id = givenSection.studyPlanSection.id,
+                        title = givenSection.studyPlanSection.title,
+                        subtitle = givenSection.studyPlanSection.subtitle,
+                        content = StudyPlanViewState.SectionContent.Collapsed
+                    )
+                )
+            )
+
+            assertEquals(expectedViewStateSections, viewState)
+        }
+    }
+
+    @Test
+    fun `Not empty sections should not show loading`() {
+        val sectionId = 0L
+        val activityId = 0L
+        val section = StudyPlanFeature.StudyPlanSectionInfo(
+            studyPlanSection = studyPlanSectionStub(sectionId),
+            contentStatus = StudyPlanFeature.ContentStatus.LOADING,
+            isExpanded = true
+        )
+        val state = StudyPlanFeature.State(
+            studyPlanSections = mapOf(sectionId to section),
+            sectionsStatus = StudyPlanFeature.ContentStatus.LOADED,
+            activities = mapOf(sectionId to setOf(stubLearningActivity(activityId)))
+        )
+
+        val viewState = StudyPlanViewStateMapper.map(state)
+
+        val expectedViewStateSections = StudyPlanViewState.Content(
+            sections = listOf(
+                StudyPlanViewState.Section(
+                    id = section.studyPlanSection.id,
+                    title = section.studyPlanSection.title,
+                    subtitle = section.studyPlanSection.subtitle,
+                    content = StudyPlanViewState.SectionContent.Content(
+                        listOf(StudyPlanViewState.SectionItem(id = activityId))
+                    )
+                )
+            )
+        )
+
+        assertEquals(expectedViewStateSections, viewState)
     }
 
     private fun studyPlanSectionStub(
