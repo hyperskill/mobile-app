@@ -1,4 +1,4 @@
-package org.hyperskill.app.step_quiz.domain.analytic.daily_limit_reached_modal
+package org.hyperskill.app.step_quiz.domain.analytic.problems_limit_reached_modal
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -7,24 +7,24 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents click on the "Go to homescreen" button in daily limit reached modal analytic event.
+ * Represents a hidden analytic event of the problems limit reached modal.
  *
  * JSON payload:
  * ```
  * {
  *     "route": "/learn/step/1",
- *     "action": "click",
- *     "part": "daily_limit_reached_modal",
- *     "target": "go_to_home_screen"
+ *     "action": "hidden",
+ *     "part": "problems_limit_reached_modal",
+ *     "target": "close"
  * }
  * ```
  * @see HyperskillAnalyticEvent
  */
-class DailyProblemsLimitReachedModalClickedGoToHomeScreenHyperskillAnalyticEvent(
+class ProblemsLimitReachedModalHiddenHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute
 ) : HyperskillAnalyticEvent(
     route,
-    HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.TOPIC_COMPLETED_MODAL,
-    HyperskillAnalyticTarget.GO_TO_HOME_SCREEN
+    HyperskillAnalyticAction.HIDDEN,
+    HyperskillAnalyticPart.PROBLEMS_LIMIT_REACHED_MODAL,
+    HyperskillAnalyticTarget.CLOSE
 )

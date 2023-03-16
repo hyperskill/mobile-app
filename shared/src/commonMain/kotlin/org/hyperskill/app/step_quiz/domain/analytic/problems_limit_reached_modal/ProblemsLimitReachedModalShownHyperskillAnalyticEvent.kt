@@ -1,4 +1,4 @@
-package org.hyperskill.app.step_quiz.domain.analytic.daily_limit_reached_modal
+package org.hyperskill.app.step_quiz.domain.analytic.problems_limit_reached_modal
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -7,7 +7,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents a shown analytic event of the daily limit reached modal.
+ * Represents a shown analytic event of the problems limit reached modal.
  *
  * JSON payload:
  * ```
@@ -15,16 +15,16 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *     "route": "/learn/step/1",
  *     "action": "shown",
  *     "part": "modal",
- *     "target": "daily_limit_reached_modal"
+ *     "target": "problems_limit_reached_modal"
  * }
  * ```
  * @see HyperskillAnalyticEvent
  */
-class DailyProblemsLimitReachedModalShownHyperskillAnalyticEvent(
+class ProblemsLimitReachedModalShownHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute
 ) : HyperskillAnalyticEvent(
     route,
     HyperskillAnalyticAction.SHOWN,
     HyperskillAnalyticPart.MODAL,
-    HyperskillAnalyticTarget.DAILY_STEP_COMPLETED_MODAL
+    HyperskillAnalyticTarget.PROBLEMS_LIMIT_REACHED_MODAL
 )

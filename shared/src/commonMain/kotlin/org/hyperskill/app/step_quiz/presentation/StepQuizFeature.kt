@@ -90,9 +90,9 @@ interface StepQuizFeature {
          * Daily limit reached modal
          */
 
-        object ShowDailyProblemsLimitReachedModal : Message
+        object ShowProblemsLimitReachedModal : Message
 
-        object DailyProblemsLimitReachedModalGoToHomeScreenClicked : Message
+        object ProblemsLimitReachedModalGoToHomeScreenClicked : Message
 
         /**
          * Analytic
@@ -101,8 +101,8 @@ interface StepQuizFeature {
         object ClickedRetryEventMessage : Message
         object DailyStepCompletedModalShownEventMessage : Message
         object DailyStepCompletedModalHiddenEventMessage : Message
-        object DailyProblemsLimitReachedModalShownEventMessage : Message
-        object DailyProblemsLimitReachedModalHiddenEventMessage : Message
+        object ProblemsLimitReachedModalShownEventMessage : Message
+        object ProblemsLimitReachedModalHiddenEventMessage : Message
     }
 
     sealed interface Action {
@@ -140,7 +140,7 @@ interface StepQuizFeature {
 
             data class ShowProblemOfDaySolvedModal(val earnedGemsText: String) : ViewAction
 
-            object ShowDailyProblemsLimitReachedModal : ViewAction
+            object ShowProblemsLimitReachedModal : ViewAction
 
             sealed interface NavigateTo : ViewAction {
                 object Back : NavigateTo

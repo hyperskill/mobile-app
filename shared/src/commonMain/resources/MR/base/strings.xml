@@ -359,9 +359,9 @@
     <string name="unsupported_stage_dialog_title">IDE required</string>
     <string name="unsupported_stage_dialog_description">To proceed, you need an IDE. Please continue learning on a computer.\n\n If this is not an option for you right now, check out the available activities on your home screen.</string>
 
-    <!--  Daily limit reached modal  -->
-    <string name="daily_limit_reached_modal_title">You\'ve reached your daily limit</string>
-    <string name="daily_limit_reached_modal_text">You\'ve solved 5 problems today. Great job! Tomorrow new problems will be available to you.</string>
+    <!--  Problems limit reached modal  -->
+    <string name="problems_limit_reached_modal_title">You\'ve reached your daily limit</string>
+    <string name="problems_limit_reached_modal_text">You\'ve solved 5 problems today. Great job! Tomorrow new problems will be available to you.</string>
 
     <!--  Problems limit widget  -->
     <string name="problems_limit_widget_problems_limit">problems limit</string>

@@ -240,7 +240,7 @@ abstract class DefaultStepQuizFragment :
                     .newInstance(earnedGemsText = action.earnedGemsText)
                     .showIfNotExists(childFragmentManager, CompletedStepOfTheDayDialogFragment.TAG)
             }
-            StepQuizFeature.Action.ViewAction.ShowDailyProblemsLimitReachedModal -> TODO()
+            StepQuizFeature.Action.ViewAction.ShowProblemsLimitReachedModal -> TODO()
         }
     }
 

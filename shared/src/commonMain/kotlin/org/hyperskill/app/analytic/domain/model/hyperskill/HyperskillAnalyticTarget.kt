@@ -59,7 +59,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     GO_TO_HOME_SCREEN("go_to_home_screen"),
     CONTINUE_WITH_NEXT_TOPIC("continue_with_next_topic"),
     DAILY_STEP_COMPLETED_MODAL("daily_step_completed_modal"),
-    DAILY_LIMIT_REACHED_MODAL("daily_limit_reached_modal"),
+    PROBLEMS_LIMIT_REACHED_MODAL("problems_limit_reached_modal"),
     TOPIC_COMPLETED_MODAL("topic_completed_modal"),
     CLOSE("close"),
     STREAK("streak"),
