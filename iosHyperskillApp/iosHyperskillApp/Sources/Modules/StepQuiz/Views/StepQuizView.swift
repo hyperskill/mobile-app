@@ -73,7 +73,10 @@ struct StepQuizView: View {
                         StepTextView(text: viewData.stepText)
 
                         if viewData.stepHasHints {
-                            StepQuizHintsAssembly(stepID: viewModel.step.id).makeModule()
+                            StepQuizHintsAssembly(
+                                stepID: viewModel.step.id,
+                                stepRoute: viewModel.stepRoute
+                            ).makeModule()
                         }
 
                         buildQuizContent(
@@ -253,12 +256,16 @@ struct StepQuizView: View {
             default:
                 break
             }
+        case .showProblemsLimitReachedModal:
+            #warning("TODO: implement showing problems limit reached modal")
         case .showProblemOfDaySolvedModal(let showProblemOfDaySolvedModalViewAction):
             presentDailyStepCompletedModal(earnedGemsText: showProblemOfDaySolvedModalViewAction.earnedGemsText)
         case .navigateTo(let viewActionNavigateTo):
             switch StepQuizFeatureActionViewActionNavigateToKs(viewActionNavigateTo) {
             case .back:
                 stackRouter.popViewController()
+            case .home:
+                #warning("TODO: implement navigation to home")
             }
         }
     }
