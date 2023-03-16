@@ -19,7 +19,7 @@ object StudyPlanFeature {
         /**
          * Map of sections ids to section's activities
          */
-        val activities: Map<Long, Set<LearningActivity>> = mapOf()
+        val activities: Map<Long, Set<LearningActivity>> = emptyMap()
     )
 
     enum class ContentStatus {

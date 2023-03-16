@@ -63,9 +63,9 @@ internal class StudyPlanReducer : StateReducer<State, Message, Action> {
         state: State,
         message: StudyPlanFeature.LearningActivitiesFetchResult.Success
     ): StudyPlanReducerResult {
-        val currentSectionActivities = state.activities.getOrElse(message.sectionId) { emptyList() }
+        val currentSectionActivities = state.activities.getOrElse(message.sectionId) { emptySet() }
         val filteredActivities = message.activities.dropWhile { it.state != TargetState.TODO }
-        val actualSectionActivities = filteredActivities.union(currentSectionActivities)
+        val actualSectionActivities = currentSectionActivities + filteredActivities
         val actualActivities =
             state.activities + (message.sectionId to actualSectionActivities)
 
