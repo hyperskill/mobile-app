@@ -19,14 +19,7 @@ object StudyPlanFeature {
         /**
          * Map of sections ids to section's activities
          */
-        val activities: Map<Long, Set<LearningActivity>> = mapOf(),
-
-        /**
-         * Describes status of section's activities loading
-         * Key is a section id
-         * Value is a status of section content loading
-         */
-        val sectionsContentStatuses: Map<Long, ContentStatus> = mapOf()
+        val activities: Map<Long, Set<LearningActivity>> = mapOf()
     )
 
     enum class ContentStatus {
@@ -38,7 +31,12 @@ object StudyPlanFeature {
 
     data class StudyPlanSectionInfo(
         val studyPlanSection: StudyPlanSection,
-        val isExpanded: Boolean
+        val isExpanded: Boolean,
+
+        /**
+         * Describes status of section's activities loading
+         * */
+        val contentStatus: ContentStatus
     )
 
     sealed interface Message {

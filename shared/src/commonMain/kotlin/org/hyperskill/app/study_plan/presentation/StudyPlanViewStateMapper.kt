@@ -1,5 +1,6 @@
 package org.hyperskill.app.study_plan.presentation
 
+import org.hyperskill.app.study_plan.domain.model.LearningActivity
 import org.hyperskill.app.study_plan.presentation.StudyPlanViewState.SectionContent
 
 internal object StudyPlanViewStateMapper {
@@ -28,21 +29,21 @@ internal object StudyPlanViewStateMapper {
         state: StudyPlanFeature.State
     ): SectionContent =
         if (sectionInfo.isExpanded) {
-            val contentStatus = state.sectionsContentStatuses.getOrElse(sectionInfo.studyPlanSection.id) {
-                StudyPlanFeature.ContentStatus.IDLE
-            }
-            when (contentStatus) {
+            when (sectionInfo.contentStatus) {
                 StudyPlanFeature.ContentStatus.IDLE -> SectionContent.Collapsed
-                StudyPlanFeature.ContentStatus.LOADING -> SectionContent.Loading
+                StudyPlanFeature.ContentStatus.LOADING -> {
+                    val activities = getSectionActivities(state, sectionInfo.studyPlanSection.id)
+                    if (activities.isNullOrEmpty()) {
+                        SectionContent.Loading
+                    } else {
+                        getContent(activities)
+                    }
+                }
                 StudyPlanFeature.ContentStatus.ERROR -> SectionContent.Error
                 StudyPlanFeature.ContentStatus.LOADED -> {
-                    val activities = state.activities[sectionInfo.studyPlanSection.id]
+                    val activities = getSectionActivities(state, sectionInfo.studyPlanSection.id)
                     if (activities != null) {
-                        SectionContent.Content(
-                            sectionItems = activities.map { activity ->
-                                StudyPlanViewState.SectionItem(activity.id)
-                            }
-                        )
+                        getContent(activities)
                     } else {
                         SectionContent.Error
                     }
@@ -51,4 +52,14 @@ internal object StudyPlanViewStateMapper {
         } else {
             SectionContent.Collapsed
         }
+
+    private fun getContent(activities: List<LearningActivity>): SectionContent.Content =
+        SectionContent.Content(
+            sectionItems = activities.map { activity ->
+                StudyPlanViewState.SectionItem(activity.id)
+            }
+        )
+
+    private fun getSectionActivities(state: StudyPlanFeature.State, sectionId: Long): List<LearningActivity>? =
+        state.activities[sectionId]?.toList()
 }
