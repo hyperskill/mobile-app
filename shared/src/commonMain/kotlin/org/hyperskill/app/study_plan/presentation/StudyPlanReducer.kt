@@ -95,7 +95,7 @@ internal class StudyPlanReducer : StateReducer<State, Message, Action> {
         val section =
             state.studyPlanSections[sectionId] ?: return state to emptySet()
 
-        fun updateSectionState(contentStatus: StudyPlanFeature.ContentStatus = section.contentStatus) =
+        fun updateSectionState(contentStatus: StudyPlanFeature.ContentStatus = section.contentStatus): State =
             state.copy(
                 studyPlanSections = state.studyPlanSections.update(
                     sectionId,
