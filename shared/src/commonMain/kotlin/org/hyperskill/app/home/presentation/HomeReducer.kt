@@ -31,7 +31,7 @@ class HomeReducer(
                     homeState = HomeState.Content(
                         message.problemOfDayState,
                         message.repetitionsState,
-                        message.isFreemium
+                        message.isFreemiumEnabled
                     )
                 ) to emptySet()
             is Message.HomeFailure ->

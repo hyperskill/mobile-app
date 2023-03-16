@@ -26,7 +26,7 @@ internal class StepQuizHintsReducer(private val stepRoute: StepRoute) : StateRed
                         hintsIds = message.hintsIds,
                         currentHint = message.lastSeenHint,
                         hintHasReaction = message.lastSeenHintHasReaction,
-                        isFreemium = message.isFreemium,
+                        isFreemiumEnabled = message.isFreemiumEnabled,
                         stepId = message.stepId
                     ) to emptySet()
                 } else {
@@ -98,7 +98,7 @@ internal class StepQuizHintsReducer(private val stepRoute: StepRoute) : StateRed
                             Action.FetchNextHint(
                                 nextHintId,
                                 hintsIds,
-                                state.isFreemium,
+                                state.isFreemiumEnabled,
                                 state.stepId
                             ),
                             Action.LogAnalyticEvent(
@@ -117,7 +117,7 @@ internal class StepQuizHintsReducer(private val stepRoute: StepRoute) : StateRed
                             Action.FetchNextHint(
                                 nextHintId = state.nextHintId,
                                 remainingHintsIds = state.hintsIds,
-                                isFreemium = state.isFreemium,
+                                isFreemiumEnabled = state.isFreemiumEnabled,
                                 stepId = state.stepId
                             )
                         )
@@ -132,7 +132,7 @@ internal class StepQuizHintsReducer(private val stepRoute: StepRoute) : StateRed
                         hintsIds = message.remainingHintsIds,
                         currentHint = message.nextHint,
                         hintHasReaction = false,
-                        isFreemium = message.isFreemium,
+                        isFreemiumEnabled = message.isFreemiumEnabled,
                         stepId = message.stepId
                     ) to emptySet()
                 } else {
@@ -143,7 +143,7 @@ internal class StepQuizHintsReducer(private val stepRoute: StepRoute) : StateRed
                     State.NetworkError(
                         nextHintId = message.nextHintId,
                         hintsIds = message.remainingHintsIds,
-                        isFreemium = message.isFreemium,
+                        isFreemiumEnabled = message.isFreemiumEnabled,
                         stepId = message.stepId
                     ) to emptySet()
                 } else {

@@ -36,7 +36,7 @@ internal class StepQuizHintsActionDispatcher(
 
                 val hintsIds = stepQuizHintsInteractor.getNotSeenHintsIds(action.stepId)
 
-                val isFreemium = freemiumInteractor.isFreemiumEnabled().getOrDefault(false)
+                val isFreemiumEnabled = freemiumInteractor.isFreemiumEnabled().getOrDefault(false)
 
                 val lastSeenHint = stepQuizHintsInteractor.getLastSeenHint(action.stepId)
 
@@ -56,7 +56,7 @@ internal class StepQuizHintsActionDispatcher(
                         hintsIds = hintsIds,
                         lastSeenHint = lastSeenHint,
                         lastSeenHintHasReaction = lastSeenHintHasReaction,
-                        isFreemium = isFreemium,
+                        isFreemiumEnabled = isFreemiumEnabled,
                         stepId = action.stepId
                     )
                 )
@@ -119,7 +119,7 @@ internal class StepQuizHintsActionDispatcher(
                             Message.NextHintLoaded(
                                 it,
                                 action.remainingHintsIds,
-                                action.isFreemium,
+                                action.isFreemiumEnabled,
                                 action.stepId
                             )
                         )
@@ -136,7 +136,7 @@ internal class StepQuizHintsActionDispatcher(
                             Message.NextHintLoadingError(
                                 action.nextHintId,
                                 action.remainingHintsIds,
-                                action.isFreemium,
+                                action.isFreemiumEnabled,
                                 action.stepId
                             )
                         )

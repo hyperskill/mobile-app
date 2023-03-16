@@ -44,7 +44,7 @@ interface HomeFeature {
         data class Content(
             val problemOfDayState: ProblemOfDayState,
             val repetitionsState: RepetitionsState,
-            val isFreemium: Boolean,
+            val isFreemiumEnabled: Boolean,
             internal val isRefreshing: Boolean = false,
             val isLoadingMagicLink: Boolean = false
         ) : HomeState
@@ -96,7 +96,7 @@ interface HomeFeature {
         data class HomeSuccess(
             val problemOfDayState: ProblemOfDayState,
             val repetitionsState: RepetitionsState,
-            val isFreemium: Boolean
+            val isFreemiumEnabled: Boolean
         ) : Message
         object HomeFailure : Message
         object PullToRefresh : Message
