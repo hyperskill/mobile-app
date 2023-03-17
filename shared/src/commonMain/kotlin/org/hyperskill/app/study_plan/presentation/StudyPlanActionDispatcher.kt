@@ -31,7 +31,7 @@ class StudyPlanActionDispatcher(
                     }
             }
             is Action.FetchActivities -> {
-                studyPlanInteractor.getLearningActivities(action.activitiesIds)
+                studyPlanInteractor.getLearningActivities(action.activitiesIds, action.types)
                     .onSuccess { learningActivities ->
                         onNewMessage(
                             StudyPlanFeature.LearningActivitiesFetchResult.Success(action.sectionId, learningActivities)

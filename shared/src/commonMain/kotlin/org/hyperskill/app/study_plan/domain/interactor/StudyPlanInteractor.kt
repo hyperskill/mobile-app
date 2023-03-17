@@ -1,9 +1,10 @@
 package org.hyperskill.app.study_plan.domain.interactor
 
-import org.hyperskill.app.study_plan.domain.model.LearningActivity
+import org.hyperskill.app.learning_activities.domain.model.LearningActivity
+import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
+import org.hyperskill.app.learning_activities.domain.repository.LearningActivitiesRepository
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
-import org.hyperskill.app.study_plan.domain.repository.LearningActivitiesRepository
 import org.hyperskill.app.study_plan.domain.repository.StudyPlanRepository
 import org.hyperskill.app.study_plan.domain.repository.StudyPlanSectionsRepository
 
@@ -18,6 +19,9 @@ class StudyPlanInteractor(
     suspend fun getStudyPlanSections(sectionsIds: List<Long>): Result<List<StudyPlanSection>> =
         studyPlanSectionsRepository.getStudyPlanSections(sectionsIds)
 
-    suspend fun getLearningActivities(activitiesIds: List<Long>): Result<List<LearningActivity>> =
-        learningActivitiesRepository.getLearningActivities(activitiesIds)
+    suspend fun getLearningActivities(
+        activitiesIds: List<Long>,
+        types: Set<LearningActivityType>
+    ): Result<List<LearningActivity>> =
+        learningActivitiesRepository.getLearningActivities(activitiesIds, types)
 }

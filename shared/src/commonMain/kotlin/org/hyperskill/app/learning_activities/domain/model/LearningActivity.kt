@@ -8,11 +8,11 @@ data class LearningActivity(
     @SerialName("id")
     val id: Long,
     @SerialName("state")
-    val stateValue: Int,
+    private val stateValue: Int,
     @SerialName("target_id")
     val targetId: Long,
     @SerialName("type")
-    val typeValue: Int
+    private val typeValue: Int
 ) {
     val state: LearningActivityState?
         get() = LearningActivityState.getByValue(stateValue)

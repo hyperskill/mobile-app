@@ -1,6 +1,6 @@
 package org.hyperskill.app.study_plan.presentation
 
-import org.hyperskill.app.study_plan.domain.model.LearningActivity
+import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.study_plan.presentation.StudyPlanViewState.SectionContent
 
 internal object StudyPlanViewStateMapper {

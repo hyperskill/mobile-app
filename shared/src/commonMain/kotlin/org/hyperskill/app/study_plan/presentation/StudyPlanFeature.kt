@@ -1,6 +1,7 @@
 package org.hyperskill.app.study_plan.presentation
 
-import org.hyperskill.app.study_plan.domain.model.LearningActivity
+import org.hyperskill.app.learning_activities.domain.model.LearningActivity
+import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 
@@ -76,7 +77,8 @@ object StudyPlanFeature {
 
         data class FetchActivities(
             val sectionId: Long,
-            val activitiesIds: List<Long>
+            val activitiesIds: List<Long>,
+            val types: Set<LearningActivityType> = LearningActivityType.supportedTypes()
         ) : Action
     }
 }

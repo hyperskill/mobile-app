@@ -1,6 +1,6 @@
 package org.hyperskill.app.study_plan.presentation
 
-import org.hyperskill.app.study_plan.domain.model.TargetState
+import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.study_plan.presentation.StudyPlanFeature.Action
 import org.hyperskill.app.study_plan.presentation.StudyPlanFeature.Message
 import org.hyperskill.app.study_plan.presentation.StudyPlanFeature.State
@@ -64,7 +64,8 @@ internal class StudyPlanReducer : StateReducer<State, Message, Action> {
         message: StudyPlanFeature.LearningActivitiesFetchResult.Success
     ): StudyPlanReducerResult {
         val currentSectionActivities = state.activities.getOrElse(message.sectionId) { emptySet() }
-        val filteredActivities = message.activities.dropWhile { it.state != TargetState.TODO }
+        val filteredActivities =
+            message.activities.dropWhile { it.state != LearningActivityState.TODO }
         val actualSectionActivities = currentSectionActivities + filteredActivities
         val actualActivities =
             state.activities + (message.sectionId to actualSectionActivities)

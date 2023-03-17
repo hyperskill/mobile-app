@@ -1,11 +1,11 @@
 package org.hyperskill
 
-import org.hyperskill.app.study_plan.domain.model.LearningActivity
-import org.hyperskill.app.study_plan.domain.model.LearningActivityType
+import org.hyperskill.app.learning_activities.domain.model.LearningActivity
+import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
+import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.study_plan.domain.model.StudyPlanStatus
-import org.hyperskill.app.study_plan.domain.model.TargetState
 import org.hyperskill.app.study_plan.presentation.StudyPlanFeature
 import org.hyperskill.app.study_plan.presentation.StudyPlanReducer
 import org.hyperskill.app.study_plan.presentation.StudyPlanViewState
@@ -105,9 +105,9 @@ class StudyPlanTest {
     @Test
     fun `All activities before current one should be dropped`() {
         val sectionId = 0L
-        val skippedActivity = stubLearningActivity(id = 0L, state = TargetState.SKIPPED)
-        val completedActivity = stubLearningActivity(id = 1L, state = TargetState.COMPLETED)
-        val todoActivity = stubLearningActivity(id = 2L, state = TargetState.TODO)
+        val skippedActivity = stubLearningActivity(id = 0L, state = LearningActivityState.SKIPPED)
+        val completedActivity = stubLearningActivity(id = 1L, state = LearningActivityState.COMPLETED)
+        val todoActivity = stubLearningActivity(id = 2L, state = LearningActivityState.TODO)
         val (state, _) =
             reducer.reduce(
                 StudyPlanFeature.State(),
@@ -120,7 +120,9 @@ class StudyPlanTest {
         assertNotNull(resultActivities)
         assertContains(resultActivities, todoActivity)
         assertTrue {
-            resultActivities.none { it.state == TargetState.SKIPPED || it.state == TargetState.COMPLETED }
+            resultActivities.none {
+                it.state == LearningActivityState.SKIPPED || it.state == LearningActivityState.COMPLETED
+            }
         }
     }
 
@@ -282,14 +284,14 @@ class StudyPlanTest {
 
     private fun stubLearningActivity(
         id: Long,
-        state: TargetState = TargetState.TODO,
+        state: LearningActivityState = LearningActivityState.TODO,
         targetId: Long = 0L,
         type: LearningActivityType = LearningActivityType.LEARN_TOPIC
     ) =
         LearningActivity(
             id = id,
-            state = state,
+            stateValue = state.value,
             targetId = 0L,
-            type = type
+            typeValue = type.value
         )
 }
