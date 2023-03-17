@@ -155,18 +155,14 @@ class StepQuizActionDispatcher(
                 val isFreemiumEnabled = freemiumInteractor
                     .isFreemiumEnabled()
                     .getOrElse {
-                        return onNewMessage(
-                            Message.CreateSubmissionCheckLimitResult.NetworkError
-                        )
+                        return onNewMessage(Message.CreateSubmissionCheckLimitResult.NetworkError)
                     }
 
                 if (isFreemiumEnabled) {
                     val subscription = currentSubscriptionStateRepository
                         .getState()
                         .getOrElse {
-                            return onNewMessage(
-                                Message.CreateSubmissionCheckLimitResult.NetworkError
-                            )
+                            return onNewMessage(Message.CreateSubmissionCheckLimitResult.NetworkError)
                         }
 
                     if (subscription.isFree && subscription.stepsLimitLeft == 0) {

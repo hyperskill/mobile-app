@@ -101,10 +101,8 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                         }
                     state to setOf(
                         when (stepRoute) {
-                            is StepRoute.LearnDaily, is StepRoute.Repeat ->
-                                Action.CreateSubmissionValidateReply(message.step, message.reply)
-                            else ->
-                                Action.CreateSubmissionCheckLimit(message.step, message.reply)
+                            is StepRoute.Learn -> Action.CreateSubmissionCheckLimit(message.step, message.reply)
+                            else -> Action.CreateSubmissionValidateReply(message.step, message.reply)
                         },
                         Action.LogAnalyticEvent(analyticEvent)
                     )
