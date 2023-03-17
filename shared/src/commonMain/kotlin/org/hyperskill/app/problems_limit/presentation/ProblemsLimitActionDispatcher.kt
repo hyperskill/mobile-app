@@ -30,11 +30,9 @@ class ProblemsLimitActionDispatcher(
         when (action) {
             is Action.LoadSubscription -> {
                 onNewMessage(
-                    if (action.forceUpdate) {
-                        currentSubscriptionStateRepository.reloadState()
-                    } else {
-                        currentSubscriptionStateRepository.getState()
-                    }
+                    // TODO: use get state method after implementing state repositories reset after
+                    //  opening application from background
+                    currentSubscriptionStateRepository.reloadState()
                         .fold(
                             onSuccess = { Message.SubscriptionLoadingResult.Success(it) },
                             onFailure = { Message.SubscriptionLoadingResult.Error }
@@ -48,11 +46,14 @@ class ProblemsLimitActionDispatcher(
                     timer = Timer(
                         duration = action.updateIn,
                         onChange = { onNewMessage(Message.UpdateInChanged(it)) },
-                        onFinish = { onNewMessage(Message.Initialize(forceUpdate = true)) },
+                        onFinish = {
+                            currentSubscriptionStateRepository.resetState()
+                            onNewMessage(Message.Initialize(forceUpdate = true))
+                        },
                         launchIn = actionScope
                     )
 
-                    timer?.run()
+                    timer?.start()
                 }
             }
         }

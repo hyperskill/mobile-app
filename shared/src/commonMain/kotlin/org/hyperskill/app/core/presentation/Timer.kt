@@ -13,7 +13,7 @@ import kotlin.time.toDuration
 class Timer(
     private var duration: Duration,
     private val onChange: (Duration) -> Unit,
-    private val onFinish: () -> Unit,
+    private val onFinish: suspend () -> Unit,
     private val launchIn: CoroutineScope
 ) {
     companion object {
@@ -22,7 +22,7 @@ class Timer(
     }
     private var isStopped: Boolean = false
 
-    suspend fun run() {
+    suspend fun start() {
         flow {
             // skip duration to round hour, for example if duration is 03:25:34
             // we will skip here 25 minutes 34 seconds
@@ -34,6 +34,9 @@ class Timer(
                 emit(duration)
             }
 
+            // while duration is positive
+            // tick every hour if duration is more than one hour
+            // or tick every minute if duration if less than one hour
             while (duration.isPositive()) {
                 duration -= if (duration > DURATION_ONE_HOUR) {
                     delay(DURATION_ONE_HOUR)

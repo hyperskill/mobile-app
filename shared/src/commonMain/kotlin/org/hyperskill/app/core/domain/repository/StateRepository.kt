@@ -30,4 +30,11 @@ interface StateRepository<State : Any> {
      * @return result of state loading
      */
     suspend fun reloadState(): Result<State>
+
+    /**
+     * Reset current local state
+     * next call of getState will load it
+     *
+     */
+    suspend fun resetState()
 }
