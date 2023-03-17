@@ -11,6 +11,7 @@ object ProblemsLimitFeature {
 
         data class Content(
             val subscription: Subscription,
+            val isFreemiumFeatureEnabled: Boolean,
             val updateIn: Duration?
         ) : State
 
@@ -39,11 +40,17 @@ object ProblemsLimitFeature {
         data class Initialize(val forceUpdate: Boolean = false) : Message
 
         sealed interface SubscriptionLoadingResult : Message {
-            data class Success(val subscription: Subscription) : SubscriptionLoadingResult
+            data class Success(
+                val subscription: Subscription,
+                val isFreemiumFeatureEnabled: Boolean
+            ) : SubscriptionLoadingResult
+
             object Error : SubscriptionLoadingResult
         }
 
         data class UpdateInChanged(val newUpdateIn: Duration) : Message
+
+        data class SubscriptionChanged(val newSubscription: Subscription) : Message
 
         object AppLaunchedFromBackground : Message
     }

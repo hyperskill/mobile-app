@@ -22,7 +22,7 @@ internal class ProblemsLimitReducer : StateReducer<State, Message, Action> {
             is Message.SubscriptionLoadingResult.Success -> {
                 val updateIn = calculateUpdateInDuration(message.subscription)
 
-                State.Content(message.subscription, updateIn) to buildSet {
+                State.Content(message.subscription, message.isFreemiumFeatureEnabled, updateIn) to buildSet {
                     if (updateIn != null) {
                         add(Action.LaunchTimer(updateIn))
                     }
@@ -31,6 +31,18 @@ internal class ProblemsLimitReducer : StateReducer<State, Message, Action> {
             is Message.UpdateInChanged ->
                 if (state is State.Content) {
                     state.copy(updateIn = message.newUpdateIn) to emptySet()
+                } else {
+                    null
+                }
+            is Message.SubscriptionChanged ->
+                if (state is State.Content) {
+                    val updateIn = calculateUpdateInDuration(message.newSubscription)
+
+                    state.copy(subscription = message.newSubscription) to buildSet {
+                        if (updateIn != null) {
+                            add(Action.LaunchTimer(updateIn))
+                        }
+                    }
                 } else {
                     null
                 }

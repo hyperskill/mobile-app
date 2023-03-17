@@ -4,6 +4,7 @@ import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.DateFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
+import org.hyperskill.app.subscriptions.domain.model.isFree
 
 internal class ProblemsLimitViewStateMapper(
     private val resourceProvider: ResourceProvider,
@@ -16,7 +17,9 @@ internal class ProblemsLimitViewStateMapper(
             is ProblemsLimitFeature.State.NetworkError -> ProblemsLimitFeature.ViewState.Error
             is ProblemsLimitFeature.State.Content -> {
                 when {
-                    state.subscription.stepsLimitLeft == null ||
+                    !state.isFreemiumFeatureEnabled ||
+                        state.subscription.isFree ||
+                        state.subscription.stepsLimitLeft == null ||
                         state.subscription.stepsLimitTotal == null ||
                         state.updateIn == null ->
                         ProblemsLimitFeature.ViewState.Content.Empty
