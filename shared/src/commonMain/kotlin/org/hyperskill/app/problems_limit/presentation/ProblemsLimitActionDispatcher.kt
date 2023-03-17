@@ -30,9 +30,7 @@ class ProblemsLimitActionDispatcher(
         when (action) {
             is Action.LoadSubscription -> {
                 onNewMessage(
-                    // TODO: use get state method after implementing state repositories reset after
-                    //  opening application from background
-                    currentSubscriptionStateRepository.reloadState()
+                    currentSubscriptionStateRepository.getState()
                         .fold(
                             onSuccess = { Message.SubscriptionLoadingResult.Success(it) },
                             onFailure = { Message.SubscriptionLoadingResult.Error }
@@ -55,6 +53,9 @@ class ProblemsLimitActionDispatcher(
 
                     timer?.start()
                 }
+            }
+            is Action.ResetCurrentSubscriptionRepository -> {
+                currentSubscriptionStateRepository.resetState()
             }
         }
     }

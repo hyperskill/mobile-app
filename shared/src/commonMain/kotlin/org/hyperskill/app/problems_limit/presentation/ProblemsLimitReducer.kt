@@ -34,6 +34,8 @@ internal class ProblemsLimitReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
+            is Message.AppLaunchedFromBackground ->
+                state to setOf(Action.ResetCurrentSubscriptionRepository)
         } ?: (state to emptySet())
 
     private fun calculateUpdateInDuration(subscription: Subscription): Duration? =

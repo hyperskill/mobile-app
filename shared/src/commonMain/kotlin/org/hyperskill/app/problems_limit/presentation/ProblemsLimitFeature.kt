@@ -44,11 +44,15 @@ object ProblemsLimitFeature {
         }
 
         data class UpdateInChanged(val newUpdateIn: Duration) : Message
+
+        object AppLaunchedFromBackground : Message
     }
 
     sealed interface Action {
         data class LoadSubscription(val forceUpdate: Boolean) : Action
 
         data class LaunchTimer(val updateIn: Duration) : Action
+
+        object ResetCurrentSubscriptionRepository : Action
     }
 }
