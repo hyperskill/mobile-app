@@ -8,8 +8,8 @@ import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.study_plan.domain.model.StudyPlanStatus
 import org.hyperskill.app.study_plan.presentation.StudyPlanFeature
 import org.hyperskill.app.study_plan.presentation.StudyPlanReducer
-import org.hyperskill.app.study_plan.presentation.StudyPlanViewState
-import org.hyperskill.app.study_plan.presentation.StudyPlanViewStateMapper
+import org.hyperskill.app.study_plan.view.StudyPlanViewState
+import org.hyperskill.app.study_plan.view.StudyPlanViewStateMapper
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals

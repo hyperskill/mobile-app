@@ -1,7 +1,8 @@
-package org.hyperskill.app.study_plan.presentation
+package org.hyperskill.app.study_plan.view
 
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
-import org.hyperskill.app.study_plan.presentation.StudyPlanViewState.SectionContent
+import org.hyperskill.app.study_plan.presentation.StudyPlanFeature
+import org.hyperskill.app.study_plan.view.StudyPlanViewState.SectionContent
 
 internal object StudyPlanViewStateMapper {
     fun map(state: StudyPlanFeature.State): StudyPlanViewState =

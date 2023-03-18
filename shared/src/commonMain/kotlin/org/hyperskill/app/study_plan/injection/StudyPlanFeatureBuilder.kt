@@ -6,8 +6,8 @@ import org.hyperskill.app.study_plan.domain.interactor.StudyPlanInteractor
 import org.hyperskill.app.study_plan.presentation.StudyPlanActionDispatcher
 import org.hyperskill.app.study_plan.presentation.StudyPlanFeature
 import org.hyperskill.app.study_plan.presentation.StudyPlanReducer
-import org.hyperskill.app.study_plan.presentation.StudyPlanViewState
-import org.hyperskill.app.study_plan.presentation.StudyPlanViewStateMapper
+import org.hyperskill.app.study_plan.view.StudyPlanViewState
+import org.hyperskill.app.study_plan.view.StudyPlanViewStateMapper
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
