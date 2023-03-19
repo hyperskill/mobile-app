@@ -20,7 +20,6 @@ import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.domain.validation.StepQuizReplyValidator
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Action
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Message
-import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class StepQuizActionDispatcher(
