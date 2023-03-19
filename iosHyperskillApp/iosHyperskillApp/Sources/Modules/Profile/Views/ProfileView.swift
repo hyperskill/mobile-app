@@ -117,7 +117,7 @@ struct ProfileView: View {
                     ProfileStatisticsView(
                         appearance: .init(cornerRadius: appearance.cornerRadius),
                         passedProjectsCount: Int(data.profile.gamification.passedProjectsCount),
-                        passedTracksCount: Int(data.profile.gamification.passedTracksCount),
+                        passedTracksCount: Int(data.profile.completedTracks.count),
                         hypercoinsBalance: Int(data.profile.gamification.hypercoinsBalance)
                     )
 
