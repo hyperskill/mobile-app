@@ -67,9 +67,6 @@ class ProblemsLimitActionDispatcher(
                     timer?.start()
                 }
             }
-            is Action.ResetCurrentSubscriptionRepository -> {
-                currentSubscriptionStateRepository.resetState()
-            }
         }
     }
 }

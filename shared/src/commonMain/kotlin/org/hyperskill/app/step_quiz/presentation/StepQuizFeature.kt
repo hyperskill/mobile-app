@@ -90,7 +90,7 @@ interface StepQuizFeature {
          * Daily limit reached modal
          */
 
-        object ShowProblemsLimitReachedModal : Message
+        object ProblemsLimitReached : Message
 
         object ProblemsLimitReachedModalGoToHomeScreenClicked : Message
 

@@ -225,7 +225,7 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                 } else {
                     null
                 }
-            is Message.ShowProblemsLimitReachedModal ->
+            is Message.ProblemsLimitReached ->
                 state to setOf(Action.ViewAction.ShowProblemsLimitReachedModal)
             is Message.ProblemsLimitReachedModalGoToHomeScreenClicked ->
                 state to setOf(

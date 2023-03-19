@@ -20,7 +20,6 @@ import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.domain.validation.StepQuizReplyValidator
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Action
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Message
-import org.hyperskill.app.subscriptions.domain.model.isFree
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -30,7 +29,6 @@ class StepQuizActionDispatcher(
     private val stepQuizReplyValidator: StepQuizReplyValidator,
     private val profileInteractor: ProfileInteractor,
     private val notificationInteractor: NotificationInteractor,
-    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val freemiumInteractor: FreemiumInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
@@ -152,26 +150,18 @@ class StepQuizActionDispatcher(
                 }
             }
             is Action.CreateSubmissionCheckLimit -> {
-                val isFreemiumEnabled = freemiumInteractor
-                    .isFreemiumEnabled()
+                val isProblemsLimitReached = freemiumInteractor
+                    .isProblemsLimitReached()
                     .getOrElse {
                         return onNewMessage(Message.CreateSubmissionCheckLimitResult.NetworkError)
                     }
 
-                if (isFreemiumEnabled) {
-                    val subscription = currentSubscriptionStateRepository
-                        .getState()
-                        .getOrElse {
-                            return onNewMessage(Message.CreateSubmissionCheckLimitResult.NetworkError)
-                        }
-
-                    if (subscription.isFree && subscription.stepsLimitLeft == 0) {
-                        return onNewMessage(Message.ShowProblemsLimitReachedModal)
-                    }
-                }
-
                 onNewMessage(
-                    Message.CreateSubmissionCheckLimitResult.SubmisssionAvailable(action.step, action.reply)
+                    if (isProblemsLimitReached) {
+                        Message.ProblemsLimitReached
+                    } else {
+                        Message.CreateSubmissionCheckLimitResult.SubmisssionAvailable(action.step, action.reply)
+                    }
                 )
             }
             is Action.CreateSubmissionValidateReply -> {
