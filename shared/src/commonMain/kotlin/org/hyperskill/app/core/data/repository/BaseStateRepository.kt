@@ -16,7 +16,7 @@ import org.hyperskill.app.core.domain.repository.StateRepository
  * @param State type of state to store
  * @property stateHolder holder of state (in-memory, SharedPreferences etc.)
  */
-abstract class DefaultStateRepository<State : Any> : StateRepository<State> {
+abstract class BaseStateRepository<State : Any> : StateRepository<State> {
     private val mutex = Mutex()
 
     private val mutableSharedFlow = MutableSharedFlow<State>()
@@ -71,6 +71,15 @@ abstract class DefaultStateRepository<State : Any> : StateRepository<State> {
         mutex.withLock {
             loadAndAssignState()
         }
+
+    /**
+     * Reset current local state
+     * next call of getState will load it
+     *
+     */
+    override suspend fun resetState() {
+        stateHolder.resetState()
+    }
 
     /**
      * Loads state and assign it on success

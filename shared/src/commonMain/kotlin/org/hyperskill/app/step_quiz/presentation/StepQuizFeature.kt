@@ -62,6 +62,10 @@ interface StepQuizFeature {
             val reply: Reply,
             val replyValidation: ReplyValidationResult
         ) : Message
+        sealed interface CreateSubmissionCheckLimitResult : Message {
+            data class SubmisssionAvailable(val step: Step, val reply: Reply) : CreateSubmissionCheckLimitResult
+            object NetworkError : CreateSubmissionCheckLimitResult
+        }
 
         data class SyncReply(val reply: Reply) : Message
 
@@ -83,12 +87,22 @@ interface StepQuizFeature {
         object ProblemOfDaySolvedModalGoBackClicked : Message
 
         /**
+         * Daily limit reached modal
+         */
+
+        object ProblemsLimitReached : Message
+
+        object ProblemsLimitReachedModalGoToHomeScreenClicked : Message
+
+        /**
          * Analytic
          */
         object ClickedCodeDetailsEventMessage : Message
         object ClickedRetryEventMessage : Message
         object DailyStepCompletedModalShownEventMessage : Message
         object DailyStepCompletedModalHiddenEventMessage : Message
+        object ProblemsLimitReachedModalShownEventMessage : Message
+        object ProblemsLimitReachedModalHiddenEventMessage : Message
     }
 
     sealed interface Action {
@@ -100,6 +114,7 @@ interface StepQuizFeature {
             val submissionState: SubmissionState,
             val shouldResetReply: Boolean
         ) : Action
+        data class CreateSubmissionCheckLimit(val step: Step, val reply: Reply) : Action
         data class CreateSubmissionValidateReply(val step: Step, val reply: Reply) : Action
         data class CreateSubmission(
             val step: Step,
@@ -125,8 +140,12 @@ interface StepQuizFeature {
 
             data class ShowProblemOfDaySolvedModal(val earnedGemsText: String) : ViewAction
 
+            object ShowProblemsLimitReachedModal : ViewAction
+
             sealed interface NavigateTo : ViewAction {
                 object Back : NavigateTo
+
+                object Home : NavigateTo
             }
         }
     }

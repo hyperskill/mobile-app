@@ -158,6 +158,7 @@
     <string name="home_title">Hello!</string>
     <string name="home_keep_practicing_text">Keep practicing to achieve your learning goal</string>
     <string name="home_topics_to_discover_next_title">Discover next topic in your track</string>
+    <string name="home_solve_unlimited">Solve unlimited</string>
 
     <!-- Track -->
     <string name="track_title">Track</string>
@@ -357,4 +358,13 @@
     <!--Unsupported stage bottom sheet-->
     <string name="unsupported_stage_dialog_title">IDE required</string>
     <string name="unsupported_stage_dialog_description">To proceed, you need an IDE. Please continue learning on a computer.\n\n If this is not an option for you right now, check out the available activities on your home screen.</string>
+
+    <!--  Problems limit reached modal  -->
+    <string name="problems_limit_reached_modal_title">You\'ve reached your daily limit</string>
+    <string name="problems_limit_reached_modal_text">You\'ve solved 5 problems today. Great job! Tomorrow new problems will be available to you.</string>
+
+    <!--  Problems limit widget  -->
+    <string name="problems_limit_widget_problems_limit">%d/%d problems limit</string>
+    <string name="problems_limit_widget_update_in">Update in</string>
+
 </resources>

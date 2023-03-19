@@ -12,7 +12,7 @@ class StepQuizHintsViewStateMapperTest {
             hintsIds = emptyList(),
             currentHint = null,
             hintHasReaction = false,
-            isDailyStep = false,
+            isFreemiumEnabled = false,
             stepId = 0L
         )
         assertIs<StepQuizHintsFeature.ViewState.Idle>(StepQuizHintsViewStateMapper.mapState(featureState))

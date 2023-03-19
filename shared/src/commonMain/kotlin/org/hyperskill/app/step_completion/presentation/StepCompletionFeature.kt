@@ -70,6 +70,8 @@ interface StepCompletionFeature {
 
         data class CheckTopicCompletionStatus(val topicId: Long) : Action
 
+        object UpdateProblemsLimit : Action
+
         sealed interface ViewAction : Action {
             data class ShowTopicCompletedModal(val modalText: String, val isNextStepAvailable: Boolean) : ViewAction
 

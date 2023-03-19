@@ -7,6 +7,7 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.notification.cache.NotificationCacheKeyValues
 import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
@@ -27,6 +28,7 @@ class StepQuizActionDispatcher(
     private val stepQuizReplyValidator: StepQuizReplyValidator,
     private val profileInteractor: ProfileInteractor,
     private val notificationInteractor: NotificationInteractor,
+    private val freemiumInteractor: FreemiumInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val resourceProvider: ResourceProvider
@@ -145,6 +147,21 @@ class StepQuizActionDispatcher(
 
                     onNewMessage(Message.CreateAttemptSuccess(action.step, action.attempt, submissionState))
                 }
+            }
+            is Action.CreateSubmissionCheckLimit -> {
+                val isProblemsLimitReached = freemiumInteractor
+                    .isProblemsLimitReached()
+                    .getOrElse {
+                        return onNewMessage(Message.CreateSubmissionCheckLimitResult.NetworkError)
+                    }
+
+                onNewMessage(
+                    if (isProblemsLimitReached) {
+                        Message.ProblemsLimitReached
+                    } else {
+                        Message.CreateSubmissionCheckLimitResult.SubmisssionAvailable(action.step, action.reply)
+                    }
+                )
             }
             is Action.CreateSubmissionValidateReply -> {
                 val validationResult = stepQuizReplyValidator.validate(action.reply, action.step.block.name)
