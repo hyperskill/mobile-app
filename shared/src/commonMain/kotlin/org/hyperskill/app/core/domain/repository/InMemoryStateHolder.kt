@@ -11,4 +11,8 @@ class InMemoryStateHolder<State : Any> : StateHolder<State> {
     override fun setState(state: State) {
         this.state = state
     }
+
+    override fun resetState() {
+        state = null
+    }
 }

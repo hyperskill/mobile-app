@@ -7,6 +7,7 @@ import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.comments.injection.CommentsDataComponent
 import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
+import org.hyperskill.app.freemium.injection.FreemiumDataComponent
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.items.injection.ItemsDataComponent
@@ -20,6 +21,7 @@ import org.hyperskill.app.notification.injection.NotificationComponent
 import org.hyperskill.app.notification.injection.NotificationFlowDataComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponent
+import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.products.injection.ProductsDataComponent
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponent
@@ -44,6 +46,7 @@ import org.hyperskill.app.streaks.injection.StreakFlowDataComponent
 import org.hyperskill.app.streaks.injection.StreaksDataComponent
 import org.hyperskill.app.study_plan.injection.StudyPlanComponent
 import org.hyperskill.app.study_plan.injection.StudyPlanDataComponent
+import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponent
@@ -69,6 +72,7 @@ interface AppGraph {
     val stepCompletionFlowDataComponent: StepCompletionFlowDataComponent
     val progressesFlowDataComponent: ProgressesFlowDataComponent
     val notificationFlowDataComponent: NotificationFlowDataComponent
+    val subscriptionsDataComponent: SubscriptionsDataComponent
 
     /**
      * Auth components
@@ -82,7 +86,7 @@ interface AppGraph {
     fun buildStepComponent(stepRoute: StepRoute): StepComponent
     fun buildStepDataComponent(): StepDataComponent
     fun buildStepQuizComponent(stepRoute: StepRoute): StepQuizComponent
-    fun buildStepQuizHintsComponent(): StepQuizHintsComponent
+    fun buildStepQuizHintsComponent(stepRoute: StepRoute): StepQuizHintsComponent
     fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent
     fun buildStageImplementComponent(projectId: Long, stageId: Long): StageImplementComponent
 
@@ -119,4 +123,6 @@ interface AppGraph {
     fun buildStudyPlanDataComponent(): StudyPlanDataComponent
     fun buildProjectsDataComponent(): ProjectsDataComponent
     fun buildStagesDataComponent(): StagesDataComponent
+    fun buildFreemiumDataComponent(): FreemiumDataComponent
+    fun buildProblemsLimitComponent(): ProblemsLimitComponent
 }

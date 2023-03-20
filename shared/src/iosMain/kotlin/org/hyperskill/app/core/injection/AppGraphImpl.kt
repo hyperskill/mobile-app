@@ -16,6 +16,8 @@ import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.debug.injection.DebugComponentImpl
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponentImpl
+import org.hyperskill.app.freemium.injection.FreemiumDataComponent
+import org.hyperskill.app.freemium.injection.FreemiumDataComponentImpl
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponentImpl
 import org.hyperskill.app.home.injection.HomeComponent
@@ -42,6 +44,8 @@ import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponentImpl
 import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponent
 import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponentImpl
+import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
+import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponentImpl
 import org.hyperskill.app.products.injection.ProductsDataComponent
 import org.hyperskill.app.products.injection.ProductsDataComponentImpl
 import org.hyperskill.app.profile.injection.ProfileComponent
@@ -90,6 +94,8 @@ import org.hyperskill.app.study_plan.injection.StudyPlanComponent
 import org.hyperskill.app.study_plan.injection.StudyPlanComponentImpl
 import org.hyperskill.app.study_plan.injection.StudyPlanDataComponent
 import org.hyperskill.app.study_plan.injection.StudyPlanDataComponentImpl
+import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponent
+import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponentImpl
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponent
@@ -145,6 +151,9 @@ class AppGraphImpl(
     override val notificationFlowDataComponent: NotificationFlowDataComponent =
         NotificationFlowDataComponentImpl()
 
+    override val subscriptionsDataComponent: SubscriptionsDataComponent =
+        SubscriptionsDataComponentImpl(this)
+
     override val sentryComponent: SentryComponent =
         SentryComponentImpl(sentryManager)
 
@@ -185,8 +194,8 @@ class AppGraphImpl(
     override fun buildStepQuizComponent(stepRoute: StepRoute): StepQuizComponent =
         StepQuizComponentImpl(this, stepRoute)
 
-    override fun buildStepQuizHintsComponent(): StepQuizHintsComponent =
-        StepQuizHintsComponentImpl(this)
+    override fun buildStepQuizHintsComponent(stepRoute: StepRoute): StepQuizHintsComponent =
+        StepQuizHintsComponentImpl(this, stepRoute)
 
     override fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent =
         StepCompletionComponentImpl(this, stepRoute)
@@ -286,4 +295,10 @@ class AppGraphImpl(
 
     override fun buildStudyPlanComponent(): StudyPlanComponent =
         StudyPlanComponentImpl(this)
+
+    override fun buildFreemiumDataComponent(): FreemiumDataComponent =
+        FreemiumDataComponentImpl(this)
+
+    override fun buildProblemsLimitComponent(): ProblemsLimitComponent =
+        ProblemsLimitComponentImpl(this)
 }

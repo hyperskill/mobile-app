@@ -3,6 +3,7 @@ package org.hyperskill.app.step_quiz.injection
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
@@ -23,6 +24,7 @@ object StepQuizFeatureBuilder {
         stepQuizReplyValidator: StepQuizReplyValidator,
         profileInteractor: ProfileInteractor,
         notificationInteractor: NotificationInteractor,
+        freemiumInteractor: FreemiumInteractor,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
         resourceProvider: ResourceProvider
@@ -34,6 +36,7 @@ object StepQuizFeatureBuilder {
             stepQuizReplyValidator,
             profileInteractor,
             notificationInteractor,
+            freemiumInteractor,
             analyticInteractor,
             sentryInteractor,
             resourceProvider

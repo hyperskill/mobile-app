@@ -301,7 +301,7 @@ class ProfileFragment :
     private fun renderStatistics(profile: Profile) {
         with(viewBinding.profileStatisticsLayout) {
             profileGemsCountTextView.setTextIfChanged(profile.gamification.hypercoinsBalance.toString())
-            profileTracksCountTextView.setTextIfChanged(profile.gamification.passedTracksCount.toString())
+            profileTracksCountTextView.setTextIfChanged(profile.completedTracks.size.toString())
             profileProjectsCountTextView.setTextIfChanged(profile.gamification.passedProjectsCount.toString())
         }
     }

@@ -4,10 +4,11 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.comments.domain.interactor.CommentsInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
+import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.likes.domain.interactor.LikesInteractor
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.reactions.domain.interactor.ReactionsInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz_hints.domain.interactor.StepQuizHintsInteractor
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsActionDispatcher
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
@@ -20,25 +21,26 @@ import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 object StepQuizHintsFeatureBuilder {
     fun build(
+        stepRoute: StepRoute,
         stepQuizHintsInteractor: StepQuizHintsInteractor,
-        profileInteractor: ProfileInteractor,
         likesInteractor: LikesInteractor,
         commentsInteractor: CommentsInteractor,
         reactionsInteractor: ReactionsInteractor,
         userStorageInteractor: UserStorageInteractor,
+        freemiumInteractor: FreemiumInteractor,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor
     ): Feature<StepQuizHintsFeature.ViewState, StepQuizHintsFeature.Message, StepQuizHintsFeature.Action> {
-        val stepQuizHintsReducer = StepQuizHintsReducer()
+        val stepQuizHintsReducer = StepQuizHintsReducer(stepRoute)
 
         val stepQuizHintsDispatcher = StepQuizHintsActionDispatcher(
             ActionDispatcherOptions(),
             stepQuizHintsInteractor,
-            profileInteractor,
             likesInteractor,
             commentsInteractor,
             reactionsInteractor,
             userStorageInteractor,
+            freemiumInteractor,
             analyticInteractor,
             sentryInteractor
         )

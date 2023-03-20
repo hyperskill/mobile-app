@@ -7,4 +7,5 @@ package org.hyperskill.app.core.domain.repository
 interface StateHolder<State : Any> {
     fun getState(): State?
     fun setState(state: State)
+    fun resetState()
 }
