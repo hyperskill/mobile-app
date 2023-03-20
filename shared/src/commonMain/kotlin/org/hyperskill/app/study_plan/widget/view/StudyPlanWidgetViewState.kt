@@ -1,15 +1,15 @@
-package org.hyperskill.app.study_plan.view
+package org.hyperskill.app.study_plan.widget.view
 
-sealed interface StudyPlanViewState {
-    object Idle : StudyPlanViewState
+sealed interface StudyPlanWidgetViewState {
+    object Idle : StudyPlanWidgetViewState
 
-    object Loading : StudyPlanViewState
+    object Loading : StudyPlanWidgetViewState
 
-    object Error : StudyPlanViewState
+    object Error : StudyPlanWidgetViewState
 
     data class Content(
         val sections: List<Section>
-    ) : StudyPlanViewState
+    ) : StudyPlanWidgetViewState
 
     data class Section(
         val id: Long,

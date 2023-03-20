@@ -1,13 +1,13 @@
-package org.hyperskill.app.study_plan.presentation
+package org.hyperskill.app.study_plan.widget.presentation
 
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.study_plan.domain.interactor.StudyPlanInteractor
-import org.hyperskill.app.study_plan.presentation.StudyPlanFeature.Action
-import org.hyperskill.app.study_plan.presentation.StudyPlanFeature.InternalActions
-import org.hyperskill.app.study_plan.presentation.StudyPlanFeature.Message
+import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Action
+import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalActions
+import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Message
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
-class StudyPlanActionDispatcher(
+class StudyPlanWidgetActionDispatcher(
     config: ActionDispatcherOptions,
     private val studyPlanInteractor: StudyPlanInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
@@ -16,30 +16,33 @@ class StudyPlanActionDispatcher(
             InternalActions.FetchStudyPlan -> {
                 studyPlanInteractor.getCurrentStudyPlan()
                     .onSuccess { studyPlan ->
-                        onNewMessage(StudyPlanFeature.StudyPlanFetchResult.Success(studyPlan))
+                        onNewMessage(StudyPlanWidgetFeature.StudyPlanFetchResult.Success(studyPlan))
                     }
                     .onFailure {
-                        onNewMessage(StudyPlanFeature.StudyPlanFetchResult.Failed)
+                        onNewMessage(StudyPlanWidgetFeature.StudyPlanFetchResult.Failed)
                     }
             }
             is InternalActions.FetchSections -> {
                 studyPlanInteractor.getStudyPlanSections(action.sectionsIds)
                     .onSuccess { sections ->
-                        onNewMessage(StudyPlanFeature.SectionsFetchResult.Success(sections))
+                        onNewMessage(StudyPlanWidgetFeature.SectionsFetchResult.Success(sections))
                     }
                     .onFailure {
-                        onNewMessage(StudyPlanFeature.SectionsFetchResult.Failed)
+                        onNewMessage(StudyPlanWidgetFeature.SectionsFetchResult.Failed)
                     }
             }
             is InternalActions.FetchActivities -> {
                 studyPlanInteractor.getLearningActivities(action.activitiesIds, action.types)
                     .onSuccess { learningActivities ->
                         onNewMessage(
-                            StudyPlanFeature.LearningActivitiesFetchResult.Success(action.sectionId, learningActivities)
+                            StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success(
+                                action.sectionId,
+                                learningActivities
+                            )
                         )
                     }
                     .onFailure {
-                        onNewMessage(StudyPlanFeature.LearningActivitiesFetchResult.Failed(action.sectionId))
+                        onNewMessage(StudyPlanWidgetFeature.LearningActivitiesFetchResult.Failed(action.sectionId))
                     }
             }
         }
