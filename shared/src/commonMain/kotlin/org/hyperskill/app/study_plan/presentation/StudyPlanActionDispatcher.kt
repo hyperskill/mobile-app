@@ -3,6 +3,7 @@ package org.hyperskill.app.study_plan.presentation
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.study_plan.domain.interactor.StudyPlanInteractor
 import org.hyperskill.app.study_plan.presentation.StudyPlanFeature.Action
+import org.hyperskill.app.study_plan.presentation.StudyPlanFeature.InternalActions
 import org.hyperskill.app.study_plan.presentation.StudyPlanFeature.Message
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -12,7 +13,7 @@ class StudyPlanActionDispatcher(
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            Action.FetchStudyPlan -> {
+            InternalActions.FetchStudyPlan -> {
                 studyPlanInteractor.getCurrentStudyPlan()
                     .onSuccess { studyPlan ->
                         onNewMessage(StudyPlanFeature.StudyPlanFetchResult.Success(studyPlan))
@@ -21,7 +22,7 @@ class StudyPlanActionDispatcher(
                         onNewMessage(StudyPlanFeature.StudyPlanFetchResult.Failed)
                     }
             }
-            is Action.FetchSections -> {
+            is InternalActions.FetchSections -> {
                 studyPlanInteractor.getStudyPlanSections(action.sectionsIds)
                     .onSuccess { sections ->
                         onNewMessage(StudyPlanFeature.SectionsFetchResult.Success(sections))
@@ -30,7 +31,7 @@ class StudyPlanActionDispatcher(
                         onNewMessage(StudyPlanFeature.SectionsFetchResult.Failed)
                     }
             }
-            is Action.FetchActivities -> {
+            is InternalActions.FetchActivities -> {
                 studyPlanInteractor.getLearningActivities(action.activitiesIds, action.types)
                     .onSuccess { learningActivities ->
                         onNewMessage(

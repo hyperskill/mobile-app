@@ -2,6 +2,7 @@ package org.hyperskill.app.study_plan.presentation
 
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.study_plan.presentation.StudyPlanFeature.Action
+import org.hyperskill.app.study_plan.presentation.StudyPlanFeature.InternalActions
 import org.hyperskill.app.study_plan.presentation.StudyPlanFeature.Message
 import org.hyperskill.app.study_plan.presentation.StudyPlanFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
@@ -12,11 +13,13 @@ internal class StudyPlanReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): StudyPlanReducerResult =
         when (message) {
             Message.Initialize -> {
-                state.copy(sectionsStatus = StudyPlanFeature.ContentStatus.LOADING) to setOf(Action.FetchStudyPlan)
+                state.copy(sectionsStatus = StudyPlanFeature.ContentStatus.LOADING) to setOf(
+                    InternalActions.FetchStudyPlan
+                )
             }
             is StudyPlanFeature.StudyPlanFetchResult.Success -> {
                 state.copy(studyPlan = message.studyPlan) to
-                    setOf(Action.FetchSections(message.studyPlan.sections))
+                    setOf(InternalActions.FetchSections(message.studyPlan.sections))
             }
             is StudyPlanFeature.SectionsFetchResult.Success ->
                 handleSectionsFetchSuccess(state, message)
@@ -109,7 +112,7 @@ internal class StudyPlanReducer : StateReducer<State, Message, Action> {
                 StudyPlanFeature.ContentStatus.IDLE,
                 StudyPlanFeature.ContentStatus.ERROR -> {
                     updateSectionState(StudyPlanFeature.ContentStatus.LOADING) to setOf(
-                        Action.FetchActivities(
+                        InternalActions.FetchActivities(
                             sectionId = sectionId,
                             activitiesIds = section.studyPlanSection.activities
                         )

@@ -10,9 +10,9 @@ data class StudyPlanSection(
     @SerialName("study_plan_id")
     val studyPlanId: Long,
     @SerialName("target_id")
-    val targetId: Long,
+    val targetId: Long? = null,
     @SerialName("target_type")
-    val targetType: String,
+    val targetType: String? = null,
     @SerialName("is_visible")
     val isVisible: Boolean,
     @SerialName("title")
@@ -24,7 +24,7 @@ data class StudyPlanSection(
     @SerialName("completed_topics_count")
     val completedTopicsCount: Int,
     @SerialName("seconds_to_complete")
-    val secondsToComplete: Float,
+    val secondsToComplete: Float? = null,
     @SerialName("activities")
     val activities: List<Long>
 )

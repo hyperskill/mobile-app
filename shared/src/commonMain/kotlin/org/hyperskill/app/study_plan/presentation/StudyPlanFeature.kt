@@ -71,14 +71,18 @@ object StudyPlanFeature {
     }
 
     sealed interface Action {
-        object FetchStudyPlan : Action
+        sealed interface ViewAction : Action
+    }
 
-        data class FetchSections(val sectionsIds: List<Long>) : Action
+    internal sealed interface InternalActions : Action {
+        object FetchStudyPlan : InternalActions
+
+        data class FetchSections(val sectionsIds: List<Long>) : InternalActions
 
         data class FetchActivities(
             val sectionId: Long,
             val activitiesIds: List<Long>,
             val types: Set<LearningActivityType> = LearningActivityType.supportedTypes()
-        ) : Action
+        ) : InternalActions
     }
 }
