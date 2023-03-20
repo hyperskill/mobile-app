@@ -1,11 +1,11 @@
-package org.hyperskill.app.study_plan.presentation
+package org.hyperskill.app.study_plan.widget.presentation
 
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 
-object StudyPlanFeature {
+object StudyPlanWidgetFeature {
 
     internal data class State(
         val studyPlan: StudyPlan? = null,

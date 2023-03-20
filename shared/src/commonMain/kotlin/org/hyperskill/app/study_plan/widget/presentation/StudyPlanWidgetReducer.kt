@@ -1,35 +1,35 @@
-package org.hyperskill.app.study_plan.presentation
+package org.hyperskill.app.study_plan.widget.presentation
 
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
-import org.hyperskill.app.study_plan.presentation.StudyPlanFeature.Action
-import org.hyperskill.app.study_plan.presentation.StudyPlanFeature.InternalActions
-import org.hyperskill.app.study_plan.presentation.StudyPlanFeature.Message
-import org.hyperskill.app.study_plan.presentation.StudyPlanFeature.State
+import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Action
+import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalActions
+import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Message
+import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
-internal typealias StudyPlanReducerResult = Pair<State, Set<Action>>
+internal typealias StudyPlanWidgetReducerResult = Pair<State, Set<Action>>
 
-internal class StudyPlanReducer : StateReducer<State, Message, Action> {
-    override fun reduce(state: State, message: Message): StudyPlanReducerResult =
+internal class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
+    override fun reduce(state: State, message: Message): StudyPlanWidgetReducerResult =
         when (message) {
             Message.Initialize -> {
-                state.copy(sectionsStatus = StudyPlanFeature.ContentStatus.LOADING) to setOf(
+                state.copy(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING) to setOf(
                     InternalActions.FetchStudyPlan
                 )
             }
-            is StudyPlanFeature.StudyPlanFetchResult.Success -> {
+            is StudyPlanWidgetFeature.StudyPlanFetchResult.Success -> {
                 state.copy(studyPlan = message.studyPlan) to
                     setOf(InternalActions.FetchSections(message.studyPlan.sections))
             }
-            is StudyPlanFeature.SectionsFetchResult.Success ->
+            is StudyPlanWidgetFeature.SectionsFetchResult.Success ->
                 handleSectionsFetchSuccess(state, message)
-            is StudyPlanFeature.LearningActivitiesFetchResult.Success ->
+            is StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success ->
                 handleLearningActivitiesFetchSuccess(state, message)
-            is StudyPlanFeature.LearningActivitiesFetchResult.Failed ->
+            is StudyPlanWidgetFeature.LearningActivitiesFetchResult.Failed ->
                 handleLearningActivitiesFetchFailed(state, message)
-            StudyPlanFeature.StudyPlanFetchResult.Failed,
-            StudyPlanFeature.SectionsFetchResult.Failed -> {
-                state.copy(sectionsStatus = StudyPlanFeature.ContentStatus.ERROR) to emptySet()
+            StudyPlanWidgetFeature.StudyPlanFetchResult.Failed,
+            StudyPlanWidgetFeature.SectionsFetchResult.Failed -> {
+                state.copy(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.ERROR) to emptySet()
             }
             is Message.SectionExpanseChanged ->
                 changeSectionExpanse(state, message.sectionId, message.isExpanded)
@@ -37,22 +37,22 @@ internal class StudyPlanReducer : StateReducer<State, Message, Action> {
 
     private fun handleSectionsFetchSuccess(
         state: State,
-        message: StudyPlanFeature.SectionsFetchResult.Success
-    ): StudyPlanReducerResult {
+        message: StudyPlanWidgetFeature.SectionsFetchResult.Success
+    ): StudyPlanWidgetReducerResult {
         val visibleSections = message.sections.filter { it.isVisible }
         val firstVisibleSection = visibleSections.firstOrNull()
 
         val studyPlanSections = visibleSections.associate { studyPlanSection ->
-            studyPlanSection.id to StudyPlanFeature.StudyPlanSectionInfo(
+            studyPlanSection.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                 studyPlanSection = studyPlanSection,
                 isExpanded = false,
-                contentStatus = StudyPlanFeature.ContentStatus.IDLE
+                contentStatus = StudyPlanWidgetFeature.ContentStatus.IDLE
             )
         }
 
         val loadedSectionsState = state.copy(
             studyPlanSections = studyPlanSections,
-            sectionsStatus = StudyPlanFeature.ContentStatus.LOADED
+            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
         )
 
         return if (firstVisibleSection != null) {
@@ -64,8 +64,8 @@ internal class StudyPlanReducer : StateReducer<State, Message, Action> {
 
     private fun handleLearningActivitiesFetchSuccess(
         state: State,
-        message: StudyPlanFeature.LearningActivitiesFetchResult.Success
-    ): StudyPlanReducerResult {
+        message: StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success
+    ): StudyPlanWidgetReducerResult {
         val currentSectionActivities = state.activities.getOrElse(message.sectionId) { emptySet() }
         val filteredActivities =
             message.activities.dropWhile { it.state != LearningActivityState.TODO }
@@ -76,18 +76,18 @@ internal class StudyPlanReducer : StateReducer<State, Message, Action> {
         return state.copy(
             activities = actualActivities,
             studyPlanSections = state.studyPlanSections.update(message.sectionId) { sectionInfo ->
-                sectionInfo.copy(contentStatus = StudyPlanFeature.ContentStatus.LOADED)
+                sectionInfo.copy(contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED)
             }
         ) to emptySet()
     }
 
     private fun handleLearningActivitiesFetchFailed(
         state: State,
-        message: StudyPlanFeature.LearningActivitiesFetchResult.Failed
-    ): StudyPlanReducerResult =
+        message: StudyPlanWidgetFeature.LearningActivitiesFetchResult.Failed
+    ): StudyPlanWidgetReducerResult =
         state.copy(
             studyPlanSections = state.studyPlanSections.update(message.sectionId) { sectionInfo ->
-                sectionInfo.copy(contentStatus = StudyPlanFeature.ContentStatus.ERROR)
+                sectionInfo.copy(contentStatus = StudyPlanWidgetFeature.ContentStatus.ERROR)
             }
         ) to emptySet()
 
@@ -95,11 +95,11 @@ internal class StudyPlanReducer : StateReducer<State, Message, Action> {
         state: State,
         sectionId: Long,
         isExpanded: Boolean
-    ): StudyPlanReducerResult {
+    ): StudyPlanWidgetReducerResult {
         val section =
             state.studyPlanSections[sectionId] ?: return state to emptySet()
 
-        fun updateSectionState(contentStatus: StudyPlanFeature.ContentStatus = section.contentStatus): State =
+        fun updateSectionState(contentStatus: StudyPlanWidgetFeature.ContentStatus = section.contentStatus): State =
             state.copy(
                 studyPlanSections = state.studyPlanSections.update(
                     sectionId,
@@ -109,9 +109,9 @@ internal class StudyPlanReducer : StateReducer<State, Message, Action> {
 
         return if (isExpanded) {
             when (section.contentStatus) {
-                StudyPlanFeature.ContentStatus.IDLE,
-                StudyPlanFeature.ContentStatus.ERROR -> {
-                    updateSectionState(StudyPlanFeature.ContentStatus.LOADING) to setOf(
+                StudyPlanWidgetFeature.ContentStatus.IDLE,
+                StudyPlanWidgetFeature.ContentStatus.ERROR -> {
+                    updateSectionState(StudyPlanWidgetFeature.ContentStatus.LOADING) to setOf(
                         InternalActions.FetchActivities(
                             sectionId = sectionId,
                             activitiesIds = section.studyPlanSection.activities
@@ -120,8 +120,8 @@ internal class StudyPlanReducer : StateReducer<State, Message, Action> {
                 }
 
                 // activities are loading at the moment or already loaded
-                StudyPlanFeature.ContentStatus.LOADING,
-                StudyPlanFeature.ContentStatus.LOADED -> {
+                StudyPlanWidgetFeature.ContentStatus.LOADING,
+                StudyPlanWidgetFeature.ContentStatus.LOADED -> {
                     updateSectionState() to emptySet()
                 }
             }

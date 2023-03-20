@@ -1,20 +1,20 @@
-package org.hyperskill.app.study_plan.view
+package org.hyperskill.app.study_plan.widget.view
 
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
-import org.hyperskill.app.study_plan.presentation.StudyPlanFeature
-import org.hyperskill.app.study_plan.view.StudyPlanViewState.SectionContent
+import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
+import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState.SectionContent
 
-internal object StudyPlanViewStateMapper {
-    fun map(state: StudyPlanFeature.State): StudyPlanViewState =
+internal object StudyPlanWidgetViewStateMapper {
+    fun map(state: StudyPlanWidgetFeature.State): StudyPlanWidgetViewState =
         when (state.sectionsStatus) {
-            StudyPlanFeature.ContentStatus.IDLE -> StudyPlanViewState.Idle
-            StudyPlanFeature.ContentStatus.LOADING -> StudyPlanViewState.Loading
-            StudyPlanFeature.ContentStatus.ERROR -> StudyPlanViewState.Error
-            StudyPlanFeature.ContentStatus.LOADED -> {
-                StudyPlanViewState.Content(
+            StudyPlanWidgetFeature.ContentStatus.IDLE -> StudyPlanWidgetViewState.Idle
+            StudyPlanWidgetFeature.ContentStatus.LOADING -> StudyPlanWidgetViewState.Loading
+            StudyPlanWidgetFeature.ContentStatus.ERROR -> StudyPlanWidgetViewState.Error
+            StudyPlanWidgetFeature.ContentStatus.LOADED -> {
+                StudyPlanWidgetViewState.Content(
                     sections = state.studyPlanSections.map { (_, sectionInfo) ->
                         val section = sectionInfo.studyPlanSection
-                        StudyPlanViewState.Section(
+                        StudyPlanWidgetViewState.Section(
                             id = section.id,
                             title = section.title,
                             subtitle = section.subtitle,
@@ -26,13 +26,13 @@ internal object StudyPlanViewStateMapper {
         }
 
     private fun getSectionContent(
-        sectionInfo: StudyPlanFeature.StudyPlanSectionInfo,
-        state: StudyPlanFeature.State
+        sectionInfo: StudyPlanWidgetFeature.StudyPlanSectionInfo,
+        state: StudyPlanWidgetFeature.State
     ): SectionContent =
         if (sectionInfo.isExpanded) {
             when (sectionInfo.contentStatus) {
-                StudyPlanFeature.ContentStatus.IDLE -> SectionContent.Collapsed
-                StudyPlanFeature.ContentStatus.LOADING -> {
+                StudyPlanWidgetFeature.ContentStatus.IDLE -> SectionContent.Collapsed
+                StudyPlanWidgetFeature.ContentStatus.LOADING -> {
                     val activities = getSectionActivities(state, sectionInfo.studyPlanSection.id)
                     if (activities.isNullOrEmpty()) {
                         SectionContent.Loading
@@ -40,8 +40,8 @@ internal object StudyPlanViewStateMapper {
                         getContent(activities)
                     }
                 }
-                StudyPlanFeature.ContentStatus.ERROR -> SectionContent.Error
-                StudyPlanFeature.ContentStatus.LOADED -> {
+                StudyPlanWidgetFeature.ContentStatus.ERROR -> SectionContent.Error
+                StudyPlanWidgetFeature.ContentStatus.LOADED -> {
                     val activities = getSectionActivities(state, sectionInfo.studyPlanSection.id)
                     if (activities != null) {
                         getContent(activities)
@@ -57,10 +57,10 @@ internal object StudyPlanViewStateMapper {
     private fun getContent(activities: List<LearningActivity>): SectionContent.Content =
         SectionContent.Content(
             sectionItems = activities.map { activity ->
-                StudyPlanViewState.SectionItem(activity.id)
+                StudyPlanWidgetViewState.SectionItem(activity.id)
             }
         )
 
-    private fun getSectionActivities(state: StudyPlanFeature.State, sectionId: Long): List<LearningActivity>? =
+    private fun getSectionActivities(state: StudyPlanWidgetFeature.State, sectionId: Long): List<LearningActivity>? =
         state.activities[sectionId]?.toList()
 }

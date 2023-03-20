@@ -44,8 +44,8 @@ import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import org.hyperskill.app.streaks.injection.StreakFlowDataComponent
 import org.hyperskill.app.streaks.injection.StreaksDataComponent
-import org.hyperskill.app.study_plan.injection.StudyPlanComponent
 import org.hyperskill.app.study_plan.injection.StudyPlanDataComponent
+import org.hyperskill.app.study_plan.widget.injection.StudyPlanWidgetComponent
 import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponent
@@ -90,7 +90,7 @@ interface AppGraph {
     fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent
     fun buildStageImplementComponent(projectId: Long, stageId: Long): StageImplementComponent
 
-    fun buildStudyPlanComponent(): StudyPlanComponent
+    fun buildStudyPlanWidgetComponent(): StudyPlanWidgetComponent
 
     fun buildMainDataComponent(): MainDataComponent
     fun buildProfileDataComponent(): ProfileDataComponent
