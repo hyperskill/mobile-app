@@ -24,7 +24,7 @@ class StudyPlanTest {
     fun `Initialize message should trigger studyPLan fetching`() {
         val initialState = StudyPlanFeature.State()
         val (state, actions) = reducer.reduce(initialState, StudyPlanFeature.Message.Initialize)
-        assertContains(actions, StudyPlanFeature.Action.FetchStudyPlan)
+        assertContains(actions, StudyPlanFeature.InternalActions.FetchStudyPlan)
         assertEquals(state.sectionsStatus, StudyPlanFeature.ContentStatus.LOADING)
     }
 
@@ -44,7 +44,7 @@ class StudyPlanTest {
         val initialState = StudyPlanFeature.State(sectionsStatus = StudyPlanFeature.ContentStatus.LOADING)
         val (state, actions) =
             reducer.reduce(initialState, StudyPlanFeature.StudyPlanFetchResult.Success(studyPlanStub))
-        assertContains(actions, StudyPlanFeature.Action.FetchSections(expectedSections))
+        assertContains(actions, StudyPlanFeature.InternalActions.FetchSections(expectedSections))
         assertEquals(studyPlanStub, state.studyPlan)
         assertEquals(initialState.sectionsStatus, state.sectionsStatus)
     }
@@ -78,7 +78,7 @@ class StudyPlanTest {
             StudyPlanFeature.State(),
             StudyPlanFeature.SectionsFetchResult.Success(listOf(firstSection, secondSection))
         )
-        assertContains(actions, StudyPlanFeature.Action.FetchActivities(firstSection.id, firstSection.activities))
+        assertContains(actions, StudyPlanFeature.InternalActions.FetchActivities(firstSection.id, firstSection.activities))
         assertEquals(true, state.studyPlanSections[firstSection.id]?.isExpanded)
     }
 
