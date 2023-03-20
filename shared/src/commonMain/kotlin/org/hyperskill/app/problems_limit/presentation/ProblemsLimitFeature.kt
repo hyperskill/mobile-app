@@ -57,5 +57,7 @@ object ProblemsLimitFeature {
         data class LoadSubscription(val forceUpdate: Boolean) : Action
 
         data class LaunchTimer(val updateIn: Duration) : Action
+
+        sealed interface ViewAction
     }
 }
