@@ -24,6 +24,14 @@ enum class LearningActivityType(val value: Int) {
     companion object {
         private val VALUES: Array<LearningActivityType> = values()
 
+        fun supportedTypes(): Set<LearningActivityType> =
+            setOf(
+                SELECT_PROJECT,
+                LEARN_TOPIC,
+                IMPLEMENT_STAGE,
+                SELECT_TRACK
+            )
+
         fun getByValue(value: Int): LearningActivityType? =
             VALUES.firstOrNull { it.value == value }
     }

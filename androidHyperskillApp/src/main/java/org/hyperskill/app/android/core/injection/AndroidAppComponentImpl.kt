@@ -130,6 +130,8 @@ import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponentImpl
 import org.hyperskill.app.streaks.injection.StreakFlowDataComponentImpl
 import org.hyperskill.app.streaks.injection.StreaksDataComponent
 import org.hyperskill.app.streaks.injection.StreaksDataComponentImpl
+import org.hyperskill.app.study_plan.injection.StudyPlanComponent
+import org.hyperskill.app.study_plan.injection.StudyPlanComponentImpl
 import org.hyperskill.app.study_plan.injection.StudyPlanDataComponent
 import org.hyperskill.app.study_plan.injection.StudyPlanDataComponentImpl
 import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponent
@@ -414,6 +416,15 @@ class AndroidAppComponentImpl(
     override fun buildTopicsToDiscoverNextDataComponent(): TopicsToDiscoverNextDataComponent =
         TopicsToDiscoverNextDataComponentImpl(this)
 
+    /**
+     * Study plan component
+     */
+    override fun buildStudyPlanComponent(): StudyPlanComponent =
+        StudyPlanComponentImpl(this)
+
+    override fun buildStudyPlanDataComponent(): StudyPlanDataComponent =
+        StudyPlanDataComponentImpl(this)
+
     override fun buildUserStorageComponent(): UserStorageComponent =
         UserStorageComponentImpl(this)
 
@@ -452,9 +463,6 @@ class AndroidAppComponentImpl(
 
     override fun buildGamificationToolbarComponent(): GamificationToolbarComponent =
         GamificationToolbarComponentImpl(this)
-
-    override fun buildStudyPlanDataComponent(): StudyPlanDataComponent =
-        StudyPlanDataComponentImpl(this)
 
     override fun buildProjectsDataComponent(): ProjectsDataComponent =
         ProjectsDataComponentImpl(this)
