@@ -1,9 +1,9 @@
 package org.hyperskill.app.study_plan.widget.injection
 
-import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
-import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState
-import ru.nobird.app.presentation.redux.feature.Feature
+import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetActionDispatcher
+import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
 
 interface StudyPlanWidgetComponent {
-    val studyPlanWidgetFeature: Feature<StudyPlanWidgetViewState, StudyPlanWidgetFeature.Message, StudyPlanWidgetFeature.Action>
+    val studyPlanWidgetReducer: StudyPlanWidgetReducer
+    val studyPlanWidgetDispatcher: StudyPlanWidgetActionDispatcher
 }

@@ -7,7 +7,7 @@ import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 
 object StudyPlanWidgetFeature {
 
-    internal data class State(
+    data class State(
         val studyPlan: StudyPlan? = null,
 
         val studyPlanSections: Map<Long, StudyPlanSectionInfo> = emptyMap(),

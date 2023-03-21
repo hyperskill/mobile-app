@@ -1,13 +1,17 @@
 package org.hyperskill.app.study_plan.widget.injection
 
 import org.hyperskill.app.core.injection.AppGraph
-import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
-import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState
-import ru.nobird.app.presentation.redux.feature.Feature
+import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetActionDispatcher
+import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
 
 class StudyPlanComponentImpl(private val appGraph: AppGraph) : StudyPlanWidgetComponent {
-    override val studyPlanWidgetFeature: Feature<StudyPlanWidgetViewState, StudyPlanWidgetFeature.Message, StudyPlanWidgetFeature.Action>
-        get() = StudyPlanWidgetFeatureBuilder.build(
+    override val studyPlanWidgetDispatcher: StudyPlanWidgetActionDispatcher
+        get() = StudyPlanWidgetActionDispatcher(
+            config = ActionDispatcherOptions(),
             studyPlanInteractor = appGraph.buildStudyPlanDataComponent().studyPlanInteractor
         )
+
+    override val studyPlanWidgetReducer: StudyPlanWidgetReducer
+        get() = StudyPlanWidgetReducer()
 }
