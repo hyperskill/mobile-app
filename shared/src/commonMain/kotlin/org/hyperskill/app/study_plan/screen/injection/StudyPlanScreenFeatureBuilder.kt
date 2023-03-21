@@ -14,6 +14,7 @@ import org.hyperskill.app.study_plan.screen.view.StudyPlanScreenViewStateMapper
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetActionDispatcher
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
+import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewStateMapper
 import ru.nobird.app.core.model.safeCast
 import ru.nobird.app.presentation.redux.dispatcher.transform
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
@@ -26,13 +27,15 @@ internal object StudyPlanScreenFeatureBuilder {
         toolbarReducer: GamificationToolbarReducer,
         toolbarActionDispatcher: GamificationToolbarActionDispatcher,
         studyPlanWidgetReducer: StudyPlanWidgetReducer,
-        studyPlanWidgetDispatcher: StudyPlanWidgetActionDispatcher
+        studyPlanWidgetDispatcher: StudyPlanWidgetActionDispatcher,
+        studyPlanWidgetViewStateMapper: StudyPlanWidgetViewStateMapper
     ): Feature<StudyPlanScreenViewState, StudyPlanScreenFeature.Message, StudyPlanScreenFeature.Action> {
         val studyPlanScreenReducer = StudyPlanScreenReducer(toolbarReducer, studyPlanWidgetReducer)
         val studyPlanScreenActionDispatcher = StudyPlanScreenActionDispatcher(
             ActionDispatcherOptions(),
             analyticInteractor
         )
+        val studyPlanScreenViewStateMapper = StudyPlanScreenViewStateMapper(studyPlanWidgetViewStateMapper)
         return ReduxFeature(
             StudyPlanScreenFeature.State(
                 toolbarState = GamificationToolbarFeature.State.Idle,
@@ -40,7 +43,7 @@ internal object StudyPlanScreenFeatureBuilder {
             ),
             reducer = studyPlanScreenReducer
         )
-            .transformState(StudyPlanScreenViewStateMapper::map)
+            .transformState(studyPlanScreenViewStateMapper::map)
             .wrapWithActionDispatcher(studyPlanScreenActionDispatcher)
             .wrapWithActionDispatcher(
                 toolbarActionDispatcher.transform(

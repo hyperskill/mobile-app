@@ -1,10 +1,12 @@
 package org.hyperskill.app.study_plan.widget.view
 
+import org.hyperskill.app.core.view.mapper.DateFormatter
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState.SectionContent
+import kotlin.math.roundToLong
 
-internal object StudyPlanWidgetViewStateMapper {
+class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
     fun map(state: StudyPlanWidgetFeature.State): StudyPlanWidgetViewState =
         when (state.sectionsStatus) {
             StudyPlanWidgetFeature.ContentStatus.IDLE -> StudyPlanWidgetViewState.Idle
@@ -17,8 +19,15 @@ internal object StudyPlanWidgetViewStateMapper {
                         StudyPlanWidgetViewState.Section(
                             id = section.id,
                             title = section.title,
-                            subtitle = section.subtitle,
-                            content = getSectionContent(sectionInfo, state)
+                            subtitle = section.subtitle.takeIf { it.isNotEmpty() },
+                            content = getSectionContent(sectionInfo, state),
+                            formattedTopicsCount = formatTopicsCount(
+                                completedTopicsCount = section.completedTopicsCount,
+                                topicsCount = section.topicsCount
+                            ),
+                            formattedTimeToComplete = section.secondsToComplete
+                                ?.roundToLong()
+                                ?.let(dateFormatter::hoursWithMinutesCount)
                         )
                     }
                 )
@@ -63,4 +72,11 @@ internal object StudyPlanWidgetViewStateMapper {
 
     private fun getSectionActivities(state: StudyPlanWidgetFeature.State, sectionId: Long): List<LearningActivity>? =
         state.activities[sectionId]?.toList()
+
+    private fun formatTopicsCount(completedTopicsCount: Int, topicsCount: Int): String? =
+        if (completedTopicsCount > 0  && topicsCount > 0) {
+            "$completedTopicsCount / $topicsCount"
+        } else {
+            null
+        }
 }
