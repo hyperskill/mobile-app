@@ -4,9 +4,6 @@ import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.DateFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
-import org.hyperskill.app.subscriptions.domain.model.isFree
-import kotlin.time.DurationUnit
-import kotlin.time.toDuration
 
 internal class ProblemsLimitViewStateMapper(
     private val resourceProvider: ResourceProvider,
@@ -19,22 +16,22 @@ internal class ProblemsLimitViewStateMapper(
             is ProblemsLimitFeature.State.NetworkError -> ProblemsLimitFeature.ViewState.Error
             is ProblemsLimitFeature.State.Content -> {
                 when {
-                    !state.isFreemiumEnabled ->
-//                        state.subscription.stepsLimitLeft == null ||
-//                        state.subscription.stepsLimitTotal == null ||
-//                        state.updateIn == null ->
+                    !state.isFreemiumEnabled ||
+                        state.subscription.stepsLimitLeft == null ||
+                        state.subscription.stepsLimitTotal == null ||
+                        state.updateIn == null ->
                         ProblemsLimitFeature.ViewState.Content.Empty
                     else -> ProblemsLimitFeature.ViewState.Content.Widget(
-                        stepsLimitTotal = state.subscription.stepsLimitTotal ?: 5,
-                        stepsLimitLeft = state.subscription.stepsLimitLeft ?: 3,
+                        stepsLimitTotal = state.subscription.stepsLimitTotal,
+                        stepsLimitLeft = state.subscription.stepsLimitLeft,
                         stepsLimitLabel = resourceProvider.getString(
                             SharedResources.strings.problems_limit_widget_problems_limit,
-                            state.subscription.stepsLimitLeft ?: 3,
-                            state.subscription.stepsLimitTotal ?: 5
+                            state.subscription.stepsLimitLeft,
+                            state.subscription.stepsLimitTotal
                         ),
                         updateInLabel = resourceProvider.getString(
                             SharedResources.strings.problems_limit_widget_update_in,
-                            dateFormatter.hoursOrMinutesCount(state.updateIn ?: 5.toDuration(DurationUnit.HOURS))
+                            dateFormatter.hoursOrMinutesCount(state.updateIn)
                         )
                     )
                 }

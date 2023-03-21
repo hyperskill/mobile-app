@@ -9,7 +9,6 @@ import org.hyperskill.app.problems_limit.presentation.ProblemsLimitActionDispatc
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
 import org.hyperskill.app.problems_limit.view.mapper.ProblemsLimitViewStateMapper
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
