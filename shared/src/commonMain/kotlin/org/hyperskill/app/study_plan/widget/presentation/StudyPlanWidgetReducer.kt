@@ -9,7 +9,7 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 internal typealias StudyPlanWidgetReducerResult = Pair<State, Set<Action>>
 
-internal class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
+class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): StudyPlanWidgetReducerResult =
         when (message) {
             Message.Initialize -> {

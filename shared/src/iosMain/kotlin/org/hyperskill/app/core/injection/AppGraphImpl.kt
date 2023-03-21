@@ -92,6 +92,8 @@ import org.hyperskill.app.streaks.injection.StreaksDataComponent
 import org.hyperskill.app.streaks.injection.StreaksDataComponentImpl
 import org.hyperskill.app.study_plan.injection.StudyPlanDataComponent
 import org.hyperskill.app.study_plan.injection.StudyPlanDataComponentImpl
+import org.hyperskill.app.study_plan.screen.injection.StudyPlanScreenComponent
+import org.hyperskill.app.study_plan.screen.injection.StudyPlanScreenComponentImpl
 import org.hyperskill.app.study_plan.widget.injection.StudyPlanComponentImpl
 import org.hyperskill.app.study_plan.widget.injection.StudyPlanWidgetComponent
 import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponent
@@ -295,6 +297,9 @@ class AppGraphImpl(
 
     override fun buildStudyPlanWidgetComponent(): StudyPlanWidgetComponent =
         StudyPlanComponentImpl(this)
+
+    override fun buildStudyPlanScreenComponent(): StudyPlanScreenComponent =
+        StudyPlanScreenComponentImpl(this)
 
     override fun buildFreemiumDataComponent(): FreemiumDataComponent =
         FreemiumDataComponentImpl(this)

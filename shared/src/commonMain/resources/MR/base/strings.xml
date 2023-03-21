@@ -151,6 +151,7 @@
     <!-- Tab bar -->
     <string name="tab_bar_home_title">Home</string>
     <string name="tab_bar_track_title">Track</string>
+    <string name="tab_bar_study_plan_title">Study Plan</string>
     <string name="tab_bar_profile_title">Profile</string>
     <string name="tab_bar_debug_title">Debug</string>
 
@@ -366,5 +367,7 @@
     <!--  Problems limit widget  -->
     <string name="problems_limit_widget_problems_limit">%d/%d problems limit</string>
     <string name="problems_limit_widget_update_in">Update in</string>
+
+    <string name="study_plan_title">Study plan</string>
 
 </resources>
