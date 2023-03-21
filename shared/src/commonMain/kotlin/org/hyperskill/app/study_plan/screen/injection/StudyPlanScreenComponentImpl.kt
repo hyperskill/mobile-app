@@ -21,6 +21,7 @@ class StudyPlanScreenComponentImpl(private val appGraph: AppGraph) : StudyPlanSc
             toolbarReducer = toolbarComponent.gamificationToolbarReducer,
             toolbarActionDispatcher = toolbarComponent.gamificationToolbarActionDispatcher,
             studyPlanWidgetReducer = studyPlanWidgetComponent.studyPlanWidgetReducer,
-            studyPlanWidgetDispatcher = studyPlanWidgetComponent.studyPlanWidgetDispatcher
+            studyPlanWidgetDispatcher = studyPlanWidgetComponent.studyPlanWidgetDispatcher,
+            studyPlanWidgetViewStateMapper = studyPlanWidgetComponent.studyPlanWidgetViewStateMapper
         )
 }

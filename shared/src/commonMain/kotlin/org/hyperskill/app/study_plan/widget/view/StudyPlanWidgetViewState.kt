@@ -14,7 +14,9 @@ sealed interface StudyPlanWidgetViewState {
     data class Section(
         val id: Long,
         val title: String,
-        val subtitle: String,
+        val subtitle: String?,
+        val formattedTopicsCount: String?,
+        val formattedTimeToComplete: String?,
         val content: SectionContent
     )
 
