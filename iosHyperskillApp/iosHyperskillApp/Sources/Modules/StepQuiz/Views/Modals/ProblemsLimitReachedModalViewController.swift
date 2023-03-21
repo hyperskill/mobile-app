@@ -12,7 +12,7 @@ extension ProblemsLimitReachedModalViewController {
             vertical: LayoutInsets.largeInset
         )
 
-        let cubeImageViewSizeRatio = CGSize(width: 0.63, height: 0.22)
+        let cubeImageViewSizeRatio = CGSize(width: 1, height: 0.20)
 
         let goToHomescreenButtonHeight: CGFloat = 44
     }

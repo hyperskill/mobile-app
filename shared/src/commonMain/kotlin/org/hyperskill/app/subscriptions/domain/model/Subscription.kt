@@ -17,4 +17,4 @@ data class Subscription(
 )
 
 val Subscription.isFree: Boolean
-    get() = type == SubscriptionType.TRIAL
+    get() = type == SubscriptionType.FREE

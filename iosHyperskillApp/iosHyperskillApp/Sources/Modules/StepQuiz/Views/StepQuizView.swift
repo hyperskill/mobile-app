@@ -257,7 +257,7 @@ struct StepQuizView: View {
                 break
             }
         case .showProblemsLimitReachedModal:
-            #warning("TODO: implement showing problems limit reached modal")
+            presentProblemsLimitReachedModal()
         case .showProblemOfDaySolvedModal(let showProblemOfDaySolvedModalViewAction):
             presentDailyStepCompletedModal(earnedGemsText: showProblemOfDaySolvedModalViewAction.earnedGemsText)
         case .navigateTo(let viewActionNavigateTo):
