@@ -89,4 +89,10 @@
     <!--New user screen-->
     <dimen name="track_items_vertical_margin">8dp</dimen>
 
+    <!--Study plan-->
+    <dimen name="study_plan_horizontal_margin">20dp</dimen>
+    <dimen name="study_plan_top_margin">20dp</dimen>
+    <dimen name="study_plan_bottom_margin">20dp</dimen>
+    <dimen name="study_plan_section_top_margin">16dp</dimen>
+
 </resources>

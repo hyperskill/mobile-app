@@ -10,6 +10,7 @@ import org.hyperskill.app.android.core.view.ui.navigation.requireMainRouter
 import org.hyperskill.app.android.databinding.FragmentStudyPlanBinding
 import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.GamificationToolbarDelegate
 import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
+import org.hyperskill.app.android.study_plan.delegate.StudyPlanWidgetDelegate
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
@@ -34,10 +35,12 @@ class StudyPlanFragment :
     private val studyPlanViewModel: StudyPlanScreenViewModel by reduxViewModel(this) { viewModelFactory }
 
     private var gamificationToolbarDelegate: GamificationToolbarDelegate? = null
+    private var studyPlanWidgetDelegate: StudyPlanWidgetDelegate? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponents()
+        studyPlanWidgetDelegate = StudyPlanWidgetDelegate(requireContext())
     }
 
     private fun injectComponents() {
@@ -48,6 +51,7 @@ class StudyPlanFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initGamificationToolbarDelegate()
+        studyPlanWidgetDelegate?.setup(viewBinding.studyPlanRecycler)
     }
 
     private fun initGamificationToolbarDelegate() {
@@ -67,8 +71,14 @@ class StudyPlanFragment :
         gamificationToolbarDelegate = null
     }
 
+    override fun onDestroy() {
+        studyPlanWidgetDelegate = null
+        super.onDestroy()
+    }
+
     override fun render(state: StudyPlanScreenViewState) {
-        gamificationToolbarDelegate?.render(state = state.toolbarState)
+        gamificationToolbarDelegate?.render(state.toolbarState)
+        studyPlanWidgetDelegate?.render(state.studyPlanWidgetViewState)
     }
 
     override fun onAction(action: StudyPlanScreenFeature.Action.ViewAction) {
