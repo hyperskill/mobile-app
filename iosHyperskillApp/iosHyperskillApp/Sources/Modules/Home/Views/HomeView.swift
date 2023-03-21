@@ -77,8 +77,13 @@ struct HomeView: View {
                         .font(.subheadline)
                         .foregroundColor(.secondaryText)
 
+                    ProblemsLimitAssembly()
+                        .makeModule()
+                        .padding(.top, LayoutInsets.defaultInset)
+
                     ProblemOfDayAssembly(
                         problemOfDayState: data.problemOfDayState,
+                        isFreemiumEnabled: data.isFreemiumEnabled,
                         output: viewModel
                     )
                     .makeModule()

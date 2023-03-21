@@ -415,6 +415,8 @@
 		E9B55A5729C8A0660066900E /* ProblemsLimitAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B55A5629C8A0660066900E /* ProblemsLimitAssembly.swift */; };
 		E9B55A5929C8A0760066900E /* ProblemsLimitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B55A5829C8A0760066900E /* ProblemsLimitView.swift */; };
 		E9B55A5B29C8A08E0066900E /* ProblemsLimitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B55A5A29C8A08E0066900E /* ProblemsLimitViewModel.swift */; };
+		E9B55A5D29C978E40066900E /* ProblemsLimitReachedModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B55A5C29C978E40066900E /* ProblemsLimitReachedModalViewController.swift */; };
+		E9B55A6029C97CE30066900E /* ProblemsLimitReachedModalViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B55A5F29C97CE30066900E /* ProblemsLimitReachedModalViewControllerDelegate.swift */; };
 		E9C3506D2886B0FE0080D277 /* MainBundleInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C3506C2886B0FE0080D277 /* MainBundleInfo.swift */; };
 		E9C3506F2886D0600080D277 /* OpenURLInsideAppButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C3506E2886D0600080D277 /* OpenURLInsideAppButton.swift */; };
 		E9C5C93028AE105200CADDEC /* NotificationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C5C92F28AE105200CADDEC /* NotificationsService.swift */; };
@@ -872,6 +874,8 @@
 		E9B55A5629C8A0660066900E /* ProblemsLimitAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsLimitAssembly.swift; sourceTree = "<group>"; };
 		E9B55A5829C8A0760066900E /* ProblemsLimitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsLimitView.swift; sourceTree = "<group>"; };
 		E9B55A5A29C8A08E0066900E /* ProblemsLimitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsLimitViewModel.swift; sourceTree = "<group>"; };
+		E9B55A5C29C978E40066900E /* ProblemsLimitReachedModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsLimitReachedModalViewController.swift; sourceTree = "<group>"; };
+		E9B55A5F29C97CE30066900E /* ProblemsLimitReachedModalViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsLimitReachedModalViewControllerDelegate.swift; sourceTree = "<group>"; };
 		E9C3506C2886B0FE0080D277 /* MainBundleInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainBundleInfo.swift; sourceTree = "<group>"; };
 		E9C3506E2886D0600080D277 /* OpenURLInsideAppButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenURLInsideAppButton.swift; sourceTree = "<group>"; };
 		E9C5C92F28AE105200CADDEC /* NotificationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsService.swift; sourceTree = "<group>"; };
@@ -1429,13 +1433,13 @@
 		2C41127528376ECE004948A3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E9ACD3402937342F0005E05B /* ProblemOfDaySolvedModalViewController.swift */,
 				2CA7614A2926272500987B66 /* StepQuizFeedbackView.swift */,
 				E99B21802887E535006A6154 /* StepQuizSkeletonViewFactory.swift */,
 				E99D4CEE2826B91100B49D52 /* StepQuizStatusView.swift */,
 				2CD48D882858657100CFCC4A /* StepQuizView.swift */,
 				2C41127628376F50004948A3 /* BottomControls */,
 				2CCD49712838E40F004DC3CE /* Header */,
+				E9B55A5E29C97CB00066900E /* Modals */,
 				2C7802C3285C933300082547 /* StepQuizActionButtons */,
 			);
 			path = Views;
@@ -2624,6 +2628,16 @@
 			path = ProblemsLimit;
 			sourceTree = "<group>";
 		};
+		E9B55A5E29C97CB00066900E /* Modals */ = {
+			isa = PBXGroup;
+			children = (
+				E9B55A5C29C978E40066900E /* ProblemsLimitReachedModalViewController.swift */,
+				E9ACD3402937342F0005E05B /* ProblemOfDaySolvedModalViewController.swift */,
+				E9B55A5F29C97CE30066900E /* ProblemsLimitReachedModalViewControllerDelegate.swift */,
+			);
+			path = Modals;
+			sourceTree = "<group>";
+		};
 		E9CC6C0529893EFC00D8D070 /* InputOutput */ = {
 			isa = PBXGroup;
 			children = (
@@ -2980,6 +2994,7 @@
 				2C2D492E281151E100753F16 /* AuthCredentialsAssembly.swift in Sources */,
 				2CDA984929445C0A00ADE539 /* ProfileStatisticsItemView.swift in Sources */,
 				E9F655D12875B32700291143 /* ProblemOfDayCardView.swift in Sources */,
+				E9B55A6029C97CE30066900E /* ProblemsLimitReachedModalViewControllerDelegate.swift in Sources */,
 				E99CD0BC292B9A2D00620259 /* TopicsRepetitionsViewModel.swift in Sources */,
 				2CD3652828797D3600D61855 /* Formatter.swift in Sources */,
 				2C0DB90328643C47001EA35E /* CodeTextView.swift in Sources */,
@@ -3030,6 +3045,7 @@
 				2C336D132865C47900C91342 /* ApplicationTheme.swift in Sources */,
 				2C0CD583282BEB6600D5659D /* View+RemoveBackButtonTitle.swift in Sources */,
 				E99B21812887E535006A6154 /* StepQuizSkeletonViewFactory.swift in Sources */,
+				E9B55A5D29C978E40066900E /* ProblemsLimitReachedModalViewController.swift in Sources */,
 				2CFD7C6A2925447600902748 /* StepQuizFeatureStateKsExtensions.swift in Sources */,
 				2C80D4FD288C4D0D00B2CD1E /* StepQuizCodeFullScreenViewModel.swift in Sources */,
 				E9FB89A32893CCAF0011EFFB /* LocalNotificationProtocol.swift in Sources */,

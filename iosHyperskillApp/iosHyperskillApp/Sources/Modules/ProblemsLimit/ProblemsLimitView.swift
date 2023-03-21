@@ -8,7 +8,7 @@ extension ProblemsLimitView {
         let limitCircleWidthHeight: CGFloat = 8
         let limitCirclesSpacing: CGFloat = 4
 
-        let skeletonHeight: CGFloat = 20
+        let skeletonHeight: CGFloat = 40
     }
 }
 
@@ -67,7 +67,9 @@ struct ProblemsLimitView: View {
                         )
                         .frame(widthHeight: appearance.limitCircleWidthHeight)
                 }
+            }
 
+            HStack(alignment: .bottom, spacing: appearance.stackSpacing) {
                 Text(data.stepsLimitLabel)
                     .font(.subheadline)
                     .foregroundColor(.primaryText)

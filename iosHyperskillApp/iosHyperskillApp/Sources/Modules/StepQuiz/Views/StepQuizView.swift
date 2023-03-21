@@ -265,7 +265,7 @@ struct StepQuizView: View {
             case .back:
                 stackRouter.popViewController()
             case .home:
-                #warning("TODO: implement navigation to home")
+                TabBarRouter(tab: .home).route()
             }
         }
     }
@@ -346,6 +346,14 @@ extension StepQuizView {
         panModal.onDisappear = { [weak viewModel] in
             viewModel?.logDailyStepCompletedModalHiddenEvent()
         }
+
+        panModalPresenter.presentPanModal(panModal)
+    }
+
+    private func presentProblemsLimitReachedModal() {
+        let panModal = ProblemsLimitReachedModalViewController(
+            delegate: viewModel
+        )
 
         panModalPresenter.presentPanModal(panModal)
     }

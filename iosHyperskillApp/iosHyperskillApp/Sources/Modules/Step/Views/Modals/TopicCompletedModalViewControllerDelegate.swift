@@ -5,10 +5,6 @@ protocol TopicCompletedModalViewControllerDelegate: AnyObject {
         _ viewController: TopicCompletedModalViewController
     )
 
-    func topicCompletedModalViewControllerDidTapContinueWithNextTopicButton(
-        _ viewController: TopicCompletedModalViewController
-    )
-
     func topicCompletedModalViewControllerDidAppear(_ viewController: TopicCompletedModalViewController)
 
     func topicCompletedModalViewControllerDidDisappear(_ viewController: TopicCompletedModalViewController)
