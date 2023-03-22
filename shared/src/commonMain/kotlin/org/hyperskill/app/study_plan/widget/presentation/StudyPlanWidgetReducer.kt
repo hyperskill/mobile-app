@@ -1,6 +1,6 @@
 package org.hyperskill.app.study_plan.widget.presentation
 
-import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
+import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Action
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalActions
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Message
@@ -33,6 +33,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             }
             is Message.SectionExpanseChanged ->
                 changeSectionExpanse(state, message.sectionId, message.isExpanded)
+            is Message.ActivityClicked -> handleActivityClicked(state, message.activityId)
         }
 
     private fun handleSectionsFetchSuccess(
@@ -125,6 +126,23 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         } else {
             updateSectionState() to emptySet()
         }
+    }
+
+    private fun handleActivityClicked(state: State, activityId: Long): StudyPlanWidgetReducerResult {
+        val activity = state.activities[activityId]
+        if (activity?.isCurrent != true) return state to emptySet()
+        val action = when (activity.type) {
+            LearningActivityType.IMPLEMENT_STAGE -> {
+                val projectId = state.studyPlan?.projectId
+                if (projectId != null) {
+                    Action.ViewAction.NavigateTo.StageImplementation(stageId = activity.targetId, projectId = projectId)
+                } else {
+                    null
+                }
+            }
+            else -> null
+        }
+        return state to setOfNotNull(action)
     }
 
     private fun <K, V> Map<K, V>.update(key: K, value: V): Map<K, V> =

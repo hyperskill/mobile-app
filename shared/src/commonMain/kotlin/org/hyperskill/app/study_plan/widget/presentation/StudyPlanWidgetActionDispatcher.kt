@@ -45,6 +45,9 @@ class StudyPlanWidgetActionDispatcher(
                         onNewMessage(StudyPlanWidgetFeature.LearningActivitiesFetchResult.Failed(action.sectionId))
                     }
             }
+            else -> {
+                // no op
+            }
         }
     }
 }

@@ -48,6 +48,8 @@ object StudyPlanWidgetFeature {
             val sectionId: Long,
             val isExpanded: Boolean
         ) : Message
+
+        data class ActivityClicked(val activityId: Long) : Message
     }
 
     internal sealed interface StudyPlanFetchResult : Message {
@@ -72,7 +74,14 @@ object StudyPlanWidgetFeature {
     }
 
     sealed interface Action {
-        sealed interface ViewAction : Action
+        sealed interface ViewAction : Action {
+            sealed interface NavigateTo : ViewAction {
+                data class StageImplementation(
+                    val stageId: Long,
+                    val projectId: Long
+                ) : NavigateTo
+            }
+        }
     }
 
     internal sealed interface InternalActions : Action {
