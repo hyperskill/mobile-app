@@ -66,15 +66,12 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         state: State,
         message: StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success
     ): StudyPlanWidgetReducerResult {
-        val currentSectionActivities = state.activities.getOrElse(message.sectionId) { emptySet() }
-        val filteredActivities =
-            message.activities.dropWhile { it.state != LearningActivityState.TODO }
-        val actualSectionActivities = currentSectionActivities + filteredActivities
-        val actualActivities =
-            state.activities + (message.sectionId to actualSectionActivities)
-
         return state.copy(
-            activities = actualActivities,
+            activities = state.activities.toMutableMap().apply {
+                putAll(
+                    message.activities.associateBy { it.id }
+                )
+            },
             studyPlanSections = state.studyPlanSections.update(message.sectionId) { sectionInfo ->
                 sectionInfo.copy(contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED)
             }

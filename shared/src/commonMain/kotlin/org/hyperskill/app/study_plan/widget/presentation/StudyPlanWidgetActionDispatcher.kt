@@ -32,7 +32,7 @@ class StudyPlanWidgetActionDispatcher(
                     }
             }
             is InternalActions.FetchActivities -> {
-                studyPlanInteractor.getLearningActivities(action.activitiesIds, action.types)
+                studyPlanInteractor.getLearningActivities(action.activitiesIds, action.types, action.states)
                     .onSuccess { learningActivities ->
                         onNewMessage(
                             StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success(

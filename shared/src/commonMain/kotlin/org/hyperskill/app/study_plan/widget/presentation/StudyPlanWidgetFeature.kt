@@ -1,6 +1,7 @@
 package org.hyperskill.app.study_plan.widget.presentation
 
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
+import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
@@ -20,7 +21,7 @@ object StudyPlanWidgetFeature {
         /**
          * Map of sections ids to section's activities
          */
-        val activities: Map<Long, Set<LearningActivity>> = emptyMap()
+        val activities: Map<Long, LearningActivity> = emptyMap()
     )
 
     enum class ContentStatus {
@@ -82,7 +83,8 @@ object StudyPlanWidgetFeature {
         data class FetchActivities(
             val sectionId: Long,
             val activitiesIds: List<Long>,
-            val types: Set<LearningActivityType> = LearningActivityType.supportedTypes()
+            val types: Set<LearningActivityType> = LearningActivityType.supportedTypes(),
+            val states: Set<LearningActivityState> = setOf(LearningActivityState.TODO)
         ) : InternalActions
     }
 }

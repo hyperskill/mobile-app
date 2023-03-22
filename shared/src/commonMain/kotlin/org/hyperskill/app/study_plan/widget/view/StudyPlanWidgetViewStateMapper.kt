@@ -5,6 +5,7 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.firstSection
+import org.hyperskill.app.study_plan.widget.presentation.getSectionActivities
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState.SectionContent
 import kotlin.math.roundToLong
 
@@ -43,6 +44,7 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
                         section.secondsToComplete
                             ?.roundToLong()
                             ?.let(dateFormatter::hoursWithMinutesCount)
+                            ?.takeIf { it.isNotEmpty() }
                     } else {
                         null
                     }
@@ -59,8 +61,8 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
             when (sectionInfo.contentStatus) {
                 StudyPlanWidgetFeature.ContentStatus.IDLE -> SectionContent.Collapsed
                 StudyPlanWidgetFeature.ContentStatus.LOADING -> {
-                    val activities = getSectionActivities(state, sectionInfo.studyPlanSection.id)
-                    if (activities.isNullOrEmpty()) {
+                    val activities = state.getSectionActivities(sectionInfo.studyPlanSection.id)
+                    if (activities.isEmpty()) {
                         SectionContent.Loading
                     } else {
                         getContent(activities)
@@ -68,8 +70,8 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
                 }
                 StudyPlanWidgetFeature.ContentStatus.ERROR -> SectionContent.Error
                 StudyPlanWidgetFeature.ContentStatus.LOADED -> {
-                    val activities = getSectionActivities(state, sectionInfo.studyPlanSection.id)
-                    if (activities != null) {
+                    val activities = state.getSectionActivities(sectionInfo.studyPlanSection.id)
+                    if (activities.isNotEmpty()) {
                         getContent(activities)
                     } else {
                         SectionContent.Error
@@ -101,9 +103,6 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
                 )
             }
         )
-
-    private fun getSectionActivities(state: StudyPlanWidgetFeature.State, sectionId: Long): List<LearningActivity>? =
-        state.activities[sectionId]?.toList()
 
     private fun formatTopicsCount(completedTopicsCount: Int, topicsCount: Int): String? =
         if (completedTopicsCount > 0  && topicsCount > 0) {

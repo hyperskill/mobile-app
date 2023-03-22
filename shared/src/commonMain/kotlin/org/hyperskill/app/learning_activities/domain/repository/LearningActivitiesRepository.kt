@@ -1,6 +1,7 @@
 package org.hyperskill.app.learning_activities.domain.repository
 
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
+import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 
 interface LearningActivitiesRepository {
@@ -12,6 +13,7 @@ interface LearningActivitiesRepository {
 
     suspend fun getLearningActivities(
         activitiesIds: List<Long>,
-        types: Set<LearningActivityType>
+        types: Set<LearningActivityType>,
+        states: Set<LearningActivityState>
     ): Result<List<LearningActivity>>
 }
