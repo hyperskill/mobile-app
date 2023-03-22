@@ -14,27 +14,42 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
             StudyPlanWidgetFeature.ContentStatus.IDLE -> StudyPlanWidgetViewState.Idle
             StudyPlanWidgetFeature.ContentStatus.LOADING -> StudyPlanWidgetViewState.Loading
             StudyPlanWidgetFeature.ContentStatus.ERROR -> StudyPlanWidgetViewState.Error
-            StudyPlanWidgetFeature.ContentStatus.LOADED -> {
-                StudyPlanWidgetViewState.Content(
-                    sections = state.studyPlanSections.map { (_, sectionInfo) ->
-                        val section = sectionInfo.studyPlanSection
-                        StudyPlanWidgetViewState.Section(
-                            id = section.id,
-                            title = section.title,
-                            subtitle = section.subtitle.takeIf { it.isNotEmpty() },
-                            content = getSectionContent(sectionInfo, state),
-                            formattedTopicsCount = formatTopicsCount(
-                                completedTopicsCount = section.completedTopicsCount,
-                                topicsCount = section.topicsCount
-                            ),
-                            formattedTimeToComplete = section.secondsToComplete
-                                ?.roundToLong()
-                                ?.let(dateFormatter::hoursWithMinutesCount)
+            StudyPlanWidgetFeature.ContentStatus.LOADED -> getLoadedWidgetContent(state)
+        }
+
+    private fun getLoadedWidgetContent(state: StudyPlanWidgetFeature.State): StudyPlanWidgetViewState.Content {
+        val firstSectionId = state.firstSection()?.id
+
+        return StudyPlanWidgetViewState.Content(
+            sections = state.studyPlanSections.map { (_, sectionInfo) ->
+                val section = sectionInfo.studyPlanSection
+                StudyPlanWidgetViewState.Section(
+                    id = section.id,
+                    title = section.title,
+                    subtitle = section.subtitle.takeIf { it.isNotEmpty() },
+                    content = getSectionContent(
+                        state = state,
+                        sectionInfo = sectionInfo
+                    ),
+                    formattedTopicsCount = if (firstSectionId == section.id) {
+                        formatTopicsCount(
+                            completedTopicsCount = section.completedTopicsCount,
+                            topicsCount = section.topicsCount
                         )
+                    } else {
+                        null
+                    },
+                    formattedTimeToComplete = if (firstSectionId == section.id) {
+                        section.secondsToComplete
+                            ?.roundToLong()
+                            ?.let(dateFormatter::hoursWithMinutesCount)
+                    } else {
+                        null
                     }
                 )
             }
-        }
+        )
+    }
 
     private fun getSectionContent(
         sectionInfo: StudyPlanWidgetFeature.StudyPlanSectionInfo,
