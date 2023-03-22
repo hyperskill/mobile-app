@@ -108,6 +108,8 @@ interface TrackFeature {
     sealed interface Action {
         object FetchTrack : Action
 
+        object ResetStateRepositories : Action
+
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
         data class GetMagicLink(val path: HyperskillUrlPath) : Action

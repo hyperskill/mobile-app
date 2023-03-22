@@ -3,6 +3,8 @@ import shared
 import SwiftUI
 
 final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, AppFeatureActionViewAction> {
+    private var applicationWasInBackground = false
+
     weak var viewController: AppViewControllerProtocol?
 
     private let analytic: Analytic
@@ -32,6 +34,19 @@ final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, A
                 strongSelf.viewController?.displayViewAction(AppFeatureActionViewActionKs(viewAction))
             }
         }
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleApplicationDidBecomeActive),
+            name: UIApplication.didBecomeActiveNotification,
+            object: UIApplication.shared
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleApplicationDidEnterBackground),
+            name: UIApplication.didEnterBackgroundNotification,
+            object: UIApplication.shared
+        )
     }
 
     override func shouldNotifyStateDidChange(oldState: AppFeatureState, newState: AppFeatureState) -> Bool {
@@ -69,6 +84,19 @@ final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, A
             newNavigationItem: resolveAnalyticNavigationItem(tab: newTab)
         )
         analytic.reportEvent(event: event)
+    }
+
+    @objc
+    private func handleApplicationDidBecomeActive() {
+        if applicationWasInBackground {
+            onNewMessage(AppFeatureMessageAppLaunchedFromBackground())
+            applicationWasInBackground = false
+        }
+    }
+
+    @objc
+    private func handleApplicationDidEnterBackground() {
+        applicationWasInBackground = true
     }
 }
 

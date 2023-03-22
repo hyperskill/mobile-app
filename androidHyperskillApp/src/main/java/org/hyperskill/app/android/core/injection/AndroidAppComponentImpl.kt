@@ -132,8 +132,8 @@ import org.hyperskill.app.streaks.injection.StreaksDataComponent
 import org.hyperskill.app.streaks.injection.StreaksDataComponentImpl
 import org.hyperskill.app.study_plan.injection.StudyPlanDataComponent
 import org.hyperskill.app.study_plan.injection.StudyPlanDataComponentImpl
-import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponent
-import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponentImpl
+import org.hyperskill.app.core.injection.StateRepositoriesComponent
+import org.hyperskill.app.subscriptions.injection.StateRepositoriesComponentImpl
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.PlatformTopicsRepetitionComponent
@@ -205,8 +205,8 @@ class AndroidAppComponentImpl(
     override val notificationFlowDataComponent: NotificationFlowDataComponent =
         NotificationFlowDataComponentImpl()
 
-    override val subscriptionsDataComponent: SubscriptionsDataComponent =
-        SubscriptionsDataComponentImpl(this)
+    override val stateRepositoriesComponent: StateRepositoriesComponent =
+        StateRepositoriesComponentImpl(this)
 
     override val sentryComponent: SentryComponent =
         SentryComponentImpl(SentryManagerImpl(commonComponent.buildKonfig))

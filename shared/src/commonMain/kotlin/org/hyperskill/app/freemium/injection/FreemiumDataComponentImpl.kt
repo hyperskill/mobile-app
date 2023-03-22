@@ -12,7 +12,7 @@ class FreemiumDataComponentImpl(
         appGraph.buildProfileDataComponent().profileInteractor
 
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository =
-        appGraph.subscriptionsDataComponent.currentSubscriptionStateRepository
+        appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository
 
     override val freemiumInteractor: FreemiumInteractor
         get() = FreemiumInteractor(profileInteractor, currentSubscriptionStateRepository)

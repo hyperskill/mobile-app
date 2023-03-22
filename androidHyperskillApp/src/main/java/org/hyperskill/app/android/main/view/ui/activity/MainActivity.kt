@@ -61,6 +61,8 @@ class MainActivity :
 
     private lateinit var analyticInteractor: AnalyticInteractor
 
+    private var wasStopped = false
+
     private val notificationInteractor =
         HyperskillApp.graph().platformNotificationComponent.notificationInteractor
 
@@ -70,6 +72,19 @@ class MainActivity :
             R.id.mainNavigationContainer,
             supportFragmentManager
         )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (wasStopped) {
+            mainViewModelProvider.onNewMessage(AppFeature.Message.AppLaunchedFromBackground)
+            wasStopped = false
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        wasStopped = true
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

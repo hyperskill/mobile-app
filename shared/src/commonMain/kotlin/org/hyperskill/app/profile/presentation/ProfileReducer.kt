@@ -47,6 +47,7 @@ class ProfileReducer : StateReducer<State, Message, Action> {
             is Message.PullToRefresh ->
                 if (state is State.Content && !state.isRefreshing) {
                     state.copy(isRefreshing = true) to setOf(
+                        Action.ResetStateRepositories,
                         if (message.isRefreshCurrent) {
                             Action.FetchCurrentProfile
                         } else {

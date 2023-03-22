@@ -41,6 +41,7 @@ class HomeReducer(
                     state.homeState is HomeState.Content && !state.homeState.isRefreshing
                 ) {
                     state.homeState.copy(isRefreshing = true) to setOf(
+                        Action.ResetStateRepositories,
                         Action.FetchHomeScreenData,
                         Action.LogAnalyticEvent(HomeClickedPullToRefreshHyperskillAnalyticEvent())
                     )

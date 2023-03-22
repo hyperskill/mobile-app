@@ -8,7 +8,7 @@ class ProblemsLimitComponentImpl(private val appGraph: AppGraph) : ProblemsLimit
     override val problemsLimitFeature: Feature<ProblemsLimitFeature.ViewState, ProblemsLimitFeature.Message, ProblemsLimitFeature.Action>
         get() = ProblemsLimitFeatureBuilder.build(
             appGraph.buildProfileDataComponent().profileInteractor,
-            appGraph.subscriptionsDataComponent.currentSubscriptionStateRepository,
+            appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
             appGraph.commonComponent.resourceProvider,
             appGraph.commonComponent.dateFormatter
         )

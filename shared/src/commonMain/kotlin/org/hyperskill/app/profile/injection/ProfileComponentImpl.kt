@@ -13,6 +13,7 @@ class ProfileComponentImpl(private val appGraph: AppGraph) : ProfileComponent {
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor,
             appGraph.buildNotificationComponent().notificationInteractor,
+            appGraph.stateRepositoriesComponent,
             appGraph.buildMagicLinksDataComponent().urlPathProcessor,
             appGraph.streakFlowDataComponent.streakFlow,
             appGraph.notificationFlowDataComponent.dailyStudyRemindersEnabledFlow

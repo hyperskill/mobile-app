@@ -181,6 +181,8 @@ interface ProfileFeature {
         data class FetchProfile(val profileId: Long) : Action
         object FetchCurrentProfile : Action
 
+        object ResetStateRepositories : Action
+
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
         data class SaveDailyStudyRemindersIsEnabled(val isEnabled: Boolean) : Action

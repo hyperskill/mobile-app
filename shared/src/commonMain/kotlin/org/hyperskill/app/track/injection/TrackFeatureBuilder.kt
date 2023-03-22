@@ -1,6 +1,7 @@
 package org.hyperskill.app.track.injection
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.core.injection.StateRepositoriesComponent
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarActionDispatcher
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
@@ -29,6 +30,7 @@ object TrackFeatureBuilder {
         studyPlanInteractor: StudyPlanInteractor,
         profileInteractor: ProfileInteractor,
         progressesInteractor: ProgressesInteractor,
+        stateRepositoriesComponent: StateRepositoriesComponent,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
         urlPathProcessor: UrlPathProcessor,
@@ -44,6 +46,7 @@ object TrackFeatureBuilder {
             studyPlanInteractor,
             profileInteractor,
             progressesInteractor,
+            stateRepositoriesComponent,
             analyticInteractor,
             sentryInteractor,
             urlPathProcessor

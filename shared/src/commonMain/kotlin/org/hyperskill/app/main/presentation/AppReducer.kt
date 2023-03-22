@@ -80,5 +80,7 @@ class AppReducer : StateReducer<State, Message, Action> {
                 state to setOf(Action.ViewAction.NavigateTo.AuthScreen())
             is Message.OpenNewUserScreen ->
                 state to setOf(Action.ViewAction.NavigateTo.NewUserScreen)
+            is Message.AppLaunchedFromBackground ->
+                state to setOf(Action.ResetStateRepositories)
         } ?: (state to emptySet())
 }
