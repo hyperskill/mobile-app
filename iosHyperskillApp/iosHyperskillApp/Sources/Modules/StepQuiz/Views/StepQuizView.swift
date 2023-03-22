@@ -125,6 +125,13 @@ struct StepQuizView: View {
                 if let formattedStats {
                     StepQuizStatsView(text: formattedStats)
                 }
+
+                Divider()
+
+                if viewModel.stepRoute is StepRouteLearn {
+                    ProblemsLimitAssembly().makeModule()
+                }
+
                 buildQuizStatusView(state: state, attemptLoadedState: attemptLoadedState)
 
                 if let feedbackHintText {
