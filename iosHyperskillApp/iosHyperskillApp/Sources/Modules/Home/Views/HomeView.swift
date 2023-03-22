@@ -91,7 +91,8 @@ struct HomeView: View {
                     if let availableRepetitionsState = data.repetitionsState as? HomeFeatureRepetitionsStateAvailable {
                         TopicsRepetitionsCardView(
                             topicsToRepeatCount: Int(availableRepetitionsState.recommendedRepetitionsCount),
-                            onTap: viewModel.doTopicsRepetitionsPresentation
+                            onTap: viewModel.doTopicsRepetitionsPresentation,
+                            isFreemiumEnabled: data.isFreemiumEnabled
                         )
                     }
 

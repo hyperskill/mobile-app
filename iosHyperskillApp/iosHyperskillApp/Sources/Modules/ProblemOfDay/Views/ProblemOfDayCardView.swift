@@ -11,10 +11,6 @@ extension ProblemOfDayCardView {
 
         let nextProblemInTextSpacing: CGFloat = 4
 
-        let solveUnlimitedHorizontalPadding: CGFloat = 8
-        let solveUnlimitedVerticalPadding: CGFloat = 4
-        let solveUnlimitedCornerRadius: CGFloat = 4
-
         let opacityUnavailable: Double = 0.38
         let opacityNormal: Double = 1
 
@@ -64,13 +60,7 @@ struct ProblemOfDayCardView: View {
                     }
 
                     if isFreemiumEnabled && viewData.state == .uncompleted {
-                        Text(Strings.Home.solveUnlimited)
-                            .font(.caption)
-                            .foregroundColor(Color(ColorPalette.overlayViolet))
-                            .padding(.horizontal, appearance.solveUnlimitedHorizontalPadding)
-                            .padding(.vertical, appearance.solveUnlimitedVerticalPadding)
-                            .background(Color(ColorPalette.overlayVioletAlpha12))
-                            .cornerRadius(appearance.solveUnlimitedCornerRadius)
+                        SolveUnlimitedBadgeView()
                     }
                 }
                 .padding()
