@@ -48,8 +48,8 @@ extension ProblemsLimitFeatureViewStateContentKs: Equatable {
         switch (lhs, rhs) {
         case (.empty, .empty):
             return true
-        case (.widget, .widget):
-            return true
+        case (.widget(let lhsData), .widget(let rhsData)):
+            return lhsData == rhsData
         case (.empty, .widget):
             return false
         case (.widget, .empty):
