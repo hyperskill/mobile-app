@@ -2,7 +2,9 @@ package org.hyperskill.app.study_plan.widget.view
 
 import org.hyperskill.app.core.view.mapper.DateFormatter
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
+import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
+import org.hyperskill.app.study_plan.widget.presentation.firstSection
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState.SectionContent
 import kotlin.math.roundToLong
 
@@ -66,7 +68,22 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
     private fun getContent(activities: List<LearningActivity>): SectionContent.Content =
         SectionContent.Content(
             sectionItems = activities.map { activity ->
-                StudyPlanWidgetViewState.SectionItem(activity.id)
+                StudyPlanWidgetViewState.SectionItem(
+                    id = activity.id,
+                    title = activity.id.toString(), // TODO: replace with real data with new activities API
+                    state = when (activity.state) {
+                        LearningActivityState.TODO -> if (activity.isCurrent) {
+                            StudyPlanWidgetViewState.SectionItemState.NEXT
+                        } else {
+                            StudyPlanWidgetViewState.SectionItemState.LOCKED
+                        }
+                        LearningActivityState.SKIPPED -> StudyPlanWidgetViewState.SectionItemState.SKIPPED
+                        LearningActivityState.COMPLETED -> StudyPlanWidgetViewState.SectionItemState.COMPLETED
+                        null -> StudyPlanWidgetViewState.SectionItemState.IDLE
+                    },
+                    progress = null, // TODO: add data with new activities API
+                    formattedProgress = null // TODO: add data with new activities API
+                )
             }
         )
 

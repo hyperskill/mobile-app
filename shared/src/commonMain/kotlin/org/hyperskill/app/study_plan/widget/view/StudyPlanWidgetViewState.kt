@@ -33,6 +33,18 @@ sealed interface StudyPlanWidgetViewState {
     }
 
     data class SectionItem(
-        val id: Long
+        val id: Long,
+        val title: String,
+        val state: SectionItemState,
+        val progress: Float?,
+        val formattedProgress: String?
     )
+
+    enum class SectionItemState {
+        IDLE,
+        NEXT,
+        LOCKED,
+        SKIPPED,
+        COMPLETED
+    }
 }
