@@ -12,11 +12,7 @@ internal typealias StudyPlanWidgetReducerResult = Pair<State, Set<Action>>
 class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): StudyPlanWidgetReducerResult =
         when (message) {
-            Message.Initialize -> {
-                state.copy(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING) to setOf(
-                    InternalAction.FetchStudyPlan
-                )
-            }
+            Message.Initialize -> coldContentFetch()
             is StudyPlanWidgetFeature.StudyPlanFetchResult.Success -> {
                 state.copy(studyPlan = message.studyPlan) to
                     setOfNotNull(
@@ -26,6 +22,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             }
             is StudyPlanWidgetFeature.SectionsFetchResult.Success ->
                 handleSectionsFetchSuccess(state, message)
+            Message.RetryContentLoading -> coldContentFetch()
             is StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success ->
                 handleLearningActivitiesFetchSuccess(state, message)
             is StudyPlanWidgetFeature.LearningActivitiesFetchResult.Failed ->
@@ -44,6 +41,10 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 changeSectionExpanse(state, message.sectionId)
             is Message.ActivityClicked -> handleActivityClicked(state, message.activityId)
         }
+
+    private fun coldContentFetch(): StudyPlanWidgetReducerResult =
+        State(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING) to
+            setOf(InternalAction.FetchStudyPlan)
 
     private fun handleSectionsFetchSuccess(
         state: State,

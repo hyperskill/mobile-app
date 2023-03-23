@@ -50,6 +50,8 @@ object StudyPlanWidgetFeature {
         data class SectionClicked(val sectionId: Long) : Message
 
         data class ActivityClicked(val activityId: Long) : Message
+
+        object RetryContentLoading : Message
     }
 
     internal sealed interface StudyPlanFetchResult : Message {
