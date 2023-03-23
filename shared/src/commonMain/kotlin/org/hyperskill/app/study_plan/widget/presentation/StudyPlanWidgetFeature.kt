@@ -47,10 +47,7 @@ object StudyPlanWidgetFeature {
     sealed interface Message {
         object Initialize : Message
 
-        data class SectionExpanseChanged(
-            val sectionId: Long,
-            val isExpanded: Boolean
-        ) : Message
+        data class SectionClicked(val sectionId: Long) : Message
 
         data class ActivityClicked(val activityId: Long) : Message
     }

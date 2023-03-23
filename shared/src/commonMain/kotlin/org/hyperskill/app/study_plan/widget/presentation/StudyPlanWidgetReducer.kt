@@ -40,8 +40,8 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             StudyPlanWidgetFeature.TrackFetchResult.Failed -> {
                 state to emptySet()
             }
-            is Message.SectionExpanseChanged ->
-                changeSectionExpanse(state, message.sectionId, message.isExpanded)
+            is Message.SectionClicked ->
+                changeSectionExpanse(state, message.sectionId)
             is Message.ActivityClicked -> handleActivityClicked(state, message.activityId)
         }
 
@@ -66,7 +66,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         )
 
         return if (firstVisibleSection != null) {
-            changeSectionExpanse(loadedSectionsState, firstVisibleSection.id, isExpanded = true)
+            changeSectionExpanse(loadedSectionsState, firstVisibleSection.id)
         } else {
             loadedSectionsState to emptySet()
         }
@@ -100,11 +100,11 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
 
     private fun changeSectionExpanse(
         state: State,
-        sectionId: Long,
-        isExpanded: Boolean
+        sectionId: Long
     ): StudyPlanWidgetReducerResult {
         val section =
             state.studyPlanSections[sectionId] ?: return state to emptySet()
+        val isExpanded = !section.isExpanded
 
         fun updateSectionState(contentStatus: StudyPlanWidgetFeature.ContentStatus = section.contentStatus): State =
             state.copy(
