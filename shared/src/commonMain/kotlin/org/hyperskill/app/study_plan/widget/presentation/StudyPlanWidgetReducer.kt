@@ -76,8 +76,8 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
     private fun handleLearningActivitiesFetchSuccess(
         state: State,
         message: StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success
-    ): StudyPlanWidgetReducerResult {
-        return state.copy(
+    ): StudyPlanWidgetReducerResult =
+        state.copy(
             activities = state.activities.toMutableMap().apply {
                 putAll(
                     message.activities.associateBy { it.id }
@@ -87,7 +87,6 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 sectionInfo.copy(contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED)
             }
         ) to emptySet()
-    }
 
     private fun handleLearningActivitiesFetchFailed(
         state: State,
