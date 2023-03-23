@@ -4,6 +4,7 @@ import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarF
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState
 
 data class StudyPlanScreenViewState(
+    val trackTitle: String?,
     val toolbarState: GamificationToolbarFeature.State,
     val studyPlanWidgetViewState: StudyPlanWidgetViewState
 )

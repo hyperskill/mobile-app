@@ -2,7 +2,7 @@ package org.hyperskill.app.study_plan.widget.presentation
 
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Action
-import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalActions
+import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalAction
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Message
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
@@ -14,12 +14,15 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         when (message) {
             Message.Initialize -> {
                 state.copy(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING) to setOf(
-                    InternalActions.FetchStudyPlan
+                    InternalAction.FetchStudyPlan
                 )
             }
             is StudyPlanWidgetFeature.StudyPlanFetchResult.Success -> {
                 state.copy(studyPlan = message.studyPlan) to
-                    setOf(InternalActions.FetchSections(message.studyPlan.sections))
+                    setOfNotNull(
+                        InternalAction.FetchSections(message.studyPlan.sections),
+                        message.studyPlan.trackId?.let(InternalAction::FetchTrack)
+                    )
             }
             is StudyPlanWidgetFeature.SectionsFetchResult.Success ->
                 handleSectionsFetchSuccess(state, message)
@@ -30,6 +33,12 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             StudyPlanWidgetFeature.StudyPlanFetchResult.Failed,
             StudyPlanWidgetFeature.SectionsFetchResult.Failed -> {
                 state.copy(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.ERROR) to emptySet()
+            }
+            is StudyPlanWidgetFeature.TrackFetchResult.Success -> {
+                state.copy(track = message.track) to emptySet()
+            }
+            StudyPlanWidgetFeature.TrackFetchResult.Failed -> {
+                state to emptySet()
             }
             is Message.SectionExpanseChanged ->
                 changeSectionExpanse(state, message.sectionId, message.isExpanded)
@@ -110,7 +119,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 StudyPlanWidgetFeature.ContentStatus.IDLE,
                 StudyPlanWidgetFeature.ContentStatus.ERROR -> {
                     updateSectionState(StudyPlanWidgetFeature.ContentStatus.LOADING) to setOf(
-                        InternalActions.FetchActivities(
+                        InternalAction.FetchActivities(
                             sectionId = sectionId,
                             activitiesIds = section.studyPlanSection.activities
                         )

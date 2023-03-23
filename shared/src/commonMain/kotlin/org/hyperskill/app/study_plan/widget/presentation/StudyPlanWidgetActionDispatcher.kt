@@ -3,17 +3,19 @@ package org.hyperskill.app.study_plan.widget.presentation
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.study_plan.domain.interactor.StudyPlanInteractor
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Action
-import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalActions
+import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalAction
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Message
+import org.hyperskill.app.track.domain.interactor.TrackInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class StudyPlanWidgetActionDispatcher(
     config: ActionDispatcherOptions,
-    private val studyPlanInteractor: StudyPlanInteractor
+    private val studyPlanInteractor: StudyPlanInteractor,
+    private val trackInteractor: TrackInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            InternalActions.FetchStudyPlan -> {
+            InternalAction.FetchStudyPlan -> {
                 studyPlanInteractor.getCurrentStudyPlan()
                     .onSuccess { studyPlan ->
                         onNewMessage(StudyPlanWidgetFeature.StudyPlanFetchResult.Success(studyPlan))
@@ -22,7 +24,7 @@ class StudyPlanWidgetActionDispatcher(
                         onNewMessage(StudyPlanWidgetFeature.StudyPlanFetchResult.Failed)
                     }
             }
-            is InternalActions.FetchSections -> {
+            is InternalAction.FetchSections -> {
                 studyPlanInteractor.getStudyPlanSections(action.sectionsIds)
                     .onSuccess { sections ->
                         onNewMessage(StudyPlanWidgetFeature.SectionsFetchResult.Success(sections))
@@ -31,7 +33,7 @@ class StudyPlanWidgetActionDispatcher(
                         onNewMessage(StudyPlanWidgetFeature.SectionsFetchResult.Failed)
                     }
             }
-            is InternalActions.FetchActivities -> {
+            is InternalAction.FetchActivities -> {
                 studyPlanInteractor.getLearningActivities(action.activitiesIds, action.types, action.states)
                     .onSuccess { learningActivities ->
                         onNewMessage(
@@ -43,6 +45,17 @@ class StudyPlanWidgetActionDispatcher(
                     }
                     .onFailure {
                         onNewMessage(StudyPlanWidgetFeature.LearningActivitiesFetchResult.Failed(action.sectionId))
+                    }
+            }
+            is InternalAction.FetchTrack -> {
+                trackInteractor.getTrack(action.trackId)
+                    .onSuccess {
+                        onNewMessage(
+                            StudyPlanWidgetFeature.TrackFetchResult.Success(it)
+                        )
+                    }
+                    .onFailure {
+                        onNewMessage(StudyPlanWidgetFeature.TrackFetchResult.Failed)
                     }
             }
             else -> {

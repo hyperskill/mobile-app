@@ -5,11 +5,14 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
+import org.hyperskill.app.track.domain.model.Track
 
 object StudyPlanWidgetFeature {
 
     data class State(
         val studyPlan: StudyPlan? = null,
+
+        val track: Track? = null,
 
         val studyPlanSections: Map<Long, StudyPlanSectionInfo> = emptyMap(),
 
@@ -19,7 +22,7 @@ object StudyPlanWidgetFeature {
         val sectionsStatus: ContentStatus = ContentStatus.IDLE,
 
         /**
-         * Map of sections ids to section's activities
+         * Map of activity ids to activities
          */
         val activities: Map<Long, LearningActivity> = emptyMap()
     )
@@ -73,6 +76,12 @@ object StudyPlanWidgetFeature {
         data class Failed(val sectionId: Long) : LearningActivitiesFetchResult
     }
 
+    internal sealed interface TrackFetchResult : Message {
+        data class Success(val track: Track) : TrackFetchResult
+
+        object Failed : TrackFetchResult
+    }
+
     sealed interface Action {
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
@@ -84,16 +93,18 @@ object StudyPlanWidgetFeature {
         }
     }
 
-    internal sealed interface InternalActions : Action {
-        object FetchStudyPlan : InternalActions
+    internal sealed interface InternalAction : Action {
+        object FetchStudyPlan : InternalAction
 
-        data class FetchSections(val sectionsIds: List<Long>) : InternalActions
+        data class FetchSections(val sectionsIds: List<Long>) : InternalAction
 
         data class FetchActivities(
             val sectionId: Long,
             val activitiesIds: List<Long>,
             val types: Set<LearningActivityType> = LearningActivityType.supportedTypes(),
             val states: Set<LearningActivityState> = setOf(LearningActivityState.TODO)
-        ) : InternalActions
+        ) : InternalAction
+
+        data class FetchTrack(val trackId: Long) : InternalAction
     }
 }

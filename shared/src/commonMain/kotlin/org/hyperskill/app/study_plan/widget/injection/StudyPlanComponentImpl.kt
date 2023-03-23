@@ -10,7 +10,8 @@ class StudyPlanComponentImpl(private val appGraph: AppGraph) : StudyPlanWidgetCo
     override val studyPlanWidgetDispatcher: StudyPlanWidgetActionDispatcher
         get() = StudyPlanWidgetActionDispatcher(
             config = ActionDispatcherOptions(),
-            studyPlanInteractor = appGraph.buildStudyPlanDataComponent().studyPlanInteractor
+            studyPlanInteractor = appGraph.buildStudyPlanDataComponent().studyPlanInteractor,
+            trackInteractor = appGraph.buildTrackDataComponent().trackInteractor
         )
 
     override val studyPlanWidgetReducer: StudyPlanWidgetReducer

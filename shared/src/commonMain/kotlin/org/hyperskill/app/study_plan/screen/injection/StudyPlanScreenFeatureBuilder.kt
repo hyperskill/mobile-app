@@ -3,6 +3,7 @@ package org.hyperskill.app.study_plan.screen.injection
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
+import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarActionDispatcher
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
@@ -28,14 +29,16 @@ internal object StudyPlanScreenFeatureBuilder {
         toolbarActionDispatcher: GamificationToolbarActionDispatcher,
         studyPlanWidgetReducer: StudyPlanWidgetReducer,
         studyPlanWidgetDispatcher: StudyPlanWidgetActionDispatcher,
-        studyPlanWidgetViewStateMapper: StudyPlanWidgetViewStateMapper
+        studyPlanWidgetViewStateMapper: StudyPlanWidgetViewStateMapper,
+        resourceProvider: ResourceProvider
     ): Feature<StudyPlanScreenViewState, StudyPlanScreenFeature.Message, StudyPlanScreenFeature.Action> {
         val studyPlanScreenReducer = StudyPlanScreenReducer(toolbarReducer, studyPlanWidgetReducer)
         val studyPlanScreenActionDispatcher = StudyPlanScreenActionDispatcher(
             ActionDispatcherOptions(),
             analyticInteractor
         )
-        val studyPlanScreenViewStateMapper = StudyPlanScreenViewStateMapper(studyPlanWidgetViewStateMapper)
+        val studyPlanScreenViewStateMapper =
+            StudyPlanScreenViewStateMapper(studyPlanWidgetViewStateMapper, resourceProvider)
         return ReduxFeature(
             StudyPlanScreenFeature.State(
                 toolbarState = GamificationToolbarFeature.State.Idle,
