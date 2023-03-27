@@ -16,5 +16,5 @@ data class Subscription(
     val stepsLimitResetTime: Instant?
 )
 
-val Subscription.isFree: Boolean
-    get() = type == SubscriptionType.FREE
+val Subscription.isFreemium: Boolean
+    get() = type == SubscriptionType.FREEMIUM
