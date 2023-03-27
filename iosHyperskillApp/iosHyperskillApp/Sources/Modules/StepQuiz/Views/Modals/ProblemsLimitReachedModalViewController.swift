@@ -2,6 +2,16 @@ import PanModal
 import SnapKit
 import UIKit
 
+protocol ProblemsLimitReachedModalViewControllerDelegate: AnyObject {
+    func problemsLimitReachedModalViewControllerDidTapGoToHomescreenButton(
+        _ viewController: ProblemsLimitReachedModalViewController
+    )
+
+    func problemsLimitReachedModalViewControllerDidAppear(_ viewController: ProblemsLimitReachedModalViewController)
+
+    func problemsLimitReachedModalViewControllerDidDisappear(_ viewController: ProblemsLimitReachedModalViewController)
+}
+
 extension ProblemsLimitReachedModalViewController {
     struct Appearance {
         let backgroundColor = UIColor.systemBackground
@@ -40,7 +50,7 @@ final class ProblemsLimitReachedModalViewController: PanModalPresentableViewCont
 
     private weak var delegate: ProblemsLimitReachedModalViewControllerDelegate?
 
-    init(delegate: ProblemsLimitReachedModalViewControllerDelegate? = nil) {
+    init(delegate: ProblemsLimitReachedModalViewControllerDelegate?) {
         self.delegate = delegate
         super.init()
     }
@@ -94,7 +104,7 @@ final class ProblemsLimitReachedModalViewController: PanModalPresentableViewCont
     }
 
     private func setupCubeImageView() {
-        let image = UIImage(named: Images.StepQuiz.ProblemsLimitReachedModal.cube)?.withRenderingMode(.alwaysOriginal)
+        let image = UIImage(named: Images.StepQuiz.ProblemsLimitReachedModal.icon)?.withRenderingMode(.alwaysOriginal)
         let imageView = UIImageView(image: image)
 
         contentStackView.addArrangedSubview(imageView)
@@ -125,7 +135,7 @@ final class ProblemsLimitReachedModalViewController: PanModalPresentableViewCont
         containerStackView.addArrangedSubview(titleLabel)
 
         let textLabel = UILabel()
-        textLabel.text = Strings.StepQuiz.ProblemsLimitReachedModal.text
+        textLabel.text = Strings.StepQuiz.ProblemsLimitReachedModal.description
         textLabel.font = .preferredFont(forTextStyle: .body)
         textLabel.textColor = .primaryText
         textLabel.lineBreakMode = .byWordWrapping

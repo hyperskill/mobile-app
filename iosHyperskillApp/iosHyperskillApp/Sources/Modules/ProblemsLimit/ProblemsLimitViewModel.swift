@@ -15,7 +15,7 @@ final class ProblemsLimitViewModel: FeatureViewModel<
         ProblemsLimitFeatureViewStateKs(oldState) != ProblemsLimitFeatureViewStateKs(newState)
     }
 
-    func loadLimits(forceUpdate: Bool = false) {
+    func doLoadLimits(forceUpdate: Bool = false) {
         onNewMessage(ProblemsLimitFeatureMessageInitialize(forceUpdate: forceUpdate))
     }
 }

@@ -70,7 +70,7 @@ enum Images {
         }
 
         enum ProblemsLimitReachedModal {
-            static let cube = "problems-limit-reached-modal-cube"
+            static let icon = "problems-limit-reached-modal-icon"
         }
     }
 

@@ -60,7 +60,7 @@ struct ProblemOfDayCardView: View {
                     }
 
                     if isFreemiumEnabled && viewData.state == .uncompleted {
-                        SolveUnlimitedBadgeView()
+                        HomeFreemiumBadgeView(text: Strings.Home.solveUnlimited)
                     }
                 }
                 .padding()

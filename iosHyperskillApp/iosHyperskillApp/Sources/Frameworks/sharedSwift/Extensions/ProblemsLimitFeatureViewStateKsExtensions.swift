@@ -10,7 +10,7 @@ extension ProblemsLimitFeatureViewStateKs: Equatable {
             return true
         case (.error, .error):
             return true
-        case (.content( let lhsData), .content(let rhsData)):
+        case (.content(let lhsData), .content(let rhsData)):
             return ProblemsLimitFeatureViewStateContentKs(lhsData) == ProblemsLimitFeatureViewStateContentKs(rhsData)
         case (.content, .error):
             return false

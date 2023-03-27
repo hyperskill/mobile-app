@@ -272,6 +272,7 @@ struct StepQuizView: View {
             case .back:
                 stackRouter.popViewController()
             case .home:
+                stackRouter.popViewController()
                 TabBarRouter(tab: .home).route()
             }
         }

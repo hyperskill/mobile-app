@@ -42,7 +42,7 @@ struct TopicsRepetitionsCardView: View {
                     state.buildFooter(topicsToRepeatCount: topicsToRepeatCount)
 
                     if isFreemiumEnabled && state == .uncompleted {
-                        SolveUnlimitedBadgeView()
+                        HomeFreemiumBadgeView(text: Strings.Home.repeatUnlimited)
                     }
                 }
                 .padding()

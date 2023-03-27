@@ -112,7 +112,7 @@ enum Strings {
 
         enum ProblemsLimitReachedModal {
             static let title = sharedStrings.problems_limit_reached_modal_title.localized()
-            static let text = sharedStrings.problems_limit_reached_modal_text.localized()
+            static let description = sharedStrings.problems_limit_reached_modal_description.localized()
         }
     }
 
@@ -191,6 +191,7 @@ enum Strings {
         static let keepPracticing = sharedStrings.home_keep_practicing_text.localized()
         static let topicsToDiscoverNextTitle = sharedStrings.home_topics_to_discover_next_title.localized()
         static let solveUnlimited = sharedStrings.home_solve_unlimited.localized()
+        static let repeatUnlimited = sharedStrings.home_repeat_unlimited.localized()
     }
 
     // MARK: - Track -

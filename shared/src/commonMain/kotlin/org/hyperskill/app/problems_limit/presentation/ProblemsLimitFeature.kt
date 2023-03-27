@@ -58,6 +58,6 @@ object ProblemsLimitFeature {
 
         data class LaunchTimer(val updateIn: Duration) : Action
 
-        sealed interface ViewAction
+        sealed interface ViewAction : Action
     }
 }
