@@ -136,8 +136,8 @@ import org.hyperskill.app.study_plan.injection.StudyPlanDataComponent
 import org.hyperskill.app.study_plan.injection.StudyPlanDataComponentImpl
 import org.hyperskill.app.study_plan.screen.injection.StudyPlanScreenComponent
 import org.hyperskill.app.study_plan.screen.injection.StudyPlanScreenComponentImpl
-import org.hyperskill.app.study_plan.widget.injection.StudyPlanComponentImpl
 import org.hyperskill.app.study_plan.widget.injection.StudyPlanWidgetComponent
+import org.hyperskill.app.study_plan.widget.injection.StudyPlanWidgetComponentImpl
 import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponent
 import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponentImpl
 import org.hyperskill.app.topics.injection.TopicsDataComponent
@@ -424,7 +424,7 @@ class AndroidAppComponentImpl(
      * Study plan component
      */
     override fun buildStudyPlanWidgetComponent(): StudyPlanWidgetComponent =
-        StudyPlanComponentImpl(this)
+        StudyPlanWidgetComponentImpl(this)
 
     override fun buildPlatformStudyPlanScreenComponent(): PlatformStudyPlanScreenComponent =
         PlatformStudyPlanScreenComponentImpl(

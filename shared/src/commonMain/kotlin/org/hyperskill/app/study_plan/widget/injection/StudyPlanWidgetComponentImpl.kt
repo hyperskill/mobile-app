@@ -6,7 +6,7 @@ import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetActionDi
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewStateMapper
 
-class StudyPlanComponentImpl(private val appGraph: AppGraph) : StudyPlanWidgetComponent {
+class StudyPlanWidgetComponentImpl(private val appGraph: AppGraph) : StudyPlanWidgetComponent {
     override val studyPlanWidgetDispatcher: StudyPlanWidgetActionDispatcher
         get() = StudyPlanWidgetActionDispatcher(
             config = ActionDispatcherOptions(),
