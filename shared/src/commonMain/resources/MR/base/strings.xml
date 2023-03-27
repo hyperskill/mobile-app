@@ -159,6 +159,7 @@
     <string name="home_keep_practicing_text">Keep practicing to achieve your learning goal</string>
     <string name="home_topics_to_discover_next_title">Discover next topic in your track</string>
     <string name="home_solve_unlimited">Solve unlimited</string>
+    <string name="home_repeat_unlimited">Repeat unlimited</string>
 
     <!-- Track -->
     <string name="track_title">Track</string>

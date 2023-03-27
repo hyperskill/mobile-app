@@ -103,6 +103,14 @@
 
         </FrameLayout>
 
+        <TextView
+            android:id="@+id/problemOfDayFreemiumBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_solve_unlimited"
+            style="@style/Badge.Violet"
+            android:layout_marginTop="12dp"/>
+
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

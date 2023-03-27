@@ -201,8 +201,8 @@ class HomeFragment :
         val homeState = state.homeState
         if (homeState is HomeFeature.HomeState.Content) {
             renderMagicLinkState(homeState.isLoadingMagicLink)
-            renderProblemOfDay(viewBinding, homeState.problemOfDayState)
-            renderTopicsRepetition(homeState.repetitionsState)
+            renderProblemOfDay(viewBinding, homeState.problemOfDayState, homeState.isFreemiumEnabled)
+            renderTopicsRepetition(homeState.repetitionsState, homeState.isFreemiumEnabled)
         }
 
         gamificationToolbarDelegate?.render(state.toolbarState)
@@ -219,20 +219,33 @@ class HomeFragment :
         }
     }
 
-    private fun renderProblemOfDay(viewBinding: FragmentHomeBinding, state: HomeFeature.ProblemOfDayState) {
-        problemOfDayCardFormDelegate.render(requireContext(), viewBinding.homeScreenProblemOfDayCard, state)
+    private fun renderProblemOfDay(
+        viewBinding: FragmentHomeBinding,
+        state: HomeFeature.ProblemOfDayState,
+        isFreemiumEnabled: Boolean
+    ) {
+        problemOfDayCardFormDelegate.render(
+            context = requireContext(),
+            binding = viewBinding.homeScreenProblemOfDayCard,
+            state = state,
+            isFreemiumEnabled = isFreemiumEnabled
+        )
         viewBinding.homeScreenKeepLearningInWebButton.isVisible =
             state is HomeFeature.ProblemOfDayState.Solved || state is HomeFeature.ProblemOfDayState.Empty
     }
 
-    private fun renderTopicsRepetition(repetitionsState: HomeFeature.RepetitionsState) {
+    private fun renderTopicsRepetition(
+        repetitionsState: HomeFeature.RepetitionsState,
+        isFreemiumEnabled: Boolean
+    ) {
         viewBinding.homeScreenTopicsRepetitionCard.root.isVisible =
             repetitionsState is HomeFeature.RepetitionsState.Available
         if (repetitionsState is HomeFeature.RepetitionsState.Available) {
             topicsRepetitionDelegate.render(
-                requireContext(),
-                viewBinding.homeScreenTopicsRepetitionCard,
-                repetitionsState.recommendedRepetitionsCount
+                context = requireContext(),
+                binding = viewBinding.homeScreenTopicsRepetitionCard,
+                recommendedRepetitionsCount = repetitionsState.recommendedRepetitionsCount,
+                isFreemiumEnabled = isFreemiumEnabled
             )
         }
     }
