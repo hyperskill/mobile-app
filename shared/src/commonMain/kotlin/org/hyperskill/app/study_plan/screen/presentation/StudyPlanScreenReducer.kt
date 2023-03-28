@@ -19,12 +19,19 @@ internal class StudyPlanScreenReducer(
         message: StudyPlanScreenFeature.Message
     ): StudyPlanScreenReducerResult =
         when (message) {
-            is StudyPlanScreenFeature.Message.Initialize ->
+            is StudyPlanScreenFeature.Message.Initialize -> {
                 handleInitializeMessage(state, message)
-            is StudyPlanScreenFeature.Message.GamificationToolbarMessage ->
-                reduceToolbarMessage(state, message)
-            is StudyPlanScreenFeature.Message.StudyPlanWidgetMessage ->
-                reduceStudyPlanWidgetMessage(state, message)
+            }
+            is StudyPlanScreenFeature.Message.GamificationToolbarMessage -> {
+                val (toolbarState, toolbarActions) =
+                    reduceToolbarMessage(state.toolbarState, message.message)
+                state.copy(toolbarState = toolbarState) to toolbarActions
+            }
+            is StudyPlanScreenFeature.Message.StudyPlanWidgetMessage -> {
+                val (widgetState, widgetActions) =
+                    reduceStudyPlanWidgetMessage(state.studyPlanWidgetState, message.message)
+                state.copy(studyPlanWidgetState = widgetState) to widgetActions
+            }
             StudyPlanScreenFeature.Message.ViewedEventMessage -> {
                 state to setOf(
                     StudyPlanScreenFeature.InternalAction.LogAnalyticEvent(
@@ -72,15 +79,6 @@ internal class StudyPlanScreenReducer(
         return toolbarState to actions
     }
 
-    private fun reduceToolbarMessage(
-        state: StudyPlanScreenFeature.State,
-        message: StudyPlanScreenFeature.Message.GamificationToolbarMessage
-    ): StudyPlanScreenReducerResult {
-        val (toolbarState, toolbarActions) =
-            reduceToolbarMessage(state.toolbarState, message.message)
-        return state.copy(toolbarState = toolbarState) to toolbarActions
-    }
-
     private fun reduceStudyPlanWidgetMessage(
         state: StudyPlanWidgetFeature.State,
         message: StudyPlanWidgetFeature.Message
@@ -97,14 +95,5 @@ internal class StudyPlanScreenReducer(
             }
             .toSet()
         return widgetState to actions
-    }
-
-    private fun reduceStudyPlanWidgetMessage(
-        state: StudyPlanScreenFeature.State,
-        message: StudyPlanScreenFeature.Message.StudyPlanWidgetMessage
-    ): StudyPlanScreenReducerResult {
-        val (widgetState, widgetActions) =
-            reduceStudyPlanWidgetMessage(state.studyPlanWidgetState, message.message)
-        return state.copy(studyPlanWidgetState = widgetState) to widgetActions
     }
 }
