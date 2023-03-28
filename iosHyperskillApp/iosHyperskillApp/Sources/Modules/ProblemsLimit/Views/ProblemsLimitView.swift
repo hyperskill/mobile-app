@@ -3,6 +3,8 @@ import SwiftUI
 
 extension ProblemsLimitView {
     struct Appearance {
+        var showTopDivider = false
+
         let skeletonHeight: CGFloat = 40
     }
 }
@@ -12,8 +14,6 @@ struct ProblemsLimitView: View {
 
     @StateObject var viewModel: ProblemsLimitViewModel
 
-    let showDivider: Bool
-
     private var skeleton: some View {
         SkeletonRoundedView()
             .frame(height: appearance.skeletonHeight)
@@ -21,14 +21,8 @@ struct ProblemsLimitView: View {
 
     var body: some View {
         buildBody()
-            .onAppear {
-                viewModel.startListening()
-                viewModel.onViewAction = handleViewAction(_:)
-            }
-            .onDisappear {
-                viewModel.stopListening()
-                viewModel.onViewAction = nil
-            }
+            .onAppear(perform: viewModel.startListening)
+            .onDisappear(perform: viewModel.stopListening)
     }
 
     @ViewBuilder
@@ -51,7 +45,7 @@ struct ProblemsLimitView: View {
             case .empty:
                 EmptyView()
             case .widget(let data):
-                if showDivider {
+                if appearance.showTopDivider {
                     Divider()
                 }
 
@@ -64,15 +58,11 @@ struct ProblemsLimitView: View {
             }
         }
     }
-
-    private func handleViewAction(_ viewAction: ProblemsLimitFeatureActionViewAction) {
-        print("ProblemsLimitFeatureActionViewAction :: \(viewAction)")
-    }
 }
 
 struct ProblemsLimitView_Previews: PreviewProvider {
     static var previews: some View {
-        ProblemsLimitAssembly(showDivider: false)
+        ProblemsLimitAssembly()
             .makeModule()
             .padding()
             .previewLayout(.sizeThatFits)

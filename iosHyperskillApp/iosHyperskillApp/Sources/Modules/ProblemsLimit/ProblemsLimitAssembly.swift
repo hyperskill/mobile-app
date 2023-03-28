@@ -2,10 +2,10 @@ import Foundation
 import shared
 
 final class ProblemsLimitAssembly: Assembly {
-    private let showDivider: Bool
+    private let appearance: ProblemsLimitView.Appearance
 
-    init(showDivider: Bool) {
-        self.showDivider = showDivider
+    init(appearance: ProblemsLimitView.Appearance = ProblemsLimitView.Appearance()) {
+        self.appearance = appearance
     }
 
     func makeModule() -> ProblemsLimitView {
@@ -15,6 +15,6 @@ final class ProblemsLimitAssembly: Assembly {
             feature: problemsLimitComponent.problemsLimitFeature
         )
 
-        return ProblemsLimitView(viewModel: viewModel, showDivider: showDivider)
+        return ProblemsLimitView(appearance: appearance, viewModel: viewModel)
     }
 }

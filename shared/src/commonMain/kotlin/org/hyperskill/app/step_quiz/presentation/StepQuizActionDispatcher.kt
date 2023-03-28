@@ -87,16 +87,19 @@ class StepQuizActionDispatcher(
                         return
                     }
 
-                if (isProblemsLimitReached) {
-                    onNewMessage(Message.ProblemsLimitReached)
-                }
-
                 val message = stepQuizInteractor
                     .getAttempt(action.step.id, currentProfile.id)
                     .fold(
                         onSuccess = { attempt ->
                             val message = getSubmissionState(attempt.id, action.step.id, currentProfile.id).fold(
-                                onSuccess = { Message.FetchAttemptSuccess(action.step, attempt, it, isProblemsLimitReached) },
+                                onSuccess = {
+                                    Message.FetchAttemptSuccess(
+                                        action.step,
+                                        attempt,
+                                        it,
+                                        isProblemsLimitReached
+                                    )
+                                },
                                 onFailure = {
                                     Message.FetchAttemptError(it)
                                 }
@@ -158,7 +161,14 @@ class StepQuizActionDispatcher(
                         ?.let { StepQuizFeature.SubmissionState.Loaded(it) }
                         ?: StepQuizFeature.SubmissionState.Empty()
 
-                    onNewMessage(Message.CreateAttemptSuccess(action.step, action.attempt, submissionState, action.isProblemsLimitReached))
+                    onNewMessage(
+                        Message.CreateAttemptSuccess(
+                            action.step,
+                            action.attempt,
+                            submissionState,
+                            action.isProblemsLimitReached
+                        )
+                    )
                 }
             }
             is Action.CreateSubmissionValidateReply -> {
@@ -224,7 +234,11 @@ class StepQuizActionDispatcher(
         }
     }
 
-    private suspend fun getSubmissionState(attemptId: Long, stepId: Long, userId: Long): Result<StepQuizFeature.SubmissionState> =
+    private suspend fun getSubmissionState(
+        attemptId: Long,
+        stepId: Long,
+        userId: Long
+    ): Result<StepQuizFeature.SubmissionState> =
         stepQuizInteractor
             .getSubmission(attemptId, stepId, userId)
             .map { submission ->

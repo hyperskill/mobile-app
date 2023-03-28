@@ -17,9 +17,7 @@ object StepQuizResolver {
         }
 
         if (state.submissionState is StepQuizFeature.SubmissionState.Loaded) {
-            if (state.submissionState.submission.status == SubmissionStatus.LOCAL ||
-                state.submissionState.submission.status == null
-            ) {
+            if (state.submissionState.submission.status == SubmissionStatus.LOCAL) {
                 return true
             }
             if (state.submissionState.submission.status == SubmissionStatus.WRONG) {

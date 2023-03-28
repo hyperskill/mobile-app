@@ -2309,9 +2309,9 @@
 		2CEEE02C2891667800282849 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E9672D7F29CA9D3800B3CFE9 /* HomeFreemiumBadgeView.swift */,
 				2CDA98422944524D00ADE539 /* HomeSkeletonView.swift */,
 				2C963BC42812D1A70036DD53 /* HomeView.swift */,
-				E9672D7F29CA9D3800B3CFE9 /* HomeFreemiumBadgeView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

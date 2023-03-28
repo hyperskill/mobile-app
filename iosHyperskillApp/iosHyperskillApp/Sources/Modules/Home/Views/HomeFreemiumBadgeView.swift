@@ -10,24 +10,38 @@ extension HomeFreemiumBadgeView {
 struct HomeFreemiumBadgeView: View {
     private(set) var appearance = Appearance()
 
-    let text: String
+    let type: `Type`
 
     var body: some View {
-        Text(text)
+        Text(type.title)
             .font(.caption)
             .foregroundColor(Color(ColorPalette.overlayViolet))
             .padding(appearance.padding.edgeInsets)
             .background(Color(ColorPalette.overlayVioletAlpha12))
             .cornerRadius(appearance.cornerRadius)
     }
+
+    enum `Type` {
+        case solve
+        case `repeat`
+
+        fileprivate var title: String {
+            switch self {
+            case .solve:
+                return Strings.Home.solveUnlimited
+            case .repeat:
+                return Strings.Home.repeatUnlimited
+            }
+        }
+    }
 }
 
 struct HomeFreemiumBadgeView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            HomeFreemiumBadgeView(text: "Solve unlimited")
+            HomeFreemiumBadgeView(type: .solve)
 
-            HomeFreemiumBadgeView(text: "Solve unlimited")
+            HomeFreemiumBadgeView(type: .repeat)
                 .preferredColorScheme(.dark)
         }
         .padding()

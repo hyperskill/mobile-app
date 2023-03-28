@@ -77,9 +77,9 @@ struct HomeView: View {
                         .font(.subheadline)
                         .foregroundColor(.secondaryText)
 
-                    ProblemsLimitAssembly(showDivider: false)
+                    ProblemsLimitAssembly()
                         .makeModule()
-                        .padding(.top, LayoutInsets.defaultInset)
+                        .padding(.top, LayoutInsets.smallInset)
 
                     ProblemOfDayAssembly(
                         problemOfDayState: data.problemOfDayState,
@@ -101,7 +101,7 @@ struct HomeView: View {
                             state: viewModel.topicsToDiscoverNextStateSk,
                             delegate: viewModel
                         )
-                        .padding(.top, LayoutInsets.defaultInset)
+                        .padding(.top, LayoutInsets.smallInset)
                     }
 
                     let shouldShowContinueInWebButton = data.problemOfDayState is HomeFeatureProblemOfDayStateEmpty ||
@@ -115,7 +115,7 @@ struct HomeView: View {
                         .buttonStyle(OutlineButtonStyle())
                     }
                 }
-                .padding()
+                .padding([.horizontal, .bottom])
                 .pullToRefresh(
                     isShowing: Binding(
                         get: { viewModel.state.isRefreshing },
