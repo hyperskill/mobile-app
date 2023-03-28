@@ -18,7 +18,8 @@ interface StepQuizFeature {
         data class AttemptLoaded(
             val step: Step,
             val attempt: Attempt,
-            val submissionState: SubmissionState
+            val submissionState: SubmissionState,
+            val isProblemsLimitReached: Boolean
         ) : State
 
         object NetworkError : State
@@ -36,7 +37,8 @@ interface StepQuizFeature {
         data class FetchAttemptSuccess(
             val step: Step,
             val attempt: Attempt,
-            val submissionState: SubmissionState
+            val submissionState: SubmissionState,
+            val isProblemsLimitReached: Boolean
         ) : Message
         data class FetchAttemptError(val throwable: Throwable) : Message
 
@@ -47,7 +49,8 @@ interface StepQuizFeature {
         data class CreateAttemptSuccess(
             val step: Step,
             val attempt: Attempt,
-            val submissionState: SubmissionState
+            val submissionState: SubmissionState,
+            val isProblemsLimitReached: Boolean
         ) : Message
         object CreateAttemptError : Message
 
@@ -62,10 +65,6 @@ interface StepQuizFeature {
             val reply: Reply,
             val replyValidation: ReplyValidationResult
         ) : Message
-        sealed interface CreateSubmissionCheckLimitResult : Message {
-            data class SubmisssionAvailable(val step: Step, val reply: Reply) : CreateSubmissionCheckLimitResult
-            object NetworkError : CreateSubmissionCheckLimitResult
-        }
 
         data class SyncReply(val reply: Reply) : Message
 
@@ -112,9 +111,10 @@ interface StepQuizFeature {
             val step: Step,
             val attempt: Attempt,
             val submissionState: SubmissionState,
+            val isProblemsLimitReached: Boolean,
             val shouldResetReply: Boolean
         ) : Action
-        data class CreateSubmissionCheckLimit(val step: Step, val reply: Reply) : Action
+
         data class CreateSubmissionValidateReply(val step: Step, val reply: Reply) : Action
         data class CreateSubmission(
             val step: Step,

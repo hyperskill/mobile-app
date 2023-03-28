@@ -8,6 +8,10 @@ import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 
 object StepQuizResolver {
     fun isQuizEnabled(state: StepQuizFeature.State.AttemptLoaded): Boolean {
+        if (state.isProblemsLimitReached) {
+            return false
+        }
+
         if (state.submissionState is StepQuizFeature.SubmissionState.Empty) {
             return true
         }

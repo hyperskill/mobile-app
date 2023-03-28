@@ -79,12 +79,24 @@ class StepQuizActionDispatcher(
                         return
                     }
 
+                val isProblemsLimitReached = freemiumInteractor
+                    .isProblemsLimitReached()
+                    .getOrElse {
+                        sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
+                        onNewMessage(Message.FetchAttemptError(it))
+                        return
+                    }
+
+                if (isProblemsLimitReached) {
+                    onNewMessage(Message.ProblemsLimitReached)
+                }
+
                 val message = stepQuizInteractor
                     .getAttempt(action.step.id, currentProfile.id)
                     .fold(
                         onSuccess = { attempt ->
                             val message = getSubmissionState(attempt.id, action.step.id, currentProfile.id).fold(
-                                onSuccess = { Message.FetchAttemptSuccess(action.step, attempt, it) },
+                                onSuccess = { Message.FetchAttemptSuccess(action.step, attempt, it, isProblemsLimitReached) },
                                 onFailure = {
                                     Message.FetchAttemptError(it)
                                 }
@@ -121,7 +133,8 @@ class StepQuizActionDispatcher(
                                         attempt = it,
                                         submissionState = StepQuizFeature.SubmissionState.Empty(
                                             reply = if (action.shouldResetReply) null else reply
-                                        )
+                                        ),
+                                        isProblemsLimitReached = action.isProblemsLimitReached
                                     )
                                 )
                             },
@@ -145,23 +158,8 @@ class StepQuizActionDispatcher(
                         ?.let { StepQuizFeature.SubmissionState.Loaded(it) }
                         ?: StepQuizFeature.SubmissionState.Empty()
 
-                    onNewMessage(Message.CreateAttemptSuccess(action.step, action.attempt, submissionState))
+                    onNewMessage(Message.CreateAttemptSuccess(action.step, action.attempt, submissionState, action.isProblemsLimitReached))
                 }
-            }
-            is Action.CreateSubmissionCheckLimit -> {
-                val isProblemsLimitReached = freemiumInteractor
-                    .isProblemsLimitReached()
-                    .getOrElse {
-                        return onNewMessage(Message.CreateSubmissionCheckLimitResult.NetworkError)
-                    }
-
-                onNewMessage(
-                    if (isProblemsLimitReached) {
-                        Message.ProblemsLimitReached
-                    } else {
-                        Message.CreateSubmissionCheckLimitResult.SubmisssionAvailable(action.step, action.reply)
-                    }
-                )
             }
             is Action.CreateSubmissionValidateReply -> {
                 val validationResult = stepQuizReplyValidator.validate(action.reply, action.step.block.name)
