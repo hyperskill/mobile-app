@@ -28,6 +28,7 @@ import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
 import org.hyperskill.app.android.problems_limit.dialog.ProblemsLimitReachedBottomSheet
+import org.hyperskill.app.android.problems_limit.fragment.ProblemsLimitFragment
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFeedbackBlocksDelegate
@@ -333,6 +334,7 @@ abstract class DefaultStepQuizFragment :
             }
             is StepQuizFeature.State.AttemptLoaded -> {
                 setStepHintsFragment(step)
+                setProblemsLimitFragment(stepRoute)
                 renderAttemptLoaded(state)
             }
             else -> {
@@ -396,6 +398,21 @@ abstract class DefaultStepQuizFragment :
         if (isFeatureEnabled) {
             setChildFragment(R.id.stepQuizHints, STEP_HINTS_FRAGMENT_TAG) {
                 StepQuizHintsFragment.newInstance(stepRoute, step)
+            }
+        }
+    }
+
+    private fun setProblemsLimitFragment(stepRoute: StepRoute) {
+        when (stepRoute) {
+            is StepRoute.Learn,
+            is StepRoute.StageImplement -> {
+                setChildFragment(R.id.stepQuizProblemsLimit, ProblemsLimitFragment.TAG) {
+                    ProblemsLimitFragment.newInstance(isDividerVisible = true)
+                }
+            }
+            is StepRoute.LearnDaily,
+            is StepRoute.Repeat -> {
+                // no op
             }
         }
     }
