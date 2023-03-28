@@ -84,6 +84,23 @@ class ProblemsLimitFragment :
                     viewBinding.problemsLimitsContent
                 )
             }
+
+            if (isDividerVisible) {
+                addState<ProblemsLimitFeature.ViewState.Error>(
+                    viewBinding.problemsLimitDivider.root,
+                    viewBinding.problemsLimitRetryButton
+                )
+            } else {
+                addState<ProblemsLimitFeature.ViewState.Error>(
+                    viewBinding.problemsLimitRetryButton
+                )
+            }
+        }
+
+        viewBinding.problemsLimitRetryButton.setOnClickListener {
+            problemsLimitViewModel.onNewMessage(
+                ProblemsLimitFeature.Message.Initialize(forceUpdate = true)
+            )
         }
     }
 

@@ -45,6 +45,12 @@
 
     </LinearLayout>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/problemsLimitRetryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/reload"/>
+
     <org.hyperskill.app.android.ui.custom.LoadingView
         android:id="@+id/problemsLimitSkeleton"
         android:layout_width="match_parent"
