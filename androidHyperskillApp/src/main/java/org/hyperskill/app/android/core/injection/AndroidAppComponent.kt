@@ -32,6 +32,7 @@ import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz_hints.injection.PlatformStepQuizHintsComponent
+import org.hyperskill.app.study_plan.injection.PlatformStudyPlanScreenComponent
 import org.hyperskill.app.topics_repetitions.injection.PlatformTopicsRepetitionComponent
 import org.hyperskill.app.track.injection.PlatformTrackComponent
 import org.hyperskill.app.track.injection.TrackComponent
@@ -59,4 +60,6 @@ interface AndroidAppComponent : AppGraph {
     fun buildPlatformTopicsRepetitionsComponent(): PlatformTopicsRepetitionComponent
     fun buildPlatformDebugComponent(debugComponent: DebugComponent): PlatformDebugComponent
     fun buildPlatformStageImplementationComponent(projectId: Long, stageId: Long): PlatformStageImplementationComponent
+
+    fun buildPlatformStudyPlanScreenComponent(): PlatformStudyPlanScreenComponent
 }

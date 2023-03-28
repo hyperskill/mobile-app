@@ -1,6 +1,7 @@
 package org.hyperskill.app.study_plan.domain.interactor
 
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
+import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.learning_activities.domain.repository.LearningActivitiesRepository
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
@@ -21,7 +22,8 @@ class StudyPlanInteractor(
 
     suspend fun getLearningActivities(
         activitiesIds: List<Long>,
-        types: Set<LearningActivityType>
+        types: Set<LearningActivityType>,
+        states: Set<LearningActivityState>
     ): Result<List<LearningActivity>> =
-        learningActivitiesRepository.getLearningActivities(activitiesIds, types)
+        learningActivitiesRepository.getLearningActivities(activitiesIds, types, states)
 }

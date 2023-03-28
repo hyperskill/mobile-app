@@ -6,17 +6,20 @@ import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransa
 
 enum class GamificationToolbarScreen {
     HOME,
-    TRACK;
+    TRACK,
+    STUDY_PLAN;
 
     internal val analyticRoute: HyperskillAnalyticRoute
         get() = when (this) {
             HOME -> HyperskillAnalyticRoute.Home()
             TRACK -> HyperskillAnalyticRoute.Track()
+            STUDY_PLAN -> HyperskillAnalyticRoute.StudyPlan()
         }
 
     internal val sentryTransaction: HyperskillSentryTransaction
         get() = when (this) {
             HOME -> HyperskillSentryTransactionBuilder.buildGamificationToolbarHomeScreenRemoteDataLoading()
             TRACK -> HyperskillSentryTransactionBuilder.buildGamificationToolbarTrackScreenRemoteDataLoading()
+            STUDY_PLAN -> HyperskillSentryTransactionBuilder.buildGamificationToolbarStudyPlanScreenRemoteDataLoading()
         }
 }

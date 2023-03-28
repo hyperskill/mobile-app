@@ -3,6 +3,7 @@ package org.hyperskill.app.analytic.domain.model.hyperskill
 enum class HyperskillAnalyticTarget(val targetName: String) {
     HOME("home"),
     TRACK("track"),
+    STUDY_PLAN("study_plan"),
     PROFILE("profile"),
     DEBUG("debug"),
     SEND("send"),
