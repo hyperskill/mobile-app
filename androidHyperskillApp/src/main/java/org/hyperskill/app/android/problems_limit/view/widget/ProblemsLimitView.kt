@@ -66,15 +66,15 @@ class ProblemsLimitView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         val circleDiameter = circleRadius * 2
         for (i in 0 until totalCount) {
-            canvas.withTranslation(i * (circleDiameter + circlesMargin)) {
-                val paint = if (i > activeCount - 1) inactiveCirclePaint else activeCirclePaint
+            canvas.withTranslation(x = i * (circleDiameter + circlesMargin)) {
+                val paint = if (i <= activeCount - 1) activeCirclePaint else inactiveCirclePaint
                 drawCircle(circleRadius, circleRadius, circleRadius, paint)
             }
         }
     }
 
     fun setData(totalCount: Int, activeCount: Int) {
-        if (this.totalCount == totalCount || this.activeCount == activeCount) {
+        if (this.totalCount == totalCount && this.activeCount == activeCount) {
             return
         }
         this.totalCount = totalCount
