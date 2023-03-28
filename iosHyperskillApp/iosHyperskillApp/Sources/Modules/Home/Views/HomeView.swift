@@ -77,7 +77,7 @@ struct HomeView: View {
                         .font(.subheadline)
                         .foregroundColor(.secondaryText)
 
-                    ProblemsLimitAssembly()
+                    ProblemsLimitAssembly(showDivider: false)
                         .makeModule()
                         .padding(.top, LayoutInsets.defaultInset)
 

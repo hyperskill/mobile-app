@@ -126,10 +126,8 @@ struct StepQuizView: View {
                     StepQuizStatsView(text: formattedStats)
                 }
 
-                Divider()
-
                 if viewModel.stepRoute is StepRouteLearn {
-                    ProblemsLimitAssembly().makeModule()
+                    ProblemsLimitAssembly(showDivider: true).makeModule()
                 }
 
                 buildQuizStatusView(state: state, attemptLoadedState: attemptLoadedState)

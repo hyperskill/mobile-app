@@ -2,6 +2,12 @@ import Foundation
 import shared
 
 final class ProblemsLimitAssembly: Assembly {
+    private let showDivider: Bool
+
+    init(showDivider: Bool) {
+        self.showDivider = showDivider
+    }
+
     func makeModule() -> ProblemsLimitView {
         let problemsLimitComponent = AppGraphBridge.sharedAppGraph.buildProblemsLimitComponent()
 
@@ -9,6 +15,6 @@ final class ProblemsLimitAssembly: Assembly {
             feature: problemsLimitComponent.problemsLimitFeature
         )
 
-        return ProblemsLimitView(viewModel: viewModel)
+        return ProblemsLimitView(viewModel: viewModel, showDivider: showDivider)
     }
 }
