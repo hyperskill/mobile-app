@@ -65,22 +65,16 @@ class ProblemsLimitFragment :
             addState<ProblemsLimitFeature.ViewState.Idle>()
             addState<ProblemsLimitFeature.ViewState.Content.Empty>()
 
-            // Is used to hide fragment container if content is not showed
-            val parentView =  viewBinding.root.parent as View
-
             addState<ProblemsLimitFeature.ViewState.Loading>(
-                parentView,
                 viewBinding.problemsLimitSkeleton
             )
             if (isDividerVisible) {
                 addState<ProblemsLimitFeature.ViewState.Content.Widget>(
-                    parentView,
                     viewBinding.problemsLimitDivider.root,
                     viewBinding.problemsLimitsContent
                 )
             } else {
                 addState<ProblemsLimitFeature.ViewState.Content.Widget>(
-                    parentView,
                     viewBinding.problemsLimitsContent
                 )
             }
