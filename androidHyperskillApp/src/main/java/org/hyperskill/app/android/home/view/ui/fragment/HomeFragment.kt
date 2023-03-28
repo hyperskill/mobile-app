@@ -154,7 +154,8 @@ class HomeFragment :
                 viewBinding.homeScreenKeepPracticingTextView,
                 viewBinding.homeScreenProblemOfDayCard.root,
                 viewBinding.homeScreenTopicsRepetitionCard.root,
-                viewBinding.homeScreenKeepLearningInWebButton
+                viewBinding.homeScreenKeepLearningInWebButton,
+                viewBinding.homeProblemsLimit
             )
         }
     }
