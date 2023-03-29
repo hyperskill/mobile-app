@@ -1,10 +1,12 @@
 package org.hyperskill.app.study_plan.widget.presentation
 
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
+import org.hyperskill.app.study_plan.domain.model.StudyPlanStatus
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Action
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalAction
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Message
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.State
+import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.StudyPlanFetchInterval
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 internal typealias StudyPlanWidgetReducerResult = Pair<State, Set<Action>>
@@ -13,13 +15,8 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): StudyPlanWidgetReducerResult =
         when (message) {
             Message.Initialize -> coldContentFetch()
-            is StudyPlanWidgetFeature.StudyPlanFetchResult.Success -> {
-                state.copy(studyPlan = message.studyPlan) to
-                    setOfNotNull(
-                        InternalAction.FetchSections(message.studyPlan.sections),
-                        message.studyPlan.trackId?.let(InternalAction::FetchTrack)
-                    )
-            }
+            is StudyPlanWidgetFeature.StudyPlanFetchResult.Success ->
+                handleStudyPlanFetchSuccess(state, message)
             is StudyPlanWidgetFeature.SectionsFetchResult.Success ->
                 handleSectionsFetchSuccess(state, message)
             Message.RetryContentLoading -> coldContentFetch()
@@ -44,7 +41,30 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
 
     private fun coldContentFetch(): StudyPlanWidgetReducerResult =
         State(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING) to
-            setOf(InternalAction.FetchStudyPlan)
+            setOf(InternalAction.FetchStudyPlan())
+
+    private fun handleStudyPlanFetchSuccess(
+        state: State,
+        message: StudyPlanWidgetFeature.StudyPlanFetchResult.Success
+    ): StudyPlanWidgetReducerResult {
+        val actions = if (message.studyPlan.status != StudyPlanStatus.READY) {
+            setOf(
+                InternalAction.FetchStudyPlan(
+                    delay = StudyPlanFetchInterval * message.tryNumber,
+                    tryNumber = message.tryNumber + 1
+                )
+            )
+        } else {
+            setOfNotNull(
+                InternalAction.FetchSections(message.studyPlan.sections),
+                message.studyPlan.trackId?.let(InternalAction::FetchTrack)
+            )
+        }
+        return State(
+            studyPlan = message.studyPlan,
+            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING
+        ) to actions
+    }
 
     private fun handleSectionsFetchSuccess(
         state: State,

@@ -6,8 +6,12 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.track.domain.model.Track
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 object StudyPlanWidgetFeature {
+
+    val StudyPlanFetchInterval: Duration = 1.seconds
 
     data class State(
         val studyPlan: StudyPlan? = null,
@@ -55,7 +59,7 @@ object StudyPlanWidgetFeature {
     }
 
     internal sealed interface StudyPlanFetchResult : Message {
-        data class Success(val studyPlan: StudyPlan) : StudyPlanFetchResult
+        data class Success(val studyPlan: StudyPlan, val tryNumber: Int) : StudyPlanFetchResult
 
         object Failed : StudyPlanFetchResult
     }
@@ -93,7 +97,7 @@ object StudyPlanWidgetFeature {
     }
 
     internal sealed interface InternalAction : Action {
-        object FetchStudyPlan : InternalAction
+        data class FetchStudyPlan(val delay: Duration? = null, val tryNumber: Int = 1) : InternalAction
 
         data class FetchSections(val sectionsIds: List<Long>) : InternalAction
 
