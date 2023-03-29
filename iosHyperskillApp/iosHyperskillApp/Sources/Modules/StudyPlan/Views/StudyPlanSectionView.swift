@@ -6,70 +6,62 @@ struct StudyPlanSectionView: View {
 
     var body: some View {
         VStack(spacing: LayoutInsets.smallInset) {
-            HStack {
-                Text(section.title)
-                    .font(.title3)
-                    .bold()
-                    .foregroundColor(.primary)
+            StudyPlanSectionHeaderView(section: section)
 
-                Spacer()
-
-                
+            switch StudyPlanWidgetViewStateSectionContentKs(section.content) {
+            case .collapsed, .error:
+                EmptyView()
+            case .loading:
+                SkeletonRoundedView()
+                    .frame(height: 52)
+            case .content(let content):
+                ForEach(content.sectionItems, id: \.id) { item in
+                    StudyPlanSectionItemView(item: item)
+                }
             }
         }
-        .background(Color(ColorPalette.surface))
     }
 }
 
 struct StudyPlanSectionView_Previews: PreviewProvider {
     static var previews: some View {
         StudyPlanSectionView(
-            section: StudyPlanWidgetViewStateSection(
-                id: 1,
-                title: "Stage 1/6:  Hello, coffee!",
-                subtitle: "Preconditions and postconditions",
-                formattedTopicsCount: "3 / 5",
-                formattedTimeToComplete: "~ 56 h",
-                content: StudyPlanWidgetViewStateSectionContentContent(
-                    sectionItems: [
-                        StudyPlanWidgetViewStateSectionItem(
-                            id: 123412341234,
-                            title: "test",
-                            state: StudyPlanWidgetViewStateSectionItemState.next,
-                            progress: 0.5,
-                            formattedProgress: "50%"
-                        ),
-                        StudyPlanWidgetViewStateSectionItem(
-                            id: 123412341234,
-                            title: "test",
-                            state: StudyPlanWidgetViewStateSectionItemState.locked,
-                            progress: 0.5,
-                            formattedProgress: "50%"
-                        ),
-                        StudyPlanWidgetViewStateSectionItem(
-                            id: 123412341234,
-                            title: "test",
-                            state: StudyPlanWidgetViewStateSectionItemState.completed,
-                            progress: 0.5,
-                            formattedProgress: "50%"
-                        ),
-                        StudyPlanWidgetViewStateSectionItem(
-                            id: 123412341234,
-                            title: "test",
-                            state: StudyPlanWidgetViewStateSectionItemState.skipped,
-                            progress: 0.5,
-                            formattedProgress: "50%"
-                        ),
-                        StudyPlanWidgetViewStateSectionItem(
-                            id: 123412341234,
-                            title: "test",
-                            state: StudyPlanWidgetViewStateSectionItemState.idle,
-                            progress: 0.5,
-                            formattedProgress: "50%"
-                        )
-                    ]
-                )
+            section: StudyPlanWidgetViewStateSection.makePlaceholder()
+        )
+        .padding()
+        .background(Color(ColorPalette.background))
+    }
+}
+
+#if DEBUG
+extension StudyPlanWidgetViewStateSection {
+    static func makePlaceholder() -> StudyPlanWidgetViewStateSection {
+        StudyPlanWidgetViewStateSection(
+            id: 1,
+            title: "Stage 1/6:  Hello, coffee!",
+            subtitle: "Preconditions and postconditions",
+            formattedTopicsCount: "3 / 5",
+            formattedTimeToComplete: "~ 56 h",
+            content: StudyPlanWidgetViewStateSectionContentContent(
+                sectionItems: [
+                    StudyPlanWidgetViewStateSectionItem.makePlaceholder(
+                        state: StudyPlanWidgetViewStateSectionItemState.idle
+                    ),
+                    StudyPlanWidgetViewStateSectionItem.makePlaceholder(
+                        state: StudyPlanWidgetViewStateSectionItemState.skipped
+                    ),
+                    StudyPlanWidgetViewStateSectionItem.makePlaceholder(
+                        state: StudyPlanWidgetViewStateSectionItemState.completed
+                    ),
+                    StudyPlanWidgetViewStateSectionItem.makePlaceholder(
+                        state: StudyPlanWidgetViewStateSectionItemState.locked
+                    ),
+                    StudyPlanWidgetViewStateSectionItem.makePlaceholder(
+                        state: StudyPlanWidgetViewStateSectionItemState.next
+                    )
+                ]
             )
         )
     }
 }
+#endif
