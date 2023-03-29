@@ -8,7 +8,7 @@ struct HomeSkeletonView: View {
 
             Spacer()
         }
-        .padding()
+        .padding([.horizontal, .bottom])
     }
 }
 

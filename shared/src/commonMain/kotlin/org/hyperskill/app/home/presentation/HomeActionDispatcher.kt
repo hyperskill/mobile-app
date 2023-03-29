@@ -20,6 +20,7 @@ import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.DateFormatter
+import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeFeature.Action
 import org.hyperskill.app.home.presentation.HomeFeature.Message
@@ -38,6 +39,7 @@ class HomeActionDispatcher(
     private val profileInteractor: ProfileInteractor,
     private val topicsRepetitionsInteractor: TopicsRepetitionsInteractor,
     private val stepInteractor: StepInteractor,
+    private val freemiumInteractor: FreemiumInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val urlPathProcessor: UrlPathProcessor,
@@ -84,6 +86,7 @@ class HomeActionDispatcher(
 
                 val problemOfDayStateResult = actionScope.async { getProblemOfDayState(currentProfile.dailyStep) }
                 val repetitionsStateResult = actionScope.async { getRepetitionsState() }
+                val isFreemiumEnabledResult = actionScope.async { freemiumInteractor.isFreemiumEnabled() }
 
                 val problemOfDayState = problemOfDayStateResult.await().getOrElse {
                     sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
@@ -93,10 +96,14 @@ class HomeActionDispatcher(
                     sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                     return onNewMessage(Message.HomeFailure)
                 }
+                val isFreemiumEnabled = isFreemiumEnabledResult.await().getOrElse {
+                    sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
+                    return onNewMessage(Message.HomeFailure)
+                }
 
                 sentryInteractor.finishTransaction(sentryTransaction)
 
-                onNewMessage(Message.HomeSuccess(problemOfDayState, repetitionsState))
+                onNewMessage(Message.HomeSuccess(problemOfDayState, repetitionsState, isFreemiumEnabled))
                 onNewMessage(Message.ReadyToLaunchNextProblemInTimer)
             }
             is Action.LaunchTimer -> {

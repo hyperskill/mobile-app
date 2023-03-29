@@ -18,7 +18,8 @@ interface StepQuizFeature {
         data class AttemptLoaded(
             val step: Step,
             val attempt: Attempt,
-            val submissionState: SubmissionState
+            val submissionState: SubmissionState,
+            val isProblemsLimitReached: Boolean
         ) : State
 
         object NetworkError : State
@@ -36,7 +37,8 @@ interface StepQuizFeature {
         data class FetchAttemptSuccess(
             val step: Step,
             val attempt: Attempt,
-            val submissionState: SubmissionState
+            val submissionState: SubmissionState,
+            val isProblemsLimitReached: Boolean
         ) : Message
         data class FetchAttemptError(val throwable: Throwable) : Message
 
@@ -47,7 +49,8 @@ interface StepQuizFeature {
         data class CreateAttemptSuccess(
             val step: Step,
             val attempt: Attempt,
-            val submissionState: SubmissionState
+            val submissionState: SubmissionState,
+            val isProblemsLimitReached: Boolean
         ) : Message
         object CreateAttemptError : Message
 
@@ -83,12 +86,19 @@ interface StepQuizFeature {
         object ProblemOfDaySolvedModalGoBackClicked : Message
 
         /**
+         * Daily limit reached modal
+         */
+        object ProblemsLimitReachedModalGoToHomeScreenClicked : Message
+
+        /**
          * Analytic
          */
         object ClickedCodeDetailsEventMessage : Message
         object ClickedRetryEventMessage : Message
         object DailyStepCompletedModalShownEventMessage : Message
         object DailyStepCompletedModalHiddenEventMessage : Message
+        object ProblemsLimitReachedModalShownEventMessage : Message
+        object ProblemsLimitReachedModalHiddenEventMessage : Message
     }
 
     sealed interface Action {
@@ -98,8 +108,10 @@ interface StepQuizFeature {
             val step: Step,
             val attempt: Attempt,
             val submissionState: SubmissionState,
+            val isProblemsLimitReached: Boolean,
             val shouldResetReply: Boolean
         ) : Action
+
         data class CreateSubmissionValidateReply(val step: Step, val reply: Reply) : Action
         data class CreateSubmission(
             val step: Step,
@@ -125,8 +137,12 @@ interface StepQuizFeature {
 
             data class ShowProblemOfDaySolvedModal(val earnedGemsText: String) : ViewAction
 
+            object ShowProblemsLimitReachedModal : ViewAction
+
             sealed interface NavigateTo : ViewAction {
                 object Back : NavigateTo
+
+                object Home : NavigateTo
             }
         }
     }

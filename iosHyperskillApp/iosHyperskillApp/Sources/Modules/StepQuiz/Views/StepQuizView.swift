@@ -73,7 +73,10 @@ struct StepQuizView: View {
                         StepTextView(text: viewData.stepText)
 
                         if viewData.stepHasHints {
-                            StepQuizHintsAssembly(stepID: viewModel.step.id).makeModule()
+                            StepQuizHintsAssembly(
+                                stepID: viewModel.step.id,
+                                stepRoute: viewModel.stepRoute
+                            ).makeModule()
                         }
 
                         buildQuizContent(
@@ -122,6 +125,13 @@ struct StepQuizView: View {
                 if let formattedStats {
                     StepQuizStatsView(text: formattedStats)
                 }
+
+                if viewModel.stepRoute is StepRouteLearn {
+                    ProblemsLimitAssembly(
+                        appearance: .init(showTopDivider: true)
+                    ).makeModule()
+                }
+
                 buildQuizStatusView(state: state, attemptLoadedState: attemptLoadedState)
 
                 if let feedbackHintText {
@@ -253,12 +263,17 @@ struct StepQuizView: View {
             default:
                 break
             }
+        case .showProblemsLimitReachedModal:
+            presentProblemsLimitReachedModal()
         case .showProblemOfDaySolvedModal(let showProblemOfDaySolvedModalViewAction):
             presentDailyStepCompletedModal(earnedGemsText: showProblemOfDaySolvedModalViewAction.earnedGemsText)
         case .navigateTo(let viewActionNavigateTo):
             switch StepQuizFeatureActionViewActionNavigateToKs(viewActionNavigateTo) {
             case .back:
                 stackRouter.popViewController()
+            case .home:
+                stackRouter.popViewController()
+                TabBarRouter(tab: .home).route()
             }
         }
     }
@@ -339,6 +354,14 @@ extension StepQuizView {
         panModal.onDisappear = { [weak viewModel] in
             viewModel?.logDailyStepCompletedModalHiddenEvent()
         }
+
+        panModalPresenter.presentPanModal(panModal)
+    }
+
+    private func presentProblemsLimitReachedModal() {
+        let panModal = ProblemsLimitReachedModalViewController(
+            delegate: viewModel
+        )
 
         panModalPresenter.presentPanModal(panModal)
     }

@@ -205,3 +205,24 @@ extension StepQuizViewModel: StepQuizInputProtocol {
         self.isPracticingLoading = isPracticingLoading
     }
 }
+
+// MARK: - StepQuizViewModel: ProblemsLimitReachedModalViewControllerDelegate -
+
+extension StepQuizViewModel: ProblemsLimitReachedModalViewControllerDelegate {
+    func problemsLimitReachedModalViewControllerDidTapGoToHomescreenButton(
+        _ viewController: ProblemsLimitReachedModalViewController
+    ) {
+        onNewMessage(StepQuizFeatureMessageProblemsLimitReachedModalGoToHomeScreenClicked())
+        viewController.dismiss(animated: true)
+    }
+
+    func problemsLimitReachedModalViewControllerDidAppear(_ viewController: ProblemsLimitReachedModalViewController) {
+        onNewMessage(StepQuizFeatureMessageProblemsLimitReachedModalShownEventMessage())
+    }
+
+    func problemsLimitReachedModalViewControllerDidDisappear(
+        _ viewController: ProblemsLimitReachedModalViewController
+    ) {
+        onNewMessage(StepQuizFeatureMessageProblemsLimitReachedModalHiddenEventMessage())
+    }
+}
