@@ -1,2 +1,3 @@
 What to Test:
-1. Fix passed tracks count calculation - ALTAPPS-646
+1. Fix passed tracks count calculation ALTAPPS-646
+2. Daily limits for learners with Freemium ALTAPPS-667
