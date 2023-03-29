@@ -44,8 +44,13 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                         State.AttemptLoaded(
                             message.step,
                             message.attempt,
-                            message.submissionState
-                        ) to emptySet()
+                            message.submissionState,
+                            message.isProblemsLimitReached
+                        ) to buildSet {
+                            if (message.isProblemsLimitReached) {
+                                add(Action.ViewAction.ShowProblemsLimitReachedModal)
+                            }
+                        }
                     }
                 } else {
                     null
@@ -68,6 +73,7 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                                 message.step,
                                 state.attempt,
                                 state.submissionState,
+                                state.isProblemsLimitReached,
                                 message.shouldResetReply
                             )
                         )
@@ -80,7 +86,8 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                     State.AttemptLoaded(
                         message.step,
                         message.attempt,
-                        message.submissionState
+                        message.submissionState,
+                        message.isProblemsLimitReached
                     ) to emptySet()
                 } else {
                     null
@@ -100,19 +107,12 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                             StepQuizClickedSendHyperskillAnalyticEvent(stepRoute.analyticRoute)
                         }
                     state to setOf(
-                        when (stepRoute) {
-                            is StepRoute.Learn -> Action.CreateSubmissionCheckLimit(message.step, message.reply)
-                            else -> Action.CreateSubmissionValidateReply(message.step, message.reply)
-                        },
+                        Action.CreateSubmissionValidateReply(message.step, message.reply),
                         Action.LogAnalyticEvent(analyticEvent)
                     )
                 } else {
                     null
                 }
-            is Message.CreateSubmissionCheckLimitResult.SubmisssionAvailable ->
-                state to setOf(Action.CreateSubmissionValidateReply(message.step, message.reply))
-            is Message.CreateSubmissionCheckLimitResult.NetworkError ->
-                state to setOf(Action.ViewAction.ShowNetworkError)
             is Message.CreateSubmissionReplyValidationResult ->
                 if (state is State.AttemptLoaded) {
                     when (message.replyValidation) {
@@ -191,6 +191,7 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                                     state.step,
                                     state.attempt,
                                     state.submissionState,
+                                    state.isProblemsLimitReached,
                                     shouldResetReply = true
                                 )
                             )
@@ -225,8 +226,6 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                 } else {
                     null
                 }
-            is Message.ProblemsLimitReached ->
-                state to setOf(Action.ViewAction.ShowProblemsLimitReachedModal)
             is Message.ProblemsLimitReachedModalGoToHomeScreenClicked ->
                 state to setOf(
                     Action.ViewAction.NavigateTo.Home,

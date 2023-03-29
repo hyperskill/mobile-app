@@ -32,7 +32,7 @@ class Timer(
         timerJob = flow {
             // skip duration to round hour, for example if duration is 03:25:34
             // we will skip here 25 minutes 34 seconds
-            if (actualDuration > DURATION_ONE_HOUR) {
+            if (actualDuration >= DURATION_ONE_HOUR) {
                 val beforeRoundHour = actualDuration - actualDuration.inWholeHours.toDuration(DurationUnit.HOURS)
                 delay(beforeRoundHour)
                 actualDuration -= beforeRoundHour
