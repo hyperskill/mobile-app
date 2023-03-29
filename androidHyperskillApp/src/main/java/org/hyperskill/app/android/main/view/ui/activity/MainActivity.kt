@@ -61,8 +61,6 @@ class MainActivity :
 
     private lateinit var analyticInteractor: AnalyticInteractor
 
-    private var wasStopped = false
-
     private val notificationInteractor =
         HyperskillApp.graph().platformNotificationComponent.notificationInteractor
 
@@ -74,17 +72,8 @@ class MainActivity :
         )
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (wasStopped) {
-            mainViewModelProvider.onNewMessage(AppFeature.Message.AppLaunchedFromBackground)
-            wasStopped = false
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        wasStopped = true
+    private val backToForegroundObserver = BackToForegroundObserver {
+        mainViewModelProvider.onNewMessage(AppFeature.Message.AppLaunchedFromBackground)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -121,6 +110,8 @@ class MainActivity :
         }
 
         AppCompatDelegate.setDefaultNightMode(ThemeMapper.getAppCompatDelegate(profileSettings.theme))
+
+        lifecycle.addObserver(backToForegroundObserver)
 
         handleNewIntent(intent)
         logNotificationAvailability()
