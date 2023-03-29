@@ -23,6 +23,8 @@ struct ProblemOfDayCardView: View {
 
     let viewModel: ProblemOfDayViewModel
 
+    let isFreemiumEnabled: Bool
+
     var body: some View {
         let viewData = viewModel.makeViewData()
 
@@ -55,6 +57,10 @@ struct ProblemOfDayCardView: View {
                     if viewData.state != .unavailable,
                        let nextProblemIn = viewData.nextProblemIn {
                         buildNextProblemIn(nextProblemIn: nextProblemIn, needToRefresh: viewData.needToRefresh)
+                    }
+
+                    if isFreemiumEnabled && viewData.state == .uncompleted {
+                        HomeFreemiumBadgeView(type: .solve)
                     }
                 }
                 .padding()

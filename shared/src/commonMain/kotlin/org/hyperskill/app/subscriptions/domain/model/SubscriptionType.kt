@@ -27,6 +27,8 @@ enum class SubscriptionType {
     JETBRAINS_TEAM,
     @SerialName("free")
     FREE,
+    @SerialName("freemium")
+    FREEMIUM,
 
     @SerialName("unknown")
     UNKNOWN
