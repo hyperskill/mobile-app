@@ -18,7 +18,7 @@ class StudyPlanWidgetActionDispatcher(
         when (action) {
             is InternalAction.FetchStudyPlan -> {
                 if (action.delay != null) {
-                    delay(action.delay.inWholeMilliseconds)
+                    delay(action.delay)
                 }
                 studyPlanInteractor.getCurrentStudyPlan()
                     .onSuccess { studyPlan ->
