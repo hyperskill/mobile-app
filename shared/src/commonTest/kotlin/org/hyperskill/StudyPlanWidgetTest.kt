@@ -323,16 +323,17 @@ class StudyPlanWidgetTest {
         id: Long,
         status: StudyPlanStatus,
         sections: List<Long> = emptyList()
-    ) = StudyPlan(
-        id = id,
-        trackId = null,
-        projectId = null,
-        sections = sections,
-        status = status,
-        createdAt = "",
-        secondsToReachTrack = 0,
-        secondsToReachProject = 0
-    )
+    ) =
+        StudyPlan(
+            id = id,
+            trackId = null,
+            projectId = null,
+            sections = sections,
+            status = status,
+            createdAt = "",
+            secondsToReachTrack = 0,
+            secondsToReachProject = 0
+        )
 
     private fun studyPlanSectionStub(
         id: Long,
