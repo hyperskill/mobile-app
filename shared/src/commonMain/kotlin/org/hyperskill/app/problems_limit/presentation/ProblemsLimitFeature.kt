@@ -4,7 +4,7 @@ import org.hyperskill.app.subscriptions.domain.model.Subscription
 import kotlin.time.Duration
 
 object ProblemsLimitFeature {
-    sealed interface State {
+    internal sealed interface State {
         object Idle : State
 
         object Loading : State

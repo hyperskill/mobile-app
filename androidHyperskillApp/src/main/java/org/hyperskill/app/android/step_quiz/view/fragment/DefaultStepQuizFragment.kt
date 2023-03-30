@@ -404,12 +404,12 @@ abstract class DefaultStepQuizFragment :
 
     private fun setProblemsLimitFragment(stepRoute: StepRoute) {
         when (stepRoute) {
-            is StepRoute.Learn,
-            is StepRoute.StageImplement -> {
+            is StepRoute.Learn -> {
                 setChildFragment(R.id.stepQuizProblemsLimit, ProblemsLimitFragment.TAG) {
                     ProblemsLimitFragment.newInstance(isDividerVisible = true)
                 }
             }
+            is StepRoute.StageImplement,
             is StepRoute.LearnDaily,
             is StepRoute.Repeat -> {
                 // no op
