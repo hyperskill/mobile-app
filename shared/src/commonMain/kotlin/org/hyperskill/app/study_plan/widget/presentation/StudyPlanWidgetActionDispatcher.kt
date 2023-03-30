@@ -17,12 +17,12 @@ class StudyPlanWidgetActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is InternalAction.FetchStudyPlan -> {
-                if (action.delay != null) {
-                    delay(action.delay)
+                if (action.delayBeforeFetching != null) {
+                    delay(action.delayBeforeFetching)
                 }
                 studyPlanInteractor.getCurrentStudyPlan()
                     .onSuccess { studyPlan ->
-                        onNewMessage(StudyPlanWidgetFeature.StudyPlanFetchResult.Success(studyPlan, action.tryNumber))
+                        onNewMessage(StudyPlanWidgetFeature.StudyPlanFetchResult.Success(studyPlan, action.attemptNumber))
                     }
                     .onFailure {
                         onNewMessage(StudyPlanWidgetFeature.StudyPlanFetchResult.Failed)

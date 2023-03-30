@@ -11,7 +11,7 @@ import kotlin.time.Duration.Companion.seconds
 
 object StudyPlanWidgetFeature {
 
-    val StudyPlanFetchInterval: Duration = 1.seconds
+    internal val STUDY_PLAN_FETCH_INTERVAL: Duration = 1.seconds
 
     data class State(
         val studyPlan: StudyPlan? = null,
@@ -59,7 +59,7 @@ object StudyPlanWidgetFeature {
     }
 
     internal sealed interface StudyPlanFetchResult : Message {
-        data class Success(val studyPlan: StudyPlan, val tryNumber: Int) : StudyPlanFetchResult
+        data class Success(val studyPlan: StudyPlan, val attemptNumber: Int) : StudyPlanFetchResult
 
         object Failed : StudyPlanFetchResult
     }
@@ -97,7 +97,17 @@ object StudyPlanWidgetFeature {
     }
 
     internal sealed interface InternalAction : Action {
-        data class FetchStudyPlan(val delay: Duration? = null, val tryNumber: Int = 1) : InternalAction
+
+        /**
+         * Triggers a study plan fetching.
+         * @param [delayBeforeFetching] is used to wait for definite duration before fetching.
+         * @param [attemptNumber] represents the number of current attempt of the StudyPlan fetching.
+         * [attemptNumber] should be passed back in the [StudyPlanFetchResult.Success.attemptNumber].
+         */
+        data class FetchStudyPlan(
+            val delayBeforeFetching: Duration? = null,
+            val attemptNumber: Int = 1
+        ) : InternalAction
 
         data class FetchSections(val sectionsIds: List<Long>) : InternalAction
 

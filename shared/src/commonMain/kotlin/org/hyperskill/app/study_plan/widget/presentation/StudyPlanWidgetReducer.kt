@@ -5,8 +5,8 @@ import org.hyperskill.app.study_plan.domain.model.StudyPlanStatus
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Action
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalAction
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Message
+import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.STUDY_PLAN_FETCH_INTERVAL
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.State
-import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.StudyPlanFetchInterval
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 internal typealias StudyPlanWidgetReducerResult = Pair<State, Set<Action>>
@@ -43,6 +43,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         State(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING) to
             setOf(InternalAction.FetchStudyPlan())
 
+    @Suppress("UNUSED_PARAMETER")
     private fun handleStudyPlanFetchSuccess(
         state: State,
         message: StudyPlanWidgetFeature.StudyPlanFetchResult.Success
@@ -50,8 +51,8 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         val actions = if (message.studyPlan.status != StudyPlanStatus.READY) {
             setOf(
                 InternalAction.FetchStudyPlan(
-                    delay = StudyPlanFetchInterval * message.tryNumber,
-                    tryNumber = message.tryNumber + 1
+                    delayBeforeFetching = STUDY_PLAN_FETCH_INTERVAL * message.attemptNumber,
+                    attemptNumber = message.attemptNumber + 1
                 )
             )
         } else {

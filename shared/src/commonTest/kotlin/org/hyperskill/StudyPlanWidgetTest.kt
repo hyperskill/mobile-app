@@ -77,8 +77,8 @@ class StudyPlanWidgetTest {
                 StudyPlanWidgetFeature.StudyPlanFetchResult.Success(studyPlan, tryNumber)
             )
             val expectedAction = StudyPlanWidgetFeature.InternalAction.FetchStudyPlan(
-                delay = StudyPlanWidgetFeature.StudyPlanFetchInterval * tryNumber,
-                tryNumber = tryNumber + 1
+                delayBeforeFetching = StudyPlanWidgetFeature.STUDY_PLAN_FETCH_INTERVAL * tryNumber,
+                attemptNumber = tryNumber + 1
             )
             assertContains(actions, expectedAction)
         }
