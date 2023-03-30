@@ -17,6 +17,7 @@ import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewStateMapper
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class StudyPlanWidgetTest {
 
@@ -42,26 +43,90 @@ class StudyPlanWidgetTest {
     fun `Initialize message should trigger studyPLan fetching`() {
         val initialState = StudyPlanWidgetFeature.State()
         val (state, actions) = reducer.reduce(initialState, StudyPlanWidgetFeature.Message.Initialize)
-        assertContains(actions, StudyPlanWidgetFeature.InternalAction.FetchStudyPlan)
+        assertContains(actions, StudyPlanWidgetFeature.InternalAction.FetchStudyPlan())
         assertEquals(state.sectionsStatus, StudyPlanWidgetFeature.ContentStatus.LOADING)
     }
 
     @Test
-    fun `Sections loading is should be triggered after`() {
+    fun `Receiving not ready studyPlan should trigger fetch studyPlan again`() {
+        val initialState = StudyPlanWidgetFeature.State()
+        StudyPlanStatus.values()
+            .asSequence()
+            .filterNot { it == StudyPlanStatus.READY }
+            .forEach { status ->
+                val studyPlan = studyPlanStub(id = 0, status = status)
+                val (_, actions) = reducer.reduce(
+                    initialState,
+                    StudyPlanWidgetFeature.StudyPlanFetchResult.Success(studyPlan, 1)
+                )
+                assertTrue {
+                    actions.any {
+                        it is StudyPlanWidgetFeature.InternalAction.FetchStudyPlan
+                    }
+                }
+            }
+    }
+
+    @Test
+    fun `Receiving not ready studyPlan should trigger fetch studyPlan with delay`() {
+        val initialState = StudyPlanWidgetFeature.State()
+        val studyPlan = studyPlanStub(id = 0, status = StudyPlanStatus.INITING)
+        repeat(5) { tryNumber ->
+            val (_, actions) = reducer.reduce(
+                initialState,
+                StudyPlanWidgetFeature.StudyPlanFetchResult.Success(studyPlan, tryNumber)
+            )
+            val expectedAction = StudyPlanWidgetFeature.InternalAction.FetchStudyPlan(
+                delayBeforeFetching = StudyPlanWidgetFeature.STUDY_PLAN_FETCH_INTERVAL * tryNumber,
+                attemptNumber = tryNumber + 1
+            )
+            assertContains(actions, expectedAction)
+        }
+    }
+
+    @Test
+    fun `Receiving ready studyPlan should stop study plan polling`() {
+        val initialState = StudyPlanWidgetFeature.State()
+        val studyPlan = studyPlanStub(id = 0, status = StudyPlanStatus.READY)
+        val (_, actions) = reducer.reduce(
+            initialState,
+            StudyPlanWidgetFeature.StudyPlanFetchResult.Success(studyPlan, 1)
+        )
+        assertTrue {
+            actions.none {
+                it is StudyPlanWidgetFeature.InternalAction.FetchStudyPlan
+            }
+        }
+    }
+
+    @Test
+    fun `Receiving not ready studyPlan loading state should be shown`() {
+        val initialState = StudyPlanWidgetFeature.State()
+        StudyPlanStatus.values()
+            .asSequence()
+            .filterNot { it == StudyPlanStatus.READY }
+            .forEach { status ->
+                val studyPlan = studyPlanStub(id = 0, status = status)
+                val (state, _) = reducer.reduce(
+                    initialState,
+                    StudyPlanWidgetFeature.StudyPlanFetchResult.Success(studyPlan, 1)
+                )
+                val viewState = studyPlanWidgetViewStateMapper.map(state)
+                assertEquals(StudyPlanWidgetViewState.Loading, viewState)
+            }
+    }
+
+    @Test
+    fun `Receiving ready studyPlan should trigger sections loading`() {
         val expectedSections = listOf(0L, 1L, 2L)
-        val studyPlanStub = StudyPlan(
+        val studyPlanStub = studyPlanStub(
             id = 0,
-            trackId = null,
-            projectId = null,
-            sections = expectedSections,
-            createdAt = "",
-            secondsToReachProject = 0L,
-            secondsToReachTrack = 0L,
-            status = StudyPlanStatus.READY
+            status = StudyPlanStatus.READY,
+            sections = expectedSections
         )
         val initialState = StudyPlanWidgetFeature.State(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING)
         val (state, actions) =
-            reducer.reduce(initialState, StudyPlanWidgetFeature.StudyPlanFetchResult.Success(studyPlanStub))
+            reducer.reduce(initialState, StudyPlanWidgetFeature.StudyPlanFetchResult.Success(studyPlanStub, 1))
         assertContains(actions, StudyPlanWidgetFeature.InternalAction.FetchSections(expectedSections))
         assertEquals(studyPlanStub, state.studyPlan)
         assertEquals(initialState.sectionsStatus, state.sectionsStatus)
@@ -252,6 +317,22 @@ class StudyPlanWidgetTest {
             content = content,
             formattedTopicsCount = null,
             formattedTimeToComplete = null
+        )
+
+    private fun studyPlanStub(
+        id: Long,
+        status: StudyPlanStatus,
+        sections: List<Long> = emptyList()
+    ) =
+        StudyPlan(
+            id = id,
+            trackId = null,
+            projectId = null,
+            sections = sections,
+            status = status,
+            createdAt = "",
+            secondsToReachTrack = 0,
+            secondsToReachProject = 0
         )
 
     private fun studyPlanSectionStub(
