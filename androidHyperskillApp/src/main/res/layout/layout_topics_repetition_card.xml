@@ -62,9 +62,10 @@
             android:gravity="center"
             android:layout_marginTop="17dp"
             android:layout_marginStart="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="12dp"
+            app:layout_goneMarginBottom="20dp"
             app:layout_constraintEnd_toStartOf="@+id/topicsRepetitionCountDescriptionTextView"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/topicsRepetitionFreemiumBadge"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/topicsRepetitionTitleTextView"
             tools:text="4"
@@ -83,6 +84,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="topics to repeat today"
             />
+
+        <TextView
+            android:id="@+id/topicsRepetitionFreemiumBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_repeat_unlimited"
+            style="@style/Badge.Violet"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="20dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

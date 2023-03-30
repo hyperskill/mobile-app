@@ -16,11 +16,13 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.openUrl
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
+import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireMainRouter
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentHomeBinding
 import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.GamificationToolbarDelegate
 import org.hyperskill.app.android.problem_of_day.view.delegate.ProblemOfDayCardFormDelegate
+import org.hyperskill.app.android.problems_limit.fragment.ProblemsLimitFragment
 import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.topics.view.delegate.TopicsToDiscoverNextDelegate
@@ -90,6 +92,7 @@ class HomeFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setProblemsLimitFragment()
         initViewStateDelegate()
         initGamificationToolbarDelegate()
         problemOfDayCardFormDelegate.setup(viewBinding.homeScreenProblemOfDayCard)
@@ -114,10 +117,14 @@ class HomeFragment :
         homeViewModel.onNewMessage(HomeFeature.Message.ViewedEventMessage)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        gamificationToolbarDelegate = null
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         requireActivity().lifecycle.removeObserver(onForegroundObserver)
-        gamificationToolbarDelegate = null
     }
 
     private fun injectComponents() {
@@ -147,7 +154,8 @@ class HomeFragment :
                 viewBinding.homeScreenKeepPracticingTextView,
                 viewBinding.homeScreenProblemOfDayCard.root,
                 viewBinding.homeScreenTopicsRepetitionCard.root,
-                viewBinding.homeScreenKeepLearningInWebButton
+                viewBinding.homeScreenKeepLearningInWebButton,
+                viewBinding.homeProblemsLimit
             )
         }
     }
@@ -201,8 +209,8 @@ class HomeFragment :
         val homeState = state.homeState
         if (homeState is HomeFeature.HomeState.Content) {
             renderMagicLinkState(homeState.isLoadingMagicLink)
-            renderProblemOfDay(viewBinding, homeState.problemOfDayState)
-            renderTopicsRepetition(homeState.repetitionsState)
+            renderProblemOfDay(viewBinding, homeState.problemOfDayState, homeState.isFreemiumEnabled)
+            renderTopicsRepetition(homeState.repetitionsState, homeState.isFreemiumEnabled)
         }
 
         gamificationToolbarDelegate?.render(state.toolbarState)
@@ -219,20 +227,33 @@ class HomeFragment :
         }
     }
 
-    private fun renderProblemOfDay(viewBinding: FragmentHomeBinding, state: HomeFeature.ProblemOfDayState) {
-        problemOfDayCardFormDelegate.render(requireContext(), viewBinding.homeScreenProblemOfDayCard, state)
+    private fun renderProblemOfDay(
+        viewBinding: FragmentHomeBinding,
+        state: HomeFeature.ProblemOfDayState,
+        isFreemiumEnabled: Boolean
+    ) {
+        problemOfDayCardFormDelegate.render(
+            context = requireContext(),
+            binding = viewBinding.homeScreenProblemOfDayCard,
+            state = state,
+            isFreemiumEnabled = isFreemiumEnabled
+        )
         viewBinding.homeScreenKeepLearningInWebButton.isVisible =
             state is HomeFeature.ProblemOfDayState.Solved || state is HomeFeature.ProblemOfDayState.Empty
     }
 
-    private fun renderTopicsRepetition(repetitionsState: HomeFeature.RepetitionsState) {
+    private fun renderTopicsRepetition(
+        repetitionsState: HomeFeature.RepetitionsState,
+        isFreemiumEnabled: Boolean
+    ) {
         viewBinding.homeScreenTopicsRepetitionCard.root.isVisible =
             repetitionsState is HomeFeature.RepetitionsState.Available
         if (repetitionsState is HomeFeature.RepetitionsState.Available) {
             topicsRepetitionDelegate.render(
-                requireContext(),
-                viewBinding.homeScreenTopicsRepetitionCard,
-                repetitionsState.recommendedRepetitionsCount
+                context = requireContext(),
+                binding = viewBinding.homeScreenTopicsRepetitionCard,
+                recommendedRepetitionsCount = repetitionsState.recommendedRepetitionsCount,
+                isFreemiumEnabled = isFreemiumEnabled
             )
         }
     }
@@ -246,5 +267,11 @@ class HomeFragment :
                 state is TopicsToDiscoverNextFeature.State.Loading
         }
         topicsToDiscoverNextDelegate.render(state)
+    }
+
+    private fun setProblemsLimitFragment() {
+        setChildFragment(R.id.homeProblemsLimit, ProblemsLimitFragment.TAG) {
+            ProblemsLimitFragment.newInstance()
+        }
     }
 }
