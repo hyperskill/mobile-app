@@ -1,7 +1,15 @@
 import shared
 import SwiftUI
 
+extension StudyPlanSectionView {
+    struct Appearance {
+        let skeletonHeight: CGFloat = 52
+    }
+}
+
 struct StudyPlanSectionView: View {
+    private(set) var apperance = Appearance()
+
     let section: StudyPlanWidgetViewStateSection
 
     var body: some View {
@@ -13,7 +21,7 @@ struct StudyPlanSectionView: View {
                 EmptyView()
             case .loading:
                 SkeletonRoundedView()
-                    .frame(height: 52)
+                    .frame(height: apperance.skeletonHeight)
             case .content(let content):
                 ForEach(content.sectionItems, id: \.id) { item in
                     StudyPlanSectionItemView(item: item)

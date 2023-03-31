@@ -426,6 +426,7 @@
 		E9F0A2AA29D417C800C4A61E /* StudyPlanSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F0A2A929D417C800C4A61E /* StudyPlanSectionHeaderView.swift */; };
 		E9F0A2AC29D4355B00C4A61E /* StudyPlanSectionItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F0A2AB29D4355B00C4A61E /* StudyPlanSectionItemView.swift */; };
 		E9F0A2AE29D4390400C4A61E /* StudyPlanSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F0A2AD29D4390400C4A61E /* StudyPlanSectionView.swift */; };
+		E9F0A2B029D4428C00C4A61E /* StudyPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F0A2AF29D4428C00C4A61E /* StudyPlanView.swift */; };
 		E9F27D782906447A007F16D7 /* StepQuizHintCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F27D772906447A007F16D7 /* StepQuizHintCardView.swift */; };
 		E9F2CC5329223C0200691540 /* StyledHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F2CC5229223C0200691540 /* StyledHostingController.swift */; };
 		E9F2CC552922694F00691540 /* TopicsRepetitionsChartBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F2CC542922694F00691540 /* TopicsRepetitionsChartBar.swift */; };
@@ -882,6 +883,7 @@
 		E9F0A2A929D417C800C4A61E /* StudyPlanSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanSectionHeaderView.swift; sourceTree = "<group>"; };
 		E9F0A2AB29D4355B00C4A61E /* StudyPlanSectionItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanSectionItemView.swift; sourceTree = "<group>"; };
 		E9F0A2AD29D4390400C4A61E /* StudyPlanSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanSectionView.swift; sourceTree = "<group>"; };
+		E9F0A2AF29D4428C00C4A61E /* StudyPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanView.swift; sourceTree = "<group>"; };
 		E9F27D772906447A007F16D7 /* StepQuizHintCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizHintCardView.swift; sourceTree = "<group>"; };
 		E9F2CC5229223C0200691540 /* StyledHostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyledHostingController.swift; sourceTree = "<group>"; };
 		E9F2CC542922694F00691540 /* TopicsRepetitionsChartBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsRepetitionsChartBar.swift; sourceTree = "<group>"; };
@@ -2672,6 +2674,7 @@
 				E9F0A2AB29D4355B00C4A61E /* StudyPlanSectionItemView.swift */,
 				E9F0A2A929D417C800C4A61E /* StudyPlanSectionHeaderView.swift */,
 				E9F0A2AD29D4390400C4A61E /* StudyPlanSectionView.swift */,
+				E9F0A2AF29D4428C00C4A61E /* StudyPlanView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3202,6 +3205,7 @@
 				2CDA983D294438BB00ADE539 /* TrackTopicsToDiscoverNextSkeletonBlockView.swift in Sources */,
 				2C9F59A729267A530008ADC5 /* StepTextView.swift in Sources */,
 				E951757927E61ACD00995008 /* AuthSocialView.swift in Sources */,
+				E9F0A2B029D4428C00C4A61E /* StudyPlanView.swift in Sources */,
 				2C9EB9582861BA57007DDE44 /* TrackView.swift in Sources */,
 				2CDBE6F528C10DCE00033679 /* NotificationPermissionStatusSettingsObserver.swift in Sources */,
 				2C5B2A21286596030097B270 /* Reusable.swift in Sources */,
