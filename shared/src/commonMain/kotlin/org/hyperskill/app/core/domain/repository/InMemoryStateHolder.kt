@@ -8,8 +8,8 @@ class InMemoryStateHolder<State : Any> : StateHolder<State> {
 
     override fun getState(): State? = state
 
-    override fun setState(state: State) {
-        this.state = state
+    override fun setState(newState: State) {
+        this.state = newState
     }
 
     override fun resetState() {
