@@ -50,8 +50,18 @@ class AppActionDispatcher(
 
                 sentryInteractor.addBreadcrumb(HyperskillSentryBreadcrumbBuilder.buildAppDetermineUserAccountStatus())
 
-                profileInteractor
-                    .getCurrentProfile(sourceType = DataSourceType.REMOTE)
+                val isAuthorized = authInteractor.isAuthorized()
+                    .getOrDefault(false)
+
+                val profileResult = if (isAuthorized) {
+                    profileInteractor
+                        .getCurrentProfile(sourceType = DataSourceType.CACHE)
+                        .onFailure { profileInteractor.getCurrentProfile(sourceType = DataSourceType.REMOTE) }
+                } else {
+                    profileInteractor.getCurrentProfile(sourceType = DataSourceType.REMOTE)
+                }
+
+                profileResult
                     .fold(
                         onSuccess = { profile ->
                             sentryInteractor.addBreadcrumb(
