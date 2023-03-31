@@ -40,15 +40,16 @@ abstract class BaseStateRepository<State : Any> : StateRepository<State> {
     protected abstract suspend fun loadState(): Result<State>
 
     /**
-     * Load state if needed and return in-memory value
+     * Load state if needed and return new or old value
      *
-     * @return result of state loading or in-memory value
+     * @param forceUpdate force loading of state
+     * @return current state
      */
-    override suspend fun getState(): Result<State> =
+    override suspend fun getState(forceUpdate: Boolean): Result<State> =
         mutex.withLock {
             val currentState = stateHolder.getState()
 
-            if (currentState != null) {
+            if (currentState != null && !forceUpdate) {
                 return Result.success(currentState)
             }
 

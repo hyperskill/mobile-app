@@ -6,9 +6,10 @@ interface StateRepository<State : Any> {
     /**
      * Load state if needed and return new or old value
      *
+     * @param forceUpdate force loading of state
      * @return current state
      */
-    suspend fun getState(): Result<State>
+    suspend fun getState(forceUpdate: Boolean = false): Result<State>
 
     /**
      * Flow of state changes

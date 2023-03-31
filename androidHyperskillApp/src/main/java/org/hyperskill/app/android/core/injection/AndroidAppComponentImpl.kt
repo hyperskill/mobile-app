@@ -30,6 +30,8 @@ import org.hyperskill.app.comments.injection.CommentsDataComponentImpl
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.injection.CommonComponent
 import org.hyperskill.app.core.injection.CommonComponentImpl
+import org.hyperskill.app.core.injection.StateRepositoriesComponent
+import org.hyperskill.app.core.injection.StateRepositoriesComponentImpl
 import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.debug.injection.DebugComponentImpl
@@ -134,8 +136,6 @@ import org.hyperskill.app.streaks.injection.StreaksDataComponent
 import org.hyperskill.app.streaks.injection.StreaksDataComponentImpl
 import org.hyperskill.app.study_plan.injection.StudyPlanDataComponent
 import org.hyperskill.app.study_plan.injection.StudyPlanDataComponentImpl
-import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponent
-import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponentImpl
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.PlatformTopicsRepetitionComponent
@@ -207,8 +207,8 @@ class AndroidAppComponentImpl(
     override val notificationFlowDataComponent: NotificationFlowDataComponent =
         NotificationFlowDataComponentImpl()
 
-    override val subscriptionsDataComponent: SubscriptionsDataComponent =
-        SubscriptionsDataComponentImpl(this)
+    override val stateRepositoriesComponent: StateRepositoriesComponent =
+        StateRepositoriesComponentImpl(this)
 
     override val sentryComponent: SentryComponent =
         SentryComponentImpl(SentryManagerImpl(commonComponent.buildKonfig))
