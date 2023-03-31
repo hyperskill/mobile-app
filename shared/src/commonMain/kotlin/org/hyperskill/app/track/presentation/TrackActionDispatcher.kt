@@ -4,7 +4,6 @@ import kotlinx.coroutines.async
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
-import org.hyperskill.app.core.injection.StateRepositoriesComponent
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
@@ -23,7 +22,6 @@ class TrackActionDispatcher(
     private val studyPlanInteractor: StudyPlanInteractor,
     private val profileInteractor: ProfileInteractor,
     private val progressesInteractor: ProgressesInteractor,
-    private val stateRepositoriesComponent: StateRepositoriesComponent,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val urlPathProcessor: UrlPathProcessor
@@ -63,8 +61,6 @@ class TrackActionDispatcher(
 
                 onNewMessage(Message.TrackSuccess(track, trackProgress, studyPlan))
             }
-            is Action.ResetStateRepositories ->
-                stateRepositoriesComponent.resetRepositories()
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
             is Action.GetMagicLink ->

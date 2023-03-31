@@ -1,7 +1,6 @@
 package org.hyperskill.app.home.injection
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
-import org.hyperskill.app.core.injection.StateRepositoriesComponent
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.core.view.mapper.DateFormatter
@@ -38,7 +37,6 @@ object HomeFeatureBuilder {
         freemiumInteractor: FreemiumInteractor,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
-        stateRepositoriesComponent: StateRepositoriesComponent,
         urlPathProcessor: UrlPathProcessor,
         dateFormatter: DateFormatter,
         topicRepeatedFlow: TopicRepeatedFlow,
@@ -57,7 +55,6 @@ object HomeFeatureBuilder {
             freemiumInteractor,
             analyticInteractor,
             sentryInteractor,
-            stateRepositoriesComponent,
             urlPathProcessor,
             dateFormatter,
             topicRepeatedFlow

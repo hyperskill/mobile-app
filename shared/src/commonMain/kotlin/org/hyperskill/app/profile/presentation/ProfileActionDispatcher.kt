@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
-import org.hyperskill.app.core.injection.StateRepositoriesComponent
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.notification.domain.flow.DailyStudyRemindersEnabledFlow
@@ -31,7 +30,6 @@ class ProfileActionDispatcher(
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val notificationInteractor: NotificationInteractor,
-    private val stateRepositoriesComponent: StateRepositoriesComponent,
     private val urlPathProcessor: UrlPathProcessor,
     private val streakFlow: StreakFlow,
     dailyStudyRemindersEnabledFlow: DailyStudyRemindersEnabledFlow
@@ -99,8 +97,6 @@ class ProfileActionDispatcher(
                     )
                 )
             }
-            is Action.ResetStateRepositories ->
-                stateRepositoriesComponent.resetRepositories()
             is Action.BuyStreakFreeze -> {
                 productsInteractor.buyStreakFreeze(action.streakFreezeProductId)
                     .getOrElse {

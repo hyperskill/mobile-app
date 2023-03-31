@@ -27,7 +27,6 @@ class HomeComponentImpl(private val appGraph: AppGraph) : HomeComponent {
             appGraph.buildFreemiumDataComponent().freemiumInteractor,
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor,
-            appGraph.stateRepositoriesComponent,
             appGraph.buildMagicLinksDataComponent().urlPathProcessor,
             appGraph.commonComponent.dateFormatter,
             appGraph.topicsRepetitionsFlowDataComponent.topicRepeatedFlow,

@@ -5,7 +5,6 @@ import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.core.domain.DataSourceType
-import org.hyperskill.app.core.injection.StateRepositoriesComponent
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.main.domain.interactor.AppInteractor
 import org.hyperskill.app.main.presentation.AppFeature.Action
@@ -21,8 +20,7 @@ class AppActionDispatcher(
     private val appInteractor: AppInteractor,
     private val authInteractor: AuthInteractor,
     private val profileInteractor: ProfileInteractor,
-    private val sentryInteractor: SentryInteractor,
-    private val stateRepositoriesComponent: StateRepositoriesComponent
+    private val sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
         authInteractor
@@ -71,8 +69,6 @@ class AppActionDispatcher(
                         }
                     )
             }
-            is Action.ResetStateRepositories ->
-                stateRepositoriesComponent.resetRepositories()
             is Action.IdentifyUserInSentry ->
                 sentryInteractor.setUsedId(action.userId)
             is Action.ClearUserInSentry ->

@@ -19,13 +19,10 @@ interface AppFeature {
         object UserAccountStatusError : Message
         object OpenAuthScreen : Message
         object OpenNewUserScreen : Message
-        object AppLaunchedFromBackground : Message
     }
 
     sealed interface Action {
         object DetermineUserAccountStatus : Action
-
-        object ResetStateRepositories : Action
 
         /**
          * Sentry

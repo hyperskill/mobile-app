@@ -1,7 +1,5 @@
 package org.hyperskill.app.home.presentation
 
-import kotlin.time.DurationUnit
-import kotlin.time.toDuration
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
@@ -18,7 +16,6 @@ import kotlinx.datetime.toLocalDateTime
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
-import org.hyperskill.app.core.injection.StateRepositoriesComponent
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.DateFormatter
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
@@ -33,6 +30,8 @@ import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.topics_repetitions.domain.flow.TopicRepeatedFlow
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 class HomeActionDispatcher(
     config: ActionDispatcherOptions,
@@ -43,7 +42,6 @@ class HomeActionDispatcher(
     private val freemiumInteractor: FreemiumInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
-    private val stateRepositoriesComponent: StateRepositoriesComponent,
     private val urlPathProcessor: UrlPathProcessor,
     private val dateFormatter: DateFormatter,
     topicRepeatedFlow: TopicRepeatedFlow
@@ -133,8 +131,6 @@ class HomeActionDispatcher(
                     }
                     .launchIn(actionScope)
             }
-            is Action.ResetStateRepositories ->
-                stateRepositoriesComponent.resetRepositories()
             is Action.GetMagicLink ->
                 getLink(action.path, ::onNewMessage)
             is Action.LogAnalyticEvent ->

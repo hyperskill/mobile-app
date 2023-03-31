@@ -72,10 +72,6 @@ class MainActivity :
         )
     }
 
-    private val backToForegroundObserver = BackToForegroundObserver {
-        mainViewModelProvider.onNewMessage(AppFeature.Message.AppLaunchedFromBackground)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
 
@@ -110,8 +106,6 @@ class MainActivity :
         }
 
         AppCompatDelegate.setDefaultNightMode(ThemeMapper.getAppCompatDelegate(profileSettings.theme))
-
-        lifecycle.addObserver(backToForegroundObserver)
 
         handleNewIntent(intent)
         logNotificationAvailability()

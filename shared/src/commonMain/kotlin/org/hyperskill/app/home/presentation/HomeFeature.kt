@@ -132,7 +132,6 @@ interface HomeFeature {
     sealed interface Action {
         object FetchHomeScreenData : Action
         object LaunchTimer : Action
-        object ResetStateRepositories : Action
 
         data class GetMagicLink(val path: HyperskillUrlPath) : Action
 

@@ -1,7 +1,6 @@
 package org.hyperskill.app.profile.injection
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
-import org.hyperskill.app.core.injection.StateRepositoriesComponent
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.notification.domain.flow.DailyStudyRemindersEnabledFlow
@@ -28,7 +27,6 @@ object ProfileFeatureBuilder {
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
         notificationInteractor: NotificationInteractor,
-        stateRepositoriesComponent: StateRepositoriesComponent,
         urlPathProcessor: UrlPathProcessor,
         streakFlow: StreakFlow,
         dailyStudyRemindersEnabledFlow: DailyStudyRemindersEnabledFlow
@@ -42,7 +40,6 @@ object ProfileFeatureBuilder {
             analyticInteractor,
             sentryInteractor,
             notificationInteractor,
-            stateRepositoriesComponent,
             urlPathProcessor,
             streakFlow,
             dailyStudyRemindersEnabledFlow
