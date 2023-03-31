@@ -38,7 +38,9 @@ class ProblemsLimitActionDispatcher(
                     }
 
                 onNewMessage(
-                    currentSubscriptionStateRepository.getState()
+                    // TODO: use force update from reducer Initialize message
+                    //  after refactoring of feature integration
+                    currentSubscriptionStateRepository.getState(forceUpdate = true)
                         .fold(
                             onSuccess = {
                                 Message.SubscriptionLoadingResult.Success(
