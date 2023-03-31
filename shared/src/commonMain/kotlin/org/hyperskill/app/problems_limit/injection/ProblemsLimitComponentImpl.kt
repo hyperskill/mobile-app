@@ -7,7 +7,7 @@ import ru.nobird.app.presentation.redux.feature.Feature
 class ProblemsLimitComponentImpl(private val appGraph: AppGraph) : ProblemsLimitComponent {
     override val problemsLimitFeature: Feature<ProblemsLimitFeature.ViewState, ProblemsLimitFeature.Message, ProblemsLimitFeature.Action>
         get() = ProblemsLimitFeatureBuilder.build(
-            appGraph.buildProfileDataComponent().profileInteractor,
+            appGraph.buildFreemiumDataComponent().freemiumInteractor,
             appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
             appGraph.commonComponent.resourceProvider,
             appGraph.commonComponent.dateFormatter

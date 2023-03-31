@@ -27,6 +27,7 @@ struct TrackAboutBlockView: View {
                 .font(.title3)
                 .foregroundColor(.primaryText)
                 .bold()
+                .frame(maxWidth: .infinity, alignment: .leading)
 
             TrackAboutStatsView(
                 rating: rating,

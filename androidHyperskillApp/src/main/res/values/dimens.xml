@@ -89,4 +89,6 @@
     <!--New user screen-->
     <dimen name="track_items_vertical_margin">8dp</dimen>
 
+    <dimen name="problems_limit_diver_margin">20dp</dimen>
+
 </resources>

@@ -29,6 +29,7 @@ object StepQuizViewStateDelegateFactory {
                     descriptionBinding.stepQuizDescription,
                     fragmentStepQuizBinding.stepQuizButtons.stepQuizSubmitButton,
                     fragmentStepQuizBinding.stepQuizStatistics,
+                    fragmentStepQuizBinding.stepQuizProblemsLimit,
                     *quizViews
                 )
                 addState<StepQuizFeature.State.NetworkError>(fragmentStepQuizBinding.stepQuizNetworkError.root)

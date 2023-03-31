@@ -23,13 +23,13 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v3.5.0
 
       - name: Setup CI
         uses: ./.github/actions/setup-android
 
       - name: Setup Pages
-        uses: actions/configure-pages@v3.0.4
+        uses: actions/configure-pages@v3.0.5
 
       - name: Build Documentation
         run: ./gradlew dokkaAnalytics
@@ -38,7 +38,7 @@ jobs:
           GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Artifact
-        uses: actions/upload-pages-artifact@v1.0.7
+        uses: actions/upload-pages-artifact@v1.0.8
         with:
           name: 'github-pages-analytics'
           path: 'shared/build/dokka/analytics'
@@ -55,6 +55,6 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1.2.4
+        uses: actions/deploy-pages@v2.0.0
         with:
           artifact_name: 'github-pages-analytics'

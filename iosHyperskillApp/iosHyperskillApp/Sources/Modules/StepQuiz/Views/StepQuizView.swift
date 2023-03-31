@@ -125,6 +125,13 @@ struct StepQuizView: View {
                 if let formattedStats {
                     StepQuizStatsView(text: formattedStats)
                 }
+
+                if viewModel.stepRoute is StepRouteLearn {
+                    ProblemsLimitAssembly(
+                        appearance: .init(showTopDivider: true)
+                    ).makeModule()
+                }
+
                 buildQuizStatusView(state: state, attemptLoadedState: attemptLoadedState)
 
                 if let feedbackHintText {
@@ -257,7 +264,7 @@ struct StepQuizView: View {
                 break
             }
         case .showProblemsLimitReachedModal:
-            #warning("TODO: implement showing problems limit reached modal")
+            presentProblemsLimitReachedModal()
         case .showProblemOfDaySolvedModal(let showProblemOfDaySolvedModalViewAction):
             presentDailyStepCompletedModal(earnedGemsText: showProblemOfDaySolvedModalViewAction.earnedGemsText)
         case .navigateTo(let viewActionNavigateTo):
@@ -265,7 +272,8 @@ struct StepQuizView: View {
             case .back:
                 stackRouter.popViewController()
             case .home:
-                #warning("TODO: implement navigation to home")
+                stackRouter.popViewController()
+                TabBarRouter(tab: .home).route()
             }
         }
     }
@@ -346,6 +354,14 @@ extension StepQuizView {
         panModal.onDisappear = { [weak viewModel] in
             viewModel?.logDailyStepCompletedModalHiddenEvent()
         }
+
+        panModalPresenter.presentPanModal(panModal)
+    }
+
+    private func presentProblemsLimitReachedModal() {
+        let panModal = ProblemsLimitReachedModalViewController(
+            delegate: viewModel
+        )
 
         panModalPresenter.presentPanModal(panModal)
     }

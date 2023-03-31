@@ -21,10 +21,23 @@ abstract class BaseStateRepository<State : Any> : StateRepository<State> {
 
     private val mutableSharedFlow = MutableSharedFlow<State>()
 
-    protected abstract suspend fun loadState(): Result<State>
-
     protected open val stateHolder: StateHolder<State> =
         InMemoryStateHolder()
+
+    /**
+     * Flow of state changes
+     *
+     * @return shared flow
+     */
+    override val changes: SharedFlow<State>
+        get() = mutableSharedFlow
+
+    /**
+     * Load state from some source
+     *
+     * @return result of state loading
+     */
+    protected abstract suspend fun loadState(): Result<State>
 
     /**
      * Load state if needed and return new or old value
@@ -42,14 +55,6 @@ abstract class BaseStateRepository<State : Any> : StateRepository<State> {
 
             return loadAndAssignState()
         }
-
-    /**
-     * Flow of state changes
-     *
-     * @return shared flow
-     */
-    override val changes: SharedFlow<State>
-        get() = mutableSharedFlow
 
     /**
      * Update state locally in app
@@ -76,7 +81,6 @@ abstract class BaseStateRepository<State : Any> : StateRepository<State> {
     /**
      * Reset current local state
      * next call of getState will load it
-     *
      */
     override suspend fun resetState() {
         stateHolder.resetState()
