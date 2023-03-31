@@ -1,5 +1,7 @@
 package org.hyperskill.app.home.presentation
 
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
@@ -30,8 +32,6 @@ import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.topics_repetitions.domain.flow.TopicRepeatedFlow
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
-import kotlin.time.DurationUnit
-import kotlin.time.toDuration
 
 class HomeActionDispatcher(
     config: ActionDispatcherOptions,
