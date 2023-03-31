@@ -1,2 +1,3 @@
 What to Test:
-1. Daily limits for learners with Freemium ALTAPPS-668
+1. Optimize determine user account on application launch ALTAPPS-532
+2. Daily limits for learners with Freemium ALTAPPS-668
