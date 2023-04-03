@@ -23,4 +23,6 @@ interface ProgressesRepository {
         kotlin.runCatching {
             getProjectsProgresses(listOf(projectId), force).getOrThrow().first()
         }
+
+    fun clear()
 }

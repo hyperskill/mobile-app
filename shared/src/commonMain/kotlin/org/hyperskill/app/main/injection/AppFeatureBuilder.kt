@@ -1,7 +1,7 @@
 package org.hyperskill.app.main.injection
 
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
-import org.hyperskill.app.core.injection.StateRepositoriesComponent
+import org.hyperskill.app.core.injection.SingletonRepositoriesComponent
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.main.domain.interactor.AppInteractor
 import org.hyperskill.app.main.presentation.AppActionDispatcher
@@ -21,7 +21,7 @@ object AppFeatureBuilder {
         authInteractor: AuthInteractor,
         profileInteractor: ProfileInteractor,
         sentryInteractor: SentryInteractor,
-        stateRepositoriesComponent: StateRepositoriesComponent
+        singletonRepositoriesComponent: SingletonRepositoriesComponent
     ): Feature<State, Message, Action> {
         val appReducer = AppReducer()
         val appActionDispatcher = AppActionDispatcher(
@@ -30,7 +30,7 @@ object AppFeatureBuilder {
             authInteractor,
             profileInteractor,
             sentryInteractor,
-            stateRepositoriesComponent
+            singletonRepositoriesComponent
         )
 
         return ReduxFeature(State.Idle, appReducer)

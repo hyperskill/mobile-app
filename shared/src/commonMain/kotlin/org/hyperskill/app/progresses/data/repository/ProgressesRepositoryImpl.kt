@@ -44,4 +44,9 @@ class ProgressesRepositoryImpl(
 
     override suspend fun getProjectsProgresses(projectsIds: List<Long>, force: Boolean): Result<List<ProjectProgress>> =
         projectProgressCacheProxy.getValues(projectsIds, force)
+
+    override fun clear() {
+        trackProgressCacheProxy.clear()
+        projectProgressCacheProxy.clear()
+    }
 }

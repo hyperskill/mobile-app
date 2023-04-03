@@ -70,7 +70,7 @@ interface AppGraph {
     val stepCompletionFlowDataComponent: StepCompletionFlowDataComponent
     val progressesFlowDataComponent: ProgressesFlowDataComponent
     val notificationFlowDataComponent: NotificationFlowDataComponent
-    val stateRepositoriesComponent: StateRepositoriesComponent
+    val singletonRepositoriesComponent: SingletonRepositoriesComponent
 
     /**
      * Auth components
