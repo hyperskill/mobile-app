@@ -1,5 +1,6 @@
 package org.hyperskill.app.study_plan.widget.presentation
 
+import kotlinx.coroutines.delay
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.study_plan.domain.interactor.StudyPlanInteractor
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Action
@@ -15,10 +16,13 @@ class StudyPlanWidgetActionDispatcher(
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            InternalAction.FetchStudyPlan -> {
+            is InternalAction.FetchStudyPlan -> {
+                if (action.delayBeforeFetching != null) {
+                    delay(action.delayBeforeFetching)
+                }
                 studyPlanInteractor.getCurrentStudyPlan()
                     .onSuccess { studyPlan ->
-                        onNewMessage(StudyPlanWidgetFeature.StudyPlanFetchResult.Success(studyPlan))
+                        onNewMessage(StudyPlanWidgetFeature.StudyPlanFetchResult.Success(studyPlan, action.attemptNumber))
                     }
                     .onFailure {
                         onNewMessage(StudyPlanWidgetFeature.StudyPlanFetchResult.Failed)
