@@ -3,13 +3,9 @@ import SwiftUI
 
 extension StudyPlanView {
     struct Appearance {
-        let spacingBetweenContainers = LayoutInsets.largeInset
-        let spacingBetweenRelativeItems = LayoutInsets.defaultInset
-
-        let progressBlockSpacing = LayoutInsets.smallInset
-        let progressBlockTitleInsets = LayoutInsets(bottom: LayoutInsets.smallInset)
-
         let backgroundColor = Color(ColorPalette.background)
+
+        let subheadlineBottomPadding: CGFloat = 12
     }
 }
 
@@ -68,11 +64,12 @@ struct StudyPlanView: View {
             )
         case .content(let data):
             ScrollView(showsIndicators: false) {
-                VStack(alignment: .leading, spacing: LayoutInsets.largeInset) {
+                VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
                     if let trackTitle = viewModel.state.trackTitle {
                         Text(trackTitle)
                             .font(.subheadline)
                             .foregroundColor(.secondaryText)
+                            .padding(.bottom, appearance.subheadlineBottomPadding)
                     }
 
                     ProblemsLimitAssembly().makeModule()

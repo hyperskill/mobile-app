@@ -16,7 +16,7 @@ struct PlaceholderView: View {
                 }
 
                 if let title = configuration.title,
-                   case let text = title.text.trimmed(),
+                   let text = title.text.trimmed(),
                    !text.isEmpty {
                     Text(text)
                         .font(title.font)
@@ -24,7 +24,7 @@ struct PlaceholderView: View {
                 }
 
                 if let button = configuration.button,
-                   case let text = button.text.trimmed(),
+                   let text = button.text.trimmed(),
                    !text.isEmpty {
                     Button(text, action: button.action)
                         .buttonStyle(button.style)
