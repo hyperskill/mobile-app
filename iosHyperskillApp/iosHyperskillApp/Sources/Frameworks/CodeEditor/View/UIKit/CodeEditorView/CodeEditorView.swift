@@ -162,23 +162,24 @@ final class CodeEditorView: UIView {
         )
     }
 
+    #warning("ALTAPPS-673: Code completion temporarily disabled")
     private func analyzeCodeAndComplete() {
-        guard let language = language,
-              let viewController = delegate?.codeEditorViewDidRequestSuggestionPresentationController(self)
-        else {
-            return
-        }
-
-        codePlaygroundManager.analyzeAndComplete(
-            textView: codeTextView,
-            previousText: oldCode ?? "",
-            language: language,
-            tabSize: tabSize,
-            inViewController: viewController,
-            suggestionsDelegate: self
-        )
-
-        oldCode = code
+//        guard let language = language,
+//              let viewController = delegate?.codeEditorViewDidRequestSuggestionPresentationController(self)
+//        else {
+//            return
+//        }
+//
+//        codePlaygroundManager.analyzeAndComplete(
+//            textView: codeTextView,
+//            previousText: oldCode ?? "",
+//            language: language,
+//            tabSize: tabSize,
+//            inViewController: viewController,
+//            suggestionsDelegate: self
+//        )
+//
+//        oldCode = code
     }
 }
 

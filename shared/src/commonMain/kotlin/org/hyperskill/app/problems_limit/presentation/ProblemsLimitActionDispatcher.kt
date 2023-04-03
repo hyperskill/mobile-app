@@ -5,17 +5,16 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.core.presentation.Timer
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.Action
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.Message
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
-import org.hyperskill.app.profile.domain.model.isFreemiumFeatureEnabled
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class ProblemsLimitActionDispatcher(
     config: ActionDispatcherOptions,
-    private val profileInteractor: ProfileInteractor,
+    private val freemiumInteractor: FreemiumInteractor,
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
@@ -32,18 +31,21 @@ class ProblemsLimitActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.LoadSubscription -> {
-                val currentProfile = profileInteractor.getCurrentProfile()
+                val isFreemiumEnabled = freemiumInteractor
+                    .isFreemiumEnabled()
                     .getOrElse {
                         return onNewMessage(Message.SubscriptionLoadingResult.Error)
                     }
 
                 onNewMessage(
-                    currentSubscriptionStateRepository.getState()
+                    // TODO: use force update from reducer Initialize message
+                    //  after refactoring of feature integration
+                    currentSubscriptionStateRepository.getState(forceUpdate = true)
                         .fold(
                             onSuccess = {
                                 Message.SubscriptionLoadingResult.Success(
                                     subscription = it,
-                                    isFreemiumFeatureEnabled = currentProfile.isFreemiumFeatureEnabled
+                                    isFreemiumEnabled = isFreemiumEnabled
                                 )
                             },
                             onFailure = { Message.SubscriptionLoadingResult.Error }

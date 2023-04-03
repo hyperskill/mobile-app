@@ -30,6 +30,8 @@ import org.hyperskill.app.comments.injection.CommentsDataComponentImpl
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.injection.CommonComponent
 import org.hyperskill.app.core.injection.CommonComponentImpl
+import org.hyperskill.app.core.injection.StateRepositoriesComponent
+import org.hyperskill.app.core.injection.StateRepositoriesComponentImpl
 import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.debug.injection.DebugComponentImpl
@@ -73,6 +75,8 @@ import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserCompo
 import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponentImpl
 import org.hyperskill.app.placeholder_new_user.injection.PlatformPlaceholderNewUserComponent
 import org.hyperskill.app.placeholder_new_user.injection.PlatformPlaceholderNewUserComponentImpl
+import org.hyperskill.app.problems_limit.injection.PlatformProblemsLimitComponent
+import org.hyperskill.app.problems_limit.injection.PlatformProblemsLimitComponentImpl
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponentImpl
 import org.hyperskill.app.products.injection.ProductsDataComponent
@@ -211,8 +215,8 @@ class AndroidAppComponentImpl(
     override val notificationFlowDataComponent: NotificationFlowDataComponent =
         NotificationFlowDataComponentImpl()
 
-    override val subscriptionsDataComponent: SubscriptionsDataComponent =
-        SubscriptionsDataComponentImpl(this)
+    override val stateRepositoriesComponent: StateRepositoriesComponent =
+        StateRepositoriesComponentImpl(this)
 
     override val sentryComponent: SentryComponent =
         SentryComponentImpl(SentryManagerImpl(commonComponent.buildKonfig))
@@ -437,6 +441,15 @@ class AndroidAppComponentImpl(
     override fun buildStudyPlanDataComponent(): StudyPlanDataComponent =
         StudyPlanDataComponentImpl(this)
 
+    /**
+     * ProblemsLimit component
+     */
+    override fun buildProblemsLimitComponent(): ProblemsLimitComponent =
+        ProblemsLimitComponentImpl(this)
+
+    override fun buildPlatformProblemsLimitComponent(): PlatformProblemsLimitComponent =
+        PlatformProblemsLimitComponentImpl(problemsLimitComponent = buildProblemsLimitComponent())
+
     override fun buildUserStorageComponent(): UserStorageComponent =
         UserStorageComponentImpl(this)
 
@@ -484,7 +497,4 @@ class AndroidAppComponentImpl(
 
     override fun buildFreemiumDataComponent(): FreemiumDataComponent =
         FreemiumDataComponentImpl(this)
-
-    override fun buildProblemsLimitComponent(): ProblemsLimitComponent =
-        ProblemsLimitComponentImpl(this)
 }

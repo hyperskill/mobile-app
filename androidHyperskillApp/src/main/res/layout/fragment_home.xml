@@ -42,6 +42,14 @@
                 android:layout_marginHorizontal="20dp"
                 />
 
+            <FrameLayout
+                android:id="@+id/homeProblemsLimit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="20dp"
+                />
+
             <include
                 android:id="@+id/homeScreenProblemOfDayCard"
                 layout="@layout/layout_problem_of_the_day_card"

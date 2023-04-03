@@ -160,6 +160,7 @@
     <string name="home_keep_practicing_text">Keep practicing to achieve your learning goal</string>
     <string name="home_topics_to_discover_next_title">Discover next topic in your track</string>
     <string name="home_solve_unlimited">Solve unlimited</string>
+    <string name="home_repeat_unlimited">Repeat unlimited</string>
 
     <!-- Track -->
     <string name="track_title">Track</string>
@@ -362,11 +363,11 @@
 
     <!--  Problems limit reached modal  -->
     <string name="problems_limit_reached_modal_title">You\'ve reached your daily limit</string>
-    <string name="problems_limit_reached_modal_text">You\'ve solved 5 problems today. Great job! Tomorrow new problems will be available to you.</string>
+    <string name="problems_limit_reached_modal_description">You\'ve solved 5 problems today. Great job! Tomorrow new problems will be available to you.</string>
 
     <!--  Problems limit widget  -->
     <string name="problems_limit_widget_problems_limit">%d/%d problems limit</string>
-    <string name="problems_limit_widget_update_in">Update in</string>
+    <string name="problems_limit_widget_update_in">Update in %s</string>
 
     <!--Study plan-->
     <string name="study_plan_title">Study plan</string>

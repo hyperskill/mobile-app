@@ -153,8 +153,8 @@ class AppGraphImpl(
     override val notificationFlowDataComponent: NotificationFlowDataComponent =
         NotificationFlowDataComponentImpl()
 
-    override val subscriptionsDataComponent: SubscriptionsDataComponent =
-        SubscriptionsDataComponentImpl(this)
+    override val stateRepositoriesComponent: StateRepositoriesComponent =
+        StateRepositoriesComponentImpl(this)
 
     override val sentryComponent: SentryComponent =
         SentryComponentImpl(sentryManager)
