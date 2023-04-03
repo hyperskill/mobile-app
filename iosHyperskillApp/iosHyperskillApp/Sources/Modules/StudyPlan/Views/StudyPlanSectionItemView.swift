@@ -168,7 +168,7 @@ extension StudyPlanWidgetViewStateSectionItem {
     ) -> StudyPlanWidgetViewStateSectionItem {
         StudyPlanWidgetViewStateSectionItem(
             id: 123_412_341_234,
-            title: "Compare this snippet from shared/src/commonMain/kotlin/org/hyperskill/app/study_plan/widget/view/StudyPlanWidgetViewStateMapper.kt:",
+            title: "title",
             state: state,
             progress: 50,
             formattedProgress: "50%"
