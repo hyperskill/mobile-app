@@ -28,7 +28,7 @@ struct StudyPlanView: View {
 
             buildBody()
         }
-        .navigationTitle(Strings.Track.title)
+        .navigationTitle(Strings.StudyPlan.title)
         .navigationViewStyle(StackNavigationViewStyle())
         .toolbar {
             GamificationToolbarContent(
@@ -51,87 +51,39 @@ struct StudyPlanView: View {
 
     @ViewBuilder
     private func buildBody() -> some View {
-        switch viewModel.trackStateKs {
+        switch viewModel.studyPlanWidgetStateKs {
         case .idle:
             TrackSkeletonView()
                 .onAppear {
-                    viewModel.doLoadTrack()
+                    viewModel.doLoadStudyPlan()
                 }
         case .loading:
             TrackSkeletonView()
-        case .networkError:
+        case .error:
             PlaceholderView(
-                configuration: .networkError(backgroundColor: appearance.backgroundColor) {
-                    viewModel.doLoadTrack(forceUpdate: true)
-                }
+                configuration: .networkError(
+                    backgroundColor: appearance.backgroundColor,
+                    action: viewModel.doRetryContentLoading
+                )
             )
         case .content(let data):
-            if data.isLoadingMagicLink {
-                let _ = ProgressHUD.show()
-            }
-
-            let viewData = viewModel.makeViewData(
-                track: data.track,
-                trackProgress: data.trackProgress,
-                studyPlan: data.studyPlan
-            )
-
             ScrollView {
-                VStack(spacing: appearance.spacingBetweenContainers) {
-                    TrackHeaderView(
-                        avatarSource: viewData.coverSource,
-                        title: viewData.name,
-                        subtitle: viewData.learningRole
-                    )
-
-                    if !viewModel.topicsToDiscoverNextStateKs.isEmpty {
-                        TrackTopicsToDiscoverNextBlockView(
-                            appearance: .init(spacing: appearance.spacingBetweenRelativeItems),
-                            state: viewModel.topicsToDiscoverNextStateKs,
-                            onTopicTapped: viewModel.doTheoryTopicPresentation(topicID:),
-                            onErrorButtonTapped: viewModel.doReloadTopicsToDiscoverNext
-                        )
-                    }
-
-                    TrackProgressBlockView(
-                        appearance: .init(
-                            titleInsets: appearance.progressBlockTitleInsets,
-                            spacing: appearance.progressBlockSpacing
-                        ),
-                        timeToComplete: viewData.currentTimeToCompleteText,
-                        completedGraduateProjects: viewData.completedGraduateProjectsCountText,
-                        completedTopics: viewData.completedTopicsText,
-                        completedTopicsProgress: viewData.completedTopicsProgress,
-                        capstoneTopics: viewData.capstoneTopicsText,
-                        capstoneTopicsProgress: viewData.capstoneTopicsProgress
-                    )
-
-                    TrackAboutBlockView(
-                        appearance: .init(spacing: appearance.spacingBetweenRelativeItems),
-                        rating: viewData.ratingText,
-                        timeToComplete: viewData.allTimeToCompleteText,
-                        projectsCount: viewData.projectsCountText,
-                        topicsCount: viewData.topicsCountText,
-                        description: viewData.description,
-                        buttonText: viewData.webActionButtonText,
-                        onButtonTapped: viewModel.doStudyPlanInWebPresentation
-                    )
+                if let trackTitle = viewModel.state.trackTitle {
+                    Text(trackTitle)
+                        .font(.subheadline)
+                        .foregroundColor(.secondaryText)
                 }
-                .padding(.vertical)
-                .pullToRefresh(
-                    isShowing: Binding(
-                        get: { viewModel.state.isRefreshing },
-                        set: { _ in }
-                    ),
-                    onRefresh: viewModel.doPullToRefresh
-                )
+
+                ForEach(data.sections, id: \.id) { section in
+                    StudyPlanSectionView(section: section)
+                }
             }
             .frame(maxWidth: .infinity)
         }
     }
 
-    private func handleViewAction(_ viewAction: StudyPlanActionViewAction) {
-
+    private func handleViewAction(_ viewAction: StudyPlanScreenFeatureActionViewAction) {
+        print("View action")
     }
 }
 
