@@ -68,17 +68,22 @@ struct StudyPlanView: View {
             )
         case .content(let data):
             ScrollView {
-                if let trackTitle = viewModel.state.trackTitle {
-                    Text(trackTitle)
-                        .font(.subheadline)
-                        .foregroundColor(.secondaryText)
-                }
+                VStack(alignment: .leading, spacing: LayoutInsets.largeInset) {
+                    if let trackTitle = viewModel.state.trackTitle {
+                        Text(trackTitle)
+                            .font(.subheadline)
+                            .foregroundColor(.secondaryText)
+                    }
 
-                ForEach(data.sections, id: \.id) { section in
-                    StudyPlanSectionView(section: section)
+                    ProblemsLimitAssembly().makeModule()
+
+                    ForEach(data.sections, id: \.id) { section in
+                        StudyPlanSectionView(section: section)
+                    }
                 }
             }
             .frame(maxWidth: .infinity)
+            .padding()
         }
     }
 
