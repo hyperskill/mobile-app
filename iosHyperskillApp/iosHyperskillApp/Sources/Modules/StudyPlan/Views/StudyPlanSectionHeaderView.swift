@@ -13,6 +13,7 @@ struct StudyPlanSectionHeaderView: View {
     private(set) var appearance = Appearance()
 
     let section: StudyPlanWidgetViewStateSection
+    let onSectionTap: () -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
@@ -20,14 +21,18 @@ struct StudyPlanSectionHeaderView: View {
                 Text(section.title)
                     .font(.title3)
                     .bold()
-                    .foregroundColor(.primary)
+                    .foregroundColor(
+                        section.content is StudyPlanWidgetViewStateSectionContentCollapsed
+                        ? .secondaryText
+                        : .primaryText
+                    )
 
                 Spacer()
 
                 Image(
                     systemName: section.content is StudyPlanWidgetViewStateSectionContentCollapsed
-                    ? Images.SystemSymbol.Chevron.up
-                    : Images.SystemSymbol.Chevron.down
+                    ? Images.SystemSymbol.Chevron.down
+                    : Images.SystemSymbol.Chevron.up
                 )
                 .imageScale(.small)
                 .foregroundColor(.secondaryText)
@@ -37,44 +42,49 @@ struct StudyPlanSectionHeaderView: View {
                 .font(.subheadline)
                 .foregroundColor(.secondaryText)
 
-            HStack(spacing: LayoutInsets.defaultInset) {
-                HStack(spacing: appearance.statisticIconsSpacing) {
-                    Image(Images.Track.About.topic)
-                        .resizable()
-                        .renderingMode(.template)
-                        .aspectRatio(contentMode: .fit)
-                        .foregroundColor(.primaryText)
-                        .frame(widthHeight: appearance.statisticIconsWidthHeight)
+            if let formattedTopicsCount = section.formattedTopicsCount,
+               let formattedTimeToComplete = section.formattedTimeToComplete {
+                HStack(spacing: LayoutInsets.defaultInset) {
+                    HStack(spacing: appearance.statisticIconsSpacing) {
+                        Image(Images.Track.About.topic)
+                            .resizable()
+                            .renderingMode(.template)
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundColor(.primaryText)
+                            .frame(widthHeight: appearance.statisticIconsWidthHeight)
 
-                    Text(section.formattedTopicsCount)
-                        .font(.caption)
-                        .foregroundColor(.primaryText)
-                }
+                        Text(formattedTopicsCount)
+                            .font(.caption)
+                            .foregroundColor(.primaryText)
+                    }
 
-                HStack(spacing: appearance.statisticIconsSpacing) {
-                    Image(Images.Step.clock)
-                        .resizable()
-                        .renderingMode(.template)
-                        .aspectRatio(contentMode: .fit)
-                        .foregroundColor(.primaryText)
-                        .frame(widthHeight: appearance.statisticIconsWidthHeight)
+                    HStack(spacing: appearance.statisticIconsSpacing) {
+                        Image(Images.Step.clock)
+                            .resizable()
+                            .renderingMode(.template)
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundColor(.primaryText)
+                            .frame(widthHeight: appearance.statisticIconsWidthHeight)
 
-                    Text(section.formattedTimeToComplete)
-                        .font(.caption)
-                        .foregroundColor(.primaryText)
+                        Text(formattedTimeToComplete)
+                            .font(.caption)
+                            .foregroundColor(.primaryText)
+                    }
                 }
             }
         }
         .padding()
         .background(Color(ColorPalette.surface))
         .cornerRadius(appearance.cornerRadius)
+        .onTapGesture(perform: onSectionTap)
     }
 }
 
 struct StudyPlanSectionHeaderView_Previews: PreviewProvider {
     static var previews: some View {
         StudyPlanSectionHeaderView(
-            section: StudyPlanWidgetViewStateSection.makePlaceholder()
+            section: StudyPlanWidgetViewStateSection.makePlaceholder(),
+            onSectionTap: {}
         )
         .previewLayout(.sizeThatFits)
     }

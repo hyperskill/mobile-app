@@ -28,6 +28,22 @@ final class StudyPlanViewModel: FeatureViewModel<
         )
     }
 
+    func doSectionToggle(sectionId: Int64) {
+        onNewMessage(
+            StudyPlanScreenFeatureMessageStudyPlanWidgetMessage(
+                message: StudyPlanWidgetFeatureMessageSectionClicked(sectionId: sectionId)
+            )
+        )
+    }
+
+    func doActivityPresentation(activityId: Int64) {
+        onNewMessage(
+            StudyPlanScreenFeatureMessageStudyPlanWidgetMessage(
+                message: StudyPlanWidgetFeatureMessageActivityClicked(activityId: activityId)
+            )
+        )
+    }
+
     func doStreakBarButtonItemAction() {
         onNewMessage(
             StudyPlanScreenFeatureMessageGamificationToolbarMessage(

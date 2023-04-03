@@ -9,7 +9,7 @@ extension StudyPlanView {
         let progressBlockSpacing = LayoutInsets.smallInset
         let progressBlockTitleInsets = LayoutInsets(bottom: LayoutInsets.smallInset)
 
-        let backgroundColor = Color.systemGroupedBackground
+        let backgroundColor = Color(ColorPalette.background)
     }
 }
 
@@ -53,12 +53,12 @@ struct StudyPlanView: View {
     private func buildBody() -> some View {
         switch viewModel.studyPlanWidgetStateKs {
         case .idle:
-            TrackSkeletonView()
+            StudyPlanSkeletonView()
                 .onAppear {
                     viewModel.doLoadStudyPlan()
                 }
         case .loading:
-            TrackSkeletonView()
+            StudyPlanSkeletonView()
         case .error:
             PlaceholderView(
                 configuration: .networkError(
@@ -67,7 +67,7 @@ struct StudyPlanView: View {
                 )
             )
         case .content(let data):
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: LayoutInsets.largeInset) {
                     if let trackTitle = viewModel.state.trackTitle {
                         Text(trackTitle)
@@ -78,17 +78,40 @@ struct StudyPlanView: View {
                     ProblemsLimitAssembly().makeModule()
 
                     ForEach(data.sections, id: \.id) { section in
-                        StudyPlanSectionView(section: section)
+                        StudyPlanSectionView(
+                            section: section,
+                            onSectionTap: { viewModel.doSectionToggle(sectionId: section.id) },
+                            onActivityTap: viewModel.doActivityPresentation(activityId:)
+                        )
                     }
                 }
             }
             .frame(maxWidth: .infinity)
-            .padding()
+            .padding(.horizontal)
+            .padding(.bottom)
         }
     }
 
     private func handleViewAction(_ viewAction: StudyPlanScreenFeatureActionViewAction) {
-        print("View action")
+        switch StudyPlanScreenFeatureActionViewActionKs(viewAction) {
+        case .gamificationToolbarViewAction(let gamificationToolbarViewAction):
+            switch GamificationToolbarFeatureActionViewActionKs(gamificationToolbarViewAction.viewAction) {
+            case .showProfileTab:
+                TabBarRouter(tab: .profile).route()
+            }
+        case .studyPlanWidgetViewAction(let studyPlanWidgetViewAction):
+            switch StudyPlanWidgetFeatureActionViewActionKs(studyPlanWidgetViewAction.viewAction) {
+            case .navigateTo(let navigateToViewAction):
+                switch StudyPlanWidgetFeatureActionViewActionNavigateToKs(navigateToViewAction) {
+                case .stageImplementation(let navigateToStageImplementationViewAction):
+                    let assembly = StageImplementAssembly(
+                        projectID: navigateToStageImplementationViewAction.projectId,
+                        stageID: navigateToStageImplementationViewAction.stageId
+                    )
+                    stackRouter.pushViewController(assembly.makeModule())
+                }
+            }
+        }
     }
 }
 

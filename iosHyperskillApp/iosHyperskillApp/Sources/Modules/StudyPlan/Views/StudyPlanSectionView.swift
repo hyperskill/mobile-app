@@ -11,10 +11,15 @@ struct StudyPlanSectionView: View {
     private(set) var apperance = Appearance()
 
     let section: StudyPlanWidgetViewStateSection
+    let onSectionTap: () -> Void
+    let onActivityTap: (Int64) -> Void
 
     var body: some View {
-        VStack(spacing: LayoutInsets.smallInset) {
-            StudyPlanSectionHeaderView(section: section)
+        VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
+            StudyPlanSectionHeaderView(
+                section: section,
+                onSectionTap: onSectionTap
+            )
 
             switch StudyPlanWidgetViewStateSectionContentKs(section.content) {
             case .collapsed, .error:
@@ -24,7 +29,10 @@ struct StudyPlanSectionView: View {
                     .frame(height: apperance.skeletonHeight)
             case .content(let content):
                 ForEach(content.sectionItems, id: \.id) { item in
-                    StudyPlanSectionItemView(item: item)
+                    StudyPlanSectionItemView(
+                        item: item,
+                        onActivityTap: { onActivityTap(item.id) }
+                    )
                 }
             }
         }
@@ -34,7 +42,9 @@ struct StudyPlanSectionView: View {
 struct StudyPlanSectionView_Previews: PreviewProvider {
     static var previews: some View {
         StudyPlanSectionView(
-            section: StudyPlanWidgetViewStateSection.makePlaceholder()
+            section: StudyPlanWidgetViewStateSection.makePlaceholder(),
+            onSectionTap: {},
+            onActivityTap: { _ in }
         )
         .padding()
         .background(Color(ColorPalette.background))

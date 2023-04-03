@@ -2,7 +2,6 @@ import SwiftUI
 
 final class StudyPlanAssembly: UIKitAssembly {
     func makeModule() -> UIViewController {
-        let commonComponent = AppGraphBridge.sharedAppGraph.commonComponent
         let studyPlanScreenComponent = AppGraphBridge.sharedAppGraph.buildStudyPlanScreenComponent()
 
         let viewModel = StudyPlanViewModel(
@@ -11,7 +10,10 @@ final class StudyPlanAssembly: UIKitAssembly {
 
         let stackRouter = SwiftUIStackRouter()
         let trackView = StudyPlanView(viewModel: viewModel, stackRouter: stackRouter)
-        let hostingController = UIHostingController(rootView: trackView)
+        let hostingController = StyledHostingController(
+            rootView: trackView,
+            appearance: .leftAlignedNavigationBarTitle
+        )
 
         stackRouter.rootViewController = hostingController
 

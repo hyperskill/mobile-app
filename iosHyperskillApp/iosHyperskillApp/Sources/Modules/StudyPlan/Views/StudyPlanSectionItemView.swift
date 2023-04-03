@@ -3,18 +3,21 @@ import SwiftUI
 
 struct StudyPlanSectionItemView: View {
     let item: StudyPlanWidgetViewStateSectionItem
+    let onActivityTap: () -> Void
 
     var body: some View {
-        HStack {
-            Text(String(item.id))
-                .font(.body)
-                .foregroundColor(.primaryText)
+        Button(action: onActivityTap) {
+            HStack {
+                Text(String(item.id))
+                    .font(.body)
+                    .foregroundColor(.primaryText)
 
-            Spacer()
+                Spacer()
+            }
+            .padding()
+            .background(Color(ColorPalette.surface))
+            .addBorder()
         }
-        .padding()
-        .background(Color(ColorPalette.surface))
-        .addBorder()
     }
 }
 
@@ -24,7 +27,8 @@ struct StudyPlanSectionItemView_Previews: PreviewProvider {
             item: StudyPlanWidgetViewStateSectionItem
                 .makePlaceholder(
                     state: StudyPlanWidgetViewStateSectionItemState.idle
-                )
+                ),
+            onActivityTap: {}
         )
         .padding()
         .previewLayout(.sizeThatFits)
