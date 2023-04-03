@@ -96,8 +96,6 @@ import org.hyperskill.app.study_plan.screen.injection.StudyPlanScreenComponent
 import org.hyperskill.app.study_plan.screen.injection.StudyPlanScreenComponentImpl
 import org.hyperskill.app.study_plan.widget.injection.StudyPlanWidgetComponent
 import org.hyperskill.app.study_plan.widget.injection.StudyPlanWidgetComponentImpl
-import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponent
-import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponentImpl
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponent
