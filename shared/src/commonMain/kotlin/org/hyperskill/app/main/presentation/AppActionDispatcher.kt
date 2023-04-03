@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.core.domain.DataSourceType
+import org.hyperskill.app.core.injection.StateRepositoriesComponent
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.main.domain.interactor.AppInteractor
 import org.hyperskill.app.main.presentation.AppFeature.Action
@@ -20,7 +21,8 @@ class AppActionDispatcher(
     private val appInteractor: AppInteractor,
     private val authInteractor: AuthInteractor,
     private val profileInteractor: ProfileInteractor,
-    private val sentryInteractor: SentryInteractor
+    private val sentryInteractor: SentryInteractor,
+    private val stateRepositoriesComponent: StateRepositoriesComponent
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
         authInteractor
@@ -34,6 +36,8 @@ class AppActionDispatcher(
                         appInteractor.doCurrentUserSignedOutCleanUp()
                     }
                 }
+
+                stateRepositoriesComponent.resetRepositories()
 
                 sentryInteractor.addBreadcrumb(HyperskillSentryBreadcrumbBuilder.buildAppUserDeauthorized(it.reason))
 
@@ -50,8 +54,18 @@ class AppActionDispatcher(
 
                 sentryInteractor.addBreadcrumb(HyperskillSentryBreadcrumbBuilder.buildAppDetermineUserAccountStatus())
 
-                profileInteractor
-                    .getCurrentProfile(sourceType = DataSourceType.REMOTE)
+                val isAuthorized = authInteractor.isAuthorized()
+                    .getOrDefault(false)
+
+                val profileResult = if (isAuthorized) {
+                    profileInteractor
+                        .getCurrentProfile(sourceType = DataSourceType.CACHE)
+                        .onFailure { profileInteractor.getCurrentProfile(sourceType = DataSourceType.REMOTE) }
+                } else {
+                    profileInteractor.getCurrentProfile(sourceType = DataSourceType.REMOTE)
+                }
+
+                profileResult
                     .fold(
                         onSuccess = { profile ->
                             sentryInteractor.addBreadcrumb(

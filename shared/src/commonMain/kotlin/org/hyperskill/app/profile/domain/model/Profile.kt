@@ -42,9 +42,7 @@ data class Profile(
     @SerialName("track_id")
     val trackId: Long?,
     @SerialName("track_title")
-    val trackTitle: String?,
-    @SerialName("features")
-    val features: Map<String, Boolean>
+    val trackTitle: String?
 )
 
 internal val Profile.isNewUser: Boolean
@@ -52,6 +50,3 @@ internal val Profile.isNewUser: Boolean
 
 internal val Profile.isCurrentTrackCompleted: Boolean
     get() = trackId?.let { completedTracks.contains(it) } ?: false
-
-val Profile.isFreemiumFeatureEnabled: Boolean
-    get() = features.get("subscriptions.freemium") ?: false

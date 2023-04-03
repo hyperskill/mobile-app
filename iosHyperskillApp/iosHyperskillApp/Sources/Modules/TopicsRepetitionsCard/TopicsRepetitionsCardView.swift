@@ -17,6 +17,8 @@ struct TopicsRepetitionsCardView: View {
 
     let onTap: () -> Void
 
+    let isFreemiumEnabled: Bool
+
     var body: some View {
         let state: State = topicsToRepeatCount > 0 ? .uncompleted : .completed
 
@@ -38,6 +40,10 @@ struct TopicsRepetitionsCardView: View {
                     }
 
                     state.buildFooter(topicsToRepeatCount: topicsToRepeatCount)
+
+                    if isFreemiumEnabled && state == .uncompleted {
+                        HomeFreemiumBadgeView(type: .repeat)
+                    }
                 }
                 .padding()
                 .background(
@@ -106,9 +112,17 @@ struct TopicsRepetitionsCardView: View {
 struct TopicsRepetitionsCardView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            TopicsRepetitionsCardView(topicsToRepeatCount: 4, onTap: {})
+            TopicsRepetitionsCardView(
+                topicsToRepeatCount: 4,
+                onTap: {},
+                isFreemiumEnabled: true
+            )
 
-            TopicsRepetitionsCardView(topicsToRepeatCount: 0, onTap: {})
+            TopicsRepetitionsCardView(
+                topicsToRepeatCount: 0,
+                onTap: {},
+                isFreemiumEnabled: true
+            )
         }
         .padding()
         .previewLayout(.sizeThatFits)

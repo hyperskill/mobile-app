@@ -6,8 +6,15 @@ final class ProblemOfDayAssembly: Assembly {
 
     private let problemOfDayState: HomeFeatureProblemOfDayState
 
-    init(problemOfDayState: HomeFeatureProblemOfDayState, output: ProblemOfDayOutputProtocol? = nil) {
+    private let isFreemiumEnabled: Bool
+
+    init(
+        problemOfDayState: HomeFeatureProblemOfDayState,
+        isFreemiumEnabled: Bool,
+        output: ProblemOfDayOutputProtocol? = nil
+    ) {
         self.problemOfDayState = problemOfDayState
+        self.isFreemiumEnabled = isFreemiumEnabled
         self.moduleOutput = output
     }
 
@@ -22,7 +29,7 @@ final class ProblemOfDayAssembly: Assembly {
         )
         viewModel.moduleOutput = moduleOutput
 
-        return ProblemOfDayCardView(viewModel: viewModel)
+        return ProblemOfDayCardView(viewModel: viewModel, isFreemiumEnabled: isFreemiumEnabled)
     }
 }
 
@@ -43,16 +50,16 @@ extension ProblemOfDayAssembly {
                 nextProblemIn: nextProblemIn,
                 needToRefresh: needToRefresh
             )
-            return ProblemOfDayAssembly(problemOfDayState: problemOfDayState)
+            return ProblemOfDayAssembly(problemOfDayState: problemOfDayState, isFreemiumEnabled: true)
         case .uncompleted:
             let problemOfDayState = HomeFeatureProblemOfDayStateNeedToSolve(
                 step: step,
                 nextProblemIn: nextProblemIn,
                 needToRefresh: needToRefresh
             )
-            return ProblemOfDayAssembly(problemOfDayState: problemOfDayState)
+            return ProblemOfDayAssembly(problemOfDayState: problemOfDayState, isFreemiumEnabled: true)
         case .unavailable:
-            return ProblemOfDayAssembly(problemOfDayState: HomeFeatureProblemOfDayStateEmpty())
+            return ProblemOfDayAssembly(problemOfDayState: HomeFeatureProblemOfDayStateEmpty(), isFreemiumEnabled: true)
         }
     }
 }

@@ -77,8 +77,13 @@ struct HomeView: View {
                         .font(.subheadline)
                         .foregroundColor(.secondaryText)
 
+                    ProblemsLimitAssembly()
+                        .makeModule()
+                        .padding(.top, LayoutInsets.smallInset)
+
                     ProblemOfDayAssembly(
                         problemOfDayState: data.problemOfDayState,
+                        isFreemiumEnabled: data.isFreemiumEnabled,
                         output: viewModel
                     )
                     .makeModule()
@@ -86,7 +91,8 @@ struct HomeView: View {
                     if let availableRepetitionsState = data.repetitionsState as? HomeFeatureRepetitionsStateAvailable {
                         TopicsRepetitionsCardView(
                             topicsToRepeatCount: Int(availableRepetitionsState.recommendedRepetitionsCount),
-                            onTap: viewModel.doTopicsRepetitionsPresentation
+                            onTap: viewModel.doTopicsRepetitionsPresentation,
+                            isFreemiumEnabled: data.isFreemiumEnabled
                         )
                     }
 
@@ -95,7 +101,7 @@ struct HomeView: View {
                             state: viewModel.topicsToDiscoverNextStateSk,
                             delegate: viewModel
                         )
-                        .padding(.top, LayoutInsets.defaultInset)
+                        .padding(.top, LayoutInsets.smallInset)
                     }
 
                     let shouldShowContinueInWebButton = data.problemOfDayState is HomeFeatureProblemOfDayStateEmpty ||
@@ -109,7 +115,7 @@ struct HomeView: View {
                         .buttonStyle(OutlineButtonStyle())
                     }
                 }
-                .padding()
+                .padding([.horizontal, .bottom])
                 .pullToRefresh(
                     isShowing: Binding(
                         get: { viewModel.state.isRefreshing },

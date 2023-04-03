@@ -30,6 +30,8 @@ import org.hyperskill.app.comments.injection.CommentsDataComponentImpl
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.injection.CommonComponent
 import org.hyperskill.app.core.injection.CommonComponentImpl
+import org.hyperskill.app.core.injection.StateRepositoriesComponent
+import org.hyperskill.app.core.injection.StateRepositoriesComponentImpl
 import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.debug.injection.DebugComponentImpl
@@ -73,6 +75,8 @@ import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserCompo
 import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponentImpl
 import org.hyperskill.app.placeholder_new_user.injection.PlatformPlaceholderNewUserComponent
 import org.hyperskill.app.placeholder_new_user.injection.PlatformPlaceholderNewUserComponentImpl
+import org.hyperskill.app.problems_limit.injection.PlatformProblemsLimitComponent
+import org.hyperskill.app.problems_limit.injection.PlatformProblemsLimitComponentImpl
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponentImpl
 import org.hyperskill.app.products.injection.ProductsDataComponent
@@ -138,8 +142,6 @@ import org.hyperskill.app.study_plan.screen.injection.StudyPlanScreenComponent
 import org.hyperskill.app.study_plan.screen.injection.StudyPlanScreenComponentImpl
 import org.hyperskill.app.study_plan.widget.injection.StudyPlanWidgetComponent
 import org.hyperskill.app.study_plan.widget.injection.StudyPlanWidgetComponentImpl
-import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponent
-import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponentImpl
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.PlatformTopicsRepetitionComponent
@@ -211,8 +213,8 @@ class AndroidAppComponentImpl(
     override val notificationFlowDataComponent: NotificationFlowDataComponent =
         NotificationFlowDataComponentImpl()
 
-    override val subscriptionsDataComponent: SubscriptionsDataComponent =
-        SubscriptionsDataComponentImpl(this)
+    override val stateRepositoriesComponent: StateRepositoriesComponent =
+        StateRepositoriesComponentImpl(this)
 
     override val sentryComponent: SentryComponent =
         SentryComponentImpl(SentryManagerImpl(commonComponent.buildKonfig))
@@ -421,6 +423,15 @@ class AndroidAppComponentImpl(
         TopicsToDiscoverNextDataComponentImpl(this)
 
     /**
+     * ProblemsLimit component
+     */
+    override fun buildProblemsLimitComponent(): ProblemsLimitComponent =
+        ProblemsLimitComponentImpl(this)
+
+    override fun buildPlatformProblemsLimitComponent(): PlatformProblemsLimitComponent =
+        PlatformProblemsLimitComponentImpl(problemsLimitComponent = buildProblemsLimitComponent())
+
+    /**
      * Study plan component
      */
     override fun buildStudyPlanWidgetComponent(): StudyPlanWidgetComponent =
@@ -484,7 +495,4 @@ class AndroidAppComponentImpl(
 
     override fun buildFreemiumDataComponent(): FreemiumDataComponent =
         FreemiumDataComponentImpl(this)
-
-    override fun buildProblemsLimitComponent(): ProblemsLimitComponent =
-        ProblemsLimitComponentImpl(this)
 }

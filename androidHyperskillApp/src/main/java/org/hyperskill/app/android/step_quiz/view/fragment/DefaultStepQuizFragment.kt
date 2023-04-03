@@ -20,10 +20,15 @@ import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.extensions.checkNotificationChannelAvailability
 import org.hyperskill.app.android.core.view.ui.fragment.parentOfType
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
+import org.hyperskill.app.android.core.view.ui.navigation.requireMainRouter
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizDescriptionBinding
+import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
+import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
+import org.hyperskill.app.android.problems_limit.dialog.ProblemsLimitReachedBottomSheet
+import org.hyperskill.app.android.problems_limit.fragment.ProblemsLimitFragment
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFeedbackBlocksDelegate
@@ -224,7 +229,10 @@ abstract class DefaultStepQuizFragment :
             is StepQuizFeature.Action.ViewAction.NavigateTo.Back -> {
                 requireRouter().exit()
             }
-            is StepQuizFeature.Action.ViewAction.NavigateTo.Home -> TODO()
+            is StepQuizFeature.Action.ViewAction.NavigateTo.Home -> {
+                requireRouter().backTo(MainScreen)
+                parentFragmentManager.requireMainRouter().switch(HomeScreen)
+            }
             is StepQuizFeature.Action.ViewAction.RequestUserPermission -> {
                 when (action.userPermissionRequest) {
                     StepQuizUserPermissionRequest.RESET_CODE -> {
@@ -240,7 +248,10 @@ abstract class DefaultStepQuizFragment :
                     .newInstance(earnedGemsText = action.earnedGemsText)
                     .showIfNotExists(childFragmentManager, CompletedStepOfTheDayDialogFragment.TAG)
             }
-            StepQuizFeature.Action.ViewAction.ShowProblemsLimitReachedModal -> TODO()
+            StepQuizFeature.Action.ViewAction.ShowProblemsLimitReachedModal -> {
+                ProblemsLimitReachedBottomSheet.newInstance()
+                    .showIfNotExists(childFragmentManager, ProblemsLimitReachedBottomSheet.TAG)
+            }
         }
     }
 
@@ -323,6 +334,7 @@ abstract class DefaultStepQuizFragment :
             }
             is StepQuizFeature.State.AttemptLoaded -> {
                 setStepHintsFragment(step)
+                setProblemsLimitFragment(stepRoute)
                 renderAttemptLoaded(state)
             }
             else -> {
@@ -386,6 +398,21 @@ abstract class DefaultStepQuizFragment :
         if (isFeatureEnabled) {
             setChildFragment(R.id.stepQuizHints, STEP_HINTS_FRAGMENT_TAG) {
                 StepQuizHintsFragment.newInstance(stepRoute, step)
+            }
+        }
+    }
+
+    private fun setProblemsLimitFragment(stepRoute: StepRoute) {
+        when (stepRoute) {
+            is StepRoute.Learn -> {
+                setChildFragment(R.id.stepQuizProblemsLimit, ProblemsLimitFragment.TAG) {
+                    ProblemsLimitFragment.newInstance(isDividerVisible = true)
+                }
+            }
+            is StepRoute.StageImplement,
+            is StepRoute.LearnDaily,
+            is StepRoute.Repeat -> {
+                // no op
             }
         }
     }

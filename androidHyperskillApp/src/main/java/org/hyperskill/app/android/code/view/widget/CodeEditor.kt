@@ -22,16 +22,16 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
+import java.util.concurrent.TimeUnit
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.code.presentation.highlight.prettify.PrettifyParser
 import org.hyperskill.app.android.code.presentation.highlight.syntaxhighlight.ParseResult
-import org.hyperskill.app.android.code.view.model.themes.CodeTheme
-import org.hyperskill.app.android.code.view.model.themes.Presets
 import org.hyperskill.app.android.code.view.adapter.CodeToolbarAdapter
+import org.hyperskill.app.android.code.view.model.themes.CodeTheme
+import org.hyperskill.app.android.code.view.model.themes.CodeThemes
 import org.hyperskill.app.android.core.extensions.RxEmpty
 import org.hyperskill.app.android.core.extensions.substringOrNull
 import ru.nobird.android.view.base.ui.extension.toPx
-import java.util.concurrent.TimeUnit
 import kotlin.math.max
 import kotlin.math.min
 
@@ -161,7 +161,7 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
         super.onDetachedFromWindow()
     }
 
-    var theme: CodeTheme = Presets.themes[0]
+    var theme: CodeTheme = CodeThemes.Light
         set(value) {
             field = value
             setTextColor(value.syntax.plain)

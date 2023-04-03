@@ -7,9 +7,9 @@ import androidx.core.content.res.use
 import androidx.core.view.ViewCompat
 import androidx.core.widget.NestedScrollView
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.code.view.model.themes.CodeTheme
-import org.hyperskill.app.android.code.view.model.themes.Presets
 import org.hyperskill.app.android.code.view.adapter.CodeToolbarAdapter
+import org.hyperskill.app.android.code.view.model.themes.CodeTheme
+import org.hyperskill.app.android.code.view.model.themes.CodeThemes
 import org.hyperskill.app.android.core.extensions.insertText
 import ru.nobird.android.view.base.ui.extension.inflate
 
@@ -54,9 +54,9 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 
         theme =
             if (isNightMode) {
-                Presets.themes[2]
+                CodeThemes.TomorrowNight
             } else {
-                Presets.themes[0]
+                CodeThemes.Light
             }
     }
 

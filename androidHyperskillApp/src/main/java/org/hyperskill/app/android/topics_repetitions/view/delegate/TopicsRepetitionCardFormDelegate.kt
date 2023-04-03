@@ -9,7 +9,8 @@ class TopicsRepetitionCardFormDelegate {
     fun render(
         context: Context,
         binding: LayoutTopicsRepetitionCardBinding,
-        recommendedRepetitionsCount: Int
+        recommendedRepetitionsCount: Int,
+        isFreemiumEnabled: Boolean
     ) {
         with(binding) {
             topicsRepetitionBackgroundImageView.setImageResource(
@@ -47,6 +48,7 @@ class TopicsRepetitionCardFormDelegate {
                     org.hyperskill.app.R.string.good_job
                 }
             )
+            topicsRepetitionFreemiumBadge.isVisible = isFreemiumEnabled && recommendedRepetitionsCount > 0
         }
     }
 }
