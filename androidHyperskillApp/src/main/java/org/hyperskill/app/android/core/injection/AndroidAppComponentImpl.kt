@@ -423,6 +423,15 @@ class AndroidAppComponentImpl(
         TopicsToDiscoverNextDataComponentImpl(this)
 
     /**
+     * ProblemsLimit component
+     */
+    override fun buildProblemsLimitComponent(): ProblemsLimitComponent =
+        ProblemsLimitComponentImpl(this)
+
+    override fun buildPlatformProblemsLimitComponent(): PlatformProblemsLimitComponent =
+        PlatformProblemsLimitComponentImpl(problemsLimitComponent = buildProblemsLimitComponent())
+
+    /**
      * Study plan component
      */
     override fun buildStudyPlanWidgetComponent(): StudyPlanWidgetComponent =
