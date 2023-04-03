@@ -448,15 +448,6 @@ class AndroidAppComponentImpl(
     override fun buildStudyPlanDataComponent(): StudyPlanDataComponent =
         StudyPlanDataComponentImpl(this)
 
-    /**
-     * ProblemsLimit component
-     */
-    override fun buildProblemsLimitComponent(): ProblemsLimitComponent =
-        ProblemsLimitComponentImpl(this)
-
-    override fun buildPlatformProblemsLimitComponent(): PlatformProblemsLimitComponent =
-        PlatformProblemsLimitComponentImpl(problemsLimitComponent = buildProblemsLimitComponent())
-
     override fun buildUserStorageComponent(): UserStorageComponent =
         UserStorageComponentImpl(this)
 
