@@ -62,7 +62,7 @@ interface AndroidAppComponent : AppGraph {
     fun buildPlatformDebugComponent(debugComponent: DebugComponent): PlatformDebugComponent
     fun buildPlatformStageImplementationComponent(projectId: Long, stageId: Long): PlatformStageImplementationComponent
 
-    fun buildPlatformStudyPlanScreenComponent(): PlatformStudyPlanScreenComponent
-
     fun buildPlatformProblemsLimitComponent(): PlatformProblemsLimitComponent
+
+    fun buildPlatformStudyPlanScreenComponent(): PlatformStudyPlanScreenComponent
 }
