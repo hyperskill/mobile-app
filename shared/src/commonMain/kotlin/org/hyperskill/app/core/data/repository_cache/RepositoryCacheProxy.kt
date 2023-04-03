@@ -6,7 +6,7 @@ import kotlinx.coroutines.sync.withLock
 class RepositoryCacheProxy<in Key : Any, Value : Any?>(
     private val cache: RepositoryCache<Key, Value> =
         InMemoryRepositoryCache(),
-    private val loadFromRemoteValues: suspend (keys: List<Key>) -> Result<List<Value>>,
+    private val loadValuesFromRemote: suspend (keys: List<Key>) -> Result<List<Value>>,
     private val getKey: (Value) -> Key?
 ) {
     private val mutex = Mutex()
@@ -66,7 +66,7 @@ class RepositoryCacheProxy<in Key : Any, Value : Any?>(
         }
 
     private suspend fun loadManyValuesInternal(keys: List<Key>): Result<List<Value>> =
-        loadFromRemoteValues(keys).onSuccess { remoteValues ->
+        loadValuesFromRemote(keys).onSuccess { remoteValues ->
             remoteValues.forEach { value ->
                 val key = getKey(value)
                 if (key != null) {

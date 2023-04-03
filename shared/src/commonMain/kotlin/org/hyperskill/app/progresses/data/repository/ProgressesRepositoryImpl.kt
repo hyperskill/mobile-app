@@ -14,7 +14,7 @@ class ProgressesRepositoryImpl(
 ) : ProgressesRepository {
 
     private val trackProgressCacheProxy = RepositoryCacheProxy(
-        loadFromRemoteValues = { trackIds ->
+        loadValuesFromRemote = { trackIds ->
             progressesRemoteDataSource
                 .getTracksProgresses(trackIds)
         },
@@ -24,7 +24,7 @@ class ProgressesRepositoryImpl(
     )
 
     private val projectProgressCacheProxy = RepositoryCacheProxy(
-        loadFromRemoteValues = { projectIds ->
+        loadValuesFromRemote = { projectIds ->
             progressesRemoteDataSource
                 .getProjectsProgresses(projectIds)
         },
