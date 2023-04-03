@@ -42,7 +42,9 @@ class TrackActionDispatcher(
                     } ?: return
 
                 val trackResult = actionScope.async { trackInteractor.getTrack(trackId) }
-                val trackProgressResult = actionScope.async { progressesInteractor.getTrackProgress(trackId) }
+                val trackProgressResult = actionScope.async {
+                    progressesInteractor.getTrackProgress(trackId, force = action.force)
+                }
                 val studyPlanResult = actionScope.async { studyPlanInteractor.getCurrentStudyPlan() }
 
                 val track = trackResult.await().getOrElse {

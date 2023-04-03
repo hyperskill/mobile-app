@@ -35,7 +35,7 @@ class PlaceholderNewUserActionDispatcher(
                     .filter { it.isBeta.not() }
 
                 val trackProgressById = progressesInteractor
-                    .getTracksProgresses(tracks.map { it.id })
+                    .getTracksProgresses(tracks.map { it.id }, force = action.force)
                     .getOrElse {
                         sentryInteractor.finishTransaction(sentryTransaction, it)
                         return onNewMessage(Message.TracksLoaded.Error)

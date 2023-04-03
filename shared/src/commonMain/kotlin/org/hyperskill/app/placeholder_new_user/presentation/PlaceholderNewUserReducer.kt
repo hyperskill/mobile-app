@@ -19,7 +19,7 @@ class PlaceholderNewUserReducer : StateReducer<State, Message, Action> {
                 if (state is State.Idle ||
                     (message.forceUpdate && (state is State.Content || state is State.NetworkError))
                 ) {
-                    State.Loading to setOf(Action.Initialize)
+                    State.Loading to setOf(Action.Initialize(message.forceUpdate))
                 } else {
                     null
                 }

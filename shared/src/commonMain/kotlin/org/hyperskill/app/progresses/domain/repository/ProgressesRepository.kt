@@ -5,10 +5,10 @@ import org.hyperskill.app.topics.domain.model.TopicProgress
 import org.hyperskill.app.track.domain.model.TrackProgress
 
 interface ProgressesRepository {
-    suspend fun getTracksProgresses(tracksIds: List<Long>): Result<List<TrackProgress>>
+    suspend fun getTracksProgresses(tracksIds: List<Long>, force: Boolean): Result<List<TrackProgress>>
 
-    suspend fun getTrackProgress(trackId: Long): Result<TrackProgress?> =
-        getTracksProgresses(listOf(trackId)).map { it.firstOrNull() }
+    suspend fun getTrackProgress(trackId: Long, force: Boolean): Result<TrackProgress?> =
+        getTracksProgresses(listOf(trackId), force).map { it.firstOrNull() }
 
     suspend fun getTopicsProgresses(topicsIds: List<Long>): Result<List<TopicProgress>>
 
@@ -17,10 +17,10 @@ interface ProgressesRepository {
             getTopicsProgresses(listOf(topicId)).getOrThrow().first()
         }
 
-    suspend fun getProjectsProgresses(projectsIds: List<Long>): Result<List<ProjectProgress>>
+    suspend fun getProjectsProgresses(projectsIds: List<Long>, force: Boolean): Result<List<ProjectProgress>>
 
-    suspend fun getProjectProgress(projectId: Long): Result<ProjectProgress> =
+    suspend fun getProjectProgress(projectId: Long, force: Boolean): Result<ProjectProgress> =
         kotlin.runCatching {
-            getProjectsProgresses(listOf(projectId)).getOrThrow().first()
+            getProjectsProgresses(listOf(projectId), force).getOrThrow().first()
         }
 }
