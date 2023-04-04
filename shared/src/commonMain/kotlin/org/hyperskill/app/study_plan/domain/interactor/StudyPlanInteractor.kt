@@ -1,11 +1,11 @@
 package org.hyperskill.app.study_plan.domain.interactor
 
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
-import org.hyperskill.app.study_plan.domain.repository.StudyPlanRepository
+import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository
 
 class StudyPlanInteractor(
-    private val studyPlanRepository: StudyPlanRepository
+    private val currentStudyPlanStateRepository: CurrentStudyPlanStateRepository
 ) {
-    suspend fun getCurrentStudyPlan(): Result<StudyPlan> =
-        studyPlanRepository.getCurrentStudyPlan()
+    suspend fun getCurrentStudyPlan(forceLoadFromRemote: Boolean): Result<StudyPlan> =
+        currentStudyPlanStateRepository.getState(forceLoadFromRemote)
 }
