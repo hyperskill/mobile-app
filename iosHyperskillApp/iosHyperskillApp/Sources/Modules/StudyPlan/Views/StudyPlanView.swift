@@ -64,7 +64,7 @@ struct StudyPlanView: View {
             )
         case .content(let data):
             ScrollView(showsIndicators: false) {
-                VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
+                LazyVStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
                     if let trackTitle = viewModel.state.trackTitle {
                         Text(trackTitle)
                             .font(.subheadline)
