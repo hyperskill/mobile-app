@@ -1,6 +1,7 @@
 package org.hyperskill.app.core.injection
 
-import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
+import org.hyperskill.app.progresses.data.source.ProjectProgressesCacheDataSource
+import org.hyperskill.app.progresses.data.source.TrackProgressesCacheDataSource
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 
 interface SingletonRepositoriesComponent {
@@ -12,12 +13,15 @@ interface SingletonRepositoriesComponent {
     val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository
 
     /**
-     * Cached list repositories
+     * Repositories cache
      */
-    val progressesRepository: ProgressesRepository
+    val trackProgressesCacheDataSource: TrackProgressesCacheDataSource
+
+    val projectProgressesCacheDataSource: ProjectProgressesCacheDataSource
 
     suspend fun resetRepositories() {
         currentSubscriptionStateRepository.resetState()
-        progressesRepository.clearCache()
+        trackProgressesCacheDataSource.clearCache()
+        projectProgressesCacheDataSource.clearCache()
     }
 }

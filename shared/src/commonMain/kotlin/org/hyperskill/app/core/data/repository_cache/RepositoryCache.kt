@@ -4,5 +4,5 @@ interface RepositoryCache<Key : Any, Value : Any?> {
     operator fun get(key: Key): Value?
     operator fun set(key: Key, value: Value)
     fun containsKey(key: Key): Boolean
-    fun clear()
+    fun clearCache()
 }

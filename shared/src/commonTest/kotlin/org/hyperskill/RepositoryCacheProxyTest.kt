@@ -81,7 +81,7 @@ class RepositoryCacheProxyTest {
             override fun containsKey(key: Int): Boolean =
                 false
 
-            override fun clear() {
+            override fun clearCache() {
                 TODO("Not yet implemented")
             }
         }

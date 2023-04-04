@@ -13,7 +13,7 @@ class InMemoryRepositoryCache<Key : Any, Value : Any?> : RepositoryCache<Key, Va
     override fun containsKey(key: Key): Boolean =
         cache.containsKey(key)
 
-    override fun clear() {
+    override fun clearCache() {
         cache.clear()
     }
 }

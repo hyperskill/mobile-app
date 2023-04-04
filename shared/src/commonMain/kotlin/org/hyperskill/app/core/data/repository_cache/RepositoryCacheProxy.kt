@@ -4,7 +4,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
 class RepositoryCacheProxy<in Key : Any, Value : Any?>(
-    private val cache: RepositoryCache<Key, Value> = InMemoryRepositoryCache(),
+    private val cache: RepositoryCache<Key, Value>,
     private val loadValuesFromRemote: suspend (keys: List<Key>) -> Result<List<Value>>,
     private val getKeyFromValue: (Value) -> Key?
 ) {
@@ -75,6 +75,6 @@ class RepositoryCacheProxy<in Key : Any, Value : Any?>(
         }
 
     fun clearCache() {
-        cache.clear()
+        cache.clearCache()
     }
 }
