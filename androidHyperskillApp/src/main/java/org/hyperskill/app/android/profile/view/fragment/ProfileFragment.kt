@@ -11,7 +11,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.ImageLoader
 import coil.load
 import coil.transform.CircleCropTransformation
-import java.util.Locale
+import java.util.*
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.checkNotificationChannelAvailability
@@ -19,9 +19,9 @@ import org.hyperskill.app.android.core.extensions.isChannelNotificationsEnabled
 import org.hyperskill.app.android.core.extensions.openUrl
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
-import org.hyperskill.app.android.core.view.ui.navigation.requireMainRouter
 import org.hyperskill.app.android.databinding.FragmentProfileBinding
 import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
+import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
 import org.hyperskill.app.android.profile.view.delegate.StreakCardFormDelegate
 import org.hyperskill.app.android.profile.view.dialog.StreakFreezeDialogFragment
@@ -74,6 +74,9 @@ class ProfileFragment :
     private val notificationManager: NotificationManagerCompat by lazy(LazyThreadSafetyMode.NONE) {
         NotificationManagerCompat.from(requireContext())
     }
+
+    private val mainScreenRouter: MainScreenRouter =
+        HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -231,7 +234,7 @@ class ProfileFragment :
                 viewBinding.root.snackbar(org.hyperskill.app.R.string.streak_freeze_bought_error)
 
             ProfileFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
-                requireMainRouter().switch(HomeScreen)
+                mainScreenRouter.switch(HomeScreen)
             }
         }
     }
@@ -316,12 +319,11 @@ class ProfileFragment :
             }
 
             if (profile.languages?.isEmpty() == false) {
+                val languages = profile.languages!!.joinToString(", ") {
+                    Locale(it).getDisplayLanguage(Locale.ENGLISH)
+                }
                 profileAboutSpeaksTextView.text =
-                    "${resources.getString(org.hyperskill.app.R.string.profile_speaks_text)} ${
-                    profile.languages!!.joinToString(", ") {
-                        Locale(it).getDisplayLanguage(Locale.ENGLISH)
-                    }
-                    }"
+                    "${resources.getString(org.hyperskill.app.R.string.profile_speaks_text)} $languages"
             } else {
                 profileAboutSpeaksTextView.visibility = View.GONE
             }

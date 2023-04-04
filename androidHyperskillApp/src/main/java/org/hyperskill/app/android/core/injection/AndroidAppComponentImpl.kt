@@ -10,6 +10,8 @@ import org.hyperskill.app.android.image_loading.injection.ImageLoadingComponent
 import org.hyperskill.app.android.image_loading.injection.ImageLoadingComponentImpl
 import org.hyperskill.app.android.latex.injection.PlatformLatexComponent
 import org.hyperskill.app.android.latex.injection.PlatformLatexComponentImpl
+import org.hyperskill.app.android.main.injection.NavigationComponent
+import org.hyperskill.app.android.main.injection.NavigationComponentImpl
 import org.hyperskill.app.android.notification.injection.PlatformNotificationComponent
 import org.hyperskill.app.android.notification.injection.PlatformNotificationComponentImpl
 import org.hyperskill.app.android.sentry.domain.model.manager.SentryManagerImpl
@@ -188,6 +190,9 @@ class AndroidAppComponentImpl(
 
     override val authComponent: AuthComponent =
         AuthComponentImpl(this)
+
+    override val navigationComponent: NavigationComponent =
+        NavigationComponentImpl()
 
     override val profileHypercoinsDataComponent: ProfileHypercoinsDataComponent =
         ProfileHypercoinsDataComponentImpl()
