@@ -25,12 +25,7 @@ class RepositoryCacheProxyTest {
 
         runBlocking {
             cacheProxy.getValues(keys, false)
-            keys.forEachIndexed { index, key ->
-                assertEquals(
-                    expectedValues[index],
-                    cache[key]
-                )
-            }
+            assertEquals(expectedValues, cache.getAll(keys))
         }
     }
 
@@ -40,9 +35,9 @@ class RepositoryCacheProxyTest {
         val expectedValues = listOf("1", "2", "3")
 
         val cache = InMemoryRepositoryCache<Int, String>().apply {
-            keys.forEachIndexed { index, key ->
-                set(key, expectedValues[index])
-            }
+            putAll(
+                keys.associateWith { key -> expectedValues[key - 1] }
+            )
         }
 
         val cacheProxy = RepositoryCacheProxy(
@@ -72,17 +67,13 @@ class RepositoryCacheProxyTest {
         val expectedValues = listOf("1", "2", "3")
 
         val cache = object : RepositoryCache<Int, String> {
-            override fun get(key: Int): String? {
-                throw IllegalStateException("cache.get() should not be called")
-            }
+            override fun getAll(keys: List<Int>): List<String> =
+                emptyList()
 
-            override fun set(key: Int, value: String) {}
-
-            override fun containsKey(key: Int): Boolean =
-                false
+            override fun putAll(map: Map<Int, String>) {}
 
             override fun clearCache() {
-                TODO("Not yet implemented")
+                throw IllegalStateException("cache.clearCache should not be called")
             }
         }
 
@@ -114,9 +105,9 @@ class RepositoryCacheProxyTest {
         val remoteValues = listOf("3", "4")
 
         val cache = InMemoryRepositoryCache<Int, String>().apply {
-            cachedKeys.forEachIndexed { index, key ->
-                set(key, cachedValues[index])
-            }
+            putAll(
+                cachedKeys.associateWith { key -> cachedValues[key - 1] }
+            )
         }
 
         var actualRemoteRequestedKeys: List<Int>? = null

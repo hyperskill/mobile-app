@@ -13,65 +13,35 @@ class RepositoryCacheProxy<in Key : Any, Value : Any?>(
     suspend fun getValues(keys: List<Key>, forceLoadFromRemote: Boolean): Result<List<Value>> {
         if (keys.isEmpty()) return Result.success(emptyList())
         return mutex.withLock {
-            if (keys.size == 1) {
-                // fast route for single key request
-                getSingleValue(keys.first(), forceLoadFromRemote)
+            if (!forceLoadFromRemote) {
+                val cachedValues = cache.getAll(keys)
+                val cachedKeys = cachedValues.mapNotNull(getKeyFromValue)
+                val keysToLoadFromRemote = keys.subtract(cachedKeys.toSet())
+                if (keysToLoadFromRemote.isEmpty()) {
+                    Result.success(cachedValues)
+                } else {
+                    loadValuesAndUpdateCache(keysToLoadFromRemote.toList())
+                        .map { remoteValues ->
+                            cachedValues + remoteValues
+                        }
+                }
             } else {
-                getManyValues(keys, forceLoadFromRemote)
+                loadValuesAndUpdateCache(keys)
             }
         }
     }
 
-    private suspend fun getSingleValue(key: Key, forceLoadFromRemote: Boolean): Result<List<Value>> =
-        if (!forceLoadFromRemote && cache.containsKey(key)) {
-            val cachedValue = cache[key]
-            if (cachedValue != null) {
-                Result.success(listOf(cachedValue))
-            } else {
-                loadValuesAndUpdateCache(listOf(key))
-            }
-        } else {
-            loadValuesAndUpdateCache(listOf(key))
-        }
-
-    private suspend fun getManyValues(keys: List<Key>, forceLoadFromRemote: Boolean): Result<List<Value>> =
-        if (!forceLoadFromRemote) {
-            val keysToLoadFromRemote: MutableList<Key> = mutableListOf()
-            val cachedValues: MutableList<Value> = mutableListOf()
-
-            keys.forEach { key ->
-                if (cache.containsKey(key)) {
-                    val cachedValue = cache[key]
-                    if (cachedValue != null) {
-                        cachedValues.add(cachedValue)
-                    } else {
-                        keysToLoadFromRemote.add(key)
-                    }
-                } else {
-                    keysToLoadFromRemote.add(key)
-                }
-            }
-
-            if (keysToLoadFromRemote.isEmpty()) {
-                Result.success(cachedValues)
-            } else {
-                loadValuesAndUpdateCache(keysToLoadFromRemote)
-                    .map { remoteValues ->
-                        cachedValues + remoteValues
-                    }
-            }
-        } else {
-            loadValuesAndUpdateCache(keys)
-        }
-
     private suspend fun loadValuesAndUpdateCache(keys: List<Key>): Result<List<Value>> =
         loadValuesFromRemote(keys).onSuccess { remoteValues ->
-            remoteValues.forEach { value ->
-                val key = getKeyFromValue(value)
-                if (key != null) {
-                    cache[key] = value
+            val keyToRemoteValueMap: Map<Key, Value> = buildMap(keys.size) {
+                remoteValues.forEach { value ->
+                    val key = getKeyFromValue(value)
+                    if (key != null) {
+                        set(key, value)
+                    }
                 }
             }
+            cache.putAll(keyToRemoteValueMap)
         }
 
     fun clearCache() {
