@@ -19,8 +19,7 @@ internal class DebugReducer : StateReducer<State, Message, Action> {
                 if (state is State.Loading) {
                     State.Content(
                         currentEndpointConfig = message.debugSettings.endpointConfigType,
-                        selectedEndpointConfig = message.debugSettings.endpointConfigType,
-                        stepNavigationInputText = ""
+                        selectedEndpointConfig = message.debugSettings.endpointConfigType
                     ) to emptySet()
                 } else {
                     null
@@ -40,15 +39,41 @@ internal class DebugReducer : StateReducer<State, Message, Action> {
             // Step navigation
             is Message.StepNavigationInputTextChanged ->
                 if (state is State.Content) {
-                    state.copy(stepNavigationInputText = message.text) to emptySet()
+                    state.copy(navigationInput = state.navigationInput.copy(stepId = message.text)) to emptySet()
                 } else {
                     null
                 }
             is Message.StepNavigationOpenClicked ->
                 if (state is State.Content) {
-                    val stepId = state.stepNavigationInputText.toLongOrNull()
+                    val stepId = state.navigationInput.stepId.toLongOrNull()
                     if (stepId != null) {
                         state to setOf(Action.ViewAction.OpenStep(StepRoute.Learn(stepId)))
+                    } else {
+                        null
+                    }
+                } else {
+                    null
+                }
+            // Stage implement navigation
+            is Message.StageImplementNavigationInputChanged ->
+                if (state is State.Content) {
+                    state.copy(
+                        navigationInput = state.navigationInput.copy(
+                            stageImplement = State.Content.NavigationInput.StageImplement(
+                                projectId = message.projectId,
+                                stageId = message.stageId
+                            )
+                        )
+                    ) to emptySet()
+                } else {
+                    null
+                }
+            is Message.StageImplementNavigationOpenClicked ->
+                if (state is State.Content) {
+                    val projectId = state.navigationInput.stageImplement.projectId.toLongOrNull()
+                    val stageId = state.navigationInput.stageImplement.stageId.toLongOrNull()
+                    if (projectId != null && stageId != null) {
+                        state to setOf(Action.ViewAction.OpenStageImplement(projectId, stageId))
                     } else {
                         null
                     }

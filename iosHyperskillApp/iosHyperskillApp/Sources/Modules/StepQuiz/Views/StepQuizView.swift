@@ -67,22 +67,27 @@ struct StepQuizView: View {
                 VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
                     if case .unsupported = viewData.quizType {
                         StepQuizStatusView(state: .unsupportedQuiz)
+
+                        StepTextView(text: viewData.stepText)
+                    } else {
+                        StepTextView(text: viewData.stepText)
+
+                        if viewData.stepHasHints {
+                            StepQuizHintsAssembly(
+                                stepID: viewModel.step.id,
+                                stepRoute: viewModel.stepRoute
+                            ).makeModule()
+                        }
+
+                        buildQuizContent(
+                            state: viewModel.state,
+                            step: viewModel.step,
+                            quizName: viewData.quizName,
+                            quizType: viewData.quizType,
+                            formattedStats: viewData.formattedStats,
+                            feedbackHintText: viewData.feedbackHintText
+                        )
                     }
-
-                    StepTextView(text: viewData.stepText)
-
-                    if viewData.stepHasHints {
-                        StepQuizHintsAssembly(stepID: viewModel.step.id).makeModule()
-                    }
-
-                    buildQuizContent(
-                        state: viewModel.state,
-                        step: viewModel.step,
-                        quizName: viewData.quizName,
-                        quizType: viewData.quizType,
-                        formattedStats: viewData.formattedStats,
-                        feedbackHintText: viewData.feedbackHintText
-                    )
                 }
                 .padding()
             }
@@ -120,6 +125,13 @@ struct StepQuizView: View {
                 if let formattedStats {
                     StepQuizStatsView(text: formattedStats)
                 }
+
+                if viewModel.stepRoute is StepRouteLearn {
+                    ProblemsLimitAssembly(
+                        appearance: .init(showTopDivider: true)
+                    ).makeModule()
+                }
+
                 buildQuizStatusView(state: state, attemptLoadedState: attemptLoadedState)
 
                 if let feedbackHintText {
@@ -187,7 +199,7 @@ struct StepQuizView: View {
         }()
 
         if submissionStatus == SubmissionStatus.wrong {
-            if quizType.isCodeOrSQL {
+            if quizType.isCodeRelated {
                 StepQuizActionButtons.retryLogoAndRunSolution(
                     retryButtonAction: viewModel.doQuizRetryAction,
                     runSolutionButtonState: .init(submissionStatus: submissionStatus),
@@ -222,7 +234,7 @@ struct StepQuizView: View {
                 .disabled(StepQuizResolver.shared.isQuizLoading(state: state))
             }
         } else {
-            if quizType.isCodeOrSQL {
+            if quizType.isCodeRelated {
                 StepQuizActionButtons.runSolution(
                     state: .init(submissionStatus: submissionStatus),
                     action: viewModel.doMainQuizAction
@@ -251,12 +263,17 @@ struct StepQuizView: View {
             default:
                 break
             }
+        case .showProblemsLimitReachedModal:
+            presentProblemsLimitReachedModal()
         case .showProblemOfDaySolvedModal(let showProblemOfDaySolvedModalViewAction):
             presentDailyStepCompletedModal(earnedGemsText: showProblemOfDaySolvedModalViewAction.earnedGemsText)
         case .navigateTo(let viewActionNavigateTo):
             switch StepQuizFeatureActionViewActionNavigateToKs(viewActionNavigateTo) {
             case .back:
                 stackRouter.popViewController()
+            case .home:
+                stackRouter.popViewController()
+                TabBarRouter(tab: .home).route()
             }
         }
     }
@@ -337,6 +354,14 @@ extension StepQuizView {
         panModal.onDisappear = { [weak viewModel] in
             viewModel?.logDailyStepCompletedModalHiddenEvent()
         }
+
+        panModalPresenter.presentPanModal(panModal)
+    }
+
+    private func presentProblemsLimitReachedModal() {
+        let panModal = ProblemsLimitReachedModalViewController(
+            delegate: viewModel
+        )
 
         panModalPresenter.presentPanModal(panModal)
     }

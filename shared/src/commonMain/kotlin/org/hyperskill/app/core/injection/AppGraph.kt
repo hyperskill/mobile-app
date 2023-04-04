@@ -7,6 +7,7 @@ import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.comments.injection.CommentsDataComponent
 import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
+import org.hyperskill.app.freemium.injection.FreemiumDataComponent
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.items.injection.ItemsDataComponent
@@ -17,8 +18,10 @@ import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainDataComponent
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.notification.injection.NotificationComponent
+import org.hyperskill.app.notification.injection.NotificationFlowDataComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponent
+import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.products.injection.ProductsDataComponent
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponent
@@ -26,8 +29,11 @@ import org.hyperskill.app.profile.injection.ProfileHypercoinsDataComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponent
+import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.sentry.injection.SentryComponent
+import org.hyperskill.app.stage_implement.injection.StageImplementComponent
+import org.hyperskill.app.stages.injection.StagesDataComponent
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step.injection.StepDataComponent
@@ -38,6 +44,7 @@ import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import org.hyperskill.app.streaks.injection.StreakFlowDataComponent
 import org.hyperskill.app.streaks.injection.StreaksDataComponent
+import org.hyperskill.app.study_plan.injection.StudyPlanDataComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponent
@@ -62,13 +69,26 @@ interface AppGraph {
     val topicsRepetitionsFlowDataComponent: TopicsRepetitionsFlowDataComponent
     val stepCompletionFlowDataComponent: StepCompletionFlowDataComponent
     val progressesFlowDataComponent: ProgressesFlowDataComponent
+    val notificationFlowDataComponent: NotificationFlowDataComponent
+    val stateRepositoriesComponent: StateRepositoriesComponent
 
-    fun buildMainDataComponent(): MainDataComponent
+    /**
+     * Auth components
+     */
     fun buildAuthSocialComponent(): AuthSocialComponent
     fun buildAuthCredentialsComponent(): AuthCredentialsComponent
+
+    /**
+     * Step components
+     */
     fun buildStepComponent(stepRoute: StepRoute): StepComponent
     fun buildStepDataComponent(): StepDataComponent
     fun buildStepQuizComponent(stepRoute: StepRoute): StepQuizComponent
+    fun buildStepQuizHintsComponent(stepRoute: StepRoute): StepQuizHintsComponent
+    fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent
+    fun buildStageImplementComponent(projectId: Long, stageId: Long): StageImplementComponent
+
+    fun buildMainDataComponent(): MainDataComponent
     fun buildProfileDataComponent(): ProfileDataComponent
     fun buildTrackComponent(): TrackComponent
     fun buildTrackDataComponent(): TrackDataComponent
@@ -80,7 +100,6 @@ interface AppGraph {
     fun buildPlaceholderNewUserComponent(): PlaceholderNewUserComponent
     fun buildUserStorageComponent(): UserStorageComponent
     fun buildCommentsDataComponent(): CommentsDataComponent
-    fun buildStepQuizHintsComponent(): StepQuizHintsComponent
     fun buildStreaksDataComponent(): StreaksDataComponent
     fun buildMagicLinksDataComponent(): MagicLinksDataComponent
     fun buildDiscussionsDataComponent(): DiscussionsDataComponent
@@ -97,5 +116,9 @@ interface AppGraph {
     fun buildGamificationToolbarComponent(): GamificationToolbarComponent
     fun buildTopicsToDiscoverNextComponent(screen: TopicsToDiscoverNextScreen): TopicsToDiscoverNextComponent
     fun buildTopicsToDiscoverNextDataComponent(): TopicsToDiscoverNextDataComponent
-    fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent
+    fun buildStudyPlanDataComponent(): StudyPlanDataComponent
+    fun buildProjectsDataComponent(): ProjectsDataComponent
+    fun buildStagesDataComponent(): StagesDataComponent
+    fun buildFreemiumDataComponent(): FreemiumDataComponent
+    fun buildProblemsLimitComponent(): ProblemsLimitComponent
 }

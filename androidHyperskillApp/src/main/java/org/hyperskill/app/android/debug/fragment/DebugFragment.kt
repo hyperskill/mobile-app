@@ -14,6 +14,7 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.debug.ui.DebugScreen
+import org.hyperskill.app.android.stage_implementation.view.navigation.StageImplementationScreen
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.debug.presentation.DebugFeature
@@ -71,6 +72,14 @@ class DebugFragment : Fragment(R.layout.fragment_debug) {
                     Toast.LENGTH_SHORT
                 ).show()
                 view?.postDelayed({ triggerApplicationRestart(requireContext()) }, 1500)
+            }
+            is DebugFeature.Action.ViewAction.OpenStageImplement -> {
+                requireRouter().navigateTo(
+                    StageImplementationScreen(
+                        projectId = action.projectId,
+                        stageId = action.stageId
+                    )
+                )
             }
         }
     }

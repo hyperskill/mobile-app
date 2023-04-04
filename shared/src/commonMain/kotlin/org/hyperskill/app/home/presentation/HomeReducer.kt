@@ -1,12 +1,12 @@
 package org.hyperskill.app.home.presentation
 
-import kotlin.math.max
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
 import org.hyperskill.app.home.domain.analytic.HomeClickedContinueLearningOnWebHyperskillAnalyticEvent
 import org.hyperskill.app.home.domain.analytic.HomeClickedProblemOfDayCardHyperskillAnalyticEvent
+import org.hyperskill.app.home.domain.analytic.HomeClickedProblemOfDayCardReloadHyperskillAnalyticEvent
 import org.hyperskill.app.home.domain.analytic.HomeClickedPullToRefreshHyperskillAnalyticEvent
 import org.hyperskill.app.home.domain.analytic.HomeClickedTopicsRepetitionsCardHyperskillAnalyticEvent
 import org.hyperskill.app.home.domain.analytic.HomeViewedHyperskillAnalyticEvent
@@ -17,6 +17,7 @@ import org.hyperskill.app.home.presentation.HomeFeature.State
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextReducer
 import ru.nobird.app.presentation.redux.reducer.StateReducer
+import kotlin.math.max
 
 class HomeReducer(
     private val gamificationToolbarReducer: GamificationToolbarReducer,
@@ -24,34 +25,14 @@ class HomeReducer(
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
-            is Message.Initialize -> {
-                val (homeState, homeActions) = if (state.homeState is HomeState.Idle ||
-                    (message.forceUpdate && (state.homeState is HomeState.Content || state.homeState is HomeState.NetworkError))
-                ) {
-                    HomeState.Loading to setOf(Action.FetchHomeScreenData)
-                } else {
-                    state.homeState to emptySet()
-                }
-
-                val (toolbarState, toolbarActions) = reduceGamificationToolbarMessage(
-                    state.toolbarState,
-                    GamificationToolbarFeature.Message.Initialize(GamificationToolbarScreen.HOME, message.forceUpdate)
-                )
-
-                val (topicsToDiscoverNextState, topicsToDiscoverNextActions) = reduceTopicsToDiscoverNextMessage(
-                    state.topicsToDiscoverNextState,
-                    TopicsToDiscoverNextFeature.Message.Initialize(message.forceUpdate)
-                )
-
-                state.copy(
-                    homeState = homeState,
-                    toolbarState = toolbarState,
-                    topicsToDiscoverNextState = topicsToDiscoverNextState
-                ) to homeActions + toolbarActions + topicsToDiscoverNextActions
-            }
+            is Message.Initialize -> initialize(state, message.forceUpdate)
             is Message.HomeSuccess ->
                 state.copy(
-                    homeState = HomeState.Content(message.problemOfDayState, message.repetitionsState)
+                    homeState = HomeState.Content(
+                        message.problemOfDayState,
+                        message.repetitionsState,
+                        message.isFreemiumEnabled
+                    )
                 ) to emptySet()
             is Message.HomeFailure ->
                 state.copy(homeState = HomeState.NetworkError) to emptySet()
@@ -204,6 +185,32 @@ class HomeReducer(
                 } else {
                     null
                 }
+            is Message.ClickedProblemOfDayCardReload -> {
+                if (state.homeState is HomeState.Content) {
+                    val (newState, newActions) = initialize(state, forceUpdate = true)
+                    val analyticsEvent = when (state.homeState.problemOfDayState) {
+                        HomeFeature.ProblemOfDayState.Empty -> null
+                        is HomeFeature.ProblemOfDayState.NeedToSolve -> {
+                            HomeClickedProblemOfDayCardReloadHyperskillAnalyticEvent(
+                                isCompleted = false
+                            )
+                        }
+                        is HomeFeature.ProblemOfDayState.Solved -> {
+                            HomeClickedProblemOfDayCardReloadHyperskillAnalyticEvent(
+                                isCompleted = true
+                            )
+                        }
+                    }
+                    val logEventAction = if (analyticsEvent != null) {
+                        setOf(Action.LogAnalyticEvent(analyticsEvent))
+                    } else {
+                        emptySet()
+                    }
+                    newState to newActions + logEventAction
+                } else {
+                    null
+                }
+            }
             // MagicLinks Messages
             is Message.GetMagicLinkReceiveSuccess -> {
                 if (state.homeState is HomeState.Content) {
@@ -307,5 +314,35 @@ class HomeReducer(
             .toSet()
 
         return topicsToDiscoverNextState to actions
+    }
+
+    private fun initialize(state: State, forceUpdate: Boolean): Pair<State, Set<Action>> {
+        val needReloadHome =
+            state.homeState is HomeState.Idle ||
+                forceUpdate && (state.homeState is HomeState.Content || state.homeState is HomeState.NetworkError)
+        val (homeState, homeActions) =
+            if (needReloadHome) {
+                HomeState.Loading to setOf(Action.FetchHomeScreenData)
+            } else {
+                state.homeState to emptySet()
+            }
+
+        val (toolbarState, toolbarActions) =
+            reduceGamificationToolbarMessage(
+                state.toolbarState,
+                GamificationToolbarFeature.Message.Initialize(GamificationToolbarScreen.HOME, forceUpdate)
+            )
+
+        val (topicsToDiscoverNextState, topicsToDiscoverNextActions) =
+            reduceTopicsToDiscoverNextMessage(
+                state.topicsToDiscoverNextState,
+                TopicsToDiscoverNextFeature.Message.Initialize(forceUpdate)
+            )
+
+        return state.copy(
+            homeState = homeState,
+            toolbarState = toolbarState,
+            topicsToDiscoverNextState = topicsToDiscoverNextState
+        ) to homeActions + toolbarActions + topicsToDiscoverNextActions
     }
 }

@@ -3,8 +3,8 @@ package org.hyperskill.app.step_quiz_hints.presentation
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.comments.domain.interactor.CommentsInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.likes.domain.interactor.LikesInteractor
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.reactions.domain.interactor.ReactionsInteractor
 import org.hyperskill.app.reactions.domain.model.ReactionType
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
@@ -20,11 +20,11 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 internal class StepQuizHintsActionDispatcher(
     config: ActionDispatcherOptions,
     private val stepQuizHintsInteractor: StepQuizHintsInteractor,
-    private val profileInteractor: ProfileInteractor,
     private val likesInteractor: LikesInteractor,
     private val commentsInteractor: CommentsInteractor,
     private val reactionsInteractor: ReactionsInteractor,
     private val userStorageInteractor: UserStorageInteractor,
+    private val freemiumInteractor: FreemiumInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
@@ -35,10 +35,8 @@ internal class StepQuizHintsActionDispatcher(
                 sentryInteractor.startTransaction(sentryTransaction)
 
                 val hintsIds = stepQuizHintsInteractor.getNotSeenHintsIds(action.stepId)
-                val dailyStepId = profileInteractor
-                    .getCurrentProfile()
-                    .map { it.dailyStep }
-                    .getOrNull()
+
+                val isFreemiumEnabled = freemiumInteractor.isFreemiumEnabled().getOrDefault(false)
 
                 val lastSeenHint = stepQuizHintsInteractor.getLastSeenHint(action.stepId)
 
@@ -58,7 +56,7 @@ internal class StepQuizHintsActionDispatcher(
                         hintsIds = hintsIds,
                         lastSeenHint = lastSeenHint,
                         lastSeenHintHasReaction = lastSeenHintHasReaction,
-                        isDailyStep = dailyStepId == action.stepId,
+                        isFreemiumEnabled = isFreemiumEnabled,
                         stepId = action.stepId
                     )
                 )
@@ -121,7 +119,7 @@ internal class StepQuizHintsActionDispatcher(
                             Message.NextHintLoaded(
                                 it,
                                 action.remainingHintsIds,
-                                action.isDailyStep,
+                                action.isFreemiumEnabled,
                                 action.stepId
                             )
                         )
@@ -138,7 +136,7 @@ internal class StepQuizHintsActionDispatcher(
                             Message.NextHintLoadingError(
                                 action.nextHintId,
                                 action.remainingHintsIds,
-                                action.isDailyStep,
+                                action.isFreemiumEnabled,
                                 action.stepId
                             )
                         )

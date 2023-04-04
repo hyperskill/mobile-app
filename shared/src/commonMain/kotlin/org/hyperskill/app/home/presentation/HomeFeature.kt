@@ -44,6 +44,7 @@ interface HomeFeature {
         data class Content(
             val problemOfDayState: ProblemOfDayState,
             val repetitionsState: RepetitionsState,
+            val isFreemiumEnabled: Boolean,
             internal val isRefreshing: Boolean = false,
             val isLoadingMagicLink: Boolean = false
         ) : HomeState
@@ -94,7 +95,8 @@ interface HomeFeature {
         data class Initialize(val forceUpdate: Boolean) : Message
         data class HomeSuccess(
             val problemOfDayState: ProblemOfDayState,
-            val repetitionsState: RepetitionsState
+            val repetitionsState: RepetitionsState,
+            val isFreemiumEnabled: Boolean
         ) : Message
         object HomeFailure : Message
         object PullToRefresh : Message
@@ -108,6 +110,7 @@ interface HomeFeature {
 
         object ClickedContinueLearningOnWeb : Message
         object ClickedTopicsRepetitionsCard : Message
+        object ClickedProblemOfDayCardReload : Message
 
         data class GetMagicLinkReceiveSuccess(val url: String) : Message
         object GetMagicLinkReceiveFailure : Message

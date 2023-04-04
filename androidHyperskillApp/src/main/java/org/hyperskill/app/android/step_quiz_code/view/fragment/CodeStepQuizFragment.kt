@@ -1,20 +1,20 @@
 package org.hyperskill.app.android.step_quiz_code.view.fragment
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import org.hyperskill.app.android.R
-import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizCodeBinding
+import org.hyperskill.app.android.databinding.LayoutStepQuizDescriptionBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.fragment.DefaultStepQuizFragment
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeLayoutDelegate
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeQuizInstructionDelegate
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeStepQuizFormDelegate
+import org.hyperskill.app.android.step_quiz_code.view.model.CodeStepQuizConfigFactory
+import org.hyperskill.app.android.step_quiz_code.view.model.config.CodeStepQuizConfig
 import org.hyperskill.app.android.step_quiz_fullscreen_code.dialog.CodeStepQuizFullScreenDialogFragment
-import org.hyperskill.app.step.domain.model.Block
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
@@ -37,11 +37,11 @@ class CodeStepQuizFragment :
     private var _binding: LayoutStepQuizCodeBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var codeOptions: Block.Options
+    private val config: CodeStepQuizConfig by lazy(LazyThreadSafetyMode.NONE) {
+        CodeStepQuizConfigFactory.create(step)
+    }
 
     private var codeStepQuizFormDelegate: CodeStepQuizFormDelegate? = null
-
-    private lateinit var langName: String
 
     override val quizViews: Array<View>
         get() = arrayOf(binding.stepQuizCodeContainer)
@@ -49,11 +49,14 @@ class CodeStepQuizFragment :
     override val skeletonView: View
         get() = binding.stepQuizCodeSkeleton.root
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        _binding = LayoutStepQuizCodeBinding.inflate(LayoutInflater.from(requireContext()), viewBinding.root, false)
-        viewBinding.root.addView(binding.root)
+    override val descriptionBinding: LayoutStepQuizDescriptionBinding
+        get() = binding.codeStepDescription
 
-        super.onViewCreated(view, savedInstanceState)
+    override fun createStepView(layoutInflater: LayoutInflater, parent: ViewGroup): View {
+        val binding = LayoutStepQuizCodeBinding.inflate(layoutInflater, parent, false).also {
+            _binding = it
+        }
+        return binding.root
     }
 
     override fun onDestroyView() {
@@ -62,19 +65,12 @@ class CodeStepQuizFragment :
         super.onDestroyView()
     }
 
-    override fun createStepQuizFormDelegate(containerBinding: FragmentStepQuizBinding): StepQuizFormDelegate {
-        codeOptions = step.block.options
-        langName = codeOptions.limits!!.keys.first()
-
-        val codeDetailsView = (viewBinding.root.parent.parent as View).findViewById<View>(R.id.stepQuizCodeSamples)
-        codeDetailsView.isVisible = true
-
+    override fun createStepQuizFormDelegate(): StepQuizFormDelegate {
         val codeLayoutDelegate = CodeLayoutDelegate(
             codeLayout = binding.codeStepLayout,
-            step = step,
-            codeTemplates = codeOptions.codeTemplates!!,
+            config = config,
             codeQuizInstructionDelegate = CodeQuizInstructionDelegate(
-                codeDetailsView,
+                binding.codeStepSamples.root,
                 true,
                 onDetailsIsExpandedStateChanged = {
                     logAnalyticEventMessage(StepQuizFeature.Message.ClickedCodeDetailsEventMessage)
@@ -84,11 +80,9 @@ class CodeStepQuizFragment :
         )
 
         val codeStepQuizFormDelegate = CodeStepQuizFormDelegate(
-            containerBinding = containerBinding,
             codeLayout = binding.codeStepLayout,
-            langName = langName,
-            initialCode = codeOptions.codeTemplates?.get(langName) ?: "",
             codeLayoutDelegate = codeLayoutDelegate,
+            codeStepQuizConfig = config,
             onFullscreenClicked = ::onFullScreenClicked,
             onQuizChanged = ::syncReplyState
         )
@@ -101,7 +95,7 @@ class CodeStepQuizFragment :
         if (state is StepQuizFeature.State.AttemptLoaded) {
             val submission = (state.submissionState as? StepQuizFeature.SubmissionState.Loaded)
                 ?.submission
-            val replyCode = submission?.reply?.code
+            val replyCode = config.getCode(submission)
             val fullScreenFragment = childFragmentManager
                 .findFragmentByTag(CodeStepQuizFullScreenDialogFragment.TAG) as? CodeStepQuizFullScreenDialogFragment
             fullScreenFragment?.onNewCode(replyCode)
@@ -119,13 +113,12 @@ class CodeStepQuizFragment :
         onRetryButtonClicked()
     }
 
-    private fun onFullScreenClicked(lang: String, code: String?) {
+    private fun onFullScreenClicked(lang: String, code: String) {
         CodeStepQuizFullScreenDialogFragment
             .newInstance(
                 CodeStepQuizFullScreenDialogFragment.Params(
                     lang = lang,
-                    code = code ?: codeOptions.codeTemplates?.get(lang) ?: "",
-                    codeTemplates = codeOptions.codeTemplates!!,
+                    code = code,
                     step = step,
                     isShowRetryButton = viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton.isVisible
                 )

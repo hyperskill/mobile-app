@@ -9,9 +9,10 @@
     <string name="no">No</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
+    <string name="back">Back</string>
     <string name="later">Later</string>
     <string name="good_job">Good job!</string>
-    <string name="go_to_homescreen">Go to Homescreen</string>
+    <string name="go_to_homescreen">Go to home</string>
 
     <!-- Users list -->
     <string name="user_list_search_button_title">Search</string>
@@ -71,6 +72,7 @@
     <string name="step_quiz_problem_of_day_solved_modal_title">Problem of the day solved!</string>
     <string name="step_quiz_problem_of_day_solved_modal_text">Solve another one tomorrow to get more</string>
     <string name="step_quiz_topic_completed_modal_text">You completed %s</string>
+    <string name="step_quiz_topic_completed_continue_with_next_topic_button_text">Continue with next topic</string>
 
     <!-- Step quiz hint -->
     <string name="step_quiz_hints_show_button_text">See hint</string>
@@ -138,6 +140,14 @@
     <!-- Step quiz code -->
     <string name="step_quiz_sql_title">Write an SQL statement</string>
 
+    <!-- Stage implement -->
+    <string name="stage_implement_title">Work on project. Stage %d/%d</string>
+    <string name="stage_implement_unsupported_modal_title">IDE required</string>
+    <string name="stage_implement_unsupported_modal_description">To proceed, you need an IDE. Please continue learning
+        on a computer.\n\nIf this is not an option for you right now, check out the available activities on your home
+        screen.
+    </string>
+
     <!-- Tab bar -->
     <string name="tab_bar_home_title">Home</string>
     <string name="tab_bar_track_title">Track</string>
@@ -148,6 +158,8 @@
     <string name="home_title">Hello!</string>
     <string name="home_keep_practicing_text">Keep practicing to achieve your learning goal</string>
     <string name="home_topics_to_discover_next_title">Discover next topic in your track</string>
+    <string name="home_solve_unlimited">Solve unlimited</string>
+    <string name="home_repeat_unlimited">Repeat unlimited</string>
 
     <!-- Track -->
     <string name="track_title">Track</string>
@@ -208,8 +220,13 @@
     <!-- Debug menu -->
     <string name="debug_menu_title">Debug</string>
     <string name="debug_menu_section_api_header_title">API Base URL</string>
+    <string name="debug_menu_section_step_navigation_header_title">Step Navigation</string>
     <string name="debug_menu_section_step_navigation_text_input_title">Enter step id</string>
     <string name="debug_menu_section_step_navigation_button_text">Open step</string>
+    <string name="debug_menu_section_stage_implement_header_title">Stage Implement Navigation</string>
+    <string name="debug_menu_section_stage_implement_project_id_text_input_title">Enter project id</string>
+    <string name="debug_menu_section_stage_implement_stage_id_text_input_title">Enter stage id</string>
+    <string name="debug_menu_section_stage_implement_button_text">Open stage implement</string>
     <string name="debug_menu_apply_settings_button_text">Apply</string>
     <string name="debug_menu_restart_application_alert_title_ios">Restart Application</string>
     <string name="debug_menu_restart_application_alert_message_ios">
@@ -338,4 +355,17 @@
 
     <!--Topics widget-->
     <string name="topics_widget_learn_next_badge">Learn next</string>
+
+    <!--Unsupported stage bottom sheet-->
+    <string name="unsupported_stage_dialog_title">IDE required</string>
+    <string name="unsupported_stage_dialog_description">To proceed, you need an IDE. Please continue learning on a computer.\n\n If this is not an option for you right now, check out the available activities on your home screen.</string>
+
+    <!--  Problems limit reached modal  -->
+    <string name="problems_limit_reached_modal_title">You\'ve reached your daily limit</string>
+    <string name="problems_limit_reached_modal_description">You\'ve solved 5 problems today. Great job! Tomorrow new problems will be available to you.</string>
+
+    <!--  Problems limit widget  -->
+    <string name="problems_limit_widget_problems_limit">%d/%d problems limit</string>
+    <string name="problems_limit_widget_update_in">Update in %s</string>
+
 </resources>

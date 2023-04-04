@@ -16,6 +16,14 @@ struct TextFieldWrapper: UIViewRepresentable {
 
     var onReturn: (() -> Void)?
 
+    // MARK: UIViewRepresentable
+
+    static func dismantleUIView(_ uiView: UITextField, coordinator: Coordinator) {
+        coordinator.onTextDidChange = nil
+        coordinator.onReturn = nil
+        coordinator.onDidEndEditing = nil
+    }
+
     func makeUIView(context: Context) -> UITextField {
         let textField = self.makeTextField()
 

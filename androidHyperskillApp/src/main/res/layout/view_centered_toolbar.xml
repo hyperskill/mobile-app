@@ -3,7 +3,9 @@
     android:id="@+id/centeredToolbar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:layout_gravity="center">
+    android:layout_gravity="center"
+    android:background="@color/color_background"
+    >
 
     <TextView
         android:id="@+id/centeredToolbarTitle"

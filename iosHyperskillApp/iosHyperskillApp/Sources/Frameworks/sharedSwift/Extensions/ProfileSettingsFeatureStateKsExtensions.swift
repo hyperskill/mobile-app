@@ -1,7 +1,6 @@
 import Foundation
 import shared
 
-#warning("TODO: Replce with source code generator Sourcery")
 extension ProfileSettingsFeatureStateKs: Equatable {
     public static func == (lhs: ProfileSettingsFeatureStateKs, rhs: ProfileSettingsFeatureStateKs) -> Bool {
         switch (lhs, rhs) {

@@ -1,11 +1,11 @@
 package org.hyperskill.app.android.step_quiz_choice.view.fragment
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizChoiceBinding
+import org.hyperskill.app.android.databinding.LayoutStepQuizDescriptionBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.fragment.DefaultStepQuizFragment
 import org.hyperskill.app.android.step_quiz_choice.view.delegate.ChoiceStepQuizFormDelegate
@@ -34,10 +34,14 @@ class ChoiceStepQuizFragment :
     override val skeletonView: View
         get() = binding.stepQuizChoiceSkeleton.root
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        _binding = LayoutStepQuizChoiceBinding.inflate(LayoutInflater.from(requireContext()), viewBinding.root, false)
-        viewBinding.root.addView(binding.root)
-        super.onViewCreated(view, savedInstanceState)
+    override val descriptionBinding: LayoutStepQuizDescriptionBinding
+        get() = binding.stepQuizChoiceDescription
+
+    override fun createStepView(layoutInflater: LayoutInflater, parent: ViewGroup): View {
+        val binding = LayoutStepQuizChoiceBinding.inflate(layoutInflater, parent, false).also {
+            _binding = it
+        }
+        return binding.root
     }
 
     override fun onDestroyView() {
@@ -45,6 +49,6 @@ class ChoiceStepQuizFragment :
         super.onDestroyView()
     }
 
-    override fun createStepQuizFormDelegate(containerBinding: FragmentStepQuizBinding): StepQuizFormDelegate =
-        ChoiceStepQuizFormDelegate(containerBinding, binding, onQuizChanged = ::syncReplyState)
+    override fun createStepQuizFormDelegate(): StepQuizFormDelegate =
+        ChoiceStepQuizFormDelegate(binding, onQuizChanged = ::syncReplyState)
 }

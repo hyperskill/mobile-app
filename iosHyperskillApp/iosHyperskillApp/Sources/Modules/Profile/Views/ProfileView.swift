@@ -22,7 +22,16 @@ struct ProfileView: View {
 
     var body: some View {
         ZStack {
-            UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
+            UIViewControllerEventsWrapper(
+                onViewDidAppear: { [weak viewModel] in
+                    guard let strongViewModel = viewModel else {
+                        return
+                    }
+
+                    strongViewModel.logViewedEvent()
+                    strongViewModel.determineCurrentNotificationPermissionStatus()
+                }
+            )
 
             BackgroundView(color: appearance.backgroundColor)
 
@@ -43,7 +52,6 @@ struct ProfileView: View {
         .sheet(isPresented: $presentingSettings) {
             ProfileSettingsAssembly().makeModule()
         }
-        .onAppear(perform: viewModel.determineCurrentNotificationPermissionStatus)
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
@@ -79,7 +87,10 @@ struct ProfileView: View {
                 let _ = ProgressHUD.show()
             }
 
-            let viewData = viewModel.makeViewData(data.profile)
+            let viewData = viewModel.makeViewData(
+                profile: data.profile,
+                dailyStudyRemindersState: data.dailyStudyRemindersState
+            )
 
             ScrollView {
                 VStack(spacing: appearance.spacingBetweenContainers) {
@@ -106,7 +117,7 @@ struct ProfileView: View {
                     ProfileStatisticsView(
                         appearance: .init(cornerRadius: appearance.cornerRadius),
                         passedProjectsCount: Int(data.profile.gamification.passedProjectsCount),
-                        passedTracksCount: Int(data.profile.gamification.passedTracksCount),
+                        passedTracksCount: Int(data.profile.completedTracks.count),
                         hypercoinsBalance: Int(data.profile.gamification.hypercoinsBalance)
                     )
 
@@ -115,7 +126,7 @@ struct ProfileView: View {
                         isActivated: viewData.isDailyStudyRemindersEnabled,
                         selectedHour: viewData.dailyStudyRemindersStartHour,
                         onIsActivatedChanged: viewModel.setDailyStudyRemindersEnabled(_:),
-                        onSelectedHourChanged: viewModel.setDailyStudyRemindersStartHour(startHour:),
+                        onSelectedHourChanged: viewModel.setDailyStudyRemindersStartHour(_:),
                         onSelectedHourTapped: viewModel.logClickedDailyStudyRemindsTimeEvent
                     )
 

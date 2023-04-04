@@ -48,7 +48,6 @@
     <dimen name="step_quiz_toolbar_padding_vertical">16dp</dimen>
     <dimen name="step_quiz_submit_button_height">47dp</dimen>
     <dimen name="step_quiz_feedback_right_textview_height">48dp</dimen>
-    <dimen name="step_quiz_feedback_wrong_textview_height">66dp</dimen>
     <dimen name="step_quiz_discussion_button_height">48dp</dimen>
     <dimen name="step_quiz_hint_button_height">32dp</dimen>
     <dimen name="item_choice_skeleton_height">21dp</dimen>
@@ -89,5 +88,7 @@
 
     <!--New user screen-->
     <dimen name="track_items_vertical_margin">8dp</dimen>
+
+    <dimen name="problems_limit_diver_margin">20dp</dimen>
 
 </resources>

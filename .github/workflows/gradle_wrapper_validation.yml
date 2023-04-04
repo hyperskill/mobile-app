@@ -1,0 +1,22 @@
+name: Gradle Wrapper Validation
+
+on:
+  push:
+    branches:
+      - 'dependabot/github_actions/gradle/wrapper-validation-action-**'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  gradle-wrapper-validation:
+    name: Gradle Wrapper Validation
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.5.0
+        
+      - name: Gradle Wrapper Validation
+        uses: gradle/wrapper-validation-action@v1.0.6

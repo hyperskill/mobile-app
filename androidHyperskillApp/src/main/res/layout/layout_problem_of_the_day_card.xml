@@ -15,7 +15,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:src="@drawable/bg_hexogens_static" />
+        android:src="@drawable/bg_hexogens_static"
+        tools:ignore="ContentDescription" />
 
     <LinearLayout
         android:id="@+id/problemOfDayLayout"
@@ -24,30 +25,17 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-        <RelativeLayout
+        <TextView
+            android:id="@+id/problemOfDayTitleTextView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/problemOfDayTitleTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:drawablePadding="8dp"
-                android:text="@string/problem_of_day_title_completed"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textSize="18sp"
-                app:drawableStartCompat="@drawable/ic_task_day" />
-
-            <ImageView
-                android:id="@+id/topicsRepetitionArrowImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_home_screen_success_arrow_button"
-                android:layout_alignParentEnd="true"
-                tools:ignore="ContentDescription" />
-
-        </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:drawablePadding="8dp"
+            android:text="@string/problem_of_day_title_completed"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="18sp"
+            app:drawableStartCompat="@drawable/ic_task_day"
+            app:drawableEndCompat="@drawable/ic_home_screen_success_arrow_button" />
 
         <TextView
             android:id="@+id/problemOfDayDescriptionTextView"
@@ -103,7 +91,25 @@
 
             </LinearLayout>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/problemOfDayReloadButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/action_button_height"
+                style="@style/ThemeOverlay.Blue"
+                android:text="@string/reload"
+                android:layout_marginTop="20dp"
+                android:visibility="gone"
+                />
+
         </FrameLayout>
+
+        <TextView
+            android:id="@+id/problemOfDayFreemiumBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_solve_unlimited"
+            style="@style/Badge.Violet"
+            android:layout_marginTop="12dp"/>
 
     </LinearLayout>
 

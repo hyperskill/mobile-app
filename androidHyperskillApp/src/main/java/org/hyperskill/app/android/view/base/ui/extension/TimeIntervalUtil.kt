@@ -4,7 +4,6 @@ import java.util.ArrayList
 
 object TimeIntervalUtil {
     val values: Array<String>
-    val defaultTimeCode: Int
 
     init {
         val numberOfHours = 24
@@ -13,6 +12,5 @@ object TimeIntervalUtil {
             valuesList.add(String.format("%02d:00 \u2014 %02d:00", i, i + 1))
         }
         values = valuesList.toTypedArray()
-        defaultTimeCode = 20 // most usable
     }
 }

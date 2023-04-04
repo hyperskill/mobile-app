@@ -21,8 +21,11 @@ enum class HyperskillAnalyticPart(val partName: String) {
     THEORY_TO_DISCOVER_NEXT("theory_to_discover_next"),
     DAILY_STEP_COMPLETED_MODAL("daily_step_completed_modal"),
     TOPIC_COMPLETED_MODAL("topic_completed_modal"),
+    PROBLEMS_LIMIT_REACHED_MODAL("problems_limit_reached_modal"),
     MODAL("modal"),
     TRACK_MODAL("track_modal"),
     STREAK_WIDGET("streak_widget"),
-    STREAK_FREEZE_MODAL("streak_freeze_modal")
+    STREAK_FREEZE_MODAL("streak_freeze_modal"),
+    STAGE_IMPLEMENT_DEPRECATED_PLACEHOLDER("stage_implement_deprecated_placeholder"),
+    STAGE_IMPLEMENT_UNSUPPORTED_MODAL("stage_implement_unsupported_modal")
 }

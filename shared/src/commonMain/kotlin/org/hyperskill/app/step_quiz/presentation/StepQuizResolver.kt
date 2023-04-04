@@ -2,11 +2,16 @@ package org.hyperskill.app.step_quiz.presentation
 
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.isIdeRequired
 import org.hyperskill.app.step.domain.model.supportedBlocksNames
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 
 object StepQuizResolver {
     fun isQuizEnabled(state: StepQuizFeature.State.AttemptLoaded): Boolean {
+        if (state.isProblemsLimitReached) {
+            return false
+        }
+
         if (state.submissionState is StepQuizFeature.SubmissionState.Empty) {
             return true
         }
@@ -40,6 +45,7 @@ object StepQuizResolver {
             StepQuizFeature.State.Idle -> false
             StepQuizFeature.State.Loading -> true
             StepQuizFeature.State.NetworkError -> false
+            StepQuizFeature.State.Unsupported -> false
         }
 
     fun isNeedRecreateAttemptForNewSubmission(step: Step): Boolean =
@@ -56,6 +62,7 @@ object StepQuizResolver {
         when (step.block.name) {
             BlockName.CODE,
             BlockName.SQL,
+            BlockName.PYCHARM,
             BlockName.MATH ->
                 true
             else ->
@@ -63,5 +70,21 @@ object StepQuizResolver {
         }
 
     fun isQuizSupportable(step: Step): Boolean =
-        BlockName.supportedBlocksNames.contains(step.block.name)
+        BlockName.supportedBlocksNames.contains(step.block.name) && !step.isIdeRequired()
+
+    internal fun isIdeRequired(step: Step, submissionState: StepQuizFeature.SubmissionState): Boolean {
+        if (step.isIdeRequired()) {
+            return true
+        } else if (step.block.name == BlockName.PYCHARM) {
+            val reply = when (submissionState) {
+                is StepQuizFeature.SubmissionState.Empty -> submissionState.reply
+                is StepQuizFeature.SubmissionState.Loaded -> submissionState.submission.reply
+            } ?: return false
+
+            val visibleFilesCount = reply.solution?.count { it.isVisible } ?: 0
+
+            return visibleFilesCount > 1 || (visibleFilesCount <= 1 && reply.checkProfile?.isEmpty() == true)
+        }
+        return false
+    }
 }

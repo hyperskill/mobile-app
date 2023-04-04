@@ -9,7 +9,7 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/stepQuizFeedbackWrong"
         style="@style/StepQuizFeedback.Wrong"
-        android:layout_height="@dimen/step_quiz_feedback_wrong_textview_height"
+        android:layout_height="wrap_content"
         android:maxWidth="@dimen/auth_button_max_width"
         app:drawableStartCompat="@drawable/ic_info_outline_24px"
         android:text="@string/step_quiz_status_wrong_text" />
@@ -17,14 +17,20 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/stepQuizFeedbackEvaluation"
         style="@style/StepQuizFeedback.Wrong"
-
-        android:text="Evaluation..." />
+        android:text="@string/step_quiz_status_evaluation_text" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/stepQuizFeedbackValidation"
         style="@style/StepQuizFeedback.Wrong"
-        android:text="Evaluation"
-        app:drawableStartCompat="@drawable/ic_info_outline_24px" />
+        app:drawableStartCompat="@drawable/ic_info_outline_24px"
+        tools:text="Evaluation"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/stepQuizFeedbackUnsupported"
+        style="@style/StepQuizFeedback.Wrong"
+        app:drawableStartCompat="@drawable/ic_info_outline_24px"
+        android:text="@string/step_quiz_unsupported_quiz_text" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/stepQuizFeedbackCorrect"

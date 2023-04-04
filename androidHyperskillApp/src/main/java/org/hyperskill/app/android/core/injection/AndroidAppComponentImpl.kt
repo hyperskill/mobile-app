@@ -30,6 +30,8 @@ import org.hyperskill.app.comments.injection.CommentsDataComponentImpl
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.injection.CommonComponent
 import org.hyperskill.app.core.injection.CommonComponentImpl
+import org.hyperskill.app.core.injection.StateRepositoriesComponent
+import org.hyperskill.app.core.injection.StateRepositoriesComponentImpl
 import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.debug.injection.DebugComponentImpl
@@ -37,6 +39,8 @@ import org.hyperskill.app.debug.injection.PlatformDebugComponent
 import org.hyperskill.app.debug.injection.PlatformDebugComponentImpl
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponentImpl
+import org.hyperskill.app.freemium.injection.FreemiumDataComponent
+import org.hyperskill.app.freemium.injection.FreemiumDataComponentImpl
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponentImpl
 import org.hyperskill.app.home.injection.HomeComponent
@@ -61,6 +65,8 @@ import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.network.injection.NetworkComponentImpl
 import org.hyperskill.app.notification.injection.NotificationComponent
 import org.hyperskill.app.notification.injection.NotificationComponentImpl
+import org.hyperskill.app.notification.injection.NotificationFlowDataComponent
+import org.hyperskill.app.notification.injection.NotificationFlowDataComponentImpl
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponentImpl
 import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponent
@@ -69,6 +75,10 @@ import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserCompo
 import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponentImpl
 import org.hyperskill.app.placeholder_new_user.injection.PlatformPlaceholderNewUserComponent
 import org.hyperskill.app.placeholder_new_user.injection.PlatformPlaceholderNewUserComponentImpl
+import org.hyperskill.app.problems_limit.injection.PlatformProblemsLimitComponent
+import org.hyperskill.app.problems_limit.injection.PlatformProblemsLimitComponentImpl
+import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
+import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponentImpl
 import org.hyperskill.app.products.injection.ProductsDataComponent
 import org.hyperskill.app.products.injection.ProductsDataComponentImpl
 import org.hyperskill.app.profile.injection.PlatformProfileComponent
@@ -87,10 +97,18 @@ import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponentImpl
 import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponentImpl
+import org.hyperskill.app.projects.injection.ProjectsDataComponent
+import org.hyperskill.app.projects.injection.ProjectsDataComponentImpl
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
 import org.hyperskill.app.sentry.injection.SentryComponent
 import org.hyperskill.app.sentry.injection.SentryComponentImpl
+import org.hyperskill.app.stage_implement.injection.StageImplementComponent
+import org.hyperskill.app.stage_implement.injection.StageImplementComponentImpl
+import org.hyperskill.app.stage_implementation.injection.PlatformStageImplementationComponent
+import org.hyperskill.app.stage_implementation.injection.PlatformStageImplementationComponentImpl
+import org.hyperskill.app.stages.injection.StagesDataComponent
+import org.hyperskill.app.stages.injection.StagesDataComponentImpl
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.injection.PlatformStepComponent
@@ -116,6 +134,8 @@ import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponentImpl
 import org.hyperskill.app.streaks.injection.StreakFlowDataComponentImpl
 import org.hyperskill.app.streaks.injection.StreaksDataComponent
 import org.hyperskill.app.streaks.injection.StreaksDataComponentImpl
+import org.hyperskill.app.study_plan.injection.StudyPlanDataComponent
+import org.hyperskill.app.study_plan.injection.StudyPlanDataComponentImpl
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.PlatformTopicsRepetitionComponent
@@ -183,6 +203,12 @@ class AndroidAppComponentImpl(
 
     override val progressesFlowDataComponent: ProgressesFlowDataComponent =
         ProgressesFlowDataComponentImpl()
+
+    override val notificationFlowDataComponent: NotificationFlowDataComponent =
+        NotificationFlowDataComponentImpl()
+
+    override val stateRepositoriesComponent: StateRepositoriesComponent =
+        StateRepositoriesComponentImpl(this)
 
     override val sentryComponent: SentryComponent =
         SentryComponentImpl(SentryManagerImpl(commonComponent.buildKonfig))
@@ -264,6 +290,37 @@ class AndroidAppComponentImpl(
         PlatformCodeEditorComponentImpl(application)
 
     /**
+     * Step quiz hints component
+     */
+    override fun buildStepQuizHintsComponent(stepRoute: StepRoute): StepQuizHintsComponent =
+        StepQuizHintsComponentImpl(this, stepRoute)
+
+    override fun buildPlatformStepQuizHintsComponent(stepRoute: StepRoute, step: Step): PlatformStepQuizHintsComponent =
+        PlatformStepQuizHintsComponentImpl(this, stepRoute, step)
+
+    /**
+     * Step completion component
+     */
+    override fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent =
+        StepCompletionComponentImpl(this, stepRoute)
+
+    /**
+     * Stage implement component
+     */
+    override fun buildStageImplementComponent(projectId: Long, stageId: Long): StageImplementComponent =
+        StageImplementComponentImpl(this, projectId = projectId, stageId = stageId)
+
+    override fun buildPlatformStageImplementationComponent(
+        projectId: Long,
+        stageId: Long
+    ): PlatformStageImplementationComponent =
+        PlatformStageImplementationComponentImpl(
+            projectId = projectId,
+            stageId = stageId,
+            stageImplementationComponent = buildStageImplementComponent(projectId, stageId)
+        )
+
+    /**
      * Track component
      */
     override fun buildTrackComponent(): TrackComponent =
@@ -342,15 +399,6 @@ class AndroidAppComponentImpl(
         TopicsRepetitionsDataComponentImpl(this)
 
     /**
-     * Step quiz hints component
-     */
-    override fun buildStepQuizHintsComponent(): StepQuizHintsComponent =
-        StepQuizHintsComponentImpl(this)
-
-    override fun buildPlatformStepQuizHintsComponent(step: Step): PlatformStepQuizHintsComponent =
-        PlatformStepQuizHintsComponentImpl(this, step)
-
-    /**
      * Debug component
      */
     override fun buildPlatformDebugComponent(debugComponent: DebugComponent): PlatformDebugComponent =
@@ -367,6 +415,15 @@ class AndroidAppComponentImpl(
 
     override fun buildTopicsToDiscoverNextDataComponent(): TopicsToDiscoverNextDataComponent =
         TopicsToDiscoverNextDataComponentImpl(this)
+
+    /**
+     * ProblemsLimit component
+     */
+    override fun buildProblemsLimitComponent(): ProblemsLimitComponent =
+        ProblemsLimitComponentImpl(this)
+
+    override fun buildPlatformProblemsLimitComponent(): PlatformProblemsLimitComponent =
+        PlatformProblemsLimitComponentImpl(problemsLimitComponent = buildProblemsLimitComponent())
 
     override fun buildUserStorageComponent(): UserStorageComponent =
         UserStorageComponentImpl(this)
@@ -407,6 +464,15 @@ class AndroidAppComponentImpl(
     override fun buildGamificationToolbarComponent(): GamificationToolbarComponent =
         GamificationToolbarComponentImpl(this)
 
-    override fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent =
-        StepCompletionComponentImpl(this, stepRoute)
+    override fun buildStudyPlanDataComponent(): StudyPlanDataComponent =
+        StudyPlanDataComponentImpl(this)
+
+    override fun buildProjectsDataComponent(): ProjectsDataComponent =
+        ProjectsDataComponentImpl(this)
+
+    override fun buildStagesDataComponent(): StagesDataComponent =
+        StagesDataComponentImpl(this)
+
+    override fun buildFreemiumDataComponent(): FreemiumDataComponent =
+        FreemiumDataComponentImpl(this)
 }

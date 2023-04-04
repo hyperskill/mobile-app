@@ -1,10 +1,10 @@
 package org.hyperskill.app.android.step_quiz_sorting.view.fragment
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
+import org.hyperskill.app.android.databinding.LayoutStepQuizDescriptionBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizSortingBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.fragment.DefaultStepQuizFragment
@@ -34,10 +34,14 @@ class SortingStepQuizFragment :
     override val skeletonView: View
         get() = binding.sortingSkeleton.root
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        _binding = LayoutStepQuizSortingBinding.inflate(LayoutInflater.from(requireContext()), viewBinding.root, false)
-        viewBinding.root.addView(binding.root)
-        super.onViewCreated(view, savedInstanceState)
+    override val descriptionBinding: LayoutStepQuizDescriptionBinding
+        get() = binding.sortingStepDescription
+
+    override fun createStepView(layoutInflater: LayoutInflater, parent: ViewGroup): View {
+        val binding = LayoutStepQuizSortingBinding.inflate(layoutInflater, parent, false).also {
+            _binding = it
+        }
+        return binding.root
     }
 
     override fun onDestroyView() {
@@ -45,6 +49,6 @@ class SortingStepQuizFragment :
         super.onDestroyView()
     }
 
-    override fun createStepQuizFormDelegate(containerBinding: FragmentStepQuizBinding): StepQuizFormDelegate =
-        SortingStepQuizFormDelegate(containerBinding, binding, onQuizChanged = ::syncReplyState)
+    override fun createStepQuizFormDelegate(): StepQuizFormDelegate =
+        SortingStepQuizFormDelegate(binding, onQuizChanged = ::syncReplyState)
 }

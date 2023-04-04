@@ -1,7 +1,3 @@
 What to Test:
-1. Debug menu ALTAPPS-510
-2. Show code blocks with line numbers in Step text <pre><code ALTAPPS-536
-3. Send step view and send context for submissions ALTAPPS-577
-4. Fix incorrect 1-day streak freeze state ALTAPPS-594
-5. Fix switch environment not applied at application restarting ALTAPPS-615
-6. Fix content not loading on Home screen ALTAPPS-616
+1. Dark mode support for the code editor ALTAPPS-583
+2. Fix passed tracks count calculation ALTAPPS-646

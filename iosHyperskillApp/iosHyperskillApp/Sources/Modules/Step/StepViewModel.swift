@@ -12,6 +12,8 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
 
     var stateKs: StepFeatureStateKs { .init(state) }
 
+    var isStageImplement: Bool { stepRoute is StepRouteStageImplement }
+
     init(
         stepRoute: StepRoute,
         viewDataMapper: StepViewDataMapper,
@@ -101,6 +103,18 @@ extension StepViewModel: TopicCompletedModalViewControllerDelegate {
         onNewMessage(
             StepFeatureMessageStepCompletionMessage(
                 message: StepCompletionFeatureMessageTopicCompletedModalGoToHomeScreenClicked()
+            )
+        )
+
+        viewController.dismiss(animated: true)
+    }
+
+    func topicCompletedModalViewControllerDidTapContinueWithNextTopicButton(
+        _ viewController: TopicCompletedModalViewController
+    ) {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageTopicCompletedModalContinueNextTopicClicked()
             )
         )
 

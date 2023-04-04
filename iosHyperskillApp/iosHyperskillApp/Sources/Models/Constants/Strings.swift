@@ -104,6 +104,16 @@ enum Strings {
             static let title = sharedStrings.step_quiz_problem_of_day_solved_modal_title.localized()
             static let text = sharedStrings.step_quiz_problem_of_day_solved_modal_text.localized()
         }
+
+        enum TopicCompletedModal {
+            static let continueWithNextTopicButtonText =
+                sharedStrings.step_quiz_topic_completed_continue_with_next_topic_button_text.localized()
+        }
+
+        enum ProblemsLimitReachedModal {
+            static let title = sharedStrings.problems_limit_reached_modal_title.localized()
+            static let description = sharedStrings.problems_limit_reached_modal_description.localized()
+        }
     }
 
     // MARK: - StepQuizChoice -
@@ -165,12 +175,23 @@ enum Strings {
         static let placeholder = sharedStrings.step_quiz_text_field_hint.localized()
     }
 
+    // MARK: - StageImplement -
+
+    enum StageImplement {
+        enum UnsupportedModal {
+            static let title = sharedStrings.stage_implement_unsupported_modal_title.localized()
+            static let description = sharedStrings.stage_implement_unsupported_modal_description.localized()
+        }
+    }
+
     // MARK: - Home -
 
     enum Home {
         static let title = sharedStrings.home_title.localized()
         static let keepPracticing = sharedStrings.home_keep_practicing_text.localized()
         static let topicsToDiscoverNextTitle = sharedStrings.home_topics_to_discover_next_title.localized()
+        static let solveUnlimited = sharedStrings.home_solve_unlimited.localized()
+        static let repeatUnlimited = sharedStrings.home_repeat_unlimited.localized()
     }
 
     // MARK: - Track -
@@ -270,8 +291,18 @@ enum Strings {
         }
 
         enum StepNavigation {
+            static let headerTitle = sharedStrings.debug_menu_section_step_navigation_header_title.localized()
             static let textFieldTitle = sharedStrings.debug_menu_section_step_navigation_text_input_title.localized()
             static let buttonTitle = sharedStrings.debug_menu_section_step_navigation_button_text.localized()
+        }
+
+        enum StageImplement {
+            static let headerTitle = sharedStrings.debug_menu_section_stage_implement_header_title.localized()
+            static let projectIdTextFieldTitle =
+              sharedStrings.debug_menu_section_stage_implement_project_id_text_input_title.localized()
+            static let stageIdTextFieldTitle =
+              sharedStrings.debug_menu_section_stage_implement_stage_id_text_input_title.localized()
+            static let buttonTitle = sharedStrings.debug_menu_section_stage_implement_button_text.localized()
         }
 
         enum RestartApplication {

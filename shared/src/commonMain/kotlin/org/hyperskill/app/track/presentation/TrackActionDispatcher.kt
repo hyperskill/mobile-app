@@ -10,6 +10,7 @@ import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
+import org.hyperskill.app.study_plan.domain.interactor.StudyPlanInteractor
 import org.hyperskill.app.track.domain.interactor.TrackInteractor
 import org.hyperskill.app.track.presentation.TrackFeature.Action
 import org.hyperskill.app.track.presentation.TrackFeature.Message
@@ -18,6 +19,7 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 class TrackActionDispatcher(
     config: ActionDispatcherOptions,
     private val trackInteractor: TrackInteractor,
+    private val studyPlanInteractor: StudyPlanInteractor,
     private val profileInteractor: ProfileInteractor,
     private val progressesInteractor: ProgressesInteractor,
     private val analyticInteractor: AnalyticInteractor,
@@ -41,7 +43,7 @@ class TrackActionDispatcher(
 
                 val trackResult = actionScope.async { trackInteractor.getTrack(trackId) }
                 val trackProgressResult = actionScope.async { progressesInteractor.getTrackProgress(trackId) }
-                val studyPlanResult = actionScope.async { trackInteractor.getStudyPlanByTrackId(trackId) }
+                val studyPlanResult = actionScope.async { studyPlanInteractor.getCurrentStudyPlan() }
 
                 val track = trackResult.await().getOrElse {
                     sentryInteractor.finishTransaction(sentryTransaction, throwable = it)

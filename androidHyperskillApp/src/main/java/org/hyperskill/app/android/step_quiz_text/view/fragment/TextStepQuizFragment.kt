@@ -1,10 +1,10 @@
 package org.hyperskill.app.android.step_quiz_text.view.fragment
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
+import org.hyperskill.app.android.databinding.LayoutStepQuizDescriptionBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizTextBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.fragment.DefaultStepQuizFragment
@@ -34,10 +34,14 @@ class TextStepQuizFragment :
     override val skeletonView: View
         get() = binding.stringStepQuizSkeleton.root
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        _binding = LayoutStepQuizTextBinding.inflate(LayoutInflater.from(requireContext()), viewBinding.root, false)
-        viewBinding.root.addView(binding.root)
-        super.onViewCreated(view, savedInstanceState)
+    override val descriptionBinding: LayoutStepQuizDescriptionBinding
+        get() = binding.stringStepDescription
+
+    override fun createStepView(layoutInflater: LayoutInflater, parent: ViewGroup): View {
+        val binding = LayoutStepQuizTextBinding.inflate(layoutInflater, parent, false).also {
+            _binding = it
+        }
+        return binding.root
     }
 
     override fun onDestroyView() {
@@ -45,6 +49,6 @@ class TextStepQuizFragment :
         super.onDestroyView()
     }
 
-    override fun createStepQuizFormDelegate(containerBinding: FragmentStepQuizBinding): StepQuizFormDelegate =
-        TextStepQuizFormDelegate(containerBinding, binding, step.block.name, onQuizChanged = ::syncReplyState)
+    override fun createStepQuizFormDelegate(): StepQuizFormDelegate =
+        TextStepQuizFormDelegate(binding, step.block.name, onQuizChanged = ::syncReplyState)
 }

@@ -9,6 +9,9 @@ import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRunHyperskill
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedSendHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizHiddenDailyNotificationsNoticeHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizShownDailyNotificationsNoticeHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.problems_limit_reached_modal.ProblemsLimitReachedModalClickedGoToHomeScreenHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.problems_limit_reached_modal.ProblemsLimitReachedModalHiddenHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.problems_limit_reached_modal.ProblemsLimitReachedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.daily_step_completed_modal.StepQuizDailyStepCompletedModalClickedGoBackHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.daily_step_completed_modal.StepQuizDailyStepCompletedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.daily_step_completed_modal.StepQuizDailyStepCompletedModalShownHyperskillAnalyticEvent
@@ -35,12 +38,20 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                 }
             is Message.FetchAttemptSuccess ->
                 if (state is State.Loading) {
-                    State.AttemptLoaded(
-                        message.step,
-                        message.attempt,
-                        message.submissionState,
-                        message.currentProfile
-                    ) to emptySet()
+                    if (StepQuizResolver.isIdeRequired(message.step, message.submissionState)) {
+                        State.Unsupported to emptySet()
+                    } else {
+                        State.AttemptLoaded(
+                            message.step,
+                            message.attempt,
+                            message.submissionState,
+                            message.isProblemsLimitReached
+                        ) to buildSet {
+                            if (message.isProblemsLimitReached) {
+                                add(Action.ViewAction.ShowProblemsLimitReachedModal)
+                            }
+                        }
+                    }
                 } else {
                     null
                 }
@@ -52,7 +63,7 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                 }
             is Message.CreateAttemptClicked ->
                 if (state is State.AttemptLoaded) {
-                    if (state.step.block.name == BlockName.CODE || state.step.block.name == BlockName.SQL) {
+                    if (BlockName.codeRelatedBlocksNames.contains(state.step.block.name)) {
                         state to setOf(
                             Action.ViewAction.RequestUserPermission(StepQuizUserPermissionRequest.RESET_CODE)
                         )
@@ -62,6 +73,7 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                                 message.step,
                                 state.attempt,
                                 state.submissionState,
+                                state.isProblemsLimitReached,
                                 message.shouldResetReply
                             )
                         )
@@ -75,7 +87,7 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                         message.step,
                         message.attempt,
                         message.submissionState,
-                        message.currentProfile
+                        message.isProblemsLimitReached
                     ) to emptySet()
                 } else {
                     null
@@ -89,7 +101,7 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
             is Message.CreateSubmissionClicked ->
                 if (state is State.AttemptLoaded) {
                     val analyticEvent =
-                        if (message.step.block.name == BlockName.CODE || message.step.block.name == BlockName.SQL) {
+                        if (BlockName.codeRelatedBlocksNames.contains(state.step.block.name)) {
                             StepQuizClickedRunHyperskillAnalyticEvent(stepRoute.analyticRoute)
                         } else {
                             StepQuizClickedSendHyperskillAnalyticEvent(stepRoute.analyticRoute)
@@ -179,6 +191,7 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                                     state.step,
                                     state.attempt,
                                     state.submissionState,
+                                    state.isProblemsLimitReached,
                                     shouldResetReply = true
                                 )
                             )
@@ -213,6 +226,13 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                 } else {
                     null
                 }
+            is Message.ProblemsLimitReachedModalGoToHomeScreenClicked ->
+                state to setOf(
+                    Action.ViewAction.NavigateTo.Home,
+                    Action.LogAnalyticEvent(
+                        ProblemsLimitReachedModalClickedGoToHomeScreenHyperskillAnalyticEvent(stepRoute.analyticRoute)
+                    )
+                )
             is Message.ClickedCodeDetailsEventMessage ->
                 if (state is State.AttemptLoaded) {
                     val event = StepQuizClickedCodeDetailsHyperskillAnalyticEvent(stepRoute.analyticRoute)
@@ -241,6 +261,18 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                 } else {
                     null
                 }
+            is Message.ProblemsLimitReachedModalShownEventMessage ->
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        ProblemsLimitReachedModalShownHyperskillAnalyticEvent(stepRoute.analyticRoute)
+                    )
+                )
+            is Message.ProblemsLimitReachedModalHiddenEventMessage ->
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        ProblemsLimitReachedModalHiddenHyperskillAnalyticEvent(stepRoute.analyticRoute)
+                    )
+                )
         } ?: (state to emptySet())
 
     private fun createLocalSubmission(oldState: State.AttemptLoaded, reply: Reply): Submission {

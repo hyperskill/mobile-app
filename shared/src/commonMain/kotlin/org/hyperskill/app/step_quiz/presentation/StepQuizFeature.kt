@@ -1,7 +1,6 @@
 package org.hyperskill.app.step_quiz.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
-import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
@@ -14,12 +13,13 @@ interface StepQuizFeature {
     sealed interface State {
         object Idle : State
         object Loading : State
+        object Unsupported : State
         data class AttemptLoading(val oldState: AttemptLoaded) : State
         data class AttemptLoaded(
             val step: Step,
             val attempt: Attempt,
             val submissionState: SubmissionState,
-            val currentProfile: Profile
+            val isProblemsLimitReached: Boolean
         ) : State
 
         object NetworkError : State
@@ -38,7 +38,7 @@ interface StepQuizFeature {
             val step: Step,
             val attempt: Attempt,
             val submissionState: SubmissionState,
-            val currentProfile: Profile
+            val isProblemsLimitReached: Boolean
         ) : Message
         data class FetchAttemptError(val throwable: Throwable) : Message
 
@@ -50,7 +50,7 @@ interface StepQuizFeature {
             val step: Step,
             val attempt: Attempt,
             val submissionState: SubmissionState,
-            val currentProfile: Profile
+            val isProblemsLimitReached: Boolean
         ) : Message
         object CreateAttemptError : Message
 
@@ -86,12 +86,19 @@ interface StepQuizFeature {
         object ProblemOfDaySolvedModalGoBackClicked : Message
 
         /**
+         * Daily limit reached modal
+         */
+        object ProblemsLimitReachedModalGoToHomeScreenClicked : Message
+
+        /**
          * Analytic
          */
         object ClickedCodeDetailsEventMessage : Message
         object ClickedRetryEventMessage : Message
         object DailyStepCompletedModalShownEventMessage : Message
         object DailyStepCompletedModalHiddenEventMessage : Message
+        object ProblemsLimitReachedModalShownEventMessage : Message
+        object ProblemsLimitReachedModalHiddenEventMessage : Message
     }
 
     sealed interface Action {
@@ -101,8 +108,10 @@ interface StepQuizFeature {
             val step: Step,
             val attempt: Attempt,
             val submissionState: SubmissionState,
+            val isProblemsLimitReached: Boolean,
             val shouldResetReply: Boolean
         ) : Action
+
         data class CreateSubmissionValidateReply(val step: Step, val reply: Reply) : Action
         data class CreateSubmission(
             val step: Step,
@@ -128,8 +137,12 @@ interface StepQuizFeature {
 
             data class ShowProblemOfDaySolvedModal(val earnedGemsText: String) : ViewAction
 
+            object ShowProblemsLimitReachedModal : ViewAction
+
             sealed interface NavigateTo : ViewAction {
                 object Back : NavigateTo
+
+                object Home : NavigateTo
             }
         }
     }

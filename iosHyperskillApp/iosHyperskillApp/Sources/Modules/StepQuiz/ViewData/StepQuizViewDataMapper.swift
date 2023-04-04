@@ -12,6 +12,24 @@ final class StepQuizViewDataMapper {
     }
 
     func mapStepDataToViewData(step: Step, state: StepQuizFeatureState) -> StepQuizViewData {
+        let quizType: StepQuizChildQuizType = {
+            if state is StepQuizFeatureStateUnsupported {
+                return .unsupported(blockName: step.block.name)
+            }
+            return StepQuizChildQuizType(step: step)
+        }()
+
+        if case .unsupported = quizType {
+            return StepQuizViewData(
+                formattedStats: nil,
+                stepText: step.block.text,
+                quizType: quizType,
+                quizName: nil,
+                feedbackHintText: nil,
+                stepHasHints: false
+            )
+        }
+
         let formattedStats = stepQuizStatsTextMapper.getFormattedStepQuizStats(
             solvedByUsersCount: step.solvedBy,
             millisSinceLastCompleted: step.millisSinceLastCompleted
@@ -37,11 +55,22 @@ final class StepQuizViewDataMapper {
         }()
 
         let feedbackHintText: String? = {
-            guard let submissionLoaded = attemptLoadedState?.submissionState as? StepQuizFeatureSubmissionStateLoaded,
-                  let hint = submissionLoaded.submission.hint else {
+            guard
+                let submissionStateLoaded = attemptLoadedState?.submissionState as? StepQuizFeatureSubmissionStateLoaded
+            else {
                 return nil
             }
-            return hint.isEmpty ? nil : hint
+
+            #warning("Support submission rejected status")
+            if submissionStateLoaded.submission.status == nil,
+               let feedback = submissionStateLoaded.submission.feedback {
+                let formattedText = FeedbackKt.formattedText(feedback)
+                return formattedText.isEmpty ? nil : formattedText
+            } else if let hint = submissionStateLoaded.submission.hint {
+                return hint.isEmpty ? nil : hint
+            } else {
+                return nil
+            }
         }()
 
         let stepHasHints: Bool = {
@@ -54,7 +83,7 @@ final class StepQuizViewDataMapper {
         return StepQuizViewData(
             formattedStats: formattedStats,
             stepText: step.block.text,
-            quizType: StepQuizChildQuizType(step: step),
+            quizType: quizType,
             quizName: quizName,
             feedbackHintText: feedbackHintText,
             stepHasHints: stepHasHints

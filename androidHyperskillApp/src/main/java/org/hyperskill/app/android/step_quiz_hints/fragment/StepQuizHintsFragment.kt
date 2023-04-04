@@ -13,6 +13,7 @@ import org.hyperskill.app.android.databinding.LayoutStepQuizHintsBinding
 import org.hyperskill.app.android.step_quiz_hints.delegate.StepQuizHintsDelegate
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsViewModel
 import ru.nobird.android.view.base.ui.extension.snackbar
@@ -25,11 +26,13 @@ class StepQuizHintsFragment :
 
     companion object {
         private const val KEY_STEP = "hints_key_step"
+        private const val KEY_STEP_ROUTE = "hints_key_step_route"
 
-        fun newInstance(step: Step): Fragment =
+        fun newInstance(stepRoute: StepRoute, step: Step): Fragment =
             StepQuizHintsFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(KEY_STEP, step, serializer = Step.serializer())
+                    putParcelable(KEY_STEP_ROUTE, stepRoute, serializer = StepRoute.serializer())
                 }
             }
     }
@@ -51,13 +54,15 @@ class StepQuizHintsFragment :
         super.onCreate(savedInstanceState)
         val step = requireArguments().getParcelable(KEY_STEP, deserializer = Step.serializer()) ?: throw IllegalStateException("Step cannot be null")
         this.step = step
-        injectDependencies(step)
+        val stepRoute = requireArguments().getParcelable(KEY_STEP_ROUTE, deserializer = StepRoute.serializer())
+            ?: throw IllegalStateException("StepRoute cannot be null")
+        injectDependencies(stepRoute, step)
     }
 
-    private fun injectDependencies(step: Step) {
+    private fun injectDependencies(stepRoute: StepRoute, step: Step) {
         viewModelFactory =
             HyperskillApp.graph()
-                .buildPlatformStepQuizHintsComponent(step)
+                .buildPlatformStepQuizHintsComponent(stepRoute, step)
                 .reduxViewModelFactory
     }
 

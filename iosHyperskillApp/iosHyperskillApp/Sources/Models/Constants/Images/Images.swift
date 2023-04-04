@@ -68,6 +68,18 @@ enum Images {
             static let book = "problem-of-day-solved-modal-book"
             static let gemsBadge = "problem-of-day-solved-modal-gems-badge"
         }
+
+        enum ProblemsLimitReachedModal {
+            static let icon = "problems-limit-reached-modal-icon"
+        }
+    }
+
+    // MARK: - StageImplement -
+
+    enum StageImplement {
+        enum UnsupportedModal {
+            static let icon = "stage-implement-unsupported-modal-icon"
+        }
     }
 
     // MARK: - Track -

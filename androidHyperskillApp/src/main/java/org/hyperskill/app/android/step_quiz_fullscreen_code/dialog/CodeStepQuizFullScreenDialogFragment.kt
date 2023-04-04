@@ -9,7 +9,6 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.RelativeLayout
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,6 +28,8 @@ import org.hyperskill.app.android.latex.view.widget.LatexView
 import org.hyperskill.app.android.latex.view.widget.LatexWebView
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeLayoutDelegate
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeQuizInstructionDelegate
+import org.hyperskill.app.android.step_quiz_code.view.model.CodeStepQuizConfigFactory
+import org.hyperskill.app.android.step_quiz_code.view.model.config.CodeStepQuizConfig
 import org.hyperskill.app.android.step_quiz_fullscreen_code.adapter.CodeStepQuizFullScreenPagerAdapter
 import org.hyperskill.app.android.view.base.ui.extension.setOnKeyboardOpenListener
 import org.hyperskill.app.step.domain.model.Step
@@ -54,7 +55,6 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
                 this.step = params.step
                 this.lang = params.lang
                 this.code = params.code
-                this.codeTemplates = params.codeTemplates
                 this.isShowRetryButton = params.isShowRetryButton
                 this.titleRes = params.titleRes
             }
@@ -84,10 +84,13 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
 
     private var lang: String by argument()
     private var code: String by argument()
-    private var codeTemplates: Map<String, String> by argument()
     private var step: Step by argument(serializer = Step.serializer())
     private var isShowRetryButton: Boolean by argument()
     private var titleRes: Int by argument()
+
+    private val config: CodeStepQuizConfig by lazy(LazyThreadSafetyMode.NONE) {
+        CodeStepQuizConfigFactory.create(step)
+    }
 
     private var stepQuizStatsTextMapper: StepQuizStatsTextMapper? = null
     private var latexWebView: LatexWebView? = null
@@ -171,14 +174,6 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
             (textHeader as ViewGroup).addView(it)
         }
 
-        // ALTAPPS-571: Delete this (Problem and Theory screens improvements)
-        instructionsLayout.findViewById<AppCompatTextView>(R.id.stepQuizCodeFullscreenInstructionPracticeCompletion).apply {
-            val stepQuizStats =
-                stepQuizStatsTextMapper?.getFormattedStepQuizStats(step.solvedBy, step.millisSinceLastCompleted)
-            this.text = stepQuizStats
-            this.isVisible = stepQuizStats != null
-        }
-
         instructionsLayout.findViewById<LatexView>(R.id.stepQuizCodeFullscreenInstructionTextHeader)
             .setText(text)
 
@@ -207,8 +202,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
 
         codeLayoutDelegate = CodeLayoutDelegate(
             codeLayout = codeLayout,
-            step = step,
-            codeTemplates = codeTemplates,
+            config = config,
             codeQuizInstructionDelegate = CodeQuizInstructionDelegate(
                 instructionsLayout.findViewById(R.id.stepQuizCodeFullscreenInstructionDetails),
                 false,
@@ -275,7 +269,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
     }
 
     fun onNewCode(code: String?) {
-        this.code = code ?: codeTemplates[lang] ?: ""
+        this.code = code ?: config.initialCode
         codeLayoutDelegate.setLanguage(lang, code)
     }
 
@@ -381,7 +375,6 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
     data class Params(
         val lang: String,
         val code: String,
-        val codeTemplates: Map<String, String>,
         val step: Step,
         val isShowRetryButton: Boolean
     ) {

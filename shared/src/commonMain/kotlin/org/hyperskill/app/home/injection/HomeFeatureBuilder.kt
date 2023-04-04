@@ -4,6 +4,7 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.core.view.mapper.DateFormatter
+import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarActionDispatcher
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
@@ -33,6 +34,7 @@ object HomeFeatureBuilder {
         profileInteractor: ProfileInteractor,
         topicsRepetitionsInteractor: TopicsRepetitionsInteractor,
         stepInteractor: StepInteractor,
+        freemiumInteractor: FreemiumInteractor,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
         urlPathProcessor: UrlPathProcessor,
@@ -50,6 +52,7 @@ object HomeFeatureBuilder {
             profileInteractor,
             topicsRepetitionsInteractor,
             stepInteractor,
+            freemiumInteractor,
             analyticInteractor,
             sentryInteractor,
             urlPathProcessor,

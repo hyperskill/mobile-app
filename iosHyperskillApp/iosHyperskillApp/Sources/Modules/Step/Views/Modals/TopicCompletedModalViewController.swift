@@ -14,7 +14,7 @@ extension TopicCompletedModalViewController {
 
         let bookImageViewSizeRatio = CGSize(width: 0.63, height: 0.22)
 
-        let goToHomescreenButtonHeight: CGFloat = 44
+        let actionButtonHeight: CGFloat = 44
     }
 }
 
@@ -32,6 +32,8 @@ final class TopicCompletedModalViewController: PanModalPresentableViewController
 
     private let modalText: String
 
+    private let isNextStepAvailable: Bool
+
     weak var delegate: TopicCompletedModalViewControllerDelegate?
 
     override var shortFormHeight: PanModalHeight {
@@ -42,8 +44,9 @@ final class TopicCompletedModalViewController: PanModalPresentableViewController
 
     override var longFormHeight: PanModalHeight { shortFormHeight }
 
-    init(modalText: String, delegate: TopicCompletedModalViewControllerDelegate? = nil) {
+    init(modalText: String, isNextStepAvailable: Bool, delegate: TopicCompletedModalViewControllerDelegate? = nil) {
         self.modalText = modalText
+        self.isNextStepAvailable = isNextStepAvailable
         self.delegate = delegate
         super.init()
     }
@@ -80,7 +83,7 @@ final class TopicCompletedModalViewController: PanModalPresentableViewController
         setupContentStackView()
         setupBookImageView()
         setupTitleWithTextView()
-        setupGoToHomescreenButton()
+        setupActionButtons()
     }
 
     private func setupContentStackView() {
@@ -136,22 +139,68 @@ final class TopicCompletedModalViewController: PanModalPresentableViewController
         containerStackView.addArrangedSubview(textLabel)
     }
 
-    private func setupGoToHomescreenButton() {
-        let button = UIKitRoundedRectangleButton(style: .violet)
-        button.setTitle(Strings.General.goToHomescreen, for: .normal)
-        button.addTarget(self, action: #selector(goToHomescreenButtonTapped), for: .touchUpInside)
+    private func setupActionButtons() {
+        let containerStackView = UIStackView()
+        containerStackView.axis = .vertical
+        containerStackView.spacing = LayoutInsets.defaultInset
+        containerStackView.alignment = .leading
+        containerStackView.distribution = .fill
 
-        contentStackView.addArrangedSubview(button)
+        contentStackView.addArrangedSubview(containerStackView)
+        containerStackView.translatesAutoresizingMaskIntoConstraints = false
+        containerStackView.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+        }
+
+        if isNextStepAvailable {
+            let continueWithNextTopicButton = makeActionButton(
+                style: .violet,
+                title: Strings.StepQuiz.TopicCompletedModal.continueWithNextTopicButtonText,
+                action: #selector(continueWithNextTopicButtonTapped)
+            )
+
+            containerStackView.addArrangedSubview(continueWithNextTopicButton)
+            continueWithNextTopicButton.snp.makeConstraints { make in
+                make.width.equalToSuperview()
+            }
+        }
+
+        let goToHomescreenButton = makeActionButton(
+            style: isNextStepAvailable ? .outline : .violet,
+            title: Strings.General.goToHomescreen,
+            action: #selector(goToHomescreenButtonTapped)
+        )
+
+        containerStackView.addArrangedSubview(goToHomescreenButton)
+        goToHomescreenButton.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+        }
+    }
+
+    private func makeActionButton(
+        style: UIKitRoundedRectangleButton.Style,
+        title: String,
+        action: Selector
+    ) -> UIKitRoundedRectangleButton {
+        let button = UIKitRoundedRectangleButton(style: style)
+        button.setTitle(title, for: .normal)
+        button.addTarget(self, action: action, for: .touchUpInside)
 
         button.translatesAutoresizingMaskIntoConstraints = false
         button.snp.makeConstraints { make in
-            make.width.equalToSuperview()
-            make.height.equalTo(appearance.goToHomescreenButtonHeight)
+            make.height.equalTo(appearance.actionButtonHeight)
         }
+
+        return button
     }
 
     @objc
     private func goToHomescreenButtonTapped() {
         delegate?.topicCompletedModalViewControllerDidTapGoToHomescreenButton(self)
+    }
+
+    @objc
+    private func continueWithNextTopicButtonTapped() {
+        delegate?.topicCompletedModalViewControllerDidTapContinueWithNextTopicButton(self)
     }
 }

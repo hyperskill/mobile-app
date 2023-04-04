@@ -67,6 +67,4 @@
             tools:text="3892579348 98274959" />
     </LinearLayout>
 
-    <include layout="@layout/view_divider_vertical" />
-
 </androidx.appcompat.widget.LinearLayoutCompat>

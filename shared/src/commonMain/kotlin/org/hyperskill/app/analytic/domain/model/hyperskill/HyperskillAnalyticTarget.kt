@@ -18,6 +18,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     DONE("done"),
     YES("yes"),
     NO("no"),
+    BACK("back"),
     THEME("theme"),
     JETBRAINS_TERMS_OF_SERVICE("jetbrains_terms_of_service"),
     HYPERSKILL_TERMS_OF_SERVICE("hyperskill_terms_of_service"),
@@ -35,6 +36,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     DAILY_NOTIFICATION("daily_notification"),
     CONTINUE_TO_HYPERSKILL("continue_to_hyperskill"),
     CONTINUE("continue"),
+    RELOAD("reload"),
     START_PRACTICING("start_practicing"),
     SIGN_IN("sign_in"),
     SIGN_UP("sign_up"),
@@ -55,7 +57,9 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     TOPIC("topic"),
     GO_BACK("go_back"),
     GO_TO_HOME_SCREEN("go_to_home_screen"),
+    CONTINUE_WITH_NEXT_TOPIC("continue_with_next_topic"),
     DAILY_STEP_COMPLETED_MODAL("daily_step_completed_modal"),
+    PROBLEMS_LIMIT_REACHED_MODAL("problems_limit_reached_modal"),
     TOPIC_COMPLETED_MODAL("topic_completed_modal"),
     CLOSE("close"),
     STREAK("streak"),
@@ -66,5 +70,6 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     STREAK_FREEZE_ICON("streak_freeze_icon"),
     STREAK_FREEZE_MODAL("streak_freeze_modal"),
     GET_IT("get_it"),
-    CONTINUE_LEARNING("continue_learning")
+    CONTINUE_LEARNING("continue_learning"),
+    STAGE_IMPLEMENT_UNSUPPORTED_MODAL("stage_implement_unsupported_modal")
 }
