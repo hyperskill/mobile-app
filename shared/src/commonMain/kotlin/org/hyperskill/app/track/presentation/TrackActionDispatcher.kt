@@ -41,7 +41,9 @@ class TrackActionDispatcher(
                         return
                     } ?: return
 
-                val trackResult = actionScope.async { trackInteractor.getTrack(trackId) }
+                val trackResult = actionScope.async {
+                    trackInteractor.getTrack(trackId, forceLoadFromRemote = action.forceUpdate)
+                }
                 val trackProgressResult = actionScope.async {
                     progressesInteractor.getTrackProgress(trackId, forceLoadFromRemote = action.forceUpdate)
                 }

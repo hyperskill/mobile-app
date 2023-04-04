@@ -9,6 +9,8 @@ import org.hyperskill.app.subscriptions.data.repository.CurrentSubscriptionState
 import org.hyperskill.app.subscriptions.data.source.SubscriptionsRemoteDataSource
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import org.hyperskill.app.subscriptions.remote.SubscriptionsRemoteDataSourceImpl
+import org.hyperskill.app.track.cache.TrackCacheDataSourceImpl
+import org.hyperskill.app.track.data.source.TrackCacheDataSource
 
 class SingletonRepositoriesComponentImpl(appGraph: AppGraph) : SingletonRepositoriesComponent {
 
@@ -32,5 +34,9 @@ class SingletonRepositoriesComponentImpl(appGraph: AppGraph) : SingletonReposito
 
     override val projectProgressesCacheDataSource: ProjectProgressesCacheDataSource by lazy {
         ProjectProgressesCacheDataSourceImpl(InMemoryRepositoryCache())
+    }
+
+    override val trackCacheDataSource: TrackCacheDataSource by lazy {
+        TrackCacheDataSourceImpl(InMemoryRepositoryCache())
     }
 }

@@ -11,7 +11,10 @@ class TrackDataComponentImpl(appGraph: AppGraph) : TrackDataComponent {
     private val trackRemoteDataSource: TrackRemoteDataSource = TrackRemoteDataSourceImpl(
         appGraph.networkComponent.authorizedHttpClient
     )
-    private val trackRepository: TrackRepository = TrackRepositoryImpl(trackRemoteDataSource)
+    private val trackRepository: TrackRepository = TrackRepositoryImpl(
+        trackRemoteDataSource = trackRemoteDataSource,
+        trackCacheDataSource = appGraph.singletonRepositoriesComponent.trackCacheDataSource
+    )
 
     override val trackInteractor: TrackInteractor
         get() = TrackInteractor(trackRepository)
