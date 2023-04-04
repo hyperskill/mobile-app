@@ -7,5 +7,5 @@ class ProgressesDataComponentImpl(
     appGraph: AppGraph
 ) : ProgressesDataComponent {
     override val progressesInteractor: ProgressesInteractor =
-        ProgressesInteractor(appGraph.singletonRepositoriesComponent.progressRepository)
+        ProgressesInteractor(appGraph.singletonRepositoriesComponent.progressesRepository)
 }

@@ -24,6 +24,6 @@ class SingletonRepositoriesComponentImpl(appGraph: AppGraph) : SingletonReposito
     /**
      * Progress
      */
-    override val progressRepository: ProgressesRepository
-        get() = ProgressesRepositoryImpl(ProgressesRemoteDataSourceImpl(authorizedHttpClient))
+    override val progressesRepository: ProgressesRepository =
+        ProgressesRepositoryImpl(ProgressesRemoteDataSourceImpl(authorizedHttpClient))
 }

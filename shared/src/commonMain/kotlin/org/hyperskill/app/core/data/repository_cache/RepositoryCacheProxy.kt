@@ -4,27 +4,26 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
 class RepositoryCacheProxy<in Key : Any, Value : Any?>(
-    private val cache: RepositoryCache<Key, Value> =
-        InMemoryRepositoryCache(),
+    private val cache: RepositoryCache<Key, Value> = InMemoryRepositoryCache(),
     private val loadValuesFromRemote: suspend (keys: List<Key>) -> Result<List<Value>>,
-    private val getKey: (Value) -> Key?
+    private val getKeyFromValue: (Value) -> Key?
 ) {
     private val mutex = Mutex()
 
-    suspend fun getValues(keys: List<Key>, force: Boolean): Result<List<Value>> {
+    suspend fun getValues(keys: List<Key>, forceLoadFromRemote: Boolean): Result<List<Value>> {
         if (keys.isEmpty()) return Result.success(emptyList())
         return mutex.withLock {
             if (keys.size == 1) {
                 // fast route for single key request
-                getSingleValue(keys.first(), force)
+                getSingleValue(keys.first(), forceLoadFromRemote)
             } else {
-                getManyValues(keys, force)
+                getManyValues(keys, forceLoadFromRemote)
             }
         }
     }
 
-    private suspend fun getSingleValue(key: Key, force: Boolean): Result<List<Value>> =
-        if (!force && cache.containsKey(key)) {
+    private suspend fun getSingleValue(key: Key, forceLoadFromRemote: Boolean): Result<List<Value>> =
+        if (!forceLoadFromRemote && cache.containsKey(key)) {
             val cachedValue = cache[key]
             if (cachedValue != null) {
                 Result.success(listOf(cachedValue))
@@ -35,8 +34,8 @@ class RepositoryCacheProxy<in Key : Any, Value : Any?>(
             loadManyValuesInternal(listOf(key))
         }
 
-    private suspend fun getManyValues(keys: List<Key>, force: Boolean): Result<List<Value>> =
-        if (!force) {
+    private suspend fun getManyValues(keys: List<Key>, forceLoadFromRemote: Boolean): Result<List<Value>> =
+        if (!forceLoadFromRemote) {
             val keysToLoadFromRemote: MutableList<Key> = mutableListOf()
             val cachedValues: MutableList<Value> = mutableListOf()
 
@@ -68,14 +67,14 @@ class RepositoryCacheProxy<in Key : Any, Value : Any?>(
     private suspend fun loadManyValuesInternal(keys: List<Key>): Result<List<Value>> =
         loadValuesFromRemote(keys).onSuccess { remoteValues ->
             remoteValues.forEach { value ->
-                val key = getKey(value)
+                val key = getKeyFromValue(value)
                 if (key != null) {
                     cache[key] = value
                 }
             }
         }
 
-    fun clear() {
+    fun clearCache() {
         cache.clear()
     }
 }

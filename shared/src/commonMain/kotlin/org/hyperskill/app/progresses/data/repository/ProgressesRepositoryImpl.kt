@@ -18,7 +18,7 @@ class ProgressesRepositoryImpl(
             progressesRemoteDataSource
                 .getTracksProgresses(trackIds)
         },
-        getKey = { trackProgress ->
+        getKeyFromValue = { trackProgress ->
             trackProgress.trackId
         }
     )
@@ -28,25 +28,25 @@ class ProgressesRepositoryImpl(
             progressesRemoteDataSource
                 .getProjectsProgresses(projectIds)
         },
-        getKey = { projectProgress ->
+        getKeyFromValue = { projectProgress ->
             projectProgress.projectId
         }
     )
 
     override suspend fun getTracksProgresses(
         tracksIds: List<Long>,
-        force: Boolean
+        forceLoadFromRemote: Boolean
     ): Result<List<TrackProgress>> =
-        trackProgressCacheProxy.getValues(tracksIds, force)
+        trackProgressCacheProxy.getValues(tracksIds, forceLoadFromRemote)
 
     override suspend fun getTopicsProgresses(topicsIds: List<Long>): Result<List<TopicProgress>> =
         progressesRemoteDataSource.getTopicsProgresses(topicsIds)
 
-    override suspend fun getProjectsProgresses(projectsIds: List<Long>, force: Boolean): Result<List<ProjectProgress>> =
-        projectProgressCacheProxy.getValues(projectsIds, force)
+    override suspend fun getProjectsProgresses(projectsIds: List<Long>, forceLoadFromRemote: Boolean): Result<List<ProjectProgress>> =
+        projectProgressCacheProxy.getValues(projectsIds, forceLoadFromRemote)
 
-    override fun clear() {
-        trackProgressCacheProxy.clear()
-        projectProgressCacheProxy.clear()
+    override fun clearCache() {
+        trackProgressCacheProxy.clearCache()
+        projectProgressCacheProxy.clearCache()
     }
 }

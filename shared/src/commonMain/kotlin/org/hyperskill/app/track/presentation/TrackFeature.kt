@@ -106,7 +106,7 @@ interface TrackFeature {
     }
 
     sealed interface Action {
-        data class FetchTrack(val force: Boolean) : Action
+        data class FetchTrack(val forceUpdate: Boolean) : Action
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 

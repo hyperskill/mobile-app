@@ -5,11 +5,19 @@ import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionSta
 
 interface SingletonRepositoriesComponent {
     // Note: add state reset of every new state repository to resetStateRepositories method
+
+    /**
+     * State repositories
+     */
     val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository
-    val progressRepository: ProgressesRepository
+
+    /**
+     * Cached list repositories
+     */
+    val progressesRepository: ProgressesRepository
 
     suspend fun resetRepositories() {
         currentSubscriptionStateRepository.resetState()
-        progressRepository.clear()
+        progressesRepository.clearCache()
     }
 }

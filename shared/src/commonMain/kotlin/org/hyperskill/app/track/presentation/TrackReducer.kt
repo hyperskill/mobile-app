@@ -61,7 +61,7 @@ class TrackReducer(
                     state.trackState is TrackState.Content && !state.trackState.isRefreshing
                 ) {
                     state.trackState.copy(isRefreshing = true) to setOf(
-                        Action.FetchTrack(force = true),
+                        Action.FetchTrack(forceUpdate = true),
                         Action.LogAnalyticEvent(TrackClickedPullToRefreshHyperskillAnalyticEvent())
                     )
                 } else {

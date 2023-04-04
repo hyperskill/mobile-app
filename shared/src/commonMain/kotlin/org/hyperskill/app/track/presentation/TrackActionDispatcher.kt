@@ -43,7 +43,7 @@ class TrackActionDispatcher(
 
                 val trackResult = actionScope.async { trackInteractor.getTrack(trackId) }
                 val trackProgressResult = actionScope.async {
-                    progressesInteractor.getTrackProgress(trackId, force = action.force)
+                    progressesInteractor.getTrackProgress(trackId, forceLoadFromRemote = action.forceUpdate)
                 }
                 val studyPlanResult = actionScope.async { studyPlanInteractor.getCurrentStudyPlan() }
 

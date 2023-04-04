@@ -20,7 +20,7 @@ class RepositoryCacheProxyTest {
             loadValuesFromRemote = {
                 Result.success(expectedValues)
             },
-            getKey = { it.toInt() }
+            getKeyFromValue = { it.toInt() }
         )
 
         runBlocking {
@@ -52,7 +52,7 @@ class RepositoryCacheProxyTest {
                     IllegalStateException("loadFromRemoteValues should not be called")
                 )
             },
-            getKey = { it.toInt() }
+            getKeyFromValue = { it.toInt() }
         )
 
         runBlocking {
@@ -91,7 +91,7 @@ class RepositoryCacheProxyTest {
             loadValuesFromRemote = {
                 Result.success(expectedValues)
             },
-            getKey = { it.toInt() }
+            getKeyFromValue = { it.toInt() }
         )
 
         runBlocking {
@@ -127,7 +127,7 @@ class RepositoryCacheProxyTest {
                 actualRemoteRequestedKeys = requestedKeys
                 Result.success(remoteValues)
             },
-            getKey = { it.toInt() }
+            getKeyFromValue = { it.toInt() }
         )
 
         runBlocking {
