@@ -28,10 +28,10 @@ class RepositoryCacheProxy<in Key : Any, Value : Any?>(
             if (cachedValue != null) {
                 Result.success(listOf(cachedValue))
             } else {
-                loadManyValuesInternal(listOf(key))
+                loadValuesAndUpdateCache(listOf(key))
             }
         } else {
-            loadManyValuesInternal(listOf(key))
+            loadValuesAndUpdateCache(listOf(key))
         }
 
     private suspend fun getManyValues(keys: List<Key>, forceLoadFromRemote: Boolean): Result<List<Value>> =
@@ -55,16 +55,16 @@ class RepositoryCacheProxy<in Key : Any, Value : Any?>(
             if (keysToLoadFromRemote.isEmpty()) {
                 Result.success(cachedValues)
             } else {
-                loadManyValuesInternal(keysToLoadFromRemote)
+                loadValuesAndUpdateCache(keysToLoadFromRemote)
                     .map { remoteValues ->
                         cachedValues + remoteValues
                     }
             }
         } else {
-            loadManyValuesInternal(keys)
+            loadValuesAndUpdateCache(keys)
         }
 
-    private suspend fun loadManyValuesInternal(keys: List<Key>): Result<List<Value>> =
+    private suspend fun loadValuesAndUpdateCache(keys: List<Key>): Result<List<Value>> =
         loadValuesFromRemote(keys).onSuccess { remoteValues ->
             remoteValues.forEach { value ->
                 val key = getKeyFromValue(value)
