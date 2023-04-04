@@ -113,6 +113,7 @@ class TrackFragment :
             requireContext().getString(org.hyperskill.app.R.string.track_title)
         gamificationToolbarDelegate = GamificationToolbarDelegate(
             viewLifecycleOwner,
+            requireContext(),
             viewBinding.trackAppBar,
             GamificationToolbarScreen.TRACK
         ) { message ->
