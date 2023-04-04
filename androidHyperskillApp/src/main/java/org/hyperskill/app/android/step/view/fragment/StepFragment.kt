@@ -10,6 +10,7 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.databinding.FragmentStepBinding
+import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.step.view.delegate.StepDelegate
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
@@ -46,6 +47,9 @@ class StepFragment :
     private var viewStateDelegate: ViewStateDelegate<StepFeature.State>? = null
     private var stepRoute: StepRoute by argument(serializer = StepRoute.serializer())
 
+    private val mainScreenRouter: MainScreenRouter =
+        HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponent()
@@ -72,7 +76,11 @@ class StepFragment :
     }
 
     override fun onAction(action: StepFeature.Action.ViewAction) {
-        StepDelegate.onAction(fragment = this, action)
+        StepDelegate.onAction(
+            fragment = this,
+            mainScreenRouter = mainScreenRouter,
+            action = action
+        )
     }
 
     override fun render(state: StepFeature.State) {

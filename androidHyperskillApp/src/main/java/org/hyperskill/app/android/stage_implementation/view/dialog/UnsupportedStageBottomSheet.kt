@@ -1,20 +1,18 @@
 package org.hyperskill.app.android.stage_implementation.view.dialog
 
 import android.app.Dialog
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.StyleRes
-import androidx.appcompat.view.ContextThemeWrapper
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentUnsupportedStageBinding
+import org.hyperskill.app.android.view.base.ui.extension.wrapWithTheme
 
 class UnsupportedStageBottomSheet : BottomSheetDialogFragment() {
 
@@ -77,9 +75,3 @@ class UnsupportedStageBottomSheet : BottomSheetDialogFragment() {
         fun onHomeClick()
     }
 }
-
-fun LayoutInflater.wrapWithTheme(
-    context: Context,
-    @StyleRes themeRes: Int = R.style.AppTheme
-): LayoutInflater =
-    cloneInContext(ContextThemeWrapper(context, themeRes))

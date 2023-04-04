@@ -10,6 +10,7 @@ class MainComponentImpl(private val appGraph: AppGraph) : MainComponent {
             appGraph.buildMainDataComponent().appInteractor,
             appGraph.authComponent.authInteractor,
             appGraph.buildProfileDataComponent().profileInteractor,
-            appGraph.sentryComponent.sentryInteractor
+            appGraph.sentryComponent.sentryInteractor,
+            appGraph.stateRepositoriesComponent
         )
 }

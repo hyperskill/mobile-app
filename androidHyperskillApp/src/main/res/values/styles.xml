@@ -160,5 +160,18 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="materialAlertDialogTitleTextStyle">@style/AlertDialogTitleStyle</item>
     </style>
+    
+    <style name="Badge">
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Badge.Violet" parent="Badge">
+        <item name="android:background">@drawable/bg_home_freemium_badge</item>
+        <item name="android:textColor">@color/color_overlay_violet</item>
+    </style>
 
 </resources>
