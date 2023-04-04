@@ -1,3 +1,4 @@
 What to Test:
 1. Optimize determine user account on application launch ALTAPPS-532
-2. Fix app blocked if no track selected in mobile and selected in web in the same time ALTAPPS-693
+2. Fix next topic card can't be render if there is no topic to load ALTAPPS-689
+3. Fix app blocked if no track selected in mobile and selected in web in the same time ALTAPPS-693
