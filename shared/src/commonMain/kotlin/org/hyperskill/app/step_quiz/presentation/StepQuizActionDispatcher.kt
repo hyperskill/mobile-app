@@ -17,6 +17,7 @@ import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.permissions.StepQuizUserPermissionRequest
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
+import org.hyperskill.app.step_quiz.domain.model.submissions.isWrongOrRejected
 import org.hyperskill.app.step_quiz.domain.validation.StepQuizReplyValidator
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Action
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Message
@@ -182,7 +183,7 @@ class StepQuizActionDispatcher(
                 sentryInteractor.startTransaction(sentryTransaction)
 
                 var newAttempt: Attempt? = null
-                if (action.submission.originalStatus == SubmissionStatus.WRONG &&
+                if (action.submission.originalStatus.isWrongOrRejected &&
                     StepQuizResolver.isNeedRecreateAttemptForNewSubmission(action.step)
                 ) {
                     newAttempt = stepQuizInteractor

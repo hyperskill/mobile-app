@@ -198,7 +198,7 @@ struct StepQuizView: View {
             return SubmissionStatus.local
         }()
 
-        if submissionStatus == SubmissionStatus.wrong {
+        if submissionStatus == SubmissionStatus.wrong || submissionStatus == SubmissionStatus.rejected {
             if quizType.isCodeRelated {
                 StepQuizActionButtons.retryLogoAndRunSolution(
                     retryButtonAction: viewModel.doQuizRetryAction,
