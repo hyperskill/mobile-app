@@ -1,11 +1,11 @@
 package org.hyperskill.app.android.step.view.delegate
 
 import androidx.fragment.app.Fragment
-import org.hyperskill.app.android.core.view.ui.navigation.requireMainRouter
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.ErrorNoConnectionWithButtonBinding
 import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
+import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.step.view.dialog.TopicPracticeCompletedBottomSheet
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
@@ -21,7 +21,11 @@ object StepDelegate  {
         }
     }
 
-    fun onAction(fragment: Fragment, action: StepFeature.Action.ViewAction) {
+    fun onAction(
+        fragment: Fragment,
+        mainScreenRouter: MainScreenRouter,
+        action: StepFeature.Action.ViewAction
+    ) {
         when (action) {
             is StepFeature.Action.ViewAction.StepCompletionViewAction -> {
                 when (val stepCompletionAction = action.viewAction) {
@@ -31,7 +35,7 @@ object StepDelegate  {
 
                     StepCompletionFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
                         fragment.requireRouter().backTo(MainScreen)
-                        fragment.parentFragmentManager.requireMainRouter().switch(HomeScreen)
+                        mainScreenRouter.switch(HomeScreen)
                     }
 
                     is StepCompletionFeature.Action.ViewAction.ReloadStep -> {

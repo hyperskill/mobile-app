@@ -11,6 +11,7 @@ import org.hyperskill.app.main.domain.interactor.AppInteractor
 import org.hyperskill.app.main.presentation.AppFeature.Action
 import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.profile.domain.model.isNewUser
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcrumbBuilder
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
@@ -56,11 +57,22 @@ class AppActionDispatcher(
 
                 val isAuthorized = authInteractor.isAuthorized()
                     .getOrDefault(false)
-
+                // TODO: Move this logic to reducer
                 val profileResult = if (isAuthorized) {
                     profileInteractor
                         .getCurrentProfile(sourceType = DataSourceType.CACHE)
-                        .onFailure { profileInteractor.getCurrentProfile(sourceType = DataSourceType.REMOTE) }
+                        .fold(
+                            onSuccess = { profile ->
+                                // ALTAPPS-693:
+                                // If user is new, we need to fetch profile from remote to check if track selected
+                                if (profile.isNewUser) {
+                                    profileInteractor.getCurrentProfile(sourceType = DataSourceType.REMOTE)
+                                } else {
+                                    Result.success(profile)
+                                }
+                            },
+                            onFailure = { profileInteractor.getCurrentProfile(sourceType = DataSourceType.REMOTE) }
+                        )
                 } else {
                     profileInteractor.getCurrentProfile(sourceType = DataSourceType.REMOTE)
                 }
