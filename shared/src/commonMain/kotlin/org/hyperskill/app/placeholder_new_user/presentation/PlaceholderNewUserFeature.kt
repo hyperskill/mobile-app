@@ -35,7 +35,7 @@ interface PlaceholderNewUserFeature {
     }
 
     sealed interface Action {
-        data class Initialize(val forceUpdate: Boolean) : Action
+        object Initialize : Action
 
         data class SelectTrack(val track: Track) : Action
 
