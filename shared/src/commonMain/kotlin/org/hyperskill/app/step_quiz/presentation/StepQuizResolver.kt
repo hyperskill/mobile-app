@@ -5,6 +5,7 @@ import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.isIdeRequired
 import org.hyperskill.app.step.domain.model.supportedBlocksNames
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
+import org.hyperskill.app.step_quiz.domain.model.submissions.isWrongOrRejected
 
 object StepQuizResolver {
     fun isQuizEnabled(state: StepQuizFeature.State.AttemptLoaded): Boolean {
@@ -20,7 +21,7 @@ object StepQuizResolver {
             if (state.submissionState.submission.status == SubmissionStatus.LOCAL) {
                 return true
             }
-            if (state.submissionState.submission.status == SubmissionStatus.WRONG) {
+            if (state.submissionState.submission.status.isWrongOrRejected) {
                 return if (state.step.block.name == BlockName.SQL) {
                     true
                 } else {

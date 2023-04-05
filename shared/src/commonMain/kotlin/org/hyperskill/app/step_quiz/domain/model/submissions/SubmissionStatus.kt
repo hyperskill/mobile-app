@@ -9,6 +9,8 @@ enum class SubmissionStatus {
     EVALUATION,
     @SerialName("wrong")
     WRONG,
+    @SerialName("rejected")
+    REJECTED,
     @SerialName("correct")
     CORRECT,
     @SerialName("outdated")
@@ -16,3 +18,6 @@ enum class SubmissionStatus {
     @SerialName("local")
     LOCAL
 }
+
+internal val SubmissionStatus?.isWrongOrRejected: Boolean
+    get() = this != null && (this == SubmissionStatus.WRONG || this == SubmissionStatus.REJECTED)
