@@ -14,7 +14,12 @@ extension StudyPlanSectionItemView {
         let progressBadgeCornerRadius: CGFloat = 4
         let progressBadgeInsets = LayoutInsets(horizontal: 8, vertical: 4)
 
-        var buttonStyle = OutlineButtonStyle(borderColor: .border, alignment: .leading, paddingEdgeSet: [])
+        var buttonStyle = OutlineButtonStyle(
+            borderColor: .border,
+            alignment: .leading,
+            paddingEdgeSet: [],
+            backgroundColor: Color(ColorPalette.surface)
+        )
     }
 }
 
@@ -56,7 +61,6 @@ struct StudyPlanSectionItemView: View {
             )
         }
         .disabled(!item.isClickable)
-        .background(Color(ColorPalette.surface))
         .buttonStyle(appearance.buttonStyle)
         .buttonStyle(BounceButtonStyle())
     }

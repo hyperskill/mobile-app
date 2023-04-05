@@ -3,7 +3,7 @@ import SwiftUI
 
 extension StudyPlanView {
     struct Appearance {
-        let backgroundColor = Color(ColorPalette.background)
+        let backgroundColor = Color.systemGroupedBackground
 
         let subheadlineBottomPadding: CGFloat = 12
     }
@@ -63,7 +63,7 @@ struct StudyPlanView: View {
                 )
             )
         case .content(let data):
-            ScrollView(showsIndicators: false) {
+            ScrollView {
                 LazyVStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
                     if let trackTitle = viewModel.state.trackTitle {
                         Text(trackTitle)
@@ -82,10 +82,10 @@ struct StudyPlanView: View {
                         )
                     }
                 }
+                .padding(.horizontal)
+                .padding(.bottom)
             }
             .frame(maxWidth: .infinity)
-            .padding(.horizontal)
-            .padding(.bottom)
         }
     }
 
