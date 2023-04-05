@@ -7,7 +7,7 @@ import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepo
 class StudyPlanDataComponentImpl(private val appGraph: AppGraph) : StudyPlanDataComponent {
 
     override val currentStudyPlanStateRepository: CurrentStudyPlanStateRepository
-        get() = appGraph.singletonRepositoriesComponent.studyPlanStateRepository
+        get() = appGraph.stateRepositoriesComponent.studyPlanStateRepository
 
     override val studyPlanInteractor: StudyPlanInteractor
         get() = StudyPlanInteractor(currentStudyPlanStateRepository)

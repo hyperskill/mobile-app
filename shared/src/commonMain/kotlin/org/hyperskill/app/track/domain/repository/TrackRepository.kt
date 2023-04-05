@@ -9,4 +9,6 @@ interface TrackRepository {
     suspend fun getTracks(trackIds: List<Long>, forceLoadFromRemote: Boolean): Result<List<Track>>
 
     suspend fun getAllTracks(): Result<List<Track>>
+
+    fun clearCache()
 }

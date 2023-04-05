@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.core.domain.DataSourceType
-import org.hyperskill.app.core.injection.SingletonRepositoriesComponent
+import org.hyperskill.app.core.injection.StateRepositoriesComponent
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.main.domain.interactor.AppInteractor
 import org.hyperskill.app.main.presentation.AppFeature.Action
@@ -23,7 +23,7 @@ class AppActionDispatcher(
     private val authInteractor: AuthInteractor,
     private val profileInteractor: ProfileInteractor,
     private val sentryInteractor: SentryInteractor,
-    private val singletonRepositoriesComponent: SingletonRepositoriesComponent
+    private val stateRepositoriesComponent: StateRepositoriesComponent
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
         authInteractor
@@ -38,7 +38,7 @@ class AppActionDispatcher(
                     }
                 }
 
-                singletonRepositoriesComponent.resetRepositories()
+                stateRepositoriesComponent.resetRepositories()
 
                 sentryInteractor.addBreadcrumb(HyperskillSentryBreadcrumbBuilder.buildAppUserDeauthorized(it.reason))
 

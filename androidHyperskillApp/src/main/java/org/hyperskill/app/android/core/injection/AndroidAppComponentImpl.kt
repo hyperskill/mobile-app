@@ -32,8 +32,8 @@ import org.hyperskill.app.comments.injection.CommentsDataComponentImpl
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.injection.CommonComponent
 import org.hyperskill.app.core.injection.CommonComponentImpl
-import org.hyperskill.app.core.injection.SingletonRepositoriesComponent
-import org.hyperskill.app.core.injection.SingletonRepositoriesComponentImpl
+import org.hyperskill.app.core.injection.StateRepositoriesComponent
+import org.hyperskill.app.core.injection.StateRepositoriesComponentImpl
 import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.debug.injection.DebugComponentImpl
@@ -212,8 +212,8 @@ class AndroidAppComponentImpl(
     override val notificationFlowDataComponent: NotificationFlowDataComponent =
         NotificationFlowDataComponentImpl()
 
-    override val singletonRepositoriesComponent: SingletonRepositoriesComponent =
-        SingletonRepositoriesComponentImpl(this)
+    override val stateRepositoriesComponent: StateRepositoriesComponent =
+        StateRepositoriesComponentImpl(this)
 
     override val sentryComponent: SentryComponent =
         SentryComponentImpl(SentryManagerImpl(commonComponent.buildKonfig))

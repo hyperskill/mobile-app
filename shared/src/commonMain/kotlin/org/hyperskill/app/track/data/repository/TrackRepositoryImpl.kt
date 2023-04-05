@@ -26,4 +26,8 @@ class TrackRepositoryImpl(
 
     override suspend fun getAllTracks(): Result<List<Track>> =
         trackRemoteDataSource.getAllTracks()
+
+    override fun clearCache() {
+        trackCacheProxy.clearCache()
+    }
 }
