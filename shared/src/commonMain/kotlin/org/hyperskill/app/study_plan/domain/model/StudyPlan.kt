@@ -15,9 +15,9 @@ data class StudyPlan(
     @SerialName("sections")
     val sections: List<Long>,
     @SerialName("seconds_to_reach_track")
-    val secondsToReachTrack: Float,
+    val secondsToReachTrack: Long,
     @SerialName("seconds_to_reach_project")
-    val secondsToReachProject: Float,
+    val secondsToReachProject: Long,
     @SerialName("created_at")
     val createdAt: String,
     @SerialName("status")

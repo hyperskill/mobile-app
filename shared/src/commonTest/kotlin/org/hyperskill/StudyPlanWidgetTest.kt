@@ -331,8 +331,8 @@ class StudyPlanWidgetTest {
             sections = sections,
             status = status,
             createdAt = "",
-            secondsToReachTrack = 0.0f,
-            secondsToReachProject = 0.0f
+            secondsToReachTrack = 0,
+            secondsToReachProject = 0
         )
 
     private fun studyPlanSectionStub(
