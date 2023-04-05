@@ -1,6 +1,6 @@
 package org.hyperskill.app.progresses.data.repository
 
-import org.hyperskill.app.core.data.repository_cache.RepositoryCacheProxy
+import org.hyperskill.app.core.domain.repository_cache.RepositoryCacheProxy
 import org.hyperskill.app.progresses.data.source.ProgressesRemoteDataSource
 import org.hyperskill.app.progresses.data.source.ProjectProgressesCacheDataSource
 import org.hyperskill.app.progresses.data.source.TrackProgressesCacheDataSource

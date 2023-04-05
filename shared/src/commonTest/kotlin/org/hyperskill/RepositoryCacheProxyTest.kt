@@ -2,8 +2,8 @@ package org.hyperskill
 
 import kotlinx.coroutines.runBlocking
 import org.hyperskill.app.core.data.repository_cache.InMemoryRepositoryCache
-import org.hyperskill.app.core.data.repository_cache.RepositoryCache
-import org.hyperskill.app.core.data.repository_cache.RepositoryCacheProxy
+import org.hyperskill.app.core.domain.repository_cache.RepositoryCache
+import org.hyperskill.app.core.domain.repository_cache.RepositoryCacheProxy
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

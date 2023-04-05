@@ -1,6 +1,6 @@
 package org.hyperskill.app.track.data.repository
 
-import org.hyperskill.app.core.data.repository_cache.RepositoryCacheProxy
+import org.hyperskill.app.core.domain.repository_cache.RepositoryCacheProxy
 import org.hyperskill.app.track.data.source.TrackCacheDataSource
 import org.hyperskill.app.track.data.source.TrackRemoteDataSource
 import org.hyperskill.app.track.domain.model.Track
