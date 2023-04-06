@@ -6,10 +6,10 @@ import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.core.view.ui.navigation.requireMainRouter
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStudyPlanBinding
 import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.GamificationToolbarDelegate
+import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
 import org.hyperskill.app.android.stage_implementation.view.navigation.StageImplementationScreen
 import org.hyperskill.app.android.study_plan.delegate.StudyPlanWidgetDelegate
@@ -36,6 +36,10 @@ class StudyPlanFragment :
 
     private lateinit var viewModelFactory: ReduxViewModelFactory
     private val studyPlanViewModel: StudyPlanScreenViewModel by reduxViewModel(this) { viewModelFactory }
+
+    private val mainScreenRouter: MainScreenRouter by lazy(LazyThreadSafetyMode.NONE) {
+        HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
+    }
 
     private var gamificationToolbarDelegate: GamificationToolbarDelegate? = null
     private var studyPlanWidgetDelegate: StudyPlanWidgetDelegate? = null
@@ -97,7 +101,7 @@ class StudyPlanFragment :
             is StudyPlanScreenFeature.Action.ViewAction.GamificationToolbarViewAction -> {
                 when (action.viewAction) {
                     GamificationToolbarFeature.Action.ViewAction.ShowProfileTab -> {
-                        requireMainRouter().switch(ProfileScreen(isInitCurrent = true))
+                        mainScreenRouter.switch(ProfileScreen(isInitCurrent = true))
                     }
                 }
             }

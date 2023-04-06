@@ -20,7 +20,7 @@ class StudyPlanWidgetActionDispatcher(
                 if (action.delayBeforeFetching != null) {
                     delay(action.delayBeforeFetching)
                 }
-                studyPlanInteractor.getCurrentStudyPlan()
+                studyPlanInteractor.getCurrentStudyPlan(forceLoadFromRemote = true)
                     .onSuccess { studyPlan ->
                         onNewMessage(StudyPlanWidgetFeature.StudyPlanFetchResult.Success(studyPlan, action.attemptNumber))
                     }
@@ -52,7 +52,7 @@ class StudyPlanWidgetActionDispatcher(
                     }
             }
             is InternalAction.FetchTrack -> {
-                trackInteractor.getTrack(action.trackId)
+                trackInteractor.getTrack(action.trackId, true)
                     .onSuccess {
                         onNewMessage(
                             StudyPlanWidgetFeature.TrackFetchResult.Success(it)

@@ -113,7 +113,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     localCicerone.router.switch(DebugScreen)
                 }
                 R.id.study_plan_tab -> {
-                    router.switch(StudyPlanScreen)
+                    localCicerone.router.switch(StudyPlanScreen)
                 }
             }
             return@setOnItemSelectedListener true
