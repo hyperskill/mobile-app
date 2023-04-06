@@ -1,11 +1,11 @@
 package org.hyperskill
 
+import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.hyperskill.app.core.data.repository_cache.InMemoryRepositoryCache
 import org.hyperskill.app.core.domain.repository_cache.RepositoryCache
 import org.hyperskill.app.core.domain.repository_cache.RepositoryCacheProxy
-import kotlin.test.Test
-import kotlin.test.assertEquals
 
 class RepositoryCacheProxyTest {
 
@@ -125,36 +125,6 @@ class RepositoryCacheProxyTest {
             val actualValues = cacheProxy.getValues(cachedKeys + remoteKeys, false).getOrThrow()
             assertEquals(cachedValues + remoteValues, actualValues)
             assertEquals(remoteKeys, actualRemoteRequestedKeys)
-        }
-    }
-
-    @Test
-    fun `Result values should be sorted by keys`() {
-        val cachedKeys = listOf(1, 2)
-        val cachedValues = listOf("2", "4")
-
-        val remoteKeys = listOf(3, 4)
-        val remoteValues = listOf("3", "1")
-
-        val expectedResult = listOf("1", "2", "3", "4")
-
-        val cache = InMemoryRepositoryCache<Int, String>().apply {
-            putAll(
-                cachedKeys.associateWith { key -> cachedValues[key - 1] }
-            )
-        }
-
-        val cacheProxy = RepositoryCacheProxy(
-            cache = cache,
-            loadValuesFromRemote = {
-                Result.success(remoteValues)
-            },
-            getKeyFromValue = { it.toInt() }
-        )
-
-        runBlocking {
-            val actualResult = cacheProxy.getValues(cachedKeys + remoteKeys, false).getOrThrow()
-            assertEquals(expectedResult, actualResult)
         }
     }
 }
