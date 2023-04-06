@@ -9,7 +9,7 @@ import kotlinx.coroutines.sync.withLock
  * @param [loadValuesFromRemote] represents a lambda that load values from remote by passed keys.
  * @param [getKeyFromValue] represents a lambda that returns key by passed value.
  */
-class RepositoryCacheProxy<in Key : Comparable<Key>, Value : Any?>(
+class RepositoryCacheProxy<in Key : Any, Value : Any?>(
     private val cache: RepositoryCache<Key, Value>,
     private val loadValuesFromRemote: suspend (keys: List<Key>) -> Result<List<Value>>,
     private val getKeyFromValue: (Value) -> Key?
@@ -36,7 +36,7 @@ class RepositoryCacheProxy<in Key : Comparable<Key>, Value : Any?>(
                 } else {
                     loadValuesAndUpdateCache(keysToLoadFromRemote.toList())
                         .map { remoteValues ->
-                            (cachedValues + remoteValues).sortedBy(getKeyFromValue)
+                            cachedValues + remoteValues
                         }
                 }
             } else {
