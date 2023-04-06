@@ -34,6 +34,6 @@ class ProgressesDataComponentImpl(
             projectProgressesCacheDataSource
         )
 
-    override val progressesInteractor: ProgressesInteractor =
-        ProgressesInteractor(progressesRepository)
+    override val progressesInteractor: ProgressesInteractor
+        get() = ProgressesInteractor(progressesRepository)
 }
