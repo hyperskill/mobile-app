@@ -2,6 +2,10 @@ package org.hyperskill
 
 import dev.icerock.moko.resources.PluralsResource
 import dev.icerock.moko.resources.StringResource
+import kotlin.test.Test
+import kotlin.test.assertContains
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 import org.hyperskill.app.core.view.mapper.DateFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
@@ -14,10 +18,6 @@ import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewStateMapper
-import kotlin.test.Test
-import kotlin.test.assertContains
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 class StudyPlanWidgetTest {
 
@@ -331,8 +331,8 @@ class StudyPlanWidgetTest {
             sections = sections,
             status = status,
             createdAt = "",
-            secondsToReachTrack = 0,
-            secondsToReachProject = 0
+            secondsToReachTrack = 0f,
+            secondsToReachProject = 0f
         )
 
     private fun studyPlanSectionStub(
