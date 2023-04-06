@@ -2,7 +2,9 @@ import Foundation
 
 enum AppTabItem: CaseIterable {
     case home
+    #warning("remove track from tab bar after releasing study plan")
     case track
+    case studyPlan
     case profile
     case debug
 
@@ -12,6 +14,8 @@ enum AppTabItem: CaseIterable {
             return Strings.TabBar.home
         case .track:
             return Strings.TabBar.track
+        case .studyPlan:
+            return Strings.TabBar.studyPlan
         case .profile:
             return Strings.TabBar.profile
         case .debug:
@@ -25,6 +29,8 @@ enum AppTabItem: CaseIterable {
             return Images.TabBar.home
         case .track:
             return Images.TabBar.track
+        case .studyPlan:
+            return Images.TabBar.studyPlan
         case .profile:
             return Images.TabBar.profile
         case .debug:
@@ -38,6 +44,8 @@ enum AppTabItem: CaseIterable {
             return Images.TabBar.homeFilled
         case .track:
             return Images.TabBar.trackFilled
+        case .studyPlan:
+            return Images.TabBar.studyPlanFilled
         case .profile:
             return Images.TabBar.profileFilled
         case .debug:
