@@ -12,3 +12,6 @@ data class ProjectProgress(
     @SerialName("is_completed")
     val isCompleted: Boolean
 )
+
+val ProjectProgress.projectId: Long?
+    get() = vid.substringAfter("project-").toLongOrNull()
