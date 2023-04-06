@@ -25,7 +25,7 @@ class TrackReducer(
                 val (trackState, trackActions) = if (state.trackState is TrackState.Idle ||
                     (message.forceUpdate && (state.trackState is TrackState.Content || state.trackState is TrackState.NetworkError))
                 ) {
-                    TrackState.Loading to setOf(Action.FetchTrack)
+                    TrackState.Loading to setOf(Action.FetchTrack(message.forceUpdate))
                 } else {
                     state.trackState to emptySet()
                 }
@@ -61,7 +61,7 @@ class TrackReducer(
                     state.trackState is TrackState.Content && !state.trackState.isRefreshing
                 ) {
                     state.trackState.copy(isRefreshing = true) to setOf(
-                        Action.FetchTrack,
+                        Action.FetchTrack(forceUpdate = true),
                         Action.LogAnalyticEvent(TrackClickedPullToRefreshHyperskillAnalyticEvent())
                     )
                 } else {
