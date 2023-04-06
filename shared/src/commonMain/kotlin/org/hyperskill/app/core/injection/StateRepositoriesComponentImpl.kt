@@ -24,7 +24,7 @@ class StateRepositoriesComponentImpl(appGraph: AppGraph) : StateRepositoriesComp
     /**
      * Study plan
      */
-    override val studyPlanStateRepository: CurrentStudyPlanStateRepository by lazy {
+    override val currentStudyPlanStateRepository: CurrentStudyPlanStateRepository by lazy {
         CurrentStudyPlanStateRepositoryImpl(StudyPlanRemoteDataSourceImpl(authorizedHttpClient))
     }
 }

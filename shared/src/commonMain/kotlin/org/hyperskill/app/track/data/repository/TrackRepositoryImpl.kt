@@ -8,7 +8,7 @@ import org.hyperskill.app.track.domain.repository.TrackRepository
 
 class TrackRepositoryImpl(
     private val trackRemoteDataSource: TrackRemoteDataSource,
-    private val trackCacheDataSource: TrackCacheDataSource
+    trackCacheDataSource: TrackCacheDataSource
 ) : TrackRepository {
 
     private val trackCacheProxy = RepositoryCacheProxy(

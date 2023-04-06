@@ -7,10 +7,10 @@ interface StateRepositoriesComponent {
     // Note: add state reset of every new state repository to resetStateRepositories method
     val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository
 
-    val studyPlanStateRepository: CurrentStudyPlanStateRepository
+    val currentStudyPlanStateRepository: CurrentStudyPlanStateRepository
 
     suspend fun resetRepositories() {
         currentSubscriptionStateRepository.resetState()
-        studyPlanStateRepository.resetState()
+        currentStudyPlanStateRepository.resetState()
     }
 }

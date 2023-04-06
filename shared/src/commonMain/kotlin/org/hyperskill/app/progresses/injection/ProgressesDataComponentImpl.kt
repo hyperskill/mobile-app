@@ -13,8 +13,16 @@ import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
 import org.hyperskill.app.progresses.remote.ProgressesRemoteDataSourceImpl
 
 class ProgressesDataComponentImpl(
-    private val appGraph: AppGraph
+    appGraph: AppGraph
 ) : ProgressesDataComponent {
+    companion object {
+        private val trackProgressesCacheDataSource: TrackProgressesCacheDataSource by lazy {
+            TrackProgressesCacheDataSourceImpl(InMemoryRepositoryCache())
+        }
+        private val projectProgressesCacheDataSource: ProjectProgressesCacheDataSource by lazy {
+            ProjectProgressesCacheDataSourceImpl(InMemoryRepositoryCache())
+        }
+    }
 
     private val progressesRemoteDataSource: ProgressesRemoteDataSource =
         ProgressesRemoteDataSourceImpl(appGraph.networkComponent.authorizedHttpClient)
@@ -28,13 +36,4 @@ class ProgressesDataComponentImpl(
 
     override val progressesInteractor: ProgressesInteractor =
         ProgressesInteractor(progressesRepository)
-
-    companion object {
-        private val trackProgressesCacheDataSource: TrackProgressesCacheDataSource by lazy {
-            TrackProgressesCacheDataSourceImpl(InMemoryRepositoryCache())
-        }
-        private val projectProgressesCacheDataSource: ProjectProgressesCacheDataSource by lazy {
-            ProjectProgressesCacheDataSourceImpl(InMemoryRepositoryCache())
-        }
-    }
 }

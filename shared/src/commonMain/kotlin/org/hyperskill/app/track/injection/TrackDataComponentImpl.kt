@@ -11,6 +11,12 @@ import org.hyperskill.app.track.domain.repository.TrackRepository
 import org.hyperskill.app.track.remote.TrackRemoteDataSourceImpl
 
 class TrackDataComponentImpl(appGraph: AppGraph) : TrackDataComponent {
+    companion object {
+        private val trackCacheDataSource: TrackCacheDataSource by lazy {
+            TrackCacheDataSourceImpl(InMemoryRepositoryCache())
+        }
+    }
+
     private val trackRemoteDataSource: TrackRemoteDataSource = TrackRemoteDataSourceImpl(
         appGraph.networkComponent.authorizedHttpClient
     )
@@ -22,10 +28,4 @@ class TrackDataComponentImpl(appGraph: AppGraph) : TrackDataComponent {
 
     override val trackInteractor: TrackInteractor
         get() = TrackInteractor(trackRepository)
-
-    companion object {
-        private val trackCacheDataSource: TrackCacheDataSource by lazy {
-            TrackCacheDataSourceImpl(InMemoryRepositoryCache())
-        }
-    }
 }
