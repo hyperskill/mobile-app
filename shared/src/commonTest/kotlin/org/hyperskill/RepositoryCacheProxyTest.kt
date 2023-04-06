@@ -127,4 +127,34 @@ class RepositoryCacheProxyTest {
             assertEquals(remoteKeys, actualRemoteRequestedKeys)
         }
     }
+
+    @Test
+    fun `Result values should be sorted by keys`() {
+        val cachedKeys = listOf(1, 2)
+        val cachedValues = listOf("2", "4")
+
+        val remoteKeys = listOf(3, 4)
+        val remoteValues = listOf("3", "1")
+
+        val expectedResult = listOf("1", "2", "3", "4")
+
+        val cache = InMemoryRepositoryCache<Int, String>().apply {
+            putAll(
+                cachedKeys.associateWith { key -> cachedValues[key - 1] }
+            )
+        }
+
+        val cacheProxy = RepositoryCacheProxy(
+            cache = cache,
+            loadValuesFromRemote = {
+                Result.success(remoteValues)
+            },
+            getKeyFromValue = { it.toInt() }
+        )
+
+        runBlocking {
+            val actualResult = cacheProxy.getValues(cachedKeys + remoteKeys, false).getOrThrow()
+            assertEquals(expectedResult, actualResult)
+        }
+    }
 }
