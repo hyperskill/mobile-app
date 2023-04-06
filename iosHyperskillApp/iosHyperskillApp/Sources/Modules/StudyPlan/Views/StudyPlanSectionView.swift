@@ -11,7 +11,7 @@ struct StudyPlanSectionView: View {
     private(set) var apperance = Appearance()
 
     let section: StudyPlanWidgetViewStateSection
-    let onSectionTap: () -> Void
+    let onSectionTap: (Int64) -> Void
     let onActivityTap: (Int64) -> Void
 
     var body: some View {
@@ -39,17 +39,19 @@ struct StudyPlanSectionView: View {
     }
 }
 
+#if DEBUG
 struct StudyPlanSectionView_Previews: PreviewProvider {
     static var previews: some View {
         StudyPlanSectionView(
             section: StudyPlanWidgetViewStateSection.makePlaceholder(),
-            onSectionTap: {},
+            onSectionTap: { _ in },
             onActivityTap: { _ in }
         )
         .padding()
         .background(Color(ColorPalette.background))
     }
 }
+#endif
 
 #if DEBUG
 extension StudyPlanWidgetViewStateSection {

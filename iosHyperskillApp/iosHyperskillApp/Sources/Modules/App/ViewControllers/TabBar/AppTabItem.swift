@@ -2,6 +2,7 @@ import Foundation
 
 enum AppTabItem: CaseIterable {
     case home
+    #warning("remove track from tab bar after releasing study plan")
     case track
     case studyPlan
     case profile

@@ -5,7 +5,7 @@ extension StudyPlanView {
     struct Appearance {
         let backgroundColor = Color.systemGroupedBackground
 
-        let subheadlineBottomPadding: CGFloat = 12
+        let trackTitleBottomPadding: CGFloat = 12
     }
 }
 
@@ -69,7 +69,7 @@ struct StudyPlanView: View {
                         Text(trackTitle)
                             .font(.subheadline)
                             .foregroundColor(.secondaryText)
-                            .padding(.bottom, appearance.subheadlineBottomPadding)
+                            .padding(.bottom, appearance.trackTitleBottomPadding)
                     }
 
                     ProblemsLimitAssembly().makeModule()
@@ -77,13 +77,12 @@ struct StudyPlanView: View {
                     ForEach(data.sections, id: \.id) { section in
                         StudyPlanSectionView(
                             section: section,
-                            onSectionTap: { viewModel.doSectionToggle(sectionId: section.id) },
+                            onSectionTap: viewModel.doSectionToggle(sectionId:),
                             onActivityTap: viewModel.doActivityPresentation(activityId:)
                         )
                     }
                 }
-                .padding(.horizontal)
-                .padding(.bottom)
+                .padding([.horizontal, .bottom])
             }
             .frame(maxWidth: .infinity)
         }

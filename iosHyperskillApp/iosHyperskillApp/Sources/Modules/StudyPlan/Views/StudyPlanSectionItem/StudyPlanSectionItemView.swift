@@ -3,16 +3,7 @@ import SwiftUI
 
 extension StudyPlanSectionItemView {
     struct Appearance {
-        let arrowIconSize: CGFloat = 32
-
-        let rightDetailIconWidthHeight: CGFloat = 12
-
         let backgroundProgressColor = Color(ColorPalette.overlayGreenAlpha7)
-
-        let progressBadgeForegroundColor = Color(ColorPalette.secondary)
-        let progressBadgeBackgroundColor = Color(ColorPalette.overlayGreenAlpha12)
-        let progressBadgeCornerRadius: CGFloat = 4
-        let progressBadgeInsets = LayoutInsets(horizontal: 8, vertical: 4)
 
         var buttonStyle = OutlineButtonStyle(
             borderColor: .border,
@@ -39,18 +30,13 @@ struct StudyPlanSectionItemView: View {
                         .padding(.trailing)
 
                     if let formattedProgress = item.formattedProgress {
-                        Text(formattedProgress)
-                            .font(.caption)
-                            .foregroundColor(appearance.progressBadgeForegroundColor)
-                            .padding(appearance.progressBadgeInsets.edgeInsets)
-                            .background(appearance.progressBadgeBackgroundColor)
-                            .cornerRadius(appearance.progressBadgeCornerRadius)
+                        StudyPlanSectionItemProgressBadgeView(formattedProgress: formattedProgress)
                     }
                 }
 
                 Spacer()
 
-                buildItemIcon(itemState: item.state)
+                StudyPlanSectionItemIconView(itemState: item.state)
             }
             .padding()
             .frame(minHeight: appearance.buttonStyle.minHeight)
@@ -62,7 +48,6 @@ struct StudyPlanSectionItemView: View {
         }
         .disabled(!item.isClickable)
         .buttonStyle(appearance.buttonStyle)
-        .buttonStyle(BounceButtonStyle())
     }
 
     // MARK: Private API
@@ -79,44 +64,9 @@ struct StudyPlanSectionItemView: View {
                 )
         }
     }
-
-    @ViewBuilder
-    private func buildItemIcon(
-        itemState: StudyPlanWidgetViewStateSectionItemState
-    ) -> some View {
-        switch itemState {
-        case StudyPlanWidgetViewStateSectionItemState.completed:
-            Image(systemName: "checkmark")
-                .resizable()
-                .renderingMode(.template)
-                .aspectRatio(contentMode: .fit)
-                .foregroundColor(Color(ColorPalette.secondary))
-                .frame(widthHeight: appearance.rightDetailIconWidthHeight)
-        case StudyPlanWidgetViewStateSectionItemState.locked:
-            Image(systemName: "lock")
-                .resizable()
-                .renderingMode(.template)
-                .aspectRatio(contentMode: .fit)
-                .foregroundColor(Color(ColorPalette.onSurfaceAlpha38))
-                .frame(widthHeight: appearance.rightDetailIconWidthHeight)
-        case StudyPlanWidgetViewStateSectionItemState.next:
-            Image(Images.Home.ProblemOfDay.arrowUncompleted)
-                .renderingMode(.original)
-                .resizable()
-                .frame(widthHeight: appearance.arrowIconSize)
-        case StudyPlanWidgetViewStateSectionItemState.skipped:
-            Image(Images.Track.TopicsToDiscoverNext.skippedTopic)
-                .resizable()
-                .renderingMode(.template)
-                .aspectRatio(contentMode: .fit)
-                .foregroundColor(Color(ColorPalette.onSurfaceAlpha38))
-                .frame(widthHeight: appearance.rightDetailIconWidthHeight)
-        default:
-            EmptyView()
-        }
-    }
 }
 
+#if DEBUG
 struct StudyPlanSectionItemView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
@@ -164,6 +114,7 @@ struct StudyPlanSectionItemView_Previews: PreviewProvider {
         .previewLayout(.sizeThatFits)
     }
 }
+#endif
 
 #if DEBUG
 extension StudyPlanWidgetViewStateSectionItem {

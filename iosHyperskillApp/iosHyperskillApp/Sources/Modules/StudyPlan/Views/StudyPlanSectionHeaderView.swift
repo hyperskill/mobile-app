@@ -3,8 +3,6 @@ import SwiftUI
 
 extension StudyPlanSectionHeaderView {
     struct Appearance {
-        let statisticIconsSpacing: CGFloat = 4
-        let statisticIconsWidthHeight: CGFloat = 14
         let cornerRadius: CGFloat = 8
     }
 }
@@ -13,7 +11,7 @@ struct StudyPlanSectionHeaderView: View {
     private(set) var appearance = Appearance()
 
     let section: StudyPlanWidgetViewStateSection
-    let onSectionTap: () -> Void
+    let onSectionTap: (Int64) -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
@@ -44,48 +42,27 @@ struct StudyPlanSectionHeaderView: View {
 
             if let formattedTopicsCount = section.formattedTopicsCount,
                let formattedTimeToComplete = section.formattedTimeToComplete {
-                HStack(spacing: LayoutInsets.defaultInset) {
-                    HStack(spacing: appearance.statisticIconsSpacing) {
-                        Image(Images.Track.About.topic)
-                            .resizable()
-                            .renderingMode(.template)
-                            .aspectRatio(contentMode: .fit)
-                            .foregroundColor(.primaryText)
-                            .frame(widthHeight: appearance.statisticIconsWidthHeight)
-
-                        Text(formattedTopicsCount)
-                            .font(.caption)
-                            .foregroundColor(.primaryText)
-                    }
-
-                    HStack(spacing: appearance.statisticIconsSpacing) {
-                        Image(Images.Step.clock)
-                            .resizable()
-                            .renderingMode(.template)
-                            .aspectRatio(contentMode: .fit)
-                            .foregroundColor(.primaryText)
-                            .frame(widthHeight: appearance.statisticIconsWidthHeight)
-
-                        Text(formattedTimeToComplete)
-                            .font(.caption)
-                            .foregroundColor(.primaryText)
-                    }
-                }
+                StudyPlanSectionHeaderStatisticsView(
+                    formattedTopicsCount: formattedTopicsCount,
+                    formattedTimeToComplete: formattedTimeToComplete
+                )
             }
         }
         .padding()
         .background(Color(ColorPalette.surface))
         .cornerRadius(appearance.cornerRadius)
-        .onTapGesture(perform: onSectionTap)
+        .onTapGesture { onSectionTap(section.id) }
     }
 }
 
+#if DEBUG
 struct StudyPlanSectionHeaderView_Previews: PreviewProvider {
     static var previews: some View {
         StudyPlanSectionHeaderView(
             section: StudyPlanWidgetViewStateSection.makePlaceholder(),
-            onSectionTap: {}
+            onSectionTap: { _ in }
         )
         .previewLayout(.sizeThatFits)
     }
 }
+#endif

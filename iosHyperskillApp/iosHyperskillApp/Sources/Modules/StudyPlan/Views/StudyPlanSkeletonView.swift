@@ -17,7 +17,7 @@ struct StudyPlanSkeletonView: View {
                         .frame(height: appearance.skeletonHeight)
                 }
             }
-            .padding(.horizontal)
+            .padding([.horizontal, .bottom])
         }
     }
 }
