@@ -1,13 +1,15 @@
 package org.hyperskill.app.track.domain.model
 
-import kotlin.math.roundToInt
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.math.roundToInt
 
 @Serializable
 data class TrackProgress(
     @SerialName("id")
     val id: String,
+    @SerialName("vid")
+    val vid: String,
     @SerialName("clarity")
     val clarity: Float?,
     @SerialName("fun")
@@ -42,3 +44,6 @@ data class TrackProgress(
     val completedTopics: Int
         get() = learnedTopicsCount + skippedTopicsCount
 }
+
+internal val TrackProgress.trackId: Long?
+    get() = vid.substringAfter("track-").toLongOrNull()

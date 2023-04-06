@@ -4,10 +4,8 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import android.widget.CompoundButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
-import androidx.core.view.marginLeft
 import org.hyperskill.app.android.latex.view.widget.LatexView
 
 class CompoundLatexItemView
@@ -22,21 +20,13 @@ constructor(
     }
 
     private var clickDuration: Long = 0
-
-    private lateinit var compoundButton: View
-    private lateinit var latexText: View
+    private var latexText: View? = null
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
-        if (!::compoundButton.isInitialized) {
-            compoundButton = children.first { it is CompoundButton }
+        if (latexText == null) {
+            latexText = children.firstOrNull { it is LatexView }
         }
-        val xOffset = -(compoundButton.width + compoundButton.marginLeft).toFloat()
-        ev.offsetLocation(xOffset, 0f)
-
-        if (!::latexText.isInitialized) {
-            latexText = children.first { it is LatexView }
-        }
-        latexText.dispatchTouchEvent(ev)
+        latexText?.dispatchTouchEvent(ev)
 
         if (ev.action == MotionEvent.ACTION_UP) {
             clickDuration = ev.eventTime - ev.downTime

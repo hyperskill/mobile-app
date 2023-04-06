@@ -15,17 +15,17 @@ data class StudyPlan(
     @SerialName("sections")
     val sections: List<Long>,
     @SerialName("seconds_to_reach_track")
-    val secondsToReachTrack: Long,
+    val secondsToReachTrack: Float,
     @SerialName("seconds_to_reach_project")
-    val secondsToReachProject: Long,
+    val secondsToReachProject: Float,
     @SerialName("created_at")
     val createdAt: String,
     @SerialName("status")
     val status: StudyPlanStatus
 ) {
     val minutesToReachTrack: Int =
-        (secondsToReachTrack.toDouble() / 60).roundToInt()
+        (secondsToReachTrack / 60.0).roundToInt()
 
     val hoursToReachTrack: Int =
-        (secondsToReachTrack.toDouble() / 3600).roundToInt()
+        (secondsToReachTrack / 3600.0).roundToInt()
 }
