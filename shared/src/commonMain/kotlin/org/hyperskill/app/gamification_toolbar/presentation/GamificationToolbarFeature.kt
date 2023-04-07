@@ -3,6 +3,7 @@ package org.hyperskill.app.gamification_toolbar.presentation
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.streaks.domain.model.Streak
+import org.hyperskill.app.track.domain.model.TrackWithProgress
 
 interface GamificationToolbarFeature {
     sealed interface State {
@@ -12,6 +13,7 @@ interface GamificationToolbarFeature {
         data class Content(
             val streak: Streak?,
             val hypercoinsBalance: Int,
+            val trackWithProgress: TrackWithProgress?,
             internal val isRefreshing: Boolean = false
         ) : State
     }
@@ -24,7 +26,8 @@ interface GamificationToolbarFeature {
         object FetchGamificationToolbarDataError : Message
         data class FetchGamificationToolbarDataSuccess(
             val streak: Streak?,
-            val hypercoinsBalance: Int
+            val hypercoinsBalance: Int,
+            val trackWithProgress: TrackWithProgress?
         ) : Message
 
         data class PullToRefresh(val screen: GamificationToolbarScreen) : Message
@@ -44,7 +47,10 @@ interface GamificationToolbarFeature {
     }
 
     sealed interface Action {
-        data class FetchGamificationToolbarData(val screen: GamificationToolbarScreen) : Action
+        data class FetchGamificationToolbarData(
+            val screen: GamificationToolbarScreen,
+            val forceUpdate: Boolean
+        ) : Action
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
