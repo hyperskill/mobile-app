@@ -2,6 +2,7 @@ package org.hyperskill.app.gamification_toolbar.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
+import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransaction
 import org.hyperskill.app.streaks.domain.model.Streak
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.track.domain.model.TrackWithProgress
@@ -24,7 +25,7 @@ interface GamificationToolbarFeature {
         /**
          * Initialization
          */
-        data class Initialize(val screen: GamificationToolbarScreen, val forceUpdate: Boolean = false) : Message
+        data class Initialize(val forceUpdate: Boolean = false) : Message
 
         object FetchGamificationToolbarDataError : Message
         data class FetchGamificationToolbarDataSuccess(
@@ -38,7 +39,7 @@ interface GamificationToolbarFeature {
             object Error : FetchTrackWithProgressResult
         }
 
-        data class PullToRefresh(val screen: GamificationToolbarScreen) : Message
+        object PullToRefresh : Message
 
         /**
          * Flow Messages
@@ -52,8 +53,8 @@ interface GamificationToolbarFeature {
         /**
          * Clicks
          */
-        data class ClickedGems(val screen: GamificationToolbarScreen) : Message
-        data class ClickedStreak(val screen: GamificationToolbarScreen) : Message
+        object ClickedGems : Message
+        object ClickedStreak : Message
     }
 
     sealed interface Action {
@@ -62,7 +63,10 @@ interface GamificationToolbarFeature {
             val forceUpdate: Boolean
         ) : Action
 
-        data class FetchTrackWithProgress(val trackId: Long) : Action
+        data class FetchTrackWithProgress(
+            val trackId: Long,
+            val transaction: HyperskillSentryTransaction
+        ) : Action
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 

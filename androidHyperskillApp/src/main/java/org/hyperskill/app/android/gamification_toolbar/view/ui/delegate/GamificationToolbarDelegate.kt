@@ -5,13 +5,11 @@ import androidx.lifecycle.LifecycleOwner
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.LayoutGamificationToolbarBinding
 import org.hyperskill.app.android.view.base.ui.extension.setElevationOnCollapsed
-import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 
 class GamificationToolbarDelegate(
     lifecycleOwner: LifecycleOwner,
     private val viewBinding: LayoutGamificationToolbarBinding,
-    screen: GamificationToolbarScreen,
     onNewMessage: (GamificationToolbarFeature.Message) -> Unit
 ) {
 
@@ -22,12 +20,12 @@ class GamificationToolbarDelegate(
 
             gamificationGemsCountTextView.setOnClickListener {
                 onNewMessage(
-                    GamificationToolbarFeature.Message.ClickedGems(screen)
+                    GamificationToolbarFeature.Message.ClickedGems
                 )
             }
             gamificationStreakDurationTextView.setOnClickListener {
                 onNewMessage(
-                    GamificationToolbarFeature.Message.ClickedStreak(screen)
+                    GamificationToolbarFeature.Message.ClickedStreak
                 )
             }
         }

@@ -119,13 +119,16 @@ class GamificationToolbarActionDispatcher(
                 )
             }
             is Action.FetchTrackWithProgress -> {
+                sentryInteractor.startTransaction(action.transaction)
                 fetchTrackWithProgress(action.trackId, true)
                     .fold(
                         onSuccess = { trackWithProgress ->
                             onNewMessage(Message.FetchTrackWithProgressResult.Success(trackWithProgress))
+                            sentryInteractor.finishTransaction(action.transaction)
                         },
                         onFailure = {
                             onNewMessage(Message.FetchTrackWithProgressResult.Error)
+                            sentryInteractor.finishTransaction(action.transaction)
                         }
                     )
             }

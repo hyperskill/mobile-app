@@ -14,9 +14,12 @@ enum class GamificationToolbarScreen {
             TRACK -> HyperskillAnalyticRoute.Track()
         }
 
-    internal val sentryTransaction: HyperskillSentryTransaction
+    internal val fetchContentSentryTransaction: HyperskillSentryTransaction
         get() = when (this) {
             HOME -> HyperskillSentryTransactionBuilder.buildGamificationToolbarHomeScreenRemoteDataLoading()
             TRACK -> HyperskillSentryTransactionBuilder.buildGamificationToolbarTrackScreenRemoteDataLoading()
         }
+
+    internal val fetchTrackProgressSentryTransaction: HyperskillSentryTransaction
+        get() = HyperskillSentryTransactionBuilder.buildGamificationToolbarTrackProgressLoading(this)
 }
