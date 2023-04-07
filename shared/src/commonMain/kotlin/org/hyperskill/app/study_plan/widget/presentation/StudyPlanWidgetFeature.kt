@@ -28,7 +28,12 @@ object StudyPlanWidgetFeature {
         /**
          * Map of activity ids to activities
          */
-        val activities: Map<Long, LearningActivity> = emptyMap()
+        val activities: Map<Long, LearningActivity> = emptyMap(),
+
+        /**
+         * Pull to refresh flag
+         */
+        val isRefreshing: Boolean = false
     )
 
     enum class ContentStatus {
@@ -56,10 +61,16 @@ object StudyPlanWidgetFeature {
         data class ActivityClicked(val activityId: Long) : Message
 
         object RetryContentLoading : Message
+
+        object ReloadContentInBackground : Message
     }
 
     internal sealed interface StudyPlanFetchResult : Message {
-        data class Success(val studyPlan: StudyPlan, val attemptNumber: Int) : StudyPlanFetchResult
+        data class Success(
+            val studyPlan: StudyPlan,
+            val attemptNumber: Int,
+            val showLoadingIndicators: Boolean
+        ) : StudyPlanFetchResult
 
         object Failed : StudyPlanFetchResult
     }
@@ -106,7 +117,8 @@ object StudyPlanWidgetFeature {
          */
         data class FetchStudyPlan(
             val delayBeforeFetching: Duration? = null,
-            val attemptNumber: Int = 1
+            val attemptNumber: Int = 1,
+            val showLoadingIndicators: Boolean = true
         ) : InternalAction
 
         data class FetchSections(val sectionsIds: List<Long>) : InternalAction

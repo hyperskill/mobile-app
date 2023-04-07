@@ -20,6 +20,18 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             is StudyPlanWidgetFeature.SectionsFetchResult.Success ->
                 handleSectionsFetchSuccess(state, message)
             Message.RetryContentLoading -> coldContentFetch()
+            Message.ReloadContentInBackground ->
+                state.copy(
+                    studyPlanSections = state.studyPlanSections.mapValues { (sectionId, sectionInfo) ->
+                        sectionInfo.copy(
+                            contentStatus = if (sectionId == state.firstSection()?.id) {
+                                sectionInfo.contentStatus
+                            } else {
+                                StudyPlanWidgetFeature.ContentStatus.IDLE
+                            }
+                        )
+                    }
+                ) to setOf(InternalAction.FetchStudyPlan(showLoadingIndicators = false))
             is StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success ->
                 handleLearningActivitiesFetchSuccess(state, message)
             is StudyPlanWidgetFeature.LearningActivitiesFetchResult.Failed ->
@@ -61,10 +73,15 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 message.studyPlan.trackId?.let(InternalAction::FetchTrack)
             )
         }
-        return State(
-            studyPlan = message.studyPlan,
-            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING
-        ) to actions
+
+        return if (message.showLoadingIndicators) {
+            State(
+                studyPlan = message.studyPlan,
+                sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING
+            ) to actions
+        }  else {
+            state.copy(studyPlan = message.studyPlan) to actions
+        }
     }
 
     private fun handleSectionsFetchSuccess(
@@ -84,7 +101,8 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
 
         val loadedSectionsState = state.copy(
             studyPlanSections = studyPlanSections,
-            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED,
+            isRefreshing = false
         )
 
         return if (firstVisibleSection != null) {

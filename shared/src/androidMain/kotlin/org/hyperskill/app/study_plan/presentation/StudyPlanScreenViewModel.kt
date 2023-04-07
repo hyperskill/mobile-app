@@ -9,7 +9,7 @@ class StudyPlanScreenViewModel(
     reduxViewContainer: ReduxViewContainer<StudyPlanScreenViewState, StudyPlanScreenFeature.Message, StudyPlanScreenFeature.Action.ViewAction>
 ) : ReduxViewModel<StudyPlanScreenViewState, StudyPlanScreenFeature.Message, StudyPlanScreenFeature.Action.ViewAction>(reduxViewContainer) {
     init {
-        onNewMessage(StudyPlanScreenFeature.Message.Initialize)
+        onNewMessage(StudyPlanScreenFeature.Message.Initialize())
         onNewMessage(StudyPlanScreenFeature.Message.ViewedEventMessage)
     }
 }

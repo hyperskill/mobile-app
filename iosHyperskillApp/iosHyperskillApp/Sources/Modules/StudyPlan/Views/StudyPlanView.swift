@@ -16,6 +16,8 @@ struct StudyPlanView: View {
 
     @StateObject var stackRouter: SwiftUIStackRouter
 
+    @State private var viewWasDisappear = false
+
     var body: some View {
         ZStack {
             UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
@@ -36,10 +38,16 @@ struct StudyPlanView: View {
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
+
+            if viewWasDisappear {
+                viewModel.doReloadContentInBackground()
+                viewWasDisappear = false
+            }
         }
         .onDisappear {
             viewModel.stopListening()
             viewModel.onViewAction = nil
+            viewWasDisappear = true
         }
     }
 
@@ -83,6 +91,13 @@ struct StudyPlanView: View {
                     }
                 }
                 .padding([.horizontal, .bottom])
+                .pullToRefresh(
+                    isShowing: Binding(
+                        get: { viewModel.state.isRefreshing },
+                        set: { _ in }
+                    ),
+                    onRefresh: viewModel.doPullToRefresh
+                )
             }
             .frame(maxWidth: .infinity)
         }
