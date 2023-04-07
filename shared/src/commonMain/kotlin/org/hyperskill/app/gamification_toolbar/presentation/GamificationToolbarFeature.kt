@@ -3,9 +3,11 @@ package org.hyperskill.app.gamification_toolbar.presentation
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.streaks.domain.model.Streak
+import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.track.domain.model.TrackWithProgress
 
 interface GamificationToolbarFeature {
+
     sealed interface State {
         object Idle : State
         object Loading : State
@@ -23,12 +25,18 @@ interface GamificationToolbarFeature {
          * Initialization
          */
         data class Initialize(val screen: GamificationToolbarScreen, val forceUpdate: Boolean = false) : Message
+
         object FetchGamificationToolbarDataError : Message
         data class FetchGamificationToolbarDataSuccess(
             val streak: Streak?,
             val hypercoinsBalance: Int,
             val trackWithProgress: TrackWithProgress?
         ) : Message
+
+        sealed interface FetchTrackWithProgressResult : Message {
+            data class Success(val trackWithProgress: TrackWithProgress?) : FetchTrackWithProgressResult
+            object Error : FetchTrackWithProgressResult
+        }
 
         data class PullToRefresh(val screen: GamificationToolbarScreen) : Message
 
@@ -38,6 +46,8 @@ interface GamificationToolbarFeature {
         object StepSolved : Message
         data class HypercoinsBalanceChanged(val hypercoinsBalance: Int) : Message
         data class StreakChanged(val streak: Streak?) : Message
+        data class StudyPlanChanged(val studyPlan: StudyPlan) : Message
+        object TopicCompleted : Message
 
         /**
          * Clicks
@@ -51,6 +61,8 @@ interface GamificationToolbarFeature {
             val screen: GamificationToolbarScreen,
             val forceUpdate: Boolean
         ) : Action
+
+        data class FetchTrackWithProgress(val trackId: Long) : Action
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 

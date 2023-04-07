@@ -19,6 +19,7 @@ class GamificationToolbarComponentImpl(private val appGraph: AppGraph) : Gamific
             appGraph.streakFlowDataComponent.streakFlow,
             appGraph.stateRepositoriesComponent.currentStudyPlanStateRepository,
             appGraph.buildTrackDataComponent().trackRepository,
-            appGraph.buildProgressesDataComponent().progressesRepository
+            appGraph.buildProgressesDataComponent().progressesRepository,
+            appGraph.stepCompletionFlowDataComponent.topicCompletedFlow
         )
 }

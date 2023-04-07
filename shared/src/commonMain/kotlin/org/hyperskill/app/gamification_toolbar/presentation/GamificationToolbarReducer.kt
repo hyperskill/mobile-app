@@ -40,6 +40,15 @@ class GamificationToolbarReducer : StateReducer<State, Message, Action> {
                     else ->
                         null
                 }
+
+            is Message.FetchTrackWithProgressResult -> {
+                if (state is State.Content && message is Message.FetchTrackWithProgressResult.Success) {
+                    state.copy(trackWithProgress = message.trackWithProgress) to emptySet()
+                } else {
+                    null
+                }
+            }
+
             // Flow Messages
             is Message.StepSolved ->
                 if (state is State.Content) {
@@ -59,6 +68,29 @@ class GamificationToolbarReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
+            is Message.StudyPlanChanged -> {
+                if (state is State.Content) {
+                    if (message.studyPlan.trackId != null) {
+                        state to setOf(Action.FetchTrackWithProgress(message.studyPlan.trackId))
+                    } else {
+                        state.copy(trackWithProgress = null) to emptySet()
+                    }
+                } else {
+                    null
+                }
+            }
+            is Message.TopicCompleted -> {
+                if (state is State.Content) {
+                    val trackId = state.trackWithProgress?.track?.id
+                    if (trackId != null) {
+                        state to setOf(Action.FetchTrackWithProgress(trackId))
+                    } else {
+                        state to emptySet()
+                    }
+                } else {
+                    null
+                }
+            }
             // Click Messages
             is Message.ClickedGems ->
                 if (state is State.Content) {

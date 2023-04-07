@@ -13,6 +13,7 @@ import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarF
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
 import org.hyperskill.app.streaks.domain.flow.StreakFlow
 import org.hyperskill.app.streaks.domain.interactor.StreaksInteractor
 import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository
@@ -29,7 +30,8 @@ class GamificationToolbarActionDispatcher(
     private val streakFlow: StreakFlow,
     private val currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
     private val trackRepository: TrackRepository,
-    private val progressesRepository: ProgressesRepository
+    private val progressesRepository: ProgressesRepository,
+    topicCompletedFlow: TopicCompletedFlow
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
@@ -49,12 +51,26 @@ class GamificationToolbarActionDispatcher(
                 onNewMessage(Message.StreakChanged(streak))
             }
             .launchIn(actionScope)
+
+        currentStudyPlanStateRepository.changes
+            .distinctUntilChanged()
+            .onEach { studyPlan ->
+                onNewMessage(Message.StudyPlanChanged(studyPlan))
+            }
+            .launchIn(actionScope)
+
+        topicCompletedFlow.observe()
+            .distinctUntilChanged()
+            .onEach {
+                onNewMessage(Message.TopicCompleted)
+            }
+            .launchIn(actionScope)
     }
 
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchGamificationToolbarData -> coroutineScope {
-                val sentryTransaction = action.screen.sentryTransaction
+                val sentryTransaction = action.screen.fetchContentSentryTransaction
                 sentryInteractor.startTransaction(sentryTransaction)
 
                 val currentUserId = profileInteractor
@@ -70,8 +86,8 @@ class GamificationToolbarActionDispatcher(
                 val profileResult = async {
                     profileInteractor.getCurrentProfile(sourceType = DataSourceType.REMOTE)
                 }
-                val averageTrackProgressDeferred = async {
-                    fetchTrackWithProgress(action.forceUpdate)
+                val trackWithProgressDeferred = async {
+                    fetchTrackWithProgressThoughtStudyPlan(action.forceUpdate)
                 }
 
                 val streak = streakResult.await().getOrElse {
@@ -84,7 +100,7 @@ class GamificationToolbarActionDispatcher(
                     onNewMessage(Message.FetchGamificationToolbarDataError)
                     return@coroutineScope
                 }
-                val averageTrackProgress = averageTrackProgressDeferred.await().getOrElse {
+                val trackWithProgress = trackWithProgressDeferred.await().getOrElse {
                     sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                     onNewMessage(Message.FetchGamificationToolbarDataError)
                     return@coroutineScope
@@ -98,9 +114,20 @@ class GamificationToolbarActionDispatcher(
                     Message.FetchGamificationToolbarDataSuccess(
                         streak,
                         profile.gamification.hypercoinsBalance,
-                        averageTrackProgress
+                        trackWithProgress
                     )
                 )
+            }
+            is Action.FetchTrackWithProgress -> {
+                fetchTrackWithProgress(action.trackId, true)
+                    .fold(
+                        onSuccess = { trackWithProgress ->
+                            onNewMessage(Message.FetchTrackWithProgressResult.Success(trackWithProgress))
+                        },
+                        onFailure = {
+                            onNewMessage(Message.FetchTrackWithProgressResult.Error)
+                        }
+                    )
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
@@ -110,26 +137,32 @@ class GamificationToolbarActionDispatcher(
         }
     }
 
-    private suspend fun fetchTrackWithProgress(forceLoadFromRemote: Boolean): Result<TrackWithProgress?> =
+    private suspend fun fetchTrackWithProgressThoughtStudyPlan(forceLoadFromRemote: Boolean): Result<TrackWithProgress?> =
+        kotlin.runCatching {
+            val studyPlan =
+                currentStudyPlanStateRepository.getState(forceLoadFromRemote).getOrThrow()
+            if (studyPlan.trackId != null) {
+                fetchTrackWithProgress(studyPlan.trackId, forceLoadFromRemote).getOrThrow()
+            } else {
+                null
+            }
+        }
+
+    private suspend fun fetchTrackWithProgress(trackId: Long, forceLoadFromRemote: Boolean): Result<TrackWithProgress?> =
         coroutineScope {
             kotlin.runCatching {
-                val studyPlan =
-                    currentStudyPlanStateRepository.getState(forceLoadFromRemote).getOrThrow()
-                if (studyPlan.trackId != null) {
-                    val trackDeferred = async {
-                        trackRepository.getTrack(studyPlan.trackId, forceLoadFromRemote)
-                    }
-                    val trackProgressDeferred = async {
-                        progressesRepository
-                            .getTrackProgress(studyPlan.trackId, forceLoadFromRemote)
-                    }
-                    TrackWithProgress(
-                        track = trackDeferred.await().getOrThrow(),
-                        trackProgress = trackProgressDeferred.await().getOrThrow() ?: return@runCatching null
-                    )
-                } else {
-                    null
+                val trackDeferred = async {
+                    trackRepository.getTrack(trackId, forceLoadFromRemote)
                 }
+                val trackProgressDeferred = async {
+                    progressesRepository
+                        .getTrackProgress(trackId, forceLoadFromRemote)
+                }
+                TrackWithProgress(
+                    track = trackDeferred.await().getOrThrow(),
+                    trackProgress = trackProgressDeferred.await().getOrThrow()
+                        ?: return@runCatching null
+                )
             }
         }
 }
