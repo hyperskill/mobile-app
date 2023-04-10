@@ -5,6 +5,7 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature.Action
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature.Message
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.profile.domain.model.isFreemiumEnabled
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
@@ -58,23 +59,30 @@ class PlaceholderNewUserActionDispatcher(
                         return onNewMessage(Message.TrackSelected.Error)
                     }
 
-                val projectByLevel = action.track.projectsByLevel
+                if (currentProfile.isFreemiumEnabled) {
+                    profileInteractor.selectTrack(currentProfile.id, action.track.id)
+                        .getOrElse {
+                            return onNewMessage(Message.TrackSelected.Error)
+                        }
+                } else {
+                    val projectByLevel = action.track.projectsByLevel
 
-                val projectId = projectByLevel.easy?.firstOrNull()
-                    ?: projectByLevel.medium?.firstOrNull()
-                    ?: projectByLevel.hard?.firstOrNull()
-                    ?: projectByLevel.nightmare?.firstOrNull()
-                    ?: return onNewMessage(Message.TrackSelected.Error)
+                    val projectId = projectByLevel.easy?.firstOrNull()
+                        ?: projectByLevel.medium?.firstOrNull()
+                        ?: projectByLevel.hard?.firstOrNull()
+                        ?: projectByLevel.nightmare?.firstOrNull()
+                        ?: return onNewMessage(Message.TrackSelected.Error)
 
-                profileInteractor
-                    .selectTrackWithProject(
-                        profileId = currentProfile.id,
-                        trackId = action.track.id,
-                        projectId = projectId
-                    )
-                    .getOrElse {
-                        return onNewMessage(Message.TrackSelected.Error)
-                    }
+                    profileInteractor
+                        .selectTrackWithProject(
+                            profileId = currentProfile.id,
+                            trackId = action.track.id,
+                            projectId = projectId
+                        )
+                        .getOrElse {
+                            return onNewMessage(Message.TrackSelected.Error)
+                        }
+                }
 
                 onNewMessage(Message.TrackSelected.Success)
             }
