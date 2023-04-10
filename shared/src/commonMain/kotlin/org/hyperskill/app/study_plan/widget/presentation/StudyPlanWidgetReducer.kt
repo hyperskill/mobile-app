@@ -72,7 +72,6 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         message: StudyPlanWidgetFeature.SectionsFetchResult.Success
     ): StudyPlanWidgetReducerResult {
         val visibleSections = message.sections.filter { it.isVisible }
-        val firstVisibleSection = visibleSections.firstOrNull()
 
         val studyPlanSections = visibleSections.associate { studyPlanSection ->
             studyPlanSection.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
@@ -82,13 +81,22 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             )
         }
 
+        val sortedVisibleSections =
+            if (state.studyPlan != null) {
+                val visibleSectionsIds = visibleSections.map { it.id }.toSet()
+                state.studyPlan.sections.intersect(visibleSectionsIds).toList()
+            } else {
+                return state to emptySet()
+            }
+
         val loadedSectionsState = state.copy(
+            studyPlan = state.studyPlan.copy(sections = sortedVisibleSections),
             studyPlanSections = studyPlanSections,
             sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
         )
 
-        return if (firstVisibleSection != null) {
-            changeSectionExpanse(loadedSectionsState, firstVisibleSection.id)
+        return if (sortedVisibleSections.isNotEmpty()) {
+            changeSectionExpanse(loadedSectionsState, sortedVisibleSections.first())
         } else {
             loadedSectionsState to emptySet()
         }
