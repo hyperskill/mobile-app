@@ -6,7 +6,10 @@ import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarS
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarActionDispatcher
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
 
-class GamificationToolbarComponentImpl(private val appGraph: AppGraph, private val screen: GamificationToolbarScreen) : GamificationToolbarComponent {
+class GamificationToolbarComponentImpl(
+    private val appGraph: AppGraph,
+    private val screen: GamificationToolbarScreen
+) : GamificationToolbarComponent {
     override val gamificationToolbarReducer: GamificationToolbarReducer
         get() = GamificationToolbarReducer(screen)
 

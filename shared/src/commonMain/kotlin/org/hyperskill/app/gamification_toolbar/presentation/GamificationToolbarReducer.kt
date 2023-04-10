@@ -43,7 +43,6 @@ class GamificationToolbarReducer(
                     else ->
                         null
                 }
-
             is Message.FetchTrackWithProgressResult -> {
                 if (state is State.Content && message is Message.FetchTrackWithProgressResult.Success) {
                     state.copy(trackWithProgress = message.trackWithProgress) to emptySet()
@@ -51,7 +50,6 @@ class GamificationToolbarReducer(
                     null
                 }
             }
-
             // Flow Messages
             is Message.StepSolved ->
                 if (state is State.Content) {

@@ -87,7 +87,7 @@ class GamificationToolbarActionDispatcher(
                     profileInteractor.getCurrentProfile(sourceType = DataSourceType.REMOTE)
                 }
                 val trackWithProgressDeferred = async {
-                    fetchTrackWithProgressThoughtStudyPlan(action.forceUpdate)
+                    fetchTrackWithProgressThroughStudyPlan(action.forceUpdate)
                 }
 
                 val streak = streakResult.await().getOrElse {
@@ -140,7 +140,7 @@ class GamificationToolbarActionDispatcher(
         }
     }
 
-    private suspend fun fetchTrackWithProgressThoughtStudyPlan(forceLoadFromRemote: Boolean): Result<TrackWithProgress?> =
+    private suspend fun fetchTrackWithProgressThroughStudyPlan(forceLoadFromRemote: Boolean): Result<TrackWithProgress?> =
         kotlin.runCatching {
             val studyPlan =
                 currentStudyPlanStateRepository.getState(forceLoadFromRemote).getOrThrow()
@@ -151,7 +151,10 @@ class GamificationToolbarActionDispatcher(
             }
         }
 
-    private suspend fun fetchTrackWithProgress(trackId: Long, forceLoadFromRemote: Boolean): Result<TrackWithProgress?> =
+    private suspend fun fetchTrackWithProgress(
+        trackId: Long,
+        forceLoadFromRemote: Boolean
+    ): Result<TrackWithProgress?> =
         coroutineScope {
             kotlin.runCatching {
                 val trackDeferred = async {
@@ -163,8 +166,7 @@ class GamificationToolbarActionDispatcher(
                 }
                 TrackWithProgress(
                     track = trackDeferred.await().getOrThrow(),
-                    trackProgress = trackProgressDeferred.await().getOrThrow()
-                        ?: return@runCatching null
+                    trackProgress = trackProgressDeferred.await().getOrThrow() ?: return@runCatching null
                 )
             }
         }

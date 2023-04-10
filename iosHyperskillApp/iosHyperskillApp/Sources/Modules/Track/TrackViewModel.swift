@@ -48,7 +48,7 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
     func doStreakBarButtonItemAction() {
         onNewMessage(
             TrackFeatureMessageGamificationToolbarMessage(
-                message: GamificationToolbarFeatureMessageClickedStreak.shared
+                message: GamificationToolbarFeatureMessageClickedStreak()
             )
         )
     }
@@ -56,7 +56,7 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
     func doGemsBarButtonItemAction() {
         onNewMessage(
             TrackFeatureMessageGamificationToolbarMessage(
-                message: GamificationToolbarFeatureMessageClickedGems.shared
+                message: GamificationToolbarFeatureMessageClickedGems()
             )
         )
     }

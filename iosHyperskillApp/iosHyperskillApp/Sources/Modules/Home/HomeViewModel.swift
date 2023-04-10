@@ -56,7 +56,7 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
     func doStreakBarButtonItemAction() {
         onNewMessage(
             HomeFeatureMessageGamificationToolbarMessage(
-                message: GamificationToolbarFeatureMessageClickedStreak.shared
+                message: GamificationToolbarFeatureMessageClickedStreak()
             )
         )
     }
@@ -64,7 +64,7 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
     func doGemsBarButtonItemAction() {
         onNewMessage(
             HomeFeatureMessageGamificationToolbarMessage(
-                message: GamificationToolbarFeatureMessageClickedGems.shared
+                message: GamificationToolbarFeatureMessageClickedGems()
             )
         )
     }

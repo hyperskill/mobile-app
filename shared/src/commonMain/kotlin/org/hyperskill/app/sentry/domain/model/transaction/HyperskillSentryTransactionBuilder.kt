@@ -176,7 +176,10 @@ object HyperskillSentryTransactionBuilder {
 
     fun buildGamificationToolbarTrackProgressLoading(screen: GamificationToolbarScreen): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
-            name = "navigation-bar-items-feature-${screen.name.lowercase()}-screen-fetch_track_progress",
+            name = when(screen) {
+                GamificationToolbarScreen.HOME -> "navigation-bar-items-feature-home-screen-fetch_track_progress"
+                GamificationToolbarScreen.TRACK -> "navigation-bar-items-feature-track-screen-fetch_track_progress"
+            },
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
 
