@@ -176,7 +176,7 @@ object HyperskillSentryTransactionBuilder {
 
     fun buildGamificationToolbarTrackProgressLoading(screen: GamificationToolbarScreen): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
-            name = when(screen) {
+            name = when (screen) {
                 GamificationToolbarScreen.HOME -> "navigation-bar-items-feature-home-screen-fetch_track_progress"
                 GamificationToolbarScreen.TRACK -> "navigation-bar-items-feature-track-screen-fetch_track_progress"
             },
