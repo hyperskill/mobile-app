@@ -57,7 +57,7 @@ class StudyPlanWidgetTest {
                 val studyPlan = studyPlanStub(id = 0, status = status)
                 val (_, actions) = reducer.reduce(
                     initialState,
-                    StudyPlanWidgetFeature.StudyPlanFetchResult.Success(studyPlan, 1)
+                    StudyPlanWidgetFeature.StudyPlanFetchResult.Success(studyPlan, 1, true)
                 )
                 assertTrue {
                     actions.any {
@@ -74,7 +74,7 @@ class StudyPlanWidgetTest {
         repeat(5) { tryNumber ->
             val (_, actions) = reducer.reduce(
                 initialState,
-                StudyPlanWidgetFeature.StudyPlanFetchResult.Success(studyPlan, tryNumber)
+                StudyPlanWidgetFeature.StudyPlanFetchResult.Success(studyPlan, tryNumber, true)
             )
             val expectedAction = StudyPlanWidgetFeature.InternalAction.FetchStudyPlan(
                 delayBeforeFetching = StudyPlanWidgetFeature.STUDY_PLAN_FETCH_INTERVAL * tryNumber,
@@ -90,7 +90,7 @@ class StudyPlanWidgetTest {
         val studyPlan = studyPlanStub(id = 0, status = StudyPlanStatus.READY)
         val (_, actions) = reducer.reduce(
             initialState,
-            StudyPlanWidgetFeature.StudyPlanFetchResult.Success(studyPlan, 1)
+            StudyPlanWidgetFeature.StudyPlanFetchResult.Success(studyPlan, 1, true)
         )
         assertTrue {
             actions.none {
@@ -109,7 +109,7 @@ class StudyPlanWidgetTest {
                 val studyPlan = studyPlanStub(id = 0, status = status)
                 val (state, _) = reducer.reduce(
                     initialState,
-                    StudyPlanWidgetFeature.StudyPlanFetchResult.Success(studyPlan, 1)
+                    StudyPlanWidgetFeature.StudyPlanFetchResult.Success(studyPlan, 1, true)
                 )
                 val viewState = studyPlanWidgetViewStateMapper.map(state)
                 assertEquals(StudyPlanWidgetViewState.Loading, viewState)
@@ -126,7 +126,7 @@ class StudyPlanWidgetTest {
         )
         val initialState = StudyPlanWidgetFeature.State(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING)
         val (state, actions) =
-            reducer.reduce(initialState, StudyPlanWidgetFeature.StudyPlanFetchResult.Success(studyPlanStub, 1))
+            reducer.reduce(initialState, StudyPlanWidgetFeature.StudyPlanFetchResult.Success(studyPlanStub, 1, true))
         assertContains(actions, StudyPlanWidgetFeature.InternalAction.FetchSections(expectedSections))
         assertEquals(studyPlanStub, state.studyPlan)
         assertEquals(initialState.sectionsStatus, state.sectionsStatus)
