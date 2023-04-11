@@ -1,5 +1,7 @@
 package org.hyperskill.app.sentry.domain.model.transaction
 
+import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
+
 /**
  * Please do not change the names of transactions if they already appeared in the Sentry.
  */
@@ -169,6 +171,15 @@ object HyperskillSentryTransactionBuilder {
     fun buildGamificationToolbarTrackScreenRemoteDataLoading(): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
             name = "navigation-bar-items-feature-track-screen-remote-data-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    fun buildGamificationToolbarTrackProgressLoading(screen: GamificationToolbarScreen): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = when (screen) {
+                GamificationToolbarScreen.HOME -> "navigation-bar-items-feature-home-screen-fetch_track_progress"
+                GamificationToolbarScreen.TRACK -> "navigation-bar-items-feature-track-screen-fetch_track_progress"
+            },
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
 

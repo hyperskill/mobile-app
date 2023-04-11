@@ -13,6 +13,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.ImageLoader
 import coil.load
 import coil.size.Scale
+import kotlin.math.roundToInt
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
@@ -27,7 +28,6 @@ import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.topics.view.delegate.TopicsToDiscoverNextDelegate
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
-import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
@@ -38,7 +38,6 @@ import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
-import kotlin.math.roundToInt
 
 class TrackFragment :
     Fragment(R.layout.fragment_track),
@@ -116,8 +115,7 @@ class TrackFragment :
             requireContext().getString(org.hyperskill.app.R.string.track_title)
         gamificationToolbarDelegate = GamificationToolbarDelegate(
             viewLifecycleOwner,
-            viewBinding.trackAppBar,
-            GamificationToolbarScreen.TRACK
+            viewBinding.trackAppBar
         ) { message ->
             trackViewModel.onNewMessage(TrackFeature.Message.GamificationToolbarMessage(message))
         }

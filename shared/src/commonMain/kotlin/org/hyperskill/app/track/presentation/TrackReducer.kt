@@ -1,7 +1,6 @@
 package org.hyperskill.app.track.presentation
 
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
-import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
@@ -32,7 +31,7 @@ class TrackReducer(
 
                 val (toolbarState, toolbarActions) = reduceGamificationToolbarMessage(
                     state.toolbarState,
-                    GamificationToolbarFeature.Message.Initialize(GamificationToolbarScreen.TRACK, message.forceUpdate)
+                    GamificationToolbarFeature.Message.Initialize(message.forceUpdate)
                 )
 
                 val (topicsToDiscoverNextState, topicsToDiscoverNextActions) = reduceTopicsToDiscoverNextMessage(
@@ -70,7 +69,7 @@ class TrackReducer(
 
                 val (toolbarState, toolbarActions) = reduceGamificationToolbarMessage(
                     state.toolbarState,
-                    GamificationToolbarFeature.Message.PullToRefresh(GamificationToolbarScreen.TRACK)
+                    GamificationToolbarFeature.Message.PullToRefresh
                 )
 
                 val (topicsToDiscoverNextState, topicsToDiscoverNextActions) = reduceTopicsToDiscoverNextMessage(

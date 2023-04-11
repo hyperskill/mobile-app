@@ -43,6 +43,7 @@ import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponentImpl
 import org.hyperskill.app.freemium.injection.FreemiumDataComponent
 import org.hyperskill.app.freemium.injection.FreemiumDataComponentImpl
+import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponentImpl
 import org.hyperskill.app.home.injection.HomeComponent
@@ -466,8 +467,8 @@ class AndroidAppComponentImpl(
     override fun buildStreaksDataComponent(): StreaksDataComponent =
         StreaksDataComponentImpl(this)
 
-    override fun buildGamificationToolbarComponent(): GamificationToolbarComponent =
-        GamificationToolbarComponentImpl(this)
+    override fun buildGamificationToolbarComponent(screen: GamificationToolbarScreen): GamificationToolbarComponent =
+        GamificationToolbarComponentImpl(this, screen)
 
     override fun buildStudyPlanDataComponent(): StudyPlanDataComponent =
         StudyPlanDataComponentImpl(this)
