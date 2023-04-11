@@ -22,12 +22,20 @@ class ToolbarTrackProgressView @JvmOverloads constructor(
     private val circleRadius = Dp(8f).toPx().value
     private val arcStrokeWidth = Dp(2f).toPx().value
 
-    private val inactivePaint = Paint().also {
+    private val uncompletedInactivePaint = Paint().also {
         setupCirclePaint(it, org.hyperskill.app.R.color.color_primary_alpha_38)
     }
-    private val activePaint = Paint().also {
+    private val uncompletedActivePaint = Paint().also {
         setupCirclePaint(it, org.hyperskill.app.R.color.color_primary)
     }
+
+    private val completedInactivePaint = Paint().also {
+        setupCirclePaint(it, org.hyperskill.app.R.color.color_secondary_alpha_38)
+    }
+    private val completedActiveCompletedPaint = Paint().also {
+        setupCirclePaint(it, org.hyperskill.app.R.color.color_secondary)
+    }
+
     private val backgroundPaint = Paint().apply {
         isAntiAlias = true
         style = Paint.Style.FILL
@@ -36,6 +44,7 @@ class ToolbarTrackProgressView @JvmOverloads constructor(
     private val progressRectF = RectF()
 
     private var progressSweepAngel: Float = 0f
+    private var isCompleted: Boolean = false
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         // Height == width
@@ -67,17 +76,30 @@ class ToolbarTrackProgressView @JvmOverloads constructor(
         }
         with(canvas) {
             drawCircle(backgroundRadius, backgroundRadius, backgroundRadius, backgroundPaint)
-            drawArc(progressRectF, -90f, 360f, false, inactivePaint)
-            drawArc(progressRectF, -90f, progressSweepAngel, false, activePaint)
+            drawArc(
+                /* oval = */ progressRectF,
+                /* startAngle = */ -90f,
+                /* sweepAngle = */ progressSweepAngel,
+                /* useCenter = */ false,
+                /* paint = */ if (isCompleted) completedActiveCompletedPaint else uncompletedActivePaint
+            )
+            drawArc(
+                /* oval = */ progressRectF,
+                /* startAngle = */ -90f + progressSweepAngel,
+                /* sweepAngle = */ 360f - progressSweepAngel,
+                /* useCenter = */ false,
+                /* paint = */ if (isCompleted) completedInactivePaint else uncompletedInactivePaint
+            )
         }
     }
 
-    fun setProgress(progress: Int) {
+    fun setProgress(progress: Int, isCompleted: Boolean) {
         val normalizedProgress =
             progress.coerceAtMost(100).coerceAtLeast(0)
         val progressRadius = normalizedProgress / 100f * 360
         if (progressRadius != this.progressSweepAngel) {
             this.progressSweepAngel = progressRadius
+            this.isCompleted = isCompleted
             invalidate()
         }
     }
