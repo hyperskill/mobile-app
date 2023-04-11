@@ -1,136 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/profileAppBar"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/color_background"
-        android:elevation="0dp"
-        >
+        android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/profileCollapsingToolbarLayout"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            app:title="@string/profile_title"
-            android:minHeight="?attr/actionBarSize"
-            app:contentScrim="@color/color_background"
-            app:expandedTitleGravity="start|bottom"
-            app:expandedTitleMarginBottom="8dp"
-            app:expandedTitleMarginStart="20dp"
-            app:expandedTitleTextAppearance="@style/TextAppearance.AppTheme.CollapsingTitle"
-            app:collapsedTitleTextAppearance="@style/TextAppearance.AppTheme.CollapsingTitle"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            >
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/profileToolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                android:background="@color/color_background"
-                android:paddingEnd="16dp"
-                tools:ignore="RtlSymmetry"
-                >
-
-                <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/profileSettingsButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_settings"
-                    android:paddingHorizontal="16dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:layout_gravity="end"
-                    />
-
-            </androidx.appcompat.widget.Toolbar>
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/profileContentNestedScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        >
-
-        <LinearLayout
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/profileAppBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingHorizontal="20dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="16dp"
+            android:background="@color/color_background"
+            android:elevation="0dp"
             >
 
-            <include
-                android:id="@+id/profileHeader"
-                layout="@layout/layout_profile_header"
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/profileCollapsingToolbarLayout"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                app:title="@string/profile_title"
+                android:minHeight="?attr/actionBarSize"
+                app:contentScrim="@color/color_background"
+                app:expandedTitleGravity="start|bottom"
+                app:expandedTitleMarginBottom="8dp"
+                app:expandedTitleMarginStart="20dp"
+                app:expandedTitleTextAppearance="@style/TextAppearance.AppTheme.CollapsingTitle"
+                app:collapsedTitleTextAppearance="@style/TextAppearance.AppTheme.CollapsingTitle"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                >
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/profileToolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    android:background="@color/color_background"
+                    android:paddingEnd="16dp"
+                    tools:ignore="RtlSymmetry"
+                    >
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/profileSettingsButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_settings"
+                        android:paddingHorizontal="16dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:layout_gravity="end"
+                        />
+
+                </androidx.appcompat.widget.Toolbar>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/profileContentNestedScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            >
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                />
+                android:orientation="vertical"
+                android:paddingHorizontal="20dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="16dp"
+                >
 
-            <include
-                android:id="@+id/profile_streak_layout"
-                layout="@layout/layout_profile_streak_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                />
+                <include
+                    android:id="@+id/profileHeader"
+                    layout="@layout/layout_profile_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
 
-            <include
-                android:id="@+id/profileStatisticsLayout"
-                layout="@layout/layout_profile_statistics"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                />
+                <include
+                    android:id="@+id/profile_streak_layout"
+                    layout="@layout/layout_profile_streak_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    />
 
-            <include
-                android:id="@+id/profileDailyReminder"
-                layout="@layout/layout_profile_daily_reminder"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                />
+                <include
+                    android:id="@+id/profileStatisticsLayout"
+                    layout="@layout/layout_profile_statistics"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    />
 
-            <include
-                android:id="@+id/profileFooterLayout"
-                layout="@layout/layout_profile_personal_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                />
+                <include
+                    android:id="@+id/profileDailyReminder"
+                    layout="@layout/layout_profile_daily_reminder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    />
 
-        </LinearLayout>
+                <include
+                    android:id="@+id/profileFooterLayout"
+                    layout="@layout/layout_profile_personal_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    />
 
-    </androidx.core.widget.NestedScrollView>
+            </LinearLayout>
 
-    <include
-        android:id="@+id/profileSkeleton"
-        layout="@layout/layout_profile_skeleton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
-        />
+        </androidx.core.widget.NestedScrollView>
 
-    <include
-        android:id="@+id/profileError"
-        layout="@layout/error_no_connection_with_button"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        />
+        <include
+            android:id="@+id/profileSkeleton"
+            layout="@layout/layout_profile_skeleton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <include
+            android:id="@+id/profileError"
+            layout="@layout/error_no_connection_with_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
