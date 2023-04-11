@@ -90,7 +90,6 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             }
 
         val loadedSectionsState = state.copy(
-            studyPlan = state.studyPlan.copy(sections = sortedVisibleSections),
             studyPlanSections = studyPlanSections,
             sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
         )
