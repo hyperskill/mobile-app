@@ -7,7 +7,7 @@ import org.hyperskill.app.learning_activities.domain.repository.LearningActiviti
 import org.hyperskill.app.profile.domain.model.isCurrentTrackCompleted
 import org.hyperskill.app.profile.domain.repository.ProfileRepository
 import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
-import org.hyperskill.app.study_plan.domain.repository.StudyPlanRepository
+import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository
 import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.topics.domain.repository.TopicsRepository
 
@@ -16,7 +16,7 @@ class TopicsToDiscoverNextInteractor(
     private val learningActivitiesRepository: LearningActivitiesRepository,
     private val topicsRepository: TopicsRepository,
     private val progressesRepository: ProgressesRepository,
-    private val studyPlanRepository: StudyPlanRepository
+    private val currentStudyPlanStateRepository: CurrentStudyPlanStateRepository
 ) {
 
     companion object {
@@ -44,7 +44,7 @@ class TopicsToDiscoverNextInteractor(
                     return@runCatching emptyList()
                 }
 
-                val currentStudyPlan = studyPlanRepository.getCurrentStudyPlan().getOrThrow()
+                val currentStudyPlan = currentStudyPlanStateRepository.getState().getOrThrow()
 
                 val learningActivities = learningActivitiesRepository
                     .getUncompletedTopicsLearningActivities(

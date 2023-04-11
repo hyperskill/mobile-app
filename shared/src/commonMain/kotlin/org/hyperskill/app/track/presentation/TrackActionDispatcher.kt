@@ -41,9 +41,15 @@ class TrackActionDispatcher(
                         return
                     } ?: return
 
-                val trackResult = actionScope.async { trackInteractor.getTrack(trackId) }
-                val trackProgressResult = actionScope.async { progressesInteractor.getTrackProgress(trackId) }
-                val studyPlanResult = actionScope.async { studyPlanInteractor.getCurrentStudyPlan() }
+                val trackResult = actionScope.async {
+                    trackInteractor.getTrack(trackId, forceLoadFromRemote = action.forceUpdate)
+                }
+                val trackProgressResult = actionScope.async {
+                    progressesInteractor.getTrackProgress(trackId, forceLoadFromRemote = action.forceUpdate)
+                }
+                val studyPlanResult = actionScope.async {
+                    studyPlanInteractor.getCurrentStudyPlan(forceLoadFromRemote = action.forceUpdate)
+                }
 
                 val track = trackResult.await().getOrElse {
                     sentryInteractor.finishTransaction(sentryTransaction, throwable = it)

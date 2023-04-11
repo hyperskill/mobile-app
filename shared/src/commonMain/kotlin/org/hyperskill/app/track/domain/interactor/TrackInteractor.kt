@@ -6,9 +6,9 @@ import org.hyperskill.app.track.domain.repository.TrackRepository
 class TrackInteractor(
     private val trackRepository: TrackRepository
 ) {
-    suspend fun getTrack(trackId: Long): Result<Track> =
+    suspend fun getTrack(trackId: Long, forceLoadFromRemote: Boolean): Result<Track> =
         kotlin.runCatching {
-            return trackRepository.getTrack(trackId)
+            return trackRepository.getTrack(trackId, forceLoadFromRemote)
         }
 
     suspend fun getAllTracks(): Result<List<Track>> =
