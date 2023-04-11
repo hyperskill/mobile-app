@@ -9,6 +9,8 @@ class MainDataComponentImpl(private val appGraph: AppGraph) : MainDataComponent 
             appGraph.authComponent.authInteractor,
             appGraph.buildProfileDataComponent().profileInteractor,
             appGraph.buildUserStorageComponent().userStorageInteractor,
-            appGraph.analyticComponent.analyticInteractor
+            appGraph.analyticComponent.analyticInteractor,
+            appGraph.buildProgressesDataComponent().progressesRepository,
+            appGraph.buildTrackDataComponent().trackRepository
         )
 }

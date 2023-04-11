@@ -17,10 +17,10 @@ import org.hyperskill.app.android.core.extensions.openUrl
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
-import org.hyperskill.app.android.core.view.ui.navigation.requireMainRouter
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentHomeBinding
 import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.GamificationToolbarDelegate
+import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.problem_of_day.view.delegate.ProblemOfDayCardFormDelegate
 import org.hyperskill.app.android.problems_limit.fragment.ProblemsLimitFragment
 import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
@@ -83,6 +83,9 @@ class HomeFragment :
                 homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = true))
             }
         }
+
+    private val mainScreenRouter: MainScreenRouter =
+        HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -186,7 +189,7 @@ class HomeFragment :
             is HomeFeature.Action.ViewAction.GamificationToolbarViewAction ->
                 when (action.viewAction) {
                     is GamificationToolbarFeature.Action.ViewAction.ShowProfileTab ->
-                        requireMainRouter().switch(ProfileScreen(isInitCurrent = true))
+                        mainScreenRouter.switch(ProfileScreen(isInitCurrent = true))
                 }
             is HomeFeature.Action.ViewAction.TopicsToDiscoverNextViewAction -> {
                 when (action.viewAction) {

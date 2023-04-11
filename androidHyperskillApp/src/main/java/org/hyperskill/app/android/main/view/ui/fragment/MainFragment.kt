@@ -8,10 +8,10 @@ import com.github.terrakok.cicerone.Cicerone
 import org.hyperskill.app.analytic.domain.model.Analytic
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.core.view.ui.navigation.MainNavigationContainer
 import org.hyperskill.app.android.databinding.FragmentMainBinding
 import org.hyperskill.app.android.debug.DebugScreen
 import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
+import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
 import org.hyperskill.app.android.track.view.navigation.TrackScreen
@@ -19,10 +19,9 @@ import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.debug.presentation.DebugFeature
 import org.hyperskill.app.main.domain.analytic.AppClickedBottomNavigationItemHyperskillAnalyticEvent
 import ru.nobird.android.view.navigation.navigator.RetainedAppNavigator
-import ru.nobird.android.view.navigation.router.RetainedRouter
 import ru.nobird.android.view.navigation.ui.fragment.addBackNavigationDelegate
 
-class MainFragment : Fragment(R.layout.fragment_main), MainNavigationContainer {
+class MainFragment : Fragment(R.layout.fragment_main) {
     companion object {
         fun newInstance(): Fragment =
             MainFragment()
@@ -30,8 +29,8 @@ class MainFragment : Fragment(R.layout.fragment_main), MainNavigationContainer {
 
     private val viewBinding: FragmentMainBinding by viewBinding(FragmentMainBinding::bind)
 
-    private val localCicerone: Cicerone<RetainedRouter> = Cicerone.create(RetainedRouter())
-    override val router: RetainedRouter = localCicerone.router
+    private val localCicerone: Cicerone<MainScreenRouter> =
+        HyperskillApp.graph().navigationComponent.mainScreenCicerone
 
     private val navigator by lazy(LazyThreadSafetyMode.NONE) {
         RetainedAppNavigator(
@@ -74,7 +73,7 @@ class MainFragment : Fragment(R.layout.fragment_main), MainNavigationContainer {
         super.onViewCreated(view, savedInstanceState)
 
         if (savedInstanceState == null && childFragmentManager.fragments.isEmpty()) {
-            router.switch(HomeScreen)
+            localCicerone.router.switch(HomeScreen)
         }
 
         viewBinding.mainBottomNavigation.menu.findItem(R.id.debug_tab).isVisible =
@@ -93,16 +92,16 @@ class MainFragment : Fragment(R.layout.fragment_main), MainNavigationContainer {
 
             when (item.itemId) {
                 R.id.home_tab -> {
-                    router.switch(HomeScreen)
+                    localCicerone.router.switch(HomeScreen)
                 }
                 R.id.track_tab -> {
-                    router.switch(TrackScreen)
+                    localCicerone.router.switch(TrackScreen)
                 }
                 R.id.profile_tab -> {
-                    router.switch(ProfileScreen(isInitCurrent = true))
+                    localCicerone.router.switch(ProfileScreen(isInitCurrent = true))
                 }
                 R.id.debug_tab -> {
-                    router.switch(DebugScreen)
+                    localCicerone.router.switch(DebugScreen)
                 }
             }
             return@setOnItemSelectedListener true

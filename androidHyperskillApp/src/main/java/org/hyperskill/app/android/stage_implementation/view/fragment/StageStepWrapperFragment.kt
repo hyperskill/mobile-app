@@ -11,6 +11,7 @@ import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStageStepWrapperBinding
+import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.step.view.delegate.StepDelegate
 import org.hyperskill.app.android.step.view.fragment.StepFragment
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
@@ -68,6 +69,9 @@ class StageStepWrapperFragment :
     private val viewBinding: FragmentStageStepWrapperBinding by viewBinding(FragmentStageStepWrapperBinding::bind)
 
     private var viewStateDelegate: ViewStateDelegate<StepFeature.State>? = null
+
+    private val mainScreenRouter: MainScreenRouter =
+        HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -129,7 +133,11 @@ class StageStepWrapperFragment :
     }
 
     override fun onAction(action: StepFeature.Action.ViewAction) {
-        StepDelegate.onAction(fragment = this, action = action)
+        StepDelegate.onAction(
+            fragment = this,
+            mainScreenRouter = mainScreenRouter,
+            action = action
+        )
     }
 
     override fun onNewMessage(message: StepCompletionFeature.Message) {

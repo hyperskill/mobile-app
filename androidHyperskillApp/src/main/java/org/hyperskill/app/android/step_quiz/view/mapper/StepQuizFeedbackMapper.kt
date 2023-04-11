@@ -20,7 +20,7 @@ class StepQuizFeedbackMapper {
                 SubmissionStatus.EVALUATION ->
                     StepQuizFeedbackState.Evaluation
 
-                null -> {
+                SubmissionStatus.REJECTED -> {
                     val feedback = submissionState.submission.feedback
                     if (feedback != null) {
                         StepQuizFeedbackState.RejectedSubmission(feedback.formattedText())
