@@ -135,18 +135,20 @@ class StudyPlanWidgetTest {
     @Test
     fun `Sections status should be Loaded after loading finish`() {
         val (state, _) = reducer.reduce(
-            StudyPlanWidgetFeature.State(),
+            StudyPlanWidgetFeature.State(
+                studyPlan = studyPlanStub(id = 0)
+            ),
             StudyPlanWidgetFeature.SectionsFetchResult.Success(emptyList())
         )
         assertEquals(StudyPlanWidgetFeature.ContentStatus.LOADED, state.sectionsStatus)
     }
 
     @Test
-    fun `Loaded sections should filtered by visibility`() {
+    fun `Loaded sections should be filtered by visibility`() {
         val visibleSection = studyPlanSectionStub(id = 0, isVisible = true)
         val hiddenSection = studyPlanSectionStub(id = 1, isVisible = false)
         val (state, _) = reducer.reduce(
-            StudyPlanWidgetFeature.State(),
+            StudyPlanWidgetFeature.State(studyPlan = studyPlanStub(id = 0, sections = listOf(0, 1))),
             StudyPlanWidgetFeature.SectionsFetchResult.Success(listOf(visibleSection, hiddenSection))
         )
         assertEquals(visibleSection, state.studyPlanSections[visibleSection.id]?.studyPlanSection)
@@ -154,11 +156,51 @@ class StudyPlanWidgetTest {
     }
 
     @Test
+    fun `Sections in ViewState should be sorted by sections order in studyPlan`() {
+        val expectedSectionsIds = listOf<Long>(3, 5, 2, 1, 4)
+        val expectedViewState = StudyPlanWidgetViewState.Content(
+            expectedSectionsIds.mapIndexed { index, sectionId ->
+                sectionViewState(
+                    section = studyPlanSectionStub(id = sectionId),
+                    content = if (index > 0) {
+                        StudyPlanWidgetViewState.SectionContent.Collapsed
+                    } else {
+                        StudyPlanWidgetViewState.SectionContent.Loading
+                    }
+                )
+            }
+        )
+
+        val fetchedSectionsIds = listOf<Long>(1, 2, 3, 4, 5)
+
+        val (state, _) = reducer.reduce(
+            StudyPlanWidgetFeature.State(
+                studyPlan = studyPlanStub(
+                    id = 0,
+                    sections = expectedSectionsIds,
+                    status = StudyPlanStatus.READY
+                )
+            ),
+            StudyPlanWidgetFeature.SectionsFetchResult.Success(
+                fetchedSectionsIds.map { sectionId ->
+                    studyPlanSectionStub(id = sectionId)
+                }
+            )
+        )
+
+        val viewState = studyPlanWidgetViewStateMapper.map(state)
+
+        assertEquals(expectedViewState, viewState)
+    }
+
+    @Test
     fun `First section should be expanded and its activities loading should be triggered`() {
         val firstSection = studyPlanSectionStub(id = 0, activities = listOf(0, 1, 2))
         val secondSection = studyPlanSectionStub(id = 1)
         val (state, actions) = reducer.reduce(
-            StudyPlanWidgetFeature.State(),
+            StudyPlanWidgetFeature.State(
+                studyPlan = studyPlanStub(id = 0, sections = listOf(0, 1))
+            ),
             StudyPlanWidgetFeature.SectionsFetchResult.Success(listOf(firstSection, secondSection))
         )
         assertContains(
@@ -227,6 +269,7 @@ class StudyPlanWidgetTest {
 
         listOf(collapsedSection, idleSection).forEach { givenSection ->
             val state = StudyPlanWidgetFeature.State(
+                studyPlan = studyPlanStub(id = 0, sections = listOf(sectionId)),
                 studyPlanSections = mapOf(sectionId to givenSection),
                 sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
             )
@@ -235,7 +278,7 @@ class StudyPlanWidgetTest {
 
             val expectedViewStateSections = StudyPlanWidgetViewState.Content(
                 sections = listOf(
-                    contentViewState(
+                    sectionViewState(
                         section = section,
                         content = StudyPlanWidgetViewState.SectionContent.Collapsed
                     )
@@ -256,6 +299,7 @@ class StudyPlanWidgetTest {
             isExpanded = true
         )
         val state = StudyPlanWidgetFeature.State(
+            studyPlan = studyPlanStub(id = 0, sections = listOf(sectionId)),
             studyPlanSections = mapOf(sectionId to section),
             sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED,
             activities = mapOf(activityId to stubLearningActivity(activityId))
@@ -265,7 +309,7 @@ class StudyPlanWidgetTest {
 
         val expectedViewState = StudyPlanWidgetViewState.Content(
             sections = listOf(
-                contentViewState(
+                sectionViewState(
                     section = section.studyPlanSection,
                     content = StudyPlanWidgetViewState.SectionContent.Content(
                         listOf(studyPlanSectionItemStub(activityId))
@@ -288,6 +332,7 @@ class StudyPlanWidgetTest {
             isExpanded = true
         )
         val state = StudyPlanWidgetFeature.State(
+            studyPlan = studyPlanStub(id = 0, sections = listOf(sectionId)),
             studyPlanSections = mapOf(sectionId to section),
             sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED,
             activities = mapOf(activityId to stubLearningActivity(activityId))
@@ -297,7 +342,7 @@ class StudyPlanWidgetTest {
 
         val expectedViewState = StudyPlanWidgetViewState.Content(
             sections = listOf(
-                contentViewState(
+                sectionViewState(
                     section = section.studyPlanSection,
                     content = StudyPlanWidgetViewState.SectionContent.Content(
                         listOf(studyPlanSectionItemStub(activityId))
@@ -309,7 +354,7 @@ class StudyPlanWidgetTest {
         assertEquals(expectedViewState, viewState)
     }
 
-    private fun contentViewState(section: StudyPlanSection, content: StudyPlanWidgetViewState.SectionContent) =
+    private fun sectionViewState(section: StudyPlanSection, content: StudyPlanWidgetViewState.SectionContent) =
         StudyPlanWidgetViewState.Section(
             id = section.id,
             title = section.title,
@@ -321,7 +366,7 @@ class StudyPlanWidgetTest {
 
     private fun studyPlanStub(
         id: Long,
-        status: StudyPlanStatus,
+        status: StudyPlanStatus = StudyPlanStatus.READY,
         sections: List<Long> = emptyList()
     ) =
         StudyPlan(

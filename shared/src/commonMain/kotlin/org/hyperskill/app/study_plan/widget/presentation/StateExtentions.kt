@@ -4,7 +4,9 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 
 internal fun StudyPlanWidgetFeature.State.firstSection(): StudyPlanSection? =
-    studyPlanSections.values.firstOrNull()?.studyPlanSection
+    studyPlan?.sections?.firstOrNull()?.let { firstSectionId ->
+        studyPlanSections[firstSectionId]?.studyPlanSection
+    }
 
 internal fun StudyPlanWidgetFeature.State.getSectionActivities(sectionId: Long): List<LearningActivity> =
     studyPlanSections[sectionId]
