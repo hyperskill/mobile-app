@@ -2,6 +2,7 @@ package org.hyperskill.app.study_plan.widget.presentation
 
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.study_plan.domain.model.StudyPlanStatus
+import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Action
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalAction
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Message
@@ -32,6 +33,14 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                         )
                     }
                 ) to setOf(InternalAction.FetchStudyPlan(showLoadingIndicators = false))
+            Message.PullToRefresh ->
+                if (!state.isRefreshing) {
+                    state.copy(isRefreshing = true) to setOf(
+                        InternalAction.FetchStudyPlan(showLoadingIndicators = false)
+                    )
+                } else {
+                    null
+                }
             is StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success ->
                 handleLearningActivitiesFetchSuccess(state, message)
             is StudyPlanWidgetFeature.LearningActivitiesFetchResult.Failed ->
@@ -44,12 +53,12 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 state.copy(track = message.track) to emptySet()
             }
             StudyPlanWidgetFeature.TrackFetchResult.Failed -> {
-                state to emptySet()
+                null
             }
             is Message.SectionClicked ->
                 changeSectionExpanse(state, message.sectionId)
             is Message.ActivityClicked -> handleActivityClicked(state, message.activityId)
-        }
+        } ?: (state to emptySet())
 
     private fun coldContentFetch(): StudyPlanWidgetReducerResult =
         State(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING) to

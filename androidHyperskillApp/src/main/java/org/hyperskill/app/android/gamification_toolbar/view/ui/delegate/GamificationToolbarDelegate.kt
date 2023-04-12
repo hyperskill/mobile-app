@@ -55,14 +55,6 @@ class GamificationToolbarDelegate(
                 isVisible = true
                 text = state.hypercoinsBalance.toString()
             }
-        } else {
-            // TODO: Implement skeletons for loading and idle states
-            with(viewBinding.gamificationStreakDurationTextView) {
-                isVisible = false
-            }
-            with(viewBinding.gamificationGemsCountTextView) {
-                isVisible = false
-            }
         }
     }
 

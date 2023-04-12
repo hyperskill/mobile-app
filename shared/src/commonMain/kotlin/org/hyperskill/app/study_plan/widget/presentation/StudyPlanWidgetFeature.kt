@@ -63,6 +63,8 @@ object StudyPlanWidgetFeature {
         object RetryContentLoading : Message
 
         object ReloadContentInBackground : Message
+
+        object PullToRefresh : Message
     }
 
     internal sealed interface StudyPlanFetchResult : Message {

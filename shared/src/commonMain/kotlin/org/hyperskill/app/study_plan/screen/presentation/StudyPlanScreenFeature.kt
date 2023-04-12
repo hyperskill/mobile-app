@@ -22,9 +22,11 @@ object StudyPlanScreenFeature {
 
     sealed interface Message {
 
-        data class Initialize(val forceUpdate: Boolean = false) : Message
+        object Initialize : Message
 
         object PullToRefresh : Message
+
+        object ScreenBecomesActive : Message
 
         object ViewedEventMessage : Message
 

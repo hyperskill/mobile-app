@@ -40,7 +40,7 @@ struct StudyPlanView: View {
             viewModel.onViewAction = handleViewAction(_:)
 
             if viewWasDisappear {
-                viewModel.doReloadContentInBackground()
+                viewModel.doScreenBecomesActive()
                 viewWasDisappear = false
             }
         }

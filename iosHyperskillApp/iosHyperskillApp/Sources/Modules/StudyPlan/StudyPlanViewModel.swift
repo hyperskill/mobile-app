@@ -37,8 +37,8 @@ final class StudyPlanViewModel: FeatureViewModel<
         !oldState.isEqual(newState)
     }
 
-    func doLoadStudyPlan(forceUpdate: Bool = false) {
-        onNewMessage(StudyPlanScreenFeatureMessageInitialize(forceUpdate: forceUpdate))
+    func doLoadStudyPlan() {
+        onNewMessage(StudyPlanScreenFeatureMessageInitialize())
     }
 
     func doRetryContentLoading() {
@@ -49,11 +49,9 @@ final class StudyPlanViewModel: FeatureViewModel<
         )
     }
 
-    func doReloadContentInBackground() {
+    func doScreenBecomesActive() {
         onNewMessage(
-            StudyPlanScreenFeatureMessageStudyPlanWidgetMessage(
-                message: StudyPlanWidgetFeatureMessageReloadContentInBackground()
-            )
+            StudyPlanScreenFeatureMessageScreenBecomesActive()
         )
     }
 
@@ -107,7 +105,7 @@ final class StudyPlanViewModel: FeatureViewModel<
             return
         }
 
-        doLoadStudyPlan(forceUpdate: true)
+        doScreenBecomesActive()
 
         applicationWasInBackground = false
     }

@@ -3,8 +3,6 @@ package org.hyperskill.app.android.study_plan.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
@@ -46,42 +44,19 @@ class StudyPlanFragment :
     private var gamificationToolbarDelegate: GamificationToolbarDelegate? = null
     private var studyPlanWidgetDelegate: StudyPlanWidgetDelegate? = null
 
-    private val onForegroundObserver =
-        object : DefaultLifecycleObserver {
-            override fun onPause(owner: LifecycleOwner) {
-                super.onPause(owner)
-                wasInBackground = true
-            }
-        }
-
-    private var wasInPause = false
-    private var wasInBackground = false
-
-    override fun onPause() {
-        super.onPause()
-        wasInPause = true
-    }
+    private var fragmentWasResumed = false
 
     override fun onResume() {
         super.onResume()
-        if (wasInBackground) {
-            studyPlanViewModel.onNewMessage(
-                StudyPlanScreenFeature.Message.Initialize(forceUpdate = true)
-            )
-        } else if (wasInPause) {
-            studyPlanViewModel.onNewMessage(
-                StudyPlanScreenFeature.Message.StudyPlanWidgetMessage(
-                    StudyPlanWidgetFeature.Message.ReloadContentInBackground
-                )
-            )
+        if (fragmentWasResumed) {
+            studyPlanViewModel.onNewMessage(StudyPlanScreenFeature.Message.ScreenBecomesActive)
+        } else {
+            fragmentWasResumed = true
         }
-        wasInPause = false
-        wasInBackground = false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requireActivity().lifecycle.addObserver(onForegroundObserver)
         injectComponents()
         studyPlanWidgetDelegate = StudyPlanWidgetDelegate(
             context = requireContext(),
