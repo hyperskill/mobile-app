@@ -155,6 +155,8 @@ GEM
       xcpretty (~> 0.3.0)
       xcpretty-travis-formatter (>= 0.0.3)
     fastlane-plugin-firebase_app_distribution (0.5.0)
+    fastlane-plugin-sentry (1.15.0)
+      os (~> 1.1, >= 1.1.4)
     ffi (1.15.5)
     fourflusher (2.3.1)
     fuzzy_match (2.0.4)
@@ -282,6 +284,7 @@ DEPENDENCIES
   cocoapods (= 1.12.0)
   fastlane (= 2.212.1)
   fastlane-plugin-firebase_app_distribution
+  fastlane-plugin-sentry
 
 RUBY VERSION
    ruby 3.1.0p0
