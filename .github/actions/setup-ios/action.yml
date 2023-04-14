@@ -62,7 +62,7 @@ runs:
 
     # Cache Gradle dependencies
     - name: Setup Gradle Dependencies Cache
-      uses: actions/cache@v3.2.5
+      uses: actions/cache@v3.3.1
       with:
         path: ~/.gradle/caches
         key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle', '**/*.gradle.kts') }}
@@ -71,7 +71,7 @@ runs:
 
     # Cache Gradle Wrapper
     - name: Setup Gradle Wrapper Cache
-      uses: actions/cache@v3.2.5
+      uses: actions/cache@v3.3.1
       with:
         path: ~/.gradle/wrapper
         key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle*properties') }}
@@ -80,7 +80,7 @@ runs:
 
     # Cache Kotlin/Native compiler
     - name: Setup Kotlin/Native Compiler Cache
-      uses: actions/cache@v3.2.5
+      uses: actions/cache@v3.3.1
       with:
         path: ~/.konan
         key: ${{ runner.os }}-kotlin-native-compiler-${{ hashFiles('gradle/libs.versions.toml') }}
@@ -99,7 +99,7 @@ runs:
 
     # Cache Pods dependencies
     - name: Cache Pods
-      uses: actions/cache@v3.2.5
+      uses: actions/cache@v3.3.1
       id: cache-pods
       with:
         path: './iosHyperskillApp/Pods'
@@ -110,7 +110,7 @@ runs:
     # Cache CocoaPods
     - name: Cache CocoaPods
       if: steps.cache-pods.outputs.cache-hit != 'true'
-      uses: actions/cache@v3.2.5
+      uses: actions/cache@v3.3.1
       with:
         path: |
           ~/.cocoapods
