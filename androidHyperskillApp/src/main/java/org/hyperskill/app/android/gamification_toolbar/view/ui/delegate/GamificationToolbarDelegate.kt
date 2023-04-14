@@ -38,15 +38,29 @@ class GamificationToolbarDelegate(
                 val streakDuration = state.streak?.currentStreak ?: 0
                 text = streakDuration.toString()
                 setCompoundDrawablesWithIntrinsicBounds(
-                    if (state.streak?.history?.firstOrNull()?.isCompleted == true) R.drawable.ic_menu_streak else R.drawable.ic_menu_empty_streak, // left
-                    0,
-                    0,
-                    0
+                    /* left = */ if (state.streak?.history?.firstOrNull()?.isCompleted == true) {
+                        R.drawable.ic_menu_streak
+                    } else {
+                        R.drawable.ic_menu_empty_streak
+                    },
+                    /* top = */ 0,
+                    /* right = */ 0,
+                    /* bottom = */ 0
                 )
             }
             with(viewBinding.gamificationGemsCountTextView) {
-                isVisible = true
-                text = state.hypercoinsBalance.toString()
+                isVisible = state.trackWithProgress != null
+                text = state.trackWithProgress?.averageProgress?.toString()
+            }
+
+            state.trackWithProgress.let { trackProgress ->
+                viewBinding.gamificationTrackProgressLinearLayout.isVisible = trackProgress != null
+                if (trackProgress != null) {
+                    viewBinding.gamificationTrackProgressView.setProgress(
+                        trackProgress.averageProgress,
+                        trackProgress.trackProgress.isCompleted
+                    )
+                }
             }
         }
     }
