@@ -160,7 +160,7 @@ class TrackFragment :
 
     override fun render(state: TrackFeature.State) {
         viewStateDelegate.switchState(state.trackState)
-        viewBinding.root.updateIsRefreshing(state.isRefreshing)
+        renderSwipeRefresh(state)
         TransitionManager.beginDelayedTransition(viewBinding.root, AutoTransition())
         val trackState = state.trackState
         if (trackState is TrackFeature.TrackState.Content) {
@@ -168,6 +168,13 @@ class TrackFragment :
         }
         gamificationToolbarDelegate?.render(state.toolbarState)
         renderNextTopics(state.topicsToDiscoverNextState)
+    }
+
+    private fun renderSwipeRefresh(state: TrackFeature.State) {
+        with(viewBinding.root) {
+            isEnabled = state.trackState is TrackFeature.TrackState.Content
+            updateIsRefreshing(state.isRefreshing)
+        }
     }
 
     private fun renderContent(content: TrackFeature.TrackState.Content) {

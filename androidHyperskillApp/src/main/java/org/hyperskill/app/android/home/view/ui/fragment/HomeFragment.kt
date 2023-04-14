@@ -215,7 +215,7 @@ class HomeFragment :
     override fun render(state: HomeFeature.State) {
         viewStateDelegate.switchState(state.homeState)
 
-        viewBinding.root.updateIsRefreshing(state.isRefreshing)
+        renderSwipeRefresh(state)
 
         val homeState = state.homeState
         if (homeState is HomeFeature.HomeState.Content) {
@@ -226,6 +226,13 @@ class HomeFragment :
 
         gamificationToolbarDelegate?.render(state.toolbarState)
         renderTopicsToDiscoverNext(state.topicsToDiscoverNextState)
+    }
+
+    private fun renderSwipeRefresh(state: HomeFeature.State) {
+        with(viewBinding.root) {
+            isEnabled = state.homeState is HomeFeature.HomeState.Content
+            updateIsRefreshing(state.isRefreshing)
+        }
     }
 
     private fun renderMagicLinkState(isLoadingMagicLink: Boolean) {
