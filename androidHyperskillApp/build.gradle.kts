@@ -1,6 +1,6 @@
+import com.android.build.api.dsl.ApplicationBuildType
 import org.jetbrains.kotlin.konan.properties.loadProperties
 import org.jetbrains.kotlin.konan.properties.propertyString
-import com.android.build.api.dsl.ApplicationBuildType
 
 plugins {
     id("com.android.application")
@@ -15,6 +15,7 @@ dependencies {
     implementation(libs.android.ui.material)
     implementation(libs.android.ui.appcompat)
     implementation(libs.android.ui.constraintlayout)
+    implementation(libs.android.ui.swiperefreshlayout)
     implementation(libs.android.ui.core.ktx)
     implementation(libs.android.ui.fragment)
     implementation(libs.android.ui.fragment.ktx)
