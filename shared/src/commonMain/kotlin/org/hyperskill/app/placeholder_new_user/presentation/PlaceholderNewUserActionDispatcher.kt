@@ -2,10 +2,10 @@ package org.hyperskill.app.placeholder_new_user.presentation
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature.Action
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature.Message
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
-import org.hyperskill.app.profile.domain.model.isFreemiumEnabled
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
@@ -18,7 +18,8 @@ class PlaceholderNewUserActionDispatcher(
     private val sentryInteractor: SentryInteractor,
     private val trackInteractor: TrackInteractor,
     private val progressesInteractor: ProgressesInteractor,
-    private val profileInteractor: ProfileInteractor
+    private val profileInteractor: ProfileInteractor,
+    private val freemiumInteractor: FreemiumInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
@@ -59,7 +60,13 @@ class PlaceholderNewUserActionDispatcher(
                         return onNewMessage(Message.TrackSelected.Error)
                     }
 
-                if (currentProfile.isFreemiumEnabled) {
+                val isFreemiumEnabled = freemiumInteractor
+                    .isFreemiumEnabled()
+                    .getOrElse {
+                        return onNewMessage(Message.TrackSelected.Error)
+                    }
+
+                if (isFreemiumEnabled) {
                     profileInteractor.selectTrack(currentProfile.id, action.track.id)
                         .getOrElse {
                             return onNewMessage(Message.TrackSelected.Error)
