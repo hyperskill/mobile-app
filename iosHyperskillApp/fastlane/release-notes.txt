@@ -1,2 +1,2 @@
 What to Test:
-- None
+1. Fix an error appears at track selection ALTAPPS-687
