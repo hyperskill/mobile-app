@@ -18,6 +18,8 @@ import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragm
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
+import org.hyperskill.app.android.core.view.ui.setHyperskillColors
+import org.hyperskill.app.android.core.view.ui.updateIsRefreshing
 import org.hyperskill.app.android.databinding.FragmentHomeBinding
 import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.GamificationToolbarDelegate
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
@@ -104,6 +106,10 @@ class HomeFragment :
             viewBinding.homeTopicsToDiscoverNext.homeTopicsToDiscoverNextRecycler
         )
         with(viewBinding) {
+            root.setHyperskillColors()
+            root.setOnRefreshListener {
+                homeViewModel.onNewMessage(HomeFeature.Message.PullToRefresh)
+            }
             homeScreenError.tryAgain.setOnClickListener {
                 homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = true))
             }
@@ -111,7 +117,7 @@ class HomeFragment :
                 homeViewModel.onNewMessage(HomeFeature.Message.ClickedContinueLearningOnWeb)
             }
 
-            viewBinding.homeScreenTopicsRepetitionCard.root.setOnClickListener {
+            homeScreenTopicsRepetitionCard.root.setOnClickListener {
                 homeViewModel.onNewMessage(HomeFeature.Message.ClickedTopicsRepetitionsCard)
             }
         }
@@ -210,6 +216,8 @@ class HomeFragment :
     override fun render(state: HomeFeature.State) {
         viewStateDelegate.switchState(state.homeState)
 
+        renderSwipeRefresh(state)
+
         val homeState = state.homeState
         if (homeState is HomeFeature.HomeState.Content) {
             renderMagicLinkState(homeState.isLoadingMagicLink)
@@ -219,6 +227,13 @@ class HomeFragment :
 
         gamificationToolbarDelegate?.render(state.toolbarState)
         renderTopicsToDiscoverNext(state.topicsToDiscoverNextState)
+    }
+
+    private fun renderSwipeRefresh(state: HomeFeature.State) {
+        with(viewBinding.root) {
+            isEnabled = state.homeState is HomeFeature.HomeState.Content
+            updateIsRefreshing(state.isRefreshing)
+        }
     }
 
     private fun renderMagicLinkState(isLoadingMagicLink: Boolean) {
