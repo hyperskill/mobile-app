@@ -19,7 +19,9 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 handleStudyPlanFetchSuccess(state, message)
             is StudyPlanWidgetFeature.SectionsFetchResult.Success ->
                 handleSectionsFetchSuccess(state, message)
-            Message.RetryContentLoading -> coldContentFetch()
+            is Message.RetryContentLoading -> coldContentFetch()
+            is Message.RetryActivitiesLoading ->
+                handleRetryActivitiesLoading(state, message)
             Message.ReloadContentInBackground ->
                 state.copy(
                     studyPlanSections = state.studyPlanSections.mapValues { (sectionId, sectionInfo) ->
@@ -44,14 +46,14 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 handleLearningActivitiesFetchSuccess(state, message)
             is StudyPlanWidgetFeature.LearningActivitiesFetchResult.Failed ->
                 handleLearningActivitiesFetchFailed(state, message)
-            StudyPlanWidgetFeature.StudyPlanFetchResult.Failed,
-            StudyPlanWidgetFeature.SectionsFetchResult.Failed -> {
+            is StudyPlanWidgetFeature.StudyPlanFetchResult.Failed,
+            is StudyPlanWidgetFeature.SectionsFetchResult.Failed -> {
                 state.copy(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.ERROR) to emptySet()
             }
             is StudyPlanWidgetFeature.TrackFetchResult.Success -> {
                 state.copy(track = message.track) to emptySet()
             }
-            StudyPlanWidgetFeature.TrackFetchResult.Failed -> {
+            is StudyPlanWidgetFeature.TrackFetchResult.Failed -> {
                 null
             }
             is Message.SectionClicked ->
@@ -151,6 +153,24 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 sectionInfo.copy(contentStatus = StudyPlanWidgetFeature.ContentStatus.ERROR)
             }
         ) to emptySet()
+
+    private fun handleRetryActivitiesLoading(
+        state: State,
+        message: Message.RetryActivitiesLoading
+    ): StudyPlanWidgetReducerResult {
+        val section =
+            state.studyPlanSections[message.sectionId] ?: return state to emptySet()
+        return state.copy(
+            studyPlanSections = state.studyPlanSections.update(message.sectionId) { sectionInfo ->
+                sectionInfo.copy(contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADING)
+            }
+        ) to setOf(
+            InternalAction.FetchActivities(
+                sectionId = message.sectionId,
+                activitiesIds = section.studyPlanSection.activities
+            )
+        )
+    }
 
     private fun changeSectionExpanse(
         state: State,

@@ -18,6 +18,8 @@ sealed interface StudyPlanRecyclerItem {
 
     object ActivitiesLoading : StudyPlanRecyclerItem
 
+    data class ActivitiesError(val sectionId: Long) : StudyPlanRecyclerItem
+
     data class Activity(
         val id: Long,
         val title: String,

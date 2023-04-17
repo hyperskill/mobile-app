@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.itemDecoration
 import org.hyperskill.app.android.databinding.ErrorNoConnectionWithButtonBinding
+import org.hyperskill.app.android.databinding.ItemStudyPlanActivitiesErrorBinding
 import org.hyperskill.app.android.study_plan.adapter.StudyPlanActivityAdapterDelegate
 import org.hyperskill.app.android.study_plan.adapter.StudyPlanSectionAdapterDelegate
 import org.hyperskill.app.android.study_plan.model.StudyPlanRecyclerItem
@@ -32,6 +33,7 @@ class StudyPlanWidgetDelegate(
         addDelegate(StudyPlanActivityAdapterDelegate(onNewMessage))
         addDelegate(sectionsLoadingAdapterDelegate())
         addDelegate(activitiesLoadingAdapterDelegate())
+        addDelegate(activitiesErrorAdapterDelegate(onNewMessage))
     }
 
     @ColorInt private val inactiveSectionTextColor: Int =
@@ -118,7 +120,8 @@ class StudyPlanWidgetDelegate(
             StudyPlanRecyclerItem.SectionLoading,
             is StudyPlanRecyclerItem.Section -> sectionTopMargin
             StudyPlanRecyclerItem.ActivitiesLoading,
-            is StudyPlanRecyclerItem.Activity -> activityTopMargin
+            is StudyPlanRecyclerItem.Activity,
+            is StudyPlanRecyclerItem.ActivitiesError -> activityTopMargin
         }
 
     fun cleanup() {
@@ -150,6 +153,20 @@ class StudyPlanWidgetDelegate(
             R.layout.item_study_plan_activities_loading
         )
 
+    private fun activitiesErrorAdapterDelegate(
+        onNewMessage: (StudyPlanWidgetFeature.Message) -> Unit
+    ) =
+        adapterDelegate<StudyPlanRecyclerItem, StudyPlanRecyclerItem.ActivitiesError>(
+            R.layout.item_study_plan_activities_error
+        ) {
+            val viewBinding = ItemStudyPlanActivitiesErrorBinding.bind(itemView)
+            viewBinding.activitiesReloadButton.setOnClickListener {
+                item?.sectionId?.let { sectionId ->
+                    onNewMessage(StudyPlanWidgetFeature.Message.RetryActivitiesLoading(sectionId))
+                }
+            }
+        }
+
     private fun mapContentToRecyclerItems(
         studyPlanContent: StudyPlanWidgetViewState.Content
     ): List<StudyPlanRecyclerItem> =
@@ -167,7 +184,7 @@ class StudyPlanWidgetDelegate(
                         addAll(mapSectionContentToActivityItems(sectionContent))
                     }
                     StudyPlanWidgetViewState.SectionContent.Error -> {
-                        // TODO
+                        add(StudyPlanRecyclerItem.ActivitiesError(section.id))
                     }
                 }
             }
