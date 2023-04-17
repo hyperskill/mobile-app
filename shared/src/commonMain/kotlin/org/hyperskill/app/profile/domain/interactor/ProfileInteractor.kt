@@ -20,6 +20,9 @@ class ProfileInteractor(
     suspend fun selectTrackWithProject(profileId: Long, trackId: Long, projectId: Long): Result<Profile> =
         profileRepository.selectTrackWithProject(profileId, trackId, projectId)
 
+    suspend fun selectTrack(profileId: Long, trackId: Long): Result<Profile> =
+        profileRepository.selectTrack(profileId, trackId)
+
     suspend fun clearCache() {
         profileRepository.clearCache()
     }

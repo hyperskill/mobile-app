@@ -2,6 +2,7 @@ package org.hyperskill.app.placeholder_new_user.presentation
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature.Action
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature.Message
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
@@ -17,7 +18,8 @@ class PlaceholderNewUserActionDispatcher(
     private val sentryInteractor: SentryInteractor,
     private val trackInteractor: TrackInteractor,
     private val progressesInteractor: ProgressesInteractor,
-    private val profileInteractor: ProfileInteractor
+    private val profileInteractor: ProfileInteractor,
+    private val freemiumInteractor: FreemiumInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
@@ -58,23 +60,36 @@ class PlaceholderNewUserActionDispatcher(
                         return onNewMessage(Message.TrackSelected.Error)
                     }
 
-                val projectByLevel = action.track.projectsByLevel
-
-                val projectId = projectByLevel.easy?.firstOrNull()
-                    ?: projectByLevel.medium?.firstOrNull()
-                    ?: projectByLevel.hard?.firstOrNull()
-                    ?: projectByLevel.nightmare?.firstOrNull()
-                    ?: return onNewMessage(Message.TrackSelected.Error)
-
-                profileInteractor
-                    .selectTrackWithProject(
-                        profileId = currentProfile.id,
-                        trackId = action.track.id,
-                        projectId = projectId
-                    )
+                val isFreemiumEnabled = freemiumInteractor
+                    .isFreemiumEnabled()
                     .getOrElse {
                         return onNewMessage(Message.TrackSelected.Error)
                     }
+
+                if (isFreemiumEnabled) {
+                    profileInteractor.selectTrack(currentProfile.id, action.track.id)
+                        .getOrElse {
+                            return onNewMessage(Message.TrackSelected.Error)
+                        }
+                } else {
+                    val projectByLevel = action.track.projectsByLevel
+
+                    val projectId = projectByLevel.easy?.firstOrNull()
+                        ?: projectByLevel.medium?.firstOrNull()
+                        ?: projectByLevel.hard?.firstOrNull()
+                        ?: projectByLevel.nightmare?.firstOrNull()
+                        ?: return onNewMessage(Message.TrackSelected.Error)
+
+                    profileInteractor
+                        .selectTrackWithProject(
+                            profileId = currentProfile.id,
+                            trackId = action.track.id,
+                            projectId = projectId
+                        )
+                        .getOrElse {
+                            return onNewMessage(Message.TrackSelected.Error)
+                        }
+                }
 
                 onNewMessage(Message.TrackSelected.Success)
             }

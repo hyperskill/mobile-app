@@ -10,6 +10,7 @@ import io.ktor.http.contentType
 import org.hyperskill.app.profile.data.source.ProfileRemoteDataSource
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.remote.model.ProfileResponse
+import org.hyperskill.app.profile.remote.model.ProfileSelectTrackRequest
 import org.hyperskill.app.profile.remote.model.ProfileSelectTrackWithProjectRequest
 
 class ProfileRemoteDataSourceImpl(
@@ -29,6 +30,15 @@ class ProfileRemoteDataSourceImpl(
                 .put("/api/profiles/$profileId") {
                     contentType(ContentType.Application.Json)
                     setBody(ProfileSelectTrackWithProjectRequest(trackId, projectId))
+                }.body<ProfileResponse>().profiles.first()
+        }
+
+    override suspend fun selectTrack(profileId: Long, trackId: Long): Result<Profile> =
+        kotlin.runCatching {
+            httpClient
+                .put("/api/profiles/$profileId") {
+                    contentType(ContentType.Application.Json)
+                    setBody(ProfileSelectTrackRequest(trackId))
                 }.body<ProfileResponse>().profiles.first()
         }
 }
