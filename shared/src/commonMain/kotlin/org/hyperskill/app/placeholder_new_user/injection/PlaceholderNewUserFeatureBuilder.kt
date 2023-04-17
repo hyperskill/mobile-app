@@ -2,6 +2,7 @@ package org.hyperskill.app.placeholder_new_user.injection
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserActionDispatcher
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature.State
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature.Message
@@ -21,7 +22,8 @@ object PlaceholderNewUserFeatureBuilder {
         sentryInteractor: SentryInteractor,
         trackInteractor: TrackInteractor,
         progressesInteractor: ProgressesInteractor,
-        profileInteractor: ProfileInteractor
+        profileInteractor: ProfileInteractor,
+        freemiumInteractor: FreemiumInteractor
     ): Feature<State, Message, Action> {
         val placeholderNewUserReducer = PlaceholderNewUserReducer()
         val placeholderNewUserActionDispatcher = PlaceholderNewUserActionDispatcher(
@@ -30,7 +32,8 @@ object PlaceholderNewUserFeatureBuilder {
             sentryInteractor,
             trackInteractor,
             progressesInteractor,
-            profileInteractor
+            profileInteractor,
+            freemiumInteractor
         )
 
         return ReduxFeature(State.Idle, placeholderNewUserReducer)
