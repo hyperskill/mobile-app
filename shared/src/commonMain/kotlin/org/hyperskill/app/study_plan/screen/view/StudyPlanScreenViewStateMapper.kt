@@ -18,6 +18,7 @@ internal class StudyPlanScreenViewStateMapper(
                 )
             },
             toolbarState = state.toolbarState,
-            studyPlanWidgetViewState = studyPlanWidgetViewStateMapper.map(state.studyPlanWidgetState)
+            studyPlanWidgetViewState = studyPlanWidgetViewStateMapper.map(state.studyPlanWidgetState),
+            isRefreshing = state.isRefreshing
         )
 }

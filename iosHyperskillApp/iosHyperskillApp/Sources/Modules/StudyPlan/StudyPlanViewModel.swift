@@ -1,3 +1,4 @@
+import CombineSchedulers
 import shared
 import SwiftUI
 
@@ -6,8 +7,28 @@ final class StudyPlanViewModel: FeatureViewModel<
   StudyPlanScreenFeatureMessage,
   StudyPlanScreenFeatureActionViewAction
 > {
+    private var applicationWasInBackground = false
+    private var shouldReloadContent = false
+
     var studyPlanWidgetStateKs: StudyPlanWidgetViewStateKs { .init(state.studyPlanWidgetViewState) }
     var gamificationToolbarStateKs: GamificationToolbarFeatureStateKs { .init(state.toolbarState) }
+
+    override init(feature: Presentation_reduxFeature, mainScheduler: AnySchedulerOf<RunLoop> = .main) {
+        super.init(feature: feature, mainScheduler: mainScheduler)
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleApplicationDidBecomeActive),
+            name: UIApplication.didBecomeActiveNotification,
+            object: UIApplication.shared
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleApplicationDidEnterBackground),
+            name: UIApplication.didEnterBackgroundNotification,
+            object: UIApplication.shared
+        )
+    }
 
     override func shouldNotifyStateDidChange(
         oldState: StudyPlanScreenViewState,
@@ -26,6 +47,16 @@ final class StudyPlanViewModel: FeatureViewModel<
                 message: StudyPlanWidgetFeatureMessageRetryContentLoading()
             )
         )
+    }
+
+    func doScreenBecomesActive() {
+        onNewMessage(
+            StudyPlanScreenFeatureMessageScreenBecomesActive()
+        )
+    }
+
+    func doPullToRefresh() {
+        onNewMessage(StudyPlanScreenFeatureMessagePullToRefresh())
     }
 
     func doSectionToggle(sectionId: Int64) {
@@ -64,5 +95,23 @@ final class StudyPlanViewModel: FeatureViewModel<
 
     func logViewedEvent() {
         onNewMessage(StudyPlanScreenFeatureMessageViewedEventMessage())
+    }
+
+    // MARK: Private API
+
+    @objc
+    private func handleApplicationDidBecomeActive() {
+        guard applicationWasInBackground else {
+            return
+        }
+
+        doScreenBecomesActive()
+
+        applicationWasInBackground = false
+    }
+
+    @objc
+    private func handleApplicationDidEnterBackground() {
+        applicationWasInBackground = true
     }
 }

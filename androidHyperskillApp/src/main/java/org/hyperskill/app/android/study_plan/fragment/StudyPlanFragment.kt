@@ -44,6 +44,17 @@ class StudyPlanFragment :
     private var gamificationToolbarDelegate: GamificationToolbarDelegate? = null
     private var studyPlanWidgetDelegate: StudyPlanWidgetDelegate? = null
 
+    private var fragmentWasResumed = false
+
+    override fun onResume() {
+        super.onResume()
+        if (fragmentWasResumed) {
+            studyPlanViewModel.onNewMessage(StudyPlanScreenFeature.Message.ScreenBecomesActive)
+        } else {
+            fragmentWasResumed = true
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponents()

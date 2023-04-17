@@ -14,11 +14,19 @@ object StudyPlanScreenFeature {
     internal data class State(
         val toolbarState: GamificationToolbarFeature.State,
         val studyPlanWidgetState: StudyPlanWidgetFeature.State
-    )
+    ) {
+        val isRefreshing: Boolean
+            get() = toolbarState is GamificationToolbarFeature.State.Content && toolbarState.isRefreshing ||
+                studyPlanWidgetState.isRefreshing
+    }
 
     sealed interface Message {
 
         object Initialize : Message
+
+        object PullToRefresh : Message
+
+        object ScreenBecomesActive : Message
 
         object ViewedEventMessage : Message
 

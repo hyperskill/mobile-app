@@ -3,6 +3,7 @@ package org.hyperskill.app.study_plan.screen.presentation
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
+import org.hyperskill.app.study_plan.analytics.StudyPlanClickedPullToRefreshHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.analytics.StudyPlanViewedHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
@@ -22,6 +23,37 @@ internal class StudyPlanScreenReducer(
             is StudyPlanScreenFeature.Message.Initialize -> {
                 handleInitializeMessage(state, message)
             }
+            is StudyPlanScreenFeature.Message.PullToRefresh -> {
+                val (widgetState, widgetActions)  = reduceStudyPlanWidgetMessage(
+                    state.studyPlanWidgetState,
+                    StudyPlanWidgetFeature.Message.PullToRefresh
+                )
+
+                val (toolbarState, toolbarActions) = reduceToolbarMessage(
+                    state.toolbarState,
+                    GamificationToolbarFeature.Message.PullToRefresh(GamificationToolbarScreen.STUDY_PLAN)
+                )
+
+                state.copy(
+                    studyPlanWidgetState = widgetState,
+                    toolbarState = toolbarState,
+                ) to widgetActions + toolbarActions + setOf(
+                    StudyPlanScreenFeature.InternalAction.LogAnalyticEvent(
+                        StudyPlanClickedPullToRefreshHyperskillAnalyticEvent()
+                    )
+                )
+            }
+            is StudyPlanScreenFeature.Message.ScreenBecomesActive -> {
+                val (widgetState, widgetActions)  = reduceStudyPlanWidgetMessage(
+                    state.studyPlanWidgetState,
+                    StudyPlanWidgetFeature.Message.ReloadContentInBackground
+                )
+
+                state.copy(
+                    studyPlanWidgetState = widgetState,
+                ) to widgetActions
+            }
+
             is StudyPlanScreenFeature.Message.GamificationToolbarMessage -> {
                 val (toolbarState, toolbarActions) =
                     reduceToolbarMessage(state.toolbarState, message.message)
@@ -48,7 +80,9 @@ internal class StudyPlanScreenReducer(
         val (toolbarState, toolbarActions) =
             reduceToolbarMessage(
                 state.toolbarState,
-                GamificationToolbarFeature.Message.Initialize(GamificationToolbarScreen.STUDY_PLAN)
+                GamificationToolbarFeature.Message.Initialize(
+                    screen = GamificationToolbarScreen.STUDY_PLAN
+                )
             )
         val (studyPlanState, studyPlanActions) =
             reduceStudyPlanWidgetMessage(

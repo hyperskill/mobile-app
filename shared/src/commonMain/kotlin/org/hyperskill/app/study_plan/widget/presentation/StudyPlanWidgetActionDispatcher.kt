@@ -22,7 +22,13 @@ class StudyPlanWidgetActionDispatcher(
                 }
                 studyPlanInteractor.getCurrentStudyPlan(forceLoadFromRemote = true)
                     .onSuccess { studyPlan ->
-                        onNewMessage(StudyPlanWidgetFeature.StudyPlanFetchResult.Success(studyPlan, action.attemptNumber))
+                        onNewMessage(
+                            StudyPlanWidgetFeature.StudyPlanFetchResult.Success(
+                                studyPlan = studyPlan,
+                                attemptNumber = action.attemptNumber,
+                                showLoadingIndicators = action.showLoadingIndicators
+                            )
+                        )
                     }
                     .onFailure {
                         onNewMessage(StudyPlanWidgetFeature.StudyPlanFetchResult.Failed)
