@@ -251,6 +251,27 @@ class StudyPlanWidgetTest {
     }
 
     @Test
+    fun `Clicking reload activities should trigger activities loading`() {
+        val activities = listOf<Long>(0, 1, 2)
+        val section = studyPlanSectionStub(id = 0, activities = activities)
+        val initialState = StudyPlanWidgetFeature.State(
+            studyPlanSections = mapOf(
+                0L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    section,
+                    isExpanded = true,
+                    StudyPlanWidgetFeature.ContentStatus.ERROR
+                )
+            )
+        )
+
+        val (state, actions) =
+            reducer.reduce(initialState, StudyPlanWidgetFeature.Message.RetryActivitiesLoading(section.id))
+
+        assertContains(actions, StudyPlanWidgetFeature.InternalAction.FetchActivities(section.id, activities))
+        assertEquals(StudyPlanWidgetFeature.ContentStatus.LOADING, state.studyPlanSections[section.id]?.contentStatus)
+    }
+
+    @Test
     fun `Collapsed section or IDLE state section should be collapsed in view state`() {
         val sectionId = 0L
         val section = studyPlanSectionStub(id = sectionId)

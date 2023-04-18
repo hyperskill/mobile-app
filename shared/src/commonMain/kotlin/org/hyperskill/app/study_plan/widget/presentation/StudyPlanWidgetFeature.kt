@@ -1,13 +1,13 @@
 package org.hyperskill.app.study_plan.widget.presentation
 
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.track.domain.model.Track
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.seconds
 
 object StudyPlanWidgetFeature {
 
@@ -61,6 +61,8 @@ object StudyPlanWidgetFeature {
         data class ActivityClicked(val activityId: Long) : Message
 
         object RetryContentLoading : Message
+
+        data class RetryActivitiesLoading(val sectionId: Long) : Message
 
         object ReloadContentInBackground : Message
 

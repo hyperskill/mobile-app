@@ -372,5 +372,6 @@
     <!--Study plan-->
     <string name="study_plan_title">Study plan</string>
     <string name="study_plan_track_title_template">for: %s</string>
+    <string name="study_plan_activities_error_text">Oops! We were unable to load the content.</string>
 
 </resources>
