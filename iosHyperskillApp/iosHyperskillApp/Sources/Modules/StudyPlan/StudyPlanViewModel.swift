@@ -13,23 +13,6 @@ final class StudyPlanViewModel: FeatureViewModel<
     var studyPlanWidgetStateKs: StudyPlanWidgetViewStateKs { .init(state.studyPlanWidgetViewState) }
     var gamificationToolbarStateKs: GamificationToolbarFeatureStateKs { .init(state.toolbarState) }
 
-    override init(feature: Presentation_reduxFeature, mainScheduler: AnySchedulerOf<RunLoop> = .main) {
-        super.init(feature: feature, mainScheduler: mainScheduler)
-
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleApplicationDidBecomeActive),
-            name: UIApplication.didBecomeActiveNotification,
-            object: UIApplication.shared
-        )
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleApplicationDidEnterBackground),
-            name: UIApplication.didEnterBackgroundNotification,
-            object: UIApplication.shared
-        )
-    }
-
     override func shouldNotifyStateDidChange(
         oldState: StudyPlanScreenViewState,
         newState: StudyPlanScreenViewState
@@ -95,23 +78,5 @@ final class StudyPlanViewModel: FeatureViewModel<
 
     func logViewedEvent() {
         onNewMessage(StudyPlanScreenFeatureMessageViewedEventMessage())
-    }
-
-    // MARK: Private API
-
-    @objc
-    private func handleApplicationDidBecomeActive() {
-        guard applicationWasInBackground else {
-            return
-        }
-
-        doScreenBecomesActive()
-
-        applicationWasInBackground = false
-    }
-
-    @objc
-    private func handleApplicationDidEnterBackground() {
-        applicationWasInBackground = true
     }
 }

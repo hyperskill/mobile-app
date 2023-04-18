@@ -16,11 +16,20 @@ struct StudyPlanView: View {
 
     @StateObject var stackRouter: SwiftUIStackRouter
 
-    @State private var viewWasDisappear = false
+    @State private var viewAppearsFirstTime = true
 
     var body: some View {
         ZStack {
-            UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
+            UIViewControllerEventsWrapper(
+                onViewDidAppear: {
+                    viewModel.logViewedEvent()
+                    if viewAppearsFirstTime {
+                        viewAppearsFirstTime = false
+                    } else {
+                        viewModel.doScreenBecomesActive()
+                    }
+                }
+            )
 
             BackgroundView(color: appearance.backgroundColor)
 
@@ -38,16 +47,10 @@ struct StudyPlanView: View {
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
-
-            if viewWasDisappear {
-                viewModel.doScreenBecomesActive()
-                viewWasDisappear = false
-            }
         }
         .onDisappear {
             viewModel.stopListening()
             viewModel.onViewAction = nil
-            viewWasDisappear = true
         }
     }
 
