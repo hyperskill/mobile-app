@@ -14,7 +14,8 @@ class PlaceholderNewUserComponentImpl(
             appGraph.sentryComponent.sentryInteractor,
             appGraph.buildTrackDataComponent().trackInteractor,
             appGraph.buildProgressesDataComponent().progressesInteractor,
-            appGraph.buildProfileDataComponent().profileInteractor
+            appGraph.buildProfileDataComponent().profileInteractor,
+            appGraph.buildFreemiumDataComponent().freemiumInteractor
         )
 
     override val placeHolderNewUserViewDataMapper: PlaceholderNewUserViewDataMapper
