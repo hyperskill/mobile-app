@@ -5,6 +5,7 @@ import kotlin.time.Duration.Companion.seconds
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.track.domain.model.Track
@@ -107,6 +108,8 @@ object StudyPlanWidgetFeature {
                     val stageId: Long,
                     val projectId: Long
                 ) : NavigateTo
+
+                data class StepScreen(val stepRoute: StepRoute) : NavigateTo
             }
         }
     }

@@ -1,6 +1,8 @@
 package org.hyperskill.app.study_plan.widget.presentation
 
+import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.study_plan.domain.model.StudyPlanStatus
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Action
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalAction
@@ -218,6 +220,13 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 val projectId = state.studyPlan?.projectId
                 if (projectId != null) {
                     Action.ViewAction.NavigateTo.StageImplementation(stageId = activity.targetId, projectId = projectId)
+                } else {
+                    null
+                }
+            }
+            LearningActivityType.LEARN_TOPIC -> {
+                if (activity.targetType == LearningActivityTargetType.STEP) {
+                    Action.ViewAction.NavigateTo.StepScreen(StepRoute.Learn(activity.targetId))
                 } else {
                     null
                 }

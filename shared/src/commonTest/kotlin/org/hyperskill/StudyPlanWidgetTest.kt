@@ -10,6 +10,7 @@ import org.hyperskill.app.core.view.mapper.DateFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
+import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
@@ -423,14 +424,16 @@ class StudyPlanWidgetTest {
     private fun stubLearningActivity(
         id: Long,
         state: LearningActivityState = LearningActivityState.TODO,
-        type: LearningActivityType = LearningActivityType.LEARN_TOPIC
+        type: LearningActivityType = LearningActivityType.LEARN_TOPIC,
+        targetType: LearningActivityTargetType = LearningActivityTargetType.STEP
     ) =
         LearningActivity(
             id = id,
             stateValue = state.value,
             targetId = 0L,
             typeValue = type.value,
-            isCurrent = false
+            isCurrent = false,
+            targetTypeValue = targetType.value
         )
 
     private fun studyPlanSectionItemStub(
@@ -442,6 +445,7 @@ class StudyPlanWidgetTest {
             title = activityId.toString(),
             formattedProgress = null,
             progress = null,
-            state = state
+            state = state,
+            hypercoinsAward = null
         )
 }
