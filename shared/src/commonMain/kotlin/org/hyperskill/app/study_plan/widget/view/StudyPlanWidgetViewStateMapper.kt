@@ -100,7 +100,8 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
                         null -> StudyPlanWidgetViewState.SectionItemState.IDLE
                     },
                     progress = null, // TODO: add data with new activities API
-                    formattedProgress = null // TODO: add data with new activities API
+                    formattedProgress = null, // TODO: add data with new activities API
+                    hypercoinsAward = activity.hypercoinsAward.takeIf { it > 0 }
                 )
             }
         )

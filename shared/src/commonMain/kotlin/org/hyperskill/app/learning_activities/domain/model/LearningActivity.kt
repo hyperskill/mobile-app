@@ -17,6 +17,8 @@ data class LearningActivity(
     val isCurrent: Boolean,
     @SerialName("title")
     val title: String = "",
+    @SerialName("hypercoins_award")
+    val hypercoinsAward: Int = 0
 ) {
     val state: LearningActivityState?
         get() = LearningActivityState.getByValue(stateValue)
