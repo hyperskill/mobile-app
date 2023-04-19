@@ -6,12 +6,14 @@ import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
+import kotlin.test.fail
 import org.hyperskill.app.core.view.mapper.DateFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.study_plan.domain.model.StudyPlanStatus
@@ -376,6 +378,121 @@ class StudyPlanWidgetTest {
         assertEquals(expectedViewState, viewState)
     }
 
+    @Test
+    fun `Click on non current learning activity should do nothing`() {
+        val activityId = 0L
+        val state = StudyPlanWidgetFeature.State(
+            activities = mapOf(activityId to stubLearningActivity(activityId, isCurrent = false))
+        )
+
+        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+
+        assertEquals(state, newState)
+        assertTrue(actions.isEmpty())
+    }
+
+    @Test
+    fun `Click on stage implement learning activity should navigate to stage implementation`() {
+        val activityId = 0L
+        val projectId = 1L
+        val stageId = 2L
+        val state = StudyPlanWidgetFeature.State(
+            studyPlan = studyPlanStub(id = 0, projectId = projectId),
+            activities = mapOf(
+                activityId to stubLearningActivity(
+                    activityId,
+                    isCurrent = true,
+                    type = LearningActivityType.IMPLEMENT_STAGE,
+                    targetType = LearningActivityTargetType.STAGE,
+                    targetId = stageId
+                )
+            )
+        )
+
+        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+
+        assertEquals(state, newState)
+        assertEquals(
+            actions, setOf(StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.StageImplementation(stageId, projectId))
+        )
+    }
+
+    @Test
+    fun `Click on stage implement learning activity with non stage target should do nothing`() {
+        val activityId = 0L
+        val state = StudyPlanWidgetFeature.State(
+            studyPlan = studyPlanStub(id = 0),
+            activities = mapOf(
+                activityId to stubLearningActivity(
+                    activityId,
+                    isCurrent = true,
+                    type = LearningActivityType.IMPLEMENT_STAGE,
+                    targetType = LearningActivityTargetType.STEP,
+                    targetId = 1L
+                )
+            )
+        )
+
+        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+
+        assertEquals(state, newState)
+        assertTrue(actions.isEmpty())
+    }
+
+    @Test
+    fun `Click on learn topic learning activity should navigate to step screen`() {
+        val activityId = 0L
+        val stepId = 1L
+        val state = StudyPlanWidgetFeature.State(
+            studyPlan = studyPlanStub(id = 0),
+            activities = mapOf(
+                activityId to stubLearningActivity(
+                    activityId,
+                    isCurrent = true,
+                    type = LearningActivityType.LEARN_TOPIC,
+                    targetType = LearningActivityTargetType.STEP,
+                    targetId = stepId
+                )
+            )
+        )
+
+        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+
+        assertEquals(state, newState)
+        assertEquals(actions.size, 1)
+
+        val targetAction = actions.first()
+        if (targetAction is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.StepScreen &&
+            targetAction.stepRoute is StepRoute.Learn
+        ) {
+            assertEquals(targetAction.stepRoute.stepId, stepId)
+        } else {
+            fail("Unexpected action: $targetAction")
+        }
+    }
+
+    @Test
+    fun `Click on learn topic learning activity with non step target should do nothing`() {
+        val activityId = 0L
+        val state = StudyPlanWidgetFeature.State(
+            studyPlan = studyPlanStub(id = 0),
+            activities = mapOf(
+                activityId to stubLearningActivity(
+                    activityId,
+                    isCurrent = true,
+                    type = LearningActivityType.LEARN_TOPIC,
+                    targetType = LearningActivityTargetType.STAGE,
+                    targetId = 1L
+                )
+            )
+        )
+
+        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+
+        assertEquals(state, newState)
+        assertTrue(actions.isEmpty())
+    }
+
     private fun sectionViewState(section: StudyPlanSection, content: StudyPlanWidgetViewState.SectionContent) =
         StudyPlanWidgetViewState.Section(
             id = section.id,
@@ -388,13 +505,14 @@ class StudyPlanWidgetTest {
 
     private fun studyPlanStub(
         id: Long,
+        projectId: Long? = null,
         status: StudyPlanStatus = StudyPlanStatus.READY,
         sections: List<Long> = emptyList()
     ) =
         StudyPlan(
             id = id,
             trackId = null,
-            projectId = null,
+            projectId = projectId,
             sections = sections,
             status = status,
             createdAt = "",
@@ -424,15 +542,17 @@ class StudyPlanWidgetTest {
     private fun stubLearningActivity(
         id: Long,
         state: LearningActivityState = LearningActivityState.TODO,
+        targetId: Long = 0L,
         type: LearningActivityType = LearningActivityType.LEARN_TOPIC,
-        targetType: LearningActivityTargetType = LearningActivityTargetType.STEP
+        targetType: LearningActivityTargetType = LearningActivityTargetType.STEP,
+        isCurrent: Boolean = false
     ) =
         LearningActivity(
             id = id,
             stateValue = state.value,
-            targetId = 0L,
+            targetId = targetId,
             typeValue = type.value,
-            isCurrent = false,
+            isCurrent = isCurrent,
             targetTypeValue = targetType.value
         )
 
