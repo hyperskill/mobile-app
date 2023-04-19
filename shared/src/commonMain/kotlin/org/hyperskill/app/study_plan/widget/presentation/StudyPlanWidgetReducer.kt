@@ -65,7 +65,6 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         State(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING) to
             setOf(InternalAction.FetchStudyPlan())
 
-    @Suppress("UNUSED_PARAMETER")
     private fun handleStudyPlanFetchSuccess(
         state: State,
         message: StudyPlanWidgetFeature.StudyPlanFetchResult.Success
