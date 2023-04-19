@@ -218,7 +218,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         val action = when (activity.type) {
             LearningActivityType.IMPLEMENT_STAGE -> {
                 val projectId = state.studyPlan?.projectId
-                if (projectId != null) {
+                if (projectId != null && activity.targetType == LearningActivityTargetType.STAGE) {
                     Action.ViewAction.NavigateTo.StageImplementation(stageId = activity.targetId, projectId = projectId)
                 } else {
                     null
