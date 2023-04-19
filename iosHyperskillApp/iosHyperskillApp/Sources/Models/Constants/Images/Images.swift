@@ -106,6 +106,7 @@ enum Images {
 
     enum Placeholder {
         static let networkError = "placeholder-network-error"
+        static let reload = "placeholder-reload"
     }
 
     // MARK: - Home -

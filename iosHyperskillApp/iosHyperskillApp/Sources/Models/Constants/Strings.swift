@@ -227,6 +227,8 @@ enum Strings {
 
     enum StudyPlan {
         static let title = sharedStrings.study_plan_title.localized()
+
+        static let activitiesError = sharedStrings.study_plan_activities_error_text.localized()
     }
 
     // MARK: - Profile -
