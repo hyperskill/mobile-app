@@ -88,7 +88,7 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
             sectionItems = activities.map { activity ->
                 StudyPlanWidgetViewState.SectionItem(
                     id = activity.id,
-                    title = activity.id.toString(), // TODO: replace with real data with new activities API
+                    title = activity.title.ifBlank { activity.id.toString() },
                     state = when (activity.state) {
                         LearningActivityState.TODO -> if (activity.isCurrent) {
                             StudyPlanWidgetViewState.SectionItemState.NEXT
@@ -106,7 +106,7 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
         )
 
     private fun formatTopicsCount(completedTopicsCount: Int, topicsCount: Int): String? =
-        if (completedTopicsCount > 0  && topicsCount > 0) {
+        if (completedTopicsCount > 0 && topicsCount > 0) {
             "$completedTopicsCount / $topicsCount"
         } else {
             null

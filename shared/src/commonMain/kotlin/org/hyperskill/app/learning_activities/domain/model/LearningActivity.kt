@@ -14,7 +14,9 @@ data class LearningActivity(
     @SerialName("type")
     private val typeValue: Int,
     @SerialName("is_current")
-    val isCurrent: Boolean
+    val isCurrent: Boolean,
+    @SerialName("title")
+    val title: String = "",
 ) {
     val state: LearningActivityState?
         get() = LearningActivityState.getByValue(stateValue)
