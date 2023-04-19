@@ -89,7 +89,8 @@ struct StudyPlanView: View {
                         StudyPlanSectionView(
                             section: section,
                             onSectionTap: viewModel.doSectionToggle(sectionId:),
-                            onActivityTap: viewModel.doActivityPresentation(activityId:)
+                            onActivityTap: viewModel.doActivityPresentation(activityId:),
+                            onRetryActivitiesLoadingTap: viewModel.doRetryActivitiesLoading(sectionId:)
                         )
                     }
                 }

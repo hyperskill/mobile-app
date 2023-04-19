@@ -58,6 +58,14 @@ final class StudyPlanViewModel: FeatureViewModel<
         )
     }
 
+    func doRetryActivitiesLoading(sectionId: Int64) {
+        onNewMessage(
+            StudyPlanScreenFeatureMessageStudyPlanWidgetMessage(
+                message: StudyPlanWidgetFeatureMessageRetryActivitiesLoading(sectionId: sectionId)
+            )
+        )
+    }
+
     func doStreakBarButtonItemAction() {
         onNewMessage(
             StudyPlanScreenFeatureMessageGamificationToolbarMessage(
