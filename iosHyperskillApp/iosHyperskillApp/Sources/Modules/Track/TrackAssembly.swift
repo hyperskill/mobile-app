@@ -14,7 +14,10 @@ final class TrackAssembly: UIKitAssembly {
 
         let stackRouter = SwiftUIStackRouter()
         let trackView = TrackView(viewModel: viewModel, stackRouter: stackRouter)
-        let hostingController = UIHostingController(rootView: trackView)
+        let hostingController = StyledHostingController(
+            rootView: trackView,
+            appearance: .leftAlignedNavigationBarTitle
+        )
 
         stackRouter.rootViewController = hostingController
 
