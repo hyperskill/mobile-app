@@ -5,6 +5,7 @@ extension ProgressBarButtonItem {
         let circleWidthHeight: CGFloat = 16
         let circleLineWidth: CGFloat = 2
         let circleBackgroundWidthHeight: CGFloat = 28
+        let spacing: CGFloat = 14
     }
 }
 
@@ -21,7 +22,7 @@ struct ProgressBarButtonItem: View {
         Button(
             action: onTap,
             label: {
-                HStack(spacing: LayoutInsets.defaultInset) {
+                HStack(spacing: appearance.spacing) {
                     ZStack {
                         Circle()
                             .stroke(
