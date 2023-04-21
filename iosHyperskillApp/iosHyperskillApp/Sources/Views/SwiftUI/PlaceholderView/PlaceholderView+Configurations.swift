@@ -17,6 +17,24 @@ extension PlaceholderView.Configuration {
         )
     }
 
+    static func reloadContent(
+        presentationMode: PresentationMode = .local,
+        primaryContentAlignment: PrimaryContentAlignment = .horizontal(),
+        backgroundColor: Color = Color(ColorPalette.surface),
+        buttonStyle: Button.Style = .outline(),
+        action: @escaping () -> Void
+    ) -> Self {
+        .init(
+            presentationMode: presentationMode,
+            image: .init(name: Images.Placeholder.reload, frame: .size(CGSize(width: 66, height: 66))),
+            title: .init(text: Strings.StudyPlan.activitiesError),
+            button: .init(text: Strings.Placeholder.networkErrorButtonText, action: action, style: buttonStyle),
+            primaryContentAlignment: primaryContentAlignment,
+            interItemSpacing: LayoutInsets.defaultInset,
+            backgroundColor: backgroundColor
+        )
+    }
+
     static func imageAndTitle(
         image: PlaceholderView.Configuration.Image = .init(
             name: Images.Placeholder.networkError,
