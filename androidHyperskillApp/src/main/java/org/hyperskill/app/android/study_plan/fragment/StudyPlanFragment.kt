@@ -12,6 +12,7 @@ import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.Gamifica
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
 import org.hyperskill.app.android.stage_implementation.view.navigation.StageImplementationScreen
+import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.study_plan.delegate.StudyPlanWidgetDelegate
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
@@ -125,6 +126,9 @@ class StudyPlanFragment :
                                 stageId = viewAction.stageId
                             )
                         )
+                    }
+                    is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.StepScreen -> {
+                        requireRouter().navigateTo(StepScreen(viewAction.stepRoute))
                     }
                 }
             }

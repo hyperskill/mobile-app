@@ -124,6 +124,9 @@ struct StudyPlanView: View {
                         stageID: navigateToStageImplementationViewAction.stageId
                     )
                     stackRouter.pushViewController(assembly.makeModule())
+                case .stepScreen(let navigateToStepScreenViewAction):
+                    let assembly = StepAssembly(stepRoute: navigateToStepScreenViewAction.stepRoute)
+                    stackRouter.pushViewController(assembly.makeModule())
                 }
             }
         }

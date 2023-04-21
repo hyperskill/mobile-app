@@ -37,7 +37,8 @@ sealed interface StudyPlanWidgetViewState {
         val title: String,
         val state: SectionItemState,
         val progress: Float?,
-        val formattedProgress: String?
+        val formattedProgress: String?,
+        val hypercoinsAward: Int?
     ) {
         val isClickable: Boolean
             get() = state == SectionItemState.NEXT

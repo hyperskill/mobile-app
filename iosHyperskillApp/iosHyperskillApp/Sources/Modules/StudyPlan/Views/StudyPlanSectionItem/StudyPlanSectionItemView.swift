@@ -126,7 +126,8 @@ extension StudyPlanWidgetViewStateSectionItem {
             title: "title",
             state: state,
             progress: 50,
-            formattedProgress: "50%"
+            formattedProgress: "50%",
+            hypercoinsAward: nil
         )
     }
 }

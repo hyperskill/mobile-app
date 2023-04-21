@@ -1,6 +1,8 @@
 package org.hyperskill.app.study_plan.widget.presentation
 
+import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.study_plan.domain.model.StudyPlanStatus
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Action
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalAction
@@ -65,7 +67,6 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         State(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING) to
             setOf(InternalAction.FetchStudyPlan())
 
-    @Suppress("UNUSED_PARAMETER")
     private fun handleStudyPlanFetchSuccess(
         state: State,
         message: StudyPlanWidgetFeature.StudyPlanFetchResult.Success
@@ -217,8 +218,15 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         val action = when (activity.type) {
             LearningActivityType.IMPLEMENT_STAGE -> {
                 val projectId = state.studyPlan?.projectId
-                if (projectId != null) {
+                if (projectId != null && activity.targetType == LearningActivityTargetType.STAGE) {
                     Action.ViewAction.NavigateTo.StageImplementation(stageId = activity.targetId, projectId = projectId)
+                } else {
+                    null
+                }
+            }
+            LearningActivityType.LEARN_TOPIC -> {
+                if (activity.targetType == LearningActivityTargetType.STEP) {
+                    Action.ViewAction.NavigateTo.StepScreen(StepRoute.Learn(activity.targetId))
                 } else {
                     null
                 }

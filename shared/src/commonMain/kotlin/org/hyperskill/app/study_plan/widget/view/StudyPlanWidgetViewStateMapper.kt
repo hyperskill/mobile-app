@@ -88,7 +88,7 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
             sectionItems = activities.map { activity ->
                 StudyPlanWidgetViewState.SectionItem(
                     id = activity.id,
-                    title = activity.id.toString(), // TODO: replace with real data with new activities API
+                    title = activity.title.ifBlank { activity.id.toString() },
                     state = when (activity.state) {
                         LearningActivityState.TODO -> if (activity.isCurrent) {
                             StudyPlanWidgetViewState.SectionItemState.NEXT
@@ -99,8 +99,9 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
                         LearningActivityState.COMPLETED -> StudyPlanWidgetViewState.SectionItemState.COMPLETED
                         null -> StudyPlanWidgetViewState.SectionItemState.IDLE
                     },
-                    progress = null, // TODO: add data with new activities API
-                    formattedProgress = null // TODO: add data with new activities API
+                    progress = null, // TODO: ALTAPPS-713 add data with new activities API
+                    formattedProgress = null, // TODO: ALTAPPS-713 add data with new activities API
+                    hypercoinsAward = activity.hypercoinsAward.takeIf { it > 0 }
                 )
             }
         )

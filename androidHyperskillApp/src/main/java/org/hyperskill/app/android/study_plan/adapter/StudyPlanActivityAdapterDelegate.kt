@@ -40,7 +40,7 @@ class StudyPlanActivityAdapterDelegate(
             data as StudyPlanRecyclerItem.Activity
 
             with(binding.activityTitle) {
-                text = data.id.toString()
+                text = data.title
                 setTextColor(data.titleTextColor)
             }
 
