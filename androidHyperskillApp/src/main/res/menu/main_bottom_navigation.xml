@@ -9,6 +9,10 @@
         android:icon="@drawable/ic_navigation_track"
         android:title="@string/tab_bar_track_title" />
     <item
+        android:id="@+id/study_plan_tab"
+        android:icon="@drawable/ic_navigation_study_plan"
+        android:title="@string/tab_bar_study_plan_title" />
+    <item
         android:id="@+id/profile_tab"
         android:icon="@drawable/ic_navigation_profile"
         android:title="@string/tab_bar_profile_title" />

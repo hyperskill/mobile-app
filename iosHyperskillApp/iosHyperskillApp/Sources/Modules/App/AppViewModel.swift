@@ -57,6 +57,8 @@ final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, A
                 return .home
             case .track:
                 return .track
+            case .studyPlan:
+                return .studyPlan
             case .profile:
                 return .profile
             case .debug:

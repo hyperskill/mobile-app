@@ -38,8 +38,7 @@ struct ProfileStatisticsItemView: View {
         .cornerRadius(appearance.cornerRadius)
     }
 
-    @ViewBuilder
-    private var image: some View {
+    @ViewBuilder private var image: some View {
         switch icon.renderingMode {
         case .original:
             Image(icon.imageName)

@@ -151,6 +151,7 @@
     <!-- Tab bar -->
     <string name="tab_bar_home_title">Home</string>
     <string name="tab_bar_track_title">Track</string>
+    <string name="tab_bar_study_plan_title">Study Plan</string>
     <string name="tab_bar_profile_title">Profile</string>
     <string name="tab_bar_debug_title">Debug</string>
 
@@ -367,5 +368,10 @@
     <!--  Problems limit widget  -->
     <string name="problems_limit_widget_problems_limit">%d/%d problems limit</string>
     <string name="problems_limit_widget_update_in">Update in %s</string>
+
+    <!--Study plan-->
+    <string name="study_plan_title">Study plan</string>
+    <string name="study_plan_track_title_template">for: %s</string>
+    <string name="study_plan_activities_error_text">Oops! We were unable to load the content.</string>
 
 </resources>

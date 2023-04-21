@@ -174,6 +174,7 @@ class HomeFragment :
             requireContext().getString(org.hyperskill.app.R.string.home_title)
         gamificationToolbarDelegate = GamificationToolbarDelegate(
             viewLifecycleOwner,
+            requireContext(),
             viewBinding.homeScreenAppBar,
             GamificationToolbarScreen.HOME
         ) { message ->
