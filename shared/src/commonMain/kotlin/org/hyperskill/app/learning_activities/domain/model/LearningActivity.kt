@@ -12,7 +12,7 @@ data class LearningActivity(
     @SerialName("target_id")
     val targetId: Long,
     @SerialName("target_type")
-    val targetTypeValue: String,
+    private val targetTypeValue: String,
     @SerialName("type")
     private val typeValue: Int,
     @SerialName("is_current")

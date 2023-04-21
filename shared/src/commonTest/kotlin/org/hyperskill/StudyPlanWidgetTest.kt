@@ -379,6 +379,80 @@ class StudyPlanWidgetTest {
     }
 
     @Test
+    fun `Section content item title in ViewState should be equal to learning activity title`() {
+        val expectedViewState = StudyPlanWidgetViewState.Content(
+            listOf(
+                sectionViewState(
+                    section = studyPlanSectionStub(id = 0, activities = listOf(0)),
+                    content = StudyPlanWidgetViewState.SectionContent.Content(
+                        sectionItems = listOf(
+                            studyPlanSectionItemStub(
+                                activityId = 0,
+                                title = "Activity 1",
+                                state = StudyPlanWidgetViewState.SectionItemState.LOCKED
+                            )
+                        )
+                    )
+                )
+            )
+        )
+
+        val state = StudyPlanWidgetFeature.State(
+            studyPlan = studyPlanStub(id = 0, sections = listOf(0)),
+            studyPlanSections = mapOf(
+                0L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(id = 0, activities = listOf(0)),
+                    isExpanded = true,
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                )
+            ),
+            activities = mapOf(
+                0L to stubLearningActivity(id = 0, title = "Activity 1")
+            ),
+            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+        )
+
+        val viewState = studyPlanWidgetViewStateMapper.map(state)
+        assertEquals(expectedViewState, viewState)
+    }
+
+    @Test
+    fun `Section content item title in ViewState should be equal to learning activity id if title is blank`() {
+        val expectedViewState = StudyPlanWidgetViewState.Content(
+            listOf(
+                sectionViewState(
+                    section = studyPlanSectionStub(id = 0, activities = listOf(0)),
+                    content = StudyPlanWidgetViewState.SectionContent.Content(
+                        sectionItems = listOf(
+                            studyPlanSectionItemStub(
+                                activityId = 0,
+                                title = "0",
+                                state = StudyPlanWidgetViewState.SectionItemState.LOCKED
+                            )
+                        )
+                    )
+                )
+            )
+        )
+
+        val state = StudyPlanWidgetFeature.State(
+            studyPlan = studyPlanStub(id = 0, sections = listOf(0)),
+            studyPlanSections = mapOf(
+                0L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(id = 0, activities = listOf(0)),
+                    isExpanded = true,
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                )
+            ),
+            activities = mapOf(0L to stubLearningActivity(id = 0, title = "")),
+            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+        )
+
+        val viewState = studyPlanWidgetViewStateMapper.map(state)
+        assertEquals(expectedViewState, viewState)
+    }
+
+    @Test
     fun `Click on non current learning activity should do nothing`() {
         val activityId = 0L
         val state = StudyPlanWidgetFeature.State(
@@ -545,7 +619,8 @@ class StudyPlanWidgetTest {
         targetId: Long = 0L,
         type: LearningActivityType = LearningActivityType.LEARN_TOPIC,
         targetType: LearningActivityTargetType = LearningActivityTargetType.STEP,
-        isCurrent: Boolean = false
+        isCurrent: Boolean = false,
+        title: String = ""
     ) =
         LearningActivity(
             id = id,
@@ -553,16 +628,18 @@ class StudyPlanWidgetTest {
             targetId = targetId,
             typeValue = type.value,
             isCurrent = isCurrent,
-            targetTypeValue = targetType.value
+            targetTypeValue = targetType.value,
+            title = title
         )
 
     private fun studyPlanSectionItemStub(
         activityId: Long,
+        title: String = "",
         state: StudyPlanWidgetViewState.SectionItemState = StudyPlanWidgetViewState.SectionItemState.LOCKED
     ) =
         StudyPlanWidgetViewState.SectionItem(
             id = activityId,
-            title = activityId.toString(),
+            title = title.ifBlank { activityId.toString() },
             formattedProgress = null,
             progress = null,
             state = state,
