@@ -16,6 +16,7 @@ import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.study_plan.domain.model.StudyPlanStatus
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
+import org.hyperskill.app.study_plan.widget.presentation.firstVisibleSection
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewStateMapper
 
@@ -38,6 +39,30 @@ class StudyPlanWidgetTest {
     }
 
     private val studyPlanWidgetViewStateMapper = StudyPlanWidgetViewStateMapper(DateFormatter(resourceProviderStub))
+
+    @Test
+    fun `Get first visible section works correctly`() {
+        val studyPlan = studyPlanStub(id = 0, sections = listOf(0, 1, 2, 3, 4))
+        val studyPlanSections = listOf(
+            studyPlanSectionStub(id = 0, isVisible = false),
+            studyPlanSectionStub(id = 1, isVisible = true),
+            studyPlanSectionStub(id = 2, isVisible = false),
+            studyPlanSectionStub(id = 3, isVisible = true),
+            studyPlanSectionStub(id = 4, isVisible = false)
+        )
+        val state = StudyPlanWidgetFeature.State(
+            studyPlan = studyPlan,
+            studyPlanSections = studyPlanSections.associate {
+                it.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = it,
+                    isExpanded = false,
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                )
+            }
+        )
+
+        assertEquals(state.firstVisibleSection(), studyPlanSections[1])
+    }
 
     @Test
     fun `Initialize message should trigger studyPLan fetching`() {
@@ -373,6 +398,39 @@ class StudyPlanWidgetTest {
         )
 
         assertEquals(expectedViewState, viewState)
+    }
+
+    @Test
+    fun `Reload content in background should trigger fetch studyPlan without loading indicators`() {
+        val state = StudyPlanWidgetFeature.State(studyPlan = studyPlanStub(id = 0))
+        val (_, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ReloadContentInBackground)
+        assertContains(actions, StudyPlanWidgetFeature.InternalAction.FetchStudyPlan(showLoadingIndicators = false))
+    }
+
+    @Test
+    fun `Reload content in background should persist content status for first visible section`() {
+        val studyPlan = studyPlanStub(id = 0, sections = listOf(0, 1, 2, 3, 4))
+        val studyPlanSections = listOf(
+            studyPlanSectionStub(id = 0, isVisible = false),
+            studyPlanSectionStub(id = 1, isVisible = true),
+            studyPlanSectionStub(id = 2, isVisible = false),
+            studyPlanSectionStub(id = 3, isVisible = true),
+            studyPlanSectionStub(id = 4, isVisible = false)
+        )
+        val state = StudyPlanWidgetFeature.State(
+            studyPlan = studyPlan,
+            studyPlanSections = studyPlanSections.associate {
+                it.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = it,
+                    isExpanded = false,
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                )
+            }
+        )
+
+        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ReloadContentInBackground)
+        assertEquals(state.studyPlanSections[1]?.contentStatus, newState.studyPlanSections[1]?.contentStatus)
+        assertContains(actions, StudyPlanWidgetFeature.InternalAction.FetchStudyPlan(showLoadingIndicators = false))
     }
 
     private fun sectionViewState(section: StudyPlanSection, content: StudyPlanWidgetViewState.SectionContent) =
