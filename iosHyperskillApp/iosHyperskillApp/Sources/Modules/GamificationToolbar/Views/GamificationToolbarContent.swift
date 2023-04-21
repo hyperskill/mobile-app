@@ -3,7 +3,8 @@ import SwiftUI
 
 extension GamificationToolbarContent {
     struct Appearance {
-        let toolbarSkeletonSize = CGSize(width: 56, height: 28)
+        let toolbarDefaultSkeletonSize = CGSize(width: 56, height: 28)
+        let toolbarLargeSkeletonSize = CGSize(width: 100, height: 28)
     }
 }
 
@@ -20,13 +21,22 @@ struct GamificationToolbarContent: ToolbarContent {
             switch stateKs {
             case .idle, .loading:
                 HStack {
-                    SkeletonRoundedView(appearance: .init(size: appearance.toolbarSkeletonSize))
-                    SkeletonRoundedView(appearance: .init(size: appearance.toolbarSkeletonSize))
+                    SkeletonRoundedView(appearance: .init(size: appearance.toolbarLargeSkeletonSize))
+                    SkeletonRoundedView(appearance: .init(size: appearance.toolbarDefaultSkeletonSize))
+                    SkeletonRoundedView(appearance: .init(size: appearance.toolbarDefaultSkeletonSize))
                 }
             case .error:
                 HStack {}
             case .content(let data):
                 HStack {
+                    if let trackWithProgress = data.trackWithProgress {
+                        ProgressBarButtonItem(
+                            progress: Float(trackWithProgress.averageProgress) / 100,
+                            isCompleted: trackWithProgress.trackProgress.isCompleted,
+                            onTap: {}
+                        )
+                    }
+
                     if let streak = data.streak {
                         StreakBarButtonItem(
                             currentStreak: Int(streak.currentStreak),
