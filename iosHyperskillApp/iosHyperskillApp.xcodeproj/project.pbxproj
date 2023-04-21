@@ -226,6 +226,7 @@
 		2C9B66C427ECA73700569645 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9B66C327ECA73700569645 /* AppDelegate.swift */; };
 		2C9CC1BD280920B5006604D7 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9CC1BC280920B5006604D7 /* KeyboardManager.swift */; };
 		2C9CC1BF28092E06006604D7 /* AuthAdaptiveContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9CC1BE28092E06006604D7 /* AuthAdaptiveContentView.swift */; };
+		2C9D493D29F07015000599AB /* StudyPlanSectionContentErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9D493C29F07015000599AB /* StudyPlanSectionContentErrorView.swift */; };
 		2C9E5E8429B2156D003AEC16 /* StageImplementAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9E5E8329B2156D003AEC16 /* StageImplementAssembly.swift */; };
 		2C9E5E8629B215CA003AEC16 /* StageImplementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9E5E8529B215CA003AEC16 /* StageImplementViewModel.swift */; };
 		2C9E5E8829B215D7003AEC16 /* StageImplementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9E5E8729B215D7003AEC16 /* StageImplementView.swift */; };
@@ -692,6 +693,7 @@
 		2C9B66C327ECA73700569645 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C9CC1BC280920B5006604D7 /* KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
 		2C9CC1BE28092E06006604D7 /* AuthAdaptiveContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAdaptiveContentView.swift; sourceTree = "<group>"; };
+		2C9D493C29F07015000599AB /* StudyPlanSectionContentErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanSectionContentErrorView.swift; sourceTree = "<group>"; };
 		2C9E5E8329B2156D003AEC16 /* StageImplementAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageImplementAssembly.swift; sourceTree = "<group>"; };
 		2C9E5E8529B215CA003AEC16 /* StageImplementViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageImplementViewModel.swift; sourceTree = "<group>"; };
 		2C9E5E8729B215D7003AEC16 /* StageImplementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageImplementView.swift; sourceTree = "<group>"; };
@@ -2740,6 +2742,7 @@
 		E9F0A2A829D416C400C4A61E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2C9D493C29F07015000599AB /* StudyPlanSectionContentErrorView.swift */,
 				E9AB310E29DECC7500645376 /* StudyPlanSectionHeaderStatisticsView.swift */,
 				E9F0A2A929D417C800C4A61E /* StudyPlanSectionHeaderView.swift */,
 				E9F0A2AD29D4390400C4A61E /* StudyPlanSectionView.swift */,
@@ -3381,6 +3384,7 @@
 				2CDA98412944512D00ADE539 /* ProfileSkeletonView.swift in Sources */,
 				2CEDE70729965B4D0032D399 /* RestartApplicationLocalNotification.swift in Sources */,
 				2CDA98432944524D00ADE539 /* HomeSkeletonView.swift in Sources */,
+				2C9D493D29F07015000599AB /* StudyPlanSectionContentErrorView.swift in Sources */,
 				2C336D262865E39D00C91342 /* CodeInputAccessoryView.swift in Sources */,
 				2C20FBAC284F1964006D879E /* HTMLExtractor.swift in Sources */,
 				2C97E55A2859A2C500EA1A21 /* StepQuizNameView.swift in Sources */,

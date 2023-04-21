@@ -5,7 +5,7 @@ import org.hyperskill.app.core.view.mapper.DateFormatter
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
-import org.hyperskill.app.study_plan.widget.presentation.firstSection
+import org.hyperskill.app.study_plan.widget.presentation.firstVisibleSection
 import org.hyperskill.app.study_plan.widget.presentation.getSectionActivities
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState.SectionContent
 
@@ -19,7 +19,7 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
         }
 
     private fun getLoadedWidgetContent(state: StudyPlanWidgetFeature.State): StudyPlanWidgetViewState.Content {
-        val firstSectionId = state.firstSection()?.id
+        val firstVisibleSectionId = state.firstVisibleSection()?.id
 
         return StudyPlanWidgetViewState.Content(
             sections = state.studyPlan?.sections?.mapNotNull { sectionId ->
@@ -33,7 +33,7 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
                         state = state,
                         sectionInfo = sectionInfo
                     ),
-                    formattedTopicsCount = if (firstSectionId == section.id) {
+                    formattedTopicsCount = if (firstVisibleSectionId == section.id) {
                         formatTopicsCount(
                             completedTopicsCount = section.completedTopicsCount,
                             topicsCount = section.topicsCount
@@ -41,7 +41,7 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
                     } else {
                         null
                     },
-                    formattedTimeToComplete = if (firstSectionId == section.id) {
+                    formattedTimeToComplete = if (firstVisibleSectionId == section.id) {
                         section.secondsToComplete
                             ?.roundToLong()
                             ?.let(dateFormatter::hoursWithMinutesCount)

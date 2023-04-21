@@ -11,8 +11,10 @@ struct StudyPlanSectionView: View {
     private(set) var apperance = Appearance()
 
     let section: StudyPlanWidgetViewStateSection
+
     let onSectionTap: (Int64) -> Void
     let onActivityTap: (Int64) -> Void
+    let onRetryActivitiesLoadingTap: (Int64) -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
@@ -22,8 +24,12 @@ struct StudyPlanSectionView: View {
             )
 
             switch StudyPlanWidgetViewStateSectionContentKs(section.content) {
-            case .collapsed, .error:
+            case .collapsed:
                 EmptyView()
+            case .error:
+                StudyPlanSectionContentErrorView {
+                    onRetryActivitiesLoadingTap(section.id)
+                }
             case .loading:
                 SkeletonRoundedView()
                     .frame(height: apperance.skeletonHeight)
@@ -45,7 +51,8 @@ struct StudyPlanSectionView_Previews: PreviewProvider {
         StudyPlanSectionView(
             section: StudyPlanWidgetViewStateSection.makePlaceholder(),
             onSectionTap: { _ in },
-            onActivityTap: { _ in }
+            onActivityTap: { _ in },
+            onRetryActivitiesLoadingTap: { _ in }
         )
         .padding()
         .background(Color(ColorPalette.background))

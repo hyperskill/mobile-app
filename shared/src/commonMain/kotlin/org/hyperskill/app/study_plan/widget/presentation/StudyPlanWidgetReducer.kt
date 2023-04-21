@@ -28,7 +28,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 state.copy(
                     studyPlanSections = state.studyPlanSections.mapValues { (sectionId, sectionInfo) ->
                         sectionInfo.copy(
-                            contentStatus = if (sectionId == state.firstSection()?.id) {
+                            contentStatus = if (sectionId == state.firstVisibleSection()?.id) {
                                 sectionInfo.contentStatus
                             } else {
                                 StudyPlanWidgetFeature.ContentStatus.IDLE
