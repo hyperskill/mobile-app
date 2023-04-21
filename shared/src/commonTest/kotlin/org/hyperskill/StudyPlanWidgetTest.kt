@@ -2,11 +2,6 @@ package org.hyperskill
 
 import dev.icerock.moko.resources.PluralsResource
 import dev.icerock.moko.resources.StringResource
-import kotlin.test.Test
-import kotlin.test.assertContains
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
-import kotlin.test.fail
 import org.hyperskill.app.core.view.mapper.DateFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
@@ -22,6 +17,11 @@ import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
 import org.hyperskill.app.study_plan.widget.presentation.firstVisibleSection
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewStateMapper
+import kotlin.test.Test
+import kotlin.test.assertContains
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
+import kotlin.test.fail
 
 class StudyPlanWidgetTest {
 
@@ -625,6 +625,30 @@ class StudyPlanWidgetTest {
         assertTrue(actions.isEmpty())
     }
 
+    @Test
+    fun `Click on learn topic activity with ide required should navigate to ide required screen`() {
+        val activityId = 0L
+        val state = StudyPlanWidgetFeature.State(
+            studyPlan = studyPlanStub(id = 0),
+            activities = mapOf(
+                activityId to stubLearningActivity(
+                    activityId,
+                    isCurrent = true,
+                    type = LearningActivityType.IMPLEMENT_STAGE,
+                    targetType = LearningActivityTargetType.STEP,
+                    targetId = 1L,
+                    isIdeRequired = true
+                )
+            )
+        )
+
+        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+
+        assertEquals(state, newState)
+
+        assertContains(actions, StudyPlanWidgetFeature.Action.ViewAction.ShowStageImplementUnsupportedModal)
+    }
+
     private fun sectionViewState(section: StudyPlanSection, content: StudyPlanWidgetViewState.SectionContent) =
         StudyPlanWidgetViewState.Section(
             id = section.id,
@@ -678,7 +702,8 @@ class StudyPlanWidgetTest {
         type: LearningActivityType = LearningActivityType.LEARN_TOPIC,
         targetType: LearningActivityTargetType = LearningActivityTargetType.STEP,
         isCurrent: Boolean = false,
-        title: String = ""
+        title: String = "",
+        isIdeRequired: Boolean = false
     ) =
         LearningActivity(
             id = id,
@@ -687,13 +712,15 @@ class StudyPlanWidgetTest {
             typeValue = type.value,
             isCurrent = isCurrent,
             targetTypeValue = targetType.value,
-            title = title
+            title = title,
+            isIdeRequired = isIdeRequired
         )
 
     private fun studyPlanSectionItemStub(
         activityId: Long,
         title: String = "",
-        state: StudyPlanWidgetViewState.SectionItemState = StudyPlanWidgetViewState.SectionItemState.LOCKED
+        state: StudyPlanWidgetViewState.SectionItemState = StudyPlanWidgetViewState.SectionItemState.LOCKED,
+        isIdeRequired: Boolean = false
     ) =
         StudyPlanWidgetViewState.SectionItem(
             id = activityId,
@@ -701,6 +728,7 @@ class StudyPlanWidgetTest {
             formattedProgress = null,
             progress = null,
             state = state,
+            isIdeRequired = isIdeRequired,
             hypercoinsAward = null
         )
 }

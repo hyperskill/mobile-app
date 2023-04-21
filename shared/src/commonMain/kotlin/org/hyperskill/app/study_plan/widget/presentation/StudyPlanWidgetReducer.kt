@@ -3,6 +3,9 @@ package org.hyperskill.app.study_plan.widget.presentation
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.study_plan.domain.analytics.stage_implement_unsupported_modal.StageImplementUnsupportedModalClickedGoToHomeScreenHyperskillAnalyticEvent
+import org.hyperskill.app.study_plan.domain.analytics.stage_implement_unsupported_modal.StageImplementUnsupportedModalHiddenHyperskillAnalyticEvent
+import org.hyperskill.app.study_plan.domain.analytics.stage_implement_unsupported_modal.StageImplementUnsupportedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.model.StudyPlanStatus
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Action
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalAction
@@ -61,6 +64,21 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             is Message.SectionClicked ->
                 changeSectionExpanse(state, message.sectionId)
             is Message.ActivityClicked -> handleActivityClicked(state, message.activityId)
+            Message.StageImplementUnsupportedModalGoToHomeClicked ->
+                state to setOf(
+                    InternalAction.LogAnalyticEvent(
+                        StageImplementUnsupportedModalClickedGoToHomeScreenHyperskillAnalyticEvent
+                    ),
+                    Action.ViewAction.NavigateTo.Home
+                )
+            Message.StageImplementUnsupportedModalHiddenEventMessage ->
+                state to setOf(
+                    InternalAction.LogAnalyticEvent(StageImplementUnsupportedModalHiddenHyperskillAnalyticEvent)
+                )
+            Message.StageImplementUnsupportedModalShownEventMessage ->
+                state to setOf(
+                    InternalAction.LogAnalyticEvent(StageImplementUnsupportedModalShownHyperskillAnalyticEvent)
+                )
         } ?: (state to emptySet())
 
     private fun coldContentFetch(): StudyPlanWidgetReducerResult =
@@ -214,7 +232,11 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
 
     private fun handleActivityClicked(state: State, activityId: Long): StudyPlanWidgetReducerResult {
         val activity = state.activities[activityId]
+
         if (activity?.isCurrent != true) return state to emptySet()
+
+        if (activity.isIdeRequired) return state to setOf(Action.ViewAction.ShowStageImplementUnsupportedModal)
+
         val action = when (activity.type) {
             LearningActivityType.IMPLEMENT_STAGE -> {
                 val projectId = state.studyPlan?.projectId

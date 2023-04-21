@@ -88,3 +88,37 @@ final class StudyPlanViewModel: FeatureViewModel<
         onNewMessage(StudyPlanScreenFeatureMessageViewedEventMessage())
     }
 }
+
+extension StudyPlanViewModel: StageImplementUnsupportedModalViewControllerDelegate {
+    func stageImplementUnsupportedModalViewControllerViewControllerDidAppear(
+        _ viewController: StageImplementUnsupportedModalViewController
+    ) {
+        onNewMessage(
+            StudyPlanScreenFeatureMessageStudyPlanWidgetMessage(
+                message: StudyPlanWidgetFeatureMessageStageImplementUnsupportedModalShownEventMessage()
+            )
+        )
+    }
+
+    func stageImplementUnsupportedModalViewControllerDidDisappear(
+        _ viewController: StageImplementUnsupportedModalViewController
+    ) {
+        onNewMessage(
+            StudyPlanScreenFeatureMessageStudyPlanWidgetMessage(
+                message: StudyPlanWidgetFeatureMessageStageImplementUnsupportedModalHiddenEventMessage()
+            )
+        )
+    }
+
+    func stageImplementUnsupportedModalViewControllerDidTapGoToHomescreenButton(
+        _ viewController: StageImplementUnsupportedModalViewController
+    ) {
+        viewController.dismiss(animated: true)
+
+        onNewMessage(
+            StudyPlanScreenFeatureMessageStudyPlanWidgetMessage(
+                message: StudyPlanWidgetFeatureMessageStageImplementUnsupportedModalGoToHomeClicked()
+            )
+        )
+    }
+}
