@@ -25,6 +25,9 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
             sections = state.studyPlan?.sections?.mapNotNull { sectionId ->
                 val sectionInfo = state.studyPlanSections[sectionId] ?: return@mapNotNull null
                 val section = sectionInfo.studyPlanSection
+
+                val shouldShowSectionStatistics = firstVisibleSectionId == section.id || sectionInfo.isExpanded
+
                 StudyPlanWidgetViewState.Section(
                     id = section.id,
                     title = section.title,
@@ -33,7 +36,7 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
                         state = state,
                         sectionInfo = sectionInfo
                     ),
-                    formattedTopicsCount = if (firstVisibleSectionId == section.id) {
+                    formattedTopicsCount = if (shouldShowSectionStatistics) {
                         formatTopicsCount(
                             completedTopicsCount = section.completedTopicsCount,
                             topicsCount = section.topicsCount
@@ -41,7 +44,7 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
                     } else {
                         null
                     },
-                    formattedTimeToComplete = if (firstVisibleSectionId == section.id) {
+                    formattedTimeToComplete = if (shouldShowSectionStatistics) {
                         section.secondsToComplete
                             ?.roundToLong()
                             ?.let(dateFormatter::hoursWithMinutesCount)
