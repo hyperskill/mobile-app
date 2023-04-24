@@ -2,3 +2,4 @@ What to Test:
 1. Reload study-plan every screen entering ALTAPPS-662
 2. Base study plan UI ALTAPPS-670
 3. Study plan reload activities UI ALTAPPS-704
+4. Fix study plan section statistics visibility ALTAPPS-715
