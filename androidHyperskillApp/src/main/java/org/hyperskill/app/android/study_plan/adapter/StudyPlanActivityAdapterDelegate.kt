@@ -63,6 +63,10 @@ class StudyPlanActivityAdapterDelegate(
                 }
             }
 
+            with(binding.activityIdeRequiredTextView) {
+                isVisible = data.isIdeRequired
+            }
+
             binding.activityEndIcon.setImageDrawable(data.endIcon)
 
             itemView.isClickable = data.isClickable

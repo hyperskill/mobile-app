@@ -21,6 +21,7 @@ final class StudyPlanAssembly: UIKitAssembly {
         )
 
         stackRouter.rootViewController = hostingController
+        panModalPresenter.rootViewController = hostingController
 
         return hostingController
     }

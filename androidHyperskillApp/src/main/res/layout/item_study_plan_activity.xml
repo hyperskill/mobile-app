@@ -49,7 +49,7 @@
             android:ellipsize="end"
             app:layout_constraintStart_toStartOf="@+id/startGuideline"
             app:layout_constraintTop_toTopOf="@+id/topGuideline"
-            app:layout_constraintBottom_toTopOf="@+id/activityCompletenessTextView"
+            app:layout_constraintBottom_toTopOf="@+id/activityBadges"
             app:layout_constraintEnd_toStartOf="@+id/activityEndIcon"
             android:layout_marginEnd="8dp"
             tools:text="Introduction to Command Line Introduction to Command Line Introduction to Command Line Introduction to Command Line"/>
@@ -65,19 +65,38 @@
             app:layout_constraintVertical_bias="0"
             tools:ignore="ContentDescription" />
 
-        <TextView
-            android:id="@+id/activityCompletenessTextView"
+        <LinearLayout
+            android:id="@+id/activityBadges"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/activityTitle"
             app:layout_constraintStart_toStartOf="@+id/startGuideline"
-            app:layout_constraintBottom_toBottomOf="@+id/bottomGuideline"
-            android:textColor="@color/color_secondary"
-            android:background="@drawable/bg_activity_percentage"
-            android:padding="4dp"
-            android:layout_marginTop="8dp"
-            tools:text="87%"
-            />
+            app:layout_constraintBottom_toBottomOf="@+id/bottomGuideline">
+            <TextView
+                android:id="@+id/activityCompletenessTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_secondary"
+                android:background="@drawable/bg_activity_percentage"
+                android:paddingVertical="4dp"
+                android:paddingHorizontal="8dp"
+                tools:text="87%"
+                />
+
+            <TextView
+                android:id="@+id/activityIdeRequiredTextView"
+                android:text="@string/stage_implement_unsupported_modal_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_overlay_violet"
+                android:background="@drawable/bg_activity_ide_required"
+                android:paddingVertical="4dp"
+                android:paddingHorizontal="8dp"
+                tools:text="87%"
+                />
+        </LinearLayout>
 
         <View
             android:id="@+id/activityCompletenessView"

@@ -626,7 +626,7 @@ class StudyPlanWidgetTest {
     }
 
     @Test
-    fun `Click on learn topic activity with ide required should navigate to ide required screen`() {
+    fun `Click on implement stage activity with ide required should show unsupported modal`() {
         val activityId = 0L
         val state = StudyPlanWidgetFeature.State(
             studyPlan = studyPlanStub(id = 0),
@@ -635,7 +635,7 @@ class StudyPlanWidgetTest {
                     activityId,
                     isCurrent = true,
                     type = LearningActivityType.IMPLEMENT_STAGE,
-                    targetType = LearningActivityTargetType.STEP,
+                    targetType = LearningActivityTargetType.STAGE,
                     targetId = 1L,
                     isIdeRequired = true
                 )

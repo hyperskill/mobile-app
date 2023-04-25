@@ -89,6 +89,8 @@ final class StudyPlanViewModel: FeatureViewModel<
     }
 }
 
+// MARK: - StudyPlanViewModel: StageImplementUnsupportedModalViewControllerDelegate -
+
 extension StudyPlanViewModel: StageImplementUnsupportedModalViewControllerDelegate {
     func stageImplementUnsupportedModalViewControllerViewControllerDidAppear(
         _ viewController: StageImplementUnsupportedModalViewController

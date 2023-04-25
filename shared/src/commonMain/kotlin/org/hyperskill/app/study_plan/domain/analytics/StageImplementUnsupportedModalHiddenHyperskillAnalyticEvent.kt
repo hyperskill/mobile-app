@@ -1,4 +1,4 @@
-package org.hyperskill.app.study_plan.domain.analytics.stage_implement_unsupported_modal
+package org.hyperskill.app.study_plan.domain.analytics
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -20,7 +20,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * ```
  * @see HyperskillAnalyticEvent
  */
-object StageImplementUnsupportedModalHiddenHyperskillAnalyticEvent : HyperskillAnalyticEvent(
+class StageImplementUnsupportedModalHiddenHyperskillAnalyticEvent : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.StudyPlan(),
     HyperskillAnalyticAction.HIDDEN,
     HyperskillAnalyticPart.STAGE_IMPLEMENT_UNSUPPORTED_MODAL,

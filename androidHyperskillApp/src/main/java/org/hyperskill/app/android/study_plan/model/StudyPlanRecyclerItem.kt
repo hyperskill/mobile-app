@@ -27,6 +27,7 @@ sealed interface StudyPlanRecyclerItem {
         val progress: Float?,
         val formattedProgress: String?,
         val endIcon: Drawable?,
-        val isClickable: Boolean
+        val isClickable: Boolean,
+        val isIdeRequired: Boolean
     ) : StudyPlanRecyclerItem
 }
