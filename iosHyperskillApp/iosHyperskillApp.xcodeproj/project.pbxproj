@@ -412,7 +412,7 @@
 		E9A6250D28ABAE30009423EE /* OnboardingAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A6250C28ABAE30009423EE /* OnboardingAssembly.swift */; };
 		E9A6250F28ABAE83009423EE /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A6250E28ABAE83009423EE /* OnboardingViewModel.swift */; };
 		E9AB310F29DECC7500645376 /* StudyPlanSectionHeaderStatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AB310E29DECC7500645376 /* StudyPlanSectionHeaderStatisticsView.swift */; };
-		E9AB311129DECD0D00645376 /* StudyPlanSectionItemProgressBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AB311029DECD0D00645376 /* StudyPlanSectionItemProgressBadgeView.swift */; };
+		E9AB311129DECD0D00645376 /* StudyPlanSectionItemBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AB311029DECD0D00645376 /* StudyPlanSectionItemBadgeView.swift */; };
 		E9AB311429DED7FE00645376 /* StudyPlanSectionItemIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AB311329DED7FE00645376 /* StudyPlanSectionItemIconView.swift */; };
 		E9ACD3412937342F0005E05B /* ProblemOfDaySolvedModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9ACD3402937342F0005E05B /* ProblemOfDaySolvedModalViewController.swift */; };
 		E9AD65AA292DC0BE00E574F0 /* TopicsRepetitionsFeatureStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AD65A9292DC0BE00E574F0 /* TopicsRepetitionsFeatureStateKsExtensions.swift */; };
@@ -883,7 +883,7 @@
 		E9A6250C28ABAE30009423EE /* OnboardingAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingAssembly.swift; sourceTree = "<group>"; };
 		E9A6250E28ABAE83009423EE /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		E9AB310E29DECC7500645376 /* StudyPlanSectionHeaderStatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanSectionHeaderStatisticsView.swift; sourceTree = "<group>"; };
-		E9AB311029DECD0D00645376 /* StudyPlanSectionItemProgressBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanSectionItemProgressBadgeView.swift; sourceTree = "<group>"; };
+		E9AB311029DECD0D00645376 /* StudyPlanSectionItemBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanSectionItemBadgeView.swift; sourceTree = "<group>"; };
 		E9AB311329DED7FE00645376 /* StudyPlanSectionItemIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanSectionItemIconView.swift; sourceTree = "<group>"; };
 		E9ACD3402937342F0005E05B /* ProblemOfDaySolvedModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDaySolvedModalViewController.swift; sourceTree = "<group>"; };
 		E9AD65A9292DC0BE00E574F0 /* TopicsRepetitionsFeatureStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsRepetitionsFeatureStateKsExtensions.swift; sourceTree = "<group>"; };
@@ -2656,8 +2656,8 @@
 		E9AB311229DED7E400645376 /* StudyPlanSectionItem */ = {
 			isa = PBXGroup;
 			children = (
+				E9AB311029DECD0D00645376 /* StudyPlanSectionItemBadgeView.swift */,
 				E9AB311329DED7FE00645376 /* StudyPlanSectionItemIconView.swift */,
-				E9AB311029DECD0D00645376 /* StudyPlanSectionItemProgressBadgeView.swift */,
 				E9F0A2AB29D4355B00C4A61E /* StudyPlanSectionItemView.swift */,
 			);
 			path = StudyPlanSectionItem;
@@ -3340,7 +3340,7 @@
 				2C023C88285D928100D2D5A9 /* StepQuizTableViewModel.swift in Sources */,
 				E99B21872887E9C5006A6154 /* StepQuizSortingSkeletonView.swift in Sources */,
 				2CAE8D0C2805829A00E6C83D /* StepViewData.swift in Sources */,
-				E9AB311129DECD0D00645376 /* StudyPlanSectionItemProgressBadgeView.swift in Sources */,
+				E9AB311129DECD0D00645376 /* StudyPlanSectionItemBadgeView.swift in Sources */,
 				2C079681285CEEFE00EE0487 /* StepQuizMatchingViewModel.swift in Sources */,
 				E9AD65AA292DC0BE00E574F0 /* TopicsRepetitionsFeatureStateKsExtensions.swift in Sources */,
 				2C23C00D2879F2290083709F /* StreakView.swift in Sources */,

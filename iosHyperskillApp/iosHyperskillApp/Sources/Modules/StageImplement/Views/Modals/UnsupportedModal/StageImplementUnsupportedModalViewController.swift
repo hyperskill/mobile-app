@@ -2,7 +2,7 @@ import PanModal
 import UIKit
 
 protocol StageImplementUnsupportedModalViewControllerDelegate: AnyObject {
-    func stageImplementUnsupportedModalViewControllerViewControllerDidAppear(
+    func stageImplementUnsupportedModalViewControllerDidAppear(
         _ viewController: StageImplementUnsupportedModalViewController
     )
 
@@ -51,7 +51,7 @@ final class StageImplementUnsupportedModalViewController: PanModalPresentableVie
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        delegate?.stageImplementUnsupportedModalViewControllerViewControllerDidAppear(self)
+        delegate?.stageImplementUnsupportedModalViewControllerDidAppear(self)
     }
 
     override func viewDidDisappear(_ animated: Bool) {

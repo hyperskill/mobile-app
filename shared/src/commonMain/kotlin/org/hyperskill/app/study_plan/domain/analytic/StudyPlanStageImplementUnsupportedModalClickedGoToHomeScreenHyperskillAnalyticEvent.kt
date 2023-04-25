@@ -20,7 +20,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * ```
  * @see HyperskillAnalyticEvent
  */
-class StageImplementUnsupportedModalClickedGoToHomeScreenHyperskillAnalyticEvent : HyperskillAnalyticEvent(
+class StudyPlanStageImplementUnsupportedModalClickedGoToHomeScreenHyperskillAnalyticEvent : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.StudyPlan(),
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.STAGE_IMPLEMENT_UNSUPPORTED_MODAL,

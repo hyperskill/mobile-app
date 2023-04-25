@@ -1,5 +1,6 @@
 package org.hyperskill.app.study_plan.widget.view
 
+import kotlin.math.roundToLong
 import org.hyperskill.app.core.view.mapper.DateFormatter
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
@@ -7,7 +8,6 @@ import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.firstVisibleSection
 import org.hyperskill.app.study_plan.widget.presentation.getSectionActivities
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState.SectionContent
-import kotlin.math.roundToLong
 
 class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
     fun map(state: StudyPlanWidgetFeature.State): StudyPlanWidgetViewState =

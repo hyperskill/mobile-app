@@ -24,7 +24,7 @@ internal class StudyPlanScreenReducer(
                 handleInitializeMessage(state, message)
             }
             is StudyPlanScreenFeature.Message.PullToRefresh -> {
-                val (widgetState, widgetActions)  = reduceStudyPlanWidgetMessage(
+                val (widgetState, widgetActions) = reduceStudyPlanWidgetMessage(
                     state.studyPlanWidgetState,
                     StudyPlanWidgetFeature.Message.PullToRefresh
                 )
@@ -44,7 +44,7 @@ internal class StudyPlanScreenReducer(
                 )
             }
             is StudyPlanScreenFeature.Message.ScreenBecomesActive -> {
-                val (widgetState, widgetActions)  = reduceStudyPlanWidgetMessage(
+                val (widgetState, widgetActions) = reduceStudyPlanWidgetMessage(
                     state.studyPlanWidgetState,
                     StudyPlanWidgetFeature.Message.ReloadContentInBackground
                 )
@@ -53,7 +53,6 @@ internal class StudyPlanScreenReducer(
                     studyPlanWidgetState = widgetState,
                 ) to widgetActions
             }
-
             is StudyPlanScreenFeature.Message.GamificationToolbarMessage -> {
                 val (toolbarState, toolbarActions) =
                     reduceToolbarMessage(state.toolbarState, message.message)
@@ -64,7 +63,7 @@ internal class StudyPlanScreenReducer(
                     reduceStudyPlanWidgetMessage(state.studyPlanWidgetState, message.message)
                 state.copy(studyPlanWidgetState = widgetState) to widgetActions
             }
-            StudyPlanScreenFeature.Message.ViewedEventMessage -> {
+            is StudyPlanScreenFeature.Message.ViewedEventMessage -> {
                 state to setOf(
                     StudyPlanScreenFeature.InternalAction.LogAnalyticEvent(
                         StudyPlanViewedHyperskillAnalyticEvent()

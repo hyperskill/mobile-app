@@ -119,7 +119,7 @@ class StudyPlanFragment :
             }
             is StudyPlanScreenFeature.Action.ViewAction.StudyPlanWidgetViewAction -> {
                 when (val viewAction = action.viewAction) {
-                    is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.StageImplementation -> {
+                    is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.StageImplement -> {
                         requireRouter().navigateTo(
                             StageImplementationScreen(
                                 projectId = viewAction.projectId,
@@ -130,11 +130,11 @@ class StudyPlanFragment :
                     is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.StepScreen -> {
                         requireRouter().navigateTo(StepScreen(viewAction.stepRoute))
                     }
-                    StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.Home -> {
-                        // TODO: implement navigation to home screen
+                    is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.Home -> {
+                        // TODO: ALTAPPS-728 implement navigation to home screen
                     }
-                    StudyPlanWidgetFeature.Action.ViewAction.ShowStageImplementUnsupportedModal -> {
-                        // TODO: implement showing modal
+                    is StudyPlanWidgetFeature.Action.ViewAction.ShowStageImplementUnsupportedModal -> {
+                        // TODO: ALTAPPS-728 implement showing modal
                     }
                 }
             }
