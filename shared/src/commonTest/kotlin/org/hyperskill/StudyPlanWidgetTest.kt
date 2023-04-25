@@ -724,7 +724,7 @@ class StudyPlanWidgetTest {
     fun `Click on implement stage activity with ide required should show unsupported modal`() {
         val activityId = 0L
         val state = StudyPlanWidgetFeature.State(
-            studyPlan = studyPlanStub(id = 0),
+            studyPlan = studyPlanStub(id = 0, projectId = 1L),
             activities = mapOf(
                 activityId to stubLearningActivity(
                     activityId,
@@ -732,7 +732,7 @@ class StudyPlanWidgetTest {
                     type = LearningActivityType.IMPLEMENT_STAGE,
                     targetType = LearningActivityTargetType.STAGE,
                     targetId = 1L,
-                    isIdeRequired = true
+                    isIdeRequired = true,
                 )
             )
         )
