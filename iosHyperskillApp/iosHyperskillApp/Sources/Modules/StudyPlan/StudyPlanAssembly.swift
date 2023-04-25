@@ -9,13 +9,19 @@ final class StudyPlanAssembly: UIKitAssembly {
         )
 
         let stackRouter = SwiftUIStackRouter()
-        let trackView = StudyPlanView(viewModel: viewModel, stackRouter: stackRouter)
+        let panModalPresenter = PanModalPresenter()
+        let trackView = StudyPlanView(
+            viewModel: viewModel,
+            stackRouter: stackRouter,
+            panModalPresenter: panModalPresenter
+        )
         let hostingController = StyledHostingController(
             rootView: trackView,
             appearance: .leftAlignedNavigationBarTitle
         )
 
         stackRouter.rootViewController = hostingController
+        panModalPresenter.rootViewController = hostingController
 
         return hostingController
     }

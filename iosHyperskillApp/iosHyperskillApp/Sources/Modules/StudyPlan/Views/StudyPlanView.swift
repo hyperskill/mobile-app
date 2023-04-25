@@ -16,6 +16,8 @@ struct StudyPlanView: View {
 
     @StateObject var stackRouter: SwiftUIStackRouter
 
+    @StateObject var panModalPresenter: PanModalPresenter
+
     @State private var viewAppearsFirstTime = true
 
     var body: some View {
@@ -116,6 +118,8 @@ struct StudyPlanView: View {
             }
         case .studyPlanWidgetViewAction(let studyPlanWidgetViewAction):
             switch StudyPlanWidgetFeatureActionViewActionKs(studyPlanWidgetViewAction.viewAction) {
+            case .showStageImplementUnsupportedModal:
+                presentStageImplementUnsupportedModal()
             case .navigateTo(let navigateToViewAction):
                 switch StudyPlanWidgetFeatureActionViewActionNavigateToKs(navigateToViewAction) {
                 case .stageImplementation(let navigateToStageImplementationViewAction):
@@ -127,9 +131,21 @@ struct StudyPlanView: View {
                 case .stepScreen(let navigateToStepScreenViewAction):
                     let assembly = StepAssembly(stepRoute: navigateToStepScreenViewAction.stepRoute)
                     stackRouter.pushViewController(assembly.makeModule())
+                case .home:
+                    TabBarRouter(tab: .home).route()
                 }
             }
         }
+    }
+}
+
+// MARK: - StudyPlanView (Modals) -
+
+extension StudyPlanView {
+    private func presentStageImplementUnsupportedModal() {
+        let panModal = StageImplementUnsupportedModalViewController(delegate: viewModel)
+
+        panModalPresenter.presentPanModal(panModal)
     }
 }
 

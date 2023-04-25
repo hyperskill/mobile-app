@@ -1,7 +1,6 @@
 package org.hyperskill.app.study_plan.widget.presentation
 
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.seconds
+import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
@@ -9,6 +8,8 @@ import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.track.domain.model.Track
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 object StudyPlanWidgetFeature {
 
@@ -68,6 +69,17 @@ object StudyPlanWidgetFeature {
         object ReloadContentInBackground : Message
 
         object PullToRefresh : Message
+
+        /**
+         * Show stage implement unsupported modal
+         */
+        object StageImplementUnsupportedModalGoToHomeClicked : Message
+
+        /**
+         * Analytic
+         */
+        object StageImplementUnsupportedModalShownEventMessage : Message
+        object StageImplementUnsupportedModalHiddenEventMessage : Message
     }
 
     internal sealed interface StudyPlanFetchResult : Message {
@@ -103,6 +115,8 @@ object StudyPlanWidgetFeature {
 
     sealed interface Action {
         sealed interface ViewAction : Action {
+            object ShowStageImplementUnsupportedModal : ViewAction
+
             sealed interface NavigateTo : ViewAction {
                 data class StageImplementation(
                     val stageId: Long,
@@ -110,6 +124,8 @@ object StudyPlanWidgetFeature {
                 ) : NavigateTo
 
                 data class StepScreen(val stepRoute: StepRoute) : NavigateTo
+
+                object Home : NavigateTo
             }
         }
     }
@@ -138,5 +154,10 @@ object StudyPlanWidgetFeature {
         ) : InternalAction
 
         data class FetchTrack(val trackId: Long) : InternalAction
+
+        /**
+         * Analytic
+         */
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }
 }

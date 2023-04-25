@@ -130,6 +130,12 @@ class StudyPlanFragment :
                     is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.StepScreen -> {
                         requireRouter().navigateTo(StepScreen(viewAction.stepRoute))
                     }
+                    StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.Home -> {
+                        // TODO: implement navigation to home screen
+                    }
+                    StudyPlanWidgetFeature.Action.ViewAction.ShowStageImplementUnsupportedModal -> {
+                        // TODO: implement showing modal
+                    }
                 }
             }
         }

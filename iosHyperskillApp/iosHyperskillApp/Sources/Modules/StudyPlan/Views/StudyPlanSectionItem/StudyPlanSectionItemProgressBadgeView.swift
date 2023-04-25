@@ -1,33 +1,66 @@
 import SwiftUI
 
-extension StudyPlanSectionItemProgressBadgeView {
+extension StudyPlanSectionItemBadgeView {
     struct Appearance {
-        let foregroundColor = Color(ColorPalette.secondary)
-        let backgroundColor = Color(ColorPalette.overlayGreenAlpha12)
         let cornerRadius: CGFloat = 4
         let insets = LayoutInsets(horizontal: 8, vertical: 4)
     }
 }
 
-struct StudyPlanSectionItemProgressBadgeView: View {
+struct StudyPlanSectionItemBadgeView: View {
     private(set) var appearance = Appearance()
 
-    let formattedProgress: String
+    let text: String
+
+    let style: Style
 
     var body: some View {
-        Text(formattedProgress)
+        Text(text)
             .font(.caption)
-            .foregroundColor(appearance.foregroundColor)
+            .foregroundColor(style.foregroundColor)
             .padding(appearance.insets.edgeInsets)
-            .background(appearance.backgroundColor)
+            .background(style.backgroundColor)
             .cornerRadius(appearance.cornerRadius)
+    }
+
+    enum Style {
+        case violet
+        case green
+
+        var foregroundColor: Color {
+            switch self {
+            case .green:
+                return Color(ColorPalette.secondary)
+            case .violet:
+                return Color(ColorPalette.overlayViolet)
+            }
+        }
+
+        var backgroundColor: Color {
+            switch self {
+            case .green:
+                return Color(ColorPalette.overlayGreenAlpha12)
+            case .violet:
+                return Color(ColorPalette.overlayVioletAlpha12)
+            }
+        }
     }
 }
 
-struct StudyPlanSectionItemProgressBadgeView_Previews: PreviewProvider {
+struct StudyPlanSectionItemBadgeView_Previews: PreviewProvider {
     static var previews: some View {
-        StudyPlanSectionItemProgressBadgeView(
-            formattedProgress: "50%"
-        )
+        Group {
+            StudyPlanSectionItemBadgeView(
+                text: "50%",
+                style: .green
+            )
+
+            StudyPlanSectionItemBadgeView(
+                text: "IDE Required",
+                style: .violet
+            )
+        }
+        .padding()
+        .previewLayout(.sizeThatFits)
     }
 }
