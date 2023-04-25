@@ -26,5 +26,6 @@ data class StudyPlanSection(
     @SerialName("seconds_to_complete")
     val secondsToComplete: Float? = null,
     @SerialName("activities")
-    val activities: List<Long>
+    val activities: List<Long>,
+    // TODO: add section type field, using enum to detect root topics section
 )

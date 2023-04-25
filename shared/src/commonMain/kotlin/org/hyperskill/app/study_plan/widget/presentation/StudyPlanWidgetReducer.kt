@@ -196,7 +196,8 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                     updateSectionState(StudyPlanWidgetFeature.ContentStatus.LOADING) to setOf(
                         InternalAction.FetchActivities(
                             sectionId = sectionId,
-                            activitiesIds = section.studyPlanSection.activities
+                            activitiesIds = section.studyPlanSection.activities,
+                            // TODO: add parameter for pagination activities
                         )
                     )
                 }

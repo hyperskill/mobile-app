@@ -91,6 +91,7 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
                     title = activity.title.ifBlank { activity.id.toString() },
                     state = when (activity.state) {
                         LearningActivityState.TODO -> if (activity.isCurrent) {
+                            // TODO change detection next activity depending
                             StudyPlanWidgetViewState.SectionItemState.NEXT
                         } else {
                             StudyPlanWidgetViewState.SectionItemState.LOCKED
