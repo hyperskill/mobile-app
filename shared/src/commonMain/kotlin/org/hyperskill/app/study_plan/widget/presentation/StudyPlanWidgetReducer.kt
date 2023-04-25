@@ -239,9 +239,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
 
     private fun handleActivityClicked(state: State, activityId: Long): StudyPlanWidgetReducerResult {
         val activity = state.activities[activityId]
-
         if (activity?.isCurrent != true) return state to emptySet()
-
         val action = when (activity.type) {
             LearningActivityType.IMPLEMENT_STAGE -> {
                 val projectId = state.studyPlan?.projectId
