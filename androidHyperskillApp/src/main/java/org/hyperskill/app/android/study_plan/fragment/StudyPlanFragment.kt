@@ -6,15 +6,11 @@ import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStudyPlanBinding
 import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.GamificationToolbarDelegate
-import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
-import org.hyperskill.app.android.stage_implementation.view.dialog.UnsupportedStageBottomSheet
-import org.hyperskill.app.android.stage_implementation.view.dialog.UnsupportedStageBottomSheet.Companion.newInstance
 import org.hyperskill.app.android.stage_implementation.view.navigation.StageImplementationScreen
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.study_plan.delegate.StudyPlanWidgetDelegate
@@ -25,14 +21,12 @@ import org.hyperskill.app.study_plan.presentation.StudyPlanScreenViewModel
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
 import org.hyperskill.app.study_plan.screen.view.StudyPlanScreenViewState
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
-import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
 class StudyPlanFragment :
     Fragment(R.layout.fragment_study_plan),
-    ReduxView<StudyPlanScreenViewState, StudyPlanScreenFeature.Action.ViewAction>,
-    UnsupportedStageBottomSheet.Callback {
+    ReduxView<StudyPlanScreenViewState, StudyPlanScreenFeature.Action.ViewAction> {
 
     companion object {
         fun newInstance(): StudyPlanFragment =
@@ -137,43 +131,13 @@ class StudyPlanFragment :
                         requireRouter().navigateTo(StepScreen(viewAction.stepRoute))
                     }
                     StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.Home -> {
-                        mainScreenRouter.switch(HomeScreen)
+                        // TODO: implement navigation to home screen
                     }
                     StudyPlanWidgetFeature.Action.ViewAction.ShowStageImplementUnsupportedModal -> {
-                        newInstance()
-                            .showIfNotExists(childFragmentManager, UnsupportedStageBottomSheet.TAG)
+                        // TODO: implement showing modal
                     }
                 }
             }
         }
-    }
-
-    // UnsupportedStageBottomSheet.Callback methods
-
-    override fun onShow() {
-        studyPlanViewModel.onNewMessage(
-            StudyPlanScreenFeature.Message.StudyPlanWidgetMessage(
-                StudyPlanWidgetFeature.Message.StageImplementUnsupportedModalShownEventMessage
-            )
-        )
-    }
-
-    override fun onDismiss() {
-        studyPlanViewModel.onNewMessage(
-            StudyPlanScreenFeature.Message.StudyPlanWidgetMessage(
-                StudyPlanWidgetFeature.Message.StageImplementUnsupportedModalHiddenEventMessage
-            )
-        )
-    }
-
-    override fun onHomeClick() {
-        studyPlanViewModel.onNewMessage(
-            StudyPlanScreenFeature.Message.StudyPlanWidgetMessage(
-                StudyPlanWidgetFeature.Message.StageImplementUnsupportedModalGoToHomeClicked
-            )
-        )
-
-        childFragmentManager
-            .dismissDialogFragmentIfExists(UnsupportedStageBottomSheet.TAG)
     }
 }

@@ -229,8 +229,7 @@ class StudyPlanWidgetDelegate(
                     StudyPlanWidgetViewState.SectionItemState.SKIPPED -> skippedIcon
                     StudyPlanWidgetViewState.SectionItemState.COMPLETED -> completedIcon
                 },
-                isClickable = item.isClickable,
-                isIdeRequired = item.isIdeRequired
+                isClickable = item.isClickable
             )
         }
 }
