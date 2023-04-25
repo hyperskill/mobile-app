@@ -36,6 +36,7 @@ sealed interface StudyPlanWidgetViewState {
         val id: Long,
         val title: String,
         val state: SectionItemState,
+        val isIdeRequired: Boolean,
         val progress: Float?,
         val formattedProgress: String?,
         val hypercoinsAward: Int?

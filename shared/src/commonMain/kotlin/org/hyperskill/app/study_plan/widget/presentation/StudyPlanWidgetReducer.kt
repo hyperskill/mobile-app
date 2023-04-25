@@ -3,6 +3,9 @@ package org.hyperskill.app.study_plan.widget.presentation
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalClickedGoToHomeScreenHyperskillAnalyticEvent
+import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalHiddenHyperskillAnalyticEvent
+import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.model.StudyPlanStatus
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Action
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalAction
@@ -16,15 +19,17 @@ internal typealias StudyPlanWidgetReducerResult = Pair<State, Set<Action>>
 class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): StudyPlanWidgetReducerResult =
         when (message) {
-            Message.Initialize -> coldContentFetch()
+            is Message.Initialize ->
+                coldContentFetch()
             is StudyPlanWidgetFeature.StudyPlanFetchResult.Success ->
                 handleStudyPlanFetchSuccess(state, message)
             is StudyPlanWidgetFeature.SectionsFetchResult.Success ->
                 handleSectionsFetchSuccess(state, message)
-            is Message.RetryContentLoading -> coldContentFetch()
+            is Message.RetryContentLoading ->
+                coldContentFetch()
             is Message.RetryActivitiesLoading ->
                 handleRetryActivitiesLoading(state, message)
-            Message.ReloadContentInBackground ->
+            is Message.ReloadContentInBackground ->
                 state.copy(
                     studyPlanSections = state.studyPlanSections.mapValues { (sectionId, sectionInfo) ->
                         sectionInfo.copy(
@@ -36,7 +41,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                         )
                     }
                 ) to setOf(InternalAction.FetchStudyPlan(showLoadingIndicators = false))
-            Message.PullToRefresh ->
+            is Message.PullToRefresh ->
                 if (!state.isRefreshing) {
                     state.copy(isRefreshing = true) to setOf(
                         InternalAction.FetchStudyPlan(showLoadingIndicators = false)
@@ -60,7 +65,27 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             }
             is Message.SectionClicked ->
                 changeSectionExpanse(state, message.sectionId)
-            is Message.ActivityClicked -> handleActivityClicked(state, message.activityId)
+            is Message.ActivityClicked ->
+                handleActivityClicked(state, message.activityId)
+            is Message.StageImplementUnsupportedModalGoToHomeClicked ->
+                state to setOf(
+                    InternalAction.LogAnalyticEvent(
+                        StudyPlanStageImplementUnsupportedModalClickedGoToHomeScreenHyperskillAnalyticEvent()
+                    ),
+                    Action.ViewAction.NavigateTo.Home
+                )
+            is Message.StageImplementUnsupportedModalHiddenEventMessage ->
+                state to setOf(
+                    InternalAction.LogAnalyticEvent(
+                        StudyPlanStageImplementUnsupportedModalHiddenHyperskillAnalyticEvent()
+                    )
+                )
+            is Message.StageImplementUnsupportedModalShownEventMessage ->
+                state to setOf(
+                    InternalAction.LogAnalyticEvent(
+                        StudyPlanStageImplementUnsupportedModalShownHyperskillAnalyticEvent()
+                    )
+                )
         } ?: (state to emptySet())
 
     private fun coldContentFetch(): StudyPlanWidgetReducerResult =
@@ -90,7 +115,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 studyPlan = message.studyPlan,
                 sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING
             ) to actions
-        }  else {
+        } else {
             state.copy(studyPlan = message.studyPlan) to actions
         }
     }
@@ -219,7 +244,14 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             LearningActivityType.IMPLEMENT_STAGE -> {
                 val projectId = state.studyPlan?.projectId
                 if (projectId != null && activity.targetType == LearningActivityTargetType.STAGE) {
-                    Action.ViewAction.NavigateTo.StageImplementation(stageId = activity.targetId, projectId = projectId)
+                    if (activity.isIdeRequired) {
+                        Action.ViewAction.ShowStageImplementUnsupportedModal
+                    } else {
+                        Action.ViewAction.NavigateTo.StageImplement(
+                            stageId = activity.targetId,
+                            projectId = projectId
+                        )
+                    }
                 } else {
                     null
                 }

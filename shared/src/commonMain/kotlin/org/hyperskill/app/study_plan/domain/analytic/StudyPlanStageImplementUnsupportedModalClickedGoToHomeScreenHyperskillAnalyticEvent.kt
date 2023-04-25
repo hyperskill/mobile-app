@@ -1,4 +1,4 @@
-package org.hyperskill.app.stage_implement.domain.analytic
+package org.hyperskill.app.study_plan.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -7,24 +7,22 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents a hidden analytic event of the stage implement unsupported bottom sheet.
+ * Represents click on the "Go to homescreen" button analytic event.
  *
  * JSON payload:
  * ```
  * {
- *     "route": "/projects/{PROJECT_ID}/stages/{STAGE_ID}/implement",
- *     "action": "hidden",
+ *     "route": "/study-plan",
+ *     "action": "click",
  *     "part": "stage_implement_unsupported_modal",
- *     "target": "close"
+ *     "target": "go_to_home_screen"
  * }
  * ```
  * @see HyperskillAnalyticEvent
  */
-class StageImplementUnsupportedModalHiddenHyperskillAnalyticEvent(
-    route: HyperskillAnalyticRoute
-) : HyperskillAnalyticEvent(
-    route,
-    HyperskillAnalyticAction.HIDDEN,
+class StudyPlanStageImplementUnsupportedModalClickedGoToHomeScreenHyperskillAnalyticEvent : HyperskillAnalyticEvent(
+    HyperskillAnalyticRoute.StudyPlan(),
+    HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.STAGE_IMPLEMENT_UNSUPPORTED_MODAL,
-    HyperskillAnalyticTarget.CLOSE
+    HyperskillAnalyticTarget.GO_TO_HOME_SCREEN
 )

@@ -15,19 +15,14 @@ struct StudyPlanView: View {
     @StateObject var viewModel: StudyPlanViewModel
 
     @StateObject var stackRouter: SwiftUIStackRouter
-
-    @State private var viewAppearsFirstTime = true
+    @StateObject var panModalPresenter: PanModalPresenter
 
     var body: some View {
         ZStack {
             UIViewControllerEventsWrapper(
                 onViewDidAppear: {
                     viewModel.logViewedEvent()
-                    if viewAppearsFirstTime {
-                        viewAppearsFirstTime = false
-                    } else {
-                        viewModel.doScreenBecomesActive()
-                    }
+                    viewModel.doScreenBecomesActive()
                 }
             )
 
@@ -116,6 +111,9 @@ struct StudyPlanView: View {
             }
         case .studyPlanWidgetViewAction(let studyPlanWidgetViewAction):
             switch StudyPlanWidgetFeatureActionViewActionKs(studyPlanWidgetViewAction.viewAction) {
+            case .showStageImplementUnsupportedModal:
+                let panModal = StageImplementUnsupportedModalViewController(delegate: viewModel)
+                panModalPresenter.presentPanModal(panModal)
             case .navigateTo(let navigateToViewAction):
                 switch StudyPlanWidgetFeatureActionViewActionNavigateToKs(navigateToViewAction) {
                 case .stageImplementation(let navigateToStageImplementationViewAction):
@@ -127,6 +125,8 @@ struct StudyPlanView: View {
                 case .stepScreen(let navigateToStepScreenViewAction):
                     let assembly = StepAssembly(stepRoute: navigateToStepScreenViewAction.stepRoute)
                     stackRouter.pushViewController(assembly.makeModule())
+                case .home:
+                    TabBarRouter(tab: .home).route()
                 }
             }
         }

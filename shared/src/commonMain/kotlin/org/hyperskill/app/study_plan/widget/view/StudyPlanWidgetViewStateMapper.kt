@@ -102,6 +102,7 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
                         LearningActivityState.COMPLETED -> StudyPlanWidgetViewState.SectionItemState.COMPLETED
                         null -> StudyPlanWidgetViewState.SectionItemState.IDLE
                     },
+                    isIdeRequired = activity.isIdeRequired,
                     progress = null, // TODO: ALTAPPS-713 add data with new activities API
                     formattedProgress = null, // TODO: ALTAPPS-713 add data with new activities API
                     hypercoinsAward = activity.hypercoinsAward.takeIf { it > 0 }

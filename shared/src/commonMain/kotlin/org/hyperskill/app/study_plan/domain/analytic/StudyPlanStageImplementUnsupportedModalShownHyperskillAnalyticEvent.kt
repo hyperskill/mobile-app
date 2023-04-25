@@ -1,4 +1,4 @@
-package org.hyperskill.app.stage_implement.domain.analytic
+package org.hyperskill.app.study_plan.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -12,7 +12,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * JSON payload:
  * ```
  * {
- *     "route": "/projects/{PROJECT_ID}/stages/{STAGE_ID}/implement",
+ *     "route": "/study-plan",
  *     "action": "shown",
  *     "part": "modal",
  *     "target": "stage_implement_unsupported_modal"
@@ -20,10 +20,8 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * ```
  * @see HyperskillAnalyticEvent
  */
-class StageImplementUnsupportedModalShownHyperskillAnalyticEvent(
-    route: HyperskillAnalyticRoute
-) : HyperskillAnalyticEvent(
-    route,
+class StudyPlanStageImplementUnsupportedModalShownHyperskillAnalyticEvent : HyperskillAnalyticEvent(
+    HyperskillAnalyticRoute.StudyPlan(),
     HyperskillAnalyticAction.SHOWN,
     HyperskillAnalyticPart.MODAL,
     HyperskillAnalyticTarget.STAGE_IMPLEMENT_UNSUPPORTED_MODAL
