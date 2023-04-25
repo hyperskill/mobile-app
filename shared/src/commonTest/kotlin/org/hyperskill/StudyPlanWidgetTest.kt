@@ -511,6 +511,101 @@ class StudyPlanWidgetTest {
     }
 
     @Test
+    fun `Section content statistics in ViewState should be always visible for first visible section`() {
+        fun makeState(isExpanded: Boolean): StudyPlanWidgetFeature.State =
+            StudyPlanWidgetFeature.State(
+                studyPlan = studyPlanStub(id = 0, sections = listOf(0)),
+                studyPlanSections = mapOf(
+                    0L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                        studyPlanSection = studyPlanSectionStub(
+                            id = 0,
+                            completedTopicsCount = 1,
+                            topicsCount = 10
+                        ),
+                        isExpanded = isExpanded,
+                        contentStatus = StudyPlanWidgetFeature.ContentStatus.IDLE
+                    )
+                ),
+                sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+            )
+
+        val expectedViewState = StudyPlanWidgetViewState.Content(
+            listOf(
+                sectionViewState(
+                    section = studyPlanSectionStub(id = 0),
+                    content = StudyPlanWidgetViewState.SectionContent.Collapsed,
+                    formattedTopicsCount = "1 / 10",
+                    formattedTimeToComplete = null // TODO: add DateFormatter stub and test this
+                )
+            )
+        )
+
+        assertEquals(expectedViewState, studyPlanWidgetViewStateMapper.map(makeState(isExpanded = true)))
+        assertEquals(expectedViewState, studyPlanWidgetViewStateMapper.map(makeState(isExpanded = false)))
+    }
+
+    @Test
+    fun `Section content statistics in ViewState should be visible for non first expanded visible section`() {
+        val expectedViewState = StudyPlanWidgetViewState.Content(
+            listOf(
+                sectionViewState(
+                    section = studyPlanSectionStub(id = 0),
+                    content = StudyPlanWidgetViewState.SectionContent.Content(
+                        listOf(
+                            studyPlanSectionItemStub(
+                                activityId = 0,
+                                state = StudyPlanWidgetViewState.SectionItemState.NEXT
+                            )
+                        )
+                    )
+                ),
+                sectionViewState(
+                    section = studyPlanSectionStub(id = 1),
+                    content = StudyPlanWidgetViewState.SectionContent.Content(
+                        listOf(
+                            studyPlanSectionItemStub(
+                                activityId = 1,
+                                state = StudyPlanWidgetViewState.SectionItemState.LOCKED
+                            )
+                        )
+                    ),
+                    formattedTopicsCount = "1 / 10",
+                    formattedTimeToComplete = null // TODO: add DateFormatter stub and test this
+                )
+            )
+        )
+
+        val state = StudyPlanWidgetFeature.State(
+            studyPlan = studyPlanStub(id = 0, sections = listOf(0, 1)),
+            studyPlanSections = mapOf(
+                0L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(id = 0, activities = listOf(0)),
+                    isExpanded = true,
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                ),
+                1L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(
+                        id = 1,
+                        activities = listOf(1),
+                        completedTopicsCount = 1,
+                        topicsCount = 10
+                    ),
+                    isExpanded = true,
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                )
+            ),
+            activities = mapOf(
+                0L to stubLearningActivity(id = 0, isCurrent = true),
+                1L to stubLearningActivity(id = 1)
+            ),
+            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+        )
+
+        val viewState = studyPlanWidgetViewStateMapper.map(state)
+        assertEquals(expectedViewState, viewState)
+    }
+
+    @Test
     fun `Click on non current learning activity should do nothing`() {
         val activityId = 0L
         val state = StudyPlanWidgetFeature.State(
@@ -649,14 +744,19 @@ class StudyPlanWidgetTest {
         assertContains(actions, StudyPlanWidgetFeature.Action.ViewAction.ShowStageImplementUnsupportedModal)
     }
 
-    private fun sectionViewState(section: StudyPlanSection, content: StudyPlanWidgetViewState.SectionContent) =
+    private fun sectionViewState(
+        section: StudyPlanSection,
+        content: StudyPlanWidgetViewState.SectionContent,
+        formattedTopicsCount: String? = null,
+        formattedTimeToComplete: String? = null
+    ) =
         StudyPlanWidgetViewState.Section(
             id = section.id,
             title = section.title,
             subtitle = section.subtitle.takeIf { it.isNotEmpty() },
             content = content,
-            formattedTopicsCount = null,
-            formattedTimeToComplete = null
+            formattedTopicsCount = formattedTopicsCount,
+            formattedTimeToComplete = formattedTimeToComplete
         )
 
     private fun studyPlanStub(
@@ -679,6 +779,9 @@ class StudyPlanWidgetTest {
     private fun studyPlanSectionStub(
         id: Long,
         isVisible: Boolean = true,
+        topicsCount: Int = 0,
+        completedTopicsCount: Int = 0,
+        secondsToComplete: Float = 0f,
         activities: List<Long> = emptyList()
     ) =
         StudyPlanSection(
@@ -689,9 +792,9 @@ class StudyPlanWidgetTest {
             isVisible = isVisible,
             title = "",
             subtitle = "",
-            topicsCount = 0,
-            completedTopicsCount = 0,
-            secondsToComplete = 0f,
+            topicsCount = topicsCount,
+            completedTopicsCount = completedTopicsCount,
+            secondsToComplete = secondsToComplete,
             activities = activities
         )
 
