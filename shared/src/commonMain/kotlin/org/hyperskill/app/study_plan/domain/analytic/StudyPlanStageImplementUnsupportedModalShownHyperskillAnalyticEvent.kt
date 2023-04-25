@@ -7,22 +7,22 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents a hidden analytic event of the stage implement unsupported bottom sheet.
+ * Represents a shown analytic event of the stage implement unsupported bottom sheet.
  *
  * JSON payload:
  * ```
  * {
  *     "route": "/study-plan",
- *     "action": "hidden",
- *     "part": "stage_implement_unsupported_modal",
- *     "target": "close"
+ *     "action": "shown",
+ *     "part": "modal",
+ *     "target": "stage_implement_unsupported_modal"
  * }
  * ```
  * @see HyperskillAnalyticEvent
  */
-class StageImplementUnsupportedModalHiddenHyperskillAnalyticEvent : HyperskillAnalyticEvent(
+class StudyPlanStageImplementUnsupportedModalShownHyperskillAnalyticEvent : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.StudyPlan(),
-    HyperskillAnalyticAction.HIDDEN,
-    HyperskillAnalyticPart.STAGE_IMPLEMENT_UNSUPPORTED_MODAL,
-    HyperskillAnalyticTarget.CLOSE
+    HyperskillAnalyticAction.SHOWN,
+    HyperskillAnalyticPart.MODAL,
+    HyperskillAnalyticTarget.STAGE_IMPLEMENT_UNSUPPORTED_MODAL
 )

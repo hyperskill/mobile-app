@@ -125,7 +125,7 @@ class StudyPlanFragment :
             }
             is StudyPlanScreenFeature.Action.ViewAction.StudyPlanWidgetViewAction -> {
                 when (val viewAction = action.viewAction) {
-                    is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.StageImplementation -> {
+                    is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.StageImplement -> {
                         requireRouter().navigateTo(
                             StageImplementationScreen(
                                 projectId = viewAction.projectId,
@@ -136,10 +136,10 @@ class StudyPlanFragment :
                     is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.StepScreen -> {
                         requireRouter().navigateTo(StepScreen(viewAction.stepRoute))
                     }
-                    StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.Home -> {
+                    is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.Home -> {
                         mainScreenRouter.switch(HomeScreen)
                     }
-                    StudyPlanWidgetFeature.Action.ViewAction.ShowStageImplementUnsupportedModal -> {
+                    is StudyPlanWidgetFeature.Action.ViewAction.ShowStageImplementUnsupportedModal -> {
                         newInstance()
                             .showIfNotExists(childFragmentManager, UnsupportedStageBottomSheet.TAG)
                     }

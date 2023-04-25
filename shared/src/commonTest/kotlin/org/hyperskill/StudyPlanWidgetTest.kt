@@ -640,7 +640,7 @@ class StudyPlanWidgetTest {
 
         assertEquals(state, newState)
         assertEquals(
-            actions, setOf(StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.StageImplementation(stageId, projectId))
+            actions, setOf(StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.StageImplement(stageId, projectId))
         )
     }
 
@@ -740,7 +740,6 @@ class StudyPlanWidgetTest {
         val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
 
         assertEquals(state, newState)
-
         assertContains(actions, StudyPlanWidgetFeature.Action.ViewAction.ShowStageImplementUnsupportedModal)
     }
 

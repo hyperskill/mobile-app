@@ -10,6 +10,7 @@ final class StudyPlanAssembly: UIKitAssembly {
 
         let stackRouter = SwiftUIStackRouter()
         let panModalPresenter = PanModalPresenter()
+
         let trackView = StudyPlanView(
             viewModel: viewModel,
             stackRouter: stackRouter,

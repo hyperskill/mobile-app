@@ -15,21 +15,14 @@ struct StudyPlanView: View {
     @StateObject var viewModel: StudyPlanViewModel
 
     @StateObject var stackRouter: SwiftUIStackRouter
-
     @StateObject var panModalPresenter: PanModalPresenter
-
-    @State private var viewAppearsFirstTime = true
 
     var body: some View {
         ZStack {
             UIViewControllerEventsWrapper(
                 onViewDidAppear: {
                     viewModel.logViewedEvent()
-                    if viewAppearsFirstTime {
-                        viewAppearsFirstTime = false
-                    } else {
-                        viewModel.doScreenBecomesActive()
-                    }
+                    viewModel.doScreenBecomesActive()
                 }
             )
 
@@ -119,10 +112,11 @@ struct StudyPlanView: View {
         case .studyPlanWidgetViewAction(let studyPlanWidgetViewAction):
             switch StudyPlanWidgetFeatureActionViewActionKs(studyPlanWidgetViewAction.viewAction) {
             case .showStageImplementUnsupportedModal:
-                presentStageImplementUnsupportedModal()
+                let panModal = StageImplementUnsupportedModalViewController(delegate: viewModel)
+                panModalPresenter.presentPanModal(panModal)
             case .navigateTo(let navigateToViewAction):
                 switch StudyPlanWidgetFeatureActionViewActionNavigateToKs(navigateToViewAction) {
-                case .stageImplementation(let navigateToStageImplementationViewAction):
+                case .stageImplement(let navigateToStageImplementationViewAction):
                     let assembly = StageImplementAssembly(
                         projectID: navigateToStageImplementationViewAction.projectId,
                         stageID: navigateToStageImplementationViewAction.stageId
@@ -136,16 +130,6 @@ struct StudyPlanView: View {
                 }
             }
         }
-    }
-}
-
-// MARK: - StudyPlanView (Modals) -
-
-extension StudyPlanView {
-    private func presentStageImplementUnsupportedModal() {
-        let panModal = StageImplementUnsupportedModalViewController(delegate: viewModel)
-
-        panModalPresenter.presentPanModal(panModal)
     }
 }
 
