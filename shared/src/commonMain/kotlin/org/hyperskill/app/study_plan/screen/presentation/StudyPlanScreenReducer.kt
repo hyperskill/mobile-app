@@ -3,8 +3,8 @@ package org.hyperskill.app.study_plan.screen.presentation
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
-import org.hyperskill.app.study_plan.domain.analytics.StudyPlanClickedPullToRefreshHyperskillAnalyticEvent
-import org.hyperskill.app.study_plan.domain.analytics.StudyPlanViewedHyperskillAnalyticEvent
+import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedPullToRefreshHyperskillAnalyticEvent
+import org.hyperskill.app.study_plan.domain.analytic.StudyPlanViewedHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
 import ru.nobird.app.presentation.redux.reducer.StateReducer

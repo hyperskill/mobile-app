@@ -1,4 +1,4 @@
-package org.hyperskill.app.study_plan.domain.analytics
+package org.hyperskill.app.study_plan.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent

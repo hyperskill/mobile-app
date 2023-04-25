@@ -3,9 +3,9 @@ package org.hyperskill.app.study_plan.widget.presentation
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.step.domain.model.StepRoute
-import org.hyperskill.app.study_plan.domain.analytics.StageImplementUnsupportedModalClickedGoToHomeScreenHyperskillAnalyticEvent
-import org.hyperskill.app.study_plan.domain.analytics.StageImplementUnsupportedModalHiddenHyperskillAnalyticEvent
-import org.hyperskill.app.study_plan.domain.analytics.StageImplementUnsupportedModalShownHyperskillAnalyticEvent
+import org.hyperskill.app.study_plan.domain.analytic.StageImplementUnsupportedModalClickedGoToHomeScreenHyperskillAnalyticEvent
+import org.hyperskill.app.study_plan.domain.analytic.StageImplementUnsupportedModalHiddenHyperskillAnalyticEvent
+import org.hyperskill.app.study_plan.domain.analytic.StageImplementUnsupportedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.model.StudyPlanStatus
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Action
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalAction

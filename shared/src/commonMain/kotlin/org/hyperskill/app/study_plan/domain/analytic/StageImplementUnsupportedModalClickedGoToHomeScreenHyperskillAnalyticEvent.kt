@@ -1,4 +1,4 @@
-package org.hyperskill.app.study_plan.domain.analytics
+package org.hyperskill.app.study_plan.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -7,22 +7,22 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents a PullToRefresh analytic event an study plan screen.
+ * Represents click on the "Go to homescreen" button analytic event.
  *
  * JSON payload:
  * ```
  * {
- *     "route": "/study-plan"",
+ *     "route": "/study-plan",
  *     "action": "click",
- *     "part": "main",
- *     "target": "refresh"
+ *     "part": "stage_implement_unsupported_modal",
+ *     "target": "go_to_home_screen"
  * }
  * ```
  * @see HyperskillAnalyticEvent
  */
-class StudyPlanClickedPullToRefreshHyperskillAnalyticEvent : HyperskillAnalyticEvent(
+class StageImplementUnsupportedModalClickedGoToHomeScreenHyperskillAnalyticEvent : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.StudyPlan(),
     HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.MAIN,
-    HyperskillAnalyticTarget.REFRESH
+    HyperskillAnalyticPart.STAGE_IMPLEMENT_UNSUPPORTED_MODAL,
+    HyperskillAnalyticTarget.GO_TO_HOME_SCREEN
 )

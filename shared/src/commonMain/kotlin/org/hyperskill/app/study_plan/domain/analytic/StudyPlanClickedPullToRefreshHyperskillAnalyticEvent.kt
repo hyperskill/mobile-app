@@ -1,4 +1,4 @@
-package org.hyperskill.app.study_plan.domain.analytics
+package org.hyperskill.app.study_plan.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -7,22 +7,22 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents a hidden analytic event of the stage implement unsupported bottom sheet.
+ * Represents a PullToRefresh analytic event an study plan screen.
  *
  * JSON payload:
  * ```
  * {
- *     "route": "/study-plan",
- *     "action": "hidden",
- *     "part": "stage_implement_unsupported_modal",
- *     "target": "close"
+ *     "route": "/study-plan"",
+ *     "action": "click",
+ *     "part": "main",
+ *     "target": "refresh"
  * }
  * ```
  * @see HyperskillAnalyticEvent
  */
-class StageImplementUnsupportedModalHiddenHyperskillAnalyticEvent : HyperskillAnalyticEvent(
+class StudyPlanClickedPullToRefreshHyperskillAnalyticEvent : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.StudyPlan(),
-    HyperskillAnalyticAction.HIDDEN,
-    HyperskillAnalyticPart.STAGE_IMPLEMENT_UNSUPPORTED_MODAL,
-    HyperskillAnalyticTarget.CLOSE
+    HyperskillAnalyticAction.CLICK,
+    HyperskillAnalyticPart.MAIN,
+    HyperskillAnalyticTarget.REFRESH
 )
