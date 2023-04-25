@@ -116,7 +116,7 @@ struct StudyPlanView: View {
                 panModalPresenter.presentPanModal(panModal)
             case .navigateTo(let navigateToViewAction):
                 switch StudyPlanWidgetFeatureActionViewActionNavigateToKs(navigateToViewAction) {
-                case .stageImplementation(let navigateToStageImplementationViewAction):
+                case .stageImplement(let navigateToStageImplementationViewAction):
                     let assembly = StageImplementAssembly(
                         projectID: navigateToStageImplementationViewAction.projectId,
                         stageID: navigateToStageImplementationViewAction.stageId
