@@ -3,3 +3,4 @@ What to Test:
 2. Base study plan UI ALTAPPS-669
 3. Study plan reload activities UI ALTAPPS-703
 4. Fix study plan section statistics visibility ALTAPPS-715
+5. Fix statistics shows incorrectly for sections with only ide required steps ALTAPPS-731

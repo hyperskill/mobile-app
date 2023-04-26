@@ -4,3 +4,4 @@ What to Test:
 3. Study plan reload activities UI ALTAPPS-704
 4. Support is_ide_required field from learning activities api ALTAPPS-709
 5. Fix study plan section statistics visibility ALTAPPS-715
+6. Fix statistics shows incorrectly for sections with only ide required steps ALTAPPS-731
