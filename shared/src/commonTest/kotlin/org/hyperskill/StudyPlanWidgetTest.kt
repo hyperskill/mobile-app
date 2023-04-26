@@ -16,10 +16,11 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
+import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
 import org.hyperskill.app.study_plan.domain.model.StudyPlanStatus
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
-import org.hyperskill.app.study_plan.widget.presentation.firstVisibleSection
+import org.hyperskill.app.study_plan.widget.presentation.firstSection
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewStateMapper
 
@@ -44,13 +45,15 @@ class StudyPlanWidgetTest {
     private val studyPlanWidgetViewStateMapper = StudyPlanWidgetViewStateMapper(DateFormatter(resourceProviderStub))
 
     @Test
-    fun `Get first visible section works correctly`() {
+    fun `Get first section works correctly`() {
+        val expectedSectionId = 3L
+
         val studyPlan = studyPlanStub(id = 0, sections = listOf(0, 1, 2, 3, 4))
         val studyPlanSections = listOf(
             studyPlanSectionStub(id = 0, isVisible = false),
-            studyPlanSectionStub(id = 1, isVisible = true),
+            studyPlanSectionStub(id = 1, isVisible = true, type = StudyPlanSectionType.NEXT_TRACK),
             studyPlanSectionStub(id = 2, isVisible = false),
-            studyPlanSectionStub(id = 3, isVisible = true),
+            studyPlanSectionStub(id = 3, isVisible = true, type = StudyPlanSectionType.STAGE),
             studyPlanSectionStub(id = 4, isVisible = false)
         )
         val state = StudyPlanWidgetFeature.State(
@@ -64,7 +67,7 @@ class StudyPlanWidgetTest {
             }
         )
 
-        assertEquals(state.firstVisibleSection(), studyPlanSections[1])
+        assertEquals(studyPlanSections.first { it.id == expectedSectionId }, state.firstSection())
     }
 
     @Test
@@ -172,15 +175,35 @@ class StudyPlanWidgetTest {
     }
 
     @Test
-    fun `Loaded sections should be filtered by visibility`() {
-        val visibleSection = studyPlanSectionStub(id = 0, isVisible = true)
-        val hiddenSection = studyPlanSectionStub(id = 1, isVisible = false)
-        val (state, _) = reducer.reduce(
-            StudyPlanWidgetFeature.State(studyPlan = studyPlanStub(id = 0, sections = listOf(0, 1))),
-            StudyPlanWidgetFeature.SectionsFetchResult.Success(listOf(visibleSection, hiddenSection))
+    fun `Loaded sections should be filtered by supportance`() {
+        val visibleUnsupportedSection = studyPlanSectionStub(
+            id = 0,
+            isVisible = true,
+            type = StudyPlanSectionType.NEXT_TRACK
         )
-        assertEquals(visibleSection, state.studyPlanSections[visibleSection.id]?.studyPlanSection)
+        val hiddenSection = studyPlanSectionStub(id = 1, isVisible = false)
+        val visibleSupportedSection = studyPlanSectionStub(
+            id = 2,
+            isVisible = true,
+            type = StudyPlanSectionType.ROOT_TOPICS
+        )
+
+        val (state, _) = reducer.reduce(
+            StudyPlanWidgetFeature.State(studyPlan = studyPlanStub(id = 0, sections = listOf(0, 1, 2))),
+            StudyPlanWidgetFeature.SectionsFetchResult.Success(
+                listOf(
+                    visibleUnsupportedSection,
+                    hiddenSection,
+                    visibleSupportedSection
+                )
+            )
+        )
+
+        assertEquals(1, state.studyPlanSections.size)
+        assertEquals(visibleSupportedSection, state.studyPlanSections[visibleSupportedSection.id]?.studyPlanSection)
+
         assertEquals(null, state.studyPlanSections[hiddenSection.id])
+        assertEquals(null, state.studyPlanSections[visibleUnsupportedSection.id])
     }
 
     @Test
@@ -777,6 +800,7 @@ class StudyPlanWidgetTest {
 
     private fun studyPlanSectionStub(
         id: Long,
+        type: StudyPlanSectionType = StudyPlanSectionType.STAGE,
         isVisible: Boolean = true,
         topicsCount: Int = 0,
         completedTopicsCount: Int = 0,
@@ -786,6 +810,7 @@ class StudyPlanWidgetTest {
         StudyPlanSection(
             id = id,
             studyPlanId = 0,
+            typeValue = type.value,
             targetId = 0,
             targetType = "",
             isVisible = isVisible,

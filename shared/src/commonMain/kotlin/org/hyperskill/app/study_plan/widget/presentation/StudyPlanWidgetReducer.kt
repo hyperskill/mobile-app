@@ -33,7 +33,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 state.copy(
                     studyPlanSections = state.studyPlanSections.mapValues { (sectionId, sectionInfo) ->
                         sectionInfo.copy(
-                            contentStatus = if (sectionId == state.firstVisibleSection()?.id) {
+                            contentStatus = if (sectionId == state.firstSection()?.id) {
                                 sectionInfo.contentStatus
                             } else {
                                 StudyPlanWidgetFeature.ContentStatus.IDLE
@@ -124,9 +124,9 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         state: State,
         message: StudyPlanWidgetFeature.SectionsFetchResult.Success
     ): StudyPlanWidgetReducerResult {
-        val visibleSections = message.sections.filter { it.isVisible }
+        val supportedSections = message.sections.filter { it.isSupportedInStudyPlan }
 
-        val studyPlanSections = visibleSections.associate { studyPlanSection ->
+        val studyPlanSections = supportedSections.associate { studyPlanSection ->
             studyPlanSection.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                 studyPlanSection = studyPlanSection,
                 isExpanded = false,
@@ -134,10 +134,10 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             )
         }
 
-        val sortedVisibleSections =
+        val sortedSupportedSectionsIds =
             if (state.studyPlan != null) {
-                val visibleSectionsIds = visibleSections.map { it.id }.toSet()
-                state.studyPlan.sections.intersect(visibleSectionsIds).toList()
+                val supportedSectionsIds = supportedSections.map { it.id }.toSet()
+                state.studyPlan.sections.intersect(supportedSectionsIds).toList()
             } else {
                 return state to emptySet()
             }
@@ -148,8 +148,8 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             isRefreshing = false
         )
 
-        return if (sortedVisibleSections.isNotEmpty()) {
-            changeSectionExpanse(loadedSectionsState, sortedVisibleSections.first())
+        return if (sortedSupportedSectionsIds.isNotEmpty()) {
+            changeSectionExpanse(loadedSectionsState, sortedSupportedSectionsIds.first())
         } else {
             loadedSectionsState to emptySet()
         }

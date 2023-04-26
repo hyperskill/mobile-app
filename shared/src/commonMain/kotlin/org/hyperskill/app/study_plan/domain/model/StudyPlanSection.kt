@@ -33,6 +33,3 @@ data class StudyPlanSection(
     val type: StudyPlanSectionType?
         get() = StudyPlanSectionType.getByValue(typeValue)
 }
-
-val StudyPlanSection.isSupported: Boolean
-    get() = StudyPlanSectionType.supportedTypes().contains(type)
