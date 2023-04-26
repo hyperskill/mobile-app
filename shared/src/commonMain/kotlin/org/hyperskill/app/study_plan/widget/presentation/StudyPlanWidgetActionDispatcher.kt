@@ -1,6 +1,7 @@
 package org.hyperskill.app.study_plan.widget.presentation
 
 import kotlinx.coroutines.delay
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
@@ -15,7 +16,8 @@ class StudyPlanWidgetActionDispatcher(
     config: ActionDispatcherOptions,
     private val studyPlanInteractor: StudyPlanInteractor,
     private val trackInteractor: TrackInteractor,
-    private val sentryInteractor: SentryInteractor
+    private val sentryInteractor: SentryInteractor,
+    private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
@@ -92,6 +94,8 @@ class StudyPlanWidgetActionDispatcher(
                         onNewMessage(StudyPlanWidgetFeature.TrackFetchResult.Failed)
                     }
             }
+            is InternalAction.LogAnalyticEvent ->
+                analyticInteractor.logEvent(action.analyticEvent)
             else -> {
                 // no op
             }

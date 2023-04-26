@@ -12,7 +12,8 @@ class StudyPlanWidgetComponentImpl(private val appGraph: AppGraph) : StudyPlanWi
             config = ActionDispatcherOptions(),
             studyPlanInteractor = appGraph.buildStudyPlanDataComponent().studyPlanInteractor,
             trackInteractor = appGraph.buildTrackDataComponent().trackInteractor,
-            sentryInteractor = appGraph.sentryComponent.sentryInteractor
+            sentryInteractor = appGraph.sentryComponent.sentryInteractor,
+            analyticInteractor = appGraph.analyticComponent.analyticInteractor
         )
 
     override val studyPlanWidgetReducer: StudyPlanWidgetReducer

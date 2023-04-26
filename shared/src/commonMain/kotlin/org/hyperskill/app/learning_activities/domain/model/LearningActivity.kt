@@ -20,7 +20,9 @@ data class LearningActivity(
     @SerialName("title")
     val title: String = "",
     @SerialName("hypercoins_award")
-    val hypercoinsAward: Int = 0
+    val hypercoinsAward: Int = 0,
+    @SerialName("is_ide_required")
+    val isIdeRequired: Boolean = false
 ) {
     val state: LearningActivityState?
         get() = LearningActivityState.getByValue(stateValue)
