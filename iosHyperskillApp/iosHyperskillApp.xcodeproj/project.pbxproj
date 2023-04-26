@@ -331,6 +331,7 @@
 		2CEEE03328916A3D00282849 /* ProblemOfDayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEE03228916A3D00282849 /* ProblemOfDayViewModel.swift */; };
 		2CEEE03528916A6800282849 /* ProblemOfDayOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEE03428916A6800282849 /* ProblemOfDayOutputProtocol.swift */; };
 		2CEEE03728917F1100282849 /* TimeIntervalExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEE03628917F1100282849 /* TimeIntervalExtensions.swift */; };
+		2CF0B4E629F9CEAF009C2A2D /* StudyPlanSectionActivitiesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF0B4E529F9CEAF009C2A2D /* StudyPlanSectionActivitiesList.swift */; };
 		2CF2DA3A27EC5B2D0055426D /* Assembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF2DA3927EC5B2D0055426D /* Assembly.swift */; };
 		2CF41A8E28505D2C000736D6 /* SwiftUIProcessedContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF41A8D28505D2C000736D6 /* SwiftUIProcessedContentView.swift */; };
 		2CF4341228126C79002893CD /* View+EndEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF4341128126C79002893CD /* View+EndEditing.swift */; };
@@ -798,6 +799,7 @@
 		2CEEE03228916A3D00282849 /* ProblemOfDayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDayViewModel.swift; sourceTree = "<group>"; };
 		2CEEE03428916A6800282849 /* ProblemOfDayOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDayOutputProtocol.swift; sourceTree = "<group>"; };
 		2CEEE03628917F1100282849 /* TimeIntervalExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalExtensions.swift; sourceTree = "<group>"; };
+		2CF0B4E529F9CEAF009C2A2D /* StudyPlanSectionActivitiesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanSectionActivitiesList.swift; sourceTree = "<group>"; };
 		2CF2DA3927EC5B2D0055426D /* Assembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembly.swift; sourceTree = "<group>"; };
 		2CF41A8D28505D2C000736D6 /* SwiftUIProcessedContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIProcessedContentView.swift; sourceTree = "<group>"; };
 		2CF4341128126C79002893CD /* View+EndEditing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+EndEditing.swift"; sourceTree = "<group>"; };
@@ -2742,6 +2744,7 @@
 		E9F0A2A829D416C400C4A61E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2CF0B4E529F9CEAF009C2A2D /* StudyPlanSectionActivitiesList.swift */,
 				2C9D493C29F07015000599AB /* StudyPlanSectionContentErrorView.swift */,
 				E9AB310E29DECC7500645376 /* StudyPlanSectionHeaderStatisticsView.swift */,
 				E9F0A2A929D417C800C4A61E /* StudyPlanSectionHeaderView.swift */,
@@ -3307,6 +3310,7 @@
 				E9F0A2AE29D4390400C4A61E /* StudyPlanSectionView.swift in Sources */,
 				2C43CDF928B55CC600E74762 /* HyperskillLogoView.swift in Sources */,
 				2C1F5882280D5BAA00372A37 /* SocialAuthService.swift in Sources */,
+				2CF0B4E629F9CEAF009C2A2D /* StudyPlanSectionActivitiesList.swift in Sources */,
 				E927EC372876BFF30000B898 /* ProblemOfDayTitle.swift in Sources */,
 				E900D10328434E0D00A77BBC /* StepQuizSortingItemView.swift in Sources */,
 				2C7822632943037D0067200F /* GemsBarButtonItem.swift in Sources */,
