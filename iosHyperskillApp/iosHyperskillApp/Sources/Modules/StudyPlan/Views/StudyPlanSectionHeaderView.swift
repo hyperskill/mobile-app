@@ -13,28 +13,27 @@ struct StudyPlanSectionHeaderView: View {
     let section: StudyPlanWidgetViewStateSection
     let onSectionTap: (Int64) -> Void
 
+    private var isCollapsed: Bool {
+        section.content is StudyPlanWidgetViewStateSectionContentCollapsed
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
             HStack {
                 Text(section.title)
                     .font(.title3)
                     .bold()
-                    .foregroundColor(
-                        section.content is StudyPlanWidgetViewStateSectionContentCollapsed
-                        ? .secondaryText
-                        : .primaryText
-                    )
+                    .foregroundColor(isCollapsed ? .secondaryText : .primaryText)
 
                 Spacer()
 
-                Image(
-                    systemName: section.content is StudyPlanWidgetViewStateSectionContentCollapsed
-                    ? Images.SystemSymbol.Chevron.down
-                    : Images.SystemSymbol.Chevron.up
-                )
-                .imageScale(.small)
-                .foregroundColor(.secondaryText)
+                Image(systemName: Images.SystemSymbol.Chevron.down)
+                    .imageScale(.small)
+                    .rotation3DEffect(.degrees(isCollapsed ? 0 : 180), axis: (x: 1, y: 0, z: 0))
+                    .foregroundColor(isCollapsed ? .secondaryText : .primaryText)
+                    .scaleEffect(isCollapsed ? 1 : 1.5)
             }
+            .animation(.easeInOut, value: isCollapsed)
 
             Text(section.subtitle)
                 .font(.subheadline)
