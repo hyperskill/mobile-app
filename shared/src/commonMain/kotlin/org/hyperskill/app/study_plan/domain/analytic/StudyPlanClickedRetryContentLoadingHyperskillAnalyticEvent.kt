@@ -7,7 +7,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents a PullToRefresh analytic event.
+ * Represents a click analytic event of the error state placeholder retry button.
  *
  * JSON payload:
  * ```
@@ -15,14 +15,14 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *     "route": "/study-plan"",
  *     "action": "click",
  *     "part": "main",
- *     "target": "refresh"
+ *     "target": "retry"
  * }
  * ```
  * @see HyperskillAnalyticEvent
  */
-class StudyPlanClickedPullToRefreshHyperskillAnalyticEvent : HyperskillAnalyticEvent(
+class StudyPlanClickedRetryContentLoadingHyperskillAnalyticEvent : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.StudyPlan(),
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.MAIN,
-    HyperskillAnalyticTarget.REFRESH
+    HyperskillAnalyticTarget.RETRY
 )

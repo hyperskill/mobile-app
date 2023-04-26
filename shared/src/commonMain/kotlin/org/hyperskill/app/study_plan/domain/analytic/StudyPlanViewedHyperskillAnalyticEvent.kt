@@ -16,7 +16,6 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
  * ```
  * @see HyperskillAnalyticEvent
  */
-// TODO: Use this event for StudyPlanScreenFeature
 class StudyPlanViewedHyperskillAnalyticEvent : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.StudyPlan(),
     HyperskillAnalyticAction.VIEW
