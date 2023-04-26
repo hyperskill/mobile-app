@@ -39,13 +39,10 @@ struct StudyPlanSectionHeaderView: View {
                 .font(.subheadline)
                 .foregroundColor(.secondaryText)
 
-            if let formattedTopicsCount = section.formattedTopicsCount,
-               let formattedTimeToComplete = section.formattedTimeToComplete {
-                StudyPlanSectionHeaderStatisticsView(
-                    formattedTopicsCount: formattedTopicsCount,
-                    formattedTimeToComplete: formattedTimeToComplete
-                )
-            }
+            StudyPlanSectionHeaderStatisticsView(
+                formattedTopicsCount: section.formattedTopicsCount,
+                formattedTimeToComplete: section.formattedTimeToComplete
+            )
         }
         .padding()
         .background(Color(ColorPalette.surface))
@@ -58,7 +55,7 @@ struct StudyPlanSectionHeaderView: View {
 struct StudyPlanSectionHeaderView_Previews: PreviewProvider {
     static var previews: some View {
         StudyPlanSectionHeaderView(
-            section: StudyPlanWidgetViewStateSection.makePlaceholder(),
+            section: .makePlaceholder(),
             onSectionTap: { _ in }
         )
         .previewLayout(.sizeThatFits)
