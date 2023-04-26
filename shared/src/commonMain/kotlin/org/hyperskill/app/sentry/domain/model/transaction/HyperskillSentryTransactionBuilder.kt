@@ -192,4 +192,31 @@ object HyperskillSentryTransactionBuilder {
             name = "topics-to-discover-next-feature-track-screen-remote-data-loading",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
+
+    /**
+     * StudyPlanWidgetFeature
+     */
+    fun buildStudyPlanWidgetFetchCurrentStudyPlan(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "study-plan-widget-feature-fetch-current-study-plan",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    fun buildStudyPlanWidgetFetchStudyPlanSections(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "study-plan-widget-feature-fetch-study-plan-sections",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    fun buildStudyPlanWidgetFetchLearningActivities(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "study-plan-widget-feature-fetch-learning-activities",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    fun buildStudyPlanWidgetFetchTrack(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "study-plan-widget-feature-fetch-track",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
 }
