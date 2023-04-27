@@ -113,7 +113,8 @@ class ProfileSettingsDialogFragment :
             profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ClickedSendFeedback)
         }
 
-        viewBinding.settingsVersionTextView.text = HyperskillApp.graph().commonComponent.userAgentInfo.versionName
+        val userAgentInfo = HyperskillApp.graph().commonComponent.userAgentInfo
+        viewBinding.settingsVersionTextView.text = "${userAgentInfo.versionName} (${userAgentInfo.versionCode})"
 
         viewBinding.settingsLogoutButton.setOnClickListener {
             profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ClickedSignOutEventMessage)
