@@ -775,6 +775,127 @@ class StudyPlanWidgetTest {
         assertContains(actions, StudyPlanWidgetFeature.Action.ViewAction.ShowStageImplementUnsupportedModal)
     }
 
+    @Test
+    fun `Activity with is_current = true will be next for root topics section`() {
+        val currentActivityId = 0L
+        val notCurrentActivityId = 1L
+        val sectionId = 2L
+        val state = StudyPlanWidgetFeature.State(
+            studyPlan = studyPlanStub(id = 0, projectId = 1L, sections = listOf(sectionId)),
+            activities = mapOf(
+                currentActivityId to stubLearningActivity(
+                    currentActivityId,
+                    type = LearningActivityType.LEARN_TOPIC,
+                    targetType = LearningActivityTargetType.STEP,
+                    targetId = 1L,
+                    isCurrent = false,
+                    sectionId = sectionId
+                ),
+                notCurrentActivityId to stubLearningActivity(
+                    notCurrentActivityId,
+                    type = LearningActivityType.LEARN_TOPIC,
+                    targetType = LearningActivityTargetType.STEP,
+                    targetId = 1L,
+                    isCurrent = true,
+                    sectionId = sectionId
+                )
+            ),
+            studyPlanSections = listOf(
+                studyPlanSectionStub(
+                    id = sectionId,
+                    activities = listOf(currentActivityId, notCurrentActivityId)
+                )
+            )
+                .associate {
+                    it.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                        studyPlanSection = it,
+                        isExpanded = true,
+                        contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                    )
+                },
+            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+        )
+
+        val viewState = studyPlanWidgetViewStateMapper.map(state)
+
+        val viewSectionItems = (
+            (viewState as? StudyPlanWidgetViewState.Content)
+                ?.sections
+                ?.firstOrNull()
+                ?.content as? StudyPlanWidgetViewState.SectionContent.Content
+            )?.sectionItems ?: fail("Unexpected view state: $viewState")
+
+        assertEquals(
+            StudyPlanWidgetViewState.SectionItemState.NEXT,
+            viewSectionItems.first { it.id == notCurrentActivityId }.state
+        )
+        assertEquals(
+            StudyPlanWidgetViewState.SectionItemState.LOCKED,
+            viewSectionItems.first { it.id == currentActivityId }.state
+        )
+    }
+
+    @Test
+    fun `First activity will be next for not root topics section`() {
+        val firstActivityId = 0L
+        val secondActivityId = 1L
+        val sectionId = 2L
+        val state = StudyPlanWidgetFeature.State(
+            studyPlan = studyPlanStub(id = 0, projectId = 1L, sections = listOf(sectionId)),
+            activities = mapOf(
+                firstActivityId to stubLearningActivity(
+                    firstActivityId,
+                    type = LearningActivityType.LEARN_TOPIC,
+                    targetType = LearningActivityTargetType.STEP,
+                    targetId = 1L,
+                    isCurrent = false,
+                    sectionId = sectionId
+                ),
+                secondActivityId to stubLearningActivity(
+                    secondActivityId,
+                    type = LearningActivityType.LEARN_TOPIC,
+                    targetType = LearningActivityTargetType.STEP,
+                    targetId = 1L,
+                    isCurrent = true,
+                    sectionId = sectionId
+                )
+            ),
+            studyPlanSections = listOf(
+                studyPlanSectionStub(
+                    id = sectionId,
+                    activities = listOf(firstActivityId, secondActivityId),
+                    type = null
+                )
+            )
+                .associate {
+                    it.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                        studyPlanSection = it,
+                        isExpanded = true,
+                        contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                    )
+                },
+            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+        )
+
+        val viewState = studyPlanWidgetViewStateMapper.map(state)
+
+        val viewSectionItems = (
+            (viewState as? StudyPlanWidgetViewState.Content)
+                ?.sections
+                ?.firstOrNull()
+                ?.content as? StudyPlanWidgetViewState.SectionContent.Content
+            )?.sectionItems ?: fail("Unexpected view state: $viewState")
+
+        assertEquals(
+            StudyPlanWidgetViewState.SectionItemState.NEXT,
+            viewSectionItems.first { it.id == firstActivityId }.state
+        )
+        assertEquals(
+            StudyPlanWidgetViewState.SectionItemState.LOCKED,
+            viewSectionItems.first { it.id == secondActivityId }.state
+        )
+    }
+
     private fun sectionViewState(
         section: StudyPlanSection,
         content: StudyPlanWidgetViewState.SectionContent,
