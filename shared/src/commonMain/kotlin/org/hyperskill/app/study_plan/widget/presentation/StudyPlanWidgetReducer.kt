@@ -198,11 +198,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         ) to setOf(
             InternalAction.FetchActivities(
                 sectionId = message.sectionId,
-                activitiesIds = if (section.studyPlanSection.isRootTopicsSection()) {
-                    section.studyPlanSection.activities.take(ROOT_TOPICS_SECTION_VISIBLE_ACTIVITIES_COUNT)
-                } else {
-                    section.studyPlanSection.activities
-                }
+                activitiesIds = paginateActivitiesToFetch(section)
             )
         )
     }
@@ -230,15 +226,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                     updateSectionState(StudyPlanWidgetFeature.ContentStatus.LOADING) to setOf(
                         InternalAction.FetchActivities(
                             sectionId = sectionId,
-                            activitiesIds = section.studyPlanSection.activities.apply {
-                                if (section.studyPlanSection.isRootTopicsSection() &&
-                                    section.studyPlanSection.nextActivityId != null
-                                ) {
-                                    dropWhile { it != section.studyPlanSection.nextActivityId }
-                                }
-
-                                take(ROOT_TOPICS_SECTION_VISIBLE_ACTIVITIES_COUNT)
-                            }
+                            activitiesIds = paginateActivitiesToFetch(section)
                         )
                     )
                 }
@@ -253,6 +241,17 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             updateSectionState() to emptySet()
         }
     }
+
+    private fun paginateActivitiesToFetch(section: StudyPlanWidgetFeature.StudyPlanSectionInfo): List<Long> =
+        section.studyPlanSection.activities.apply {
+            if (section.studyPlanSection.isRootTopicsSection() &&
+                section.studyPlanSection.nextActivityId != null
+            ) {
+                dropWhile { it != section.studyPlanSection.nextActivityId }
+
+                take(ROOT_TOPICS_SECTION_VISIBLE_ACTIVITIES_COUNT)
+            }
+        }
 
     private fun handleActivityClicked(state: State, activityId: Long): StudyPlanWidgetReducerResult {
         val activity = state.activities[activityId] ?: return state to emptySet()
