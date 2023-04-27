@@ -230,10 +230,14 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                     updateSectionState(StudyPlanWidgetFeature.ContentStatus.LOADING) to setOf(
                         InternalAction.FetchActivities(
                             sectionId = sectionId,
-                            activitiesIds = if (section.studyPlanSection.isRootTopicsSection()) {
-                                section.studyPlanSection.activities.take(ROOT_TOPICS_SECTION_VISIBLE_ACTIVITIES_COUNT)
-                            } else {
-                                section.studyPlanSection.activities
+                            activitiesIds = section.studyPlanSection.activities.apply {
+                                if (section.studyPlanSection.isRootTopicsSection() &&
+                                    section.studyPlanSection.nextActivityId != null
+                                ) {
+                                    dropWhile { it != section.studyPlanSection.nextActivityId }
+                                }
+
+                                take(ROOT_TOPICS_SECTION_VISIBLE_ACTIVITIES_COUNT)
                             }
                         )
                     )
@@ -254,7 +258,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         val activity = state.activities[activityId] ?: return state to emptySet()
         val section = state.studyPlanSections[activity.sectionId]?.studyPlanSection ?: return state to emptySet()
 
-        if (StudyPlanWidgetFeature.getNextActivityId(section, state) != activityId) return state to emptySet()
+        if (state.getNextActivityId(section) != activityId) return state to emptySet()
 
         val action = when (activity.type) {
             LearningActivityType.IMPLEMENT_STAGE -> {

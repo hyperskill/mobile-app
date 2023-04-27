@@ -7,27 +7,12 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
-import org.hyperskill.app.study_plan.domain.model.isRootTopicsSection
 import org.hyperskill.app.track.domain.model.Track
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
 object StudyPlanWidgetFeature {
     internal val STUDY_PLAN_FETCH_INTERVAL: Duration = 1.seconds
-
-    fun getNextActivityId(section: StudyPlanSection, state: State): Long? {
-        if(state.firstVisibleSection()?.id != section.id) return null
-
-        return state.getSectionActivities(section.id)
-            .firstOrNull {
-                if (section.isRootTopicsSection()) {
-                    it.isCurrent
-                } else {
-                    it.state == LearningActivityState.TODO
-                }
-            }?.id
-    }
-
 
     data class State(
         val studyPlan: StudyPlan? = null,

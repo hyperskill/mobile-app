@@ -5,6 +5,7 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.firstVisibleSection
+import org.hyperskill.app.study_plan.widget.presentation.getNextActivityId
 import org.hyperskill.app.study_plan.widget.presentation.getSectionActivities
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState.SectionContent
 import kotlin.math.roundToLong
@@ -71,10 +72,7 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
                     } else {
                         getContent(
                             activities = activities,
-                            nextActivityId = StudyPlanWidgetFeature.getNextActivityId(
-                                section = sectionInfo.studyPlanSection,
-                                state = state
-                            )
+                            nextActivityId = state.getNextActivityId(sectionInfo.studyPlanSection)
                         )
                     }
                 }
@@ -84,10 +82,7 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
                     if (activities.isNotEmpty()) {
                         getContent(
                             activities = activities,
-                            nextActivityId = StudyPlanWidgetFeature.getNextActivityId(
-                                section = sectionInfo.studyPlanSection,
-                                state = state
-                            )
+                            nextActivityId = state.getNextActivityId(section = sectionInfo.studyPlanSection)
                         )
                     } else {
                         SectionContent.Error
