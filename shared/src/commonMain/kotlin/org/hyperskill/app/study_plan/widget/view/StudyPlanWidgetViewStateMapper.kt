@@ -3,7 +3,6 @@ package org.hyperskill.app.study_plan.widget.view
 import org.hyperskill.app.core.view.mapper.DateFormatter
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
-import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.firstVisibleSection
 import org.hyperskill.app.study_plan.widget.presentation.getSectionActivities
@@ -70,14 +69,26 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
                     if (activities.isEmpty()) {
                         SectionContent.Loading
                     } else {
-                        getContent(activities, sectionInfo.studyPlanSection)
+                        getContent(
+                            activities = activities,
+                            nextActivityId = StudyPlanWidgetFeature.getNextActivityId(
+                                section = sectionInfo.studyPlanSection,
+                                state = state
+                            )
+                        )
                     }
                 }
                 StudyPlanWidgetFeature.ContentStatus.ERROR -> SectionContent.Error
                 StudyPlanWidgetFeature.ContentStatus.LOADED -> {
                     val activities = state.getSectionActivities(sectionInfo.studyPlanSection.id)
                     if (activities.isNotEmpty()) {
-                        getContent(activities, sectionInfo.studyPlanSection)
+                        getContent(
+                            activities = activities,
+                            nextActivityId = StudyPlanWidgetFeature.getNextActivityId(
+                                section = sectionInfo.studyPlanSection,
+                                state = state
+                            )
+                        )
                     } else {
                         SectionContent.Error
                     }
@@ -87,14 +98,14 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
             SectionContent.Collapsed
         }
 
-    private fun getContent(activities: List<LearningActivity>, section: StudyPlanSection): SectionContent.Content =
+    private fun getContent(activities: List<LearningActivity>, nextActivityId: Long?): SectionContent.Content =
         SectionContent.Content(
             sectionItems = activities.map { activity ->
                 StudyPlanWidgetViewState.SectionItem(
                     id = activity.id,
                     title = activity.title.ifBlank { activity.id.toString() },
                     state = when (activity.state) {
-                        LearningActivityState.TODO -> if (StudyPlanWidgetFeature.isNextActivity(activity, section)) {
+                        LearningActivityState.TODO -> if (activity.id == nextActivityId) {
                             StudyPlanWidgetViewState.SectionItemState.NEXT
                         } else {
                             StudyPlanWidgetViewState.SectionItemState.LOCKED

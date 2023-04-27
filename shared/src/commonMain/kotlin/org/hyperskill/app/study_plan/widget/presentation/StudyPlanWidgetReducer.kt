@@ -254,7 +254,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         val activity = state.activities[activityId] ?: return state to emptySet()
         val section = state.studyPlanSections[activity.sectionId]?.studyPlanSection ?: return state to emptySet()
 
-        if (!StudyPlanWidgetFeature.isNextActivity(activity, section)) return state to emptySet()
+        if (StudyPlanWidgetFeature.getNextActivityId(section, state) != activityId) return state to emptySet()
 
         val action = when (activity.type) {
             LearningActivityType.IMPLEMENT_STAGE -> {

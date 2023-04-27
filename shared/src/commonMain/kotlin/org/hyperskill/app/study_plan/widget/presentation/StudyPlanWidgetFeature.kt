@@ -15,12 +15,15 @@ import kotlin.time.Duration.Companion.seconds
 object StudyPlanWidgetFeature {
     internal val STUDY_PLAN_FETCH_INTERVAL: Duration = 1.seconds
 
-    fun isNextActivity(activity: LearningActivity, section: StudyPlanSection): Boolean =
-        if (section.isRootTopicsSection() && activity.isCurrent) {
-            true
-        } else {
-            section.activities.firstOrNull() == activity.id
-        }
+    fun getNextActivityId(section: StudyPlanSection, state: State): Long? =
+        state.getSectionActivities(section.id)
+            .firstOrNull {
+                if (section.isRootTopicsSection()) {
+                    it.isCurrent
+                } else {
+                    it.state == LearningActivityState.TODO
+                }
+            }?.id
 
     data class State(
         val studyPlan: StudyPlan? = null,
