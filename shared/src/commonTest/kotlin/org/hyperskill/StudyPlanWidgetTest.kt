@@ -638,14 +638,17 @@ class StudyPlanWidgetTest {
                     sectionId = sectionId
                 )
             ),
-            studyPlanSections = listOf(studyPlanSectionStub(id = sectionId, activities = listOf(activityId)))
-                .associate {
-                    it.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
-                        studyPlanSection = it,
-                        isExpanded = false,
-                        contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
-                    )
-                }
+            studyPlanSections = listOf(
+                studyPlanSectionStub(
+                    id = sectionId, activities = listOf(activityId), nextActivityId = activityId
+                )
+            ).associate {
+                it.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = it,
+                    isExpanded = false,
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                )
+            }
         )
 
         val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
@@ -695,7 +698,11 @@ class StudyPlanWidgetTest {
                     sectionId = sectionId
                 )
             ),
-            studyPlanSections = listOf(studyPlanSectionStub(id = sectionId, activities = listOf(activityId)))
+            studyPlanSections = listOf(
+                studyPlanSectionStub(
+                    id = sectionId, activities = listOf(activityId), nextActivityId = activityId
+                )
+            )
                 .associate {
                     it.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                         studyPlanSection = it,
@@ -759,14 +766,17 @@ class StudyPlanWidgetTest {
                     sectionId = sectionId
                 )
             ),
-            studyPlanSections = listOf(studyPlanSectionStub(id = sectionId, activities = listOf(activityId)))
-                .associate {
-                    it.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
-                        studyPlanSection = it,
-                        isExpanded = false,
-                        contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
-                    )
-                }
+            studyPlanSections = listOf(
+                studyPlanSectionStub(
+                    id = sectionId, activities = listOf(activityId), nextActivityId = activityId
+                )
+            ).associate {
+                it.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = it,
+                    isExpanded = false,
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                )
+            }
         )
 
         val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
@@ -776,23 +786,23 @@ class StudyPlanWidgetTest {
     }
 
     @Test
-    fun `Activity with is_current = true will be next for root topics section`() {
-        val currentActivityId = 0L
-        val notCurrentActivityId = 1L
+    fun `Activity with id = section next_activity_id will be next for root topics section`() {
+        val nextActivityId = 0L
+        val notNextActivityId = 1L
         val sectionId = 2L
         val state = StudyPlanWidgetFeature.State(
             studyPlan = studyPlanStub(id = 0, projectId = 1L, sections = listOf(sectionId)),
             activities = mapOf(
-                currentActivityId to stubLearningActivity(
-                    currentActivityId,
+                notNextActivityId to stubLearningActivity(
+                    notNextActivityId,
                     type = LearningActivityType.LEARN_TOPIC,
                     targetType = LearningActivityTargetType.STEP,
                     targetId = 1L,
                     isCurrent = false,
                     sectionId = sectionId
                 ),
-                notCurrentActivityId to stubLearningActivity(
-                    notCurrentActivityId,
+                nextActivityId to stubLearningActivity(
+                    nextActivityId,
                     type = LearningActivityType.LEARN_TOPIC,
                     targetType = LearningActivityTargetType.STEP,
                     targetId = 1L,
@@ -803,7 +813,8 @@ class StudyPlanWidgetTest {
             studyPlanSections = listOf(
                 studyPlanSectionStub(
                     id = sectionId,
-                    activities = listOf(currentActivityId, notCurrentActivityId)
+                    activities = listOf(nextActivityId, notNextActivityId),
+                    nextActivityId = nextActivityId
                 )
             )
                 .associate {
@@ -827,11 +838,11 @@ class StudyPlanWidgetTest {
 
         assertEquals(
             StudyPlanWidgetViewState.SectionItemState.NEXT,
-            viewSectionItems.first { it.id == notCurrentActivityId }.state
+            viewSectionItems.first { it.id == nextActivityId }.state
         )
         assertEquals(
             StudyPlanWidgetViewState.SectionItemState.LOCKED,
-            viewSectionItems.first { it.id == currentActivityId }.state
+            viewSectionItems.first { it.id == notNextActivityId }.state
         )
     }
 
@@ -864,6 +875,7 @@ class StudyPlanWidgetTest {
                 studyPlanSectionStub(
                     id = sectionId,
                     activities = listOf(firstActivityId, secondActivityId),
+                    nextActivityId = null,
                     type = null
                 )
             )
@@ -935,6 +947,7 @@ class StudyPlanWidgetTest {
         completedTopicsCount: Int = 0,
         secondsToComplete: Float = 0f,
         activities: List<Long> = emptyList(),
+        nextActivityId: Long? = null,
         type: StudyPlanSectionType? = StudyPlanSectionType.ROOT_TOPICS
     ) =
         StudyPlanSection(
@@ -942,6 +955,7 @@ class StudyPlanWidgetTest {
             studyPlanId = 0,
             targetId = 0,
             targetType = "",
+            nextActivityId = nextActivityId,
             isVisible = isVisible,
             title = "",
             subtitle = "",

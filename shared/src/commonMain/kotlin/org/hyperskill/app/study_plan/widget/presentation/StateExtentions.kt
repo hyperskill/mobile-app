@@ -22,7 +22,7 @@ internal fun StudyPlanWidgetFeature.State.getNextActivityId(section: StudyPlanSe
     return getSectionActivities(section.id)
         .firstOrNull {
             if (section.isRootTopicsSection()) {
-                it.isCurrent
+                it.id == section.nextActivityId
             } else {
                 it.state == LearningActivityState.TODO
             }

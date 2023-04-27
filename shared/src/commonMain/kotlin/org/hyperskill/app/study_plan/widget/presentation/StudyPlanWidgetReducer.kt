@@ -243,14 +243,21 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
     }
 
     private fun paginateActivitiesToFetch(section: StudyPlanWidgetFeature.StudyPlanSectionInfo): List<Long> =
-        section.studyPlanSection.activities.apply {
-            if (section.studyPlanSection.isRootTopicsSection() &&
-                section.studyPlanSection.nextActivityId != null
-            ) {
-                dropWhile { it != section.studyPlanSection.nextActivityId }
-
-                take(ROOT_TOPICS_SECTION_VISIBLE_ACTIVITIES_COUNT)
-            }
+        if (section.studyPlanSection.isRootTopicsSection() &&
+            section.studyPlanSection.nextActivityId != null
+        ) {
+            val activities = section.studyPlanSection.activities
+            section.studyPlanSection.activities.dropWhile {
+                it != section.studyPlanSection.nextActivityId
+            }.dropLast(
+                if (activities.size > ROOT_TOPICS_SECTION_VISIBLE_ACTIVITIES_COUNT) {
+                    activities.size - ROOT_TOPICS_SECTION_VISIBLE_ACTIVITIES_COUNT
+                } else {
+                    0
+                }
+            )
+        } else {
+            section.studyPlanSection.activities
         }
 
     private fun handleActivityClicked(state: State, activityId: Long): StudyPlanWidgetReducerResult {
