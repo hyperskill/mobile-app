@@ -1,5 +1,7 @@
 package org.hyperskill.app.study_plan.widget.presentation
 
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
@@ -8,8 +10,6 @@ import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.track.domain.model.Track
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.seconds
 
 object StudyPlanWidgetFeature {
     internal val STUDY_PLAN_FETCH_INTERVAL: Duration = 1.seconds
