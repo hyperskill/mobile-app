@@ -7,8 +7,7 @@ final class StudyPlanViewModel: FeatureViewModel<
   StudyPlanScreenFeatureMessage,
   StudyPlanScreenFeatureActionViewAction
 > {
-    private var applicationWasInBackground = false
-    private var shouldReloadContent = false
+    private var isScreenBecomesActiveFirstTime = true
 
     var studyPlanWidgetStateKs: StudyPlanWidgetViewStateKs { .init(state.studyPlanWidgetViewState) }
     var gamificationToolbarStateKs: GamificationToolbarFeatureStateKs { .init(state.toolbarState) }
@@ -33,9 +32,11 @@ final class StudyPlanViewModel: FeatureViewModel<
     }
 
     func doScreenBecomesActive() {
-        onNewMessage(
-            StudyPlanScreenFeatureMessageScreenBecomesActive()
-        )
+        if isScreenBecomesActiveFirstTime {
+            isScreenBecomesActiveFirstTime = false
+        } else {
+            onNewMessage(StudyPlanScreenFeatureMessageScreenBecomesActive())
+        }
     }
 
     func doPullToRefresh() {
@@ -86,5 +87,41 @@ final class StudyPlanViewModel: FeatureViewModel<
 
     func logViewedEvent() {
         onNewMessage(StudyPlanScreenFeatureMessageViewedEventMessage())
+    }
+}
+
+// MARK: - StudyPlanViewModel: StageImplementUnsupportedModalViewControllerDelegate -
+
+extension StudyPlanViewModel: StageImplementUnsupportedModalViewControllerDelegate {
+    func stageImplementUnsupportedModalViewControllerDidAppear(
+        _ viewController: StageImplementUnsupportedModalViewController
+    ) {
+        onNewMessage(
+            StudyPlanScreenFeatureMessageStudyPlanWidgetMessage(
+                message: StudyPlanWidgetFeatureMessageStageImplementUnsupportedModalShownEventMessage()
+            )
+        )
+    }
+
+    func stageImplementUnsupportedModalViewControllerDidDisappear(
+        _ viewController: StageImplementUnsupportedModalViewController
+    ) {
+        onNewMessage(
+            StudyPlanScreenFeatureMessageStudyPlanWidgetMessage(
+                message: StudyPlanWidgetFeatureMessageStageImplementUnsupportedModalHiddenEventMessage()
+            )
+        )
+    }
+
+    func stageImplementUnsupportedModalViewControllerDidTapGoToHomescreenButton(
+        _ viewController: StageImplementUnsupportedModalViewController
+    ) {
+        viewController.dismiss(animated: true)
+
+        onNewMessage(
+            StudyPlanScreenFeatureMessageStudyPlanWidgetMessage(
+                message: StudyPlanWidgetFeatureMessageStageImplementUnsupportedModalGoToHomeClicked()
+            )
+        )
     }
 }

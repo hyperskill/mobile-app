@@ -30,7 +30,17 @@ struct StudyPlanSectionItemView: View {
                         .padding(.trailing)
 
                     if let formattedProgress = item.formattedProgress {
-                        StudyPlanSectionItemProgressBadgeView(formattedProgress: formattedProgress)
+                        StudyPlanSectionItemBadgeView(
+                            text: formattedProgress,
+                            style: .green
+                        )
+                    }
+
+                    if item.isIdeRequired {
+                        StudyPlanSectionItemBadgeView(
+                            text: Strings.StageImplement.UnsupportedModal.title,
+                            style: .violet
+                        )
                     }
                 }
 
@@ -125,6 +135,7 @@ extension StudyPlanWidgetViewStateSectionItem {
             id: 123_412_341_234,
             title: "title",
             state: state,
+            isIdeRequired: false,
             progress: 50,
             formattedProgress: "50%",
             hypercoinsAward: nil

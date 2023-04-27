@@ -22,6 +22,8 @@ data class LearningActivity(
     val title: String = "",
     @SerialName("hypercoins_award")
     val hypercoinsAward: Int = 0,
+    @SerialName("is_ide_required")
+    val isIdeRequired: Boolean = false,
 
     @Transient
     var sectionId: Long? = null
