@@ -46,6 +46,9 @@ class StudyPlanWidgetActionDispatcher(
             is InternalAction.FetchActivities -> {
                 studyPlanInteractor.getLearningActivities(action.activitiesIds, action.types, action.states)
                     .onSuccess { learningActivities ->
+                        learningActivities.forEach { learningActivity ->
+                            learningActivity.sectionId = action.sectionId
+                        }
                         onNewMessage(
                             StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success(
                                 action.sectionId,

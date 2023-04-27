@@ -4,6 +4,7 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivityTarge
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.study_plan.domain.model.StudyPlanStatus
+import org.hyperskill.app.study_plan.domain.model.isRootTopicsSection
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Action
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalAction
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Message
@@ -14,6 +15,10 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 internal typealias StudyPlanWidgetReducerResult = Pair<State, Set<Action>>
 
 class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
+    companion object {
+        const val ROOT_TOPICS_SECTION_VISIBLE_ACTIVITIES_COUNT = 10
+    }
+
     override fun reduce(state: State, message: Message): StudyPlanWidgetReducerResult =
         when (message) {
             Message.Initialize -> coldContentFetch()
@@ -168,7 +173,11 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         ) to setOf(
             InternalAction.FetchActivities(
                 sectionId = message.sectionId,
-                activitiesIds = section.studyPlanSection.activities
+                activitiesIds = if (section.studyPlanSection.isRootTopicsSection()) {
+                    section.studyPlanSection.activities.take(ROOT_TOPICS_SECTION_VISIBLE_ACTIVITIES_COUNT)
+                } else {
+                    section.studyPlanSection.activities
+                }
             )
         )
     }
@@ -196,8 +205,11 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                     updateSectionState(StudyPlanWidgetFeature.ContentStatus.LOADING) to setOf(
                         InternalAction.FetchActivities(
                             sectionId = sectionId,
-                            activitiesIds = section.studyPlanSection.activities,
-                            // TODO: add parameter for pagination activities
+                            activitiesIds = if (section.studyPlanSection.isRootTopicsSection()) {
+                                section.studyPlanSection.activities.take(ROOT_TOPICS_SECTION_VISIBLE_ACTIVITIES_COUNT)
+                            } else {
+                                section.studyPlanSection.activities
+                            }
                         )
                     )
                 }
@@ -214,8 +226,11 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
     }
 
     private fun handleActivityClicked(state: State, activityId: Long): StudyPlanWidgetReducerResult {
-        val activity = state.activities[activityId]
-        if (activity?.isCurrent != true) return state to emptySet()
+        val activity = state.activities[activityId] ?: return state to emptySet()
+        val section = state.studyPlanSections[activity.sectionId]?.studyPlanSection ?: return state to emptySet()
+
+        if (!StudyPlanWidgetFeature.isNextActivity(activity, section)) return state to emptySet()
+
         val action = when (activity.type) {
             LearningActivityType.IMPLEMENT_STAGE -> {
                 val projectId = state.studyPlan?.projectId

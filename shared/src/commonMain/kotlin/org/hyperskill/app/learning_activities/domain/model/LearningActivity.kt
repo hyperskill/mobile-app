@@ -2,6 +2,7 @@ package org.hyperskill.app.learning_activities.domain.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
 @Serializable
 data class LearningActivity(
@@ -20,7 +21,10 @@ data class LearningActivity(
     @SerialName("title")
     val title: String = "",
     @SerialName("hypercoins_award")
-    val hypercoinsAward: Int = 0
+    val hypercoinsAward: Int = 0,
+
+    @Transient
+    var sectionId: Long? = null
 ) {
     val state: LearningActivityState?
         get() = LearningActivityState.getByValue(stateValue)

@@ -1,13 +1,14 @@
 package org.hyperskill.app.study_plan.widget.view
 
-import kotlin.math.roundToLong
 import org.hyperskill.app.core.view.mapper.DateFormatter
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
+import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.firstVisibleSection
 import org.hyperskill.app.study_plan.widget.presentation.getSectionActivities
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState.SectionContent
+import kotlin.math.roundToLong
 
 class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
     fun map(state: StudyPlanWidgetFeature.State): StudyPlanWidgetViewState =
@@ -69,14 +70,14 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
                     if (activities.isEmpty()) {
                         SectionContent.Loading
                     } else {
-                        getContent(activities)
+                        getContent(activities, sectionInfo.studyPlanSection)
                     }
                 }
                 StudyPlanWidgetFeature.ContentStatus.ERROR -> SectionContent.Error
                 StudyPlanWidgetFeature.ContentStatus.LOADED -> {
                     val activities = state.getSectionActivities(sectionInfo.studyPlanSection.id)
                     if (activities.isNotEmpty()) {
-                        getContent(activities)
+                        getContent(activities, sectionInfo.studyPlanSection)
                     } else {
                         SectionContent.Error
                     }
@@ -86,15 +87,14 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
             SectionContent.Collapsed
         }
 
-    private fun getContent(activities: List<LearningActivity>): SectionContent.Content =
+    private fun getContent(activities: List<LearningActivity>, section: StudyPlanSection): SectionContent.Content =
         SectionContent.Content(
             sectionItems = activities.map { activity ->
                 StudyPlanWidgetViewState.SectionItem(
                     id = activity.id,
                     title = activity.title.ifBlank { activity.id.toString() },
                     state = when (activity.state) {
-                        LearningActivityState.TODO -> if (activity.isCurrent) {
-                            // TODO change detection next activity depending
+                        LearningActivityState.TODO -> if (StudyPlanWidgetFeature.isNextActivity(activity, section)) {
                             StudyPlanWidgetViewState.SectionItemState.NEXT
                         } else {
                             StudyPlanWidgetViewState.SectionItemState.LOCKED
