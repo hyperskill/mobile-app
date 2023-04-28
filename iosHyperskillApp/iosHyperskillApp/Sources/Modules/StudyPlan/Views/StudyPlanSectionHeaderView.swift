@@ -47,7 +47,12 @@ struct StudyPlanSectionHeaderView: View {
         .padding()
         .background(Color(ColorPalette.surface))
         .cornerRadius(appearance.cornerRadius)
-        .onTapGesture { onSectionTap(section.id) }
+        .onTapGesture {
+            withAnimation {
+                onSectionTap(section.id)
+            }
+        }
+        .animation(.easeOut, value: isCollapsed)
     }
 }
 
