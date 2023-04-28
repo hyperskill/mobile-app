@@ -25,10 +25,13 @@ object HyperskillSentryTransactionBuilder {
     /**
      * AppFeature
      */
-    fun buildAppScreenRemoteDataLoading(): HyperskillSentryTransaction =
+    fun buildAppScreenRemoteDataLoading(isAuthorized: Boolean): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
             name = "app-feature-remote-data-loading",
-            operation = HyperskillSentryTransactionOperation.API_LOAD
+            operation = HyperskillSentryTransactionOperation.API_LOAD,
+            tags = listOf(
+                HyperskillSentryTransactionTag.User.IsAuthorized(isAuthorized)
+            )
         )
 
     /**

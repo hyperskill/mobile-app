@@ -94,10 +94,15 @@ final class SentryManager: shared.SentryManager {
 
     func startTransaction(transaction: HyperskillSentryTransaction) {
         let span = SentrySDK.startTransaction(name: transaction.name, operation: transaction.operation)
+        transaction.tags.forEach { (key, value) in
+            span.setTag(value: value, key: key)
+        }
+
         let platformTransaction = PlatformHyperskillSentryTransaction(
             span: span,
             name: transaction.name,
-            operation_: transaction.operation
+            operation: transaction.operation,
+            tags: transaction.tags
         )
         currentTransactionsDict[mapTransactionToKey(platformTransaction)] = platformTransaction
     }
