@@ -2,6 +2,7 @@ package org.hyperskill.app.study_plan.widget.presentation
 
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
+import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedActivityHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent
@@ -208,7 +209,10 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         ) to setOf(
             InternalAction.FetchActivities(
                 sectionId = message.sectionId,
-                activitiesIds = section.studyPlanSection.activities
+                activitiesIds = section.studyPlanSection.activities,
+                sentryTransaction = HyperskillSentryTransactionBuilder.buildStudyPlanWidgetFetchLearningActivities(
+                    isCurrentSection = message.sectionId == state.firstSection()?.id
+                )
             ),
             InternalAction.LogAnalyticEvent(
                 StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent(message.sectionId)
@@ -246,7 +250,10 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                     updateSectionState(StudyPlanWidgetFeature.ContentStatus.LOADING) to setOfNotNull(
                         InternalAction.FetchActivities(
                             sectionId = sectionId,
-                            activitiesIds = section.studyPlanSection.activities
+                            activitiesIds = section.studyPlanSection.activities,
+                            sentryTransaction = HyperskillSentryTransactionBuilder.buildStudyPlanWidgetFetchLearningActivities(
+                                isCurrentSection = sectionId == state.firstSection()?.id
+                            )
                         ),
                         logAnalyticEventAction
                     )

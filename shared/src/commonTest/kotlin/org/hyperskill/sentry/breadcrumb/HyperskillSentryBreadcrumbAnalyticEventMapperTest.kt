@@ -1,4 +1,4 @@
-package org.hyperskill
+package org.hyperskill.sentry.breadcrumb
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

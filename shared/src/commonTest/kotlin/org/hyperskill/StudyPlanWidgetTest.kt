@@ -13,6 +13,7 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
+import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedActivityHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent
@@ -260,7 +261,11 @@ class StudyPlanWidgetTest {
         )
         assertContains(
             actions,
-            StudyPlanWidgetFeature.InternalAction.FetchActivities(firstSection.id, firstSection.activities)
+            StudyPlanWidgetFeature.InternalAction.FetchActivities(
+                sectionId = firstSection.id,
+                activitiesIds = firstSection.activities,
+                sentryTransaction = HyperskillSentryTransactionBuilder.buildStudyPlanWidgetFetchLearningActivities(true)
+            )
         )
         assertEquals(true, state.studyPlanSections[firstSection.id]?.isExpanded)
     }
@@ -322,7 +327,14 @@ class StudyPlanWidgetTest {
         val (state, actions) =
             reducer.reduce(initialState, StudyPlanWidgetFeature.Message.RetryActivitiesLoading(section.id))
 
-        assertContains(actions, StudyPlanWidgetFeature.InternalAction.FetchActivities(section.id, activities))
+        assertContains(
+            actions,
+            StudyPlanWidgetFeature.InternalAction.FetchActivities(
+                sectionId = section.id,
+                activitiesIds = activities,
+                sentryTransaction = HyperskillSentryTransactionBuilder.buildStudyPlanWidgetFetchLearningActivities(true)
+            )
+        )
         assertEquals(StudyPlanWidgetFeature.ContentStatus.LOADING, state.studyPlanSections[section.id]?.contentStatus)
 
         val analyticAction = actions.last() as StudyPlanWidgetFeature.InternalAction.LogAnalyticEvent
