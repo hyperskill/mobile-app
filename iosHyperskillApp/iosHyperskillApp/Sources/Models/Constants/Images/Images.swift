@@ -14,7 +14,6 @@ enum Images {
         static let homeFilled = "tab-bar-home-filled"
 
         static let track = "tab-bar-track"
-        static let trackFilled = "tab-bar-track-filled"
 
         static let studyPlan = "tab-bar-study-plan"
         static let studyPlanFilled = "tab-bar-study-plan-filled"
