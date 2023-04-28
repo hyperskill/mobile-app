@@ -55,8 +55,6 @@ final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, A
             switch tab {
             case .home:
                 return .home
-            case .track:
-                return .track
             case .studyPlan:
                 return .studyPlan
             case .profile:

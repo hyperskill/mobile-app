@@ -26,8 +26,6 @@ final class AppTabBarController: UITabBarController {
                 switch tabItem {
                 case .home:
                     return HomeAssembly().makeModule()
-                case .track:
-                    return TrackAssembly().makeModule()
                 case .studyPlan:
                     return StudyPlanAssembly().makeModule()
                 case .profile:
@@ -73,7 +71,7 @@ private extension AppTabItem {
         var result = AppTabItem.allCases
 
         if !ApplicationInfo.isDebugModeAvailable {
-            result.removeAll(where: { $0 == .debug || $0 == .studyPlan })
+            result.removeAll(where: { $0 == .debug })
         }
 
         return result
@@ -81,7 +79,7 @@ private extension AppTabItem {
 
     var tabBarItem: UITabBarItem {
         switch self {
-        case .home, .track, .studyPlan, .profile:
+        case .home, .studyPlan, .profile:
             return UITabBarItem(
                 title: title,
                 image: UIImage(named: imageName),
