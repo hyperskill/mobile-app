@@ -72,5 +72,8 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     STREAK_FREEZE_MODAL("streak_freeze_modal"),
     GET_IT("get_it"),
     CONTINUE_LEARNING("continue_learning"),
-    STAGE_IMPLEMENT_UNSUPPORTED_MODAL("stage_implement_unsupported_modal")
+    STAGE_IMPLEMENT_UNSUPPORTED_MODAL("stage_implement_unsupported_modal"),
+    RETRY("retry"),
+    SECTION("section"),
+    ACTIVITY("activity")
 }

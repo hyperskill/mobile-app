@@ -9,6 +9,8 @@ data class StudyPlanSection(
     val id: Long,
     @SerialName("study_plan_id")
     val studyPlanId: Long,
+    @SerialName("type")
+    private val typeValue: String,
     @SerialName("target_id")
     val targetId: Long? = null,
     @SerialName("target_type")
@@ -27,4 +29,7 @@ data class StudyPlanSection(
     val secondsToComplete: Float? = null,
     @SerialName("activities")
     val activities: List<Long>
-)
+) {
+    val type: StudyPlanSectionType?
+        get() = StudyPlanSectionType.getByValue(typeValue)
+}
