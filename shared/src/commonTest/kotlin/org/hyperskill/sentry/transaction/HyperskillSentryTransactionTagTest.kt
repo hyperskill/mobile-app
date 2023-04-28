@@ -21,10 +21,10 @@ class HyperskillSentryTransactionTagTest {
 
     @Test
     fun `Study plan section is current tag creates correctly`() {
-        val expectedKey = "study_plan_section.is_current"
+        val expectedKey = "study_plan.section.is_current"
 
-        val tagWithTrueValue = HyperskillSentryTransactionTag.StudyPlanSection.IsCurrent(isCurrent = true)
-        val tagWithFalseValue = HyperskillSentryTransactionTag.StudyPlanSection.IsCurrent(isCurrent = false)
+        val tagWithTrueValue = HyperskillSentryTransactionTag.StudyPlan.Section.IsCurrent(isCurrent = true)
+        val tagWithFalseValue = HyperskillSentryTransactionTag.StudyPlan.Section.IsCurrent(isCurrent = false)
 
         assertEquals(expectedKey, tagWithTrueValue.key)
         assertEquals("true", tagWithTrueValue.value)

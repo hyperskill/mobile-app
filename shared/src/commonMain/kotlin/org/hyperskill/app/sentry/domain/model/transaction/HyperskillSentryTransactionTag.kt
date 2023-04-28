@@ -22,15 +22,20 @@ sealed class HyperskillSentryTransactionTag {
         }
     }
 
-    sealed class StudyPlanSection : HyperskillSentryTransactionTag() {
-        override val key: String = "study_plan_section"
+    sealed class StudyPlan : HyperskillSentryTransactionTag() {
+        override val key: String = "study_plan"
 
-        class IsCurrent(isCurrent: Boolean) : StudyPlanSection() {
+        sealed class Section : StudyPlan() {
             override val key: String =
-                "${super.key}.is_current"
+                "${super.key}.section"
 
-            override val value: String =
-                isCurrent.toString()
+            class IsCurrent(isCurrent: Boolean) : Section() {
+                override val key: String =
+                    "${super.key}.is_current"
+
+                override val value: String =
+                    isCurrent.toString()
+            }
         }
     }
 }
