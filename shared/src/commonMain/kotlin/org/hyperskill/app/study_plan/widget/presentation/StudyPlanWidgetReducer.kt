@@ -153,7 +153,11 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         )
 
         return if (sortedSupportedSectionsIds.isNotEmpty()) {
-            changeSectionExpanse(loadedSectionsState, sortedSupportedSectionsIds.first(), shouldLogAnalyticEvent = false)
+            changeSectionExpanse(
+                loadedSectionsState,
+                sortedSupportedSectionsIds.first(),
+                shouldLogAnalyticEvent = false
+            )
         } else {
             loadedSectionsState to emptySet()
         }
