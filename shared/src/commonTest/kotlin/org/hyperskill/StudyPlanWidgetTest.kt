@@ -14,6 +14,10 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedActivityHyperskillAnalyticEvent
+import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent
+import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryContentLoadingHyperskillAnalyticEvent
+import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedSectionHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
@@ -320,6 +324,13 @@ class StudyPlanWidgetTest {
 
         assertContains(actions, StudyPlanWidgetFeature.InternalAction.FetchActivities(section.id, activities))
         assertEquals(StudyPlanWidgetFeature.ContentStatus.LOADING, state.studyPlanSections[section.id]?.contentStatus)
+
+        val analyticAction = actions.last() as StudyPlanWidgetFeature.InternalAction.LogAnalyticEvent
+        if (analyticAction.analyticEvent is StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent) {
+            assertEquals(section.id, analyticAction.analyticEvent.sectionId)
+        } else {
+            fail("Wrong analytic event")
+        }
     }
 
     @Test
@@ -638,7 +649,9 @@ class StudyPlanWidgetTest {
         val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
 
         assertEquals(state, newState)
-        assertTrue(actions.isEmpty())
+        assertTrue { actions.filterIsInstance<StudyPlanWidgetFeature.Action.ViewAction>().isEmpty() }
+
+        assertClickedActivityAnalyticEvent(actions, newState.activities[activityId]!!)
     }
 
     @Test
@@ -662,9 +675,11 @@ class StudyPlanWidgetTest {
         val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
 
         assertEquals(state, newState)
-        assertEquals(
-            actions, setOf(StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.StageImplement(stageId, projectId))
+        assertContains(
+            actions, StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.StageImplement(stageId, projectId)
         )
+
+        assertClickedActivityAnalyticEvent(actions, newState.activities[activityId]!!)
     }
 
     @Test
@@ -686,7 +701,9 @@ class StudyPlanWidgetTest {
         val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
 
         assertEquals(state, newState)
-        assertTrue(actions.isEmpty())
+        assertTrue { actions.filterIsInstance<StudyPlanWidgetFeature.Action.ViewAction>().isEmpty() }
+
+        assertClickedActivityAnalyticEvent(actions, newState.activities[activityId]!!)
     }
 
     @Test
@@ -709,16 +726,17 @@ class StudyPlanWidgetTest {
         val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
 
         assertEquals(state, newState)
-        assertEquals(actions.size, 1)
 
-        val targetAction = actions.first()
-        if (targetAction is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.StepScreen &&
-            targetAction.stepRoute is StepRoute.Learn
+        val targetViewAction = actions.first()
+        if (targetViewAction is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.StepScreen &&
+            targetViewAction.stepRoute is StepRoute.Learn
         ) {
-            assertEquals(targetAction.stepRoute.stepId, stepId)
+            assertEquals(targetViewAction.stepRoute.stepId, stepId)
         } else {
-            fail("Unexpected action: $targetAction")
+            fail("Unexpected action: $targetViewAction")
         }
+
+        assertClickedActivityAnalyticEvent(actions, newState.activities[activityId]!!)
     }
 
     @Test
@@ -740,7 +758,9 @@ class StudyPlanWidgetTest {
         val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
 
         assertEquals(state, newState)
-        assertTrue(actions.isEmpty())
+        assertTrue { actions.filterIsInstance<StudyPlanWidgetFeature.Action.ViewAction>().isEmpty() }
+
+        assertClickedActivityAnalyticEvent(actions, newState.activities[activityId]!!)
     }
 
     @Test
@@ -764,6 +784,50 @@ class StudyPlanWidgetTest {
 
         assertEquals(state, newState)
         assertContains(actions, StudyPlanWidgetFeature.Action.ViewAction.ShowStageImplementUnsupportedModal)
+
+        assertClickedActivityAnalyticEvent(actions, newState.activities[activityId]!!)
+    }
+
+    @Test
+    fun `Retry content loading message should trigger logging analytic event`() {
+        val (_, actions) = reducer.reduce(
+            StudyPlanWidgetFeature.State(),
+            StudyPlanWidgetFeature.Message.RetryContentLoading
+        )
+
+        assertEquals(actions.size, 2)
+        val targetAction = actions.last() as StudyPlanWidgetFeature.InternalAction.LogAnalyticEvent
+        if (targetAction.analyticEvent is StudyPlanClickedRetryContentLoadingHyperskillAnalyticEvent) {
+            // pass
+        } else {
+            fail("Unexpected action: $targetAction")
+        }
+    }
+
+    @Test
+    fun `Clicking on section should change section expansion state`() {
+        val sectionId = 0L
+        val state = StudyPlanWidgetFeature.State(
+            studyPlan = studyPlanStub(id = 0),
+            studyPlanSections = mapOf(
+                sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(id = sectionId),
+                    isExpanded = false,
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                )
+            )
+        )
+
+        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.SectionClicked(sectionId))
+        assertEquals(newState.studyPlanSections[sectionId]?.isExpanded, true)
+
+        val analyticAction = actions.last() as StudyPlanWidgetFeature.InternalAction.LogAnalyticEvent
+        if (analyticAction.analyticEvent is StudyPlanClickedSectionHyperskillAnalyticEvent) {
+            assertEquals(analyticAction.analyticEvent.sectionId, sectionId)
+            assertEquals(analyticAction.analyticEvent.isExpanded, true)
+        } else {
+            fail("Unexpected action: $analyticAction")
+        }
     }
 
     private fun sectionViewState(
@@ -858,4 +922,19 @@ class StudyPlanWidgetTest {
             isIdeRequired = isIdeRequired,
             hypercoinsAward = null
         )
+
+    private fun assertClickedActivityAnalyticEvent(
+        actions: Set<StudyPlanWidgetFeature.Action>,
+        activity: LearningActivity
+    ) {
+        val analyticAction = actions.last() as StudyPlanWidgetFeature.InternalAction.LogAnalyticEvent
+        if (analyticAction.analyticEvent is StudyPlanClickedActivityHyperskillAnalyticEvent) {
+            assertEquals(activity.id, analyticAction.analyticEvent.activityId)
+            assertEquals(activity.type?.value, analyticAction.analyticEvent.activityType)
+            assertEquals(activity.targetType?.value, analyticAction.analyticEvent.activityTargetType)
+            assertEquals(activity.targetId, analyticAction.analyticEvent.activityTargetId)
+        } else {
+            fail("Expected StudyPlanClickedActivityHyperskillAnalyticEvent")
+        }
+    }
 }

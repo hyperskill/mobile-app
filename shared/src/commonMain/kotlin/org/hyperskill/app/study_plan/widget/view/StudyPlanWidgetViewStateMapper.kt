@@ -111,7 +111,7 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
         )
 
     private fun formatTopicsCount(completedTopicsCount: Int, topicsCount: Int): String? =
-        if (completedTopicsCount > 0 && topicsCount > 0) {
+        if (topicsCount > 0) {
             "$completedTopicsCount / $topicsCount"
         } else {
             null

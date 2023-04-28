@@ -34,12 +34,10 @@ struct StudyPlanSectionView: View {
                 SkeletonRoundedView()
                     .frame(height: apperance.skeletonHeight)
             case .content(let content):
-                ForEach(content.sectionItems, id: \.id) { item in
-                    StudyPlanSectionItemView(
-                        item: item,
-                        onActivityTap: { onActivityTap(item.id) }
-                    )
-                }
+                StudyPlanSectionActivitiesList(
+                    sectionItems: content.sectionItems,
+                    onTap: onActivityTap
+                )
             }
         }
     }
@@ -58,9 +56,7 @@ struct StudyPlanSectionView_Previews: PreviewProvider {
         .background(Color(ColorPalette.background))
     }
 }
-#endif
 
-#if DEBUG
 extension StudyPlanWidgetViewStateSection {
     static func makePlaceholder() -> StudyPlanWidgetViewStateSection {
         StudyPlanWidgetViewStateSection(
