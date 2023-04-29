@@ -15,8 +15,6 @@ data class LearningActivity(
     private val targetTypeValue: String,
     @SerialName("type")
     private val typeValue: Int,
-    @SerialName("is_current")
-    val isCurrent: Boolean,
     @SerialName("title")
     val title: String = "",
     @SerialName("hypercoins_award")

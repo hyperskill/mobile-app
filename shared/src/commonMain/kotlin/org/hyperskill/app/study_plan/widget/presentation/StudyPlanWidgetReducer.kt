@@ -1,5 +1,7 @@
 package org.hyperskill.app.study_plan.widget.presentation
 
+import kotlin.math.max
+import kotlin.math.min
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
@@ -11,6 +13,7 @@ import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedSectionHype
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalClickedGoToHomeScreenHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalShownHyperskillAnalyticEvent
+import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
 import org.hyperskill.app.study_plan.domain.model.StudyPlanStatus
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Action
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalAction
@@ -22,6 +25,10 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 internal typealias StudyPlanWidgetReducerResult = Pair<State, Set<Action>>
 
 class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
+    companion object {
+        const val SECTION_ROOT_TOPICS_PAGE_SIZE = 10
+    }
+
     override fun reduce(state: State, message: Message): StudyPlanWidgetReducerResult =
         when (message) {
             is Message.Initialize ->
@@ -38,7 +45,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 state.copy(
                     studyPlanSections = state.studyPlanSections.mapValues { (sectionId, sectionInfo) ->
                         sectionInfo.copy(
-                            contentStatus = if (sectionId == state.firstSection()?.id) {
+                            contentStatus = if (sectionId == state.getCurrentSection()?.id) {
                                 sectionInfo.contentStatus
                             } else {
                                 StudyPlanWidgetFeature.ContentStatus.IDLE
@@ -209,9 +216,9 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         ) to setOf(
             InternalAction.FetchActivities(
                 sectionId = message.sectionId,
-                activitiesIds = section.studyPlanSection.activities,
+                activitiesIds = getPaginatedActivitiesIds(section),
                 sentryTransaction = HyperskillSentryTransactionBuilder.buildStudyPlanWidgetFetchLearningActivities(
-                    isCurrentSection = message.sectionId == state.firstSection()?.id
+                    isCurrentSection = message.sectionId == state.getCurrentSection()?.id
                 )
             ),
             InternalAction.LogAnalyticEvent(
@@ -250,9 +257,9 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                     updateSectionState(StudyPlanWidgetFeature.ContentStatus.LOADING) to setOfNotNull(
                         InternalAction.FetchActivities(
                             sectionId = sectionId,
-                            activitiesIds = section.studyPlanSection.activities,
+                            activitiesIds = getPaginatedActivitiesIds(section),
                             sentryTransaction = HyperskillSentryTransactionBuilder.buildStudyPlanWidgetFetchLearningActivities(
-                                isCurrentSection = sectionId == state.firstSection()?.id
+                                isCurrentSection = sectionId == state.getCurrentSection()?.id
                             )
                         ),
                         logAnalyticEventAction
@@ -270,6 +277,19 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         }
     }
 
+    internal fun getPaginatedActivitiesIds(section: StudyPlanWidgetFeature.StudyPlanSectionInfo): List<Long> =
+        if (section.studyPlanSection.type == StudyPlanSectionType.ROOT_TOPICS &&
+            section.studyPlanSection.nextActivityId != null
+        ) {
+            val startIndex =
+                max(0, section.studyPlanSection.activities.indexOf(section.studyPlanSection.nextActivityId))
+            val endIndex =
+                min(startIndex + (SECTION_ROOT_TOPICS_PAGE_SIZE - 1), section.studyPlanSection.activities.size - 1)
+            section.studyPlanSection.activities.slice(startIndex..endIndex)
+        } else {
+            section.studyPlanSection.activities
+        }
+
     private fun handleActivityClicked(state: State, activityId: Long): StudyPlanWidgetReducerResult {
         val activity = state.activities[activityId] ?: return state to emptySet()
 
@@ -282,7 +302,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             )
         )
 
-        if (!activity.isCurrent) {
+        if (activity.id != state.getCurrentActivity()?.id) {
             return state to setOf(logAnalyticEventAction)
         }
 
