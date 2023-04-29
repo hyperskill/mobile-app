@@ -15,6 +15,7 @@ sealed interface StudyPlanWidgetViewState {
         val id: Long,
         val title: String,
         val subtitle: String?,
+        val isCurrent: Boolean,
         val formattedTopicsCount: String?,
         val formattedTimeToComplete: String?,
         val content: SectionContent

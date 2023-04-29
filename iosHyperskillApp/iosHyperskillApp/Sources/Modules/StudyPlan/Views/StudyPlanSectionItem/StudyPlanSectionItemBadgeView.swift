@@ -24,11 +24,14 @@ struct StudyPlanSectionItemBadgeView: View {
     }
 
     enum Style {
-        case violet
+        case blue
         case green
+        case violet
 
         var foregroundColor: Color {
             switch self {
+            case .blue:
+                return Color(ColorPalette.primary)
             case .green:
                 return Color(ColorPalette.secondary)
             case .violet:
@@ -38,12 +41,27 @@ struct StudyPlanSectionItemBadgeView: View {
 
         var backgroundColor: Color {
             switch self {
+            case .blue:
+                return Color(ColorPalette.overlayBlueAlpha12)
             case .green:
                 return Color(ColorPalette.overlayGreenAlpha12)
             case .violet:
                 return Color(ColorPalette.overlayVioletAlpha12)
             }
         }
+    }
+}
+
+extension StudyPlanSectionItemBadgeView {
+    static func ideRequired() -> StudyPlanSectionItemBadgeView {
+        StudyPlanSectionItemBadgeView(
+            text: Strings.StageImplement.UnsupportedModal.title,
+            style: .violet
+        )
+    }
+
+    static func current() -> StudyPlanSectionItemBadgeView {
+        StudyPlanSectionItemBadgeView(text: Strings.StudyPlan.badgeCurrent, style: .blue)
     }
 }
 
@@ -55,10 +73,9 @@ struct StudyPlanSectionItemBadgeView_Previews: PreviewProvider {
                 style: .green
             )
 
-            StudyPlanSectionItemBadgeView(
-                text: "IDE Required",
-                style: .violet
-            )
+            StudyPlanSectionItemBadgeView.ideRequired()
+
+            StudyPlanSectionItemBadgeView.current()
         }
         .padding()
         .previewLayout(.sizeThatFits)

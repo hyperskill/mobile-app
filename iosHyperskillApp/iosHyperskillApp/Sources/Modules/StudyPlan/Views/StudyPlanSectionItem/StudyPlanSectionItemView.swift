@@ -37,10 +37,7 @@ struct StudyPlanSectionItemView: View {
                     }
 
                     if item.isIdeRequired {
-                        StudyPlanSectionItemBadgeView(
-                            text: Strings.StageImplement.UnsupportedModal.title,
-                            style: .violet
-                        )
+                        StudyPlanSectionItemBadgeView.ideRequired()
                     }
                 }
 
