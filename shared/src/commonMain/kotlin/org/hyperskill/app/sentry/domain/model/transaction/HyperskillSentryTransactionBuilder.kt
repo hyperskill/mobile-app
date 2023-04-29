@@ -25,10 +25,13 @@ object HyperskillSentryTransactionBuilder {
     /**
      * AppFeature
      */
-    fun buildAppScreenRemoteDataLoading(): HyperskillSentryTransaction =
+    fun buildAppScreenRemoteDataLoading(isAuthorized: Boolean): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
             name = "app-feature-remote-data-loading",
-            operation = HyperskillSentryTransactionOperation.API_LOAD
+            operation = HyperskillSentryTransactionOperation.API_LOAD,
+            tags = listOf(
+                HyperskillSentryTransactionTag.User.IsAuthorized(isAuthorized)
+            )
         )
 
     /**
@@ -208,10 +211,13 @@ object HyperskillSentryTransactionBuilder {
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
 
-    fun buildStudyPlanWidgetFetchLearningActivities(): HyperskillSentryTransaction =
+    fun buildStudyPlanWidgetFetchLearningActivities(isCurrentSection: Boolean): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
             name = "study-plan-widget-feature-fetch-learning-activities",
-            operation = HyperskillSentryTransactionOperation.API_LOAD
+            operation = HyperskillSentryTransactionOperation.API_LOAD,
+            tags = listOf(
+                HyperskillSentryTransactionTag.StudyPlan.Section.IsCurrent(isCurrentSection)
+            )
         )
 
     fun buildStudyPlanWidgetFetchTrack(): HyperskillSentryTransaction =

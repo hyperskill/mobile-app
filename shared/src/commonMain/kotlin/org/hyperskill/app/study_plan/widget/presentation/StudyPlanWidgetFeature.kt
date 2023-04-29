@@ -6,6 +6,7 @@ import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
+import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransaction
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
@@ -144,7 +145,8 @@ object StudyPlanWidgetFeature {
             val sectionId: Long,
             val activitiesIds: List<Long>,
             val types: Set<LearningActivityType> = LearningActivityType.supportedTypes(),
-            val states: Set<LearningActivityState> = setOf(LearningActivityState.TODO)
+            val states: Set<LearningActivityState> = setOf(LearningActivityState.TODO),
+            val sentryTransaction: HyperskillSentryTransaction
         ) : InternalAction
 
         data class FetchTrack(val trackId: Long) : InternalAction

@@ -1,14 +1,14 @@
 package org.hyperskill.app.study_plan.widget.view
 
+import kotlin.math.roundToLong
 import org.hyperskill.app.core.view.mapper.DateFormatter
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
-import org.hyperskill.app.study_plan.widget.presentation.firstVisibleSection
+import org.hyperskill.app.study_plan.widget.presentation.firstSection
 import org.hyperskill.app.study_plan.widget.presentation.getNextActivityId
 import org.hyperskill.app.study_plan.widget.presentation.getSectionActivities
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState.SectionContent
-import kotlin.math.roundToLong
 
 class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
     fun map(state: StudyPlanWidgetFeature.State): StudyPlanWidgetViewState =
@@ -20,14 +20,14 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
         }
 
     private fun getLoadedWidgetContent(state: StudyPlanWidgetFeature.State): StudyPlanWidgetViewState.Content {
-        val firstVisibleSectionId = state.firstVisibleSection()?.id
+        val firstSectionId = state.firstSection()?.id
 
         return StudyPlanWidgetViewState.Content(
             sections = state.studyPlan?.sections?.mapNotNull { sectionId ->
                 val sectionInfo = state.studyPlanSections[sectionId] ?: return@mapNotNull null
                 val section = sectionInfo.studyPlanSection
 
-                val shouldShowSectionStatistics = firstVisibleSectionId == section.id || sectionInfo.isExpanded
+                val shouldShowSectionStatistics = firstSectionId == section.id || sectionInfo.isExpanded
 
                 StudyPlanWidgetViewState.Section(
                     id = section.id,

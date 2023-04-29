@@ -60,12 +60,11 @@ class StudyPlanWidgetActionDispatcher(
                     }
             }
             is InternalAction.FetchActivities -> {
-                val sentryTransaction = HyperskillSentryTransactionBuilder.buildStudyPlanWidgetFetchLearningActivities()
-                sentryInteractor.startTransaction(sentryTransaction)
+                sentryInteractor.startTransaction(action.sentryTransaction)
 
                 studyPlanInteractor.getLearningActivities(action.activitiesIds, action.types, action.states)
                     .onSuccess { learningActivities ->
-                        sentryInteractor.finishTransaction(sentryTransaction)
+                        sentryInteractor.finishTransaction(action.sentryTransaction)
                         learningActivities.forEach { learningActivity ->
                             learningActivity.sectionId = action.sectionId
                         }
@@ -77,7 +76,7 @@ class StudyPlanWidgetActionDispatcher(
                         )
                     }
                     .onFailure {
-                        sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
+                        sentryInteractor.finishTransaction(action.sentryTransaction, throwable = it)
                         onNewMessage(StudyPlanWidgetFeature.LearningActivitiesFetchResult.Failed(action.sectionId))
                     }
             }

@@ -9,6 +9,8 @@ data class StudyPlanSection(
     val id: Long,
     @SerialName("study_plan_id")
     val studyPlanId: Long,
+    @SerialName("type")
+    private val typeValue: String,
     @SerialName("target_id")
     val targetId: Long? = null,
     @SerialName("target_type")
@@ -28,10 +30,11 @@ data class StudyPlanSection(
     @SerialName("seconds_to_complete")
     val secondsToComplete: Float? = null,
     @SerialName("activities")
-    val activities: List<Long>,
-    @SerialName("type")
-    val type: StudyPlanSectionType? = null
-)
+    val activities: List<Long>
+) {
+    val type: StudyPlanSectionType?
+        get() = StudyPlanSectionType.getByValue(typeValue)
+}
 
 fun StudyPlanSection.isRootTopicsSection(): Boolean =
     type == StudyPlanSectionType.ROOT_TOPICS

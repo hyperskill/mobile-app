@@ -2,7 +2,12 @@ package org.hyperskill.app.study_plan.widget.presentation
 
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
+import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedActivityHyperskillAnalyticEvent
+import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent
+import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryContentLoadingHyperskillAnalyticEvent
+import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedSectionHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalClickedGoToHomeScreenHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalShownHyperskillAnalyticEvent
@@ -31,14 +36,14 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             is StudyPlanWidgetFeature.SectionsFetchResult.Success ->
                 handleSectionsFetchSuccess(state, message)
             is Message.RetryContentLoading ->
-                coldContentFetch()
+                handleRetryContentLoading()
             is Message.RetryActivitiesLoading ->
                 handleRetryActivitiesLoading(state, message)
             is Message.ReloadContentInBackground ->
                 state.copy(
                     studyPlanSections = state.studyPlanSections.mapValues { (sectionId, sectionInfo) ->
                         sectionInfo.copy(
-                            contentStatus = if (sectionId == state.firstVisibleSection()?.id) {
+                            contentStatus = if (sectionId == state.firstSection()?.id) {
                                 sectionInfo.contentStatus
                             } else {
                                 StudyPlanWidgetFeature.ContentStatus.IDLE
@@ -69,7 +74,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 null
             }
             is Message.SectionClicked ->
-                changeSectionExpanse(state, message.sectionId)
+                changeSectionExpanse(state, message.sectionId, shouldLogAnalyticEvent = true)
             is Message.ActivityClicked ->
                 handleActivityClicked(state, message.activityId)
             is Message.StageImplementUnsupportedModalGoToHomeClicked ->
@@ -129,9 +134,9 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         state: State,
         message: StudyPlanWidgetFeature.SectionsFetchResult.Success
     ): StudyPlanWidgetReducerResult {
-        val visibleSections = message.sections.filter { it.isVisible }
+        val supportedSections = message.sections.filter { it.isSupportedInStudyPlan }
 
-        val studyPlanSections = visibleSections.associate { studyPlanSection ->
+        val studyPlanSections = supportedSections.associate { studyPlanSection ->
             studyPlanSection.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                 studyPlanSection = studyPlanSection,
                 isExpanded = false,
@@ -139,10 +144,10 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             )
         }
 
-        val sortedVisibleSections =
+        val sortedSupportedSectionsIds =
             if (state.studyPlan != null) {
-                val visibleSectionsIds = visibleSections.map { it.id }.toSet()
-                state.studyPlan.sections.intersect(visibleSectionsIds).toList()
+                val supportedSectionsIds = supportedSections.map { it.id }.toSet()
+                state.studyPlan.sections.intersect(supportedSectionsIds).toList()
             } else {
                 return state to emptySet()
             }
@@ -153,8 +158,12 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             isRefreshing = false
         )
 
-        return if (sortedVisibleSections.isNotEmpty()) {
-            changeSectionExpanse(loadedSectionsState, sortedVisibleSections.first())
+        return if (sortedSupportedSectionsIds.isNotEmpty()) {
+            changeSectionExpanse(
+                loadedSectionsState,
+                sortedSupportedSectionsIds.first(),
+                shouldLogAnalyticEvent = false
+            )
         } else {
             loadedSectionsState to emptySet()
         }
@@ -185,6 +194,13 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             }
         ) to emptySet()
 
+    private fun handleRetryContentLoading(): StudyPlanWidgetReducerResult {
+        val (state, actions) = coldContentFetch()
+        return state to actions + InternalAction.LogAnalyticEvent(
+            StudyPlanClickedRetryContentLoadingHyperskillAnalyticEvent()
+        )
+    }
+
     private fun handleRetryActivitiesLoading(
         state: State,
         message: Message.RetryActivitiesLoading
@@ -198,18 +214,31 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         ) to setOf(
             InternalAction.FetchActivities(
                 sectionId = message.sectionId,
-                activitiesIds = paginateActivitiesToFetch(section)
+                activitiesIds = paginateActivitiesToFetch(section),
+                sentryTransaction = HyperskillSentryTransactionBuilder.buildStudyPlanWidgetFetchLearningActivities(
+                    isCurrentSection = message.sectionId == state.firstSection()?.id
+                )
+            ),
+            InternalAction.LogAnalyticEvent(
+                StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent(message.sectionId)
             )
         )
     }
 
     private fun changeSectionExpanse(
         state: State,
-        sectionId: Long
+        sectionId: Long,
+        shouldLogAnalyticEvent: Boolean
     ): StudyPlanWidgetReducerResult {
         val section =
             state.studyPlanSections[sectionId] ?: return state to emptySet()
         val isExpanded = !section.isExpanded
+
+        val logAnalyticEventAction = if (shouldLogAnalyticEvent) {
+            InternalAction.LogAnalyticEvent(StudyPlanClickedSectionHyperskillAnalyticEvent(sectionId, isExpanded))
+        } else {
+            null
+        }
 
         fun updateSectionState(contentStatus: StudyPlanWidgetFeature.ContentStatus = section.contentStatus): State =
             state.copy(
@@ -223,22 +252,26 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             when (section.contentStatus) {
                 StudyPlanWidgetFeature.ContentStatus.IDLE,
                 StudyPlanWidgetFeature.ContentStatus.ERROR -> {
-                    updateSectionState(StudyPlanWidgetFeature.ContentStatus.LOADING) to setOf(
+                    updateSectionState(StudyPlanWidgetFeature.ContentStatus.LOADING) to setOfNotNull(
                         InternalAction.FetchActivities(
                             sectionId = sectionId,
-                            activitiesIds = paginateActivitiesToFetch(section)
-                        )
+                            activitiesIds = paginateActivitiesToFetch(section),
+                            sentryTransaction = HyperskillSentryTransactionBuilder.buildStudyPlanWidgetFetchLearningActivities(
+                                isCurrentSection = sectionId == state.firstSection()?.id
+                            )
+                        ),
+                        logAnalyticEventAction
                     )
                 }
 
                 // activities are loading at the moment or already loaded
                 StudyPlanWidgetFeature.ContentStatus.LOADING,
                 StudyPlanWidgetFeature.ContentStatus.LOADED -> {
-                    updateSectionState() to emptySet()
+                    updateSectionState() to setOfNotNull(logAnalyticEventAction)
                 }
             }
         } else {
-            updateSectionState() to emptySet()
+            updateSectionState() to setOfNotNull(logAnalyticEventAction)
         }
     }
 
@@ -266,7 +299,16 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
 
         if (state.getNextActivityId(section) != activityId) return state to emptySet()
 
-        val action = when (activity.type) {
+        val logAnalyticEventAction = InternalAction.LogAnalyticEvent(
+            StudyPlanClickedActivityHyperskillAnalyticEvent(
+                activityId = activity.id,
+                activityType = activity.type?.value,
+                activityTargetType = activity.targetType?.value,
+                activityTargetId = activity.targetId
+            )
+        )
+
+        val viewAction = when (activity.type) {
             LearningActivityType.IMPLEMENT_STAGE -> {
                 val projectId = state.studyPlan?.projectId
                 if (projectId != null && activity.targetType == LearningActivityTargetType.STAGE) {
@@ -291,7 +333,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             }
             else -> null
         }
-        return state to setOfNotNull(action)
+        return state to setOfNotNull(viewAction, logAnalyticEventAction)
     }
 
     private fun <K, V> Map<K, V>.update(key: K, value: V): Map<K, V> =
