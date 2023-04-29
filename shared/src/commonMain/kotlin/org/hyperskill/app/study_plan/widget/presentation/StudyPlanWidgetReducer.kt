@@ -1,5 +1,6 @@
 package org.hyperskill.app.study_plan.widget.presentation
 
+import kotlin.math.max
 import kotlin.math.min
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
@@ -25,7 +26,7 @@ internal typealias StudyPlanWidgetReducerResult = Pair<State, Set<Action>>
 
 class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
     companion object {
-        const val ROOT_TOPICS_SECTION_VISIBLE_ACTIVITIES_COUNT = 10
+        const val SECTION_ROOT_TOPICS_PAGE_SIZE = 10
     }
 
     override fun reduce(state: State, message: Message): StudyPlanWidgetReducerResult =
@@ -276,16 +277,14 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         }
     }
 
-    private fun getPaginatedActivitiesIds(section: StudyPlanWidgetFeature.StudyPlanSectionInfo): List<Long> =
+    internal fun getPaginatedActivitiesIds(section: StudyPlanWidgetFeature.StudyPlanSectionInfo): List<Long> =
         if (section.studyPlanSection.type == StudyPlanSectionType.ROOT_TOPICS &&
             section.studyPlanSection.nextActivityId != null
         ) {
-            // TODO: Test this
-            val startIndex = section.studyPlanSection.activities.indexOf(section.studyPlanSection.nextActivityId)
-            val endIndex = min(
-                startIndex + (ROOT_TOPICS_SECTION_VISIBLE_ACTIVITIES_COUNT - 1),
-                section.studyPlanSection.activities.size - 1
-            )
+            val startIndex =
+                max(0, section.studyPlanSection.activities.indexOf(section.studyPlanSection.nextActivityId))
+            val endIndex =
+                min(startIndex + (SECTION_ROOT_TOPICS_PAGE_SIZE - 1), section.studyPlanSection.activities.size - 1)
             section.studyPlanSection.activities.slice(startIndex..endIndex)
         } else {
             section.studyPlanSection.activities
