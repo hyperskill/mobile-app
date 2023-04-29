@@ -17,6 +17,10 @@ struct StudyPlanSectionHeaderView: View {
         section.content is StudyPlanWidgetViewStateSectionContentCollapsed
     }
 
+    private var currentBadgeIsVisible: Bool {
+        isCollapsed && section.isCurrent
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
             HStack {
@@ -35,14 +39,21 @@ struct StudyPlanSectionHeaderView: View {
             }
             .animation(.easeInOut, value: isCollapsed)
 
-            Text(section.subtitle)
-                .font(.subheadline)
-                .foregroundColor(.secondaryText)
+            if let subtitle = section.subtitle {
+                Text(subtitle)
+                    .font(.subheadline)
+                    .foregroundColor(.secondaryText)
+            }
 
             StudyPlanSectionHeaderStatisticsView(
                 formattedTopicsCount: section.formattedTopicsCount,
                 formattedTimeToComplete: section.formattedTimeToComplete
             )
+
+            if currentBadgeIsVisible {
+                StudyPlanSectionItemBadgeView.current()
+                    .animation(.easeInOut, value: currentBadgeIsVisible)
+            }
         }
         .padding()
         .background(Color(ColorPalette.surface))

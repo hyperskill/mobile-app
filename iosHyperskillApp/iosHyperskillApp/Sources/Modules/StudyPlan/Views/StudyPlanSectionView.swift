@@ -63,6 +63,7 @@ extension StudyPlanWidgetViewStateSection {
             id: 1,
             title: "Stage 1/6:  Hello, coffee!",
             subtitle: "Preconditions and postconditions",
+            isCurrent: true,
             formattedTopicsCount: "3 / 5",
             formattedTimeToComplete: "~ 56 h",
             content: StudyPlanWidgetViewStateSectionContentContent(

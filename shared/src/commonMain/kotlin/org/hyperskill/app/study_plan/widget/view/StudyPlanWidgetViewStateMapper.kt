@@ -34,6 +34,7 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
                     id = section.id,
                     title = section.title,
                     subtitle = section.subtitle.takeIf { it.isNotEmpty() },
+                    isCurrent = section.id == currentSectionId,
                     content = getSectionContent(
                         state = state,
                         sectionInfo = sectionInfo,
