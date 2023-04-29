@@ -6,5 +6,6 @@ c
 5. Support is_ide_required field from learning activities api ALTAPPS-709
 6. Switch Track tab with Study Plan ALTAPPS-711
 7. Fix study plan section statistics visibility ALTAPPS-715
-8. Study plan filter sections based on it's supporting ALTAPPS-729
-9. Fix statistics shows incorrectly for sections with only ide required steps ALTAPPS-731
+8. Study plan display badge Current if collapsed section contains current learning activity ALTAPPS-716
+9. Study plan filter sections based on it's supporting ALTAPPS-729
+10. Fix statistics shows incorrectly for sections with only ide required steps ALTAPPS-731
