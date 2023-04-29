@@ -15,6 +15,8 @@ data class StudyPlanSection(
     val targetId: Long? = null,
     @SerialName("target_type")
     val targetType: String? = null,
+    @SerialName("next_activity_id")
+    val nextActivityId: Long? = null,
     @SerialName("is_visible")
     val isVisible: Boolean,
     @SerialName("title")

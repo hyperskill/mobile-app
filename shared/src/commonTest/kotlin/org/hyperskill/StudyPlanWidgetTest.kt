@@ -25,7 +25,7 @@ import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
 import org.hyperskill.app.study_plan.domain.model.StudyPlanStatus
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
-import org.hyperskill.app.study_plan.widget.presentation.firstSection
+import org.hyperskill.app.study_plan.widget.presentation.getCurrentSection
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewStateMapper
 
@@ -72,7 +72,7 @@ class StudyPlanWidgetTest {
             }
         )
 
-        assertEquals(studyPlanSections.first { it.id == expectedSectionId }, state.firstSection())
+        assertEquals(studyPlanSections.first { it.id == expectedSectionId }, state.getCurrentSection())
     }
 
     @Test
@@ -181,6 +181,16 @@ class StudyPlanWidgetTest {
 
     @Test
     fun `Loaded sections should be filtered by supportance`() {
+        assertEquals(
+            setOf(
+                StudyPlanSectionType.STAGE,
+                StudyPlanSectionType.EXTRA_TOPICS,
+                StudyPlanSectionType.ROOT_TOPICS
+            ),
+            StudyPlanSectionType.supportedTypes(),
+            "Test should be updated according to new supported types"
+        )
+
         val visibleUnsupportedSection = studyPlanSectionStub(
             id = 0,
             isVisible = true,
@@ -407,7 +417,12 @@ class StudyPlanWidgetTest {
                 sectionViewState(
                     section = section.studyPlanSection,
                     content = StudyPlanWidgetViewState.SectionContent.Content(
-                        listOf(studyPlanSectionItemStub(activityId))
+                        listOf(
+                            studyPlanSectionItemStub(
+                                activityId,
+                                state = StudyPlanWidgetViewState.SectionItemState.NEXT
+                            )
+                        )
                     )
                 )
             )
@@ -440,7 +455,12 @@ class StudyPlanWidgetTest {
                 sectionViewState(
                     section = section.studyPlanSection,
                     content = StudyPlanWidgetViewState.SectionContent.Content(
-                        listOf(studyPlanSectionItemStub(activityId))
+                        listOf(
+                            studyPlanSectionItemStub(
+                                activityId,
+                                state = StudyPlanWidgetViewState.SectionItemState.NEXT
+                            )
+                        )
                     )
                 )
             )
@@ -493,7 +513,7 @@ class StudyPlanWidgetTest {
                             studyPlanSectionItemStub(
                                 activityId = 0,
                                 title = "Activity 1",
-                                state = StudyPlanWidgetViewState.SectionItemState.LOCKED
+                                state = StudyPlanWidgetViewState.SectionItemState.NEXT
                             )
                         )
                     )
@@ -531,7 +551,7 @@ class StudyPlanWidgetTest {
                             studyPlanSectionItemStub(
                                 activityId = 0,
                                 title = "0",
-                                state = StudyPlanWidgetViewState.SectionItemState.LOCKED
+                                state = StudyPlanWidgetViewState.SectionItemState.NEXT
                             )
                         )
                     )
@@ -641,7 +661,7 @@ class StudyPlanWidgetTest {
                 )
             ),
             activities = mapOf(
-                0L to stubLearningActivity(id = 0, isCurrent = true),
+                0L to stubLearningActivity(id = 0),
                 1L to stubLearningActivity(id = 1)
             ),
             sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
@@ -653,10 +673,24 @@ class StudyPlanWidgetTest {
 
     @Test
     fun `Click on non current learning activity should do nothing`() {
-        val activityId = 0L
         val state = StudyPlanWidgetFeature.State(
-            activities = mapOf(activityId to stubLearningActivity(activityId, isCurrent = false))
+            studyPlan = studyPlanStub(id = 0, sections = listOf(0, 1)),
+            studyPlanSections = mapOf(
+                0L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(id = 0, activities = listOf(0)),
+                    isExpanded = true,
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                ),
+                1L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(id = 1, activities = listOf(1)),
+                    isExpanded = true,
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                )
+            ),
+            activities = mapOf(0L to stubLearningActivity(id = 0), 1L to stubLearningActivity(id = 1)),
+            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
         )
+        val activityId = 1L
 
         val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
 
@@ -671,12 +705,20 @@ class StudyPlanWidgetTest {
         val activityId = 0L
         val projectId = 1L
         val stageId = 2L
+        val sectionId = 3L
+
         val state = StudyPlanWidgetFeature.State(
-            studyPlan = studyPlanStub(id = 0, projectId = projectId),
+            studyPlan = studyPlanStub(id = 0, projectId = projectId, sections = listOf(sectionId)),
+            studyPlanSections = mapOf(
+                sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(id = sectionId, activities = listOf(activityId)),
+                    isExpanded = true,
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                )
+            ),
             activities = mapOf(
                 activityId to stubLearningActivity(
                     activityId,
-                    isCurrent = true,
                     type = LearningActivityType.IMPLEMENT_STAGE,
                     targetType = LearningActivityTargetType.STAGE,
                     targetId = stageId
@@ -698,11 +740,17 @@ class StudyPlanWidgetTest {
     fun `Click on stage implement learning activity with non stage target should do nothing`() {
         val activityId = 0L
         val state = StudyPlanWidgetFeature.State(
-            studyPlan = studyPlanStub(id = 0),
+            studyPlan = studyPlanStub(id = 0, sections = listOf(0)),
+            studyPlanSections = mapOf(
+                0L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(id = 0, activities = listOf(activityId)),
+                    isExpanded = true,
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                )
+            ),
             activities = mapOf(
                 activityId to stubLearningActivity(
                     activityId,
-                    isCurrent = true,
                     type = LearningActivityType.IMPLEMENT_STAGE,
                     targetType = LearningActivityTargetType.STEP,
                     targetId = 1L
@@ -722,12 +770,19 @@ class StudyPlanWidgetTest {
     fun `Click on learn topic learning activity should navigate to step screen`() {
         val activityId = 0L
         val stepId = 1L
+        val sectionId = 2L
         val state = StudyPlanWidgetFeature.State(
-            studyPlan = studyPlanStub(id = 0),
+            studyPlan = studyPlanStub(id = 0, sections = listOf(sectionId)),
+            studyPlanSections = mapOf(
+                sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(id = sectionId, activities = listOf(activityId)),
+                    isExpanded = true,
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                )
+            ),
             activities = mapOf(
                 activityId to stubLearningActivity(
                     activityId,
-                    isCurrent = true,
                     type = LearningActivityType.LEARN_TOPIC,
                     targetType = LearningActivityTargetType.STEP,
                     targetId = stepId
@@ -755,11 +810,17 @@ class StudyPlanWidgetTest {
     fun `Click on learn topic learning activity with non step target should do nothing`() {
         val activityId = 0L
         val state = StudyPlanWidgetFeature.State(
-            studyPlan = studyPlanStub(id = 0),
+            studyPlan = studyPlanStub(id = 0, sections = listOf(0)),
+            studyPlanSections = mapOf(
+                0L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(id = 0, activities = listOf(activityId)),
+                    isExpanded = true,
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                )
+            ),
             activities = mapOf(
                 activityId to stubLearningActivity(
                     activityId,
-                    isCurrent = true,
                     type = LearningActivityType.LEARN_TOPIC,
                     targetType = LearningActivityTargetType.STAGE,
                     targetId = 1L
@@ -778,16 +839,23 @@ class StudyPlanWidgetTest {
     @Test
     fun `Click on implement stage activity with ide required should show unsupported modal`() {
         val activityId = 0L
+        val sectionId = 1L
         val state = StudyPlanWidgetFeature.State(
             studyPlan = studyPlanStub(id = 0, projectId = 1L),
+            studyPlanSections = mapOf(
+                sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(id = sectionId, activities = listOf(activityId)),
+                    isExpanded = true,
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                )
+            ),
             activities = mapOf(
                 activityId to stubLearningActivity(
                     activityId,
-                    isCurrent = true,
                     type = LearningActivityType.IMPLEMENT_STAGE,
                     targetType = LearningActivityTargetType.STAGE,
                     targetId = 1L,
-                    isIdeRequired = true,
+                    isIdeRequired = true
                 )
             )
         )
@@ -842,6 +910,177 @@ class StudyPlanWidgetTest {
         }
     }
 
+    @Test
+    fun `Get paginated activities ids in non root topics section`() {
+        val expectedActivitiesIds = listOf(1L, 2L, 3L, 4L, 5L)
+        val section = StudyPlanWidgetFeature.StudyPlanSectionInfo(
+            studyPlanSection = studyPlanSectionStub(
+                id = 0,
+                type = StudyPlanSectionType.STAGE,
+                activities = expectedActivitiesIds
+            ),
+            isExpanded = false,
+            contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+        )
+
+        assertEquals(expectedActivitiesIds, reducer.getPaginatedActivitiesIds(section))
+    }
+
+    @Test
+    fun `Get paginated activities ids in empty root topics section`() {
+        val expectedActivitiesIds = emptyList<Long>()
+        val section = StudyPlanWidgetFeature.StudyPlanSectionInfo(
+            studyPlanSection = studyPlanSectionStub(
+                id = 0,
+                type = StudyPlanSectionType.ROOT_TOPICS,
+                activities = expectedActivitiesIds
+            ),
+            isExpanded = false,
+            contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+        )
+
+        assertEquals(expectedActivitiesIds, reducer.getPaginatedActivitiesIds(section))
+    }
+
+    @Test
+    fun `Get paginated activities ids in root topics section when end index greater than size`() {
+        val expectedActivitiesIds = listOf(3L, 4L, 5L)
+        val section = StudyPlanWidgetFeature.StudyPlanSectionInfo(
+            studyPlanSection = studyPlanSectionStub(
+                id = 0,
+                type = StudyPlanSectionType.ROOT_TOPICS,
+                activities = (0L..5L).toList(),
+                nextActivityId = 3L
+            ),
+            isExpanded = false,
+            contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+        )
+
+        assertEquals(expectedActivitiesIds, reducer.getPaginatedActivitiesIds(section))
+    }
+
+    @Test
+    fun `Get paginated activities ids in root topics section returns correct result page size`() {
+        val expectedActivitiesIds = (5L..14L).toList()
+        val section = StudyPlanWidgetFeature.StudyPlanSectionInfo(
+            studyPlanSection = studyPlanSectionStub(
+                id = 0,
+                type = StudyPlanSectionType.ROOT_TOPICS,
+                activities = (0L..100L).toList(),
+                nextActivityId = 5L
+            ),
+            isExpanded = false,
+            contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+        )
+
+        assertEquals(expectedActivitiesIds, reducer.getPaginatedActivitiesIds(section))
+    }
+
+    @Test
+    fun `Get paginated activities ids in root topics section when activities not contains next activity id`() {
+        val expectedActivitiesIds = (0L..4L).toList()
+        val section = StudyPlanWidgetFeature.StudyPlanSectionInfo(
+            studyPlanSection = studyPlanSectionStub(
+                id = 0,
+                type = StudyPlanSectionType.ROOT_TOPICS,
+                activities = expectedActivitiesIds,
+                nextActivityId = 10L
+            ),
+            isExpanded = false,
+            contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+        )
+
+        assertEquals(expectedActivitiesIds, reducer.getPaginatedActivitiesIds(section))
+    }
+
+    @Test
+    fun `Activity with id section next_activity_id in ViewState will be next for root topics section`() {
+        val nextActivityId = 0L
+        val notNextActivityId = 1L
+        val sectionId = 2L
+        val state = StudyPlanWidgetFeature.State(
+            studyPlan = studyPlanStub(id = 0, sections = listOf(sectionId)),
+            studyPlanSections = mapOf(
+                sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(
+                        id = sectionId,
+                        activities = listOf(nextActivityId, notNextActivityId),
+                        nextActivityId = nextActivityId
+                    ),
+                    isExpanded = true,
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                )
+            ),
+            activities = mapOf(
+                notNextActivityId to stubLearningActivity(notNextActivityId),
+                nextActivityId to stubLearningActivity(nextActivityId)
+            ),
+            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+        )
+
+        val viewState = studyPlanWidgetViewStateMapper.map(state)
+
+        val viewSectionItems = (
+            (viewState as? StudyPlanWidgetViewState.Content)
+                ?.sections
+                ?.firstOrNull()
+                ?.content as? StudyPlanWidgetViewState.SectionContent.Content
+            )?.sectionItems ?: fail("Unexpected view state: $viewState")
+
+        assertEquals(
+            StudyPlanWidgetViewState.SectionItemState.NEXT,
+            viewSectionItems.first { it.id == nextActivityId }.state
+        )
+        assertEquals(
+            StudyPlanWidgetViewState.SectionItemState.LOCKED,
+            viewSectionItems.first { it.id == notNextActivityId }.state
+        )
+    }
+
+    @Test
+    fun `First activity in ViewState will be next for not root topics section`() {
+        val firstActivityId = 0L
+        val secondActivityId = 1L
+        val sectionId = 2L
+        val state = StudyPlanWidgetFeature.State(
+            studyPlan = studyPlanStub(id = 0, sections = listOf(sectionId)),
+            studyPlanSections = mapOf(
+                sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(
+                        id = sectionId,
+                        activities = listOf(firstActivityId, secondActivityId),
+                        nextActivityId = null
+                    ),
+                    isExpanded = true,
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                )
+            ),
+            activities = mapOf(
+                firstActivityId to stubLearningActivity(firstActivityId),
+                secondActivityId to stubLearningActivity(secondActivityId)
+            ),
+            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+        )
+
+        val viewState = studyPlanWidgetViewStateMapper.map(state)
+
+        val viewSectionItems = (
+            (viewState as? StudyPlanWidgetViewState.Content)
+                ?.sections
+                ?.firstOrNull()
+                ?.content as? StudyPlanWidgetViewState.SectionContent.Content
+            )?.sectionItems ?: fail("Unexpected view state: $viewState")
+
+        assertEquals(
+            StudyPlanWidgetViewState.SectionItemState.NEXT,
+            viewSectionItems.first { it.id == firstActivityId }.state
+        )
+        assertEquals(
+            StudyPlanWidgetViewState.SectionItemState.LOCKED,
+            viewSectionItems.first { it.id == secondActivityId }.state
+        )
+    }
+
     private fun sectionViewState(
         section: StudyPlanSection,
         content: StudyPlanWidgetViewState.SectionContent,
@@ -881,7 +1120,8 @@ class StudyPlanWidgetTest {
         topicsCount: Int = 0,
         completedTopicsCount: Int = 0,
         secondsToComplete: Float = 0f,
-        activities: List<Long> = emptyList()
+        activities: List<Long> = emptyList(),
+        nextActivityId: Long? = null
     ) =
         StudyPlanSection(
             id = id,
@@ -889,6 +1129,7 @@ class StudyPlanWidgetTest {
             typeValue = type.value,
             targetId = 0,
             targetType = "",
+            nextActivityId = nextActivityId,
             isVisible = isVisible,
             title = "",
             subtitle = "",
@@ -904,7 +1145,6 @@ class StudyPlanWidgetTest {
         targetId: Long = 0L,
         type: LearningActivityType = LearningActivityType.LEARN_TOPIC,
         targetType: LearningActivityTargetType = LearningActivityTargetType.STEP,
-        isCurrent: Boolean = false,
         title: String = "",
         isIdeRequired: Boolean = false
     ) =
@@ -913,7 +1153,6 @@ class StudyPlanWidgetTest {
             stateValue = state.value,
             targetId = targetId,
             typeValue = type.value,
-            isCurrent = isCurrent,
             targetTypeValue = targetType.value,
             title = title,
             isIdeRequired = isIdeRequired
