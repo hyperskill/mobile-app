@@ -5,8 +5,8 @@ import org.hyperskill.app.core.view.mapper.DateFormatter
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
-import org.hyperskill.app.study_plan.widget.presentation.firstSection
-import org.hyperskill.app.study_plan.widget.presentation.getNextActivityId
+import org.hyperskill.app.study_plan.widget.presentation.getCurrentActivity
+import org.hyperskill.app.study_plan.widget.presentation.getCurrentSection
 import org.hyperskill.app.study_plan.widget.presentation.getSectionActivities
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState.SectionContent
 
@@ -20,14 +20,15 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
         }
 
     private fun getLoadedWidgetContent(state: StudyPlanWidgetFeature.State): StudyPlanWidgetViewState.Content {
-        val firstSectionId = state.firstSection()?.id
+        val currentSectionId = state.getCurrentSection()?.id
+        val currentActivityId = state.getCurrentActivity()?.id
 
         return StudyPlanWidgetViewState.Content(
             sections = state.studyPlan?.sections?.mapNotNull { sectionId ->
                 val sectionInfo = state.studyPlanSections[sectionId] ?: return@mapNotNull null
                 val section = sectionInfo.studyPlanSection
 
-                val shouldShowSectionStatistics = firstSectionId == section.id || sectionInfo.isExpanded
+                val shouldShowSectionStatistics = currentSectionId == section.id || sectionInfo.isExpanded
 
                 StudyPlanWidgetViewState.Section(
                     id = section.id,
@@ -35,7 +36,8 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
                     subtitle = section.subtitle.takeIf { it.isNotEmpty() },
                     content = getSectionContent(
                         state = state,
-                        sectionInfo = sectionInfo
+                        sectionInfo = sectionInfo,
+                        currentActivityId = currentActivityId
                     ),
                     formattedTopicsCount = if (shouldShowSectionStatistics) {
                         formatTopicsCount(
@@ -60,7 +62,8 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
 
     private fun getSectionContent(
         sectionInfo: StudyPlanWidgetFeature.StudyPlanSectionInfo,
-        state: StudyPlanWidgetFeature.State
+        state: StudyPlanWidgetFeature.State,
+        currentActivityId: Long?
     ): SectionContent =
         if (sectionInfo.isExpanded) {
             when (sectionInfo.contentStatus) {
@@ -70,20 +73,14 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
                     if (activities.isEmpty()) {
                         SectionContent.Loading
                     } else {
-                        getContent(
-                            activities = activities,
-                            nextActivityId = state.getNextActivityId(sectionInfo.studyPlanSection)
-                        )
+                        getContent(activities, currentActivityId)
                     }
                 }
                 StudyPlanWidgetFeature.ContentStatus.ERROR -> SectionContent.Error
                 StudyPlanWidgetFeature.ContentStatus.LOADED -> {
                     val activities = state.getSectionActivities(sectionInfo.studyPlanSection.id)
                     if (activities.isNotEmpty()) {
-                        getContent(
-                            activities = activities,
-                            nextActivityId = state.getNextActivityId(section = sectionInfo.studyPlanSection)
-                        )
+                        getContent(activities, currentActivityId)
                     } else {
                         SectionContent.Error
                     }
@@ -93,14 +90,14 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
             SectionContent.Collapsed
         }
 
-    private fun getContent(activities: List<LearningActivity>, nextActivityId: Long?): SectionContent.Content =
+    private fun getContent(activities: List<LearningActivity>, currentActivityId: Long?): SectionContent.Content =
         SectionContent.Content(
             sectionItems = activities.map { activity ->
                 StudyPlanWidgetViewState.SectionItem(
                     id = activity.id,
                     title = activity.title.ifBlank { activity.id.toString() },
                     state = when (activity.state) {
-                        LearningActivityState.TODO -> if (activity.id == nextActivityId) {
+                        LearningActivityState.TODO -> if (activity.id == currentActivityId) {
                             StudyPlanWidgetViewState.SectionItemState.NEXT
                         } else {
                             StudyPlanWidgetViewState.SectionItemState.LOCKED

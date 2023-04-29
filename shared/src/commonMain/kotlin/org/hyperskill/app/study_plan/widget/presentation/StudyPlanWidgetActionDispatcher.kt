@@ -65,9 +65,6 @@ class StudyPlanWidgetActionDispatcher(
                 studyPlanInteractor.getLearningActivities(action.activitiesIds, action.types, action.states)
                     .onSuccess { learningActivities ->
                         sentryInteractor.finishTransaction(action.sentryTransaction)
-                        learningActivities.forEach { learningActivity ->
-                            learningActivity.sectionId = action.sectionId
-                        }
                         onNewMessage(
                             StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success(
                                 action.sectionId,

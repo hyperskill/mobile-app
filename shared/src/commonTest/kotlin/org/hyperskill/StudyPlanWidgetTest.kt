@@ -25,7 +25,7 @@ import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
 import org.hyperskill.app.study_plan.domain.model.StudyPlanStatus
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
-import org.hyperskill.app.study_plan.widget.presentation.firstSection
+import org.hyperskill.app.study_plan.widget.presentation.getCurrentSection
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewStateMapper
 
@@ -72,7 +72,7 @@ class StudyPlanWidgetTest {
             }
         )
 
-        assertEquals(studyPlanSections.first { it.id == expectedSectionId }, state.firstSection())
+        assertEquals(studyPlanSections.first { it.id == expectedSectionId }, state.getCurrentSection())
     }
 
     @Test

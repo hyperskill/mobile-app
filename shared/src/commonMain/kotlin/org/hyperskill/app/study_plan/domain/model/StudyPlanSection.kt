@@ -35,6 +35,3 @@ data class StudyPlanSection(
     val type: StudyPlanSectionType?
         get() = StudyPlanSectionType.getByValue(typeValue)
 }
-
-fun StudyPlanSection.isRootTopicsSection(): Boolean =
-    type == StudyPlanSectionType.ROOT_TOPICS
