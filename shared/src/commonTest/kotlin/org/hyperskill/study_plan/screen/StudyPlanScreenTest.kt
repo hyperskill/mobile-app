@@ -1,4 +1,4 @@
-package org.hyperskill
+package org.hyperskill.study_plan.screen
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

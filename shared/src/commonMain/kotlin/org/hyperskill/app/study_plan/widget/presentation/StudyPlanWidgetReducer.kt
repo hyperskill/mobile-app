@@ -41,11 +41,12 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 handleRetryContentLoading()
             is Message.RetryActivitiesLoading ->
                 handleRetryActivitiesLoading(state, message)
-            is Message.ReloadContentInBackground ->
+            is Message.ReloadContentInBackground -> {
+                val currentSectionId = state.getCurrentSection()?.id
                 state.copy(
                     studyPlanSections = state.studyPlanSections.mapValues { (sectionId, sectionInfo) ->
                         sectionInfo.copy(
-                            contentStatus = if (sectionId == state.getCurrentSection()?.id) {
+                            contentStatus = if (sectionId == currentSectionId) {
                                 sectionInfo.contentStatus
                             } else {
                                 StudyPlanWidgetFeature.ContentStatus.IDLE
@@ -53,6 +54,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                         )
                     }
                 ) to setOf(InternalAction.FetchStudyPlan(showLoadingIndicators = false))
+            }
             is Message.PullToRefresh ->
                 if (!state.isRefreshing) {
                     state.copy(isRefreshing = true) to setOf(
@@ -136,9 +138,15 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         state: State,
         message: StudyPlanWidgetFeature.SectionsFetchResult.Success
     ): StudyPlanWidgetReducerResult {
-        val supportedSections = message.sections.filter { it.isSupportedInStudyPlan }
+        if (state.studyPlan == null) {
+            return state to emptySet()
+        }
 
-        val studyPlanSections = supportedSections.associate { studyPlanSection ->
+        val sortedSupportedSections = message.sections
+            .filter { it.isVisible && StudyPlanSectionType.supportedTypes().contains(it.type) }
+            .sortedBy { state.studyPlan.sections.indexOf(it.id) }
+
+        val studyPlanSections = sortedSupportedSections.associate { studyPlanSection ->
             studyPlanSection.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                 studyPlanSection = studyPlanSection,
                 isExpanded = false,
@@ -146,24 +154,16 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             )
         }
 
-        val sortedSupportedSectionsIds =
-            if (state.studyPlan != null) {
-                val supportedSectionsIds = supportedSections.map { it.id }.toSet()
-                state.studyPlan.sections.intersect(supportedSectionsIds).toList()
-            } else {
-                return state to emptySet()
-            }
-
         val loadedSectionsState = state.copy(
             studyPlanSections = studyPlanSections,
             sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED,
             isRefreshing = false
         )
 
-        return if (sortedSupportedSectionsIds.isNotEmpty()) {
+        return if (sortedSupportedSections.isNotEmpty()) {
             changeSectionExpanse(
                 loadedSectionsState,
-                sortedSupportedSectionsIds.first(),
+                sortedSupportedSections.first().id,
                 shouldLogAnalyticEvent = false
             )
         } else {
