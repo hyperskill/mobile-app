@@ -6,22 +6,14 @@ import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
 
 /**
- * Returns true if the section is supported in the study plan, when it is visible and its type is supported.
- * @see StudyPlanSectionType
- */
-internal val StudyPlanSection.isSupportedInStudyPlan: Boolean
-    get() = isVisible && StudyPlanSectionType.supportedTypes().contains(type)
-
-/**
- * Finds first supported section in the study plan.
+ * @return current [StudyPlanSection].
  *
- * @return first [StudyPlanSection] if it is supported in the study plan, otherwise null.
- * @see StudyPlanSection.isSupportedInStudyPlan
+ * `studyPlanSections` map preserves the entry iteration order, so we can use the first element as the current section.
+ *
+ * @see StudyPlanWidgetReducer.handleSectionsFetchSuccess
  */
 internal fun StudyPlanWidgetFeature.State.getCurrentSection(): StudyPlanSection? =
-    studyPlanSections.values
-        .firstOrNull { it.studyPlanSection.isSupportedInStudyPlan }
-        ?.studyPlanSection
+    studyPlanSections.values.firstOrNull()?.studyPlanSection
 
 /**
  * Finds current activity in the study plan. If the current section is root topics, then the next activity is returned.

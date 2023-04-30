@@ -1,4 +1,4 @@
-package org.hyperskill
+package org.hyperskill.study_plan.widget
 
 import dev.icerock.moko.resources.PluralsResource
 import dev.icerock.moko.resources.StringResource
@@ -25,7 +25,6 @@ import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
 import org.hyperskill.app.study_plan.domain.model.StudyPlanStatus
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
-import org.hyperskill.app.study_plan.widget.presentation.getCurrentSection
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewStateMapper
 
@@ -48,32 +47,6 @@ class StudyPlanWidgetTest {
     }
 
     private val studyPlanWidgetViewStateMapper = StudyPlanWidgetViewStateMapper(DateFormatter(resourceProviderStub))
-
-    @Test
-    fun `Get first section works correctly`() {
-        val expectedSectionId = 3L
-
-        val studyPlan = studyPlanStub(id = 0, sections = listOf(0, 1, 2, 3, 4))
-        val studyPlanSections = listOf(
-            studyPlanSectionStub(id = 0, isVisible = false),
-            studyPlanSectionStub(id = 1, isVisible = true, type = StudyPlanSectionType.NEXT_TRACK),
-            studyPlanSectionStub(id = 2, isVisible = false),
-            studyPlanSectionStub(id = 3, isVisible = true, type = StudyPlanSectionType.STAGE),
-            studyPlanSectionStub(id = 4, isVisible = false)
-        )
-        val state = StudyPlanWidgetFeature.State(
-            studyPlan = studyPlan,
-            studyPlanSections = studyPlanSections.associate {
-                it.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
-                    studyPlanSection = it,
-                    isExpanded = false,
-                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
-                )
-            }
-        )
-
-        assertEquals(studyPlanSections.first { it.id == expectedSectionId }, state.getCurrentSection())
-    }
 
     @Test
     fun `Initialize message should trigger studyPLan fetching`() {
@@ -232,7 +205,8 @@ class StudyPlanWidgetTest {
                         StudyPlanWidgetViewState.SectionContent.Collapsed
                     } else {
                         StudyPlanWidgetViewState.SectionContent.Loading
-                    }
+                    },
+                    isCurrent = sectionId == expectedSectionsIds[0]
                 )
             }
         )
@@ -385,7 +359,8 @@ class StudyPlanWidgetTest {
                 sections = listOf(
                     sectionViewState(
                         section = section,
-                        content = StudyPlanWidgetViewState.SectionContent.Collapsed
+                        content = StudyPlanWidgetViewState.SectionContent.Collapsed,
+                        isCurrent = true
                     )
                 )
             )
@@ -423,7 +398,8 @@ class StudyPlanWidgetTest {
                                 state = StudyPlanWidgetViewState.SectionItemState.NEXT
                             )
                         )
-                    )
+                    ),
+                    isCurrent = true
                 )
             )
         )
@@ -461,7 +437,8 @@ class StudyPlanWidgetTest {
                                 state = StudyPlanWidgetViewState.SectionItemState.NEXT
                             )
                         )
-                    )
+                    ),
+                    isCurrent = true
                 )
             )
         )
@@ -477,28 +454,23 @@ class StudyPlanWidgetTest {
     }
 
     @Test
-    fun `Reload content in background should persist content status for first visible section`() {
-        val studyPlan = studyPlanStub(id = 0, sections = listOf(0, 1, 2, 3, 4))
-        val studyPlanSections = listOf(
-            studyPlanSectionStub(id = 0, isVisible = false),
-            studyPlanSectionStub(id = 1, isVisible = true),
-            studyPlanSectionStub(id = 2, isVisible = false),
-            studyPlanSectionStub(id = 3, isVisible = true),
-            studyPlanSectionStub(id = 4, isVisible = false)
+    fun `Reload content in background should persist content status for current section`() {
+        val sectionId = 0L
+        val section = StudyPlanWidgetFeature.StudyPlanSectionInfo(
+            studyPlanSection = studyPlanSectionStub(sectionId),
+            contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED,
+            isExpanded = true
         )
         val state = StudyPlanWidgetFeature.State(
-            studyPlan = studyPlan,
-            studyPlanSections = studyPlanSections.associate {
-                it.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
-                    studyPlanSection = it,
-                    isExpanded = false,
-                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
-                )
-            }
+            studyPlan = studyPlanStub(id = 0, sections = listOf(sectionId)),
+            studyPlanSections = mapOf(sectionId to section),
+            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
         )
-
         val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ReloadContentInBackground)
-        assertEquals(state.studyPlanSections[1]?.contentStatus, newState.studyPlanSections[1]?.contentStatus)
+        assertEquals(
+            state.studyPlanSections[sectionId]?.contentStatus,
+            newState.studyPlanSections[sectionId]?.contentStatus
+        )
         assertContains(actions, StudyPlanWidgetFeature.InternalAction.FetchStudyPlan(showLoadingIndicators = false))
     }
 
@@ -516,7 +488,8 @@ class StudyPlanWidgetTest {
                                 state = StudyPlanWidgetViewState.SectionItemState.NEXT
                             )
                         )
-                    )
+                    ),
+                    isCurrent = true
                 )
             )
         )
@@ -554,7 +527,8 @@ class StudyPlanWidgetTest {
                                 state = StudyPlanWidgetViewState.SectionItemState.NEXT
                             )
                         )
-                    )
+                    ),
+                    isCurrent = true
                 )
             )
         )
@@ -600,6 +574,7 @@ class StudyPlanWidgetTest {
                 sectionViewState(
                     section = studyPlanSectionStub(id = 0),
                     content = StudyPlanWidgetViewState.SectionContent.Collapsed,
+                    isCurrent = true,
                     formattedTopicsCount = "1 / 10",
                     formattedTimeToComplete = null // TODO: add DateFormatter stub and test this
                 )
@@ -623,7 +598,8 @@ class StudyPlanWidgetTest {
                                 state = StudyPlanWidgetViewState.SectionItemState.NEXT
                             )
                         )
-                    )
+                    ),
+                    isCurrent = true
                 ),
                 sectionViewState(
                     section = studyPlanSectionStub(id = 1),
@@ -635,6 +611,7 @@ class StudyPlanWidgetTest {
                             )
                         )
                     ),
+                    isCurrent = false,
                     formattedTopicsCount = "1 / 10",
                     formattedTimeToComplete = null // TODO: add DateFormatter stub and test this
                 )
@@ -1084,6 +1061,7 @@ class StudyPlanWidgetTest {
     private fun sectionViewState(
         section: StudyPlanSection,
         content: StudyPlanWidgetViewState.SectionContent,
+        isCurrent: Boolean = false,
         formattedTopicsCount: String? = null,
         formattedTimeToComplete: String? = null
     ) =
@@ -1091,6 +1069,7 @@ class StudyPlanWidgetTest {
             id = section.id,
             title = section.title,
             subtitle = section.subtitle.takeIf { it.isNotEmpty() },
+            isCurrent = isCurrent,
             content = content,
             formattedTopicsCount = formattedTopicsCount,
             formattedTimeToComplete = formattedTimeToComplete
