@@ -1,15 +1,10 @@
 package org.hyperskill.app.study_plan.screen.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
-import org.hyperskill.app.config.BuildKonfig
-import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 
 object StudyPlanScreenFeature {
-
-    fun isAvailable(buildKonfig: BuildKonfig): Boolean =
-        BuildKonfig.IS_INTERNAL_TESTING ?: (buildKonfig.buildVariant == BuildVariant.DEBUG)
 
     internal data class State(
         val toolbarState: GamificationToolbarFeature.State,
