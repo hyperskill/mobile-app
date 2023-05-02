@@ -16,14 +16,10 @@ import org.hyperskill.app.android.view.base.ui.extension.wrapWithTheme
 
 class UnsupportedStageBottomSheet : BottomSheetDialogFragment() {
 
-    @Suppress("unused")
     companion object {
         const val TAG: String = "UnsupportedStageBottomSheet"
 
-        /**
-         * Caller should implement [Callback] interface.
-         */
-        fun Callback.newInstance(): UnsupportedStageBottomSheet =
+        fun newInstance(): UnsupportedStageBottomSheet =
             UnsupportedStageBottomSheet()
     }
 

@@ -14,7 +14,6 @@ import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
 import org.hyperskill.app.android.stage_implementation.view.dialog.UnsupportedStageBottomSheet
-import org.hyperskill.app.android.stage_implementation.view.dialog.UnsupportedStageBottomSheet.Companion.newInstance
 import org.hyperskill.app.android.stage_implementation.view.navigation.StageImplementationScreen
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.study_plan.delegate.StudyPlanWidgetDelegate
@@ -140,7 +139,7 @@ class StudyPlanFragment :
                         mainScreenRouter.switch(HomeScreen)
                     }
                     is StudyPlanWidgetFeature.Action.ViewAction.ShowStageImplementUnsupportedModal -> {
-                        newInstance()
+                        UnsupportedStageBottomSheet.newInstance()
                             .showIfNotExists(childFragmentManager, UnsupportedStageBottomSheet.TAG)
                     }
                 }
