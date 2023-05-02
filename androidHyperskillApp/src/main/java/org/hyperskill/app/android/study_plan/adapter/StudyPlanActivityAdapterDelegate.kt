@@ -56,9 +56,7 @@ class StudyPlanActivityAdapterDelegate(
                 }
             }
 
-            with(binding.activityBadges) {
-                isVisible = data.isIdeRequired || isProgressVisible
-            }
+            binding.activityBadges.isVisible = data.isIdeRequired || isProgressVisible
 
             with(binding.activityCompletenessTextView) {
                 isVisible = isProgressVisible
@@ -67,9 +65,7 @@ class StudyPlanActivityAdapterDelegate(
                 }
             }
 
-            with(binding.activityIdeRequiredTextView) {
-                isVisible = data.isIdeRequired
-            }
+            binding.activityIdeRequiredTextView.isVisible = data.isIdeRequired
 
             binding.activityEndIcon.setImageDrawable(data.endIcon)
 
