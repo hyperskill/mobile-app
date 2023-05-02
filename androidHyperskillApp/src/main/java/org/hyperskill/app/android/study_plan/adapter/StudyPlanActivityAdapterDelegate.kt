@@ -56,12 +56,16 @@ class StudyPlanActivityAdapterDelegate(
                 }
             }
 
+            binding.activityBadges.isVisible = data.isIdeRequired || isProgressVisible
+
             with(binding.activityCompletenessTextView) {
                 isVisible = isProgressVisible
                 if (data.formattedProgress != null) {
                     text = data.formattedProgress
                 }
             }
+
+            binding.activityIdeRequiredTextView.isVisible = data.isIdeRequired
 
             binding.activityEndIcon.setImageDrawable(data.endIcon)
 
