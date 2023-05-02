@@ -15,11 +15,9 @@ import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
 import org.hyperskill.app.android.study_plan.screen.StudyPlanScreen
-import org.hyperskill.app.android.track.view.navigation.TrackScreen
 import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.debug.presentation.DebugFeature
 import org.hyperskill.app.main.domain.analytic.AppClickedBottomNavigationItemHyperskillAnalyticEvent
-import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
 import ru.nobird.android.view.navigation.navigator.RetainedAppNavigator
 import ru.nobird.android.view.navigation.ui.fragment.addBackNavigationDelegate
 
@@ -44,8 +42,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     when (Tabs.valueOf(screenKey)) {
                         Tabs.HOME ->
                             R.id.home_tab
-                        Tabs.TRACK ->
-                            R.id.track_tab
                         Tabs.STUDY_PLAN ->
                             R.id.study_plan_tab
                         Tabs.PROFILE ->
@@ -80,13 +76,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             localCicerone.router.switch(HomeScreen)
         }
 
-        with(viewBinding.mainBottomNavigation.menu) {
-            findItem(R.id.debug_tab).isVisible =
-                DebugFeature.isAvailable(buildKonfig)
-            val isStudyPlanAvailable = StudyPlanScreenFeature.isAvailable(buildKonfig)
-            findItem(R.id.study_plan_tab).isVisible = isStudyPlanAvailable
-            findItem(R.id.track_tab).isVisible = !isStudyPlanAvailable
-        }
+        viewBinding.mainBottomNavigation.menu.findItem(R.id.debug_tab).isVisible =
+            DebugFeature.isAvailable(buildKonfig)
 
         viewBinding.mainBottomNavigation.setOnItemSelectedListener { item ->
             logClickedBottomNavigationItemEvent(
@@ -102,9 +93,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             when (item.itemId) {
                 R.id.home_tab -> {
                     localCicerone.router.switch(HomeScreen)
-                }
-                R.id.track_tab -> {
-                    localCicerone.router.switch(TrackScreen)
                 }
                 R.id.profile_tab -> {
                     localCicerone.router.switch(ProfileScreen(isInitCurrent = true))
@@ -145,7 +133,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun resolveAnalyticNavigationItem(itemId: Int): AppClickedBottomNavigationItemHyperskillAnalyticEvent.NavigationItem? =
         when (itemId) {
             R.id.home_tab -> AppClickedBottomNavigationItemHyperskillAnalyticEvent.NavigationItem.HOME
-            R.id.track_tab -> AppClickedBottomNavigationItemHyperskillAnalyticEvent.NavigationItem.TRACK
             R.id.study_plan_tab -> AppClickedBottomNavigationItemHyperskillAnalyticEvent.NavigationItem.STUDY_PLAN
             R.id.profile_tab -> AppClickedBottomNavigationItemHyperskillAnalyticEvent.NavigationItem.PROFILE
             R.id.debug_tab -> AppClickedBottomNavigationItemHyperskillAnalyticEvent.NavigationItem.DEBUG
