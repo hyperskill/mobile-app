@@ -105,7 +105,7 @@ class StudyPlanWidgetDelegate(
                     0
                 }
             }
-            if (position == state.itemCount - 1) {
+            if (!state.isPreLayout && position == state.itemCount - 1) {
                 rect.bottom = bottomMargin
             }
         }

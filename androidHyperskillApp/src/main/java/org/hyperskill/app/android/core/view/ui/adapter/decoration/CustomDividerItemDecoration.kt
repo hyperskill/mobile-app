@@ -15,7 +15,7 @@ class CustomDividerItemDecoration(
         parent: RecyclerView,
         state: RecyclerView.State,
     ) {
-        val position = parent.getChildLayoutPosition(view)
+        val position = parent.getChildAdapterPosition(view)
         if (position != RecyclerView.NO_POSITION) {
             setRectOffset(position, outRect, state)
         }
