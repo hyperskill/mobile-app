@@ -295,6 +295,42 @@ class StudyPlanWidgetTest {
     }
 
     @Test
+    fun `New activities should replace old activities in activities map`() {
+        // ALTAPPS-743: old activities [0, 1], new activities [1, 2], result activities [1, 2]
+        val sectionId = 0L
+        val oldActivities = List(2) { index ->
+            stubLearningActivity(id = index.toLong())
+        }
+        val newActivities = List(2) { index ->
+            stubLearningActivity(id = index.toLong() + 1)
+        }
+
+        val expectedActivitiesIds: Set<Long> = setOf(1, 2)
+
+        val (state, _) =
+            reducer.reduce(
+                StudyPlanWidgetFeature.State(
+                    activities = oldActivities.associateBy { it.id },
+                    studyPlanSections = mapOf(
+                        sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                            studyPlanSection = studyPlanSectionStub(
+                                sectionId,
+                                activities = oldActivities.map { it.id }
+                            ),
+                            contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED,
+                            isExpanded = true
+                        )
+                    )
+                ),
+                StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success(sectionId, newActivities)
+            )
+
+        val resultActivitiesIds = state.activities.keys
+
+        assertEquals(expectedActivitiesIds, resultActivitiesIds)
+    }
+
+    @Test
     fun `Clicking reload activities should trigger activities loading`() {
         val activities = listOf<Long>(0, 1, 2)
         val section = studyPlanSectionStub(id = 0, activities = activities)
