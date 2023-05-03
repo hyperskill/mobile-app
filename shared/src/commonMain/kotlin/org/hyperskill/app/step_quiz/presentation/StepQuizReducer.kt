@@ -9,12 +9,12 @@ import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRunHyperskill
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedSendHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizHiddenDailyNotificationsNoticeHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizShownDailyNotificationsNoticeHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.problems_limit_reached_modal.ProblemsLimitReachedModalClickedGoToHomeScreenHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.problems_limit_reached_modal.ProblemsLimitReachedModalHiddenHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.problems_limit_reached_modal.ProblemsLimitReachedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.daily_step_completed_modal.StepQuizDailyStepCompletedModalClickedGoBackHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.daily_step_completed_modal.StepQuizDailyStepCompletedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.daily_step_completed_modal.StepQuizDailyStepCompletedModalShownHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.problems_limit_reached_modal.ProblemsLimitReachedModalClickedGoToHomeScreenHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.problems_limit_reached_modal.ProblemsLimitReachedModalHiddenHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.problems_limit_reached_modal.ProblemsLimitReachedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.model.permissions.StepQuizUserPermissionRequest
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
@@ -25,8 +25,10 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Message
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
+internal typealias StepQuizReducerResult = Pair<State, Set<Action>>
+
 class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Message, Action> {
-    override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
+    override fun reduce(state: State, message: Message): StepQuizReducerResult =
         when (message) {
             is Message.InitWithStep ->
                 if (state is State.Idle ||
@@ -37,25 +39,7 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                     null
                 }
             is Message.FetchAttemptSuccess ->
-                if (state is State.Loading) {
-                    if (StepQuizResolver.isIdeRequired(message.step, message.submissionState)) {
-                        State.Unsupported to emptySet()
-                    } else {
-                        val isProblemsLimitReached = message.isProblemsLimitReached && !stepRoute.isFreemiumUnlimited
-                        State.AttemptLoaded(
-                            message.step,
-                            message.attempt,
-                            message.submissionState,
-                            isProblemsLimitReached
-                        ) to buildSet {
-                            if (isProblemsLimitReached) {
-                                add(Action.ViewAction.ShowProblemsLimitReachedModal)
-                            }
-                        }
-                    }
-                } else {
-                    null
-                }
+                handleFetchAttemptSuccess(state, message)
             is Message.FetchAttemptError ->
                 if (state is State.Loading) {
                     State.NetworkError to emptySet()
@@ -275,6 +259,30 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
                     )
                 )
         } ?: (state to emptySet())
+
+    private fun handleFetchAttemptSuccess(state: State, message: Message.FetchAttemptSuccess): StepQuizReducerResult =
+        if (state is State.Loading) {
+            if (StepQuizResolver.isIdeRequired(message.step, message.submissionState)) {
+                State.Unsupported to emptySet()
+            } else {
+                val isProblemsLimitReached = message.isProblemsLimitReached && !stepRoute.isFreemiumUnlimited
+
+                val actions = if (isProblemsLimitReached) {
+                    setOf(Action.ViewAction.ShowProblemsLimitReachedModal)
+                } else {
+                    emptySet()
+                }
+
+                State.AttemptLoaded(
+                    message.step,
+                    message.attempt,
+                    message.submissionState,
+                    isProblemsLimitReached
+                ) to actions
+            }
+        } else {
+            state to emptySet()
+        }
 
     private fun createLocalSubmission(oldState: State.AttemptLoaded, reply: Reply): Submission {
         val submission = (oldState.submissionState as? StepQuizFeature.SubmissionState.Loaded)?.submission
