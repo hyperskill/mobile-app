@@ -17,10 +17,6 @@ struct StudyPlanSectionHeaderView: View {
         section.content is StudyPlanWidgetViewStateSectionContentCollapsed
     }
 
-    private var currentBadgeIsVisible: Bool {
-        isCollapsed && section.isCurrent
-    }
-
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
             HStack {
@@ -50,9 +46,9 @@ struct StudyPlanSectionHeaderView: View {
                 formattedTimeToComplete: section.formattedTimeToComplete
             )
 
-            if currentBadgeIsVisible {
+            if section.isCurrentBadgeShown {
                 StudyPlanSectionItemBadgeView.current()
-                    .animation(.easeInOut, value: currentBadgeIsVisible)
+                    .animation(.easeInOut, value: section.isCurrentBadgeShown)
             }
         }
         .padding()
