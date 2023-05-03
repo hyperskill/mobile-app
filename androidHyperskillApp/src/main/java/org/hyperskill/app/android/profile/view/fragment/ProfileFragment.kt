@@ -11,7 +11,6 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.ImageLoader
 import coil.load
 import coil.transform.CircleCropTransformation
-import java.util.Locale
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.checkNotificationChannelAvailability
@@ -41,6 +40,7 @@ import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
+import java.util.*
 
 class ProfileFragment :
     Fragment(R.layout.fragment_profile),
@@ -117,7 +117,7 @@ class ProfileFragment :
             )
         }
 
-        with(viewBinding.root) {
+        with(viewBinding.profileSwipeRefreshLayout) {
             setHyperskillColors()
             setOnRefreshListener {
                 profileViewModel.onNewMessage(
@@ -287,7 +287,7 @@ class ProfileFragment :
     }
 
     private fun renderSwipeRefresh(content: ProfileFeature.State) {
-        with(viewBinding.root) {
+        with(viewBinding.profileSwipeRefreshLayout) {
             isEnabled = content is ProfileFeature.State.Content
             if (content is ProfileFeature.State.Content) {
                 updateIsRefreshing(content.isRefreshing)
