@@ -105,7 +105,8 @@ class StudyPlanWidgetDelegate(
                     0
                 }
             }
-            if (!state.isPreLayout && position == state.itemCount - 1) {
+            if (position == studyPlanAdapter.itemCount - 1) {
+                state.willRunPredictiveAnimations()
                 rect.bottom = bottomMargin
             }
         }
