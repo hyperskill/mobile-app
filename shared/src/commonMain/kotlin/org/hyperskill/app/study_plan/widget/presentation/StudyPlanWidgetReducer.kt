@@ -177,9 +177,13 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
     ): StudyPlanWidgetReducerResult =
         state.copy(
             activities = state.activities.toMutableMap().apply {
-                putAll(
-                    message.activities.associateBy { it.id }
-                )
+                putAll(message.activities.associateBy { it.id })
+                // ALTAPPS-743: We should remove activities that are not in the new list
+                // (e.g. when user has completed or skipped some activities)
+                val activitiesIds =
+                    state.studyPlanSections[message.sectionId]?.studyPlanSection?.activities?.toSet() ?: emptySet()
+                val activitiesIdsToRemove = activitiesIds - message.activities.map { it.id }.toSet()
+                activitiesIdsToRemove.forEach { remove(it) }
             },
             studyPlanSections = state.studyPlanSections.update(message.sectionId) { sectionInfo ->
                 sectionInfo.copy(contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED)
