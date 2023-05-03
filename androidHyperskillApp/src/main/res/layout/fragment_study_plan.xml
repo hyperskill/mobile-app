@@ -7,12 +7,19 @@
     <include
         android:id="@+id/studyPlanAppBar"
         layout="@layout/layout_gamification_toolbar"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/studyPlanRecycler"
+    
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/studyPlanSwipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/studyPlanRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <include
         android:id="@+id/studyPlanError"

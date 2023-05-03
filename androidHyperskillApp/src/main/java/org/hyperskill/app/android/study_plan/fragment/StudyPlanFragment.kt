@@ -8,6 +8,8 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
+import org.hyperskill.app.android.core.view.ui.setHyperskillColors
+import org.hyperskill.app.android.core.view.ui.updateIsRefreshing
 import org.hyperskill.app.android.databinding.FragmentStudyPlanBinding
 import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.GamificationToolbarDelegate
 import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
@@ -80,6 +82,7 @@ class StudyPlanFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initGamificationToolbarDelegate()
+        initSwipeRefresh()
         studyPlanWidgetDelegate?.setup(viewBinding.studyPlanRecycler, viewBinding.studyPlanError)
     }
 
@@ -96,6 +99,15 @@ class StudyPlanFragment :
         }
     }
 
+    private fun initSwipeRefresh() {
+        with(viewBinding.studyPlanSwipeRefresh) {
+            setHyperskillColors()
+            setOnRefreshListener {
+                studyPlanViewModel.onNewMessage(StudyPlanScreenFeature.Message.PullToRefresh)
+            }
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         studyPlanWidgetDelegate?.cleanup()
@@ -108,9 +120,17 @@ class StudyPlanFragment :
     }
 
     override fun render(state: StudyPlanScreenViewState) {
+        renderSwipeRefresh(state.isRefreshing)
         gamificationToolbarDelegate?.render(state.toolbarState)
         gamificationToolbarDelegate?.setSubtitle(state.trackTitle)
         studyPlanWidgetDelegate?.render(state.studyPlanWidgetViewState)
+    }
+
+    private fun renderSwipeRefresh(isRefreshing: Boolean) {
+        with(viewBinding.studyPlanSwipeRefresh) {
+            updateIsRefreshing(isRefreshing)
+            this.isRefreshing = isRefreshing
+        }
     }
 
     override fun onAction(action: StudyPlanScreenFeature.Action.ViewAction) {
