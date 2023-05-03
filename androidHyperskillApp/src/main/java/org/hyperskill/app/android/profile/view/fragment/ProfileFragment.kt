@@ -11,6 +11,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.ImageLoader
 import coil.load
 import coil.transform.CircleCropTransformation
+import java.util.Locale
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.checkNotificationChannelAvailability
@@ -40,7 +41,6 @@ import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
-import java.util.*
 
 class ProfileFragment :
     Fragment(R.layout.fragment_profile),
