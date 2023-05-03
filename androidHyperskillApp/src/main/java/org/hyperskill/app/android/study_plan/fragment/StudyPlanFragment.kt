@@ -130,16 +130,16 @@ class StudyPlanFragment :
     }
 
     override fun render(state: StudyPlanScreenViewState) {
-        renderSwipeRefresh(state.isRefreshing)
+        renderSwipeRefresh(state)
         gamificationToolbarDelegate?.render(state.toolbarState)
         gamificationToolbarDelegate?.setSubtitle(state.trackTitle)
         studyPlanWidgetDelegate?.render(state.studyPlanWidgetViewState)
     }
 
-    private fun renderSwipeRefresh(isRefreshing: Boolean) {
+    private fun renderSwipeRefresh(state: StudyPlanScreenViewState) {
         with(viewBinding.studyPlanSwipeRefresh) {
-            updateIsRefreshing(isRefreshing)
-            this.isRefreshing = isRefreshing
+            isEnabled = state.studyPlanWidgetViewState is StudyPlanWidgetViewState.Content
+            updateIsRefreshing(state.isRefreshing)
         }
     }
 
