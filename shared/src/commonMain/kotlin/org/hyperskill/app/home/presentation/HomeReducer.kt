@@ -14,6 +14,8 @@ import org.hyperskill.app.home.presentation.HomeFeature.Action
 import org.hyperskill.app.home.presentation.HomeFeature.HomeState
 import org.hyperskill.app.home.presentation.HomeFeature.Message
 import org.hyperskill.app.home.presentation.HomeFeature.State
+import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
+import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextReducer
 import ru.nobird.app.presentation.redux.reducer.StateReducer
@@ -21,6 +23,7 @@ import kotlin.math.max
 
 class HomeReducer(
     private val gamificationToolbarReducer: GamificationToolbarReducer,
+    private val problemsLimitReducer: ProblemsLimitReducer,
     private val topicsToDiscoverNextReducer: TopicsToDiscoverNextReducer
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
@@ -53,6 +56,11 @@ class HomeReducer(
                     GamificationToolbarFeature.Message.PullToRefresh(GamificationToolbarScreen.HOME)
                 )
 
+                val (problemsLimitState, problemsLimitActions) = reduceProblemsLimitMessage(
+                    state.problemsLimitState,
+                    ProblemsLimitFeature.Message.PullToRefresh
+                )
+
                 val (topicsToDiscoverNextState, topicsToDiscoverNextActions) = reduceTopicsToDiscoverNextMessage(
                     state.topicsToDiscoverNextState,
                     TopicsToDiscoverNextFeature.Message.PullToRefresh
@@ -61,8 +69,9 @@ class HomeReducer(
                 state.copy(
                     homeState = homeState,
                     toolbarState = toolbarState,
+                    problemsLimitState = problemsLimitState,
                     topicsToDiscoverNextState = topicsToDiscoverNextState
-                ) to homeActions + toolbarActions + topicsToDiscoverNextActions
+                ) to homeActions + toolbarActions + problemsLimitActions + topicsToDiscoverNextActions
             }
             // Timer Messages
             is Message.ReadyToLaunchNextProblemInTimer ->
@@ -270,6 +279,11 @@ class HomeReducer(
                     reduceGamificationToolbarMessage(state.toolbarState, message.message)
                 state.copy(toolbarState = toolbarState) to toolbarActions
             }
+            is Message.ProblemsLimitMessage -> {
+                val (problemsLimitState, problemsLimitActions) =
+                    reduceProblemsLimitMessage(state.problemsLimitState, message.message)
+                state.copy(problemsLimitState = problemsLimitState) to problemsLimitActions
+            }
             is Message.TopicsToDiscoverNextMessage -> {
                 val (topicsToDiscoverNextState, topicsToDiscoverNextActions) =
                     reduceTopicsToDiscoverNextMessage(state.topicsToDiscoverNextState, message.message)
@@ -294,6 +308,26 @@ class HomeReducer(
             .toSet()
 
         return gamificationToolbarState to actions
+    }
+
+    private fun reduceProblemsLimitMessage(
+        state: ProblemsLimitFeature.State,
+        message: ProblemsLimitFeature.Message
+    ): Pair<ProblemsLimitFeature.State, Set<Action>> {
+        val (problemsLimitState, problemsLimitActions) =
+            problemsLimitReducer.reduce(state, message)
+
+        val actions = problemsLimitActions
+            .map {
+                if (it is ProblemsLimitFeature.Action.ViewAction) {
+                    Action.ViewAction.ProblemsLimitViewAction(it)
+                } else {
+                    Action.ProblemsLimitAction(it)
+                }
+            }
+            .toSet()
+
+        return problemsLimitState to actions
     }
 
     private fun reduceTopicsToDiscoverNextMessage(
@@ -333,6 +367,12 @@ class HomeReducer(
                 GamificationToolbarFeature.Message.Initialize(GamificationToolbarScreen.HOME, forceUpdate)
             )
 
+        val (problemsLimitState, problemsLimitActions) =
+            reduceProblemsLimitMessage(
+                state.problemsLimitState,
+                ProblemsLimitFeature.Message.Initialize(forceUpdate)
+            )
+
         val (topicsToDiscoverNextState, topicsToDiscoverNextActions) =
             reduceTopicsToDiscoverNextMessage(
                 state.topicsToDiscoverNextState,
@@ -342,7 +382,8 @@ class HomeReducer(
         return state.copy(
             homeState = homeState,
             toolbarState = toolbarState,
+            problemsLimitState = problemsLimitState,
             topicsToDiscoverNextState = topicsToDiscoverNextState
-        ) to homeActions + toolbarActions + topicsToDiscoverNextActions
+        ) to homeActions + toolbarActions + problemsLimitActions + topicsToDiscoverNextActions
     }
 }

@@ -1,10 +1,11 @@
 package org.hyperskill.app.problems_limit.presentation
 
+import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import kotlin.time.Duration
 
 object ProblemsLimitFeature {
-    internal sealed interface State {
+    sealed interface State {
         object Idle : State
 
         object Loading : State
@@ -12,7 +13,8 @@ object ProblemsLimitFeature {
         data class Content(
             val subscription: Subscription,
             val isFreemiumEnabled: Boolean,
-            val updateIn: Duration?
+            val updateIn: Duration?,
+            internal val isRefreshing: Boolean = false
         ) : State
 
         object NetworkError : State
@@ -39,6 +41,8 @@ object ProblemsLimitFeature {
     sealed interface Message {
         data class Initialize(val forceUpdate: Boolean = false) : Message
 
+        object PullToRefresh : Message
+
         sealed interface SubscriptionLoadingResult : Message {
             data class Success(
                 val subscription: Subscription,
@@ -54,7 +58,7 @@ object ProblemsLimitFeature {
     }
 
     sealed interface Action {
-        data class LoadSubscription(val forceUpdate: Boolean) : Action
+        data class LoadSubscription(val screen: ProblemsLimitScreen, val forceUpdate: Boolean) : Action
 
         data class LaunchTimer(val updateIn: Duration) : Action
 
