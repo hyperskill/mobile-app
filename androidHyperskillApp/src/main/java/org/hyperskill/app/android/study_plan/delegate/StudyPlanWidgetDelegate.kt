@@ -205,7 +205,8 @@ class StudyPlanWidgetDelegate(
             subtitle = section.subtitle,
             formattedTopicsCount = section.formattedTopicsCount,
             formattedTimeToComplete = section.formattedTimeToComplete,
-            isExpanded = section.content !is StudyPlanWidgetViewState.SectionContent.Collapsed
+            isExpanded = section.content !is StudyPlanWidgetViewState.SectionContent.Collapsed,
+            isCurrentBadgeShown = section.isCurrentBadgeShown
         )
 
     private fun mapSectionContentToActivityItems(

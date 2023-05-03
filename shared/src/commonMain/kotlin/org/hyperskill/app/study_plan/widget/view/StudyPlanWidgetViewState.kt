@@ -19,7 +19,10 @@ sealed interface StudyPlanWidgetViewState {
         val formattedTopicsCount: String?,
         val formattedTimeToComplete: String?,
         val content: SectionContent
-    )
+    ) {
+        val isCurrentBadgeShown: Boolean
+            get() = isCurrent && content is SectionContent.Collapsed
+    }
 
     sealed interface SectionContent {
         object Collapsed : SectionContent

@@ -67,6 +67,8 @@ class StudyPlanSectionAdapterDelegate(
             if (data.formattedTimeToComplete != null) {
                 binding.sectionTimeToFinish.text = data.formattedTimeToComplete
             }
+
+            binding.sectionBadgeTextView.isVisible = data.isCurrentBadgeShown
         }
     }
 }

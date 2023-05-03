@@ -12,7 +12,8 @@ sealed interface StudyPlanRecyclerItem {
         val subtitle: String?,
         val formattedTopicsCount: String?,
         val formattedTimeToComplete: String?,
-        val isExpanded: Boolean
+        val isExpanded: Boolean,
+        val isCurrentBadgeShown: Boolean
     ) : StudyPlanRecyclerItem, Identifiable<Long>
 
     object SectionLoading : StudyPlanRecyclerItem
