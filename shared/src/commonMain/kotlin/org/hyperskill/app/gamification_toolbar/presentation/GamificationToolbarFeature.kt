@@ -8,7 +8,6 @@ import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.track.domain.model.TrackWithProgress
 
 interface GamificationToolbarFeature {
-
     sealed interface State {
         object Idle : State
         object Loading : State
@@ -55,6 +54,7 @@ interface GamificationToolbarFeature {
          */
         object ClickedGems : Message
         object ClickedStreak : Message
+        object ClickedProgress : Message
     }
 
     sealed interface Action {

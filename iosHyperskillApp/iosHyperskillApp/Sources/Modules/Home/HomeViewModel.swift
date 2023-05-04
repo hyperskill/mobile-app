@@ -69,6 +69,14 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
         )
     }
 
+    func doProgressBarButtonItemAction() {
+        onNewMessage(
+            HomeFeatureMessageGamificationToolbarMessage(
+                message: GamificationToolbarFeatureMessageClickedProgress()
+            )
+        )
+    }
+
     // MARK: Analytic
 
     func logViewedEvent() {

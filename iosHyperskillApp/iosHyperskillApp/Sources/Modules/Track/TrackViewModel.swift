@@ -61,6 +61,14 @@ final class TrackViewModel: FeatureViewModel<TrackFeatureState, TrackFeatureMess
         )
     }
 
+    func doProgressBarButtonItemAction() {
+        onNewMessage(
+            TrackFeatureMessageGamificationToolbarMessage(
+                message: GamificationToolbarFeatureMessageClickedProgress()
+            )
+        )
+    }
+
     func makeViewData(
         track: Track,
         trackProgress: TrackProgress,

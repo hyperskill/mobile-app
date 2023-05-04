@@ -36,7 +36,8 @@ struct StudyPlanView: View {
             GamificationToolbarContent(
                 stateKs: viewModel.gamificationToolbarStateKs,
                 onGemsTap: viewModel.doGemsBarButtonItemAction,
-                onStreakTap: viewModel.doStreakBarButtonItemAction
+                onStreakTap: viewModel.doStreakBarButtonItemAction,
+                onProgressTap: viewModel.doProgressBarButtonItemAction
             )
         }
         .onAppear {

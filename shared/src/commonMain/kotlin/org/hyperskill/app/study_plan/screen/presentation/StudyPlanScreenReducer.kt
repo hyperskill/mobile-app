@@ -78,7 +78,7 @@ internal class StudyPlanScreenReducer(
         val (toolbarState, toolbarActions) =
             reduceToolbarMessage(
                 state.toolbarState,
-                GamificationToolbarFeature.Message.Initialize(forceUpdate = false) // TODO: watch for force update
+                GamificationToolbarFeature.Message.Initialize(forceUpdate = false)
             )
         val (studyPlanState, studyPlanActions) =
             reduceStudyPlanWidgetMessage(

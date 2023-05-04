@@ -15,6 +15,7 @@ struct GamificationToolbarContent: ToolbarContent {
 
     let onGemsTap: () -> Void
     let onStreakTap: () -> Void
+    let onProgressTap: () -> Void
 
     var body: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
@@ -33,7 +34,7 @@ struct GamificationToolbarContent: ToolbarContent {
                         ProgressBarButtonItem(
                             progress: Float(trackWithProgress.averageProgress) / 100,
                             isCompleted: trackWithProgress.trackProgress.isCompleted,
-                            onTap: {}
+                            onTap: onProgressTap
                         )
                     }
 

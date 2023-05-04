@@ -1,6 +1,7 @@
 package org.hyperskill.app.gamification_toolbar.presentation
 
 import org.hyperskill.app.gamification_toolbar.domain.analytic.GamificationToolbarClickedGemsHyperskillAnalyticEvent
+import org.hyperskill.app.gamification_toolbar.domain.analytic.GamificationToolbarClickedProgressHyperskillAnalyticEvent
 import org.hyperskill.app.gamification_toolbar.domain.analytic.GamificationToolbarClickedStreakHyperskillAnalyticEvent
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.Action
@@ -117,6 +118,14 @@ class GamificationToolbarReducer(
                     state to setOf(
                         Action.ViewAction.ShowProfileTab,
                         Action.LogAnalyticEvent(GamificationToolbarClickedStreakHyperskillAnalyticEvent(screen))
+                    )
+                } else {
+                    null
+                }
+            is Message.ClickedProgress ->
+                if (state is State.Content) {
+                    state to setOf(
+                        Action.LogAnalyticEvent(GamificationToolbarClickedProgressHyperskillAnalyticEvent(screen))
                     )
                 } else {
                     null

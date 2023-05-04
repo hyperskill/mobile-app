@@ -33,6 +33,11 @@ class GamificationToolbarDelegate(
                     GamificationToolbarFeature.Message.ClickedStreak
                 )
             }
+            gamificationTrackProgressLinearLayout.setOnClickListener {
+                onNewMessage(
+                    GamificationToolbarFeature.Message.ClickedProgress
+                )
+            }
         }
     }
 

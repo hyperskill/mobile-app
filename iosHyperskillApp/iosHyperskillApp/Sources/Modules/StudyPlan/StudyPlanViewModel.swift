@@ -83,6 +83,14 @@ final class StudyPlanViewModel: FeatureViewModel<
         )
     }
 
+    func doProgressBarButtonItemAction() {
+        onNewMessage(
+            StudyPlanScreenFeatureMessageGamificationToolbarMessage(
+                message: GamificationToolbarFeatureMessageClickedProgress()
+            )
+        )
+    }
+
     // MARK: Analytic
 
     func logViewedEvent() {
