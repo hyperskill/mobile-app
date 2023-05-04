@@ -2,10 +2,11 @@ import SwiftUI
 
 extension ProgressBarButtonItem {
     struct Appearance {
+        let spacing: CGFloat = 14
+
         let circleWidthHeight: CGFloat = 16
         let circleLineWidth: CGFloat = 2
         let circleBackgroundWidthHeight: CGFloat = 28
-        let spacing: CGFloat = 14
     }
 }
 
@@ -13,7 +14,6 @@ struct ProgressBarButtonItem: View {
     private(set) var appearance = Appearance()
 
     let progress: Float
-
     let isCompleted: Bool
 
     let onTap: () -> Void
@@ -26,18 +26,14 @@ struct ProgressBarButtonItem: View {
                     ZStack {
                         Circle()
                             .stroke(
-                                isCompleted
-                                ? Color(ColorPalette.secondaryAlpha38)
-                                : Color(ColorPalette.primaryAlpha38),
+                                isCompleted ? Color(ColorPalette.secondaryAlpha38) : Color(ColorPalette.primaryAlpha38),
                                 lineWidth: appearance.circleLineWidth
                             )
 
                         Circle()
                             .trim(from: 0, to: CGFloat(progress))
                             .stroke(
-                                isCompleted
-                                ? Color(ColorPalette.secondary)
-                                : Color(ColorPalette.primary),
+                                isCompleted ? Color(ColorPalette.secondary) : Color(ColorPalette.primary),
                                 lineWidth: appearance.circleLineWidth
                             )
                             .rotationEffect(.degrees(-90))
