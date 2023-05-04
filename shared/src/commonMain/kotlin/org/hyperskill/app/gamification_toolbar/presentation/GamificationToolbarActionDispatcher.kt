@@ -128,7 +128,7 @@ class GamificationToolbarActionDispatcher(
                         },
                         onFailure = {
                             onNewMessage(Message.FetchTrackWithProgressResult.Error)
-                            sentryInteractor.finishTransaction(action.transaction)
+                            sentryInteractor.finishTransaction(action.transaction, throwable = it)
                         }
                     )
             }
