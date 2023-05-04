@@ -1,3 +1,12 @@
 What to Test:
-1. Support rejected submissions ALTAPPS-676
-2. Tracks, progresses & studyPlan cached access ALTAPPS-679
+1. Reload study-plan every screen entering ALTAPPS-662
+2. Base study plan UI ALTAPPS-670
+3. Study plan reload activities UI ALTAPPS-704
+4. Support is_ide_required field from learning activities api ALTAPPS-709
+5. Switch Track tab with Study Plan ALTAPPS-711
+6. Fix study plan section statistics visibility ALTAPPS-715
+7. Study plan display badge Current if collapsed section contains current learning activity ALTAPPS-716
+8. Study plan filter sections based on it's supporting ALTAPPS-729
+9. Fix statistics shows incorrectly for sections with only ide required steps ALTAPPS-731
+10. Fix skipped topics are shown in mobile study plan ALTAPPS-743
+11. Fix daily limits blocks problem of the day ALTAPPS-747

@@ -14,7 +14,7 @@ data class Profile(
     @SerialName("fullname")
     val fullname: String,
     @SerialName("gamification")
-    val gamification: Gamification,
+    val gamification: Gamification = Gamification(),
     @SerialName("completed_tracks")
     val completedTracks: List<Long>,
     @SerialName("country")

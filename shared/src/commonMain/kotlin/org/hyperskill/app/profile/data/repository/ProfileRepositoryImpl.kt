@@ -27,6 +27,9 @@ class ProfileRepositoryImpl(
     override suspend fun selectTrackWithProject(profileId: Long, trackId: Long, projectId: Long): Result<Profile> =
         profileRemoteDataSource.selectTrackWithProject(profileId, trackId, projectId)
 
+    override suspend fun selectTrack(profileId: Long, trackId: Long): Result<Profile> =
+        profileRemoteDataSource.selectTrack(profileId, trackId)
+
     override suspend fun clearCache() {
         profileCacheDataSource.clearCache()
     }

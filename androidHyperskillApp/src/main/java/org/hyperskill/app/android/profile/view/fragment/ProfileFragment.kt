@@ -19,6 +19,8 @@ import org.hyperskill.app.android.core.extensions.isChannelNotificationsEnabled
 import org.hyperskill.app.android.core.extensions.openUrl
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
+import org.hyperskill.app.android.core.view.ui.setHyperskillColors
+import org.hyperskill.app.android.core.view.ui.updateIsRefreshing
 import org.hyperskill.app.android.databinding.FragmentProfileBinding
 import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
@@ -113,6 +115,18 @@ class ProfileFragment :
                     isInitCurrent = isInitCurrent
                 )
             )
+        }
+
+        with(viewBinding.profileSwipeRefreshLayout) {
+            setHyperskillColors()
+            setOnRefreshListener {
+                profileViewModel.onNewMessage(
+                    ProfileFeature.Message.PullToRefresh(
+                        isRefreshCurrent = isInitCurrent,
+                        profileId = profileId
+                    )
+                )
+            }
         }
 
         profileViewModel.onNewMessage(
@@ -241,6 +255,7 @@ class ProfileFragment :
 
     override fun render(state: ProfileFeature.State) {
         viewStateDelegate.switchState(state)
+        renderSwipeRefresh(state)
         when (state) {
             is ProfileFeature.State.Content -> {
                 profileId = state.profile.id
@@ -268,6 +283,15 @@ class ProfileFragment :
                 .showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
         } else {
             childFragmentManager.dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
+        }
+    }
+
+    private fun renderSwipeRefresh(content: ProfileFeature.State) {
+        with(viewBinding.profileSwipeRefreshLayout) {
+            isEnabled = content is ProfileFeature.State.Content
+            if (content is ProfileFeature.State.Content) {
+                updateIsRefreshing(content.isRefreshing)
+            }
         }
     }
 

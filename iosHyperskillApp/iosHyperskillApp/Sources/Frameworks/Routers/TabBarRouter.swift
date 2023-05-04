@@ -23,14 +23,14 @@ final class TabBarRouter: SourcelessRouter, DeepLinkRouterProtocol {
 
     enum Tab: Equatable {
         case home
-        case track
+        case studyPlan
         case profile
 
         var index: Int {
             switch self {
             case .home:
                 return 0
-            case .track:
+            case .studyPlan:
                 return 1
             case .profile:
                 return 2

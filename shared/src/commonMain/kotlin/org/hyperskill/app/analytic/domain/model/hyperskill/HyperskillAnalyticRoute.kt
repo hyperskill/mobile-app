@@ -77,4 +77,9 @@ sealed class HyperskillAnalyticRoute {
     class Debug : HyperskillAnalyticRoute() {
         override val path: String = "/debug"
     }
+
+    class StudyPlan : HyperskillAnalyticRoute() {
+        override val path: String =
+            "/study-plan"
+    }
 }

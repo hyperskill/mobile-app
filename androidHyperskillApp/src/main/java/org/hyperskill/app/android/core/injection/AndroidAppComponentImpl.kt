@@ -137,8 +137,14 @@ import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponentImpl
 import org.hyperskill.app.streaks.injection.StreakFlowDataComponentImpl
 import org.hyperskill.app.streaks.injection.StreaksDataComponent
 import org.hyperskill.app.streaks.injection.StreaksDataComponentImpl
+import org.hyperskill.app.study_plan.injection.PlatformStudyPlanScreenComponent
+import org.hyperskill.app.study_plan.injection.PlatformStudyPlanScreenComponentImpl
 import org.hyperskill.app.study_plan.injection.StudyPlanDataComponent
 import org.hyperskill.app.study_plan.injection.StudyPlanDataComponentImpl
+import org.hyperskill.app.study_plan.screen.injection.StudyPlanScreenComponent
+import org.hyperskill.app.study_plan.screen.injection.StudyPlanScreenComponentImpl
+import org.hyperskill.app.study_plan.widget.injection.StudyPlanWidgetComponent
+import org.hyperskill.app.study_plan.widget.injection.StudyPlanWidgetComponentImpl
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.PlatformTopicsRepetitionComponent
@@ -431,6 +437,23 @@ class AndroidAppComponentImpl(
     override fun buildPlatformProblemsLimitComponent(): PlatformProblemsLimitComponent =
         PlatformProblemsLimitComponentImpl(problemsLimitComponent = buildProblemsLimitComponent())
 
+    /**
+     * Study plan component
+     */
+    override fun buildStudyPlanWidgetComponent(): StudyPlanWidgetComponent =
+        StudyPlanWidgetComponentImpl(this)
+
+    override fun buildPlatformStudyPlanScreenComponent(): PlatformStudyPlanScreenComponent =
+        PlatformStudyPlanScreenComponentImpl(
+            studyPlanScreenComponent = buildStudyPlanScreenComponent()
+        )
+
+    override fun buildStudyPlanScreenComponent(): StudyPlanScreenComponent =
+        StudyPlanScreenComponentImpl(this)
+
+    override fun buildStudyPlanDataComponent(): StudyPlanDataComponent =
+        StudyPlanDataComponentImpl(this)
+
     override fun buildUserStorageComponent(): UserStorageComponent =
         UserStorageComponentImpl(this)
 
@@ -469,9 +492,6 @@ class AndroidAppComponentImpl(
 
     override fun buildGamificationToolbarComponent(screen: GamificationToolbarScreen): GamificationToolbarComponent =
         GamificationToolbarComponentImpl(this, screen)
-
-    override fun buildStudyPlanDataComponent(): StudyPlanDataComponent =
-        StudyPlanDataComponentImpl(this)
 
     override fun buildProjectsDataComponent(): ProjectsDataComponent =
         ProjectsDataComponentImpl(this)

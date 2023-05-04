@@ -27,10 +27,13 @@ object HyperskillSentryTransactionBuilder {
     /**
      * AppFeature
      */
-    fun buildAppScreenRemoteDataLoading(): HyperskillSentryTransaction =
+    fun buildAppScreenRemoteDataLoading(isAuthorized: Boolean): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
             name = "app-feature-remote-data-loading",
-            operation = HyperskillSentryTransactionOperation.API_LOAD
+            operation = HyperskillSentryTransactionOperation.API_LOAD,
+            tags = listOf(
+                HyperskillSentryTransactionTag.User.IsAuthorized(isAuthorized)
+            )
         )
 
     /**
@@ -174,11 +177,19 @@ object HyperskillSentryTransactionBuilder {
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
 
+    fun buildGamificationToolbarStudyPlanScreenRemoteDataLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "navigation-bar-items-feature-study_plan-screen-remote-data-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
     fun buildGamificationToolbarTrackProgressLoading(screen: GamificationToolbarScreen): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
             name = when (screen) {
                 GamificationToolbarScreen.HOME -> "navigation-bar-items-feature-home-screen-fetch_track_progress"
                 GamificationToolbarScreen.TRACK -> "navigation-bar-items-feature-track-screen-fetch_track_progress"
+                GamificationToolbarScreen.STUDY_PLAN ->
+                    "navigation-bar-items-feature-study_plan-screen-fetch_track_progress"
             },
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
@@ -195,6 +206,36 @@ object HyperskillSentryTransactionBuilder {
     fun buildTopicsToDiscoverNextTrackScreenRemoteDataLoading(): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
             name = "topics-to-discover-next-feature-track-screen-remote-data-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    /**
+     * StudyPlanWidgetFeature
+     */
+    fun buildStudyPlanWidgetFetchCurrentStudyPlan(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "study-plan-widget-feature-fetch-current-study-plan",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    fun buildStudyPlanWidgetFetchStudyPlanSections(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "study-plan-widget-feature-fetch-study-plan-sections",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    fun buildStudyPlanWidgetFetchLearningActivities(isCurrentSection: Boolean): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "study-plan-widget-feature-fetch-learning-activities",
+            operation = HyperskillSentryTransactionOperation.API_LOAD,
+            tags = listOf(
+                HyperskillSentryTransactionTag.StudyPlan.Section.IsCurrent(isCurrentSection)
+            )
+        )
+
+    fun buildStudyPlanWidgetFetchTrack(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "study-plan-widget-feature-fetch-track",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
 }

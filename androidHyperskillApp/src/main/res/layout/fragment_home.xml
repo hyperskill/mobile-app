@@ -10,101 +10,107 @@
         android:id="@+id/homeScreenAppBar"
         layout="@layout/layout_gamification_toolbar"/>
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/homeScreenContainer"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/homeScreenSwipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        >
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/homeScreenContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingTop="16dp"
-            android:paddingBottom="20dp">
+            android:layout_height="match_parent">
 
-            <include
-                android:visibility="gone"
-                android:id="@+id/homeScreenSkeleton"
-                layout="@layout/layout_home_skeleton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginHorizontal="20dp"
-                />
-
-            <TextView
-                android:id="@+id/homeScreenKeepPracticingTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/home_keep_practicing_text"
-                android:layout_marginHorizontal="20dp"
-                />
-
-            <FrameLayout
-                android:id="@+id/homeProblemsLimit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginHorizontal="20dp"
-                />
-
-            <include
-                android:id="@+id/homeScreenProblemOfDayCard"
-                layout="@layout/layout_problem_of_the_day_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginHorizontal="20dp"
-                />
-
-            <include
-                android:id="@+id/homeScreenTopicsRepetitionCard"
-                layout="@layout/layout_topics_repetition_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginHorizontal="20dp"
-                />
-
-            <include
-                android:id="@+id/homeTopicsToDiscoverNext"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                layout="@layout/layout_home_topics_to_discover_next"
-                android:layout_marginTop="46dp"
-                />
+                android:orientation="vertical"
+                android:paddingTop="16dp"
+                android:paddingBottom="20dp">
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:paddingHorizontal="20dp"
-                >
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/homeScreenKeepLearningInWebButton"
+                <include
+                    android:visibility="gone"
+                    android:id="@+id/homeScreenSkeleton"
+                    layout="@layout/layout_home_skeleton"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/auth_button_height"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    app:strokeColor="?colorPrimary"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:text="@string/track_continue_in_web_text"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginHorizontal="20dp"
                     />
 
-                <org.hyperskill.app.android.ui.custom.LoadingView
-                    android:id="@+id/homeKeepLearningInWebButtonSkeleton"
+                <TextView
+                    android:id="@+id/homeScreenKeepPracticingTextView"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/auth_button_height"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_keep_practicing_text"
+                    android:layout_marginHorizontal="20dp"
                     />
 
-            </FrameLayout>
+                <FrameLayout
+                    android:id="@+id/homeProblemsLimit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginHorizontal="20dp"
+                    />
 
-        </LinearLayout>
+                <include
+                    android:id="@+id/homeScreenProblemOfDayCard"
+                    layout="@layout/layout_problem_of_the_day_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginHorizontal="20dp"
+                    />
 
-    </androidx.core.widget.NestedScrollView>
+                <include
+                    android:id="@+id/homeScreenTopicsRepetitionCard"
+                    layout="@layout/layout_topics_repetition_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginHorizontal="20dp"
+                    />
+
+                <include
+                    android:id="@+id/homeTopicsToDiscoverNext"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    layout="@layout/layout_home_topics_to_discover_next"
+                    android:layout_marginTop="46dp"
+                    />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:paddingHorizontal="20dp"
+                    >
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/homeScreenKeepLearningInWebButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/auth_button_height"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        app:strokeColor="?colorPrimary"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="@string/track_continue_in_web_text"
+                        />
+
+                    <org.hyperskill.app.android.ui.custom.LoadingView
+                        android:id="@+id/homeKeepLearningInWebButtonSkeleton"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/auth_button_height"
+                        />
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <include
         android:id="@+id/homeScreenError"

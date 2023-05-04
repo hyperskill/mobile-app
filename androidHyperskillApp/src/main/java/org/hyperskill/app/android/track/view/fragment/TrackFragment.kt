@@ -21,6 +21,8 @@ import org.hyperskill.app.android.core.extensions.openUrl
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
+import org.hyperskill.app.android.core.view.ui.setHyperskillColors
+import org.hyperskill.app.android.core.view.ui.updateIsRefreshing
 import org.hyperskill.app.android.databinding.FragmentTrackBinding
 import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.GamificationToolbarDelegate
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
@@ -81,6 +83,12 @@ class TrackFragment :
         viewBinding.trackError.tryAgain.setOnClickListener {
             trackViewModel.onNewMessage(TrackFeature.Message.Initialize(forceUpdate = true))
         }
+        with(viewBinding.trackSwipeRefreshLayout) {
+            setHyperskillColors()
+            setOnRefreshListener {
+                trackViewModel.onNewMessage(TrackFeature.Message.PullToRefresh)
+            }
+        }
         topicsDelegate.setup(requireContext(), viewBinding.trackNextTopicsRecyclerView)
         trackViewModel.onNewMessage(TrackFeature.Message.Initialize())
         trackViewModel.onNewMessage(TrackFeature.Message.ViewedEventMessage)
@@ -115,6 +123,7 @@ class TrackFragment :
             requireContext().getString(org.hyperskill.app.R.string.track_title)
         gamificationToolbarDelegate = GamificationToolbarDelegate(
             viewLifecycleOwner,
+            requireContext(),
             viewBinding.trackAppBar
         ) { message ->
             trackViewModel.onNewMessage(TrackFeature.Message.GamificationToolbarMessage(message))
@@ -150,6 +159,7 @@ class TrackFragment :
 
     override fun render(state: TrackFeature.State) {
         viewStateDelegate.switchState(state.trackState)
+        renderSwipeRefresh(state)
         TransitionManager.beginDelayedTransition(viewBinding.root, AutoTransition())
         val trackState = state.trackState
         if (trackState is TrackFeature.TrackState.Content) {
@@ -157,6 +167,13 @@ class TrackFragment :
         }
         gamificationToolbarDelegate?.render(state.toolbarState)
         renderNextTopics(state.topicsToDiscoverNextState)
+    }
+
+    private fun renderSwipeRefresh(state: TrackFeature.State) {
+        with(viewBinding.trackSwipeRefreshLayout) {
+            isEnabled = state.trackState is TrackFeature.TrackState.Content
+            updateIsRefreshing(state.isRefreshing)
+        }
     }
 
     private fun renderContent(content: TrackFeature.TrackState.Content) {
