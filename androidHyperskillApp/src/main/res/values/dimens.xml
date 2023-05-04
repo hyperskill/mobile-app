@@ -91,4 +91,17 @@
 
     <dimen name="problems_limit_diver_margin">20dp</dimen>
 
+    <!--Study plan-->
+    <dimen name="study_plan_horizontal_margin">20dp</dimen>
+    <dimen name="study_plan_top_margin">20dp</dimen>
+    <dimen name="study_plan_bottom_margin">20dp</dimen>
+    <dimen name="study_plan_section_top_margin">16dp</dimen>
+    <dimen name="study_plan_activity_top_margin">8dp</dimen>
+
+    <!--Gamification toolbar-->
+    <dimen name="gamification_toolbar_default_height">80dp</dimen>
+    <dimen name="gamification_toolbar_with_subtitle_height">100dp</dimen>
+    <dimen name="gamification_toolbar_default_expanded_title_margin_bottom">8dp</dimen>
+    <dimen name="gamification_toolbar_with_subtitle_expanded_title_margin_bottom">30dp</dimen>
+
 </resources>

@@ -50,13 +50,14 @@ class AppActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.DetermineUserAccountStatus -> {
-                val transaction = HyperskillSentryTransactionBuilder.buildAppScreenRemoteDataLoading()
+                val isAuthorized = authInteractor.isAuthorized()
+                    .getOrDefault(false)
+
+                val transaction = HyperskillSentryTransactionBuilder.buildAppScreenRemoteDataLoading(isAuthorized)
                 sentryInteractor.startTransaction(transaction)
 
                 sentryInteractor.addBreadcrumb(HyperskillSentryBreadcrumbBuilder.buildAppDetermineUserAccountStatus())
 
-                val isAuthorized = authInteractor.isAuthorized()
-                    .getOrDefault(false)
                 // TODO: Move this logic to reducer
                 val profileResult = if (isAuthorized) {
                     profileInteractor

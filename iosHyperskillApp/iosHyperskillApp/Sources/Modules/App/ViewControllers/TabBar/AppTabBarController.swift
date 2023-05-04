@@ -26,8 +26,8 @@ final class AppTabBarController: UITabBarController {
                 switch tabItem {
                 case .home:
                     return HomeAssembly().makeModule()
-                case .track:
-                    return TrackAssembly().makeModule()
+                case .studyPlan:
+                    return StudyPlanAssembly().makeModule()
                 case .profile:
                     return UIHostingController(rootView: ProfileAssembly.currentUser().makeModule())
                 case .debug:
@@ -79,7 +79,7 @@ private extension AppTabItem {
 
     var tabBarItem: UITabBarItem {
         switch self {
-        case .home, .track, .profile:
+        case .home, .studyPlan, .profile:
             return UITabBarItem(
                 title: title,
                 image: UIImage(named: imageName),

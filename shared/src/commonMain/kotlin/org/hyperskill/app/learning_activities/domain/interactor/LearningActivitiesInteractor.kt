@@ -1,7 +1,7 @@
 package org.hyperskill.app.learning_activities.domain.interactor
 
+import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.repository.LearningActivitiesRepository
-import org.hyperskill.app.learning_activities.remote.model.LearningActivitiesResponse
 
 class LearningActivitiesInteractor(
     private val learningActivitiesRepository: LearningActivitiesRepository
@@ -10,6 +10,6 @@ class LearningActivitiesInteractor(
         studyPlanId: Long,
         pageSize: Int = 10,
         page: Int = 1
-    ): Result<LearningActivitiesResponse> =
+    ): Result<List<LearningActivity>> =
         learningActivitiesRepository.getUncompletedTopicsLearningActivities(studyPlanId, pageSize, page)
 }

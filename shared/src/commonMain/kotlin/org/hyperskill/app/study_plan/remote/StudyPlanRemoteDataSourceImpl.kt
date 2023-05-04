@@ -12,14 +12,6 @@ import org.hyperskill.app.study_plan.remote.model.StudyPlanResponse
 class StudyPlanRemoteDataSourceImpl(
     private val httpClient: HttpClient
 ) : StudyPlanRemoteDataSource {
-    override suspend fun getStudyPlans(): Result<List<StudyPlan>> =
-        kotlin.runCatching {
-            httpClient
-                .get("/api/study-plans") {
-                    contentType(ContentType.Application.Json)
-                }.body<StudyPlanResponse>().studyPlans
-        }
-
     override suspend fun getCurrentStudyPlan(): Result<StudyPlan> =
         kotlin.runCatching {
             httpClient

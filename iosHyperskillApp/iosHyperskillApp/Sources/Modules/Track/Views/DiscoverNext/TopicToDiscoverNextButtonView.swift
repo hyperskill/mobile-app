@@ -97,8 +97,7 @@ struct TopicToDiscoverNextButtonView: View {
         }
     }
 
-    @ViewBuilder
-    private var learnNextBadge: some View {
+    @ViewBuilder private var learnNextBadge: some View {
         if isLearnNext {
             Text(Strings.Track.TopicsToDiscoverNext.learnNextBadge)
                 .font(.caption)

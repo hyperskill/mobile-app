@@ -106,8 +106,8 @@ class HomeFragment :
             viewBinding.homeTopicsToDiscoverNext.homeTopicsToDiscoverNextRecycler
         )
         with(viewBinding) {
-            root.setHyperskillColors()
-            root.setOnRefreshListener {
+            homeScreenSwipeRefreshLayout.setHyperskillColors()
+            homeScreenSwipeRefreshLayout.setOnRefreshListener {
                 homeViewModel.onNewMessage(HomeFeature.Message.PullToRefresh)
             }
             homeScreenError.tryAgain.setOnClickListener {
@@ -174,6 +174,7 @@ class HomeFragment :
             requireContext().getString(org.hyperskill.app.R.string.home_title)
         gamificationToolbarDelegate = GamificationToolbarDelegate(
             viewLifecycleOwner,
+            requireContext(),
             viewBinding.homeScreenAppBar,
             GamificationToolbarScreen.HOME
         ) { message ->
@@ -229,7 +230,7 @@ class HomeFragment :
     }
 
     private fun renderSwipeRefresh(state: HomeFeature.State) {
-        with(viewBinding.root) {
+        with(viewBinding.homeScreenSwipeRefreshLayout) {
             isEnabled = state.homeState is HomeFeature.HomeState.Content
             updateIsRefreshing(state.isRefreshing)
         }

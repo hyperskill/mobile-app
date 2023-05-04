@@ -117,7 +117,7 @@ class ProfileFragment :
             )
         }
 
-        with(viewBinding.root) {
+        with(viewBinding.profileSwipeRefreshLayout) {
             setHyperskillColors()
             setOnRefreshListener {
                 profileViewModel.onNewMessage(
@@ -287,7 +287,7 @@ class ProfileFragment :
     }
 
     private fun renderSwipeRefresh(content: ProfileFeature.State) {
-        with(viewBinding.root) {
+        with(viewBinding.profileSwipeRefreshLayout) {
             isEnabled = content is ProfileFeature.State.Content
             if (content is ProfileFeature.State.Content) {
                 updateIsRefreshing(content.isRefreshing)

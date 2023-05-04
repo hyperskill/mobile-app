@@ -2,7 +2,7 @@ import Foundation
 
 enum AppTabItem: CaseIterable {
     case home
-    case track
+    case studyPlan
     case profile
     case debug
 
@@ -10,8 +10,8 @@ enum AppTabItem: CaseIterable {
         switch self {
         case .home:
             return Strings.TabBar.home
-        case .track:
-            return Strings.TabBar.track
+        case .studyPlan:
+            return Strings.TabBar.studyPlan
         case .profile:
             return Strings.TabBar.profile
         case .debug:
@@ -23,8 +23,8 @@ enum AppTabItem: CaseIterable {
         switch self {
         case .home:
             return Images.TabBar.home
-        case .track:
-            return Images.TabBar.track
+        case .studyPlan:
+            return Images.TabBar.studyPlan
         case .profile:
             return Images.TabBar.profile
         case .debug:
@@ -36,8 +36,8 @@ enum AppTabItem: CaseIterable {
         switch self {
         case .home:
             return Images.TabBar.homeFilled
-        case .track:
-            return Images.TabBar.trackFilled
+        case .studyPlan:
+            return Images.TabBar.studyPlanFilled
         case .profile:
             return Images.TabBar.profileFilled
         case .debug:
