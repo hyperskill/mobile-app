@@ -27,7 +27,6 @@ class StepQuizTest {
             problemsLimitState = ProblemsLimitFeature.State.Idle
         )
 
-
         stepRoutes.forEach { stepRoute ->
             val reducer = StepQuizReducer(stepRoute, ProblemsLimitReducer(ProblemsLimitScreen.STEP_QUIZ))
             val (state, actions) = reducer.reduce(
