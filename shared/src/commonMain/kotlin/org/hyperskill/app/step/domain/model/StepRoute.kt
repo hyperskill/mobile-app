@@ -10,12 +10,6 @@ sealed interface StepRoute {
     val stepContext: StepContext
     val stepId: Long
 
-    /**
-     * A boolean flag that indicates whether a user has any limitations in the freemium mode.
-     * For example a user has not limitations when solving problem of the day and when repeating a step.
-     */
-    val isFreemiumUnlimited: Boolean
-
     @Serializable
     class Learn(override val stepId: Long) : StepRoute {
         @Transient
@@ -25,8 +19,6 @@ sealed interface StepRoute {
         @Transient
         override val stepContext: StepContext =
             StepContext.DEFAULT
-
-        override val isFreemiumUnlimited: Boolean = false
     }
 
     @Serializable
@@ -38,8 +30,6 @@ sealed interface StepRoute {
         @Transient
         override val stepContext: StepContext =
             StepContext.DEFAULT
-
-        override val isFreemiumUnlimited: Boolean = true
     }
 
     @Serializable
@@ -51,8 +41,6 @@ sealed interface StepRoute {
         @Transient
         override val stepContext: StepContext =
             StepContext.REPETITION
-
-        override val isFreemiumUnlimited: Boolean = true
     }
 
     @Serializable
@@ -68,7 +56,5 @@ sealed interface StepRoute {
         @Transient
         override val stepContext: StepContext =
             StepContext.DEFAULT
-
-        override val isFreemiumUnlimited: Boolean = false
     }
 }

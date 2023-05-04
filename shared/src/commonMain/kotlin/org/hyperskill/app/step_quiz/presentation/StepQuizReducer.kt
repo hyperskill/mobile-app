@@ -265,7 +265,11 @@ class StepQuizReducer(private val stepRoute: StepRoute) : StateReducer<State, Me
             if (StepQuizResolver.isIdeRequired(message.step, message.submissionState)) {
                 State.Unsupported to emptySet()
             } else {
-                val isProblemsLimitReached = message.isProblemsLimitReached && !stepRoute.isFreemiumUnlimited
+                val isProblemsLimitReached = when (stepRoute) {
+                    is StepRoute.Repeat,
+                    is StepRoute.LearnDaily -> false
+                    else -> message.isProblemsLimitReached
+                }
 
                 val actions = if (isProblemsLimitReached) {
                     setOf(Action.ViewAction.ShowProblemsLimitReachedModal)
