@@ -2,7 +2,6 @@ package org.hyperskill.app.step_quiz.presentation
 
 import kotlinx.datetime.Clock
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -296,9 +295,9 @@ class StepQuizReducer(
         } ?: (state to emptySet())
 
     private fun handleFetchAttemptSuccess(state: State, message: Message.FetchAttemptSuccess): StepQuizReducerResult =
-        if (state is State.Loading) {
+        if (state.stepQuizState is StepQuizState.Loading) {
             if (StepQuizResolver.isIdeRequired(message.step, message.submissionState)) {
-                State.Unsupported to emptySet()
+                state.copy(stepQuizState = StepQuizState.Unsupported) to emptySet()
             } else {
                 val isProblemsLimitReached = when (stepRoute) {
                     is StepRoute.Repeat,
@@ -312,11 +311,13 @@ class StepQuizReducer(
                     emptySet()
                 }
 
-                State.AttemptLoaded(
-                    message.step,
-                    message.attempt,
-                    message.submissionState,
-                    isProblemsLimitReached
+                state.copy(
+                    stepQuizState = StepQuizState.AttemptLoaded(
+                        message.step,
+                        message.attempt,
+                        message.submissionState,
+                        isProblemsLimitReached
+                    )
                 ) to actions
             }
         } else {
@@ -345,11 +346,11 @@ class StepQuizReducer(
 
     private fun initialize(state: State, message: Message.InitWithStep): Pair<State, Set<Action>> {
         val needReloadStepQuiz =
-            state.stepQuizState is StepQuizFeature.StepQuizState.Idle ||
-                (message.forceUpdate && state.stepQuizState is StepQuizFeature.StepQuizState.NetworkError)
+            state.stepQuizState is StepQuizState.Idle ||
+                (message.forceUpdate && state.stepQuizState is StepQuizState.NetworkError)
         val (stepQuizState, stepQuizActions) =
             if (needReloadStepQuiz) {
-                StepQuizFeature.StepQuizState.Loading to setOf(Action.FetchAttempt(message.step))
+                StepQuizState.Loading to setOf(Action.FetchAttempt(message.step))
             } else {
                 state.stepQuizState to emptySet()
             }
@@ -370,7 +371,7 @@ class StepQuizReducer(
         ) to stepQuizActions + problemsLimitActions
     }
 
-    private fun createLocalSubmission(oldState: State.AttemptLoaded, reply: Reply): Submission {
+    private fun createLocalSubmission(oldState: StepQuizState.AttemptLoaded, reply: Reply): Submission {
         val submission = (oldState.submissionState as? StepQuizFeature.SubmissionState.Loaded)?.submission
         return Submission(
             id = submission?.id ?: 0,

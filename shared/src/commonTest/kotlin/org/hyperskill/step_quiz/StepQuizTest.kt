@@ -1,8 +1,8 @@
 package org.hyperskill.step_quiz
 
-import kotlin.test.Test
-import kotlin.test.assertContains
-import kotlin.test.assertEquals
+import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
+import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
+import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
@@ -10,6 +10,9 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizReducer
 import org.hyperskill.step.domain.model.stub
 import org.hyperskill.step_quiz.domain.model.stub
+import kotlin.test.Test
+import kotlin.test.assertContains
+import kotlin.test.assertEquals
 
 class StepQuizTest {
     @Test
@@ -19,13 +22,19 @@ class StepQuizTest {
         val submissionState = StepQuizFeature.SubmissionState.Empty()
         val stepRoutes = listOf(StepRoute.LearnDaily(step.id), StepRoute.Repeat(step.id))
 
-        val expectedState =
-            StepQuizFeature.State.AttemptLoaded(step, attempt, submissionState, isProblemsLimitReached = false)
+        val expectedState = StepQuizFeature.State(
+            stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(step, attempt, submissionState, isProblemsLimitReached = false),
+            problemsLimitState = ProblemsLimitFeature.State.Idle
+        )
+
 
         stepRoutes.forEach { stepRoute ->
-            val reducer = StepQuizReducer(stepRoute)
+            val reducer = StepQuizReducer(stepRoute, ProblemsLimitReducer(ProblemsLimitScreen.STEP_QUIZ))
             val (state, actions) = reducer.reduce(
-                StepQuizFeature.State.Loading,
+                StepQuizFeature.State(
+                    stepQuizState = StepQuizFeature.StepQuizState.Loading,
+                    problemsLimitState = ProblemsLimitFeature.State.Idle
+                ),
                 StepQuizFeature.Message.FetchAttemptSuccess(
                     step,
                     attempt,
@@ -45,12 +54,17 @@ class StepQuizTest {
         val attempt = Attempt.stub(step = step.id)
         val submissionState = StepQuizFeature.SubmissionState.Empty()
 
-        val expectedState =
-            StepQuizFeature.State.AttemptLoaded(step, attempt, submissionState, isProblemsLimitReached = true)
+        val expectedState = StepQuizFeature.State(
+            stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(step, attempt, submissionState, isProblemsLimitReached = true),
+            problemsLimitState = ProblemsLimitFeature.State.Idle
+        )
 
-        val reducer = StepQuizReducer(StepRoute.Learn(step.id))
+        val reducer = StepQuizReducer(StepRoute.Learn(step.id), ProblemsLimitReducer(ProblemsLimitScreen.STEP_QUIZ))
         val (state, actions) = reducer.reduce(
-            StepQuizFeature.State.Loading,
+            StepQuizFeature.State(
+                stepQuizState = StepQuizFeature.StepQuizState.Loading,
+                problemsLimitState = ProblemsLimitFeature.State.Idle
+            ),
             StepQuizFeature.Message.FetchAttemptSuccess(
                 step,
                 attempt,
