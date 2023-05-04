@@ -70,7 +70,7 @@ final class StudyPlanViewModel: FeatureViewModel<
     func doStreakBarButtonItemAction() {
         onNewMessage(
             StudyPlanScreenFeatureMessageGamificationToolbarMessage(
-                message: GamificationToolbarFeatureMessageClickedStreak(screen: GamificationToolbarScreen.track)
+                message: GamificationToolbarFeatureMessageClickedStreak()
             )
         )
     }
@@ -78,7 +78,7 @@ final class StudyPlanViewModel: FeatureViewModel<
     func doGemsBarButtonItemAction() {
         onNewMessage(
             StudyPlanScreenFeatureMessageGamificationToolbarMessage(
-                message: GamificationToolbarFeatureMessageClickedGems(screen: GamificationToolbarScreen.track)
+                message: GamificationToolbarFeatureMessageClickedGems()
             )
         )
     }
