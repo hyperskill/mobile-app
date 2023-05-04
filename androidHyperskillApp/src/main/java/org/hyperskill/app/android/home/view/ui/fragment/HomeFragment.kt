@@ -116,8 +116,8 @@ class HomeFragment :
         )
         problemsLimitDelegate?.setup(context = requireContext())
         with(viewBinding) {
-            root.setHyperskillColors()
-            root.setOnRefreshListener {
+            homeScreenSwipeRefreshLayout.setHyperskillColors()
+            homeScreenSwipeRefreshLayout.setOnRefreshListener {
                 homeViewModel.onNewMessage(HomeFeature.Message.PullToRefresh)
             }
             homeScreenError.tryAgain.setOnClickListener {
@@ -246,7 +246,7 @@ class HomeFragment :
     }
 
     private fun renderSwipeRefresh(state: HomeFeature.State) {
-        with(viewBinding.root) {
+        with(viewBinding.homeScreenSwipeRefreshLayout) {
             isEnabled = state.homeState is HomeFeature.HomeState.Content
             updateIsRefreshing(state.isRefreshing)
         }

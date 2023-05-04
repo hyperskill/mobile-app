@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 ruby "3.1.0"
 
-gem "fastlane", "2.212.2"
+gem "fastlane", "2.210.1"
 gem "cocoapods", "1.12.1"
 
 eval_gemfile("fastlane/Pluginfile")

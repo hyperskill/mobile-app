@@ -10,6 +10,7 @@ import org.hyperskill.app.android.core.view.ui.adapter.decoration.itemDecoration
 import org.hyperskill.app.android.databinding.ErrorNoConnectionWithButtonBinding
 import org.hyperskill.app.android.databinding.ItemStudyPlanActivitiesErrorBinding
 import org.hyperskill.app.android.study_plan.adapter.StudyPlanActivityAdapterDelegate
+import org.hyperskill.app.android.study_plan.adapter.StudyPlanItemAnimator
 import org.hyperskill.app.android.study_plan.adapter.StudyPlanSectionAdapterDelegate
 import org.hyperskill.app.android.study_plan.model.StudyPlanRecyclerItem
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
@@ -64,11 +65,6 @@ class StudyPlanWidgetDelegate(
 
     private var studyPlanViewStateDelegate: ViewStateDelegate<StudyPlanWidgetViewState>? = null
 
-    private val activitiesLoadingItems: List<StudyPlanRecyclerItem.ActivitiesLoading> =
-        List(ACTIVITIES_LOADING_ITEMS_COUNT) {
-            StudyPlanRecyclerItem.ActivitiesLoading
-        }
-
     private val sectionsLoadingItems: List<StudyPlanRecyclerItem.SectionLoading> =
         List(SECTIONS_LOADING_ITEMS_COUNT) {
             StudyPlanRecyclerItem.SectionLoading
@@ -88,8 +84,8 @@ class StudyPlanWidgetDelegate(
 
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         recyclerView.adapter = studyPlanAdapter
-        recyclerView.itemAnimator = null
         setupDecorations(context, recyclerView)
+        recyclerView.itemAnimator = StudyPlanItemAnimator()
     }
 
     private fun setupDecorations(context: Context, recyclerView: RecyclerView) {
@@ -109,7 +105,8 @@ class StudyPlanWidgetDelegate(
                     0
                 }
             }
-            if (position == state.itemCount - 1) {
+            if (position == studyPlanAdapter.itemCount - 1) {
+                state.willRunPredictiveAnimations()
                 rect.bottom = bottomMargin
             }
         }
@@ -119,7 +116,7 @@ class StudyPlanWidgetDelegate(
         when (item) {
             StudyPlanRecyclerItem.SectionLoading,
             is StudyPlanRecyclerItem.Section -> sectionTopMargin
-            StudyPlanRecyclerItem.ActivitiesLoading,
+            is StudyPlanRecyclerItem.ActivityLoading,
             is StudyPlanRecyclerItem.Activity,
             is StudyPlanRecyclerItem.ActivitiesError -> activityTopMargin
         }
@@ -149,7 +146,7 @@ class StudyPlanWidgetDelegate(
         )
 
     private fun activitiesLoadingAdapterDelegate() =
-        adapterDelegate<StudyPlanRecyclerItem, StudyPlanRecyclerItem.ActivitiesLoading>(
+        adapterDelegate<StudyPlanRecyclerItem, StudyPlanRecyclerItem.ActivityLoading>(
             R.layout.item_study_plan_activities_loading
         )
 
@@ -178,7 +175,11 @@ class StudyPlanWidgetDelegate(
                         // no op
                     }
                     StudyPlanWidgetViewState.SectionContent.Loading -> {
-                        addAll(activitiesLoadingItems)
+                        addAll(
+                            List(ACTIVITIES_LOADING_ITEMS_COUNT) { index ->
+                                StudyPlanRecyclerItem.ActivityLoading(section.id, index)
+                            }
+                        )
                     }
                     is StudyPlanWidgetViewState.SectionContent.Content -> {
                         addAll(mapSectionContentToActivityItems(sectionContent))
@@ -205,7 +206,8 @@ class StudyPlanWidgetDelegate(
             subtitle = section.subtitle,
             formattedTopicsCount = section.formattedTopicsCount,
             formattedTimeToComplete = section.formattedTimeToComplete,
-            isExpanded = section.content !is StudyPlanWidgetViewState.SectionContent.Collapsed
+            isExpanded = section.content !is StudyPlanWidgetViewState.SectionContent.Collapsed,
+            isCurrentBadgeShown = section.isCurrentBadgeShown
         )
 
     private fun mapSectionContentToActivityItems(
@@ -229,7 +231,8 @@ class StudyPlanWidgetDelegate(
                     StudyPlanWidgetViewState.SectionItemState.SKIPPED -> skippedIcon
                     StudyPlanWidgetViewState.SectionItemState.COMPLETED -> completedIcon
                 },
-                isClickable = item.isClickable
+                isClickable = item.isClickable,
+                isIdeRequired = item.isIdeRequired
             )
         }
 }
