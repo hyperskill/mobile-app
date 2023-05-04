@@ -65,6 +65,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     CLOSE("close"),
     STREAK("streak"),
     GEMS("gems"),
+    PROGRESS("progress"),
     TRACK_MODAL("track_modal"),
     START_LEARNING("start_learning"),
     GET_STREAK_FREEZE("get_streak_freeze"),
