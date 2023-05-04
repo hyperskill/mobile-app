@@ -77,8 +77,7 @@ struct HomeView: View {
                         .font(.subheadline)
                         .foregroundColor(.secondaryText)
 
-                    ProblemsLimitAssembly()
-                        .makeModule()
+                    ProblemsLimitContent(stateKs: viewModel.problemsLimitViewStateKs)
                         .padding(.top, LayoutInsets.smallInset)
 
                     ProblemOfDayAssembly(
@@ -153,6 +152,8 @@ struct HomeView: View {
             case .showStepScreen(let data):
                 displayStep(stepRoute: StepRouteLearn(stepId: data.stepId))
             }
+        case .problemsLimitViewAction:
+            break
         }
     }
 

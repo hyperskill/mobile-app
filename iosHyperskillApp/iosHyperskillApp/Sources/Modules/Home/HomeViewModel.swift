@@ -6,11 +6,21 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
     private var applicationWasInBackground = false
     private var shouldReloadContent = false
 
+    private let problemsLimitViewStateMapper: ProblemsLimitViewStateMapper
+
     var homeStateKs: HomeFeatureHomeStateKs { .init(state.homeState) }
     var gamificationToolbarStateKs: GamificationToolbarFeatureStateKs { .init(state.toolbarState) }
+    var problemsLimitViewStateKs: ProblemsLimitFeatureViewStateKs {
+        .init(problemsLimitViewStateMapper.mapState(state: state.problemsLimitState))
+    }
     var topicsToDiscoverNextStateSk: TopicsToDiscoverNextFeatureStateKs { .init(state.topicsToDiscoverNextState) }
 
-    override init(feature: Presentation_reduxFeature, mainScheduler: AnySchedulerOf<RunLoop> = .main) {
+    init(
+        problemsLimitViewStateMapper: ProblemsLimitViewStateMapper,
+        feature: Presentation_reduxFeature,
+        mainScheduler: AnySchedulerOf<RunLoop> = .main
+    ) {
+        self.problemsLimitViewStateMapper = problemsLimitViewStateMapper
         super.init(feature: feature, mainScheduler: mainScheduler)
 
         NotificationCenter.default.addObserver(

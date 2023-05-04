@@ -74,7 +74,7 @@ class MatchingStepQuizFormDelegate(
         onQuizChanged(createReply())
     }
 
-    override fun setState(state: StepQuizFeature.State.AttemptLoaded) {
+    override fun setState(state: StepQuizFeature.StepQuizState.AttemptLoaded) {
         val matchingItems = matchingItemMapper
             .mapToMatchingItems(state.attempt, StepQuizResolver.isQuizEnabled(state))
 

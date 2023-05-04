@@ -11,9 +11,9 @@ final class StepQuizViewDataMapper {
         self.stepQuizTitleMapper = stepQuizTitleMapper
     }
 
-    func mapStepDataToViewData(step: Step, state: StepQuizFeatureState) -> StepQuizViewData {
+    func mapStepDataToViewData(step: Step, state: StepQuizFeatureStepQuizStateKs) -> StepQuizViewData {
         let quizType: StepQuizChildQuizType = {
-            if state is StepQuizFeatureStateUnsupported {
+            if state == .unsupported {
                 return .unsupported(blockName: step.block.name)
             }
             return StepQuizChildQuizType(step: step)
@@ -35,10 +35,12 @@ final class StepQuizViewDataMapper {
             millisSinceLastCompleted: step.millisSinceLastCompleted
         )
 
-        let attemptLoadedState = state as? StepQuizFeatureStateAttemptLoaded
-
         let quizName: String? = {
-            guard let dataset = attemptLoadedState?.attempt.dataset else {
+            guard case .attemptLoaded(let attemptLoadedState) = state else {
+                return nil
+            }
+
+            guard let dataset = attemptLoadedState.attempt.dataset else {
                 return nil
             }
 
@@ -55,8 +57,12 @@ final class StepQuizViewDataMapper {
         }()
 
         let feedbackHintText: String? = {
+            guard case .attemptLoaded(let attemptLoadedState) = state else {
+                return nil
+            }
+
             guard
-                let submissionStateLoaded = attemptLoadedState?.submissionState as? StepQuizFeatureSubmissionStateLoaded
+                let submissionStateLoaded = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded
             else {
                 return nil
             }

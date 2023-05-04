@@ -62,7 +62,7 @@ class SqlStepQuizFormDelegate(
     override fun createReply(): Reply =
         Reply.sql(code)
 
-    override fun setState(state: StepQuizFeature.State.AttemptLoaded) {
+    override fun setState(state: StepQuizFeature.StepQuizState.AttemptLoaded) {
         val submission = state.submissionState.safeCast<StepQuizFeature.SubmissionState.Loaded>()?.submission
         val replyCode = submission?.reply?.solveSql
         this.code = replyCode

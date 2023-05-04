@@ -51,7 +51,7 @@ class SortingStepQuizFormDelegate(
         onQuizChanged(createReply())
     }
 
-    override fun setState(state: StepQuizFeature.State.AttemptLoaded) {
+    override fun setState(state: StepQuizFeature.StepQuizState.AttemptLoaded) {
         val sortingOptions = sortingOptionMapper
             .mapToSortingOptions(state.attempt, StepQuizResolver.isQuizEnabled(state))
 

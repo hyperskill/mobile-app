@@ -1,62 +1,27 @@
-package org.hyperskill.app.android.problems_limit.fragment
+package org.hyperskill.app.android.problems_limit.view.ui.delegate
 
-import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup.MarginLayoutParams
+import android.content.Context
+import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
-import androidx.fragment.app.Fragment
-import by.kirich1409.viewbindingdelegate.viewBinding
-import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.databinding.FragmentProblemsLimitBinding
-import org.hyperskill.app.core.injection.ReduxViewModelFactory
+import org.hyperskill.app.android.databinding.LayoutProblemsLimitBinding
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitViewModel
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
-import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
-import ru.nobird.android.view.redux.ui.extension.reduxViewModel
-import ru.nobird.app.presentation.redux.container.ReduxView
 
-class ProblemsLimitFragment :
-    Fragment(R.layout.fragment_problems_limit),
-    ReduxView<ProblemsLimitFeature.ViewState, ProblemsLimitFeature.Action.ViewAction> {
-
-    companion object {
-
-        const val TAG = "ProblemsLimitFragment"
-
-        fun newInstance(isDividerVisible: Boolean = false): ProblemsLimitFragment =
-            ProblemsLimitFragment().apply {
-                this.isDividerVisible = isDividerVisible
-            }
-    }
-
-    private val viewBinding: FragmentProblemsLimitBinding by viewBinding(FragmentProblemsLimitBinding::bind)
-
-    private lateinit var viewModelFactory: ReduxViewModelFactory
-    private val problemsLimitViewModel: ProblemsLimitViewModel by reduxViewModel(this) { viewModelFactory }
+class ProblemsLimitDelegate(
+    private val viewBinding: LayoutProblemsLimitBinding,
+    private val onNewMessage: (ProblemsLimitFeature.Message) -> Unit
+) {
 
     private var viewStateDelegate: ViewStateDelegate<ProblemsLimitFeature.ViewState>? = null
 
-    private var isDividerVisible: Boolean by argument()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        injectComponent()
-    }
-
-    private fun injectComponent() {
-        val problemsLimitComponent = HyperskillApp.graph().buildPlatformProblemsLimitComponent()
-        viewModelFactory = problemsLimitComponent.reduxViewModelFactory
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    fun setup(context: Context, isDividerVisible: Boolean = false) {
         viewBinding.problemsLimitDivider.root.isVisible = isDividerVisible
-        viewBinding.problemsLimitsContent.updateLayoutParams<MarginLayoutParams> {
+        viewBinding.problemsLimitsContent.updateLayoutParams<ViewGroup.MarginLayoutParams> {
             topMargin = if (isDividerVisible) {
-                resources.getDimensionPixelOffset(R.dimen.problems_limit_diver_margin)
+                context.resources.getDimensionPixelOffset(R.dimen.problems_limit_diver_margin)
             } else {
                 0
             }
@@ -92,18 +57,13 @@ class ProblemsLimitFragment :
         }
 
         viewBinding.problemsLimitRetryButton.setOnClickListener {
-            problemsLimitViewModel.onNewMessage(
+            onNewMessage(
                 ProblemsLimitFeature.Message.Initialize(forceUpdate = true)
             )
         }
     }
 
-    override fun onDestroyView() {
-        viewStateDelegate = null
-        super.onDestroyView()
-    }
-
-    override fun render(state: ProblemsLimitFeature.ViewState) {
+    fun render(state: ProblemsLimitFeature.ViewState) {
         viewStateDelegate?.switchState(state)
         when (state) {
             is ProblemsLimitFeature.ViewState.Content.Widget -> {
@@ -120,11 +80,7 @@ class ProblemsLimitFragment :
         }
     }
 
-    override fun onAction(action: ProblemsLimitFeature.Action.ViewAction) {
-        when (action) {
-            else -> {
-                // no op
-            }
-        }
+    fun cleanup() {
+        viewStateDelegate = null
     }
 }

@@ -16,7 +16,6 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.openUrl
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
-import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.core.view.ui.setHyperskillColors
 import org.hyperskill.app.android.core.view.ui.updateIsRefreshing
@@ -24,7 +23,7 @@ import org.hyperskill.app.android.databinding.FragmentHomeBinding
 import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.GamificationToolbarDelegate
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.problem_of_day.view.delegate.ProblemOfDayCardFormDelegate
-import org.hyperskill.app.android.problems_limit.fragment.ProblemsLimitFragment
+import org.hyperskill.app.android.problems_limit.view.ui.delegate.ProblemsLimitDelegate
 import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.topics.view.delegate.TopicsToDiscoverNextDelegate
@@ -35,6 +34,8 @@ import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarS
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeViewModel
+import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
+import org.hyperskill.app.problems_limit.view.mapper.ProblemsLimitViewStateMapper
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
@@ -54,7 +55,10 @@ class HomeFragment :
 
     private val viewBinding: FragmentHomeBinding by viewBinding(FragmentHomeBinding::bind)
     private val homeViewModel: HomeViewModel by reduxViewModel(this) { viewModelFactory }
-    private val viewStateDelegate: ViewStateDelegate<HomeFeature.HomeState> = ViewStateDelegate()
+    private val homeDelegate: ViewStateDelegate<HomeFeature.HomeState> = ViewStateDelegate()
+
+    private var problemsLimitDelegate: ProblemsLimitDelegate? = null
+    private var problemsLimitViewStateMapper: ProblemsLimitViewStateMapper? = null
 
     private val problemOfDayCardFormDelegate: ProblemOfDayCardFormDelegate by lazy(LazyThreadSafetyMode.NONE) {
         ProblemOfDayCardFormDelegate(
@@ -97,7 +101,6 @@ class HomeFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setProblemsLimitFragment()
         initViewStateDelegate()
         initGamificationToolbarDelegate()
         problemOfDayCardFormDelegate.setup(viewBinding.homeScreenProblemOfDayCard)
@@ -105,6 +108,13 @@ class HomeFragment :
             requireContext(),
             viewBinding.homeTopicsToDiscoverNext.homeTopicsToDiscoverNextRecycler
         )
+        problemsLimitDelegate = ProblemsLimitDelegate(
+            viewBinding = viewBinding.homeProblemsLimit,
+            onNewMessage = {
+                homeViewModel.onNewMessage(HomeFeature.Message.ProblemsLimitMessage(it))
+            }
+        )
+        problemsLimitDelegate?.setup(context = requireContext())
         with(viewBinding) {
             root.setHyperskillColors()
             root.setOnRefreshListener {
@@ -129,17 +139,21 @@ class HomeFragment :
     override fun onDestroyView() {
         super.onDestroyView()
         gamificationToolbarDelegate = null
+        problemsLimitDelegate?.cleanup()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         requireActivity().lifecycle.removeObserver(onForegroundObserver)
+        problemsLimitDelegate = null
     }
 
     private fun injectComponents() {
         val homeComponent = HyperskillApp.graph().buildHomeComponent()
         val platformHomeComponent = HyperskillApp.graph().buildPlatformHomeComponent(homeComponent)
+        val problemsLimitComponent = HyperskillApp.graph().buildProblemsLimitComponent(ProblemsLimitScreen.HOME)
         viewModelFactory = platformHomeComponent.reduxViewModelFactory
+        problemsLimitViewStateMapper = problemsLimitComponent.problemsLimitViewStateMapper
     }
 
     private fun onProblemOfDayCardActionButtonClicked(stepId: Long) {
@@ -148,7 +162,7 @@ class HomeFragment :
     }
 
     private fun initViewStateDelegate() {
-        with(viewStateDelegate) {
+        with(homeDelegate) {
             addState<HomeFeature.HomeState.Idle>()
             addState<HomeFeature.HomeState.Loading>(
                 viewBinding.homeScreenContainer,
@@ -164,7 +178,6 @@ class HomeFragment :
                 viewBinding.homeScreenProblemOfDayCard.root,
                 viewBinding.homeScreenTopicsRepetitionCard.root,
                 viewBinding.homeScreenKeepLearningInWebButton,
-                viewBinding.homeProblemsLimit
             )
         }
     }
@@ -214,7 +227,7 @@ class HomeFragment :
     }
 
     override fun render(state: HomeFeature.State) {
-        viewStateDelegate.switchState(state.homeState)
+        homeDelegate.switchState(state.homeState)
 
         renderSwipeRefresh(state)
 
@@ -226,6 +239,9 @@ class HomeFragment :
         }
 
         gamificationToolbarDelegate?.render(state.toolbarState)
+        problemsLimitViewStateMapper?.let { mapper ->
+            problemsLimitDelegate?.render(mapper.mapState(state.problemsLimitState))
+        }
         renderTopicsToDiscoverNext(state.topicsToDiscoverNextState)
     }
 
@@ -286,11 +302,5 @@ class HomeFragment :
                 state is TopicsToDiscoverNextFeature.State.Loading
         }
         topicsToDiscoverNextDelegate.render(state)
-    }
-
-    private fun setProblemsLimitFragment() {
-        setChildFragment(R.id.homeProblemsLimit, ProblemsLimitFragment.TAG) {
-            ProblemsLimitFragment.newInstance()
-        }
     }
 }

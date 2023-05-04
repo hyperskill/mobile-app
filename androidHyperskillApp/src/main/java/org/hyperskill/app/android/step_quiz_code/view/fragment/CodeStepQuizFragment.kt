@@ -92,8 +92,8 @@ class CodeStepQuizFragment :
     }
 
     override fun onNewState(state: StepQuizFeature.State) {
-        if (state is StepQuizFeature.State.AttemptLoaded) {
-            val submission = (state.submissionState as? StepQuizFeature.SubmissionState.Loaded)
+        (state.stepQuizState as? StepQuizFeature.StepQuizState.AttemptLoaded)?.let { attemptLoadedState ->
+            val submission = (attemptLoadedState.submissionState as? StepQuizFeature.SubmissionState.Loaded)
                 ?.submission
             val replyCode = config.getCode(submission)
             val fullScreenFragment = childFragmentManager

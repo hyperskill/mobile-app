@@ -343,10 +343,14 @@ class StepQuizReducer(
             }
 
         val (problemsLimitState, problemsLimitActions) =
-            reduceProblemsLimitMessage(
-                state.problemsLimitState,
-                ProblemsLimitFeature.Message.Initialize(message.forceUpdate)
-            )
+            if (stepRoute is StepRoute.Learn) {
+                reduceProblemsLimitMessage(
+                    state.problemsLimitState,
+                    ProblemsLimitFeature.Message.Initialize(message.forceUpdate)
+                )
+            } else {
+                state.problemsLimitState to emptySet()
+            }
 
         return state.copy(
             stepQuizState = stepQuizState,
