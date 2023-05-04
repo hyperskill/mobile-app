@@ -9,3 +9,4 @@ What to Test:
 8. Study plan filter sections based on it's supporting ALTAPPS-729
 9. Fix statistics shows incorrectly for sections with only ide required steps ALTAPPS-731
 10. Fix skipped topics are shown in mobile study plan ALTAPPS-743
+11. Fix daily limits blocks problem of the day ALTAPPS-747

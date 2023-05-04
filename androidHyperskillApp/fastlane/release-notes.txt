@@ -13,3 +13,4 @@ What to Test:
 12. Add pull-to-refresh on Study Plan screen ALTAPPS-718
 13. Study plan display badge "Current" if collapsed section contains current learning activity ALTAPPS-739
 14. Fix no freemium limit badge appears on study plan screen ALTAPPS-745
+15. Fix daily limits blocks problem of the day ALTAPPS-747
