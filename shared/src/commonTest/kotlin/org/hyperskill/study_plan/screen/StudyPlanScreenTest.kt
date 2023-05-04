@@ -3,6 +3,7 @@ package org.hyperskill.study_plan.screen
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.fail
+import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedPullToRefreshHyperskillAnalyticEvent
@@ -13,7 +14,10 @@ import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
 
 class StudyPlanScreenTest {
-    private val reducer = StudyPlanScreenReducer(GamificationToolbarReducer(), StudyPlanWidgetReducer())
+    private val reducer = StudyPlanScreenReducer(
+        GamificationToolbarReducer(GamificationToolbarScreen.STUDY_PLAN),
+        StudyPlanWidgetReducer()
+    )
 
     @Test
     fun `Viewed event message should trigger logging view analytic event`() {
