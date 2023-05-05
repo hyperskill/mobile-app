@@ -130,6 +130,9 @@
 		2C5215AC291E6AD8006C2427 /* UIView+FindViewOfSpecifiedType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5215AB291E6AD8006C2427 /* UIView+FindViewOfSpecifiedType.swift */; };
 		2C5261A52993CBF100B4E8F6 /* TopicProgressExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5261A42993CBF100B4E8F6 /* TopicProgressExtensions.swift */; };
 		2C55133B28B8DFE8009F7627 /* Debouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C55133A28B8DFE8009F7627 /* Debouncer.swift */; };
+		2C55E18E2A0569D000FE58D7 /* TopicToDiscoverNextCardSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C55E18D2A0569D000FE58D7 /* TopicToDiscoverNextCardSkeletonView.swift */; };
+		2C55E1902A056AFC00FE58D7 /* ProblemsLimitSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C55E18F2A056AFC00FE58D7 /* ProblemsLimitSkeletonView.swift */; };
+		2C55E1922A05706300FE58D7 /* HomeSubheadlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C55E1912A05706300FE58D7 /* HomeSubheadlineView.swift */; };
 		2C567E89297FC44F00585EFB /* View+HiddenWithCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C567E88297FC44F00585EFB /* View+HiddenWithCondition.swift */; };
 		2C58DE232803BF97002A2774 /* AuthLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C58DE222803BF97002A2774 /* AuthLogoView.swift */; };
 		2C58DE252803C185002A2774 /* AuthSocialControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C58DE242803C185002A2774 /* AuthSocialControlsView.swift */; };
@@ -598,6 +601,9 @@
 		2C5215AB291E6AD8006C2427 /* UIView+FindViewOfSpecifiedType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+FindViewOfSpecifiedType.swift"; sourceTree = "<group>"; };
 		2C5261A42993CBF100B4E8F6 /* TopicProgressExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicProgressExtensions.swift; sourceTree = "<group>"; };
 		2C55133A28B8DFE8009F7627 /* Debouncer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debouncer.swift; sourceTree = "<group>"; };
+		2C55E18D2A0569D000FE58D7 /* TopicToDiscoverNextCardSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicToDiscoverNextCardSkeletonView.swift; sourceTree = "<group>"; };
+		2C55E18F2A056AFC00FE58D7 /* ProblemsLimitSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsLimitSkeletonView.swift; sourceTree = "<group>"; };
+		2C55E1912A05706300FE58D7 /* HomeSubheadlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSubheadlineView.swift; sourceTree = "<group>"; };
 		2C567E88297FC44F00585EFB /* View+HiddenWithCondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+HiddenWithCondition.swift"; sourceTree = "<group>"; };
 		2C58DE222803BF97002A2774 /* AuthLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthLogoView.swift; sourceTree = "<group>"; };
 		2C58DE242803C185002A2774 /* AuthSocialControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialControlsView.swift; sourceTree = "<group>"; };
@@ -2339,6 +2345,7 @@
 			children = (
 				E9672D7F29CA9D3800B3CFE9 /* HomeFreemiumBadgeView.swift */,
 				2CDA98422944524D00ADE539 /* HomeSkeletonView.swift */,
+				2C55E1912A05706300FE58D7 /* HomeSubheadlineView.swift */,
 				2C963BC42812D1A70036DD53 /* HomeView.swift */,
 			);
 			path = Views;
@@ -2525,6 +2532,7 @@
 		E94B7E6A29D1BBAC000E1D3A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2C55E18F2A056AFC00FE58D7 /* ProblemsLimitSkeletonView.swift */,
 				E9B55A5829C8A0760066900E /* ProblemsLimitView.swift */,
 				E94B7E6B29D1BBCE000E1D3A /* ProblemsLimitWidgetView.swift */,
 			);
@@ -2547,6 +2555,7 @@
 			isa = PBXGroup;
 			children = (
 				E96F161E298D296F00EFB3D7 /* TopicToDiscoverNextCardDelegate.swift */,
+				2C55E18D2A0569D000FE58D7 /* TopicToDiscoverNextCardSkeletonView.swift */,
 				E92D55DC298CF995006F3DA0 /* TopicToDiscoverNextCardView.swift */,
 			);
 			path = TopicToDiscoverNextCard;
@@ -3037,6 +3046,7 @@
 				E9FB89A72893CD2C0011EFFB /* LocalNotificationsService.swift in Sources */,
 				2CC78D0928C74E7D0006EF91 /* UIViewControllerEventsWrapper.swift in Sources */,
 				2C93AF2729B3BF00004639E0 /* DebugStageImplementNavigationView.swift in Sources */,
+				2C55E18E2A0569D000FE58D7 /* TopicToDiscoverNextCardSkeletonView.swift in Sources */,
 				2CA5F8F02994C4A90013B854 /* DebugAssembly.swift in Sources */,
 				2CCCA39F2862E45300D98089 /* StepQuizStringViewModel.swift in Sources */,
 				2C96742E288824230091B6C9 /* StepQuizCodeAssembly.swift in Sources */,
@@ -3366,6 +3376,7 @@
 				2CD316C028A3B2040002B2B2 /* ApplicationTheme+SharedTheme.swift in Sources */,
 				2C1061A4285C34C900EBD614 /* StepQuizChildQuizOutputProtocol.swift in Sources */,
 				2C20FBA4284F165A006D879E /* ProcessedContent.swift in Sources */,
+				2C55E1902A056AFC00FE58D7 /* ProblemsLimitSkeletonView.swift in Sources */,
 				E99CCB0B287E945300898BBF /* HomeViewModel.swift in Sources */,
 				2C0FA879292FD73400A37636 /* ProfileSettingsFeatureStateKsExtensions.swift in Sources */,
 				2C1061AA285C3C3300EBD614 /* StepQuizChoiceAssembly.swift in Sources */,
@@ -3443,6 +3454,7 @@
 				E99CD0BA292B982400620259 /* TopicsRepetitionsAssembly.swift in Sources */,
 				E91D8CF929483B9300FA9ED4 /* AuthNewUserPlaceholderSkeletonView.swift in Sources */,
 				2CD3652528796C4300D61855 /* ProfileViewDataMapper.swift in Sources */,
+				2C55E1922A05706300FE58D7 /* HomeSubheadlineView.swift in Sources */,
 				2CE1C4DF27EDFB3800220041 /* FeatureViewModel.swift in Sources */,
 				2C0FA877292FC9BF00A37636 /* PlaceholderNewUserFeatureStateKsExtensions.swift in Sources */,
 				E9B2CF5B2822960D00B2DC6F /* StepQuizBottomControls.swift in Sources */,
