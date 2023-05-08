@@ -3,8 +3,6 @@ import SwiftUI
 
 extension ProblemsLimitContent {
     struct Appearance {
-        var showTopDivider = false
-
         let skeletonHeight: CGFloat = 40
     }
 }
@@ -16,20 +14,16 @@ struct ProblemsLimitContent: View {
 
     var body: some View {
         switch stateKs {
-        case .idle, .loading:
+        case .idle, .error:
+            EmptyView()
+        case .loading:
             SkeletonRoundedView()
                 .frame(height: appearance.skeletonHeight)
-        case .error:
-            EmptyView()
         case .content(let content):
             switch ProblemsLimitFeatureViewStateContentKs(content) {
             case .empty:
                 EmptyView()
             case .widget(let data):
-                if appearance.showTopDivider {
-                    Divider()
-                }
-
                 ProblemsLimitWidgetView(
                     stepsLimitLeft: Int(data.stepsLimitLeft),
                     stepsLimitTotal: Int(data.stepsLimitTotal),

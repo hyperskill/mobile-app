@@ -5,7 +5,7 @@ import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransa
 import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.topics.domain.model.TopicProgress
 
-interface TopicsToDiscoverNextFeature {
+object TopicsToDiscoverNextFeature {
     sealed interface State {
         /**
          * Represents initial state.
@@ -40,6 +40,9 @@ interface TopicsToDiscoverNextFeature {
             internal val isRefreshing: Boolean = false
         ) : State
     }
+
+    internal val State.isRefreshing: Boolean
+        get() = this is State.Content && isRefreshing
 
     sealed interface Message {
         /**

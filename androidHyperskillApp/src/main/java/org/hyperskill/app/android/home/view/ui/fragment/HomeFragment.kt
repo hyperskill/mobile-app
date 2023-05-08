@@ -55,7 +55,7 @@ class HomeFragment :
 
     private val viewBinding: FragmentHomeBinding by viewBinding(FragmentHomeBinding::bind)
     private val homeViewModel: HomeViewModel by reduxViewModel(this) { viewModelFactory }
-    private val homeDelegate: ViewStateDelegate<HomeFeature.HomeState> = ViewStateDelegate()
+    private val homeViewStateDelegate: ViewStateDelegate<HomeFeature.HomeState> = ViewStateDelegate()
 
     private var problemsLimitDelegate: ProblemsLimitDelegate? = null
     private var problemsLimitViewStateMapper: ProblemsLimitViewStateMapper? = null
@@ -103,18 +103,12 @@ class HomeFragment :
         super.onViewCreated(view, savedInstanceState)
         initViewStateDelegate()
         initGamificationToolbarDelegate()
+        initProblemsLimitDelegate()
         problemOfDayCardFormDelegate.setup(viewBinding.homeScreenProblemOfDayCard)
         topicsToDiscoverNextDelegate.setup(
             requireContext(),
             viewBinding.homeTopicsToDiscoverNext.homeTopicsToDiscoverNextRecycler
         )
-        problemsLimitDelegate = ProblemsLimitDelegate(
-            viewBinding = viewBinding.homeProblemsLimit,
-            onNewMessage = {
-                homeViewModel.onNewMessage(HomeFeature.Message.ProblemsLimitMessage(it))
-            }
-        )
-        problemsLimitDelegate?.setup(context = requireContext())
         with(viewBinding) {
             homeScreenSwipeRefreshLayout.setHyperskillColors()
             homeScreenSwipeRefreshLayout.setOnRefreshListener {
@@ -140,12 +134,12 @@ class HomeFragment :
         super.onDestroyView()
         gamificationToolbarDelegate = null
         problemsLimitDelegate?.cleanup()
+        problemsLimitDelegate = null
     }
 
     override fun onDestroy() {
         super.onDestroy()
         requireActivity().lifecycle.removeObserver(onForegroundObserver)
-        problemsLimitDelegate = null
     }
 
     private fun injectComponents() {
@@ -162,7 +156,7 @@ class HomeFragment :
     }
 
     private fun initViewStateDelegate() {
-        with(homeDelegate) {
+        with(homeViewStateDelegate) {
             addState<HomeFeature.HomeState.Idle>()
             addState<HomeFeature.HomeState.Loading>(
                 viewBinding.homeScreenContainer,
@@ -193,6 +187,16 @@ class HomeFragment :
         ) { message ->
             homeViewModel.onNewMessage(HomeFeature.Message.GamificationToolbarMessage(message))
         }
+    }
+
+    private fun initProblemsLimitDelegate() {
+        problemsLimitDelegate = ProblemsLimitDelegate(
+            viewBinding = viewBinding.homeProblemsLimit,
+            onNewMessage = {
+                homeViewModel.onNewMessage(HomeFeature.Message.ProblemsLimitMessage(it))
+            }
+        )
+        problemsLimitDelegate?.setup()
     }
 
     override fun onAction(action: HomeFeature.Action.ViewAction) {
@@ -227,7 +231,7 @@ class HomeFragment :
     }
 
     override fun render(state: HomeFeature.State) {
-        homeDelegate.switchState(state.homeState)
+        homeViewStateDelegate.switchState(state.homeState)
 
         renderSwipeRefresh(state)
 

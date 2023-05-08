@@ -126,12 +126,14 @@ struct StepQuizView: View {
                     StepQuizStatsView(text: formattedStats)
                 }
 
-                if viewModel.stepRoute is StepRouteLearn {
-                    ProblemsLimitContent(
-                        appearance: .init(showTopDivider: true),
-                        stateKs: viewModel.problemsLimitViewStateKs
-                    )
+                if case .content(let problemsLimitContentState) = viewModel.problemsLimitViewStateKs,
+                   case .widget = ProblemsLimitFeatureViewStateContentKs(problemsLimitContentState) {
+                    Divider()
                 }
+
+                ProblemsLimitContent(
+                    stateKs: viewModel.problemsLimitViewStateKs
+                )
 
                 buildQuizStatusView(state: state.stepQuizState, attemptLoadedState: attemptLoadedState)
 

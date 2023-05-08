@@ -3,11 +3,14 @@ package org.hyperskill.app.home.presentation
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
+import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.isRefreshing
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
+import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.isRefreshing
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.streaks.domain.model.Streak
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
+import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature.isRefreshing
 
 interface HomeFeature {
     data class State(
@@ -18,9 +21,9 @@ interface HomeFeature {
     ) {
         val isRefreshing: Boolean
             get() = homeState is HomeState.Content && homeState.isRefreshing ||
-                toolbarState is GamificationToolbarFeature.State.Content && toolbarState.isRefreshing ||
-                problemsLimitState is ProblemsLimitFeature.State.Content && problemsLimitState.isRefreshing ||
-                topicsToDiscoverNextState is TopicsToDiscoverNextFeature.State.Content && topicsToDiscoverNextState.isRefreshing
+                toolbarState.isRefreshing ||
+                problemsLimitState.isRefreshing ||
+                topicsToDiscoverNextState.isRefreshing
     }
 
     sealed interface HomeState {

@@ -20,6 +20,9 @@ object ProblemsLimitFeature {
         object NetworkError : State
     }
 
+    internal val State.isRefreshing: Boolean
+        get() = this is State.Content && isRefreshing
+
     sealed interface ViewState {
         object Idle : ViewState
 

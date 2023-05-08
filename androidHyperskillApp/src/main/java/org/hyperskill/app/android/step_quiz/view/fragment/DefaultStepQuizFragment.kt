@@ -40,6 +40,7 @@ import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
 import org.hyperskill.app.android.step_quiz_hints.fragment.StepQuizHintsFragment
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
+import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit.view.mapper.ProblemsLimitViewStateMapper
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
@@ -126,14 +127,7 @@ abstract class DefaultStepQuizFragment :
         val stepView = createStepView(LayoutInflater.from(requireContext()), viewBinding.root)
         viewBinding.root.addView(stepView)
 
-        problemsLimitDelegate = ProblemsLimitDelegate(
-            viewBinding = viewBinding.stepQuizProblemsLimit,
-            onNewMessage = {
-                stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ProblemsLimitMessage(it))
-            }
-        )
-
-        problemsLimitDelegate?.setup(context = requireContext(), isDividerVisible = true)
+        initProblemsLimitDelegate()
 
         stepQuizStateDelegate = StepQuizViewStateDelegateFactory.create(
             fragmentStepQuizBinding = viewBinding,
@@ -155,6 +149,16 @@ abstract class DefaultStepQuizFragment :
         }
 
         stepQuizViewModel.onNewMessage(StepQuizFeature.Message.InitWithStep(step))
+    }
+
+    private fun initProblemsLimitDelegate() {
+        problemsLimitDelegate = ProblemsLimitDelegate(
+            viewBinding = viewBinding.stepQuizProblemsLimit,
+            onNewMessage = {
+                stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ProblemsLimitMessage(it))
+            }
+        )
+        problemsLimitDelegate?.setup()
     }
 
     private fun renderStatistics(textView: TextView, step: Step) {
@@ -207,10 +211,6 @@ abstract class DefaultStepQuizFragment :
         stepQuizFeedbackBlocksDelegate = null
         stepQuizFormDelegate = null
         problemsLimitDelegate?.cleanup()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
         problemsLimitDelegate = null
     }
 
@@ -360,11 +360,15 @@ abstract class DefaultStepQuizFragment :
             }
             is StepQuizFeature.StepQuizState.AttemptLoaded -> {
                 setStepHintsFragment(step)
-                (state.stepQuizState as? StepQuizFeature.StepQuizState.AttemptLoaded)?.let { attemptLoadedState ->
-                    renderAttemptLoaded(attemptLoadedState)
+                when (val stepQuizState = state.stepQuizState) {
+                    is StepQuizFeature.StepQuizState.AttemptLoaded -> renderAttemptLoaded(stepQuizState)
+                    else -> {}
                 }
+
                 problemsLimitViewStateMapper?.let { mapper ->
-                    problemsLimitDelegate?.render(mapper.mapState(state.problemsLimitState))
+                    val problemsLimitViewState = mapper.mapState(state.problemsLimitState)
+                    viewBinding.problemsLimitDivider.root.isVisible = problemsLimitViewState is ProblemsLimitFeature.ViewState.Content.Widget
+                    problemsLimitDelegate?.render(problemsLimitViewState)
                 }
             }
             else -> {
