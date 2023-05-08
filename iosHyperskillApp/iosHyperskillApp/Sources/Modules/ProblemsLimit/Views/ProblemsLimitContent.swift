@@ -17,8 +17,7 @@ struct ProblemsLimitContent: View {
         case .idle, .error:
             EmptyView()
         case .loading:
-            SkeletonRoundedView()
-                .frame(height: appearance.skeletonHeight)
+            ProblemsLimitSkeletonView()
         case .content(let content):
             switch ProblemsLimitFeatureViewStateContentKs(content) {
             case .empty:
