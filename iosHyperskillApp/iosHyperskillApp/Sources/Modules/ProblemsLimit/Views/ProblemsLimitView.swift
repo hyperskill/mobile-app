@@ -4,8 +4,6 @@ import SwiftUI
 extension ProblemsLimitView {
     struct Appearance {
         var showTopDivider = false
-
-        let skeletonHeight: CGFloat = 40
     }
 }
 
@@ -13,11 +11,6 @@ struct ProblemsLimitView: View {
     private(set) var appearance = Appearance()
 
     @StateObject var viewModel: ProblemsLimitViewModel
-
-    private var skeleton: some View {
-        SkeletonRoundedView()
-            .frame(height: appearance.skeletonHeight)
-    }
 
     var body: some View {
         buildBody()
@@ -29,12 +22,12 @@ struct ProblemsLimitView: View {
     private func buildBody() -> some View {
         switch viewModel.stateKs {
         case .idle:
-            skeleton
+            ProblemsLimitSkeletonView()
                 .onAppear {
                     viewModel.doLoadLimits()
                 }
         case .loading:
-            skeleton
+            ProblemsLimitSkeletonView()
         case .error:
             Button(Strings.Placeholder.networkErrorButtonText) {
                 viewModel.doLoadLimits(forceUpdate: true)

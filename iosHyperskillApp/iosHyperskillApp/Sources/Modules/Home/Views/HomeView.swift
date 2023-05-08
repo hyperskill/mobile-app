@@ -74,9 +74,7 @@ struct HomeView: View {
 
             ScrollView {
                 VStack(alignment: .leading, spacing: appearance.spacingBetweenContainers) {
-                    Text(Strings.Home.keepPracticing)
-                        .font(.subheadline)
-                        .foregroundColor(.secondaryText)
+                    HomeSubheadlineView()
 
                     ProblemsLimitAssembly()
                         .makeModule()
