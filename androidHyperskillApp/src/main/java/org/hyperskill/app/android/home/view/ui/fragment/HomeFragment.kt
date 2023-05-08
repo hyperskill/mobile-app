@@ -30,7 +30,6 @@ import org.hyperskill.app.android.topics.view.delegate.TopicsToDiscoverNextDeleg
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionCardFormDelegate
 import org.hyperskill.app.android.topics_repetitions.view.screen.TopicsRepetitionScreen
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
-import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeViewModel
@@ -182,8 +181,7 @@ class HomeFragment :
         gamificationToolbarDelegate = GamificationToolbarDelegate(
             viewLifecycleOwner,
             requireContext(),
-            viewBinding.homeScreenAppBar,
-            GamificationToolbarScreen.HOME
+            viewBinding.homeScreenAppBar
         ) { message ->
             homeViewModel.onNewMessage(HomeFeature.Message.GamificationToolbarMessage(message))
         }

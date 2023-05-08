@@ -35,7 +35,8 @@ struct HomeView: View {
             GamificationToolbarContent(
                 stateKs: viewModel.gamificationToolbarStateKs,
                 onGemsTap: viewModel.doGemsBarButtonItemAction,
-                onStreakTap: viewModel.doStreakBarButtonItemAction
+                onStreakTap: viewModel.doStreakBarButtonItemAction,
+                onProgressTap: viewModel.doProgressBarButtonItemAction
             )
         }
         .onAppear {
@@ -73,9 +74,7 @@ struct HomeView: View {
 
             ScrollView {
                 VStack(alignment: .leading, spacing: appearance.spacingBetweenContainers) {
-                    Text(Strings.Home.keepPracticing)
-                        .font(.subheadline)
-                        .foregroundColor(.secondaryText)
+                    HomeSubheadlineView()
 
                     ProblemsLimitContent(stateKs: viewModel.problemsLimitViewStateKs)
                         .padding(.top, LayoutInsets.smallInset)

@@ -16,7 +16,10 @@ final class HomeAssembly: UIKitAssembly {
 
         let stackRouter = SwiftUIStackRouter()
         let homeView = HomeView(viewModel: viewModel, stackRouter: stackRouter)
-        let hostingController = UIHostingController(rootView: homeView)
+        let hostingController = StyledHostingController(
+            rootView: homeView,
+            appearance: .leftAlignedNavigationBarTitle
+        )
 
         stackRouter.rootViewController = hostingController
 

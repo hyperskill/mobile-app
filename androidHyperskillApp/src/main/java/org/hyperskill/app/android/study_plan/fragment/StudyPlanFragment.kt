@@ -20,7 +20,6 @@ import org.hyperskill.app.android.stage_implementation.view.navigation.StageImpl
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.study_plan.delegate.StudyPlanWidgetDelegate
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
-import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.study_plan.presentation.StudyPlanScreenViewModel
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
@@ -94,8 +93,7 @@ class StudyPlanFragment :
         gamificationToolbarDelegate = GamificationToolbarDelegate(
             viewLifecycleOwner,
             requireContext(),
-            viewBinding.studyPlanAppBar,
-            GamificationToolbarScreen.STUDY_PLAN
+            viewBinding.studyPlanAppBar
         ) { message ->
             studyPlanViewModel.onNewMessage(StudyPlanScreenFeature.Message.GamificationToolbarMessage(message))
         }

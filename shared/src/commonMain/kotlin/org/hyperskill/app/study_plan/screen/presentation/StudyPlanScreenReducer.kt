@@ -1,6 +1,5 @@
 package org.hyperskill.app.study_plan.screen.presentation
 
-import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedPullToRefreshHyperskillAnalyticEvent
@@ -31,7 +30,7 @@ internal class StudyPlanScreenReducer(
 
                 val (toolbarState, toolbarActions) = reduceToolbarMessage(
                     state.toolbarState,
-                    GamificationToolbarFeature.Message.PullToRefresh(GamificationToolbarScreen.STUDY_PLAN)
+                    GamificationToolbarFeature.Message.PullToRefresh
                 )
 
                 state.copy(
@@ -79,9 +78,7 @@ internal class StudyPlanScreenReducer(
         val (toolbarState, toolbarActions) =
             reduceToolbarMessage(
                 state.toolbarState,
-                GamificationToolbarFeature.Message.Initialize(
-                    screen = GamificationToolbarScreen.STUDY_PLAN
-                )
+                GamificationToolbarFeature.Message.Initialize()
             )
         val (studyPlanState, studyPlanActions) =
             reduceStudyPlanWidgetMessage(

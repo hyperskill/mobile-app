@@ -8,6 +8,7 @@ import org.hyperskill.app.comments.injection.CommentsDataComponent
 import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
 import org.hyperskill.app.freemium.injection.FreemiumDataComponent
+import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.items.injection.ItemsDataComponent
@@ -120,7 +121,7 @@ interface AppGraph {
     fun buildProductsDataComponent(): ProductsDataComponent
     fun buildItemsDataComponent(): ItemsDataComponent
     fun buildDebugComponent(): DebugComponent
-    fun buildGamificationToolbarComponent(): GamificationToolbarComponent
+    fun buildGamificationToolbarComponent(screen: GamificationToolbarScreen): GamificationToolbarComponent
     fun buildTopicsToDiscoverNextComponent(screen: TopicsToDiscoverNextScreen): TopicsToDiscoverNextComponent
     fun buildTopicsToDiscoverNextDataComponent(): TopicsToDiscoverNextDataComponent
     fun buildStudyPlanDataComponent(): StudyPlanDataComponent

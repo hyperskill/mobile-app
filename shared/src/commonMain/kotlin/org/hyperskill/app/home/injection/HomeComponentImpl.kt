@@ -1,6 +1,7 @@
 package org.hyperskill.app.home.injection
 
 import org.hyperskill.app.core.injection.AppGraph
+import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
 import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeFeature
@@ -15,7 +16,7 @@ class HomeComponentImpl(private val appGraph: AppGraph) : HomeComponent {
         HomeInteractor(appGraph.submissionDataComponent.submissionRepository)
 
     private val gamificationToolbarComponent: GamificationToolbarComponent =
-        appGraph.buildGamificationToolbarComponent()
+        appGraph.buildGamificationToolbarComponent(GamificationToolbarScreen.HOME)
 
     private val problemsLimitComponent: ProblemsLimitComponent =
         appGraph.buildProblemsLimitComponent(ProblemsLimitScreen.HOME)
