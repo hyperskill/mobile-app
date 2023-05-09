@@ -1,6 +1,7 @@
 package org.hyperskill.app.projects.presentation
 
 import org.hyperskill.app.projects.domain.model.Project
+import org.hyperskill.app.projects.domain.model.ProjectLevel
 import org.hyperskill.app.track.domain.model.Track
 
 object ProjectsListFeature {
@@ -23,6 +24,24 @@ object ProjectsListFeature {
 
     fun initialState(trackId: Long): State =
         State(trackId, ContentState.Idle)
+
+    sealed interface ViewState {
+        object Idle : ViewState
+        object Loading : ViewState
+        data class Content(
+            val formattedTitle: String,
+            val selectedProject: ProjectListItem?,
+            val recommendedProjects: List<ProjectListItem>,
+            val projectsByLevel: Map<ProjectLevel, List<ProjectListItem>>,
+            val isRefreshing: Boolean = false
+        ) : ViewState
+        object Error : ViewState
+    }
+
+    data class ProjectListItem(
+        val id: Long,
+        val title: String
+    )
 
     sealed interface Message {
         object Initialize : Message
