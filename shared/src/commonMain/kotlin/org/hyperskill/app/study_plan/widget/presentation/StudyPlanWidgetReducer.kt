@@ -106,7 +106,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         State(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING) to
             setOf(InternalAction.FetchStudyPlan())
 
-    private fun handleStudyPlanFetchSuccess(
+    private fun  handleStudyPlanFetchSuccess(
         state: State,
         message: StudyPlanWidgetFeature.StudyPlanFetchResult.Success
     ): StudyPlanWidgetReducerResult {

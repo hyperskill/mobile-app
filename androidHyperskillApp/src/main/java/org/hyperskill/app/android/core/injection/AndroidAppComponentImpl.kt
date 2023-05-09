@@ -102,6 +102,8 @@ import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponentImpl
 import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.projects.injection.ProjectsDataComponentImpl
+import org.hyperskill.app.projects.injection.ProjectsListComponent
+import org.hyperskill.app.projects.injection.ProjectsListComponentImpl
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
 import org.hyperskill.app.sentry.injection.SentryComponent
@@ -505,6 +507,9 @@ class AndroidAppComponentImpl(
 
     override fun buildProjectsDataComponent(): ProjectsDataComponent =
         ProjectsDataComponentImpl(this)
+
+    override fun buildProjectsListComponent(): ProjectsListComponent =
+        ProjectsListComponentImpl(this)
 
     override fun buildStagesDataComponent(): StagesDataComponent =
         StagesDataComponentImpl(this)

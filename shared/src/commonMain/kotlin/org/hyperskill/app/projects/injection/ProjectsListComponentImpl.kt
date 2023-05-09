@@ -1,0 +1,19 @@
+package org.hyperskill.app.projects.injection
+
+import org.hyperskill.app.core.injection.AppGraph
+import org.hyperskill.app.projects.presentation.ProjectsListFeature.Action
+import org.hyperskill.app.projects.presentation.ProjectsListFeature.Message
+import org.hyperskill.app.projects.presentation.ProjectsListFeature.State
+import ru.nobird.app.presentation.redux.feature.Feature
+
+class ProjectsListComponentImpl(private val appGraph: AppGraph) : ProjectsListComponent {
+
+    override fun projectsListFeature(trackId: Long): Feature<State, Message, Action> {
+        return ProjectsListFeatureBuilder.build(
+            trackId = trackId,
+            trackRepository = appGraph.buildTrackDataComponent().trackRepository,
+            currentStudyPlanStateRepository = appGraph.buildStudyPlanDataComponent().currentStudyPlanStateRepository,
+            projectsRepository = appGraph.buildProjectsDataComponent().projectsRepository
+        )
+    }
+}

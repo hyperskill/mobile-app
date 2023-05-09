@@ -2,7 +2,6 @@ package org.hyperskill.app.projects.domain.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
 
 @Serializable
 data class Project(
@@ -13,7 +12,5 @@ data class Project(
     @SerialName("is_deprecated")
     val isDeprecated: Boolean = false,
     @SerialName("progress_id")
-    val progressId: String,
-    @Transient
-    val progress: ProjectProgress? = null
+    val progressId: String
 )
