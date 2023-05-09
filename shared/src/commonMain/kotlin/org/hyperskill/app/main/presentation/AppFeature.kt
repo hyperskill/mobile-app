@@ -1,13 +1,19 @@
 package org.hyperskill.app.main.presentation
 
+import kotlinx.serialization.Serializable
 import org.hyperskill.app.auth.domain.model.UserDeauthorized.Reason
 import org.hyperskill.app.profile.domain.model.Profile
 
 interface AppFeature {
+    @Serializable
     sealed interface State {
+        @Serializable
         object Idle : State
+        @Serializable
         object Loading : State
+        @Serializable
         object NetworkError : State
+        @Serializable
         data class Ready(val isAuthorized: Boolean) : State
     }
 

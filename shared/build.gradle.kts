@@ -77,8 +77,11 @@ kotlin {
                 implementation(libs.ktor.android)
                 implementation(libs.kit.view.redux)
                 implementation(libs.android.lifecycle.viewmodel.ktx)
+                implementation(libs.android.lifecycle.viewmodel.savedstate)
+                implementation(libs.android.ui.fragment)
                 implementation(libs.android.sentry.okhttp)
                 implementation(libs.android.lifecycle.runtime)
+                implementation(libs.android.parcelable)
             }
         }
         val androidTest by getting {
