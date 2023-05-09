@@ -9,13 +9,12 @@ import ru.nobird.app.presentation.redux.feature.Feature
 
 class ProjectsListComponentImpl(private val appGraph: AppGraph) : ProjectsListComponent {
 
-    override fun projectsListFeature(trackId: Long): Feature<ViewState, Message, Action> {
-        return ProjectsListFeatureBuilder.build(
+    override fun projectsListFeature(trackId: Long): Feature<ViewState, Message, Action> =
+        ProjectsListFeatureBuilder.build(
             trackId = trackId,
             trackRepository = appGraph.buildTrackDataComponent().trackRepository,
             currentStudyPlanStateRepository = appGraph.buildStudyPlanDataComponent().currentStudyPlanStateRepository,
             projectsRepository = appGraph.buildProjectsDataComponent().projectsRepository,
             viewStateMapper = ProjectsListViewStateMapper(appGraph.commonComponent.resourceProvider)
         )
-    }
 }

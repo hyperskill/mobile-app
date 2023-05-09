@@ -16,4 +16,3 @@ fun Progress.averageRating(): Double {
 
     return (avgRating * 10).roundToInt() / 10.0
 }
-
