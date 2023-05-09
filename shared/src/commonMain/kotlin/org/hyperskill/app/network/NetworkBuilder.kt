@@ -154,7 +154,10 @@ internal object NetworkBuilder {
                         refreshTokenResult.fold(
                             onSuccess = {
                                 settings.putString(AuthCacheKeyValues.AUTH_RESPONSE, json.encodeToString(it))
-                                settings.putLong(AuthCacheKeyValues.AUTH_ACCESS_TOKEN_TIMESTAMP, Clock.System.now().epochSeconds)
+                                settings.putLong(
+                                    AuthCacheKeyValues.AUTH_ACCESS_TOKEN_TIMESTAMP,
+                                    Clock.System.now().epochSeconds
+                                )
                                 true
                             },
                             onFailure = {

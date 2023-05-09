@@ -30,7 +30,9 @@ class TopicsToDiscoverNextDelegate(
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             isNestedScrollingEnabled = false
             addItemDecoration(
-                VerticalMarginItemDecoration(resources.getDimensionPixelSize(R.dimen.track_next_topic_vertical_item_margin))
+                VerticalMarginItemDecoration(
+                    resources.getDimensionPixelSize(R.dimen.track_next_topic_vertical_item_margin)
+                )
             )
             val horizontalMargin = resources.getDimensionPixelSize(R.dimen.track_next_topic_horizontal_item_margin)
             addItemDecoration(
@@ -42,7 +44,8 @@ class TopicsToDiscoverNextDelegate(
                     recyclerView = recyclerView,
                     marginStart = horizontalMargin +
                         context.resources.getDimensionPixelOffset(R.dimen.track_next_topic_horizontal_item_padding),
-                    marginTop = context.resources.getDimensionPixelOffset(R.dimen.track_next_topic_first_item_vertical_offset)
+                    marginTop = context.resources
+                        .getDimensionPixelOffset(R.dimen.track_next_topic_first_item_vertical_offset)
                 ) { position ->
                     nextTopicsAdapter.items[position] is TopicListItem.Topic
                 }

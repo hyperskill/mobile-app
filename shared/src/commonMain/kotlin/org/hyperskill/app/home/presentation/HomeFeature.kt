@@ -17,7 +17,8 @@ interface HomeFeature {
         val isRefreshing: Boolean
             get() = homeState is HomeState.Content && homeState.isRefreshing ||
                 toolbarState is GamificationToolbarFeature.State.Content && toolbarState.isRefreshing ||
-                topicsToDiscoverNextState is TopicsToDiscoverNextFeature.State.Content && topicsToDiscoverNextState.isRefreshing
+                topicsToDiscoverNextState is TopicsToDiscoverNextFeature.State.Content &&
+                topicsToDiscoverNextState.isRefreshing
     }
 
     sealed interface HomeState {
@@ -98,6 +99,7 @@ interface HomeFeature {
             val repetitionsState: RepetitionsState,
             val isFreemiumEnabled: Boolean
         ) : Message
+
         object HomeFailure : Message
         object PullToRefresh : Message
 
@@ -150,6 +152,7 @@ interface HomeFeature {
             data class GamificationToolbarViewAction(
                 val viewAction: GamificationToolbarFeature.Action.ViewAction
             ) : ViewAction
+
             data class TopicsToDiscoverNextViewAction(
                 val viewAction: TopicsToDiscoverNextFeature.Action.ViewAction
             ) : ViewAction

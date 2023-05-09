@@ -53,8 +53,12 @@ class AuthSocialReducer : StateReducer<State, Message, Action> {
                 state to setOf(Action.LogAnalyticEvent(AuthSocialViewedHyperskillAnalyticEvent()))
             is Message.ClickedSignInWithSocialEventMessage ->
                 state to setOf(
-                    Action.LogAnalyticEvent(AuthSocialClickedSignInWithSocialHyperskillAnalyticEvent(message.socialAuthProvider)),
-                    Action.AddSentryBreadcrumb(HyperskillSentryBreadcrumbBuilder.buildAuthSocialSigningIn(message.socialAuthProvider))
+                    Action.LogAnalyticEvent(
+                        AuthSocialClickedSignInWithSocialHyperskillAnalyticEvent(message.socialAuthProvider)
+                    ),
+                    Action.AddSentryBreadcrumb(
+                        HyperskillSentryBreadcrumbBuilder.buildAuthSocialSigningIn(message.socialAuthProvider)
+                    )
                 )
             is Message.ClickedContinueWithEmailEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(AuthSocialClickedContinueWithEmailHyperskillAnalyticEvent()))
@@ -66,7 +70,9 @@ class AuthSocialReducer : StateReducer<State, Message, Action> {
                 socialAuthError = data.socialAuthError ?: AuthSocialError.CONNECTION_PROBLEM,
                 originalError = data.originalError
             ),
-            Action.AddSentryBreadcrumb(HyperskillSentryBreadcrumbBuilder.buildAuthSocialSignInFailed(data.socialAuthProvider)),
+            Action.AddSentryBreadcrumb(
+                HyperskillSentryBreadcrumbBuilder.buildAuthSocialSignInFailed(data.socialAuthProvider)
+            ),
             Action.CaptureSentryAuthError(data.socialAuthError, data.originalError)
         )
 }

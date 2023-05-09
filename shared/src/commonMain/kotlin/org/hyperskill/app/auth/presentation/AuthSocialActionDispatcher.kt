@@ -82,7 +82,9 @@ class AuthSocialActionDispatcher(
                 sentryInteractor.addBreadcrumb(action.breadcrumb)
             is Action.CaptureSentryAuthError -> {
                 if (action.socialAuthError != null) {
-                    sentryInteractor.captureErrorMessage("AuthSocial: ${action.socialAuthError}, ${action.originalError}")
+                    sentryInteractor.captureErrorMessage(
+                        "AuthSocial: ${action.socialAuthError}, ${action.originalError}"
+                    )
                 } else {
                     sentryInteractor.captureErrorMessage("AuthSocial: ${action.originalError}")
                 }

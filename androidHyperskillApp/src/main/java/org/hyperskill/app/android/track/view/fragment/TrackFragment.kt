@@ -214,7 +214,8 @@ class TrackFragment :
                     .setMargins(0, 0, 0, 0)
             }
 
-            trackCompletedTopicsTextView.text = "${content.trackProgress.completedTopics} / ${content.track.topicsCount}"
+            trackCompletedTopicsTextView.text =
+                "${content.trackProgress.completedTopics} / ${content.track.topicsCount}"
             trackCompletedTopicsProgressIndicator.progress =
                 if (content.track.topicsCount == 0) {
                     0

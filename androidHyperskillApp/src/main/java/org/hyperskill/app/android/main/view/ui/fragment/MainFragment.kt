@@ -130,7 +130,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         analytic.reportEvent(event)
     }
 
-    private fun resolveAnalyticNavigationItem(itemId: Int): AppClickedBottomNavigationItemHyperskillAnalyticEvent.NavigationItem? =
+    private fun resolveAnalyticNavigationItem(
+        itemId: Int
+    ): AppClickedBottomNavigationItemHyperskillAnalyticEvent.NavigationItem? =
         when (itemId) {
             R.id.home_tab -> AppClickedBottomNavigationItemHyperskillAnalyticEvent.NavigationItem.HOME
             R.id.study_plan_tab -> AppClickedBottomNavigationItemHyperskillAnalyticEvent.NavigationItem.STUDY_PLAN

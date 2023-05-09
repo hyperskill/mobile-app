@@ -18,6 +18,7 @@ class TableSelectionItemAdapterDelegate(
     companion object {
         private const val SEPARATOR = ", "
     }
+
     override fun isForViewType(position: Int, data: TableSelectionItem): Boolean =
         true
 
@@ -34,9 +35,17 @@ class TableSelectionItemAdapterDelegate(
         private val stepQuizTableChevron = viewBinding.stepQuizTableChevron
 
         init {
-            viewOverlay.setOnClickListener { onItemClicked(adapterPosition, (itemData as TableSelectionItem).titleText, (itemData as TableSelectionItem).tableChoices) }
-            stepQuizTableTitle.webViewClient = ProgressableWebViewClient(stepQuizTableTitleProgress, stepQuizTableTitle.webView)
-            stepQuizTableChoice.webViewClient = ProgressableWebViewClient(stepQuizTableChoiceProgress, stepQuizTableChoice.webView)
+            viewOverlay.setOnClickListener {
+                onItemClicked(
+                    adapterPosition,
+                    (itemData as TableSelectionItem).titleText,
+                    (itemData as TableSelectionItem).tableChoices
+                )
+            }
+            stepQuizTableTitle.webViewClient =
+                ProgressableWebViewClient(stepQuizTableTitleProgress, stepQuizTableTitle.webView)
+            stepQuizTableChoice.webViewClient =
+                ProgressableWebViewClient(stepQuizTableChoiceProgress, stepQuizTableChoice.webView)
         }
 
         override fun onBind(data: TableSelectionItem) {

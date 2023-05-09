@@ -249,7 +249,9 @@ class AndroidAppComponentImpl(
             sentryComponent
         )
 
-    override fun buildPlatformAuthSocialComponent(authSocialComponent: AuthSocialComponent): PlatformAuthSocialComponent =
+    override fun buildPlatformAuthSocialComponent(
+        authSocialComponent: AuthSocialComponent
+    ): PlatformAuthSocialComponent =
         PlatformAuthSocialComponentImpl(authSocialComponent)
 
     /**
@@ -265,7 +267,9 @@ class AndroidAppComponentImpl(
             sentryComponent
         )
 
-    override fun buildPlatformAuthCredentialsComponent(authCredentialsComponent: AuthCredentialsComponent): PlatformAuthCredentialsComponent =
+    override fun buildPlatformAuthCredentialsComponent(
+        authCredentialsComponent: AuthCredentialsComponent
+    ): PlatformAuthCredentialsComponent =
         PlatformAuthCredentialsComponentImpl(authCredentialsComponent)
 
     /**
@@ -362,7 +366,9 @@ class AndroidAppComponentImpl(
     override fun buildProfileSettingsComponent(): ProfileSettingsComponent =
         ProfileSettingsComponentImpl(this)
 
-    override fun buildPlatformProfileSettingsComponent(profileSettingsComponent: ProfileSettingsComponent): PlatformProfileSettingsComponent =
+    override fun buildPlatformProfileSettingsComponent(
+        profileSettingsComponent: ProfileSettingsComponent
+    ): PlatformProfileSettingsComponent =
         PlatformProfileSettingsComponentImpl(profileSettingsComponent)
 
     /**
@@ -386,7 +392,9 @@ class AndroidAppComponentImpl(
     override fun buildOnboardingComponent(): OnboardingComponent =
         OnboardingComponentImpl(this)
 
-    override fun buildPlatformOnboardingComponent(onboardingComponent: OnboardingComponent): PlatformOnboardingComponent =
+    override fun buildPlatformOnboardingComponent(
+        onboardingComponent: OnboardingComponent
+    ): PlatformOnboardingComponent =
         PlatformOnboardingComponentImpl(onboardingComponent)
 
     /**
@@ -395,7 +403,9 @@ class AndroidAppComponentImpl(
     override fun buildPlaceholderNewUserComponent(): PlaceholderNewUserComponent =
         PlaceholderNewUserComponentImpl(this)
 
-    override fun buildPlatformPlaceholderNewUserComponent(placeholderNewUserComponent: PlaceholderNewUserComponent): PlatformPlaceholderNewUserComponent =
+    override fun buildPlatformPlaceholderNewUserComponent(
+        placeholderNewUserComponent: PlaceholderNewUserComponent
+    ): PlatformPlaceholderNewUserComponent =
         PlatformPlaceholderNewUserComponentImpl(placeholderNewUserComponent)
 
     /**

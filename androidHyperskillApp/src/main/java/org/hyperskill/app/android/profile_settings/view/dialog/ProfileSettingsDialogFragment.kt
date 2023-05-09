@@ -56,7 +56,8 @@ class ProfileSettingsDialogFragment :
 
     private fun injectComponents() {
         val profileSettingsComponent = HyperskillApp.graph().buildProfileSettingsComponent()
-        val platformProfileSettingsComponent = HyperskillApp.graph().buildPlatformProfileSettingsComponent(profileSettingsComponent)
+        val platformProfileSettingsComponent =
+            HyperskillApp.graph().buildPlatformProfileSettingsComponent(profileSettingsComponent)
         viewModelFactory = platformProfileSettingsComponent.reduxViewModelFactory
     }
 
@@ -79,7 +80,10 @@ class ProfileSettingsDialogFragment :
             profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ClickedThemeEventMessage)
             MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog)
                 .setTitle(org.hyperskill.app.R.string.settings_theme)
-                .setSingleChoiceItems(Theme.values().map { theme -> theme.representation }.toTypedArray(), currentThemePosition) { _, which ->
+                .setSingleChoiceItems(
+                    Theme.values().map { theme -> theme.representation }.toTypedArray(),
+                    currentThemePosition
+                ) { _, which ->
                     val newTheme = Theme.values()[which]
 
                     profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ThemeChanged(theme = newTheme))
@@ -119,7 +123,10 @@ class ProfileSettingsDialogFragment :
         viewBinding.settingsLogoutButton.setOnClickListener {
             profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ClickedSignOutEventMessage)
 
-            MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog_ProfileSettingsConfirmDialog)
+            MaterialAlertDialogBuilder(
+                requireContext(),
+                R.style.ThemeOverlay_App_MaterialAlertDialog_ProfileSettingsConfirmDialog
+            )
                 .setTitle(org.hyperskill.app.R.string.settings_sign_out_dialog_title)
                 .setMessage(org.hyperskill.app.R.string.settings_sign_out_dialog_explanation)
                 .setPositiveButton(org.hyperskill.app.R.string.yes) { _, _ ->
@@ -146,10 +153,15 @@ class ProfileSettingsDialogFragment :
         viewBinding.settingsDeleteAccountButton.setOnClickListener {
             profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ClickedDeleteAccountEventMessage)
 
-            MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog_ProfileSettingsConfirmDialog)
+            MaterialAlertDialogBuilder(
+                requireContext(),
+                R.style.ThemeOverlay_App_MaterialAlertDialog_ProfileSettingsConfirmDialog
+            )
                 .setTitle(org.hyperskill.app.R.string.settings_account_deletion_dialog_title)
                 .setMessage(org.hyperskill.app.R.string.settings_account_deletion_dialog_explanation)
-                .setPositiveButton(org.hyperskill.app.R.string.settings_account_deletion_dialog_delete_button_text) { _, _ ->
+                .setPositiveButton(
+                    org.hyperskill.app.R.string.settings_account_deletion_dialog_delete_button_text
+                ) { _, _ ->
                     profileSettingsViewModel.onNewMessage(
                         ProfileSettingsFeature.Message.DeleteAccountNoticeHidden(true)
                     )

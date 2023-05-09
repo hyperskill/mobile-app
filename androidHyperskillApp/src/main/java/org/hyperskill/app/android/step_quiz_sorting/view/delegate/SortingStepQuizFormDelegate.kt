@@ -57,7 +57,9 @@ class SortingStepQuizFormDelegate(
 
         optionsAdapter.items =
             if (state.submissionState is StepQuizFeature.SubmissionState.Loaded) {
-                val ordering = (state.submissionState as StepQuizFeature.SubmissionState.Loaded).submission.reply?.ordering ?: emptyList()
+                val ordering =
+                    (state.submissionState as StepQuizFeature.SubmissionState.Loaded).submission.reply?.ordering
+                        ?: emptyList()
                 sortingOptions.sortedBy { ordering.indexOf(it.id) }
             } else {
                 sortingOptions

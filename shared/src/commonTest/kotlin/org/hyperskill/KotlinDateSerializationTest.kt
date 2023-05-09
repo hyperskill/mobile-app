@@ -15,6 +15,7 @@ class KotlinDateSerializationTest {
     companion object {
         private const val TEST_DATE = "2017-07-13T16:59:00Z"
     }
+
     @Serializable
     data class InstantHolder(
         @SerialName("date")
@@ -32,7 +33,8 @@ class KotlinDateSerializationTest {
     @Test
     fun dateDeserializationTest() {
         val json = NetworkModule.provideJson()
-        val deserializedValue = json.decodeFromJsonElement<InstantHolder>(JsonObject(mapOf("date" to JsonPrimitive(TEST_DATE))))
+        val deserializedValue =
+            json.decodeFromJsonElement<InstantHolder>(JsonObject(mapOf("date" to JsonPrimitive(TEST_DATE))))
         val expected = InstantHolder(Instant.parse(TEST_DATE))
         assertEquals(expected, deserializedValue)
     }

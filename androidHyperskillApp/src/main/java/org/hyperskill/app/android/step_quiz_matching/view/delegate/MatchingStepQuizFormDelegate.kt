@@ -38,7 +38,9 @@ class MatchingStepQuizFormDelegate(
                 (layoutParams as ViewGroup.MarginLayoutParams).apply {
                     rightMargin = context.resources.getDimensionPixelOffset(R.dimen.step_quiz_matching_item_margin)
                 }
-            layoutParams.height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, SKELETON_TITLE_HEIGHT, resources.displayMetrics).toInt()
+            layoutParams.height =
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, SKELETON_TITLE_HEIGHT, resources.displayMetrics)
+                    .toInt()
         }
 
         with(binding.sortingSkeleton.secondSkeleton) {
@@ -80,7 +82,9 @@ class MatchingStepQuizFormDelegate(
 
         optionsAdapter.items =
             if (state.submissionState is StepQuizFeature.SubmissionState.Loaded) {
-                val ordering = (state.submissionState as StepQuizFeature.SubmissionState.Loaded).submission.reply?.ordering ?: emptyList()
+                val ordering =
+                    (state.submissionState as StepQuizFeature.SubmissionState.Loaded).submission.reply?.ordering
+                        ?: emptyList()
                 matchingItems.sortedBy {
                     when (it) {
                         is MatchingItem.Title ->

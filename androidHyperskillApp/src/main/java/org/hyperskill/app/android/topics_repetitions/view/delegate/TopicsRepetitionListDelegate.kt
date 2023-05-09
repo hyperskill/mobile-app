@@ -128,7 +128,9 @@ class TopicsRepetitionListDelegate(
         )
 
     private fun topicsHeaderAdapterDelegate() =
-        adapterDelegate<TopicsRepetitionListItem, TopicsRepetitionListItem.Header>(R.layout.item_topics_to_repeat_header) {
+        adapterDelegate<TopicsRepetitionListItem, TopicsRepetitionListItem.Header>(
+            R.layout.item_topics_to_repeat_header
+        ) {
             onBind {
                 item?.title?.let { title ->
                     (itemView as TextView).text = title

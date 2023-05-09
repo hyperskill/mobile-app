@@ -49,7 +49,11 @@ class TableStepQuizFormDelegate(
             ?.submission
 
         isCheckBox = state.attempt.dataset?.isCheckbox ?: false
-        tableAdapter.items = tableSelectionItemMapper.mapToTableSelectionItems(state.attempt, submission, StepQuizResolver.isQuizEnabled(state))
+        tableAdapter.items = tableSelectionItemMapper.mapToTableSelectionItems(
+            state.attempt,
+            submission,
+            StepQuizResolver.isQuizEnabled(state)
+        )
     }
 
     override fun createReply(): Reply =

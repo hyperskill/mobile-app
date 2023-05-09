@@ -258,13 +258,15 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             when (section.contentStatus) {
                 StudyPlanWidgetFeature.ContentStatus.IDLE,
                 StudyPlanWidgetFeature.ContentStatus.ERROR -> {
+                    val sentryTransaction =
+                        HyperskillSentryTransactionBuilder.buildStudyPlanWidgetFetchLearningActivities(
+                            isCurrentSection = sectionId == state.getCurrentSection()?.id
+                        )
                     updateSectionState(StudyPlanWidgetFeature.ContentStatus.LOADING) to setOfNotNull(
                         InternalAction.FetchActivities(
                             sectionId = sectionId,
                             activitiesIds = getPaginatedActivitiesIds(section),
-                            sentryTransaction = HyperskillSentryTransactionBuilder.buildStudyPlanWidgetFetchLearningActivities(
-                                isCurrentSection = sectionId == state.getCurrentSection()?.id
-                            )
+                            sentryTransaction = sentryTransaction
                         ),
                         logAnalyticEventAction
                     )
