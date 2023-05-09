@@ -354,16 +354,13 @@ abstract class DefaultStepQuizFragment :
             }
         }
 
-        when (state.stepQuizState) {
+        when (val stepQuizState = state.stepQuizState) {
             StepQuizFeature.StepQuizState.Unsupported -> {
                 stepQuizFeedbackBlocksDelegate?.setState(StepQuizFeedbackState.Unsupported)
             }
             is StepQuizFeature.StepQuizState.AttemptLoaded -> {
                 setStepHintsFragment(step)
-                when (val stepQuizState = state.stepQuizState) {
-                    is StepQuizFeature.StepQuizState.AttemptLoaded -> renderAttemptLoaded(stepQuizState)
-                    else -> {}
-                }
+                renderAttemptLoaded(stepQuizState)
 
                 problemsLimitViewStateMapper?.let { mapper ->
                     val problemsLimitViewState = mapper.mapState(state.problemsLimitState)
