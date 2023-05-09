@@ -18,7 +18,8 @@ interface TrackFeature {
         val isRefreshing: Boolean
             get() = trackState is TrackState.Content && trackState.isRefreshing ||
                 toolbarState is GamificationToolbarFeature.State.Content && toolbarState.isRefreshing ||
-                topicsToDiscoverNextState is TopicsToDiscoverNextFeature.State.Content && topicsToDiscoverNextState.isRefreshing
+                topicsToDiscoverNextState is TopicsToDiscoverNextFeature.State.Content &&
+                topicsToDiscoverNextState.isRefreshing
     }
 
     sealed interface TrackState {

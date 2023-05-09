@@ -105,14 +105,11 @@ class PlaceholderNewUserFragment :
 
     private fun setupRecyclerView() {
         with(viewBinding.placeholderRecyclerView) {
-            layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = trackAdapter
-            addItemDecoration(
-                VerticalMarginItemDecoration(
-                    verticalMargin = requireContext().resources.getDimensionPixelSize(R.dimen.track_items_vertical_margin)
-                )
-            )
+
+            val verticalMargin = requireContext().resources.getDimensionPixelSize(R.dimen.track_items_vertical_margin)
+            addItemDecoration(VerticalMarginItemDecoration(verticalMargin = verticalMargin))
         }
     }
 

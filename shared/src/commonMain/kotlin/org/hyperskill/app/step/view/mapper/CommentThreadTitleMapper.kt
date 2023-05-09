@@ -9,10 +9,14 @@ class CommentThreadTitleMapper(
 ) {
     fun getFormattedStepCommentThreadStatistics(thread: CommentThread, count: Int): String {
         val threadName = when (thread) {
-            CommentThread.COMMENT -> resourceProvider.getString(SharedResources.strings.step_comment_thread_type_comment_text)
-            CommentThread.SOLUTIONS -> resourceProvider.getString(SharedResources.strings.step_comment_thread_type_solutions_text)
-            CommentThread.HINT -> resourceProvider.getString(SharedResources.strings.step_comment_thread_type_hint_text)
-            CommentThread.USEFUL_LINK -> resourceProvider.getString(SharedResources.strings.step_comment_thread_type_useful_link_text)
+            CommentThread.COMMENT ->
+                resourceProvider.getString(SharedResources.strings.step_comment_thread_type_comment_text)
+            CommentThread.SOLUTIONS ->
+                resourceProvider.getString(SharedResources.strings.step_comment_thread_type_solutions_text)
+            CommentThread.HINT ->
+                resourceProvider.getString(SharedResources.strings.step_comment_thread_type_hint_text)
+            CommentThread.USEFUL_LINK ->
+                resourceProvider.getString(SharedResources.strings.step_comment_thread_type_useful_link_text)
             else -> thread.name
         }
 

@@ -15,7 +15,8 @@ class AuthSocialComponentImpl(
     private val analyticComponent: AnalyticComponent,
     private var sentryComponent: SentryComponent
 ) : AuthSocialComponent {
-    override val authSocialFeature: Feature<AuthSocialFeature.State, AuthSocialFeature.Message, AuthSocialFeature.Action>
+    override val authSocialFeature: Feature<
+        AuthSocialFeature.State, AuthSocialFeature.Message, AuthSocialFeature.Action>
         get() = AuthSocialFeatureBuilder.build(
             authComponent.authInteractor,
             profileDataComponent.profileInteractor,

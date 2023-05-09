@@ -24,7 +24,9 @@ class ChoiceMultipleSelectionAdapterDelegate(
     }
 
     private inner class ViewHolder(root: View) : DelegateViewHolder<Choice>(root) {
-        private val viewBinding: ItemCompoundSelectionCheckboxBinding by viewBinding(ItemCompoundSelectionCheckboxBinding::bind)
+        private val viewBinding: ItemCompoundSelectionCheckboxBinding by viewBinding(
+            ItemCompoundSelectionCheckboxBinding::bind
+        )
         private val choiceRadioButton = viewBinding.compoundSelectionCheckBox
         private val choiceText = viewBinding.compoundSelectionText
         private val choiceTextProgress = viewBinding.compoundSelectionTextProgress

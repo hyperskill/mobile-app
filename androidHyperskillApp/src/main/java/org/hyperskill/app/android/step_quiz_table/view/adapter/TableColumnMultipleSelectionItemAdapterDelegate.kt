@@ -22,7 +22,9 @@ class TableColumnMultipleSelectionItemAdapterDelegate(
         ViewHolder(createView(parent, R.layout.item_compound_selection_checkbox))
 
     private inner class ViewHolder(root: View) : DelegateViewHolder<Cell>(root) {
-        private val viewBinding: ItemCompoundSelectionCheckboxBinding by viewBinding(ItemCompoundSelectionCheckboxBinding::bind)
+        private val viewBinding: ItemCompoundSelectionCheckboxBinding by viewBinding(
+            ItemCompoundSelectionCheckboxBinding::bind
+        )
         private val tableColumnCheckBox = viewBinding.compoundSelectionCheckBox
         private val tableColumnText = viewBinding.compoundSelectionText
         private val tableColumnTextProgress = viewBinding.compoundSelectionTextProgress

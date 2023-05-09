@@ -1,12 +1,12 @@
 package org.hyperskill.app.problems_limit.presentation
 
+import kotlin.time.Duration
 import kotlinx.datetime.Clock
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.Action
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.Message
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.State
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import ru.nobird.app.presentation.redux.reducer.StateReducer
-import kotlin.time.Duration
 
 internal class ProblemsLimitReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =

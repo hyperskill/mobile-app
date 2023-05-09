@@ -25,7 +25,10 @@ class LatexWebViewMapper(private val context: Context) {
 
         val header = webData.header + blocks.joinToString(separator = "", transform = ContentBlock::header)
         val preBody = webData.preBody + blocks.joinToString(separator = "", transform = ContentBlock::preBody)
-        val postBody = blocks.asReversed().joinToString(separator = "", transform = ContentBlock::postBody) + webData.postBody // order is reversed to preserve tags
+        val postBody = blocks.asReversed().joinToString(
+            separator = "",
+            transform = ContentBlock::postBody
+        ) + webData.postBody // order is reversed to preserve tags
 
         return """
             <!DOCTYPE html>

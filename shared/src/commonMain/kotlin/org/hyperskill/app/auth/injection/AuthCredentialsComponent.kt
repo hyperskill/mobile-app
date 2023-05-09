@@ -5,6 +5,7 @@ import org.hyperskill.app.auth.view.mapper.AuthCredentialsErrorMapper
 import ru.nobird.app.presentation.redux.feature.Feature
 
 interface AuthCredentialsComponent {
-    val authCredentialsFeature: Feature<AuthCredentialsFeature.State, AuthCredentialsFeature.Message, AuthCredentialsFeature.Action>
+    val authCredentialsFeature: Feature<
+        AuthCredentialsFeature.State, AuthCredentialsFeature.Message, AuthCredentialsFeature.Action>
     val authCredentialsErrorMapper: AuthCredentialsErrorMapper
 }

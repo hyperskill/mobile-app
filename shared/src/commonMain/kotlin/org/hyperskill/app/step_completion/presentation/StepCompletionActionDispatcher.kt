@@ -64,9 +64,13 @@ class StepCompletionActionDispatcher(
                             Message.FetchNextRecommendedStepResult.Error(
                                 when (action.currentStep.type) {
                                     Step.Type.THEORY ->
-                                        resourceProvider.getString(SharedResources.strings.step_theory_failed_to_start_practicing)
+                                        resourceProvider.getString(
+                                            SharedResources.strings.step_theory_failed_to_start_practicing
+                                        )
                                     Step.Type.PRACTICE ->
-                                        resourceProvider.getString(SharedResources.strings.step_theory_failed_to_continue_practicing)
+                                        resourceProvider.getString(
+                                            SharedResources.strings.step_theory_failed_to_continue_practicing
+                                        )
                                 }
                             )
                         }

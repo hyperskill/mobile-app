@@ -5,7 +5,7 @@ import ru.nobird.app.presentation.redux.feature.Feature
 
 fun <InitialState, NewState, Message, Action> Feature<InitialState, Message, Action>.transformState(
     transformState: (InitialState) -> NewState
-): Feature<NewState, Message, Action>  =
+): Feature<NewState, Message, Action> =
     object : Feature<NewState, Message, Action> {
         override val state: NewState
             get() = transformState(this@transformState.state)

@@ -3,6 +3,7 @@ package org.hyperskill.app.core.flowredux.presentation
 import ru.nobird.app.core.model.Cancellable
 import ru.nobird.app.presentation.redux.feature.Feature
 
+/* ktlint-disable */
 inline fun <State, Message, Action, reified ViewAction : Action> Feature<State, Message, Action>.wrapWithFlowView(): FlowView<State, Message, ViewAction> {
     val feature = object : Feature<State, Message, ViewAction> {
         override val state: State
@@ -24,3 +25,4 @@ inline fun <State, Message, Action, reified ViewAction : Action> Feature<State, 
     }
     return ReduxFlowView(feature)
 }
+/* ktlint-enable */

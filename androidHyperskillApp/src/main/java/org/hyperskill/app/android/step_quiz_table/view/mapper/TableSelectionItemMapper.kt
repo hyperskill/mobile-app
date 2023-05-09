@@ -8,7 +8,11 @@ import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import ru.nobird.app.core.model.safeCast
 
 class TableSelectionItemMapper {
-    fun mapToTableSelectionItems(attempt: Attempt, submission: Submission?, isEnabled: Boolean): List<TableSelectionItem> =
+    fun mapToTableSelectionItems(
+        attempt: Attempt,
+        submission: Submission?,
+        isEnabled: Boolean
+    ): List<TableSelectionItem> =
         attempt
             .dataset
             ?.rows

@@ -22,7 +22,8 @@ class TimeIntervalPickerDialogFragment : DialogFragment() {
         }
     }
 
-    private val platformNotificationComponent: PlatformNotificationComponent = HyperskillApp.graph().platformNotificationComponent
+    private val platformNotificationComponent: PlatformNotificationComponent =
+        HyperskillApp.graph().platformNotificationComponent
 
     private lateinit var picker: NumberPicker
 
@@ -38,12 +39,14 @@ class TimeIntervalPickerDialogFragment : DialogFragment() {
         picker.wrapSelectorWheel = false
         picker.setBackgroundColor(0x0)
         picker.textColor = requireContext().resolveColorAttribute(com.google.android.material.R.attr.colorOnSurface)
-        picker.selectedTextColor = requireContext().resolveColorAttribute(com.google.android.material.R.attr.colorOnSurface)
+        picker.selectedTextColor =
+            requireContext().resolveColorAttribute(com.google.android.material.R.attr.colorOnSurface)
         picker.dividerColor = 0x0
 
         try {
             picker.textSize = 50f // Warning: reflection!
-        } catch (exception: Exception) {}
+        } catch (exception: Exception) {
+        }
 
         callback = parentFragment as Callback
 

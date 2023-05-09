@@ -5,11 +5,13 @@ import ru.nobird.android.view.redux.viewmodel.ReduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxViewContainer
 
 class StepQuizHintsViewModel(
-    reduxViewContainer: ReduxViewContainer<StepQuizHintsFeature.ViewState, StepQuizHintsFeature.Message, StepQuizHintsFeature.Action.ViewAction>,
+    reduxViewContainer: ReduxViewContainer<
+        StepQuizHintsFeature.ViewState, StepQuizHintsFeature.Message, StepQuizHintsFeature.Action.ViewAction>,
     step: Step
-) : ReduxViewModel<StepQuizHintsFeature.ViewState, StepQuizHintsFeature.Message, StepQuizHintsFeature.Action.ViewAction>(
-    reduxViewContainer
-) {
+) : ReduxViewModel<
+    StepQuizHintsFeature.ViewState,
+    StepQuizHintsFeature.Message,
+    StepQuizHintsFeature.Action.ViewAction>(reduxViewContainer) {
     init {
         if (StepQuizHintsFeature.isHintsFeatureAvailable(step)) {
             onNewMessage(

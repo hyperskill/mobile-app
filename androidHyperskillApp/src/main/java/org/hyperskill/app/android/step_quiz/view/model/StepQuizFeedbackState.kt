@@ -9,5 +9,5 @@ sealed class StepQuizFeedbackState {
 
     object Unsupported : StepQuizFeedbackState()
 
-    data class RejectedSubmission(val message: String)  : StepQuizFeedbackState()
+    data class RejectedSubmission(val message: String) : StepQuizFeedbackState()
 }

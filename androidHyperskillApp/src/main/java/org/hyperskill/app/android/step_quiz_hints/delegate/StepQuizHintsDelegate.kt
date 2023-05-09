@@ -75,9 +75,12 @@ class StepQuizHintsDelegate(
                     @Suppress("KotlinConstantConditions")
                     stepQuizHintDescriptionTextView.setTextIfChanged(
                         when (state.hintState) {
-                            StepQuizHintsFeature.ViewState.HintState.REACT_TO_HINT -> org.hyperskill.app.R.string.step_quiz_hints_helpful_question_text
-                            StepQuizHintsFeature.ViewState.HintState.LAST_HINT -> org.hyperskill.app.R.string.step_quiz_hints_last_hint_text
-                            StepQuizHintsFeature.ViewState.HintState.SEE_NEXT_HINT -> error("Can't evaluate text for state = $state")
+                            StepQuizHintsFeature.ViewState.HintState.REACT_TO_HINT ->
+                                org.hyperskill.app.R.string.step_quiz_hints_helpful_question_text
+                            StepQuizHintsFeature.ViewState.HintState.LAST_HINT ->
+                                org.hyperskill.app.R.string.step_quiz_hints_last_hint_text
+                            StepQuizHintsFeature.ViewState.HintState.SEE_NEXT_HINT ->
+                                error("Can't evaluate text for state = $state")
                         }.let(context::getString)
                     )
                 }

@@ -16,7 +16,8 @@ class StudyPlanScreenComponentImpl(private val appGraph: AppGraph) : StudyPlanSc
     private val studyPlanWidgetComponent: StudyPlanWidgetComponent =
         appGraph.buildStudyPlanWidgetComponent()
 
-    override val studyPlanScreenFeature: Feature<StudyPlanScreenViewState, StudyPlanScreenFeature.Message, StudyPlanScreenFeature.Action>
+    override val studyPlanScreenFeature: Feature<
+        StudyPlanScreenViewState, StudyPlanScreenFeature.Message, StudyPlanScreenFeature.Action>
         get() = StudyPlanScreenFeatureBuilder.build(
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             toolbarReducer = toolbarComponent.gamificationToolbarReducer,

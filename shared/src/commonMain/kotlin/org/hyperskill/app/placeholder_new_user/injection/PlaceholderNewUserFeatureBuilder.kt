@@ -4,9 +4,9 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserActionDispatcher
-import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature.State
-import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature.Message
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature.Action
+import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature.Message
+import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserFeature.State
 import org.hyperskill.app.placeholder_new_user.presentation.PlaceholderNewUserReducer
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor

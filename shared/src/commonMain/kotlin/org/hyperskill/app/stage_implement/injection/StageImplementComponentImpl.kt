@@ -9,7 +9,8 @@ class StageImplementComponentImpl(
     private val projectId: Long,
     private val stageId: Long
 ) : StageImplementComponent {
-    override val stageImplementFeature: Feature<StageImplementFeature.ViewState, StageImplementFeature.Message, StageImplementFeature.Action>
+    override val stageImplementFeature: Feature<
+        StageImplementFeature.ViewState, StageImplementFeature.Message, StageImplementFeature.Action>
         get() = StageImplementFeatureBuilder.build(
             projectId,
             stageId,

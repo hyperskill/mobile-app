@@ -24,7 +24,8 @@ class ProfileSettingsComponentImpl(private val appGraph: AppGraph) : ProfileSett
     private val urlPathProcessor: UrlPathProcessor =
         appGraph.buildMagicLinksDataComponent().urlPathProcessor
 
-    override val profileSettingsFeature: Feature<ProfileSettingsFeature.State, ProfileSettingsFeature.Message, ProfileSettingsFeature.Action>
+    override val profileSettingsFeature: Feature<
+        ProfileSettingsFeature.State, ProfileSettingsFeature.Message, ProfileSettingsFeature.Action>
         get() = ProfileSettingsFeatureBuilder.build(
             profileSettingsInteractor,
             appGraph.buildProfileDataComponent().profileInteractor,

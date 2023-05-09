@@ -1,5 +1,6 @@
 package org.hyperskill.app.step_quiz.domain.interactor
 
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.delay
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
@@ -9,7 +10,6 @@ import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.domain.repository.AttemptRepository
 import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
-import kotlin.time.Duration.Companion.seconds
 
 class StepQuizInteractor(
     private val attemptRepository: AttemptRepository,

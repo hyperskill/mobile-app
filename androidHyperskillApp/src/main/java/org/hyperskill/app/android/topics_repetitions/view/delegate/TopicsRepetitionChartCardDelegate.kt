@@ -22,7 +22,7 @@ object TopicsRepetitionChartCardDelegate {
 
             val maxValue = state.chartData.maxOfOrNull { it.second } ?: return
 
-            val maxChartValue =  maxValue + (10 - maxValue % 10)
+            val maxChartValue = maxValue + (10 - maxValue % 10)
             val averageChartValue = maxChartValue / 2
 
             topicsRepetitionChart1LineNumberTextView.setTextIfChanged(0.toString())

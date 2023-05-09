@@ -38,7 +38,11 @@ class SubmissionRemoteDataSourceImpl(
                 }.body<SubmissionResponse>().submissions
         }
 
-    override suspend fun createSubmission(attemptId: Long, reply: Reply, solvingContext: StepContext): Result<Submission> =
+    override suspend fun createSubmission(
+        attemptId: Long,
+        reply: Reply,
+        solvingContext: StepContext
+    ): Result<Submission> =
         kotlin.runCatching {
             httpClient
                 .post("/api/submissions") {

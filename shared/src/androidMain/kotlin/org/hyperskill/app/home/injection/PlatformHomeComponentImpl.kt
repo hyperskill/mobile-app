@@ -6,5 +6,9 @@ import ru.nobird.app.presentation.redux.container.wrapWithViewContainer
 
 class PlatformHomeComponentImpl(private val homeComponent: HomeComponent) : PlatformHomeComponent {
     override val reduxViewModelFactory: ReduxViewModelFactory
-        get() = ReduxViewModelFactory(mapOf(HomeViewModel::class.java to { HomeViewModel(homeComponent.homeFeature.wrapWithViewContainer()) }))
+        get() = ReduxViewModelFactory(
+            mapOf(
+                HomeViewModel::class.java to { HomeViewModel(homeComponent.homeFeature.wrapWithViewContainer()) }
+            )
+        )
 }

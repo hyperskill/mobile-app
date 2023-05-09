@@ -56,12 +56,18 @@ object HyperskillSentryBreadcrumbBuilder {
             level = HyperskillSentryLevel.INFO
         )
 
-    fun buildAuthCredentialsSignInFailed(preconditionCheckFormStateError: AuthCredentialsError? = null): HyperskillSentryBreadcrumb =
+    fun buildAuthCredentialsSignInFailed(
+        preconditionCheckFormStateError: AuthCredentialsError? = null
+    ): HyperskillSentryBreadcrumb =
         HyperskillSentryBreadcrumb(
             category = HyperskillSentryBreadcrumbCategory.AUTH_CREDENTIALS,
             message = "Sign in with log/pas failed",
             level = HyperskillSentryLevel.ERROR,
-            data = if (preconditionCheckFormStateError != null) mapOf("form_state_error" to preconditionCheckFormStateError.toString()) else null
+            data = if (preconditionCheckFormStateError != null) {
+                mapOf("form_state_error" to preconditionCheckFormStateError.toString())
+            } else {
+                null
+            }
         )
 
     /**

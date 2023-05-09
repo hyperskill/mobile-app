@@ -63,7 +63,8 @@ class StreakCardFormDelegate(
         )
 
         binding.streakCardBuyFreezeButton.isVisible =
-            freezeState is ProfileFeature.StreakFreezeState.CanBuy || freezeState is ProfileFeature.StreakFreezeState.NotEnoughGems
+            freezeState is ProfileFeature.StreakFreezeState.CanBuy ||
+            freezeState is ProfileFeature.StreakFreezeState.NotEnoughGems
         binding.streakFreezeAlreadyHaveTextView.isVisible =
             freezeState is ProfileFeature.StreakFreezeState.AlreadyHave
     }

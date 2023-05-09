@@ -9,7 +9,9 @@ import org.hyperskill.app.android.databinding.ItemAuthMaterialCardViewBinding
 import ru.nobird.android.ui.adapterdelegates.AdapterDelegate
 import ru.nobird.android.ui.adapterdelegates.DelegateViewHolder
 
-class AuthSocialAdapterDelegate(private val onItemClick: (AuthSocialCardInfo) -> Unit) : AdapterDelegate<AuthSocialCardInfo, DelegateViewHolder<AuthSocialCardInfo>>() {
+class AuthSocialAdapterDelegate(
+    private val onItemClick: (AuthSocialCardInfo) -> Unit
+) : AdapterDelegate<AuthSocialCardInfo, DelegateViewHolder<AuthSocialCardInfo>>() {
     override fun isForViewType(position: Int, data: AuthSocialCardInfo): Boolean =
         true
 
@@ -17,7 +19,11 @@ class AuthSocialAdapterDelegate(private val onItemClick: (AuthSocialCardInfo) ->
         ViewHolder(createView(parent, R.layout.item_auth_material_card_view))
 
     inner class ViewHolder(root: View) : DelegateViewHolder<AuthSocialCardInfo>(root) {
-        private val viewBinding: ItemAuthMaterialCardViewBinding by viewBinding { ItemAuthMaterialCardViewBinding.bind(root) }
+        private val viewBinding: ItemAuthMaterialCardViewBinding by viewBinding {
+            ItemAuthMaterialCardViewBinding.bind(
+                root
+            )
+        }
 
         override fun onBind(data: AuthSocialCardInfo) {
             viewBinding.cardText.setText(data.textId)

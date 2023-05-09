@@ -8,7 +8,10 @@ import org.hyperskill.app.user_storage.domain.repository.UserStorageRepository
 class UserStorageInteractor(
     private val userStorageRepository: UserStorageRepository
 ) {
-    suspend fun getUserStorageValue(key: UserStorageKey, primarySourceType: DataSourceType = DataSourceType.CACHE): Result<UserStorageValue> =
+    suspend fun getUserStorageValue(
+        key: UserStorageKey,
+        primarySourceType: DataSourceType = DataSourceType.CACHE
+    ): Result<UserStorageValue> =
         userStorageRepository.getUserStorageValue(key, primarySourceType)
 
     suspend fun updateUserStorage(key: UserStorageKey, value: UserStorageValue) {
