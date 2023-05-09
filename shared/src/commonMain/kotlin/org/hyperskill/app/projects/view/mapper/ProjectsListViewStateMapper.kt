@@ -3,6 +3,7 @@ package org.hyperskill.app.projects.view.mapper
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.progresses.domain.model.averageRating
+import org.hyperskill.app.projects.domain.model.ProjectLevel
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress
 import org.hyperskill.app.projects.domain.model.isGraduated
 import org.hyperskill.app.projects.presentation.ProjectsListFeature
@@ -10,6 +11,7 @@ import org.hyperskill.app.projects.presentation.bestRatedProjectId
 import org.hyperskill.app.projects.presentation.projectsByLevel
 import org.hyperskill.app.projects.presentation.recommendedProjects
 import org.hyperskill.app.projects.presentation.selectedProject
+import org.hyperskill.app.track.domain.model.getProjectLevel
 
 class ProjectsListViewStateMapper(
     private val resourceProvider: ResourceProvider
@@ -26,14 +28,29 @@ class ProjectsListViewStateMapper(
                         state.track.title
                     ),
                     selectedProject = state.selectedProject?.let {
-                        mapProjectListItem(it, state.track.id, bestRatedProjectId)
+                        mapProjectListItem(
+                            projectWithProgress = it,
+                            trackId = state.track.id,
+                            bestRatedProjectId = bestRatedProjectId,
+                            level = state.track.projectsByLevel.getProjectLevel(it.project.id)
+                        )
                     },
                     recommendedProjects = state.recommendedProjects.map {
-                        mapProjectListItem(it, state.track.id, bestRatedProjectId)
+                        mapProjectListItem(
+                            projectWithProgress = it,
+                            trackId = state.track.id,
+                            bestRatedProjectId = bestRatedProjectId,
+                            level = state.track.projectsByLevel.getProjectLevel(it.project.id)
+                        )
                     },
-                    projectsByLevel = state.projectsByLevel.mapValues { (_, projects) ->
+                    projectsByLevel = state.projectsByLevel.mapValues { (level, projects) ->
                         projects.map { project ->
-                            mapProjectListItem(project, state.track.id, bestRatedProjectId)
+                            mapProjectListItem(
+                                projectWithProgress = project,
+                                trackId = state.track.id,
+                                bestRatedProjectId = bestRatedProjectId,
+                                level = level
+                            )
                         }
                     },
                     isRefreshing = state.isRefreshing
@@ -45,7 +62,8 @@ class ProjectsListViewStateMapper(
     private fun mapProjectListItem(
         projectWithProgress: ProjectWithProgress,
         trackId: Long,
-        bestRatedProjectId: Long?
+        bestRatedProjectId: Long?,
+        level: ProjectLevel?
     ): ProjectsListFeature.ProjectListItem =
         with(projectWithProgress) {
             ProjectsListFeature.ProjectListItem(
@@ -54,7 +72,8 @@ class ProjectsListViewStateMapper(
                 averageRating = progress.averageRating(),
                 isGraduated = project.isGraduated(trackId),
                 isBestRated = project.id == bestRatedProjectId,
-                isIdeRequired = project.isIdeRequired
+                isIdeRequired = project.isIdeRequired,
+                level = level
             )
         }
 }

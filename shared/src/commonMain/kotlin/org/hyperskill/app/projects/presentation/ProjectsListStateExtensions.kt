@@ -9,7 +9,7 @@ val ProjectsListFeature.ContentState.Content.selectedProject: ProjectWithProgres
     get() = selectedProjectId?.let { projects[it] }
 
 val ProjectsListFeature.ContentState.Content.recommendedProjects: List<ProjectWithProgress>
-    get() = recommendedProjectsIds.mapNotNull { projectsId ->
+    get() = track.projects.take(6).mapNotNull { projectsId ->
         projects[projectsId]
     }
 
@@ -29,9 +29,6 @@ val ProjectsListFeature.ContentState.Content.projectsByLevel: Map<ProjectLevel, 
             emptyList()
         }
     }
-
-private val ProjectsListFeature.ContentState.Content.recommendedProjectsIds: List<Long>
-    get() = track.projects.take(6)
 
 val ProjectsListFeature.ContentState.Content.bestRatedProjectId: Long?
     get() = projects.values.reduceOrNull { localBest, current ->
