@@ -2,7 +2,8 @@ package org.hyperskill.app.projects.view.mapper
 
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
-import org.hyperskill.app.projects.domain.model.Project
+import org.hyperskill.app.progresses.domain.model.averageRating
+import org.hyperskill.app.projects.domain.model.ProjectWithProgress
 import org.hyperskill.app.projects.domain.model.isGraduated
 import org.hyperskill.app.projects.presentation.ProjectsListFeature
 import org.hyperskill.app.projects.presentation.bestRatedProjectId
@@ -42,14 +43,17 @@ class ProjectsListViewStateMapper(
         }
 
     private fun mapProjectListItem(
-        project: Project,
+        projectWithProgress: ProjectWithProgress,
         trackId: Long,
         bestRatedProjectId: Long?
     ): ProjectsListFeature.ProjectListItem =
-        ProjectsListFeature.ProjectListItem(
-            id = project.id,
-            title = project.title,
-            isGraduated = project.isGraduated(trackId),
-            isBestRated = project.id == bestRatedProjectId
-        )
+        with(projectWithProgress) {
+            ProjectsListFeature.ProjectListItem(
+                id = project.id,
+                title = project.title,
+                averageRating = progress.averageRating(),
+                isGraduated = project.isGraduated(trackId),
+                isBestRated = project.id == bestRatedProjectId
+            )
+        }
 }

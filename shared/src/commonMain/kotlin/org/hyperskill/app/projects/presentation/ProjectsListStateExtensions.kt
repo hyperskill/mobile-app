@@ -1,19 +1,19 @@
 package org.hyperskill.app.projects.presentation
 
 import org.hyperskill.app.progresses.domain.model.averageRating
-import org.hyperskill.app.projects.domain.model.Project
 import org.hyperskill.app.projects.domain.model.ProjectLevel
+import org.hyperskill.app.projects.domain.model.ProjectWithProgress
 import org.hyperskill.app.track.domain.model.getProjectsIds
 
-val ProjectsListFeature.ContentState.Content.selectedProject: Project?
-    get() = selectedProjectId?.let { projects[it]?.project }
+val ProjectsListFeature.ContentState.Content.selectedProject: ProjectWithProgress?
+    get() = selectedProjectId?.let { projects[it] }
 
-val ProjectsListFeature.ContentState.Content.recommendedProjects: List<Project>
+val ProjectsListFeature.ContentState.Content.recommendedProjects: List<ProjectWithProgress>
     get() = recommendedProjectsIds.mapNotNull { projectsId ->
-        projects[projectsId]?.project
+        projects[projectsId]
     }
 
-val ProjectsListFeature.ContentState.Content.projectsByLevel: Map<ProjectLevel, List<Project>>
+val ProjectsListFeature.ContentState.Content.projectsByLevel: Map<ProjectLevel, List<ProjectWithProgress>>
     get() = ProjectLevel.values().associateWith { level ->
         val projectsIds = track.projectsByLevel.getProjectsIds(level)
         if (!projectsIds.isNullOrEmpty()) {
@@ -23,7 +23,7 @@ val ProjectsListFeature.ContentState.Content.projectsByLevel: Map<ProjectLevel, 
                 projectsIds
             }
             filteredProjectIds.toSet().mapNotNull { projectId ->
-                projects[projectId]?.project
+                projects[projectId]
             }
         } else {
             emptyList()
