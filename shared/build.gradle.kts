@@ -206,7 +206,9 @@ tasks.withType<KotlinNativeLink>()
                 .resolve("Hyperskill-Mobile_shared.swift")
 
             val iosHyperskillAppSharedSwiftFile = rootDir
-                .resolve("iosHyperskillApp/iosHyperskillApp/Sources/Frameworks/sharedSwift/Hyperskill-Mobile_shared.swift")
+                .resolve(
+                    "iosHyperskillApp/iosHyperskillApp/Sources/Frameworks/sharedSwift/Hyperskill-Mobile_shared.swift"
+                )
             if (!iosHyperskillAppSharedSwiftFile.exists()) {
                 iosHyperskillAppSharedSwiftFile.createNewFile()
             }

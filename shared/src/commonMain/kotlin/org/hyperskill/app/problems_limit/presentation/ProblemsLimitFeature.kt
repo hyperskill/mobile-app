@@ -1,7 +1,7 @@
 package org.hyperskill.app.problems_limit.presentation
 
-import org.hyperskill.app.subscriptions.domain.model.Subscription
 import kotlin.time.Duration
+import org.hyperskill.app.subscriptions.domain.model.Subscription
 
 object ProblemsLimitFeature {
     internal sealed interface State {

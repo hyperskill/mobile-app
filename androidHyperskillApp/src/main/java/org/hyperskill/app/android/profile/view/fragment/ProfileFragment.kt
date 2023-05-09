@@ -215,7 +215,9 @@ class ProfileFragment :
     }
 
     override fun onTimeIntervalPicked(chosenInterval: Int) {
-        profileViewModel.onNewMessage(ProfileFeature.Message.DailyStudyRemindersIntervalStartHourChanged(chosenInterval))
+        profileViewModel.onNewMessage(
+            ProfileFeature.Message.DailyStudyRemindersIntervalStartHourChanged(chosenInterval)
+        )
         platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification()
     }
 
@@ -311,7 +313,10 @@ class ProfileFragment :
         }
     }
 
-    private fun renderRemindersSchedule(remindersState: ProfileFeature.DailyStudyRemindersState, notificationManager: NotificationManagerCompat) {
+    private fun renderRemindersSchedule(
+        remindersState: ProfileFeature.DailyStudyRemindersState,
+        notificationManager: NotificationManagerCompat
+    ) {
         with(viewBinding.profileDailyReminder) {
             profileScheduleTextView.text = getScheduleTimeText(
                 time = remindersState.startHour
@@ -337,7 +342,12 @@ class ProfileFragment :
         with(viewBinding.profileFooterLayout) {
             if (profile.country != null) {
                 profileAboutLivesTextView.text =
-                    "${resources.getString(org.hyperskill.app.R.string.profile_lives_in_text)} ${Locale(Locale.ENGLISH.language, profile.country!!).displayCountry}"
+                    "${resources.getString(org.hyperskill.app.R.string.profile_lives_in_text)} ${
+                    Locale(
+                        Locale.ENGLISH.language,
+                        profile.country!!
+                    ).displayCountry
+                    }"
             } else {
                 profileAboutLivesTextView.visibility = View.GONE
             }

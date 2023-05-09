@@ -4,6 +4,7 @@ data class Settings(val allowUniversalAccessFromFileURLs: Boolean) {
     companion object {
         val DEFAULT_SETTINGS = Settings(allowUniversalAccessFromFileURLs = false)
     }
+
     operator fun plus(other: Settings): Settings =
-        Settings(allowUniversalAccessFromFileURLs = this.allowUniversalAccessFromFileURLs || other.allowUniversalAccessFromFileURLs)
+        Settings(this.allowUniversalAccessFromFileURLs || other.allowUniversalAccessFromFileURLs)
 }

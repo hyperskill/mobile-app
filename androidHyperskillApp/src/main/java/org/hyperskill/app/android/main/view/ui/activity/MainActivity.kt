@@ -124,7 +124,8 @@ class MainActivity :
 
     private fun injectManual() {
         viewModelFactory = HyperskillApp.graph().platformMainComponent.reduxViewModelFactory
-        profileSettings = HyperskillApp.graph().buildProfileSettingsComponent().profileSettingsInteractor.getProfileSettings()
+        profileSettings =
+            HyperskillApp.graph().buildProfileSettingsComponent().profileSettingsInteractor.getProfileSettings()
         analyticInteractor = HyperskillApp.graph().analyticComponent.analyticInteractor
     }
 

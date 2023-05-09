@@ -12,9 +12,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -46,7 +46,11 @@ fun FindStep(
             },
             modifier = Modifier.fillMaxWidth(),
             label = {
-                Text(text = stringResource(id = org.hyperskill.app.R.string.debug_menu_section_step_navigation_text_input_title))
+                Text(
+                    text = stringResource(
+                        id = org.hyperskill.app.R.string.debug_menu_section_step_navigation_text_input_title
+                    )
+                )
             }
         )
         Button(

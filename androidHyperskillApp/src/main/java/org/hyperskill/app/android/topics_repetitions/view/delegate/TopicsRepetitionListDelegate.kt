@@ -41,7 +41,8 @@ class TopicsRepetitionListDelegate(
                 LinearLayoutManager(binding.root.context, LinearLayoutManager.VERTICAL, false)
             adapter = topicsAdapter
             isNestedScrollingEnabled = false
-            val headerVerticalMargin = resources.getDimensionPixelSize(R.dimen.track_next_topic_header_vertical_item_margin)
+            val headerVerticalMargin =
+                resources.getDimensionPixelSize(R.dimen.track_next_topic_header_vertical_item_margin)
             val topicVerticalMargin = resources.getDimensionPixelSize(R.dimen.track_next_topic_vertical_item_margin)
             itemDecoration { position, rect, _ ->
                 val item = topicsAdapter.items.getOrNull(position) ?: return@itemDecoration
@@ -54,7 +55,7 @@ class TopicsRepetitionListDelegate(
                     }
                     is TopicsRepetitionListItem.Topic,
                     TopicsRepetitionListItem.LoadingStub -> {
-                        val isAfterHeader  = if (position > 0) {
+                        val isAfterHeader = if (position > 0) {
                             topicsAdapter.items.getOrNull(position - 1) is TopicsRepetitionListItem.Header
                         } else {
                             false

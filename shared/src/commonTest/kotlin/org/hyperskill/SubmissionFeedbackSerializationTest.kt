@@ -1,13 +1,13 @@
 package org.hyperskill
 
+import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.encodeToJsonElement
 import org.hyperskill.app.network.injection.NetworkModule
 import org.hyperskill.app.step_quiz.domain.model.submissions.Feedback
-import kotlin.test.Test
-import kotlin.test.assertEquals
 
 class SubmissionFeedbackSerializationTest {
 

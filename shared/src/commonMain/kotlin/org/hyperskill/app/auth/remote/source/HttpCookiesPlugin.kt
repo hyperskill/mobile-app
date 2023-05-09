@@ -33,8 +33,10 @@ class HttpCookiesPlugin(
         fun build(): HttpCookiesPlugin =
             HttpCookiesPlugin(
                 storage ?: throw IllegalArgumentException("storage should be passed"),
-                shouldSendCookiesForRequest ?: throw IllegalArgumentException("shouldSendCookiesForRequest should be passed"),
-                networkEndpointConfigInfo ?: throw IllegalArgumentException("networkEndpointConfigInfo should be passed")
+                shouldSendCookiesForRequest
+                    ?: throw IllegalArgumentException("shouldSendCookiesForRequest should be passed"),
+                networkEndpointConfigInfo
+                    ?: throw IllegalArgumentException("networkEndpointConfigInfo should be passed")
             )
     }
 

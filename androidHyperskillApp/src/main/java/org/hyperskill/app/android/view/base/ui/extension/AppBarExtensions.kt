@@ -5,7 +5,7 @@ import com.google.android.material.appbar.AppBarLayout
 import kotlin.math.abs
 import org.hyperskill.app.android.R
 
-enum class  AppBarLayoutState { EXPANDED, COLLAPSED, IDLE }
+enum class AppBarLayoutState { EXPANDED, COLLAPSED, IDLE }
 
 abstract class AppBarStateChangeListener : AppBarLayout.OnOffsetChangedListener {
 
@@ -35,7 +35,8 @@ fun AppBarLayout.setElevationOnCollapsed(lifecycle: Lifecycle) {
             override fun onStateChanged(layout: AppBarLayout, state: AppBarLayoutState) {
                 if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
                     layout.elevation = when (state) {
-                        AppBarLayoutState.COLLAPSED -> resources.getDimensionPixelOffset(R.dimen.appbar_elevation).toFloat()
+                        AppBarLayoutState.COLLAPSED ->
+                            resources.getDimensionPixelOffset(R.dimen.appbar_elevation).toFloat()
                         else -> 0f
                     }
                 }

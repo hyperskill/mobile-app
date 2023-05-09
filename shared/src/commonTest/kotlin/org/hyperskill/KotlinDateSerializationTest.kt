@@ -1,15 +1,15 @@
 package org.hyperskill
 
+import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.encodeToJsonElement
+import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.decodeFromJsonElement
+import kotlinx.serialization.json.encodeToJsonElement
 import org.hyperskill.app.network.injection.NetworkModule
-import kotlin.test.Test
-import kotlin.test.assertEquals
 
 class KotlinDateSerializationTest {
     companion object {

@@ -22,8 +22,8 @@ import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
-import org.hyperskill.app.android.R
 import kotlin.math.abs
+import org.hyperskill.app.android.R
 
 /**
  * DO NOT directly use android:text or setText in this view.
@@ -207,7 +207,8 @@ constructor(
         if (truncatedTextWithoutActionText.toString() != originalText) {
             val totalTextWidthWithoutActionText =
                 (0 until staticLayout.lineCount).sumOf { staticLayout.getLineWidth(it).toInt() }
-            val totalTextWidthWithActionText = totalTextWidthWithoutActionText - expandActionStaticLayout!!.getLineWidth(0)
+            val totalTextWidthWithActionText =
+                totalTextWidthWithoutActionText - expandActionStaticLayout!!.getLineWidth(0)
             val textWithoutActionText = TextUtils.ellipsize(originalText, paint, totalTextWidthWithActionText, END)
             val defaultEllipsisStart = textWithoutActionText.indexOf(Typography.ellipsis)
 
