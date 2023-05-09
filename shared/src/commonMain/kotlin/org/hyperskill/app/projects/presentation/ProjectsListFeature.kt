@@ -1,7 +1,7 @@
 package org.hyperskill.app.projects.presentation
 
-import org.hyperskill.app.projects.domain.model.Project
 import org.hyperskill.app.projects.domain.model.ProjectLevel
+import org.hyperskill.app.projects.domain.model.ProjectWithProgress
 import org.hyperskill.app.track.domain.model.Track
 
 object ProjectsListFeature {
@@ -15,7 +15,7 @@ object ProjectsListFeature {
         object Loading : ContentState
         data class Content(
             val track: Track,
-            val projects: Map<Long, Project>,
+            val projects: Map<Long, ProjectWithProgress>,
             val selectedProjectId: Long?,
             val isRefreshing: Boolean = false
         ) : ContentState
@@ -41,7 +41,8 @@ object ProjectsListFeature {
     data class ProjectListItem(
         val id: Long,
         val title: String,
-        val isGraduated: Boolean
+        val isGraduated: Boolean,
+        val isBestRated: Boolean
     )
 
     sealed interface Message {
@@ -49,7 +50,7 @@ object ProjectsListFeature {
         sealed interface ContentFetchResult : Message {
             data class Success(
                 val track: Track,
-                val projects: List<Project>,
+                val projects: List<ProjectWithProgress>,
                 val selectedProjectId: Long?
             ) : ContentFetchResult
             object Error : ContentFetchResult

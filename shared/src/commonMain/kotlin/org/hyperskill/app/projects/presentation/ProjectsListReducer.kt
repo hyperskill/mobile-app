@@ -17,7 +17,7 @@ class ProjectsListReducer : StateReducer<State, Message, Action> {
                 state.updateContentState(
                     ContentState.Content(
                         track = message.track,
-                        projects = message.projects.associateBy { it.id },
+                        projects = message.projects.associateBy { it.project.id },
                         selectedProjectId = message.selectedProjectId,
                         isRefreshing = false
                     )
