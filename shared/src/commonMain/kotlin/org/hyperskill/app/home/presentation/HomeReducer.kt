@@ -1,7 +1,7 @@
 package org.hyperskill.app.home.presentation
 
+import kotlin.math.max
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
-import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
 import org.hyperskill.app.home.domain.analytic.HomeClickedContinueLearningOnWebHyperskillAnalyticEvent
@@ -17,7 +17,6 @@ import org.hyperskill.app.home.presentation.HomeFeature.State
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextReducer
 import ru.nobird.app.presentation.redux.reducer.StateReducer
-import kotlin.math.max
 
 class HomeReducer(
     private val gamificationToolbarReducer: GamificationToolbarReducer,
@@ -50,7 +49,7 @@ class HomeReducer(
 
                 val (toolbarState, toolbarActions) = reduceGamificationToolbarMessage(
                     state.toolbarState,
-                    GamificationToolbarFeature.Message.PullToRefresh(GamificationToolbarScreen.HOME)
+                    GamificationToolbarFeature.Message.PullToRefresh
                 )
 
                 val (topicsToDiscoverNextState, topicsToDiscoverNextActions) = reduceTopicsToDiscoverNextMessage(
@@ -330,7 +329,7 @@ class HomeReducer(
         val (toolbarState, toolbarActions) =
             reduceGamificationToolbarMessage(
                 state.toolbarState,
-                GamificationToolbarFeature.Message.Initialize(GamificationToolbarScreen.HOME, forceUpdate)
+                GamificationToolbarFeature.Message.Initialize(forceUpdate)
             )
 
         val (topicsToDiscoverNextState, topicsToDiscoverNextActions) =

@@ -7,6 +7,8 @@ final class SentryManager: shared.SentryManager {
 
     private var currentTransactionsDict = [UInt: PlatformHyperskillSentryTransaction]()
 
+    private var isAppInitializationTransactionFinished = false
+
     // MARK: - Protocol Conforming -
 
     func setup() {
@@ -52,6 +54,10 @@ final class SentryManager: shared.SentryManager {
             options.enableFileIOTracing = false
             options.enableCoreDataTracing = false
         }
+        // Start app initialization transaction
+        DispatchQueue.main.async {
+            self.startTransaction(transaction: HyperskillSentryTransactionBuilder.shared.buildAppInitialization())
+        }
     }
 
     // MARK: Breadcrumbs
@@ -93,7 +99,8 @@ final class SentryManager: shared.SentryManager {
     }
 
     func startTransaction(transaction: HyperskillSentryTransaction) {
-        let span = SentrySDK.startTransaction(name: transaction.name, operation: transaction.operation)
+        let span = handleStartTransactionAsAppInitializationChild(transaction)
+          ?? SentrySDK.startTransaction(name: transaction.name, operation: transaction.operation)
         transaction.tags.forEach { (key, value) in
             span.setTag(value: value, key: key)
         }
@@ -108,6 +115,10 @@ final class SentryManager: shared.SentryManager {
     }
 
     func finishTransaction(transaction: HyperskillSentryTransaction, throwable: KotlinThrowable?) {
+        defer {
+            handleFinishTransactionAsAppInitializationChild(transaction)
+        }
+
         guard let platformTransaction = currentTransactionsDict[mapTransactionToKey(transaction)] else {
             return
         }
@@ -128,4 +139,42 @@ final class SentryManager: shared.SentryManager {
     private func mapTransactionToKey(_ transaction: HyperskillSentryTransaction) -> UInt {
         transaction.hash()
     }
+}
+
+// MARK: - SentryManager (AppInitializationTransaction) -
+
+private extension SentryManager {
+    func getAppInitializationTransaction() -> PlatformHyperskillSentryTransaction? {
+        let key = mapTransactionToKey(HyperskillSentryTransactionBuilder.shared.buildAppInitialization())
+        return currentTransactionsDict[key]
+    }
+
+    func handleStartTransactionAsAppInitializationChild(_ transaction: HyperskillSentryTransaction) -> Span? {
+        guard transaction.isAppScreenRemoteDataLoading,
+              let appInitializationTransaction = getAppInitializationTransaction() else {
+            return nil
+        }
+
+        return appInitializationTransaction.span.startChild(
+            operation: transaction.operation,
+            description: transaction.name
+        )
+    }
+
+    func handleFinishTransactionAsAppInitializationChild(_ transaction: HyperskillSentryTransaction) {
+        guard transaction.isAppScreenRemoteDataLoading && !isAppInitializationTransactionFinished else {
+            return
+        }
+
+        isAppInitializationTransactionFinished = true
+
+        finishTransaction(
+            transaction: HyperskillSentryTransactionBuilder.shared.buildAppInitialization(),
+            throwable: nil
+        )
+    }
+}
+
+private extension HyperskillSentryTransaction {
+    var isAppScreenRemoteDataLoading: Bool { name == "app-feature-remote-data-loading" }
 }

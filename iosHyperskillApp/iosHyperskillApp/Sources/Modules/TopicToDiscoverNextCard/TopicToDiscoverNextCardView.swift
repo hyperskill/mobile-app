@@ -3,8 +3,6 @@ import SwiftUI
 
 extension TopicToDiscoverNextCardView {
     struct Appearance {
-        let skeletonHeight: CGFloat = 64
-
         let topicButtonStyle: OutlineButtonStyle = {
             var defaultStyle = TopicToDiscoverNextButtonView.Appearance().buttonStyle
 
@@ -23,18 +21,13 @@ struct TopicToDiscoverNextCardView: View {
     weak var delegate: TopicToDiscoverNextCardDelegate?
 
     var body: some View {
-        VStack(alignment: .leading, spacing: LayoutInsets.largeInset) {
-            Text(Strings.Home.topicsToDiscoverNextTitle)
-                .font(.subheadline)
-                .foregroundColor(.secondaryText)
-
-            switch state {
-            case .idle, .loading:
-                SkeletonRoundedView()
-                    .frame(height: appearance.skeletonHeight)
-            case .empty:
-                EmptyView()
-            case .error:
+        switch state {
+        case .idle, .loading:
+            TopicToDiscoverNextCardSkeletonView()
+        case .empty:
+            EmptyView()
+        case .error:
+            buildContainer {
                 Button(
                     Strings.Placeholder.networkErrorButtonText,
                     action: {
@@ -42,7 +35,9 @@ struct TopicToDiscoverNextCardView: View {
                     }
                 )
                 .buttonStyle(OutlineButtonStyle())
-            case .content(let data):
+            }
+        case .content(let data):
+            buildContainer {
                 if let topic = data.topicsToDiscoverNext.first {
                     TopicToDiscoverNextButtonView(
                         appearance: .init(buttonStyle: appearance.topicButtonStyle),
@@ -54,6 +49,17 @@ struct TopicToDiscoverNextCardView: View {
                     )
                 }
             }
+        }
+    }
+
+    @ViewBuilder
+    private func buildContainer(@ViewBuilder content: () -> some View) -> some View {
+        VStack(alignment: .leading, spacing: LayoutInsets.largeInset) {
+            Text(Strings.Home.topicsToDiscoverNextTitle)
+                .font(.subheadline)
+                .foregroundColor(.secondaryText)
+
+            content()
         }
     }
 }

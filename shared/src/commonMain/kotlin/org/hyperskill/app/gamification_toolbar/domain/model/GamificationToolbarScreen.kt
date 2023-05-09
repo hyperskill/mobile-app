@@ -16,10 +16,13 @@ enum class GamificationToolbarScreen {
             STUDY_PLAN -> HyperskillAnalyticRoute.StudyPlan()
         }
 
-    internal val sentryTransaction: HyperskillSentryTransaction
+    internal val fetchContentSentryTransaction: HyperskillSentryTransaction
         get() = when (this) {
             HOME -> HyperskillSentryTransactionBuilder.buildGamificationToolbarHomeScreenRemoteDataLoading()
             TRACK -> HyperskillSentryTransactionBuilder.buildGamificationToolbarTrackScreenRemoteDataLoading()
             STUDY_PLAN -> HyperskillSentryTransactionBuilder.buildGamificationToolbarStudyPlanScreenRemoteDataLoading()
         }
+
+    internal val fetchTrackProgressSentryTransaction: HyperskillSentryTransaction
+        get() = HyperskillSentryTransactionBuilder.buildGamificationToolbarTrackProgressLoading(this)
 }

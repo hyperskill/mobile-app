@@ -36,6 +36,7 @@ dependencies {
     implementation(libs.kit.ui.adapters)
 
     testImplementation(libs.bundles.android.test)
+    testImplementation(kotlin("reflect"))
 
     ktlintRuleset(libs.ktlintRules)
 
