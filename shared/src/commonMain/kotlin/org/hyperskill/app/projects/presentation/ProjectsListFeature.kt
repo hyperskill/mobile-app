@@ -40,7 +40,8 @@ object ProjectsListFeature {
 
     data class ProjectListItem(
         val id: Long,
-        val title: String
+        val title: String,
+        val isGraduated: Boolean
     )
 
     sealed interface Message {

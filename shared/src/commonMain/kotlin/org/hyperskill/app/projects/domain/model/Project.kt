@@ -12,5 +12,10 @@ data class Project(
     @SerialName("is_deprecated")
     val isDeprecated: Boolean = false,
     @SerialName("progress_id")
-    val progressId: String
+    val progressId: String,
+    @SerialName("tracks")
+    val tracks: Map<String, ProjectTracksEntry>
 )
+
+fun Project.isGraduated(trackId: Long): Boolean =
+    tracks[trackId.toString()]?.kind == ProjectKind.GRADUATE
