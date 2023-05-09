@@ -1,10 +1,10 @@
 package org.hyperskill.app.track_list.view
 
+import kotlin.math.floor
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.track.domain.model.TrackWithProgress
 import org.hyperskill.app.track_list.presentation.TrackListFeature
-import kotlin.math.floor
 
 class TrackListViewStateMapper(
     private val resourceProvider: ResourceProvider
@@ -22,7 +22,7 @@ class TrackListViewStateMapper(
             )
         }
 
-    private fun mapTrackToViewStateTrack(trackWithProgress: TrackWithProgress, selectedTrackId: Long): TrackListViewState.Track =
+    private fun mapTrackToViewStateTrack(trackWithProgress: TrackWithProgress, selectedTrackId: Long?): TrackListViewState.Track =
         TrackListViewState.Track(
             id = trackWithProgress.track.id,
             imageSource = trackWithProgress.track.cover ?: "",

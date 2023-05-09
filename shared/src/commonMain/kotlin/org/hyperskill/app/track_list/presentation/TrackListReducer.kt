@@ -98,5 +98,5 @@ class TrackListReducer : StateReducer<State, Message, Action> {
         } ?: (state to emptySet())
 
     private fun getTrackById(trackId: Long, state: State): Track? =
-        (state as? State.Content)?.tracksWithProgresses?.firstOrNull { it.id == trackId }
+        (state as? State.Content)?.tracksWithProgresses?.firstOrNull { it.track.id == trackId }?.track
 }
