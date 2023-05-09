@@ -53,7 +53,8 @@ class ProjectsListViewStateMapper(
                 title = project.title,
                 averageRating = progress.averageRating(),
                 isGraduated = project.isGraduated(trackId),
-                isBestRated = project.id == bestRatedProjectId
+                isBestRated = project.id == bestRatedProjectId,
+                isIdeRequired = project.isIdeRequired
             )
         }
 }

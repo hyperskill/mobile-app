@@ -14,7 +14,9 @@ data class Project(
     @SerialName("progress_id")
     val progressId: String,
     @SerialName("tracks")
-    val tracks: Map<String, ProjectTracksEntry>
+    val tracks: Map<String, ProjectTracksEntry>,
+    @SerialName("is_ide_required")
+    val isIdeRequired: Boolean = false
 )
 
 fun Project.isGraduated(trackId: Long): Boolean =

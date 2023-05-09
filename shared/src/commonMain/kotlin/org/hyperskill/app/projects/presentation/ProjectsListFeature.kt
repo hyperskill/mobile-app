@@ -43,7 +43,8 @@ object ProjectsListFeature {
         val title: String,
         val averageRating: Double?,
         val isGraduated: Boolean,
-        val isBestRated: Boolean
+        val isBestRated: Boolean,
+        val isIdeRequired: Boolean
     )
 
     sealed interface Message {
