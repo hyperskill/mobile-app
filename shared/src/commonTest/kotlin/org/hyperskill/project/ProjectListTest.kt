@@ -3,20 +3,34 @@ package org.hyperskill.project
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import org.hyperskill.ResourceProviderStub
 import org.hyperskill.app.projects.domain.model.Project
+import org.hyperskill.app.projects.domain.model.ProjectKind
+import org.hyperskill.app.projects.domain.model.ProjectLevel
 import org.hyperskill.app.projects.domain.model.ProjectProgress
+import org.hyperskill.app.projects.domain.model.ProjectTracksEntry
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress
+import org.hyperskill.app.projects.domain.model.isGraduated
 import org.hyperskill.app.projects.presentation.ProjectsListFeature
 import org.hyperskill.app.projects.presentation.ProjectsListFeature.ContentState
 import org.hyperskill.app.projects.presentation.ProjectsListReducer
+import org.hyperskill.app.projects.presentation.bestRatedProjectId
 import org.hyperskill.app.projects.presentation.recommendedProjects
+import org.hyperskill.app.projects.view.mapper.ProjectsListViewStateMapper
+import org.hyperskill.app.track.domain.model.ProjectsByLevel
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.track.stub
+import ru.nobird.app.core.model.safeCast
 
 class ProjectListTest {
 
     private val projectsListReducer = ProjectsListReducer()
+
+    private val resourceProvider = ResourceProviderStub()
+
+    private val viewStateMapper = ProjectsListViewStateMapper(resourceProvider)
 
     @Test
     fun `Initialize message should trigger content loading`() {
@@ -246,6 +260,152 @@ class ProjectListTest {
             content.recommendedProjects.none {
                 it.project == selectedProject
             }
+        }
+    }
+
+    @Test
+    fun `Recommended projects should be first 6 projects from track`() {
+        val recommendedProjectsIds = (0..5).map { it.toLong() }
+        val projectsIds = (6..20).map { it.toLong() } + recommendedProjectsIds
+        val track = Track.stub(id = 0L, projects = recommendedProjectsIds)
+        val content = ContentState.Content(
+            track = track,
+            projects = projectsIds.associateWith { id ->
+                ProjectWithProgress(
+                    progress = ProjectProgress.stub(projectId = id),
+                    project = Project.stub(id)
+                )
+            },
+            selectedProjectId = null
+        )
+        assertEquals(
+            recommendedProjectsIds,
+            content.recommendedProjects.map { it.project.id }
+        )
+    }
+
+    @Test
+    fun `Best rated project should be a project with highest averageRating`() {
+        val projects = (0..4).map { value ->
+            ProjectWithProgress(
+                project = Project.stub(id = value.toLong()),
+                progress = ProjectProgress.stub(
+                    projectId = value.toLong(),
+                    usefulness = value.toFloat(),
+                    funMeasure = value.toFloat(),
+                    clarity = value.toFloat()
+                )
+            )
+        }.associateBy { it.project.id }
+        val content = ContentState.Content(
+            track = Track.stub(0L),
+            projects = projects,
+            selectedProjectId = null
+        )
+        assertEquals(
+            projects[4]?.project?.id,
+            content.bestRatedProjectId
+        )
+    }
+
+    @Test
+    fun `Best rated project should be null if there are no projects`() {
+        val content = ContentState.Content(
+            track = Track.stub(0L),
+            projects = emptyMap(),
+            selectedProjectId = null
+        )
+        assertNull(content.bestRatedProjectId)
+    }
+
+    @Test
+    fun `Best rated project should be null if all projects have zero averageRating`() {
+        val projects = List(5) { id ->
+            ProjectWithProgress(
+                project = Project.stub(id = id.toLong()),
+                progress = ProjectProgress.stub(
+                    projectId = id.toLong(),
+                    usefulness = 0f,
+                    funMeasure = 0f,
+                    clarity = 0f
+                )
+            )
+        }.associateBy { it.project.id }
+        val content = ContentState.Content(
+            track = Track.stub(0L),
+            projects = projects,
+            selectedProjectId = null
+        )
+        assertNull(content.bestRatedProjectId)
+    }
+
+    @Test
+    fun `Project should be graduated if has Graduated kind for current track`() {
+        val currentTrackId = 0L
+        val otherTrackId = 1L
+        ProjectKind.values().forEach { kind ->
+            val project = Project.stub(
+                id = 0L,
+                tracks = mapOf(
+                    currentTrackId.toString() to ProjectTracksEntry(
+                        level = ProjectLevel.EASY,
+                        kind = kind
+                    ),
+                    otherTrackId.toString() to ProjectTracksEntry(
+                        level = ProjectLevel.EASY,
+                        kind = kind
+                    )
+                )
+            )
+            if (kind == ProjectKind.GRADUATE) {
+                assertTrue(project.isGraduated(currentTrackId))
+            }
+        }
+    }
+
+    @Test
+    fun `Projects should be grouped by level`() {
+        val easyProjects = listOf(0L, 1L)
+        val mediumProjects = listOf(2L, 3L)
+        val hardProjects = listOf(4L, 5L)
+        val nightmareProjects = listOf(6L, 7L)
+        val projectsByLevel = ProjectsByLevel(
+            easy = easyProjects,
+            medium = mediumProjects,
+            hard = hardProjects,
+            nightmare = nightmareProjects
+        )
+        val allProjects = (easyProjects + mediumProjects + hardProjects + nightmareProjects)
+            .shuffled()
+            .associateWith { id ->
+                ProjectWithProgress(
+                    project = Project.stub(id = id),
+                    progress = ProjectProgress.stub(projectId = id)
+                )
+            }
+        val content = ContentState.Content(
+            track = Track.stub(
+                0L,
+                projectsByLevel = projectsByLevel,
+                projects = allProjects.keys.toList()
+            ),
+            projects = allProjects,
+            selectedProjectId = null
+        )
+        val viewState = viewStateMapper.map(content)
+
+        ProjectLevel.values().forEach { level ->
+            val projectsIds = when (level) {
+                ProjectLevel.EASY -> projectsByLevel.easy
+                ProjectLevel.MEDIUM -> projectsByLevel.medium
+                ProjectLevel.HARD -> projectsByLevel.hard
+                ProjectLevel.NIGHTMARE -> projectsByLevel.nightmare
+            }
+            assertEquals(
+                projectsIds,
+                viewState.safeCast<ProjectsListFeature.ViewState.Content>()
+                    ?.projectsByLevel?.get(level)?.map { it.id } ?: emptyList()
+            )
         }
     }
 }

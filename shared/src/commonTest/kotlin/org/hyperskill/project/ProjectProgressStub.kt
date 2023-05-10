@@ -2,13 +2,18 @@ package org.hyperskill.project
 
 import org.hyperskill.app.projects.domain.model.ProjectProgress
 
-fun ProjectProgress.Companion.stub(projectId: Long): ProjectProgress =
+fun ProjectProgress.Companion.stub(
+    projectId: Long,
+    clarity: Float? = null,
+    funMeasure: Float? = null,
+    usefulness: Float? = null
+): ProjectProgress =
     ProjectProgress(
         id = "",
         vid = "project-$projectId",
         isCompleted = false,
-        clarity = null,
-        funMeasure = null,
-        usefulness = null,
+        clarity = clarity,
+        funMeasure = funMeasure,
+        usefulness = usefulness,
         secondsToComplete = .0
     )

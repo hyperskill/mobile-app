@@ -33,10 +33,18 @@ private fun excludeSelectedProject(projectsIds: List<Long>, selectedProjectId: L
     }
 
 val ProjectsListFeature.ContentState.Content.bestRatedProjectId: Long?
-    get() = projects.values.reduceOrNull { localBest, current ->
-        if (localBest.progress.averageRating() > current.progress.averageRating()) {
-            localBest
-        } else {
-            current
+    get() {
+        val bestRatedProject = projects.values.reduceOrNull { localBest, current ->
+            if (localBest.progress.averageRating() > current.progress.averageRating()) {
+                localBest
+            } else {
+                current
+            }
         }
-    }?.project?.id
+        val bestRatedProjectRating = bestRatedProject?.progress?.averageRating()
+        return if (bestRatedProjectRating != null && bestRatedProjectRating > 0) {
+            bestRatedProject.project.id
+        } else {
+            null
+        }
+    }
