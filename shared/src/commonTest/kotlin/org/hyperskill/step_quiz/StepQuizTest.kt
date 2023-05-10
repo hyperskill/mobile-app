@@ -63,7 +63,7 @@ class StepQuizTest {
                 step = step,
                 attempt = attempt,
                 submissionState = submissionState,
-                isProblemsLimitReached = false
+                isProblemsLimitReached = true
             ),
             problemsLimitState = ProblemsLimitFeature.State.Idle
         )
