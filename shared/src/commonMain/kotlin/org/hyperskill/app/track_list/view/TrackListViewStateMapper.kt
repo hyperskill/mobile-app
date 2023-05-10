@@ -15,22 +15,24 @@ class TrackListViewStateMapper(
             TrackListFeature.State.Loading -> TrackListViewState.Loading
             TrackListFeature.State.NetworkError -> TrackListViewState.Error
             is TrackListFeature.State.Content -> TrackListViewState.Content(
-                tracks = state.tracksWithProgresses.sortedBy { it.trackProgress.rank }
-                    .map {
-                        mapTrackToViewStateTrack(it, state.selectedTrackId)
-                    }
+                selectedTrack = state.tracksWithProgresses.firstOrNull {
+                    it.track.id == state.selectedTrackId
+                }?.let(::mapTrackToViewStateTrack),
+                tracks = state.tracksWithProgresses
+                    .filter { it.track.id != state.selectedTrackId }
+                    .sortedBy { it.trackProgress.rank }
+                    .map(::mapTrackToViewStateTrack)
             )
         }
 
-    private fun mapTrackToViewStateTrack(trackWithProgress: TrackWithProgress, selectedTrackId: Long?): TrackListViewState.Track =
+    private fun mapTrackToViewStateTrack(trackWithProgress: TrackWithProgress): TrackListViewState.Track =
         TrackListViewState.Track(
             id = trackWithProgress.track.id,
             imageSource = trackWithProgress.track.cover ?: "",
             title = trackWithProgress.track.title,
             description = trackWithProgress.track.description,
             timeToComplete = getTimeToComplete(trackWithProgress.track.secondsToComplete),
-            rating = trackWithProgress.trackProgress.averageRating.toString(),
-            isSelected = trackWithProgress.track.id == selectedTrackId
+            rating = trackWithProgress.trackProgress.averageRating.toString()
         )
 
     private fun getTimeToComplete(secondsToComplete: Double): String {

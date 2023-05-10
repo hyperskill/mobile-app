@@ -8,6 +8,7 @@ sealed interface TrackListViewState {
     object Error : TrackListViewState
 
     data class Content(
+        val selectedTrack: Track?,
         val tracks: List<Track>
     ) : TrackListViewState
 
@@ -18,7 +19,6 @@ sealed interface TrackListViewState {
         val title: String,
         val description: String,
         val timeToComplete: String,
-        val rating: String,
-        val isSelected: Boolean
+        val rating: String
     )
 }
