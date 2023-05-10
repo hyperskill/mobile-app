@@ -17,7 +17,9 @@ data class Project(
     val tracks: Map<String, ProjectTracksEntry>,
     @SerialName("is_ide_required")
     val isIdeRequired: Boolean = false
-)
+) {
+    companion object
+}
 
 fun Project.isGraduated(trackId: Long): Boolean =
     tracks[trackId.toString()]?.kind == ProjectKind.GRADUATE

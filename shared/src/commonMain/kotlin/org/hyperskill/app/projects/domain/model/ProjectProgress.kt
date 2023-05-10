@@ -20,7 +20,9 @@ data class ProjectProgress(
     override val usefulness: Float?,
     @SerialName("seconds_to_complete")
     val secondsToComplete: Double
-) : Progress
+) : Progress {
+    companion object
+}
 
 val ProjectProgress.projectId: Long?
     get() = vid.substringAfter("project-").toLongOrNull()

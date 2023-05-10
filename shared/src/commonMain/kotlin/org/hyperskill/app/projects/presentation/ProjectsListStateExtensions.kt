@@ -9,7 +9,7 @@ val ProjectsListFeature.ContentState.Content.selectedProject: ProjectWithProgres
     get() = selectedProjectId?.let { projects[it] }
 
 val ProjectsListFeature.ContentState.Content.recommendedProjects: List<ProjectWithProgress>
-    get() = track.projects.take(6).mapNotNull { projectsId ->
+    get() = excludeSelectedProject(track.projects, selectedProjectId).take(6).mapNotNull { projectsId ->
         projects[projectsId]
     }
 
@@ -17,17 +17,19 @@ val ProjectsListFeature.ContentState.Content.projectsByLevel: Map<ProjectLevel, 
     get() = ProjectLevel.values().associateWith { level ->
         val projectsIds = track.projectsByLevel.getProjectsIds(level)
         if (!projectsIds.isNullOrEmpty()) {
-            val filteredProjectIds = if (selectedProjectId != null) {
-                projectsIds - selectedProjectId
-            } else {
-                projectsIds
-            }
-            filteredProjectIds.toSet().mapNotNull { projectId ->
+            excludeSelectedProject(projectsIds, selectedProjectId).mapNotNull { projectId ->
                 projects[projectId]
             }
         } else {
             emptyList()
         }
+    }
+
+private fun excludeSelectedProject(projectsIds: List<Long>, selectedProjectId: Long?): List<Long> =
+    if (selectedProjectId != null) {
+        projectsIds - selectedProjectId
+    } else {
+        projectsIds
     }
 
 val ProjectsListFeature.ContentState.Content.bestRatedProjectId: Long?
