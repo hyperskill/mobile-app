@@ -9,9 +9,9 @@ fun Project.Companion.stub(
 ): Project =
     Project(
         id = id,
-        title= "",
+        title = "",
         isDeprecated = false,
-        progressId= "",
+        progressId = "",
         tracks = tracks,
         isIdeRequired = false
     )

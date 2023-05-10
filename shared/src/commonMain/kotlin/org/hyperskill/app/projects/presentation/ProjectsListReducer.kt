@@ -81,7 +81,7 @@ class ProjectsListReducer : StateReducer<State, Message, Action> {
     private fun State.updateContentState(contentState: ContentState): State =
         copy(content = contentState)
 
-    private inline fun <reified T: ContentState> State.doIf(
+    private inline fun <reified T : ContentState> State.doIf(
         block: (T) -> Pair<ContentState, Set<Action>>
     ): ProjectsListReducerResult =
         if (content is T) {
@@ -93,5 +93,6 @@ class ProjectsListReducer : StateReducer<State, Message, Action> {
 
     private inline fun State.doIfContent(
         block: (ContentState.Content) -> Pair<ContentState, Set<Action>>
-    ): ProjectsListReducerResult = doIf(block)
+    ): ProjectsListReducerResult =
+        doIf(block)
 }

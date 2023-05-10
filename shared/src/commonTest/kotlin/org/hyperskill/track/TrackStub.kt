@@ -10,7 +10,7 @@ fun Track.Companion.stub(
 ): Track =
     Track(
         id = id,
-        description= "",
+        description = "",
         isBeta = false,
         isFree = false,
         isCompleted = false,
