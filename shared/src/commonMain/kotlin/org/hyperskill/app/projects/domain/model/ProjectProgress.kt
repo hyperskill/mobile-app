@@ -18,6 +18,8 @@ data class ProjectProgress(
     override val funMeasure: Float?,
     @SerialName("usefulness")
     override val usefulness: Float?,
+    @SerialName("seconds_to_complete")
+    val secondsToComplete: Double
 ) : Progress
 
 val ProjectProgress.projectId: Long?

@@ -1,5 +1,6 @@
 package org.hyperskill.app.projects.view.mapper
 
+import kotlin.math.floor
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.progresses.domain.model.averageRating
@@ -70,10 +71,17 @@ class ProjectsListViewStateMapper(
                 id = project.id,
                 title = project.title,
                 averageRating = progress.averageRating(),
+                level = level,
+                timeToComplete = getTimeToComplete(progress.secondsToComplete),
                 isGraduated = project.isGraduated(trackId),
                 isBestRated = project.id == bestRatedProjectId,
-                isIdeRequired = project.isIdeRequired,
-                level = level
+                isIdeRequired = project.isIdeRequired
             )
         }
+
+    private fun getTimeToComplete(secondsToComplete: Double): String {
+        val hours = floor(secondsToComplete / 3600).toInt()
+
+        return resourceProvider.getQuantityString(SharedResources.plurals.hours, hours, hours)
+    }
 }

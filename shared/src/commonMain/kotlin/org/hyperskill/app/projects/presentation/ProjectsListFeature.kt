@@ -44,6 +44,7 @@ object ProjectsListFeature {
         val title: String,
         val averageRating: Double,
         val level: ProjectLevel?,
+        val timeToComplete: String,
         val isGraduated: Boolean,
         val isBestRated: Boolean,
         val isIdeRequired: Boolean
