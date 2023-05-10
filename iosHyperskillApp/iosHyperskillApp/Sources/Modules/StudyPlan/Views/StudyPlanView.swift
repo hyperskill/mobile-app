@@ -130,6 +130,8 @@ struct StudyPlanView: View {
                     TabBarRouter(tab: .home).route()
                 case .selectProject:
                     break
+                case .selectTrack:
+                    break
                 }
             }
         }

@@ -171,6 +171,7 @@ class StudyPlanFragment :
                             .showIfNotExists(childFragmentManager, UnsupportedStageBottomSheet.TAG)
                     }
                     is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.SelectProject -> TODO()
+                    is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.SelectTrack -> TODO()
                 }
             }
         }

@@ -339,6 +339,9 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             LearningActivityType.SELECT_PROJECT -> {
                 Action.ViewAction.NavigateTo.SelectProject
             }
+            LearningActivityType.SELECT_TRACK -> {
+                Action.ViewAction.NavigateTo.SelectTrack
+            }
             else -> null
         }
         return state to setOfNotNull(viewAction, logAnalyticEventAction)

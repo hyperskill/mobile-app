@@ -16,6 +16,6 @@ enum class StudyPlanSectionType(val value: String) {
             VALUES.firstOrNull { it.value == value }
 
         fun supportedTypes(): Set<StudyPlanSectionType> =
-            setOf(STAGE, EXTRA_TOPICS, ROOT_TOPICS, NEXT_PROJECT)
+            setOf(STAGE, EXTRA_TOPICS, ROOT_TOPICS, NEXT_PROJECT, NEXT_TRACK)
     }
 }

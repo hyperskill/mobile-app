@@ -124,6 +124,7 @@ object StudyPlanWidgetFeature {
                 object Home : NavigateTo
 
                 object SelectProject : NavigateTo
+                object SelectTrack : NavigateTo
             }
         }
     }

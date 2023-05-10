@@ -159,7 +159,8 @@ class StudyPlanWidgetTest {
                 StudyPlanSectionType.STAGE,
                 StudyPlanSectionType.EXTRA_TOPICS,
                 StudyPlanSectionType.ROOT_TOPICS,
-                StudyPlanSectionType.NEXT_PROJECT
+                StudyPlanSectionType.NEXT_PROJECT,
+                StudyPlanSectionType.NEXT_TRACK
             ),
             StudyPlanSectionType.supportedTypes(),
             "Test should be updated according to new supported types"
@@ -908,6 +909,31 @@ class StudyPlanWidgetTest {
     }
 
     @Test
+    fun `Click on select track learning activity should navigate to select track`() {
+        val activityId = 0L
+        val sectionId = 1L
+        val state = StudyPlanWidgetFeature.State(
+            studyPlan = studyPlanStub(id = 0),
+            studyPlanSections = mapOf(
+                sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(id = sectionId, activities = listOf(activityId)),
+                    isExpanded = true,
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                )
+            ),
+            activities = mapOf(
+                activityId to stubLearningActivity(activityId, type = LearningActivityType.SELECT_TRACK)
+            )
+        )
+
+        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+
+        assertEquals(state, newState)
+        assertContains(actions, StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.SelectTrack)
+        assertClickedActivityAnalyticEvent(actions, newState.activities[activityId]!!)
+    }
+
+    @Test
     fun `Retry content loading message should trigger logging analytic event`() {
         val (_, actions) = reducer.reduce(
             StudyPlanWidgetFeature.State(),
@@ -1060,11 +1086,11 @@ class StudyPlanWidgetTest {
         val viewState = studyPlanWidgetViewStateMapper.map(state)
 
         val viewSectionItems = (
-                (viewState as? StudyPlanWidgetViewState.Content)
-                    ?.sections
-                    ?.firstOrNull()
-                    ?.content as? StudyPlanWidgetViewState.SectionContent.Content
-                )?.sectionItems ?: fail("Unexpected view state: $viewState")
+            (viewState as? StudyPlanWidgetViewState.Content)
+                ?.sections
+                ?.firstOrNull()
+                ?.content as? StudyPlanWidgetViewState.SectionContent.Content
+            )?.sectionItems ?: fail("Unexpected view state: $viewState")
 
         assertEquals(
             StudyPlanWidgetViewState.SectionItemState.NEXT,
@@ -1104,11 +1130,11 @@ class StudyPlanWidgetTest {
         val viewState = studyPlanWidgetViewStateMapper.map(state)
 
         val viewSectionItems = (
-                (viewState as? StudyPlanWidgetViewState.Content)
-                    ?.sections
-                    ?.firstOrNull()
-                    ?.content as? StudyPlanWidgetViewState.SectionContent.Content
-                )?.sectionItems ?: fail("Unexpected view state: $viewState")
+            (viewState as? StudyPlanWidgetViewState.Content)
+                ?.sections
+                ?.firstOrNull()
+                ?.content as? StudyPlanWidgetViewState.SectionContent.Content
+            )?.sectionItems ?: fail("Unexpected view state: $viewState")
 
         assertEquals(
             StudyPlanWidgetViewState.SectionItemState.NEXT,
