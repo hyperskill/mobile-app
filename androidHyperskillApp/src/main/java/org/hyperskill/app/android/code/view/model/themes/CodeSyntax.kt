@@ -1,19 +1,19 @@
 package org.hyperskill.app.android.code.view.model.themes
 
 import androidx.annotation.ColorInt
-import org.hyperskill.app.android.code.presentation.highlight.prettify.parser.Prettify.PR_KEYWORD
-import org.hyperskill.app.android.code.presentation.highlight.prettify.parser.Prettify.PR_STRING
-import org.hyperskill.app.android.code.presentation.highlight.prettify.parser.Prettify.PR_COMMENT
-import org.hyperskill.app.android.code.presentation.highlight.prettify.parser.Prettify.PR_TYPE
-import org.hyperskill.app.android.code.presentation.highlight.prettify.parser.Prettify.PR_LITERAL
-import org.hyperskill.app.android.code.presentation.highlight.prettify.parser.Prettify.PR_PUNCTUATION
-import org.hyperskill.app.android.code.presentation.highlight.prettify.parser.Prettify.PR_PLAIN
-import org.hyperskill.app.android.code.presentation.highlight.prettify.parser.Prettify.PR_TAG
-import org.hyperskill.app.android.code.presentation.highlight.prettify.parser.Prettify.PR_DECLARATION
-import org.hyperskill.app.android.code.presentation.highlight.prettify.parser.Prettify.PR_SOURCE
 import org.hyperskill.app.android.code.presentation.highlight.prettify.parser.Prettify.PR_ATTRIB_NAME
 import org.hyperskill.app.android.code.presentation.highlight.prettify.parser.Prettify.PR_ATTRIB_VALUE
+import org.hyperskill.app.android.code.presentation.highlight.prettify.parser.Prettify.PR_COMMENT
+import org.hyperskill.app.android.code.presentation.highlight.prettify.parser.Prettify.PR_DECLARATION
+import org.hyperskill.app.android.code.presentation.highlight.prettify.parser.Prettify.PR_KEYWORD
+import org.hyperskill.app.android.code.presentation.highlight.prettify.parser.Prettify.PR_LITERAL
 import org.hyperskill.app.android.code.presentation.highlight.prettify.parser.Prettify.PR_NOCODE
+import org.hyperskill.app.android.code.presentation.highlight.prettify.parser.Prettify.PR_PLAIN
+import org.hyperskill.app.android.code.presentation.highlight.prettify.parser.Prettify.PR_PUNCTUATION
+import org.hyperskill.app.android.code.presentation.highlight.prettify.parser.Prettify.PR_SOURCE
+import org.hyperskill.app.android.code.presentation.highlight.prettify.parser.Prettify.PR_STRING
+import org.hyperskill.app.android.code.presentation.highlight.prettify.parser.Prettify.PR_TAG
+import org.hyperskill.app.android.code.presentation.highlight.prettify.parser.Prettify.PR_TYPE
 
 class CodeSyntax(
     @ColorInt val plain: Int,

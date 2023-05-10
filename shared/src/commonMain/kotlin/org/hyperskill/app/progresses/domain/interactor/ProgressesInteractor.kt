@@ -20,7 +20,10 @@ class ProgressesInteractor(
     suspend fun getTopicProgress(topicId: Long): Result<TopicProgress> =
         progressesRepository.getTopicProgress(topicId)
 
-    suspend fun getProjectsProgresses(projectsIds: List<Long>, forceLoadFromRemote: Boolean): Result<List<ProjectProgress>> =
+    suspend fun getProjectsProgresses(
+        projectsIds: List<Long>,
+        forceLoadFromRemote: Boolean
+    ): Result<List<ProjectProgress>> =
         progressesRepository.getProjectsProgresses(projectsIds, forceLoadFromRemote)
 
     suspend fun getProjectProgress(projectId: Long, forceLoadFromRemote: Boolean): Result<ProjectProgress> =

@@ -7,13 +7,13 @@ import android.view.MotionEvent
 import android.view.View
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
+import kotlin.math.abs
 import org.hyperskill.app.android.BuildConfig
 import org.hyperskill.app.android.latex.view.model.TextAttributes
 import org.hyperskill.app.android.latex.view.model.block.HorizontalScrollBlock
 import ru.nobird.android.view.base.ui.extension.px
 import ru.nobird.android.view.base.ui.extension.toDp
 import ru.nobird.android.view.base.ui.extension.toFloat
-import kotlin.math.abs
 
 @SuppressLint("AddJavascriptInterface")
 class LatexWebView

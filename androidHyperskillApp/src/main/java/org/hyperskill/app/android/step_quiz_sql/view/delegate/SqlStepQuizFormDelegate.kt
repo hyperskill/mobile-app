@@ -55,7 +55,8 @@ class SqlStepQuizFormDelegate(
             setText(org.hyperskill.app.R.string.step_quiz_code_run_solution_button_text)
             setIconResource(R.drawable.ic_run)
             iconPadding =
-                context.resources.getDimensionPixelSize(R.dimen.step_quiz_fullscreen_code_layout_action_button_icon_padding)
+                context.resources
+                    .getDimensionPixelSize(R.dimen.step_quiz_fullscreen_code_layout_action_button_icon_padding)
         }
     }
 

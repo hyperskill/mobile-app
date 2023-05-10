@@ -36,7 +36,9 @@ class TopicPracticeCompletedBottomSheet : BottomSheetDialogFragment() {
     private var title: String by argument()
     private var isNextStepAvailable: Boolean by argument()
 
-    private val viewBinding: FragmentTopicPracticeCompletedBinding by viewBinding(FragmentTopicPracticeCompletedBinding::bind)
+    private val viewBinding: FragmentTopicPracticeCompletedBinding by viewBinding(
+        FragmentTopicPracticeCompletedBinding::bind
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

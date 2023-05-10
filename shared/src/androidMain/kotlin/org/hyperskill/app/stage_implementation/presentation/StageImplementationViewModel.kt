@@ -7,8 +7,12 @@ import ru.nobird.app.presentation.redux.container.ReduxViewContainer
 class StageImplementationViewModel(
     projectId: Long,
     stageId: Long,
-    reduxViewContainer: ReduxViewContainer<StageImplementFeature.ViewState, StageImplementFeature.Message, StageImplementFeature.Action.ViewAction>
-) : ReduxViewModel<StageImplementFeature.ViewState, StageImplementFeature.Message, StageImplementFeature.Action.ViewAction>(reduxViewContainer) {
+    reduxViewContainer: ReduxViewContainer<
+        StageImplementFeature.ViewState, StageImplementFeature.Message, StageImplementFeature.Action.ViewAction>
+) : ReduxViewModel<
+    StageImplementFeature.ViewState,
+    StageImplementFeature.Message,
+    StageImplementFeature.Action.ViewAction>(reduxViewContainer) {
     init {
         onNewMessage(StageImplementFeature.Message.Initialize(projectId = projectId, stageId = stageId))
     }

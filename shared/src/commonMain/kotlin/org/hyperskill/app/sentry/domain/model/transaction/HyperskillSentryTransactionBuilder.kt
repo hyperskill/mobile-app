@@ -6,6 +6,12 @@ import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarS
  * Please do not change the names of transactions if they already appeared in the Sentry.
  */
 object HyperskillSentryTransactionBuilder {
+    fun buildAppInitialization(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "app-initialization",
+            operation = HyperskillSentryTransactionOperation.UI_LOAD
+        )
+
     /**
      * AuthCredentialsFeature
      */

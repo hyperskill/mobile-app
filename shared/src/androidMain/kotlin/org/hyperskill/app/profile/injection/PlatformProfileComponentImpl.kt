@@ -6,5 +6,11 @@ import ru.nobird.app.presentation.redux.container.wrapWithViewContainer
 
 class PlatformProfileComponentImpl(private val profileComponent: ProfileComponent) : PlatformProfileComponent {
     override val reduxViewModelFactory: ReduxViewModelFactory
-        get() = ReduxViewModelFactory(mapOf(ProfileViewModel::class.java to { ProfileViewModel(profileComponent.profileFeature.wrapWithViewContainer()) }))
+        get() = ReduxViewModelFactory(
+            mapOf(
+                ProfileViewModel::class.java to {
+                    ProfileViewModel(profileComponent.profileFeature.wrapWithViewContainer())
+                }
+            )
+        )
 }

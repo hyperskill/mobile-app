@@ -23,6 +23,8 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
+import kotlin.math.max
+import kotlin.math.min
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.code.presentation.highlight.prettify.PrettifyParser
 import org.hyperskill.app.android.code.presentation.highlight.syntaxhighlight.ParseResult
@@ -32,8 +34,6 @@ import org.hyperskill.app.android.code.view.model.themes.CodeThemes
 import org.hyperskill.app.android.core.extensions.RxEmpty
 import org.hyperskill.app.android.core.extensions.substringOrNull
 import ru.nobird.android.view.base.ui.extension.toPx
-import kotlin.math.max
-import kotlin.math.min
 
 class CodeEditor
 @JvmOverloads

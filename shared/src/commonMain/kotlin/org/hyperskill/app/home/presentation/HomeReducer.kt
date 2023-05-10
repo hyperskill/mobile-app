@@ -181,13 +181,12 @@ class HomeReducer(
             }
             is Message.ClickedTopicsRepetitionsCard ->
                 if (state.homeState is HomeState.Content) {
+                    val isCompleted = state.homeState.repetitionsState is HomeFeature.RepetitionsState.Available &&
+                        state.homeState.repetitionsState.recommendedRepetitionsCount == 0
                     state to setOf(
                         Action.ViewAction.NavigateTo.TopicsRepetitionsScreen,
                         Action.LogAnalyticEvent(
-                            HomeClickedTopicsRepetitionsCardHyperskillAnalyticEvent(
-                                isCompleted = state.homeState.repetitionsState is HomeFeature.RepetitionsState.Available &&
-                                    state.homeState.repetitionsState.recommendedRepetitionsCount == 0
-                            )
+                            HomeClickedTopicsRepetitionsCardHyperskillAnalyticEvent(isCompleted = isCompleted)
                         )
                     )
                 } else {

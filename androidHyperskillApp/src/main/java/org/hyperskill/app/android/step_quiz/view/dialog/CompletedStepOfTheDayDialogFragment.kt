@@ -60,7 +60,8 @@ class CompletedStepOfTheDayDialogFragment : BottomSheetDialogFragment() {
         // Hack to apply AppTheme to content
         // Without contextThemeWrapper AppTheme is not applied
         val contextThemeWrapper = ContextThemeWrapper(activity, R.style.AppTheme)
-        return inflater.cloneInContext(contextThemeWrapper).inflate(R.layout.fragment_completed_daily_step, container, false)
+        return inflater.cloneInContext(contextThemeWrapper)
+            .inflate(R.layout.fragment_completed_daily_step, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

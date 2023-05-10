@@ -22,7 +22,10 @@ class TrackReducer(
         when (message) {
             is Message.Initialize -> {
                 val (trackState, trackActions) = if (state.trackState is TrackState.Idle ||
-                    (message.forceUpdate && (state.trackState is TrackState.Content || state.trackState is TrackState.NetworkError))
+                    (
+                        message.forceUpdate &&
+                            (state.trackState is TrackState.Content || state.trackState is TrackState.NetworkError)
+                        )
                 ) {
                     TrackState.Loading to setOf(Action.FetchTrack(message.forceUpdate))
                 } else {

@@ -1,9 +1,9 @@
 package org.hyperskill.app.auth.remote.source
 
 import io.ktor.client.HttpClient
-import io.ktor.client.plugins.plugin
-import io.ktor.client.plugins.HttpSend
 import io.ktor.client.plugins.HttpClientPlugin
+import io.ktor.client.plugins.HttpSend
+import io.ktor.client.plugins.plugin
 import io.ktor.client.request.HttpRequestPipeline
 import io.ktor.client.request.header
 import io.ktor.http.HttpStatusCode

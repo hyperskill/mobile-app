@@ -19,7 +19,8 @@ class OnboardingComponentImpl(private val appGraph: AppGraph) : OnboardingCompon
     override val onboardingInteractor: OnboardingInteractor
         get() = OnboardingInteractor(onboardingRepository)
 
-    override val onboardingFeature: Feature<OnboardingFeature.State, OnboardingFeature.Message, OnboardingFeature.Action>
+    override val onboardingFeature: Feature<
+        OnboardingFeature.State, OnboardingFeature.Message, OnboardingFeature.Action>
         get() = OnboardingFeatureBuilder.build(
             onboardingInteractor,
             appGraph.buildProfileDataComponent().profileInteractor,

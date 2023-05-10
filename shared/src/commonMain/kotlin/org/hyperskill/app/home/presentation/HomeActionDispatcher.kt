@@ -152,7 +152,10 @@ class HomeActionDispatcher(
                     if (step.isCompleted) {
                         HomeFeature.ProblemOfDayState.Solved(step, dateFormatter.hoursWithMinutesCount(nextProblemIn))
                     } else {
-                        HomeFeature.ProblemOfDayState.NeedToSolve(step, dateFormatter.hoursWithMinutesCount(nextProblemIn))
+                        HomeFeature.ProblemOfDayState.NeedToSolve(
+                            step,
+                            dateFormatter.hoursWithMinutesCount(nextProblemIn)
+                        )
                     }
                 }
         }

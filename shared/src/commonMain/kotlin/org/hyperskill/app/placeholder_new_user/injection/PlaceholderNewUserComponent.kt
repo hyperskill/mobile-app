@@ -5,7 +5,8 @@ import org.hyperskill.app.placeholder_new_user.view.mapper.PlaceholderNewUserVie
 import ru.nobird.app.presentation.redux.feature.Feature
 
 interface PlaceholderNewUserComponent {
-    val placeholderNewUserFeature: Feature<PlaceholderNewUserFeature.State, PlaceholderNewUserFeature.Message, PlaceholderNewUserFeature.Action>
+    val placeholderNewUserFeature: Feature<
+        PlaceholderNewUserFeature.State, PlaceholderNewUserFeature.Message, PlaceholderNewUserFeature.Action>
 
     val placeHolderNewUserViewDataMapper: PlaceholderNewUserViewDataMapper
 }

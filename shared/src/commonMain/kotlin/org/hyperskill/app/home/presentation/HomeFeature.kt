@@ -104,6 +104,7 @@ interface HomeFeature {
             val repetitionsState: RepetitionsState,
             val isFreemiumEnabled: Boolean
         ) : Message
+
         object HomeFailure : Message
         object PullToRefresh : Message
 
@@ -161,6 +162,7 @@ interface HomeFeature {
             data class ProblemsLimitViewAction(
                 val viewAction: ProblemsLimitFeature.Action.ViewAction
             ) : ViewAction
+
             data class TopicsToDiscoverNextViewAction(
                 val viewAction: TopicsToDiscoverNextFeature.Action.ViewAction
             ) : ViewAction

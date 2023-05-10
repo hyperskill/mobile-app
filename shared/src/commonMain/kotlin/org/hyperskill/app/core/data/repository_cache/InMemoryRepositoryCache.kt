@@ -10,7 +10,7 @@ class InMemoryRepositoryCache<Key : Any, Value : Any?> : RepositoryCache<Key, Va
     private val cache: MutableMap<Key, Value> = mutableMapOf()
 
     override fun getAll(keys: List<Key>): List<Value> =
-        keys.mapNotNull {  key ->
+        keys.mapNotNull { key ->
             cache[key]
         }
 

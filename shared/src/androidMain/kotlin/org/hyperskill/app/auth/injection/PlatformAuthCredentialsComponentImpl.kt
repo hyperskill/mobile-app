@@ -10,8 +10,9 @@ class PlatformAuthCredentialsComponentImpl(
     override val reduxViewModelFactory: ReduxViewModelFactory
         get() = ReduxViewModelFactory(
             mapOf(
-                AuthCredentialsViewModel::class.java to
-                    { AuthCredentialsViewModel(authCredentialsComponent.authCredentialsFeature.wrapWithViewContainer()) }
+                AuthCredentialsViewModel::class.java to {
+                    AuthCredentialsViewModel(authCredentialsComponent.authCredentialsFeature.wrapWithViewContainer())
+                }
             )
         )
 }

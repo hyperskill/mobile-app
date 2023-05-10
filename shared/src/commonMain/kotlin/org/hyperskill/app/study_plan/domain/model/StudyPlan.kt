@@ -1,8 +1,8 @@
 package org.hyperskill.app.study_plan.domain.model
 
+import kotlin.math.roundToInt
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlin.math.roundToInt
 
 @Serializable
 data class StudyPlan(

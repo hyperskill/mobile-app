@@ -10,8 +10,11 @@ class PlatformPlaceholderNewUserComponentImpl(
     override val reduxViewModelFactory: ReduxViewModelFactory
         get() = ReduxViewModelFactory(
             mapOf(
-                PlaceholderNewUserViewModel::class.java
-                    to { PlaceholderNewUserViewModel(placeholderNewUserComponent.placeholderNewUserFeature.wrapWithViewContainer()) }
+                PlaceholderNewUserViewModel::class.java to {
+                    PlaceholderNewUserViewModel(
+                        placeholderNewUserComponent.placeholderNewUserFeature.wrapWithViewContainer()
+                    )
+                }
             )
         )
 }

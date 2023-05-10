@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.button.MaterialButton
+import kotlin.math.abs
+import kotlin.math.floor
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
@@ -34,8 +36,6 @@ import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
 import ru.nobird.android.ui.adapterdelegates.dsl.adapterDelegate
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.view.base.ui.extension.argument
-import kotlin.math.abs
-import kotlin.math.floor
 
 class StepTheoryFragment : Fragment(R.layout.fragment_step_theory), StepCompletionView {
     companion object {
@@ -151,7 +151,10 @@ class StepTheoryFragment : Fragment(R.layout.fragment_step_theory), StepCompleti
     }
 
     private fun setupStepRatingRecyclerView() {
-        ViewCompat.setBackgroundTintList(viewBinding.stepTheoryRatingRecycler, AppCompatResources.getColorStateList(requireContext(), org.hyperskill.app.R.color.color_background))
+        ViewCompat.setBackgroundTintList(
+            viewBinding.stepTheoryRatingRecycler,
+            AppCompatResources.getColorStateList(requireContext(), org.hyperskill.app.R.color.color_background)
+        )
         with(viewBinding.stepTheoryRatingRecycler) {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = stepTheoryRatingAdapter
@@ -172,7 +175,8 @@ class StepTheoryFragment : Fragment(R.layout.fragment_step_theory), StepCompleti
             val itemViewBinding: ItemStepCommentActionBinding = ItemStepCommentActionBinding.bind(this.itemView)
 
             onBind { data ->
-                itemViewBinding.root.text = commentThreadTitleMapper.getFormattedStepCommentThreadStatistics(data.thread, data.totalCount)
+                itemViewBinding.root.text =
+                    commentThreadTitleMapper.getFormattedStepCommentThreadStatistics(data.thread, data.totalCount)
             }
         }
     }

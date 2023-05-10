@@ -40,7 +40,9 @@ class StepQuizHintsFragment :
     private var step: Step? = null
 
     private var viewModelFactory: ReduxViewModelFactory? = null
-    private val stepQuizHintsViewModel: StepQuizHintsViewModel by reduxViewModel(this) { requireNotNull(viewModelFactory) }
+    private val stepQuizHintsViewModel: StepQuizHintsViewModel by reduxViewModel(this) {
+        requireNotNull(viewModelFactory)
+    }
 
     private val viewBinding: LayoutStepQuizHintsBinding by viewBinding(LayoutStepQuizHintsBinding::bind)
 
@@ -52,7 +54,8 @@ class StepQuizHintsFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val step = requireArguments().getParcelable(KEY_STEP, deserializer = Step.serializer()) ?: throw IllegalStateException("Step cannot be null")
+        val step = requireArguments().getParcelable(KEY_STEP, deserializer = Step.serializer())
+            ?: throw IllegalStateException("Step cannot be null")
         this.step = step
         val stepRoute = requireArguments().getParcelable(KEY_STEP_ROUTE, deserializer = StepRoute.serializer())
             ?: throw IllegalStateException("StepRoute cannot be null")

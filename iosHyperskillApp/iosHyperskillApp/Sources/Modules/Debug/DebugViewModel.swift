@@ -79,6 +79,8 @@ final class DebugViewModel: FeatureViewModel<
     func doRestartApplication() {
         Task {
             await notificationsService.scheduleRestartApplicationLocalNotification()
+            // Delay the task by 2 second
+            try? await Task.sleep(nanoseconds: 2_000_000_000)
             exit(0)
         }
     }

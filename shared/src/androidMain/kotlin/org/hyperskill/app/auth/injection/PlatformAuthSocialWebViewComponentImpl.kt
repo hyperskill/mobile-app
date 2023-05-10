@@ -7,7 +7,8 @@ import ru.nobird.app.presentation.redux.container.wrapWithViewContainer
 import ru.nobird.app.presentation.redux.feature.Feature
 
 class PlatformAuthSocialWebViewComponentImpl : PlatformAuthSocialWebViewComponent {
-    override val feature: Feature<AuthSocialWebViewFeature.State, AuthSocialWebViewFeature.Message, AuthSocialWebViewFeature.Action>
+    override val feature: Feature<
+        AuthSocialWebViewFeature.State, AuthSocialWebViewFeature.Message, AuthSocialWebViewFeature.Action>
         get() = AuthSocialWebViewFeatureBuilder.build()
 
     override val reduxViewModelFactory: ReduxViewModelFactory

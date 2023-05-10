@@ -21,9 +21,12 @@ class CodeQuizInstructionDelegate(
     isCollapsible: Boolean,
     onDetailsIsExpandedStateChanged: () -> Unit
 ) {
-    private val stepQuizCodeDetails: FrameLayout = detailsContainerView.findViewById(R.id.stepQuizCodeDetailsFrameLayout)
-    private val stepQuizCodeDetailsArrow: ArrowImageView = detailsContainerView.findViewById(R.id.stepQuizCodeDetailsArrow)
-    private val stepQuizCodeDetailsContent: RecyclerView = detailsContainerView.findViewById(R.id.stepQuizCodeDetailsContent)
+    private val stepQuizCodeDetails: FrameLayout =
+        detailsContainerView.findViewById(R.id.stepQuizCodeDetailsFrameLayout)
+    private val stepQuizCodeDetailsArrow: ArrowImageView =
+        detailsContainerView.findViewById(R.id.stepQuizCodeDetailsArrow)
+    private val stepQuizCodeDetailsContent: RecyclerView =
+        detailsContainerView.findViewById(R.id.stepQuizCodeDetailsContent)
 
     private val stepQuizCodeDetailsAdapter = DefaultDelegateAdapter<CodeDetail>()
 

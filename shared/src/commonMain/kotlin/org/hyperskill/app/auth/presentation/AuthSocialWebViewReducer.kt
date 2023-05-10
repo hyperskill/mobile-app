@@ -1,9 +1,9 @@
 package org.hyperskill.app.auth.presentation
 
-import ru.nobird.app.presentation.redux.reducer.StateReducer
 import org.hyperskill.app.auth.presentation.AuthSocialWebViewFeature.Action
 import org.hyperskill.app.auth.presentation.AuthSocialWebViewFeature.Message
 import org.hyperskill.app.auth.presentation.AuthSocialWebViewFeature.State
+import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 class AuthSocialWebViewReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =

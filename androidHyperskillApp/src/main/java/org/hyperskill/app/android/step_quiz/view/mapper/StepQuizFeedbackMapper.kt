@@ -10,7 +10,7 @@ class StepQuizFeedbackMapper {
     fun mapToStepQuizFeedbackState(stepBlockName: String?, state: StepQuizFeature.StepQuizState): StepQuizFeedbackState {
         val submissionState = (state as? StepQuizFeature.StepQuizState.AttemptLoaded)?.submissionState
         return if (submissionState is StepQuizFeature.SubmissionState.Loaded) {
-            when (submissionState.submission.status)  {
+            when (submissionState.submission.status) {
                 SubmissionStatus.CORRECT ->
                     StepQuizFeedbackState.Correct(formatHint(stepBlockName, submissionState.submission))
 

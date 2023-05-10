@@ -36,6 +36,7 @@ dependencies {
     implementation(libs.kit.ui.adapters)
 
     testImplementation(libs.bundles.android.test)
+    testImplementation(kotlin("reflect"))
 
     ktlintRuleset(libs.ktlintRules)
 
@@ -116,7 +117,8 @@ android {
     buildTypes {
         fun applyFlavorConfigsFromFile(applicationBuildType: ApplicationBuildType) {
             if (SystemProperties.isCI() && !SystemProperties.isGitCryptUnlocked()) return
-            val properties = loadProperties("${project.rootDir}/androidHyperskillApp/keys/${applicationBuildType.name}.properties")
+            val properties =
+                loadProperties("${project.rootDir}/androidHyperskillApp/keys/${applicationBuildType.name}.properties")
             properties.keys.forEach { name ->
                 name as String
                 applicationBuildType.buildConfigField(
