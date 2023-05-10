@@ -3,6 +3,7 @@ package org.hyperskill.app.projects.presentation
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
 import org.hyperskill.app.projects.domain.model.ProjectProgress
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress
@@ -17,7 +18,8 @@ class ProjectsListActionDispatcher(
     private val trackRepository: TrackRepository,
     private val currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
     private val projectsRepository: ProjectsRepository,
-    private val progressesRepository: ProgressesRepository
+    private val progressesRepository: ProgressesRepository,
+    private val profileInteractor: ProfileInteractor
 ) : CoroutineActionDispatcher<ProjectsListFeature.Action, ProjectsListFeature.Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: ProjectsListFeature.Action) {
         when (action) {
@@ -68,6 +70,24 @@ class ProjectsListActionDispatcher(
                         )
                     )
                 }
+            }
+            is ProjectsListFeature.Action.SelectProject -> {
+                val currentProfile = profileInteractor
+                    .getCurrentProfile()
+                    .getOrElse {
+                        return onNewMessage(ProjectsListFeature.Message.ProjectSelectionResult.Error)
+                    }
+                profileInteractor.selectTrackWithProject(
+                    profileId = currentProfile.id,
+                    trackId = action.trackId,
+                    projectId = action.projectId
+                ).getOrElse {
+                    return onNewMessage(ProjectsListFeature.Message.ProjectSelectionResult.Error)
+                }
+                onNewMessage(ProjectsListFeature.Message.ProjectSelectionResult.Success)
+            }
+            else -> {
+                // no op
             }
         }
     }

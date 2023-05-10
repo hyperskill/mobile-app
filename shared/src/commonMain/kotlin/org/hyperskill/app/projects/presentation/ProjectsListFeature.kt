@@ -17,7 +17,8 @@ object ProjectsListFeature {
             val track: Track,
             val projects: Map<Long, ProjectWithProgress>,
             val selectedProjectId: Long?,
-            val isRefreshing: Boolean = false
+            val isRefreshing: Boolean = false,
+            val isProjectSelectionLoadingShowed: Boolean = false
         ) : ContentState
         object Error : ContentState
     }
@@ -60,6 +61,13 @@ object ProjectsListFeature {
         }
         object PullToRefresh : Message
         object RetryContentLoading : Message
+
+        data class ProjectClicked(val projectId: Long) : Message
+
+        sealed interface ProjectSelectionResult : Message {
+            object Success : ProjectSelectionResult
+            object Error : ProjectSelectionResult
+        }
     }
 
     sealed interface Action {
@@ -67,5 +75,18 @@ object ProjectsListFeature {
             val trackId: Long,
             val forceLoadFromNetwork: Boolean
         ) : Action
+
+        data class SelectProject(val trackId: Long, val projectId: Long) : Action
+
+        sealed interface ViewAction : Action {
+
+            sealed interface NavigateTo : ViewAction {
+                object HomeScreen : NavigateTo
+            }
+            sealed interface ShowProjectSelectionStatus : ViewAction {
+                object Success : ShowProjectSelectionStatus
+                object Error : ShowProjectSelectionStatus
+            }
+        }
     }
 }
