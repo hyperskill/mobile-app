@@ -15,6 +15,8 @@ class ProjectsListComponentImpl(private val appGraph: AppGraph) : ProjectsListCo
             trackRepository = appGraph.buildTrackDataComponent().trackRepository,
             currentStudyPlanStateRepository = appGraph.buildStudyPlanDataComponent().currentStudyPlanStateRepository,
             projectsRepository = appGraph.buildProjectsDataComponent().projectsRepository,
+            progressesRepository = appGraph.buildProgressesDataComponent().progressesRepository,
+            profileInteractor = appGraph.buildProfileDataComponent().profileInteractor,
             viewStateMapper = ProjectsListViewStateMapper(appGraph.commonComponent.resourceProvider)
         )
 }

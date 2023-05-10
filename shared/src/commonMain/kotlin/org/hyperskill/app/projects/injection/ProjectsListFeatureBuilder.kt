@@ -2,6 +2,8 @@ package org.hyperskill.app.projects.injection
 
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
+import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
 import org.hyperskill.app.projects.domain.repository.ProjectsRepository
 import org.hyperskill.app.projects.presentation.ProjectsListActionDispatcher
 import org.hyperskill.app.projects.presentation.ProjectsListFeature
@@ -22,13 +24,17 @@ object ProjectsListFeatureBuilder {
         trackRepository: TrackRepository,
         currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
         projectsRepository: ProjectsRepository,
+        progressesRepository: ProgressesRepository,
+        profileInteractor: ProfileInteractor,
         viewStateMapper: ProjectsListViewStateMapper
     ): Feature<ViewState, Message, Action> {
         val actionDispatcher = ProjectsListActionDispatcher(
             config = ActionDispatcherOptions(),
             trackRepository = trackRepository,
             currentStudyPlanStateRepository = currentStudyPlanStateRepository,
-            projectsRepository = projectsRepository
+            projectsRepository = projectsRepository,
+            progressesRepository = progressesRepository,
+            profileInteractor = profileInteractor,
         )
         return ReduxFeature(
             initialState = ProjectsListFeature.initialState(trackId),
