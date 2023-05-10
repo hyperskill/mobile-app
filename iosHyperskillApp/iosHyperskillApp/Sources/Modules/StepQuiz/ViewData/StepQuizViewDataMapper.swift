@@ -60,8 +60,8 @@ final class StepQuizViewDataMapper {
         }()
 
         let feedbackHintText: String? = {
-            guard
-                let submissionStateLoaded = attemptLoadedState?.submissionState as? StepQuizFeatureSubmissionStateLoaded else {
+            guard let submissionStateLoaded =
+               attemptLoadedState?.submissionState as? StepQuizFeatureSubmissionStateLoaded else {
                 return nil
             }
 

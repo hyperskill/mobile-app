@@ -167,7 +167,9 @@ class StepQuizReducer(
                     null
                 }
             is Message.SyncReply ->
-                if (state.stepQuizState is StepQuizState.AttemptLoaded && StepQuizResolver.isQuizEnabled(state.stepQuizState)) {
+                if (state.stepQuizState is StepQuizState.AttemptLoaded &&
+                    StepQuizResolver.isQuizEnabled(state.stepQuizState)
+                ) {
                     val submission = createLocalSubmission(state.stepQuizState, message.reply)
                     state.copy(
                         stepQuizState = state.stepQuizState.copy(

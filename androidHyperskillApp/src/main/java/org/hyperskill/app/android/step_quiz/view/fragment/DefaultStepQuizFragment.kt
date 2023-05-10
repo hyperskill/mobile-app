@@ -364,7 +364,8 @@ abstract class DefaultStepQuizFragment :
 
                 problemsLimitViewStateMapper?.let { mapper ->
                     val problemsLimitViewState = mapper.mapState(state.problemsLimitState)
-                    viewBinding.problemsLimitDivider.root.isVisible = problemsLimitViewState is ProblemsLimitFeature.ViewState.Content.Widget
+                    viewBinding.problemsLimitDivider.root.isVisible =
+                        problemsLimitViewState is ProblemsLimitFeature.ViewState.Content.Widget
                     problemsLimitDelegate?.render(problemsLimitViewState)
                 }
             }

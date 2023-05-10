@@ -7,7 +7,10 @@ import org.hyperskill.app.step_quiz.domain.model.submissions.formattedText
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 
 class StepQuizFeedbackMapper {
-    fun mapToStepQuizFeedbackState(stepBlockName: String?, state: StepQuizFeature.StepQuizState): StepQuizFeedbackState {
+    fun mapToStepQuizFeedbackState(
+        stepBlockName: String?,
+        state: StepQuizFeature.StepQuizState
+    ): StepQuizFeedbackState {
         val submissionState = (state as? StepQuizFeature.StepQuizState.AttemptLoaded)?.submissionState
         return if (submissionState is StepQuizFeature.SubmissionState.Loaded) {
             when (submissionState.submission.status) {

@@ -23,7 +23,12 @@ class StepQuizTest {
         val stepRoutes = listOf(StepRoute.LearnDaily(step.id), StepRoute.Repeat(step.id))
 
         val expectedState = StepQuizFeature.State(
-            stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(step, attempt, submissionState, isProblemsLimitReached = false),
+            stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
+                step = step,
+                attempt = attempt,
+                submissionState = submissionState,
+                isProblemsLimitReached = false
+            ),
             problemsLimitState = ProblemsLimitFeature.State.Idle
         )
 
@@ -54,7 +59,12 @@ class StepQuizTest {
         val submissionState = StepQuizFeature.SubmissionState.Empty()
 
         val expectedState = StepQuizFeature.State(
-            stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(step, attempt, submissionState, isProblemsLimitReached = true),
+            stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
+                step = step,
+                attempt = attempt,
+                submissionState = submissionState,
+                isProblemsLimitReached = false
+            ),
             problemsLimitState = ProblemsLimitFeature.State.Idle
         )
 
@@ -78,39 +88,43 @@ class StepQuizTest {
 
     @Test
     fun `Problems limit state initialized only for Learn StepRoute`() {
+        val step = Step.stub(id = 1)
+
         val initialState = StepQuizFeature.State(
             stepQuizState = StepQuizFeature.StepQuizState.Idle,
             problemsLimitState = ProblemsLimitFeature.State.Idle
         )
-        val problemsLimitInitializedState = StepQuizFeature.State(
-            stepQuizState = StepQuizFeature.StepQuizState.Loading,
-            problemsLimitState = ProblemsLimitFeature.State.Loading
-        )
-        val problemsLimitIdleState = StepQuizFeature.State(
-            stepQuizState = StepQuizFeature.StepQuizState.Loading,
-            problemsLimitState = ProblemsLimitFeature.State.Idle
-        )
-        // TODO: implement test
-//        StepRoute::class.sealedSubclasses.forEach { stateClass ->
 
-//        }
+        StepRoute::class.sealedSubclasses.forEach { stepRouteClass ->
+            val expectedProblemsLimitState = when (stepRouteClass) {
+                StepRoute.Learn::class -> ProblemsLimitFeature.State.Loading
+                else -> ProblemsLimitFeature.State.Idle
+            }
 
+            val expectedState = StepQuizFeature.State(
+                stepQuizState = StepQuizFeature.StepQuizState.Loading,
+                problemsLimitState = expectedProblemsLimitState
+            )
 
-//        val reducer = StepQuizReducer(StepRoute.Learn(step.id), ProblemsLimitReducer(ProblemsLimitScreen.STEP_QUIZ))
-//        val (state, actions) = reducer.reduce(
-//            StepQuizFeature.State(
-//                stepQuizState = StepQuizFeature.StepQuizState.Loading,
-//                problemsLimitState = ProblemsLimitFeature.State.Idle
-//            ),
-//            StepQuizFeature.Message.FetchAttemptSuccess(
-//                step,
-//                attempt,
-//                submissionState,
-//                isProblemsLimitReached = true
-//            )
-//        )
-//
-//        assertEquals(problemsLimitInitializedState, state)
-//        assertContains(actions, StepQuizFeature.Action.ViewAction.ShowProblemsLimitReachedModal)
+            val reducer = StepQuizReducer(
+                stepRoute = when (stepRouteClass) {
+                    StepRoute.Learn::class -> StepRoute.Learn(step.id)
+                    StepRoute.LearnDaily::class -> StepRoute.LearnDaily(step.id)
+                    StepRoute.Repeat::class -> StepRoute.Repeat(step.id)
+                    StepRoute.StageImplement::class -> StepRoute.StageImplement(step.id, 1, 1)
+                    else -> throw IllegalStateException(
+                        "Unknown step route class: $stepRouteClass. Please add it to the test."
+                    )
+                },
+                problemsLimitReducer = ProblemsLimitReducer(ProblemsLimitScreen.STEP_QUIZ)
+            )
+
+            val (state, _) = reducer.reduce(
+                initialState,
+                StepQuizFeature.Message.InitWithStep(step)
+            )
+
+            assertEquals(expectedState, state)
+        }
     }
 }
