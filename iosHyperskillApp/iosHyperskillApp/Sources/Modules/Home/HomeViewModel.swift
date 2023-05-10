@@ -87,6 +87,14 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
         )
     }
 
+    func doReloadProblemsLimit() {
+        onNewMessage(
+            HomeFeatureMessageProblemsLimitMessage(
+                message: ProblemsLimitFeatureMessageInitialize(forceUpdate: true)
+            )
+        )
+    }
+
     // MARK: Analytic
 
     func logViewedEvent() {

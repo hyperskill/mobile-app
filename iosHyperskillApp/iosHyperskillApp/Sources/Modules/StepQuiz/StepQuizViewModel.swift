@@ -170,6 +170,14 @@ final class StepQuizViewModel: FeatureViewModel<
         }
     }
 
+    func doReloadProblemsLimit() {
+        onNewMessage(
+            StepQuizFeatureMessageProblemsLimitMessage(
+                message: ProblemsLimitFeatureMessageInitialize(forceUpdate: true)
+            )
+        )
+    }
+
     // MARK: Analytic
 
     private func logClickedRetryEvent() {

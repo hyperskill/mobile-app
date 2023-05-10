@@ -76,8 +76,11 @@ struct HomeView: View {
                 VStack(alignment: .leading, spacing: appearance.spacingBetweenContainers) {
                     HomeSubheadlineView()
 
-                    ProblemsLimitContent(stateKs: viewModel.problemsLimitViewStateKs)
-                        .padding(.top, LayoutInsets.smallInset)
+                    ProblemsLimitView(
+                        stateKs: viewModel.problemsLimitViewStateKs,
+                        onReloadButtonTap: viewModel.doReloadProblemsLimit
+                    )
+                    .padding(.top, LayoutInsets.smallInset)
 
                     ProblemOfDayAssembly(
                         problemOfDayState: data.problemOfDayState,

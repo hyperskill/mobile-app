@@ -1,5 +1,8 @@
 package org.hyperskill.step_quiz
 
+import kotlin.test.Test
+import kotlin.test.assertContains
+import kotlin.test.assertEquals
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
@@ -10,9 +13,6 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizReducer
 import org.hyperskill.step.domain.model.stub
 import org.hyperskill.step_quiz.domain.model.stub
-import kotlin.test.Test
-import kotlin.test.assertContains
-import kotlin.test.assertEquals
 
 class StepQuizTest {
     @Test
@@ -74,5 +74,43 @@ class StepQuizTest {
 
         assertEquals(expectedState, state)
         assertContains(actions, StepQuizFeature.Action.ViewAction.ShowProblemsLimitReachedModal)
+    }
+
+    @Test
+    fun `Problems limit state initialized only for Learn StepRoute`() {
+        val initialState = StepQuizFeature.State(
+            stepQuizState = StepQuizFeature.StepQuizState.Idle,
+            problemsLimitState = ProblemsLimitFeature.State.Idle
+        )
+        val problemsLimitInitializedState = StepQuizFeature.State(
+            stepQuizState = StepQuizFeature.StepQuizState.Loading,
+            problemsLimitState = ProblemsLimitFeature.State.Loading
+        )
+        val problemsLimitIdleState = StepQuizFeature.State(
+            stepQuizState = StepQuizFeature.StepQuizState.Loading,
+            problemsLimitState = ProblemsLimitFeature.State.Idle
+        )
+        // TODO: implement test
+//        StepRoute::class.sealedSubclasses.forEach { stateClass ->
+
+//        }
+
+
+//        val reducer = StepQuizReducer(StepRoute.Learn(step.id), ProblemsLimitReducer(ProblemsLimitScreen.STEP_QUIZ))
+//        val (state, actions) = reducer.reduce(
+//            StepQuizFeature.State(
+//                stepQuizState = StepQuizFeature.StepQuizState.Loading,
+//                problemsLimitState = ProblemsLimitFeature.State.Idle
+//            ),
+//            StepQuizFeature.Message.FetchAttemptSuccess(
+//                step,
+//                attempt,
+//                submissionState,
+//                isProblemsLimitReached = true
+//            )
+//        )
+//
+//        assertEquals(problemsLimitInitializedState, state)
+//        assertContains(actions, StepQuizFeature.Action.ViewAction.ShowProblemsLimitReachedModal)
     }
 }

@@ -35,12 +35,15 @@ final class StepQuizViewDataMapper {
             millisSinceLastCompleted: step.millisSinceLastCompleted
         )
 
-        let quizName: String? = {
-            guard case .attemptLoaded(let attemptLoadedState) = state else {
-                return nil
+        let attemptLoadedState: StepQuizFeatureStepQuizStateAttemptLoaded? = {
+            if case .attemptLoaded(let attemptLoadedState) = state {
+                return attemptLoadedState
             }
+            return nil
+        }()
 
-            guard let dataset = attemptLoadedState.attempt.dataset else {
+        let quizName: String? = {
+            guard let dataset = attemptLoadedState?.attempt.dataset else {
                 return nil
             }
 
@@ -57,13 +60,8 @@ final class StepQuizViewDataMapper {
         }()
 
         let feedbackHintText: String? = {
-            guard case .attemptLoaded(let attemptLoadedState) = state else {
-                return nil
-            }
-
             guard
-                let submissionStateLoaded = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded
-            else {
+                let submissionStateLoaded = attemptLoadedState?.submissionState as? StepQuizFeatureSubmissionStateLoaded else {
                 return nil
             }
 

@@ -126,13 +126,9 @@ struct StepQuizView: View {
                     StepQuizStatsView(text: formattedStats)
                 }
 
-                if case .content(let problemsLimitContentState) = viewModel.problemsLimitViewStateKs,
-                   case .widget = ProblemsLimitFeatureViewStateContentKs(problemsLimitContentState) {
-                    Divider()
-                }
-
-                ProblemsLimitContent(
-                    stateKs: viewModel.problemsLimitViewStateKs
+                StepQuizProblemsLimitView(
+                    stateKs: viewModel.problemsLimitViewStateKs,
+                    onReloadButtonTap: viewModel.doReloadProblemsLimit
                 )
 
                 buildQuizStatusView(state: state.stepQuizState, attemptLoadedState: attemptLoadedState)

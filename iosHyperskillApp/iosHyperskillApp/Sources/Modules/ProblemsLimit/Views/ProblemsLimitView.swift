@@ -1,23 +1,23 @@
 import shared
 import SwiftUI
 
-extension ProblemsLimitContent {
-    struct Appearance {
-        let skeletonHeight: CGFloat = 40
-    }
-}
-
-struct ProblemsLimitContent: View {
-    private(set) var appearance = Appearance()
-
+struct ProblemsLimitView: View {
     let stateKs: ProblemsLimitFeatureViewStateKs
+
+    let onReloadButtonTap: () -> Void
 
     var body: some View {
         switch stateKs {
-        case .idle, .error:
+        case .idle:
             EmptyView()
         case .loading:
             ProblemsLimitSkeletonView()
+        case .error:
+            Button(
+                Strings.Placeholder.networkErrorButtonText,
+                action: onReloadButtonTap
+            )
+            .buttonStyle(OutlineButtonStyle())
         case .content(let content):
             switch ProblemsLimitFeatureViewStateContentKs(content) {
             case .empty:
@@ -36,7 +36,7 @@ struct ProblemsLimitContent: View {
 
 struct ProblemsLimitView_Previews: PreviewProvider {
     static var previews: some View {
-        ProblemsLimitContent(
+        ProblemsLimitView(
             stateKs: .content(
                 ProblemsLimitFeatureViewStateContentWidget(
                     stepsLimitTotal: 5,
@@ -44,7 +44,8 @@ struct ProblemsLimitView_Previews: PreviewProvider {
                     stepsLimitLabel: "3/5 steps",
                     updateInLabel: "12 hours"
                 )
-            )
+            ),
+            onReloadButtonTap: {}
         )
         .padding()
         .previewLayout(.sizeThatFits)
