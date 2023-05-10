@@ -122,6 +122,8 @@ object StudyPlanWidgetFeature {
                 data class StepScreen(val stepRoute: StepRoute) : NavigateTo
 
                 object Home : NavigateTo
+
+                object SelectProject : NavigateTo
             }
         }
     }

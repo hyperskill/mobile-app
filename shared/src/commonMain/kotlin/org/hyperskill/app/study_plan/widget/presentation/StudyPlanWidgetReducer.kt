@@ -103,8 +103,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         } ?: (state to emptySet())
 
     private fun coldContentFetch(): StudyPlanWidgetReducerResult =
-        State(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING) to
-            setOf(InternalAction.FetchStudyPlan())
+        State(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING) to setOf(InternalAction.FetchStudyPlan())
 
     private fun handleStudyPlanFetchSuccess(
         state: State,
@@ -315,7 +314,9 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         val viewAction = when (activity.type) {
             LearningActivityType.IMPLEMENT_STAGE -> {
                 val projectId = state.studyPlan?.projectId
-                if (projectId != null && activity.targetType == LearningActivityTargetType.STAGE) {
+                if (projectId != null &&
+                    activity.targetId != null && activity.targetType == LearningActivityTargetType.STAGE
+                ) {
                     if (activity.isIdeRequired) {
                         Action.ViewAction.ShowStageImplementUnsupportedModal
                     } else {
@@ -329,11 +330,14 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 }
             }
             LearningActivityType.LEARN_TOPIC -> {
-                if (activity.targetType == LearningActivityTargetType.STEP) {
+                if (activity.targetId != null && activity.targetType == LearningActivityTargetType.STEP) {
                     Action.ViewAction.NavigateTo.StepScreen(StepRoute.Learn(activity.targetId))
                 } else {
                     null
                 }
+            }
+            LearningActivityType.SELECT_PROJECT -> {
+                Action.ViewAction.NavigateTo.SelectProject
             }
             else -> null
         }

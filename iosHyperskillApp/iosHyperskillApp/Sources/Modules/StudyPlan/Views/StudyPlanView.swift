@@ -128,6 +128,8 @@ struct StudyPlanView: View {
                     stackRouter.pushViewController(assembly.makeModule())
                 case .home:
                     TabBarRouter(tab: .home).route()
+                case .selectProject:
+                    break
                 }
             }
         }
