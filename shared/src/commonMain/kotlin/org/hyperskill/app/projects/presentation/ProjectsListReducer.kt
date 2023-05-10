@@ -14,7 +14,7 @@ class ProjectsListReducer : StateReducer<State, Message, Action> {
         when (message) {
             Message.Initialize -> {
                 state.updateContentState(ContentState.Loading) to
-                    setOf(Action.FetchContent(state.trackId, forceLoadFromNetwork = false))
+                    fetchContent(state)
             }
             is Message.ContentFetchResult.Success -> {
                 state.updateContentState(
@@ -30,17 +30,20 @@ class ProjectsListReducer : StateReducer<State, Message, Action> {
                 state.updateContentState(ContentState.Error) to emptySet()
             }
             Message.PullToRefresh -> {
-                state.updateContentStateIfContent { content ->
+                state.doIfContent { content ->
                     if (content.isRefreshing) {
-                        content
+                        content to emptySet()
                     } else {
-                        content.copy(isRefreshing = true)
+                        content.copy(isRefreshing = true) to
+                            fetchContent(state, forceLoadFromNetwork = true)
                     }
-                } to setOf(Action.FetchContent(state.trackId, forceLoadFromNetwork = true))
+                }
             }
             Message.RetryContentLoading -> {
-                state.updateContentState(ContentState.Loading) to
-                    setOf(Action.FetchContent(state.trackId, forceLoadFromNetwork = true))
+                state.doIf<ContentState.Error> {
+                    ContentState.Loading to
+                        fetchContent(state, forceLoadFromNetwork = true)
+                }
             }
             is Message.ProjectClicked -> {
                 state.doIfContent { content ->
@@ -64,23 +67,31 @@ class ProjectsListReducer : StateReducer<State, Message, Action> {
             }
         }
 
+    private fun fetchContent(
+        state: State,
+        forceLoadFromNetwork: Boolean = false
+    ): Set<Action> =
+        setOf(
+            Action.FetchContent(
+                state.trackId,
+                forceLoadFromNetwork = forceLoadFromNetwork
+            )
+        )
+
     private fun State.updateContentState(contentState: ContentState): State =
         copy(content = contentState)
 
-    private fun State.updateContentStateIfContent(block: (ContentState.Content) -> ContentState.Content): State =
-        if (content is ContentState.Content) {
-            copy(content = block(content))
-        } else {
-            this
-        }
-
-    private fun State.doIfContent(
-        block: (ContentState.Content) -> Pair<ContentState, Set<Action>>
+    private inline fun <reified T: ContentState> State.doIf(
+        block: (T) -> Pair<ContentState, Set<Action>>
     ): ProjectsListReducerResult =
-        if (content is ContentState.Content) {
+        if (content is T) {
             val (contentState, actions) = block(content)
             this.copy(content = contentState) to actions
         } else {
             this to emptySet()
         }
+
+    private inline fun State.doIfContent(
+        block: (ContentState.Content) -> Pair<ContentState, Set<Action>>
+    ): ProjectsListReducerResult = doIf(block)
 }
