@@ -84,32 +84,16 @@ class TrackListActionDispatcher(
                         return onNewMessage(Message.TrackSelected.Error)
                     }
 
-                if (isFreemiumEnabled) {
-                    profileInteractor.selectTrack(currentProfile.id, action.track.id)
-                        .getOrElse {
-                            return onNewMessage(Message.TrackSelected.Error)
-                        }
-                } else {
-                    val projectByLevel = action.track.projectsByLevel
-
-                    val projectId = projectByLevel.easy?.firstOrNull()
-                        ?: projectByLevel.medium?.firstOrNull()
-                        ?: projectByLevel.hard?.firstOrNull()
-                        ?: projectByLevel.nightmare?.firstOrNull()
-                        ?: return onNewMessage(Message.TrackSelected.Error)
-
-                    profileInteractor
-                        .selectTrackWithProject(
-                            profileId = currentProfile.id,
-                            trackId = action.track.id,
-                            projectId = projectId
-                        )
-                        .getOrElse {
-                            return onNewMessage(Message.TrackSelected.Error)
-                        }
-                }
+                profileInteractor.selectTrack(currentProfile.id, action.track.id)
+                    .getOrElse {
+                        return onNewMessage(Message.TrackSelected.Error)
+                    }
 
                 onNewMessage(Message.TrackSelected.Success)
+
+                if (!isFreemiumEnabled && action.track.projects.isNotEmpty()) {
+                    onNewMessage(Message.ProjectSelectionRequired(action.track))
+                }
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)

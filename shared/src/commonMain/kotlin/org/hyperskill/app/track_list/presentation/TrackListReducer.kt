@@ -35,7 +35,7 @@ class TrackListReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
-            is Message.StartLearningButtonClicked -> {
+            is Message.StartLearningButtonClicked ->
                 getTrackById(message.trackId, state)?.let { track ->
                     state to setOf(
                         Action.SelectTrack(track),
@@ -49,17 +49,16 @@ class TrackListReducer : StateReducer<State, Message, Action> {
                         Action.ViewAction.ShowTrackSelectionStatus.Loading
                     )
                 }
-            }
-            is Message.TrackSelected.Success -> {
+            is Message.TrackSelected.Success ->
                 state to setOf(
                     Action.ViewAction.NavigateTo.HomeScreen,
                     Action.ViewAction.ShowTrackSelectionStatus.Success,
                 )
-            }
-            is Message.TrackSelected.Error -> {
+            is Message.TrackSelected.Error ->
                 state to setOf(Action.ViewAction.ShowTrackSelectionStatus.Error)
-            }
-            is Message.TrackClicked -> {
+            is Message.ProjectSelectionRequired ->
+                state to setOf(Action.ViewAction.NavigateTo.ProjectSelection(message.track))
+            is Message.TrackClicked ->
                 getTrackById(message.trackId, state)?.let { track ->
                     state to setOf(
                         Action.ViewAction.ShowTrackModal(track),
@@ -72,7 +71,6 @@ class TrackListReducer : StateReducer<State, Message, Action> {
                         )
                     )
                 }
-            }
             is Message.ViewedEventMessage ->
                 state to setOf(
                     Action.LogAnalyticEvent(
