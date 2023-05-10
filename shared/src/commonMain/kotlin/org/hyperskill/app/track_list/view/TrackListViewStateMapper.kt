@@ -32,7 +32,9 @@ class TrackListViewStateMapper(
             title = trackWithProgress.track.title,
             description = trackWithProgress.track.description,
             timeToComplete = getTimeToComplete(trackWithProgress.track.secondsToComplete),
-            rating = trackWithProgress.trackProgress.averageRating.toString()
+            rating = trackWithProgress.trackProgress.averageRating.toString(),
+            isBeta = trackWithProgress.track.isBeta,
+            isCompleted = trackWithProgress.track.isCompleted
         )
 
     private fun getTimeToComplete(secondsToComplete: Double): String {

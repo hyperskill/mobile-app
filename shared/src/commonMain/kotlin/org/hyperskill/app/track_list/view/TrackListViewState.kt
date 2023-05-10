@@ -19,6 +19,8 @@ sealed interface TrackListViewState {
         val title: String,
         val description: String,
         val timeToComplete: String,
-        val rating: String
+        val rating: String,
+        val isBeta: Boolean,
+        val isCompleted: Boolean
     )
 }
