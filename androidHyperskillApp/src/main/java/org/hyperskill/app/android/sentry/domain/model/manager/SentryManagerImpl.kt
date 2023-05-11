@@ -74,7 +74,11 @@ class SentryManagerImpl(private val buildKonfig: BuildKonfig) : SentryManager {
 
     override fun startTransaction(transaction: HyperskillSentryTransaction) {
         val sentryTransaction = Sentry.startTransaction(transaction.name, transaction.operation)
-        val platformTransaction = PlatformHyperskillSentryTransaction(sentryTransaction)
+        transaction.tags.forEach { (key, value) ->
+            sentryTransaction.setTag(key, value)
+        }
+
+        val platformTransaction = PlatformHyperskillSentryTransaction(sentryTransaction, transaction.tags)
         currentTransactionsMap[mapTransactionInfoToKey(platformTransaction)] = platformTransaction
     }
 

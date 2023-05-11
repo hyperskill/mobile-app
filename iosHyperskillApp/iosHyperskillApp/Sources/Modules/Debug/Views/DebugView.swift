@@ -126,6 +126,7 @@ struct DebugView: View {
                 title: Strings.General.ok,
                 style: .default,
                 handler: { [weak viewModel] _ in
+                    ProgressHUD.show()
                     viewModel?.doRestartApplication()
                 }
             )

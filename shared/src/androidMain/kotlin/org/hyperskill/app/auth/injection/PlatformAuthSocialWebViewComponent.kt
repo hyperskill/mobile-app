@@ -5,6 +5,7 @@ import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import ru.nobird.app.presentation.redux.feature.Feature
 
 interface PlatformAuthSocialWebViewComponent {
-    val feature: Feature<AuthSocialWebViewFeature.State, AuthSocialWebViewFeature.Message, AuthSocialWebViewFeature.Action>
+    val feature: Feature<
+        AuthSocialWebViewFeature.State, AuthSocialWebViewFeature.Message, AuthSocialWebViewFeature.Action>
     val reduxViewModelFactory: ReduxViewModelFactory
 }

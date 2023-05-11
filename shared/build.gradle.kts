@@ -69,6 +69,7 @@ kotlin {
                 implementation(libs.kotlin.coroutines.core)
                 implementation(libs.kotlin.coroutines.test)
                 implementation(libs.mokoResources.test)
+                implementation(kotlin("reflect"))
             }
         }
         val androidMain by getting {
@@ -77,8 +78,11 @@ kotlin {
                 implementation(libs.ktor.android)
                 implementation(libs.kit.view.redux)
                 implementation(libs.android.lifecycle.viewmodel.ktx)
+                implementation(libs.android.lifecycle.viewmodel.savedstate)
+                implementation(libs.android.ui.fragment)
                 implementation(libs.android.sentry.okhttp)
                 implementation(libs.android.lifecycle.runtime)
+                implementation(libs.android.parcelable)
             }
         }
         val androidTest by getting {
@@ -203,7 +207,9 @@ tasks.withType<KotlinNativeLink>()
                 .resolve("Hyperskill-Mobile_shared.swift")
 
             val iosHyperskillAppSharedSwiftFile = rootDir
-                .resolve("iosHyperskillApp/iosHyperskillApp/Sources/Frameworks/sharedSwift/Hyperskill-Mobile_shared.swift")
+                .resolve(
+                    "iosHyperskillApp/iosHyperskillApp/Sources/Frameworks/sharedSwift/Hyperskill-Mobile_shared.swift"
+                )
             if (!iosHyperskillAppSharedSwiftFile.exists()) {
                 iosHyperskillAppSharedSwiftFile.createNewFile()
             }

@@ -38,7 +38,9 @@ class ProblemOfDayCardFormDelegate(
                     problemOfDayLayout.alpha = EMPTY_CARD_STATE_ALPHA
                     problemOfDayHexogens.alpha = EMPTY_CARD_STATE_ALPHA
 
-                    problemOfDayDescriptionTextView.setText(org.hyperskill.app.R.string.problem_of_day_no_problems_to_solve)
+                    problemOfDayDescriptionTextView.setText(
+                        org.hyperskill.app.R.string.problem_of_day_no_problems_to_solve
+                    )
 
                     problemOfDayHexogens.setImageResource(R.drawable.bg_hexogens_static)
 
@@ -97,7 +99,9 @@ class ProblemOfDayCardFormDelegate(
                     problemOfDayLayout.alpha = 1F
                     problemOfDayHexogens.alpha = 1F
 
-                    problemOfDayDescriptionTextView.setText(org.hyperskill.app.R.string.problem_of_day_solve_a_random_problem)
+                    problemOfDayDescriptionTextView.setText(
+                        org.hyperskill.app.R.string.problem_of_day_solve_a_random_problem
+                    )
 
                     problemOfDayHexogens.setImageResource(R.drawable.bg_hexogens_static)
 

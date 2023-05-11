@@ -13,7 +13,8 @@ class StepQuizReplyValidator(private val resourceProvider: ResourceProvider) {
         private const val PLUS = "+"
         private const val POINT = ",\\."
         private const val EXP = "eEеЕ"
-        private const val NUMBER_VALIDATION_REGEX = "^[$MINUS$PLUS]?[0-9]*[$POINT]?[0-9]+([$EXP][$$MINUS$PLUS]?[0-9]+)?$"
+        private const val NUMBER_VALIDATION_REGEX =
+            "^[$MINUS$PLUS]?[0-9]*[$POINT]?[0-9]+([$EXP][$$MINUS$PLUS]?[0-9]+)?$"
     }
 
     fun validate(reply: Reply, stepBlockName: String): ReplyValidationResult {
@@ -31,7 +32,9 @@ class StepQuizReplyValidator(private val resourceProvider: ResourceProvider) {
             BlockName.MATH -> if (reply.formula.isNullOrEmpty()) {
                 return ReplyValidationResult.Error(getErrorMessage(stepBlockName))
             }
-            BlockName.NUMBER -> if (reply.number.isNullOrEmpty() || !reply.number.matches(NUMBER_VALIDATION_REGEX.toRegex())) {
+            BlockName.NUMBER -> if (reply.number.isNullOrEmpty() ||
+                !reply.number.matches(NUMBER_VALIDATION_REGEX.toRegex())
+            ) {
                 return ReplyValidationResult.Error(getErrorMessage(stepBlockName))
             }
             BlockName.STRING -> if (reply.text.isNullOrEmpty() || reply.files == null) {

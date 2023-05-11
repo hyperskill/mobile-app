@@ -45,6 +45,8 @@ data class Track(
     @SerialName("topic_providers")
     val topicProviders: List<Long>,
 
+    // TODO: replace with TrackWithProgress to use composition way
+    @Deprecated("Use TrackWithProgress instead")
     @Transient
     val progress: TrackProgress? = null
 )

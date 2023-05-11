@@ -1,10 +1,10 @@
 package org.hyperskill.app.android.topics.view.model
 
 import androidx.annotation.DrawableRes
-import org.hyperskill.app.topics.domain.model.Topic as DomainTopic
+import kotlin.math.roundToInt
 import org.hyperskill.app.android.R
 import org.hyperskill.app.topics.domain.model.completenessPercentage
-import kotlin.math.roundToInt
+import org.hyperskill.app.topics.domain.model.Topic as DomainTopic
 
 sealed interface TopicListItem {
     data class Topic(

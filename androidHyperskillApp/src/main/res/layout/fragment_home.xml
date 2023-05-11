@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <include
+        android:id="@+id/homeScreenAppBar"
+        layout="@layout/layout_gamification_toolbar"/>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/homeScreenSwipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
-
-        <include
-            android:id="@+id/homeScreenAppBar"
-            layout="@layout/layout_gamification_toolbar"/>
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/homeScreenContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-            >
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -46,13 +46,13 @@
                     android:layout_marginHorizontal="20dp"
                     />
 
-                <FrameLayout
+                <include
                     android:id="@+id/homeProblemsLimit"
+                    layout="@layout/layout_problems_limit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:layout_marginHorizontal="20dp"
-                    />
+                    android:layout_marginHorizontal="20dp"/>
 
                 <include
                     android:id="@+id/homeScreenProblemOfDayCard"
@@ -110,14 +110,14 @@
 
         </androidx.core.widget.NestedScrollView>
 
-        <include
-            android:id="@+id/homeScreenError"
-            layout="@layout/error_no_connection_with_button"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <include
+        android:id="@+id/homeScreenError"
+        layout="@layout/error_no_connection_with_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        />
 
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -12,26 +12,29 @@ object StepQuizViewStateDelegateFactory {
         descriptionBinding: LayoutStepQuizDescriptionBinding,
         skeletonView: View,
         vararg quizViews: View
-    ): ViewStateDelegate<StepQuizFeature.State> =
-        ViewStateDelegate<StepQuizFeature.State>()
+    ): ViewStateDelegate<StepQuizFeature.StepQuizState> =
+        ViewStateDelegate<StepQuizFeature.StepQuizState>()
             .apply {
-                addState<StepQuizFeature.State.Idle>()
-                addState<StepQuizFeature.State.Unsupported>(
+                addState<StepQuizFeature.StepQuizState.Idle>()
+                addState<StepQuizFeature.StepQuizState.Unsupported>(
                     fragmentStepQuizBinding.stepQuizFeedbackBlocks.root
                 )
-                addState<StepQuizFeature.State.Loading>(skeletonView, descriptionBinding.stepQuizDescriptionSkeleton)
-                addState<StepQuizFeature.State.AttemptLoading>(
+                addState<StepQuizFeature.StepQuizState.Loading>(
                     skeletonView,
                     descriptionBinding.stepQuizDescriptionSkeleton
                 )
-                addState<StepQuizFeature.State.AttemptLoaded>(
+                addState<StepQuizFeature.StepQuizState.AttemptLoading>(
+                    skeletonView,
+                    descriptionBinding.stepQuizDescriptionSkeleton
+                )
+                addState<StepQuizFeature.StepQuizState.AttemptLoaded>(
                     fragmentStepQuizBinding.stepQuizFeedbackBlocks.root,
                     descriptionBinding.stepQuizDescription,
                     fragmentStepQuizBinding.stepQuizButtons.stepQuizSubmitButton,
                     fragmentStepQuizBinding.stepQuizStatistics,
-                    fragmentStepQuizBinding.stepQuizProblemsLimit,
+                    fragmentStepQuizBinding.stepQuizProblemsLimit.root,
                     *quizViews
                 )
-                addState<StepQuizFeature.State.NetworkError>(fragmentStepQuizBinding.stepQuizNetworkError.root)
+                addState<StepQuizFeature.StepQuizState.NetworkError>(fragmentStepQuizBinding.stepQuizNetworkError.root)
             }
 }

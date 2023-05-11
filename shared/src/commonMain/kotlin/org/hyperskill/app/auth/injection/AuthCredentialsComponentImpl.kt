@@ -17,7 +17,8 @@ class AuthCredentialsComponentImpl(
     private val analyticComponent: AnalyticComponent,
     private val sentryComponent: SentryComponent
 ) : AuthCredentialsComponent {
-    override val authCredentialsFeature: Feature<AuthCredentialsFeature.State, AuthCredentialsFeature.Message, AuthCredentialsFeature.Action>
+    override val authCredentialsFeature: Feature<
+        AuthCredentialsFeature.State, AuthCredentialsFeature.Message, AuthCredentialsFeature.Action>
         get() = AuthCredentialsFeatureBuilder.build(
             authComponent.authInteractor,
             profileDataComponent.profileInteractor,

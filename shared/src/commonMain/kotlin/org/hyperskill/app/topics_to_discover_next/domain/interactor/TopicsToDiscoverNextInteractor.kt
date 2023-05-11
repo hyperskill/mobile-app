@@ -50,9 +50,7 @@ class TopicsToDiscoverNextInteractor(
                     .getUncompletedTopicsLearningActivities(
                         studyPlanId = currentStudyPlan.id,
                         pageSize = LEARNING_ACTIVITIES_PAGE_SIZE
-                    )
-                    .map { it.learningActivities }
-                    .getOrThrow()
+                    ).getOrThrow()
 
                 if (learningActivities.isEmpty()) {
                     return@runCatching emptyList()

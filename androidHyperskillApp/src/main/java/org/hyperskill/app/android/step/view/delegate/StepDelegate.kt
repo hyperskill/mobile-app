@@ -13,7 +13,7 @@ import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 
-object StepDelegate  {
+object StepDelegate {
     fun init(errorBinding: ErrorNoConnectionWithButtonBinding, onNewMessage: (StepFeature.Message) -> Unit) {
         onNewMessage(StepFeature.Message.ViewedEventMessage)
         errorBinding.tryAgain.setOnClickListener {

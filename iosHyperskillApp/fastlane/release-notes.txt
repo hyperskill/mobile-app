@@ -1,3 +1,0 @@
-What to Test:
-1. Support rejected submissions ALTAPPS-676
-2. Tracks, progresses & studyPlan cached access ALTAPPS-679

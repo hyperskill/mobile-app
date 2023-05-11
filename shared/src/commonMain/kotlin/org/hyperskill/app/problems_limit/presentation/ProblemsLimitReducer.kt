@@ -1,19 +1,22 @@
 package org.hyperskill.app.problems_limit.presentation
 
+import kotlin.time.Duration
 import kotlinx.datetime.Clock
+import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.Action
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.Message
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.State
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import ru.nobird.app.presentation.redux.reducer.StateReducer
-import kotlin.time.Duration
 
-internal class ProblemsLimitReducer : StateReducer<State, Message, Action> {
+class ProblemsLimitReducer(private val screen: ProblemsLimitScreen) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
             is Message.Initialize ->
                 if (state is State.Idle || message.forceUpdate) {
-                    State.Loading to setOf(Action.LoadSubscription(message.forceUpdate))
+                    State.Loading to setOf(
+                        Action.LoadSubscription(screen = screen, forceUpdate = message.forceUpdate)
+                    )
                 } else {
                     null
                 }
@@ -45,6 +48,21 @@ internal class ProblemsLimitReducer : StateReducer<State, Message, Action> {
                     }
                 } else {
                     null
+                }
+            is Message.PullToRefresh ->
+                when (state) {
+                    is State.Content ->
+                        if (state.isRefreshing) {
+                            null
+                        } else state.copy(isRefreshing = true) to setOf(
+                            Action.LoadSubscription(screen = screen, forceUpdate = true)
+                        )
+                    is State.NetworkError ->
+                        State.Loading to setOf(
+                            Action.LoadSubscription(screen = screen, forceUpdate = false)
+                        )
+                    else ->
+                        null
                 }
         } ?: (state to emptySet())
 

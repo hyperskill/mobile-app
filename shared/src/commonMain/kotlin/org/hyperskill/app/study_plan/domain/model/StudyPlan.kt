@@ -19,7 +19,9 @@ data class StudyPlan(
     @SerialName("seconds_to_reach_project")
     val secondsToReachProject: Float,
     @SerialName("created_at")
-    val createdAt: String
+    val createdAt: String,
+    @SerialName("status")
+    val status: StudyPlanStatus
 ) {
     val minutesToReachTrack: Int =
         (secondsToReachTrack / 60.0).roundToInt()

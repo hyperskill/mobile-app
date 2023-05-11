@@ -6,4 +6,6 @@ interface ProfileRemoteDataSource {
     suspend fun getCurrentProfile(): Result<Profile>
 
     suspend fun selectTrackWithProject(profileId: Long, trackId: Long, projectId: Long): Result<Profile>
+
+    suspend fun selectTrack(profileId: Long, trackId: Long): Result<Profile>
 }

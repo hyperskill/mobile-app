@@ -1,11 +1,11 @@
 package org.hyperskill.app.core.view.mapper
 
-import org.hyperskill.app.SharedResources
 import kotlin.math.max
 import kotlin.math.roundToLong
 import kotlin.time.Duration
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
+import org.hyperskill.app.SharedResources
 
 class DateFormatter(private val resourceProvider: ResourceProvider) {
     companion object {
@@ -99,7 +99,11 @@ class DateFormatter(private val resourceProvider: ResourceProvider) {
             }
         } else {
             val positiveMinutes = max(1, minutes)
-            result += resourceProvider.getQuantityString(SharedResources.plurals.minutes, positiveMinutes, positiveMinutes)
+            result += resourceProvider.getQuantityString(
+                SharedResources.plurals.minutes,
+                positiveMinutes,
+                positiveMinutes
+            )
         }
 
         return result

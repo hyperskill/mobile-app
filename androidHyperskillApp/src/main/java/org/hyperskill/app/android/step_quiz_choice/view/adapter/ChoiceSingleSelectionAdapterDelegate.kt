@@ -24,7 +24,9 @@ class ChoiceSingleSelectionAdapterDelegate(
     }
 
     private inner class ViewHolder(root: View) : DelegateViewHolder<Choice>(root) {
-        private val viewBinding: ItemCompoundSelectionRadiobuttonBinding by viewBinding(ItemCompoundSelectionRadiobuttonBinding::bind)
+        private val viewBinding: ItemCompoundSelectionRadiobuttonBinding by viewBinding(
+            ItemCompoundSelectionRadiobuttonBinding::bind
+        )
         private val choiceRadioButton = viewBinding.compoundSelectionRadioButton
         private val choiceText = viewBinding.compoundSelectionText
         private val choiceTextProgress = viewBinding.compoundSelectionTextProgress

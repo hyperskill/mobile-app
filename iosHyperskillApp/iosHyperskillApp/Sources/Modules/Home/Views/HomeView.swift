@@ -35,7 +35,8 @@ struct HomeView: View {
             GamificationToolbarContent(
                 stateKs: viewModel.gamificationToolbarStateKs,
                 onGemsTap: viewModel.doGemsBarButtonItemAction,
-                onStreakTap: viewModel.doStreakBarButtonItemAction
+                onStreakTap: viewModel.doStreakBarButtonItemAction,
+                onProgressTap: viewModel.doProgressBarButtonItemAction
             )
         }
         .onAppear {
@@ -73,13 +74,13 @@ struct HomeView: View {
 
             ScrollView {
                 VStack(alignment: .leading, spacing: appearance.spacingBetweenContainers) {
-                    Text(Strings.Home.keepPracticing)
-                        .font(.subheadline)
-                        .foregroundColor(.secondaryText)
+                    HomeSubheadlineView()
 
-                    ProblemsLimitAssembly()
-                        .makeModule()
-                        .padding(.top, LayoutInsets.smallInset)
+                    ProblemsLimitView(
+                        stateKs: viewModel.problemsLimitViewStateKs,
+                        onReloadButtonTap: viewModel.doReloadProblemsLimit
+                    )
+                    .padding(.top, LayoutInsets.smallInset)
 
                     ProblemOfDayAssembly(
                         problemOfDayState: data.problemOfDayState,
@@ -153,6 +154,8 @@ struct HomeView: View {
             case .showStepScreen(let data):
                 displayStep(stepRoute: StepRouteLearn(stepId: data.stepId))
             }
+        case .problemsLimitViewAction:
+            break
         }
     }
 

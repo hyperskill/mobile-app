@@ -23,13 +23,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let rootViewController = AppAssembly().makeModule()
         window?.rootViewController = rootViewController
+
+        // Sentry SDK observing UIWindowDidBecomeVisibleNotification for correct working of the SentryAppStartTracker,
+        // so it's necessary to setup SDK before showing the window
+        SentryManager.shared.setup()
+
         window?.makeKeyAndVisible()
 
         AppAppearance.themeApplication(window: window.require())
         ApplicationThemeService.default.applyDefaultTheme()
 
         FirebaseApp.configure()
-        SentryManager.shared.setup()
         ProgressHUD.configure()
         KeyboardManager.configure()
         NukeManager.registerCustomDecoders()

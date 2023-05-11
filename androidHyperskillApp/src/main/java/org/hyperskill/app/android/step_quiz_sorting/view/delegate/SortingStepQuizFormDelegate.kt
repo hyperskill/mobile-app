@@ -51,13 +51,15 @@ class SortingStepQuizFormDelegate(
         onQuizChanged(createReply())
     }
 
-    override fun setState(state: StepQuizFeature.State.AttemptLoaded) {
+    override fun setState(state: StepQuizFeature.StepQuizState.AttemptLoaded) {
         val sortingOptions = sortingOptionMapper
             .mapToSortingOptions(state.attempt, StepQuizResolver.isQuizEnabled(state))
 
         optionsAdapter.items =
             if (state.submissionState is StepQuizFeature.SubmissionState.Loaded) {
-                val ordering = (state.submissionState as StepQuizFeature.SubmissionState.Loaded).submission.reply?.ordering ?: emptyList()
+                val ordering =
+                    (state.submissionState as StepQuizFeature.SubmissionState.Loaded).submission.reply?.ordering
+                        ?: emptyList()
                 sortingOptions.sortedBy { ordering.indexOf(it.id) }
             } else {
                 sortingOptions

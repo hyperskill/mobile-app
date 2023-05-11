@@ -75,7 +75,11 @@ data class TextAttributes(
             }
         }
 
-        private fun readTypedArray(textAttributes: TextAttributes, context: Context, array: TypedArray): TextAttributes =
+        private fun readTypedArray(
+            textAttributes: TextAttributes,
+            context: Context,
+            array: TypedArray
+        ): TextAttributes =
             try {
                 val textColor = array.getResourceId(attrsSet.indexOf(android.R.attr.textColor), 0)
                     .takeIf { it != 0 }
@@ -93,17 +97,22 @@ data class TextAttributes(
 
                     textColor = textColor,
 
-                    textColorHighlight =
-                    array.getColor(attrsSet.indexOf(android.R.attr.textColorHighlight), textAttributes.textColorHighlight),
+                    textColorHighlight = array.getColor(
+                        attrsSet.indexOf(android.R.attr.textColorHighlight),
+                        textAttributes.textColorHighlight
+                    ),
 
-                    textIsSelectable =
-                    array.getBoolean(attrsSet.indexOf(android.R.attr.textIsSelectable), textAttributes.textIsSelectable),
+                    textIsSelectable = array.getBoolean(
+                        attrsSet.indexOf(android.R.attr.textIsSelectable),
+                        textAttributes.textIsSelectable
+                    ),
 
-                    fontResId =
-                    array.getResourceId(attrsSet.indexOf(androidx.appcompat.R.attr.fontFamily), textAttributes.fontResId),
+                    fontResId = array.getResourceId(
+                        attrsSet.indexOf(androidx.appcompat.R.attr.fontFamily),
+                        textAttributes.fontResId
+                    ),
 
-                    isNightMode =
-                    array.getBoolean(attrsSet.indexOf(R.attr.isNightMode), textAttributes.isNightMode)
+                    isNightMode = array.getBoolean(attrsSet.indexOf(R.attr.isNightMode), textAttributes.isNightMode)
                 )
             } finally {
                 array.recycle()

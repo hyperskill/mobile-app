@@ -79,12 +79,12 @@ PODS:
     - Nuke (~> 10.5)
   - PanModal (1.2.7)
   - PromisesObjC (2.2.0)
-  - Sentry (8.3.3):
-    - Sentry/Core (= 8.3.3)
-    - SentryPrivate (= 8.3.3)
-  - Sentry/Core (8.3.3):
-    - SentryPrivate (= 8.3.3)
-  - SentryPrivate (8.3.3)
+  - Sentry (8.5.0):
+    - Sentry/Core (= 8.5.0)
+    - SentryPrivate (= 8.5.0)
+  - Sentry/Core (8.5.0):
+    - SentryPrivate (= 8.5.0)
+  - SentryPrivate (8.5.0)
   - shared (1.0)
   - SkeletonUI (1.0.9)
   - SnapKit (5.6.0)
@@ -105,7 +105,7 @@ DEPENDENCIES:
   - Kanna (= 5.2.7)
   - NukeUI (from `https://github.com/kean/NukeUI.git`, tag `0.8.3`)
   - PanModal (from `https://github.com/ivan-magda/PanModal.git`, branch `remove-presenting-appearance-transitions`)
-  - Sentry (= 8.3.3)
+  - Sentry (= 8.5.0)
   - shared (from `../shared`)
   - SkeletonUI (= 1.0.9)
   - SnapKit (= 5.6.0)
@@ -203,8 +203,8 @@ SPEC CHECKSUMS:
   NukeUI: 3c7ec7b299dd99707afdc783b436f39768b4493b
   PanModal: 3e16ead1a907fb06f4df3f13492fd00149fa4974
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
-  Sentry: 8ffc397d98fe58d693e73959b26ed0eaee55646a
-  SentryPrivate: bf776a47a131648f5023097215987b40fbd47025
+  Sentry: 3be3f42e40e5a552935552e115744d5810a216d9
+  SentryPrivate: 8c9463280e282527f938d1a5d1d60f8e10ff279b
   shared: 210f065b47c10083f8ccc49e665dec6d32c5b2d3
   SkeletonUI: b5c868e6917123e3d442d6cef9c71fe048175f3b
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
@@ -213,6 +213,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftLint: 6b0cf1f4d619808dbc16e4fab064ce6fc79f090b
 
-PODFILE CHECKSUM: 0c669da4708b77e7767ae8e1c18a5331b9a45390
+PODFILE CHECKSUM: fad8a3390d6a976b68a0bb89b29d23791878d1c4
 
-COCOAPODS: 1.12.0
+COCOAPODS: 1.12.1

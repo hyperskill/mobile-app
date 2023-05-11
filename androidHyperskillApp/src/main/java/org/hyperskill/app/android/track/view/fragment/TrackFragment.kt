@@ -30,7 +30,6 @@ import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.topics.view.delegate.TopicsToDiscoverNextDelegate
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
-import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
@@ -84,7 +83,7 @@ class TrackFragment :
         viewBinding.trackError.tryAgain.setOnClickListener {
             trackViewModel.onNewMessage(TrackFeature.Message.Initialize(forceUpdate = true))
         }
-        with(viewBinding.root) {
+        with(viewBinding.trackSwipeRefreshLayout) {
             setHyperskillColors()
             setOnRefreshListener {
                 trackViewModel.onNewMessage(TrackFeature.Message.PullToRefresh)
@@ -124,8 +123,8 @@ class TrackFragment :
             requireContext().getString(org.hyperskill.app.R.string.track_title)
         gamificationToolbarDelegate = GamificationToolbarDelegate(
             viewLifecycleOwner,
-            viewBinding.trackAppBar,
-            GamificationToolbarScreen.TRACK
+            requireContext(),
+            viewBinding.trackAppBar
         ) { message ->
             trackViewModel.onNewMessage(TrackFeature.Message.GamificationToolbarMessage(message))
         }
@@ -171,7 +170,7 @@ class TrackFragment :
     }
 
     private fun renderSwipeRefresh(state: TrackFeature.State) {
-        with(viewBinding.root) {
+        with(viewBinding.trackSwipeRefreshLayout) {
             isEnabled = state.trackState is TrackFeature.TrackState.Content
             updateIsRefreshing(state.isRefreshing)
         }
@@ -215,7 +214,8 @@ class TrackFragment :
                     .setMargins(0, 0, 0, 0)
             }
 
-            trackCompletedTopicsTextView.text = "${content.trackProgress.completedTopics} / ${content.track.topicsCount}"
+            trackCompletedTopicsTextView.text =
+                "${content.trackProgress.completedTopics} / ${content.track.topicsCount}"
             trackCompletedTopicsProgressIndicator.progress =
                 if (content.track.topicsCount == 0) {
                     0

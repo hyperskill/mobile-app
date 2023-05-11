@@ -5,8 +5,8 @@ import kotlinx.serialization.json.Json
 import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.core.domain.Platform
 import org.hyperskill.app.core.remote.UserAgentInfo
-import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.DateFormatter
+import org.hyperskill.app.core.view.mapper.ResourceProvider
 
 interface CommonComponent {
     val json: Json

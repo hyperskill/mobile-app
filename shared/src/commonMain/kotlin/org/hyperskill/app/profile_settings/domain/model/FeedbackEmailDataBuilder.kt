@@ -12,7 +12,8 @@ object FeedbackEmailDataBuilder {
     ): FeedbackEmailData {
         val subject = "[$applicationName] ${platform.feedbackName} Feedback"
 
-        val body = "\n\n\n---\nUser ID: ${userId ?: "None"}\nApp version: $applicationVersion\nDevice: ${platform.platform}"
+        val body =
+            "\n\n\n---\nUser ID: ${userId ?: "None"}\nApp version: $applicationVersion\nDevice: ${platform.platform}"
 
         return FeedbackEmailData(
             mailTo = supportEmail,

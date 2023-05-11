@@ -32,6 +32,7 @@ class AppClickedBottomNavigationItemHyperskillAnalyticEvent(
     enum class NavigationItem(val route: HyperskillAnalyticRoute, val target: HyperskillAnalyticTarget) {
         HOME(HyperskillAnalyticRoute.Home(), HyperskillAnalyticTarget.HOME),
         TRACK(HyperskillAnalyticRoute.Track(), HyperskillAnalyticTarget.TRACK),
+        STUDY_PLAN(HyperskillAnalyticRoute.StudyPlan(), HyperskillAnalyticTarget.STUDY_PLAN),
         PROFILE(HyperskillAnalyticRoute.Profile(), HyperskillAnalyticTarget.PROFILE),
         DEBUG(HyperskillAnalyticRoute.Debug(), HyperskillAnalyticTarget.DEBUG)
     }

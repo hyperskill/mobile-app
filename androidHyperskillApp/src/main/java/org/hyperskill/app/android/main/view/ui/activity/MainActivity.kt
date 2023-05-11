@@ -3,12 +3,14 @@ package org.hyperskill.app.android.main.view.ui.activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -21,6 +23,7 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.view.ui.fragment.AuthFragment
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthScreen
+import org.hyperskill.app.android.core.view.ui.fragment.ReduxViewLifecycleObserver
 import org.hyperskill.app.android.core.view.ui.navigation.AppNavigationContainer
 import org.hyperskill.app.android.databinding.ActivityMainBinding
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
@@ -53,7 +56,12 @@ class MainActivity :
 
     private val viewStateDelegate: ViewStateDelegate<AppFeature.State> = ViewStateDelegate()
 
-    private val mainViewModelProvider: MainViewModel by reduxViewModel(this) { viewModelFactory }
+    /**
+     * [reduxViewModel] delegate function can't be used, because it doesn't support [SavedStateHandle],
+     * that's why standard [viewModels] function is used.
+     */
+    private val mainViewModel: MainViewModel by viewModels { viewModelFactory }
+
     private val localCicerone: Cicerone<Router> = Cicerone.create()
     override val router: Router = localCicerone.router
 
@@ -75,6 +83,10 @@ class MainActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
 
+        lifecycle.addObserver(
+            ReduxViewLifecycleObserver(this, ::mainViewModel)
+        )
+
         onBackPressedDispatcher
             .addCallback(navigator.onBackPressedCallback)
 
@@ -85,10 +97,9 @@ class MainActivity :
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
         initViewStateDelegate()
-        mainViewModelProvider.onNewMessage(AppFeature.Message.Initialize(forceUpdate = false))
 
         viewBinding.mainError.tryAgain.setOnClickListener {
-            mainViewModelProvider.onNewMessage(AppFeature.Message.Initialize(forceUpdate = true))
+            mainViewModel.onNewMessage(AppFeature.Message.Initialize(forceUpdate = true))
         }
 
         lifecycleScope.launch {
@@ -97,7 +108,7 @@ class MainActivity :
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collectLatest {
                     val profile = (it as? Profile) ?: return@collectLatest
-                    mainViewModelProvider.onNewMessage(AppFeature.Message.UserAuthorized(profile))
+                    mainViewModel.onNewMessage(AppFeature.Message.UserAuthorized(profile))
                 }
         }
 
@@ -113,7 +124,8 @@ class MainActivity :
 
     private fun injectManual() {
         viewModelFactory = HyperskillApp.graph().platformMainComponent.reduxViewModelFactory
-        profileSettings = HyperskillApp.graph().buildProfileSettingsComponent().profileSettingsInteractor.getProfileSettings()
+        profileSettings =
+            HyperskillApp.graph().buildProfileSettingsComponent().profileSettingsInteractor.getProfileSettings()
         analyticInteractor = HyperskillApp.graph().analyticComponent.analyticInteractor
     }
 
