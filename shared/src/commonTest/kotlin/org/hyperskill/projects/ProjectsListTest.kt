@@ -369,7 +369,7 @@ class ProjectsListTest {
         }
     }
 
-    //Test fastestToCompleteProjectId
+    // Test fastestToCompleteProjectId
     @Test
     fun `Fastest to complete project should be a project with lowest averageTimeToComplete`() {
         val projects = (1..10).map { value ->
