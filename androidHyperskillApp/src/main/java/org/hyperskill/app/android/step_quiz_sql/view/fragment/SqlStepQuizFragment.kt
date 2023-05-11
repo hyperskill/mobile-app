@@ -83,8 +83,8 @@ class SqlStepQuizFragment : DefaultStepQuizFragment(), CodeStepQuizFullScreenDia
     }
 
     override fun onNewState(state: StepQuizFeature.State) {
-        if (state is StepQuizFeature.State.AttemptLoaded) {
-            val submission = (state.submissionState as? StepQuizFeature.SubmissionState.Loaded)
+        (state.stepQuizState as? StepQuizFeature.StepQuizState.AttemptLoaded)?.let { attemptLoadedState ->
+            val submission = (attemptLoadedState.submissionState as? StepQuizFeature.SubmissionState.Loaded)
                 ?.submission
             val replyCode = submission?.reply?.code
             val fullScreenFragment = childFragmentManager

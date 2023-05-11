@@ -1,2 +1,0 @@
-What to Test:
-1. Fix Study Plan displays blank screen ALTAPPS-759

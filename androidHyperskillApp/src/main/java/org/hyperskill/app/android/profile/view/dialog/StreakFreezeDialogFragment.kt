@@ -28,7 +28,11 @@ class StreakFreezeDialogFragment : BottomSheetDialogFragment() {
         fun newInstance(streakFreezeState: ProfileFeature.StreakFreezeState): StreakFreezeDialogFragment =
             StreakFreezeDialogFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable(StateKey, streakFreezeState, serializer = ProfileFeature.StreakFreezeState.serializer())
+                    putParcelable(
+                        StateKey,
+                        streakFreezeState,
+                        serializer = ProfileFeature.StreakFreezeState.serializer()
+                    )
                 }
             }
     }

@@ -1,5 +1,6 @@
 package org.hyperskill.app.topics_repetitions.presentation
 
+import kotlin.math.max
 import org.hyperskill.app.topics_repetitions.domain.analytic.TopicsRepetitionsClickedRepeatNextTopicHyperskillAnalyticEvent
 import org.hyperskill.app.topics_repetitions.domain.analytic.TopicsRepetitionsClickedRepeatTopicHyperskillAnalyticEvent
 import org.hyperskill.app.topics_repetitions.domain.analytic.TopicsRepetitionsViewedHyperskillAnalyticEvent
@@ -8,7 +9,6 @@ import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeatu
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Message
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
-import kotlin.math.max
 
 class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
@@ -53,12 +53,13 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                 }
             is Message.NextTopicsRepetitionsLoaded.Success ->
                 if (state is State.Content) {
+                    val newTopicsRepetitions =
+                        state.topicsRepetitions + message.nextTopicsRepetitions.filter { nextTopicRepetitions ->
+                            state.topicsRepetitions.none { it.topicId == nextTopicRepetitions.topicId }
+                        }
                     state.copy(
-                        topicsRepetitions = state.topicsRepetitions +
-                            message.nextTopicsRepetitions.filter { nextTopicRepetitions ->
-                                state.topicsRepetitions.none { it.topicId == nextTopicRepetitions.topicId }
-                            },
-                        isLoadingNextTopics = false,
+                        topicsRepetitions = newTopicsRepetitions,
+                        isLoadingNextTopics = false
                     ) to emptySet()
                 } else {
                     null
@@ -71,7 +72,10 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                 }
             is Message.StepCompleted ->
                 if (state is State.Content) {
-                    state.topicsRepetitions.firstOrNull { it.steps.contains(message.stepId) }?.let { completedRepetition ->
+                    val completedRepetition = state.topicsRepetitions.firstOrNull { it.steps.contains(message.stepId) }
+                    if (completedRepetition == null) {
+                        null
+                    } else {
                         val newState = state.copy(
                             topicsRepetitions = state.topicsRepetitions.filter { it.id != completedRepetition.id },
                             topicRepetitionStatistics = TopicRepetitionStatistics(

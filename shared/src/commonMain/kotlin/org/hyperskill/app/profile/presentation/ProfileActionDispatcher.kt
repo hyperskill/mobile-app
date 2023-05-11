@@ -140,11 +140,17 @@ class ProfileActionDispatcher(
                 }
             )
 
-    private fun getStreakFreezeState(streakFreezeProduct: Product?, streak: Streak?): ProfileFeature.StreakFreezeState? =
+    private fun getStreakFreezeState(
+        streakFreezeProduct: Product?,
+        streak: Streak?
+    ): ProfileFeature.StreakFreezeState? =
         when {
             streakFreezeProduct == null || streak == null -> null
             streak.canFreeze -> ProfileFeature.StreakFreezeState.AlreadyHave
-            streak.canBuyFreeze -> ProfileFeature.StreakFreezeState.CanBuy(streakFreezeProduct.id, streakFreezeProduct.price)
+            streak.canBuyFreeze -> ProfileFeature.StreakFreezeState.CanBuy(
+                streakFreezeProduct.id,
+                streakFreezeProduct.price
+            )
             else -> ProfileFeature.StreakFreezeState.NotEnoughGems(streakFreezeProduct.id, streakFreezeProduct.price)
         }
 }

@@ -1,7 +1,7 @@
 package org.hyperskill.app.main.injection
 
-import org.hyperskill.app.core.injection.ReduxViewModelFactory
+import org.hyperskill.app.core.injection.SavedStateReduxViewModelFactory
 
 actual interface PlatformMainComponent {
-    val reduxViewModelFactory: ReduxViewModelFactory
+    val reduxViewModelFactory: SavedStateReduxViewModelFactory
 }

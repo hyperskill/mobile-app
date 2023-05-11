@@ -6,6 +6,12 @@ import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarS
  * Please do not change the names of transactions if they already appeared in the Sentry.
  */
 object HyperskillSentryTransactionBuilder {
+    fun buildAppInitialization(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "app-initialization",
+            operation = HyperskillSentryTransactionOperation.UI_LOAD
+        )
+
     /**
      * AuthCredentialsFeature
      */
@@ -191,6 +197,21 @@ object HyperskillSentryTransactionBuilder {
                 GamificationToolbarScreen.STUDY_PLAN ->
                     "navigation-bar-items-feature-study_plan-screen-fetch_track_progress"
             },
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    /**
+     * ProblemsLimitFeature
+     */
+    fun buildProblemsLimitHomeScreenRemoteDataLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "problems-limit-feature-home-screen-remote-data-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    fun buildProblemsLimitStepQuizScreenRemoteDataLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "problems-limit-feature-step-quiz-screen-remote-data-loading",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
 

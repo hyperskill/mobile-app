@@ -30,6 +30,11 @@ final class StepQuizAssembly: Assembly {
             stepQuizStatsTextMapper: stepQuizComponent.stepQuizStatsTextMapper,
             stepQuizTitleMapper: stepQuizComponent.stepQuizTitleMapper
         )
+
+        let problemsLimitComponent = AppGraphBridge.sharedAppGraph.buildProblemsLimitComponent(
+            screen: ProblemsLimitScreen.stepQuiz
+        )
+
         let viewModel = StepQuizViewModel(
             step: step,
             stepRoute: stepRoute,
@@ -39,6 +44,7 @@ final class StepQuizAssembly: Assembly {
             userPermissionRequestTextMapper: StepQuizUserPermissionRequestTextMapper(
                 resourceProvider: commonComponent.resourceProvider
             ),
+            problemsLimitViewStateMapper: problemsLimitComponent.problemsLimitViewStateMapper,
             notificationService: NotificationsService(
                 notificationInteractor: notificationComponent.notificationInteractor
             ),

@@ -7,7 +7,7 @@ import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionSta
 
 class CurrentSubscriptionStateRepositoryImpl(
     private val subscriptionsRemoteDataSource: SubscriptionsRemoteDataSource
-) :  CurrentSubscriptionStateRepository, BaseStateRepository<Subscription>() {
+) : CurrentSubscriptionStateRepository, BaseStateRepository<Subscription>() {
     override suspend fun loadState(): Result<Subscription> =
         subscriptionsRemoteDataSource.getCurrentSubscription()
 }

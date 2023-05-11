@@ -78,8 +78,7 @@ import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserCompo
 import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponentImpl
 import org.hyperskill.app.placeholder_new_user.injection.PlatformPlaceholderNewUserComponent
 import org.hyperskill.app.placeholder_new_user.injection.PlatformPlaceholderNewUserComponentImpl
-import org.hyperskill.app.problems_limit.injection.PlatformProblemsLimitComponent
-import org.hyperskill.app.problems_limit.injection.PlatformProblemsLimitComponentImpl
+import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponentImpl
 import org.hyperskill.app.products.injection.ProductsDataComponent
@@ -249,7 +248,9 @@ class AndroidAppComponentImpl(
             sentryComponent
         )
 
-    override fun buildPlatformAuthSocialComponent(authSocialComponent: AuthSocialComponent): PlatformAuthSocialComponent =
+    override fun buildPlatformAuthSocialComponent(
+        authSocialComponent: AuthSocialComponent
+    ): PlatformAuthSocialComponent =
         PlatformAuthSocialComponentImpl(authSocialComponent)
 
     /**
@@ -265,7 +266,9 @@ class AndroidAppComponentImpl(
             sentryComponent
         )
 
-    override fun buildPlatformAuthCredentialsComponent(authCredentialsComponent: AuthCredentialsComponent): PlatformAuthCredentialsComponent =
+    override fun buildPlatformAuthCredentialsComponent(
+        authCredentialsComponent: AuthCredentialsComponent
+    ): PlatformAuthCredentialsComponent =
         PlatformAuthCredentialsComponentImpl(authCredentialsComponent)
 
     /**
@@ -362,7 +365,9 @@ class AndroidAppComponentImpl(
     override fun buildProfileSettingsComponent(): ProfileSettingsComponent =
         ProfileSettingsComponentImpl(this)
 
-    override fun buildPlatformProfileSettingsComponent(profileSettingsComponent: ProfileSettingsComponent): PlatformProfileSettingsComponent =
+    override fun buildPlatformProfileSettingsComponent(
+        profileSettingsComponent: ProfileSettingsComponent
+    ): PlatformProfileSettingsComponent =
         PlatformProfileSettingsComponentImpl(profileSettingsComponent)
 
     /**
@@ -386,7 +391,9 @@ class AndroidAppComponentImpl(
     override fun buildOnboardingComponent(): OnboardingComponent =
         OnboardingComponentImpl(this)
 
-    override fun buildPlatformOnboardingComponent(onboardingComponent: OnboardingComponent): PlatformOnboardingComponent =
+    override fun buildPlatformOnboardingComponent(
+        onboardingComponent: OnboardingComponent
+    ): PlatformOnboardingComponent =
         PlatformOnboardingComponentImpl(onboardingComponent)
 
     /**
@@ -395,7 +402,9 @@ class AndroidAppComponentImpl(
     override fun buildPlaceholderNewUserComponent(): PlaceholderNewUserComponent =
         PlaceholderNewUserComponentImpl(this)
 
-    override fun buildPlatformPlaceholderNewUserComponent(placeholderNewUserComponent: PlaceholderNewUserComponent): PlatformPlaceholderNewUserComponent =
+    override fun buildPlatformPlaceholderNewUserComponent(
+        placeholderNewUserComponent: PlaceholderNewUserComponent
+    ): PlatformPlaceholderNewUserComponent =
         PlatformPlaceholderNewUserComponentImpl(placeholderNewUserComponent)
 
     /**
@@ -431,11 +440,8 @@ class AndroidAppComponentImpl(
     /**
      * ProblemsLimit component
      */
-    override fun buildProblemsLimitComponent(): ProblemsLimitComponent =
-        ProblemsLimitComponentImpl(this)
-
-    override fun buildPlatformProblemsLimitComponent(): PlatformProblemsLimitComponent =
-        PlatformProblemsLimitComponentImpl(problemsLimitComponent = buildProblemsLimitComponent())
+    override fun buildProblemsLimitComponent(screen: ProblemsLimitScreen): ProblemsLimitComponent =
+        ProblemsLimitComponentImpl(screen, this)
 
     /**
      * Study plan component

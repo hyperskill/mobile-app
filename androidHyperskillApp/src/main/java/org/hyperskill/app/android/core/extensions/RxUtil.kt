@@ -7,9 +7,9 @@ import io.reactivex.ObservableEmitter
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 import io.reactivex.rxkotlin.zipWith
-import org.hyperskill.app.android.core.extensions.rx.ObservableReduceMap
 import java.util.concurrent.TimeUnit
 import kotlin.math.pow
+import org.hyperskill.app.android.core.extensions.rx.ObservableReduceMap
 
 enum class RxEmpty { INSTANCE }
 

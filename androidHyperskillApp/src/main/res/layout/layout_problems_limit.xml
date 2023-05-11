@@ -3,20 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
-    <include
-        android:id="@+id/problemsLimitDivider"
-        layout="@layout/view_divider_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        />
-
     <LinearLayout
         android:id="@+id/problemsLimitsContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp">
+        android:orientation="horizontal">
 
         <org.hyperskill.app.android.problems_limit.view.widget.ProblemsLimitView
             android:id="@+id/problemsLimitsDots"

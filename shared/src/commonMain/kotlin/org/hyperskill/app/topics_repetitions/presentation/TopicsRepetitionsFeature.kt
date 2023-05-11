@@ -1,9 +1,9 @@
 package org.hyperskill.app.topics_repetitions.presentation
 
+import kotlin.math.ceil
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.topics_repetitions.domain.model.TopicRepetition
 import org.hyperskill.app.topics_repetitions.domain.model.TopicRepetitionStatistics
-import kotlin.math.ceil
 
 interface TopicsRepetitionsFeature {
     companion object {

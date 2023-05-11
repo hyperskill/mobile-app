@@ -17,6 +17,7 @@ import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 object AppFeatureBuilder {
     fun build(
+        initialState: State?,
         appInteractor: AppInteractor,
         authInteractor: AuthInteractor,
         profileInteractor: ProfileInteractor,
@@ -33,7 +34,7 @@ object AppFeatureBuilder {
             stateRepositoriesComponent
         )
 
-        return ReduxFeature(State.Idle, appReducer)
+        return ReduxFeature(initialState ?: State.Idle, appReducer)
             .wrapWithActionDispatcher(appActionDispatcher)
     }
 }

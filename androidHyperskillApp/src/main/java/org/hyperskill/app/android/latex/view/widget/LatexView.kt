@@ -24,7 +24,11 @@ import ru.nobird.android.view.base.ui.extension.inflate
 
 class LatexView
 @JvmOverloads
-constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
+constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : FrameLayout(context, attrs, defStyleAttr) {
     companion object {
         private fun TextView.setAttributes(textAttributes: TextAttributes) {
             setTextSize(TypedValue.COMPLEX_UNIT_SP, textAttributes.textSize)

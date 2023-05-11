@@ -17,7 +17,9 @@ class CodeDetailSampleAdapterDelegate : AdapterDelegate<CodeDetail, DelegateView
         data is CodeDetail.Sample
 
     private class ViewHolder(root: View) : DelegateViewHolder<CodeDetail>(root) {
-        private val viewBinding: ItemStepQuizCodeDetailSampleBinding by viewBinding(ItemStepQuizCodeDetailSampleBinding::bind)
+        private val viewBinding: ItemStepQuizCodeDetailSampleBinding by viewBinding(
+            ItemStepQuizCodeDetailSampleBinding::bind
+        )
         private val inputTitle = viewBinding.stepQuizCodeDetailSampleInputTitle
         private val outputTitle = viewBinding.stepQuizCodeDetailSampleOutputTitle
         private val input = viewBinding.stepQuizCodeDetailSampleInput
@@ -26,8 +28,10 @@ class CodeDetailSampleAdapterDelegate : AdapterDelegate<CodeDetail, DelegateView
         override fun onBind(data: CodeDetail) {
             data as CodeDetail.Sample
 
-            inputTitle.text = context.getString(org.hyperskill.app.R.string.step_quiz_code_detail_sample_input_title, data.position)
-            outputTitle.text = context.getString(org.hyperskill.app.R.string.step_quiz_code_detail_sample_output_title, data.position)
+            inputTitle.text =
+                context.getString(org.hyperskill.app.R.string.step_quiz_code_detail_sample_input_title, data.position)
+            outputTitle.text =
+                context.getString(org.hyperskill.app.R.string.step_quiz_code_detail_sample_output_title, data.position)
             input.text = data.input
             output.text = data.output
         }
