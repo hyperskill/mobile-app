@@ -244,4 +244,13 @@ object HyperskillSentryTransactionBuilder {
             name = "study-plan-widget-feature-fetch-track",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
+
+    /**
+     * ProjectsListFeature
+     */
+    fun buildProjectsListScreenRemoteDataLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "projects-list-feature-screen-remote-data-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
 }

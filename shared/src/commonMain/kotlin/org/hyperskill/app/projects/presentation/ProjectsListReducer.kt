@@ -1,5 +1,9 @@
 package org.hyperskill.app.projects.presentation
 
+import org.hyperskill.app.projects.domain.analytic.ProjectsListClickedProjectHyperskillAnalyticsEvent
+import org.hyperskill.app.projects.domain.analytic.ProjectsListClickedPullToRefreshHyperskillAnalyticEvent
+import org.hyperskill.app.projects.domain.analytic.ProjectsListClickedRetryContentLoadingHyperskillAnalyticsEvent
+import org.hyperskill.app.projects.domain.analytic.ProjectsListViewedHyperskillAnalyticEvent
 import org.hyperskill.app.projects.presentation.ProjectsListFeature.Action
 import org.hyperskill.app.projects.presentation.ProjectsListFeature.Action.ViewAction
 import org.hyperskill.app.projects.presentation.ProjectsListFeature.ContentState
@@ -35,20 +39,41 @@ class ProjectsListReducer : StateReducer<State, Message, Action> {
                         content to emptySet()
                     } else {
                         content.copy(isRefreshing = true) to
-                            fetchContent(state, forceLoadFromNetwork = true)
+                            fetchContent(state, forceLoadFromNetwork = true) +
+                                Action.LogAnalyticEvent(
+                                    ProjectsListClickedPullToRefreshHyperskillAnalyticEvent(
+                                        trackId = state.trackId
+                                    )
+                                )
                     }
                 }
             }
             Message.RetryContentLoading -> {
                 state.doIf<ContentState.Error> {
                     ContentState.Loading to
-                        fetchContent(state, forceLoadFromNetwork = true)
+                        fetchContent(state, forceLoadFromNetwork = true) +
+                            Action.LogAnalyticEvent(
+                                ProjectsListClickedRetryContentLoadingHyperskillAnalyticsEvent(
+                                    trackId = state.trackId
+                                )
+                            )
                 }
             }
             is Message.ProjectClicked -> {
                 state.doIfContent { content ->
                     content.copy(isProjectSelectionLoadingShowed = true) to
-                        setOf(Action.SelectProject(state.trackId, message.projectId))
+                        setOf(
+                            Action.SelectProject(
+                                trackId = state.trackId,
+                                projectId = message.projectId
+                            ),
+                            Action.LogAnalyticEvent(
+                                ProjectsListClickedProjectHyperskillAnalyticsEvent(
+                                    trackId = state.trackId,
+                                    projectId = message.projectId
+                                )
+                            )
+                        )
                 }
             }
             is Message.ProjectSelectionResult -> {
@@ -64,6 +89,13 @@ class ProjectsListReducer : StateReducer<State, Message, Action> {
                                 )
                         }
                 }
+            }
+            Message.ViewedEventMessage -> {
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        ProjectsListViewedHyperskillAnalyticEvent(state.trackId)
+                    )
+                )
             }
         }
 

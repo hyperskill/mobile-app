@@ -1,5 +1,6 @@
 package org.hyperskill.app.projects.presentation
 
+import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.projects.domain.model.ProjectLevel
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress
 import org.hyperskill.app.track.domain.model.Track
@@ -63,6 +64,8 @@ object ProjectsListFeature {
         object PullToRefresh : Message
         object RetryContentLoading : Message
 
+        object ViewedEventMessage : Message
+
         data class ProjectClicked(val projectId: Long) : Message
 
         sealed interface ProjectSelectionResult : Message {
@@ -78,6 +81,8 @@ object ProjectsListFeature {
         ) : Action
 
         data class SelectProject(val trackId: Long, val projectId: Long) : Action
+
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
         sealed interface ViewAction : Action {
 
