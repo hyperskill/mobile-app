@@ -8,7 +8,6 @@ import org.hyperskill.app.projects.presentation.ProjectsListFeature.Action
 import org.hyperskill.app.projects.presentation.ProjectsListFeature.Action.ViewAction
 import org.hyperskill.app.projects.presentation.ProjectsListFeature.ContentState
 import org.hyperskill.app.projects.presentation.ProjectsListFeature.InternalAction
-import org.hyperskill.app.projects.presentation.ProjectsListFeature.InternalMessage
 import org.hyperskill.app.projects.presentation.ProjectsListFeature.Message
 import org.hyperskill.app.projects.presentation.ProjectsListFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
@@ -22,7 +21,7 @@ internal class ProjectsListReducer : StateReducer<State, Message, Action> {
                 state.updateContentState(ContentState.Loading) to
                     fetchContent(state)
             }
-            is InternalMessage.ContentFetchResult.Success -> {
+            is ProjectsListFeature.ContentFetchResult.Success -> {
                 state.updateContentState(
                     ContentState.Content(
                         track = message.track,
@@ -32,7 +31,7 @@ internal class ProjectsListReducer : StateReducer<State, Message, Action> {
                     )
                 ) to emptySet()
             }
-            InternalMessage.ContentFetchResult.Error -> {
+            ProjectsListFeature.ContentFetchResult.Error -> {
                 state.updateContentState(ContentState.Error) to emptySet()
             }
             Message.PullToRefresh -> {
@@ -78,13 +77,13 @@ internal class ProjectsListReducer : StateReducer<State, Message, Action> {
                         )
                 }
             }
-            is InternalMessage.ProjectSelectionResult -> {
+            is ProjectsListFeature.ProjectSelectionResult -> {
                 state.doIfContent { content ->
                     content.copy(isProjectSelectionLoadingShowed = false) to
                         when (message) {
-                            InternalMessage.ProjectSelectionResult.Error ->
+                            ProjectsListFeature.ProjectSelectionResult.Error ->
                                 setOf(ViewAction.ShowProjectSelectionStatus.Error)
-                            InternalMessage.ProjectSelectionResult.Success ->
+                            ProjectsListFeature.ProjectSelectionResult.Success ->
                                 setOf(
                                     ViewAction.NavigateTo.HomeScreen,
                                     ViewAction.ShowProjectSelectionStatus.Success

@@ -1,4 +1,4 @@
-package org.hyperskill.project
+package org.hyperskill.projects
 
 import kotlin.test.Test
 import kotlin.test.assertContains
@@ -17,7 +17,6 @@ import org.hyperskill.app.projects.presentation.ProjectsListFeature
 import org.hyperskill.app.projects.presentation.ProjectsListFeature.Action
 import org.hyperskill.app.projects.presentation.ProjectsListFeature.ContentState
 import org.hyperskill.app.projects.presentation.ProjectsListFeature.InternalAction
-import org.hyperskill.app.projects.presentation.ProjectsListFeature.InternalMessage
 import org.hyperskill.app.projects.presentation.ProjectsListFeature.Message
 import org.hyperskill.app.projects.presentation.ProjectsListFeature.State
 import org.hyperskill.app.projects.presentation.ProjectsListFeature.ViewState
@@ -30,7 +29,7 @@ import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.track.stub
 import ru.nobird.app.core.model.safeCast
 
-class ProjectListTest {
+class ProjectsListTest {
 
     private val projectsListReducer = ProjectsListReducer()
 
@@ -64,7 +63,7 @@ class ProjectListTest {
 
         val (state, actions) = projectsListReducer.reduce(
             State(trackId, ContentState.Loading),
-            InternalMessage.ContentFetchResult.Success(
+            ProjectsListFeature.ContentFetchResult.Success(
                 track = track,
                 projects = projects.map(ProjectWithProgress.Companion::stub),
                 selectedProjectId = selectedProjectId
@@ -207,7 +206,7 @@ class ProjectListTest {
         )
         val (state, actions) = projectsListReducer.reduce(
             State(trackId, initialContentState),
-            InternalMessage.ProjectSelectionResult.Success
+            ProjectsListFeature.ProjectSelectionResult.Success
         )
         assertContains(
             actions,
@@ -235,7 +234,7 @@ class ProjectListTest {
         )
         val (state, actions) = projectsListReducer.reduce(
             State(trackId, initialContentState),
-            InternalMessage.ProjectSelectionResult.Error
+            ProjectsListFeature.ProjectSelectionResult.Error
         )
         assertContains(
             actions,

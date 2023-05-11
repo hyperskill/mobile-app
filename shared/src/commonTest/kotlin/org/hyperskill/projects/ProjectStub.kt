@@ -1,4 +1,4 @@
-package org.hyperskill.project
+package org.hyperskill.projects
 
 import org.hyperskill.app.projects.domain.model.Project
 import org.hyperskill.app.projects.domain.model.ProjectTracksEntry

@@ -64,20 +64,19 @@ object ProjectsListFeature {
         data class ProjectClicked(val projectId: Long) : Message
     }
 
-    sealed interface InternalMessage : Message {
-        sealed interface ContentFetchResult : InternalMessage {
-            data class Success(
-                val track: Track,
-                val projects: List<ProjectWithProgress>,
-                val selectedProjectId: Long?
-            ) : ContentFetchResult
-            object Error : ContentFetchResult
-        }
+    internal sealed interface ContentFetchResult : Message {
+        data class Success(
+            val track: Track,
+            val projects: List<ProjectWithProgress>,
+            val selectedProjectId: Long?
+        ) : ContentFetchResult
 
-        sealed interface ProjectSelectionResult : InternalMessage {
-            object Success : ProjectSelectionResult
-            object Error : ProjectSelectionResult
-        }
+        object Error : ContentFetchResult
+    }
+
+    internal sealed interface ProjectSelectionResult : Message {
+        object Success : ProjectSelectionResult
+        object Error : ProjectSelectionResult
     }
 
     sealed interface Action {
@@ -86,6 +85,7 @@ object ProjectsListFeature {
             sealed interface NavigateTo : ViewAction {
                 object HomeScreen : NavigateTo
             }
+
             sealed interface ShowProjectSelectionStatus : ViewAction {
                 object Success : ShowProjectSelectionStatus
                 object Error : ShowProjectSelectionStatus
@@ -93,14 +93,14 @@ object ProjectsListFeature {
         }
     }
 
-    internal interface InternalAction : Action {
+    internal sealed interface InternalAction : Action {
         data class FetchContent(
             val trackId: Long,
             val forceLoadFromNetwork: Boolean
-        ) : Action
+        ) : InternalAction
 
-        data class SelectProject(val trackId: Long, val projectId: Long) : Action
+        data class SelectProject(val trackId: Long, val projectId: Long) : InternalAction
 
-        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }
 }

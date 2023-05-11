@@ -11,7 +11,6 @@ import org.hyperskill.app.projects.domain.model.ProjectWithProgress
 import org.hyperskill.app.projects.domain.model.projectId
 import org.hyperskill.app.projects.domain.repository.ProjectsRepository
 import org.hyperskill.app.projects.presentation.ProjectsListFeature.InternalAction
-import org.hyperskill.app.projects.presentation.ProjectsListFeature.InternalMessage
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository
@@ -39,7 +38,7 @@ class ProjectsListActionDispatcher(
                         trackRepository.getTrack(action.trackId, action.forceLoadFromNetwork)
                             .getOrElse {
                                 sentryInteractor.finishTransaction(transaction, throwable = it)
-                                onNewMessage(InternalMessage.ContentFetchResult.Error)
+                                onNewMessage(ProjectsListFeature.ContentFetchResult.Error)
                                 return@coroutineScope
                             }
                     val studyPlanDeferred = async {
@@ -54,13 +53,13 @@ class ProjectsListActionDispatcher(
                     val studyPlan = studyPlanDeferred.await()
                         .getOrElse {
                             sentryInteractor.finishTransaction(transaction, throwable = it)
-                            onNewMessage(InternalMessage.ContentFetchResult.Error)
+                            onNewMessage(ProjectsListFeature.ContentFetchResult.Error)
                             return@coroutineScope
                         }
                     val projects = projectsDeferred.await()
                         .getOrElse {
                             sentryInteractor.finishTransaction(transaction, throwable = it)
-                            onNewMessage(InternalMessage.ContentFetchResult.Error)
+                            onNewMessage(ProjectsListFeature.ContentFetchResult.Error)
                             return@coroutineScope
                         }
                     val projectsProgresses: Map<Long?, ProjectProgress> =
@@ -68,11 +67,11 @@ class ProjectsListActionDispatcher(
                             .map { progresses -> progresses.associateBy { it.projectId } }
                             .getOrElse {
                                 sentryInteractor.finishTransaction(transaction, throwable = it)
-                                onNewMessage(InternalMessage.ContentFetchResult.Error)
+                                onNewMessage(ProjectsListFeature.ContentFetchResult.Error)
                                 return@coroutineScope
                             }
                     onNewMessage(
-                        InternalMessage.ContentFetchResult.Success(
+                        ProjectsListFeature.ContentFetchResult.Success(
                             track = track,
                             projects = projects.mapNotNull { project ->
                                 ProjectWithProgress(
@@ -89,16 +88,16 @@ class ProjectsListActionDispatcher(
                 val currentProfile = profileInteractor
                     .getCurrentProfile()
                     .getOrElse {
-                        return onNewMessage(InternalMessage.ProjectSelectionResult.Error)
+                        return onNewMessage(ProjectsListFeature.ProjectSelectionResult.Error)
                     }
                 profileInteractor.selectTrackWithProject(
                     profileId = currentProfile.id,
                     trackId = action.trackId,
                     projectId = action.projectId
                 ).getOrElse {
-                    return onNewMessage(InternalMessage.ProjectSelectionResult.Error)
+                    return onNewMessage(ProjectsListFeature.ProjectSelectionResult.Error)
                 }
-                onNewMessage(InternalMessage.ProjectSelectionResult.Success)
+                onNewMessage(ProjectsListFeature.ProjectSelectionResult.Success)
             }
             is InternalAction.LogAnalyticEvent -> {
                 analyticInteractor.logEvent(action.analyticEvent)
