@@ -10,6 +10,8 @@ import org.hyperskill.app.projects.domain.model.ProjectProgress
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress
 import org.hyperskill.app.projects.domain.model.projectId
 import org.hyperskill.app.projects.domain.repository.ProjectsRepository
+import org.hyperskill.app.projects.presentation.ProjectsListFeature.InternalAction
+import org.hyperskill.app.projects.presentation.ProjectsListFeature.InternalMessage
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository
@@ -28,7 +30,7 @@ class ProjectsListActionDispatcher(
 ) : CoroutineActionDispatcher<ProjectsListFeature.Action, ProjectsListFeature.Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: ProjectsListFeature.Action) {
         when (action) {
-            is ProjectsListFeature.Action.FetchContent -> {
+            is InternalAction.FetchContent -> {
                 coroutineScope {
                     val transaction = HyperskillSentryTransactionBuilder.buildProjectsListScreenRemoteDataLoading()
                     sentryInteractor.startTransaction(transaction)
@@ -37,7 +39,7 @@ class ProjectsListActionDispatcher(
                         trackRepository.getTrack(action.trackId, action.forceLoadFromNetwork)
                             .getOrElse {
                                 sentryInteractor.finishTransaction(transaction, throwable = it)
-                                onNewMessage(ProjectsListFeature.Message.ContentFetchResult.Error)
+                                onNewMessage(InternalMessage.ContentFetchResult.Error)
                                 return@coroutineScope
                             }
                     val studyPlanDeferred = async {
@@ -52,13 +54,13 @@ class ProjectsListActionDispatcher(
                     val studyPlan = studyPlanDeferred.await()
                         .getOrElse {
                             sentryInteractor.finishTransaction(transaction, throwable = it)
-                            onNewMessage(ProjectsListFeature.Message.ContentFetchResult.Error)
+                            onNewMessage(InternalMessage.ContentFetchResult.Error)
                             return@coroutineScope
                         }
                     val projects = projectsDeferred.await()
                         .getOrElse {
                             sentryInteractor.finishTransaction(transaction, throwable = it)
-                            onNewMessage(ProjectsListFeature.Message.ContentFetchResult.Error)
+                            onNewMessage(InternalMessage.ContentFetchResult.Error)
                             return@coroutineScope
                         }
                     val projectsProgresses: Map<Long?, ProjectProgress> =
@@ -66,11 +68,11 @@ class ProjectsListActionDispatcher(
                             .map { progresses -> progresses.associateBy { it.projectId } }
                             .getOrElse {
                                 sentryInteractor.finishTransaction(transaction, throwable = it)
-                                onNewMessage(ProjectsListFeature.Message.ContentFetchResult.Error)
+                                onNewMessage(InternalMessage.ContentFetchResult.Error)
                                 return@coroutineScope
                             }
                     onNewMessage(
-                        ProjectsListFeature.Message.ContentFetchResult.Success(
+                        InternalMessage.ContentFetchResult.Success(
                             track = track,
                             projects = projects.mapNotNull { project ->
                                 ProjectWithProgress(
@@ -83,22 +85,22 @@ class ProjectsListActionDispatcher(
                     )
                 }
             }
-            is ProjectsListFeature.Action.SelectProject -> {
+            is InternalAction.SelectProject -> {
                 val currentProfile = profileInteractor
                     .getCurrentProfile()
                     .getOrElse {
-                        return onNewMessage(ProjectsListFeature.Message.ProjectSelectionResult.Error)
+                        return onNewMessage(InternalMessage.ProjectSelectionResult.Error)
                     }
                 profileInteractor.selectTrackWithProject(
                     profileId = currentProfile.id,
                     trackId = action.trackId,
                     projectId = action.projectId
                 ).getOrElse {
-                    return onNewMessage(ProjectsListFeature.Message.ProjectSelectionResult.Error)
+                    return onNewMessage(InternalMessage.ProjectSelectionResult.Error)
                 }
-                onNewMessage(ProjectsListFeature.Message.ProjectSelectionResult.Success)
+                onNewMessage(InternalMessage.ProjectSelectionResult.Success)
             }
-            is ProjectsListFeature.Action.LogAnalyticEvent -> {
+            is InternalAction.LogAnalyticEvent -> {
                 analyticInteractor.logEvent(action.analyticEvent)
             }
             else -> {

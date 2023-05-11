@@ -14,7 +14,7 @@ import org.hyperskill.app.projects.presentation.recommendedProjects
 import org.hyperskill.app.projects.presentation.selectedProject
 import org.hyperskill.app.track.domain.model.getProjectLevel
 
-class ProjectsListViewStateMapper(
+internal class ProjectsListViewStateMapper(
     private val resourceProvider: ResourceProvider
 ) {
     fun map(state: ProjectsListFeature.ContentState): ProjectsListFeature.ViewState =

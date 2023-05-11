@@ -5,15 +5,15 @@ import org.hyperskill.app.projects.domain.model.ProjectLevel
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress
 import org.hyperskill.app.track.domain.model.getProjectsIds
 
-val ProjectsListFeature.ContentState.Content.selectedProject: ProjectWithProgress?
+internal val ProjectsListFeature.ContentState.Content.selectedProject: ProjectWithProgress?
     get() = selectedProjectId?.let { projects[it] }
 
-val ProjectsListFeature.ContentState.Content.recommendedProjects: List<ProjectWithProgress>
+internal val ProjectsListFeature.ContentState.Content.recommendedProjects: List<ProjectWithProgress>
     get() = excludeSelectedProject(track.projects, selectedProjectId).take(6).mapNotNull { projectsId ->
         projects[projectsId]
     }
 
-val ProjectsListFeature.ContentState.Content.projectsByLevel: Map<ProjectLevel, List<ProjectWithProgress>>
+internal val ProjectsListFeature.ContentState.Content.projectsByLevel: Map<ProjectLevel, List<ProjectWithProgress>>
     get() = ProjectLevel.values().associateWith { level ->
         val projectsIds = track.projectsByLevel.getProjectsIds(level)
         if (!projectsIds.isNullOrEmpty()) {
@@ -32,7 +32,7 @@ private fun excludeSelectedProject(projectsIds: List<Long>, selectedProjectId: L
         projectsIds
     }
 
-val ProjectsListFeature.ContentState.Content.bestRatedProjectId: Long?
+internal val ProjectsListFeature.ContentState.Content.bestRatedProjectId: Long?
     get() {
         val bestRatedProject = projects.values.reduceOrNull { localBest, current ->
             if (localBest.progress.averageRating() > current.progress.averageRating()) {

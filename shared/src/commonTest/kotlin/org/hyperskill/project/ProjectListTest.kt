@@ -14,7 +14,13 @@ import org.hyperskill.app.projects.domain.model.ProjectTracksEntry
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress
 import org.hyperskill.app.projects.domain.model.isGraduated
 import org.hyperskill.app.projects.presentation.ProjectsListFeature
+import org.hyperskill.app.projects.presentation.ProjectsListFeature.Action
 import org.hyperskill.app.projects.presentation.ProjectsListFeature.ContentState
+import org.hyperskill.app.projects.presentation.ProjectsListFeature.InternalAction
+import org.hyperskill.app.projects.presentation.ProjectsListFeature.InternalMessage
+import org.hyperskill.app.projects.presentation.ProjectsListFeature.Message
+import org.hyperskill.app.projects.presentation.ProjectsListFeature.State
+import org.hyperskill.app.projects.presentation.ProjectsListFeature.ViewState
 import org.hyperskill.app.projects.presentation.ProjectsListReducer
 import org.hyperskill.app.projects.presentation.bestRatedProjectId
 import org.hyperskill.app.projects.presentation.recommendedProjects
@@ -37,11 +43,11 @@ class ProjectListTest {
         val trackId = 0L
         val (state, actions) = projectsListReducer.reduce(
             ProjectsListFeature.initialState(trackId),
-            ProjectsListFeature.Message.Initialize
+            Message.Initialize
         )
         assertContains(
             actions,
-            ProjectsListFeature.Action.FetchContent(trackId, false)
+            InternalAction.FetchContent(trackId, false)
         )
         assertEquals(
             ContentState.Loading,
@@ -57,8 +63,8 @@ class ProjectListTest {
         val selectedProjectId = 3L
 
         val (state, actions) = projectsListReducer.reduce(
-            ProjectsListFeature.State(trackId, ContentState.Loading),
-            ProjectsListFeature.Message.ContentFetchResult.Success(
+            State(trackId, ContentState.Loading),
+            InternalMessage.ContentFetchResult.Success(
                 track = track,
                 projects = projects.map(ProjectWithProgress.Companion::stub),
                 selectedProjectId = selectedProjectId
@@ -81,7 +87,7 @@ class ProjectListTest {
     fun `PullToRefresh message should trigger force content loading`() {
         val trackId = 0L
         val (state, actions) = projectsListReducer.reduce(
-            ProjectsListFeature.State(
+            State(
                 trackId,
                 ContentState.Content(
                     track = Track.stub(trackId),
@@ -90,11 +96,11 @@ class ProjectListTest {
                     isRefreshing = false
                 )
             ),
-            ProjectsListFeature.Message.PullToRefresh
+            Message.PullToRefresh
         )
         assertContains(
             actions,
-            ProjectsListFeature.Action.FetchContent(trackId, forceLoadFromNetwork = true)
+            InternalAction.FetchContent(trackId, forceLoadFromNetwork = true)
         )
         assertTrue {
             val content = state.content
@@ -110,11 +116,11 @@ class ProjectListTest {
             ContentState.Idle
         ).forEach { contentState ->
             val (state, actions) = projectsListReducer.reduce(
-                ProjectsListFeature.State(
+                State(
                     trackId = 0L,
                     content = contentState
                 ),
-                ProjectsListFeature.Message.PullToRefresh
+                Message.PullToRefresh
             )
             assertTrue(actions.isEmpty())
             assertEquals(contentState, state.content)
@@ -125,15 +131,15 @@ class ProjectListTest {
     fun `RetryContentLoading message should trigger force content loading`() {
         val trackId = 0L
         val (state, actions) = projectsListReducer.reduce(
-            ProjectsListFeature.State(
+            State(
                 trackId,
                 ContentState.Error
             ),
-            ProjectsListFeature.Message.RetryContentLoading
+            Message.RetryContentLoading
         )
         assertContains(
             actions,
-            ProjectsListFeature.Action.FetchContent(trackId, forceLoadFromNetwork = true)
+            InternalAction.FetchContent(trackId, forceLoadFromNetwork = true)
         )
         assertEquals(
             ContentState.Loading,
@@ -153,11 +159,11 @@ class ProjectListTest {
             ContentState.Idle
         ).forEach { contentState ->
             val (state, actions) = projectsListReducer.reduce(
-                ProjectsListFeature.State(
+                State(
                     trackId = 0L,
                     content = contentState
                 ),
-                ProjectsListFeature.Message.RetryContentLoading
+                Message.RetryContentLoading
             )
             assertTrue(actions.isEmpty())
             assertEquals(contentState, state.content)
@@ -169,7 +175,7 @@ class ProjectListTest {
         val trackId = 0L
         val projectId = 1L
         val (state, actions) = projectsListReducer.reduce(
-            ProjectsListFeature.State(
+            State(
                 trackId,
                 ContentState.Content(
                     track = Track.stub(trackId),
@@ -177,11 +183,11 @@ class ProjectListTest {
                     selectedProjectId = null
                 )
             ),
-            ProjectsListFeature.Message.ProjectClicked(projectId)
+            Message.ProjectClicked(projectId)
         )
         assertContains(
             actions,
-            ProjectsListFeature.Action.SelectProject(trackId, projectId)
+            InternalAction.SelectProject(trackId, projectId)
         )
         assertTrue {
             val content = state.content
@@ -200,16 +206,16 @@ class ProjectListTest {
             isProjectSelectionLoadingShowed = true
         )
         val (state, actions) = projectsListReducer.reduce(
-            ProjectsListFeature.State(trackId, initialContentState),
-            ProjectsListFeature.Message.ProjectSelectionResult.Success
+            State(trackId, initialContentState),
+            InternalMessage.ProjectSelectionResult.Success
         )
         assertContains(
             actions,
-            ProjectsListFeature.Action.ViewAction.ShowProjectSelectionStatus.Success
+            Action.ViewAction.ShowProjectSelectionStatus.Success
         )
         assertContains(
             actions,
-            ProjectsListFeature.Action.ViewAction.NavigateTo.HomeScreen
+            Action.ViewAction.NavigateTo.HomeScreen
         )
         assertEquals(
             initialContentState.copy(isProjectSelectionLoadingShowed = false),
@@ -228,12 +234,12 @@ class ProjectListTest {
             isProjectSelectionLoadingShowed = true
         )
         val (state, actions) = projectsListReducer.reduce(
-            ProjectsListFeature.State(trackId, initialContentState),
-            ProjectsListFeature.Message.ProjectSelectionResult.Error
+            State(trackId, initialContentState),
+            InternalMessage.ProjectSelectionResult.Error
         )
         assertContains(
             actions,
-            ProjectsListFeature.Action.ViewAction.ShowProjectSelectionStatus.Error
+            Action.ViewAction.ShowProjectSelectionStatus.Error
         )
         assertEquals(
             initialContentState.copy(isProjectSelectionLoadingShowed = false),
@@ -403,7 +409,7 @@ class ProjectListTest {
             }
             assertEquals(
                 projectsIds,
-                viewState.safeCast<ProjectsListFeature.ViewState.Content>()
+                viewState.safeCast<ViewState.Content>()
                     ?.projectsByLevel?.get(level)?.map { it.id } ?: emptyList()
             )
         }

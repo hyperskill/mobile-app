@@ -1,5 +1,6 @@
 package org.hyperskill.app.projects.injection
 
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
@@ -12,13 +13,14 @@ import org.hyperskill.app.projects.presentation.ProjectsListFeature.Message
 import org.hyperskill.app.projects.presentation.ProjectsListFeature.ViewState
 import org.hyperskill.app.projects.presentation.ProjectsListReducer
 import org.hyperskill.app.projects.view.mapper.ProjectsListViewStateMapper
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository
 import org.hyperskill.app.track.domain.repository.TrackRepository
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
-object ProjectsListFeatureBuilder {
+internal object ProjectsListFeatureBuilder {
     fun build(
         trackId: Long,
         trackRepository: TrackRepository,
@@ -26,7 +28,9 @@ object ProjectsListFeatureBuilder {
         projectsRepository: ProjectsRepository,
         progressesRepository: ProgressesRepository,
         profileInteractor: ProfileInteractor,
-        viewStateMapper: ProjectsListViewStateMapper
+        viewStateMapper: ProjectsListViewStateMapper,
+        sentryInteractor: SentryInteractor,
+        analyticInteractor: AnalyticInteractor
     ): Feature<ViewState, Message, Action> {
         val actionDispatcher = ProjectsListActionDispatcher(
             config = ActionDispatcherOptions(),
@@ -35,6 +39,8 @@ object ProjectsListFeatureBuilder {
             projectsRepository = projectsRepository,
             progressesRepository = progressesRepository,
             profileInteractor = profileInteractor,
+            sentryInteractor = sentryInteractor,
+            analyticInteractor = analyticInteractor
         )
         return ReduxFeature(
             initialState = ProjectsListFeature.initialState(trackId),

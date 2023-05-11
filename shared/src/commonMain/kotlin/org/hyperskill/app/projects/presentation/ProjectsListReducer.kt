@@ -7,20 +7,22 @@ import org.hyperskill.app.projects.domain.analytic.ProjectsListViewedHyperskillA
 import org.hyperskill.app.projects.presentation.ProjectsListFeature.Action
 import org.hyperskill.app.projects.presentation.ProjectsListFeature.Action.ViewAction
 import org.hyperskill.app.projects.presentation.ProjectsListFeature.ContentState
+import org.hyperskill.app.projects.presentation.ProjectsListFeature.InternalAction
+import org.hyperskill.app.projects.presentation.ProjectsListFeature.InternalMessage
 import org.hyperskill.app.projects.presentation.ProjectsListFeature.Message
 import org.hyperskill.app.projects.presentation.ProjectsListFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias ProjectsListReducerResult = Pair<State, Set<Action>>
 
-class ProjectsListReducer : StateReducer<State, Message, Action> {
+internal class ProjectsListReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): ProjectsListReducerResult =
         when (message) {
             Message.Initialize -> {
                 state.updateContentState(ContentState.Loading) to
                     fetchContent(state)
             }
-            is Message.ContentFetchResult.Success -> {
+            is InternalMessage.ContentFetchResult.Success -> {
                 state.updateContentState(
                     ContentState.Content(
                         track = message.track,
@@ -30,7 +32,7 @@ class ProjectsListReducer : StateReducer<State, Message, Action> {
                     )
                 ) to emptySet()
             }
-            Message.ContentFetchResult.Error -> {
+            InternalMessage.ContentFetchResult.Error -> {
                 state.updateContentState(ContentState.Error) to emptySet()
             }
             Message.PullToRefresh -> {
@@ -40,7 +42,7 @@ class ProjectsListReducer : StateReducer<State, Message, Action> {
                     } else {
                         content.copy(isRefreshing = true) to
                             fetchContent(state, forceLoadFromNetwork = true) +
-                                Action.LogAnalyticEvent(
+                                InternalAction.LogAnalyticEvent(
                                     ProjectsListClickedPullToRefreshHyperskillAnalyticEvent(
                                         trackId = state.trackId
                                     )
@@ -52,7 +54,7 @@ class ProjectsListReducer : StateReducer<State, Message, Action> {
                 state.doIf<ContentState.Error> {
                     ContentState.Loading to
                         fetchContent(state, forceLoadFromNetwork = true) +
-                            Action.LogAnalyticEvent(
+                            InternalAction.LogAnalyticEvent(
                                 ProjectsListClickedRetryContentLoadingHyperskillAnalyticsEvent(
                                     trackId = state.trackId
                                 )
@@ -63,11 +65,11 @@ class ProjectsListReducer : StateReducer<State, Message, Action> {
                 state.doIfContent { content ->
                     content.copy(isProjectSelectionLoadingShowed = true) to
                         setOf(
-                            Action.SelectProject(
+                            InternalAction.SelectProject(
                                 trackId = state.trackId,
                                 projectId = message.projectId
                             ),
-                            Action.LogAnalyticEvent(
+                            InternalAction.LogAnalyticEvent(
                                 ProjectsListClickedProjectHyperskillAnalyticsEvent(
                                     trackId = state.trackId,
                                     projectId = message.projectId
@@ -76,13 +78,13 @@ class ProjectsListReducer : StateReducer<State, Message, Action> {
                         )
                 }
             }
-            is Message.ProjectSelectionResult -> {
+            is InternalMessage.ProjectSelectionResult -> {
                 state.doIfContent { content ->
                     content.copy(isProjectSelectionLoadingShowed = false) to
                         when (message) {
-                            Message.ProjectSelectionResult.Error ->
+                            InternalMessage.ProjectSelectionResult.Error ->
                                 setOf(ViewAction.ShowProjectSelectionStatus.Error)
-                            Message.ProjectSelectionResult.Success ->
+                            InternalMessage.ProjectSelectionResult.Success ->
                                 setOf(
                                     ViewAction.NavigateTo.HomeScreen,
                                     ViewAction.ShowProjectSelectionStatus.Success
@@ -92,7 +94,7 @@ class ProjectsListReducer : StateReducer<State, Message, Action> {
             }
             Message.ViewedEventMessage -> {
                 state to setOf(
-                    Action.LogAnalyticEvent(
+                    InternalAction.LogAnalyticEvent(
                         ProjectsListViewedHyperskillAnalyticEvent(state.trackId)
                     )
                 )
@@ -104,7 +106,7 @@ class ProjectsListReducer : StateReducer<State, Message, Action> {
         forceLoadFromNetwork: Boolean = false
     ): Set<Action> =
         setOf(
-            Action.FetchContent(
+            InternalAction.FetchContent(
                 state.trackId,
                 forceLoadFromNetwork = forceLoadFromNetwork
             )

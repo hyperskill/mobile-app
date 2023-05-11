@@ -6,12 +6,12 @@ import org.hyperskill.app.projects.domain.model.ProjectWithProgress
 import org.hyperskill.app.track.domain.model.Track
 
 object ProjectsListFeature {
-    data class State(
+    internal data class State(
         val trackId: Long,
         val content: ContentState
     )
 
-    sealed interface ContentState {
+    internal sealed interface ContentState {
         object Idle : ContentState
         object Loading : ContentState
         data class Content(
@@ -24,7 +24,7 @@ object ProjectsListFeature {
         object Error : ContentState
     }
 
-    fun initialState(trackId: Long): State =
+    internal fun initialState(trackId: Long): State =
         State(trackId, ContentState.Idle)
 
     sealed interface ViewState {
@@ -40,6 +40,9 @@ object ProjectsListFeature {
         object Error : ViewState
     }
 
+    /**
+     * A view representation of a project.
+     */
     data class ProjectListItem(
         val id: Long,
         val title: String,
@@ -53,7 +56,16 @@ object ProjectsListFeature {
 
     sealed interface Message {
         object Initialize : Message
-        sealed interface ContentFetchResult : Message {
+        object PullToRefresh : Message
+        object RetryContentLoading : Message
+
+        object ViewedEventMessage : Message
+
+        data class ProjectClicked(val projectId: Long) : Message
+    }
+
+    sealed interface InternalMessage : Message {
+        sealed interface ContentFetchResult : InternalMessage {
             data class Success(
                 val track: Track,
                 val projects: List<ProjectWithProgress>,
@@ -61,29 +73,14 @@ object ProjectsListFeature {
             ) : ContentFetchResult
             object Error : ContentFetchResult
         }
-        object PullToRefresh : Message
-        object RetryContentLoading : Message
 
-        object ViewedEventMessage : Message
-
-        data class ProjectClicked(val projectId: Long) : Message
-
-        sealed interface ProjectSelectionResult : Message {
+        sealed interface ProjectSelectionResult : InternalMessage {
             object Success : ProjectSelectionResult
             object Error : ProjectSelectionResult
         }
     }
 
     sealed interface Action {
-        data class FetchContent(
-            val trackId: Long,
-            val forceLoadFromNetwork: Boolean
-        ) : Action
-
-        data class SelectProject(val trackId: Long, val projectId: Long) : Action
-
-        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
-
         sealed interface ViewAction : Action {
 
             sealed interface NavigateTo : ViewAction {
@@ -94,5 +91,16 @@ object ProjectsListFeature {
                 object Error : ShowProjectSelectionStatus
             }
         }
+    }
+
+    internal interface InternalAction : Action {
+        data class FetchContent(
+            val trackId: Long,
+            val forceLoadFromNetwork: Boolean
+        ) : Action
+
+        data class SelectProject(val trackId: Long, val projectId: Long) : Action
+
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
     }
 }
