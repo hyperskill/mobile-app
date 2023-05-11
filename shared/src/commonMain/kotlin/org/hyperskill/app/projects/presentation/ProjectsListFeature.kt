@@ -31,6 +31,7 @@ object ProjectsListFeature {
         object Idle : ViewState
         object Loading : ViewState
         data class Content(
+            val trackIcon: String?,
             val formattedTitle: String,
             val selectedProject: ProjectListItem?,
             val recommendedProjects: List<ProjectListItem>,

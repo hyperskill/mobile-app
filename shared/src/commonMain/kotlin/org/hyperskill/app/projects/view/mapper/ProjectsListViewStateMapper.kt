@@ -26,6 +26,7 @@ internal class ProjectsListViewStateMapper(
                 val bestRatedProjectId = state.bestRatedProjectId
                 val fastestToCompleteProjectId = state.fastestToCompleteProjectId
                 ProjectsListFeature.ViewState.Content(
+                    trackIcon = state.track.cover,
                     formattedTitle = resourceProvider.getString(
                         SharedResources.strings.projects_list_title,
                         state.track.title
