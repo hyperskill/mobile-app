@@ -1,6 +1,5 @@
 package org.hyperskill.app.track.domain.model
 
-import kotlin.math.roundToInt
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.hyperskill.app.progresses.domain.model.Progress
