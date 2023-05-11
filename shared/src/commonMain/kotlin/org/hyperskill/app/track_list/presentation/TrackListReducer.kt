@@ -57,7 +57,7 @@ class TrackListReducer : StateReducer<State, Message, Action> {
             is Message.TrackSelected.Error ->
                 state to setOf(Action.ViewAction.ShowTrackSelectionStatus.Error)
             is Message.ProjectSelectionRequired ->
-                state to setOf(Action.ViewAction.NavigateTo.ProjectSelection(message.track))
+                state to setOf(Action.ViewAction.NavigateTo.ProjectSelection(message.trackId))
             is Message.TrackClicked ->
                 getTrackById(message.trackId, state)?.let { track ->
                     state to setOf(

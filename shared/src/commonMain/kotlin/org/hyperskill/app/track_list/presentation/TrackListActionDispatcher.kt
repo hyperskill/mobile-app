@@ -92,7 +92,7 @@ class TrackListActionDispatcher(
                 onNewMessage(Message.TrackSelected.Success)
 
                 if (!isFreemiumEnabled && action.track.projects.isNotEmpty()) {
-                    onNewMessage(Message.ProjectSelectionRequired(action.track))
+                    onNewMessage(Message.ProjectSelectionRequired(action.track.id))
                 }
             }
             is Action.LogAnalyticEvent ->

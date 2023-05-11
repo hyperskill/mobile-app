@@ -33,7 +33,7 @@ interface TrackListFeature {
             object Error : TrackSelected
         }
 
-        data class ProjectSelectionRequired(val track: Track) : Message
+        data class ProjectSelectionRequired(val trackId: Long) : Message
 
         /**
          * Analytic
@@ -51,7 +51,7 @@ interface TrackListFeature {
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
                 object HomeScreen : NavigateTo
-                data class ProjectSelection(val track: Track) : NavigateTo
+                data class ProjectSelection(val trackId: Long) : NavigateTo
             }
 
             data class ShowTrackModal(val track: Track) : ViewAction
