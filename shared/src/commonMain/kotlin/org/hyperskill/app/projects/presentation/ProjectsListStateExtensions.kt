@@ -34,16 +34,28 @@ private fun excludeSelectedProject(projectsIds: List<Long>, selectedProjectId: L
 
 internal val ProjectsListFeature.ContentState.Content.bestRatedProjectId: Long?
     get() {
-        val bestRatedProject = projects.values.reduceOrNull { localBest, current ->
-            if (localBest.progress.averageRating() > current.progress.averageRating()) {
-                localBest
-            } else {
-                current
-            }
+        val bestRatedProject = projects.values.maxByOrNull {
+            it.progress.averageRating()
         }
         val bestRatedProjectRating = bestRatedProject?.progress?.averageRating()
         return if (bestRatedProjectRating != null && bestRatedProjectRating > 0) {
             bestRatedProject.project.id
+        } else {
+            null
+        }
+    }
+
+/**
+ * @return project id with the shortest time-to-complete or null if
+ */
+internal val ProjectsListFeature.ContentState.Content.fastestToCompleteProjectId: Long?
+    get() {
+        val fastestToCompleteProject = projects.values.minByOrNull {
+            it.progress.secondsToComplete
+        }
+        val fastestTimeToComplete = fastestToCompleteProject?.progress?.secondsToComplete
+        return if (fastestTimeToComplete != null && fastestTimeToComplete > .0) {
+            fastestToCompleteProject.project.id
         } else {
             null
         }

@@ -22,6 +22,7 @@ import org.hyperskill.app.projects.presentation.ProjectsListFeature.State
 import org.hyperskill.app.projects.presentation.ProjectsListFeature.ViewState
 import org.hyperskill.app.projects.presentation.ProjectsListReducer
 import org.hyperskill.app.projects.presentation.bestRatedProjectId
+import org.hyperskill.app.projects.presentation.fastestToCompleteProjectId
 import org.hyperskill.app.projects.presentation.recommendedProjects
 import org.hyperskill.app.projects.view.mapper.ProjectsListViewStateMapper
 import org.hyperskill.app.track.domain.model.ProjectsByLevel
@@ -366,6 +367,41 @@ class ProjectsListTest {
                 assertTrue(project.isGraduated(currentTrackId))
             }
         }
+    }
+
+    //Test fastestToCompleteProjectId
+    @Test
+    fun `Fastest to complete project should be a project with lowest averageTimeToComplete`() {
+        val projects = (1..10).map { value ->
+            ProjectWithProgress(
+                project = Project.stub(id = value.toLong()),
+                progress = ProjectProgress.stub(
+                    projectId = value.toLong(),
+                    secondsToComplete = value.toDouble()
+                )
+            )
+        }.shuffled().associateBy { it.project.id }
+        val content = ContentState.Content(
+            track = Track.stub(0L),
+            projects = projects,
+            selectedProjectId = null
+        )
+        val expectedProjectId =
+            projects.values.first { it.progress.secondsToComplete == 1.0 }.project.id
+        assertEquals(
+            expectedProjectId,
+            content.fastestToCompleteProjectId
+        )
+    }
+
+    @Test
+    fun `Fastest to complete project should be null if there are no projects`() {
+        val content = ContentState.Content(
+            track = Track.stub(0L),
+            projects = emptyMap(),
+            selectedProjectId = null
+        )
+        assertNull(content.fastestToCompleteProjectId)
     }
 
     @Test

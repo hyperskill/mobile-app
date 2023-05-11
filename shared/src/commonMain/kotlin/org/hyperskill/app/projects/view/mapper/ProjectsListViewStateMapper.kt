@@ -9,6 +9,7 @@ import org.hyperskill.app.projects.domain.model.ProjectWithProgress
 import org.hyperskill.app.projects.domain.model.isGraduated
 import org.hyperskill.app.projects.presentation.ProjectsListFeature
 import org.hyperskill.app.projects.presentation.bestRatedProjectId
+import org.hyperskill.app.projects.presentation.fastestToCompleteProjectId
 import org.hyperskill.app.projects.presentation.projectsByLevel
 import org.hyperskill.app.projects.presentation.recommendedProjects
 import org.hyperskill.app.projects.presentation.selectedProject
@@ -23,6 +24,7 @@ internal class ProjectsListViewStateMapper(
             ProjectsListFeature.ContentState.Loading -> ProjectsListFeature.ViewState.Loading
             is ProjectsListFeature.ContentState.Content -> {
                 val bestRatedProjectId = state.bestRatedProjectId
+                val fastestToCompleteProjectId = state.fastestToCompleteProjectId
                 ProjectsListFeature.ViewState.Content(
                     formattedTitle = resourceProvider.getString(
                         SharedResources.strings.projects_list_title,
@@ -33,6 +35,7 @@ internal class ProjectsListViewStateMapper(
                             projectWithProgress = it,
                             trackId = state.track.id,
                             bestRatedProjectId = bestRatedProjectId,
+                            fastestToCompleteProjectId = fastestToCompleteProjectId,
                             level = state.track.projectsByLevel.getProjectLevel(it.project.id)
                         )
                     },
@@ -41,6 +44,7 @@ internal class ProjectsListViewStateMapper(
                             projectWithProgress = it,
                             trackId = state.track.id,
                             bestRatedProjectId = bestRatedProjectId,
+                            fastestToCompleteProjectId = fastestToCompleteProjectId,
                             level = state.track.projectsByLevel.getProjectLevel(it.project.id)
                         )
                     },
@@ -50,6 +54,7 @@ internal class ProjectsListViewStateMapper(
                                 projectWithProgress = project,
                                 trackId = state.track.id,
                                 bestRatedProjectId = bestRatedProjectId,
+                                fastestToCompleteProjectId = fastestToCompleteProjectId,
                                 level = level
                             )
                         }
@@ -64,6 +69,7 @@ internal class ProjectsListViewStateMapper(
         projectWithProgress: ProjectWithProgress,
         trackId: Long,
         bestRatedProjectId: Long?,
+        fastestToCompleteProjectId: Long?,
         level: ProjectLevel?
     ): ProjectsListFeature.ProjectListItem =
         with(projectWithProgress) {
@@ -75,7 +81,8 @@ internal class ProjectsListViewStateMapper(
                 timeToComplete = getTimeToComplete(progress.secondsToComplete),
                 isGraduated = project.isGraduated(trackId),
                 isBestRated = project.id == bestRatedProjectId,
-                isIdeRequired = project.isIdeRequired
+                isIdeRequired = project.isIdeRequired,
+                isFastestToComplete = project.id == fastestToCompleteProjectId
             )
         }
 

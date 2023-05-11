@@ -51,7 +51,8 @@ object ProjectsListFeature {
         val timeToComplete: String,
         val isGraduated: Boolean,
         val isBestRated: Boolean,
-        val isIdeRequired: Boolean
+        val isIdeRequired: Boolean,
+        val isFastestToComplete: Boolean
     )
 
     sealed interface Message {
