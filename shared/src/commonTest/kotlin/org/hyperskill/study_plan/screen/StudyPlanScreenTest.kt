@@ -6,6 +6,9 @@ import kotlin.test.fail
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
+import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
+import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
+import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedPullToRefreshHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanViewedHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
@@ -16,6 +19,7 @@ import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
 class StudyPlanScreenTest {
     private val reducer = StudyPlanScreenReducer(
         GamificationToolbarReducer(GamificationToolbarScreen.STUDY_PLAN),
+        ProblemsLimitReducer(ProblemsLimitScreen.STUDY_PLAN),
         StudyPlanWidgetReducer()
     )
 
@@ -48,7 +52,8 @@ class StudyPlanScreenTest {
 
     private fun stubState(
         toolbarState: GamificationToolbarFeature.State = GamificationToolbarFeature.State.Idle,
+        problemsLimitState: ProblemsLimitFeature.State = ProblemsLimitFeature.State.Idle,
         studyPlanWidgetState: StudyPlanWidgetFeature.State = StudyPlanWidgetFeature.State()
     ): StudyPlanScreenFeature.State =
-        StudyPlanScreenFeature.State(toolbarState, studyPlanWidgetState)
+        StudyPlanScreenFeature.State(toolbarState, problemsLimitState, studyPlanWidgetState)
 }

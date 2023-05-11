@@ -3,6 +3,8 @@ package org.hyperskill.app.study_plan.screen.injection
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
+import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
+import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
 import org.hyperskill.app.study_plan.screen.view.StudyPlanScreenViewState
 import org.hyperskill.app.study_plan.widget.injection.StudyPlanWidgetComponent
@@ -13,6 +15,9 @@ class StudyPlanScreenComponentImpl(private val appGraph: AppGraph) : StudyPlanSc
     private val toolbarComponent: GamificationToolbarComponent =
         appGraph.buildGamificationToolbarComponent(GamificationToolbarScreen.STUDY_PLAN)
 
+    private val problemsLimitComponent: ProblemsLimitComponent =
+        appGraph.buildProblemsLimitComponent(ProblemsLimitScreen.STUDY_PLAN)
+
     private val studyPlanWidgetComponent: StudyPlanWidgetComponent =
         appGraph.buildStudyPlanWidgetComponent()
 
@@ -22,6 +27,8 @@ class StudyPlanScreenComponentImpl(private val appGraph: AppGraph) : StudyPlanSc
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             toolbarReducer = toolbarComponent.gamificationToolbarReducer,
             toolbarActionDispatcher = toolbarComponent.gamificationToolbarActionDispatcher,
+            problemsLimitReducer = problemsLimitComponent.problemsLimitReducer,
+            problemsLimitActionDispatcher = problemsLimitComponent.problemsLimitActionDispatcher,
             studyPlanWidgetReducer = studyPlanWidgetComponent.studyPlanWidgetReducer,
             studyPlanWidgetDispatcher = studyPlanWidgetComponent.studyPlanWidgetDispatcher,
             studyPlanWidgetViewStateMapper = studyPlanWidgetComponent.studyPlanWidgetViewStateMapper,
