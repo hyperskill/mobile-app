@@ -69,6 +69,7 @@ kotlin {
                 implementation(libs.kotlin.coroutines.core)
                 implementation(libs.kotlin.coroutines.test)
                 implementation(libs.mokoResources.test)
+                implementation(kotlin("reflect"))
             }
         }
         val androidMain by getting {

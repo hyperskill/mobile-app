@@ -7,7 +7,7 @@ import org.hyperskill.app.streaks.domain.model.Streak
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.track.domain.model.TrackWithProgress
 
-interface GamificationToolbarFeature {
+object GamificationToolbarFeature {
     sealed interface State {
         object Idle : State
         object Loading : State
@@ -19,6 +19,9 @@ interface GamificationToolbarFeature {
             internal val isRefreshing: Boolean = false
         ) : State
     }
+
+    internal val State.isRefreshing: Boolean
+        get() = this is State.Content && isRefreshing
 
     sealed interface Message {
         /**

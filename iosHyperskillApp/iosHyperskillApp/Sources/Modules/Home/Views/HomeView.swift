@@ -76,9 +76,11 @@ struct HomeView: View {
                 VStack(alignment: .leading, spacing: appearance.spacingBetweenContainers) {
                     HomeSubheadlineView()
 
-                    ProblemsLimitAssembly()
-                        .makeModule()
-                        .padding(.top, LayoutInsets.smallInset)
+                    ProblemsLimitView(
+                        stateKs: viewModel.problemsLimitViewStateKs,
+                        onReloadButtonTap: viewModel.doReloadProblemsLimit
+                    )
+                    .padding(.top, LayoutInsets.smallInset)
 
                     ProblemOfDayAssembly(
                         problemOfDayState: data.problemOfDayState,
@@ -152,6 +154,8 @@ struct HomeView: View {
             case .showStepScreen(let data):
                 displayStep(stepRoute: StepRouteLearn(stepId: data.stepId))
             }
+        case .problemsLimitViewAction:
+            break
         }
     }
 

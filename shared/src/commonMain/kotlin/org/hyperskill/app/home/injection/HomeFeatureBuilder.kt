@@ -14,6 +14,9 @@ import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeReducer
 import org.hyperskill.app.home.view.HomeFeatureViewStateMapper
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
+import org.hyperskill.app.problems_limit.presentation.ProblemsLimitActionDispatcher
+import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
+import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
@@ -42,10 +45,12 @@ object HomeFeatureBuilder {
         topicRepeatedFlow: TopicRepeatedFlow,
         gamificationToolbarReducer: GamificationToolbarReducer,
         gamificationToolbarActionDispatcher: GamificationToolbarActionDispatcher,
+        problemsLimitReducer: ProblemsLimitReducer,
+        problemsLimitActionDispatcher: ProblemsLimitActionDispatcher,
         topicsToDiscoverNextReducer: TopicsToDiscoverNextReducer,
         topicsToDiscoverNextActionDispatcher: TopicsToDiscoverNextActionDispatcher
     ): Feature<HomeFeature.State, HomeFeature.Message, HomeFeature.Action> {
-        val homeReducer = HomeReducer(gamificationToolbarReducer, topicsToDiscoverNextReducer)
+        val homeReducer = HomeReducer(gamificationToolbarReducer, problemsLimitReducer, topicsToDiscoverNextReducer)
         val homeActionDispatcher = HomeActionDispatcher(
             ActionDispatcherOptions(),
             homeInteractor,
@@ -64,6 +69,7 @@ object HomeFeatureBuilder {
             HomeFeature.State(
                 homeState = HomeFeature.HomeState.Idle,
                 toolbarState = GamificationToolbarFeature.State.Idle,
+                problemsLimitState = ProblemsLimitFeature.State.Idle,
                 topicsToDiscoverNextState = TopicsToDiscoverNextFeature.State.Idle
             ),
             homeReducer
@@ -73,6 +79,12 @@ object HomeFeatureBuilder {
                 gamificationToolbarActionDispatcher.transform(
                     transformAction = { it.safeCast<HomeFeature.Action.GamificationToolbarAction>()?.action },
                     transformMessage = HomeFeature.Message::GamificationToolbarMessage
+                )
+            )
+            .wrapWithActionDispatcher(
+                problemsLimitActionDispatcher.transform(
+                    transformAction = { it.safeCast<HomeFeature.Action.ProblemsLimitAction>()?.action },
+                    transformMessage = HomeFeature.Message::ProblemsLimitMessage
                 )
             )
             .wrapWithActionDispatcher(

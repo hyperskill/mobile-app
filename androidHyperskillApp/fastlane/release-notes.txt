@@ -1,3 +1,0 @@
-What to Test:
-1. Progress in Gamification toolbar ALTAPPS-696
-2. Fix app resets after its minimization ALTAPPS-720
