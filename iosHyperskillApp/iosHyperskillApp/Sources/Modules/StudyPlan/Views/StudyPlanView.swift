@@ -78,8 +78,8 @@ struct StudyPlanView: View {
                             .foregroundColor(.secondaryText)
                             .padding(.bottom, appearance.trackTitleBottomPadding)
                     }
-
-                    ProblemsLimitAssembly().makeModule()
+                    // TODO: ALTAPPS-701 change problems limit embedding
+//                    ProblemsLimitAssembly().makeModule()
 
                     ForEach(data.sections, id: \.id) { section in
                         StudyPlanSectionView(

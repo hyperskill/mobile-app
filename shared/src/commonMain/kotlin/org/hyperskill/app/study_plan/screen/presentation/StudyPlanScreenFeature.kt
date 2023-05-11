@@ -2,6 +2,7 @@ package org.hyperskill.app.study_plan.screen.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
+import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.isRefreshing
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 
 object StudyPlanScreenFeature {
@@ -11,7 +12,7 @@ object StudyPlanScreenFeature {
         val studyPlanWidgetState: StudyPlanWidgetFeature.State
     ) {
         val isRefreshing: Boolean
-            get() = toolbarState is GamificationToolbarFeature.State.Content && toolbarState.isRefreshing ||
+            get() = toolbarState.isRefreshing ||
                 studyPlanWidgetState.isRefreshing
     }
 

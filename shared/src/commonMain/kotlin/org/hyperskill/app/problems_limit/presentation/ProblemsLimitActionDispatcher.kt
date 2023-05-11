@@ -9,12 +9,14 @@ import org.hyperskill.app.core.presentation.Timer
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.Action
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.Message
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class ProblemsLimitActionDispatcher(
     config: ActionDispatcherOptions,
     private val freemiumInteractor: FreemiumInteractor,
+    private val sentryInteractor: SentryInteractor,
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
@@ -31,24 +33,30 @@ class ProblemsLimitActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.LoadSubscription -> {
+                val sentryTransaction = action.screen.sentryTransaction
+                sentryInteractor.startTransaction(sentryTransaction)
+
                 val isFreemiumEnabled = freemiumInteractor
                     .isFreemiumEnabled()
                     .getOrElse {
+                        sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                         return onNewMessage(Message.SubscriptionLoadingResult.Error)
                     }
 
                 onNewMessage(
-                    // TODO: use force update from reducer Initialize message
-                    //  after refactoring of feature integration
-                    currentSubscriptionStateRepository.getState(forceUpdate = true)
+                    currentSubscriptionStateRepository.getState(forceUpdate = action.forceUpdate)
                         .fold(
                             onSuccess = {
+                                sentryInteractor.finishTransaction(sentryTransaction)
                                 Message.SubscriptionLoadingResult.Success(
                                     subscription = it,
                                     isFreemiumEnabled = isFreemiumEnabled
                                 )
                             },
-                            onFailure = { Message.SubscriptionLoadingResult.Error }
+                            onFailure = {
+                                sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
+                                Message.SubscriptionLoadingResult.Error
+                            }
                         )
                 )
             }

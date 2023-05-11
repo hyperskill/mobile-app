@@ -1,8 +1,8 @@
 import Foundation
 import shared
 
-extension StepQuizFeatureStateKs: Equatable {
-    public static func == (lhs: StepQuizFeatureStateKs, rhs: StepQuizFeatureStateKs) -> Bool {
+extension StepQuizFeatureStepQuizStateKs: Equatable {
+    public static func == (lhs: StepQuizFeatureStepQuizStateKs, rhs: StepQuizFeatureStepQuizStateKs) -> Bool {
         switch (lhs, rhs) {
         case (.idle, .idle):
             return true

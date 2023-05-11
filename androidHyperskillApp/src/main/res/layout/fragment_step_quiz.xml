@@ -51,17 +51,27 @@
         android:layout_margin="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/stepQuizProblemsLimit"
+        app:layout_constraintBottom_toTopOf="@+id/problemsLimitDivider"
         tools:text="2438 users solved this problem. Latest completion was about 13 hours ago." />
 
-    <FrameLayout
+    <include
+        android:id="@+id/problemsLimitDivider"
+        layout="@layout/view_divider_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/stepQuizProblemsLimit"
+        android:visibility="gone"
+        />
+
+    <include
         android:id="@+id/stepQuizProblemsLimit"
+        layout="@layout/layout_problems_limit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginHorizontal="20dp"
         app:layout_constraintBottom_toTopOf="@+id/stepQuizFeedbackBlocks"
-        />
+        android:layout_marginHorizontal="20dp"/>
 
     <include
         android:id="@+id/stepQuizFeedbackBlocks"
