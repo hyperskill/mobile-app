@@ -6,7 +6,7 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 
 interface StepQuizFormDelegate {
 
-    fun setState(state: StepQuizFeature.State.AttemptLoaded)
+    fun setState(state: StepQuizFeature.StepQuizState.AttemptLoaded)
 
     /**
      * Generates reply from current form data

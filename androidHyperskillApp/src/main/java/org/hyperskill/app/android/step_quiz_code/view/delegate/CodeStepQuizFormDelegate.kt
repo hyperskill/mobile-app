@@ -65,7 +65,7 @@ class CodeStepQuizFormDelegate(
     override fun createReply(): Reply =
         codeStepQuizConfig.createReply(code)
 
-    override fun setState(state: StepQuizFeature.State.AttemptLoaded) {
+    override fun setState(state: StepQuizFeature.StepQuizState.AttemptLoaded) {
         val submission = (state.submissionState as? StepQuizFeature.SubmissionState.Loaded)
             ?.submission
         val replyCode = codeStepQuizConfig.getCode(submission)

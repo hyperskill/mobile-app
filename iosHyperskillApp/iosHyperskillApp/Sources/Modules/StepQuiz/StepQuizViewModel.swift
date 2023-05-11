@@ -16,13 +16,17 @@ final class StepQuizViewModel: FeatureViewModel<
     weak var childQuizModuleInput: StepQuizChildQuizInputProtocol?
     private var updateChildQuizSubscription: AnyCancellable?
 
-    private let viewDataMapper: StepQuizViewDataMapper
+    private let stepQuizViewDataMapper: StepQuizViewDataMapper
     private let userPermissionRequestTextMapper: StepQuizUserPermissionRequestTextMapper
+    private let problemsLimitViewStateMapper: ProblemsLimitViewStateMapper
 
     private let notificationService: NotificationsService
     private let notificationsRegistrationService: NotificationsRegistrationService
 
-    var stateKs: StepQuizFeatureStateKs { .init(state) }
+    var stepQuizStateKs: StepQuizFeatureStepQuizStateKs { .init(state.stepQuizState) }
+    var problemsLimitViewStateKs: ProblemsLimitFeatureViewStateKs {
+        .init(problemsLimitViewStateMapper.mapState(state: state.problemsLimitState))
+    }
 
     @Published var isPracticingLoading = false
 
@@ -33,6 +37,7 @@ final class StepQuizViewModel: FeatureViewModel<
         provideModuleInputCallback: @escaping (StepQuizInputProtocol?) -> Void,
         viewDataMapper: StepQuizViewDataMapper,
         userPermissionRequestTextMapper: StepQuizUserPermissionRequestTextMapper,
+        problemsLimitViewStateMapper: ProblemsLimitViewStateMapper,
         notificationService: NotificationsService,
         notificationsRegistrationService: NotificationsRegistrationService,
         feature: Presentation_reduxFeature
@@ -41,15 +46,17 @@ final class StepQuizViewModel: FeatureViewModel<
         self.stepRoute = stepRoute
         self.moduleOutput = moduleOutput
         self.provideModuleInputCallback = provideModuleInputCallback
-        self.viewDataMapper = viewDataMapper
+        self.stepQuizViewDataMapper = viewDataMapper
         self.userPermissionRequestTextMapper = userPermissionRequestTextMapper
+        self.problemsLimitViewStateMapper = problemsLimitViewStateMapper
         self.notificationService = notificationService
         self.notificationsRegistrationService = notificationsRegistrationService
         super.init(feature: feature)
     }
 
     override func shouldNotifyStateDidChange(oldState: StepQuizFeatureState, newState: StepQuizFeatureState) -> Bool {
-        if oldState is StepQuizFeatureStateAttemptLoading && newState is StepQuizFeatureStateAttemptLoaded {
+        if oldState.stepQuizState is StepQuizFeatureStepQuizStateAttemptLoading
+            && newState.stepQuizState is StepQuizFeatureStepQuizStateAttemptLoaded {
             updateChildQuizSubscription = objectWillChange.sink { [weak self] in
                 guard let strongSelf = self else {
                     return
@@ -62,7 +69,7 @@ final class StepQuizViewModel: FeatureViewModel<
             }
         }
 
-        return StepQuizFeatureStateKs(oldState) != StepQuizFeatureStateKs(newState)
+        return !oldState.isEqual(newState)
     }
 
     func doProvideModuleInput() {
@@ -99,13 +106,13 @@ final class StepQuizViewModel: FeatureViewModel<
     }
 
     func makeViewData() -> StepQuizViewData {
-        viewDataMapper.mapStepDataToViewData(step: step, state: state)
+        stepQuizViewDataMapper.mapStepDataToViewData(step: step, state: stepQuizStateKs)
     }
 
     private func updateChildQuiz() {
         mainScheduler.schedule { [weak self] in
             guard let strongSelf = self,
-                  let attemptLoadedState = strongSelf.state as? StepQuizFeatureStateAttemptLoaded,
+                  let attemptLoadedState = strongSelf.state.stepQuizState as? StepQuizFeatureStepQuizStateAttemptLoaded,
                   let dataset = attemptLoadedState.attempt.dataset else {
                 return
             }
@@ -161,6 +168,14 @@ final class StepQuizViewModel: FeatureViewModel<
         } else {
             onNewMessage(message)
         }
+    }
+
+    func doReloadProblemsLimit() {
+        onNewMessage(
+            StepQuizFeatureMessageProblemsLimitMessage(
+                message: ProblemsLimitFeatureMessageInitialize(forceUpdate: true)
+            )
+        )
     }
 
     // MARK: Analytic

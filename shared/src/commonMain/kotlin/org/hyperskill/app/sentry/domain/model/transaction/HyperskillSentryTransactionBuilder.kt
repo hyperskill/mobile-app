@@ -201,6 +201,21 @@ object HyperskillSentryTransactionBuilder {
         )
 
     /**
+     * ProblemsLimitFeature
+     */
+    fun buildProblemsLimitHomeScreenRemoteDataLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "problems-limit-feature-home-screen-remote-data-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    fun buildProblemsLimitStepQuizScreenRemoteDataLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "problems-limit-feature-step-quiz-screen-remote-data-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    /**
      * TopicsToDiscoverNextFeature
      */
     fun buildTopicsToDiscoverNextHomeScreenRemoteDataLoading(): HyperskillSentryTransaction =
