@@ -59,7 +59,7 @@ jobs:
     needs: files-changed
     if: ${{ inputs.force_build_ios || needs.files-changed.outputs.ios == 'true' || needs.files-changed.outputs.shared == 'true' }}
     name: Build iOS
-    runs-on: macos-12
+    runs-on: macos-13
     timeout-minutes: 60
     
     steps:
