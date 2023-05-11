@@ -30,8 +30,8 @@ import org.hyperskill.app.profile.injection.ProfileHypercoinsDataComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponent
+import org.hyperskill.app.project_selection.injection.ProjectsSelectionListComponent
 import org.hyperskill.app.projects.injection.ProjectsDataComponent
-import org.hyperskill.app.projects.injection.ProjectsListComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.sentry.injection.SentryComponent
 import org.hyperskill.app.stage_implement.injection.StageImplementComponent
@@ -126,7 +126,7 @@ interface AppGraph {
     fun buildTopicsToDiscoverNextDataComponent(): TopicsToDiscoverNextDataComponent
     fun buildStudyPlanDataComponent(): StudyPlanDataComponent
     fun buildProjectsDataComponent(): ProjectsDataComponent
-    fun buildProjectsListComponent(): ProjectsListComponent
+    fun buildProjectSelectionListComponent(): ProjectsSelectionListComponent
     fun buildStagesDataComponent(): StagesDataComponent
     fun buildFreemiumDataComponent(): FreemiumDataComponent
     fun buildProblemsLimitComponent(): ProblemsLimitComponent

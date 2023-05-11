@@ -1,31 +1,31 @@
-package org.hyperskill.app.projects.view.mapper
+package org.hyperskill.app.project_selection.view.mapper
 
 import kotlin.math.floor
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.progresses.domain.model.averageRating
+import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature
+import org.hyperskill.app.project_selection.presentation.bestRatedProjectId
+import org.hyperskill.app.project_selection.presentation.fastestToCompleteProjectId
+import org.hyperskill.app.project_selection.presentation.projectsByLevel
+import org.hyperskill.app.project_selection.presentation.recommendedProjects
+import org.hyperskill.app.project_selection.presentation.selectedProject
 import org.hyperskill.app.projects.domain.model.ProjectLevel
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress
 import org.hyperskill.app.projects.domain.model.isGraduated
-import org.hyperskill.app.projects.presentation.ProjectsListFeature
-import org.hyperskill.app.projects.presentation.bestRatedProjectId
-import org.hyperskill.app.projects.presentation.fastestToCompleteProjectId
-import org.hyperskill.app.projects.presentation.projectsByLevel
-import org.hyperskill.app.projects.presentation.recommendedProjects
-import org.hyperskill.app.projects.presentation.selectedProject
 import org.hyperskill.app.track.domain.model.getProjectLevel
 
-internal class ProjectsListViewStateMapper(
+internal class ProjectSelectionListViewStateMapper(
     private val resourceProvider: ResourceProvider
 ) {
-    fun map(state: ProjectsListFeature.ContentState): ProjectsListFeature.ViewState =
+    fun map(state: ProjectSelectionListFeature.ContentState): ProjectSelectionListFeature.ViewState =
         when (state) {
-            ProjectsListFeature.ContentState.Idle -> ProjectsListFeature.ViewState.Idle
-            ProjectsListFeature.ContentState.Loading -> ProjectsListFeature.ViewState.Loading
-            is ProjectsListFeature.ContentState.Content -> {
+            ProjectSelectionListFeature.ContentState.Idle -> ProjectSelectionListFeature.ViewState.Idle
+            ProjectSelectionListFeature.ContentState.Loading -> ProjectSelectionListFeature.ViewState.Loading
+            is ProjectSelectionListFeature.ContentState.Content -> {
                 val bestRatedProjectId = state.bestRatedProjectId
                 val fastestToCompleteProjectId = state.fastestToCompleteProjectId
-                ProjectsListFeature.ViewState.Content(
+                ProjectSelectionListFeature.ViewState.Content(
                     trackIcon = state.track.cover,
                     formattedTitle = resourceProvider.getString(
                         SharedResources.strings.projects_list_title,
@@ -63,7 +63,7 @@ internal class ProjectsListViewStateMapper(
                     isRefreshing = state.isRefreshing
                 )
             }
-            ProjectsListFeature.ContentState.Error -> ProjectsListFeature.ViewState.Error
+            ProjectSelectionListFeature.ContentState.Error -> ProjectSelectionListFeature.ViewState.Error
         }
 
     private fun mapProjectListItem(
@@ -72,9 +72,9 @@ internal class ProjectsListViewStateMapper(
         bestRatedProjectId: Long?,
         fastestToCompleteProjectId: Long?,
         level: ProjectLevel?
-    ): ProjectsListFeature.ProjectListItem =
+    ): ProjectSelectionListFeature.ProjectListItem =
         with(projectWithProgress) {
-            ProjectsListFeature.ProjectListItem(
+            ProjectSelectionListFeature.ProjectListItem(
                 id = project.id,
                 title = project.title,
                 averageRating = progress.averageRating(),

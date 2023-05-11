@@ -1,27 +1,27 @@
-package org.hyperskill.app.projects.presentation
+package org.hyperskill.app.project_selection.presentation
 
+import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature.Action
+import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature.Action.ViewAction
+import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature.ContentState
+import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature.InternalAction
+import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature.Message
+import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature.State
 import org.hyperskill.app.projects.domain.analytic.ProjectsListClickedProjectHyperskillAnalyticsEvent
 import org.hyperskill.app.projects.domain.analytic.ProjectsListClickedPullToRefreshHyperskillAnalyticEvent
 import org.hyperskill.app.projects.domain.analytic.ProjectsListClickedRetryContentLoadingHyperskillAnalyticsEvent
 import org.hyperskill.app.projects.domain.analytic.ProjectsListViewedHyperskillAnalyticEvent
-import org.hyperskill.app.projects.presentation.ProjectsListFeature.Action
-import org.hyperskill.app.projects.presentation.ProjectsListFeature.Action.ViewAction
-import org.hyperskill.app.projects.presentation.ProjectsListFeature.ContentState
-import org.hyperskill.app.projects.presentation.ProjectsListFeature.InternalAction
-import org.hyperskill.app.projects.presentation.ProjectsListFeature.Message
-import org.hyperskill.app.projects.presentation.ProjectsListFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias ProjectsListReducerResult = Pair<State, Set<Action>>
 
-internal class ProjectsListReducer : StateReducer<State, Message, Action> {
+internal class ProjectSelectionListReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): ProjectsListReducerResult =
         when (message) {
             Message.Initialize -> {
                 state.updateContentState(ContentState.Loading) to
                     fetchContent(state)
             }
-            is ProjectsListFeature.ContentFetchResult.Success -> {
+            is ProjectSelectionListFeature.ContentFetchResult.Success -> {
                 state.updateContentState(
                     ContentState.Content(
                         track = message.track,
@@ -31,7 +31,7 @@ internal class ProjectsListReducer : StateReducer<State, Message, Action> {
                     )
                 ) to emptySet()
             }
-            ProjectsListFeature.ContentFetchResult.Error -> {
+            ProjectSelectionListFeature.ContentFetchResult.Error -> {
                 state.updateContentState(ContentState.Error) to emptySet()
             }
             Message.PullToRefresh -> {
@@ -77,13 +77,13 @@ internal class ProjectsListReducer : StateReducer<State, Message, Action> {
                         )
                 }
             }
-            is ProjectsListFeature.ProjectSelectionResult -> {
+            is ProjectSelectionListFeature.ProjectSelectionResult -> {
                 state.doIfContent { content ->
                     content.copy(isProjectSelectionLoadingShowed = false) to
                         when (message) {
-                            ProjectsListFeature.ProjectSelectionResult.Error ->
+                            ProjectSelectionListFeature.ProjectSelectionResult.Error ->
                                 setOf(ViewAction.ShowProjectSelectionStatus.Error)
-                            ProjectsListFeature.ProjectSelectionResult.Success ->
+                            ProjectSelectionListFeature.ProjectSelectionResult.Success ->
                                 setOf(
                                     ViewAction.NavigateTo.HomeScreen,
                                     ViewAction.ShowProjectSelectionStatus.Success

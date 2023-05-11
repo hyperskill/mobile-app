@@ -1,11 +1,11 @@
-package org.hyperskill.app.projects.presentation
+package org.hyperskill.app.project_selection.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.projects.domain.model.ProjectLevel
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress
 import org.hyperskill.app.track.domain.model.Track
 
-object ProjectsListFeature {
+object ProjectSelectionListFeature {
     internal data class State(
         val trackId: Long,
         val content: ContentState

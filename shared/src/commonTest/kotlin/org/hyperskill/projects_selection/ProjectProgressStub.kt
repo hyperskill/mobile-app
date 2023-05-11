@@ -1,4 +1,4 @@
-package org.hyperskill.projects
+package org.hyperskill.projects_selection
 
 import org.hyperskill.app.projects.domain.model.ProjectProgress
 
