@@ -887,8 +887,9 @@ class StudyPlanWidgetTest {
     fun `Click on select project learning activity should navigate to select project`() {
         val activityId = 0L
         val sectionId = 1L
+        val trackId = 2L
         val state = StudyPlanWidgetFeature.State(
-            studyPlan = studyPlanStub(id = 0),
+            studyPlan = studyPlanStub(id = 0, trackId = trackId),
             studyPlanSections = mapOf(
                 sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(id = sectionId, activities = listOf(activityId)),
@@ -904,7 +905,7 @@ class StudyPlanWidgetTest {
         val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
 
         assertEquals(state, newState)
-        assertContains(actions, StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.SelectProject)
+        assertContains(actions, StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.SelectProject(trackId))
         assertClickedActivityAnalyticEvent(actions, newState.activities[activityId]!!)
     }
 
@@ -1165,13 +1166,14 @@ class StudyPlanWidgetTest {
 
     private fun studyPlanStub(
         id: Long,
+        trackId: Long? = null,
         projectId: Long? = null,
         status: StudyPlanStatus = StudyPlanStatus.READY,
         sections: List<Long> = emptyList()
     ) =
         StudyPlan(
             id = id,
-            trackId = null,
+            trackId = trackId,
             projectId = projectId,
             sections = sections,
             status = status,

@@ -311,7 +311,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             return state to setOf(logAnalyticEventAction)
         }
 
-        val viewAction = when (activity.type) {
+        val activityTargetAction = when (activity.type) {
             LearningActivityType.IMPLEMENT_STAGE -> {
                 val projectId = state.studyPlan?.projectId
                 if (projectId != null &&
@@ -337,14 +337,22 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 }
             }
             LearningActivityType.SELECT_PROJECT -> {
-                Action.ViewAction.NavigateTo.SelectProject
+                val trackId = state.track?.id ?: state.studyPlan?.trackId
+
+                if (trackId != null) {
+                    Action.ViewAction.NavigateTo.SelectProject(trackId)
+                } else {
+                    // Should not happen because at this point we must have non null study plan
+                    val errorMessage = "StudyPlanWidgetReducer: SELECT_PROJECT trackId is null"
+                    InternalAction.CaptureSentryErrorMessage(errorMessage)
+                }
             }
             LearningActivityType.SELECT_TRACK -> {
                 Action.ViewAction.NavigateTo.SelectTrack
             }
             else -> null
         }
-        return state to setOfNotNull(viewAction, logAnalyticEventAction)
+        return state to setOfNotNull(activityTargetAction, logAnalyticEventAction)
     }
 
     private fun <K, V> Map<K, V>.update(key: K, value: V): Map<K, V> =

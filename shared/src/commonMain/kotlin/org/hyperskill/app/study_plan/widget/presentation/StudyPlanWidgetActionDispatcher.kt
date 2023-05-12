@@ -93,8 +93,12 @@ class StudyPlanWidgetActionDispatcher(
                         onNewMessage(StudyPlanWidgetFeature.TrackFetchResult.Failed)
                     }
             }
-            is InternalAction.LogAnalyticEvent ->
+            is InternalAction.CaptureSentryErrorMessage -> {
+                sentryInteractor.captureErrorMessage(action.message)
+            }
+            is InternalAction.LogAnalyticEvent -> {
                 analyticInteractor.logEvent(action.analyticEvent)
+            }
             else -> {
                 // no op
             }
