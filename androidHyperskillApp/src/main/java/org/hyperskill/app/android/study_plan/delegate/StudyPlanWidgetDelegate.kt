@@ -21,6 +21,7 @@ import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 
 class StudyPlanWidgetDelegate(
     private val context: Context,
+    private val onRetryContentLoadingClicked: () -> Unit,
     private val onNewMessage: (StudyPlanWidgetFeature.Message) -> Unit
 ) {
 
@@ -79,7 +80,7 @@ class StudyPlanWidgetDelegate(
         }
 
         errorViewBinding.tryAgain.setOnClickListener {
-            onNewMessage(StudyPlanWidgetFeature.Message.RetryContentLoading)
+            onRetryContentLoadingClicked()
         }
 
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)

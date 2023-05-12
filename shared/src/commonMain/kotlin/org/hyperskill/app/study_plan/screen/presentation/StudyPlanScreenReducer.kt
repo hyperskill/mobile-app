@@ -5,6 +5,7 @@ import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarR
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedPullToRefreshHyperskillAnalyticEvent
+import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryContentLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanViewedHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
@@ -22,9 +23,10 @@ internal class StudyPlanScreenReducer(
         message: StudyPlanScreenFeature.Message
     ): StudyPlanScreenReducerResult =
         when (message) {
-            is StudyPlanScreenFeature.Message.Initialize -> {
-                handleInitializeMessage(state, message)
-            }
+            is StudyPlanScreenFeature.Message.Initialize ->
+                initializeFeatures(state)
+            is StudyPlanScreenFeature.Message.RetryContentLoading ->
+                initializeFeatures(state, retryContentLoadingClicked = true)
             is StudyPlanScreenFeature.Message.PullToRefresh -> {
                 val (widgetState, widgetActions) = reduceStudyPlanWidgetMessage(
                     state.studyPlanWidgetState,
@@ -79,30 +81,41 @@ internal class StudyPlanScreenReducer(
             }
         }
 
-    private fun handleInitializeMessage(
+    private fun initializeFeatures(
         state: StudyPlanScreenFeature.State,
-        message: StudyPlanScreenFeature.Message.Initialize
+        retryContentLoadingClicked: Boolean = false
     ): StudyPlanScreenReducerResult {
         val (toolbarState, toolbarActions) =
             reduceToolbarMessage(
                 state.toolbarState,
-                GamificationToolbarFeature.Message.Initialize()
+                GamificationToolbarFeature.Message.Initialize(forceUpdate = retryContentLoadingClicked)
             )
         val (problemsLimitState, problemsLimitActions) =
             reduceProblemsLimitMessage(
                 state.problemsLimitState,
-                ProblemsLimitFeature.Message.Initialize()
+                ProblemsLimitFeature.Message.Initialize(forceUpdate = retryContentLoadingClicked)
             )
         val (studyPlanState, studyPlanActions) =
             reduceStudyPlanWidgetMessage(
                 state.studyPlanWidgetState,
-                StudyPlanWidgetFeature.Message.Initialize
+                StudyPlanWidgetFeature.Message.Initialize(forceUpdate = retryContentLoadingClicked)
             )
+
+        val analyticActions = if (retryContentLoadingClicked) {
+            setOf(
+                StudyPlanScreenFeature.InternalAction.LogAnalyticEvent(
+                    StudyPlanClickedRetryContentLoadingHyperskillAnalyticEvent()
+                )
+            )
+        } else {
+            emptySet()
+        }
+
         return state.copy(
             toolbarState = toolbarState,
             problemsLimitState = problemsLimitState,
             studyPlanWidgetState = studyPlanState
-        ) to (toolbarActions + problemsLimitActions + studyPlanActions)
+        ) to (toolbarActions + problemsLimitActions + studyPlanActions + analyticActions)
     }
 
     private fun reduceToolbarMessage(

@@ -24,6 +24,8 @@ object StudyPlanScreenFeature {
 
         object Initialize : Message
 
+        object RetryContentLoading : Message
+
         object PullToRefresh : Message
 
         object ScreenBecomesActive : Message

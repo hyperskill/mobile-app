@@ -70,6 +70,9 @@ class StudyPlanFragment :
         injectComponents()
         studyPlanWidgetDelegate = StudyPlanWidgetDelegate(
             context = requireContext(),
+            onRetryContentLoadingClicked = {
+                studyPlanViewModel.onNewMessage(StudyPlanScreenFeature.Message.RetryContentLoading)
+            },
             onNewMessage = {
                 studyPlanViewModel.onNewMessage(StudyPlanScreenFeature.Message.StudyPlanWidgetMessage(it))
             }

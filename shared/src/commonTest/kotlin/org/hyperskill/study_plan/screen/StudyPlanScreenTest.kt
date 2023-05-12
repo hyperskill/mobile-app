@@ -10,6 +10,7 @@ import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedPullToRefreshHyperskillAnalyticEvent
+import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryContentLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanViewedHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenReducer
@@ -44,6 +45,22 @@ class StudyPlanScreenTest {
         assertEquals(actions.size, 2)
         val targetAction = actions.last() as StudyPlanScreenFeature.InternalAction.LogAnalyticEvent
         if (targetAction.analyticEvent is StudyPlanClickedPullToRefreshHyperskillAnalyticEvent) {
+            // pass
+        } else {
+            fail("Unexpected action: $targetAction")
+        }
+    }
+
+    @Test
+    fun `Retry content loading message should trigger logging analytic event`() {
+        val (_, actions) = reducer.reduce(
+            stubState(),
+            StudyPlanScreenFeature.Message.RetryContentLoading
+        )
+
+        assertEquals(actions.size, 4)
+        val targetAction = actions.last() as StudyPlanScreenFeature.InternalAction.LogAnalyticEvent
+        if (targetAction.analyticEvent is StudyPlanClickedRetryContentLoadingHyperskillAnalyticEvent) {
             // pass
         } else {
             fail("Unexpected action: $targetAction")

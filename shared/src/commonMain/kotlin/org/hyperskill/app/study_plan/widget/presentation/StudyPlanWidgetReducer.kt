@@ -8,7 +8,6 @@ import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransa
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedActivityHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent
-import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryContentLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedSectionHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalClickedGoToHomeScreenHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalHiddenHyperskillAnalyticEvent
@@ -32,13 +31,17 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): StudyPlanWidgetReducerResult =
         when (message) {
             is Message.Initialize ->
-                coldContentFetch()
+                if (state.sectionsStatus == StudyPlanWidgetFeature.ContentStatus.IDLE ||
+                    state.sectionsStatus == StudyPlanWidgetFeature.ContentStatus.ERROR && message.forceUpdate
+                ) {
+                    coldContentFetch()
+                } else {
+                    null
+                }
             is StudyPlanWidgetFeature.StudyPlanFetchResult.Success ->
                 handleStudyPlanFetchSuccess(state, message)
             is StudyPlanWidgetFeature.SectionsFetchResult.Success ->
                 handleSectionsFetchSuccess(state, message)
-            is Message.RetryContentLoading ->
-                handleRetryContentLoading()
             is Message.RetryActivitiesLoading ->
                 handleRetryActivitiesLoading(state, message)
             is Message.ReloadContentInBackground -> {
@@ -199,13 +202,6 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 sectionInfo.copy(contentStatus = StudyPlanWidgetFeature.ContentStatus.ERROR)
             }
         ) to emptySet()
-
-    private fun handleRetryContentLoading(): StudyPlanWidgetReducerResult {
-        val (state, actions) = coldContentFetch()
-        return state to actions + InternalAction.LogAnalyticEvent(
-            StudyPlanClickedRetryContentLoadingHyperskillAnalyticEvent()
-        )
-    }
 
     private fun handleRetryActivitiesLoading(
         state: State,
