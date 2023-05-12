@@ -401,4 +401,29 @@ enum Strings {
         static let signIn = sharedStrings.onboarding_sign_in.localized()
         static let signUp = sharedStrings.onboarding_sign_up.localized()
     }
+
+    // MARK: - ProjectSelectionList -
+
+    enum ProjectSelectionList {
+        static let title = sharedStrings.projects_list_toolbar_title.localized()
+
+        enum List {
+            static let description = sharedStrings.projects_list_description.localized()
+
+            static let recommendedProjectsTitle = sharedStrings.projects_list_recommended_projects_title.localized()
+
+            static let easyCategoryTitle = sharedStrings.projects_list_easy_category_title.localized()
+            static let easyCategoryDescription = sharedStrings.projects_list_easy_category_description.localized()
+
+            static let mediumCategoryTitle = sharedStrings.projects_list_medium_category_title.localized()
+            static let mediumCategoryDescription = sharedStrings.projects_list_medium_category_description.localized()
+
+            static let hardCategoryTitle = sharedStrings.projects_list_hard_category_title.localized()
+            static let hardCategoryDescription = sharedStrings.projects_list_hard_category_description.localized()
+
+            static let nightmareCategoryTitle = sharedStrings.projects_list_nightmare_category_title.localized()
+            static let nightmareCategoryDescription =
+              sharedStrings.projects_list_nightmare_category_description.localized()
+        }
+    }
 }

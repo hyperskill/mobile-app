@@ -7,13 +7,13 @@ final class ProjectSelectionListAssembly: Assembly {
         self.trackID = trackID
     }
 
-    func makeModule() -> ProjectSelectionListView {
+    func makeModule() -> ProjectSelectionRootView {
         let projectSelectionListComponent = AppGraphBridge.sharedAppGraph.buildProjectSelectionListComponent()
 
         let viewModel = ProjectSelectionListViewModel(
             feature: projectSelectionListComponent.projectSelectionListFeature(trackId: trackID)
         )
 
-        return ProjectSelectionListView(viewModel: viewModel)
+        return ProjectSelectionRootView(viewModel: viewModel)
     }
 }

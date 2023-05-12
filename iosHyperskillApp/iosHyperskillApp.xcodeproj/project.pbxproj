@@ -19,7 +19,8 @@
 		2C05AC462A0E9EBC0039C7EF /* ProjectSelectionListFeatureViewStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC452A0E9EBC0039C7EF /* ProjectSelectionListFeatureViewStateKsExtensions.swift */; };
 		2C05AC482A0EA0180039C7EF /* ProjectSelectionListAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC472A0EA0180039C7EF /* ProjectSelectionListAssembly.swift */; };
 		2C05AC4A2A0EA0290039C7EF /* ProjectSelectionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC492A0EA0290039C7EF /* ProjectSelectionListViewModel.swift */; };
-		2C05AC4D2A0EA0460039C7EF /* ProjectSelectionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC4C2A0EA0460039C7EF /* ProjectSelectionListView.swift */; };
+		2C05AC4D2A0EA0460039C7EF /* ProjectSelectionRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC4C2A0EA0460039C7EF /* ProjectSelectionRootView.swift */; };
+		2C05AC4F2A0EA7490039C7EF /* ProjectSelectionContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC4E2A0EA7490039C7EF /* ProjectSelectionContentView.swift */; };
 		2C069EB128F03782009A3DA1 /* AnalyticExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C069EB028F03782009A3DA1 /* AnalyticExtensions.swift */; };
 		2C079681285CEEFE00EE0487 /* StepQuizMatchingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C079680285CEEFE00EE0487 /* StepQuizMatchingViewModel.swift */; };
 		2C079683285CEF0900EE0487 /* StepQuizMatchingAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C079682285CEF0900EE0487 /* StepQuizMatchingAssembly.swift */; };
@@ -490,7 +491,8 @@
 		2C05AC452A0E9EBC0039C7EF /* ProjectSelectionListFeatureViewStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListFeatureViewStateKsExtensions.swift; sourceTree = "<group>"; };
 		2C05AC472A0EA0180039C7EF /* ProjectSelectionListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListAssembly.swift; sourceTree = "<group>"; };
 		2C05AC492A0EA0290039C7EF /* ProjectSelectionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListViewModel.swift; sourceTree = "<group>"; };
-		2C05AC4C2A0EA0460039C7EF /* ProjectSelectionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListView.swift; sourceTree = "<group>"; };
+		2C05AC4C2A0EA0460039C7EF /* ProjectSelectionRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionRootView.swift; sourceTree = "<group>"; };
+		2C05AC4E2A0EA7490039C7EF /* ProjectSelectionContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionContentView.swift; sourceTree = "<group>"; };
 		2C069EB028F03782009A3DA1 /* AnalyticExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticExtensions.swift; sourceTree = "<group>"; };
 		2C079680285CEEFE00EE0487 /* StepQuizMatchingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingViewModel.swift; sourceTree = "<group>"; };
 		2C079682285CEF0900EE0487 /* StepQuizMatchingAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingAssembly.swift; sourceTree = "<group>"; };
@@ -1026,7 +1028,8 @@
 		2C05AC4B2A0EA03F0039C7EF /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2C05AC4C2A0EA0460039C7EF /* ProjectSelectionListView.swift */,
+				2C05AC4E2A0EA7490039C7EF /* ProjectSelectionContentView.swift */,
+				2C05AC4C2A0EA0460039C7EF /* ProjectSelectionRootView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3146,6 +3149,7 @@
 				2C23C0062879EA7D0083709F /* StreakDayState.swift in Sources */,
 				2C963BC72812D1BF0036DD53 /* HomeAssembly.swift in Sources */,
 				2C1860FC2923C540007D4EBF /* AppFeatureStateKsExtensions.swift in Sources */,
+				2C05AC4F2A0EA7490039C7EF /* ProjectSelectionContentView.swift in Sources */,
 				2C4FBD8E2876C94800ACA5C8 /* ProfileAboutSocialAccountsView.swift in Sources */,
 				E92D55DD298CF995006F3DA0 /* TopicToDiscoverNextCardView.swift in Sources */,
 				E95BE4042938A30900992DDE /* TopicsRepetitionsStatusBlock.swift in Sources */,
@@ -3253,7 +3257,7 @@
 				2C88C71F28745DD0005B7311 /* TrackProgressCardView.swift in Sources */,
 				2C225E48281A5B6800E8ABD2 /* SourcelessRouter.swift in Sources */,
 				E9C5C93028AE105200CADDEC /* NotificationsService.swift in Sources */,
-				2C05AC4D2A0EA0460039C7EF /* ProjectSelectionListView.swift in Sources */,
+				2C05AC4D2A0EA0460039C7EF /* ProjectSelectionRootView.swift in Sources */,
 				2C9EB95F2861BAD4007DDE44 /* ProfileAssembly.swift in Sources */,
 				2C336D102865BF4200C91342 /* CodeEditorThemeService.swift in Sources */,
 				2C46D0632807E4C100B3636E /* TextFieldWrapper.swift in Sources */,
