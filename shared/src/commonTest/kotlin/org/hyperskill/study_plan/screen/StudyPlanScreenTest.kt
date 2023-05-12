@@ -53,18 +53,25 @@ class StudyPlanScreenTest {
 
     @Test
     fun `Retry content loading message should trigger logging analytic event`() {
-        val (_, actions) = reducer.reduce(
+        val (actualState, actions) = reducer.reduce(
             stubState(),
             StudyPlanScreenFeature.Message.RetryContentLoading
         )
 
-        assertEquals(actions.size, 4)
-        val targetAction = actions.last() as StudyPlanScreenFeature.InternalAction.LogAnalyticEvent
-        if (targetAction.analyticEvent is StudyPlanClickedRetryContentLoadingHyperskillAnalyticEvent) {
-            // pass
-        } else {
-            fail("Unexpected action: $targetAction")
-        }
+        val expectedState = stubState(
+            toolbarState = GamificationToolbarFeature.State.Loading,
+            problemsLimitState = ProblemsLimitFeature.State.Loading,
+            studyPlanWidgetState = StudyPlanWidgetFeature.State(
+                sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING
+            )
+        )
+
+        assertEquals(expectedState, actualState)
+
+        actions.firstOrNull {
+            it is StudyPlanScreenFeature.InternalAction.LogAnalyticEvent &&
+                it.analyticEvent is StudyPlanClickedRetryContentLoadingHyperskillAnalyticEvent
+        } ?: fail("Analytic action not found")
     }
 
     private fun stubState(

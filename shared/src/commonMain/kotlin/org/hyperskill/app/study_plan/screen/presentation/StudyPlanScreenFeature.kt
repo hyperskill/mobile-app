@@ -6,6 +6,7 @@ import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarF
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.isRefreshing
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
+import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState
 
 object StudyPlanScreenFeature {
 
@@ -19,6 +20,14 @@ object StudyPlanScreenFeature {
                 problemsLimitState.isRefreshing ||
                 studyPlanWidgetState.isRefreshing
     }
+
+    data class ViewState(
+        val trackTitle: String?,
+        val toolbarState: GamificationToolbarFeature.State,
+        val problemsLimitViewState: ProblemsLimitFeature.ViewState,
+        val studyPlanWidgetViewState: StudyPlanWidgetViewState,
+        val isRefreshing: Boolean
+    )
 
     sealed interface Message {
 

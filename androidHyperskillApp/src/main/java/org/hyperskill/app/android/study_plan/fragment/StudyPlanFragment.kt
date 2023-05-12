@@ -24,7 +24,6 @@ import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.study_plan.presentation.StudyPlanScreenViewModel
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
-import org.hyperskill.app.study_plan.screen.view.StudyPlanScreenViewState
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
@@ -33,7 +32,7 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 
 class StudyPlanFragment :
     Fragment(R.layout.fragment_study_plan),
-    ReduxView<StudyPlanScreenViewState, StudyPlanScreenFeature.Action.ViewAction>,
+    ReduxView<StudyPlanScreenFeature.ViewState, StudyPlanScreenFeature.Action.ViewAction>,
     UnsupportedStageBottomSheet.Callback {
 
     companion object {
@@ -136,7 +135,7 @@ class StudyPlanFragment :
         super.onDestroy()
     }
 
-    override fun render(state: StudyPlanScreenViewState) {
+    override fun render(state: StudyPlanScreenFeature.ViewState) {
         renderSwipeRefresh(state)
         gamificationToolbarDelegate?.render(state.toolbarState)
         gamificationToolbarDelegate?.setSubtitle(state.trackTitle)
@@ -144,7 +143,7 @@ class StudyPlanFragment :
         studyPlanWidgetDelegate?.render(state.studyPlanWidgetViewState)
     }
 
-    private fun renderSwipeRefresh(state: StudyPlanScreenViewState) {
+    private fun renderSwipeRefresh(state: StudyPlanScreenFeature.ViewState) {
         with(viewBinding.studyPlanSwipeRefresh) {
             isEnabled = state.studyPlanWidgetViewState is StudyPlanWidgetViewState.Content
             updateIsRefreshing(state.isRefreshing)

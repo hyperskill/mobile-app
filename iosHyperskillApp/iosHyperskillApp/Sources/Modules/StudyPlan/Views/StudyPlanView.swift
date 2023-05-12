@@ -83,7 +83,6 @@ struct StudyPlanView: View {
                         stateKs: viewModel.problemsLimitViewStateKs,
                         onReloadButtonTap: viewModel.doReloadProblemsLimit
                     )
-                    .padding(.top, LayoutInsets.smallInset)
 
                     ForEach(data.sections, id: \.id) { section in
                         StudyPlanSectionView(

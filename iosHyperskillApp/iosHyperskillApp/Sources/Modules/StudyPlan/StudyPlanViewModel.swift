@@ -3,7 +3,7 @@ import shared
 import SwiftUI
 
 final class StudyPlanViewModel: FeatureViewModel<
-  StudyPlanScreenViewState,
+  StudyPlanScreenFeature.ViewState,
   StudyPlanScreenFeatureMessage,
   StudyPlanScreenFeatureActionViewAction
 > {
@@ -14,8 +14,8 @@ final class StudyPlanViewModel: FeatureViewModel<
     var problemsLimitViewStateKs: ProblemsLimitFeatureViewStateKs { .init(state.problemsLimitViewState) }
 
     override func shouldNotifyStateDidChange(
-        oldState: StudyPlanScreenViewState,
-        newState: StudyPlanScreenViewState
+        oldState: StudyPlanScreenFeature.ViewState,
+        newState: StudyPlanScreenFeature.ViewState
     ) -> Bool {
         !oldState.isEqual(newState)
     }

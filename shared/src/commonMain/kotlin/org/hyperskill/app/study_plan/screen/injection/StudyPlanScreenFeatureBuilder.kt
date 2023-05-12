@@ -14,7 +14,6 @@ import org.hyperskill.app.problems_limit.view.mapper.ProblemsLimitViewStateMappe
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenActionDispatcher
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenReducer
-import org.hyperskill.app.study_plan.screen.view.StudyPlanScreenViewState
 import org.hyperskill.app.study_plan.screen.view.StudyPlanScreenViewStateMapper
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetActionDispatcher
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
@@ -38,7 +37,7 @@ internal object StudyPlanScreenFeatureBuilder {
         problemsLimitViewStateMapper: ProblemsLimitViewStateMapper,
         studyPlanWidgetViewStateMapper: StudyPlanWidgetViewStateMapper,
         resourceProvider: ResourceProvider
-    ): Feature<StudyPlanScreenViewState, StudyPlanScreenFeature.Message, StudyPlanScreenFeature.Action> {
+    ): Feature<StudyPlanScreenFeature.ViewState, StudyPlanScreenFeature.Message, StudyPlanScreenFeature.Action> {
         val studyPlanScreenReducer = StudyPlanScreenReducer(
             toolbarReducer = toolbarReducer,
             problemsLimitReducer = problemsLimitReducer,

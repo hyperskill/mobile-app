@@ -6,7 +6,6 @@ import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComp
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
-import org.hyperskill.app.study_plan.screen.view.StudyPlanScreenViewState
 import org.hyperskill.app.study_plan.widget.injection.StudyPlanWidgetComponent
 import ru.nobird.app.presentation.redux.feature.Feature
 
@@ -22,7 +21,7 @@ class StudyPlanScreenComponentImpl(private val appGraph: AppGraph) : StudyPlanSc
         appGraph.buildStudyPlanWidgetComponent()
 
     override val studyPlanScreenFeature: Feature<
-        StudyPlanScreenViewState, StudyPlanScreenFeature.Message, StudyPlanScreenFeature.Action>
+        StudyPlanScreenFeature.ViewState, StudyPlanScreenFeature.Message, StudyPlanScreenFeature.Action>
         get() = StudyPlanScreenFeatureBuilder.build(
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             toolbarReducer = toolbarComponent.gamificationToolbarReducer,

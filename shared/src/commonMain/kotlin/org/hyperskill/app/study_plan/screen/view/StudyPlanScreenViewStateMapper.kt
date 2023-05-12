@@ -11,8 +11,8 @@ internal class StudyPlanScreenViewStateMapper(
     private val studyPlanWidgetViewStateMapper: StudyPlanWidgetViewStateMapper,
     private val resourceProvider: ResourceProvider
 ) {
-    fun map(state: StudyPlanScreenFeature.State): StudyPlanScreenViewState =
-        StudyPlanScreenViewState(
+    fun map(state: StudyPlanScreenFeature.State): StudyPlanScreenFeature.ViewState =
+        StudyPlanScreenFeature.ViewState(
             trackTitle = state.studyPlanWidgetState.track?.title?.let { title ->
                 resourceProvider.getString(
                     SharedResources.strings.study_plan_track_title_template,

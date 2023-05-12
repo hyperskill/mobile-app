@@ -31,13 +31,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): StudyPlanWidgetReducerResult =
         when (message) {
             is Message.Initialize ->
-                if (state.sectionsStatus == StudyPlanWidgetFeature.ContentStatus.IDLE ||
-                    state.sectionsStatus == StudyPlanWidgetFeature.ContentStatus.ERROR && message.forceUpdate
-                ) {
-                    coldContentFetch()
-                } else {
-                    null
-                }
+                coldContentFetch(state, message)
             is StudyPlanWidgetFeature.StudyPlanFetchResult.Success ->
                 handleStudyPlanFetchSuccess(state, message)
             is StudyPlanWidgetFeature.SectionsFetchResult.Success ->
@@ -105,9 +99,15 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 )
         } ?: (state to emptySet())
 
-    private fun coldContentFetch(): StudyPlanWidgetReducerResult =
-        State(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING) to
-            setOf(InternalAction.FetchStudyPlan())
+    private fun coldContentFetch(state: State, message: Message.Initialize): StudyPlanWidgetReducerResult =
+        if (state.sectionsStatus == StudyPlanWidgetFeature.ContentStatus.IDLE ||
+            state.sectionsStatus == StudyPlanWidgetFeature.ContentStatus.ERROR && message.forceUpdate
+        ) {
+            State(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING) to
+                setOf(InternalAction.FetchStudyPlan())
+        } else {
+            state to emptySet()
+        }
 
     private fun handleStudyPlanFetchSuccess(
         state: State,
