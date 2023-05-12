@@ -8,7 +8,7 @@ import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.domain.model.submissions.isWrongOrRejected
 
 object StepQuizResolver {
-    fun isQuizEnabled(state: StepQuizFeature.State.AttemptLoaded): Boolean {
+    fun isQuizEnabled(state: StepQuizFeature.StepQuizState.AttemptLoaded): Boolean {
         if (state.isProblemsLimitReached) {
             return false
         }
@@ -33,20 +33,20 @@ object StepQuizResolver {
         return false
     }
 
-    fun isQuizLoading(state: StepQuizFeature.State): Boolean =
+    fun isQuizLoading(state: StepQuizFeature.StepQuizState): Boolean =
         when (state) {
-            is StepQuizFeature.State.AttemptLoaded -> {
+            is StepQuizFeature.StepQuizState.AttemptLoaded -> {
                 when (state.submissionState) {
                     is StepQuizFeature.SubmissionState.Empty -> false
                     is StepQuizFeature.SubmissionState.Loaded ->
                         state.submissionState.submission.status == SubmissionStatus.EVALUATION
                 }
             }
-            is StepQuizFeature.State.AttemptLoading -> true
-            StepQuizFeature.State.Idle -> false
-            StepQuizFeature.State.Loading -> true
-            StepQuizFeature.State.NetworkError -> false
-            StepQuizFeature.State.Unsupported -> false
+            is StepQuizFeature.StepQuizState.AttemptLoading -> true
+            StepQuizFeature.StepQuizState.Idle -> false
+            StepQuizFeature.StepQuizState.Loading -> true
+            StepQuizFeature.StepQuizState.NetworkError -> false
+            StepQuizFeature.StepQuizState.Unsupported -> false
         }
 
     fun isNeedRecreateAttemptForNewSubmission(step: Step): Boolean =

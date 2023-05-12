@@ -7,7 +7,6 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
-import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.core.view.ui.setHyperskillColors
 import org.hyperskill.app.android.core.view.ui.updateIsRefreshing
@@ -15,7 +14,6 @@ import org.hyperskill.app.android.databinding.FragmentStudyPlanBinding
 import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.GamificationToolbarDelegate
 import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
-import org.hyperskill.app.android.problems_limit.fragment.ProblemsLimitFragment
 import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
 import org.hyperskill.app.android.stage_implementation.view.dialog.UnsupportedStageBottomSheet
 import org.hyperskill.app.android.stage_implementation.view.navigation.StageImplementationScreen
@@ -111,9 +109,10 @@ class StudyPlanFragment :
     }
 
     private fun setProblemsLimitFragment() {
-        setChildFragment(R.id.studyPlanProblemsLimit, ProblemsLimitFragment.TAG) {
-            ProblemsLimitFragment.newInstance()
-        }
+        // TODO: ALTAPPS-701 change problems limit embedding
+//        setChildFragment(R.id.studyPlanProblemsLimit, ProblemsLimitFragment.TAG) {
+//            ProblemsLimitFragment.newInstance()
+//        }
     }
 
     override fun onDestroyView() {

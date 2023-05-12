@@ -54,7 +54,7 @@ jobs:
     needs: files-changed
     if: ${{ inputs.force_swiftlint || needs.files-changed.outputs.ios == 'true' }}
     name: Run SwiftLint
-    runs-on: macos-12
+    runs-on: macos-13
     timeout-minutes: 10
     
     steps:

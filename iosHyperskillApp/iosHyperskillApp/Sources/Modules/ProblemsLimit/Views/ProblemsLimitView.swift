@@ -1,47 +1,28 @@
 import shared
 import SwiftUI
 
-extension ProblemsLimitView {
-    struct Appearance {
-        var showTopDivider = false
-    }
-}
-
 struct ProblemsLimitView: View {
-    private(set) var appearance = Appearance()
+    let stateKs: ProblemsLimitFeatureViewStateKs
 
-    @StateObject var viewModel: ProblemsLimitViewModel
+    let onReloadButtonTap: () -> Void
 
     var body: some View {
-        buildBody()
-            .onAppear(perform: viewModel.startListening)
-            .onDisappear(perform: viewModel.stopListening)
-    }
-
-    @ViewBuilder
-    private func buildBody() -> some View {
-        switch viewModel.stateKs {
+        switch stateKs {
         case .idle:
-            ProblemsLimitSkeletonView()
-                .onAppear {
-                    viewModel.doLoadLimits()
-                }
+            EmptyView()
         case .loading:
             ProblemsLimitSkeletonView()
         case .error:
-            Button(Strings.Placeholder.networkErrorButtonText) {
-                viewModel.doLoadLimits(forceUpdate: true)
-            }
+            Button(
+                Strings.Placeholder.networkErrorButtonText,
+                action: onReloadButtonTap
+            )
             .buttonStyle(OutlineButtonStyle())
         case .content(let content):
             switch ProblemsLimitFeatureViewStateContentKs(content) {
             case .empty:
                 EmptyView()
             case .widget(let data):
-                if appearance.showTopDivider {
-                    Divider()
-                }
-
                 ProblemsLimitWidgetView(
                     stepsLimitLeft: Int(data.stepsLimitLeft),
                     stepsLimitTotal: Int(data.stepsLimitTotal),
@@ -55,9 +36,18 @@ struct ProblemsLimitView: View {
 
 struct ProblemsLimitView_Previews: PreviewProvider {
     static var previews: some View {
-        ProblemsLimitAssembly()
-            .makeModule()
-            .padding()
-            .previewLayout(.sizeThatFits)
+        ProblemsLimitView(
+            stateKs: .content(
+                ProblemsLimitFeatureViewStateContentWidget(
+                    stepsLimitTotal: 5,
+                    stepsLimitLeft: 3,
+                    stepsLimitLabel: "3/5 steps",
+                    updateInLabel: "12 hours"
+                )
+            ),
+            onReloadButtonTap: {}
+        )
+        .padding()
+        .previewLayout(.sizeThatFits)
     }
 }

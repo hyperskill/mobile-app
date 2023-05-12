@@ -1,6 +1,8 @@
 package org.hyperskill.app.step_quiz.injection
 
 import org.hyperskill.app.core.injection.AppGraph
+import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
+import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.data.repository.AttemptRepositoryImpl
 import org.hyperskill.app.step_quiz.data.source.AttemptRemoteDataSource
@@ -42,9 +44,14 @@ class StepQuizComponentImpl(
             appGraph.submissionDataComponent.submissionRepository
         )
 
+    private val problemsLimitComponent: ProblemsLimitComponent =
+        appGraph.buildProblemsLimitComponent(ProblemsLimitScreen.STEP_QUIZ)
+
     override val stepQuizFeature: Feature<StepQuizFeature.State, StepQuizFeature.Message, StepQuizFeature.Action>
         get() = StepQuizFeatureBuilder.build(
             stepRoute,
+            problemsLimitComponent.problemsLimitReducer,
+            problemsLimitComponent.problemsLimitActionDispatcher,
             stepQuizInteractor,
             stepQuizReplyValidator,
             appGraph.buildProfileDataComponent().profileInteractor,

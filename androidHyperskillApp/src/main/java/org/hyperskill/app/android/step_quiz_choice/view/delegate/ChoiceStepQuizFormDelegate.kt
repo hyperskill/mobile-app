@@ -31,7 +31,7 @@ class ChoiceStepQuizFormDelegate(
         }
     }
 
-    override fun setState(state: StepQuizFeature.State.AttemptLoaded) {
+    override fun setState(state: StepQuizFeature.StepQuizState.AttemptLoaded) {
         val dataset = state.attempt.dataset ?: return
 
         val submission = (state.submissionState as? StepQuizFeature.SubmissionState.Loaded)
