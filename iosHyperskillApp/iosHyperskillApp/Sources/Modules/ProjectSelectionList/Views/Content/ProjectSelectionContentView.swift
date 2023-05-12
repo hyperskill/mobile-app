@@ -25,8 +25,10 @@ struct ProjectSelectionContentView: View {
     }
 }
 
-//struct ProjectSelectionContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ProjectSelectionContentView()
-//    }
-//}
+#if DEBUG
+struct ProjectSelectionContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ProjectSelectionContentView(viewData: .placeholder)
+    }
+}
+#endif

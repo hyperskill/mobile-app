@@ -24,6 +24,7 @@
 		2C05AC512A0EACF50039C7EF /* ProjectSelectionSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC502A0EACF50039C7EF /* ProjectSelectionSkeletonView.swift */; };
 		2C05AC542A0EC5B00039C7EF /* ProjectSelectionContentHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC532A0EC5B00039C7EF /* ProjectSelectionContentHeaderView.swift */; };
 		2C05AC572A0EC9E50039C7EF /* ProjectSelectionContentHeaderSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC562A0EC9E50039C7EF /* ProjectSelectionContentHeaderSkeletonView.swift */; };
+		2C05AC5A2A0ECED90039C7EF /* ProjectSelectionListFeatureViewStateContent+Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC592A0ECED90039C7EF /* ProjectSelectionListFeatureViewStateContent+Placeholder.swift */; };
 		2C069EB128F03782009A3DA1 /* AnalyticExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C069EB028F03782009A3DA1 /* AnalyticExtensions.swift */; };
 		2C079681285CEEFE00EE0487 /* StepQuizMatchingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C079680285CEEFE00EE0487 /* StepQuizMatchingViewModel.swift */; };
 		2C079683285CEF0900EE0487 /* StepQuizMatchingAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C079682285CEF0900EE0487 /* StepQuizMatchingAssembly.swift */; };
@@ -499,6 +500,7 @@
 		2C05AC502A0EACF50039C7EF /* ProjectSelectionSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionSkeletonView.swift; sourceTree = "<group>"; };
 		2C05AC532A0EC5B00039C7EF /* ProjectSelectionContentHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionContentHeaderView.swift; sourceTree = "<group>"; };
 		2C05AC562A0EC9E50039C7EF /* ProjectSelectionContentHeaderSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionContentHeaderSkeletonView.swift; sourceTree = "<group>"; };
+		2C05AC592A0ECED90039C7EF /* ProjectSelectionListFeatureViewStateContent+Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProjectSelectionListFeatureViewStateContent+Placeholder.swift"; sourceTree = "<group>"; };
 		2C069EB028F03782009A3DA1 /* AnalyticExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticExtensions.swift; sourceTree = "<group>"; };
 		2C079680285CEEFE00EE0487 /* StepQuizMatchingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingViewModel.swift; sourceTree = "<group>"; };
 		2C079682285CEF0900EE0487 /* StepQuizMatchingAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingAssembly.swift; sourceTree = "<group>"; };
@@ -1026,6 +1028,7 @@
 			children = (
 				2C05AC472A0EA0180039C7EF /* ProjectSelectionListAssembly.swift */,
 				2C05AC492A0EA0290039C7EF /* ProjectSelectionListViewModel.swift */,
+				2C05AC582A0ECE920039C7EF /* ViewData */,
 				2C05AC4B2A0EA03F0039C7EF /* Views */,
 			);
 			path = ProjectSelectionList;
@@ -1057,6 +1060,14 @@
 				2C05AC562A0EC9E50039C7EF /* ProjectSelectionContentHeaderSkeletonView.swift */,
 			);
 			path = Header;
+			sourceTree = "<group>";
+		};
+		2C05AC582A0ECE920039C7EF /* ViewData */ = {
+			isa = PBXGroup;
+			children = (
+				2C05AC592A0ECED90039C7EF /* ProjectSelectionListFeatureViewStateContent+Placeholder.swift */,
+			);
+			path = ViewData;
 			sourceTree = "<group>";
 		};
 		2C0DB8FF28643313001EA35E /* CodeEditor */ = {
@@ -3112,6 +3123,7 @@
 				2CF4341228126C79002893CD /* View+EndEditing.swift in Sources */,
 				E9F2CC5329223C0200691540 /* StyledHostingController.swift in Sources */,
 				E94F4C152923B46200DE0F7F /* TopicsRepetitionsChartAxis.swift in Sources */,
+				2C05AC5A2A0ECED90039C7EF /* ProjectSelectionListFeatureViewStateContent+Placeholder.swift in Sources */,
 				E9102757288D19E100FF4564 /* ProblemOfDayViewData.swift in Sources */,
 				2CA3B0362888955F00EEF716 /* StepQuizCodeSkeletonView.swift in Sources */,
 				E910171728329808002E70F5 /* StepQuizChoiceElementView.swift in Sources */,
