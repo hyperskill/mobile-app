@@ -308,10 +308,12 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             return state to setOf(logAnalyticEventAction)
         }
 
-        val viewAction = when (activity.type) {
+        val activityTargetAction = when (activity.type) {
             LearningActivityType.IMPLEMENT_STAGE -> {
                 val projectId = state.studyPlan?.projectId
-                if (projectId != null && activity.targetType == LearningActivityTargetType.STAGE) {
+                if (projectId != null &&
+                    activity.targetId != null && activity.targetType == LearningActivityTargetType.STAGE
+                ) {
                     if (activity.isIdeRequired) {
                         Action.ViewAction.ShowStageImplementUnsupportedModal
                     } else {
@@ -325,15 +327,29 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 }
             }
             LearningActivityType.LEARN_TOPIC -> {
-                if (activity.targetType == LearningActivityTargetType.STEP) {
+                if (activity.targetId != null && activity.targetType == LearningActivityTargetType.STEP) {
                     Action.ViewAction.NavigateTo.StepScreen(StepRoute.Learn(activity.targetId))
                 } else {
                     null
                 }
             }
+            LearningActivityType.SELECT_PROJECT -> {
+                val trackId = state.track?.id ?: state.studyPlan?.trackId
+
+                if (trackId != null) {
+                    Action.ViewAction.NavigateTo.SelectProject(trackId)
+                } else {
+                    // Should not happen because at this point we must have non null study plan
+                    val errorMessage = "StudyPlanWidgetReducer: SELECT_PROJECT trackId is null"
+                    InternalAction.CaptureSentryErrorMessage(errorMessage)
+                }
+            }
+            LearningActivityType.SELECT_TRACK -> {
+                Action.ViewAction.NavigateTo.SelectTrack
+            }
             else -> null
         }
-        return state to setOfNotNull(viewAction, logAnalyticEventAction)
+        return state to setOfNotNull(activityTargetAction, logAnalyticEventAction)
     }
 
     private fun <K, V> Map<K, V>.update(key: K, value: V): Map<K, V> =

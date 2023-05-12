@@ -143,7 +143,9 @@ class StudyPlanWidgetTest {
             setOf(
                 StudyPlanSectionType.STAGE,
                 StudyPlanSectionType.EXTRA_TOPICS,
-                StudyPlanSectionType.ROOT_TOPICS
+                StudyPlanSectionType.ROOT_TOPICS,
+                StudyPlanSectionType.NEXT_PROJECT,
+                StudyPlanSectionType.NEXT_TRACK
             ),
             StudyPlanSectionType.supportedTypes(),
             "Test should be updated according to new supported types"
@@ -152,7 +154,7 @@ class StudyPlanWidgetTest {
         val visibleUnsupportedSection = studyPlanSectionStub(
             id = 0,
             isVisible = true,
-            type = StudyPlanSectionType.NEXT_TRACK
+            type = StudyPlanSectionType.WRAP_UP_TRACK
         )
         val hiddenSection = studyPlanSectionStub(id = 1, isVisible = false)
         val visibleSupportedSection = studyPlanSectionStub(
@@ -867,6 +869,57 @@ class StudyPlanWidgetTest {
     }
 
     @Test
+    fun `Click on select project learning activity should navigate to select project`() {
+        val activityId = 0L
+        val sectionId = 1L
+        val trackId = 2L
+        val state = StudyPlanWidgetFeature.State(
+            studyPlan = studyPlanStub(id = 0, trackId = trackId),
+            studyPlanSections = mapOf(
+                sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(id = sectionId, activities = listOf(activityId)),
+                    isExpanded = true,
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                )
+            ),
+            activities = mapOf(
+                activityId to stubLearningActivity(activityId, type = LearningActivityType.SELECT_PROJECT)
+            )
+        )
+
+        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+
+        assertEquals(state, newState)
+        assertContains(actions, StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.SelectProject(trackId))
+        assertClickedActivityAnalyticEvent(actions, newState.activities[activityId]!!)
+    }
+
+    @Test
+    fun `Click on select track learning activity should navigate to select track`() {
+        val activityId = 0L
+        val sectionId = 1L
+        val state = StudyPlanWidgetFeature.State(
+            studyPlan = studyPlanStub(id = 0),
+            studyPlanSections = mapOf(
+                sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(id = sectionId, activities = listOf(activityId)),
+                    isExpanded = true,
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                )
+            ),
+            activities = mapOf(
+                activityId to stubLearningActivity(activityId, type = LearningActivityType.SELECT_TRACK)
+            )
+        )
+
+        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+
+        assertEquals(state, newState)
+        assertContains(actions, StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.SelectTrack)
+        assertClickedActivityAnalyticEvent(actions, newState.activities[activityId]!!)
+    }
+
+    @Test
     fun `Clicking on section should change section expansion state`() {
         val sectionId = 0L
         val state = StudyPlanWidgetFeature.State(
@@ -1082,13 +1135,14 @@ class StudyPlanWidgetTest {
 
     private fun studyPlanStub(
         id: Long,
+        trackId: Long? = null,
         projectId: Long? = null,
         status: StudyPlanStatus = StudyPlanStatus.READY,
         sections: List<Long> = emptyList()
     ) =
         StudyPlan(
             id = id,
-            trackId = null,
+            trackId = trackId,
             projectId = projectId,
             sections = sections,
             status = status,

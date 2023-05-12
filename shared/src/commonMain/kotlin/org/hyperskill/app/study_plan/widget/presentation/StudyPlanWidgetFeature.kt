@@ -120,6 +120,9 @@ object StudyPlanWidgetFeature {
                 data class StepScreen(val stepRoute: StepRoute) : NavigateTo
 
                 object Home : NavigateTo
+
+                object SelectTrack : NavigateTo
+                data class SelectProject(val trackId: Long) : NavigateTo
             }
         }
     }
@@ -148,6 +151,8 @@ object StudyPlanWidgetFeature {
         ) : InternalAction
 
         data class FetchTrack(val trackId: Long) : InternalAction
+
+        data class CaptureSentryErrorMessage(val message: String) : InternalAction
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }
