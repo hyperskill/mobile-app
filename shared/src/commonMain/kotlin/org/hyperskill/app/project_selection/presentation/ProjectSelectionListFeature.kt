@@ -1,6 +1,7 @@
 package org.hyperskill.app.project_selection.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.projects.domain.model.Project
 import org.hyperskill.app.projects.domain.model.ProjectLevel
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress
 import org.hyperskill.app.track.domain.model.Track
@@ -20,7 +21,7 @@ object ProjectSelectionListFeature {
         data class Content(
             val track: Track,
             val projects: Map<Long, ProjectWithProgress>,
-            val selectedProjectId: Long?,
+            val currentProjectId: Long?,
             val isProjectSelectionLoadingShowed: Boolean = false
         ) : ContentState
         object Error : ContentState
@@ -65,13 +66,21 @@ object ProjectSelectionListFeature {
         object ViewedEventMessage : Message
 
         data class ProjectClicked(val projectId: Long) : Message
+
+        data class ProjectSelectionConfirmationResult(
+            val projectId: Long,
+            val isConfirmed: Boolean
+        ) : Message
+
+        object ProjectSelectionConfirmationModalShown : Message
+        object ProjectSelectionConfirmationModalHidden : Message
     }
 
     internal sealed interface ContentFetchResult : Message {
         data class Success(
             val track: Track,
             val projects: List<ProjectWithProgress>,
-            val selectedProjectId: Long?
+            val currentProjectId: Long?
         ) : ContentFetchResult
 
         object Error : ContentFetchResult
@@ -88,6 +97,8 @@ object ProjectSelectionListFeature {
             sealed interface NavigateTo : ViewAction {
                 object StudyPlan : NavigateTo
             }
+
+            data class ShowProjectSelectionConfirmationModal(val project: Project) : ViewAction
 
             sealed interface ShowProjectSelectionStatus : ViewAction {
                 object Success : ShowProjectSelectionStatus

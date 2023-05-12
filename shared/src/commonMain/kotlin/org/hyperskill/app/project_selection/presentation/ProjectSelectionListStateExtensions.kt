@@ -7,11 +7,11 @@ import org.hyperskill.app.projects.domain.model.ProjectWithProgress
 import org.hyperskill.app.track.domain.model.getProjectsIds
 
 internal val ContentState.Content.selectedProject: ProjectWithProgress?
-    get() = selectedProjectId?.let { projects[it] }
+    get() = currentProjectId?.let { projects[it] }
 
 internal val ContentState.Content.recommendedProjects: List<ProjectWithProgress>
     get() =
-        excludeSelectedProject(track.projects, selectedProjectId)
+        excludeSelectedProject(track.projects, currentProjectId)
             .take(ProjectSelectionListFeature.BEST_RATED_PROJECTS_COUNT)
             .mapNotNull { projectsId -> projects[projectsId] }
 
@@ -19,7 +19,7 @@ internal val ContentState.Content.projectsByLevel: Map<ProjectLevel, List<Projec
     get() = ProjectLevel.values().associateWith { level ->
         val projectsIds = track.projectsByLevel.getProjectsIds(level)
         if (!projectsIds.isNullOrEmpty()) {
-            excludeSelectedProject(projectsIds, selectedProjectId).mapNotNull { projectId ->
+            excludeSelectedProject(projectsIds, currentProjectId).mapNotNull { projectId ->
                 projects[projectId]
             }
         } else {

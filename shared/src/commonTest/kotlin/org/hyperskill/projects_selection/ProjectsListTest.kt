@@ -3,9 +3,12 @@ package org.hyperskill.projects_selection
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import org.hyperskill.ResourceProviderStub
+import org.hyperskill.app.project_selection.domain.analytic.ProjectSelectionListSelectConfirmationConfirmedHyperskillAnalyticEvent
+import org.hyperskill.app.project_selection.domain.analytic.ProjectsSelectionListClickedProjectHyperskillAnalyticsEvent
 import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature
 import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature.Action
 import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature.ContentState
@@ -60,14 +63,14 @@ class ProjectsListTest {
         val trackId = 0L
         val track = Track.stub(trackId)
         val projects = listOf(0L, 1L, 2L, 3L, 4L, 5L)
-        val selectedProjectId = 3L
+        val currentProjectId = 3L
 
         val (state, actions) = projectSelectionListReducer.reduce(
             State(trackId, ContentState.Loading),
             ProjectSelectionListFeature.ContentFetchResult.Success(
                 track = track,
                 projects = projects.map(ProjectWithProgress.Companion::stub),
-                selectedProjectId = selectedProjectId
+                currentProjectId = currentProjectId
             )
         )
         assertTrue(actions.isEmpty())
@@ -75,7 +78,7 @@ class ProjectsListTest {
         val expectedContent = ContentState.Content(
             track = track,
             projects = projects.associateWith(ProjectWithProgress.Companion::stub),
-            selectedProjectId = selectedProjectId
+            currentProjectId = currentProjectId
         )
         assertEquals(
             expectedContent,
@@ -110,7 +113,7 @@ class ProjectsListTest {
             ContentState.Content(
                 track = Track.stub(0L),
                 projects = emptyMap(),
-                selectedProjectId = null
+                currentProjectId = null
             ),
             ContentState.Idle
         ).forEach { contentState ->
@@ -127,38 +130,95 @@ class ProjectsListTest {
     }
 
     @Test
-    fun `ProjectClicked message should trigger project selection`() {
+    fun `ProjectClicked message should request user permission to add the project to their profile`() {
         val trackId = 0L
         val projectId = 1L
-        val (state, actions) = projectSelectionListReducer.reduce(
+        val projectWithProgress = ProjectWithProgress.stub(projectId)
+        val (_, actions) = projectSelectionListReducer.reduce(
             State(
                 trackId,
                 ContentState.Content(
                     track = Track.stub(trackId),
-                    projects = mapOf(projectId to ProjectWithProgress.stub(projectId)),
-                    selectedProjectId = null
+                    projects = mapOf(projectId to projectWithProgress),
+                    currentProjectId = null
                 )
             ),
             Message.ProjectClicked(projectId)
         )
         assertContains(
             actions,
-            InternalAction.SelectProject(trackId, projectId)
+            Action.ViewAction.ShowProjectSelectionConfirmationModal(projectWithProgress.project)
         )
         assertTrue {
-            val content = state.content
-            content is ContentState.Content && content.isProjectSelectionLoadingShowed
+            actions.any {
+                it is InternalAction.LogAnalyticEvent &&
+                    it.analyticEvent is ProjectsSelectionListClickedProjectHyperskillAnalyticsEvent &&
+                    it.analyticEvent.projectId == projectId &&
+                    it.analyticEvent.trackId == trackId
+            }
         }
     }
 
     @Test
-    fun `Successful project selection should trigger success status and navigation to the Home screen`() {
+    fun `Confirming selection permission should trigger project selection`() {
+        val trackId = 0L
+        val projectId = 1L
+        val projectWithProgress = ProjectWithProgress.stub(projectId)
+        val (_, actions) = projectSelectionListReducer.reduce(
+            State(
+                trackId,
+                ContentState.Content(
+                    track = Track.stub(trackId),
+                    projects = mapOf(projectId to projectWithProgress),
+                    currentProjectId = null
+                )
+            ),
+            Message.ProjectSelectionConfirmationResult(projectId, true)
+        )
+        assertContains(
+            actions,
+            InternalAction.SelectProject(trackId, projectId)
+        )
+        assertTrue {
+            actions.any {
+                it is InternalAction.LogAnalyticEvent &&
+                    it.analyticEvent is ProjectSelectionListSelectConfirmationConfirmedHyperskillAnalyticEvent &&
+                    it.analyticEvent.trackId == trackId
+            }
+        }
+    }
+
+    @Test
+    fun `Project selection should not be triggered if user reject project selection permission`() {
+        val trackId = 0L
+        val projectId = 1L
+        val projectWithProgress = ProjectWithProgress.stub(projectId)
+        val (_, actions) = projectSelectionListReducer.reduce(
+            State(
+                trackId,
+                ContentState.Content(
+                    track = Track.stub(trackId),
+                    projects = mapOf(projectId to projectWithProgress),
+                    currentProjectId = null
+                )
+            ),
+            Message.ProjectSelectionConfirmationResult(projectId, false)
+        )
+        assertFalse {
+            actions.any {
+                it is InternalAction.SelectProject
+            }
+        }
+    }
+
+    @Test
+    fun `Successful project selection should trigger success status and navigation to the StudyPlan screen`() {
         val trackId = 0L
         val projectId = 1L
         val initialContentState = ContentState.Content(
             track = Track.stub(trackId),
             projects = mapOf(projectId to ProjectWithProgress.stub(projectId)),
-            selectedProjectId = null,
+            currentProjectId = null,
             isProjectSelectionLoadingShowed = true
         )
         val (state, actions) = projectSelectionListReducer.reduce(
@@ -186,7 +246,7 @@ class ProjectsListTest {
         val initialContentState = ContentState.Content(
             track = Track.stub(trackId),
             projects = mapOf(projectId to ProjectWithProgress.stub(projectId)),
-            selectedProjectId = null,
+            currentProjectId = null,
             isProjectSelectionLoadingShowed = true
         )
         val (state, actions) = projectSelectionListReducer.reduce(
@@ -216,7 +276,7 @@ class ProjectsListTest {
                     project = Project.stub(id)
                 )
             },
-            selectedProjectId = selectedProjectId
+            currentProjectId = selectedProjectId
         )
         assertTrue {
             content.recommendedProjects.none {
@@ -238,7 +298,7 @@ class ProjectsListTest {
                     project = Project.stub(id)
                 )
             },
-            selectedProjectId = null
+            currentProjectId = null
         )
         assertEquals(
             recommendedProjectsIds,
@@ -262,7 +322,7 @@ class ProjectsListTest {
         val content = ContentState.Content(
             track = Track.stub(0L),
             projects = projects,
-            selectedProjectId = null
+            currentProjectId = null
         )
         assertEquals(
             projects[4]?.project?.id,
@@ -275,7 +335,7 @@ class ProjectsListTest {
         val content = ContentState.Content(
             track = Track.stub(0L),
             projects = emptyMap(),
-            selectedProjectId = null
+            currentProjectId = null
         )
         assertNull(content.bestRatedProjectId)
     }
@@ -296,7 +356,7 @@ class ProjectsListTest {
         val content = ContentState.Content(
             track = Track.stub(0L),
             projects = projects,
-            selectedProjectId = null
+            currentProjectId = null
         )
         assertNull(content.bestRatedProjectId)
     }
@@ -340,7 +400,7 @@ class ProjectsListTest {
         val content = ContentState.Content(
             track = Track.stub(0L),
             projects = projects,
-            selectedProjectId = null
+            currentProjectId = null
         )
         val expectedProjectId =
             projects.values.first { it.progress.secondsToComplete == 1f }.project.id
@@ -355,7 +415,7 @@ class ProjectsListTest {
         val content = ContentState.Content(
             track = Track.stub(0L),
             projects = emptyMap(),
-            selectedProjectId = null
+            currentProjectId = null
         )
         assertNull(content.fastestToCompleteProjectId)
     }
@@ -387,7 +447,7 @@ class ProjectsListTest {
                 projects = allProjects.keys.toList()
             ),
             projects = allProjects,
-            selectedProjectId = null
+            currentProjectId = null
         )
         val viewState = viewStateMapper.map(content)
 

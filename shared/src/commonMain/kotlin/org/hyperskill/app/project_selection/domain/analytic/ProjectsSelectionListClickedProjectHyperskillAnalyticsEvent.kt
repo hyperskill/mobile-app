@@ -30,8 +30,8 @@ import ru.nobird.app.core.model.mapOfNotNull
  * @see HyperskillAnalyticEvent
  */
 class ProjectsSelectionListClickedProjectHyperskillAnalyticsEvent(
-    trackId: Long,
-    private val projectId: Long
+    val trackId: Long,
+    val projectId: Long
 ) : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.ProjectsList(trackId),
     HyperskillAnalyticAction.CLICK,

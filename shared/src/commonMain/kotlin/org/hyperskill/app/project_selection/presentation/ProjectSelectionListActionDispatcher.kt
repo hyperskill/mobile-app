@@ -82,7 +82,7 @@ class ProjectSelectionListActionDispatcher(
                                         ?: return@mapNotNull null
                                 )
                             },
-                            selectedProjectId = studyPlan.projectId
+                            currentProjectId = studyPlan.projectId
                         )
                     )
                 }

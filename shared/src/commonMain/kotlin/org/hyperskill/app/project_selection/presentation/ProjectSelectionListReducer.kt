@@ -1,5 +1,8 @@
 package org.hyperskill.app.project_selection.presentation
 
+import org.hyperskill.app.project_selection.domain.analytic.ProjectSelectionListSelectConfirmationConfirmedHyperskillAnalyticEvent
+import org.hyperskill.app.project_selection.domain.analytic.ProjectSelectionListSelectConfirmationModalHiddenHyperskillAnalyticEvent
+import org.hyperskill.app.project_selection.domain.analytic.ProjectSelectionListSelectConfirmationModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.project_selection.domain.analytic.ProjectsSelectionListClickedProjectHyperskillAnalyticsEvent
 import org.hyperskill.app.project_selection.domain.analytic.ProjectsSelectionListClickedRetryContentLoadingHyperskillAnalyticsEvent
 import org.hyperskill.app.project_selection.domain.analytic.ProjectsSelectionListViewedHyperskillAnalyticEvent
@@ -25,7 +28,7 @@ internal class ProjectSelectionListReducer : StateReducer<State, Message, Action
                     ContentState.Content(
                         track = message.track,
                         projects = message.projects.associateBy { it.project.id },
-                        selectedProjectId = message.selectedProjectId
+                        currentProjectId = message.currentProjectId
                     )
                 ) to emptySet()
             }
@@ -46,19 +49,32 @@ internal class ProjectSelectionListReducer : StateReducer<State, Message, Action
                 }
             }
             is Message.ProjectClicked -> {
-                if (state.content is ContentState.Content) {
-                    state.copy(
-                        content = state.content.copy(isProjectSelectionLoadingShowed = true)
-                    ) to setOf(
-                        InternalAction.SelectProject(
-                            trackId = state.trackId,
-                            projectId = message.projectId
-                        ),
+                val project = (state.content as? ContentState.Content)?.projects?.get(message.projectId)?.project
+                if (project != null) {
+                    state to setOf(
+                        ViewAction.ShowProjectSelectionConfirmationModal(project),
                         InternalAction.LogAnalyticEvent(
                             ProjectsSelectionListClickedProjectHyperskillAnalyticsEvent(
                                 trackId = state.trackId,
                                 projectId = message.projectId
                             )
+                        )
+                    )
+                } else {
+                    state to emptySet()
+                }
+            }
+            is Message.ProjectSelectionConfirmationResult -> {
+                if (state.content is ContentState.Content && message.isConfirmed) {
+                    state.copy(
+                        content = state.content.copy(isProjectSelectionLoadingShowed = true)
+                    ) to setOf(
+                        InternalAction.SelectProject(
+                            state.trackId,
+                            message.projectId
+                        ),
+                        InternalAction.LogAnalyticEvent(
+                            ProjectSelectionListSelectConfirmationConfirmedHyperskillAnalyticEvent(state.trackId)
                         )
                     )
                 } else {
@@ -81,6 +97,20 @@ internal class ProjectSelectionListReducer : StateReducer<State, Message, Action
                 } else {
                     state to emptySet()
                 }
+            }
+            is Message.ProjectSelectionConfirmationModalShown -> {
+                state to setOf(
+                    InternalAction.LogAnalyticEvent(
+                        ProjectSelectionListSelectConfirmationModalShownHyperskillAnalyticEvent(state.trackId)
+                    )
+                )
+            }
+            is Message.ProjectSelectionConfirmationModalHidden -> {
+                state to setOf(
+                    InternalAction.LogAnalyticEvent(
+                        ProjectSelectionListSelectConfirmationModalHiddenHyperskillAnalyticEvent(state.trackId)
+                    )
+                )
             }
             Message.ViewedEventMessage -> {
                 state to setOf(
