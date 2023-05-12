@@ -7,7 +7,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import org.hyperskill.ResourceProviderStub
-import org.hyperskill.app.project_selection.domain.analytic.ProjectSelectionListSelectConfirmationConfirmedHyperskillAnalyticEvent
+import org.hyperskill.app.project_selection.domain.analytic.ProjectSelectionListSelectConfirmationResultHyperskillAnalyticEvent
 import org.hyperskill.app.project_selection.domain.analytic.ProjectsSelectionListClickedProjectHyperskillAnalyticsEvent
 import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature
 import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature.Action
@@ -182,7 +182,7 @@ class ProjectsListTest {
         assertTrue {
             actions.any {
                 it is InternalAction.LogAnalyticEvent &&
-                    it.analyticEvent is ProjectSelectionListSelectConfirmationConfirmedHyperskillAnalyticEvent &&
+                    it.analyticEvent is ProjectSelectionListSelectConfirmationResultHyperskillAnalyticEvent &&
                     it.analyticEvent.trackId == trackId
             }
         }

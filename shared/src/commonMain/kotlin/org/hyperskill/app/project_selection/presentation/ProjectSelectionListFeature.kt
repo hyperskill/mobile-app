@@ -38,8 +38,7 @@ object ProjectSelectionListFeature {
             val formattedTitle: String,
             val selectedProject: ProjectListItem?,
             val recommendedProjects: List<ProjectListItem>,
-            val projectsByLevel: Map<ProjectLevel, List<ProjectListItem>>,
-            val isRefreshing: Boolean = false
+            val projectsByLevel: Map<ProjectLevel, List<ProjectListItem>>
         ) : ViewState
         object Error : ViewState
     }

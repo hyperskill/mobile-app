@@ -1,8 +1,8 @@
 package org.hyperskill.app.project_selection.presentation
 
-import org.hyperskill.app.project_selection.domain.analytic.ProjectSelectionListSelectConfirmationConfirmedHyperskillAnalyticEvent
 import org.hyperskill.app.project_selection.domain.analytic.ProjectSelectionListSelectConfirmationModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.project_selection.domain.analytic.ProjectSelectionListSelectConfirmationModalShownHyperskillAnalyticEvent
+import org.hyperskill.app.project_selection.domain.analytic.ProjectSelectionListSelectConfirmationResultHyperskillAnalyticEvent
 import org.hyperskill.app.project_selection.domain.analytic.ProjectsSelectionListClickedProjectHyperskillAnalyticsEvent
 import org.hyperskill.app.project_selection.domain.analytic.ProjectsSelectionListClickedRetryContentLoadingHyperskillAnalyticsEvent
 import org.hyperskill.app.project_selection.domain.analytic.ProjectsSelectionListViewedHyperskillAnalyticEvent
@@ -74,7 +74,7 @@ internal class ProjectSelectionListReducer : StateReducer<State, Message, Action
                             message.projectId
                         ),
                         InternalAction.LogAnalyticEvent(
-                            ProjectSelectionListSelectConfirmationConfirmedHyperskillAnalyticEvent(state.trackId)
+                            ProjectSelectionListSelectConfirmationResultHyperskillAnalyticEvent(state.trackId)
                         )
                     )
                 } else {

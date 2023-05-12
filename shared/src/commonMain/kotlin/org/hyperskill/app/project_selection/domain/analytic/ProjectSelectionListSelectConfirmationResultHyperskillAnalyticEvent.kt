@@ -20,11 +20,12 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * ```
  * @see HyperskillAnalyticEvent
  */
-class ProjectSelectionListSelectConfirmationConfirmedHyperskillAnalyticEvent(
-    val trackId: Long
+class ProjectSelectionListSelectConfirmationResultHyperskillAnalyticEvent(
+    val trackId: Long,
+    isConfirmed: Boolean
 ) : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.ProjectsList(trackId),
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.PROJECT_SELECTION_MODAL,
-    HyperskillAnalyticTarget.YES
+    if (isConfirmed) HyperskillAnalyticTarget.YES else HyperskillAnalyticTarget.NO
 )
