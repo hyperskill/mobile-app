@@ -49,4 +49,6 @@ data class Track(
     @Deprecated("Use TrackWithProgress instead")
     @Transient
     val progress: TrackProgress? = null
-)
+) {
+    companion object
+}

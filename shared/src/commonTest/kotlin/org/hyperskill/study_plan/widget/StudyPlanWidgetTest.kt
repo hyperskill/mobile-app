@@ -1,14 +1,12 @@
 package org.hyperskill.study_plan.widget
 
-import dev.icerock.moko.resources.PluralsResource
-import dev.icerock.moko.resources.StringResource
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlin.test.fail
+import org.hyperskill.ResourceProviderStub
 import org.hyperskill.app.core.view.mapper.DateFormatter
-import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
@@ -31,19 +29,7 @@ class StudyPlanWidgetTest {
 
     private val reducer = StudyPlanWidgetReducer()
 
-    private val resourceProviderStub = object : ResourceProvider {
-        override fun getString(stringResource: StringResource): String =
-            ""
-
-        override fun getString(stringResource: StringResource, vararg args: Any): String =
-            ""
-
-        override fun getQuantityString(pluralsResource: PluralsResource, quantity: Int): String =
-            ""
-
-        override fun getQuantityString(pluralsResource: PluralsResource, quantity: Int, vararg args: Any): String =
-            ""
-    }
+    private val resourceProviderStub = ResourceProviderStub()
 
     private val studyPlanWidgetViewStateMapper = StudyPlanWidgetViewStateMapper(DateFormatter(resourceProviderStub))
 

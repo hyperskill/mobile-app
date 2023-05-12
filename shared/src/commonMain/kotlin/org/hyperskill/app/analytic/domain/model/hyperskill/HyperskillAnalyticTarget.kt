@@ -76,5 +76,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     STAGE_IMPLEMENT_UNSUPPORTED_MODAL("stage_implement_unsupported_modal"),
     RETRY("retry"),
     SECTION("section"),
-    ACTIVITY("activity")
+    ACTIVITY("activity"),
+    PROJECT("project"),
+    PROJECT_SELECTION_MODAL("project_selection_modal")
 }
