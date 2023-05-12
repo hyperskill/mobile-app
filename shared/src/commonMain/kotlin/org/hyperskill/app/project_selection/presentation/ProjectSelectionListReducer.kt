@@ -74,7 +74,10 @@ internal class ProjectSelectionListReducer : StateReducer<State, Message, Action
                             message.projectId
                         ),
                         InternalAction.LogAnalyticEvent(
-                            ProjectSelectionListSelectConfirmationResultHyperskillAnalyticEvent(state.trackId)
+                            ProjectSelectionListSelectConfirmationResultHyperskillAnalyticEvent(
+                                trackId = state.trackId,
+                                isConfirmed = true
+                            )
                         )
                     )
                 } else {
