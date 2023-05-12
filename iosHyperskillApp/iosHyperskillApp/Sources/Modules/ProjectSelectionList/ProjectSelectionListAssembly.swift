@@ -1,19 +1,25 @@
 import SwiftUI
 
-final class ProjectSelectionListAssembly: Assembly {
+final class ProjectSelectionListAssembly: UIKitAssembly {
     private let trackID: Int64
 
     init(trackID: Int64) {
         self.trackID = trackID
     }
 
-    func makeModule() -> ProjectSelectionRootView {
+    func makeModule() -> UIViewController {
         let projectSelectionListComponent = AppGraphBridge.sharedAppGraph.buildProjectSelectionListComponent()
 
         let viewModel = ProjectSelectionListViewModel(
             feature: projectSelectionListComponent.projectSelectionListFeature(trackId: trackID)
         )
 
-        return ProjectSelectionRootView(viewModel: viewModel)
+        let rootView = ProjectSelectionRootView(viewModel: viewModel)
+        let hostingController = StyledHostingController(
+            rootView: rootView,
+            appearance: .withoutBackButtonTitle
+        )
+
+        return hostingController
     }
 }

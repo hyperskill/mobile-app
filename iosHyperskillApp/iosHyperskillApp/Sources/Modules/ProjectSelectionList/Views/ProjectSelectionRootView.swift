@@ -13,18 +13,16 @@ struct ProjectSelectionRootView: View {
     @StateObject var viewModel: ProjectSelectionListViewModel
 
     var body: some View {
-        NavigationView {
-            ZStack {
-                UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
+        ZStack {
+            UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
 
-                BackgroundView(color: appearance.backgroundColor)
+            BackgroundView(color: appearance.backgroundColor)
 
-                buildBody()
-            }
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationTitle(Strings.ProjectSelectionList.title)
+            buildBody()
         }
+        .navigationBarTitleDisplayMode(.inline)
         .navigationViewStyle(StackNavigationViewStyle())
+        .navigationTitle(Strings.ProjectSelectionList.title)
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
@@ -41,11 +39,17 @@ struct ProjectSelectionRootView: View {
     private func buildBody() -> some View {
         switch viewModel.viewStateKs {
         case .idle:
-            EmptyView()
+            ProjectSelectionSkeletonView()
+                .onAppear(perform: viewModel.doLoadProjectSelectionList)
         case .loading:
-            EmptyView()
+            ProjectSelectionSkeletonView()
         case .error:
-            EmptyView()
+            PlaceholderView(
+                configuration: .networkError(
+                    backgroundColor: appearance.backgroundColor,
+                    action: viewModel.doRetryLoadProjectSelectionList
+                )
+            )
         case .content(let viewData):
             ProjectSelectionContentView(viewData: viewData)
         }
@@ -99,7 +103,9 @@ private extension ProjectSelectionRootView {
 
 struct ProjectSelectionRootView_Previews: PreviewProvider {
     static var previews: some View {
-        ProjectSelectionListAssembly(trackID: 1)
-            .makeModule()
+        UIKitViewControllerPreview {
+            ProjectSelectionListAssembly(trackID: 1)
+                .makeModule()
+        }
     }
 }
