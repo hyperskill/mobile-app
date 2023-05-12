@@ -3,7 +3,7 @@ import shared
 import SwiftUI
 
 final class StudyPlanViewModel: FeatureViewModel<
-  StudyPlanScreenViewState,
+  StudyPlanScreenFeature.ViewState,
   StudyPlanScreenFeatureMessage,
   StudyPlanScreenFeatureActionViewAction
 > {
@@ -11,10 +11,11 @@ final class StudyPlanViewModel: FeatureViewModel<
 
     var studyPlanWidgetStateKs: StudyPlanWidgetViewStateKs { .init(state.studyPlanWidgetViewState) }
     var gamificationToolbarStateKs: GamificationToolbarFeatureStateKs { .init(state.toolbarState) }
+    var problemsLimitViewStateKs: ProblemsLimitFeatureViewStateKs { .init(state.problemsLimitViewState) }
 
     override func shouldNotifyStateDidChange(
-        oldState: StudyPlanScreenViewState,
-        newState: StudyPlanScreenViewState
+        oldState: StudyPlanScreenFeature.ViewState,
+        newState: StudyPlanScreenFeature.ViewState
     ) -> Bool {
         !oldState.isEqual(newState)
     }
@@ -24,11 +25,7 @@ final class StudyPlanViewModel: FeatureViewModel<
     }
 
     func doRetryContentLoading() {
-        onNewMessage(
-            StudyPlanScreenFeatureMessageStudyPlanWidgetMessage(
-                message: StudyPlanWidgetFeatureMessageRetryContentLoading()
-            )
-        )
+        onNewMessage(StudyPlanScreenFeatureMessageRetryContentLoading())
     }
 
     func doScreenBecomesActive() {
@@ -87,6 +84,14 @@ final class StudyPlanViewModel: FeatureViewModel<
         onNewMessage(
             StudyPlanScreenFeatureMessageGamificationToolbarMessage(
                 message: GamificationToolbarFeatureMessageClickedProgress()
+            )
+        )
+    }
+
+    func doReloadProblemsLimit() {
+        onNewMessage(
+            StudyPlanScreenFeatureMessageProblemsLimitMessage(
+                message: ProblemsLimitFeatureMessageInitialize(forceUpdate: true)
             )
         )
     }
