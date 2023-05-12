@@ -78,8 +78,11 @@ struct StudyPlanView: View {
                             .foregroundColor(.secondaryText)
                             .padding(.bottom, appearance.trackTitleBottomPadding)
                     }
-                    // TODO: ALTAPPS-701 change problems limit embedding
-//                    ProblemsLimitAssembly().makeModule()
+
+                    ProblemsLimitView(
+                        stateKs: viewModel.problemsLimitViewStateKs,
+                        onReloadButtonTap: viewModel.doReloadProblemsLimit
+                    )
 
                     ForEach(data.sections, id: \.id) { section in
                         StudyPlanSectionView(
@@ -110,6 +113,8 @@ struct StudyPlanView: View {
             case .showProfileTab:
                 TabBarRouter(tab: .profile).route()
             }
+        case .problemsLimitViewAction:
+            break
         case .studyPlanWidgetViewAction(let studyPlanWidgetViewAction):
             switch StudyPlanWidgetFeatureActionViewActionKs(studyPlanWidgetViewAction.viewAction) {
             case .showStageImplementUnsupportedModal:

@@ -1,14 +1,12 @@
 package org.hyperskill.study_plan.widget
 
-import dev.icerock.moko.resources.PluralsResource
-import dev.icerock.moko.resources.StringResource
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlin.test.fail
+import org.hyperskill.ResourceProviderStub
 import org.hyperskill.app.core.view.mapper.DateFormatter
-import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
@@ -17,7 +15,6 @@ import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransa
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedActivityHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent
-import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryContentLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedSectionHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
@@ -32,26 +29,14 @@ class StudyPlanWidgetTest {
 
     private val reducer = StudyPlanWidgetReducer()
 
-    private val resourceProviderStub = object : ResourceProvider {
-        override fun getString(stringResource: StringResource): String =
-            ""
-
-        override fun getString(stringResource: StringResource, vararg args: Any): String =
-            ""
-
-        override fun getQuantityString(pluralsResource: PluralsResource, quantity: Int): String =
-            ""
-
-        override fun getQuantityString(pluralsResource: PluralsResource, quantity: Int, vararg args: Any): String =
-            ""
-    }
+    private val resourceProviderStub = ResourceProviderStub()
 
     private val studyPlanWidgetViewStateMapper = StudyPlanWidgetViewStateMapper(DateFormatter(resourceProviderStub))
 
     @Test
     fun `Initialize message should trigger studyPLan fetching`() {
         val initialState = StudyPlanWidgetFeature.State()
-        val (state, actions) = reducer.reduce(initialState, StudyPlanWidgetFeature.Message.Initialize)
+        val (state, actions) = reducer.reduce(initialState, StudyPlanWidgetFeature.Message.Initialize())
         assertContains(actions, StudyPlanWidgetFeature.InternalAction.FetchStudyPlan())
         assertEquals(state.sectionsStatus, StudyPlanWidgetFeature.ContentStatus.LOADING)
     }
@@ -932,22 +917,6 @@ class StudyPlanWidgetTest {
         assertEquals(state, newState)
         assertContains(actions, StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.SelectTrack)
         assertClickedActivityAnalyticEvent(actions, newState.activities[activityId]!!)
-    }
-
-    @Test
-    fun `Retry content loading message should trigger logging analytic event`() {
-        val (_, actions) = reducer.reduce(
-            StudyPlanWidgetFeature.State(),
-            StudyPlanWidgetFeature.Message.RetryContentLoading
-        )
-
-        assertEquals(actions.size, 2)
-        val targetAction = actions.last() as StudyPlanWidgetFeature.InternalAction.LogAnalyticEvent
-        if (targetAction.analyticEvent is StudyPlanClickedRetryContentLoadingHyperskillAnalyticEvent) {
-            // pass
-        } else {
-            fail("Unexpected action: $targetAction")
-        }
     }
 
     @Test

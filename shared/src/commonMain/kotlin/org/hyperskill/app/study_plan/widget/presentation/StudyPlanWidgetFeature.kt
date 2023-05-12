@@ -56,13 +56,11 @@ object StudyPlanWidgetFeature {
     )
 
     sealed interface Message {
-        object Initialize : Message
+        data class Initialize(val forceUpdate: Boolean = false) : Message
 
         data class SectionClicked(val sectionId: Long) : Message
 
         data class ActivityClicked(val activityId: Long) : Message
-
-        object RetryContentLoading : Message
 
         data class RetryActivitiesLoading(val sectionId: Long) : Message
 

@@ -2,7 +2,6 @@ package org.hyperskill.app.projects.domain.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
 
 @Serializable
 data class Project(
@@ -14,6 +13,13 @@ data class Project(
     val isDeprecated: Boolean = false,
     @SerialName("progress_id")
     val progressId: String,
-    @Transient
-    val progress: ProjectProgress? = null
-)
+    @SerialName("tracks")
+    val tracks: Map<String, ProjectTracksEntry>,
+    @SerialName("is_ide_required")
+    val isIdeRequired: Boolean = false
+) {
+    companion object
+}
+
+fun Project.isGraduate(trackId: Long): Boolean =
+    tracks[trackId.toString()]?.kind == ProjectKind.GRADUATE
