@@ -10,6 +10,7 @@ import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarR
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitActionDispatcher
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
+import org.hyperskill.app.problems_limit.view.mapper.ProblemsLimitViewStateMapper
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenActionDispatcher
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenReducer
@@ -34,16 +35,25 @@ internal object StudyPlanScreenFeatureBuilder {
         problemsLimitActionDispatcher: ProblemsLimitActionDispatcher,
         studyPlanWidgetReducer: StudyPlanWidgetReducer,
         studyPlanWidgetDispatcher: StudyPlanWidgetActionDispatcher,
+        problemsLimitViewStateMapper: ProblemsLimitViewStateMapper,
         studyPlanWidgetViewStateMapper: StudyPlanWidgetViewStateMapper,
         resourceProvider: ResourceProvider
     ): Feature<StudyPlanScreenViewState, StudyPlanScreenFeature.Message, StudyPlanScreenFeature.Action> {
-        val studyPlanScreenReducer = StudyPlanScreenReducer(toolbarReducer, problemsLimitReducer, studyPlanWidgetReducer)
+        val studyPlanScreenReducer = StudyPlanScreenReducer(
+            toolbarReducer = toolbarReducer,
+            problemsLimitReducer = problemsLimitReducer,
+            studyPlanWidgetReducer = studyPlanWidgetReducer
+        )
         val studyPlanScreenActionDispatcher = StudyPlanScreenActionDispatcher(
             ActionDispatcherOptions(),
             analyticInteractor
         )
         val studyPlanScreenViewStateMapper =
-            StudyPlanScreenViewStateMapper(studyPlanWidgetViewStateMapper, resourceProvider)
+            StudyPlanScreenViewStateMapper(
+                problemsLimitViewStateMapper = problemsLimitViewStateMapper,
+                studyPlanWidgetViewStateMapper = studyPlanWidgetViewStateMapper,
+                resourceProvider = resourceProvider
+            )
         return ReduxFeature(
             StudyPlanScreenFeature.State(
                 toolbarState = GamificationToolbarFeature.State.Idle,

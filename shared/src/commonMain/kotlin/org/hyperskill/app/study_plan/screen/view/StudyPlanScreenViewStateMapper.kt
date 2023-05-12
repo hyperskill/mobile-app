@@ -2,10 +2,12 @@ package org.hyperskill.app.study_plan.screen.view
 
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.problems_limit.view.mapper.ProblemsLimitViewStateMapper
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewStateMapper
 
 internal class StudyPlanScreenViewStateMapper(
+    private val problemsLimitViewStateMapper: ProblemsLimitViewStateMapper,
     private val studyPlanWidgetViewStateMapper: StudyPlanWidgetViewStateMapper,
     private val resourceProvider: ResourceProvider
 ) {
@@ -18,6 +20,7 @@ internal class StudyPlanScreenViewStateMapper(
                 )
             },
             toolbarState = state.toolbarState,
+            problemsLimitViewState = problemsLimitViewStateMapper.mapState(state.problemsLimitState),
             studyPlanWidgetViewState = studyPlanWidgetViewStateMapper.map(state.studyPlanWidgetState),
             isRefreshing = state.isRefreshing
         )
