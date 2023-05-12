@@ -387,6 +387,6 @@
     <string name="projects_list_hard_category_title">Hard</string>
     <string name="projects_list_hard_category_description">Hard projects to practice all the basic concepts and learn new ones</string>
     <string name="projects_list_nightmare_category_title">Challenging</string>
-    <string name="projects_list_hard_category_description">Challenging projects to perfect your knowledge with challenging tasks</string>
+    <string name="projects_list_nightmare_category_description">Challenging projects to perfect your knowledge with challenging tasks</string>
 
 </resources>
