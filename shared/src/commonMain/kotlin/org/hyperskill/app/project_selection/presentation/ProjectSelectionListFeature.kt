@@ -6,6 +6,9 @@ import org.hyperskill.app.projects.domain.model.ProjectWithProgress
 import org.hyperskill.app.track.domain.model.Track
 
 object ProjectSelectionListFeature {
+
+    internal const val BEST_RATED_PROJECTS_COUNT = 6
+
     internal data class State(
         val trackId: Long,
         val content: ContentState
@@ -18,7 +21,6 @@ object ProjectSelectionListFeature {
             val track: Track,
             val projects: Map<Long, ProjectWithProgress>,
             val selectedProjectId: Long?,
-            val isRefreshing: Boolean = false,
             val isProjectSelectionLoadingShowed: Boolean = false
         ) : ContentState
         object Error : ContentState
@@ -49,8 +51,8 @@ object ProjectSelectionListFeature {
         val title: String,
         val averageRating: Double,
         val level: ProjectLevel?,
-        val timeToComplete: String,
-        val isGraduated: Boolean,
+        val formattedTimeToComplete: String?,
+        val isGraduate: Boolean,
         val isBestRated: Boolean,
         val isIdeRequired: Boolean,
         val isFastestToComplete: Boolean
@@ -58,7 +60,6 @@ object ProjectSelectionListFeature {
 
     sealed interface Message {
         object Initialize : Message
-        object PullToRefresh : Message
         object RetryContentLoading : Message
 
         object ViewedEventMessage : Message

@@ -7,7 +7,7 @@ import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFea
 import org.hyperskill.app.project_selection.view.mapper.ProjectSelectionListViewStateMapper
 import ru.nobird.app.presentation.redux.feature.Feature
 
-class ProjectSelectionListComponentImpl(private val appGraph: AppGraph) : ProjectsSelectionListComponent {
+class ProjectSelectionListComponentImpl(private val appGraph: AppGraph) : ProjectSelectionListComponent {
 
     override fun projectSelectionListFeature(trackId: Long): Feature<ViewState, Message, Action> =
         ProjectSelectionListFeatureBuilder.build(

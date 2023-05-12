@@ -21,5 +21,5 @@ data class Project(
     companion object
 }
 
-fun Project.isGraduated(trackId: Long): Boolean =
+fun Project.isGraduate(trackId: Long): Boolean =
     tracks[trackId.toString()]?.kind == ProjectKind.GRADUATE

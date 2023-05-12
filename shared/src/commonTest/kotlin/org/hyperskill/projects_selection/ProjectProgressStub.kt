@@ -7,7 +7,7 @@ fun ProjectProgress.Companion.stub(
     clarity: Float? = null,
     funMeasure: Float? = null,
     usefulness: Float? = null,
-    secondsToComplete: Double = .0
+    secondsToComplete: Float = 0f
 ): ProjectProgress =
     ProjectProgress(
         id = "",

@@ -12,7 +12,7 @@ import org.hyperskill.app.project_selection.presentation.recommendedProjects
 import org.hyperskill.app.project_selection.presentation.selectedProject
 import org.hyperskill.app.projects.domain.model.ProjectLevel
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress
-import org.hyperskill.app.projects.domain.model.isGraduated
+import org.hyperskill.app.projects.domain.model.isGraduate
 import org.hyperskill.app.track.domain.model.getProjectLevel
 
 internal class ProjectSelectionListViewStateMapper(
@@ -59,8 +59,7 @@ internal class ProjectSelectionListViewStateMapper(
                                 level = level
                             )
                         }
-                    },
-                    isRefreshing = state.isRefreshing
+                    }
                 )
             }
             ProjectSelectionListFeature.ContentState.Error -> ProjectSelectionListFeature.ViewState.Error
@@ -79,17 +78,17 @@ internal class ProjectSelectionListViewStateMapper(
                 title = project.title,
                 averageRating = progress.averageRating(),
                 level = level,
-                timeToComplete = getTimeToComplete(progress.secondsToComplete),
-                isGraduated = project.isGraduated(trackId),
+                formattedTimeToComplete = getTimeToComplete(progress.secondsToComplete),
+                isGraduate = project.isGraduate(trackId),
                 isBestRated = project.id == bestRatedProjectId,
                 isIdeRequired = project.isIdeRequired,
                 isFastestToComplete = project.id == fastestToCompleteProjectId
             )
         }
 
-    private fun getTimeToComplete(secondsToComplete: Double): String {
+    private fun getTimeToComplete(secondsToComplete: Float?): String? {
+        if (secondsToComplete == null || secondsToComplete <= 0) return null
         val hours = floor(secondsToComplete / 3600).toInt()
-
         return resourceProvider.getQuantityString(SharedResources.plurals.hours, hours, hours)
     }
 }

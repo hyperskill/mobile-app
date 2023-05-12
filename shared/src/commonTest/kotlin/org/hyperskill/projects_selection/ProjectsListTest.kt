@@ -24,7 +24,7 @@ import org.hyperskill.app.projects.domain.model.ProjectLevel
 import org.hyperskill.app.projects.domain.model.ProjectProgress
 import org.hyperskill.app.projects.domain.model.ProjectTracksEntry
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress
-import org.hyperskill.app.projects.domain.model.isGraduated
+import org.hyperskill.app.projects.domain.model.isGraduate
 import org.hyperskill.app.track.domain.model.ProjectsByLevel
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.track.stub
@@ -81,50 +81,6 @@ class ProjectsListTest {
             expectedContent,
             state.content
         )
-    }
-
-    @Test
-    fun `PullToRefresh message should trigger force content loading`() {
-        val trackId = 0L
-        val (state, actions) = projectSelectionListReducer.reduce(
-            State(
-                trackId,
-                ContentState.Content(
-                    track = Track.stub(trackId),
-                    projects = emptyMap(),
-                    selectedProjectId = null,
-                    isRefreshing = false
-                )
-            ),
-            Message.PullToRefresh
-        )
-        assertContains(
-            actions,
-            InternalAction.FetchContent(trackId, forceLoadFromNetwork = true)
-        )
-        assertTrue {
-            val content = state.content
-            content is ContentState.Content && content.isRefreshing
-        }
-    }
-
-    @Test
-    fun `PullToRefresh should not be handled in non Content state`() {
-        listOf(
-            ContentState.Loading,
-            ContentState.Error,
-            ContentState.Idle
-        ).forEach { contentState ->
-            val (state, actions) = projectSelectionListReducer.reduce(
-                State(
-                    trackId = 0L,
-                    content = contentState
-                ),
-                Message.PullToRefresh
-            )
-            assertTrue(actions.isEmpty())
-            assertEquals(contentState, state.content)
-        }
     }
 
     @Test
@@ -364,7 +320,7 @@ class ProjectsListTest {
                 )
             )
             if (kind == ProjectKind.GRADUATE) {
-                assertTrue(project.isGraduated(currentTrackId))
+                assertTrue(project.isGraduate(currentTrackId))
             }
         }
     }
@@ -377,7 +333,7 @@ class ProjectsListTest {
                 project = Project.stub(id = value.toLong()),
                 progress = ProjectProgress.stub(
                     projectId = value.toLong(),
-                    secondsToComplete = value.toDouble()
+                    secondsToComplete = value.toFloat()
                 )
             )
         }.shuffled().associateBy { it.project.id }
@@ -387,7 +343,7 @@ class ProjectsListTest {
             selectedProjectId = null
         )
         val expectedProjectId =
-            projects.values.first { it.progress.secondsToComplete == 1.0 }.project.id
+            projects.values.first { it.progress.secondsToComplete == 1f }.project.id
         assertEquals(
             expectedProjectId,
             content.fastestToCompleteProjectId

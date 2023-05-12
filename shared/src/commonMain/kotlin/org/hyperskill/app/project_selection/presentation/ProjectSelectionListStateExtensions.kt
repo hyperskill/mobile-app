@@ -10,9 +10,10 @@ internal val ContentState.Content.selectedProject: ProjectWithProgress?
     get() = selectedProjectId?.let { projects[it] }
 
 internal val ContentState.Content.recommendedProjects: List<ProjectWithProgress>
-    get() = excludeSelectedProject(track.projects, selectedProjectId).take(6).mapNotNull { projectsId ->
-        projects[projectsId]
-    }
+    get() =
+        excludeSelectedProject(track.projects, selectedProjectId)
+            .take(ProjectSelectionListFeature.BEST_RATED_PROJECTS_COUNT)
+            .mapNotNull { projectsId -> projects[projectsId] }
 
 internal val ContentState.Content.projectsByLevel: Map<ProjectLevel, List<ProjectWithProgress>>
     get() = ProjectLevel.values().associateWith { level ->
@@ -47,12 +48,12 @@ internal val ContentState.Content.bestRatedProjectId: Long?
     }
 
 /**
- * @return project id with the shortest time-to-complete or null if
+ * @return project id with the shortest time-to-complete or null if there is no such project
  */
 internal val ContentState.Content.fastestToCompleteProjectId: Long?
     get() {
         val fastestToCompleteProject = projects.values.minByOrNull {
-            it.progress.secondsToComplete
+            it.progress.secondsToComplete ?: 0f
         }
         val fastestTimeToComplete = fastestToCompleteProject?.progress?.secondsToComplete
         return if (fastestTimeToComplete != null && fastestTimeToComplete > .0) {

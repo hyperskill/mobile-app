@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ProjectTracksEntry(
     @SerialName("level")
-    val level: ProjectLevel,
+    val level: ProjectLevel? = null,
     @SerialName("kind")
-    val kind: ProjectKind
+    val kind: ProjectKind? = null
 )

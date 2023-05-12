@@ -1,4 +1,4 @@
-package org.hyperskill.app.projects.domain.analytic
+package org.hyperskill.app.project_selection.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -10,13 +10,13 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
  * JSON payload:
  * ```
  * {
- *     "route": "/track/1/projects",
+ *     "route": "/tracks/1/projects",
  *     "action": "view"
  * }
  * ```
  * @see HyperskillAnalyticEvent
  */
-class ProjectsListViewedHyperskillAnalyticEvent(trackId: Long) : HyperskillAnalyticEvent(
+class ProjectsSelectionListViewedHyperskillAnalyticEvent(trackId: Long) : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.ProjectsList(trackId),
     HyperskillAnalyticAction.VIEW
 )
