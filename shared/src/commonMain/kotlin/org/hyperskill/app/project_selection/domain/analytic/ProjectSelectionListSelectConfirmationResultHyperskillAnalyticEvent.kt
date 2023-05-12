@@ -24,7 +24,7 @@ class ProjectSelectionListSelectConfirmationResultHyperskillAnalyticEvent(
     val trackId: Long,
     isConfirmed: Boolean
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.ProjectsList(trackId),
+    HyperskillAnalyticRoute.Tracks.Projects(trackId),
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.PROJECT_SELECTION_MODAL,
     if (isConfirmed) HyperskillAnalyticTarget.YES else HyperskillAnalyticTarget.NO

@@ -33,7 +33,7 @@ class ProjectsSelectionListClickedProjectHyperskillAnalyticsEvent(
     val trackId: Long,
     val projectId: Long
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.ProjectsList(trackId),
+    HyperskillAnalyticRoute.Tracks.Projects(trackId),
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.PROJECTS_LIST,
     HyperskillAnalyticTarget.PROJECT

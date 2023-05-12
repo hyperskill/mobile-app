@@ -83,8 +83,13 @@ sealed class HyperskillAnalyticRoute {
             "/study-plan"
     }
 
-    class ProjectsList(trackId: Long) : HyperskillAnalyticRoute() {
+    sealed class Tracks(trackId: Long) : HyperskillAnalyticRoute() {
         override val path: String =
-            "/tracks/$trackId/projects"
+            "/tracks/$trackId"
+
+        class Projects(trackId: Long) : Tracks(trackId) {
+            override val path: String =
+                "${super.path}/projects"
+        }
     }
 }

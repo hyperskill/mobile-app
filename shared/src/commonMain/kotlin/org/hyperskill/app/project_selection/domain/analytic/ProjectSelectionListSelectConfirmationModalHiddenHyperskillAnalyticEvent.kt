@@ -23,7 +23,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
 class ProjectSelectionListSelectConfirmationModalHiddenHyperskillAnalyticEvent(
     trackId: Long
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.ProjectsList(trackId),
+    HyperskillAnalyticRoute.Tracks.Projects(trackId),
     HyperskillAnalyticAction.HIDDEN,
     HyperskillAnalyticPart.MODAL,
     HyperskillAnalyticTarget.PROJECT_SELECTION_MODAL

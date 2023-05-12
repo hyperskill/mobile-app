@@ -17,6 +17,6 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
  * @see HyperskillAnalyticEvent
  */
 class ProjectsSelectionListViewedHyperskillAnalyticEvent(trackId: Long) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.ProjectsList(trackId),
+    HyperskillAnalyticRoute.Tracks.Projects(trackId),
     HyperskillAnalyticAction.VIEW
 )

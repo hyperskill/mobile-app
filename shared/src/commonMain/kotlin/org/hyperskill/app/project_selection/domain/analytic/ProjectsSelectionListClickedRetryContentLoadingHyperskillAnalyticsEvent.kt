@@ -30,7 +30,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
 class ProjectsSelectionListClickedRetryContentLoadingHyperskillAnalyticsEvent(
     trackId: Long
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.ProjectsList(trackId),
+    HyperskillAnalyticRoute.Tracks.Projects(trackId),
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.MAIN,
     HyperskillAnalyticTarget.RETRY

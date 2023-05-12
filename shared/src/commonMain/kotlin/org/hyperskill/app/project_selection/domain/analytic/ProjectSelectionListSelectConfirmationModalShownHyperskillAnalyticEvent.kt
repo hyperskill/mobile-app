@@ -23,7 +23,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
 class ProjectSelectionListSelectConfirmationModalShownHyperskillAnalyticEvent(
     trackId: Long
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.ProjectsList(trackId),
+    HyperskillAnalyticRoute.Tracks.Projects(trackId),
     HyperskillAnalyticAction.SHOWN,
     HyperskillAnalyticPart.MODAL,
     HyperskillAnalyticTarget.PROJECT_SELECTION_MODAL
