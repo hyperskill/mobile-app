@@ -103,7 +103,8 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         } ?: (state to emptySet())
 
     private fun coldContentFetch(): StudyPlanWidgetReducerResult =
-        State(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING) to setOf(InternalAction.FetchStudyPlan())
+        State(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING) to
+            setOf(InternalAction.FetchStudyPlan())
 
     private fun handleStudyPlanFetchSuccess(
         state: State,
