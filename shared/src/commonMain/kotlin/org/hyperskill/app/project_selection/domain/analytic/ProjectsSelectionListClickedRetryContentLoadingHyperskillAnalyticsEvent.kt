@@ -7,7 +7,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents an analytic event for clicking on a project in the projects-list.
+ * Represents an analytic event for clicking on a retry button in the projects-list.
  *
  * JSON payload:
  * ```

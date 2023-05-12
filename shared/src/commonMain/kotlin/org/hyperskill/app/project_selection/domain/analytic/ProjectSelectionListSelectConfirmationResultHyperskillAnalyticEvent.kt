@@ -7,7 +7,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents a shown analytic event of the stage implement unsupported bottom sheet.
+ * Represents a click analytic event for clicking on the confirmation button on the project selection confirmation modal.
  *
  * JSON payload:
  * ```
