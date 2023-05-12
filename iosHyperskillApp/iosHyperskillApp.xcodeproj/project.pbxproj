@@ -27,6 +27,7 @@
 		2C05AC5A2A0ECED90039C7EF /* ProjectSelectionListFeatureViewStateContent+Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC592A0ECED90039C7EF /* ProjectSelectionListFeatureViewStateContent+Placeholder.swift */; };
 		2C05AC5D2A0ED7AD0039C7EF /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC5C2A0ED7AD0039C7EF /* BadgeView.swift */; };
 		2C05AC5F2A0ED9710039C7EF /* BadgeView+ConcreateTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC5E2A0ED9710039C7EF /* BadgeView+ConcreateTypes.swift */; };
+		2C05AC642A0EDFD80039C7EF /* ProjectSelectionListCellBadgesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC632A0EDFD80039C7EF /* ProjectSelectionListCellBadgesView.swift */; };
 		2C069EB128F03782009A3DA1 /* AnalyticExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C069EB028F03782009A3DA1 /* AnalyticExtensions.swift */; };
 		2C079681285CEEFE00EE0487 /* StepQuizMatchingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C079680285CEEFE00EE0487 /* StepQuizMatchingViewModel.swift */; };
 		2C079683285CEF0900EE0487 /* StepQuizMatchingAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C079682285CEF0900EE0487 /* StepQuizMatchingAssembly.swift */; };
@@ -503,6 +504,7 @@
 		2C05AC592A0ECED90039C7EF /* ProjectSelectionListFeatureViewStateContent+Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProjectSelectionListFeatureViewStateContent+Placeholder.swift"; sourceTree = "<group>"; };
 		2C05AC5C2A0ED7AD0039C7EF /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 		2C05AC5E2A0ED9710039C7EF /* BadgeView+ConcreateTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BadgeView+ConcreateTypes.swift"; sourceTree = "<group>"; };
+		2C05AC632A0EDFD80039C7EF /* ProjectSelectionListCellBadgesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListCellBadgesView.swift; sourceTree = "<group>"; };
 		2C069EB028F03782009A3DA1 /* AnalyticExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticExtensions.swift; sourceTree = "<group>"; };
 		2C079680285CEEFE00EE0487 /* StepQuizMatchingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingViewModel.swift; sourceTree = "<group>"; };
 		2C079682285CEF0900EE0487 /* StepQuizMatchingAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingAssembly.swift; sourceTree = "<group>"; };
@@ -1049,6 +1051,7 @@
 			children = (
 				2C05AC4E2A0EA7490039C7EF /* ProjectSelectionContentView.swift */,
 				2C05AC552A0EC9CF0039C7EF /* Header */,
+				2C05AC602A0EDF960039C7EF /* List */,
 			);
 			path = Content;
 			sourceTree = "<group>";
@@ -1077,6 +1080,14 @@
 				2C05AC5E2A0ED9710039C7EF /* BadgeView+ConcreateTypes.swift */,
 			);
 			path = BadgeView;
+			sourceTree = "<group>";
+		};
+		2C05AC602A0EDF960039C7EF /* List */ = {
+			isa = PBXGroup;
+			children = (
+				2C05AC632A0EDFD80039C7EF /* ProjectSelectionListCellBadgesView.swift */,
+			);
+			path = List;
 			sourceTree = "<group>";
 		};
 		2C0DB8FF28643313001EA35E /* CodeEditor */ = {
@@ -3310,6 +3321,7 @@
 				2C08A939287866A200F1DCA2 /* LazyAvatarView.swift in Sources */,
 				2CDA983F29443A1F00ADE539 /* TrackProgressSkeletonView.swift in Sources */,
 				2CAFD38F27FC517D00F88B0B /* ColorPalette.swift in Sources */,
+				2C05AC642A0EDFD80039C7EF /* ProjectSelectionListCellBadgesView.swift in Sources */,
 				2C93AF2329B34F66004639E0 /* StepQuizPyCharmView.swift in Sources */,
 				2C20FBAA284F1951006D879E /* ContentProcessor.swift in Sources */,
 				2C20B28F286C4515000F458A /* CodeLanguageSamples.swift in Sources */,
