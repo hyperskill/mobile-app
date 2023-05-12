@@ -86,7 +86,7 @@ object ProjectSelectionListFeature {
         sealed interface ViewAction : Action {
 
             sealed interface NavigateTo : ViewAction {
-                object HomeScreen : NavigateTo
+                object StudyPlan : NavigateTo
             }
 
             sealed interface ShowProjectSelectionStatus : ViewAction {

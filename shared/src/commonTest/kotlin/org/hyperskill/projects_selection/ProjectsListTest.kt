@@ -171,7 +171,7 @@ class ProjectsListTest {
         )
         assertContains(
             actions,
-            Action.ViewAction.NavigateTo.HomeScreen
+            Action.ViewAction.NavigateTo.StudyPlan
         )
         assertEquals(
             initialContentState.copy(isProjectSelectionLoadingShowed = false),

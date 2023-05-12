@@ -74,7 +74,7 @@ internal class ProjectSelectionListReducer : StateReducer<State, Message, Action
                             setOf(ViewAction.ShowProjectSelectionStatus.Error)
                         ProjectSelectionListFeature.ProjectSelectionResult.Success ->
                             setOf(
-                                ViewAction.NavigateTo.HomeScreen,
+                                ViewAction.NavigateTo.StudyPlan,
                                 ViewAction.ShowProjectSelectionStatus.Success
                             )
                     }

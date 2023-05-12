@@ -89,6 +89,10 @@ internal class ProjectSelectionListViewStateMapper(
     private fun getTimeToComplete(secondsToComplete: Float?): String? {
         if (secondsToComplete == null || secondsToComplete <= 0) return null
         val hours = floor(secondsToComplete / 3600).toInt()
-        return resourceProvider.getQuantityString(SharedResources.plurals.hours, hours, hours)
+        return if (hours >= 1) {
+            resourceProvider.getQuantityString(SharedResources.plurals.hours, hours, hours)
+        } else {
+            null
+        }
     }
 }
