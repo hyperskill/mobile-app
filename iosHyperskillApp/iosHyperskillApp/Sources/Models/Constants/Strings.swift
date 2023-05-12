@@ -424,6 +424,10 @@ enum Strings {
             static let nightmareCategoryTitle = sharedStrings.projects_list_nightmare_category_title.localized()
             static let nightmareCategoryDescription =
               sharedStrings.projects_list_nightmare_category_description.localized()
+
+            static let badgeSelected = sharedStrings.projects_list_badge_selected_title.localized()
+            static let badgeBestRating = sharedStrings.projects_list_badge_best_rating_title.localized()
+            static let badgeFastestToComplete = sharedStrings.projects_list_badge_fastest_to_complete_title.localized()
         }
     }
 }
