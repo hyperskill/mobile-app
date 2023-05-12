@@ -133,6 +133,10 @@ struct StudyPlanView: View {
                     stackRouter.pushViewController(assembly.makeModule())
                 case .home:
                     TabBarRouter(tab: .home).route()
+                case .selectProject(let navigateToSelectProjectViewAction):
+                    print(navigateToSelectProjectViewAction.trackId)
+                case .selectTrack:
+                    break
                 }
             }
         }

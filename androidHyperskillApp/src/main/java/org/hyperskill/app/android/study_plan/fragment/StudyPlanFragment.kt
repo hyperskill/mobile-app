@@ -180,6 +180,12 @@ class StudyPlanFragment :
                         UnsupportedStageBottomSheet.newInstance()
                             .showIfNotExists(childFragmentManager, UnsupportedStageBottomSheet.TAG)
                     }
+                    is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.SelectProject -> {
+                        // TODO: Navigate to SelectProjectScreen
+                    }
+                    is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.SelectTrack -> {
+                        // TODO: Navigate to SelectTrackScreen
+                    }
                 }
             }
         }

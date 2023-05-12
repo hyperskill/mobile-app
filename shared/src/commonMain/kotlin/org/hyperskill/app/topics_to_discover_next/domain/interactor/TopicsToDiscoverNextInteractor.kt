@@ -56,7 +56,7 @@ class TopicsToDiscoverNextInteractor(
                     return@runCatching emptyList()
                 }
 
-                val topicsIds = learningActivities.map { it.targetId }
+                val topicsIds = learningActivities.mapNotNull { it.targetId }
 
                 val topicsResult = async { topicsRepository.getTopics(topicsIds) }
                 val topicsProgressesResult = async { progressesRepository.getTopicsProgresses(topicsIds) }
