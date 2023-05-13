@@ -167,6 +167,8 @@ enum Images {
     // MARK: - ProjectSelectionList -
 
     enum ProjectSelectionList {
+        static let projectGraduate = "project-selection-list-project-graduate"
+
         enum ProjectLevel {
             static let easy = "project-selection-list-project-level-easy"
             static let medium = "project-selection-list-project-level-medium"

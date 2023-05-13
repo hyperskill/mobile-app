@@ -29,15 +29,15 @@ extension BadgeView {
     // MARK: ProjectSelectionList
 
     static func projectSelectionListSelected() -> BadgeView {
-        BadgeView(text: Strings.ProjectSelectionList.List.badgeSelected, style: .blue)
+        BadgeView(text: Strings.ProjectSelectionList.List.Badge.selected, style: .blue)
     }
 
     static func projectSelectionListBestRating() -> BadgeView {
-        BadgeView(text: Strings.ProjectSelectionList.List.badgeBestRating, style: .blue)
+        BadgeView(text: Strings.ProjectSelectionList.List.Badge.bestRating, style: .blue)
     }
 
     static func projectSelectionListFastestToComplete() -> BadgeView {
-        BadgeView(text: Strings.ProjectSelectionList.List.badgeFastestToComplete, style: .blue)
+        BadgeView(text: Strings.ProjectSelectionList.List.Badge.fastestToComplete, style: .blue)
     }
 }
 

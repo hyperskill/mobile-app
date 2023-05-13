@@ -137,6 +137,7 @@
 		2C43CDFB28B56AE600E74762 /* AuthPreviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C43CDFA28B56AE600E74762 /* AuthPreviews.swift */; };
 		2C45E7BD2A0FD9D600DFF32D /* ProjectSelectionListCellProjectLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C45E7BC2A0FD9D600DFF32D /* ProjectSelectionListCellProjectLevelView.swift */; };
 		2C45E7BF2A0FDC9B00DFF32D /* ProjectLevelExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C45E7BE2A0FDC9B00DFF32D /* ProjectLevelExtensions.swift */; };
+		2C45E7C12A0FE9E100DFF32D /* ProjectSelectionListCellProjectGraduateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C45E7C02A0FE9E100DFF32D /* ProjectSelectionListCellProjectGraduateView.swift */; };
 		2C46D0632807E4C100B3636E /* TextFieldWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */; };
 		2C49CC922851D4AC0040BA7F /* altcontent.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C49CC912851D4AC0040BA7F /* altcontent.css */; };
 		2C4FBD8C2876C39C00ACA5C8 /* ProfileAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4FBD8B2876C39C00ACA5C8 /* ProfileAboutView.swift */; };
@@ -619,6 +620,7 @@
 		2C43CDFA28B56AE600E74762 /* AuthPreviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPreviews.swift; sourceTree = "<group>"; };
 		2C45E7BC2A0FD9D600DFF32D /* ProjectSelectionListCellProjectLevelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListCellProjectLevelView.swift; sourceTree = "<group>"; };
 		2C45E7BE2A0FDC9B00DFF32D /* ProjectLevelExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectLevelExtensions.swift; sourceTree = "<group>"; };
+		2C45E7C02A0FE9E100DFF32D /* ProjectSelectionListCellProjectGraduateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListCellProjectGraduateView.swift; sourceTree = "<group>"; };
 		2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWrapper.swift; sourceTree = "<group>"; };
 		2C49CC912851D4AC0040BA7F /* altcontent.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = altcontent.css; sourceTree = "<group>"; };
 		2C4D3CB2289689F40079B461 /* iosHyperskillApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iosHyperskillApp.entitlements; sourceTree = "<group>"; };
@@ -1093,6 +1095,7 @@
 			isa = PBXGroup;
 			children = (
 				2C05AC632A0EDFD80039C7EF /* ProjectSelectionListCellBadgesView.swift */,
+				2C45E7C02A0FE9E100DFF32D /* ProjectSelectionListCellProjectGraduateView.swift */,
 				2C45E7BC2A0FD9D600DFF32D /* ProjectSelectionListCellProjectLevelView.swift */,
 				2C05AC612A0EDFC20039C7EF /* ProjectSelectionListCellView.swift */,
 			);
@@ -3241,6 +3244,7 @@
 				2CBFB94C28897DD70044D1BA /* StepQuizCodeFullScreenAssembly.swift in Sources */,
 				2C02962028BEA000001BAFB3 /* AuthNewUserPlaceholderOutputProtocol.swift in Sources */,
 				2C7A1B1F2922EB070018D72C /* Hyperskill-Mobile_shared.swift in Sources */,
+				2C45E7C12A0FE9E100DFF32D /* ProjectSelectionListCellProjectGraduateView.swift in Sources */,
 				2C0146AA28FDF2350083DA9C /* StepQuizCodeFullScreenInputProtocol.swift in Sources */,
 				E9523BF229DA966C0013A661 /* StudyPlanAssembly.swift in Sources */,
 				E9B2CF5D2822975400B2DC6F /* StepQuizStatsView.swift in Sources */,

@@ -391,5 +391,6 @@
     <string name="projects_list_badge_selected_title">Selected</string>
     <string name="projects_list_badge_best_rating_title">Best rating</string>
     <string name="projects_list_badge_fastest_to_complete_title">Fastest to complete</string>
+    <string name="projects_list_project_graduate_title">Graduate</string>
 
 </resources>

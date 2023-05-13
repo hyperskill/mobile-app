@@ -5,13 +5,13 @@ extension ProjectLevel {
     var title: String? {
         switch self {
         case .easy:
-            return Strings.ProjectSelectionList.List.easyCategoryTitle
+            return Strings.ProjectSelectionList.List.Category.easyTitle
         case .medium:
-            return Strings.ProjectSelectionList.List.mediumCategoryTitle
+            return Strings.ProjectSelectionList.List.Category.mediumTitle
         case .hard:
-            return Strings.ProjectSelectionList.List.hardCategoryTitle
+            return Strings.ProjectSelectionList.List.Category.hardTitle
         case .nightmare:
-            return Strings.ProjectSelectionList.List.nightmareCategoryTitle
+            return Strings.ProjectSelectionList.List.Category.nightmareTitle
         default:
             assertionFailure("Did receive unsupported ProjectLevel = \(self)")
             return nil
