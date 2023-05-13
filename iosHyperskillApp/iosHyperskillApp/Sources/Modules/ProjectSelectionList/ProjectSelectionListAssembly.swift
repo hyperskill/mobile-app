@@ -19,6 +19,8 @@ final class ProjectSelectionListAssembly: UIKitAssembly {
             rootView: rootView,
             appearance: .withoutBackButtonTitle
         )
+        // Fixes an issue with that SwiftUI view content layout unexpectedly pop/jumps on appear
+        hostingController.navigationItem.largeTitleDisplayMode = .never
 
         return hostingController
     }

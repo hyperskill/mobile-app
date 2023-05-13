@@ -11,6 +11,7 @@ struct ProjectSelectionListHeaderSkeletonView: View {
 
             SkeletonRoundedView()
                 .frame(height: 24)
+                .frame(maxWidth: 400)
 
             SkeletonRoundedView()
                 .frame(width: 200, height: 17)

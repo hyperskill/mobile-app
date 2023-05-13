@@ -143,6 +143,7 @@
 		2C4F639B2A101DCE00D4EE39 /* ProjectSelectionListGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4F639A2A101DCE00D4EE39 /* ProjectSelectionListGridView.swift */; };
 		2C4F639E2A10203000D4EE39 /* ProjectSelectionListGridSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4F639D2A10203000D4EE39 /* ProjectSelectionListGridSectionView.swift */; };
 		2C4F63A12A102D3300D4EE39 /* SharedProjectLevelWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4F63A02A102D3300D4EE39 /* SharedProjectLevelWrapper.swift */; };
+		2C4F63A32A104EA300D4EE39 /* ProjectSelectionListGridSectionSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4F63A22A104EA300D4EE39 /* ProjectSelectionListGridSectionSkeletonView.swift */; };
 		2C4FBD8C2876C39C00ACA5C8 /* ProfileAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4FBD8B2876C39C00ACA5C8 /* ProfileAboutView.swift */; };
 		2C4FBD8E2876C94800ACA5C8 /* ProfileAboutSocialAccountsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4FBD8D2876C94800ACA5C8 /* ProfileAboutSocialAccountsView.swift */; };
 		2C5215AA291E5B63006C2427 /* PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5215A9291E5B63006C2427 /* PullToRefresh.swift */; };
@@ -630,6 +631,7 @@
 		2C4F639A2A101DCE00D4EE39 /* ProjectSelectionListGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListGridView.swift; sourceTree = "<group>"; };
 		2C4F639D2A10203000D4EE39 /* ProjectSelectionListGridSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListGridSectionView.swift; sourceTree = "<group>"; };
 		2C4F63A02A102D3300D4EE39 /* SharedProjectLevelWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedProjectLevelWrapper.swift; sourceTree = "<group>"; };
+		2C4F63A22A104EA300D4EE39 /* ProjectSelectionListGridSectionSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListGridSectionSkeletonView.swift; sourceTree = "<group>"; };
 		2C4FBD8B2876C39C00ACA5C8 /* ProfileAboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAboutView.swift; sourceTree = "<group>"; };
 		2C4FBD8D2876C94800ACA5C8 /* ProfileAboutSocialAccountsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAboutSocialAccountsView.swift; sourceTree = "<group>"; };
 		2C5215A9291E5B63006C2427 /* PullToRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRefresh.swift; sourceTree = "<group>"; };
@@ -1606,6 +1608,7 @@
 		2C4F63992A1018CD00D4EE39 /* Skeleton */ = {
 			isa = PBXGroup;
 			children = (
+				2C4F63A22A104EA300D4EE39 /* ProjectSelectionListGridSectionSkeletonView.swift */,
 				2C05AC562A0EC9E50039C7EF /* ProjectSelectionListHeaderSkeletonView.swift */,
 				2C05AC502A0EACF50039C7EF /* ProjectSelectionListSkeletonView.swift */,
 			);
@@ -3577,6 +3580,7 @@
 				2C5B2A23286596400097B270 /* UITableView+RegisterReusable.swift in Sources */,
 				2C069EB128F03782009A3DA1 /* AnalyticExtensions.swift in Sources */,
 				2CDA9838294432C900ADE539 /* SkeletonCircleView.swift in Sources */,
+				2C4F63A32A104EA300D4EE39 /* ProjectSelectionListGridSectionSkeletonView.swift in Sources */,
 				E99CD0BA292B982400620259 /* TopicsRepetitionsAssembly.swift in Sources */,
 				E91D8CF929483B9300FA9ED4 /* AuthNewUserPlaceholderSkeletonView.swift in Sources */,
 				2CD3652528796C4300D61855 /* ProfileViewDataMapper.swift in Sources */,
