@@ -23,6 +23,10 @@ final class ProjectSelectionListViewModel: FeatureViewModel<
         onNewMessage(ProjectSelectionListFeatureMessageRetryContentLoading())
     }
 
+    func doMainProjectAction(projectID: Int64) {
+        onNewMessage(ProjectSelectionListFeatureMessageProjectClicked(projectId: projectID))
+    }
+
     // MARK: Analytic
 
     func logViewedEvent() {

@@ -1,4 +1,3 @@
-import shared
 import SwiftUI
 
 extension ProjectSelectionListCellHeaderView {
@@ -17,7 +16,7 @@ extension ProjectSelectionListCellHeaderView {
 struct ProjectSelectionListCellHeaderView: View {
     private(set) var appearance = Appearance()
 
-    let level: ProjectLevel?
+    let level: SharedProjectLevelWrapper?
 
     let isGraduate: Bool
 

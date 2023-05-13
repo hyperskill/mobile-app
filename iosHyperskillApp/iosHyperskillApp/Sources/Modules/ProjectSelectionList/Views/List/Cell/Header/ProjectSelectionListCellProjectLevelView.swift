@@ -1,4 +1,3 @@
-import shared
 import SwiftUI
 
 extension ProjectSelectionListCellProjectLevelView {
@@ -12,24 +11,19 @@ extension ProjectSelectionListCellProjectLevelView {
 struct ProjectSelectionListCellProjectLevelView: View {
     private(set) var appearance = Appearance()
 
-    let level: ProjectLevel
+    let level: SharedProjectLevelWrapper
 
     var body: some View {
-        if let title = level.title,
-           let imageName = level.imageName {
-            HStack(spacing: appearance.spacing) {
-                Image(imageName)
-                    .resizable()
-                    .renderingMode(.original)
-                    .aspectRatio(contentMode: .fit)
-                    .frame(size: appearance.imageSize)
+        HStack(spacing: appearance.spacing) {
+            Image(level.iconImageName)
+                .resizable()
+                .renderingMode(.original)
+                .aspectRatio(contentMode: .fit)
+                .frame(size: appearance.imageSize)
 
-                Text(title)
-                    .font(.caption)
-                    .foregroundColor(.secondaryText)
-            }
-        } else {
-            EmptyView()
+            Text(level.title)
+                .font(.caption)
+                .foregroundColor(.secondaryText)
         }
     }
 }

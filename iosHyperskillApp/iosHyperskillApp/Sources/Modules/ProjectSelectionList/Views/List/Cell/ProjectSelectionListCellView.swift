@@ -40,7 +40,7 @@ struct ProjectSelectionListCellView: View {
     private func buildContent() -> some View {
         VStack(alignment: .leading, spacing: appearance.spacing) {
             ProjectSelectionListCellHeaderView(
-                level: project.level,
+                level: project.level.flatMap(SharedProjectLevelWrapper.init(sharedProjectLevel:)),
                 isGraduate: project.isGraduate,
                 averageRating: project.averageRating
             )
@@ -65,6 +65,7 @@ struct ProjectSelectionListCellView: View {
             )
         }
         .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 }
 

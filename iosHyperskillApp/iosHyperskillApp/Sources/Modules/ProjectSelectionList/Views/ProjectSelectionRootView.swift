@@ -51,7 +51,10 @@ struct ProjectSelectionRootView: View {
                 )
             )
         case .content(let viewData):
-            ProjectSelectionContentView(viewData: viewData)
+            ProjectSelectionContentView(
+                viewData: viewData,
+                onProjectTap: viewModel.doMainProjectAction(projectID:)
+            )
         }
     }
 }

@@ -136,12 +136,14 @@
 		2C43CDF928B55CC600E74762 /* HyperskillLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C43CDF828B55CC600E74762 /* HyperskillLogoView.swift */; };
 		2C43CDFB28B56AE600E74762 /* AuthPreviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C43CDFA28B56AE600E74762 /* AuthPreviews.swift */; };
 		2C45E7BD2A0FD9D600DFF32D /* ProjectSelectionListCellProjectLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C45E7BC2A0FD9D600DFF32D /* ProjectSelectionListCellProjectLevelView.swift */; };
-		2C45E7BF2A0FDC9B00DFF32D /* ProjectLevelExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C45E7BE2A0FDC9B00DFF32D /* ProjectLevelExtensions.swift */; };
 		2C45E7C12A0FE9E100DFF32D /* ProjectSelectionListCellProjectGraduateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C45E7C02A0FE9E100DFF32D /* ProjectSelectionListCellProjectGraduateView.swift */; };
 		2C45E7C32A0FEC2B00DFF32D /* ProjectSelectionListCellHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C45E7C22A0FEC2B00DFF32D /* ProjectSelectionListCellHeaderView.swift */; };
 		2C45E7C52A0FEE7A00DFF32D /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C45E7C42A0FEE7A00DFF32D /* RatingView.swift */; };
 		2C46D0632807E4C100B3636E /* TextFieldWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */; };
 		2C49CC922851D4AC0040BA7F /* altcontent.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C49CC912851D4AC0040BA7F /* altcontent.css */; };
+		2C4F639B2A101DCE00D4EE39 /* ProjectSelectionContentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4F639A2A101DCE00D4EE39 /* ProjectSelectionContentListView.swift */; };
+		2C4F639E2A10203000D4EE39 /* ProjectSelectionContentListSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4F639D2A10203000D4EE39 /* ProjectSelectionContentListSectionView.swift */; };
+		2C4F63A12A102D3300D4EE39 /* SharedProjectLevelWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4F63A02A102D3300D4EE39 /* SharedProjectLevelWrapper.swift */; };
 		2C4FBD8C2876C39C00ACA5C8 /* ProfileAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4FBD8B2876C39C00ACA5C8 /* ProfileAboutView.swift */; };
 		2C4FBD8E2876C94800ACA5C8 /* ProfileAboutSocialAccountsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4FBD8D2876C94800ACA5C8 /* ProfileAboutSocialAccountsView.swift */; };
 		2C5215AA291E5B63006C2427 /* PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5215A9291E5B63006C2427 /* PullToRefresh.swift */; };
@@ -621,13 +623,15 @@
 		2C43CDF828B55CC600E74762 /* HyperskillLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyperskillLogoView.swift; sourceTree = "<group>"; };
 		2C43CDFA28B56AE600E74762 /* AuthPreviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPreviews.swift; sourceTree = "<group>"; };
 		2C45E7BC2A0FD9D600DFF32D /* ProjectSelectionListCellProjectLevelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListCellProjectLevelView.swift; sourceTree = "<group>"; };
-		2C45E7BE2A0FDC9B00DFF32D /* ProjectLevelExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectLevelExtensions.swift; sourceTree = "<group>"; };
 		2C45E7C02A0FE9E100DFF32D /* ProjectSelectionListCellProjectGraduateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListCellProjectGraduateView.swift; sourceTree = "<group>"; };
 		2C45E7C22A0FEC2B00DFF32D /* ProjectSelectionListCellHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListCellHeaderView.swift; sourceTree = "<group>"; };
 		2C45E7C42A0FEE7A00DFF32D /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
 		2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWrapper.swift; sourceTree = "<group>"; };
 		2C49CC912851D4AC0040BA7F /* altcontent.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = altcontent.css; sourceTree = "<group>"; };
 		2C4D3CB2289689F40079B461 /* iosHyperskillApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iosHyperskillApp.entitlements; sourceTree = "<group>"; };
+		2C4F639A2A101DCE00D4EE39 /* ProjectSelectionContentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionContentListView.swift; sourceTree = "<group>"; };
+		2C4F639D2A10203000D4EE39 /* ProjectSelectionContentListSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionContentListSectionView.swift; sourceTree = "<group>"; };
+		2C4F63A02A102D3300D4EE39 /* SharedProjectLevelWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedProjectLevelWrapper.swift; sourceTree = "<group>"; };
 		2C4FBD8B2876C39C00ACA5C8 /* ProfileAboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAboutView.swift; sourceTree = "<group>"; };
 		2C4FBD8D2876C94800ACA5C8 /* ProfileAboutSocialAccountsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAboutSocialAccountsView.swift; sourceTree = "<group>"; };
 		2C5215A9291E5B63006C2427 /* PullToRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRefresh.swift; sourceTree = "<group>"; };
@@ -1042,7 +1046,7 @@
 			children = (
 				2C05AC472A0EA0180039C7EF /* ProjectSelectionListAssembly.swift */,
 				2C05AC492A0EA0290039C7EF /* ProjectSelectionListViewModel.swift */,
-				2C05AC582A0ECE920039C7EF /* ViewData */,
+				2C4F639F2A102D1100D4EE39 /* Model */,
 				2C05AC4B2A0EA03F0039C7EF /* Views */,
 			);
 			path = ProjectSelectionList;
@@ -1051,39 +1055,13 @@
 		2C05AC4B2A0EA03F0039C7EF /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2C05AC532A0EC5B00039C7EF /* ProjectSelectionContentHeaderView.swift */,
+				2C05AC4E2A0EA7490039C7EF /* ProjectSelectionContentView.swift */,
 				2C05AC4C2A0EA0460039C7EF /* ProjectSelectionRootView.swift */,
-				2C05AC502A0EACF50039C7EF /* ProjectSelectionSkeletonView.swift */,
-				2C05AC522A0EC5960039C7EF /* Content */,
+				2C05AC602A0EDF960039C7EF /* List */,
+				2C4F63992A1018CD00D4EE39 /* Skeleton */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		2C05AC522A0EC5960039C7EF /* Content */ = {
-			isa = PBXGroup;
-			children = (
-				2C05AC4E2A0EA7490039C7EF /* ProjectSelectionContentView.swift */,
-				2C05AC552A0EC9CF0039C7EF /* Header */,
-				2C05AC602A0EDF960039C7EF /* List */,
-			);
-			path = Content;
-			sourceTree = "<group>";
-		};
-		2C05AC552A0EC9CF0039C7EF /* Header */ = {
-			isa = PBXGroup;
-			children = (
-				2C05AC532A0EC5B00039C7EF /* ProjectSelectionContentHeaderView.swift */,
-				2C05AC562A0EC9E50039C7EF /* ProjectSelectionContentHeaderSkeletonView.swift */,
-			);
-			path = Header;
-			sourceTree = "<group>";
-		};
-		2C05AC582A0ECE920039C7EF /* ViewData */ = {
-			isa = PBXGroup;
-			children = (
-				2C45E7BE2A0FDC9B00DFF32D /* ProjectLevelExtensions.swift */,
-				2C05AC592A0ECED90039C7EF /* ProjectSelectionListFeatureViewStateContent+Placeholder.swift */,
-			);
-			path = ViewData;
 			sourceTree = "<group>";
 		};
 		2C05AC5B2A0ED7480039C7EF /* BadgeView */ = {
@@ -1098,9 +1076,9 @@
 		2C05AC602A0EDF960039C7EF /* List */ = {
 			isa = PBXGroup;
 			children = (
-				2C05AC632A0EDFD80039C7EF /* ProjectSelectionListCellBadgesView.swift */,
-				2C05AC612A0EDFC20039C7EF /* ProjectSelectionListCellView.swift */,
-				2C45E7C62A0FF7C900DFF32D /* Header */,
+				2C4F639D2A10203000D4EE39 /* ProjectSelectionContentListSectionView.swift */,
+				2C4F639A2A101DCE00D4EE39 /* ProjectSelectionContentListView.swift */,
+				2C4F639C2A101E6C00D4EE39 /* Cell */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -1626,6 +1604,34 @@
 				2CC78D0A28C74EAF0006EF91 /* UIViewControllerEvents */,
 			);
 			path = Wrappers;
+			sourceTree = "<group>";
+		};
+		2C4F63992A1018CD00D4EE39 /* Skeleton */ = {
+			isa = PBXGroup;
+			children = (
+				2C05AC562A0EC9E50039C7EF /* ProjectSelectionContentHeaderSkeletonView.swift */,
+				2C05AC502A0EACF50039C7EF /* ProjectSelectionSkeletonView.swift */,
+			);
+			path = Skeleton;
+			sourceTree = "<group>";
+		};
+		2C4F639C2A101E6C00D4EE39 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				2C05AC632A0EDFD80039C7EF /* ProjectSelectionListCellBadgesView.swift */,
+				2C05AC612A0EDFC20039C7EF /* ProjectSelectionListCellView.swift */,
+				2C45E7C62A0FF7C900DFF32D /* Header */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		2C4F639F2A102D1100D4EE39 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2C05AC592A0ECED90039C7EF /* ProjectSelectionListFeatureViewStateContent+Placeholder.swift */,
+				2C4F63A02A102D3300D4EE39 /* SharedProjectLevelWrapper.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		2C4FBD8F2876C95200ACA5C8 /* About */ = {
@@ -3275,6 +3281,7 @@
 				2C023C86285D927A00D2D5A9 /* StepQuizTableAssembly.swift in Sources */,
 				E97704782946F47000ACD7E7 /* AuthNewUserTrackModalViewController.swift in Sources */,
 				2C20FBC4284F67F3006D879E /* ProcessedContentWebView.swift in Sources */,
+				2C4F639B2A101DCE00D4EE39 /* ProjectSelectionContentListView.swift in Sources */,
 				2CA5F8EC2994C3AB0013B854 /* DebugView.swift in Sources */,
 				2C005DCC27EF5B0300DC6503 /* GoogleServiceInfo.swift in Sources */,
 				2CBD191D291D3BF400F5FB0B /* UIKitRoundedRectangleButton.swift in Sources */,
@@ -3318,7 +3325,6 @@
 				2C2B7DD22946EF2800FAB55D /* WebViewNavigationController.swift in Sources */,
 				2C336D242865E38B00C91342 /* CodeInputAccessoryCollectionViewCell.swift in Sources */,
 				2C2FD62428192123004E7AF6 /* BundlePropertyListDeserializer.swift in Sources */,
-				2C45E7BF2A0FDC9B00DFF32D /* ProjectLevelExtensions.swift in Sources */,
 				2C8E66D7287877F500D3928D /* ProfileViewModel.swift in Sources */,
 				E9F504CC2912842D00B788C7 /* StepQuizHintsView.swift in Sources */,
 				2C8FFE7F2892E1C000574941 /* AuthOutputProtocol.swift in Sources */,
@@ -3452,6 +3458,7 @@
 				E96E80F627EF57BA00AA6683 /* AuthSocialViewModel.swift in Sources */,
 				E9A22BA0295081BD001700B7 /* StreakFreezeModalViewController.swift in Sources */,
 				2CBD1917291D392400F5FB0B /* UIView+Animations.swift in Sources */,
+				2C4F639E2A10203000D4EE39 /* ProjectSelectionContentListSectionView.swift in Sources */,
 				2C079683285CEF0900EE0487 /* StepQuizMatchingAssembly.swift in Sources */,
 				2CC78D0C28C74EF90006EF91 /* ViewRelatedEventsViewController.swift in Sources */,
 				2C370439288BE57A008043BF /* StepQuizCodeFullScreenCodeView.swift in Sources */,
@@ -3474,6 +3481,7 @@
 				2C05AC5F2A0ED9710039C7EF /* BadgeView+ConcreateTypes.swift in Sources */,
 				2C1061AC285C3C4300EBD614 /* StepQuizChoiceViewModel.swift in Sources */,
 				E9ACD3412937342F0005E05B /* ProblemOfDaySolvedModalViewController.swift in Sources */,
+				2C4F63A12A102D3300D4EE39 /* SharedProjectLevelWrapper.swift in Sources */,
 				2CD48D8B2858684100CFCC4A /* StepQuizViewData.swift in Sources */,
 				2C05AC572A0EC9E50039C7EF /* ProjectSelectionContentHeaderSkeletonView.swift in Sources */,
 				E9FB89AC2893EA580011EFFB /* NotificationPermissionStatus.swift in Sources */,
