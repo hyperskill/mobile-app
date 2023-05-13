@@ -138,6 +138,8 @@
 		2C45E7BD2A0FD9D600DFF32D /* ProjectSelectionListCellProjectLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C45E7BC2A0FD9D600DFF32D /* ProjectSelectionListCellProjectLevelView.swift */; };
 		2C45E7BF2A0FDC9B00DFF32D /* ProjectLevelExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C45E7BE2A0FDC9B00DFF32D /* ProjectLevelExtensions.swift */; };
 		2C45E7C12A0FE9E100DFF32D /* ProjectSelectionListCellProjectGraduateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C45E7C02A0FE9E100DFF32D /* ProjectSelectionListCellProjectGraduateView.swift */; };
+		2C45E7C32A0FEC2B00DFF32D /* ProjectSelectionListCellHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C45E7C22A0FEC2B00DFF32D /* ProjectSelectionListCellHeaderView.swift */; };
+		2C45E7C52A0FEE7A00DFF32D /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C45E7C42A0FEE7A00DFF32D /* RatingView.swift */; };
 		2C46D0632807E4C100B3636E /* TextFieldWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */; };
 		2C49CC922851D4AC0040BA7F /* altcontent.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C49CC912851D4AC0040BA7F /* altcontent.css */; };
 		2C4FBD8C2876C39C00ACA5C8 /* ProfileAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4FBD8B2876C39C00ACA5C8 /* ProfileAboutView.swift */; };
@@ -621,6 +623,8 @@
 		2C45E7BC2A0FD9D600DFF32D /* ProjectSelectionListCellProjectLevelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListCellProjectLevelView.swift; sourceTree = "<group>"; };
 		2C45E7BE2A0FDC9B00DFF32D /* ProjectLevelExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectLevelExtensions.swift; sourceTree = "<group>"; };
 		2C45E7C02A0FE9E100DFF32D /* ProjectSelectionListCellProjectGraduateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListCellProjectGraduateView.swift; sourceTree = "<group>"; };
+		2C45E7C22A0FEC2B00DFF32D /* ProjectSelectionListCellHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListCellHeaderView.swift; sourceTree = "<group>"; };
+		2C45E7C42A0FEE7A00DFF32D /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
 		2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWrapper.swift; sourceTree = "<group>"; };
 		2C49CC912851D4AC0040BA7F /* altcontent.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = altcontent.css; sourceTree = "<group>"; };
 		2C4D3CB2289689F40079B461 /* iosHyperskillApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iosHyperskillApp.entitlements; sourceTree = "<group>"; };
@@ -1095,9 +1099,8 @@
 			isa = PBXGroup;
 			children = (
 				2C05AC632A0EDFD80039C7EF /* ProjectSelectionListCellBadgesView.swift */,
-				2C45E7C02A0FE9E100DFF32D /* ProjectSelectionListCellProjectGraduateView.swift */,
-				2C45E7BC2A0FD9D600DFF32D /* ProjectSelectionListCellProjectLevelView.swift */,
 				2C05AC612A0EDFC20039C7EF /* ProjectSelectionListCellView.swift */,
+				2C45E7C62A0FF7C900DFF32D /* Header */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -1604,6 +1607,16 @@
 				2C42EFB227F2EA7B00B4648B /* ResourcesStringResource+Localized.swift */,
 			);
 			path = MokoResources;
+			sourceTree = "<group>";
+		};
+		2C45E7C62A0FF7C900DFF32D /* Header */ = {
+			isa = PBXGroup;
+			children = (
+				2C45E7C22A0FEC2B00DFF32D /* ProjectSelectionListCellHeaderView.swift */,
+				2C45E7C02A0FE9E100DFF32D /* ProjectSelectionListCellProjectGraduateView.swift */,
+				2C45E7BC2A0FD9D600DFF32D /* ProjectSelectionListCellProjectLevelView.swift */,
+			);
+			path = Header;
 			sourceTree = "<group>";
 		};
 		2C46D0612807E4A600B3636E /* Wrappers */ = {
@@ -2183,6 +2196,7 @@
 				2C32375228380C340062CAF6 /* NavigationToolbarInfoItem.swift */,
 				E9C3506E2886D0600080D277 /* OpenURLInsideAppButton.swift */,
 				E9101712283296F3002E70F5 /* RadioButton.swift */,
+				2C45E7C42A0FEE7A00DFF32D /* RatingView.swift */,
 				E996D41129221F6200A47498 /* ShowMoreButton.swift */,
 				2C8E66D8287896CF00D3928D /* TabNavigationLazyView.swift */,
 				2C58DE2A2803DEE2002A2774 /* VerticalCenteredScrollView.swift */,
@@ -3178,6 +3192,7 @@
 				E99CD0BC292B9A2D00620259 /* TopicsRepetitionsViewModel.swift in Sources */,
 				2CD3652828797D3600D61855 /* Formatter.swift in Sources */,
 				2C0DB90328643C47001EA35E /* CodeTextView.swift in Sources */,
+				2C45E7C32A0FEC2B00DFF32D /* ProjectSelectionListCellHeaderView.swift in Sources */,
 				2C96743F288831BB0091B6C9 /* StepQuizCodeSamplesView.swift in Sources */,
 				2C5B9EB329B7A016007E4943 /* StageImplementUnsupportedModalView.swift in Sources */,
 				2CCCA3992862D58E00D98089 /* StepQuizStringView.swift in Sources */,
@@ -3350,6 +3365,7 @@
 				2C0EC2DF28F9E92D004A36B2 /* ModalRouter.swift in Sources */,
 				2C919E3527EEFF110022A2F2 /* Queue.swift in Sources */,
 				2CC7833E295DAE3E00A867CD /* OnboardingFeatureStateKsExtensions.swift in Sources */,
+				2C45E7C52A0FEE7A00DFF32D /* RatingView.swift in Sources */,
 				2CA7614B2926272500987B66 /* StepQuizFeedbackView.swift in Sources */,
 				2C58DE292803D197002A2774 /* UIColor+DynamicColor.swift in Sources */,
 				E996D414292228A700A47498 /* TopicsRepetitionsView.swift in Sources */,
