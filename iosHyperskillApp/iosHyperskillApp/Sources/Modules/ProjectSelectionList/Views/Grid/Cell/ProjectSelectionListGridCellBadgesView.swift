@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ProjectSelectionListCellBadgesView: View {
+struct ProjectSelectionListGridCellBadgesView: View {
     let isSelected: Bool
     let isIdeRequired: Bool
     let isBestRated: Bool
@@ -37,7 +37,7 @@ struct ProjectSelectionListCellBadgesView: View {
 
 struct ProjectSelectionListCellBadgesView_Previews: PreviewProvider {
     static var previews: some View {
-        ProjectSelectionListCellBadgesView(
+        ProjectSelectionListGridCellBadgesView(
             isSelected: true,
             isIdeRequired: true,
             isBestRated: true,
@@ -45,7 +45,7 @@ struct ProjectSelectionListCellBadgesView_Previews: PreviewProvider {
         )
         .padding()
 
-        ProjectSelectionListCellBadgesView(
+        ProjectSelectionListGridCellBadgesView(
             isSelected: true,
             isIdeRequired: true,
             isBestRated: true,

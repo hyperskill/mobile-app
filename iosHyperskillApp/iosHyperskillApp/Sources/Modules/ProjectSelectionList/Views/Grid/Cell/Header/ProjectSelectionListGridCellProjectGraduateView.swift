@@ -1,6 +1,6 @@
 import SwiftUI
 
-extension ProjectSelectionListCellProjectGraduateView {
+extension ProjectSelectionListGridCellProjectGraduateView {
     struct Appearance {
         let spacing: CGFloat = 4
 
@@ -10,7 +10,7 @@ extension ProjectSelectionListCellProjectGraduateView {
     }
 }
 
-struct ProjectSelectionListCellProjectGraduateView: View {
+struct ProjectSelectionListGridCellProjectGraduateView: View {
     private(set) var appearance = Appearance()
 
     var body: some View {
@@ -31,9 +31,9 @@ struct ProjectSelectionListCellProjectGraduateView: View {
 
 struct ProjectSelectionListCellProjectGraduateView_Previews: PreviewProvider {
     static var previews: some View {
-        ProjectSelectionListCellProjectGraduateView()
+        ProjectSelectionListGridCellProjectGraduateView()
 
-        ProjectSelectionListCellProjectGraduateView()
+        ProjectSelectionListGridCellProjectGraduateView()
             .preferredColorScheme(.dark)
     }
 }

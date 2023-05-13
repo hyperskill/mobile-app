@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ProjectSelectionSkeletonView: View {
+struct ProjectSelectionListSkeletonView: View {
     var body: some View {
         ProgressView()
     }
@@ -8,6 +8,6 @@ struct ProjectSelectionSkeletonView: View {
 
 struct ProjectSelectionSkeletonView_Previews: PreviewProvider {
     static var previews: some View {
-        ProjectSelectionSkeletonView()
+        ProjectSelectionListSkeletonView()
     }
 }

@@ -1,7 +1,7 @@
 import SwiftUI
 
-struct ProjectSelectionContentHeaderSkeletonView: View {
-    private static let headerViewAppearance = ProjectSelectionContentHeaderView.Appearance()
+struct ProjectSelectionListHeaderSkeletonView: View {
+    private static let headerViewAppearance = ProjectSelectionListHeaderView.Appearance()
 
     var body: some View {
         VStack(spacing: Self.headerViewAppearance.spacing) {
@@ -21,7 +21,7 @@ struct ProjectSelectionContentHeaderSkeletonView: View {
 
 struct ProjectSelectionContentHeaderSkeletonView_Previews: PreviewProvider {
     static var previews: some View {
-        ProjectSelectionContentHeaderSkeletonView()
+        ProjectSelectionListHeaderSkeletonView()
             .padding()
     }
 }

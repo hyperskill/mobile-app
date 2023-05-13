@@ -1,7 +1,7 @@
 import shared
 import SwiftUI
 
-extension ProjectSelectionListCellView {
+extension ProjectSelectionListGridCellView {
     struct Appearance {
         let spacing = LayoutInsets.defaultInset
         let textGroupSpacing = LayoutInsets.smallInset
@@ -18,7 +18,7 @@ extension ProjectSelectionListCellView {
     }
 }
 
-struct ProjectSelectionListCellView: View {
+struct ProjectSelectionListGridCellView: View {
     private(set) var appearance = Appearance()
 
     let project: ProjectSelectionListFeature.ProjectListItem
@@ -39,7 +39,7 @@ struct ProjectSelectionListCellView: View {
     @ViewBuilder
     private func buildContent() -> some View {
         VStack(alignment: .leading, spacing: appearance.spacing) {
-            ProjectSelectionListCellHeaderView(
+            ProjectSelectionListGridCellHeaderView(
                 level: project.level.flatMap(SharedProjectLevelWrapper.init(sharedProjectLevel:)),
                 isGraduate: project.isGraduate,
                 averageRating: project.averageRating
@@ -57,7 +57,7 @@ struct ProjectSelectionListCellView: View {
                 }
             }
 
-            ProjectSelectionListCellBadgesView(
+            ProjectSelectionListGridCellBadgesView(
                 isSelected: isSelected,
                 isIdeRequired: project.isIdeRequired,
                 isBestRated: project.isBestRated,
@@ -84,13 +84,13 @@ struct ProjectSelectionListCellView_Previews: PreviewProvider {
         )
 
         VStack(spacing: LayoutInsets.defaultInset) {
-            ProjectSelectionListCellView(
+            ProjectSelectionListGridCellView(
                 project: project,
                 isSelected: false,
                 onTap: { _ in }
             )
 
-            ProjectSelectionListCellView(
+            ProjectSelectionListGridCellView(
                 project: project,
                 isSelected: true,
                 onTap: { _ in }
@@ -100,13 +100,13 @@ struct ProjectSelectionListCellView_Previews: PreviewProvider {
         .background(Color.systemGroupedBackground)
 
         VStack(spacing: LayoutInsets.defaultInset) {
-            ProjectSelectionListCellView(
+            ProjectSelectionListGridCellView(
                 project: project,
                 isSelected: false,
                 onTap: { _ in }
             )
 
-            ProjectSelectionListCellView(
+            ProjectSelectionListGridCellView(
                 project: project,
                 isSelected: true,
                 onTap: { _ in }

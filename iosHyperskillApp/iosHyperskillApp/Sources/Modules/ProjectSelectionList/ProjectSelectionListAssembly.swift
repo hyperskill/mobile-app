@@ -14,7 +14,7 @@ final class ProjectSelectionListAssembly: UIKitAssembly {
             feature: projectSelectionListComponent.projectSelectionListFeature(trackId: trackID)
         )
 
-        let rootView = ProjectSelectionRootView(viewModel: viewModel)
+        let rootView = ProjectSelectionListView(viewModel: viewModel)
         let hostingController = StyledHostingController(
             rootView: rootView,
             appearance: .withoutBackButtonTitle

@@ -1,13 +1,15 @@
 import shared
 import SwiftUI
 
-extension ProjectSelectionRootView {
+extension ProjectSelectionListView {
     struct Appearance {
+        let spacing: CGFloat = 32
+
         let backgroundColor = Color.systemGroupedBackground
     }
 }
 
-struct ProjectSelectionRootView: View {
+struct ProjectSelectionListView: View {
     private(set) var appearance = Appearance()
 
     @StateObject var viewModel: ProjectSelectionListViewModel
@@ -39,10 +41,10 @@ struct ProjectSelectionRootView: View {
     private func buildBody() -> some View {
         switch viewModel.viewStateKs {
         case .idle:
-            ProjectSelectionSkeletonView()
+            ProjectSelectionListSkeletonView()
                 .onAppear(perform: viewModel.doLoadProjectSelectionList)
         case .loading:
-            ProjectSelectionSkeletonView()
+            ProjectSelectionListSkeletonView()
         case .error:
             PlaceholderView(
                 configuration: .networkError(
@@ -51,17 +53,29 @@ struct ProjectSelectionRootView: View {
                 )
             )
         case .content(let viewData):
-            ProjectSelectionContentView(
-                viewData: viewData,
-                onProjectTap: viewModel.doMainProjectAction(projectID:)
-            )
+            ScrollView {
+                VStack(spacing: appearance.spacing) {
+                    ProjectSelectionListHeaderView(
+                        avatarSource: viewData.trackIcon,
+                        title: viewData.formattedTitle
+                    )
+                    .padding(.top, appearance.spacing)
+
+                    ProjectSelectionListGridView(
+                        viewData: viewData,
+                        onProjectTap: viewModel.doMainProjectAction(projectID:)
+                    )
+                }
+                .padding([.horizontal, .bottom])
+            }
+            .frame(maxWidth: .infinity)
         }
     }
 }
 
 // MARK: - ProjectSelectionRootView (ViewAction) -
 
-private extension ProjectSelectionRootView {
+private extension ProjectSelectionListView {
     func handleViewAction(_ viewAction: ProjectSelectionListFeatureActionViewAction) {
         switch ProjectSelectionListFeatureActionViewActionKs(viewAction) {
         case .navigateTo(let navigateToViewAction):

@@ -1,7 +1,7 @@
 import shared
 import SwiftUI
 
-struct ProjectSelectionContentListView: View {
+struct ProjectSelectionListGridView: View {
     let viewData: ProjectSelectionListFeatureViewStateContent
 
     let onProjectTap: (Int64) -> Void
@@ -14,7 +14,7 @@ struct ProjectSelectionContentListView: View {
 
     var body: some View {
         if let selectedProject = viewData.selectedProject {
-            ProjectSelectionContentListSectionView(
+            ProjectSelectionListGridSectionView(
                 sectionTitle: nil,
                 sectionSubtitle: nil,
                 selectedProjectID: selectedProject.id,
@@ -36,7 +36,7 @@ struct ProjectSelectionContentListView: View {
             if projects.isEmpty {
                 EmptyView()
             } else {
-                ProjectSelectionContentListSectionView(
+                ProjectSelectionListGridSectionView(
                     sectionTitle: projectLevel.title,
                     sectionSubtitle: projectLevel.description,
                     selectedProjectID: viewData.selectedProject?.id,
@@ -53,8 +53,8 @@ struct ProjectSelectionContentListView: View {
 struct ProjectSelectionContentListView_Previews: PreviewProvider {
     static var previews: some View {
         ScrollView {
-            VStack(spacing: ProjectSelectionContentView.Appearance().spacing) {
-                ProjectSelectionContentListView(
+            VStack(spacing: ProjectSelectionListView.Appearance().spacing) {
+                ProjectSelectionListGridView(
                     viewData: .placeholder,
                     onProjectTap: { _ in }
                 )

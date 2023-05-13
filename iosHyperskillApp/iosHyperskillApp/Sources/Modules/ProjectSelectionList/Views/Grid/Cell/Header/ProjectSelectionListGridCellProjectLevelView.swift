@@ -1,6 +1,6 @@
 import SwiftUI
 
-extension ProjectSelectionListCellProjectLevelView {
+extension ProjectSelectionListGridCellProjectLevelView {
     struct Appearance {
         let spacing: CGFloat = 4
 
@@ -8,7 +8,7 @@ extension ProjectSelectionListCellProjectLevelView {
     }
 }
 
-struct ProjectSelectionListCellProjectLevelView: View {
+struct ProjectSelectionListGridCellProjectLevelView: View {
     private(set) var appearance = Appearance()
 
     let level: SharedProjectLevelWrapper
@@ -31,10 +31,10 @@ struct ProjectSelectionListCellProjectLevelView: View {
 struct ProjectSelectionListCellProjectLevelView_Previews: PreviewProvider {
     static var previews: some View {
         VStack(spacing: LayoutInsets.defaultInset) {
-            ProjectSelectionListCellProjectLevelView(level: .easy)
-            ProjectSelectionListCellProjectLevelView(level: .medium)
-            ProjectSelectionListCellProjectLevelView(level: .hard)
-            ProjectSelectionListCellProjectLevelView(level: .nightmare)
+            ProjectSelectionListGridCellProjectLevelView(level: .easy)
+            ProjectSelectionListGridCellProjectLevelView(level: .medium)
+            ProjectSelectionListGridCellProjectLevelView(level: .hard)
+            ProjectSelectionListGridCellProjectLevelView(level: .nightmare)
         }
         .padding()
     }

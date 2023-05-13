@@ -1,6 +1,6 @@
 import SwiftUI
 
-extension ProjectSelectionListCellHeaderView {
+extension ProjectSelectionListGridCellHeaderView {
     struct Appearance {
         let spacing = LayoutInsets.defaultInset
 
@@ -13,7 +13,7 @@ extension ProjectSelectionListCellHeaderView {
     }
 }
 
-struct ProjectSelectionListCellHeaderView: View {
+struct ProjectSelectionListGridCellHeaderView: View {
     private(set) var appearance = Appearance()
 
     let level: SharedProjectLevelWrapper?
@@ -32,11 +32,11 @@ struct ProjectSelectionListCellHeaderView: View {
         } else {
             HStack(spacing: appearance.spacing) {
                 if let level {
-                    ProjectSelectionListCellProjectLevelView(level: level)
+                    ProjectSelectionListGridCellProjectLevelView(level: level)
                 }
 
                 if isGraduate {
-                    ProjectSelectionListCellProjectGraduateView()
+                    ProjectSelectionListGridCellProjectGraduateView()
                 }
 
                 Spacer()
@@ -53,9 +53,9 @@ struct ProjectSelectionListCellHeaderView: View {
 struct ProjectSelectionListCellHeaderView_Previews: PreviewProvider {
     static var previews: some View {
         VStack(spacing: LayoutInsets.defaultInset) {
-            ProjectSelectionListCellHeaderView(level: .easy, isGraduate: true, averageRating: 4.7)
-            ProjectSelectionListCellHeaderView(level: .medium, isGraduate: false, averageRating: 4.6)
-            ProjectSelectionListCellHeaderView(level: .hard, isGraduate: false, averageRating: 0)
+            ProjectSelectionListGridCellHeaderView(level: .easy, isGraduate: true, averageRating: 4.7)
+            ProjectSelectionListGridCellHeaderView(level: .medium, isGraduate: false, averageRating: 4.6)
+            ProjectSelectionListGridCellHeaderView(level: .hard, isGraduate: false, averageRating: 0)
         }
         .padding()
     }

@@ -1,6 +1,6 @@
 import SwiftUI
 
-extension ProjectSelectionContentHeaderView {
+extension ProjectSelectionListHeaderView {
     struct Appearance {
         let spacing = LayoutInsets.defaultInset
 
@@ -8,7 +8,7 @@ extension ProjectSelectionContentHeaderView {
     }
 }
 
-struct ProjectSelectionContentHeaderView: View {
+struct ProjectSelectionListHeaderView: View {
     private(set) var appearance = Appearance()
 
     let avatarSource: String?
@@ -38,7 +38,7 @@ struct ProjectSelectionContentHeaderView: View {
 
 struct ProjectSelectionContentHeaderView_Previews: PreviewProvider {
     static var previews: some View {
-        ProjectSelectionContentHeaderView(
+        ProjectSelectionListHeaderView(
             avatarSource: "https://hyperskill.azureedge.net/media/tracks/9368deaab97441f192fd4c8db42cb9bc/python.svg",
             title: "Select project in track Python Core"
         )

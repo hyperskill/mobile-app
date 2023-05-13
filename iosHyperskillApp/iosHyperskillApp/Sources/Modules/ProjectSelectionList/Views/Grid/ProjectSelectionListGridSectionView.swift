@@ -1,14 +1,14 @@
 import shared
 import SwiftUI
 
-extension ProjectSelectionContentListSectionView {
+extension ProjectSelectionListGridSectionView {
     struct Appearance {
         let rootSpacing: CGFloat = 16
         let interitemSpacing: CGFloat = 8
     }
 }
 
-struct ProjectSelectionContentListSectionView: View {
+struct ProjectSelectionListGridSectionView: View {
     private(set) var appearance = Appearance()
 
     let sectionTitle: String?
@@ -69,7 +69,7 @@ struct ProjectSelectionContentListSectionView: View {
             spacing: appearance.interitemSpacing
         ) {
             ForEach(projects, id: \.id) { project in
-                ProjectSelectionListCellView(
+                ProjectSelectionListGridCellView(
                     project: project,
                     isSelected: project.id == selectedProjectID,
                     onTap: onProjectTap
@@ -84,7 +84,7 @@ struct ProjectSelectionContentListSectionView_Previews: PreviewProvider {
     static var previews: some View {
         let placeholder = ProjectSelectionListFeatureViewStateContent.placeholder
 
-        ProjectSelectionContentListSectionView(
+        ProjectSelectionListGridSectionView(
             sectionTitle: Strings.ProjectSelectionList.List.Category.easyTitle,
             sectionSubtitle: Strings.ProjectSelectionList.List.Category.easyDescription,
             selectedProjectID: 1,
@@ -95,7 +95,7 @@ struct ProjectSelectionContentListSectionView_Previews: PreviewProvider {
         .padding()
         .background(Color.systemGroupedBackground)
 
-        ProjectSelectionContentListSectionView(
+        ProjectSelectionListGridSectionView(
             sectionTitle: Strings.ProjectSelectionList.List.Category.mediumTitle,
             sectionSubtitle: Strings.ProjectSelectionList.List.Category.mediumDescription,
             selectedProjectID: 1,
