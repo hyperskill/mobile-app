@@ -27,6 +27,7 @@
 		2C05AC5A2A0ECED90039C7EF /* ProjectSelectionListFeatureViewStateContent+Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC592A0ECED90039C7EF /* ProjectSelectionListFeatureViewStateContent+Placeholder.swift */; };
 		2C05AC5D2A0ED7AD0039C7EF /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC5C2A0ED7AD0039C7EF /* BadgeView.swift */; };
 		2C05AC5F2A0ED9710039C7EF /* BadgeView+ConcreateTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC5E2A0ED9710039C7EF /* BadgeView+ConcreateTypes.swift */; };
+		2C05AC622A0EDFC20039C7EF /* ProjectSelectionListCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC612A0EDFC20039C7EF /* ProjectSelectionListCellView.swift */; };
 		2C05AC642A0EDFD80039C7EF /* ProjectSelectionListCellBadgesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC632A0EDFD80039C7EF /* ProjectSelectionListCellBadgesView.swift */; };
 		2C069EB128F03782009A3DA1 /* AnalyticExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C069EB028F03782009A3DA1 /* AnalyticExtensions.swift */; };
 		2C079681285CEEFE00EE0487 /* StepQuizMatchingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C079680285CEEFE00EE0487 /* StepQuizMatchingViewModel.swift */; };
@@ -134,6 +135,8 @@
 		2C42EFB727F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C42EFB627F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift */; };
 		2C43CDF928B55CC600E74762 /* HyperskillLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C43CDF828B55CC600E74762 /* HyperskillLogoView.swift */; };
 		2C43CDFB28B56AE600E74762 /* AuthPreviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C43CDFA28B56AE600E74762 /* AuthPreviews.swift */; };
+		2C45E7BD2A0FD9D600DFF32D /* ProjectSelectionListCellProjectLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C45E7BC2A0FD9D600DFF32D /* ProjectSelectionListCellProjectLevelView.swift */; };
+		2C45E7BF2A0FDC9B00DFF32D /* ProjectLevelExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C45E7BE2A0FDC9B00DFF32D /* ProjectLevelExtensions.swift */; };
 		2C46D0632807E4C100B3636E /* TextFieldWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */; };
 		2C49CC922851D4AC0040BA7F /* altcontent.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C49CC912851D4AC0040BA7F /* altcontent.css */; };
 		2C4FBD8C2876C39C00ACA5C8 /* ProfileAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4FBD8B2876C39C00ACA5C8 /* ProfileAboutView.swift */; };
@@ -504,6 +507,7 @@
 		2C05AC592A0ECED90039C7EF /* ProjectSelectionListFeatureViewStateContent+Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProjectSelectionListFeatureViewStateContent+Placeholder.swift"; sourceTree = "<group>"; };
 		2C05AC5C2A0ED7AD0039C7EF /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 		2C05AC5E2A0ED9710039C7EF /* BadgeView+ConcreateTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BadgeView+ConcreateTypes.swift"; sourceTree = "<group>"; };
+		2C05AC612A0EDFC20039C7EF /* ProjectSelectionListCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListCellView.swift; sourceTree = "<group>"; };
 		2C05AC632A0EDFD80039C7EF /* ProjectSelectionListCellBadgesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListCellBadgesView.swift; sourceTree = "<group>"; };
 		2C069EB028F03782009A3DA1 /* AnalyticExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticExtensions.swift; sourceTree = "<group>"; };
 		2C079680285CEEFE00EE0487 /* StepQuizMatchingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingViewModel.swift; sourceTree = "<group>"; };
@@ -613,6 +617,8 @@
 		2C42EFB627F2EAF800B4648B /* ResourcesColorResourceThemed+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResourcesColorResourceThemed+UIColor.swift"; sourceTree = "<group>"; };
 		2C43CDF828B55CC600E74762 /* HyperskillLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyperskillLogoView.swift; sourceTree = "<group>"; };
 		2C43CDFA28B56AE600E74762 /* AuthPreviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPreviews.swift; sourceTree = "<group>"; };
+		2C45E7BC2A0FD9D600DFF32D /* ProjectSelectionListCellProjectLevelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListCellProjectLevelView.swift; sourceTree = "<group>"; };
+		2C45E7BE2A0FDC9B00DFF32D /* ProjectLevelExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectLevelExtensions.swift; sourceTree = "<group>"; };
 		2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWrapper.swift; sourceTree = "<group>"; };
 		2C49CC912851D4AC0040BA7F /* altcontent.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = altcontent.css; sourceTree = "<group>"; };
 		2C4D3CB2289689F40079B461 /* iosHyperskillApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iosHyperskillApp.entitlements; sourceTree = "<group>"; };
@@ -1068,6 +1074,7 @@
 		2C05AC582A0ECE920039C7EF /* ViewData */ = {
 			isa = PBXGroup;
 			children = (
+				2C45E7BE2A0FDC9B00DFF32D /* ProjectLevelExtensions.swift */,
 				2C05AC592A0ECED90039C7EF /* ProjectSelectionListFeatureViewStateContent+Placeholder.swift */,
 			);
 			path = ViewData;
@@ -1086,6 +1093,8 @@
 			isa = PBXGroup;
 			children = (
 				2C05AC632A0EDFD80039C7EF /* ProjectSelectionListCellBadgesView.swift */,
+				2C45E7BC2A0FD9D600DFF32D /* ProjectSelectionListCellProjectLevelView.swift */,
+				2C05AC612A0EDFC20039C7EF /* ProjectSelectionListCellView.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -3201,6 +3210,7 @@
 				2C9EB9552861BA02007DDE44 /* AppTabItem.swift in Sources */,
 				2C336D282865E53800C91342 /* CodeInputAccessoryBuilder.swift in Sources */,
 				E900D10128434D0400A77BBC /* StepQuizSortingView.swift in Sources */,
+				2C05AC622A0EDFC20039C7EF /* ProjectSelectionListCellView.swift in Sources */,
 				2C0DFB9A2923BB4300D30921 /* ProfileFeatureStateKsExtensions.swift in Sources */,
 				E9C3506F2886D0600080D277 /* OpenURLInsideAppButton.swift in Sources */,
 				2C23C0062879EA7D0083709F /* StreakDayState.swift in Sources */,
@@ -3289,6 +3299,7 @@
 				2C2B7DD22946EF2800FAB55D /* WebViewNavigationController.swift in Sources */,
 				2C336D242865E38B00C91342 /* CodeInputAccessoryCollectionViewCell.swift in Sources */,
 				2C2FD62428192123004E7AF6 /* BundlePropertyListDeserializer.swift in Sources */,
+				2C45E7BF2A0FDC9B00DFF32D /* ProjectLevelExtensions.swift in Sources */,
 				2C8E66D7287877F500D3928D /* ProfileViewModel.swift in Sources */,
 				E9F504CC2912842D00B788C7 /* StepQuizHintsView.swift in Sources */,
 				2C8FFE7F2892E1C000574941 /* AuthOutputProtocol.swift in Sources */,
@@ -3377,6 +3388,7 @@
 				E99B21852887E9B0006A6154 /* StepQuizMatchingSkeletonView.swift in Sources */,
 				E9C3506D2886B0FE0080D277 /* MainBundleInfo.swift in Sources */,
 				2CAE8D0528055D8300E6C83D /* StepActionButton.swift in Sources */,
+				2C45E7BD2A0FD9D600DFF32D /* ProjectSelectionListCellProjectLevelView.swift in Sources */,
 				2C37960F2876F36F00C197E2 /* ProfileViewData.swift in Sources */,
 				2C2D4930281151EB00753F16 /* AuthCredentialsViewModel.swift in Sources */,
 				E94BC944291E8BF5000B18D3 /* TopicsRepetitionsInfoBlock.swift in Sources */,
