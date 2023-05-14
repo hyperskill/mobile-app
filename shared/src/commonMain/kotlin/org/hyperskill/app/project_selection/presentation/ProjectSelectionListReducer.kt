@@ -50,16 +50,24 @@ internal class ProjectSelectionListReducer : StateReducer<State, Message, Action
             }
             is Message.ProjectClicked -> {
                 val project = (state.content as? ContentState.Content)?.projects?.get(message.projectId)?.project
+                val currentProjectId = (state.content as? ContentState.Content)?.currentProjectId
+
                 if (project != null) {
-                    state to setOf(
-                        ViewAction.ShowProjectSelectionConfirmationModal(project),
-                        InternalAction.LogAnalyticEvent(
-                            ProjectsSelectionListClickedProjectHyperskillAnalyticsEvent(
-                                trackId = state.trackId,
-                                projectId = message.projectId
-                            )
+                    val analyticEventAction = InternalAction.LogAnalyticEvent(
+                        ProjectsSelectionListClickedProjectHyperskillAnalyticsEvent(
+                            trackId = state.trackId,
+                            projectId = message.projectId
                         )
                     )
+
+                    if (project.id != currentProjectId) {
+                        state to setOf(
+                            ViewAction.ShowProjectSelectionConfirmationModal(project),
+                            analyticEventAction
+                        )
+                    } else {
+                        state to setOf(analyticEventAction)
+                    }
                 } else {
                     state to emptySet()
                 }
