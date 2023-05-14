@@ -1,18 +1,29 @@
 import shared
 import SwiftUI
 
+extension ProjectSelectionListGridView {
+    struct Appearance {
+        let defaultColumnsCount = 1
+        let regularHorizontalSizeClassColumnsCount = 2
+
+        func projectsColumnsCount(for horizontalSizeClass: UserInterfaceSizeClass?) -> Int {
+            horizontalSizeClass == .regular ? regularHorizontalSizeClassColumnsCount : defaultColumnsCount
+        }
+    }
+}
+
 struct ProjectSelectionListGridView: View {
+    private(set) var appearance = Appearance()
+
     let viewData: ProjectSelectionListFeatureViewStateContent
 
     let onProjectTap: (Int64) -> Void
 
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
-    private var projectsColumnsCount: Int {
-        horizontalSizeClass == .regular ? 2 : 1
-    }
-
     var body: some View {
+        let projectsColumnsCount = appearance.projectsColumnsCount(for: horizontalSizeClass)
+
         if let selectedProject = viewData.selectedProject {
             ProjectSelectionListGridSectionView(
                 sectionTitle: nil,
@@ -59,7 +70,7 @@ struct ProjectSelectionListGridView: View {
 }
 
 #if DEBUG
-struct ProjectSelectionContentListView_Previews: PreviewProvider {
+struct ProjectSelectionListGridView_Previews: PreviewProvider {
     static var previews: some View {
         ScrollView {
             VStack(spacing: ProjectSelectionListView.Appearance().spacing) {

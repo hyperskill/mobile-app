@@ -81,9 +81,13 @@ private extension ProjectSelectionListView {
     func handleViewAction(_ viewAction: ProjectSelectionListFeatureActionViewAction) {
         switch ProjectSelectionListFeatureActionViewActionKs(viewAction) {
         case .navigateTo(let navigateToViewAction):
-            handleNavigateToViewAction(ProjectSelectionListFeatureActionViewActionNavigateToKs(navigateToViewAction))
+            handleNavigateToViewAction(
+                ProjectSelectionListFeatureActionViewActionNavigateToKs(navigateToViewAction)
+            )
         case .showProjectSelectionConfirmationModal(let showProjectSelectionConfirmationModalViewAction):
-            handleShowProjectSelectionConfirmationModalViewAction(showProjectSelectionConfirmationModalViewAction)
+            handleShowProjectSelectionConfirmationModalViewAction(
+                showProjectSelectionConfirmationModalViewAction
+            )
         case .showProjectSelectionStatus(let showProjectSelectionStatusViewAction):
             handleShowProjectSelectionStatusViewAction(
                 ProjectSelectionListFeatureActionViewActionShowProjectSelectionStatusKs(
@@ -160,7 +164,7 @@ private extension ProjectSelectionListView {
 
 // MARK: - ProjectSelectionRootView_Previews: PreviewProvider -
 
-struct ProjectSelectionRootView_Previews: PreviewProvider {
+struct ProjectSelectionListView_Previews: PreviewProvider {
     static var previews: some View {
         UIKitViewControllerPreview {
             ProjectSelectionListAssembly(trackID: 1)

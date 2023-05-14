@@ -1,6 +1,6 @@
 import SwiftUI
 
-extension RatingView {
+extension StarRatingView {
     struct Appearance {
         var imageSize = CGSize(width: 16, height: 16)
         var imageColor = Color(ColorPalette.overlayYellow)
@@ -10,7 +10,7 @@ extension RatingView {
     }
 }
 
-struct RatingView: View {
+struct StarRatingView: View {
     private(set) var appearance = Appearance()
 
     let rating: RatingValue
@@ -49,17 +49,17 @@ struct RatingView: View {
     }
 }
 
-struct RatingView_Previews: PreviewProvider {
+struct StarRatingView_Previews: PreviewProvider {
     static var previews: some View {
         VStack(spacing: LayoutInsets.defaultInset) {
-            RatingView(rating: .number(value: 4.77))
-            RatingView(rating: .number(value: 4.7))
+            StarRatingView(rating: .number(value: 4.77))
+            StarRatingView(rating: .number(value: 4.7))
 
-            RatingView(rating: .number(value: 4.77, decimalPoints: 1))
-            RatingView(rating: .number(value: 4.7, decimalPoints: 1))
+            StarRatingView(rating: .number(value: 4.77, decimalPoints: 1))
+            StarRatingView(rating: .number(value: 4.7, decimalPoints: 1))
 
-            RatingView(rating: .string("4.7"))
-            RatingView(rating: .string(" "))
+            StarRatingView(rating: .string("4.7"))
+            StarRatingView(rating: .string(" "))
         }
     }
 }

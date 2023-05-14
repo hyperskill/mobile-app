@@ -20,7 +20,7 @@ struct ProjectSelectionListHeaderSkeletonView: View {
     }
 }
 
-struct ProjectSelectionContentHeaderSkeletonView_Previews: PreviewProvider {
+struct ProjectSelectionListHeaderSkeletonView_Previews: PreviewProvider {
     static var previews: some View {
         ProjectSelectionListHeaderSkeletonView()
             .padding()

@@ -29,7 +29,7 @@ struct ProjectSelectionListGridCellProjectGraduateView: View {
     }
 }
 
-struct ProjectSelectionListCellProjectGraduateView_Previews: PreviewProvider {
+struct ProjectSelectionListGridCellProjectGraduateView_Previews: PreviewProvider {
     static var previews: some View {
         ProjectSelectionListGridCellProjectGraduateView()
 

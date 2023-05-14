@@ -28,7 +28,7 @@ struct ProjectSelectionListGridCellProjectLevelView: View {
     }
 }
 
-struct ProjectSelectionListCellProjectLevelView_Previews: PreviewProvider {
+struct ProjectSelectionListGridCellProjectLevelView_Previews: PreviewProvider {
     static var previews: some View {
         VStack(spacing: LayoutInsets.defaultInset) {
             ProjectSelectionListGridCellProjectLevelView(level: .easy)

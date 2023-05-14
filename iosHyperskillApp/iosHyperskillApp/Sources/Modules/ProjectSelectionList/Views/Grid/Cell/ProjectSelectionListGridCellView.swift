@@ -7,9 +7,8 @@ extension ProjectSelectionListGridCellView {
         let textGroupSpacing = LayoutInsets.smallInset
 
         fileprivate func buttonStyle(isSelected: Bool) -> OutlineButtonStyle {
-            let borderColor = isSelected ? Color(ColorPalette.overlayBlue) : .border
-            return OutlineButtonStyle(
-                borderColor: borderColor,
+            OutlineButtonStyle(
+                borderColor: isSelected ? Color(ColorPalette.overlayBlue) : .border,
                 alignment: .leading,
                 paddingEdgeSet: [],
                 backgroundColor: Color(ColorPalette.surface)
@@ -69,7 +68,7 @@ struct ProjectSelectionListGridCellView: View {
     }
 }
 
-struct ProjectSelectionListCellView_Previews: PreviewProvider {
+struct ProjectSelectionListGridCellView_Previews: PreviewProvider {
     static var previews: some View {
         let project = ProjectSelectionListFeature.ProjectListItem(
             id: 1,

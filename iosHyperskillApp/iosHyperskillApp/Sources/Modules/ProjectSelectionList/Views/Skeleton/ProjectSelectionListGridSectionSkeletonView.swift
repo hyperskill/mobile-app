@@ -2,6 +2,7 @@ import SwiftUI
 
 extension ProjectSelectionListGridSectionSkeletonView {
     struct Appearance {
+        let gridViewAppearance = ProjectSelectionListGridView.Appearance()
         let gridSectionViewAppearance = ProjectSelectionListGridSectionView.Appearance()
 
         let defaultProjectCellHeight: CGFloat = 107
@@ -16,13 +17,20 @@ struct ProjectSelectionListGridSectionSkeletonView: View {
 
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
-    private var projectsColumnsCount: Int {
-        horizontalSizeClass == .regular ? 2 : 1
-    }
-
     var body: some View {
-        SkeletonRoundedView()
-            .frame(height: appearance.selectedProjectCellHeight)
+        let projectsColumnsCount = appearance.gridViewAppearance.projectsColumnsCount(for: horizontalSizeClass)
+
+        if projectsColumnsCount > 1 {
+            HStack(spacing: appearance.gridSectionViewAppearance.interitemSpacing) {
+                SkeletonRoundedView()
+                    .frame(height: appearance.selectedProjectCellHeight)
+                Spacer()
+                    .frame(maxWidth: .infinity)
+            }
+        } else {
+            SkeletonRoundedView()
+                .frame(height: appearance.selectedProjectCellHeight)
+        }
 
         ForEach(0..<4) { _ in
             VStack(spacing: appearance.gridSectionViewAppearance.rootSpacing) {

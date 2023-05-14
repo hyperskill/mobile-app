@@ -36,7 +36,7 @@ struct ProjectSelectionListHeaderView: View {
     }
 }
 
-struct ProjectSelectionContentHeaderView_Previews: PreviewProvider {
+struct ProjectSelectionListHeaderView_Previews: PreviewProvider {
     static var previews: some View {
         ProjectSelectionListHeaderView(
             avatarSource: "https://hyperskill.azureedge.net/media/tracks/9368deaab97441f192fd4c8db42cb9bc/python.svg",

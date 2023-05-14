@@ -35,7 +35,7 @@ struct ProjectSelectionListGridCellBadgesView: View {
     }
 }
 
-struct ProjectSelectionListCellBadgesView_Previews: PreviewProvider {
+struct ProjectSelectionListGridCellBadgesView_Previews: PreviewProvider {
     static var previews: some View {
         ProjectSelectionListGridCellBadgesView(
             isSelected: true,

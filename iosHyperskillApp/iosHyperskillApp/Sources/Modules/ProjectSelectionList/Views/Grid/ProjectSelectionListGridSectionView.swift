@@ -38,14 +38,14 @@ struct ProjectSelectionListGridSectionView: View {
             EmptyView()
         } else {
             VStack(alignment: .leading, spacing: appearance.interitemSpacing) {
-                if let sectionTitle = sectionTitle {
+                if let sectionTitle {
                     Text(sectionTitle)
                         .font(.title3)
                         .bold()
                         .foregroundColor(.primaryText)
                 }
 
-                if let sectionSubtitle = sectionSubtitle {
+                if let sectionSubtitle {
                     Text(sectionSubtitle)
                         .font(.callout)
                         .foregroundColor(.secondaryText)
@@ -57,8 +57,8 @@ struct ProjectSelectionListGridSectionView: View {
     @ViewBuilder
     private func buildSectionContent() -> some View {
         LazyVGrid(
-            columns: .init(
-                repeating: .init(
+            columns: Array(
+                repeating: GridItem(
                     .flexible(),
                     spacing: appearance.interitemSpacing,
                     alignment: .top
@@ -80,7 +80,7 @@ struct ProjectSelectionListGridSectionView: View {
 }
 
 #if DEBUG
-struct ProjectSelectionContentListSectionView_Previews: PreviewProvider {
+struct ProjectSelectionListGridSectionView_Previews: PreviewProvider {
     static var previews: some View {
         let placeholder = ProjectSelectionListFeatureViewStateContent.placeholder
 

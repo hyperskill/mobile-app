@@ -5,7 +5,7 @@ extension AuthNewUserPlaceholderTrackCardView {
     struct Appearance {
         let trackAvatarSize = CGSize(width: 20, height: 20)
 
-        let ratingViewAppearance = RatingView.Appearance(
+        let ratingViewAppearance = StarRatingView.Appearance(
             imageSize: CGSize(width: 20, height: 20),
             imageColor: Color(ColorPalette.overlayYellow),
             textFont: .subheadline,
@@ -45,7 +45,7 @@ struct AuthNewUserPlaceholderTrackCardView: View {
 
             Spacer()
 
-            RatingView(
+            StarRatingView(
                 appearance: appearance.ratingViewAppearance,
                 rating: .string(rating)
             )

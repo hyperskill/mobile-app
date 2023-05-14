@@ -4,7 +4,7 @@ extension ProjectSelectionListGridCellHeaderView {
     struct Appearance {
         let spacing = LayoutInsets.defaultInset
 
-        let ratingViewAppearance = RatingView.Appearance(
+        let ratingViewAppearance = StarRatingView.Appearance(
             imageSize: CGSize(width: 16, height: 16),
             imageColor: Color(ColorPalette.overlayYellow),
             textFont: .caption,
@@ -41,7 +41,7 @@ struct ProjectSelectionListGridCellHeaderView: View {
 
                 Spacer()
 
-                RatingView(
+                StarRatingView(
                     appearance: appearance.ratingViewAppearance,
                     rating: .number(value: averageRating, decimalPoints: 1)
                 )
@@ -50,7 +50,7 @@ struct ProjectSelectionListGridCellHeaderView: View {
     }
 }
 
-struct ProjectSelectionListCellHeaderView_Previews: PreviewProvider {
+struct ProjectSelectionListGridCellHeaderView_Previews: PreviewProvider {
     static var previews: some View {
         VStack(spacing: LayoutInsets.defaultInset) {
             ProjectSelectionListGridCellHeaderView(level: .easy, isGraduate: true, averageRating: 4.7)

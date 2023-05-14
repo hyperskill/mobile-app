@@ -23,7 +23,7 @@ struct ProjectSelectionListSkeletonView: View {
     }
 }
 
-struct ProjectSelectionSkeletonView_Previews: PreviewProvider {
+struct ProjectSelectionListSkeletonView_Previews: PreviewProvider {
     static var previews: some View {
         ProjectSelectionListSkeletonView()
     }
