@@ -84,7 +84,7 @@ final class FeedbackGenerator {
 
     enum FeedbackType {
         case notification(NotificationStyle)
-        case impact(style: ImpactStyle)
+        case impact(ImpactStyle)
         case selection
 
         enum NotificationStyle {
