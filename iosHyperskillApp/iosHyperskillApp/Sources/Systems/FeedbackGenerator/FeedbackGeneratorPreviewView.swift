@@ -17,19 +17,19 @@ struct FeedbackGeneratorPreviewView: View {
 
             VStack(spacing: LayoutInsets.smallInset) {
                 Button("Impact - Heavy") {
-                    FeedbackGenerator(feedbackType: .impact(style: .heavy)).triggerFeedback()
+                    FeedbackGenerator(feedbackType: .impact(.heavy)).triggerFeedback()
                 }
                 Button("Impact - Light") {
-                    FeedbackGenerator(feedbackType: .impact(style: .light)).triggerFeedback()
+                    FeedbackGenerator(feedbackType: .impact(.light)).triggerFeedback()
                 }
                 Button("Impact - Medium") {
-                    FeedbackGenerator(feedbackType: .impact(style: .medium)).triggerFeedback()
+                    FeedbackGenerator(feedbackType: .impact(.medium)).triggerFeedback()
                 }
                 Button("Impact - Rigid") {
-                    FeedbackGenerator(feedbackType: .impact(style: .rigid)).triggerFeedback()
+                    FeedbackGenerator(feedbackType: .impact(.rigid)).triggerFeedback()
                 }
                 Button("Impact - Soft") {
-                    FeedbackGenerator(feedbackType: .impact(style: .soft)).triggerFeedback()
+                    FeedbackGenerator(feedbackType: .impact(.soft)).triggerFeedback()
                 }
             }
 
