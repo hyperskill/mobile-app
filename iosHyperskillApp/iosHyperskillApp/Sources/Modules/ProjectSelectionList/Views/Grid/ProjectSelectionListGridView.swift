@@ -19,6 +19,8 @@ struct ProjectSelectionListGridView: View {
 
     let onProjectTap: (Int64) -> Void
 
+    private let projectSelectionFeedbackGenerator = FeedbackGenerator(feedbackType: .selection)
+
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     var body: some View {
@@ -31,7 +33,7 @@ struct ProjectSelectionListGridView: View {
                 selectedProjectID: selectedProject.id,
                 projects: [selectedProject],
                 projectsColumnsCount: projectsColumnsCount,
-                onProjectTap: onProjectTap
+                onProjectTap: { handleProjectTapped(projectID: $0) }
             )
         }
 
@@ -41,7 +43,7 @@ struct ProjectSelectionListGridView: View {
             selectedProjectID: viewData.selectedProject?.id,
             projects: viewData.recommendedProjects,
             projectsColumnsCount: projectsColumnsCount,
-            onProjectTap: onProjectTap
+            onProjectTap: { handleProjectTapped(projectID: $0) }
         )
 
         // We can't iterate over a dictionary directly, so we need to convert it to an array first,
@@ -62,10 +64,16 @@ struct ProjectSelectionListGridView: View {
                     selectedProjectID: viewData.selectedProject?.id,
                     projects: projects,
                     projectsColumnsCount: projectsColumnsCount,
-                    onProjectTap: onProjectTap
+                    onProjectTap: { handleProjectTapped(projectID: $0) }
                 )
             }
         }
+    }
+
+    @MainActor
+    private func handleProjectTapped(projectID: Int64) {
+        projectSelectionFeedbackGenerator.triggerFeedback()
+        onProjectTap(projectID)
     }
 }
 
