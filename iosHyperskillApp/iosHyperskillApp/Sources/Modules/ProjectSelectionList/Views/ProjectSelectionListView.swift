@@ -14,6 +14,8 @@ struct ProjectSelectionListView: View {
 
     @StateObject var viewModel: ProjectSelectionListViewModel
 
+    @ObservedObject var stackRouter: SwiftUIStackRouter
+
     var body: some View {
         ZStack {
             UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
@@ -94,14 +96,37 @@ private extension ProjectSelectionListView {
     func handleNavigateToViewAction(_ viewAction: ProjectSelectionListFeatureActionViewActionNavigateToKs) {
         switch viewAction {
         case .studyPlan:
-            break // TODO: implement this
+            TabBarRouter(tab: .studyPlan, popToRoot: true).route()
         }
     }
 
     func handleShowProjectSelectionConfirmationModalViewAction(
         _ viewAction: ProjectSelectionListFeatureActionViewActionShowProjectSelectionConfirmationModal
     ) {
-        // TODO: implement this
+        guard let rootViewController = stackRouter.rootViewController else {
+            return
+        }
+
+        let projectID = viewAction.project.id
+
+        let alertController = UIAlertController(
+            title: nil,
+            message: "\(Strings.ProjectSelectionList.title) \"\(viewAction.project.title)\"",
+            preferredStyle: .alert
+        )
+        alertController.addAction(
+            UIAlertAction(title: Strings.General.no, style: .cancel, handler: { [weak viewModel] _ in
+                viewModel?.doProjectSelectionConfirmationAction(projectID: projectID, isConfirmed: false)
+            })
+        )
+        alertController.addAction(
+            UIAlertAction(title: Strings.General.yes, style: .default, handler: { [weak viewModel] _ in
+                ProgressHUD.show()
+                viewModel?.doProjectSelectionConfirmationAction(projectID: projectID, isConfirmed: true)
+            })
+        )
+
+        rootViewController.present(alertController, animated: true)
     }
 
     func handleShowProjectSelectionStatusViewAction(
@@ -109,9 +134,9 @@ private extension ProjectSelectionListView {
     ) {
         switch viewAction {
         case .error:
-            break // TODO: implement this
+            ProgressHUD.showError()
         case .success:
-            break // TODO: implement this
+            ProgressHUD.showSuccess()
         }
     }
 }

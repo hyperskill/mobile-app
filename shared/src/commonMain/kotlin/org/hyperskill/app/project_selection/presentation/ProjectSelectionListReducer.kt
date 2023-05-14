@@ -65,21 +65,24 @@ internal class ProjectSelectionListReducer : StateReducer<State, Message, Action
                 }
             }
             is Message.ProjectSelectionConfirmationResult -> {
-                if (state.content is ContentState.Content && message.isConfirmed) {
-                    state.copy(
-                        content = state.content.copy(isProjectSelectionLoadingShowed = true)
-                    ) to setOf(
-                        InternalAction.SelectProject(
-                            state.trackId,
-                            message.projectId
-                        ),
-                        InternalAction.LogAnalyticEvent(
-                            ProjectSelectionListSelectConfirmationResultHyperskillAnalyticEvent(
-                                trackId = state.trackId,
-                                isConfirmed = true
-                            )
+                if (state.content is ContentState.Content) {
+                    val analyticEventAction = InternalAction.LogAnalyticEvent(
+                        ProjectSelectionListSelectConfirmationResultHyperskillAnalyticEvent(
+                            trackId = state.trackId,
+                            isConfirmed = message.isConfirmed
                         )
                     )
+
+                    if (message.isConfirmed) {
+                        state.copy(
+                            content = state.content.copy(isProjectSelectionLoadingShowed = true)
+                        ) to setOf(
+                            InternalAction.SelectProject(state.trackId, message.projectId),
+                            analyticEventAction
+                        )
+                    } else {
+                        state to setOf(analyticEventAction)
+                    }
                 } else {
                     state to emptySet()
                 }
