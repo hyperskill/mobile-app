@@ -116,17 +116,34 @@ private extension ProjectSelectionListView {
         )
         alertController.addAction(
             UIAlertAction(title: Strings.General.no, style: .cancel, handler: { [weak viewModel] _ in
-                viewModel?.doProjectSelectionConfirmationAction(projectID: projectID, isConfirmed: false)
+                guard let viewModel else {
+                    return
+                }
+
+                viewModel.doProjectSelectionConfirmationAction(projectID: projectID, isConfirmed: false)
+                viewModel.logProjectSelectionConfirmationModalHiddenEvent()
             })
         )
         alertController.addAction(
             UIAlertAction(title: Strings.General.yes, style: .default, handler: { [weak viewModel] _ in
+                guard let viewModel else {
+                    return
+                }
+
                 ProgressHUD.show()
-                viewModel?.doProjectSelectionConfirmationAction(projectID: projectID, isConfirmed: true)
+
+                viewModel.doProjectSelectionConfirmationAction(projectID: projectID, isConfirmed: true)
+                viewModel.logProjectSelectionConfirmationModalHiddenEvent()
             })
         )
 
-        rootViewController.present(alertController, animated: true)
+        rootViewController.present(
+            alertController,
+            animated: true,
+            completion: { [weak viewModel] in
+                viewModel?.logProjectSelectionConfirmationModalShownEvent()
+            }
+        )
     }
 
     func handleShowProjectSelectionStatusViewAction(

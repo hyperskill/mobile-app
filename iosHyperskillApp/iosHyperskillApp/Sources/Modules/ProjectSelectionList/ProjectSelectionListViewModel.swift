@@ -41,4 +41,12 @@ final class ProjectSelectionListViewModel: FeatureViewModel<
     func logViewedEvent() {
         onNewMessage(ProjectSelectionListFeatureMessageViewedEventMessage())
     }
+
+    func logProjectSelectionConfirmationModalShownEvent() {
+        onNewMessage(ProjectSelectionListFeatureMessageProjectSelectionConfirmationModalShown())
+    }
+
+    func logProjectSelectionConfirmationModalHiddenEvent() {
+        onNewMessage(ProjectSelectionListFeatureMessageProjectSelectionConfirmationModalHidden())
+    }
 }
