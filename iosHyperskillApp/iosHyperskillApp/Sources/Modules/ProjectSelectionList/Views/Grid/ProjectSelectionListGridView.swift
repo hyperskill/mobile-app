@@ -24,13 +24,22 @@ struct ProjectSelectionListGridView: View {
             )
         }
 
+        ProjectSelectionListGridSectionView(
+            sectionTitle: Strings.ProjectSelectionList.List.recommendedProjectsTitle,
+            sectionSubtitle: nil,
+            selectedProjectID: viewData.selectedProject?.id,
+            projects: viewData.recommendedProjects,
+            projectsColumnsCount: projectsColumnsCount,
+            onProjectTap: onProjectTap
+        )
+
         // We can't iterate over a dictionary directly, so we need to convert it to an array first,
         // because it doen't conforms to 'RandomAccessCollection' protocol.
-        let sortedProjectsLevels = viewData.projectsByLevel.keys
+        let sortedProjectsByLevel = viewData.projectsByLevel.keys
             .compactMap(SharedProjectLevelWrapper.init(sharedProjectLevel:))
             .sorted()
 
-        ForEach(sortedProjectsLevels, id: \.self) { projectLevel in
+        ForEach(sortedProjectsByLevel, id: \.self) { projectLevel in
             let projects = viewData.projectsByLevel[projectLevel.sharedProjectLevel] ?? []
 
             if projects.isEmpty {
