@@ -13,6 +13,7 @@
     <string name="later">Later</string>
     <string name="good_job">Good job!</string>
     <string name="go_to_homescreen">Go to home</string>
+    <string name="new_word">New</string>
 
     <!-- Users list -->
     <string name="user_list_search_button_title">Search</string>

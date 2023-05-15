@@ -1,4 +1,4 @@
-package org.hyperskill.app.track_list.domain.analytic
+package org.hyperskill.app.track_selection.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -7,15 +7,15 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents a shown analytic event of the new user placeholder track modal.
+ * Represents a track card clicked analytic event.
  *
- * JSON payload:
+ * Click on the Track widget:
  * ```
  * {
  *     "route": "/tracks",
- *     "action": "shown",
- *     "part": "modal",
- *     "target": "track_modal",
+ *     "action": "click",
+ *     "part": "main",
+ *     "target": "track",
  *     "context":
  *     {
  *         "track_id": 1234
@@ -24,11 +24,13 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * ```
  * @see HyperskillAnalyticEvent
  */
-class TrackListTrackModalShownHyperskillAnalyticEvent(val trackId: Long) : HyperskillAnalyticEvent(
+class TrackSelectionListTrackClickedHyperskillAnalyticEvent(
+    val trackId: Long
+) : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Tracks(),
-    HyperskillAnalyticAction.SHOWN,
-    HyperskillAnalyticPart.MODAL,
-    HyperskillAnalyticTarget.TRACK_MODAL
+    HyperskillAnalyticAction.CLICK,
+    HyperskillAnalyticPart.MAIN,
+    HyperskillAnalyticTarget.TRACK
 ) {
     companion object {
         private const val PARAM_TRACK_ID = "track_id"

@@ -1,4 +1,4 @@
-package org.hyperskill.app.track_list.domain.analytic
+package org.hyperskill.app.track_selection.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -16,5 +16,5 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
  * ```
  * @see HyperskillAnalyticEvent
  */
-class TrackListViewedHyperskillAnalyticEvent :
+class TrackSelectionListViewedHyperskillAnalyticEvent :
     HyperskillAnalyticEvent(HyperskillAnalyticRoute.Tracks(), HyperskillAnalyticAction.VIEW)

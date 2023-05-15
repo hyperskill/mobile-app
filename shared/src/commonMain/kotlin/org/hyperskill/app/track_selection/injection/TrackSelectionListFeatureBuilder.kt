@@ -1,49 +1,45 @@
-package org.hyperskill.app.track_list.injection
+package org.hyperskill.app.track_selection.injection
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
-import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository
 import org.hyperskill.app.track.domain.interactor.TrackInteractor
-import org.hyperskill.app.track_list.presentation.TrackListActionDispatcher
-import org.hyperskill.app.track_list.presentation.TrackListFeature
-import org.hyperskill.app.track_list.presentation.TrackListFeature.Action
-import org.hyperskill.app.track_list.presentation.TrackListFeature.Message
-import org.hyperskill.app.track_list.presentation.TrackListReducer
-import org.hyperskill.app.track_list.view.TrackListViewState
-import org.hyperskill.app.track_list.view.TrackListViewStateMapper
+import org.hyperskill.app.track_selection.presentation.TrackSelectionListActionDispatcher
+import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature
+import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature.Action
+import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature.Message
+import org.hyperskill.app.track_selection.presentation.TrackSelectionListReducer
+import org.hyperskill.app.track_selection.view.TrackSelectionListViewStateMapper
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
-object TrackListFeatureBuilder {
+internal object TrackSelectionListFeatureBuilder {
     fun build(
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
         trackInteractor: TrackInteractor,
         progressesInteractor: ProgressesInteractor,
         profileInteractor: ProfileInteractor,
-        freemiumInteractor: FreemiumInteractor,
         currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
-        trackListViewStateMapper: TrackListViewStateMapper
-    ): Feature<TrackListViewState, Message, Action> {
-        val trackListReducer = TrackListReducer()
-        val trackListActionDispatcher = TrackListActionDispatcher(
+        trackListViewStateMapper: TrackSelectionListViewStateMapper
+    ): Feature<TrackSelectionListFeature.ViewState, Message, Action> {
+        val trackListReducer = TrackSelectionListReducer()
+        val trackListActionDispatcher = TrackSelectionListActionDispatcher(
             ActionDispatcherOptions(),
             analyticInteractor,
             sentryInteractor,
             trackInteractor,
             progressesInteractor,
             profileInteractor,
-            freemiumInteractor,
             currentStudyPlanStateRepository
         )
 
-        return ReduxFeature(TrackListFeature.State.Idle, trackListReducer)
+        return ReduxFeature(TrackSelectionListFeature.State.Idle, trackListReducer)
             .wrapWithActionDispatcher(trackListActionDispatcher)
             .transformState(trackListViewStateMapper::map)
     }

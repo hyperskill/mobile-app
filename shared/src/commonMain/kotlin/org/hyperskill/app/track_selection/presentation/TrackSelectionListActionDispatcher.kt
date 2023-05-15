@@ -1,8 +1,7 @@
-package org.hyperskill.app.track_list.presentation
+package org.hyperskill.app.track_selection.presentation
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
@@ -10,40 +9,39 @@ import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransa
 import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository
 import org.hyperskill.app.track.domain.interactor.TrackInteractor
 import org.hyperskill.app.track.domain.model.TrackWithProgress
-import org.hyperskill.app.track_list.presentation.TrackListFeature.Action
-import org.hyperskill.app.track_list.presentation.TrackListFeature.Message
+import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature.Action
+import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature.InternalAction
+import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature.Message
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
-class TrackListActionDispatcher(
+class TrackSelectionListActionDispatcher(
     config: ActionDispatcherOptions,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val trackInteractor: TrackInteractor,
     private val progressesInteractor: ProgressesInteractor,
     private val profileInteractor: ProfileInteractor,
-    private val freemiumInteractor: FreemiumInteractor,
     private val currentStudyPlanStateRepository: CurrentStudyPlanStateRepository
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            is Action.Initialize -> {
+            is InternalAction.Initialize -> {
                 val sentryTransaction =
-                    HyperskillSentryTransactionBuilder.buildPlaceholderNewUserScreenRemoteDataLoading()
+                    HyperskillSentryTransactionBuilder.buildTrackSelectionListScreenRemoteDataLoading()
                 sentryInteractor.startTransaction(sentryTransaction)
 
                 val tracks = trackInteractor
                     .getAllTracks()
                     .getOrElse {
                         sentryInteractor.finishTransaction(sentryTransaction, it)
-                        return onNewMessage(Message.TracksLoaded.Error)
+                        return onNewMessage(TrackSelectionListFeature.TracksFetchResult.Error)
                     }
-                    .filter { it.isBeta.not() }
 
                 val trackProgressById = progressesInteractor
                     .getTracksProgresses(tracks.map { it.id }, forceLoadFromRemote = true)
                     .getOrElse {
                         sentryInteractor.finishTransaction(sentryTransaction, it)
-                        return onNewMessage(Message.TracksLoaded.Error)
+                        return onNewMessage(TrackSelectionListFeature.TracksFetchResult.Error)
                     }
                     .associateBy { it.id }
 
@@ -63,39 +61,29 @@ class TrackListActionDispatcher(
                 val currentTrackId = currentStudyPlanStateRepository.getState()
                     .getOrElse {
                         sentryInteractor.finishTransaction(sentryTransaction, it)
-                        return onNewMessage(Message.TracksLoaded.Error)
+                        return onNewMessage(TrackSelectionListFeature.TracksFetchResult.Error)
                     }
                     .trackId
 
                 sentryInteractor.finishTransaction(sentryTransaction)
 
-                onNewMessage(Message.TracksLoaded.Success(tracksWithProgresses, currentTrackId))
+                onNewMessage(TrackSelectionListFeature.TracksFetchResult.Success(tracksWithProgresses, currentTrackId))
             }
-            is Action.SelectTrack -> {
+            is InternalAction.SelectTrack -> {
                 val currentProfile = profileInteractor
                     .getCurrentProfile()
                     .getOrElse {
-                        return onNewMessage(Message.TrackSelected.Error)
-                    }
-
-                val isFreemiumEnabled = freemiumInteractor
-                    .isFreemiumEnabled()
-                    .getOrElse {
-                        return onNewMessage(Message.TrackSelected.Error)
+                        return onNewMessage(TrackSelectionListFeature.TrackSelectionResult.Error)
                     }
 
                 profileInteractor.selectTrack(currentProfile.id, action.track.id)
                     .getOrElse {
-                        return onNewMessage(Message.TrackSelected.Error)
+                        return onNewMessage(TrackSelectionListFeature.TrackSelectionResult.Error)
                     }
 
-                onNewMessage(Message.TrackSelected.Success)
-
-                if (!isFreemiumEnabled && action.track.projects.isNotEmpty()) {
-                    onNewMessage(Message.ProjectSelectionRequired(action.track.id))
-                }
+                onNewMessage(TrackSelectionListFeature.TrackSelectionResult.Success)
             }
-            is Action.LogAnalyticEvent ->
+            is InternalAction.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
             else -> {}
         }
