@@ -46,6 +46,9 @@
 
     <style name="TextAppearance.AppTheme.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
         <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textSize">24sp</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
     </style>
 
     <style name="TextAppearance.AppTheme.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
@@ -58,9 +61,6 @@
 
     <style name="TextAppearance.AppTheme.CollapsingTitle" parent="TextAppearance.MaterialComponents.Headline5">
         <item name="android:textAllCaps">false</item>
-        <item name="android:textSize">24sp</item>
-        <item name="fontFamily">@font/roboto_medium</item>
-        <item name="android:textColor">?android:textColorPrimary</item>
     </style>
 
 </resources>
