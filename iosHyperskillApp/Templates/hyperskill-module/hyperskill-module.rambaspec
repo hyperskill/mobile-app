@@ -8,6 +8,8 @@ license: MIT
 # The declarations for code files
 code_files:
 - {name: Assembly.swift, path: Code/Assembly.swift.liquid}
+- {name: View.swift, path: Code/View.swift.liquid}
+- {name: ViewModel.swift, path: Code/ViewModel.swift.liquid}
 
 dependencies:
 - shared
