@@ -40,7 +40,10 @@ class ProjectsListTest {
 
     private val resourceProvider = ResourceProviderStub()
 
-    private val viewStateMapper = ProjectSelectionListViewStateMapper(resourceProvider, NumbersFormatter(resourceProvider))
+    private val viewStateMapper = ProjectSelectionListViewStateMapper(
+        resourceProvider = resourceProvider,
+        numbersFormatter = NumbersFormatter(resourceProvider)
+    )
 
     @Test
     fun `Initialize message should trigger content loading`() {
