@@ -1,5 +1,7 @@
 package org.hyperskill.app.track_selection.presentation
 
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
@@ -25,50 +27,57 @@ class TrackSelectionListActionDispatcher(
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            is InternalAction.Initialize -> {
-                val sentryTransaction =
-                    HyperskillSentryTransactionBuilder.buildTrackSelectionListScreenRemoteDataLoading()
-                sentryInteractor.startTransaction(sentryTransaction)
+            is InternalAction.Initialize ->
+                coroutineScope {
+                    val sentryTransaction =
+                        HyperskillSentryTransactionBuilder.buildTrackSelectionListScreenRemoteDataLoading()
+                    sentryInteractor.startTransaction(sentryTransaction)
 
-                val tracks = trackInteractor
-                    .getAllTracks()
-                    .getOrElse {
-                        sentryInteractor.finishTransaction(sentryTransaction, it)
-                        return onNewMessage(TrackSelectionListFeature.TracksFetchResult.Error)
+                    val studyPlanDeferred = async { currentStudyPlanStateRepository.getState() }
+                    val tracksDeferred = async { trackInteractor.getAllTracks() }
+
+                    val tracks = tracksDeferred.await()
+                        .getOrElse {
+                            sentryInteractor.finishTransaction(sentryTransaction, it)
+                            return@coroutineScope onNewMessage(TrackSelectionListFeature.TracksFetchResult.Error)
+                        }
+                    val trackProgressById = progressesInteractor
+                        .getTracksProgresses(tracks.map { it.id }, forceLoadFromRemote = true)
+                        .getOrElse {
+                            sentryInteractor.finishTransaction(sentryTransaction, it)
+                            return@coroutineScope onNewMessage(TrackSelectionListFeature.TracksFetchResult.Error)
+                        }
+                        .associateBy { it.id }
+
+                    if (tracks.size != trackProgressById.size) {
+                        sentryInteractor.captureErrorMessage("TrackList: tracks.size != tracksProgresses.size")
                     }
 
-                val trackProgressById = progressesInteractor
-                    .getTracksProgresses(tracks.map { it.id }, forceLoadFromRemote = true)
-                    .getOrElse {
-                        sentryInteractor.finishTransaction(sentryTransaction, it)
-                        return onNewMessage(TrackSelectionListFeature.TracksFetchResult.Error)
+                    val tracksWithProgresses = tracks.mapNotNull { track ->
+                        trackProgressById[track.progressId]?.let { trackProgress ->
+                            TrackWithProgress(
+                                track = track,
+                                trackProgress = trackProgress
+                            )
+                        }
                     }
-                    .associateBy { it.id }
 
-                if (tracks.size != trackProgressById.size) {
-                    sentryInteractor.captureErrorMessage("TrackList: tracks.size != tracksProgresses.size")
-                }
+                    val currentTrackId = studyPlanDeferred.await()
+                        .getOrElse {
+                            sentryInteractor.finishTransaction(sentryTransaction, it)
+                            return@coroutineScope onNewMessage(TrackSelectionListFeature.TracksFetchResult.Error)
+                        }
+                        .trackId
 
-                val tracksWithProgresses = tracks.mapNotNull { track ->
-                    trackProgressById[track.progressId]?.let { trackProgress ->
-                        TrackWithProgress(
-                            track = track,
-                            trackProgress = trackProgress
+                    sentryInteractor.finishTransaction(sentryTransaction)
+
+                    onNewMessage(
+                        TrackSelectionListFeature.TracksFetchResult.Success(
+                            tracks = tracksWithProgresses,
+                            selectedTrackId = currentTrackId
                         )
-                    }
+                    )
                 }
-
-                val currentTrackId = currentStudyPlanStateRepository.getState()
-                    .getOrElse {
-                        sentryInteractor.finishTransaction(sentryTransaction, it)
-                        return onNewMessage(TrackSelectionListFeature.TracksFetchResult.Error)
-                    }
-                    .trackId
-
-                sentryInteractor.finishTransaction(sentryTransaction)
-
-                onNewMessage(TrackSelectionListFeature.TracksFetchResult.Success(tracksWithProgresses, currentTrackId))
-            }
             is InternalAction.SelectTrack -> {
                 val currentProfile = profileInteractor
                     .getCurrentProfile()
