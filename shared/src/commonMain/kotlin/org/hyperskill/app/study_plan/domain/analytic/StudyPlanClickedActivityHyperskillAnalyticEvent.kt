@@ -38,7 +38,7 @@ class StudyPlanClickedActivityHyperskillAnalyticEvent(
     val activityId: Long,
     val activityType: Int?,
     val activityTargetType: String?,
-    val activityTargetId: Long
+    val activityTargetId: Long?
 ) : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.StudyPlan(),
     HyperskillAnalyticAction.CLICK,

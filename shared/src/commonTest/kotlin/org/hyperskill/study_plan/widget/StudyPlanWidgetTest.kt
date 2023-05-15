@@ -15,7 +15,6 @@ import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransa
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedActivityHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent
-import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryContentLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedSectionHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
@@ -37,7 +36,7 @@ class StudyPlanWidgetTest {
     @Test
     fun `Initialize message should trigger studyPLan fetching`() {
         val initialState = StudyPlanWidgetFeature.State()
-        val (state, actions) = reducer.reduce(initialState, StudyPlanWidgetFeature.Message.Initialize)
+        val (state, actions) = reducer.reduce(initialState, StudyPlanWidgetFeature.Message.Initialize())
         assertContains(actions, StudyPlanWidgetFeature.InternalAction.FetchStudyPlan())
         assertEquals(state.sectionsStatus, StudyPlanWidgetFeature.ContentStatus.LOADING)
     }
@@ -144,7 +143,9 @@ class StudyPlanWidgetTest {
             setOf(
                 StudyPlanSectionType.STAGE,
                 StudyPlanSectionType.EXTRA_TOPICS,
-                StudyPlanSectionType.ROOT_TOPICS
+                StudyPlanSectionType.ROOT_TOPICS,
+                StudyPlanSectionType.NEXT_PROJECT,
+                StudyPlanSectionType.NEXT_TRACK
             ),
             StudyPlanSectionType.supportedTypes(),
             "Test should be updated according to new supported types"
@@ -153,7 +154,7 @@ class StudyPlanWidgetTest {
         val visibleUnsupportedSection = studyPlanSectionStub(
             id = 0,
             isVisible = true,
-            type = StudyPlanSectionType.NEXT_TRACK
+            type = StudyPlanSectionType.WRAP_UP_TRACK
         )
         val hiddenSection = studyPlanSectionStub(id = 1, isVisible = false)
         val visibleSupportedSection = studyPlanSectionStub(
@@ -868,19 +869,54 @@ class StudyPlanWidgetTest {
     }
 
     @Test
-    fun `Retry content loading message should trigger logging analytic event`() {
-        val (_, actions) = reducer.reduce(
-            StudyPlanWidgetFeature.State(),
-            StudyPlanWidgetFeature.Message.RetryContentLoading
+    fun `Click on select project learning activity should navigate to select project`() {
+        val activityId = 0L
+        val sectionId = 1L
+        val trackId = 2L
+        val state = StudyPlanWidgetFeature.State(
+            studyPlan = studyPlanStub(id = 0, trackId = trackId),
+            studyPlanSections = mapOf(
+                sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(id = sectionId, activities = listOf(activityId)),
+                    isExpanded = true,
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                )
+            ),
+            activities = mapOf(
+                activityId to stubLearningActivity(activityId, type = LearningActivityType.SELECT_PROJECT)
+            )
         )
 
-        assertEquals(actions.size, 2)
-        val targetAction = actions.last() as StudyPlanWidgetFeature.InternalAction.LogAnalyticEvent
-        if (targetAction.analyticEvent is StudyPlanClickedRetryContentLoadingHyperskillAnalyticEvent) {
-            // pass
-        } else {
-            fail("Unexpected action: $targetAction")
-        }
+        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+
+        assertEquals(state, newState)
+        assertContains(actions, StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.SelectProject(trackId))
+        assertClickedActivityAnalyticEvent(actions, newState.activities[activityId]!!)
+    }
+
+    @Test
+    fun `Click on select track learning activity should navigate to select track`() {
+        val activityId = 0L
+        val sectionId = 1L
+        val state = StudyPlanWidgetFeature.State(
+            studyPlan = studyPlanStub(id = 0),
+            studyPlanSections = mapOf(
+                sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(id = sectionId, activities = listOf(activityId)),
+                    isExpanded = true,
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                )
+            ),
+            activities = mapOf(
+                activityId to stubLearningActivity(activityId, type = LearningActivityType.SELECT_TRACK)
+            )
+        )
+
+        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+
+        assertEquals(state, newState)
+        assertContains(actions, StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.SelectTrack)
+        assertClickedActivityAnalyticEvent(actions, newState.activities[activityId]!!)
     }
 
     @Test
@@ -1099,13 +1135,14 @@ class StudyPlanWidgetTest {
 
     private fun studyPlanStub(
         id: Long,
+        trackId: Long? = null,
         projectId: Long? = null,
         status: StudyPlanStatus = StudyPlanStatus.READY,
         sections: List<Long> = emptyList()
     ) =
         StudyPlan(
             id = id,
-            trackId = null,
+            trackId = trackId,
             projectId = projectId,
             sections = sections,
             status = status,

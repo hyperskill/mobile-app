@@ -10,9 +10,9 @@ data class LearningActivity(
     @SerialName("state")
     private val stateValue: Int,
     @SerialName("target_id")
-    val targetId: Long,
+    val targetId: Long?,
     @SerialName("target_type")
-    private val targetTypeValue: String,
+    private val targetTypeValue: String?,
     @SerialName("type")
     private val typeValue: Int,
     @SerialName("title")
@@ -29,5 +29,5 @@ data class LearningActivity(
         get() = LearningActivityType.getByValue(typeValue)
 
     val targetType: LearningActivityTargetType?
-        get() = LearningActivityTargetType.getByValue(targetTypeValue)
+        get() = targetTypeValue?.let { LearningActivityTargetType.getByValue(it) }
 }
