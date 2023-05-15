@@ -80,7 +80,7 @@ struct ProfileStatisticsItemView_Previews: PreviewProvider {
             )
 
             ProfileStatisticsItemView(
-                icon: .init(imageName: Images.TabBar.track, renderingMode: .circleBackground),
+                icon: .init(imageName: Images.Track.track, renderingMode: .circleBackground),
                 title: "3",
                 subtitle: Strings.Profile.Statistics.passedTracks
             )

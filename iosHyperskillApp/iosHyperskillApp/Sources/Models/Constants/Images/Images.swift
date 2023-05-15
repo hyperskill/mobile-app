@@ -13,8 +13,6 @@ enum Images {
         static let home = "tab-bar-home"
         static let homeFilled = "tab-bar-home-filled"
 
-        static let track = "tab-bar-track"
-
         static let studyPlan = "tab-bar-study-plan"
         static let studyPlanFilled = "tab-bar-study-plan-filled"
 
@@ -89,6 +87,9 @@ enum Images {
     enum Track {
         static let projectGraduate = "track-project-graduate"
         static let hammer = "track-hammer"
+
+        static let track = "track"
+        static let trackFilled = "track-filled"
 
         enum TopicsToDiscoverNext {
             static let skippedTopic = "track-topics-to-discover-next-skipped-topic"
