@@ -14,6 +14,17 @@
     <string name="good_job">Good job!</string>
     <string name="go_to_homescreen">Go to home</string>
 
+    <!-- Badge -->
+    <string name="badge_ide_required_text">IDE required</string>
+    <string name="badge_current_text">Current</string>
+    <string name="badge_solve_unlimited_text">Solve unlimited</string>
+    <string name="badge_repeat_unlimited_text">Repeat unlimited</string>
+    <string name="badge_selected_text">Selected</string>
+    <string name="badge_best_rating_text">Best rating</string>
+    <string name="badge_fastest_to_complete_text">Fastest to complete</string>
+    <string name="badge_beta_text">Beta</string>
+    <string name="badge_completed_text">Completed</string>
+
     <!-- Users list -->
     <string name="user_list_search_button_title">Search</string>
     <string name="user_list_home_user_name_hint">User name</string>
@@ -373,7 +384,6 @@
     <string name="study_plan_title">Study plan</string>
     <string name="study_plan_track_title_template">for: %s</string>
     <string name="study_plan_activities_error_text">Oops! We were unable to load the content.</string>
-    <string name="study_plan_badge_current_text">Current</string>
 
     <!--Projects list-->
     <string name="projects_list_toolbar_title">Select project</string>
@@ -388,9 +398,6 @@
     <string name="projects_list_hard_category_description">Hard projects to practice all the basic concepts and learn new ones</string>
     <string name="projects_list_nightmare_category_title">Challenging</string>
     <string name="projects_list_nightmare_category_description">Challenging projects to perfect your knowledge with challenging tasks</string>
-    <string name="projects_list_badge_selected_title">Selected</string>
-    <string name="projects_list_badge_best_rating_title">Best rating</string>
-    <string name="projects_list_badge_fastest_to_complete_title">Fastest to complete</string>
     <string name="projects_list_project_graduate_title">Graduate</string>
 
 </resources>
