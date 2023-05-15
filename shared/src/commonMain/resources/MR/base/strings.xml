@@ -375,4 +375,18 @@
     <string name="study_plan_activities_error_text">Oops! We were unable to load the content.</string>
     <string name="study_plan_badge_current_text">Current</string>
 
+    <!--Projects list-->
+    <string name="projects_list_toolbar_title">Select project</string>
+    <string name="projects_list_title">Select project in track %s</string>
+    <string name="projects_list_description">Explore recommended projects and pick one</string>
+    <string name="projects_list_recommended_projects_title">Recommended projects</string>
+    <string name="projects_list_easy_category_title">Easy</string>
+    <string name="projects_list_easy_category_description">Easy projects if you\'re just starting</string>
+    <string name="projects_list_medium_category_title">Medium</string>
+    <string name="projects_list_medium_category_description">Medium projects to build upon the basics</string>
+    <string name="projects_list_hard_category_title">Hard</string>
+    <string name="projects_list_hard_category_description">Hard projects to practice all the basic concepts and learn new ones</string>
+    <string name="projects_list_nightmare_category_title">Challenging</string>
+    <string name="projects_list_nightmare_category_description">Challenging projects to perfect your knowledge with challenging tasks</string>
+
 </resources>

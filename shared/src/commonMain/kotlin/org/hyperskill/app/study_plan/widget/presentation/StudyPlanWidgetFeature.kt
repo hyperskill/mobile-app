@@ -56,13 +56,11 @@ object StudyPlanWidgetFeature {
     )
 
     sealed interface Message {
-        object Initialize : Message
+        data class Initialize(val forceUpdate: Boolean = false) : Message
 
         data class SectionClicked(val sectionId: Long) : Message
 
         data class ActivityClicked(val activityId: Long) : Message
-
-        object RetryContentLoading : Message
 
         data class RetryActivitiesLoading(val sectionId: Long) : Message
 
@@ -122,6 +120,9 @@ object StudyPlanWidgetFeature {
                 data class StepScreen(val stepRoute: StepRoute) : NavigateTo
 
                 object Home : NavigateTo
+
+                object SelectTrack : NavigateTo
+                data class SelectProject(val trackId: Long) : NavigateTo
             }
         }
     }
@@ -150,6 +151,8 @@ object StudyPlanWidgetFeature {
         ) : InternalAction
 
         data class FetchTrack(val trackId: Long) : InternalAction
+
+        data class CaptureSentryErrorMessage(val message: String) : InternalAction
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }
