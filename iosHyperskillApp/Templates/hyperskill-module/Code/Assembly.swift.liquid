@@ -1,0 +1,22 @@
+import shared
+import SwiftUI
+
+final class {{ module_info.name }}Assembly: UIKitAssembly {
+    func makeModule() -> UIViewController {
+        let {{ module_info.name_lower_camelized }}Component = AppGraphBridge.sharedAppGraph.build{{ module_info.name }}Component()
+
+        let {{ module_info.name_lower_camelized }}ViewModel = {{ module_info.name }}ViewModel(
+            feature: {{ module_info.name_lower_camelized }}Component.{{ module_info.name_lower_camelized }}Feature
+        )
+
+        let {{ module_info.name_lower_camelized }}View = {{ module_info.name }}View(
+            viewModel: {{ module_info.name_lower_camelized }}ViewModel
+        )
+
+        let hostingController = StyledHostingController(
+            rootView: {{ module_info.name_lower_camelized }}View
+        )
+
+        return hostingController
+    }
+}
