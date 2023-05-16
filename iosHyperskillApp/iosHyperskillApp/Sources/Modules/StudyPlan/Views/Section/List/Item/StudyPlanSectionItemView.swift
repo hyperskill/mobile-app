@@ -59,6 +59,11 @@ struct StudyPlanSectionItemView: View {
         VStack(alignment: .leading, spacing: appearance.textGroupSpacing) {
             Text(item.title)
                 .font(.body)
+
+            if let subtitle = item.subtitle {
+                Text(subtitle)
+                    .font(.headline)
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .foregroundColor(item.isClickable ? .primaryText : .secondaryText)
@@ -101,7 +106,7 @@ struct StudyPlanSectionItemView_Previews: PreviewProvider {
             )
 
             StudyPlanSectionItemView(
-                item: .makePlaceholder(state: .next),
+                item: .makePlaceholder(state: .next, subtitle: "Hello, coffee!"),
                 onActivityTap: {}
             )
 
@@ -118,6 +123,7 @@ extension StudyPlanWidgetViewStateSectionItem {
     static func makePlaceholder(
         state: StudyPlanWidgetViewStateSectionItemState,
         title: String = "Work on project. Stage: 1/6",
+        subtitle: String? = nil,
         isIdeRequired: Bool = false,
         progress: Float? = nil,
         formattedProgress: String? = nil
@@ -125,6 +131,7 @@ extension StudyPlanWidgetViewStateSectionItem {
         StudyPlanWidgetViewStateSectionItem(
             id: 123_412_341_234,
             title: title,
+            subtitle: subtitle,
             state: state,
             isIdeRequired: isIdeRequired,
             progress: progress != nil ? KotlinFloat(value: progress.require()) : nil,
