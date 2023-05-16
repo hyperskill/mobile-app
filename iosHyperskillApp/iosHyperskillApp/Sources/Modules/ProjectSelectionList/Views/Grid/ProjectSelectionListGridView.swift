@@ -40,7 +40,7 @@ struct ProjectSelectionListGridView: View {
         ProjectSelectionListGridSectionView(
             sectionTitle: Strings.ProjectSelectionList.List.recommendedProjectsTitle,
             sectionSubtitle: nil,
-            selectedProjectID: viewData.selectedProject?.id,
+            selectedProjectID: nil,
             projects: viewData.recommendedProjects,
             projectsColumnsCount: projectsColumnsCount,
             onProjectTap: { handleProjectTapped(projectID: $0) }
@@ -61,7 +61,7 @@ struct ProjectSelectionListGridView: View {
                 ProjectSelectionListGridSectionView(
                     sectionTitle: projectLevel.title,
                     sectionSubtitle: projectLevel.description,
-                    selectedProjectID: viewData.selectedProject?.id,
+                    selectedProjectID: nil,
                     projects: projects,
                     projectsColumnsCount: projectsColumnsCount,
                     onProjectTap: { handleProjectTapped(projectID: $0) }
