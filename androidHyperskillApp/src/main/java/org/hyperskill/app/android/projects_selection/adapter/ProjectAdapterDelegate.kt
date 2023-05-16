@@ -45,6 +45,7 @@ class ProjectAdapterDelegate(
             data as ProjectSelectionRecyclerItem.Project
 
             with(binding) {
+                root.isClickable = data.isClickable
                 root.strokeColor = data.strokeColor
 
                 projectTitle.setTextIfChanged(data.title)
