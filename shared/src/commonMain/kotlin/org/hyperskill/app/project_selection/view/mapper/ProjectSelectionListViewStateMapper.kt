@@ -59,7 +59,8 @@ internal class ProjectSelectionListViewStateMapper(
                                 level = level
                             )
                         }
-                    }
+                    },
+                    isProjectSelectionLoadingShowed = state.isProjectSelectionLoadingShowed
                 )
             }
             ProjectSelectionListFeature.ContentState.Error -> ProjectSelectionListFeature.ViewState.Error
