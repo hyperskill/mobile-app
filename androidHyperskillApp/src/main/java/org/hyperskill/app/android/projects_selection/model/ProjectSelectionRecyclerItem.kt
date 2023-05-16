@@ -31,5 +31,8 @@ sealed interface ProjectSelectionRecyclerItem {
     ) : ProjectSelectionRecyclerItem {
         val areTagsVisible: Boolean
             get() = isSelected || isBestRated || isIdeRequired || isFastestToComplete
+
+        val isClickable: Boolean
+            get() = !isSelected
     }
 }
