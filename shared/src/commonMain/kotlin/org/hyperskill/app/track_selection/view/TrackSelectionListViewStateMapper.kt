@@ -28,7 +28,7 @@ internal class TrackSelectionListViewStateMapper(
                 ?.let(::mapTrackToViewStateTrack),
             tracks = state.tracks
                 .filter { it.track.id != state.selectedTrackId }
-                .sortedByDescending { it.trackProgress.rank }
+                .sortedBy { it.trackProgress.rank }
                 .map(::mapTrackToViewStateTrack)
         )
 
