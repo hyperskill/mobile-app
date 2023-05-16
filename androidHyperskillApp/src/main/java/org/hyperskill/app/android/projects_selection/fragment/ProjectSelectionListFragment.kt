@@ -7,6 +7,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.ImageLoader
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentProjectSelectionListBinding
 import org.hyperskill.app.android.projects_selection.delegate.ProjectSelectionListDelegate
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
@@ -72,6 +73,9 @@ class ProjectSelectionListFragment :
             imageLoader = imageLoader,
             onNewMessage = projectSelectionListViewModel::onNewMessage
         )
+        viewBinding.projectSelectionListToolbar.setNavigationOnClickListener {
+            requireRouter().exit()
+        }
         viewBinding.projectSelectionListError.tryAgain.setOnClickListener {
             projectSelectionListViewModel.onNewMessage(Message.RetryContentLoading)
         }
