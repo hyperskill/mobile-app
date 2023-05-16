@@ -27,7 +27,8 @@ sealed interface ProjectSelectionRecyclerItem {
         val isGraduate: Boolean,
         val isBestRated: Boolean,
         val isIdeRequired: Boolean,
-        val isFastestToComplete: Boolean
+        val isFastestToComplete: Boolean,
+        val isCompleted: Boolean
     ) : ProjectSelectionRecyclerItem {
         val areTagsVisible: Boolean
             get() = isSelected || isBestRated || isIdeRequired || isFastestToComplete
