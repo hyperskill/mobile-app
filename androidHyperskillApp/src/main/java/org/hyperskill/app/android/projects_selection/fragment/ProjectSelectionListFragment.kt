@@ -139,7 +139,7 @@ class ProjectSelectionListFragment :
                     )
                 )
             }
-            .setOnDismissListener  {
+            .setOnDismissListener {
                 projectSelectionListViewModel.onNewMessage(
                     Message.ProjectSelectionConfirmationResult(
                         projectId = project.id,
