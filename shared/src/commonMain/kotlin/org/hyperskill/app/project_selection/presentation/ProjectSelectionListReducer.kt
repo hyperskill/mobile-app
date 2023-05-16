@@ -50,36 +50,47 @@ internal class ProjectSelectionListReducer : StateReducer<State, Message, Action
             }
             is Message.ProjectClicked -> {
                 val project = (state.content as? ContentState.Content)?.projects?.get(message.projectId)?.project
+                val currentProjectId = (state.content as? ContentState.Content)?.currentProjectId
+
                 if (project != null) {
-                    state to setOf(
-                        ViewAction.ShowProjectSelectionConfirmationModal(project),
-                        InternalAction.LogAnalyticEvent(
-                            ProjectsSelectionListClickedProjectHyperskillAnalyticsEvent(
-                                trackId = state.trackId,
-                                projectId = message.projectId
-                            )
+                    val analyticEventAction = InternalAction.LogAnalyticEvent(
+                        ProjectsSelectionListClickedProjectHyperskillAnalyticsEvent(
+                            trackId = state.trackId,
+                            projectId = message.projectId
                         )
                     )
+
+                    if (project.id != currentProjectId) {
+                        state to setOf(
+                            ViewAction.ShowProjectSelectionConfirmationModal(project),
+                            analyticEventAction
+                        )
+                    } else {
+                        state to setOf(analyticEventAction)
+                    }
                 } else {
                     state to emptySet()
                 }
             }
             is Message.ProjectSelectionConfirmationResult -> {
-                if (state.content is ContentState.Content && message.isConfirmed) {
-                    state.copy(
-                        content = state.content.copy(isProjectSelectionLoadingShowed = true)
-                    ) to setOf(
-                        InternalAction.SelectProject(
-                            state.trackId,
-                            message.projectId
-                        ),
-                        InternalAction.LogAnalyticEvent(
-                            ProjectSelectionListSelectConfirmationResultHyperskillAnalyticEvent(
-                                trackId = state.trackId,
-                                isConfirmed = true
-                            )
+                if (state.content is ContentState.Content) {
+                    val analyticEventAction = InternalAction.LogAnalyticEvent(
+                        ProjectSelectionListSelectConfirmationResultHyperskillAnalyticEvent(
+                            trackId = state.trackId,
+                            isConfirmed = message.isConfirmed
                         )
                     )
+
+                    if (message.isConfirmed) {
+                        state.copy(
+                            content = state.content.copy(isProjectSelectionLoadingShowed = true)
+                        ) to setOf(
+                            InternalAction.SelectProject(state.trackId, message.projectId),
+                            analyticEventAction
+                        )
+                    } else {
+                        state to setOf(analyticEventAction)
+                    }
                 } else {
                     state to emptySet()
                 }

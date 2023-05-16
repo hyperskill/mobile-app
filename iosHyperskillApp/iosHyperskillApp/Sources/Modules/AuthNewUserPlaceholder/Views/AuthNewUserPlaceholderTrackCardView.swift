@@ -3,8 +3,14 @@ import SwiftUI
 
 extension AuthNewUserPlaceholderTrackCardView {
     struct Appearance {
-        let trackImageWidthHeight: CGFloat = 20
-        let starImageWidthHeight: CGFloat = 20
+        let trackAvatarSize = CGSize(width: 20, height: 20)
+
+        let ratingViewAppearance = StarRatingView.Appearance(
+            imageSize: CGSize(width: 20, height: 20),
+            imageColor: Color(ColorPalette.overlayYellow),
+            textFont: .subheadline,
+            textColor: .primaryText
+        )
     }
 }
 
@@ -25,7 +31,7 @@ struct AuthNewUserPlaceholderTrackCardView: View {
                 source: imageSource,
                 resizingMode: .aspectFill
             )
-            .frame(widthHeight: appearance.trackImageWidthHeight)
+            .frame(size: appearance.trackAvatarSize)
 
             VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
                 Text(title)
@@ -39,17 +45,10 @@ struct AuthNewUserPlaceholderTrackCardView: View {
 
             Spacer()
 
-            HStack(spacing: LayoutInsets.smallInset) {
-                Image(systemName: "star.fill")
-                    .renderingMode(.template)
-                    .resizable()
-                    .foregroundColor(Color(ColorPalette.overlayYellow))
-                    .frame(widthHeight: appearance.starImageWidthHeight)
-
-                Text(rating)
-                    .font(.subheadline)
-                    .foregroundColor(.primaryText)
-            }
+            StarRatingView(
+                appearance: appearance.ratingViewAppearance,
+                rating: .string(rating)
+            )
         }
         .padding()
         .background(Color(ColorPalette.surface))

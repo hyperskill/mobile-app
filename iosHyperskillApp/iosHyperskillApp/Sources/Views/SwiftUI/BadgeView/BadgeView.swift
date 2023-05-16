@@ -1,13 +1,14 @@
 import SwiftUI
 
-extension StudyPlanSectionItemBadgeView {
+extension BadgeView {
     struct Appearance {
         let cornerRadius: CGFloat = 4
+
         let insets = LayoutInsets(horizontal: 8, vertical: 4)
     }
 }
 
-struct StudyPlanSectionItemBadgeView: View {
+struct BadgeView: View {
     private(set) var appearance = Appearance()
 
     let text: String
@@ -28,7 +29,7 @@ struct StudyPlanSectionItemBadgeView: View {
         case green
         case violet
 
-        var foregroundColor: Color {
+        fileprivate var foregroundColor: Color {
             switch self {
             case .blue:
                 return Color(ColorPalette.primary)
@@ -39,7 +40,7 @@ struct StudyPlanSectionItemBadgeView: View {
             }
         }
 
-        var backgroundColor: Color {
+        fileprivate var backgroundColor: Color {
             switch self {
             case .blue:
                 return Color(ColorPalette.overlayBlueAlpha12)
@@ -52,30 +53,14 @@ struct StudyPlanSectionItemBadgeView: View {
     }
 }
 
-extension StudyPlanSectionItemBadgeView {
-    static func ideRequired() -> StudyPlanSectionItemBadgeView {
-        StudyPlanSectionItemBadgeView(
-            text: Strings.StageImplement.UnsupportedModal.title,
-            style: .violet
-        )
-    }
-
-    static func current() -> StudyPlanSectionItemBadgeView {
-        StudyPlanSectionItemBadgeView(text: Strings.StudyPlan.badgeCurrent, style: .blue)
-    }
-}
-
-struct StudyPlanSectionItemBadgeView_Previews: PreviewProvider {
+struct BadgeView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            StudyPlanSectionItemBadgeView(
-                text: "50%",
-                style: .green
-            )
+            BadgeView(text: "Blue", style: .blue)
 
-            StudyPlanSectionItemBadgeView.ideRequired()
+            BadgeView(text: "Green", style: .green)
 
-            StudyPlanSectionItemBadgeView.current()
+            BadgeView(text: "Violet", style: .violet)
         }
         .padding()
         .previewLayout(.sizeThatFits)

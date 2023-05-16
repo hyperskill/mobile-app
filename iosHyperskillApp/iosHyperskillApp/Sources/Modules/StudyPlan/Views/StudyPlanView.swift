@@ -134,7 +134,8 @@ struct StudyPlanView: View {
                 case .home:
                     TabBarRouter(tab: .home).route()
                 case .selectProject(let navigateToSelectProjectViewAction):
-                    print(navigateToSelectProjectViewAction.trackId)
+                    let assembly = ProjectSelectionListAssembly(trackID: navigateToSelectProjectViewAction.trackId)
+                    stackRouter.pushViewController(assembly.makeModule())
                 case .selectTrack:
                     break
                 }

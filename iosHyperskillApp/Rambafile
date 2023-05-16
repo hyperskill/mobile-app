@@ -1,0 +1,33 @@
+### Headers settings
+company: Hyperskill
+
+### Xcode project settings
+project_name: iosHyperskillApp
+xcodeproj_path: iosHyperskillApp.xcodeproj
+
+### Code generation settings section
+# The main project target name
+project_target: iosHyperskillApp
+
+# The file path for new modules
+project_file_path: iosHyperskillApp/Sources/Modules
+
+# The Xcode group path to new modules
+project_group_path: iosHyperskillApp/Sources/Modules
+
+### Tests generation settings section
+# The tests target name
+test_target: iosHyperskillAppTests
+
+# The file path for new tests
+test_file_path: iosHyperskillAppTests
+
+# The Xcode group path to new tests
+test_group_path: iosHyperskillAppTests
+
+### Dependencies settings section
+podfile_path: Podfile
+
+### Templates
+templates:
+- {name: hyperskill-module, local: 'Templates/hyperskill-module'}

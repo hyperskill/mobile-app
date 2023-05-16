@@ -160,6 +160,35 @@ class ProjectsListTest {
     }
 
     @Test
+    fun `ProjectClicked message on current project not request user permission to add the project to their profile`() {
+        val trackId = 0L
+        val projectId = 1L
+        val projectWithProgress = ProjectWithProgress.stub(projectId)
+
+        val (_, actions) = projectSelectionListReducer.reduce(
+            State(
+                trackId,
+                ContentState.Content(
+                    track = Track.stub(trackId),
+                    projects = mapOf(projectId to projectWithProgress),
+                    currentProjectId = projectId
+                )
+            ),
+            Message.ProjectClicked(projectId)
+        )
+
+        assertEquals(1, actions.size)
+        assertTrue {
+            actions.any {
+                it is InternalAction.LogAnalyticEvent &&
+                    it.analyticEvent is ProjectsSelectionListClickedProjectHyperskillAnalyticsEvent &&
+                    it.analyticEvent.projectId == projectId &&
+                    it.analyticEvent.trackId == trackId
+            }
+        }
+    }
+
+    @Test
     fun `Confirming selection permission should trigger project selection`() {
         val trackId = 0L
         val projectId = 1L
