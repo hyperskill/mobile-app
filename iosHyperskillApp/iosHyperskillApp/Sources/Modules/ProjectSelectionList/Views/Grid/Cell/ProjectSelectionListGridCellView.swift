@@ -33,6 +33,7 @@ struct ProjectSelectionListGridCellView: View {
             label: buildContent
         )
         .buttonStyle(appearance.buttonStyle(isSelected: isSelected))
+        .disabled(isSelected)
     }
 
     @ViewBuilder
