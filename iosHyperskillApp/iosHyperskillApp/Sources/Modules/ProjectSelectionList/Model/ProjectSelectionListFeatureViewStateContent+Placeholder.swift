@@ -13,7 +13,8 @@ extension ProjectSelectionListFeatureViewStateContent {
             isGraduate: true,
             isBestRated: true,
             isIdeRequired: true,
-            isFastestToComplete: true
+            isFastestToComplete: true,
+            isCompleted: true
         )
 
         let recommendedProjects: [ProjectSelectionListFeature.ProjectListItem] = [
@@ -26,7 +27,8 @@ extension ProjectSelectionListFeatureViewStateContent {
                 isGraduate: false,
                 isBestRated: false,
                 isIdeRequired: false,
-                isFastestToComplete: false
+                isFastestToComplete: false,
+                isCompleted: false
             ),
             .init(
                 id: 3,
@@ -37,7 +39,8 @@ extension ProjectSelectionListFeatureViewStateContent {
                 isGraduate: false,
                 isBestRated: true,
                 isIdeRequired: true,
-                isFastestToComplete: false
+                isFastestToComplete: false,
+                isCompleted: false
             )
         ]
 
@@ -52,7 +55,8 @@ extension ProjectSelectionListFeatureViewStateContent {
                     isGraduate: false,
                     isBestRated: false,
                     isIdeRequired: false,
-                    isFastestToComplete: false
+                    isFastestToComplete: false,
+                    isCompleted: false
                 ),
                 .init(
                     id: 5,
@@ -63,7 +67,8 @@ extension ProjectSelectionListFeatureViewStateContent {
                     isGraduate: false,
                     isBestRated: true,
                     isIdeRequired: true,
-                    isFastestToComplete: false
+                    isFastestToComplete: false,
+                    isCompleted: false
                 )
             ],
             .medium: [
@@ -76,7 +81,8 @@ extension ProjectSelectionListFeatureViewStateContent {
                     isGraduate: false,
                     isBestRated: false,
                     isIdeRequired: false,
-                    isFastestToComplete: false
+                    isFastestToComplete: false,
+                    isCompleted: false
                 ),
                 .init(
                     id: 7,
@@ -87,7 +93,8 @@ extension ProjectSelectionListFeatureViewStateContent {
                     isGraduate: false,
                     isBestRated: false,
                     isIdeRequired: false,
-                    isFastestToComplete: false
+                    isFastestToComplete: false,
+                    isCompleted: false
                 )
             ],
             .hard: [
@@ -100,7 +107,8 @@ extension ProjectSelectionListFeatureViewStateContent {
                     isGraduate: false,
                     isBestRated: false,
                     isIdeRequired: false,
-                    isFastestToComplete: false
+                    isFastestToComplete: false,
+                    isCompleted: false
                 ),
                 .init(
                     id: 9,
@@ -111,7 +119,8 @@ extension ProjectSelectionListFeatureViewStateContent {
                     isGraduate: true,
                     isBestRated: true,
                     isIdeRequired: false,
-                    isFastestToComplete: false
+                    isFastestToComplete: false,
+                    isCompleted: false
                 )
             ],
             .nightmare: [
@@ -124,7 +133,8 @@ extension ProjectSelectionListFeatureViewStateContent {
                     isGraduate: true,
                     isBestRated: true,
                     isIdeRequired: false,
-                    isFastestToComplete: false
+                    isFastestToComplete: false,
+                    isCompleted: false
                 )
             ]
         ]
@@ -134,7 +144,8 @@ extension ProjectSelectionListFeatureViewStateContent {
             formattedTitle: "Select project in track Python Core",
             selectedProject: selectedProject,
             recommendedProjects: recommendedProjects,
-            projectsByLevel: projectsByLevel
+            projectsByLevel: projectsByLevel,
+            isProjectSelectionLoadingShowed: false
         )
     }
 }
