@@ -163,4 +163,17 @@ enum Images {
     enum TopicsRepetitions {
         static let bookImage = "topics-repetitions-book-image"
     }
+
+    // MARK: - ProjectSelectionList -
+
+    enum ProjectSelectionList {
+        static let projectGraduate = "project-selection-list-project-graduate"
+
+        enum ProjectLevel {
+            static let easy = "project-selection-list-project-level-easy"
+            static let medium = "project-selection-list-project-level-medium"
+            static let hard = "project-selection-list-project-level-hard"
+            static let nightmare = "project-selection-list-project-level-nightmare"
+        }
+    }
 }
