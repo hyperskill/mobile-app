@@ -44,6 +44,12 @@ class StudyPlanActivityAdapterDelegate(
                 setTextColor(data.titleTextColor)
             }
 
+            with(binding.activitySubtitle) {
+                isVisible = data.subtitle != null
+                text = data.subtitle
+                setTextColor(data.titleTextColor)
+            }
+
             val isProgressVisible =
                 data.progress != null && data.progress > 0f && data.formattedProgress != null
 
