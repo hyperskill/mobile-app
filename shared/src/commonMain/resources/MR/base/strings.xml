@@ -392,6 +392,8 @@
     <string name="projects_list_badge_best_rating_title">Best rating</string>
     <string name="projects_list_badge_fastest_to_complete_title">Fastest to complete</string>
     <string name="projects_list_project_graduate_title">Graduate</string>
+    <string name="projects_list_select_confirmation_title">Select project "%s"</string>
+    <string name="projects_list_selection_succeed">Project successfully selected</string>
 
     <string name="ide_required_label">IDE required</string>
     <string name="completed_label">Completed</string>
