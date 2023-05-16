@@ -3,5 +3,6 @@ ruby "3.1.0"
 
 gem "fastlane", "2.210.1"
 gem "cocoapods", "1.12.1"
+gem "generamba", git: "https://github.com/ivan-magda/Generamba.git", branch: "develop"
 
 eval_gemfile("fastlane/Pluginfile")

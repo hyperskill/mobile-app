@@ -30,14 +30,14 @@ struct StudyPlanSectionItemView: View {
                         .padding(.trailing)
 
                     if let formattedProgress = item.formattedProgress {
-                        StudyPlanSectionItemBadgeView(
+                        BadgeView(
                             text: formattedProgress,
                             style: .green
                         )
                     }
 
                     if item.isIdeRequired {
-                        StudyPlanSectionItemBadgeView.ideRequired()
+                        BadgeView.ideRequired()
                     }
                 }
 

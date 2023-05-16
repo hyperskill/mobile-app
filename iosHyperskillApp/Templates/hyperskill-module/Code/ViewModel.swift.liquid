@@ -1,0 +1,32 @@
+import Foundation
+import shared
+
+final class {{ module_info.name }}ViewModel: FeatureViewModel<
+  {{ module_info.name }}FeatureViewState,
+  {{ module_info.name }}FeatureMessage,
+  {{ module_info.name }}FeatureActionViewAction
+> {
+    var stateKs: {{ module_info.name }}FeatureViewStateKs { .init(state) }
+
+    override func shouldNotifyStateDidChange(
+        oldState: {{ module_info.name }}FeatureViewState,
+        newState: {{ module_info.name }}FeatureViewState
+    ) -> Bool {
+        // {{ module_info.name }}FeatureViewStateKs(oldState) != {{ module_info.name }}FeatureViewStateKs(newState)
+        true
+    }
+
+    func doLoad{{ module_info.name }}() {
+        onNewMessage({{ module_info.name }}FeatureMessageInitialize())
+    }
+
+    func doRetryLoad{{ module_info.name }}() {
+        onNewMessage({{ module_info.name }}FeatureMessageRetryContentLoading())
+    }
+
+    // MARK: Analytic
+
+    func logViewedEvent() {
+        onNewMessage({{ module_info.name }}FeatureMessageViewedEventMessage())
+    }
+}

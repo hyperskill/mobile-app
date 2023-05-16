@@ -401,4 +401,38 @@ enum Strings {
         static let signIn = sharedStrings.onboarding_sign_in.localized()
         static let signUp = sharedStrings.onboarding_sign_up.localized()
     }
+
+    // MARK: - ProjectSelectionList -
+
+    enum ProjectSelectionList {
+        static let title = sharedStrings.projects_list_toolbar_title.localized()
+
+        enum List {
+            static let description = sharedStrings.projects_list_description.localized()
+
+            static let recommendedProjectsTitle = sharedStrings.projects_list_recommended_projects_title.localized()
+
+            static let projectGraduateTitle = sharedStrings.projects_list_project_graduate_title.localized()
+
+            enum Category {
+                static let easyTitle = sharedStrings.projects_list_easy_category_title.localized()
+                static let easyDescription = sharedStrings.projects_list_easy_category_description.localized()
+
+                static let mediumTitle = sharedStrings.projects_list_medium_category_title.localized()
+                static let mediumDescription = sharedStrings.projects_list_medium_category_description.localized()
+
+                static let hardTitle = sharedStrings.projects_list_hard_category_title.localized()
+                static let hardDescription = sharedStrings.projects_list_hard_category_description.localized()
+
+                static let nightmareTitle = sharedStrings.projects_list_nightmare_category_title.localized()
+                static let nightmareDescription = sharedStrings.projects_list_nightmare_category_description.localized()
+            }
+
+            enum Badge {
+                static let selected = sharedStrings.projects_list_badge_selected_title.localized()
+                static let bestRating = sharedStrings.projects_list_badge_best_rating_title.localized()
+                static let fastestToComplete = sharedStrings.projects_list_badge_fastest_to_complete_title.localized()
+            }
+        }
+    }
 }
