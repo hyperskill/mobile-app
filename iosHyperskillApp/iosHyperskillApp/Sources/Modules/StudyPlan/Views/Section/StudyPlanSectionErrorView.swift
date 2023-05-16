@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct StudyPlanSectionContentErrorView: View {
+struct StudyPlanSectionErrorView: View {
     let cornerRadius: CGFloat = LayoutInsets.smallInset
 
     let action: () -> Void
@@ -13,9 +13,9 @@ struct StudyPlanSectionContentErrorView: View {
     }
 }
 
-struct StudyPlanSectionContentErrorView_Previews: PreviewProvider {
+struct StudyPlanSectionErrorView_Previews: PreviewProvider {
     static var previews: some View {
-        StudyPlanSectionContentErrorView(action: {})
+        StudyPlanSectionErrorView(action: {})
             .previewLayout(.sizeThatFits)
             .padding()
             .background(Color.red)

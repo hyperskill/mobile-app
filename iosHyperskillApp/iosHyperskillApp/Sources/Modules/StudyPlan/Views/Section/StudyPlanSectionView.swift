@@ -27,7 +27,7 @@ struct StudyPlanSectionView: View {
             case .collapsed:
                 EmptyView()
             case .error:
-                StudyPlanSectionContentErrorView {
+                StudyPlanSectionErrorView {
                     onRetryActivitiesLoadingTap(section.id)
                 }
             case .loading:
@@ -68,21 +68,11 @@ extension StudyPlanWidgetViewStateSection {
             formattedTimeToComplete: "~ 56 h",
             content: StudyPlanWidgetViewStateSectionContentContent(
                 sectionItems: [
-                    StudyPlanWidgetViewStateSectionItem.makePlaceholder(
-                        state: StudyPlanWidgetViewStateSectionItemState.idle
-                    ),
-                    StudyPlanWidgetViewStateSectionItem.makePlaceholder(
-                        state: StudyPlanWidgetViewStateSectionItemState.skipped
-                    ),
-                    StudyPlanWidgetViewStateSectionItem.makePlaceholder(
-                        state: StudyPlanWidgetViewStateSectionItemState.completed
-                    ),
-                    StudyPlanWidgetViewStateSectionItem.makePlaceholder(
-                        state: StudyPlanWidgetViewStateSectionItemState.locked
-                    ),
-                    StudyPlanWidgetViewStateSectionItem.makePlaceholder(
-                        state: StudyPlanWidgetViewStateSectionItemState.next
-                    )
+                    .makePlaceholder(state: .idle),
+                    .makePlaceholder(state: .skipped),
+                    .makePlaceholder(state: .completed),
+                    .makePlaceholder(state: .locked),
+                    .makePlaceholder(state: .next)
                 ]
             )
         )
