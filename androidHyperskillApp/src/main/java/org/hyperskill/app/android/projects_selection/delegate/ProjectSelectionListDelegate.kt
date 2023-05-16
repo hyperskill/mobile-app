@@ -236,6 +236,7 @@ class ProjectSelectionListDelegate(
             isBestRated = project.isBestRated,
             isIdeRequired = project.isIdeRequired,
             isFastestToComplete = project.isFastestToComplete,
+            isCompleted = project.isCompleted,
             formattedRating = project.averageRating.toString(),
             levelText = project.level?.let(levelTitleByLevelMap::get),
             levelIcon = levelIconByLevelMap[project.level],

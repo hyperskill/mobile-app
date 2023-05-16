@@ -83,7 +83,8 @@ internal class ProjectSelectionListViewStateMapper(
                 isGraduate = project.isGraduate(trackId),
                 isBestRated = project.id == bestRatedProjectId,
                 isIdeRequired = project.isIdeRequired,
-                isFastestToComplete = project.id == fastestToCompleteProjectId
+                isFastestToComplete = project.id == fastestToCompleteProjectId,
+                isCompleted = progress.isCompleted
             )
         }
 

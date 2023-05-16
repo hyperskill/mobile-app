@@ -56,7 +56,8 @@ object ProjectSelectionListFeature {
         val isGraduate: Boolean,
         val isBestRated: Boolean,
         val isIdeRequired: Boolean,
-        val isFastestToComplete: Boolean
+        val isFastestToComplete: Boolean,
+        val isCompleted: Boolean
     )
 
     sealed interface Message {
