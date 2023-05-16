@@ -22,55 +22,23 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/projectSelectionListNestedScrollView"
+    <include
+        android:id="@+id/projectSelectionListSkeleton"
+        layout="@layout/view_project_selection_skeleton"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/project_selection_header_top_margin"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/trackIconImageView"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="47dp"
-                tools:background="@color/color_primary"/>
-
-            <TextView
-                android:id="@+id/projectSelectionListTrackName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppTheme.Headline5"
-                android:gravity="center"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="24dp"
-                tools:text="Select project in track Python Core"/>
-
-            <TextView
-                android:id="@+id/projectSelectionListTrackDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppTheme.Body1"
-                android:text="@string/projects_list_description"
-                android:gravity="center"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="16dp"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/projectSelectionListRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:paddingTop="32dp"
-                android:clipToPadding="true"
-                tools:itemCount="40"/>
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/projectSelectionListRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:itemCount="4"
+        tools:listitem="@layout/item_project"/>
+    
+    <include
+        android:id="@+id/projectSelectionListError"
+        layout="@layout/error_no_connection_with_button"
+        android:visibility="gone"/>
 
 </LinearLayout>

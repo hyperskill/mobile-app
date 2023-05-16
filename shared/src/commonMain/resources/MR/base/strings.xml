@@ -388,5 +388,12 @@
     <string name="projects_list_hard_category_description">Hard projects to practice all the basic concepts and learn new ones</string>
     <string name="projects_list_nightmare_category_title">Challenging</string>
     <string name="projects_list_nightmare_category_description">Challenging projects to perfect your knowledge with challenging tasks</string>
+    <string name="projects_list_best_rating_text">Best rating</string>
+    <string name="projects_list_graduate_text">Graduate</string>
+    <string name="projects_list_fastest_to_complete_text">Fastest to complete</string>
+
+    <string name="completed_label">Completed</string>
+    <string name="selected_label">Selected</string>
+    <string name="ide_required_label">IDE required</string>
 
 </resources>
