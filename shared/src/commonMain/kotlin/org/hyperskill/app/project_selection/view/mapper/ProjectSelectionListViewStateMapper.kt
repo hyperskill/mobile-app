@@ -2,6 +2,7 @@ package org.hyperskill.app.project_selection.view.mapper
 
 import kotlin.math.floor
 import org.hyperskill.app.SharedResources
+import org.hyperskill.app.core.view.mapper.NumbersFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.progresses.domain.model.averageRating
 import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature
@@ -16,7 +17,8 @@ import org.hyperskill.app.projects.domain.model.isGraduate
 import org.hyperskill.app.track.domain.model.getProjectLevel
 
 internal class ProjectSelectionListViewStateMapper(
-    private val resourceProvider: ResourceProvider
+    private val resourceProvider: ResourceProvider,
+    private val numbersFormatter: NumbersFormatter
 ) {
     fun map(state: ProjectSelectionListFeature.ContentState): ProjectSelectionListFeature.ViewState =
         when (state) {
@@ -77,7 +79,7 @@ internal class ProjectSelectionListViewStateMapper(
             ProjectSelectionListFeature.ProjectListItem(
                 id = project.id,
                 title = project.title,
-                averageRating = progress.averageRating(),
+                averageRating = numbersFormatter.formatProgressAverageRating(progress.averageRating()),
                 level = level,
                 formattedTimeToComplete = getTimeToComplete(progress.secondsToComplete),
                 isGraduate = project.isGraduate(trackId),

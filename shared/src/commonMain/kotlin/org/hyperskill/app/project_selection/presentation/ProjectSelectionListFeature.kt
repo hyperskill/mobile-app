@@ -50,7 +50,7 @@ object ProjectSelectionListFeature {
     data class ProjectListItem(
         val id: Long,
         val title: String,
-        val averageRating: Double,
+        val averageRating: String,
         val level: ProjectLevel?,
         val formattedTimeToComplete: String?,
         val isGraduate: Boolean,

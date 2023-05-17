@@ -74,7 +74,7 @@ struct ProjectSelectionListGridCellView_Previews: PreviewProvider {
         let project = ProjectSelectionListFeature.ProjectListItem(
             id: 1,
             title: "Simple Chatty Bot (Python)",
-            averageRating: 4.7,
+            averageRating: "4.7",
             level: .medium,
             formattedTimeToComplete: "24 hours",
             isGraduate: true,

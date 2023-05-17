@@ -23,7 +23,7 @@ data class Track(
     @SerialName("results")
     val results: String,
     @SerialName("seconds_to_complete")
-    val secondsToComplete: Double,
+    val secondsToComplete: Float?,
     @SerialName("title")
     val title: String,
     @SerialName("topics_count")
