@@ -178,6 +178,10 @@ final class StepQuizViewModel: FeatureViewModel<
         )
     }
 
+    func doTheoryToolbarAction() {
+        onNewMessage(StepQuizFeatureMessageTheoryToolbarClicked())
+    }
+
     // MARK: Analytic
 
     private func logClickedRetryEvent() {

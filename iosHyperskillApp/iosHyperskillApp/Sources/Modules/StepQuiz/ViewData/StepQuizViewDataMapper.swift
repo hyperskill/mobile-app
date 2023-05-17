@@ -26,7 +26,8 @@ final class StepQuizViewDataMapper {
                 quizType: quizType,
                 quizName: nil,
                 feedbackHintText: nil,
-                stepHasHints: false
+                stepHasHints: false,
+                isTheoryAvailable: false
             )
         }
 
@@ -36,10 +37,14 @@ final class StepQuizViewDataMapper {
         )
 
         let attemptLoadedState: StepQuizFeatureStepQuizStateAttemptLoaded? = {
-            if case .attemptLoaded(let attemptLoadedState) = state {
+            switch state {
+            case .attemptLoading(let attemptLoadingState):
+                return attemptLoadingState.oldState
+            case .attemptLoaded(let attemptLoadedState):
                 return attemptLoadedState
+            default:
+                return nil
             }
-            return nil
         }()
 
         let quizName: String? = {
@@ -89,7 +94,8 @@ final class StepQuizViewDataMapper {
             quizType: quizType,
             quizName: quizName,
             feedbackHintText: feedbackHintText,
-            stepHasHints: stepHasHints
+            stepHasHints: stepHasHints,
+            isTheoryAvailable: attemptLoadedState?.isTheoryAvailable ?? false
         )
     }
 }
