@@ -61,7 +61,8 @@ internal class ProjectSelectionListViewStateMapper(
                                 level = level
                             )
                         }
-                    }
+                    },
+                    isProjectSelectionLoadingShowed = state.isProjectSelectionLoadingShowed
                 )
             }
             ProjectSelectionListFeature.ContentState.Error -> ProjectSelectionListFeature.ViewState.Error
@@ -84,7 +85,8 @@ internal class ProjectSelectionListViewStateMapper(
                 isGraduate = project.isGraduate(trackId),
                 isBestRated = project.id == bestRatedProjectId,
                 isIdeRequired = project.isIdeRequired,
-                isFastestToComplete = project.id == fastestToCompleteProjectId
+                isFastestToComplete = project.id == fastestToCompleteProjectId,
+                isCompleted = progress.isCompleted
             )
         }
 

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/projectSelectionTrackIconImageView"
+        android:layout_width="@dimen/project_selection_track_icon_size"
+        android:layout_height="@dimen/project_selection_track_icon_size"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/project_selection_header_top_margin"
+        tools:background="@color/color_primary"/>
+
+    <TextView
+        android:id="@+id/projectSelectionListTrackName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppTheme.Headline5"
+        android:gravity="center"
+        android:layout_marginTop="24dp"
+        tools:text="Select project in track Python Core"/>
+
+    <TextView
+        android:id="@+id/projectSelectionListTrackDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppTheme.Body1"
+        android:text="@string/projects_list_description"
+        android:gravity="center"
+        android:layout_marginTop="16dp"/>
+
+</LinearLayout>

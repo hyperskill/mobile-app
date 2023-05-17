@@ -38,7 +38,8 @@ object ProjectSelectionListFeature {
             val formattedTitle: String,
             val selectedProject: ProjectListItem?,
             val recommendedProjects: List<ProjectListItem>,
-            val projectsByLevel: Map<ProjectLevel, List<ProjectListItem>>
+            val projectsByLevel: Map<ProjectLevel, List<ProjectListItem>>,
+            val isProjectSelectionLoadingShowed: Boolean
         ) : ViewState
         object Error : ViewState
     }
@@ -55,7 +56,8 @@ object ProjectSelectionListFeature {
         val isGraduate: Boolean,
         val isBestRated: Boolean,
         val isIdeRequired: Boolean,
-        val isFastestToComplete: Boolean
+        val isFastestToComplete: Boolean,
+        val isCompleted: Boolean
     )
 
     sealed interface Message {
