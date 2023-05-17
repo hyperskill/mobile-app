@@ -99,6 +99,8 @@ import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponentImpl
 import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponentImpl
+import org.hyperskill.app.project_selection.injection.PlatformProjectSelectionListComponent
+import org.hyperskill.app.project_selection.injection.PlatformProjectSelectionListComponentImpl
 import org.hyperskill.app.project_selection.injection.ProjectSelectionListComponent
 import org.hyperskill.app.project_selection.injection.ProjectSelectionListComponentImpl
 import org.hyperskill.app.projects.injection.ProjectsDataComponent
@@ -167,6 +169,8 @@ import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.track.injection.TrackComponentImpl
 import org.hyperskill.app.track.injection.TrackDataComponent
 import org.hyperskill.app.track.injection.TrackDataComponentImpl
+import org.hyperskill.app.track_selection.injection.TrackSelectionListComponent
+import org.hyperskill.app.track_selection.injection.TrackSelectionListComponentImpl
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
 
@@ -346,6 +350,9 @@ class AndroidAppComponentImpl(
     override fun buildTrackDataComponent(): TrackDataComponent =
         TrackDataComponentImpl(this)
 
+    override fun buildTrackSelectionListComponent(): TrackSelectionListComponent =
+        TrackSelectionListComponentImpl(this)
+
     override fun buildPlatformTrackComponent(trackComponent: TrackComponent): PlatformTrackComponent =
         PlatformTrackComponentImpl(trackComponent)
 
@@ -456,6 +463,21 @@ class AndroidAppComponentImpl(
             studyPlanScreenComponent = buildStudyPlanScreenComponent()
         )
 
+    /**
+     * Project selection list component
+     */
+
+    override fun buildProjectSelectionListComponent(): ProjectSelectionListComponent =
+        ProjectSelectionListComponentImpl(this)
+
+    override fun buildPlatformProjectSelectionListComponent(
+        trackId: Long
+    ): PlatformProjectSelectionListComponent =
+        PlatformProjectSelectionListComponentImpl(
+            projectSelectionListComponent = buildProjectSelectionListComponent(),
+            trackId = trackId
+        )
+
     override fun buildStudyPlanScreenComponent(): StudyPlanScreenComponent =
         StudyPlanScreenComponentImpl(this)
 
@@ -503,9 +525,6 @@ class AndroidAppComponentImpl(
 
     override fun buildProjectsDataComponent(): ProjectsDataComponent =
         ProjectsDataComponentImpl(this)
-
-    override fun buildProjectSelectionListComponent(): ProjectSelectionListComponent =
-        ProjectSelectionListComponentImpl(this)
 
     override fun buildStagesDataComponent(): StagesDataComponent =
         StagesDataComponentImpl(this)

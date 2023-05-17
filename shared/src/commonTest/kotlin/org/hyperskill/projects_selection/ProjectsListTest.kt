@@ -7,6 +7,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import org.hyperskill.ResourceProviderStub
+import org.hyperskill.app.core.view.mapper.NumbersFormatter
 import org.hyperskill.app.project_selection.domain.analytic.ProjectSelectionListSelectConfirmationResultHyperskillAnalyticEvent
 import org.hyperskill.app.project_selection.domain.analytic.ProjectsSelectionListClickedProjectHyperskillAnalyticsEvent
 import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature
@@ -39,7 +40,10 @@ class ProjectsListTest {
 
     private val resourceProvider = ResourceProviderStub()
 
-    private val viewStateMapper = ProjectSelectionListViewStateMapper(resourceProvider)
+    private val viewStateMapper = ProjectSelectionListViewStateMapper(
+        resourceProvider = resourceProvider,
+        numbersFormatter = NumbersFormatter(resourceProvider)
+    )
 
     @Test
     fun `Initialize message should trigger content loading`() {

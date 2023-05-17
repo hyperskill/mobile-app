@@ -25,7 +25,9 @@ class PlaceholderNewUserViewDataMapper(
             rating = track.progress?.averageRating?.toString() ?: ""
         )
 
-    private fun getTimeToComplete(secondsToComplete: Double): String {
+    private fun getTimeToComplete(secondsToComplete: Float?): String {
+        if (secondsToComplete == null) return ""
+
         val hours = floor(secondsToComplete / 3600).toInt()
 
         return resourceProvider.getQuantityString(SharedResources.plurals.hours, hours, hours)

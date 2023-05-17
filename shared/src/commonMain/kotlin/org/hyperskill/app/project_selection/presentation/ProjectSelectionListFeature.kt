@@ -38,7 +38,8 @@ object ProjectSelectionListFeature {
             val formattedTitle: String,
             val selectedProject: ProjectListItem?,
             val recommendedProjects: List<ProjectListItem>,
-            val projectsByLevel: Map<ProjectLevel, List<ProjectListItem>>
+            val projectsByLevel: Map<ProjectLevel, List<ProjectListItem>>,
+            val isProjectSelectionLoadingShowed: Boolean
         ) : ViewState
         object Error : ViewState
     }
@@ -49,13 +50,14 @@ object ProjectSelectionListFeature {
     data class ProjectListItem(
         val id: Long,
         val title: String,
-        val averageRating: Double,
+        val averageRating: String,
         val level: ProjectLevel?,
         val formattedTimeToComplete: String?,
         val isGraduate: Boolean,
         val isBestRated: Boolean,
         val isIdeRequired: Boolean,
-        val isFastestToComplete: Boolean
+        val isFastestToComplete: Boolean,
+        val isCompleted: Boolean
     )
 
     sealed interface Message {

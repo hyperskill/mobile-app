@@ -117,6 +117,8 @@ import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.track.injection.TrackComponentImpl
 import org.hyperskill.app.track.injection.TrackDataComponent
 import org.hyperskill.app.track.injection.TrackDataComponentImpl
+import org.hyperskill.app.track_selection.injection.TrackSelectionListComponent
+import org.hyperskill.app.track_selection.injection.TrackSelectionListComponentImpl
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
 
@@ -215,6 +217,9 @@ class AppGraphImpl(
 
     override fun buildTrackDataComponent(): TrackDataComponent =
         TrackDataComponentImpl(this)
+
+    override fun buildTrackSelectionListComponent(): TrackSelectionListComponent =
+        TrackSelectionListComponentImpl(this)
 
     override fun buildProfileComponent(): ProfileComponent =
         ProfileComponentImpl(this)
