@@ -39,5 +39,5 @@ class TrackSelectionListSelectConfirmationResultHyperskillAnalyticEvent(
 
     override val params: Map<String, Any>
         get() = super.params +
-                mapOf(PARAM_CONTEXT to mapOf(PARAM_TRACK_ID to trackId))
+            mapOf(PARAM_CONTEXT to mapOf(PARAM_TRACK_ID to trackId))
 }
