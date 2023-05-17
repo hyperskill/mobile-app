@@ -1,6 +1,10 @@
 package org.hyperskill.app.track_selection.presentation
 
 import org.hyperskill.app.track.domain.model.Track
+import org.hyperskill.app.track_selection.domain.analytic.TrackSelectionListClickedRetryContentLoadingHyperskillAnalyticsEvent
+import org.hyperskill.app.track_selection.domain.analytic.TrackSelectionListSelectConfirmationModalHiddenHyperskillAnalyticEvent
+import org.hyperskill.app.track_selection.domain.analytic.TrackSelectionListSelectConfirmationModalShownHyperskillAnalyticEvent
+import org.hyperskill.app.track_selection.domain.analytic.TrackSelectionListSelectConfirmationResultHyperskillAnalyticEvent
 import org.hyperskill.app.track_selection.domain.analytic.TrackSelectionListTrackClickedHyperskillAnalyticEvent
 import org.hyperskill.app.track_selection.domain.analytic.TrackSelectionListViewedHyperskillAnalyticEvent
 import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature.Action
@@ -13,10 +17,19 @@ internal class TrackSelectionListReducer : StateReducer<State, Message, Action> 
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
             is Message.Initialize ->
-                if (state is State.Idle ||
-                    (message.forceUpdate && (state is State.Content || state is State.NetworkError))
-                ) {
-                    State.Loading to setOf(InternalAction.Initialize)
+                if (state is State.Idle) {
+                    State.Loading to setOf(InternalAction.FetchTracks)
+                } else {
+                    null
+                }
+            is Message.RetryContentLoading ->
+                if (state is State.NetworkError) {
+                    State.Loading to setOf(
+                        InternalAction.FetchTracks,
+                        InternalAction.LogAnalyticEvent(
+                            TrackSelectionListClickedRetryContentLoadingHyperskillAnalyticsEvent()
+                        )
+                    )
                 } else {
                     null
                 }
@@ -39,18 +52,53 @@ internal class TrackSelectionListReducer : StateReducer<State, Message, Action> 
                 )
             TrackSelectionListFeature.TrackSelectionResult.Error ->
                 state to setOf(Action.ViewAction.ShowTrackSelectionStatus.Error)
-            is Message.TrackClicked ->
-                getTrackById(message.trackId, state)?.let { track ->
+            is Message.TrackClicked -> {
+                val track = getTrackById(message.trackId, state)
+                if (track != null) {
                     state to setOf(
-                        Action.ViewAction.ShowTrackSelectionStatus.Loading,
-                        InternalAction.SelectTrack(track),
+                        Action.ViewAction.ShowTrackSelectionConfirmationModal(track),
                         InternalAction.LogAnalyticEvent(TrackSelectionListTrackClickedHyperskillAnalyticEvent(track.id))
                     )
+                } else {
+                    state to setOf(Action.ViewAction.ShowTrackSelectionStatus.Error)
                 }
+            }
+            is Message.TrackSelectionConfirmationResult -> {
+                if (state is State.Content) {
+                    state to buildSet {
+                        if (message.isConfirmed) {
+                            add(Action.ViewAction.ShowTrackSelectionStatus.Loading)
+                            add(InternalAction.SelectTrack(message.trackId))
+                        }
+                        add(
+                            InternalAction.LogAnalyticEvent(
+                                TrackSelectionListSelectConfirmationResultHyperskillAnalyticEvent(
+                                    trackId = message.trackId,
+                                    isConfirmed = message.isConfirmed
+                                )
+                            )
+                        )
+                    }
+                } else {
+                    state to emptySet()
+                }
+            }
             is Message.ViewedEventMessage ->
                 state to setOf(
                     InternalAction.LogAnalyticEvent(
                         TrackSelectionListViewedHyperskillAnalyticEvent()
+                    )
+                )
+            is Message.TrackSelectionConfirmationModalShown ->
+                state to setOf(
+                    InternalAction.LogAnalyticEvent(
+                        TrackSelectionListSelectConfirmationModalShownHyperskillAnalyticEvent()
+                    )
+                )
+            is Message.TrackSelectionConfirmationModalHidden ->
+                state to setOf(
+                    InternalAction.LogAnalyticEvent(
+                        TrackSelectionListSelectConfirmationModalHiddenHyperskillAnalyticEvent()
                     )
                 )
         } ?: (state to emptySet())

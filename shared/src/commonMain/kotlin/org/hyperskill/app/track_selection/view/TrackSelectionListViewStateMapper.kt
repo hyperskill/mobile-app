@@ -37,19 +37,19 @@ internal class TrackSelectionListViewStateMapper(
     ): TrackSelectionListFeature.ViewState.Track =
         TrackSelectionListFeature.ViewState.Track(
             id = trackWithProgress.track.id,
-            imageSource = trackWithProgress.track.cover ?: "",
+            imageSource = trackWithProgress.track.cover?.takeIf { it.isNotBlank() },
             title = trackWithProgress.track.title,
-            description = trackWithProgress.track.description,
             timeToComplete = getTimeToComplete(trackWithProgress.track.secondsToComplete),
             rating = numbersFormatter.formatProgressAverageRating(trackWithProgress.trackProgress.averageRating),
             isBeta = trackWithProgress.track.isBeta,
             isCompleted = trackWithProgress.track.isCompleted
         )
 
-    private fun getTimeToComplete(secondsToComplete: Double): String? {
+    private fun getTimeToComplete(secondsToComplete: Float?): String? {
+        if (secondsToComplete == null || secondsToComplete <= 0) return null
+        // TODO: replace with date formatter
         val hours = floor(secondsToComplete / 3600).toInt()
-        // TODO: Use DateFormatter
-        return if (hours > 0) {
+        return if (hours >= 1) {
             resourceProvider.getQuantityString(SharedResources.plurals.hours, hours, hours)
         } else {
             null

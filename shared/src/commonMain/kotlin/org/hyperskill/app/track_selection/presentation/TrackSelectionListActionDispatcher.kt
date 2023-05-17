@@ -27,7 +27,7 @@ class TrackSelectionListActionDispatcher(
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            is InternalAction.Initialize ->
+            is InternalAction.FetchTracks ->
                 coroutineScope {
                     val sentryTransaction =
                         HyperskillSentryTransactionBuilder.buildTrackSelectionListScreenRemoteDataLoading()
@@ -35,6 +35,13 @@ class TrackSelectionListActionDispatcher(
 
                     val studyPlanDeferred = async { currentStudyPlanStateRepository.getState() }
                     val tracksDeferred = async { trackInteractor.getAllTracks() }
+
+                    val currentTrackId = studyPlanDeferred.await()
+                        .getOrElse {
+                            sentryInteractor.finishTransaction(sentryTransaction, it)
+                            return@coroutineScope onNewMessage(TrackSelectionListFeature.TracksFetchResult.Error)
+                        }
+                        .trackId
 
                     val tracks = tracksDeferred.await()
                         .getOrElse {
@@ -50,7 +57,7 @@ class TrackSelectionListActionDispatcher(
                         .associateBy { it.id }
 
                     if (tracks.size != trackProgressById.size) {
-                        sentryInteractor.captureErrorMessage("TrackList: tracks.size != tracksProgresses.size")
+                        sentryInteractor.captureErrorMessage("TrackSelectionList: tracks.size != tracksProgresses.size")
                     }
 
                     val tracksWithProgresses = tracks.mapNotNull { track ->
@@ -61,13 +68,6 @@ class TrackSelectionListActionDispatcher(
                             )
                         }
                     }
-
-                    val currentTrackId = studyPlanDeferred.await()
-                        .getOrElse {
-                            sentryInteractor.finishTransaction(sentryTransaction, it)
-                            return@coroutineScope onNewMessage(TrackSelectionListFeature.TracksFetchResult.Error)
-                        }
-                        .trackId
 
                     sentryInteractor.finishTransaction(sentryTransaction)
 
@@ -85,7 +85,7 @@ class TrackSelectionListActionDispatcher(
                         return onNewMessage(TrackSelectionListFeature.TrackSelectionResult.Error)
                     }
 
-                profileInteractor.selectTrack(currentProfile.id, action.track.id)
+                profileInteractor.selectTrack(currentProfile.id, action.trackId)
                     .getOrElse {
                         return onNewMessage(TrackSelectionListFeature.TrackSelectionResult.Error)
                     }

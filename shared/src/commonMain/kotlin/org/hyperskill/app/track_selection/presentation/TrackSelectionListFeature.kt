@@ -26,9 +26,8 @@ object TrackSelectionListFeature {
 
         data class Track(
             val id: Long,
-            val imageSource: String,
+            val imageSource: String?,
             val title: String,
-            val description: String,
             val timeToComplete: String?,
             val rating: String,
             val isBeta: Boolean,
@@ -37,14 +36,23 @@ object TrackSelectionListFeature {
     }
 
     sealed interface Message {
-        data class Initialize(val forceUpdate: Boolean) : Message
+        object Initialize : Message
+
+        object RetryContentLoading : Message
 
         data class TrackClicked(val trackId: Long) : Message
+
+        data class TrackSelectionConfirmationResult(
+            val trackId: Long,
+            val isConfirmed: Boolean
+        ) : Message
 
         /**
          * Analytic
          */
         object ViewedEventMessage : Message
+        object TrackSelectionConfirmationModalShown : Message
+        object TrackSelectionConfirmationModalHidden : Message
     }
 
     /**
@@ -69,6 +77,8 @@ object TrackSelectionListFeature {
                 object StudyPlan : NavigateTo
             }
 
+            data class ShowTrackSelectionConfirmationModal(val track: Track) : ViewAction
+
             sealed interface ShowTrackSelectionStatus : ViewAction {
                 object Loading : ShowTrackSelectionStatus
                 object Error : ShowTrackSelectionStatus
@@ -78,9 +88,9 @@ object TrackSelectionListFeature {
     }
 
     internal sealed interface InternalAction : Action {
-        object Initialize : InternalAction
+        object FetchTracks : InternalAction
 
-        data class SelectTrack(val track: Track) : InternalAction
+        data class SelectTrack(val trackId: Long) : InternalAction
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }

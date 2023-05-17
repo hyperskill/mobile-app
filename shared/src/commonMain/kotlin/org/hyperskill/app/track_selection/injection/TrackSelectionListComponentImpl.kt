@@ -10,7 +10,7 @@ import ru.nobird.app.presentation.redux.feature.Feature
 class TrackSelectionListComponentImpl(
     private val appGraph: AppGraph
 ) : TrackSelectionListComponent {
-    override val trackListFeature: Feature<ViewState, Message, Action>
+    override val trackSelectionListFeature: Feature<ViewState, Message, Action>
         get() = TrackSelectionListFeatureBuilder.build(
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor,
