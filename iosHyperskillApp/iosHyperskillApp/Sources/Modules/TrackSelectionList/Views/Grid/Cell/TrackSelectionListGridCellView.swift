@@ -65,8 +65,7 @@ struct TrackSelectionListGridCellView: View {
                             .foregroundColor(.secondaryText)
                     }
                 }
-
-                Spacer()
+                .frame(maxWidth: .infinity, alignment: .leading)
 
                 StarRatingView(
                     appearance: appearance.ratingViewAppearance,
