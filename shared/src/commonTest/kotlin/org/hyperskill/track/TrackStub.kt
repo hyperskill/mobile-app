@@ -17,7 +17,7 @@ fun Track.Companion.stub(
         canIssueCertificate = false,
         projectsByLevel = projectsByLevel,
         results = "",
-        secondsToComplete = .0,
+        secondsToComplete = .0f,
         title = "",
         topicsCount = 0,
         cover = "",
