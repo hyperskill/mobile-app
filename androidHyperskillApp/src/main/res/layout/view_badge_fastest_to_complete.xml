@@ -5,5 +5,5 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     style="@style/Badge.Blue"
-    android:text="@string/projects_list_badge_fastest_to_complete_title"
+    android:text="@string/badge_fastest_to_complete_text"
     />
