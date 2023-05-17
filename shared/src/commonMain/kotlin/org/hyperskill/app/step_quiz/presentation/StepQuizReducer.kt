@@ -71,10 +71,11 @@ class StepQuizReducer(
                 if (state.stepQuizState is StepQuizState.AttemptLoading) {
                     state.copy(
                         stepQuizState = StepQuizState.AttemptLoaded(
-                            message.step,
-                            message.attempt,
-                            message.submissionState,
-                            message.isProblemsLimitReached
+                            step = message.step,
+                            attempt = message.attempt,
+                            submissionState = message.submissionState,
+                            isProblemsLimitReached = message.isProblemsLimitReached,
+                            isTheoryAvailable = resolveIsTheoryAvailable(message.step)
                         )
                     ) to emptySet()
                 } else {
@@ -255,6 +256,27 @@ class StepQuizReducer(
                 } else {
                     null
                 }
+            is Message.TheoryToolbarClicked -> {
+                if (state.stepQuizState is StepQuizState.AttemptLoaded && state.stepQuizState.isTheoryAvailable) {
+                    val topicTheoryId = state.stepQuizState.step.topicTheory
+
+                    if (topicTheoryId != null) {
+                        state to setOf(
+                            Action.LogAnalyticEvent(
+                                StepQuizClickedTheoryToolbarHyperskillAnalyticEvent(
+                                    stepRoute.analyticRoute,
+                                    topicTheoryId
+                                )
+                            ),
+                            Action.ViewAction.NavigateTo.StepScreen(StepRoute.Learn(topicTheoryId))
+                        )
+                    } else {
+                        null
+                    }
+                } else {
+                    null
+                }
+            }
             is Message.ClickedRetryEventMessage ->
                 if (state.stepQuizState is StepQuizState.AttemptLoaded) {
                     val event = StepQuizClickedRetryHyperskillAnalyticEvent(stepRoute.analyticRoute)
@@ -315,10 +337,11 @@ class StepQuizReducer(
 
                 state.copy(
                     stepQuizState = StepQuizState.AttemptLoaded(
-                        message.step,
-                        message.attempt,
-                        message.submissionState,
-                        isProblemsLimitReached
+                        step = message.step,
+                        attempt = message.attempt,
+                        submissionState = message.submissionState,
+                        isProblemsLimitReached = isProblemsLimitReached,
+                        isTheoryAvailable = resolveIsTheoryAvailable(message.step)
                     )
                 ) to actions
             }
@@ -384,4 +407,16 @@ class StepQuizReducer(
             time = Clock.System.now().toString()
         )
     }
+
+    private fun resolveIsTheoryAvailable(step: Step): Boolean =
+        when (stepRoute) {
+            is StepRoute.Learn,
+            is StepRoute.Repeat -> {
+                step.topicTheory != null
+            }
+            is StepRoute.LearnDaily,
+            is StepRoute.StageImplement -> {
+                false
+            }
+        }
 }

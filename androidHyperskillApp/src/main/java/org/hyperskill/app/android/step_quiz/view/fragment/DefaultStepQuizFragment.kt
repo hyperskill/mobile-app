@@ -258,6 +258,9 @@ abstract class DefaultStepQuizFragment :
                 requireRouter().backTo(MainScreen)
                 mainScreenRouter.switch(HomeScreen)
             }
+            is StepQuizFeature.Action.ViewAction.NavigateTo.StepScreen -> {
+                TODO()
+            }
             is StepQuizFeature.Action.ViewAction.RequestUserPermission -> {
                 when (action.userPermissionRequest) {
                     StepQuizUserPermissionRequest.RESET_CODE -> {

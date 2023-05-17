@@ -4,6 +4,7 @@ import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.permissions.StepQuizUserPermissionRequest
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
@@ -25,7 +26,8 @@ interface StepQuizFeature {
             val step: Step,
             val attempt: Attempt,
             val submissionState: SubmissionState,
-            val isProblemsLimitReached: Boolean
+            val isProblemsLimitReached: Boolean,
+            val isTheoryAvailable: Boolean
         ) : StepQuizState
 
         object NetworkError : StepQuizState
@@ -97,6 +99,13 @@ interface StepQuizFeature {
         object ProblemsLimitReachedModalGoToHomeScreenClicked : Message
 
         /**
+         * Click on step theory topic in toolbar
+         *
+         * @see StepQuizFeature.Action.ViewAction.NavigateTo.StepScreen
+         */
+        object TheoryToolbarClicked : Message
+
+        /**
          * Analytic
          */
         object ClickedCodeDetailsEventMessage : Message
@@ -163,6 +172,8 @@ interface StepQuizFeature {
                 object Back : NavigateTo
 
                 object Home : NavigateTo
+
+                data class StepScreen(val stepRoute: StepRoute) : NavigateTo
             }
         }
     }
