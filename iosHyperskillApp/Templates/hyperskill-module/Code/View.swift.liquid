@@ -1,0 +1,64 @@
+import shared
+import SwiftUI
+
+extension {{ module_info.name }}View {
+    struct Appearance {
+        let backgroundColor = Color.background
+    }
+}
+
+struct {{ module_info.name }}View: View {
+    private(set) var appearance = Appearance()
+
+    @StateObject var viewModel: {{ module_info.name }}ViewModel
+
+    var body: some View {
+        ZStack {
+            UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
+
+            BackgroundView(color: appearance.backgroundColor)
+
+            buildBody()
+        }
+        .onAppear {
+            viewModel.startListening()
+            viewModel.onViewAction = handleViewAction(_:)
+        }
+        .onDisappear {
+            viewModel.stopListening()
+            viewModel.onViewAction = nil
+        }
+    }
+
+    // MARK: Private API
+
+    @ViewBuilder
+    private func buildBody() -> some View {
+        switch viewModel.stateKs {
+        case .idle:
+            ProgressView()
+                .onAppear(perform: viewModel.doLoad{{ module_info.name }})
+        case .loading:
+            ProgressView()
+        case .networkError:
+            PlaceholderView(
+                configuration: .networkError(
+                    backgroundColor: appearance.backgroundColor,
+                    action: viewModel.doRetryLoad{{ module_info.name }}
+                )
+            )
+        case .content(let data):
+            Text("Hello, World!")
+        }
+    }
+
+    private func handleViewAction(_ viewAction: {{ module_info.name }}FeatureActionViewAction) {}
+}
+
+struct {{ module_info.name }}View_Previews: PreviewProvider {
+    static var previews: some View {
+        UIKitViewControllerPreview {
+            {{ module_info.name }}Assembly().makeModule()
+        }
+    }
+}

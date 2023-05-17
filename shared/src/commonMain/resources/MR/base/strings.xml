@@ -13,6 +13,7 @@
     <string name="later">Later</string>
     <string name="good_job">Good job!</string>
     <string name="go_to_homescreen">Go to home</string>
+    <string name="new_word">New</string>
 
     <!-- Badge -->
     <string name="badge_ide_required_text">IDE required</string>

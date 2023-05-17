@@ -1,0 +1,15 @@
+# Template information section
+name: hyperskill-module
+summary: Hyperskill module
+author: Hyperskill
+version: 1.0.0
+license: MIT
+
+# The declarations for code files
+code_files:
+- {name: Assembly.swift, path: Code/Assembly.swift.liquid}
+- {name: View.swift, path: Code/View.swift.liquid}
+- {name: ViewModel.swift, path: Code/ViewModel.swift.liquid}
+
+dependencies:
+- shared
