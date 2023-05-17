@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/projectBlockTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppTheme.Subtitle1"
+        android:textSize="18sp"
+        tools:text="Recommended projects"/>
+
+    <TextView
+        android:id="@+id/projectBlockSubtitle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAppearance="@style/TextAppearance.AppTheme.Body1"
+        android:textSize="14sp"
+        android:textColor="@color/color_on_surface_alpha_60"
+        android:layout_marginTop="8dp"
+        tools:text="Easy projects if you're just starting"/>
+
+</LinearLayout>

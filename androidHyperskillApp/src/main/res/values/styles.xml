@@ -111,7 +111,7 @@
     <style name="TrackCardViewStyle">
         <item name="strokeWidth">1dp</item>
         <item name="cornerRadius">@dimen/corner_radius</item>
-        <item name="strokeColor">@color/color_on_surface_alpha_12</item>
+        <item name="strokeColor">@color/color_on_surface_alpha_9</item>
     </style>
 
     <style name="OutlinedCard">
@@ -170,8 +170,18 @@
     </style>
 
     <style name="Badge.Violet" parent="Badge">
-        <item name="android:background">@drawable/bg_home_freemium_badge</item>
+        <item name="android:background">@drawable/bg_tag_violet</item>
         <item name="android:textColor">@color/color_overlay_violet</item>
+    </style>
+
+    <style name="Badge.Green" parent="Badge">
+        <item name="android:background">@drawable/bg_tag_green</item>
+        <item name="android:textColor">@color/color_secondary</item>
+    </style>
+
+    <style name="Badge.Blue" parent="Badge">
+        <item name="android:background">@drawable/bg_tag_blue</item>
+        <item name="android:textColor">@color/color_primary</item>
     </style>
 
 </resources>

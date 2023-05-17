@@ -400,6 +400,11 @@
     <string name="projects_list_nightmare_category_title">Challenging</string>
     <string name="projects_list_nightmare_category_description">Challenging projects to perfect your knowledge with challenging tasks</string>
     <string name="projects_list_project_graduate_title">Graduate</string>
+    <string name="projects_list_select_confirmation_title">Select project "%s"</string>
+    <string name="projects_list_selection_succeed">Project successfully selected</string>
+
+    <string name="ide_required_label">IDE required</string>
+    <string name="completed_label">Completed</string>
 
     <!-- Track selection list -->
     <string name="track_selection_list_toolbar_title">Select track</string>
