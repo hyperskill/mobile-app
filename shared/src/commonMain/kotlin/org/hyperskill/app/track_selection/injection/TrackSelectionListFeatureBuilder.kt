@@ -28,8 +28,8 @@ internal object TrackSelectionListFeatureBuilder {
         currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
         trackListViewStateMapper: TrackSelectionListViewStateMapper
     ): Feature<TrackSelectionListFeature.ViewState, Message, Action> {
-        val trackListReducer = TrackSelectionListReducer()
-        val trackListActionDispatcher = TrackSelectionListActionDispatcher(
+        val trackSelectionListReducer = TrackSelectionListReducer()
+        val trackSelectionListActionDispatcher = TrackSelectionListActionDispatcher(
             ActionDispatcherOptions(),
             analyticInteractor,
             sentryInteractor,
@@ -39,8 +39,8 @@ internal object TrackSelectionListFeatureBuilder {
             currentStudyPlanStateRepository
         )
 
-        return ReduxFeature(TrackSelectionListFeature.State.Idle, trackListReducer)
-            .wrapWithActionDispatcher(trackListActionDispatcher)
+        return ReduxFeature(TrackSelectionListFeature.State.Idle, trackSelectionListReducer)
+            .wrapWithActionDispatcher(trackSelectionListActionDispatcher)
             .transformState(trackListViewStateMapper::map)
     }
 }
