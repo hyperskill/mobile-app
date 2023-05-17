@@ -267,11 +267,20 @@ object HyperskillSentryTransactionBuilder {
         )
 
     /**
-     * ProjectsListFeature
+     * ProjectSelectionListFeature
      */
-    fun buildProjectsListScreenRemoteDataLoading(): HyperskillSentryTransaction =
+    fun buildProjectSelectionListScreenRemoteDataLoading(): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
-            name = "projects-list-feature-screen-remote-data-loading",
+            name = "project-selection-list-feature-screen-remote-data-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    /**
+     * TrackSelectionListFeature
+     */
+    fun buildTrackSelectionListScreenRemoteDataLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "track-selection-list-feature-screen-remote-data-loading",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
 }

@@ -59,6 +59,7 @@ import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNext
 import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextDataComponent
 import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.track.injection.TrackDataComponent
+import org.hyperskill.app.track_selection.injection.TrackSelectionListComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 
 interface AppGraph {
@@ -101,6 +102,7 @@ interface AppGraph {
     fun buildProfileDataComponent(): ProfileDataComponent
     fun buildTrackComponent(): TrackComponent
     fun buildTrackDataComponent(): TrackDataComponent
+    fun buildTrackSelectionListComponent(): TrackSelectionListComponent
     fun buildProfileComponent(): ProfileComponent
     fun buildProfileSettingsComponent(): ProfileSettingsComponent
     fun buildHomeComponent(): HomeComponent

@@ -243,7 +243,7 @@ class TrackFragment :
     private fun renderAboutSection(content: TrackFeature.TrackState.Content) {
         with(viewBinding.trackAbout) {
             trackAboutUsefulnessTextView.text = "${content.trackProgress.averageRating}"
-            val hoursToComplete = (content.track.secondsToComplete / 3600).roundToInt()
+            val hoursToComplete = ((content.track.secondsToComplete ?: 0f) / 3600).roundToInt()
             trackAboutAllPerformTimeTextView.text = resources.getQuantityString(
                 org.hyperskill.app.R.plurals.hours,
                 hoursToComplete,
