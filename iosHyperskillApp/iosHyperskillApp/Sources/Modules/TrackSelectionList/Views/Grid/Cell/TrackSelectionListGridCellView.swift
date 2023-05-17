@@ -1,3 +1,4 @@
+import shared
 import SwiftUI
 
 extension TrackSelectionListGridCellView {
@@ -29,8 +30,7 @@ extension TrackSelectionListGridCellView {
 struct TrackSelectionListGridCellView: View {
     private(set) var appearance = Appearance()
 
-    let track: TrackSelectionListItem
-    let isSelected: Bool
+    let track: TrackSelectionListFeatureViewStateTrack
 
     let onTap: (Int64) -> Void
 
@@ -41,7 +41,8 @@ struct TrackSelectionListGridCellView: View {
             },
             label: buildContent
         )
-        .buttonStyle(appearance.buttonStyle(isSelected: isSelected))
+        .buttonStyle(appearance.buttonStyle(isSelected: track.isSelected))
+        .disabled(track.isSelected)
     }
 
     @ViewBuilder
@@ -74,8 +75,8 @@ struct TrackSelectionListGridCellView: View {
             }
 
             TrackSelectionListGridCellBadgesView(
-                isSelected: isSelected,
-                isIdeRequired: track.isIdeRequired,
+                isSelected: track.isSelected,
+                isIdeRequired: false,
                 isBeta: track.isBeta,
                 isCompleted: track.isCompleted
             )
@@ -85,18 +86,19 @@ struct TrackSelectionListGridCellView: View {
     }
 }
 
+#if DEBUG
 struct TrackSelectionListGridCellView_Previews: PreviewProvider {
     static var previews: some View {
+        let tracks = TrackSelectionListFeatureViewStateContent.placeholder.tracks
+
         VStack(spacing: LayoutInsets.defaultInset) {
             TrackSelectionListGridCellView(
-                track: .placeholder,
-                isSelected: false,
+                track: tracks[0],
                 onTap: { _ in }
             )
 
             TrackSelectionListGridCellView(
-                track: .placeholder,
-                isSelected: true,
+                track: tracks[1],
                 onTap: { _ in }
             )
         }
@@ -105,14 +107,12 @@ struct TrackSelectionListGridCellView_Previews: PreviewProvider {
 
         VStack(spacing: LayoutInsets.defaultInset) {
             TrackSelectionListGridCellView(
-                track: .placeholder,
-                isSelected: false,
+                track: tracks[0],
                 onTap: { _ in }
             )
 
             TrackSelectionListGridCellView(
-                track: .placeholder,
-                isSelected: true,
+                track: tracks[1],
                 onTap: { _ in }
             )
         }
@@ -121,3 +121,4 @@ struct TrackSelectionListGridCellView_Previews: PreviewProvider {
         .preferredColorScheme(.dark)
     }
 }
+#endif

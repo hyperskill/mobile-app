@@ -401,4 +401,7 @@
     <string name="projects_list_nightmare_category_description">Challenging projects to perfect your knowledge with challenging tasks</string>
     <string name="projects_list_project_graduate_title">Graduate</string>
 
+    <!-- Track selection list -->
+    <string name="track_selection_list_toolbar_title">Select track</string>
+
 </resources>

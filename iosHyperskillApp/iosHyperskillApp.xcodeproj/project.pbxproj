@@ -46,6 +46,10 @@
 		2C0DB91C28645ADA001EA35E /* CodeCompletionKeywords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DB91B28645ADA001EA35E /* CodeCompletionKeywords.swift */; };
 		2C0DB91E2864617E001EA35E /* code-completion-keywords.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C0DB91D2864617E001EA35E /* code-completion-keywords.plist */; };
 		2C0DFB9A2923BB4300D30921 /* ProfileFeatureStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0DFB992923BB4300D30921 /* ProfileFeatureStateKsExtensions.swift */; };
+		2C0EB9502A151B56006DC84B /* TrackSelectionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0EB94F2A151B56006DC84B /* TrackSelectionListViewModel.swift */; };
+		2C0EB9522A151B69006DC84B /* TrackSelectionListAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0EB9512A151B69006DC84B /* TrackSelectionListAssembly.swift */; };
+		2C0EB9542A151C2B006DC84B /* TrackSelectionListFeatureViewStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0EB9532A151C2B006DC84B /* TrackSelectionListFeatureViewStateKsExtensions.swift */; };
+		2C0EB9562A15296D006DC84B /* TrackSelectionListFeatureViewStateContent+Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0EB9552A15296D006DC84B /* TrackSelectionListFeatureViewStateContent+Placeholder.swift */; };
 		2C0EC2DF28F9E92D004A36B2 /* ModalRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0EC2DE28F9E92D004A36B2 /* ModalRouter.swift */; };
 		2C0FA877292FC9BF00A37636 /* PlaceholderNewUserFeatureStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0FA876292FC9BF00A37636 /* PlaceholderNewUserFeatureStateKsExtensions.swift */; };
 		2C0FA879292FD73400A37636 /* ProfileSettingsFeatureStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0FA878292FD73400A37636 /* ProfileSettingsFeatureStateKsExtensions.swift */; };
@@ -195,7 +199,6 @@
 		2C792324287B759500A3F61D /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C792323287B759500A3F61D /* StringExtensions.swift */; };
 		2C7994A62A1281FE00874C16 /* TrackSelectionListGridCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7994A52A1281FE00874C16 /* TrackSelectionListGridCellView.swift */; };
 		2C7994A82A12821800874C16 /* TrackSelectionListGridCellBadgesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7994A72A12821800874C16 /* TrackSelectionListGridCellBadgesView.swift */; };
-		2C7994AB2A128CBB00874C16 /* TrackSelectionListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7994AA2A128CBB00874C16 /* TrackSelectionListItem.swift */; };
 		2C7994AD2A12940D00874C16 /* TrackSelectionListGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7994AC2A12940D00874C16 /* TrackSelectionListGridView.swift */; };
 		2C7994AF2A1299B800874C16 /* TrackSelectionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7994AE2A1299B800874C16 /* TrackSelectionListView.swift */; };
 		2C7994B12A129D6100874C16 /* TrackSelectionListSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7994B02A129D6100874C16 /* TrackSelectionListSkeletonView.swift */; };
@@ -544,6 +547,10 @@
 		2C0DB91B28645ADA001EA35E /* CodeCompletionKeywords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeCompletionKeywords.swift; sourceTree = "<group>"; };
 		2C0DB91D2864617E001EA35E /* code-completion-keywords.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "code-completion-keywords.plist"; sourceTree = "<group>"; };
 		2C0DFB992923BB4300D30921 /* ProfileFeatureStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFeatureStateKsExtensions.swift; sourceTree = "<group>"; };
+		2C0EB94F2A151B56006DC84B /* TrackSelectionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionListViewModel.swift; sourceTree = "<group>"; };
+		2C0EB9512A151B69006DC84B /* TrackSelectionListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionListAssembly.swift; sourceTree = "<group>"; };
+		2C0EB9532A151C2B006DC84B /* TrackSelectionListFeatureViewStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionListFeatureViewStateKsExtensions.swift; sourceTree = "<group>"; };
+		2C0EB9552A15296D006DC84B /* TrackSelectionListFeatureViewStateContent+Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackSelectionListFeatureViewStateContent+Placeholder.swift"; sourceTree = "<group>"; };
 		2C0EC2DE28F9E92D004A36B2 /* ModalRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalRouter.swift; sourceTree = "<group>"; };
 		2C0FA876292FC9BF00A37636 /* PlaceholderNewUserFeatureStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderNewUserFeatureStateKsExtensions.swift; sourceTree = "<group>"; };
 		2C0FA878292FD73400A37636 /* ProfileSettingsFeatureStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsFeatureStateKsExtensions.swift; sourceTree = "<group>"; };
@@ -696,7 +703,6 @@
 		2C792323287B759500A3F61D /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		2C7994A52A1281FE00874C16 /* TrackSelectionListGridCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionListGridCellView.swift; sourceTree = "<group>"; };
 		2C7994A72A12821800874C16 /* TrackSelectionListGridCellBadgesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionListGridCellBadgesView.swift; sourceTree = "<group>"; };
-		2C7994AA2A128CBB00874C16 /* TrackSelectionListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionListItem.swift; sourceTree = "<group>"; };
 		2C7994AC2A12940D00874C16 /* TrackSelectionListGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionListGridView.swift; sourceTree = "<group>"; };
 		2C7994AE2A1299B800874C16 /* TrackSelectionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionListView.swift; sourceTree = "<group>"; };
 		2C7994B02A129D6100874C16 /* TrackSelectionListSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionListSkeletonView.swift; sourceTree = "<group>"; };
@@ -1232,6 +1238,7 @@
 				2C97B0CC298124C1001DF1A0 /* StepQuizHintsFeatureViewStateKsExtensions.swift */,
 				E9AD65A9292DC0BE00E574F0 /* TopicsRepetitionsFeatureStateKsExtensions.swift */,
 				2C1AE99C29926C02008122D9 /* TopicsToDiscoverNextFeatureStateKsExtensions.swift */,
+				2C0EB9532A151C2B006DC84B /* TrackSelectionListFeatureViewStateKsExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1568,7 +1575,9 @@
 		2C3E656A2A1271B000BC8DC0 /* TrackSelectionList */ = {
 			isa = PBXGroup;
 			children = (
-				2C7994A92A128CAE00874C16 /* ViewData */,
+				2C0EB9512A151B69006DC84B /* TrackSelectionListAssembly.swift */,
+				2C0EB94F2A151B56006DC84B /* TrackSelectionListViewModel.swift */,
+				2C7994A92A128CAE00874C16 /* Model */,
 				2C3E656B2A1271C200BC8DC0 /* Views */,
 			);
 			path = TrackSelectionList;
@@ -1897,12 +1906,12 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		2C7994A92A128CAE00874C16 /* ViewData */ = {
+		2C7994A92A128CAE00874C16 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				2C7994AA2A128CBB00874C16 /* TrackSelectionListItem.swift */,
+				2C0EB9552A15296D006DC84B /* TrackSelectionListFeatureViewStateContent+Placeholder.swift */,
 			);
-			path = ViewData;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		2C7A1B1D2922EADC0018D72C /* sharedSwift */ = {
@@ -3335,6 +3344,7 @@
 				2C5CBBE52948FA7400113007 /* StepQuizSQLAssembly.swift in Sources */,
 				2CEEE03528916A6800282849 /* ProblemOfDayOutputProtocol.swift in Sources */,
 				E9730A9E298A462B00254A6D /* TopicToDiscoverNextButtonView.swift in Sources */,
+				2C0EB9542A151C2B006DC84B /* TrackSelectionListFeatureViewStateKsExtensions.swift in Sources */,
 				E9380EDA286B48A400CBF221 /* AuthNewUserPlaceholderView.swift in Sources */,
 				E94BC946291E8F40000B18D3 /* TopicsRepetitionsChartBlock.swift in Sources */,
 				E996D41229221F6200A47498 /* ShowMoreButton.swift in Sources */,
@@ -3525,7 +3535,6 @@
 				E996D414292228A700A47498 /* TopicsRepetitionsView.swift in Sources */,
 				2CAE8D092805789100E6C83D /* StepCommentsStatisticsView.swift in Sources */,
 				2C5CBBE72948FC7A00113007 /* StepQuizSQLView.swift in Sources */,
-				2C7994AB2A128CBB00874C16 /* TrackSelectionListItem.swift in Sources */,
 				2C05AC462A0E9EBC0039C7EF /* ProjectSelectionListFeatureViewStateKsExtensions.swift in Sources */,
 				2C7994AD2A12940D00874C16 /* TrackSelectionListGridView.swift in Sources */,
 				2C20FBA8284F193A006D879E /* ContentProcessingRule.swift in Sources */,
@@ -3634,7 +3643,9 @@
 				2CEEE03328916A3D00282849 /* ProblemOfDayViewModel.swift in Sources */,
 				2C05AC5F2A0ED9710039C7EF /* BadgeView+ConcreateTypes.swift in Sources */,
 				2C1061AC285C3C4300EBD614 /* StepQuizChoiceViewModel.swift in Sources */,
+				2C0EB9502A151B56006DC84B /* TrackSelectionListViewModel.swift in Sources */,
 				E9ACD3412937342F0005E05B /* ProblemOfDaySolvedModalViewController.swift in Sources */,
+				2C0EB9562A15296D006DC84B /* TrackSelectionListFeatureViewStateContent+Placeholder.swift in Sources */,
 				2C4F63A12A102D3300D4EE39 /* SharedProjectLevelWrapper.swift in Sources */,
 				2CD48D8B2858684100CFCC4A /* StepQuizViewData.swift in Sources */,
 				2C05AC572A0EC9E50039C7EF /* ProjectSelectionListHeaderSkeletonView.swift in Sources */,
@@ -3739,6 +3750,7 @@
 				E99CD0BA292B982400620259 /* TopicsRepetitionsAssembly.swift in Sources */,
 				E91D8CF929483B9300FA9ED4 /* AuthNewUserPlaceholderSkeletonView.swift in Sources */,
 				2CD3652528796C4300D61855 /* ProfileViewDataMapper.swift in Sources */,
+				2C0EB9522A151B69006DC84B /* TrackSelectionListAssembly.swift in Sources */,
 				2C55E1922A05706300FE58D7 /* HomeSubheadlineView.swift in Sources */,
 				2CE1C4DF27EDFB3800220041 /* FeatureViewModel.swift in Sources */,
 				2C0FA877292FC9BF00A37636 /* PlaceholderNewUserFeatureStateKsExtensions.swift in Sources */,

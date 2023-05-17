@@ -18,7 +18,6 @@ struct TrackSelectionListSkeletonView: View {
         ScrollView([], showsIndicators: false) {
             VStack(spacing: appearance.listViewAppearance.spacing) {
                 TrackSelectionListHeaderSkeletonView()
-                    .padding(.top, appearance.listViewAppearance.spacing)
 
                 let columnsCount = appearance.gridViewAppearance.tracksColumnsCount(for: horizontalSizeClass)
 
@@ -40,7 +39,7 @@ struct TrackSelectionListSkeletonView: View {
                     }
                 }
             }
-            .padding([.horizontal, .bottom])
+            .padding()
         }
         .frame(maxWidth: .infinity)
     }

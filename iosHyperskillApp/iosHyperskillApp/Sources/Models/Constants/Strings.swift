@@ -442,4 +442,10 @@ enum Strings {
             }
         }
     }
+
+    // MARK: - TrackSelectionList -
+
+    enum TrackSelectionList {
+        static let title = sharedStrings.track_selection_list_toolbar_title.localized()
+    }
 }

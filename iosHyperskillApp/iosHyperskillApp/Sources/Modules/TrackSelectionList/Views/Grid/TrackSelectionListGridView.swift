@@ -1,3 +1,4 @@
+import shared
 import SwiftUI
 
 extension TrackSelectionListGridView {
@@ -16,8 +17,7 @@ extension TrackSelectionListGridView {
 struct TrackSelectionListGridView: View {
     private(set) var appearance = Appearance()
 
-    let selectedTrack: TrackSelectionListItem?
-    let tracks: [TrackSelectionListItem]
+    let tracks: [TrackSelectionListFeatureViewStateTrack]
 
     let onTrackTap: (Int64) -> Void
 
@@ -25,17 +25,10 @@ struct TrackSelectionListGridView: View {
 
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
-    private var resultTracks: [TrackSelectionListItem] {
-        if let selectedTrack {
-            return [selectedTrack] + tracks
-        }
-        return tracks
-    }
-
     var body: some View {
         let columnsCount = appearance.tracksColumnsCount(for: horizontalSizeClass)
 
-        if resultTracks.isEmpty {
+        if tracks.isEmpty {
             EmptyView()
         } else {
             LazyVGrid(
@@ -50,10 +43,9 @@ struct TrackSelectionListGridView: View {
                 alignment: .leading,
                 spacing: appearance.interitemSpacing
             ) {
-                ForEach(resultTracks, id: \.id) { track in
+                ForEach(tracks, id: \.id) { track in
                     TrackSelectionListGridCellView(
                         track: track,
-                        isSelected: track.isSelected,
                         onTap: { handleTrackTapped(trackID: $0) }
                     )
                 }
@@ -68,15 +60,17 @@ struct TrackSelectionListGridView: View {
     }
 }
 
+#if DEBUG
 struct TrackSelectionListGridView_Previews: PreviewProvider {
     static var previews: some View {
         ScrollView {
             TrackSelectionListGridView(
-                selectedTrack: .placeholderSelected,
-                tracks: TrackSelectionListItem.placeholders,
+                tracks: TrackSelectionListFeatureViewStateContent.placeholder.tracks,
                 onTrackTap: { _ in }
             )
             .padding()
         }
+        .background(BackgroundView(color: .systemGroupedBackground))
     }
 }
+#endif
