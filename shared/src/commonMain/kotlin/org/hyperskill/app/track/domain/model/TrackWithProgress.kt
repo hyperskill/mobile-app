@@ -6,6 +6,8 @@ data class TrackWithProgress(
     val track: Track,
     val trackProgress: TrackProgress
 ) {
+    companion object
+
     val averageProgress: Int
         get() {
             val currentTopicsCount =
