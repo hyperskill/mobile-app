@@ -73,12 +73,14 @@ class ProjectAdapterDelegate(
 
                 projectGraduateText.isVisible = data.isGraduate
 
-                projectCompletedTextView.isVisible = false // TODO: add isCompleted flag to data
+                projectCompletedTextView.isVisible = data.isCompleted
                 projectSelectedTextView.isVisible = data.isSelected
                 projectIdeRequiredTextView.isVisible = data.isIdeRequired
                 projectBestRatingTextView.isVisible = data.isBestRated
                 projectFastestToCompleteTextView.isVisible = data.isFastestToComplete
 
+                // Remove tags top margin when none of theme are shown.
+                // If set some value to projectTags.isVisible, then all the tags will have that visibility.
                 val newTagsTopMargin = if (data.areTagsVisible) tagsTopMargin else 0
                 if ((projectTags.layoutParams as? MarginLayoutParams)?.topMargin != tagsTopMargin) {
                     projectTags.updateLayoutParams<MarginLayoutParams> {
