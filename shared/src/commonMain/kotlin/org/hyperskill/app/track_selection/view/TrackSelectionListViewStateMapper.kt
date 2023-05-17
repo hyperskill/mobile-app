@@ -21,19 +21,23 @@ internal class TrackSelectionListViewStateMapper(
 
     private fun getContentViewState(
         state: TrackSelectionListFeature.State.Content
-    ): TrackSelectionListFeature.ViewState =
-        TrackSelectionListFeature.ViewState.Content(
-            selectedTrack = state.tracks
-                .firstOrNull { it.track.id == state.selectedTrackId }
-                ?.let(::mapTrackToViewStateTrack),
-            tracks = state.tracks
-                .filter { it.track.id != state.selectedTrackId }
-                .sortedBy { it.trackProgress.rank }
-                .map(::mapTrackToViewStateTrack)
+    ): TrackSelectionListFeature.ViewState {
+        val sortedTracks = listOfNotNull(state.tracks.firstOrNull { it.track.id == state.selectedTrackId }) +
+            state.tracks.filter { it.track.id != state.selectedTrackId }.sortedBy { it.trackProgress.rank }
+
+        return TrackSelectionListFeature.ViewState.Content(
+            tracks = sortedTracks.map {
+                mapTrackToViewStateTrack(
+                    trackWithProgress = it,
+                    isSelected = it.track.id == state.selectedTrackId
+                )
+            }
         )
+    }
 
     private fun mapTrackToViewStateTrack(
-        trackWithProgress: TrackWithProgress
+        trackWithProgress: TrackWithProgress,
+        isSelected: Boolean
     ): TrackSelectionListFeature.ViewState.Track =
         TrackSelectionListFeature.ViewState.Track(
             id = trackWithProgress.track.id,
@@ -42,7 +46,8 @@ internal class TrackSelectionListViewStateMapper(
             timeToComplete = getTimeToComplete(trackWithProgress.track.secondsToComplete),
             rating = numbersFormatter.formatProgressAverageRating(trackWithProgress.trackProgress.averageRating),
             isBeta = trackWithProgress.track.isBeta,
-            isCompleted = trackWithProgress.track.isCompleted
+            isCompleted = trackWithProgress.track.isCompleted,
+            isSelected = isSelected
         )
 
     private fun getTimeToComplete(secondsToComplete: Float?): String? {

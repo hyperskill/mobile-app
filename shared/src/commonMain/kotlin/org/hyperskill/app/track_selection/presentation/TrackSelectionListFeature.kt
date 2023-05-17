@@ -19,10 +19,7 @@ object TrackSelectionListFeature {
         object Idle : ViewState
         object Loading : ViewState
         object Error : ViewState
-        data class Content(
-            val selectedTrack: Track?,
-            val tracks: List<Track>
-        ) : ViewState
+        data class Content(val tracks: List<Track>) : ViewState
 
         data class Track(
             val id: Long,
@@ -31,7 +28,8 @@ object TrackSelectionListFeature {
             val timeToComplete: String?,
             val rating: String,
             val isBeta: Boolean,
-            val isCompleted: Boolean
+            val isCompleted: Boolean,
+            val isSelected: Boolean
         )
     }
 
