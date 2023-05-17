@@ -237,7 +237,7 @@ class ProjectSelectionListDelegate(
             isIdeRequired = project.isIdeRequired,
             isFastestToComplete = project.isFastestToComplete,
             isCompleted = project.isCompleted,
-            formattedRating = project.averageRating.toString(),
+            formattedRating = project.averageRating,
             levelText = project.level?.let(levelTitleByLevelMap::get),
             levelIcon = levelIconByLevelMap[project.level],
             strokeColor = if (isSelected) selectedStrokeColor else notSelectedStrokeColor
