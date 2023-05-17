@@ -73,11 +73,11 @@ class ProjectAdapterDelegate(
 
                 projectGraduateText.isVisible = data.isGraduate
 
-                projectCompletedTextView.isVisible = data.isCompleted
-                projectSelectedTextView.isVisible = data.isSelected
-                projectIdeRequiredTextView.isVisible = data.isIdeRequired
-                projectBestRatingTextView.isVisible = data.isBestRated
-                projectFastestToCompleteTextView.isVisible = data.isFastestToComplete
+                projectCompletedTextView.root.isVisible = data.isCompleted
+                projectSelectedTextView.root.isVisible = data.isSelected
+                projectIdeRequiredTextView.root.isVisible = data.isIdeRequired
+                projectBestRatingTextView.root.isVisible = data.isBestRated
+                projectFastestToCompleteTextView.root.isVisible = data.isFastestToComplete
 
                 // Remove tags top margin when none of theme are shown.
                 // If set some value to projectTags.isVisible, then all the tags will have that visibility.

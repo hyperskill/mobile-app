@@ -94,44 +94,29 @@
             app:layout_constraintEnd_toEndOf="parent"
             />
 
-        <TextView
+        <include
             android:id="@+id/projectCompletedTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/Badge.Green"
-            android:text="@string/completed_label"
+            layout="@layout/view_badge_completed"
             />
 
-        <TextView
+        <include
             android:id="@+id/projectSelectedTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/Badge.Blue"
-            android:text="@string/projects_list_badge_selected_title"
+            layout="@layout/view_badge_selected"
             />
 
-        <TextView
+        <include
             android:id="@+id/projectIdeRequiredTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/Badge.Violet"
-            android:text="@string/ide_required_label"
+            layout="@layout/view_badge_ide_required"
             />
 
-        <TextView
+        <include
             android:id="@+id/projectBestRatingTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/Badge.Blue"
-            android:text="@string/projects_list_badge_best_rating_title"
+            layout="@layout/view_badge_best_rating"
             />
 
-        <TextView
+        <include
             android:id="@+id/projectFastestToCompleteTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/Badge.Blue"
-            android:text="@string/projects_list_badge_fastest_to_complete_title"
+            layout="@layout/view_badge_fastest_to_complete"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
