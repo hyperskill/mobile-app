@@ -1,13 +1,13 @@
 import SwiftUI
 
-struct ProjectSelectionListGridCellBadgesView: View {
+struct TrackSelectionListGridCellBadgesView: View {
     let isSelected: Bool
     let isIdeRequired: Bool
-    let isBestRated: Bool
-    let isFastestToComplete: Bool
+    let isBeta: Bool
+    let isCompleted: Bool
 
-    private var isEmpty: Bool {
-        !isSelected && !isIdeRequired && !isBestRated && !isFastestToComplete
+    var isEmpty: Bool {
+        !isSelected && !isIdeRequired && !isBeta && !isCompleted
     }
 
     var body: some View {
@@ -23,34 +23,35 @@ struct ProjectSelectionListGridCellBadgesView: View {
                     BadgeView.ideRequired()
                 }
 
-                if isBestRated {
-                    BadgeView.bestRating()
+                if isBeta {
+                    BadgeView.beta()
                 }
 
-                if isFastestToComplete {
-                    BadgeView.fastestToComplete()
+                if isCompleted {
+                    BadgeView.completed()
                 }
             }
         }
     }
 }
 
-struct ProjectSelectionListGridCellBadgesView_Previews: PreviewProvider {
+struct TrackSelectionListGridCellBadgesView_Previews: PreviewProvider {
     static var previews: some View {
-        ProjectSelectionListGridCellBadgesView(
+        TrackSelectionListGridCellBadgesView(
             isSelected: true,
             isIdeRequired: true,
-            isBestRated: true,
-            isFastestToComplete: true
+            isBeta: true,
+            isCompleted: true
         )
         .padding()
 
-        ProjectSelectionListGridCellBadgesView(
+        TrackSelectionListGridCellBadgesView(
             isSelected: true,
             isIdeRequired: true,
-            isBestRated: true,
-            isFastestToComplete: true
+            isBeta: true,
+            isCompleted: true
         )
+        .padding()
         .preferredColorScheme(.dark)
     }
 }

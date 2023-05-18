@@ -18,6 +18,20 @@ enum Strings {
         static let goToHomescreen = sharedStrings.go_to_homescreen.localized()
     }
 
+    // MARK: - Badge -
+
+    enum Badge {
+        static let ideRequired = sharedStrings.badge_ide_required_text.localized()
+        static let current = sharedStrings.badge_current_text.localized()
+        static let solveUnlimited = sharedStrings.badge_solve_unlimited_text.localized()
+        static let repeatUnlimited = sharedStrings.badge_repeat_unlimited_text.localized()
+        static let selected = sharedStrings.badge_selected_text.localized()
+        static let bestRating = sharedStrings.badge_best_rating_text.localized()
+        static let fastestToComplete = sharedStrings.badge_fastest_to_complete_text.localized()
+        static let beta = sharedStrings.badge_beta_text.localized()
+        static let completed = sharedStrings.badge_completed_text.localized()
+    }
+
     // MARK: - TabBar -
 
     enum TabBar {
@@ -227,7 +241,6 @@ enum Strings {
     enum StudyPlan {
         static let title = sharedStrings.study_plan_title.localized()
         static let activitiesError = sharedStrings.study_plan_activities_error_text.localized()
-        static let badgeCurrent = sharedStrings.study_plan_badge_current_text.localized()
     }
 
     // MARK: - Profile -
@@ -427,12 +440,12 @@ enum Strings {
                 static let nightmareTitle = sharedStrings.projects_list_nightmare_category_title.localized()
                 static let nightmareDescription = sharedStrings.projects_list_nightmare_category_description.localized()
             }
-
-            enum Badge {
-                static let selected = sharedStrings.projects_list_badge_selected_title.localized()
-                static let bestRating = sharedStrings.projects_list_badge_best_rating_title.localized()
-                static let fastestToComplete = sharedStrings.projects_list_badge_fastest_to_complete_title.localized()
-            }
         }
+    }
+
+    // MARK: - TrackSelectionList -
+
+    enum TrackSelectionList {
+        static let title = sharedStrings.track_selection_list_toolbar_title.localized()
     }
 }
