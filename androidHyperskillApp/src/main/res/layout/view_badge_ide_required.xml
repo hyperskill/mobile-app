@@ -5,5 +5,5 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     style="@style/Badge.Violet"
-    android:text="@string/ide_required_label"
+    android:text="@string/badge_ide_required_text"
     />

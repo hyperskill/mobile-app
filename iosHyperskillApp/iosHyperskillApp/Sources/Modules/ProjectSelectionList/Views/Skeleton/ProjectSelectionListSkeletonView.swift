@@ -13,11 +13,10 @@ struct ProjectSelectionListSkeletonView: View {
         ScrollView([], showsIndicators: false) {
             VStack(spacing: appearance.listViewAppearance.spacing) {
                 ProjectSelectionListHeaderSkeletonView()
-                    .padding(.top, appearance.listViewAppearance.spacing)
 
                 ProjectSelectionListGridSectionSkeletonView()
             }
-            .padding([.horizontal, .bottom])
+            .padding()
         }
         .frame(maxWidth: .infinity)
     }
