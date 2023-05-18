@@ -27,7 +27,7 @@ interface StepQuizFeature {
             val attempt: Attempt,
             val submissionState: SubmissionState,
             val isProblemsLimitReached: Boolean,
-            val isTheoryAvailable: Boolean
+            internal val isTheoryAvailable: Boolean
         ) : StepQuizState
 
         object NetworkError : StepQuizState

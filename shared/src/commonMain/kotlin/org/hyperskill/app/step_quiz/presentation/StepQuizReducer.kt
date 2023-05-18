@@ -4,7 +4,6 @@ import kotlinx.datetime.Clock
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
 import org.hyperskill.app.step.domain.model.BlockName
-import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalClickedGoToHomeScreenHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalHiddenHyperskillAnalyticEvent
@@ -77,7 +76,7 @@ class StepQuizReducer(
                             attempt = message.attempt,
                             submissionState = message.submissionState,
                             isProblemsLimitReached = message.isProblemsLimitReached,
-                            isTheoryAvailable = resolveIsTheoryAvailable(message.step)
+                            isTheoryAvailable = StepQuizResolver.isTheoryToolbarItemAvailable(stepRoute, message.step)
                         )
                     ) to emptySet()
                 } else {
@@ -343,7 +342,7 @@ class StepQuizReducer(
                         attempt = message.attempt,
                         submissionState = message.submissionState,
                         isProblemsLimitReached = isProblemsLimitReached,
-                        isTheoryAvailable = resolveIsTheoryAvailable(message.step)
+                        isTheoryAvailable = StepQuizResolver.isTheoryToolbarItemAvailable(stepRoute, message.step)
                     )
                 ) to actions
             }
@@ -409,16 +408,4 @@ class StepQuizReducer(
             time = Clock.System.now().toString()
         )
     }
-
-    private fun resolveIsTheoryAvailable(step: Step): Boolean =
-        when (stepRoute) {
-            is StepRoute.Learn,
-            is StepRoute.Repeat -> {
-                step.topicTheory != null
-            }
-            is StepRoute.LearnDaily,
-            is StepRoute.StageImplement -> {
-                false
-            }
-        }
 }

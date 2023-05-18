@@ -381,15 +381,7 @@ abstract class DefaultStepQuizFragment :
 
         val stepQuizToolbar = parentFragment?.view?.findViewById<MaterialToolbar>(R.id.stepQuizToolbar)
         stepQuizToolbar?.menu?.findItem(R.id.theory)?.apply {
-            isVisible = when (state.stepQuizState) {
-                is StepQuizFeature.StepQuizState.AttemptLoaded -> {
-                    (state.stepQuizState as StepQuizFeature.StepQuizState.AttemptLoaded).isTheoryAvailable
-                }
-                is StepQuizFeature.StepQuizState.AttemptLoading -> {
-                    (state.stepQuizState as StepQuizFeature.StepQuizState.AttemptLoading).oldState.isTheoryAvailable
-                }
-                else -> false
-            }
+            isVisible = StepQuizResolver.isTheoryToolbarItemAvailable(state.stepQuizState)
             // TODO: isEnabled not working
             isEnabled = !StepQuizResolver.isQuizLoading(state.stepQuizState)
             actionView?.setOnClickListener {

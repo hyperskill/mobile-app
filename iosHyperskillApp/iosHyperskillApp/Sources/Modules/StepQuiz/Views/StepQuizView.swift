@@ -80,8 +80,9 @@ struct StepQuizView: View {
                 }
                 .padding()
             }
-            .if(viewData.isTheoryAvailable) {
+            .if(StepQuizResolver.shared.isTheoryToolbarItemAvailable(state: viewModel.state.stepQuizState)) {
                 $0.toolbar {
+                    // buildIf is only available in iOS 16.0 or newer
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(
                             Strings.Step.theory,

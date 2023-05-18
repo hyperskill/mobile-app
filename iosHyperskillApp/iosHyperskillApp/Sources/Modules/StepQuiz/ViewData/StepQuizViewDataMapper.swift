@@ -26,8 +26,7 @@ final class StepQuizViewDataMapper {
                 quizType: quizType,
                 quizName: nil,
                 feedbackHintText: nil,
-                stepHasHints: false,
-                isTheoryAvailable: false
+                stepHasHints: false
             )
         }
 
@@ -94,8 +93,7 @@ final class StepQuizViewDataMapper {
             quizType: quizType,
             quizName: quizName,
             feedbackHintText: feedbackHintText,
-            stepHasHints: stepHasHints,
-            isTheoryAvailable: attemptLoadedState?.isTheoryAvailable ?? false
+            stepHasHints: stepHasHints
         )
     }
 }
