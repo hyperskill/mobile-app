@@ -369,7 +369,7 @@ platform :ios do
       )
 
       import_certificate(
-        certificate_path: "certs/AppleWWDRCAG6.cer",
+        certificate_path: "fastlane/certs/AppleWWDRCAG6.cer",
         keychain_name: keychain_name,
         keychain_password: keychain_password,
       )
