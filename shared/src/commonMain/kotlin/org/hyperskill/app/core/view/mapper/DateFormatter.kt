@@ -1,5 +1,6 @@
 package org.hyperskill.app.core.view.mapper
 
+import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.roundToLong
 import kotlin.time.Duration
@@ -110,6 +111,15 @@ class DateFormatter(private val resourceProvider: ResourceProvider) {
     }
 
     /**
+     * Format hours and minutes count with localized and pluralized suffix;
+     * 7260 -> "2 hours 1 minute", 7320 -> "2 hours 2 minute", 21600 -> "6 hours"
+     * @param seconds Seconds to format
+     *
+     */
+    fun hoursWithMinutesCount(seconds: Float): String =
+        hoursWithMinutesCount(seconds.toLong())
+
+    /**
      * Format hours or minutes count with localized and pluralized suffix;
      * 02:03:10 -> "2 hours", 00:12:56 -> "12 minutes"
      * @param duration Duration to format
@@ -129,4 +139,22 @@ class DateFormatter(private val resourceProvider: ResourceProvider) {
                 duration.inWholeMinutes.toInt()
             )
         }
+
+    /**
+     * Format hours count (with floor rounding) with localized and pluralized suffix;
+     * 7260 -> "2 hours", 7320 -> "2 hours", 21600 -> "6 hours", 3599 -> null, null -> null
+     * @param seconds Seconds to format
+     *
+     */
+    fun hoursCount(seconds: Float?): String? {
+        if (seconds == null || seconds <= 0) return null
+
+        val hours = floor(seconds / SECONDS_PER_HOUR).toInt()
+
+        return if (hours >= 1) {
+            resourceProvider.getQuantityString(SharedResources.plurals.hours, hours, hours)
+        } else {
+            null
+        }
+    }
 }

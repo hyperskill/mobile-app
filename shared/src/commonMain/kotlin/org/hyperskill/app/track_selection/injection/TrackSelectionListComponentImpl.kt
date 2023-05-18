@@ -19,8 +19,8 @@ class TrackSelectionListComponentImpl(
             appGraph.buildProfileDataComponent().profileInteractor,
             appGraph.stateRepositoriesComponent.currentStudyPlanStateRepository,
             TrackSelectionListViewStateMapper(
-                resourceProvider = appGraph.commonComponent.resourceProvider,
-                numbersFormatter = appGraph.commonComponent.numbersFormatter
+                numbersFormatter = appGraph.commonComponent.numbersFormatter,
+                dateFormatter = appGraph.commonComponent.dateFormatter
             )
         )
 }

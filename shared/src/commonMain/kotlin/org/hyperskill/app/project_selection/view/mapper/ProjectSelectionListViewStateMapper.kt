@@ -1,7 +1,7 @@
 package org.hyperskill.app.project_selection.view.mapper
 
-import kotlin.math.floor
 import org.hyperskill.app.SharedResources
+import org.hyperskill.app.core.view.mapper.DateFormatter
 import org.hyperskill.app.core.view.mapper.NumbersFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.progresses.domain.model.averageRating
@@ -18,7 +18,8 @@ import org.hyperskill.app.track.domain.model.getProjectLevel
 
 internal class ProjectSelectionListViewStateMapper(
     private val resourceProvider: ResourceProvider,
-    private val numbersFormatter: NumbersFormatter
+    private val numbersFormatter: NumbersFormatter,
+    private val dateFormatter: DateFormatter
 ) {
     fun map(state: ProjectSelectionListFeature.ContentState): ProjectSelectionListFeature.ViewState =
         when (state) {
@@ -81,7 +82,7 @@ internal class ProjectSelectionListViewStateMapper(
                 title = project.title,
                 averageRating = numbersFormatter.formatProgressAverageRating(progress.averageRating()),
                 level = level,
-                formattedTimeToComplete = getTimeToComplete(progress.secondsToComplete),
+                formattedTimeToComplete = dateFormatter.hoursCount(progress.secondsToComplete),
                 isGraduate = project.isGraduate(trackId),
                 isBestRated = project.id == bestRatedProjectId,
                 isIdeRequired = project.isIdeRequired,
@@ -89,14 +90,4 @@ internal class ProjectSelectionListViewStateMapper(
                 isCompleted = progress.isCompleted
             )
         }
-
-    private fun getTimeToComplete(secondsToComplete: Float?): String? {
-        if (secondsToComplete == null || secondsToComplete <= 0) return null
-        val hours = floor(secondsToComplete / 3600).toInt()
-        return if (hours >= 1) {
-            resourceProvider.getQuantityString(SharedResources.plurals.hours, hours, hours)
-        } else {
-            null
-        }
-    }
 }

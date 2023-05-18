@@ -23,9 +23,11 @@ data class StudyPlan(
     @SerialName("status")
     val status: StudyPlanStatus
 ) {
+    @Deprecated("Use DateFormatter instead, remove after Track feature removal")
     val minutesToReachTrack: Int =
         (secondsToReachTrack / 60.0).roundToInt()
 
+    @Deprecated("Use DateFormatter instead, remove after Track feature removal")
     val hoursToReachTrack: Int =
         (secondsToReachTrack / 3600.0).roundToInt()
 }
