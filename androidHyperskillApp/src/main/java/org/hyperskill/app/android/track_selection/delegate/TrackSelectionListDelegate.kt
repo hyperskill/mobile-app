@@ -5,7 +5,6 @@ import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.SimpleItemAnimator
 import coil.ImageLoader
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.itemDecoration
@@ -73,7 +72,7 @@ class TrackSelectionListDelegate(
             this.adapter = trackSelectionListAdapterDelegate
             layoutManager = LinearLayoutManager(context)
             setupDecorations(this, trackSelectionListAdapterDelegate)
-            (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
+            itemAnimator = null
         }
     }
 
