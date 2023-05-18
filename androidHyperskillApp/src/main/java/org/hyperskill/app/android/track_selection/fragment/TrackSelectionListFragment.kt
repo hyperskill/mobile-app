@@ -28,7 +28,7 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 
 class TrackSelectionListFragment : Fragment(R.layout.fragment_track_selection_list), ReduxView<ViewState, ViewAction> {
     companion object {
-        fun newInstance() =
+        fun newInstance(): TrackSelectionListFragment =
             TrackSelectionListFragment()
     }
 
