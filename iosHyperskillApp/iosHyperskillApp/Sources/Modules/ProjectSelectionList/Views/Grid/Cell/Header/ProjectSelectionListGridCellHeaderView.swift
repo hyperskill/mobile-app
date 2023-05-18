@@ -20,10 +20,10 @@ struct ProjectSelectionListGridCellHeaderView: View {
 
     let isGraduate: Bool
 
-    let averageRating: Double
+    let averageRating: String
 
     private var isEmpty: Bool {
-        level == nil && !isGraduate && averageRating == 0
+        level == nil && !isGraduate && averageRating.isEmpty
     }
 
     var body: some View {
@@ -43,7 +43,7 @@ struct ProjectSelectionListGridCellHeaderView: View {
 
                 StarRatingView(
                     appearance: appearance.ratingViewAppearance,
-                    rating: .number(value: averageRating, decimalPoints: 1)
+                    rating: .string(averageRating)
                 )
             }
         }
@@ -53,9 +53,9 @@ struct ProjectSelectionListGridCellHeaderView: View {
 struct ProjectSelectionListGridCellHeaderView_Previews: PreviewProvider {
     static var previews: some View {
         VStack(spacing: LayoutInsets.defaultInset) {
-            ProjectSelectionListGridCellHeaderView(level: .easy, isGraduate: true, averageRating: 4.7)
-            ProjectSelectionListGridCellHeaderView(level: .medium, isGraduate: false, averageRating: 4.6)
-            ProjectSelectionListGridCellHeaderView(level: .hard, isGraduate: false, averageRating: 0)
+            ProjectSelectionListGridCellHeaderView(level: .easy, isGraduate: true, averageRating: "4.7")
+            ProjectSelectionListGridCellHeaderView(level: .medium, isGraduate: false, averageRating: "4.6")
+            ProjectSelectionListGridCellHeaderView(level: .hard, isGraduate: false, averageRating: "")
         }
         .padding()
     }

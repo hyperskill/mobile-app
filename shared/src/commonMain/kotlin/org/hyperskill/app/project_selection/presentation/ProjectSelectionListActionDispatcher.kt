@@ -33,7 +33,8 @@ class ProjectSelectionListActionDispatcher(
         when (action) {
             is InternalAction.FetchContent -> {
                 coroutineScope {
-                    val transaction = HyperskillSentryTransactionBuilder.buildProjectsListScreenRemoteDataLoading()
+                    val transaction = HyperskillSentryTransactionBuilder
+                        .buildProjectSelectionListScreenRemoteDataLoading()
                     sentryInteractor.startTransaction(transaction)
 
                     val track =

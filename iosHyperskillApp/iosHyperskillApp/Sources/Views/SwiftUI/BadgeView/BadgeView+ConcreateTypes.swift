@@ -1,43 +1,40 @@
 import SwiftUI
 
 extension BadgeView {
-    // MARK: Common
-
     static func ideRequired() -> BadgeView {
-        BadgeView(
-            text: Strings.StageImplement.UnsupportedModal.title,
-            style: .violet
-        )
+        BadgeView(text: Strings.Badge.ideRequired, style: .violet)
     }
 
-    // MARK: StudyPlan
-
-    static func studyPlanCurrent() -> BadgeView {
-        BadgeView(text: Strings.StudyPlan.badgeCurrent, style: .blue)
+    static func current() -> BadgeView {
+        BadgeView(text: Strings.Badge.current, style: .blue)
     }
 
-    // MARK: Freemium
-
-    static func freemiumSolveUnlimited() -> BadgeView {
-        BadgeView(text: Strings.Home.solveUnlimited, style: .violet)
+    static func solveUnlimited() -> BadgeView {
+        BadgeView(text: Strings.Badge.solveUnlimited, style: .violet)
     }
 
-    static func freemiumRepeatUnlimited() -> BadgeView {
-        BadgeView(text: Strings.Home.repeatUnlimited, style: .violet)
+    static func repeatUnlimited() -> BadgeView {
+        BadgeView(text: Strings.Badge.repeatUnlimited, style: .violet)
     }
 
-    // MARK: ProjectSelectionList
-
-    static func projectSelectionListSelected() -> BadgeView {
-        BadgeView(text: Strings.ProjectSelectionList.List.Badge.selected, style: .blue)
+    static func selected() -> BadgeView {
+        BadgeView(text: Strings.Badge.selected, style: .blue)
     }
 
-    static func projectSelectionListBestRating() -> BadgeView {
-        BadgeView(text: Strings.ProjectSelectionList.List.Badge.bestRating, style: .blue)
+    static func bestRating() -> BadgeView {
+        BadgeView(text: Strings.Badge.bestRating, style: .blue)
     }
 
-    static func projectSelectionListFastestToComplete() -> BadgeView {
-        BadgeView(text: Strings.ProjectSelectionList.List.Badge.fastestToComplete, style: .blue)
+    static func fastestToComplete() -> BadgeView {
+        BadgeView(text: Strings.Badge.fastestToComplete, style: .blue)
+    }
+
+    static func beta() -> BadgeView {
+        BadgeView(text: Strings.Badge.beta, style: .orange)
+    }
+
+    static func completed() -> BadgeView {
+        BadgeView(text: Strings.Badge.completed, style: .green)
     }
 }
 
@@ -48,14 +45,17 @@ struct BadgeViewConcreateTypes_Previews: PreviewProvider {
         VStack {
             BadgeView.ideRequired()
 
-            BadgeView.studyPlanCurrent()
+            BadgeView.current()
 
-            BadgeView.freemiumSolveUnlimited()
-            BadgeView.freemiumRepeatUnlimited()
+            BadgeView.solveUnlimited()
+            BadgeView.repeatUnlimited()
 
-            BadgeView.projectSelectionListSelected()
-            BadgeView.projectSelectionListBestRating()
-            BadgeView.projectSelectionListFastestToComplete()
+            BadgeView.selected()
+            BadgeView.bestRating()
+            BadgeView.fastestToComplete()
+
+            BadgeView.beta()
+            BadgeView.completed()
         }
         .padding()
         .previewLayout(.sizeThatFits)

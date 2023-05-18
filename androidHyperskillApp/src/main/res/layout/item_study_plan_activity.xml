@@ -99,23 +99,16 @@
                 android:id="@+id/activityCompletenessTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/color_secondary"
-                android:background="@drawable/bg_activity_percentage"
-                android:paddingVertical="4dp"
-                android:paddingHorizontal="8dp"
+                style="@style/Badge.Green"
                 tools:text="87%"
                 />
 
             <TextView
                 android:id="@+id/activityIdeRequiredTextView"
-                android:text="@string/stage_implement_unsupported_modal_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/color_overlay_violet"
-                android:background="@drawable/bg_activity_ide_required"
-                android:paddingVertical="4dp"
-                android:paddingHorizontal="8dp"
-                tools:text="87%"
+                style="@style/Badge.Violet"
+                android:text="@string/stage_implement_unsupported_modal_title"
                 />
         </LinearLayout>
 

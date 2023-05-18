@@ -17,7 +17,10 @@ class ProjectSelectionListComponentImpl(private val appGraph: AppGraph) : Projec
             projectsRepository = appGraph.buildProjectsDataComponent().projectsRepository,
             progressesRepository = appGraph.buildProgressesDataComponent().progressesRepository,
             profileInteractor = appGraph.buildProfileDataComponent().profileInteractor,
-            viewStateMapper = ProjectSelectionListViewStateMapper(appGraph.commonComponent.resourceProvider),
+            viewStateMapper = ProjectSelectionListViewStateMapper(
+                resourceProvider = appGraph.commonComponent.resourceProvider,
+                numbersFormatter = appGraph.commonComponent.numbersFormatter
+            ),
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,
             analyticInteractor = appGraph.analyticComponent.analyticInteractor
         )

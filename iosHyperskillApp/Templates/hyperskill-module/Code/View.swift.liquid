@@ -47,13 +47,23 @@ struct {{ module_info.name }}View: View {
                     action: viewModel.doRetryLoad{{ module_info.name }}
                 )
             )
-        case .content(let data):
+        case .content(let viewData):
             Text("Hello, World!")
         }
     }
-
-    private func handleViewAction(_ viewAction: {{ module_info.name }}FeatureActionViewAction) {}
 }
+
+// MARK: - {{ module_info.name }}View (ViewAction) -
+
+private extension {{ module_info.name }}View {
+    func handleViewAction(
+        _ viewAction: {{ module_info.name }}FeatureActionViewAction
+    ) {
+        switch {{ module_info.name }}FeatureActionViewActionKs(viewAction) {}
+    }
+}
+
+// MARK: - {{ module_info.name }}View_Previews: PreviewProvider -
 
 struct {{ module_info.name }}View_Previews: PreviewProvider {
     static var previews: some View {

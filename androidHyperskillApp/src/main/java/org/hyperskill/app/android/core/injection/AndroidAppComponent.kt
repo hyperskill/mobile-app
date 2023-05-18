@@ -25,6 +25,7 @@ import org.hyperskill.app.profile.injection.PlatformProfileComponent
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile_settings.injection.PlatformProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
+import org.hyperskill.app.project_selection.injection.PlatformProjectSelectionListComponent
 import org.hyperskill.app.stage_implementation.injection.PlatformStageImplementationComponent
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -72,4 +73,6 @@ interface AndroidAppComponent : AppGraph {
     fun buildPlatformDebugComponent(debugComponent: DebugComponent): PlatformDebugComponent
     fun buildPlatformStageImplementationComponent(projectId: Long, stageId: Long): PlatformStageImplementationComponent
     fun buildPlatformStudyPlanScreenComponent(): PlatformStudyPlanScreenComponent
+
+    fun buildPlatformProjectSelectionListComponent(trackId: Long): PlatformProjectSelectionListComponent
 }
