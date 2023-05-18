@@ -169,6 +169,8 @@ import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.track.injection.TrackComponentImpl
 import org.hyperskill.app.track.injection.TrackDataComponent
 import org.hyperskill.app.track.injection.TrackDataComponentImpl
+import org.hyperskill.app.track_selection.injection.PlatformTrackSelectionListComponent
+import org.hyperskill.app.track_selection.injection.PlatformTrackSelectionListComponentImpl
 import org.hyperskill.app.track_selection.injection.TrackSelectionListComponent
 import org.hyperskill.app.track_selection.injection.TrackSelectionListComponentImpl
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
@@ -350,9 +352,6 @@ class AndroidAppComponentImpl(
     override fun buildTrackDataComponent(): TrackDataComponent =
         TrackDataComponentImpl(this)
 
-    override fun buildTrackSelectionListComponent(): TrackSelectionListComponent =
-        TrackSelectionListComponentImpl(this)
-
     override fun buildPlatformTrackComponent(trackComponent: TrackComponent): PlatformTrackComponent =
         PlatformTrackComponentImpl(trackComponent)
 
@@ -477,6 +476,16 @@ class AndroidAppComponentImpl(
             projectSelectionListComponent = buildProjectSelectionListComponent(),
             trackId = trackId
         )
+
+    /**
+     * Track selection list component
+     */
+
+    override fun buildTrackSelectionListComponent(): TrackSelectionListComponent =
+        TrackSelectionListComponentImpl(this)
+
+    override fun buildPlatformTrackSelectionListComponent(): PlatformTrackSelectionListComponent =
+        PlatformTrackSelectionListComponentImpl(buildTrackSelectionListComponent())
 
     override fun buildStudyPlanScreenComponent(): StudyPlanScreenComponent =
         StudyPlanScreenComponentImpl(this)
