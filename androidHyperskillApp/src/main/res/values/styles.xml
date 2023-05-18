@@ -184,4 +184,9 @@
         <item name="android:textColor">@color/color_primary</item>
     </style>
 
+    <style name="Badge.Orange" parent="Badge">
+        <item name="android:background">@drawable/bg_tag_orange</item>
+        <item name="android:textColor">@color/color_overlay_orange</item>
+    </style>
+
 </resources>

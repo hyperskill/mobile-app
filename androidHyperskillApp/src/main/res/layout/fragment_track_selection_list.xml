@@ -17,9 +17,18 @@
             android:background="@color/color_background"
             app:navigationIcon="@drawable/ic_toolbar_back"
             app:navigationIconTint="?colorControlNormal"
-            app:contentInsetStartWithNavigation="0dp"/>
+            app:contentInsetStartWithNavigation="0dp"
+            app:title="@string/track_selection_list_toolbar_title"/>
 
     </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/trackSelectionListRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_background"
+        android:visibility="gone"
+        />
 
     <include
         android:id="@+id/trackSelectionListError"
