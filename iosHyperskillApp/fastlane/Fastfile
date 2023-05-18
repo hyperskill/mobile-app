@@ -367,6 +367,12 @@ platform :ios do
         unlock: true,
         timeout: 0, # no time-out
       )
+
+      import_certificate(
+        certificate_path: "certs/AppleWWDRCAG6.cer",
+        keychain_name: keychain_name,
+        keychain_password: keychain_password,
+      )
     else
       unlock_keychain(password: keychain_password)
     end
