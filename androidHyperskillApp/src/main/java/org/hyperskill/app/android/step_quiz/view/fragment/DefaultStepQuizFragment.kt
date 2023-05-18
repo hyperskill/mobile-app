@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
@@ -31,6 +32,7 @@ import org.hyperskill.app.android.problems_limit.dialog.ProblemsLimitReachedBott
 import org.hyperskill.app.android.problems_limit.view.ui.delegate.ProblemsLimitDelegate
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
+import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFeedbackBlocksDelegate
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.dialog.CompletedStepOfTheDayDialogFragment
@@ -259,7 +261,7 @@ abstract class DefaultStepQuizFragment :
                 mainScreenRouter.switch(HomeScreen)
             }
             is StepQuizFeature.Action.ViewAction.NavigateTo.StepScreen -> {
-                TODO()
+                requireRouter().navigateTo(StepScreen(action.stepRoute))
             }
             is StepQuizFeature.Action.ViewAction.RequestUserPermission -> {
                 when (action.userPermissionRequest) {
@@ -374,6 +376,26 @@ abstract class DefaultStepQuizFragment :
             }
             else -> {
                 // no op
+            }
+        }
+
+        val stepQuizToolbar = parentFragment?.view?.findViewById<MaterialToolbar>(R.id.stepQuizToolbar)
+        stepQuizToolbar?.menu?.findItem(R.id.theory)?.apply {
+            isVisible = when (state.stepQuizState) {
+                is StepQuizFeature.StepQuizState.AttemptLoaded -> {
+                    (state.stepQuizState as StepQuizFeature.StepQuizState.AttemptLoaded).isTheoryAvailable
+                }
+                is StepQuizFeature.StepQuizState.AttemptLoading -> {
+                    (state.stepQuizState as StepQuizFeature.StepQuizState.AttemptLoading).oldState.isTheoryAvailable
+                }
+                else -> false
+            }
+            // TODO: isEnabled not working
+            isEnabled = !StepQuizResolver.isQuizLoading(state.stepQuizState)
+            actionView?.setOnClickListener {
+                stepQuizViewModel.onNewMessage(
+                    StepQuizFeature.Message.TheoryToolbarClicked
+                )
             }
         }
 
