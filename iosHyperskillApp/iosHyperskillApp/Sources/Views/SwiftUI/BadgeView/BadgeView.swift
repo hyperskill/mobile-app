@@ -28,6 +28,7 @@ struct BadgeView: View {
         case blue
         case green
         case violet
+        case orange
 
         fileprivate var foregroundColor: Color {
             switch self {
@@ -37,6 +38,8 @@ struct BadgeView: View {
                 return Color(ColorPalette.secondary)
             case .violet:
                 return Color(ColorPalette.overlayViolet)
+            case .orange:
+                return Color(ColorPalette.overlayOrange)
             }
         }
 
@@ -48,6 +51,8 @@ struct BadgeView: View {
                 return Color(ColorPalette.overlayGreenAlpha12)
             case .violet:
                 return Color(ColorPalette.overlayVioletAlpha12)
+            case .orange:
+                return Color(ColorPalette.overlayOrangeAlpha12)
             }
         }
     }
@@ -55,12 +60,14 @@ struct BadgeView: View {
 
 struct BadgeView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
+        VStack(spacing: LayoutInsets.defaultInset) {
             BadgeView(text: "Blue", style: .blue)
 
             BadgeView(text: "Green", style: .green)
 
             BadgeView(text: "Violet", style: .violet)
+
+            BadgeView(text: "Orange", style: .orange)
         }
         .padding()
         .previewLayout(.sizeThatFits)
