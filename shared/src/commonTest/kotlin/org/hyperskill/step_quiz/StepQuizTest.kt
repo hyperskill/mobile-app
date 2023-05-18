@@ -9,7 +9,7 @@ import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
-import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedTheoryToolbarHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizReducer
@@ -142,7 +142,8 @@ class StepQuizTest {
         assertTrue {
             val analyticActions = finalActions.filterIsInstance<StepQuizFeature.Action.LogAnalyticEvent>()
             analyticActions.any {
-                (it.analyticEvent as StepQuizClickedTheoryToolbarHyperskillAnalyticEvent).topicTheoryId == topicTheoryId
+                (it.analyticEvent as StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent)
+                    .topicTheoryId == topicTheoryId
             }
         }
     }

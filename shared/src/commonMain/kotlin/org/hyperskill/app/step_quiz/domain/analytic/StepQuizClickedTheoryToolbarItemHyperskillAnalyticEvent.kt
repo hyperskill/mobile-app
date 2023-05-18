@@ -5,6 +5,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEve
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPart
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
+import ru.nobird.app.core.model.mapOfNotNull
 
 /**
  * Represents a click on the theory toolbar item analytic event.
@@ -24,9 +25,9 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * ```
  * @see HyperskillAnalyticEvent
  */
-class StepQuizClickedTheoryToolbarHyperskillAnalyticEvent(
+class StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute,
-    val topicTheoryId: Long
+    val topicTheoryId: Long?
 ) : HyperskillAnalyticEvent(
     route,
     HyperskillAnalyticAction.CLICK,
@@ -40,7 +41,7 @@ class StepQuizClickedTheoryToolbarHyperskillAnalyticEvent(
     override val params: Map<String, Any>
         get() = super.params +
             mapOf(
-                PARAM_CONTEXT to mapOf(
+                PARAM_CONTEXT to mapOfNotNull(
                     TOPIC_THEORY to topicTheoryId
                 )
             )

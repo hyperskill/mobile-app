@@ -58,3 +58,11 @@ sealed interface StepRoute {
             StepContext.DEFAULT
     }
 }
+
+internal fun StepRoute.copy(stepId: Long): StepRoute =
+    when (this) {
+        is StepRoute.Learn -> StepRoute.Learn(stepId)
+        is StepRoute.LearnDaily -> StepRoute.LearnDaily(stepId)
+        is StepRoute.Repeat -> StepRoute.Repeat(stepId)
+        is StepRoute.StageImplement -> StepRoute.StageImplement(stepId, projectId, stageId)
+    }

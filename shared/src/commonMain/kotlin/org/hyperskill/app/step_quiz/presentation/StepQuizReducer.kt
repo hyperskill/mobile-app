@@ -5,6 +5,7 @@ import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.step.domain.model.copy
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalClickedGoToHomeScreenHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalShownHyperskillAnalyticEvent
@@ -12,7 +13,7 @@ import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedCodeDetailsHy
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRetryHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRunHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedSendHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedTheoryToolbarHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizDailyStepCompletedModalClickedGoBackHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizDailyStepCompletedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizDailyStepCompletedModalShownHyperskillAnalyticEvent
@@ -37,7 +38,8 @@ class StepQuizReducer(
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): StepQuizReducerResult =
         when (message) {
-            is Message.InitWithStep -> initialize(state, message)
+            is Message.InitWithStep ->
+                initialize(state, message)
             is Message.FetchAttemptSuccess ->
                 handleFetchAttemptSuccess(state, message)
             is Message.FetchAttemptError ->
@@ -257,27 +259,8 @@ class StepQuizReducer(
                 } else {
                     null
                 }
-            is Message.TheoryToolbarItemClicked -> {
-                if (state.stepQuizState is StepQuizState.AttemptLoaded && state.stepQuizState.isTheoryAvailable) {
-                    val topicTheoryId = state.stepQuizState.step.topicTheory
-
-                    if (topicTheoryId != null) {
-                        state to setOf(
-                            Action.LogAnalyticEvent(
-                                StepQuizClickedTheoryToolbarHyperskillAnalyticEvent(
-                                    stepRoute.analyticRoute,
-                                    topicTheoryId
-                                )
-                            ),
-                            Action.ViewAction.NavigateTo.StepScreen(StepRoute.Learn(topicTheoryId))
-                        )
-                    } else {
-                        null
-                    }
-                } else {
-                    null
-                }
-            }
+            is Message.TheoryToolbarItemClicked ->
+                handleTheoryToolbarItemClicked(state)
             is Message.ClickedRetryEventMessage ->
                 if (state.stepQuizState is StepQuizState.AttemptLoaded) {
                     val event = StepQuizClickedRetryHyperskillAnalyticEvent(stepRoute.analyticRoute)
@@ -370,7 +353,7 @@ class StepQuizReducer(
         return problemsLimitState to actions
     }
 
-    private fun initialize(state: State, message: Message.InitWithStep): Pair<State, Set<Action>> {
+    private fun initialize(state: State, message: Message.InitWithStep): StepQuizReducerResult {
         val needReloadStepQuiz =
             state.stepQuizState is StepQuizState.Idle ||
                 (message.forceUpdate && state.stepQuizState is StepQuizState.NetworkError)
@@ -396,6 +379,32 @@ class StepQuizReducer(
             problemsLimitState = problemsLimitState
         ) to stepQuizActions + problemsLimitActions
     }
+
+    private fun handleTheoryToolbarItemClicked(state: State): StepQuizReducerResult =
+        if (state.stepQuizState is StepQuizState.AttemptLoaded &&
+            state.stepQuizState.isTheoryAvailable
+        ) {
+            val topicTheoryId = state.stepQuizState.step.topicTheory
+
+            val analyticEventAction = Action.LogAnalyticEvent(
+                StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent(
+                    stepRoute.analyticRoute,
+                    topicTheoryId
+                )
+            )
+
+            if (topicTheoryId != null) {
+                val targetStepRoute = stepRoute.copy(stepId = topicTheoryId)
+                state to setOf(
+                    analyticEventAction,
+                    Action.ViewAction.NavigateTo.StepScreen(targetStepRoute)
+                )
+            } else {
+                state to setOf(analyticEventAction)
+            }
+        } else {
+            state to emptySet()
+        }
 
     private fun createLocalSubmission(oldState: StepQuizState.AttemptLoaded, reply: Reply): Submission {
         val submission = (oldState.submissionState as? StepQuizFeature.SubmissionState.Loaded)?.submission
