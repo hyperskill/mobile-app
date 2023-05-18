@@ -81,7 +81,7 @@ class StepQuizResolverTest {
             StepRoute.Learn(step.id),
             StepRoute.Repeat(step.id)
         ).forEach {
-            assertEquals(true, StepQuizResolver.isTheoryToolbarItemAvailable(it, step))
+            assertEquals(true, StepQuizResolver.isTheoryAvailable(it, step))
         }
     }
 
@@ -97,7 +97,7 @@ class StepQuizResolverTest {
         ).forEach { stepRoute ->
             assertEquals(
                 false,
-                StepQuizResolver.isTheoryToolbarItemAvailable(stepRoute, step)
+                StepQuizResolver.isTheoryAvailable(stepRoute, step)
             )
         }
     }

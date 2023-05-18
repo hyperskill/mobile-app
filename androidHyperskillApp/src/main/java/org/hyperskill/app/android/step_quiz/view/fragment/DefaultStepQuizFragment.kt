@@ -386,7 +386,7 @@ abstract class DefaultStepQuizFragment :
             isEnabled = !StepQuizResolver.isQuizLoading(state.stepQuizState)
             actionView?.setOnClickListener {
                 stepQuizViewModel.onNewMessage(
-                    StepQuizFeature.Message.TheoryToolbarClicked
+                    StepQuizFeature.Message.TheoryToolbarItemClicked
                 )
             }
         }

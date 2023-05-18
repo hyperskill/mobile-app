@@ -106,7 +106,7 @@ object StepQuizResolver {
             }
         }
 
-    internal fun isTheoryToolbarItemAvailable(stepRoute: StepRoute, step: Step): Boolean =
+    internal fun isTheoryAvailable(stepRoute: StepRoute, step: Step): Boolean =
         when (stepRoute) {
             is StepRoute.Learn,
             is StepRoute.Repeat -> {

@@ -76,7 +76,7 @@ class StepQuizReducer(
                             attempt = message.attempt,
                             submissionState = message.submissionState,
                             isProblemsLimitReached = message.isProblemsLimitReached,
-                            isTheoryAvailable = StepQuizResolver.isTheoryToolbarItemAvailable(stepRoute, message.step)
+                            isTheoryAvailable = StepQuizResolver.isTheoryAvailable(stepRoute, message.step)
                         )
                     ) to emptySet()
                 } else {
@@ -257,7 +257,7 @@ class StepQuizReducer(
                 } else {
                     null
                 }
-            is Message.TheoryToolbarClicked -> {
+            is Message.TheoryToolbarItemClicked -> {
                 if (state.stepQuizState is StepQuizState.AttemptLoaded && state.stepQuizState.isTheoryAvailable) {
                     val topicTheoryId = state.stepQuizState.step.topicTheory
 
@@ -342,7 +342,7 @@ class StepQuizReducer(
                         attempt = message.attempt,
                         submissionState = message.submissionState,
                         isProblemsLimitReached = isProblemsLimitReached,
-                        isTheoryAvailable = StepQuizResolver.isTheoryToolbarItemAvailable(stepRoute, message.step)
+                        isTheoryAvailable = StepQuizResolver.isTheoryAvailable(stepRoute, message.step)
                     )
                 ) to actions
             }

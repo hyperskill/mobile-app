@@ -103,7 +103,7 @@ interface StepQuizFeature {
          *
          * @see StepQuizFeature.Action.ViewAction.NavigateTo.StepScreen
          */
-        object TheoryToolbarClicked : Message
+        object TheoryToolbarItemClicked : Message
 
         /**
          * Analytic

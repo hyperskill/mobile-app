@@ -128,7 +128,7 @@ class StepQuizTest {
 
         val (finalState, finalActions) = reducer.reduce(
             intermediateState,
-            StepQuizFeature.Message.TheoryToolbarClicked
+            StepQuizFeature.Message.TheoryToolbarItemClicked
         )
 
         assertEquals(expectedState, finalState)
@@ -184,7 +184,7 @@ class StepQuizTest {
 
         val (finalState, finalActions) = reducer.reduce(
             intermediateState,
-            StepQuizFeature.Message.TheoryToolbarClicked
+            StepQuizFeature.Message.TheoryToolbarItemClicked
         )
 
         assertEquals(expectedState, finalState)
