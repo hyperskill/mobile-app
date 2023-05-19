@@ -2,6 +2,7 @@ package org.hyperskill.app.android.step_practice.view.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.R
@@ -10,7 +11,6 @@ import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepPracticeBinding
 import org.hyperskill.app.android.step.view.model.StepCompletionView
-import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.step_content_text.view.fragment.TextStepContentFragment
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizFragmentFactory
 import org.hyperskill.app.step.domain.model.Step
@@ -35,17 +35,11 @@ class StepPracticeFragment : Fragment(R.layout.fragment_step_practice), StepComp
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (requireActivity() as AppCompatActivity)
+            .setSupportActionBar(viewBinding.stepPracticeAppBar.stepQuizToolbar.root)
         with(viewBinding.stepPracticeAppBar.stepQuizToolbar) {
             root.setNavigationOnClickListener {
                 requireRouter().exit()
-            }
-            root.menu.findItem(R.id.theory).apply {
-                isVisible = step.topicTheory != null && stepRoute is StepRoute.Repeat
-                actionView?.setOnClickListener {
-                    step.topicTheory?.let { theoryId ->
-                        requireRouter().navigateTo(StepScreen(StepRoute.Repeat(theoryId)))
-                    }
-                }
             }
             stepQuizToolbarTitle.text = step.title
         }

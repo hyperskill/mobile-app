@@ -2,15 +2,21 @@ package org.hyperskill.app.android.step_quiz.view.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -31,6 +37,7 @@ import org.hyperskill.app.android.problems_limit.dialog.ProblemsLimitReachedBott
 import org.hyperskill.app.android.problems_limit.view.ui.delegate.ProblemsLimitDelegate
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
+import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFeedbackBlocksDelegate
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.dialog.CompletedStepOfTheDayDialogFragment
@@ -64,7 +71,8 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 abstract class DefaultStepQuizFragment :
     Fragment(R.layout.fragment_step_quiz),
     ReduxView<StepQuizFeature.State, StepQuizFeature.Action.ViewAction>,
-    StepCompletionView {
+    StepCompletionView,
+    MenuProvider {
 
     companion object {
         private const val STEP_HINTS_FRAGMENT_TAG = "step_hints"
@@ -105,6 +113,8 @@ abstract class DefaultStepQuizFragment :
     protected var step: Step by argument(serializer = Step.serializer())
     protected var stepRoute: StepRoute by argument(serializer = StepRoute.serializer())
 
+    private var theoryButtonState: TheoryButtonState? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponent()
@@ -123,6 +133,12 @@ abstract class DefaultStepQuizFragment :
 
     final override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (requireActivity() as MenuHost).addMenuProvider(
+            this,
+            viewLifecycleOwner,
+            Lifecycle.State.RESUMED
+        )
 
         val stepView = createStepView(LayoutInflater.from(requireContext()), viewBinding.root)
         viewBinding.root.addView(stepView)
@@ -214,6 +230,28 @@ abstract class DefaultStepQuizFragment :
         problemsLimitDelegate = null
     }
 
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.step_quiz_appbar_menu, menu)
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
+        false
+
+    override fun onPrepareMenu(menu: Menu) {
+        val menuItem = menu.findItem(R.id.theory)
+        menuItem.isVisible =
+            theoryButtonState?.isVisible ?: false
+        menuItem.actionView?.apply {
+            isEnabled =
+                theoryButtonState?.isEnabled ?: false
+            setOnClickListener {
+                stepQuizViewModel.onNewMessage(
+                    StepQuizFeature.Message.TheoryToolbarItemClicked
+                )
+            }
+        }
+    }
+
     protected abstract fun createStepView(layoutInflater: LayoutInflater, parent: ViewGroup): View
 
     protected abstract fun createStepQuizFormDelegate(): StepQuizFormDelegate
@@ -257,6 +295,9 @@ abstract class DefaultStepQuizFragment :
             is StepQuizFeature.Action.ViewAction.NavigateTo.Home -> {
                 requireRouter().backTo(MainScreen)
                 mainScreenRouter.switch(HomeScreen)
+            }
+            is StepQuizFeature.Action.ViewAction.NavigateTo.StepScreen -> {
+                requireRouter().navigateTo(StepScreen(action.stepRoute))
             }
             is StepQuizFeature.Action.ViewAction.RequestUserPermission -> {
                 when (action.userPermissionRequest) {
@@ -374,7 +415,20 @@ abstract class DefaultStepQuizFragment :
             }
         }
 
+        renderTheoryButton(state.stepQuizState)
+
         onNewState(state)
+    }
+
+    private fun renderTheoryButton(state: StepQuizFeature.StepQuizState) {
+        val newTheoryButtonState = TheoryButtonState(
+            isVisible = StepQuizResolver.isTheoryToolbarItemAvailable(state),
+            isEnabled = !StepQuizResolver.isQuizLoading(state)
+        )
+        if (newTheoryButtonState != this.theoryButtonState) {
+            this.theoryButtonState = newTheoryButtonState
+            (requireActivity() as MenuHost).invalidateMenu()
+        }
     }
 
     private fun renderAttemptLoaded(state: StepQuizFeature.StepQuizState.AttemptLoaded) {
@@ -462,4 +516,9 @@ abstract class DefaultStepQuizFragment :
         object RetryLogoAndSubmit : StepQuizButtonsState
         object RetryLogoAndContinue : StepQuizButtonsState
     }
+
+    private data class TheoryButtonState(
+        val isVisible: Boolean,
+        val isEnabled: Boolean
+    )
 }

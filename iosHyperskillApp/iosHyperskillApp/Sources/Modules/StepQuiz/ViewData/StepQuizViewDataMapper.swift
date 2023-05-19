@@ -36,10 +36,14 @@ final class StepQuizViewDataMapper {
         )
 
         let attemptLoadedState: StepQuizFeatureStepQuizStateAttemptLoaded? = {
-            if case .attemptLoaded(let attemptLoadedState) = state {
+            switch state {
+            case .attemptLoading(let attemptLoadingState):
+                return attemptLoadingState.oldState
+            case .attemptLoaded(let attemptLoadedState):
                 return attemptLoadedState
+            default:
+                return nil
             }
-            return nil
         }()
 
         let quizName: String? = {
