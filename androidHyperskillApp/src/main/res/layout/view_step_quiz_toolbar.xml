@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:background="@color/color_background"
     app:contentInsetStartWithNavigation="0dp"
-    app:menu="@menu/step_quiz_appbar_menu"
     app:navigationIcon="@drawable/ic_toolbar_back"
     app:navigationIconTint="?colorControlNormal">
 

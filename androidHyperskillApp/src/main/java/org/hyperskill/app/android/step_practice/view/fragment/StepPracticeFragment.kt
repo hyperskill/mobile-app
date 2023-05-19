@@ -2,6 +2,7 @@ package org.hyperskill.app.android.step_practice.view.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.R
@@ -34,6 +35,8 @@ class StepPracticeFragment : Fragment(R.layout.fragment_step_practice), StepComp
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (requireActivity() as AppCompatActivity)
+            .setSupportActionBar(viewBinding.stepPracticeAppBar.stepQuizToolbar.root)
         with(viewBinding.stepPracticeAppBar.stepQuizToolbar) {
             root.setNavigationOnClickListener {
                 requireRouter().exit()
