@@ -28,18 +28,7 @@ class StepRouteTest {
             val expectedStepRoute = expectedStepRoutes[index]
             val actualStepRoute = initialStepRoute.copy(expectedStepId)
 
-            assertEquals(expectedStepRoute::class, actualStepRoute::class)
-            assertEquals(expectedStepRoute.stepId, actualStepRoute.stepId)
-            assertEquals(expectedStepRoute.analyticRoute.path, actualStepRoute.analyticRoute.path)
-            assertEquals(expectedStepRoute.stepContext, actualStepRoute.stepContext)
-
-            if (expectedStepRoute is StepRoute.StageImplement) {
-                assertEquals(
-                    expectedStepRoute.projectId,
-                    (actualStepRoute as StepRoute.StageImplement).projectId
-                )
-                assertEquals(expectedStepRoute.stageId, actualStepRoute.stageId)
-            }
+            assertEquals(expectedStepRoute, actualStepRoute)
         }
     }
 }
