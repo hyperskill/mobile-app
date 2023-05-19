@@ -19,7 +19,7 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.core.view.mapper.DateFormatter
+import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeFeature.Action
@@ -43,7 +43,7 @@ class HomeActionDispatcher(
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val urlPathProcessor: UrlPathProcessor,
-    private val dateFormatter: DateFormatter,
+    private val dateFormatter: SharedDateFormatter,
     topicRepeatedFlow: TopicRepeatedFlow
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     private var isTimerLaunched: Boolean = false

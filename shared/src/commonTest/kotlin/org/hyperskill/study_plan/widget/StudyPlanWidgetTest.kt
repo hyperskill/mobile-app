@@ -6,7 +6,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlin.test.fail
 import org.hyperskill.ResourceProviderStub
-import org.hyperskill.app.core.view.mapper.DateFormatter
+import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
@@ -31,7 +31,7 @@ class StudyPlanWidgetTest {
 
     private val resourceProviderStub = ResourceProviderStub()
 
-    private val studyPlanWidgetViewStateMapper = StudyPlanWidgetViewStateMapper(DateFormatter(resourceProviderStub))
+    private val studyPlanWidgetViewStateMapper = StudyPlanWidgetViewStateMapper(SharedDateFormatter(resourceProviderStub))
 
     @Test
     fun `Initialize message should trigger studyPLan fetching`() {

@@ -8,7 +8,7 @@ import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 import org.hyperskill.app.SharedResources
 
-class DateFormatter(private val resourceProvider: ResourceProvider) {
+class SharedDateFormatter(private val resourceProvider: ResourceProvider) {
     companion object {
         private val DURATION_ONE_HOUR = 1.toDuration(DurationUnit.HOURS)
         private val DURATION_ONE_MINUTE = 1.toDuration(DurationUnit.MINUTES)
@@ -155,6 +155,30 @@ class DateFormatter(private val resourceProvider: ResourceProvider) {
             resourceProvider.getQuantityString(SharedResources.plurals.hours, hours, hours)
         } else {
             null
+        }
+    }
+
+    /**
+     * Format minutes or seconds count with localized and pluralized suffix;
+     * 42 -> "42 seconds", 123 -> "2 minutes"
+     * @param seconds Seconds to format
+     *
+     */
+    fun minutesOrSecondsCount(seconds: Float): String {
+        val duration = seconds.toInt().toDuration(DurationUnit.SECONDS)
+
+        return if (duration > DURATION_ONE_MINUTE) {
+            resourceProvider.getQuantityString(
+                SharedResources.plurals.minutes,
+                duration.inWholeMinutes.toInt(),
+                duration.inWholeMinutes.toInt()
+            )
+        } else {
+            resourceProvider.getQuantityString(
+                SharedResources.plurals.seconds,
+                duration.inWholeSeconds.toInt(),
+                duration.inWholeSeconds.toInt()
+            )
         }
     }
 }

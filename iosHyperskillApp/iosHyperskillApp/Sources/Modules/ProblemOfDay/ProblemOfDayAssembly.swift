@@ -24,7 +24,7 @@ final class ProblemOfDayAssembly: Assembly {
         let viewModel = ProblemOfDayViewModel(
             problemOfDayState: problemOfDayState,
             viewDataMapper: ProblemOfDayViewDataMapper(
-                formatter: Formatter(resourceProvider: commonComponent.resourceProvider)
+                dateFormatter: commonComponent.dateFormatter
             )
         )
         viewModel.moduleOutput = moduleOutput

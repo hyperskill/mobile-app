@@ -2,10 +2,10 @@ import Foundation
 import shared
 
 final class ProblemOfDayViewDataMapper {
-    private let formatter: Formatter
+    private let dateFormatter: SharedDateFormatter
 
-    init(formatter: Formatter) {
-        self.formatter = formatter
+    init(dateFormatter: SharedDateFormatter) {
+        self.dateFormatter = dateFormatter
     }
 
     func mapProblemOfDayStateToViewData(
@@ -33,11 +33,11 @@ final class ProblemOfDayViewDataMapper {
         let formattedTimeToSolve: String? = {
             let step = solvedStateOrNil?.step ?? needToSolveStateOrNil?.step
 
-            guard let secondsToComplete = step?.secondsToComplete else {
+            guard let secondsToComplete = step?.secondsToComplete?.floatValue else {
                 return nil
             }
 
-            return formatter.minutesOrSecondsCount(seconds: secondsToComplete.doubleValue)
+            return dateFormatter.minutesOrSecondsCount(seconds: secondsToComplete)
         }()
 
         let nextProblemIn = solvedStateOrNil?.nextProblemIn ?? needToSolveStateOrNil?.nextProblemIn

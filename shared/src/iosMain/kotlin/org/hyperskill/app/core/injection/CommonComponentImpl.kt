@@ -8,7 +8,7 @@ import org.hyperskill.app.config.BuildKonfigModule
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.domain.Platform
 import org.hyperskill.app.core.remote.UserAgentInfo
-import org.hyperskill.app.core.view.mapper.DateFormatter
+import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.core.view.mapper.NumbersFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.ResourceProviderImpl
@@ -28,8 +28,8 @@ class CommonComponentImpl(
     override val resourceProvider: ResourceProvider =
         ResourceProviderImpl()
 
-    override val dateFormatter: DateFormatter =
-        DateFormatter(resourceProvider)
+    override val dateFormatter: SharedDateFormatter =
+        SharedDateFormatter(resourceProvider)
 
     override val numbersFormatter: NumbersFormatter =
         NumbersFormatter(resourceProvider)

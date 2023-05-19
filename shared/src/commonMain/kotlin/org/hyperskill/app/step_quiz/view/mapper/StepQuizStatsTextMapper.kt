@@ -1,7 +1,7 @@
 package org.hyperskill.app.step_quiz.view.mapper
 
 import org.hyperskill.app.SharedResources
-import org.hyperskill.app.core.view.mapper.DateFormatter
+import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 
 class StepQuizStatsTextMapper(
@@ -16,7 +16,7 @@ class StepQuizStatsTextMapper(
                     solvedByUsersCount,
                     solvedByUsersCount
                 ),
-                DateFormatter.formatTimeDistance(millisSinceLastCompleted)
+                SharedDateFormatter.formatTimeDistance(millisSinceLastCompleted)
             )
         } else {
             null

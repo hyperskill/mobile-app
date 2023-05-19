@@ -1,13 +1,13 @@
 package org.hyperskill.app.track_selection.view
 
-import org.hyperskill.app.core.view.mapper.DateFormatter
+import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.core.view.mapper.NumbersFormatter
 import org.hyperskill.app.track.domain.model.TrackWithProgress
 import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature
 
 internal class TrackSelectionListViewStateMapper(
     private val numbersFormatter: NumbersFormatter,
-    private val dateFormatter: DateFormatter
+    private val dateFormatter: SharedDateFormatter
 ) {
     fun map(state: TrackSelectionListFeature.State): TrackSelectionListFeature.ViewState =
         when (state) {

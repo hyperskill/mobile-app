@@ -1,7 +1,7 @@
 package org.hyperskill.app.project_selection.view.mapper
 
 import org.hyperskill.app.SharedResources
-import org.hyperskill.app.core.view.mapper.DateFormatter
+import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.core.view.mapper.NumbersFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.progresses.domain.model.averageRating
@@ -19,7 +19,7 @@ import org.hyperskill.app.track.domain.model.getProjectLevel
 internal class ProjectSelectionListViewStateMapper(
     private val resourceProvider: ResourceProvider,
     private val numbersFormatter: NumbersFormatter,
-    private val dateFormatter: DateFormatter
+    private val dateFormatter: SharedDateFormatter
 ) {
     fun map(state: ProjectSelectionListFeature.ContentState): ProjectSelectionListFeature.ViewState =
         when (state) {
