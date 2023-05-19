@@ -39,6 +39,7 @@ sealed interface StudyPlanWidgetViewState {
     data class SectionItem(
         val id: Long,
         val title: String,
+        val subtitle: String?,
         val state: SectionItemState,
         val isIdeRequired: Boolean,
         val progress: Float?,

@@ -17,6 +17,8 @@ data class LearningActivity(
     private val typeValue: Int,
     @SerialName("title")
     val title: String = "",
+    @SerialName("description")
+    val description: String? = null,
     @SerialName("hypercoins_award")
     val hypercoinsAward: Int = 0,
     @SerialName("is_ide_required")

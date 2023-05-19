@@ -218,6 +218,7 @@ class StudyPlanWidgetDelegate(
             StudyPlanRecyclerItem.Activity(
                 id = item.id,
                 title = item.title,
+                subtitle = item.subtitle,
                 titleTextColor = if (item.state == StudyPlanWidgetViewState.SectionItemState.NEXT) {
                     activeActivityTextColor
                 } else {

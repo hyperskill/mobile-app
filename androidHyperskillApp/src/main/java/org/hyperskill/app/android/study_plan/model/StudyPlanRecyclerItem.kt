@@ -34,6 +34,7 @@ sealed interface StudyPlanRecyclerItem {
     data class Activity(
         override val id: Long,
         val title: String,
+        val subtitle: String?,
         @ColorInt val titleTextColor: Int,
         val progress: Float?,
         val formattedProgress: String?,
