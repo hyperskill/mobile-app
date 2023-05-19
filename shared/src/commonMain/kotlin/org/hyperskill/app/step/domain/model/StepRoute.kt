@@ -11,7 +11,7 @@ sealed interface StepRoute {
     val stepId: Long
 
     @Serializable
-    class Learn(override val stepId: Long) : StepRoute {
+    data class Learn(override val stepId: Long) : StepRoute {
         @Transient
         override val analyticRoute: HyperskillAnalyticRoute =
             HyperskillAnalyticRoute.Learn.Step(stepId)
@@ -22,7 +22,7 @@ sealed interface StepRoute {
     }
 
     @Serializable
-    class LearnDaily(override val stepId: Long) : StepRoute {
+    data class LearnDaily(override val stepId: Long) : StepRoute {
         @Transient
         override val analyticRoute: HyperskillAnalyticRoute =
             HyperskillAnalyticRoute.Learn.Daily(stepId)
@@ -33,7 +33,7 @@ sealed interface StepRoute {
     }
 
     @Serializable
-    class Repeat(override val stepId: Long) : StepRoute {
+    data class Repeat(override val stepId: Long) : StepRoute {
         @Transient
         override val analyticRoute: HyperskillAnalyticRoute =
             HyperskillAnalyticRoute.Repeat.Step(stepId)
@@ -44,7 +44,7 @@ sealed interface StepRoute {
     }
 
     @Serializable
-    class StageImplement(
+    data class StageImplement(
         override val stepId: Long,
         val projectId: Long,
         val stageId: Long,

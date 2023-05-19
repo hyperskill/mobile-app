@@ -135,8 +135,7 @@ class StepQuizTest {
         assertTrue {
             finalActions.any {
                 it is StepQuizFeature.Action.ViewAction.NavigateTo.StepScreen &&
-                    it.stepRoute is StepRoute.Learn &&
-                    it.stepRoute.stepId == topicTheoryId
+                    it.stepRoute == StepRoute.Learn(topicTheoryId)
             }
         }
         assertTrue {
