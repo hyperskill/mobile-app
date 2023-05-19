@@ -3,9 +3,9 @@ package org.hyperskill.app.providers.remote
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
-import io.ktor.client.request.parameter
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import org.hyperskill.app.network.remote.parameterIds
 import org.hyperskill.app.providers.data.source.ProvidersRemoteDataSource
 import org.hyperskill.app.providers.domain.model.Provider
 import org.hyperskill.app.providers.remote.model.ProvidersResponse
@@ -22,7 +22,7 @@ class ProvidersRemoteDataSourceImpl(
             httpclient
                 .get("/api/providers") {
                     contentType(ContentType.Application.Json)
-                    parameter("ids", providersIds.joinToString(separator = ","))
+                    parameterIds(providersIds)
                 }.body<ProvidersResponse>().providers
         }
 }
