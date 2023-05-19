@@ -69,7 +69,6 @@ kotlin {
                 implementation(libs.kotlin.coroutines.core)
                 implementation(libs.kotlin.coroutines.test)
                 implementation(libs.mokoResources.test)
-                implementation(kotlin("reflect"))
             }
         }
         val androidMain by getting {
@@ -89,6 +88,7 @@ kotlin {
             dependsOn(commonTest)
             dependencies {
                 implementation(kotlin("test-junit"))
+                implementation(kotlin("reflect"))
                 implementation(libs.bundles.android.test)
                 implementation(libs.kotlin.coroutines.test)
             }
