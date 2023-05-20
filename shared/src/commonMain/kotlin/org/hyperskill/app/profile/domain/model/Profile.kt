@@ -47,7 +47,9 @@ data class Profile(
     val isBeta: Boolean,
     @SerialName("features")
     val features: Map<String, Boolean>
-)
+) {
+    companion object
+}
 
 internal val Profile.isNewUser: Boolean
     get() = trackId == null
