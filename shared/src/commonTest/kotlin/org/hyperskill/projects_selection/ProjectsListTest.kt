@@ -582,13 +582,13 @@ class ProjectsListTest {
         featureScore: Float = 0f,
         baseScore: Float = 0f,
         defaultScore: Float = 0f
-    ) = ProjectWithProgress(
-        project = Project.stub(id = projectId, defaultScore = defaultScore),
-        progress = ProjectProgress.stub(
-            projectId = projectId,
-            baseScore = baseScore,
-            featureScore = featureScore
+    ) =
+        ProjectWithProgress(
+            project = Project.stub(id = projectId, defaultScore = defaultScore),
+            progress = ProjectProgress.stub(
+                projectId = projectId,
+                baseScore = baseScore,
+                featureScore = featureScore
+            )
         )
-    )
-
 }

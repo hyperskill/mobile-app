@@ -148,8 +148,8 @@ internal class ProjectSelectionListReducer : StateReducer<State, Message, Action
         val useFeatureScoreForSorting =
             with(message.profile.features) {
                 get(Features.RECOMMENDATIONS_JAVA_PROJECTS) == true ||
-                get(Features.RECOMMENDATIONS_KOTLIN_PROJECTS) == true ||
-                get(Features.RECOMMENDATIONS_PYTHON_PROJECTS) == true
+                    get(Features.RECOMMENDATIONS_KOTLIN_PROJECTS) == true ||
+                    get(Features.RECOMMENDATIONS_PYTHON_PROJECTS) == true
             }
         val sortedProjectIds =
             message.projects
